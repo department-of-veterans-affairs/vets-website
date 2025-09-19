@@ -83,11 +83,14 @@ class ArrayField extends React.Component {
    * Clicking edit on the item in review mode
    */
   handleEdit(index, status = true) {
-    this.setState(set(['editing', index], status, this.state), () => {
-      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
-      this.scrollToRow(id);
-      focusElement(`#table_${id}`);
-    });
+    this.setState(
+      prevState => set(['editing', index], status, prevState),
+      () => {
+        const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
+        this.scrollToRow(id);
+        focusElement(`#table_${id}`);
+      },
+    );
   }
 
   getItemSchema(index) {
