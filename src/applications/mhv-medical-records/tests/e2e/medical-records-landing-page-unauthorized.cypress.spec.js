@@ -11,7 +11,6 @@ describe('Medical Records Landing Page', () => {
   beforeEach(() => {
     cy.intercept('/health-care/get-medical-records', cy.spy().as('staticPage'));
     cy.intercept('/my-health', cy.spy().as('myHealthPath'));
-    site.login(mockNonMhvUser);
   });
 
   describe('as a user without an associated MHV account', () => {
