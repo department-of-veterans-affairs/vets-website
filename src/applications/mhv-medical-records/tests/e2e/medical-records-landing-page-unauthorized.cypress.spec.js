@@ -12,15 +12,12 @@ describe('Medical Records Landing Page', () => {
     cy.intercept('/health-care/get-medical-records', cy.spy().as('staticPage'));
     cy.intercept('/my-health', cy.spy().as('myHealthPath'));
     site.login(mockNonMhvUser);
-    // For non MHV user we have less API calls.
-    cy.visit('my-health/medical-records');
-    cy.wait(['@vamcEhr', '@mockUser', '@featureToggles']);
   });
 
   describe('as a user without an associated MHV account', () => {
     beforeEach(() => {
       site.login(mockNonMhvUser);
-      // For non MHV user we have less API calls.
+      // For non MHV/MR user we have less API calls.
       cy.visit('my-health/medical-records');
       cy.wait(['@vamcEhr', '@mockUser', '@featureToggles']);
     });
@@ -35,7 +32,7 @@ describe('Medical Records Landing Page', () => {
   describe('as an unauthorized user', () => {
     beforeEach(() => {
       site.login(mockNonMrUser);
-      // For non MHV user we have less API calls.
+      // For non MHV/MR user we have less API calls.
       cy.visit('my-health/medical-records');
       cy.wait(['@vamcEhr', '@mockUser', '@featureToggles']);
     });
