@@ -55,7 +55,7 @@ const hasSelectedConditions = conditions => {
  * Handles four main cleanup scenarios for each exposure type:
  * 1. Removes null exposure fields as orphaned data
  * 2. Removes orphaned details when main selection is missing
- * 3. Removes entire section when all values are false/none
+ * 3. Removes entire section when all values are false/none or section is empty
  * 4. Removes "other" fields when null, invalid, or user selected 'none'
  *
  * @param {Object} toxicExposure - Toxic exposure data object
@@ -142,7 +142,15 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * This function handles scenarios where users:
  * - Start filling sections then deselect them (leaving orphaned details)
  * - Select "none" for conditions (complete opt-out)
+ * - Have no conditions selected (empty/missing/all false - removes all exposure data)
  * - Remove all selections but leave partial data behind
+ * - Have null exposure fields that need cleanup
+ *
+ * Key behaviors:
+ * - Preserves unknown/unrecognized fields (forward compatibility)
+ * - Only removes data matching known orphaned patterns
+ * - Uses lodash's cloneDeep to preserve null values correctly
+ * - Processes only exposure types defined in EXPOSURE_TYPE_MAPPING
  *
  * NOT a validation function - this is purely for cleaning up data that
  * shouldn't be submitted based on user's opt-out choices.

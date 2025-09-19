@@ -264,7 +264,7 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove orphaned details when parent exposure object is missing', () => {
+      it('should remove orphaned details when parent exposure object is missing (hasOrphanedDetails check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -288,7 +288,7 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should remove details object when all details are filtered out (isEmpty branch)', () => {
+      it('should remove details object when all details are filtered out (hasNoRetainedDetails check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -317,7 +317,7 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove otherHerbicideLocations when herbicide.none is selected', () => {
+      it('should remove otherHerbicideLocations when herbicide.none is selected (hasNoneSelected check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -343,7 +343,7 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should remove entire section when all values are false', () => {
+      it('should remove entire section when all values are false (shouldRemoveSection check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -426,7 +426,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('other fields cleanup (otherHerbicideLocations & specifyOtherExposures)', () => {
-      it('should remove other fields when no parent selections exist', () => {
+      it('should remove other fields when no parent selections exist (shouldRemoveOtherField check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -517,7 +517,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('acceptance criteria - UX test cases', () => {
-      it('should handle complete opt-out scenario when all conditions and exposures are false', () => {
+      it('should handle complete opt-out scenario when all conditions and exposures are false (hasNoSelections check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -576,7 +576,7 @@ describe('purgeToxicExposureData', () => {
         expect(result).to.not.have.property('toxicExposure');
       });
 
-      it('should remove other fields when all parent exposures are false', () => {
+      it('should remove other fields when all parent exposures are false (hasNoSelections and shouldRemoveOtherField check)', () => {
         // Test otherExposures field removal
         const exposuresData = {
           disability526ToxicExposureOptOutDataPurge: true,
@@ -628,7 +628,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('orphaned data paths - complete coverage', () => {
-      it('should handle NULL exposure fields as orphaned data', () => {
+      it('should handle NULL exposure fields as orphaned data (isExposureNull check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -658,7 +658,7 @@ describe('purgeToxicExposureData', () => {
         expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true });
       });
 
-      it('should handle details without matching parent selections', () => {
+      it('should handle details without matching parent selections (shouldFilterDetails check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -691,7 +691,7 @@ describe('purgeToxicExposureData', () => {
         });
       });
 
-      it('should handle UNDEFINED parent exposures (details become orphaned)', () => {
+      it('should handle UNDEFINED parent exposures - details become orphaned (hasOrphanedDetails check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -729,7 +729,7 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should handle exposure sections with none: true mixed with other selections', () => {
+      it('should handle exposure sections with none: true mixed with other selections (hasNoneSelected and shouldRemoveOtherField check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -762,7 +762,7 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should follow cleanup priority order correctly', () => {
+      it('should follow cleanup priority order correctly (all condition checks in sequence)', () => {
         // Test priority: 1. Feature flag, 2. conditions.none, 3. null fields, 4. all false, 5. orphaned details
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true, // Priority 1: Flag enabled
@@ -829,7 +829,7 @@ describe('purgeToxicExposureData', () => {
         expect(purgeToxicExposureData(arrayCase)).to.deep.equal(arrayCase);
       });
 
-      it('should remove entire toxicExposure when no conditions are selected', () => {
+      it('should remove entire toxicExposure when no conditions are selected (hasSelectedConditions check)', () => {
         // Empty conditions
         const emptyConditions = {
           disability526ToxicExposureOptOutDataPurge: true,
@@ -879,7 +879,7 @@ describe('purgeToxicExposureData', () => {
         expect(originalFormData).to.deep.equal(formDataCopy);
       });
 
-      it('should remove entire toxicExposure when no meaningful data remains (hasNoMeaningfulData branch)', () => {
+      it('should remove entire toxicExposure when no meaningful data remains (hasNoMeaningfulData check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
@@ -900,7 +900,7 @@ describe('purgeToxicExposureData', () => {
     });
 
     describe('integration tests', () => {
-      it('should handle complex form data with mixed true/false selections and preserve valid data', () => {
+      it('should handle complex form data with mixed true/false selections and preserve valid data (shouldFilterDetails and hasValidSelections check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
