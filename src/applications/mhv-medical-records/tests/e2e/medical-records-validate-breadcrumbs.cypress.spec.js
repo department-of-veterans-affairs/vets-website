@@ -8,14 +8,8 @@ describe('Medical Records validate breadcrumbs', () => {
   it('visits list pages and details pages, validates breadcrumbs', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records');
-    cy.wait([
-      '@vamcEhr',
-      '@mockUser',
-      '@featureToggles',
-      '@status',
-      '@session',
-    ]);
+    site.loadPage();
+
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergiesListPage.verifyBreadcrumbs('Medical records');
     AllergiesListPage.loadVAPaginationNextAllergies();

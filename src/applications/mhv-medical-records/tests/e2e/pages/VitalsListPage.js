@@ -3,24 +3,6 @@ import defaultVitals from '../fixtures/vitals.json';
 import BaseListPage from './BaseListPage';
 
 class VitalsListPage extends BaseListPage {
-  /*
-    clickGotoVitalsLink = (
-     /* Vitals = defaultVitals,
-      waitForVitals = false,
-    ) => {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/medical_records/vitals',
-        Vitals,
-      ).as('VitalsList');
-      cy.get('[href="/my-health/medical-records/vitals"]').click();
-      if (waitForVitals) {
-        cy.wait('@VitalsList');
-      }
-    });
-  }
-  */
-
   goToVitals = (vitals = defaultVitals) => {
     // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
     // cy.wait('@session');

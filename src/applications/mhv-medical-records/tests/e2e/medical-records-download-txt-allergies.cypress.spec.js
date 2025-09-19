@@ -9,14 +9,7 @@ describe('Medical Records View Allergies', () => {
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records');
-    cy.wait([
-      '@vamcEhr',
-      '@mockUser',
-      '@featureToggles',
-      '@status',
-      '@session',
-    ]);
+    site.loadPage();
   });
 
   it('Toggle Menu button Print or download on Details Page ', () => {

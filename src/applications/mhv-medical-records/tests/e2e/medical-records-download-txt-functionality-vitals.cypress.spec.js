@@ -4,9 +4,8 @@ import VitalsListPage from './pages/VitalsListPage';
 describe('Medical Records Vitals', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Page Toggle Menu button Print or download ', () => {
