@@ -86,11 +86,11 @@ Modals.Rights = () => (
     <p>You can get help with disputing a debt in either of these ways:</p>
     <ul>
       <li>
-        Contact us online through Ask VA at
-        <va-link>
+        Contact us online through Ask VA at{' '}
+        <va-link
           href="https://www.va.gov/contact-us/ask-va/"
           text="https://www.va.gov/contact-us/ask-va/"
-        </va-link>
+        />
       </li>
       <li>
         Calling the Debt Management Center at{' '}
