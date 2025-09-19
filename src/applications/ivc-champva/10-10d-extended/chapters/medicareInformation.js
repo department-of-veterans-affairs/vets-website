@@ -442,7 +442,7 @@ const medicarePartBCardUploadPage = {
 
 const medicarePartADenialPage = dataKey => {
   const pageTitle = ({ formData }) => {
-    if (formData.medicareParticipant)
+    if (formData?.medicareParticipant)
       return privWrapper(
         `${generateParticipantName(formData)} Medicare status`,
       );
