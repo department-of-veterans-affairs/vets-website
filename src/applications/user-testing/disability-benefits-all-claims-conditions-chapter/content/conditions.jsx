@@ -50,7 +50,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       );
 
       return foundInConditions || foundInRated
-        ? `caused by ${item.causedByCondition}`
+        ? `caused by ${item.causedByCondition.trim()}`
         : 'cause is unknown or was removed';
     }
 

@@ -64,7 +64,7 @@ describe('createCauseFollowUpDescriptions', () => {
     const item = { cause: 'SECONDARY', causedByCondition: '  Migraine  ' };
     const fullData = { conditions: [{ newCondition: 'migraine' }] };
     expect(createCauseFollowUpDescriptions(item, fullData)).to.equal(
-      'caused by   Migraine  ',
+      'caused by Migraine',
     );
   });
 
