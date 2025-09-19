@@ -45,7 +45,8 @@ describe('Medications List Print Page', () => {
 
   it('renders Correctly even when error is an object', async () => {
     const screen = setupWithError();
-    expect(screen);
+    const rxName = screen.findByText('Medications | Veterans Affairs');
+    expect(rxName).to.exist;
   });
 
   it('renders without errors', async () => {
