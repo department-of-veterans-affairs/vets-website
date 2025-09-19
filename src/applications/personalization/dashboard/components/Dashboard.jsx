@@ -41,6 +41,7 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
+import { getEnrollmentStatus } from 'platform/user/profile/actions/hca';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -63,6 +64,7 @@ import NewMyVaToggle from './NewMyVaToggle';
 
 import { getAppeals as getAppealsAction } from '../actions/appeals';
 import { getClaims as getClaimsAction } from '../actions/claims';
+import { fetchFormStatuses } from '../actions/form-status';
 
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -248,6 +250,9 @@ const Dashboard = ({
   shouldLoadAppeals,
   getClaims,
   shouldLoadClaims,
+  shouldGetESRStatus,
+  getESREnrollmentStatus,
+  getFormStatuses,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -277,6 +282,22 @@ const Dashboard = ({
       }
     },
     [dataLoadingDisabled, getClaims, shouldLoadClaims],
+  );
+
+  useEffect(
+    () => {
+      if (shouldGetESRStatus) {
+        getESREnrollmentStatus();
+      }
+    },
+    [shouldGetESRStatus, getESREnrollmentStatus],
+  );
+
+  useEffect(
+    () => {
+      getFormStatuses();
+    },
+    [getFormStatuses],
   );
 
   useEffect(
@@ -660,15 +681,21 @@ Dashboard.propTypes = {
   user: PropTypes.object,
   getAppeals: PropTypes.func.isRequired,
   getClaims: PropTypes.func.isRequired,
+  getFormStatuses: PropTypes.func.isRequired,
+  getESREnrollmentStatus: PropTypes.func.isRequired,
   hasAPIError: PropTypes.bool.isRequired,
   shouldLoadAppeals: PropTypes.bool.isRequired,
   shouldLoadClaims: PropTypes.bool.isRequired,
   dataLoadingDisabled: PropTypes.bool,
+  shouldGetESRStatus: PropTypes.bool,
+  submittedError: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
   getAppeals: getAppealsAction,
   getClaims: getClaimsAction,
+  getFormStatuses: fetchFormStatuses,
+  getESREnrollmentStatus: getEnrollmentStatus,
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
