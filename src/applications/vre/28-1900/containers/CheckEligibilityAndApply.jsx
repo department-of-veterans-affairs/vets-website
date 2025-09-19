@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import capitalize from 'lodash/capitalize';
 import NeedHelp from '../components/NeedHelp';
+import { formatDate } from '../helpers';
 
 const CheckEligibilityAndApply = () => {
   useEffect(() => {
@@ -50,18 +51,6 @@ const CheckEligibilityAndApply = () => {
     approvedOn: 'NA',
     resCaseId: 685,
     resEligibilityRecommendation: 'Eligible',
-  };
-
-  const formatDate = isoString => {
-    if (!isoString) return '';
-    const trimmed = isoString.replace('Z', '');
-    const date = new Date(trimmed);
-    if (Number.isNaN(date.getTime())) return isoString;
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
   };
 
   return (
