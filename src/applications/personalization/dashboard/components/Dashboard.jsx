@@ -26,6 +26,7 @@ import {
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
   isNotInMPI,
+  selectAvailableServices,
 } from '~/platform/user/selectors';
 import {
   RequiredLoginView,
@@ -42,6 +43,8 @@ import MPIConnectionError from '~/applications/personalization/components/MPICon
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { getEnrollmentStatus } from 'platform/user/profile/actions/hca';
+import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
+import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -253,6 +256,9 @@ const Dashboard = ({
   shouldGetESRStatus,
   getESREnrollmentStatus,
   getFormStatuses,
+  fetchConfirmedFutureAppointments,
+  shouldFetchUnreadMessages,
+  fetchUnreadMessages,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -298,6 +304,29 @@ const Dashboard = ({
       getFormStatuses();
     },
     [getFormStatuses],
+  );
+
+  useEffect(
+    () => {
+      if (!dataLoadingDisabled && isVAPatient) {
+        fetchConfirmedFutureAppointments();
+      }
+    },
+    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
+  );
+
+  useEffect(
+    () => {
+      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
+        fetchUnreadMessages();
+      }
+    },
+    [
+      shouldFetchUnreadMessages,
+      fetchUnreadMessages,
+      dataLoadingDisabled,
+      isVAPatient,
+    ],
   );
 
   useEffect(
@@ -618,6 +647,10 @@ const mapStateToProps = state => {
 
   const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
 
+  const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
+    backendServices.MESSAGING,
+  );
+
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
@@ -632,6 +665,7 @@ const mapStateToProps = state => {
     showValidateIdentityAlert,
     showClaimsAndAppeals,
     showHealthCare,
+    shouldFetchUnreadMessages,
     isVAPatient,
     showNameTag,
     hero,
@@ -700,6 +734,8 @@ const mapDispatchToProps = {
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   getPayments: getAllPayments,
+  fetchUnreadMessages: fetchUnreadMessageCountAction,
+  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
 
 export default connect(
