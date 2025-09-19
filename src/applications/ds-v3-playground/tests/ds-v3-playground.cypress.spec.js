@@ -16,6 +16,6 @@ describe(`${manifest.appName} - General`, () => {
 
   it('loads the playground page successfully', () => {
     cy.visit(manifest.rootUrl);
-    cy.get('h1').should('contain.text', 'V3 Without Formation Demo');
+    cy.get('h1').should('contain.text', 'VA Design System Component Demos');
   });
 });
