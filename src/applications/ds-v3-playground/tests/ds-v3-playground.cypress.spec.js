@@ -1,17 +1,14 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import manifest from '../manifest.json';
 
-describe(`${manifest.appName} - General`, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
+describe(manifest.appName, () => {
   before(() => {
     if (Cypress.env('CI')) this.skip();
   });
 
-  it('page is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+  it('is accessible', () => {
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('loads the playground page successfully', () => {
