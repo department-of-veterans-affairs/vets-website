@@ -829,10 +829,9 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
           `${newProviderFacility.treatmentDateRange.toYear}`,
         );
-        cy.get('va-button[text="Update"]')
-          .shadow()
-          .find('button')
-          .click({ force: true });
+        cy.findByText('Update', { selector: 'button' })
+          .should('exist')
+          .click();
         cy.get('div[name="providerFacility-1"]')
           .should('be.visible')
           .within(() => {
@@ -864,12 +863,9 @@ export const pageHooks = (cy, testOptions) => ({
             cy.findByText(newProviderFacility.treatmentDateRange.to).should(
               'exist',
             );
-            cy.get('va-button[text="Edit"]').should('be.visible');
-            cy.get('va-button[text="Edit"]').click();
+            cy.get('button[aria-label="Remove Provider or hospital"]').click();
             cy.findByText('New Provider or hospital').should('exist');
-            cy.get(
-              'va-button[aria-label="Remove Provider or hospital"]',
-            ).click();
+            cy.get('button[aria-label="Remove Provider or hospital"]').click();
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
