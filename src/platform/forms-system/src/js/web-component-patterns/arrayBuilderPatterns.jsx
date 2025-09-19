@@ -3,6 +3,7 @@ import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
 import {
   getArrayUrlSearchParams,
+  maxItemsFn,
   maxItemsHint,
 } from '../patterns/array-builder/helpers';
 
@@ -159,7 +160,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  *   arrayPath: string,
  *   nounSingular: string,
  *   required: boolean | (formData) => boolean,
- *   maxItems?: number,
+ *   maxItems?: number | (formData) => number,
  * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptions yesNoUI options for 0 items
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptionsMore yesNoUI options for more than 0 items
@@ -202,13 +203,7 @@ export const arrayBuilderYesNoUI = (
   yesNoOptions,
   yesNoOptionsMore,
 ) => {
-  const {
-    arrayPath,
-    nounSingular,
-    nounPlural,
-    maxItems,
-    required,
-  } = arrayBuilderOptions;
+  const { arrayPath, nounSingular, nounPlural, required } = arrayBuilderOptions;
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
 
@@ -232,6 +227,7 @@ export const arrayBuilderYesNoUI = (
       classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
+        const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);
         return arrayData?.length
           ? {
               'ui:title':

@@ -5,7 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { agreementType } from '../pages';
+import { agreementType, institutionDetailsFacility } from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -44,6 +44,45 @@ const formConfig = {
           title: 'Agreement type',
           uiSchema: agreementType.uiSchema,
           schema: agreementType.schema,
+          onContinue: (data, setFormData) => {
+            const hasCode = !!data?.institutionDetails?.facilityCode?.trim();
+            if (hasCode) {
+              setFormData({
+                ...data,
+                institutionDetails: {
+                  ...data.institutionDetails,
+                  facilityCode: '',
+                  institutionName: undefined,
+                  institutionAddress: {},
+                  poeEligible: undefined,
+                },
+              });
+            }
+          },
+        },
+      },
+    },
+    newCommitmentChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacilityNew: {
+          path: 'new-commitment-institution-details',
+          title: 'Institution details',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    withdrawalChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacilityWithdrawal: {
+          path: 'withdrawal-institution-details',
+          title: 'Institution details',
+          depends: data => data?.agreementType === 'withdrawal',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
         },
       },
     },
