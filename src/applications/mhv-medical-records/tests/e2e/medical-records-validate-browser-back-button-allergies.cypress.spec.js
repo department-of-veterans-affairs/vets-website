@@ -9,6 +9,13 @@ describe('Medical Records View Allergies Multiple Page', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records');
+    cy.wait([
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+      '@status',
+      '@session',
+    ]);
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergiesListPage.loadVAPaginationNextAllergies();

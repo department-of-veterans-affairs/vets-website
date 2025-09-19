@@ -7,6 +7,13 @@ describe('Medical Records View Allergies', () => {
     const site = new MedicalRecordsSite();
     site.login();
     cy.visit('my-health/medical-records');
+    cy.wait([
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+      '@status',
+      '@session',
+    ]);
 
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
 
