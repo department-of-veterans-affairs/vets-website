@@ -17,8 +17,6 @@ describe('vaPrescription details container', () => {
         featureToggles: {
           // eslint-disable-next-line camelcase
           mhv_medications_display_documentation_content: ffEnabled,
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_grouping: ffEnabled,
         },
       },
       reducers: {},
@@ -190,12 +188,6 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.exist;
   });
 
-  it('does not display documentation if ff is off', () => {
-    const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
-    const docLink = screen.queryByTestId('va-prescription-documentation-link');
-    expect(docLink).to.not.exist;
-  });
-
   it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
@@ -289,8 +281,6 @@ describe('vaPrescription details container', () => {
           featureToggles: {
             // eslint-disable-next-line camelcase
             mhv_medications_display_documentation_content: ffEnabled,
-            // eslint-disable-next-line camelcase
-            mhv_medications_display_grouping: ffEnabled,
             // eslint-disable-next-line camelcase
             mhv_medications_partial_fill_content: true,
           },

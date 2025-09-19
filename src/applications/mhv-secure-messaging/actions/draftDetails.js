@@ -10,6 +10,8 @@ import {
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { decodeHtmlEntities } from '../util/helpers';
+import { resetRecentRecipient } from './recipients';
+import { setThreadRefetchRequired } from './threads';
 
 const sendSaveDraft = async (messageData, id) => {
   try {
@@ -68,6 +70,8 @@ export const saveDraft = (messageData, type, id) => async dispatch => {
         },
       },
     });
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
   }
   if (response.errors) {
     const error = response.errors[0];
@@ -132,6 +136,8 @@ export const saveReplyDraft = (
         },
       },
     });
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
     return response.data.attributes;
   }
   if (response.ok) {
@@ -165,6 +171,7 @@ export const deleteDraft = messageId => async dispatch => {
         Constants.Alerts.Message.DELETE_DRAFT_SUCCESS,
       ),
     );
+    dispatch(setThreadRefetchRequired(true));
   } catch (e) {
     dispatch(
       addAlert(

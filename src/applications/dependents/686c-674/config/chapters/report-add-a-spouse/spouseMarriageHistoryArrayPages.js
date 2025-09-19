@@ -82,8 +82,7 @@ export const spouseMarriageHistorySummaryPage = {
 export const formerMarriagePersonalInfoPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Spouse’s former marriage',
-      nounSingular: spouseMarriageHistoryOptions.nounSingular,
+      title: 'Name of your spouse’s former spouse',
     }),
     fullName: fullNameNoSuffixUI(),
   },
@@ -100,7 +99,7 @@ export const formerMarriagePersonalInfoPage = {
 export const formerMarriageEndReasonPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Spouse’s former marriage';
+      return 'Spouse’s former marriage end details';
     }),
     reasonMarriageEnded: radioUI({
       title: 'How did your spouse’s previous marriage end?',

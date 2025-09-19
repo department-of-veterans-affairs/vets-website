@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { parse, isValid, differenceInYears, format } from 'date-fns';
+import {
+  parse,
+  isValid,
+  differenceInYears,
+  format,
+  isWithinInterval,
+  startOfToday,
+  addDays,
+} from 'date-fns';
 
 import { scrollTo } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -51,13 +59,23 @@ function ViewDependentsListItem(props) {
 
   const fullName = `${firstName} ${lastName}`;
 
-  // Format the date of birth and calculate age
   const dobObj = parse(dateOfBirth, 'MM/dd/yyyy', new Date());
-  const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
   const removalDate = upcomingRemoval
     ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
     : '';
-  const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
+  const ageInYears = isValid(dobObj)
+    ? differenceInYears(new Date(), dobObj)
+    : '';
+  const upcomingBirthday = isValid(dobObj)
+    ? new Date(new Date().getFullYear(), dobObj.getMonth(), dobObj.getDate())
+    : null;
+
+  const isUpcomingWithin90Days = upcomingBirthday
+    ? isWithinInterval(upcomingBirthday, {
+        start: startOfToday(),
+        end: addDays(startOfToday(), 90),
+      })
+    : false;
 
   return (
     <div className="vads-u-margin-bottom--3">
@@ -78,14 +96,14 @@ function ViewDependentsListItem(props) {
             </dd>
           </div>
 
-          {dateOfBirth && (
+          {isValid(dobObj) && (
             <div className="vads-u-display--flex vads-u-justify-content--start vads-u-margin-bottom--1">
               <dt>Date of birth:&nbsp;</dt>
               <dd
                 className="dd-privacy-hidden"
                 data-dd-action-name="date of birth"
               >
-                {format(new Date(dateOfBirth), 'MMMM d, yyyy')}
+                {format(dobObj, 'MMMM d, yyyy')}
               </dd>
             </div>
           )}
@@ -130,28 +148,32 @@ function ViewDependentsListItem(props) {
                 </dd>
               </div>
 
-              <va-alert
-                status="info"
-                background-only
-                visible
-                class="vads-u-margin-top--1"
-              >
-                <p>
-                  <strong>
+              {isUpcomingWithin90Days && (
+                <va-alert
+                  status="info"
+                  background-only
+                  visible
+                  className="vads-u-margin-top--1"
+                >
+                  <p>
                     We’ll remove this child from your disability benefits when
-                    they turn 18.
-                  </strong>{' '}
-                  This could lower your monthly benefit payment. If they’ll
-                  continue attending school after that, you’ll need to add them
-                  again if you haven’t already. If you need to add your child
-                  back,&nbsp;
-                  <va-link
-                    href="/exit-form"
-                    text="submit a request to add or remove dependents"
-                  />
-                  .
-                </p>
-              </va-alert>
+                    they turn 18. This could lower your monthly benefit payment.
+                    If they’ll continue attending school after that, you’ll need
+                    to add them again if you haven’t already. If you need to add
+                    your child back,&nbsp;
+                    <va-link
+                      href="/exit-form"
+                      text="submit a request to add or remove dependents"
+                    />
+                    .
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If your child became permanently
+                    disabled before age 18, they’ll remain on your benefits. You
+                    don’t need to do anything.
+                  </p>
+                </va-alert>
+              )}
             </>
           )}
         </dl>

@@ -48,7 +48,9 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
     },
     [acceptInterstitial, validDraft, history],
   );
@@ -375,7 +377,11 @@ const SelectCareTeam = () => {
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
-      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
+      <RouteLeavingGuard
+        saveDraftHandler={saveDraftHandler}
+        type="compose"
+        persistDraftPaths={[Paths.CONTACT_LIST, Paths.CARE_TEAM_HELP]}
+      />
       <div>
         {renderCareSystems()}
 
