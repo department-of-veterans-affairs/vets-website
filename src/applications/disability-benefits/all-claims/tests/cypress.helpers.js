@@ -863,7 +863,8 @@ export const pageHooks = (cy, testOptions) => ({
             cy.findByText(newProviderFacility.treatmentDateRange.to).should(
               'exist',
             );
-            cy.get('button[aria-label="Remove Provider or hospital"]').click();
+            cy.get('va-button[text="Edit"]').should('be.visible');
+            cy.get('va-button[text="Edit"]').click();
             cy.findByText('New Provider or hospital').should('exist');
             cy.get('button[aria-label="Remove Provider or hospital"]').click();
             cy.findByText('New Provider or hospital').should('not.exist');
