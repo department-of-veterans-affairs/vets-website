@@ -5,7 +5,11 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { agreementType, institutionDetailsFacility } from '../pages';
+import {
+  agreementType,
+  institutionDetailsFacility,
+  authorizingOfficial,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -83,6 +87,18 @@ const formConfig = {
           depends: data => data?.agreementType === 'withdrawal',
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    authorizingOfficialChapter: {
+      title: 'Authorizing official',
+      pages: {
+        authorizingOfficial: {
+          path: 'authorizing-official',
+          title: 'Authorizing official',
+          depends: data => data?.agreementType === 'withdrawal',
+          uiSchema: authorizingOfficial.uiSchema,
+          schema: authorizingOfficial.schema,
         },
       },
     },
