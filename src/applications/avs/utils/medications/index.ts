@@ -7,8 +7,13 @@ import type { Medication, AvsData } from '../../types';
  * @param type - The prescription type to filter by
  * @returns Filtered array of medications
  */
-const filterMedicationsByType = (medications: Medication[], type: string): Medication[] => {
-  return medications.filter(medication => medication.prescriptionType === type);
+const filterMedicationsByType = (
+  medications: Medication[],
+  type: string,
+): Medication[] => {
+  return medications.filter(
+    (medication) => medication.prescriptionType === type,
+  );
 };
 
 /**
@@ -17,8 +22,11 @@ const filterMedicationsByType = (medications: Medication[], type: string): Medic
  * @param source - The medication source to add
  * @returns Array of medications with added source
  */
-const addMedicationSource = (medications: Medication[], source: string): Medication[] => {
-  return medications.map(medication => {
+const addMedicationSource = (
+  medications: Medication[],
+  source: string,
+): Medication[] => {
+  return medications.map((medication) => {
     const medicationWithSource = { ...medication };
     medicationWithSource.medicationSource = source;
     return medicationWithSource;
@@ -54,7 +62,7 @@ const getCombinedMedications = (avs: AvsData): Medication[] => {
 const getMedicationsTaking = (avs: AvsData): Medication[] => {
   const medications = getCombinedMedications(avs);
   return medications.filter(
-    medication =>
+    (medication) =>
       medication.patientTaking === true ||
       medication.stationNo === avs.meta.stationNo,
   );
@@ -68,7 +76,7 @@ const getMedicationsTaking = (avs: AvsData): Medication[] => {
 const getMedicationsNotTaking = (avs: AvsData): Medication[] => {
   const medications = getCombinedMedications(avs);
   return medications.filter(
-    medication =>
+    (medication) =>
       medication.patientTaking === false &&
       medication.stationNo !== avs.meta.stationNo,
   );

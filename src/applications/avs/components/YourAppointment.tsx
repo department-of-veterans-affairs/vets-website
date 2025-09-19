@@ -4,7 +4,12 @@ import { getFormattedAppointmentTime, getShortTimezone } from '../utils';
 import ItemsBlock from './ItemsBlock';
 import ListBlock from './ListBlock';
 import MedicationTerms from './MedicationTerms';
-import type { YourAppointmentProps, AvsData, VitalSign, ClinicMedication } from '../types';
+import type {
+  YourAppointmentProps,
+  AvsData,
+  VitalSign,
+  ClinicMedication,
+} from '../types';
 
 const clinicsVisited = (avs: AvsData): React.ReactNode => {
   const shortTimezone = getShortTimezone(avs);
@@ -59,7 +64,9 @@ const clinicMedsIntro = (avs: AvsData): React.ReactNode => {
   );
 };
 
-const renderClinicMedication = (medication: ClinicMedication): React.ReactNode => {
+const renderClinicMedication = (
+  medication: ClinicMedication,
+): React.ReactNode => {
   return (
     <>
       <p>

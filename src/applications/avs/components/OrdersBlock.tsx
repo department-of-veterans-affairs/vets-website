@@ -1,14 +1,18 @@
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - No type definitions available for lodash
 import { kebabCase } from 'lodash';
 import { ORDER_TYPES } from '../utils/constants';
 import type { OrdersBlockProps, Order } from '../types';
 
 const getOrderItems = (type: any, orders?: Order[]): Order[] => {
-  return orders?.filter(order => order.type === type.label) || [];
+  return orders?.filter((order) => order.type === type.label) || [];
 };
 
-const getOrderListItemsByType = (type: any, orders?: Order[]): React.ReactNode[] => {
+const getOrderListItemsByType = (
+  type: any,
+  orders?: Order[],
+): React.ReactNode[] => {
   const items = getOrderItems(type, orders);
   return (
     items?.map((item, idx) => {
@@ -19,7 +23,12 @@ const getOrderListItemsByType = (type: any, orders?: Order[]): React.ReactNode[]
   );
 };
 
-const OrdersBlock: React.FC<OrdersBlockProps> = ({ heading, intro, orders, type }) => {
+const OrdersBlock: React.FC<OrdersBlockProps> = ({
+  heading,
+  intro,
+  orders,
+  type,
+}) => {
   const orderListItems = getOrderListItemsByType(type, orders);
 
   if (orderListItems.length) {

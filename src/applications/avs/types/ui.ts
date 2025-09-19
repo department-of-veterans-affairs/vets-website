@@ -1,6 +1,6 @@
 // UI component props and React-related types
 
-import type { AvsData, Order, ClinicalReminder } from './domain';
+import type { AvsData, Order } from './domain';
 
 export interface MedicationTermsProps {
   avs: AvsData;

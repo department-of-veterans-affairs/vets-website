@@ -8,9 +8,11 @@ const apiBasePath = `${environment.API_URL}/avs/v0`;
 export async function avsLoader({ params }: { params: RouteParams }) {
   const { id } = params;
   try {
-    const data = apiRequest(`${apiBasePath}/avs/${id}`).then((response: AvsApiResponse) => {
-      return response.data.attributes;
-    });
+    const data = apiRequest(`${apiBasePath}/avs/${id}`).then(
+      (response: AvsApiResponse) => {
+        return response.data.attributes;
+      },
+    );
     return defer({
       avs: data,
     });

@@ -80,7 +80,10 @@ export const getShortTimezone = (avs: AvsData): string => {
   try {
     const { timeZone } = avs.meta;
 
-    const options: Intl.DateTimeFormatOptions = { timeZone, timeZoneName: 'short' };
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone,
+      timeZoneName: 'short',
+    };
     const shortTimezone = new Intl.DateTimeFormat('en-US', options)
       .format(utcToZonedTime(new Date(), timeZone))
       .split(' ')[1];
@@ -94,7 +97,9 @@ export const getShortTimezone = (avs: AvsData): string => {
   return '';
 };
 
-export const getFormattedAppointmentTime = (twentyFourHourTime: string): string => {
+export const getFormattedAppointmentTime = (
+  twentyFourHourTime: string,
+): string => {
   try {
     const time = parse(twentyFourHourTime, 'HH:mm', new Date());
     if (Number.isNaN(time.getTime())) {
@@ -110,9 +115,7 @@ export const getFormattedAppointmentTime = (twentyFourHourTime: string): string 
 
 export const getFormattedAppointmentDate = (avs: AvsData): string => {
   try {
-    const dateTime = `${avs.clinicsVisited[0].date}@${
-      avs.clinicsVisited[0].time
-    }`;
+    const dateTime = `${avs.clinicsVisited[0].date}@${avs.clinicsVisited[0].time}`;
     const formattedDate = formatDateLong(parseVistaDateTime(dateTime));
 
     if (formattedDate === 'Invalid Date') {
@@ -137,11 +140,9 @@ export const getFormattedGenerationDate = (avs: AvsData): string => {
       );
     }
     const shortTimeZone = getShortTimezone(avs);
-    return `${format(
-      zonedDate,
-      "MMMM d, yyyy' at 'h:mm aaaa'",
-      { timeZone },
-    )} ${shortTimeZone}`;
+    return `${format(zonedDate, "MMMM d, yyyy' at 'h:mm aaaa'", {
+      timeZone,
+    })} ${shortTimeZone}`;
   } catch (error) {
     datadogRum.addError(error);
   }

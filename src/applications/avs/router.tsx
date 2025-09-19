@@ -33,7 +33,7 @@ const routes = [
       defaultReturn: { avs: {} },
     }),
     element: <ErrorBoundaryWrapper />,
-    errorElement: <ErrorBoundary children={null} />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: '*',

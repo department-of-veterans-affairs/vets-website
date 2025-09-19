@@ -1,13 +1,14 @@
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - No type definitions available for lodash
 import { kebabCase } from 'lodash';
 import type { ParagraphBlockProps } from '../types';
 
-const ParagraphBlock: React.FC<ParagraphBlockProps> = ({ 
-  content, 
-  heading, 
-  headingLevel = 3, 
-  htmlContent = false 
+const ParagraphBlock: React.FC<ParagraphBlockProps> = ({
+  content,
+  heading,
+  headingLevel = 3,
+  htmlContent = false,
 }) => {
   if (content) {
     const Heading = `h${headingLevel}` as keyof JSX.IntrinsicElements;

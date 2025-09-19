@@ -13,7 +13,7 @@ const ListBlock: React.FC<ListBlockProps> = ({
   if (!Array.isArray(items)) return null;
 
   // Filter out null/empty field values.
-  let listItems =
+  const listItems =
     items.filter((item: any) => {
       const fieldValue = itemName ? item[itemName] : item;
       return fieldHasValue(fieldValue);

@@ -2,14 +2,14 @@ import React from 'react';
 import type { AvsPageHeaderProps } from '../types';
 
 const stripAvsTitle = (lines: string[]): string[] => {
-  return lines.filter(line => {
+  return lines.filter((line) => {
     return !line.match(/^\s*After[- ]Visit Summary\s*$/i);
   });
 };
 
 const AvsPageHeader: React.FC<AvsPageHeaderProps> = ({ text }) => {
   if (!text) return null;
-  
+
   let lines = text.split('\n');
   lines = stripAvsTitle(lines);
   return (

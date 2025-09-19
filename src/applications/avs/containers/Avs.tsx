@@ -2,7 +2,6 @@ import React, { Suspense } from 'react';
 import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 
-
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -47,7 +46,8 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
   useDatadogRum();
 
   const user = useSelector(selectUser);
-  const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } = useFeatureToggle();
+  const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } =
+    useFeatureToggle();
   const avsEnabled = useToggleValue(TOGGLE_NAMES.avsEnabled);
   const featureTogglesLoading = useToggleLoadingValue();
 
@@ -92,20 +92,13 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
               )}
 
               <VaAccordion>
-                <VaAccordionItem
-                  header={generateAppointmentHeader(avs)}
-                  open={true}
-                >
+                <VaAccordionItem header={generateAppointmentHeader(avs)} open>
                   <YourAppointment avs={avs} />
                 </VaAccordionItem>
-                <VaAccordionItem
-                  header="Your treatment plan from this appointment"
-                >
+                <VaAccordionItem header="Your treatment plan from this appointment">
                   <YourTreatmentPlan avs={avs} />
                 </VaAccordionItem>
-                <VaAccordionItem
-                  header="Your health information as of this appointment"
-                >
+                <VaAccordionItem header="Your health information as of this appointment">
                   <YourHealthInformation avs={avs} />
                 </VaAccordionItem>
                 <VaAccordionItem header="More information">
@@ -127,4 +120,9 @@ const mapStateToProps = (state: RootState): StateToProps => {
 };
 
 export { Avs };
-export default connect<StateToProps, {}, AvsProps, RootState>(mapStateToProps)(Avs as any);
+export default connect<
+  StateToProps,
+  Record<string, never>,
+  AvsProps,
+  RootState
+>(mapStateToProps)(Avs as any);
