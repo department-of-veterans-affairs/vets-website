@@ -237,9 +237,13 @@ const RecipientsSelect = ({
 
       return options;
     },
-    [recipientsListSorted, optGroupEnabled, recipientsList],
+    [
+      optGroupEnabled,
+      mhvSecureMessagingCuratedListFlow,
+      recipientsListSorted,
+      recipientsList,
+    ],
   );
-
   return (
     <>
       {mhvSecureMessagingCuratedListFlow ? (
