@@ -60,7 +60,7 @@ export default function VaFileInputMultiplePage() {
         };
       }
 
-      // File size validation (simulated - normally handled by component)
+      // File size validation (simulated - can be handled by component if needed)
       if (file.size > 1024 * 1024) {
         // 1MB limit for demo
         return {
@@ -418,11 +418,6 @@ export default function VaFileInputMultiplePage() {
         } else {
           slotContent.removeAttribute('error');
         }
-
-        console.log(
-          `🔧 Updated VaSelect error for file ${fileIndex}:`,
-          errorMessage || 'cleared',
-        );
       }
     }
   };
@@ -554,9 +549,9 @@ export default function VaFileInputMultiplePage() {
     <div className="vads-grid-container">
       <div className="vads-grid-row">
         <div className="vads-grid-col-12 desktop:vads-grid-col-6">
-          <h2 className="vads-grid-col font-ui-md">
+          {/* <h2 className="vads-grid-col font-ui-md">
             File Input Multiple Component
-          </h2>
+          </h2> */}
           <VaFileInputMultiple
             ref={componentRef}
             accept=".pdf,.jpeg,.png"
@@ -579,85 +574,7 @@ export default function VaFileInputMultiplePage() {
               </VaSelect>
             </div>
           </VaFileInputMultiple>
-
-          <hr />
-
-          {/* Error Testing Instructions */}
-          <div
-            style={{
-              marginTop: '16px',
-              padding: '12px',
-              backgroundColor: '#f0f8ff',
-              borderRadius: '4px',
-              fontSize: '14px',
-            }}
-          >
-            <strong>Error Testing & Visual State Reset:</strong>
-            <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
-              <li>
-                <strong>Network Error:</strong> Upload file with "error" in
-                filename
-                <br />
-                <em>→ Watch progress bar reset when error occurs</em>
-              </li>
-              <li>
-                <strong>Server Error:</strong> Upload file with "server" in
-                filename
-                <br />
-                <em>→ Visual state clears on error for clean retry</em>
-              </li>
-              <li>
-                <strong>Rate Limit:</strong> Upload file with "limit" in
-                filename
-                <br />
-                <em>→ Component resets to initial appearance</em>
-              </li>
-              <li>
-                <strong>File Size:</strong> Upload file larger than 1MB
-                <br />
-                <em>→ resetVisualState triggers immediately</em>
-              </li>
-              <li>
-                <strong>Password Error:</strong> Use password shorter than 8
-                characters
-                <br />
-                <em>→ Password field visual state resets</em>
-              </li>
-              <li>
-                <strong>Additional Input Error:</strong> Upload any file, then
-                try to select "Select status" option
-                <br />
-                <em>
-                  → Document status field shows validation error (no visual
-                  state reset)
-                </em>
-              </li>
-            </ul>
-            <p
-              style={{
-                margin: '8px 0 0 0',
-                fontSize: '12px',
-                fontStyle: 'italic',
-              }}
-            >
-              <strong>resetVisualState</strong> automatically triggers when
-              errors occur, providing clean visual feedback for error recovery.
-            </p>
-            <p
-              style={{
-                margin: '8px 0 0 0',
-                fontSize: '12px',
-                color: '#0066cc',
-              }}
-            >
-              <strong>Additional Input:</strong> Each uploaded file requires a
-              document status selection. Selecting "Select status" shows a
-              validation error. Valid selections are stored in{' '}
-              <code>file.additionalData.documentStatus</code>.
-            </p>
-          </div>
         </div>
-
         <div className="vads-grid-col-12 desktop:vads-grid-col-6 vads-u-padding-left--3">
           {/* Expose files state for testing */}
           <span
@@ -669,21 +586,73 @@ export default function VaFileInputMultiplePage() {
           </span>
 
           <div>
-            <h2>Files</h2>
+            <h3>Files State</h3>
             <pre
+              className="vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-border-radius--md vads-u-font-family--mono"
               style={{
-                backgroundColor: '#f5f5f5',
-                padding: '10px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                fontFamily: 'Monaco, Consolas, "Courier New", monospace',
                 overflow: 'auto',
                 maxHeight: '300px',
+                fontSize: '12px',
               }}
             >
               {files.length > 0 && JSON.stringify(files, null, 2)}
             </pre>
           </div>
+        </div>
+      </div>
+      <div className="vads-grid-row">
+        {/* Error Testing Instructions */}
+        <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
+          <h3>Error Testing & Visual State Reset:</h3>
+          <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
+            <li>
+              <strong>Network Error:</strong> Upload file with "error" in
+              filename
+              <br />
+              <em>→ Watch progress bar reset when error occurs</em>
+            </li>
+            <li>
+              <strong>Server Error:</strong> Upload file with "server" in
+              filename
+              <br />
+              <em>→ Visual state clears on error for clean retry</em>
+            </li>
+            <li>
+              <strong>Rate Limit:</strong> Upload file with "limit" in filename
+              <br />
+              <em>→ Component resets to initial appearance</em>
+            </li>
+            <li>
+              <strong>File Size:</strong> Upload file larger than 1MB
+              <br />
+              <em>→ resetVisualState triggers immediately</em>
+            </li>
+            <li>
+              <strong>Password Error:</strong> Use password shorter than 8
+              characters
+              <br />
+              <em>→ Password field visual state resets</em>
+            </li>
+            <li>
+              <strong>Additional Input Error:</strong> Upload any file, then try
+              to select "Select status" option
+              <br />
+              <em>
+                → Document status field shows validation error (no visual state
+                reset)
+              </em>
+            </li>
+          </ul>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
+            <strong>resetVisualState</strong> automatically triggers when errors
+            occur, providing clean visual feedback for error recovery.
+          </p>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
+            <strong>Additional Input:</strong> Each uploaded file requires a
+            document status selection. Selecting "Select status" shows a
+            validation error. Valid selections are stored in{' '}
+            <code>file.additionalData.documentStatus</code>.
+          </p>
         </div>
       </div>
     </div>
