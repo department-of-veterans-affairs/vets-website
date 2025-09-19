@@ -1,3 +1,4 @@
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
@@ -8,11 +9,11 @@ import { AXE_CONTEXT } from './utils/constants';
 describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
-      name: `mhv_secure_messaging_recipient_opt_groups`,
+      name: FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups,
       value: true,
     },
     {
-      name: `mhv_secure_messaging_curated_list_flow`,
+      name: FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow,
       value: true,
     },
   ]);
