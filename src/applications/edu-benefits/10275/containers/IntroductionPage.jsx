@@ -3,18 +3,15 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { TITLE, SUBTITLE } from '../constants';
 import TechnologyProgramAccordion from '../components/TechnologyProgramAccordion';
 import OmbInfo from '../components/OmbInfo';
 
 export const IntroductionPage = props => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   useEffect(() => {
     scrollToTop();
@@ -23,7 +20,10 @@ export const IntroductionPage = props => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <FormTitle title={TITLE} />
+      <div>
+        <p className="vads-u-margin-y--2">{SUBTITLE}</p>
+      </div>
       <p className="vads-u-font-size--lg vads-u-font-family--serif vads-u-color--base vads-u-font-weight--normal">
         Use this form to commit to the Principles of Excellence for educational
         institutions. You can also use this form to withdraw your commitment at
@@ -82,8 +82,9 @@ export const IntroductionPage = props => {
         startText="Start your Principles of Excellence for educational institutions form"
         unauthStartText="Sign in to start your form"
       />
-      <p />
-      <OmbInfo />
+      <div className={userLoggedIn ? 'vads-u-margin-top--4' : ''}>
+        <OmbInfo />
+      </div>
       <TechnologyProgramAccordion />
     </article>
   );

@@ -34,6 +34,9 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  customText: {
+    appType: 'form',
+  },
   defaultDefinitions: {},
   chapters: {
     agreementTypeChapter: {
