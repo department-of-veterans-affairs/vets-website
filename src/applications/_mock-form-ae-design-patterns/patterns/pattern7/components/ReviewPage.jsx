@@ -38,7 +38,7 @@ const ReviewPage = ({ onNext, onBack }) => {
         subTitle="VA Form 21-526EZ"
       />
 
-      <va-segmented-progress-bar current="6" total="6" label="Review" />
+      <va-segmented-progress-bar current="6" total="6" heading-text="Review" />
 
       <va-accordion bordered>
         <va-accordion-item header="Review Veteran details" />
@@ -78,6 +78,7 @@ const ReviewPage = ({ onNext, onBack }) => {
           className="vads-u-margin-top--2"
           label="I certify that the information above is correct and true to the best of my knowledge and belief."
           required
+          checked
         />
       </section>
 

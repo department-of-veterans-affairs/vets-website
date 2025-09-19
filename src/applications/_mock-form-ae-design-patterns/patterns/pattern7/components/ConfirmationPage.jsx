@@ -56,21 +56,29 @@ const ConfirmationPage = () => {
           <h3 slot="headline">
             Disability Compensation Claim (VA Form 21-526EZ)
           </h3>
-          <p>For Leslie Jackson</p>
           <div>
-            <strong>Date submitted</strong>
-            <div>September 22, 2025</div>
+            <p>For Leslie Jackson</p>
           </div>
-          <div>
-            <strong>Conditions Claimed</strong>
-            <ul>
-              <li>
-                <strong>Tinnitus</strong>
-              </li>
-              <li>
-                <strong>Migraines</strong>
-              </li>
-            </ul>
+          <div className="vads-u-margin-top--2">
+            <p>
+              <strong>Date submitted</strong>
+              <div>September 22, 2025</div>
+            </p>
+          </div>
+          <div className="vads-u-margin-top--2">
+            <p>
+              <strong>Conditions Claimed</strong>
+              <ul className="vads-u-margin-top--0">
+                <li>Tinnitus</li>
+                <li>Migraines</li>
+              </ul>
+            </p>
+          </div>
+          <div className="vads-u-margin-top--2">
+            <p>
+              <strong>Claim ID number</strong>
+              <div>600791800</div>
+            </p>
           </div>
         </va-summary-box>
       </div>
