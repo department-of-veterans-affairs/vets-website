@@ -1,5 +1,6 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import SharedComponents from './SharedComponents';
 
 class ContactListPage {
   loadContactList = (recipients = mockRecipients) => {
@@ -90,8 +91,11 @@ class ContactListPage {
     cy.get(`[data-testid="sm-route-navigation-guard-confirm-button"]`).click();
   };
 
-  closeSaveModal = () => {
-    cy.get(`.first-focusable-child`)
+  closeSaveModal = (
+    title = 'Do you want to save your changes to your contact list?',
+  ) => {
+    cy.get(`va-modal[modal-title="${title}"]`)
+      .find(`button.va-modal-close`)
       .should(`be.focused`)
       .click();
   };
@@ -130,7 +134,7 @@ class ContactListPage {
   };
 
   clickBackToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyEmptyContactListAlert = () => {
