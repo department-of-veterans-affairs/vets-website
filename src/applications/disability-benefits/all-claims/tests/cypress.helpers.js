@@ -530,19 +530,25 @@ export const pageHooks = (cy, testOptions) => ({
 
   'supporting-evidence/evidence-types': () => {
     cy.get('@testData').then(data => {
-      data.privateMedicalRecordAttachments?.forEach(attachment => {
-        if (attachment.name.endsWith('.PDF')) {
-          cy.get(
-            '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
-          ).check({ force: true });
-          cy.get(
-            'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
-          ).check({
-            force: true,
-          });
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        }
-      });
+      if (
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] === true
+      ) {
+        data?.privateMedicalRecordAttachments.forEach(attachment => {
+          if (attachment.name.endsWith('.PDF')) {
+            cy.get(
+              '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
+            ).check({ force: true });
+            cy.get(
+              'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+            ).check({
+              force: true,
+            });
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          }
+        });
+      }
       cy.fillPage();
     });
   },
