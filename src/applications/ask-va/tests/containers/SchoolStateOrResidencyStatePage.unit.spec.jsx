@@ -123,4 +123,43 @@ describe('SchoolStateOrResidencyStateCustomPage Component', () => {
       expect(onForward.called).to.be.true;
     });
   });
+
+  it('should show FormNavButtons when not on the review page', async () => {
+    const { getByText } = render(
+      <Provider store={store}>
+        <SchoolStateOrResidencyStateCustomPage
+          id="test-id"
+          goForward={() => {}}
+          goBack={() => {}}
+          formData={initialState.form.data}
+          onChange={() => {}}
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('Continue')).to.exist;
+      expect(getByText('Back')).to.exist;
+    });
+  });
+
+  it('should not show FormNavButtons on the review page (props.onReviewPage)', async () => {
+    const { queryByText } = render(
+      <Provider store={store}>
+        <SchoolStateOrResidencyStateCustomPage
+          id="test-id"
+          goForward={() => {}}
+          goBack={() => {}}
+          formData={initialState.form.data}
+          onChange={() => {}}
+          onReviewPage
+        />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(queryByText('Continue')).not.to.exist;
+      expect(queryByText('Back')).not.to.exist;
+    });
+  });
 });
