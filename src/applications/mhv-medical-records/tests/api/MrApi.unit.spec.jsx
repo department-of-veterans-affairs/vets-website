@@ -53,6 +53,7 @@ import {
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
   getAcceleratedConditions,
+  getAcceleratedCondition,
   postRecordDatadogAction,
   getAcceleratedNotes,
 } from '../../api/MrApi';
@@ -442,7 +443,16 @@ describe('Accelerated OH API calls', () => {
     });
   });
 });
+describe('getAcceleratedCondition', () => {
+  it('should make an api call to get a single condition', () => {
+    const mockData = { mock: 'data' };
+    mockApiRequest(mockData);
 
+    return getAcceleratedCondition('123').then(res => {
+      expect(res.mock).to.equal('data');
+    });
+  });
+});
 describe('postRecordDatadogAction', () => {
   const endpoint = `${environment.API_URL}/v0/datadog_action`;
 

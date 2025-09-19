@@ -4,6 +4,7 @@
         "id": "6a2be107-501e-458f-8f17-0ada297d34d8",
         "type": "condition",
         "attributes": {
+          "id": "6a2be107-501e-458f-8f17-0ada297d34d8",
           "date": "2024-02-13T14:20:00Z",
           "name": "Angina Pectoris (SCT 194828000)",
           "provider": "Dr. Smith, John",
@@ -15,6 +16,7 @@
         "id": "65daf497-c0d2-451d-9950-f31616437a88",
         "type": "condition",
         "attributes": {
+          "id": "65daf497-c0d2-451d-9950-f31616437a88",
           "date": "2024-02-20T14:20:00Z",
           "name": "CAD - Coronary Artery Disease (SCT 53741008)",
           "provider": "Dr. Smith, John",
@@ -26,6 +28,7 @@
         "id": "7f88a60c-ffe5-4001-8286-c5eeccc069dd",
         "type": "condition",
         "attributes": {
+          "id": "7f88a60c-ffe5-4001-8286-c5eeccc069dd",
           "date": "2001-07-06T14:20:00Z",
           "name": "Restless Legs (ICD-9-CM 333.99)",
           "provider": "Dr. Smith, John",
@@ -36,6 +39,7 @@
         "id": "c4706e07-7290-44e8-8d34-593027b04913",
         "type": "condition",
         "attributes": {
+          "id": "c4706e07-7290-44e8-8d34-593027b04913",
           "date": "2024-02-13T14:20:00Z",
           "name": "Acute posttraumatic stress disorder following military combat (SCT 446175003)",
           "provider": "Dr. Smith, John",
@@ -47,6 +51,7 @@
         "id": "c4706e07-7290-44e8-8d34-593027b049139",
         "type": "condition",
         "attributes": {
+          "id": "c4706e07-7290-44e8-8d34-593027b049139",
           "date": "2024-02-12T14:20:00Z",
           "name": "Acute posttraumatic stress disorder",
           "provider": "Dr. Smith, John",
