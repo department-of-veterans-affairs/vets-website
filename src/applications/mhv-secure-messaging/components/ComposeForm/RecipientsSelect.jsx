@@ -218,7 +218,6 @@ const RecipientsSelect = ({
     [
       recipientsList,
       dispatch,
-      isSignatureRequired,
       selectedRecipient,
       handleSetCheckboxMarked,
       handleSetElectronicSignature,

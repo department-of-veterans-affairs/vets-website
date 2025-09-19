@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientComposePage from './pages/PatientComposePage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -26,37 +26,18 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   });
 
   it('verify groups quantity', () => {
-    // Try combobox selector first (curated list flow), fallback to dropdown
-    cy.get('body').then($body => {
-      if ($body.find('[data-testid="compose-recipient-combobox"]').length > 0) {
-        cy.get('[data-testid="compose-recipient-combobox"]')
-          .find(`optgroup`)
-          .should(`have.length`, 4);
+    cy.findByTestId('compose-recipient-combobox')
+      .find(`optgroup`)
+      .should(`have.length`, 4);
 
-        cy.get('[data-testid="compose-recipient-combobox"]')
-          .find(`optgroup`)
-          .each(el => {
-            cy.wrap(el)
-              .find(`option`)
-              .its(`length`)
-              .should(`be.greaterThan`, 0);
-          });
-      } else {
-        // Deprecated: Remove after combobox is fully rolled out
-        cy.get(Locators.DROPDOWN.RECIPIENTS)
-          .find(`optgroup`)
-          .should(`have.length`, 4);
-
-        cy.get(Locators.DROPDOWN.RECIPIENTS)
-          .find(`optgroup`)
-          .each(el => {
-            cy.wrap(el)
-              .find(`option`)
-              .its(`length`)
-              .should(`be.greaterThan`, 0);
-          });
-      }
-    });
+    cy.findByTestId('compose-recipient-combobox')
+      .find(`optgroup`)
+      .each(el => {
+        cy.wrap(el)
+          .find(`option`)
+          .its(`length`)
+          .should(`be.greaterThan`, 0);
+      });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
