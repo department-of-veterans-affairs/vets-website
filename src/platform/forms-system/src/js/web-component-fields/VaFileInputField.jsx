@@ -9,6 +9,7 @@ import {
   useFileUpload,
   getFileError,
   DEBOUNCE_WAIT,
+  simulateUploadSingle,
 } from './vaFileInputFieldHelpers';
 import passwordErrorState from '../utilities/file/passwordErrorState';
 
@@ -88,7 +89,16 @@ const VaFileInputField = props => {
   );
   const [encrypted, setEncrypted] = useState(false);
   const [passwordErrorManager, setPasswordErrorManager] = useState(null);
+  const [percent, setPercent] = useState(null);
   const _id = childrenProps.idSchema.$id;
+
+  // only needed because sometimes we skip upload and simulate percent progress
+  useEffect(
+    () => {
+      setPercent(percentUploaded);
+    },
+    [percentUploaded],
+  );
 
   useEffect(() => {
     const instance = passwordErrorState.getInstance(_id);
@@ -131,12 +141,7 @@ const VaFileInputField = props => {
 
   const handleFileProcessing = uploadedFile => {
     if (!uploadedFile || !uploadedFile.file) return;
-
-    // if there is no back-end (e.g. mock-forms) don't set network errors that would prevent navigation
-    if (!uiOptions.skipUpload) {
-      setError(uploadedFile.errorMessage);
-    }
-
+    setError(uploadedFile.errorMessage);
     assignFileUploadToStore(uploadedFile);
   };
 
@@ -146,12 +151,16 @@ const VaFileInputField = props => {
       debounce(DEBOUNCE_WAIT, password => {
         if (fileWithPassword) {
           passwordErrorManager.setHasPassword(password.length > 0);
-          childrenProps.onChange({
-            ...childrenProps.formData,
-            _id,
-          });
           passwordError = null;
-          handleUpload(fileWithPassword, handleFileProcessing, password);
+          setEncrypted(null);
+          // eslint-disable-next-line no-unused-expressions
+          uiOptions.skipUpload
+            ? simulateUploadSingle(
+                setPercent,
+                childrenProps.onChange,
+                fileWithPassword,
+              )
+            : handleUpload(fileWithPassword, handleFileProcessing, password);
         }
       }),
     [handleUpload],
@@ -184,8 +193,16 @@ const VaFileInputField = props => {
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
       childrenProps.onChange(e.detail.mockFormData);
-      // delay uploading for encrypted files until password is entered
-    } else if (encryptedCheck) {
+      return;
+    }
+
+    if (uiOptions.skipUpload && !encryptedCheck) {
+      simulateUploadSingle(setPercent, childrenProps.onChange, fileFromEvent);
+      return;
+    }
+
+    // delay uploading for encrypted files until password is entered
+    if (encryptedCheck) {
       setFileWithPassword(fileFromEvent);
       childrenProps.onChange({
         isEncrypted: encryptedCheck,
@@ -235,7 +252,7 @@ const VaFileInputField = props => {
       onVaFileInputError={handleInternalError}
       onVaChange={handleVaChange}
       onVaPasswordChange={handleVaPasswordChange}
-      percentUploaded={percentUploaded || null}
+      percentUploaded={percent || null}
       passwordError={passwordError}
     >
       <div className="additional-input-container">

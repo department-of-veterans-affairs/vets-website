@@ -63,14 +63,12 @@ const RecipientsSelect = ({
   const dispatch = useDispatch();
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
+  const comboBoxRef = useRef(null);
   isSignatureRequiredRef.current = isSignatureRequired;
 
   const { mhvSecureMessagingCuratedListFlow } = useFeatureToggles();
 
   const [alertDisplayed, setAlertDisplayed] = useState(false);
-  const [selectedRecipient, setSelectedRecipient] = useState(
-    defaultValue || null,
-  );
   const [recipientsListSorted, setRecipientsListSorted] = useState([]);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -146,18 +144,15 @@ const RecipientsSelect = ({
 
   useEffect(
     () => {
-      if (selectedRecipient) {
-        onValueChange(selectedRecipient);
-        handleSetCheckboxMarked(false);
-        handleSetElectronicSignature('');
+      if (defaultValue) {
+        const recipient =
+          recipientsList.find(r => +r.id === +defaultValue) || {};
+        comboBoxRef.current?.shadowRoot
+          ?.querySelector('input')
+          ?.setAttribute('value', recipient?.name);
       }
     },
-    [
-      onValueChange,
-      selectedRecipient,
-      handleSetCheckboxMarked,
-      handleSetElectronicSignature,
-    ],
+    [defaultValue, recipientsList],
   );
 
   const handleInput = e => {
@@ -168,13 +163,13 @@ const RecipientsSelect = ({
     e => {
       const { value } = e.detail;
       if (!+value) {
-        setSelectedRecipient({});
         return;
       }
 
       const recipient = recipientsList.find(r => +r.id === +value) || {};
-      setSelectedRecipient(recipient);
-
+      onValueChange(recipient);
+      handleSetCheckboxMarked(false);
+      handleSetElectronicSignature('');
       dispatch(
         updateDraftInProgress({
           recipientName: recipient.name,
@@ -260,6 +255,7 @@ const RecipientsSelect = ({
           data-dd-privacy="mask"
           data-dd-action-name="Compose Recipient Combobox List"
           onInput={handleInput}
+          ref={comboBoxRef}
         >
           {optionsValues}
         </VaComboBox>
