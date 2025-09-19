@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAsyncError } from 'react-router-dom-v5-compat';
+import { useAsyncError, isRouteErrorResponse } from 'react-router-dom-v5-compat';
 import ErrorBoundary from './ErrorBoundary';
 import MhvPageNotFound from '~/platform/mhv/components/MhvPageNotFound';
 import MhvUnauthorized from '~/platform/mhv/components/MhvUnauthorized';
@@ -10,29 +10,41 @@ const errorType = {
   badRequest: 'bad_request',
 } as const;
 
-interface AsyncError {
-  errors?: Array<{
-    status?: string;
-  }>;
-  status?: number;
-}
-
 const AvsErrorElement: React.FC = () => {
-  const err = useAsyncError() as AsyncError;
+  const err = useAsyncError();
 
-  // Handle different error structures
-  const status = err?.errors?.[0]?.status;
-  
-  // For Response objects from fetch (like 500 errors), get status from the response
-  const responseStatus = err?.status;
-
-  if (status === errorType.unauthorized || responseStatus === 401) {
-    return <MhvUnauthorized />;
+  // Handle React Router ErrorResponse objects (from loaders/actions)
+  if (isRouteErrorResponse(err)) {
+    if (err.status === 401) {
+      return <MhvUnauthorized />;
+    }
+    if (err.status === 404 || err.status === 400) {
+      return <MhvPageNotFound />;
+    }
   }
-  
-  if (status === errorType.notFound || status === errorType.badRequest || 
-      responseStatus === 404 || responseStatus === 400) {
-    return <MhvPageNotFound />;
+
+  // Handle VA.gov API error format
+  if (err && typeof err === 'object' && 'errors' in err) {
+    const apiError = err as { errors: Array<{ status?: string }> };
+    const status = apiError.errors?.[0]?.status;
+    
+    if (status === errorType.unauthorized) {
+      return <MhvUnauthorized />;
+    }
+    if (status === errorType.notFound || status === errorType.badRequest) {
+      return <MhvPageNotFound />;
+    }
+  }
+
+  // Handle standard Response objects (from fetch)
+  if (err && typeof err === 'object' && 'status' in err) {
+    const responseError = err as { status: number };
+    if (responseError.status === 401) {
+      return <MhvUnauthorized />;
+    }
+    if (responseError.status === 404 || responseError.status === 400) {
+      return <MhvPageNotFound />;
+    }
   }
 
   // Render the ErrorBoundary to handle any unexpected errors gracefully
