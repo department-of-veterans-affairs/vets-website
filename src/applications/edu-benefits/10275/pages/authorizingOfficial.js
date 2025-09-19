@@ -48,7 +48,7 @@ const uiSchema = {
     }),
     phoneNumber: {
       ...phoneUI({
-        title: 'Phone number',
+        title: 'US Phone number',
         hint: 'Enter a 10-digit phone number.',
       }),
       'ui:errorMessages': {
