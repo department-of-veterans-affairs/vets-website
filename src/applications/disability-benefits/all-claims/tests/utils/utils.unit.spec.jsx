@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import moment from 'moment';
 import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { daysFromToday } from './dates/dateHelper';
+import { parseDate } from '../../utils/dates';
 
 import {
   CHAR_LIMITS,
   PTSD_MATCHES,
   SAVED_SEPARATION_DATE,
 } from '../../constants';
-import { showToxicExposureDestructionModal } from '../../content/toxicExposureChoiceContent';
 import {
   activeServicePeriods,
   baseDoNew4142Logic,
@@ -49,6 +49,7 @@ import {
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
+  showToxicExposureDestructionModal,
   showToxicExposureOptOutDataPurge,
   skip781,
   truncateDescriptions,
@@ -377,9 +378,7 @@ describe('526 helpers', () => {
             servicePeriods: [
               {
                 dateRange: {
-                  to: moment()
-                    .add(90, 'days')
-                    .format('YYYY-MM-DD'),
+                  to: daysFromToday(90),
                 },
               },
             ],
@@ -526,9 +525,7 @@ describe('526 helpers', () => {
       const inactivePeriod = { dateRange: { to: '1999-03-03' } };
       const futurePeriod = {
         dateRange: {
-          to: moment()
-            .add(1, 'day')
-            .format('YYYY-MM-DD'),
+          to: daysFromToday(1),
         },
       };
       const noToDate = { dateRange: { to: undefined } };
@@ -859,14 +856,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(90, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(90),
           },
         },
       ],
@@ -878,14 +873,12 @@ describe('526 v2 depends functions', () => {
       servicePeriods: [
         {
           dateRange: {
-            to: moment().format('YYYY-MM-DD'),
+            to: daysFromToday(0),
           },
         },
         {
           dateRange: {
-            to: moment()
-              .add(89, 'days')
-              .format('YYYY-MM-DD'),
+            to: daysFromToday(89),
           },
         },
       ],
@@ -1026,39 +1019,19 @@ describe('526 v2 depends functions', () => {
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should return true if a valid date is added to session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD(null)).to.be.true;
     });
     it('should return true if a valid date is added to session storage from the wizard even if active duty flag is false', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(90, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(90));
       expect(isBDD({ 'view:isBddData': true })).to.be.true;
     });
     it('should return false for invalid dates in session storage from the wizard', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD(null)).to.be.false;
     });
     it('should return false for invalid dates in session storage from the wizard even if active duty flag is true', () => {
-      window.sessionStorage.setItem(
-        SAVED_SEPARATION_DATE,
-        moment()
-          .add(200, 'days')
-          .format('YYYY-MM-DD'),
-      );
+      window.sessionStorage.setItem(SAVED_SEPARATION_DATE, daysFromToday(200));
       expect(isBDD({ 'view:isBddData': true })).to.be.false;
     });
     it('should ignore in range service periods if not on active duty', () => {
@@ -1212,10 +1185,7 @@ describe('526 v2 depends functions', () => {
   });
 
   describe('showSeparationLocation', () => {
-    const getDays = days =>
-      moment()
-        .add(days, 'days')
-        .format('YYYY-MM-DD');
+    const getDays = days => daysFromToday(days);
     const getFormData = (activeDate, reserveDate) => ({
       serviceInformation: {
         servicePeriods: [{ dateRange: { to: activeDate } }],
@@ -1320,9 +1290,7 @@ describe('526 v2 depends functions', () => {
 
 describe('isExpired', () => {
   const getDays = days => ({
-    expiresAt: moment()
-      .add(days, 'days')
-      .unix(),
+    expiresAt: parseDate(daysFromToday(days)).unix(),
   });
   it('should return true for dates that are invalid or in the past', () => {
     expect(isExpired('')).to.be.true;
@@ -1397,13 +1365,11 @@ describe('skip PTSD questions', () => {
     it('should return true for PTSD in non-BDD flow', () => {
       expect(hasNewPtsdDisability(getPtsdData('2020-01-01', false))).to.be.true;
       // invalid BDD separation date negates BDD flow
-      const today = moment().format('YYYY-MM-DD');
+      const today = daysFromToday(0);
       expect(hasNewPtsdDisability(getPtsdData(today, true))).to.be.true;
     });
     it('should return false for PTSD in BDD flow', () => {
-      const date = moment()
-        .add(90, 'days')
-        .format('YYYY-MM-DD');
+      const date = daysFromToday(90);
       expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
     });
 
@@ -1944,5 +1910,26 @@ describe('baseDoNew4142Logic', () => {
     it('should handle empty formData gracefully', () => {
       expect(baseDoNew4142Logic({})).to.be.false;
     });
+  });
+});
+
+describe('showToxicExposureDestructionModal', () => {
+  it('should get toxic exposure destruction modal feature flag value of true', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: true,
+        },
+      }),
+    ).to.be.true;
+  });
+  it('should get toxic exposure destruction modal feature flag value of false', () => {
+    expect(
+      showToxicExposureDestructionModal({
+        featureToggles: {
+          disabilityCompensationToxicExposureDestructionModal: false,
+        },
+      }),
+    ).to.be.false;
   });
 });

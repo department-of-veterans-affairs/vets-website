@@ -3,6 +3,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureOHDirectSchedule,
   selectFeatureOHRequest,
+  selectFeatureSubstanceUseDisorder,
   selectRegisteredCernerFacilityIds,
 } from '../redux/selectors';
 import {
@@ -42,7 +43,7 @@ const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
-    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE.id &&
     getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
   );
 }
@@ -55,7 +56,7 @@ function isCommunityCare(state) {
 }
 
 function isCCFacility(state) {
-  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
 }
 
 function isSleepCare(state) {
@@ -72,6 +73,10 @@ function isPodiatry(state) {
 
 function isCovidVaccine(state) {
   return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.COVID_VACCINE_ID;
+}
+
+function isMentalHealth(state) {
+  return getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.MENTAL_HEALTH_ID;
 }
 
 async function vaFacilityNext(state, dispatch) {
@@ -279,18 +284,25 @@ export default function getNewAppointmentFlow(state) {
           return 'vaccineFlow';
         }
         if (isSleepCare(state)) {
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
           return 'typeOfSleepCare';
         }
         if (isEyeCare(state)) {
           return 'typeOfEyeCare';
+        }
+        if (isMentalHealth(state)) {
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          if (selectFeatureSubstanceUseDisorder(state)) {
+            return 'typeOfMentalHealth';
+          }
+          return VA_FACILITY_V2_KEY;
         }
         if (isCommunityCare(state)) {
           const isEligible = await dispatch(checkCommunityCareEligibility());
 
           if (isEligible && isPodiatry(state)) {
             // If CC enabled systems and toc is podiatry, skip typeOfFacility
-            dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+            dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE.id));
             dispatch(startRequestAppointmentFlow(true));
             return 'ccRequestDateTime';
           }
@@ -304,7 +316,7 @@ export default function getNewAppointmentFlow(state) {
           }
         }
 
-        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
         return VA_FACILITY_V2_KEY;
       },
     },
@@ -323,7 +335,7 @@ export default function getNewAppointmentFlow(state) {
           }
         }
 
-        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
         return VA_FACILITY_V2_KEY;
       },
     },
@@ -346,6 +358,11 @@ export default function getNewAppointmentFlow(state) {
     typeOfSleepCare: {
       url: 'sleep-care',
       label: 'Choose the type of sleep care you need',
+      next: VA_FACILITY_V2_KEY,
+    },
+    typeOfMentalHealth: {
+      url: 'mental-health',
+      label: 'Which type of mental health care do you need?',
       next: VA_FACILITY_V2_KEY,
     },
     vaFacilityV2: {
