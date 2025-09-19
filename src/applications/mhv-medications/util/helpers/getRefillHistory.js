@@ -3,34 +3,6 @@
  * @param {Object} Prescription object
  * @returns {Object} Object similar to or marching an rxRefillHistory object
  */
-export const createOriginalFillRecord = prescription => {
-  const {
-    backImprint,
-    cmopDivisionPhone,
-    cmopNdcNumber,
-    color,
-    dialCmopDivisionPhone,
-    dispensedDate,
-    frontImprint,
-    prescriptionId,
-    prescriptionName,
-    prescriptionSource,
-    shape,
-  } = prescription;
-  return {
-    backImprint,
-    cmopDivisionPhone,
-    cmopNdcNumber,
-    color,
-    dialCmopDivisionPhone,
-    dispensedDate,
-    frontImprint,
-    prescriptionId,
-    prescriptionName,
-    prescriptionSource,
-    shape,
-  };
-};
 
 /**
  * Get the refill history for a prescription, including the original fill record
@@ -42,8 +14,7 @@ export const getRefillHistory = prescription => {
   if (!prescription) return [];
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   if (prescription?.dispensedDate) {
-    const originalFill = createOriginalFillRecord(prescription);
-    refillHistory.push(originalFill);
+    refillHistory.push(prescription);
   }
   return refillHistory;
 };
