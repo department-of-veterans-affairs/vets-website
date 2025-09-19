@@ -100,7 +100,16 @@ function renderApp({
 }
 
 describe('App container logic', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
+    if (sandbox) {
+      sandbox.restore();
+    }
     localStorage.removeItem('hasSession');
   });
 
@@ -143,7 +152,7 @@ describe('App container logic', () => {
   });
 
   it('should not redirect when on intro page (with session)', () => {
-    const mockReplace = sinon.stub();
+    const mockReplace = sandbox.stub();
 
     renderApp({
       pathname: '/introduction',
@@ -156,7 +165,7 @@ describe('App container logic', () => {
   });
 
   it('should not redirect when on intro page (without session)', () => {
-    const mockReplace = sinon.stub();
+    const mockReplace = sandbox.stub();
 
     renderApp({
       pathname: '/introduction',
