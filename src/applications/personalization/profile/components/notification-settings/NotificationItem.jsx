@@ -130,6 +130,7 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
       {userHasAtLeastOneChannelContactInfo ? (
         <VaCheckboxGroup
           label={itemName}
+          label-header-level="3"
           description={description}
           data-testid={`checkbox-group-${itemId}`}
         >
