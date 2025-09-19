@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 135,
+  "totalApplications": 136,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -155,6 +155,12 @@
     },
     {
       "directoryPath": "src/applications/dependents/686c-674/v2",
+      "appName": "686C-674-v2",
+      "entryName": "686C-674-v2",
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
+    },
+    {
+      "directoryPath": "src/applications/dependents/686c-674/v3",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
