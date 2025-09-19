@@ -177,6 +177,12 @@ export const purgeToxicExposureData = formData => {
     };
   }
 
+  // No conditions selected = no toxic exposure claim = all exposure data is orphaned
+  if (!hasSelectedConditions(conditions)) {
+    // Remove entire toxicExposure when no conditions are selected
+    return clonedData;
+  }
+
   // Remove orphaned data from all exposure types
   let processedExposure = toxicExposure;
   Object.entries(EXPOSURE_TYPE_MAPPING).forEach(([exposureType, mapping]) => {
