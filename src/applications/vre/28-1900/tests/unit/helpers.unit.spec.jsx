@@ -26,5 +26,13 @@ describe('helpers', () => {
         expect(formatDate(input)).to.equal(expected);
       });
     });
+
+    it('should return empty string for falsy inputs', () => {
+      const falsyInputs = [null, undefined, '', false, 0, NaN];
+
+      falsyInputs.forEach(input => {
+        expect(formatDate(input)).to.equal('');
+      });
+    });
   });
 });

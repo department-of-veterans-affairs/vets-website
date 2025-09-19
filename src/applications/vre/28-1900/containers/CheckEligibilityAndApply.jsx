@@ -221,11 +221,7 @@ const CheckEligibilityAndApply = () => {
             >
               Result:
             </span>
-            <span>
-              {mockResponse.resEligibilityRecommendation === 'Eligible'
-                ? 'Eligible'
-                : 'Ineligible'}
-            </span>
+            <span>{mockResponse.resEligibilityRecommendation}</span>
           </div>
           <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
             <span
