@@ -92,6 +92,11 @@
 .nav {
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
+  &:has(.nav__container-secondary) {
+    @media (min-width: $medium-screen) {
+      border-bottom: none;
+    }
+  }
   &__mobile-menu-links {
     color: var(--vads-color-white) !important;
   }

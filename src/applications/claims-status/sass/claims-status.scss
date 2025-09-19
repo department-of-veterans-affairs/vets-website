@@ -12,15 +12,19 @@
 }
 
 .breadcrumbs-loading-container {
-  min-height: 4rem;
+  min-height: 82px;
+
+  @media (min-width: $medium-screen) {
+    min-height: 100px;
+  }
 }
 
 .on-this-page-loading-container {
-  min-height: 350px;
+  min-height: 310px;
 }
 
 .additional-info-loading-container {
-  min-height: 1.625rem;
+  min-height: 26.5px;
   margin: 1rem 0;
 }
 
