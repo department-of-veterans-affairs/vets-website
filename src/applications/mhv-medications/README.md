@@ -22,6 +22,179 @@ Run Cypress from command line:
 - Run all `yarn cy:run --spec "src/applications/mhv-medications/**/**/*"`
 - Specify browser `-b electron`
 
+# Developer Setup for Vets Website (Front-End) on a Fresh Mac
+
+Created to walk users through setting up the `vets-website` project with Node, Yarn, NVM, and mock APIs.
+
+---
+
+## Cloning the Vets Website Repository
+
+Start by cloning the repository via SSH:
+
+```bash
+git clone git@github.com:department-of-veterans-affairs/vets-website.git
+cd vets-website
+```
+
+---
+
+## Installing and Configuring NVM (Node Version Manager)
+
+### 1. Add NVM initialization to `.zshrc`
+
+Open or create the `.zshrc` file in your home directory:
+
+```bash
+vim ~/.zshrc
+```
+
+Add the following lines to the file:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+```
+
+Save and close the file, then reload your terminal or run:
+
+```bash
+source ~/.zshrc
+```
+
+---
+
+### 2. Install NVM
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+
+> After installation, restart your terminal or run `source ~/.zshrc` again to use NVM.
+
+---
+
+### 3. Install Node
+
+Install the required Node.js version:
+
+```bash
+nvm install 14.15.0
+nvm alias default 14.15.0
+```
+
+---
+
+## Installing Yarn
+
+Install the correct version of Yarn globally:
+
+```bash
+npm install -g yarn@1.19.1
+```
+
+Verify installed versions:
+
+```bash
+node --version    # Should output: v14.15.0
+yarn --version    # Should output: 1.19.1
+```
+
+---
+
+## Installing Project Dependencies
+
+Install all JavaScript dependencies using Yarn:
+
+```bash
+yarn install
+```
+
+---
+
+## Running the Local App and Mocks
+
+To start the local environment, use two separate terminal windows:
+
+### 1. Start the Frontend App
+
+```bash
+yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=medications
+```
+
+### 2. Start the Local Mock API
+
+```bash
+yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/mhv-medications/mocks/api/index.js
+```
+
+---
+
+## Simulating a Logged-In User (Browser Console)
+
+To simulate a login session, open your browser’s Developer Console and run:
+
+```js
+localStorage.setItem('hasSession', true);
+```
+
+Then visit the medications page in your browser:
+
+```
+http://localhost:3001/my-health/medications
+```
+
+---
+
+## Running Cypress E2E Tests
+
+To run a specific end-to-end test file using Cypress:
+
+```bash
+yarn cy:run --spec "src/applications/mhv-medications/tests/e2e/medications-list-page-meds-by-mail-content.cypress.spec.js"
+```
+
+---
+
+## Optional Developer Aliases
+
+Add the following aliases to your `.zshrc` file to streamline development:
+
+```bash
+# Start the front-end with the medications entry
+alias watch='yarn --cwd $( git rev-parse --show-toplevel ) watch --env entry=medications'
+
+# Run the local mock API server
+alias mock='yarn --cwd $( git rev-parse --show-toplevel ) mock-api --responses src/applications/mhv-medications/mocks/api/index.js'
+
+# Run unit tests for the medications app with coverage reports
+alias utests='yarn test:unit --app-folder mhv-medications --coverage --coverage-html'
+
+# Run all e2e tests under mhv-medications
+alias e2e='yarn cy:run --spec "src/applications/mhv-medications/**/**/*"'
+```
+
+After saving, reload your shell:
+
+```bash
+source ~/.zshrc
+```
+
+---
+
+## You're Done!
+
+Your Vets Website local setup is now complete. You can:
+
+- Start the front-end with `watch`
+- Run mock APIs with `mock`
+- Simulate login with `localStorage.setItem('hasSession', true);`
+- Run tests with `utests` or `e2e`
+
+> For further information, refer to the [vets-website GitHub README](https://github.com/department-of-veterans-affairs/vets-website#readme)
+
+
 ## Front End Prescription Object Guide
 
 ### Overview
