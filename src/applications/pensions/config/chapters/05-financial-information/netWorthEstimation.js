@@ -7,13 +7,16 @@ import {
   AssetInformationAlert,
   TotalNetWorthOverThresholdAlert,
 } from '../../../components/FormAlerts';
+import { showPdfFormAlignment } from '../../../helpers';
 
-export const hideIfUnder75000 = formData => {
+const threshold = showPdfFormAlignment() ? 75000 : 25000;
+
+export const hideIfUnderThreshold = formData => {
   const value = parseInt(formData.netWorthEstimation, 10);
   return (
     formData.netWorthEstimation == null || // null or undefined
     Number.isNaN(value) ||
-    value <= 75000
+    value <= threshold
   );
 };
 
@@ -25,7 +28,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Income and assets',
-      'We need to know if you and your dependents have over $75,000 in assets.',
+      `We need to know if you and your dependents have over $${threshold.toLocaleString()} in assets.`,
     ),
     'view:warningAlert': {
       'ui:description': AssetInformationAlert,
@@ -33,9 +36,9 @@ export default {
     netWorthEstimation: currencyUI('Estimate the total value of your assets'),
 
     'view:warningAlertOnHighValue': {
-      'ui:description': TotalNetWorthOverThresholdAlert,
+      'ui:description': TotalNetWorthOverThresholdAlert(threshold),
       'ui:options': {
-        hideIf: hideIfUnder75000,
+        hideIf: hideIfUnderThreshold,
       },
     },
   },
