@@ -76,12 +76,11 @@ function getDefaultState({
 
 function renderApp({
   pathname = '/introduction',
-  search = '',
-  hash = '',
   featureToggle,
   loading,
   hasSession,
   dependentsLoading,
+  replace = () => {},
 } = {}) {
   const state = getDefaultState({
     featureToggle,
@@ -91,16 +90,9 @@ function renderApp({
   });
   const store = mockStore(state);
 
-  const _location = {
-    ...window.location,
-    pathname,
-    search,
-    hash,
-  };
-
   return render(
     <Provider store={store}>
-      <App location={_location}>
+      <App location={{ pathname, replace, search: '' }}>
         <div data-testid="children-content">Child content</div>
       </App>
     </Provider>,
@@ -108,10 +100,7 @@ function renderApp({
 }
 
 describe('App container logic', () => {
-  const oldLocation = global.window.location;
-
   afterEach(() => {
-    global.window.location = oldLocation;
     localStorage.removeItem('hasSession');
   });
 
@@ -155,13 +144,12 @@ describe('App container logic', () => {
 
   it('should not redirect when on intro page (with session)', () => {
     const mockReplace = sinon.stub();
-    delete window.location;
-    window.location = { replace: mockReplace };
 
     renderApp({
       pathname: '/introduction',
       hasSession: true,
       dependentsLoading: true,
+      replace: mockReplace,
     });
 
     expect(mockReplace.called).to.be.false;
@@ -169,13 +157,12 @@ describe('App container logic', () => {
 
   it('should not redirect when on intro page (without session)', () => {
     const mockReplace = sinon.stub();
-    delete window.location;
-    window.location = { replace: mockReplace };
 
     renderApp({
       pathname: '/introduction',
       hasSession: false,
       dependentsLoading: true,
+      replace: mockReplace,
     });
 
     expect(mockReplace.called).to.be.false;

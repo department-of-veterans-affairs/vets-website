@@ -73,14 +73,12 @@ describe('ConfirmationPage', () => {
 
   it('should call print function when button is clicked', () => {
     const printSpy = sinon.spy();
-    const oldPrint = global.window.print;
     global.window.print = printSpy;
 
     const { container } = initConfirmationPage({});
     fireEvent.click($('va-button[text*="Print this page"]', container));
 
     expect(printSpy.calledOnce).to.be.true;
-    global.window.print = oldPrint;
   });
 
   it('should render when API fails', () => {

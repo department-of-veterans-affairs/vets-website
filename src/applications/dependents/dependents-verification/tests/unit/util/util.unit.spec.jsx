@@ -65,15 +65,18 @@ describe('dependents/686c-674 util', () => {
       .resolves({ data: { attributes: { test: 123 } } });
     stubs.push(utils.ensureValidCSRFToken, apiStub);
 
-    window.dataLayer = [];
+    global.window.dataLayer = [];
     const fakeFormConfig = { trackingPrefix: 'test' };
     const fakeForm = {};
 
     const result = await utils.submit(fakeForm, fakeFormConfig);
 
     expect(result).to.deep.equal({ test: 123 });
-    expect(window.dataLayer.some(e => e.event === 'test-submission-successful'))
-      .to.be.true;
+    expect(
+      global.window.dataLayer.some(
+        e => e.event === 'test-submission-successful',
+      ),
+    ).to.be.true;
   });
 
   it('submit - CSRF failure retries then fails', async () => {
@@ -89,7 +92,7 @@ describe('dependents/686c-674 util', () => {
       .resolves({ data: { attributes: { foo: 'bar' } } });
     stubs.push(utils.ensureValidCSRFToken, apiStub);
 
-    window.dataLayer = [];
+    global.window.dataLayer = [];
     const fakeFormConfig = { trackingPrefix: 'again' };
     const fakeForm = {};
 
