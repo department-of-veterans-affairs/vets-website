@@ -8,7 +8,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../../686c-674/utils/redirect';
+import { getShouldUseV2 } from '../../686c-674/v2/utils/redirect';
 
 import { getRootParentUrl } from '../../shared/utils';
 
