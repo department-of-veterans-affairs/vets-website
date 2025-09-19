@@ -26,6 +26,18 @@ function renderPage({ data = defaultData, goToPath = () => {} } = {}) {
 }
 
 describe('DependentsInformationReview', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    if (sandbox) {
+      sandbox.restore();
+    }
+  });
+
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
 
@@ -66,7 +78,7 @@ describe('DependentsInformationReview', () => {
   });
 
   it('should redirect edit button to dependents page', async () => {
-    const goToPathSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
     const { container } = renderPage({ data: null, goToPath: goToPathSpy });
 
     await waitFor(() => {

@@ -42,6 +42,18 @@ function renderPage({
 }
 
 describe('DependentsInformation', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    if (sandbox) {
+      sandbox.restore();
+    }
+  });
+
   it('should render no dependents found message', () => {
     // You shouldn't be able to see this because we don't allow starting the
     // form without
@@ -77,7 +89,7 @@ describe('DependentsInformation', () => {
   });
 
   it('should set form data with radio choice', async () => {
-    const setFormDataSpy = sinon.spy();
+    const setFormDataSpy = sandbox.spy();
     const { container } = renderPage({
       data: { dependents: defaultData.dependents },
       setFormData: setFormDataSpy,
@@ -103,8 +115,8 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates forward to review page when "No" is selected', async () => {
-    const goToPathSpy = sinon.spy();
-    const goForwardSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
+    const goForwardSpy = sandbox.spy();
     const { container } = renderPage({
       data: { hasDependentsStatusChanged: 'N' },
       goToPath: goToPathSpy,
@@ -119,8 +131,8 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates to exit page when "Yes" is selected', async () => {
-    const goToPathSpy = sinon.spy();
-    const goForwardSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
+    const goForwardSpy = sandbox.spy();
     const { container } = renderPage({
       data: { hasDependentsStatusChanged: 'Y' },
       goToPath: goToPathSpy,
@@ -136,7 +148,7 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates back to Veteran info page', async () => {
-    const goToPathSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
     const { container } = renderPage({ data: {}, goToPath: goToPathSpy });
 
     await waitFor(() => {

@@ -9,8 +9,16 @@ import * as utils from '../../../util';
 import { form686Url, ExitForm } from '../../../components/ExitForm';
 
 describe('ExitForm', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
-    sinon.restore();
+    if (sandbox) {
+      sandbox.restore();
+    }
   });
 
   it('should render the exit form with correct title and subtitle', () => {
@@ -29,18 +37,20 @@ describe('ExitForm', () => {
   });
 
   it('should push url to router when back button is clicked', async () => {
-    const goBackSpy = sinon.spy();
+    const goBackSpy = sandbox.spy();
     const { container } = render(<ExitForm goBack={goBackSpy} />);
 
     fireEvent.click($('va-button[back]', container));
-    await expect(goBackSpy.called).to.be.true;
+    await waitFor(() => {
+      expect(goBackSpy.called).to.be.true;
+    });
   });
 
   it('should call redirect to 686c-674 when Go to button is clicked', async () => {
-    const deleteInProgressFormStub = sinon
+    const deleteInProgressFormStub = sandbox
       .stub(utils, 'deleteInProgressForm')
       .resolves();
-    const assignSpy = sinon.spy();
+    const assignSpy = sandbox.spy();
     const { container } = render(<ExitForm location={{ assign: assignSpy }} />);
 
     fireEvent.click($('va-button[continue]', container));
