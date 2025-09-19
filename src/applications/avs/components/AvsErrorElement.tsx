@@ -3,12 +3,7 @@ import { useAsyncError, isRouteErrorResponse } from 'react-router-dom-v5-compat'
 import ErrorBoundary from './ErrorBoundary';
 import MhvPageNotFound from '~/platform/mhv/components/MhvPageNotFound';
 import MhvUnauthorized from '~/platform/mhv/components/MhvUnauthorized';
-
-const errorType = {
-  unauthorized: 'unauthorized',
-  notFound: 'not_found',
-  badRequest: 'bad_request',
-} as const;
+import { ErrorTypes } from '../types';
 
 const AvsErrorElement: React.FC = () => {
   const err = useAsyncError();
@@ -28,10 +23,10 @@ const AvsErrorElement: React.FC = () => {
     const apiError = err as { errors: Array<{ status?: string }> };
     const status = apiError.errors?.[0]?.status;
     
-    if (status === errorType.unauthorized) {
+    if (status === ErrorTypes.unauthorized) {
       return <MhvUnauthorized />;
     }
-    if (status === errorType.notFound || status === errorType.badRequest) {
+    if (status === ErrorTypes.notFound || status === ErrorTypes.badRequest) {
       return <MhvPageNotFound />;
     }
   }
