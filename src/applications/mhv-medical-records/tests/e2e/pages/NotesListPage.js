@@ -15,6 +15,7 @@ class NotesListPage extends BaseListPage {
       '@mockUser',
       '@featureToggles',
       '@maintenanceWindow',
+      '@status',
     ]);
   };
 
