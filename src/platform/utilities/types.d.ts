@@ -12,11 +12,3 @@ declare module '@department-of-veterans-affairs/platform-utilities/exports' {
 declare module '@department-of-veterans-affairs/platform-utilities/api' {
   export function apiRequest(url: string, options?: any): Promise<any>;
 }
-
-declare module '@department-of-veterans-affairs/platform-utilities/featureFlagNames' {
-  const FEATURE_FLAG_NAMES: {
-    avsEnabled: string;
-    [key: string]: string;
-  };
-  export default FEATURE_FLAG_NAMES;
-}

@@ -2,7 +2,8 @@ import React, { Suspense } from 'react';
 import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -29,18 +30,12 @@ interface StateToProps {
   isLoggedIn: boolean;
 }
 
-interface FeatureTogglesState {
-  loading: boolean;
-  [key: string]: any; // Use string index signature instead of computed property
-}
-
 interface RootState {
   user: {
     login: {
       currentlyLoggedIn: boolean;
     };
   };
-  featureToggles: FeatureTogglesState;
 }
 
 const generateAppointmentHeader = (avs: AvsData): string => {
@@ -52,14 +47,9 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
   useDatadogRum();
 
   const user = useSelector(selectUser);
-  const { avsEnabled, featureTogglesLoading } = useSelector(
-    (state: RootState) => {
-      return {
-        featureTogglesLoading: state.featureToggles.loading,
-        avsEnabled: state.featureToggles[FEATURE_FLAG_NAMES.avsEnabled as keyof FeatureTogglesState],
-      };
-    },
-  );
+  const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } = useFeatureToggle();
+  const avsEnabled = useToggleValue(TOGGLE_NAMES.avsEnabled);
+  const featureTogglesLoading = useToggleLoadingValue();
 
   const loader = useLoaderData() as { avs: Promise<AvsData> };
 
