@@ -58,7 +58,9 @@ describe('ownedAssetPages - list loop', () => {
 
     ['FARM', 'BUSINESS'].forEach(assetType => {
       it('check isItemIncomplete', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
+        // Stub the showUpdatedContent function instead of relying on sessionStorage
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+
         const baseItem = {
           ...testData.data.ownedAssets[0],
           assetType,
@@ -190,7 +192,7 @@ describe('ownedAssetPages - list loop', () => {
 
     describe('summaryTitle function', () => {
       it('should show updated content', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
         expect(
           options.text.summaryTitle({
             nounPlural: 'custom',
@@ -198,7 +200,7 @@ describe('ownedAssetPages - list loop', () => {
         ).to.eql('Review property and business assets');
       });
       it('should show normal content', () => {
-        sessionStorage.removeItem('showUpdatedContent');
+        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
         expect(
           options.text.summaryTitle({
             nounPlural: 'custom assets',
@@ -209,7 +211,7 @@ describe('ownedAssetPages - list loop', () => {
 
     describe('reviewAddButtonText function', () => {
       it('should show updated content', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
         expect(
           options.text.reviewAddButtonText({
             nounSingular: 'custom asset',
@@ -217,7 +219,7 @@ describe('ownedAssetPages - list loop', () => {
         ).to.eql('Add more property or business assets');
       });
       it('should show normal content', () => {
-        sessionStorage.removeItem('showUpdatedContent');
+        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
         expect(
           options.text.reviewAddButtonText({
             nounSingular: 'custom assets',
@@ -238,7 +240,7 @@ describe('ownedAssetPages - list loop', () => {
 
       ['FARM', 'BUSINESS'].forEach(at => {
         it('should show uploaded files', () => {
-          sessionStorage.setItem('showUpdatedContent', true);
+          sandbox.stub(helpers, 'showUpdatedContent').returns(true);
           const assetWithFiles = {
             ...testData.data.ownedAssets[0],
             assetType: at,
@@ -246,7 +248,6 @@ describe('ownedAssetPages - list loop', () => {
             uploadedDocuments: [{ name: 'Test file.png' }],
           };
           expect(options.text.cardDescription(assetWithFiles)).to.not.be.null;
-          sessionStorage.removeItem('showUpdatedContent');
         });
       });
 
@@ -266,7 +267,10 @@ describe('ownedAssetPages - list loop', () => {
     });
 
     describe('summaryDescription', () => {
-      beforeEach(() => sessionStorage.setItem('showUpdatedContent', true));
+      beforeEach(() => {
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+      });
+
       it('should return null if showUpdatedContent: true and assetType: `OTHER`', () => {
         expect(
           options.text.summaryDescription({
@@ -308,7 +312,7 @@ describe('ownedAssetPages - list loop', () => {
         ).to.not.be.null;
       });
       it('should show SupplementaryFormsAlert by default', () => {
-        sessionStorage.removeItem('showUpdatedContent');
+        helpers.showUpdatedContent.returns(false);
         expect(
           options.text.summaryDescription({
             formData: {
@@ -336,6 +340,10 @@ describe('ownedAssetPages - list loop', () => {
 
   describe('summary page', () => {
     context('content: updated', () => {
+      beforeEach(() => {
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+      });
+
       describe('default updated summary page', () => {
         const {
           schema,
@@ -344,7 +352,6 @@ describe('ownedAssetPages - list loop', () => {
         const formData = { ...testData.data, claimantType: 'VETERAN' };
 
         it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN', () => {
-          sessionStorage.setItem('showUpdatedContent', true);
           const { depends } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
           expect(depends(formData)).to.be.true;
         });
@@ -375,7 +382,6 @@ describe('ownedAssetPages - list loop', () => {
         const formData = { ...testData.data, claimantType: 'SPOUSE' };
 
         it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
-          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedSpouseSummary;
@@ -410,7 +416,6 @@ describe('ownedAssetPages - list loop', () => {
         const formData = { ...testData.data, claimantType: 'CHILD' };
 
         it('should display when showUpdatedContent is true and claimantType is CHILD', () => {
-          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedChildSummary;
@@ -466,7 +471,6 @@ describe('ownedAssetPages - list loop', () => {
         const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
 
         it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
-          sessionStorage.setItem('showUpdatedContent', true);
           const {
             depends,
           } = ownedAssetPages.ownedAssetPagesUpdatedCustodianSummary;
@@ -488,7 +492,7 @@ describe('ownedAssetPages - list loop', () => {
   describe('asset recipient page', () => {
     describe('asset recipient page - content normal', () => {
       beforeEach(() => {
-        sessionStorage.removeItem('showUpdatedContent');
+        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
       });
 
       const schema =
@@ -533,7 +537,7 @@ describe('ownedAssetPages - list loop', () => {
 
     describe('Updated asset recipient pages', () => {
       beforeEach(() => {
-        sessionStorage.setItem('showUpdatedContent', true);
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
       });
 
       describe('default updated recipient page', () => {
@@ -775,7 +779,6 @@ describe('ownedAssetPages - list loop', () => {
 
   describe('recipient name page', () => {
     context('recipient name page', () => {
-      sessionStorage.setItem('showUpdatedContent', true);
       const schema =
         ownedAssetPages.ownedAssetRecipientNamePage.schema.properties
           .ownedAssets.items;
@@ -876,9 +879,11 @@ describe('ownedAssetPages - list loop', () => {
 
   describe('page depends', () => {
     context('content: updated', () => {
-      it('should handle all claimant types correctly for summary pages', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
+      beforeEach(() => {
+        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+      });
 
+      it('should handle all claimant types correctly for summary pages', () => {
         const testCases = [
           {
             claimantType: 'VETERAN',
@@ -920,8 +925,6 @@ describe('ownedAssetPages - list loop', () => {
       });
 
       it('should handle all claimant types correctly for recipient pages', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
-
         const testCases = [
           {
             claimantType: 'VETERAN',
@@ -967,7 +970,6 @@ describe('ownedAssetPages - list loop', () => {
       });
 
       it('additionalFormNeededPage depends returns true', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
         const { depends } = ownedAssetPages?.ownedAssetAdditionalFormNeededPage;
         expect(depends({ ownedAssets: [{ assetType: 'FARM' }] }, 0)).to.be.true;
         expect(depends({ ownedAssets: [{ assetType: 'BUSINESS' }] }, 0)).to.be
@@ -975,7 +977,6 @@ describe('ownedAssetPages - list loop', () => {
       });
 
       it('additionalFormNeededPage depends returns true', () => {
-        sessionStorage.setItem('showUpdatedContent', true);
         const { depends } = ownedAssetPages?.ownedAssetDocumentUploadPage;
         const generateOwnedAssets = (assetType = 'FARM') => ({
           ownedAssets: [{ 'view:addFormQuestion': true, assetType }],
