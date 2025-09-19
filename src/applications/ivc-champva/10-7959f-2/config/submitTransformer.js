@@ -47,7 +47,7 @@ export default function transformForSubmit(formConfig, form) {
       },
       ssn: transformedData?.veteranSocialSecurityNumber || '',
       va_claim_number: '',
-      phone_number: transformedData.veteranPhoneNumber || '',
+      phone_number: intlPhoneJoined,
       email_address: transformedData.veteranEmailAddress || '',
       send_payment: transformedData.sendPayment,
     },
