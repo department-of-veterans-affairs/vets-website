@@ -1,5 +1,4 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import manifest from '../manifest.json';
 
 describe('VaFileInputMultiple Component', () => {
   // Skip tests in CI until the app is released.
@@ -9,7 +8,7 @@ describe('VaFileInputMultiple Component', () => {
 
   beforeEach(() => {
     // Force a fresh page load to ensure clean state
-    cy.visit(manifest.rootUrl, { timeout: 10000 });
+    cy.visit('/ds-v3-playground', { timeout: 10000 });
     cy.injectAxe();
 
     // Wait for component to initialize
