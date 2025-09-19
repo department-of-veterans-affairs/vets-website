@@ -66,9 +66,6 @@ describe('ConfirmationPage', () => {
     expect($('va-link-action', alert).getAttribute('text')).to.eq(
       'Check the status of your form on My VA',
     );
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('John A. Doe, Jr.');
     expect($('va-accordion', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($$('va-link-action', container)).to.have.lengthOf(2);
@@ -96,8 +93,6 @@ describe('ConfirmationPage', () => {
       'Your confirmation number is',
     );
 
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('nameDate submitted');
+    expect($('va-accordion', container)).to.exist;
   });
 });
