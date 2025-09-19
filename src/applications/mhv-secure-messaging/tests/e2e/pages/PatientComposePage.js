@@ -526,25 +526,61 @@ class PatientComposePage {
   };
 
   verifyRecipientsQuantityInGroup = (index, quantity) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
-      .find(`optgroup`)
-      .eq(index)
-      .find('option')
-      .should(`have.length`, quantity);
+    // Try combobox selector first (curated list flow), fallback to dropdown
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="compose-recipient-combobox"]').length > 0) {
+        cy.get('[data-testid="compose-recipient-combobox"]')
+          .find(`optgroup`)
+          .eq(index)
+          .find('option')
+          .should(`have.length`, quantity);
+      } else {
+        // Deprecated: Remove after combobox is fully rolled out
+        cy.get(Locators.DROPDOWN.RECIPIENTS)
+          .find(`optgroup`)
+          .eq(index)
+          .find('option')
+          .should(`have.length`, quantity);
+      }
+    });
   };
 
   verifyRecipientsGroupName = (index, text) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
-      .find(`optgroup`)
-      .eq(index)
-      .invoke('attr', 'label')
-      .should(`eq`, text);
+    // Try combobox selector first (curated list flow), fallback to dropdown
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="compose-recipient-combobox"]').length > 0) {
+        cy.get('[data-testid="compose-recipient-combobox"]')
+          .find(`optgroup`)
+          .eq(index)
+          .invoke('attr', 'label')
+          .should(`eq`, text);
+      } else {
+        // Deprecated: Remove after combobox is fully rolled out
+        cy.get(Locators.DROPDOWN.RECIPIENTS)
+          .find(`optgroup`)
+          .eq(index)
+          .invoke('attr', 'label')
+          .should(`eq`, text);
+      }
+    });
   };
 
   verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
-    cy.contains(recipientName)
-      .parent()
-      .should('have.attr', 'label', facilityName);
+    // Try combobox selector first (curated list flow), fallback to dropdown
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="compose-recipient-combobox"]').length > 0) {
+        cy.get('[data-testid="compose-recipient-combobox"]')
+          .find('optgroup')
+          .contains(recipientName)
+          .parent('optgroup')
+          .should('have.attr', 'label', facilityName);
+      } else {
+        // Deprecated: Remove after combobox is fully rolled out
+        cy.contains(recipientName)
+          .parent()
+          .should('have.attr', 'label', facilityName);
+      }
+    });
   };
 
   verifyRecipientsDropdownList = text => {

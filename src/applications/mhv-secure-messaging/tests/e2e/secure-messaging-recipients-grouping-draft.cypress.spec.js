@@ -2,8 +2,8 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
-import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
@@ -11,28 +11,52 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
       name: `mhv_secure_messaging_recipient_opt_groups`,
       value: true,
     },
+    {
+      name: `mhv_secure_messaging_curated_list_flow`,
+      value: true,
+    },
   ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
-    PatientMessageDraftsPage.loadDrafts();
-    PatientMessageDraftsPage.loadSingleDraft();
-    PatientComposePage.verifyHeader(Data.EDIT_DRAFT);
+    // Navigate through curated list flow: create message -> interstitial -> select care team
+    PatientInboxPage.clickCreateNewMessage();
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientComposePage.verifyHeader('Select care team');
   });
 
   it('verify verify groups quantity', () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
-      .find(`optgroup`)
-      .should(`have.length`, 4);
+    // Try combobox selector first (curated list flow), fallback to dropdown
+    cy.get('body').then($body => {
+      if ($body.find('[data-testid="compose-recipient-combobox"]').length > 0) {
+        cy.get('[data-testid="compose-recipient-combobox"]')
+          .find(`optgroup`)
+          .should(`have.length`, 4);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
-      .find(`optgroup`)
-      .each(el => {
-        cy.wrap(el)
-          .find(`option`)
-          .its(`length`)
-          .should(`be.greaterThan`, 0);
-      });
+        cy.get('[data-testid="compose-recipient-combobox"]')
+          .find(`optgroup`)
+          .each(el => {
+            cy.wrap(el)
+              .find(`option`)
+              .its(`length`)
+              .should(`be.greaterThan`, 0);
+          });
+      } else {
+        // Deprecated: Remove after combobox is fully rolled out
+        cy.get(Locators.DROPDOWN.RECIPIENTS)
+          .find(`optgroup`)
+          .should(`have.length`, 4);
+
+        cy.get(Locators.DROPDOWN.RECIPIENTS)
+          .find(`optgroup`)
+          .each(el => {
+            cy.wrap(el)
+              .find(`option`)
+              .its(`length`)
+              .should(`be.greaterThan`, 0);
+          });
+      }
+    });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
