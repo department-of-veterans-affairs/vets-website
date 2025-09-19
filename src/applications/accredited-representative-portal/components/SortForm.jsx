@@ -12,7 +12,6 @@ import {
 
 const SortForm = ({ options, defaults }) => {
   useEffect(() => {
-    focusElement('.poa-request__meta');
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
@@ -40,6 +39,9 @@ const SortForm = ({ options, defaults }) => {
     navigate(
       `?${statusLabel}sortOrder=${sortOrder}&sortBy=${sortBy}&pageNumber=${number}&pageSize=${size}&as_selected_individual=${selectedIndividual}`,
     );
+    setTimeout(() => {
+      focusElement('.poa-request__meta');
+    }, 500);
   };
 
   const toggleRep = e => {
@@ -48,6 +50,9 @@ const SortForm = ({ options, defaults }) => {
         e.detail.checked
       }`,
     );
+    setTimeout(() => {
+      focusElement('.poa-request__meta');
+    }, 500);
   };
   const isChecked = () => {
     return searchParams.get(SEARCH_PARAMS.SELECTED_INDIVIDUAL);

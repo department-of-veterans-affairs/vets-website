@@ -16,7 +16,7 @@ const formData = {
   },
 };
 
-describe('686 current marriage information: Spouse legal name', () => {
+describe('686 current marriage information: Spouse personal information', () => {
   const {
     schema,
     uiSchema,
@@ -33,11 +33,12 @@ describe('686 current marriage information: Spouse legal name', () => {
         />
       </Provider>,
     );
-    expect($$('va-text-input', container).length).to.equal(3);
+    expect($$('va-text-input', container).length).to.equal(4);
+    expect($$('va-memorable-date', container).length).to.equal(1);
   });
 });
 
-describe('686 current marriage information: Spouse identification information', () => {
+describe('686 current marriage information: Spouse is a Veteran', () => {
   const {
     schema,
     uiSchema,
@@ -55,8 +56,6 @@ describe('686 current marriage information: Spouse identification information', 
       </Provider>,
     );
 
-    expect($$('va-text-input', container).length).to.equal(1);
-    expect($$('va-memorable-date', container).length).to.equal(1);
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
   });

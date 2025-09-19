@@ -42,12 +42,7 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import {
-  selectAllergiesFlag,
-  selectGroupingFlag,
-  selectRefillProgressFlag,
-  selectIPEContentFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
@@ -90,10 +85,7 @@ const Prescriptions = () => {
   const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -101,7 +93,7 @@ const Prescriptions = () => {
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -694,24 +686,15 @@ const Prescriptions = () => {
           Mail, you can also call your servicing center and ask them to update
           your records.
         </>
-        {!showAllergiesContent && (
-          <>
-            {' '}
-            If you print or download this list, we’ll include a list of your
-            allergies.
-          </>
-        )}
       </p>
-      {showAllergiesContent && (
-        <a
-          href="/my-health/medical-records/allergies"
-          rel="noreferrer"
-          className="vads-u-display--block vads-u-margin-bottom--3"
-          data-testid="allergies-link"
-        >
-          Go to your allergies and reactions
-        </a>
-      )}
+      <a
+        href="/my-health/medical-records/allergies"
+        rel="noreferrer"
+        className="vads-u-display--block vads-u-margin-bottom--3"
+        data-testid="allergies-link"
+      >
+        Go to your allergies and reactions
+      </a>
     </>
   );
 
@@ -758,7 +741,7 @@ const Prescriptions = () => {
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
             />
-            {showIPEContent && <InProductionEducationFiltering />}
+            <InProductionEducationFiltering />
           </>
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
