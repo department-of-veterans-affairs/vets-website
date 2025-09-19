@@ -158,10 +158,15 @@ class ArrayField extends React.Component {
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
-    const newArray = set(index, data, this.state.items);
-    this.setState({ items: newArray }, () => {
-      this.props.setData(set(path, newArray, formData));
-    });
+    this.setState(
+      prevState => {
+        const newArray = set(index, data, prevState.items);
+        return { items: newArray };
+      },
+      () => {
+        this.props.setData(set(path, this.state.items, formData));
+      },
+    );
   }
 
   /**
