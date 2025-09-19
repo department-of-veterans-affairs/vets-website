@@ -55,7 +55,7 @@ const CheckEligibilityAndApply = () => {
 
   return (
     <div className="row">
-      <div className="usa-width-two-thirds vads-u-margin-bottom--4">
+      <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5">
         <h1>Check your eligibility and apply</h1>
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
@@ -74,7 +74,7 @@ const CheckEligibilityAndApply = () => {
         </p>
 
         <p className="vads-u-margin-top--2">
-          <a href="#rudisill-info">
+          <a href="https://benefits.va.gov/GIBILL/rudisill.asp">
             Find out more about requesting a Rudisill review
           </a>
         </p>
@@ -142,13 +142,21 @@ const CheckEligibilityAndApply = () => {
             />
             <div>
               <strong>Qualifying Military Service:</strong>
-              <ul className="vads-u-margin-top--1">
+              <p className="vads-u-margin-y--0">
+                Applicant has 1 period(s) of qualifying military service after
+                September 16, 1940:
+              </p>
+              <ul className="vads-u-margin-top--0">
                 {mockResponse.veteranProfile.servicePeriod.map((sp, idx) => (
-                  <li key={`${sp.serviceBeganDate}-${idx}`}>
-                    Entered: {formatDate(sp.serviceBeganDate)}; Released:{' '}
-                    {formatDate(sp.serviceEndDate)}; CoD:{' '}
-                    {sp.characterOfDischarge}
-                  </li>
+                  <>
+                    <li key={`${sp.serviceBeganDate}-${idx}`}>
+                      Entered Active Duty (EOD):{' '}
+                      {formatDate(sp.serviceBeganDate)};
+                    </li>
+                    <li key={`${sp.serviceBeganDate}-${idx}`}>
+                      Released: {formatDate(sp.serviceEndDate)};
+                    </li>
+                  </>
                 ))}
               </ul>
             </div>
@@ -173,9 +181,11 @@ const CheckEligibilityAndApply = () => {
               class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
             />
             <div>
-              <strong>Disability Rating:</strong>{' '}
-              {mockResponse.disabilityRating.combinedScd}%
-              <ul className="vads-u-margin-top--1">
+              <strong>
+                Disability Rating: {mockResponse.disabilityRating.combinedScd}%
+              </strong>
+              <p className="vads-u-margin-y--0">SCD Details:</p>
+              <ul className="vads-u-margin-top--0">
                 {mockResponse.disabilityRating.SCDDetails.map(detail => (
                   <li key={detail.code}>
                     {detail.code} - {detail.name} - {detail.percentage}%
