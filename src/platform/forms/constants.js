@@ -107,6 +107,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
   FORM_40_4962: '40-4962',
+  FORM_34_2344: '34-2344',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -204,6 +205,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
+    [VA_FORM_IDS.FORM_34_2344]: `${tryGetAppUrl('34-2344')}/`,
   };
 };
 
@@ -764,6 +766,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Apply for burial in a VA national cemetery"',
     description: 'burial benefits',
     trackingPrefix: '40-4962-ToN-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_34_2344,
+    benefit: 'benefits',
+    title: 'A New Form',
+    description: 'benefits',
+    trackingPrefix: 'a-new-form-',
   },
 ];
 
