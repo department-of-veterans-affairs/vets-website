@@ -32,16 +32,13 @@ describe('ownedAssetPages - list loop', () => {
   let sandbox;
 
   beforeEach(() => {
-    // Create a new sandbox for each test
     sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
-    // Restore all stubs created in this sandbox
     if (sandbox) {
       sandbox.restore();
     }
-    // Clean up sessionStorage
     sessionStorage.clear();
   });
 
