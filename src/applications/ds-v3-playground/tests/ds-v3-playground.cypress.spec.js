@@ -1,9 +1,10 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 
 describe('DS V3 Playground', () => {
-  // before(() => {
-  //   if (Cypress.env('CI')) this.skip();
-  // });
+  beforeEach(() => {
+    // Force a fresh page load to ensure clean state
+    cy.visit('/ds-v3-playground', { timeout: 10000 });
+  });
 
   it('is accessible', () => {
     cy.visit('/ds-v3-playground');

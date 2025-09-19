@@ -1,11 +1,6 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 
 describe('VaFileInputMultiple Component', () => {
-  // Skip tests in CI until the app is released.
-  // before(() => {
-  //   if (Cypress.env('CI')) this.skip();
-  // });
-
   beforeEach(() => {
     // Force a fresh page load to ensure clean state
     cy.visit('/ds-v3-playground', { timeout: 10000 });
