@@ -2,9 +2,9 @@
 
 describe('VaFileInputMultiple Component', () => {
   // Skip tests in CI until the app is released.
-  before(() => {
-    if (Cypress.env('CI')) this.skip();
-  });
+  // before(() => {
+  //   if (Cypress.env('CI')) this.skip();
+  // });
 
   beforeEach(() => {
     // Force a fresh page load to ensure clean state
