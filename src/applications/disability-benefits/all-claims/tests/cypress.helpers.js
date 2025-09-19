@@ -1,7 +1,6 @@
 import { add, format, formatISO } from 'date-fns';
 
 import { expect } from 'chai';
-import { cy } from 'date-fns/locale';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -240,6 +239,7 @@ export const setup = (cy, testOptions = {}) => {
 };
 
 export const reviewAndSubmitPageFlow = (
+  cy,
   submitButtonText = 'Submit application',
 ) => {
   const first = mockUser.data.attributes.profile.firstName;
@@ -864,9 +864,7 @@ export const pageHooks = (cy, testOptions) => ({
       }
     });
     afterHook(() => {
-      cy.get('@testData').then(() => {
-        reviewAndSubmitPageFlow();
-      });
+      reviewAndSubmitPageFlow(cy);
     });
   },
 });
