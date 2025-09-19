@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
@@ -63,8 +64,18 @@ export const UPLOAD_TITLE = 'Your file';
 export const UPLOAD_DESCRIPTION = Object.freeze(
   <>
     <span className="vads-u-font-weight--bold">Note:</span> After you upload
-    your file, you’ll need to continue to the next screen to submit it. If you
-    leave before you submit it, you’ll need to upload it again.
+    your file, you’ll need to continue to the end of the form to submit it. If
+    you leave before you submit it, you’ll need to upload it again.
+  </>,
+);
+
+export const UPLOAD_SUPPORTING_DOCUMENTS = 'Upload Supporting Documents';
+
+export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
+  <>
+    <span className="vads-u-font-weight--bold">Note:</span> To save your files,
+    you must submit this form in the same session. If you leave without
+    submitting, you will need to upload your files again.
   </>,
 );
 
@@ -152,3 +163,8 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     File upload must be complete to continue.
   </VaAlert>
 );
+export const FILE_UPLOAD_URL = `${
+  environment.API_URL
+}/simple_forms_api/v1/scanned_form_upload`;
+
+export const MAX_FILE_SIZE = 25000000;
