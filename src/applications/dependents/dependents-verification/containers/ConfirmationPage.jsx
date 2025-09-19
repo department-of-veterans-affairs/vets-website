@@ -113,19 +113,21 @@ export const ConfirmationPage = props => {
             </h3>
             <ul className="vads-u-padding--0 remove-bullets">
               {dependents?.length > 0
-                ? dependents.map(dep => (
-                    <>
+                ? dependents.map((dep, index) => (
+                    <li key={index}>
                       <h4
                         className="dd-privacy-mask"
                         dd-action-name="dependent name"
                       >
                         {dep.fullName}
                       </h4>
-                      {showItem('Social Security number', maskID(dep.ssn))}
-                      {showItem('Date of birth', dep.dob)}
-                      {showItem('Age', `${dep.age} years old`)}
-                      {showItem('Relationship', dep.relationship)}
-                    </>
+                      <ul className="vads-u-padding--0 remove-bullets">
+                        {showItem('Social Security number', maskID(dep.ssn))}
+                        {showItem('Date of birth', dep.dob)}
+                        {showItem('Age', `${dep.age} years old`)}
+                        {showItem('Relationship', dep.relationship)}
+                      </ul>
+                    </li>
                   ))
                 : 'No dependents found.'}
             </ul>
