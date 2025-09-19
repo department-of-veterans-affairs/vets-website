@@ -7,25 +7,27 @@ import {
 import { standardFileChecks } from 'platform/forms-system/src/js/utilities/file';
 import { debounce } from 'lodash';
 
-// Debounce wait time (same as forms library)
+// Debounce wait time for password input
 const DEBOUNCE_WAIT = 1000;
 
 export default function VaFileInputMultiplePage() {
   const componentRef = useRef(null);
 
-  const [files, setFiles] = useState([]); // This could be Redux in a real app
-  const [percentsUploaded, setPercentsUploaded] = useState([]); // Progress array for component
-  const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted
+  const [files, setFiles] = useState([]); // The uploaded files
+  const [percentsUploaded, setPercentsUploaded] = useState([]); // Track upload progress of each file
+  const [encrypted, setEncrypted] = useState([]); // Track which files are encrypted and need a password
 
-  // Error Management Strategy (following forms library pattern)
+  // Error Management
   const [fileErrors, setFileErrors] = useState([]); // File-level errors (upload, validation)
   const [passwordErrors, setPasswordErrors] = useState([]); // Password validation errors
+  // Additional input validation errors. Not used in the component at this time
+  // but if va-select is added in the future, it can be used to validate the selection
   // eslint-disable-next-line no-unused-vars
-  const [additionalInputErrors, setAdditionalInputErrors] = useState([]); // Additional input validation errors (not used in the component at this time)
+  const [additionalInputErrors, setAdditionalInputErrors] = useState([]);
 
-  // Enhanced mock upload with error scenarios (like forms library)
+  // Mock file upload with error scenarios
   const mockFileUpload = async (file, index, password = null) => {
-    // Clear any previous errors
+    // Clear any previous errors for this file
     setFileErrors(prev => {
       const newFileErrors = [...prev];
       newFileErrors[index] = null;
@@ -82,19 +84,18 @@ export default function VaFileInputMultiplePage() {
 
     const errorScenario = shouldSimulateError();
 
-    // If error scenario, simulate it
     if (errorScenario) {
       // Brief delay to simulate network attempt
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Set file error
+      // Set file errors
       setFileErrors(prev => {
         const newFileErrors = [...prev];
         newFileErrors[index] = errorScenario.message;
         return newFileErrors;
       });
 
-      // For password errors, also set password error
+      // For password errors
       if (errorScenario.type === 'password') {
         setPasswordErrors(prev => {
           const newPasswordErrors = [...prev];
@@ -168,7 +169,7 @@ export default function VaFileInputMultiplePage() {
     };
   };
 
-  // Handle file processing (similar to forms library handleFileAdded)
+  // Handle file processing
   const handleFileAdded = async (fileDetails, index) => {
     const { file } = fileDetails;
 
@@ -189,7 +190,7 @@ export default function VaFileInputMultiplePage() {
         return newEncrypted;
       });
 
-      // Clear any password errors for this file
+      // Clear any previous password errors for this file position
       setPasswordErrors(prev => {
         const newPasswordErrors = [...prev];
         newPasswordErrors[index] = null;
@@ -268,7 +269,7 @@ export default function VaFileInputMultiplePage() {
     [],
   );
 
-  // Debounced password processing (like forms library)
+  // Debounced password processing because the text input event is triggered on every keypress
   const debouncePassword = useMemo(
     () =>
       debounce(({ file, password }, index) => {
@@ -290,7 +291,7 @@ export default function VaFileInputMultiplePage() {
           // Process encrypted file with password
           handleEncryptedFileUpload({ file }, password, index);
 
-          // Hide password field after successful entry (like forms library)
+          // Hide password field after successful entry
           setEncrypted(prev => {
             const newEncrypted = [...prev];
             newEncrypted[index] = null;
@@ -373,37 +374,37 @@ export default function VaFileInputMultiplePage() {
     });
   };
 
-  // Handle component-level errors (following forms library pattern)
+  // Handle component-level errors like file size limits.
   const handleComponentError = event => {
     const { detail } = event;
     const { error } = detail;
-    // For now, just log component errors - could be extended to show in UI
+    // For now, just log component errors - could be extended to integrate
+    // with other error handling.
     console.error('Component error:', error);
   };
 
-  // Get the va-file-input instances (matching forms library pattern)
+  // Get all va-file-input elements from shadow DOM
+  const getFileInputElements = () => {
+    if (!componentRef.current?.shadowRoot) return [];
+    return Array.from(
+      componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
+    );
+  };
+
+  // Get the va-file-input instances
   function getFileInputInstanceIndex(e) {
     const [vaFileInput] = e
       .composedPath()
       .filter(el => el.tagName === 'VA-FILE-INPUT');
 
-    let els = [];
-    if (componentRef.current?.shadowRoot) {
-      els = Array.from(
-        componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
-      );
-    }
+    const els = getFileInputElements();
     return els.findIndex(el => el.id === vaFileInput.id);
   }
 
-  // Update additional input error in shadow DOM (matching forms library pattern)
+  // Update additional input error in shadow DOM
   const updateAdditionalInputError = (fileIndex, errorMessage) => {
-    if (!componentRef.current?.shadowRoot) return;
-
-    // Get all va-file-input elements in shadow DOM
-    const fileInputs = Array.from(
-      componentRef.current.shadowRoot.querySelectorAll('va-file-input'),
-    );
+    const fileInputs = getFileInputElements();
+    if (fileInputs.length === 0) return;
 
     if (fileInputs[fileIndex]) {
       // Find the VaSelect within this file input's slot content
@@ -488,30 +489,12 @@ export default function VaFileInputMultiplePage() {
         break;
       }
       case 'FILE_UPDATED': {
-        // For FILE_UPDATED, we need to find which position was actually updated
-        // The issue: findIndex by name/size finds the FIRST match, not the updated position
-        // Better approach: Find the index by comparing the current state with our files array
-        let updatedIndex = -1;
+        // Find the file that was updated by looking for changed: true
+        let updatedIndex = state.findIndex(
+          fileDetails => fileDetails.changed === true,
+        );
 
-        // Compare state with our current files to find which position changed
-        for (let i = 0; i < state.length; i++) {
-          const stateFile = state[i]?.file;
-          const ourFile = files[i];
-
-          // If the file at this position is different from what we have, this is the updated index
-          if (
-            stateFile &&
-            ourFile &&
-            (stateFile.name !== ourFile.name ||
-              stateFile.size !== ourFile.size ||
-              stateFile.lastModified !== ourFile._originalFile?.lastModified)
-          ) {
-            updatedIndex = i;
-            break;
-          }
-        }
-
-        // Fallback to the original method if we can't determine the position
+        // Fallback method if we can't determine the position
         if (updatedIndex === -1) {
           updatedIndex = state.findIndex(
             f => f.file.name === file.name && f.file.size === file.size,
@@ -525,13 +508,21 @@ export default function VaFileInputMultiplePage() {
         break;
       }
       case 'PASSWORD_UPDATE': {
-        // For password updates, we can still use the original method since it's less ambiguous
-        const index = state.findIndex(
-          f => f.file.name === file.name && f.file.size === file.size,
+        // Find the file that was updated by looking for changed: true
+        let updatedIndex = state.findIndex(
+          fileDetails => fileDetails.changed === true,
         );
-        if (index !== -1) {
-          const fileDetails = state[index];
-          debouncePassword(fileDetails, index);
+
+        // Fallback method if we can't determine the position
+        if (updatedIndex === -1) {
+          updatedIndex = state.findIndex(
+            f => f.file.name === file.name && f.file.size === file.size,
+          );
+        }
+
+        if (updatedIndex !== -1) {
+          const fileDetails = state[updatedIndex];
+          debouncePassword(fileDetails, updatedIndex);
         }
         break;
       }
@@ -591,7 +582,7 @@ export default function VaFileInputMultiplePage() {
               className="vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-border-radius--md vads-u-font-family--mono"
               style={{
                 overflow: 'auto',
-                maxHeight: '300px',
+                maxHeight: '1000px',
                 fontSize: '12px',
               }}
             >
@@ -645,7 +636,7 @@ export default function VaFileInputMultiplePage() {
           </ul>
           <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
             <strong>resetVisualState</strong> automatically triggers when errors
-            occur, providing clean visual feedback for error recovery.
+            occur, providing visual feedback for error recovery.
           </p>
           <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
             <strong>Additional Input:</strong> Each uploaded file requires a
