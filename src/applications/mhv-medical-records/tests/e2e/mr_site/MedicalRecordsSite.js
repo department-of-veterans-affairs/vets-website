@@ -200,13 +200,7 @@ class MedicalRecordsSite {
 
   loadPage = () => {
     cy.visit('my-health/medical-records');
-    cy.wait([
-      '@vamcEhr',
-      '@mockUser',
-      '@featureToggles',
-      '@status',
-      '@session',
-    ]);
+    cy.wait(['@vamcEhr', '@mockUser', '@featureToggles', '@session']);
   };
 }
 export default MedicalRecordsSite;
