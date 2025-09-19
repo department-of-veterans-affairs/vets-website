@@ -50,7 +50,56 @@ export const handleEditPageDisplayTweaks = location => {
           }
         });
 
-        // Retry if needed for dynamically loaded images
+        // Mock signed-in user for review and confirmation pages
+        const isReviewOrConfirmation =
+          location.pathname.includes('/review') ||
+          location.pathname.includes('/confirmation');
+
+        if (isReviewOrConfirmation) {
+          // First, check if user is already signed in and just update the name
+          const userDropdownSpan = document.querySelector(
+            '.user-dropdown-email',
+          );
+          if (userDropdownSpan) {
+            userDropdownSpan.textContent = 'Leslie';
+            // eslint-disable-next-line no-console
+            console.log('Updated signed-in user name to Leslie');
+          } else {
+            const signInNav = document.querySelector('.sign-in-nav');
+
+            // Create the signed-in user dropdown HTML
+            signInNav.innerHTML = `
+              <div>
+                <div class="va-dropdown">
+                  <button class="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger" aria-controls="account-menu" aria-expanded="false" type="button">
+                    <span>
+                      <svg aria-hidden="true" focusable="false" class="vads-u-display--block vads-u-margin-right--0 medium-screen:vads-u-margin-right--0p5" viewBox="0 2 21 21" xmlns="http://www.w3.org/2000/svg" style="width: 26px; height: 24px;">
+                        <path fill="#fff" d="M12 12c-1.1 0-2.04-.4-2.82-1.18A3.85 3.85 0 0 1 8 8c0-1.1.4-2.04 1.18-2.83A3.85 3.85 0 0 1 12 4c1.1 0 2.04.4 2.82 1.17A3.85 3.85 0 0 1 16 8c0 1.1-.4 2.04-1.18 2.82A3.85 3.85 0 0 1 12 12Zm-8 8v-2.8c0-.57.15-1.09.44-1.56a2.9 2.9 0 0 1 1.16-1.09 13.76 13.76 0 0 1 9.65-1.16c1.07.26 2.12.64 3.15 1.16.48.25.87.61 1.16 1.09.3.47.44 1 .44 1.56V20H4Z"></path>
+                      </svg>
+                      <span class="user-dropdown-email" data-dd-privacy="mask" data-dd-action-name="First Name">Leslie</span>
+                    </span>
+                  </button>
+                  <div class="va-dropdown-panel" id="account-menu" hidden="">
+                    <ul>
+                      <li><a href="/my-va/">My VA</a></li>
+                      <li><a class="my-health-link" href="/my-health/">My HealtheVet</a></li>
+                      <li><a href="/profile">Profile</a></li>
+                      <li><a href="/manage-dependents/view">Dependents</a></li>
+                      <li class="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--1">
+                        <a href="/records/download-va-letters/letters">Letters</a>
+                      </li>
+                      <li><a href="#" onclick="return false;">Sign Out</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            `;
+            // eslint-disable-next-line no-console
+            console.log('Replaced sign-in button with Leslie user dropdown');
+          }
+        }
+
+        // Retry if needed for dynamically loaded content
         if (attempt < 10) {
           fixDemoIssues(attempt + 1);
         }
