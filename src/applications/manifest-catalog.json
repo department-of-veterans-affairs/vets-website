@@ -436,6 +436,12 @@
       "rootUrl": "/burials-memorials/memorial-items/headstones-markers-medallions-approver/request-medallion-form-40-1330m2"
     },
     {
+      "directoryPath": "src/applications/medical-expense-report",
+      "appName": "21P-8416 medical expense report form",
+      "entryName": "medical-expense-report",
+      "rootUrl": "/pension/medical-expense-report-form-21p-8416"
+    },
+    {
       "directoryPath": "src/applications/messages",
       "appName": "My Messages",
       "entryName": "messages",
