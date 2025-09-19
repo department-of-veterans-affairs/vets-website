@@ -47,7 +47,7 @@ describe('22-10275 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage route={route} />);
     const description = wrapper.find('p').at(0);
     expect(description.text()).to.contain(
-      'Use this form to commit to the Principles of Excellence for educational institutions',
+      'Principles of Excellence for educational institutions (VA Form 22-10275)',
     );
     wrapper.unmount();
   });
