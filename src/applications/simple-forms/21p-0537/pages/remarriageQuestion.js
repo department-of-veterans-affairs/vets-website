@@ -6,7 +6,7 @@ import {
 
 const hasRemarriedUI = yesNoUI();
 hasRemarriedUI['ui:title'] =
-  'Have you remarried since the death of the veteran?';
+  'Have you remarried since the death of the Veteran?';
 hasRemarriedUI['ui:description'] =
   'If you answer "No", you can skip to the certification section';
 

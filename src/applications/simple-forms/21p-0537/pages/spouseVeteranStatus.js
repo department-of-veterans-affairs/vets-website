@@ -6,12 +6,12 @@ import {
 
 // Spouse veteran status question
 const spouseVeteranUI = yesNoUI();
-spouseVeteranUI['ui:title'] = 'Is your spouse a veteran?';
+spouseVeteranUI['ui:title'] = 'Is your spouse a Veteran?';
 spouseVeteranUI['ui:required'] = () => true;
 
 export default {
   uiSchema: {
-    ...titleUI('Is your spouse a veteran?'),
+    ...titleUI('Is your spouse a Veteran?'),
     remarriage: {
       spouseIsVeteran: spouseVeteranUI,
     },

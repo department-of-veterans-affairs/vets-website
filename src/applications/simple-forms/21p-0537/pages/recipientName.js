@@ -6,10 +6,10 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Deceased veteran information'),
+    ...titleUI('Deceased Veteran information'),
     'ui:description':
-      'Tell us about the veteran whose DIC benefits you receive. We need this information to locate their records and process your marital status update.',
-    veteranFullName: fullNameNoSuffixUI(title => `Deceased veteran's ${title}`),
+      'Tell us about the Veteran whose DIC benefits you receive. We need this information to locate their records and process your marital status update.',
+    veteranFullName: fullNameNoSuffixUI(title => `Deceased Veteran's ${title}`),
   },
   schema: {
     type: 'object',

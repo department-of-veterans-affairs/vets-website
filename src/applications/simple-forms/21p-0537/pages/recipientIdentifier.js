@@ -8,14 +8,14 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Deceased veteran identification'),
+    ...titleUI('Deceased Veteran identification'),
     'ui:description':
-      "We need the deceased veteran's Social Security number or VA file number to locate their records in our system. You can find this information on your original DIC award letter or previous VA correspondence.",
+      "We need the deceased Veteran's Social Security number or VA file number to locate their records in our system. You can find this information on your original DIC award letter or previous VA correspondence.",
     veteranSocialSecurityNumber: ssnUI(
-      "Deceased veteran's Social Security number",
+      "Deceased Veteran's Social Security number",
     ),
     vaFileNumber: {
-      ...vaFileNumberUI("Deceased veteran's VA file number"),
+      ...vaFileNumberUI("Deceased Veteran's VA file number"),
       'ui:description':
         "Enter this number only if it's different than their Social Security number",
     },

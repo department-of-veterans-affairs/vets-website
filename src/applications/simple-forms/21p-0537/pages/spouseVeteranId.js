@@ -11,7 +11,7 @@ spouseVeteranIdUI['ui:required'] = () => true;
 
 export default {
   uiSchema: {
-    ...titleUI('Spouse veteran information'),
+    ...titleUI('Spouse Veteran information'),
     remarriage: {
       spouseVeteranId: spouseVeteranIdUI,
     },

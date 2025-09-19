@@ -84,17 +84,17 @@ const formConfig = {
   footerContent,
   chapters: {
     veteranInfoChapter: {
-      title: 'Deceased veteran information',
+      title: 'Deceased Veteran information',
       pages: {
         veteranName: {
           path: 'veteran-info/name',
-          title: "Deceased veteran's name",
+          title: "Deceased Veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
         },
         veteranIdentifier: {
           path: 'veteran-info/identifier',
-          title: "Deceased veteran's identification",
+          title: "Deceased Veteran's identification",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
         },
@@ -123,14 +123,14 @@ const formConfig = {
         },
         spouseVeteranStatus: {
           path: 'marital/spouse-veteran',
-          title: 'Is your spouse a veteran?',
+          title: 'Is your spouse a Veteran?',
           depends: formData => formData.hasRemarried === true,
           uiSchema: spouseVeteranStatus.uiSchema,
           schema: spouseVeteranStatus.schema,
         },
         spouseVeteranId: {
           path: 'marital/spouse-veteran-id',
-          title: 'Spouse veteran information',
+          title: 'Spouse Veteran information',
           depends: formData =>
             formData.hasRemarried === true &&
             formData.remarriage?.spouseIsVeteran === true,
