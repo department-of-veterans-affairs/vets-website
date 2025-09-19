@@ -219,7 +219,7 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       const careTeamSelect = screen.getByTestId('compose-recipient-select');
       const careTeamOptions = careTeamSelect.querySelectorAll('option');
-      expect(careTeamOptions).to.have.lengthOf(5);
+      expect(careTeamOptions).to.have.lengthOf(6); // Updated: station 636 has 6 recipients in mock data
     });
   });
 
