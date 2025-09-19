@@ -90,6 +90,64 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
+        project: ['./src/applications/avs/tsconfig.json'],
+        tsconfigRootDir: __dirname,
+        warnOnUnsupportedTypeScriptVersion: false,
+      },
+      plugins: ['@typescript-eslint'],
+      extends: [
+        'plugin:@department-of-veterans-affairs/recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:you-dont-need-momentjs/recommended',
+      ],
+      rules: {
+        // Allow TypeScript-specific syntax
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          { argsIgnorePattern: '^_' },
+        ],
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/no-explicit-any': 'warn',
+
+        // Disable conflicting rules from base config
+        'no-unused-vars': 'off',
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error'],
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': [
+          'error',
+          {
+            functions: false,
+            classes: false,
+            variables: false,
+            typedefs: false,
+          },
+        ],
+
+        // TypeScript handles these checks
+        'import/no-unresolved': 'off',
+        'import/extensions': [
+          'error',
+          'ignorePackages',
+          {
+            js: 'never',
+            jsx: 'never',
+            ts: 'never',
+            tsx: 'never',
+          },
+        ],
+      },
+    },
+    {
       files: ['*'],
       rules: {
         'cypress/unsafe-to-chain-command': 'warn',

@@ -1,8 +1,11 @@
 import React from 'react';
-import { useAsyncError, isRouteErrorResponse } from 'react-router-dom-v5-compat';
-import ErrorBoundary from './ErrorBoundary';
+import {
+  useAsyncError,
+  isRouteErrorResponse,
+} from 'react-router-dom-v5-compat';
 import MhvPageNotFound from '~/platform/mhv/components/MhvPageNotFound';
 import MhvUnauthorized from '~/platform/mhv/components/MhvUnauthorized';
+import ErrorBoundary from './ErrorBoundary';
 import { ErrorTypes } from '../types';
 
 const AvsErrorElement: React.FC = () => {
@@ -21,8 +24,9 @@ const AvsErrorElement: React.FC = () => {
   // Handle VA.gov API error format
   if (err && typeof err === 'object' && 'errors' in err) {
     const apiError = err as { errors: Array<{ status?: string }> };
-    const status = apiError.errors?.[0]?.status;
-    
+    const firstError = apiError.errors && apiError.errors[0];
+    const status = firstError && firstError.status;
+
     if (status === ErrorTypes.unauthorized) {
       return <MhvUnauthorized />;
     }
@@ -43,9 +47,7 @@ const AvsErrorElement: React.FC = () => {
   }
 
   // Render the ErrorBoundary to handle any unexpected errors gracefully
-  return (
-    <ErrorBoundary />
-  );
+  return <ErrorBoundary />;
 };
 
 export default AvsErrorElement;
