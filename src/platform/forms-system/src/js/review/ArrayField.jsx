@@ -352,13 +352,11 @@ class ArrayField extends React.Component {
                                 text="Update"
                               />
                             ) : (
-                              <button
-                                type="submit"
+                              <va-button
                                 className="float-left"
+                                text="Update"
                                 aria-label={`Update ${itemName}`}
-                              >
-                                Update
-                              </button>
+                              />
                             )}
                           </div>
                           <div className="small-6 right columns">
@@ -375,16 +373,15 @@ class ArrayField extends React.Component {
                                     }
                                   />
                                 ) : (
-                                  <button
-                                    type="button"
-                                    className="usa-button-secondary float-right"
+                                  <va-button
+                                    className="float-right"
+                                    variant="secondary"
+                                    text="Remove"
                                     aria-label={`Remove ${itemName}`}
                                     onClick={() =>
                                       this.handleRemove(index, fieldName)
                                     }
-                                  >
-                                    Remove
-                                  </button>
+                                  />
                                 )}
                               </>
                             )}
@@ -491,4 +488,5 @@ ArrayField.propTypes = {
   pageTitle: PropTypes.string,
   setData: PropTypes.func,
   uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

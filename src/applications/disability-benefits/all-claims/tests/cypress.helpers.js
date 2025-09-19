@@ -740,6 +740,10 @@ export const pageHooks = (cy, testOptions) => ({
             expect(textValue).to.include('Supporting evidence');
           });
         cy.contains('h3', 'Supporting evidence').click();
+        cy.get('div[name="providerFacility"]')
+          .contains('Name of private provider or hospital')
+          .its('length')
+          .should('eq', 1);
         const newProviderFacility = {
           providerFacilityName: 'New Provider Facility',
           providerFacilityAddress: {
@@ -825,9 +829,10 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
           `${newProviderFacility.treatmentDateRange.toYear}`,
         );
-        cy.findByText('Update', {
-          selector: 'button',
-        }).click();
+        cy.get('va-button[text="Update"]')
+          .shadow()
+          .find('button')
+          .click({ force: true });
         cy.get('div[name="providerFacility-1"]')
           .should('be.visible')
           .within(() => {
@@ -847,8 +852,6 @@ export const pageHooks = (cy, testOptions) => ({
             cy.findByText(
               newProviderFacility.providerFacilityAddress.postalCode,
             ).should('exist');
-
-            cy.log('finished country');
             cy.findByText(
               /ankle replacement \(ankle arthroplasty\), bilateral/i,
             ).should('exist');
@@ -864,7 +867,9 @@ export const pageHooks = (cy, testOptions) => ({
             cy.get('va-button[text="Edit"]').should('be.visible');
             cy.get('va-button[text="Edit"]').click();
             cy.findByText('New Provider or hospital').should('exist');
-            cy.get('button[aria-label="Remove Provider or hospital"]').click();
+            cy.get(
+              'va-button[aria-label="Remove Provider or hospital"]',
+            ).click();
             cy.findByText('New Provider or hospital').should('not.exist');
           });
       }
