@@ -7,11 +7,11 @@ import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
 import environment from 'platform/utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../utils/redirect';
-import { getRootParentUrl } from '../../shared/utils';
+import manifestV2 from './v2/manifest.json';
+import formConfigV2 from './v2/config/form';
+import { DOC_TITLE } from './v2/config/constants';
+// import { getShouldUseV2 } from './v2/utils/redirect';
+import { getRootParentUrl } from '../shared/utils';
 
 function App({
   location,
@@ -19,8 +19,8 @@ function App({
   isLoggedIn,
   isLoading,
   vaFileNumber,
-  featureToggles,
-  savedForms,
+  // featureToggles,
+  // savedForms,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
@@ -61,26 +61,26 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  const flipperV2 = featureToggles.vaDependentsV2;
+  // const flipperV2 = featureToggles.vaDependentsV2;
 
-  if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
-    return <></>;
-  }
+  // if (!getShouldUseV2(flipperV2, savedForms)) {
+  //   window.location.href = `/${manifestV2.rootUrl}/add-remove-form-21-686c/`;
+  //   return <></>;
+  // }
 
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     {
-      href: getRootParentUrl(manifest.rootUrl),
+      href: getRootParentUrl(manifestV2.rootUrl),
       label: 'Manage dependents for disability, pension, or DIC benefits',
     },
     {
-      href: `/${manifest.rootUrl}/add-remove-form-21-686c-674/introduction`,
+      href: `/${manifestV2.rootUrl}/add-remove-form-21-686c-674/introduction`,
       label: 'Add or remove dependents on VA benefits',
     },
   ];
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
-  formConfig.submitUrl = dependentsModuleEnabled
+  formConfigV2.submitUrl = dependentsModuleEnabled
     ? `${environment.API_URL}/dependents_benefits/v0/claims`
     : `${environment.API_URL}/v0/dependents_applications`;
 
@@ -91,7 +91,7 @@ function App({
           <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
         </div>
       </div>
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <RoutedSavableApp formConfig={formConfigV2} currentLocation={location}>
         {children}
       </RoutedSavableApp>
     </article>
@@ -109,7 +109,7 @@ function App({
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(manifest.rootUrl);
+    document.location.replace(manifestV2.rootUrl);
     return (
       <va-loading-indicator message="Redirecting to introduction page..." />
     );

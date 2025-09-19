@@ -1,6 +1,6 @@
 import React from 'react';
 import manifest from '../manifest.json';
-import { getRootParentUrl } from '../../shared/utils';
+import { getRootParentUrl } from '../../../shared/utils';
 
 export const IntroductionPageFormProcess = () => (
   <>

@@ -34,7 +34,7 @@ import {
   generateHelpText,
   CancelButton,
 } from '../../helpers';
-import { getFullName } from '../../../../shared/utils';
+import { getFullName } from '../../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {

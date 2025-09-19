@@ -10,7 +10,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CancelButton, certificateNotice } from '../../../helpers';
-import { getFullName, getFormatedDate } from '../../../../../shared/utils';
+import { getFullName, getFormatedDate } from '../../../../../../shared/utils';
 
 export const schema = {
   type: 'object',

@@ -21,7 +21,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CancelButton } from '../../helpers';
-import { getFullName } from '../../../../shared/utils';
+import { getFullName } from '../../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';

@@ -13,7 +13,7 @@ import {
 } from '../../../constants';
 
 import { parseDateToDateObj } from '../../../utilities';
-import { maskID } from '../../../../../shared/utils';
+import { maskID } from '../../../../../../shared/utils';
 
 export const VeteranInformation = ({ formData }) => {
   const { ssnLastFour } = formData?.veteranInformation || {};

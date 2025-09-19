@@ -1,4 +1,4 @@
-import { getFullName } from '../../../../shared/utils';
+import { getFullName } from '../../../../../shared/utils';
 
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';

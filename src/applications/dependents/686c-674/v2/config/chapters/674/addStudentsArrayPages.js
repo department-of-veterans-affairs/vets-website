@@ -40,7 +40,7 @@ import {
   calculateStudentAssetTotal,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
-import { getFullName } from '../../../../shared/utils';
+import { getFullName } from '../../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
 export const addStudentsOptions = {

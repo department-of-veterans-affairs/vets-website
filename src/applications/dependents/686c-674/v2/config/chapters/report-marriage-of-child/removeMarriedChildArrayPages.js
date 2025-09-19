@@ -17,11 +17,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { CancelButton } from '../../helpers';
-import { getFullName } from '../../../../shared/utils';
+import { getFullName } from '../../../../../shared/utils';
 
 /** @type {ArrayBuilderOptions} */
-export const removeChildStoppedAttendingSchoolOptions = {
-  arrayPath: 'childStoppedAttendingSchool',
+export const removeMarriedChildOptions = {
+  arrayPath: 'childMarriage',
   nounSingular: 'child',
   nounPlural: 'children',
   required: true,
@@ -30,26 +30,26 @@ export const removeChildStoppedAttendingSchoolOptions = {
     !item?.fullName?.last ||
     !item?.birthDate ||
     !item?.ssn ||
-    !item?.dateChildLeftSchool,
+    !item?.dateMarried,
   maxItems: 20,
   text: {
-    summaryTitle: 'Review your children between ages 18 and 23 who left school',
+    summaryTitle: 'Review your children under 18 who got married',
     getItemName: item => getFullName(item.fullName),
     cancelAddButtonText: 'Cancel removing this child',
   },
 };
 
-export const removeChildStoppedAttendingSchoolIntroPage = {
+export const removeMarriedChildIntroPage = {
   uiSchema: {
-    ...titleUI('Your children'),
+    ...titleUI('Your children under 18 who got married'),
     'ui:description': () => (
       <>
         <p>
-          In the next few questions, we’ll ask you about your children between
-          ages 18 and 23 who left school. You must add at least one child.
+          In the next few questions, we’ll ask you about your children who have
+          gotten married. You must add at least one child.
         </p>
         <CancelButton
-          dependentType="children who left school"
+          dependentType="children who got married"
           dependentButtonType="children"
           isAddChapter={false}
         />
@@ -63,21 +63,19 @@ export const removeChildStoppedAttendingSchoolIntroPage = {
 };
 
 /** @returns {PageSchema} */
-export const removeChildStoppedAttendingSchoolSummaryPage = {
+export const removeMarriedChildSummaryPage = {
   uiSchema: {
-    'view:completedChildStoppedAttendingSchool': arrayBuilderYesNoUI(
-      removeChildStoppedAttendingSchoolOptions,
+    'view:completedMarriedChild': arrayBuilderYesNoUI(
+      removeMarriedChildOptions,
       {
-        title:
-          'Do you have a child between ages 18 and 23 who left school to add?',
+        title: 'Do you have a child to add?',
         labels: {
           Y: 'Yes',
           N: 'No',
         },
       },
       {
-        title:
-          'Do you have another child between ages 18 and 23 who left school to add?',
+        title: 'Do you have another child to add?',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -88,18 +86,18 @@ export const removeChildStoppedAttendingSchoolSummaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:completedChildStoppedAttendingSchool': arrayBuilderYesNoSchema,
+      'view:completedMarriedChild': arrayBuilderYesNoSchema,
     },
-    required: ['view:completedChildStoppedAttendingSchool'],
+    required: ['view:completedMarriedChild'],
   },
 };
 
 /** @returns {PageSchema} */
-export const childInformationPage = {
+export const marriedChildInformationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Remove a child between ages 18 and 23 who left school',
-      nounSingular: removeChildStoppedAttendingSchoolOptions.nounSingular,
+      title: 'Remove a child who got married',
+      nounSingular: removeMarriedChildOptions.nounSingular,
     }),
     fullName: fullNameNoSuffixUI(),
     ssn: {
@@ -124,27 +122,25 @@ export const childInformationPage = {
 };
 
 /** @returns {PageSchema} */
-export const dateChildLeftSchoolPage = {
+export const dateChildMarriedPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'Child’s school information',
-    ),
-    dateChildLeftSchool: {
-      ...currentOrPastDateUI('When did this child stop attending school?'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s marriage date'),
+    dateMarried: {
+      ...currentOrPastDateUI('When did this child get married?'),
       'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
-    required: ['dateChildLeftSchool'],
+    required: ['dateMarried'],
     properties: {
-      dateChildLeftSchool: currentOrPastDateSchema,
+      dateMarried: currentOrPastDateSchema,
     },
   },
 };
 
 /** @returns {PageSchema} */
-export const childIncomeQuestionPage = {
+export const marriedChildIncomeQuestionPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Child’s income'),
     dependentIncome: radioUI({

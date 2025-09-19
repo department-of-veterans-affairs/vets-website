@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
-import App from '../../containers/App';
+import App from '../../../App';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore();
