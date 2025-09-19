@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const RefillCard = ({ config, children, additionalProps = {} }) => {
+export const RefillNotificationCard = ({
+  config,
+  children,
+  additionalProps = {},
+}) => {
   return (
     <va-alert
       id={config.id}
@@ -23,7 +27,7 @@ export const RefillCard = ({ config, children, additionalProps = {} }) => {
   );
 };
 
-RefillCard.propTypes = {
+RefillNotificationCard.propTypes = {
   children: PropTypes.node.isRequired,
   config: PropTypes.object.isRequired,
   additionalProps: PropTypes.object,

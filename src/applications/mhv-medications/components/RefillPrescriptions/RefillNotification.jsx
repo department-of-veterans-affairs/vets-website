@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { setFilterOpen } from '../../redux/preferencesSlice';
-import { MedicationList } from './MedicationList';
-import { RefillCard } from './RefillCard';
+import { RefillMedicationList } from './RefillMedicationList';
+import { RefillNotificationCard } from './RefillNotificationCard';
 
 const NOTIFICATION_CONFIG = {
   ERROR: {
@@ -67,66 +67,93 @@ const RefillNotification = ({
     [refillStatus, successfulMeds, failedMeds],
   );
 
+  const ErrorNotification = () => (
+    <RefillNotificationCard config={NOTIFICATION_CONFIG.ERROR}>
+      <p
+        aria-label="Error requesting refill"
+        data-testid="error-refill-description"
+      >
+        {NOTIFICATION_CONFIG.ERROR.description}
+      </p>
+      <p
+        aria-label={NOTIFICATION_CONFIG.ERROR.suggestion}
+        data-testid="error-refill-suggestion"
+      >
+        {NOTIFICATION_CONFIG.ERROR.suggestion}
+      </p>
+    </RefillNotificationCard>
+  );
+
+  const PartialRefillNotification = () => (
+    <RefillNotificationCard config={NOTIFICATION_CONFIG.PARTIAL}>
+      <p
+        aria-label={NOTIFICATION_CONFIG.PARTIAL.description}
+        data-testid="partial-refill-description"
+      >
+        {NOTIFICATION_CONFIG.PARTIAL.description}
+      </p>
+      <RefillMedicationList
+        medications={failedMeds}
+        testId="failed-medication-list"
+        showBold
+      />
+      <p
+        aria-label={NOTIFICATION_CONFIG.PARTIAL.suggestion}
+        className="vads-u-margin-bottom--0"
+        data-testid="partial-refill-suggestion"
+      >
+        {NOTIFICATION_CONFIG.PARTIAL.suggestion}
+      </p>
+    </RefillNotificationCard>
+  );
+
+  const SuccessNotification = () => (
+    <RefillNotificationCard
+      config={NOTIFICATION_CONFIG.SUCCESS}
+      additionalProps={{ 'data-dd-privacy': 'mask' }}
+    >
+      <RefillMedicationList
+        medications={successfulMeds}
+        testId="successful-medication-list"
+      />
+      <div
+        className="vads-u-margin-y--0"
+        data-testid="success-refill-description"
+      >
+        <p aria-label={NOTIFICATION_CONFIG.SUCCESS.description}>
+          {NOTIFICATION_CONFIG.SUCCESS.description}
+        </p>
+        <Link
+          data-testid="back-to-medications-page-link"
+          to="/"
+          className="hide-visited-link"
+          data-dd-action-name={
+            dataDogActionNames.refillPage
+              .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+          }
+          onClick={handleGoToMedicationsListOnSuccess}
+        >
+          {NOTIFICATION_CONFIG.SUCCESS.linkText}
+        </Link>
+      </div>
+    </RefillNotificationCard>
+  );
+
   return (
     <>
       {(notificationState.isError || notificationState.isNotSubmitted) && (
-        <RefillCard config={NOTIFICATION_CONFIG.ERROR}>
-          <p data-testid="error-request-text">
-            {NOTIFICATION_CONFIG.ERROR.description}
-          </p>
-          <p data-testid="error-request-suggestion">
-            {NOTIFICATION_CONFIG.ERROR.suggestion}
-          </p>
-        </RefillCard>
+        <ErrorNotification />
       )}
 
       {notificationState.isPartiallySubmitted && (
-        <RefillCard config={NOTIFICATION_CONFIG.PARTIAL}>
-          <p data-testid="failed-message-description">
-            {NOTIFICATION_CONFIG.PARTIAL.description}
-          </p>
-          <MedicationList
-            medications={failedMeds}
-            testId="medication-requested-failed"
-            showBold
-          />
-          <p
-            className="vads-u-margin-bottom--0"
-            data-testid="partial-suggestion"
-          >
-            {NOTIFICATION_CONFIG.PARTIAL.suggestion}
-          </p>
-        </RefillCard>
+        <PartialRefillNotification medList={failedMeds} />
       )}
 
       {notificationState.isSuccess && (
-        <RefillCard
-          config={NOTIFICATION_CONFIG.SUCCESS}
-          additionalProps={{ 'data-dd-privacy': 'mask' }}
-        >
-          <MedicationList
-            medications={successfulMeds}
-            testId="medication-requested-successful"
-          />
-          <div
-            className="vads-u-margin-y--0"
-            data-testid="success-message-description"
-          >
-            <p>{NOTIFICATION_CONFIG.SUCCESS.description}</p>
-            <Link
-              data-testid="back-to-medications-page-link"
-              to="/"
-              className="hide-visited-link"
-              data-dd-action-name={
-                dataDogActionNames.refillPage
-                  .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
-              }
-              onClick={handleGoToMedicationsListOnSuccess}
-            >
-              {NOTIFICATION_CONFIG.SUCCESS.linkText}
-            </Link>
-          </div>
-        </RefillCard>
+        <SuccessNotification
+          medList={successfulMeds}
+          onClick={handleGoToMedicationsListOnSuccess}
+        />
       )}
     </>
   );

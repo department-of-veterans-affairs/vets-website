@@ -1,17 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const MedicationList = ({ medications, testId, showBold = false }) => {
+export const RefillMedicationList = ({
+  medications,
+  testId,
+  showBold = false,
+}) => {
   if (!medications?.length) return null;
 
   return (
-    <ul className="va-list--disc" data-dd-privacy="mask">
+    <ul className="va-list--disc" data-dd-privacy="mask" data-testid={testId}>
       {medications.map((medication, idx) => (
         <li
+          aria-label={medication?.prescriptionName}
           className={`vads-u-padding-y--0 ${
             showBold ? 'vads-u-font-weight--bold' : ''
           }`}
-          data-testid={testId}
+          data-testid={`${testId}-${idx}`}
           key={`${medication?.prescriptionId || idx}`}
           data-dd-privacy="mask"
         >
@@ -22,7 +27,7 @@ export const MedicationList = ({ medications, testId, showBold = false }) => {
   );
 };
 
-MedicationList.propTypes = {
+RefillMedicationList.propTypes = {
   testId: PropTypes.string.isRequired,
   medications: PropTypes.array,
   showBold: PropTypes.bool,
