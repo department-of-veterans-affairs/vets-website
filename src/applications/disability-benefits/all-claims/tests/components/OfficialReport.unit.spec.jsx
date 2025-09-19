@@ -192,7 +192,7 @@ describe('OfficialReport', () => {
         agency: 'An Agency',
         city: 'Somewhere',
         state: 'VA',
-        otherReports: { police: false },
+        otherReports: { police: true },
       },
     });
 

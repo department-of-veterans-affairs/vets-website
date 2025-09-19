@@ -315,6 +315,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     required: userRequired,
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
+    duplicateChecks = {},
   } = options;
 
   const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
@@ -369,7 +370,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         throwIncorrectItemPath();
       }
       validatePath(pageConfig?.path);
-      itemPages.push(pageConfig);
+      itemPages.push({ ...pageConfig, duplicateChecks });
       orderedPageTypes.push('item');
       return pageConfig;
     },
@@ -551,6 +552,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       useLinkInsteadOfYesNo,
       useButtonInsteadOfYesNo,
       isReviewPage: false,
+      duplicateChecks,
     };
 
     const summaryReviewPageProps = {
@@ -573,6 +575,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
           <pageConfig.CustomPageReview
             {...props}
             arrayBuilder={summaryReviewPageProps}
+            renderingCustomPageReview
           />
         )
       : ArrayBuilderSummaryPage(summaryReviewPageProps);
@@ -613,6 +616,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       reviewRoute: reviewPath,
       required,
       getText,
+      duplicateChecks,
+      currentPath: pageConfig.path,
     };
 
     // If the user defines their own CustomPage to override ArrayBuilderItemPage,

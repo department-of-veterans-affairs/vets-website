@@ -4,6 +4,7 @@ import environment from 'platform/utilities/environment';
 // Event types
 export const ARRAY_BUILDER_EVENTS = {
   INCOMPLETE_ITEM_ERROR: 'incompleteItemError',
+  DUPLICATE_ITEM_ERROR: 'duplicateItemError',
 };
 
 // Internal event registry
@@ -65,6 +66,16 @@ export const subscribeToArrayBuilderEvent = (eventType, handler) => {
  */
 export const dispatchIncompleteItemError = event => {
   dispatchArrayBuilderEvent(ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR, event);
+};
+
+/**
+ * Dispatch duplicate item error event
+ * @param {Object} event - Error event
+ * @param {number} event.index - Item index
+ * @param {string} event.arrayPath - array data path (e.g. 'childrenToAdd')
+ */
+export const dispatchDuplicateItemError = event => {
+  dispatchArrayBuilderEvent(ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR, event);
 };
 
 /**
