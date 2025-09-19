@@ -255,6 +255,7 @@ export const Locators = {
     NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
     EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
     MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
+    MESSAGE_SUBJECT_DATA_TEST_ID: 'message-subject-field',
     MESSAGE_BODY: `[data-testid="message-body-field"]`,
     RECIPIENTS_COMBO: `#options`,
   },

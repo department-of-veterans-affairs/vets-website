@@ -40,6 +40,9 @@ export const dataDogActionNames = {
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
     STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.LIST}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.LIST
+    }`,
   },
   detailsPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.DETAILS}`,
@@ -72,6 +75,9 @@ export const dataDogActionNames = {
       pageType.REFILL
     }`,
     REFILL_ALERT_LINK: `Med Link in Delay Alert - ${pageType.REFILL}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.REFILL
+    }`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',
