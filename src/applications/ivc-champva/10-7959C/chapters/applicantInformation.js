@@ -49,7 +49,16 @@ export const applicantNameDobSchema = {
     type: 'object',
     properties: {
       titleSchema,
-      applicantName: fullNameSchema,
+      applicantName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
     },
   },
 };
