@@ -21,6 +21,7 @@ export const uiSchema = {
     }),
   },
   'ui:validations': [validateTEConditions],
+  // Example of a custom confirmation field component
   'ui:confirmationField': ToxicExposureConditions,
 };
 

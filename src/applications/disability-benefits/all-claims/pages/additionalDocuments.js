@@ -24,6 +24,7 @@ export const uiSchema = {
       },
     ),
     'ui:description': UploadDescription,
+    // Example of a custom confirmation field function
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
       label: 'Lay statements and other evidence',
