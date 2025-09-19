@@ -61,6 +61,9 @@ import FormsAndApplications from './benefit-application-drafts/FormsAndApplicati
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 import NewMyVaToggle from './NewMyVaToggle';
 
+import { getAppeals as getAppealsAction } from '../actions/appeals';
+import { getClaims as getClaimsAction } from '../actions/claims';
+
 const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
@@ -240,6 +243,11 @@ const Dashboard = ({
   showNotifications,
   isVAPatient,
   user,
+  dataLoadingDisabled,
+  getAppeals,
+  shouldLoadAppeals,
+  getClaims,
+  shouldLoadClaims,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -252,6 +260,24 @@ const Dashboard = ({
     setWelcomeModalVisible(false);
     localStorage.setItem('welcomeToMyVAModalIsDismissed', 'true');
   };
+
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadAppeals) {
+        getAppeals();
+      }
+    },
+    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
+  );
+
+  React.useEffect(
+    () => {
+      if (!dataLoadingDisabled && shouldLoadClaims) {
+        getClaims();
+      }
+    },
+    [dataLoadingDisabled, getClaims, shouldLoadClaims],
+  );
 
   useEffect(
     () => {
@@ -514,6 +540,7 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 );
 
 const mapStateToProps = state => {
+  const claimsState = state.claims;
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
@@ -568,7 +595,13 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
+
   return {
+    appealsData: claimsState.appeals,
+    claimsData: claimsState.claims,
+    shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
+    shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
@@ -625,9 +658,17 @@ Dashboard.propTypes = {
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingError: PropTypes.bool,
   user: PropTypes.object,
+  getAppeals: PropTypes.func.isRequired,
+  getClaims: PropTypes.func.isRequired,
+  hasAPIError: PropTypes.bool.isRequired,
+  shouldLoadAppeals: PropTypes.bool.isRequired,
+  shouldLoadClaims: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
+  getAppeals: getAppealsAction,
+  getClaims: getClaimsAction,
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
