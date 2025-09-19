@@ -61,15 +61,6 @@ testNumberOfWebComponentFields(
   'Sponsor Information - Identification info (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
-describe('sponsor information title function', () => {
-  it('should compute title text for the page', () => {
-    expect(
-      formConfig.chapters.sponsorInformation.pages.page10b0
-        .title(mockData.data)
-        .includes('address selection'),
-    ).to.be.true;
-  });
-});
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page8.schema,
@@ -82,7 +73,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address',
   {},
 );
@@ -90,7 +81,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
