@@ -536,16 +536,13 @@ const responses = {
       }).data;
     }
 
-    return res.json({
-      data: draftAppointment,
-    });
-    // return res.json(
-    //   new MockReferralDraftAppointmentResponse({
-    //     referralNumber,
-    //     categoryOfCare: 'OPTOMETRY',
-    //     startDate: new Date(),
-    //   }),
-    // );
+    return res.json(
+      new MockReferralDraftAppointmentResponse({
+        referralNumber,
+        categoryOfCare: 'OPTOMETRY',
+        startDate: new Date(),
+      }),
+    );
   },
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment

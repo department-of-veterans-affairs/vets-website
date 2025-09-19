@@ -1,5 +1,9 @@
-const { addDays, addMonths, setDate } = require('date-fns');
-const { mockToday } = require('../mocks/constants');
+const { addDays } = require('date-fns');
+const { getMockSlots } = require('../../services/mocks/utils/slots');
+const {
+  getMockConfirmedAppointments,
+  findNextBusinessDay,
+} = require('../../services/mocks/utils/confirmedAppointments');
 
 /**
  * Class to create mock draft referral appointment responses for Cypress tests.
@@ -219,13 +223,7 @@ class MockReferralDraftAppointmentResponse {
    * @returns {Object} The complete response object or error
    */
   toJSON() {
-    const {
-      referralNumber,
-      notFound,
-      serverError,
-      numberOfSlots,
-      startDate,
-    } = this.options;
+    const { referralNumber, notFound, serverError } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
@@ -239,25 +237,17 @@ class MockReferralDraftAppointmentResponse {
       return MockReferralDraftAppointmentResponse.create500Response();
     }
 
-    // Create slots array with all dates in the next month
-    const slotsArray = [];
-    const startHour = 14; // Starting at 2 PM UTC
-    // Get first day of next month
-    // Use a fixed date instead of new Date() to avoid flaky tests
-    const firstDayNextMonth = startDate || addMonths(setDate(mockToday, 1), 1);
-
-    for (let i = 0; i < numberOfSlots; i++) {
-      // Create slots on consecutive days starting from the first day of next month
-      const slotDate = addDays(firstDayNextMonth, i);
-      slotDate.setHours(startHour + (i % 3), 0, 0, 0); // Vary the hours but keep them reasonable
-
-      slotsArray.push(
-        MockReferralDraftAppointmentResponse.createSlot({
-          startDate: slotDate,
-          index: i,
-        }),
-      );
-    }
+    // Generate dynamic slots with conflicts based on confirmed appointments
+    const confirmedAppointmentsv3 = getMockConfirmedAppointments();
+    // Find appointments scheduled for the next business day to force conflicts
+    const nextBusinessDay = findNextBusinessDay();
+    const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+    const nextBusinessDayAppointments = confirmedAppointmentsv3.data.filter(
+      appointment => {
+        const appointmentDate = appointment.attributes.start.split('T')[0];
+        return appointmentDate === nextBusinessDayString;
+      },
+    );
 
     // Create provider
     const provider = MockReferralDraftAppointmentResponse.createProvider();
@@ -266,7 +256,15 @@ class MockReferralDraftAppointmentResponse {
     const { ...locationWithoutName } = provider.location;
     delete locationWithoutName.name;
     provider.location = locationWithoutName;
-
+    const mockSlots = getMockSlots({
+      existingAppointments: confirmedAppointmentsv3.data,
+      futureMonths: 2,
+      pastMonths: 0,
+      slotsPerDay: 0,
+      conflictRate: 0,
+      forceConflictWithAppointments: nextBusinessDayAppointments,
+      communityCareSlots: true,
+    }).data;
     // Return complete response matching the expected format
     return {
       data: {
@@ -274,7 +272,7 @@ class MockReferralDraftAppointmentResponse {
         type: 'draft_appointment',
         attributes: {
           provider,
-          slots: slotsArray,
+          slots: mockSlots,
           drivetime: {
             origin: {
               latitude: 40.7128,
