@@ -20,7 +20,7 @@ describe('10275 Helpers', () => {
 
   describe('<ConfirmationPrintThisPage />', () => {
     it('should handle rendering summary box when no details are provided', () => {
-      const data = { fullName: {} };
+      const data = { authorizedOfficial: {} };
       const submission = {};
       const { getByTestId } = render(
         <ConfirmationPrintThisPage data={data} submission={submission} />,
@@ -32,10 +32,12 @@ describe('10275 Helpers', () => {
 
     it('should render summary box with provided details', () => {
       const data = {
-        fullName: {
-          first: 'John',
-          middle: 'Test',
-          last: 'Doe',
+        authorizedOfficial: {
+          fullName: {
+            first: 'John',
+            middle: 'Test',
+            last: 'Doe',
+          },
         },
       };
       const submitDate = new Date('09/18/2025');

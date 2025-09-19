@@ -28,7 +28,9 @@ export const ConfirmationPrintThisPage = ({ data, submitDate }) => (
   <va-summary-box>
     <h3 slot="headline">Your application information</h3>
     <h4 className="vads-u-margin-top--1p5">Who submitted this form</h4>
-    <p data-testid="full-name">{getFullName(data.fullName) || '---'}</p>
+    <p data-testid="full-name">
+      {getFullName(data.authorizedOfficial?.fullName) || '---'}
+    </p>
     <h4 className="vads-u-margin-top--1">Date submitted</h4>
     <p data-testid="data-submitted">
       {isValid(submitDate) ? format(submitDate, 'MMM d, yyyy') : '---'}
