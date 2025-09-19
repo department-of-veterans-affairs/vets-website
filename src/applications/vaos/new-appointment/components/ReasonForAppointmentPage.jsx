@@ -1,26 +1,25 @@
-import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
-import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
-import TextareaWidget from '../../components/TextareaWidget';
-import PostFormFieldContent from '../../components/PostFormFieldContent';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
+import TextareaWidget from '../../components/TextareaWidget';
+import { FACILITY_TYPES, PURPOSE_TEXT_V2 } from '../../utils/constants';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openReasonForAppointment,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFormPageInfo } from '../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -83,14 +82,14 @@ export default function ReasonForAppointmentPage() {
   const uiSchema = {
     default: {
       reasonForAppointment: {
-        'ui:widget': 'radio', // Required
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': AppointmentsRadioWidget,
         'ui:title': pageTitle,
         'ui:errorMessages': {
           required: 'Select a reason for your appointment',
         },
         'ui:options': {
-          labelHeaderLevel: '1',
+          classNames: 'vads-u-margin-top--neg2',
+          hideLabelText: true,
         },
       },
       reasonAdditionalInfo: {
@@ -139,14 +138,15 @@ export default function ReasonForAppointmentPage() {
   );
 
   return (
-    <div
-      className={classNames('vaos-form__radio-field', {
-        'vads-u-margin-top--neg3': !isCommunityCare,
-      })}
-    >
-      {isCommunityCare && (
-        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      )}
+    <div className="vaos-form__radio-field">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        {!isCommunityCare && (
+          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+            (*Required)
+          </span>
+        )}
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"

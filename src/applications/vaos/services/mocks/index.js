@@ -41,7 +41,8 @@ const appointmentSlotsV2 = getMockSlots({
   conflictRate: 0.4, // 40% of days with appointments will have conflicts
   forceConflictWithAppointments: nextBusinessDayAppointments,
 });
-const clinicsV2 = require('./v2/clinics.json');
+const clinics983V2 = require('./v2/clinics_983.json');
+const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
@@ -109,7 +110,7 @@ const responses = {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
       kind,
     } = req.body;
-    const selectedClinic = clinicsV2.data.filter(
+    const selectedClinic = clinics983V2.data.filter(
       clinic => clinic.id === req.body.clinic,
     );
     const providerNpi = practitioners[0]?.identifier[0].value;
@@ -433,14 +434,18 @@ const responses = {
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
     if (req.query.clinic_ids) {
       return res.json({
-        data: clinicsV2.data.filter(clinic =>
+        data: clinics983V2.data.filter(clinic =>
           req.query.clinic_ids.includes(clinic.id),
         ),
       });
     }
 
     if (req.params.id === '983') {
-      return res.json(clinicsV2);
+      return res.json(clinics983V2);
+    }
+
+    if (req.params.id === '984') {
+      return res.json(clinics984V2);
     }
 
     return res.json({

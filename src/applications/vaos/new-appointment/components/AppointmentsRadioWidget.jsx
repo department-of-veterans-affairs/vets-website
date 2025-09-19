@@ -16,7 +16,7 @@ export default function AppointmentsRadioWidget({
   const { enumOptions, labels, descriptions } = options;
 
   return (
-    <div className="vads-u-margin-top--3">
+    <div>
       <fieldset>
         <legend className="sr-only">
           {options.title} {required ? 'required' : ''}
