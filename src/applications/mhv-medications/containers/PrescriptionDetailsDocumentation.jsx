@@ -22,7 +22,6 @@ import {
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
-import { selectGroupingFlag } from '../util/selectors';
 import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import {
@@ -53,11 +52,9 @@ const PrescriptionDetailsDocumentation = () => {
   const selectedSortOption = useSelector(selectSortOption);
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
-  // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
