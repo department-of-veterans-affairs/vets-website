@@ -82,7 +82,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address',
   {},
 );
@@ -90,7 +90,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.sponsorInformation.pages.page10.schema,
   formConfig.chapters.sponsorInformation.pages.page10.uiSchema,
-  8,
+  7,
   'Sponsor Information - Address (role: sponsor)',
   { certifierRole: 'sponsor' },
 );
