@@ -93,52 +93,6 @@ class ArrayField extends React.Component {
     );
   }
 
-  getItemSchema(index) {
-    const { schema } = this.props;
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-
-    return schema.additionalItems;
-  }
-
-  /**
-   * Scroll to an element, then focus on a button within the element
-   * @param {string} scrollElementName - element with "name" attribute to scroll
-   *   to
-   * @param {string} focusElementSelector - element to focus within element
-   */
-  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
-    if (scrollElementName) {
-      setTimeout(() => {
-        scrollTo(
-          scrollElementName,
-          window.Forms?.scroll || {
-            duration: 500,
-            delay: 0,
-            smooth: true,
-            offset: -60,
-          },
-        );
-        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, scrollToTimeout);
-    }
-  }
-
-  scrollToRow(id) {
-    setTimeout(() => {
-      scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
-      );
-    }, scrollToTimeout);
-  }
-
   /*
    * Clicking Add Another in the header of the array field section
    */
@@ -235,8 +189,55 @@ class ArrayField extends React.Component {
     });
   }
 
+  getItemSchema(index) {
+    const { schema } = this.props;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
+  }
+
   isLocked() {
     return this.props.uiSchema['ui:field'] === 'BasicArrayField';
+  }
+
+  /**
+   * Scroll to an element, then focus on a button within the element
+   * @param {string} scrollElementName - element with "name" attribute to scroll
+   *   to
+   * @param {string} focusElementSelector - element to focus within element
+   */
+  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
+    if (scrollElementName) {
+      setTimeout(() => {
+        scrollTo(
+          scrollElementName,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
+      }, this.constructor.scrollToTimeout || scrollToTimeout);
+    }
+  }
+
+  scrollToRow(id) {
+    // Use 'this' to access scrollToTimeout from the class context
+    setTimeout(() => {
+      scrollTo(
+        `table_${id}`,
+        window.Forms?.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: 0,
+        },
+      );
+    }, this.constructor.scrollToTimeout || scrollToTimeout);
   }
 
   render() {
