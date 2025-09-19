@@ -151,14 +151,6 @@ export const LandMarketableAlert = () => (
   </va-alert>
 );
 
-export const MedicalEvidenceAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You’ll need to provide medical evidence with this application.
-    </p>
-  </va-alert>
-);
-
 const RequestFormAlert = ({ title, formName, formLink, children }) => (
   <va-alert status="warning">
     <p className="vads-u-margin-y--0">
@@ -221,33 +213,6 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
     physician assistant, certified nurse practitioner (CNP), or clinical nurse
     specialist (CNS).
   </RequestFormAlert>
-);
-
-export const TotalNetWorthOverTwentyFiveThousandAlert = () => (
-  <va-alert status="warning">
-    <p className="vads-u-margin-y--0">
-      You answered that you have more than $25,000 in assets. You’ll need to
-      submit an Income and Asset Statement in Support of Claim for Pension or
-      Parents' Dependency and Indemnity Compensation (
-      <va-link
-        external
-        href="https://www.va.gov/find-forms/about-form-21-2680/"
-        text="VA Form 21P-0969"
-      />
-      ).
-    </p>
-    <p>
-      We’ll ask you to upload this form at the end of this application. Or you
-      can send it to us by mail.
-    </p>
-    <p>
-      <va-link
-        href="https://www.va.gov/find-forms/about-form-21p-0969/"
-        external
-        text="Get VA Form 21P-0969 to download"
-      />
-    </p>
-  </va-alert>
 );
 
 export const WartimeWarningAlert = () => (

@@ -48,6 +48,14 @@ export default class PageObject {
   }
 
   assertValidationError(error) {
+    cy.get(`span[role="alert"]`).as('alert');
+    cy.get('@alert')
+      .contains(error)
+      .should('exist');
+    return this;
+  }
+
+  assertValidationErrorShadow(error) {
     cy.get(`[error="${error}"]`).should('exist');
     return this;
   }

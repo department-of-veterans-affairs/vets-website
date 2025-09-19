@@ -26,11 +26,11 @@ const ProgramApprovalInformation = () => {
       <li>
         <va-link
           href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
-          text="Licensing and certification"
+          text="Licenses, certifications, and prep courses"
         />
         <p className="vads-u-margin-top--0">
-          Search WEAMS for approved Licensing and Certifications and Test Prep
-          Courses by country and state.{' '}
+          Search WEAMS for approved licensing, certification and related
+          preparatory courses.{' '}
           <va-link
             href="https://www.va.gov/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses"
             text="Access this information using the GI Bill® Comparison Tool"

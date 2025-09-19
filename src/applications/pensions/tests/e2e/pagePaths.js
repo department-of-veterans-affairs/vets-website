@@ -13,12 +13,12 @@ export default {
   previousNames: formChapters.militaryHistory.pages.otherNames.path,
   pow: formChapters.militaryHistory.pages.pow.path,
 
-  age: formChapters.healthAndEmploymentInformation.pages.age.path,
+  age: formChapters.healthAndEmploymentInformation.pages.over65.path,
   socialSecurityDisability:
-    formChapters.healthAndEmploymentInformation.pages.socialSecurityDisability
+    formChapters.healthAndEmploymentInformation.pages.socialSupplementalSecurity
       .path,
   medicalCondition:
-    formChapters.healthAndEmploymentInformation.pages.medicalCondition.path,
+    formChapters.healthAndEmploymentInformation.pages.medicalConditions.path,
   nursingHome:
     formChapters.healthAndEmploymentInformation.pages.nursingHome.path,
   medicaidCoverage:

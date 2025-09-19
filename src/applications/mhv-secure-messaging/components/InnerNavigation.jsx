@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { InnerNavigationPaths, Paths } from '../util/constants';
+import { clearFolder } from '../actions/folders';
 
 const InnerNavigation = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleLinkClick = useCallback(
+    () => {
+      dispatch(clearFolder());
+    },
+    [dispatch],
+  );
 
   const handleActiveLinksStyle = path => {
     let isInnerActive = false;
@@ -56,6 +66,7 @@ const InnerNavigation = () => {
               className="inner-nav-link"
               to={path.path}
               data-dd-action-name={`${path.label} link`}
+              onClick={handleLinkClick}
             >
               {path.label}
             </Link>

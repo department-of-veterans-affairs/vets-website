@@ -10,7 +10,7 @@ import { RESULTS_NAME_MAP } from './results-data-map';
  * the index to differentiate the URLs to avoid routing collision
  * @returns a lowercased hyphen-separated version of the h1 with an index if isDuplicateQuestion
  */
-const getRouteName = (shortName, index) => {
+export const getRouteName = (shortName, index) => {
   const questionH1 = QUESTION_CONTENT?.[shortName]?.h1;
 
   if (!questionH1) {
@@ -34,18 +34,21 @@ export const ROUTES = Object.freeze({
   Q_1_1_CLAIM_DECISION: getRouteName(S.Q_1_1_CLAIM_DECISION),
   Q_1_1A_SUBMITTED_526: getRouteName(S.Q_1_1A_SUBMITTED_526),
   Q_1_2_CLAIM_DECISION: getRouteName(S.Q_1_2_CLAIM_DECISION),
+  Q_1_2A_1_SERVICE_CONNECTED: getRouteName(S.Q_1_2A_1_SERVICE_CONNECTED, 'a'),
   Q_1_2A_CONDITION_WORSENED: getRouteName(S.Q_1_2A_CONDITION_WORSENED, 'a'),
+  Q_1_2A_2_DISAGREE_DECISION: getRouteName(S.Q_1_2A_2_DISAGREE_DECISION, 'a'),
   Q_1_2B_LAW_POLICY_CHANGE: getRouteName(S.Q_1_2B_LAW_POLICY_CHANGE, 'a'),
   Q_1_2C_NEW_EVIDENCE: getRouteName(S.Q_1_2C_NEW_EVIDENCE, 'a'),
   Q_1_3_CLAIM_CONTESTED: getRouteName(S.Q_1_3_CLAIM_CONTESTED),
   Q_1_3A_FEWER_60_DAYS: getRouteName(S.Q_1_3A_FEWER_60_DAYS),
-  Q_2_0_CLAIM_TYPE: getRouteName(S.Q_2_0_CLAIM_TYPE),
   Q_2_IS_1_SERVICE_CONNECTED: getRouteName(S.Q_2_IS_1_SERVICE_CONNECTED, 'b'),
+  Q_2_IS_2_CONDITION_WORSENED: getRouteName(S.Q_2_IS_2_CONDITION_WORSENED, 'b'),
+  Q_2_IS_4_DISAGREE_DECISION: getRouteName(S.Q_2_IS_4_DISAGREE_DECISION, 'b'),
+  Q_2_0_CLAIM_TYPE: getRouteName(S.Q_2_0_CLAIM_TYPE),
   Q_2_IS_1A_LAW_POLICY_CHANGE: getRouteName(S.Q_2_IS_1A_LAW_POLICY_CHANGE, 'b'),
   Q_2_IS_1B_NEW_EVIDENCE: getRouteName(S.Q_2_IS_1B_NEW_EVIDENCE, 'b'),
-  Q_2_IS_2_CONDITION_WORSENED: getRouteName(S.Q_2_IS_2_CONDITION_WORSENED, 'b'),
   Q_2_S_1_NEW_EVIDENCE: getRouteName(S.Q_2_S_1_NEW_EVIDENCE, 'c'),
-  Q_2_H_1_EXISTING_BOARD_APPEAL: getRouteName(S.Q_2_H_1_EXISTING_BOARD_APPEAL),
+  Q_2_S_2_WITHIN_120_DAYS: getRouteName(S.Q_2_S_2_WITHIN_120_DAYS),
   Q_2_H_2_NEW_EVIDENCE: getRouteName(S.Q_2_H_2_NEW_EVIDENCE, 'd'),
   Q_2_H_2A_JUDGE_HEARING: getRouteName(S.Q_2_H_2A_JUDGE_HEARING, 'a'),
   Q_2_H_2B_JUDGE_HEARING: getRouteName(S.Q_2_H_2B_JUDGE_HEARING, 'b'),
@@ -54,3 +57,7 @@ export const ROUTES = Object.freeze({
 
 export const ALL_QUESTIONS = Object.freeze(Object.values(S));
 export const ALL_RESULTS = Object.freeze(Object.values(RESULTS_NAME_MAP));
+
+export const getShortNameFromRoute = route => {
+  return Object.keys(ROUTES).find(key => ROUTES[key] === route) || null;
+};
