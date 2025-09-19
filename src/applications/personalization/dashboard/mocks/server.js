@@ -153,6 +153,9 @@ const responses = {
     },
   },
   'GET /v0/debts': (req, res) => {
+    if (req.query?.countOnly) {
+      return res.status(200).json({ debtsCount: 8 });
+    }
     const debtStatus = 'success';
     switch (debtStatus) {
       case 'success':

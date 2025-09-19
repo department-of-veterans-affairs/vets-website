@@ -45,6 +45,10 @@ import IdentityNotVerified from '~/platform/user/authorization/components/Identi
 import { getEnrollmentStatus } from 'platform/user/profile/actions/hca';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
+import {
+  fetchDebts,
+  fetchCopays,
+} from '~/applications/personalization/dashboard/actions/debts';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -259,6 +263,9 @@ const Dashboard = ({
   fetchConfirmedFutureAppointments,
   shouldFetchUnreadMessages,
   fetchUnreadMessages,
+  getDebts,
+  getCopays,
+
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -382,6 +389,28 @@ const Dashboard = ({
       }
     },
     [canAccessPaymentHistory, getPayments],
+  );
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const myVaAuthExpRedesignEnabled = useToggleValue(
+    Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
+  );
+  const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
+
+  useEffect(
+    () => {
+      if (!showGenericDebtCard) {
+        getDebts(!myVaAuthExpRedesignEnabled);
+      }
+    },
+    [getDebts, showGenericDebtCard, myVaAuthExpRedesignEnabled],
+  );
+
+  useEffect(
+    () => {
+      getCopays();
+    },
+    [getCopays],
   );
 
   return (
@@ -651,9 +680,16 @@ const mapStateToProps = state => {
     backendServices.MESSAGING,
   );
 
+  const debts = state.allDebts.debts || [];
+  const { debtsCount } = state.allDebts;
+  const copays = state.allDebts.copays || [];
+
   return {
     appealsData: claimsState.appeals,
     claimsData: claimsState.claims,
+    debts,
+    debtsCount,
+    copays,
     shouldLoadAppeals: isAppealsAvailableSelector(state) && canAccessAppeals,
     shouldLoadClaims: isClaimsAvailableSelector(state),
     canAccessMilitaryHistory,
@@ -736,6 +772,8 @@ const mapDispatchToProps = {
   getPayments: getAllPayments,
   fetchUnreadMessages: fetchUnreadMessageCountAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
+  getDebts: fetchDebts,
+  getCopays: fetchCopays,
 };
 
 export default connect(
