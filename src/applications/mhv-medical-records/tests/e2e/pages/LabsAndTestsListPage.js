@@ -34,11 +34,15 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
-    cy.wait('@LabsAndTestsList');
-    cy.wait('@RadiologyRecordsMhv');
-    cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
-    cy.wait('@CvixRadiologyRecordsMhvImaging');
-    cy.wait('@vamcEhr');
+    cy.wait([
+      '@LabsAndTestsList',
+      '@RadiologyRecordsMhv',
+      '@CvixRadiologyRecordsMhvImagingStatus',
+      '@CvixRadiologyRecordsMhvImaging',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+    ]);
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
