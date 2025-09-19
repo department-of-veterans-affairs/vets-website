@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import Breadcrumbs from '../components/Breadcrumbs';
+import capitalize from 'lodash/capitalize';
+import NeedHelp from '../components/NeedHelp';
 
 const CheckEligibilityAndApply = () => {
   useEffect(() => {
@@ -51,7 +52,6 @@ const CheckEligibilityAndApply = () => {
     resEligibilityRecommendation: 'Eligible',
   };
 
-  // TODO search for platform function
   const formatDate = isoString => {
     if (!isoString) return '';
     const trimmed = isoString.replace('Z', '');
@@ -65,13 +65,10 @@ const CheckEligibilityAndApply = () => {
   };
 
   return (
-    <div className="vads-l-grid-container ">
+    <div className="row">
       <div className="usa-width-two-thirds vads-u-margin-bottom--4">
-        <Breadcrumbs />
-        <h1 className="vads-u-margin-top--2">
-          Check Your Eligibility and Apply
-        </h1>
-        <p>
+        <h1>Check your eligibility and apply</h1>
+        <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
           own military service, character of discharge, Service Connected
           Disability (SCD) rating, entitlement availability, and activity. You
@@ -82,7 +79,7 @@ const CheckEligibilityAndApply = () => {
           in error, please follow the link in next steps to find out how you can
           update your eligibility before you submit your application.
         </p>
-        <p>
+        <p className="vads-u-font-size--lg">
           The Supreme Court’s Rudisill decision may increase your months of
           entitlement if you have two or more qualified periods of active duty.
         </p>
@@ -132,8 +129,8 @@ const CheckEligibilityAndApply = () => {
               Name:
             </span>
             <span>
-              {mockResponse.veteranProfile.firstName}{' '}
-              {mockResponse.veteranProfile.lastName}
+              {capitalize(mockResponse.veteranProfile.firstName)}{' '}
+              {capitalize(mockResponse.veteranProfile.lastName)}
             </span>
           </div>
           <div className="vads-u-display--flex vads-u-align-items--baseline">
@@ -147,41 +144,82 @@ const CheckEligibilityAndApply = () => {
           </div>
         </div>
         <h2 className="vads-u-margin-top--4">Eligibility Criteria</h2>
-        <ul className="vads-u-margin-top--0">
-          <li>
-            <strong>Qualifying Military Service:</strong>
-            <ul>
-              {mockResponse.veteranProfile.servicePeriod.map((sp, idx) => (
-                <li key={`${sp.serviceBeganDate}-${idx}`}>
-                  Entered: {formatDate(sp.serviceBeganDate)}; Released:{' '}
-                  {formatDate(sp.serviceEndDate)}; CoD:{' '}
-                  {sp.characterOfDischarge}
-                </li>
-              ))}
-            </ul>
+        <ul className="vads-u-margin-top--0 vads-u-padding-left--0">
+          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
+            <va-icon
+              icon="check"
+              size={3}
+              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
+            />
+            <div>
+              <strong>Qualifying Military Service:</strong>
+              <ul className="vads-u-margin-top--1">
+                {mockResponse.veteranProfile.servicePeriod.map((sp, idx) => (
+                  <li key={`${sp.serviceBeganDate}-${idx}`}>
+                    Entered: {formatDate(sp.serviceBeganDate)}; Released:{' '}
+                    {formatDate(sp.serviceEndDate)}; CoD:{' '}
+                    {sp.characterOfDischarge}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
-          <li>
-            <strong>Character of discharge:</strong>{' '}
-            {mockResponse.veteranProfile.characterOfDischarge}
+          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
+            <va-icon
+              icon="check"
+              size={3}
+              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
+            />
+            <div>
+              <strong>
+                Character of discharge:{' '}
+                {mockResponse.veteranProfile.characterOfDischarge}
+              </strong>
+            </div>
           </li>
-          <li>
-            <strong>Disability Rating:</strong>{' '}
-            {mockResponse.disabilityRating.combinedScd}%
-            <ul>
-              {mockResponse.disabilityRating.SCDDetails.map(detail => (
-                <li key={detail.code}>
-                  {detail.code} - {detail.name} - {detail.percentage}%
-                </li>
-              ))}
-            </ul>
+          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
+            <va-icon
+              icon="check"
+              size={3}
+              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
+            />
+            <div>
+              <strong>Disability Rating:</strong>{' '}
+              {mockResponse.disabilityRating.combinedScd}%
+              <ul className="vads-u-margin-top--1">
+                {mockResponse.disabilityRating.SCDDetails.map(detail => (
+                  <li key={detail.code}>
+                    {detail.code} - {detail.name} - {detail.percentage}%
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
-          <li>
-            <strong>Initial rating Notification Date:</strong>{' '}
-            {formatDate(mockResponse.IRNDDate)}
+          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
+            <va-icon
+              icon="check"
+              size={3}
+              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
+            />
+            <div>
+              <strong>
+                Initial rating Notification Date:{' '}
+                {formatDate(mockResponse.IRNDDate)}
+              </strong>
+            </div>
           </li>
-          <li>
-            <strong>Eligibility Termination Date:</strong>{' '}
-            {formatDate(mockResponse.eligibilityTerminationDate)}
+          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
+            <va-icon
+              icon="check"
+              size={3}
+              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
+            />
+            <div>
+              <strong>
+                Eligibility Termination Date:{' '}
+                {formatDate(mockResponse.eligibilityTerminationDate)}
+              </strong>
+            </div>
           </li>
         </ul>
 
@@ -270,6 +308,9 @@ const CheckEligibilityAndApply = () => {
             </span>
           </div>
         </div>
+
+        <NeedHelp />
+        <va-back-to-top />
       </div>
     </div>
   );
