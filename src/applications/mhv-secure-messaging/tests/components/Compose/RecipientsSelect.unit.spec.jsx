@@ -260,9 +260,16 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
   });
 
   it('displays correct content in pilot environment vista facility', () => {
@@ -286,8 +293,15 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
   });
 });
