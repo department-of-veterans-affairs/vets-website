@@ -18,4 +18,8 @@ module.exports = [
   { name: 'travelPaySubmitMileageExpense', value: true },
   { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
   { name: 'vaOnlineSchedulingAddSubstanceUseDisorder', value: true },
+  { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
+  { name: 'vaOnlineSchedulingAddOhAvs', value: true },
+  { name: 'vaOnlineSchedulingImmediateCareAlert', value: true },
+  { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
 ];
