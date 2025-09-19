@@ -9,6 +9,21 @@ import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
 let sandbox;
 
 describe('Medications List Print Page', () => {
+  const setupWithError = (params = {}) => {
+    const hasError = {
+      status: 404,
+      message: 'No static resource my_health/v1/medical_records/allergies.',
+    };
+    return renderWithStoreAndRouterV6(
+      <PrescriptionsPrintOnly hasError={hasError} />,
+      {
+        initialState: {},
+        reducers,
+        initialEntries: ['/?page=1'],
+        ...params,
+      },
+    );
+  };
   const setup = (params = {}) => {
     return renderWithStoreAndRouterV6(<PrescriptionsPrintOnly />, {
       initialState: {},
@@ -26,6 +41,11 @@ describe('Medications List Print Page', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  it('renders Correctly even when error is an object', async () => {
+    const screen = setupWithError();
+    expect(screen);
   });
 
   it('renders without errors', async () => {
