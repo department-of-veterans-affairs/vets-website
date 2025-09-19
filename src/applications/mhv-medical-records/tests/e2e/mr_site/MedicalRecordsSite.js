@@ -90,10 +90,6 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_settings_page',
-            value: true,
-          },
-          {
             name: 'mhvMedicalRecordsDisplaySidenav',
             value: true,
           },
