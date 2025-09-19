@@ -250,8 +250,14 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
 ];
 
 export const FACILITY_TYPES = {
-  VAMC: 'vamc',
-  COMMUNITY_CARE: 'communityCare',
+  VAMC: {
+    id: 'vamc',
+    name: 'VA medical center or clinic',
+  },
+  COMMUNITY_CARE: {
+    id: 'communityCare',
+    name: 'Community care facility',
+  },
 };
 
 export const FACILITY_SORT_METHODS = {
