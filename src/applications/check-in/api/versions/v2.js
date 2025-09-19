@@ -220,6 +220,7 @@ const v2 = {
       travelClaims: {
         uuid: data.uuid,
         appointmentDate: data.appointmentDate,
+        facilityType: 'cie',
       },
     };
 

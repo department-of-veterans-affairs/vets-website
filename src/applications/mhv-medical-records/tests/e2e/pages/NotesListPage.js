@@ -2,7 +2,7 @@ import defaultNotes from '../fixtures/notes/notes.json';
 import BaseListPage from './BaseListPage';
 
 class NotesListPage extends BaseListPage {
-  clickGotoNotesLink = (notes = defaultNotes, waitForNotes = false) => {
+  clickGotoNotesLink = (notes = defaultNotes) => {
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/clinical_notes',
@@ -10,9 +10,7 @@ class NotesListPage extends BaseListPage {
     ).as('notesList');
     cy.visit('my-health/medical-records/summaries-and-notes');
     // cy.get('[href="/my-health/medical-records/notes"]').click();
-    if (waitForNotes) {
-      cy.wait('@notesList');
-    }
+    cy.wait('@notesList');
   };
 
   verifyCareSummariesAndNotesPageTitle = () => {
@@ -21,7 +19,7 @@ class NotesListPage extends BaseListPage {
   };
 
   clickNotesDetailsLink = (_NotesIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_NotesIndex)
       .click();

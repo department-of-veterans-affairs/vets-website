@@ -11,7 +11,6 @@ import {
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../tests/mocks/setup';
-import { TYPE_OF_CARE_IDS } from '../../utils/constants';
 
 import TypeOfMentalHealthPage from './TypeOfMentalHealthPage';
 
@@ -42,38 +41,26 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Which type of mental health care do you need?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of mental health care do you need\?/,
+      }),
+    ).to.exist;
 
-    // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // And the user should see radio buttons for each type of sleep care
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute(
-      'label',
-      'Mental health services',
-    );
-    expect(radioOptions[1]).to.have.attribute(
-      'label',
-      'Substance use problem services',
-    );
+    await screen.findByLabelText(/Mental health services/i);
+    await screen.findByLabelText(/Substance use problem services/i);
 
     fireEvent.click(screen.getByText(/Continue/));
     // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
+    expect(await screen.findByText('You must provide a response')).to.exist;
     expect(screen.history.push.called).to.be.false;
 
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-
+    fireEvent.click(screen.getByText(/Mental health services/));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
@@ -88,11 +75,7 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(screen.getByText(/Mental health services/));
     await cleanup();
 
     screen = renderWithStoreAndRouter(
@@ -102,11 +85,8 @@ describe('VAOS Page: TypeOfMentalHealthPage', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute(
-        'value',
-        TYPE_OF_CARE_IDS.MENTAL_HEALTH_SUBSTANCE_USE_ID,
-      );
-    });
+    expect(
+      await screen.findByLabelText(/Mental health services/i),
+    ).to.have.attribute('checked');
   });
 });
