@@ -189,7 +189,6 @@ export const arrayBuilderOptions = {
 
 export const hasSideOfBody = (formData, index) => {
   const condition = formData?.[ARRAY_PATH][index]?.newCondition;
-
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,
   );
