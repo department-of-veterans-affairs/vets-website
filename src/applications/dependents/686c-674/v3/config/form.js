@@ -193,7 +193,7 @@ export const formConfig = {
       externalServices.vbms,
     ],
   },
-  title: 'Add or remove a dependent on VA benefits',
+  title: 'Add or remove a dependent on VA benefits v3',
   subTitle: 'VA Forms 21-686c and 21-674',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {

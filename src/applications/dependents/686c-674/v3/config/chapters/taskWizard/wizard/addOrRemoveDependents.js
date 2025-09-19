@@ -6,7 +6,8 @@ import {
 export const uiSchema = {
   'view:addOrRemoveDependents': {
     ...checkboxGroupUI({
-      title: 'What would you like to do? Check everything that you want to do.',
+      title:
+        'What would you like to do? Check everything that you want to do. TEST TEST TEST',
       required: true,
       labelHeaderLevel: '3',
       tile: true,

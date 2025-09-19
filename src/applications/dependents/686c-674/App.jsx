@@ -9,9 +9,19 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import manifestV2 from './v2/manifest.json';
 import formConfigV2 from './v2/config/form';
+import manifestV3 from './v3/manifest.json';
+import formConfigV3 from './v3/config/form';
+
 import { DOC_TITLE } from './v2/config/constants';
 // import { getShouldUseV2 } from './v2/utils/redirect';
 import { getRootParentUrl } from '../shared/utils';
+
+// console.log('📦 Webpack imports check:', {
+//   v2Manifest: manifestV2?.rootUrl,
+//   v3Manifest: manifestV3?.rootUrl,
+//   v2Title: formConfigV2?.title,
+//   v3Title: formConfigV3?.title,
+// });
 
 function App({
   location,
@@ -19,7 +29,7 @@ function App({
   isLoggedIn,
   isLoading,
   vaFileNumber,
-  // featureToggles,
+  featureToggles,
   // savedForms,
 }) {
   // Must match the H1
@@ -61,26 +71,41 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  // const flipperV2 = featureToggles.vaDependentsV2;
+  const flipperV3 = featureToggles.vaDependentsV3;
+
+  // Conditionally select manifest and form config based on flipper
+  const manifest = flipperV3 ? manifestV3 : manifestV2;
+  const formConfig = flipperV3 ? formConfigV3 : formConfigV2;
+
+  // console.log('🔧 Flipper debug:', {
+  //   flipperV3,
+  //   featureToggles,
+  //   selectedManifest: manifest?.rootUrl,
+  //   selectedFormTitle: formConfig?.title,
+  //   usingV3: flipperV3 ? 'YES' : 'NO',
+  // });
+
+  // console.log('flipperV3', flipperV3);
+  // console.log(formConfig);
 
   // if (!getShouldUseV2(flipperV2, savedForms)) {
-  //   window.location.href = `/${manifestV2.rootUrl}/add-remove-form-21-686c/`;
+  //   window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
   //   return <></>;
   // }
 
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     {
-      href: getRootParentUrl(manifestV2.rootUrl),
+      href: getRootParentUrl(manifest.rootUrl),
       label: 'Manage dependents for disability, pension, or DIC benefits',
     },
     {
-      href: `/${manifestV2.rootUrl}/add-remove-form-21-686c-674/introduction`,
+      href: `/${manifest.rootUrl}/add-remove-form-21-686c-674/introduction`,
       label: 'Add or remove dependents on VA benefits',
     },
   ];
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
-  formConfigV2.submitUrl = dependentsModuleEnabled
+  formConfig.submitUrl = dependentsModuleEnabled
     ? `${environment.API_URL}/dependents_benefits/v0/claims`
     : `${environment.API_URL}/v0/dependents_applications`;
 
@@ -91,7 +116,7 @@ function App({
           <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
         </div>
       </div>
-      <RoutedSavableApp formConfig={formConfigV2} currentLocation={location}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
     </article>
@@ -109,7 +134,7 @@ function App({
     !isLoggedIn ||
     (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
   ) {
-    document.location.replace(manifestV2.rootUrl);
+    document.location.replace(manifest.rootUrl);
     return (
       <va-loading-indicator message="Redirecting to introduction page..." />
     );
