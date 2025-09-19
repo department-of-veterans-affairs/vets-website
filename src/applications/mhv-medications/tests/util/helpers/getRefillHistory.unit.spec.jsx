@@ -1,8 +1,5 @@
 import { expect } from 'chai';
-import {
-  getRefillHistory,
-  createOriginalFillRecord,
-} from '../../../util/helpers';
+import { getRefillHistory } from '../../../util/helpers';
 
 describe('getRefillHistory function', () => {
   it('should return an empty array when prescription is null', () => {
@@ -106,60 +103,5 @@ describe('getRefillHistory function', () => {
 
     const result = getRefillHistory(prescription);
     expect(result.length).to.equal(0);
-  });
-});
-
-describe('createOriginalFillRecord function', () => {
-  it('should include prescriptionSource in the returned object', () => {
-    const prescription = {
-      prescriptionId: 123456,
-      prescriptionName: 'Test Medication',
-      prescriptionSource: 'RX',
-      dispensedDate: '2023-08-04T04:00:00.000Z',
-      backImprint: 'test-back',
-      cmopDivisionPhone: '555-1234',
-      cmopNdcNumber: '12345-678-90',
-      color: 'white',
-      dialCmopDivisionPhone: '555-1234',
-      frontImprint: 'test-front',
-      shape: 'round',
-    };
-
-    const result = createOriginalFillRecord(prescription);
-
-    expect(result).to.have.property('prescriptionSource');
-    expect(result.prescriptionSource).to.equal('RX');
-  });
-
-  it('should include all required fields from prescription', () => {
-    const prescription = {
-      prescriptionId: 123456,
-      prescriptionName: 'Test Medication',
-      prescriptionSource: 'RX',
-      dispensedDate: '2023-08-04T04:00:00.000Z',
-      backImprint: 'test-back',
-      cmopDivisionPhone: '555-1234',
-      cmopNdcNumber: '12345-678-90',
-      color: 'white',
-      dialCmopDivisionPhone: '555-1234',
-      frontImprint: 'test-front',
-      shape: 'round',
-    };
-
-    const result = createOriginalFillRecord(prescription);
-
-    expect(result).to.deep.include({
-      prescriptionId: 123456,
-      prescriptionName: 'Test Medication',
-      prescriptionSource: 'RX',
-      dispensedDate: '2023-08-04T04:00:00.000Z',
-      backImprint: 'test-back',
-      cmopDivisionPhone: '555-1234',
-      cmopNdcNumber: '12345-678-90',
-      color: 'white',
-      dialCmopDivisionPhone: '555-1234',
-      frontImprint: 'test-front',
-      shape: 'round',
-    });
   });
 });
