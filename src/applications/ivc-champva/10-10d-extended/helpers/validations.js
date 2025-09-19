@@ -29,7 +29,10 @@ export const validateMedicarePartDDates = (errors, data) => {
   const fromDate = convertToDateField(medicarePartDEffectiveDate);
   const toDate = convertToDateField(medicarePartDTerminationDate);
 
-  if (!isValid(new Date(medicarePartDTerminationDate))) {
+  if (
+    medicarePartDTerminationDate &&
+    !isValid(new Date(medicarePartDTerminationDate))
+  ) {
     errors.medicarePartDTerminationDate.addError(
       'Please enter a valid current or past date',
     );
@@ -52,7 +55,7 @@ export const validateOHIDates = (errors, data) => {
   const fromDate = convertToDateField(effectiveDate);
   const toDate = convertToDateField(expirationDate);
 
-  if (!isValid(new Date(expirationDate))) {
+  if (expirationDate && !isValid(new Date(expirationDate))) {
     errors.expirationDate.addError('Please enter a valid current or past date');
   }
 
