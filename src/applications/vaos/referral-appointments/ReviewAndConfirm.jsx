@@ -9,7 +9,7 @@ import {
 } from './redux/selectors';
 import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
-  useGetDraftDraftReferralAppointmentQuery,
+  useGetDraftReferralAppointmentQuery,
   usePostReferralAppointmentMutation,
 } from '../redux/api/vaosApi';
 
@@ -47,7 +47,7 @@ const ReviewAndConfirm = props => {
     isError: isDraftError,
     isSuccess: isDraftSuccess,
     isUninitialized: isDraftUninitialized,
-  } = useGetDraftDraftReferralAppointmentQuery(
+  } = useGetDraftReferralAppointmentQuery(
     {
       referralNumber: currentReferral.referralNumber,
       referralConsultId: currentReferral.referralConsultId,

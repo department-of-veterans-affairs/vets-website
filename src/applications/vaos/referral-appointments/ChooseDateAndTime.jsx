@@ -8,7 +8,7 @@ import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/select
 import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { useGetDraftDraftReferralAppointmentQuery } from '../redux/api/vaosApi';
+import { useGetDraftReferralAppointmentQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
@@ -22,7 +22,7 @@ export const ChooseDateAndTime = props => {
     isError: isDraftError,
     isSuccess: isDraftSuccess,
     isUninitialized: isDraftUninitialized,
-  } = useGetDraftDraftReferralAppointmentQuery({
+  } = useGetDraftReferralAppointmentQuery({
     referralNumber: currentReferral.referralNumber,
     referralConsultId: currentReferral.referralConsultId,
   });

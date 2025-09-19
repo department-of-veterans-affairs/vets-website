@@ -59,7 +59,7 @@ export const vaosApi = createApi({
         }
       },
     }),
-    getDraftDraftReferralAppointment: builder.query({
+    getDraftReferralAppointment: builder.query({
       async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
@@ -122,5 +122,5 @@ export const {
   useGetPatientReferralsQuery,
   useGetAppointmentInfoQuery,
   usePostReferralAppointmentMutation,
-  useGetDraftDraftReferralAppointmentQuery,
+  useGetDraftReferralAppointmentQuery,
 } = vaosApi;
