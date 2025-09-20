@@ -162,6 +162,7 @@ export function otherRecipientRelationshipTypeUI(arrayKey) {
     'ui:options': {
       expandUnder: 'recipientRelationship',
       expandUnderCondition: 'OTHER',
+      expandedContentFocus: true,
     },
     'ui:required': (formData, index) =>
       otherRecipientRelationshipExplanationRequired(formData, index, arrayKey),
