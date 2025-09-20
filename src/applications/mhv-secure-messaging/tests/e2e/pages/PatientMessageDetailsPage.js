@@ -116,6 +116,24 @@ class PatientMessageDetailsPage {
       .click();
   };
 
+  openMoveToButtonModal = () => {
+    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
+    cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
+      .find('p')
+      .contains('Any replies to this message will appear in your inbox')
+      .should('be.visible');
+    cy.get(Locators.BUTTONS.DELETE_RADIOBTN).should('be.visible');
+    cy.get(Locators.BUTTONS.TEST2).should('be.visible');
+    cy.get(Locators.BUTTONS.TESTAGAIN)
+      .should('be.visible')
+      .click();
+    cy.get(Locators.BUTTONS.NEW_FOLDER_RADIOBTN).should('be.visible');
+    cy.get(Locators.ALERTS.MOVE_MODAL)
+      .find('va-button[text="Confirm"]')
+      .should('be.visible')
+      .click();
+  };
+
   loadReplyPage = mockMessageDetails => {
     cy.intercept(
       'GET',
