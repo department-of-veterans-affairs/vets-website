@@ -66,6 +66,120 @@ function handleSkillEntryEvent(action) {
   }
 }
 
+function handleSkillExitEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  const apiName = `Chatbot Skill Exit - ${eventValue}`;
+  if (actionEventName === 'Skill_Exit') {
+    recordEvent({
+      event: 'api_call',
+      'api-name': apiName,
+      topic: eventValue,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleRouterLLMEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+
+  if (actionEventName === 'RouterLLMResponse') {
+    const utterance = eventValue.utterance || '';
+    const topics = eventValue.parsed?.items || [];
+    const topicNames = topics.map(item => item.topic).join(', ');
+
+    recordEvent({
+      event: 'chatbot_llm_interaction',
+      'interaction-type': 'router_classification',
+      'user-query': piiReplace(utterance).substring(0, 100),
+      'classified-topics': topicNames,
+      'topic-count': topics.length,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleRagAgentLLMEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+
+  if (actionEventName === 'AgentLLMResponse') {
+    const utterance = eventValue.utterance || '';
+    const intent = eventValue.intent || 'Unknown';
+    const response = eventValue.parsed || {};
+    const hasLinks = response.message
+      ? /\[([^\]]*)\]\(([^)]+)\)/g.test(response.message)
+      : false;
+    const linkCount = hasLinks
+      ? (response.message.match(/\[([^\]]*)\]\(([^)]+)\)/g) || []).length
+      : 0;
+
+    recordEvent({
+      event: 'chatbot_llm_interaction',
+      'interaction-type': 'rag_response',
+      'skill-name': intent,
+      'user-query': piiReplace(utterance).substring(0, 100),
+      'response-type': hasLinks ? 'with_links' : 'plain_text',
+      'link-count': linkCount,
+      answerable: response.answerable || false,
+      complete: response.complete || false,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleSignInLLMEvents(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+
+  // Track Sign-In Support specific LLM interactions
+  if (
+    (actionEventName === 'AgentLLMResponse' ||
+      actionEventName === 'RouterLLMResponse') &&
+    (eventValue.intent === 'Sign-In Support' ||
+      eventValue.parsed?.items?.some(item => item.topic === 'Sign-In Support'))
+  ) {
+    const utterance = eventValue.utterance || '';
+    const interactionType =
+      actionEventName === 'RouterLLMResponse'
+        ? 'signin_classification'
+        : 'signin_response';
+
+    recordEvent({
+      event: 'chatbot_signin_interaction',
+      'interaction-type': interactionType,
+      'user-query': piiReplace(utterance).substring(0, 100),
+      'skill-name': 'Sign-In Support',
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleSemanticSearchEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+
+  if (
+    actionEventName === 'RouterSemanticSearchResponse' ||
+    actionEventName === 'AgentSemanticSearchResponse'
+  ) {
+    const utterance = eventValue.utterance || '';
+    const intent = eventValue.intent || 'Router';
+    const resultCount = eventValue.parsed?.length || 0;
+
+    recordEvent({
+      event: 'chatbot_semantic_search',
+      'search-type':
+        actionEventName === 'RouterSemanticSearchResponse' ? 'router' : 'agent',
+      'skill-name': intent,
+      'user-query': piiReplace(utterance).substring(0, 100),
+      'result-count': resultCount,
+      'api-status': 'successful',
+    });
+  }
+}
+
 function createSendMessageActivity(newUtterance) {
   return {
     type: 'WEB_CHAT/SEND_MESSAGE',
@@ -150,6 +264,11 @@ export const processIncomingActivity = ({
   }
 
   handleSkillEntryEvent(action);
+  handleSkillExitEvent(action);
+  handleRouterLLMEvent(action);
+  handleRagAgentLLMEvent(action);
+  handleSignInLLMEvents(action);
+  handleSemanticSearchEvent(action);
 };
 
 export function addActivityData(action, { isMobile }) {
