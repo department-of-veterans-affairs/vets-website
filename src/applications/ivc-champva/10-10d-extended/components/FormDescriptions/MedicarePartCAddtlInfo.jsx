@@ -8,8 +8,7 @@ const MedicarePartCAddtlInfo = ({ formData, formContext }) => {
   return (
     hasPartC && (
       <va-additional-info
-        trigger="
-            Why do we need Parts A and B information if you have a Part C plan?"
+        trigger="Why do we need Parts A and B information if you have a Part C plan?"
         class="vads-u-margin-bottom--4"
       >
         We need to confirm the dates you first became eligible for Parts A and
