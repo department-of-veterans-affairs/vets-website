@@ -1,14 +1,18 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-2680-house-bound-status/constants';
+import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
+import {
+  nameAndDateOfBirth,
+  identificationInformation,
+  mailingAddress,
+  phoneAndEmailAddress,
+} from '@bio-aquia/21-2680-house-bound-status/pages';
 import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 
 /** @type {FormConfig} */
 const formConfig = {
