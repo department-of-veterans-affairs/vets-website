@@ -71,10 +71,14 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form);
     expect(form.find('input').length).to.equal(7); // non-checkbox inputs
     expect(form.find('va-checkbox').length).to.equal(1);
-    expect(form.find('select').length).to.equal(6);
+    // treatmentDateRange has 2 select inputs for each date (month, day)
+    expect(form.find('select').length).to.equal(4);
+    // providerFacilityAddress country and state are web-component-pattern's
+    expect(form.find('va-select').length).to.equal(2);
     form.unmount();
   });
 
+  // TODO: fix this test, it's not working because of the select fields
   it('should add a provider facility', async () => {
     const onSubmit = sinon.spy();
 
@@ -122,9 +126,10 @@ describe('Disability benefits 4142 provider medical records facility information
       '1950-1-3',
     );
     fillDate(form, 'root_providerFacility_0_treatmentDateRange_to', '1951-1-3');
+    // TODO: this may not be needed since it defaults to USA
     fillData(
       form,
-      'select#root_providerFacility_0_providerFacilityAddress_country',
+      'va-select[name="root_providerFacility_0_providerFacilityAddress_country"]',
       'USA',
     );
     fillData(
@@ -132,9 +137,11 @@ describe('Disability benefits 4142 provider medical records facility information
       'input#root_providerFacility_0_providerFacilityAddress_street',
       '101 Street',
     );
+
+    // TODO: Selection is kind of weird, we have shadowroots to navigate
     fillData(
       form,
-      'select#root_providerFacility_0_providerFacilityAddress_state',
+      'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]',
       'AK',
     );
     fillData(
@@ -149,9 +156,21 @@ describe('Disability benefits 4142 provider medical records facility information
     );
 
     await waitFor(() => {
+      expect(form.find('.usa-input-error').length).to.equal(0);
+
+      // va-select element has error attribute when there is an error
+      const countrySelector =
+        'va-select[name="root_providerFacility_0_providerFacilityAddress_country"]';
+      expect(form.find(countrySelector).prop('error')).to.not.exist;
+
+      const stateSelector =
+        'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]';
+      expect(form.find(stateSelector).prop('error')).to.not.exist;
+
+      // TODO: this was at the top of the waitFor, but it was just throwing a failed to submit error
+      //  and not highlighting exactly what was wrong. We can move it back up after we get the select fixed
       form.find('form').simulate('submit');
       expect(onSubmit.called).to.be.true;
-      expect(form.find('.usa-input-error').length).to.equal(0);
     });
     form.unmount();
   });
@@ -175,9 +194,20 @@ describe('Disability benefits 4142 provider medical records facility information
       form.find('form').simulate('submit');
       expect(submit.called).to.be.false;
 
-      expect(form.find('.usa-input-error').length).to.equal(7);
+      expect(form.find('.usa-input-error').length).to.equal(6);
 
-      expect(form.find('select').length).to.equal(6);
+      // va-select element has error attribute when there is an error
+      const stateSelector =
+        'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]';
+      expect(form.find(stateSelector).prop('error')).to.equal(
+        'You must provide a response',
+      );
+
+      // treatmentDateRange has 2 select inputs for each date (month, day)
+      expect(form.find('select').length).to.equal(4);
+      // providerFacilityAddress country and state are web-component-pattern's
+      expect(form.find('va-select').length).to.equal(2);
+
       expect(form.find('input').length).to.equal(7); // non-checkbox inputs
       expect(form.find('va-checkbox').length).to.equal(1);
     });
@@ -205,7 +235,14 @@ describe('Disability benefits 4142 provider medical records facility information
       form.find('form').simulate('submit');
       expect(submit.called).to.be.false;
 
-      expect(form.find('.usa-input-error').length).to.equal(8);
+      expect(form.find('.usa-input-error').length).to.equal(7);
+
+      // va-select element has error attribute when there is an error
+      const stateSelector =
+        'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]';
+      expect(form.find(stateSelector).prop('error')).to.equal(
+        'You must provide a response',
+      );
 
       expect(form.find('input').length).to.equal(8); // non-checkbox inputs
       expect(form.find('va-checkbox').length).to.equal(1);
@@ -229,8 +266,13 @@ describe('Disability benefits 4142 provider medical records facility information
         }}
       />,
     );
+
+    // treatmentDateRange has 2 select inputs for each date (month, day)
+    expect(form.find('select').length).to.equal(4);
+    // providerFacilityAddress country and state are web-component-pattern's
+    expect(form.find('va-select').length).to.equal(2);
+
     expect(form.find('va-checkbox').length).to.equal(4);
-    expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
 });
