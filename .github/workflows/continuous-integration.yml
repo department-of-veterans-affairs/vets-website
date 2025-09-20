@@ -616,9 +616,9 @@ jobs:
       - name: Annotate ESLint results
         run: |
           if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
+            yarn run eslint --ext .js --ext .jsx --ext .ts --ext .tsx --format ./script/github-actions/eslint-annotation-format.js .
           else
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
+            yarn run eslint --ext .js --ext .jsx --ext .ts --ext .tsx --format ./script/github-actions/eslint-annotation-format.js \
             ${{ steps.get-changed-apps.outputs.folders }}
           fi
         env:

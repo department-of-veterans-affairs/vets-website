@@ -2,8 +2,9 @@ import { parse } from 'date-fns';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { datadogRum } from '@datadog/browser-rum';
+import type { AvsData } from '../types';
 
-const parseProblemDateTime = dateString => {
+export const parseProblemDateTime = (dateString: string): Date | string => {
   try {
     // Parse dates in the format "Thu Apr 07 00:00:00 PDT 2005"
     const dateRegex = /\w{3} (\w{3}) (\d{2}) \d{2}:\d{2}:\d{2} \w+ (\d{4})/;
@@ -25,7 +26,7 @@ const parseProblemDateTime = dateString => {
   return 'N/A';
 };
 
-const parseVistaDateTime = date => {
+export const parseVistaDateTime = (date: string): Date | string => {
   try {
     const parsedDate = parse(date, 'MM/dd/yyyy@HH:mm', new Date());
     if (Number.isNaN(parsedDate.getTime())) {
@@ -39,7 +40,7 @@ const parseVistaDateTime = date => {
   return 'N/A';
 };
 
-const parseVistaDate = date => {
+export const parseVistaDate = (date: string): Date | string => {
   try {
     const parsedDate = parse(date, 'MM/dd/yyyy', new Date());
     if (Number.isNaN(parsedDate.getTime())) {
@@ -53,7 +54,7 @@ const parseVistaDate = date => {
   return 'N/A';
 };
 
-const formatImmunizationDate = date => {
+export const formatImmunizationDate = (date: string): string => {
   try {
     return formatDateLong(parseVistaDate(date));
   } catch (error) {
@@ -62,7 +63,7 @@ const formatImmunizationDate = date => {
   return 'N/A';
 };
 
-const stripDst = (timeZone, shortTimezone) => {
+const stripDst = (timeZone: string, shortTimezone: string): string => {
   let result = '';
 
   if (timeZone && shortTimezone) {
@@ -75,11 +76,14 @@ const stripDst = (timeZone, shortTimezone) => {
   return result;
 };
 
-const getShortTimezone = avs => {
+export const getShortTimezone = (avs: AvsData): string => {
   try {
     const { timeZone } = avs.meta;
 
-    const options = { timeZone, timeZoneName: 'short' };
+    const options: Intl.DateTimeFormatOptions = {
+      timeZone,
+      timeZoneName: 'short',
+    };
     const shortTimezone = new Intl.DateTimeFormat('en-US', options)
       .format(utcToZonedTime(new Date(), timeZone))
       .split(' ')[1];
@@ -93,7 +97,9 @@ const getShortTimezone = avs => {
   return '';
 };
 
-const getFormattedAppointmentTime = twentyFourHourTime => {
+export const getFormattedAppointmentTime = (
+  twentyFourHourTime: string,
+): string => {
   try {
     const time = parse(twentyFourHourTime, 'HH:mm', new Date());
     if (Number.isNaN(time.getTime())) {
@@ -107,11 +113,9 @@ const getFormattedAppointmentTime = twentyFourHourTime => {
   return '';
 };
 
-const getFormattedAppointmentDate = avs => {
+export const getFormattedAppointmentDate = (avs: AvsData): string => {
   try {
-    const dateTime = `${avs.clinicsVisited[0].date}@${
-      avs.clinicsVisited[0].time
-    }`;
+    const dateTime = `${avs.clinicsVisited[0].date}@${avs.clinicsVisited[0].time}`;
     const formattedDate = formatDateLong(parseVistaDateTime(dateTime));
 
     if (formattedDate === 'Invalid Date') {
@@ -125,7 +129,7 @@ const getFormattedAppointmentDate = avs => {
   return '';
 };
 
-const getFormattedGenerationDate = avs => {
+export const getFormattedGenerationDate = (avs: AvsData): string => {
   try {
     const { generatedDate, timeZone } = avs.meta;
     const zonedDate = utcToZonedTime(generatedDate, timeZone);
@@ -136,11 +140,9 @@ const getFormattedGenerationDate = avs => {
       );
     }
     const shortTimeZone = getShortTimezone(avs);
-    return `${format(
-      zonedDate,
-      "MMMM d, yyyy' at 'h:mm aaaa'",
+    return `${format(zonedDate, "MMMM d, yyyy' at 'h:mm aaaa'", {
       timeZone,
-    )} ${shortTimeZone}`;
+    })} ${shortTimeZone}`;
   } catch (error) {
     datadogRum.addError(error);
   }
@@ -148,11 +150,11 @@ const getFormattedGenerationDate = avs => {
   return 'N/A';
 };
 
-const fieldHasValue = value => {
+export const fieldHasValue = (value: any): boolean => {
   return value !== null && value !== '' && value !== undefined;
 };
 
-const allArraysEmpty = item => {
+export const allArraysEmpty = (item: Record<string, any[]>): boolean => {
   for (const [, value] of Object.entries(item)) {
     for (const arrayItem of value) {
       if (fieldHasValue(arrayItem)) return false;
@@ -162,7 +164,7 @@ const allArraysEmpty = item => {
   return true;
 };
 
-const allFieldsEmpty = item => {
+export const allFieldsEmpty = (item: Record<string, any>): boolean => {
   for (const [, value] of Object.entries(item)) {
     if (fieldHasValue(value)) return false;
   }
@@ -170,17 +172,4 @@ const allFieldsEmpty = item => {
   return true;
 };
 
-export {
-  allArraysEmpty,
-  allFieldsEmpty,
-  fieldHasValue,
-  formatImmunizationDate,
-  getFormattedAppointmentDate,
-  getFormattedAppointmentTime,
-  getFormattedGenerationDate,
-  getShortTimezone,
-  parseProblemDateTime,
-  parseVistaDate,
-  parseVistaDateTime,
-  stripDst,
-};
+export { stripDst };

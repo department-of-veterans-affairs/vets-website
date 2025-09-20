@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import type { MedicationTermsProps } from '../types';
 
-const MedicationTerms = props => {
-  const { avs } = props;
-
+const MedicationTerms: React.FC<MedicationTermsProps> = ({ avs }) => {
   if (!avs.pharmacyTerms?.length) {
     return null;
   }
 
   return (
-    <va-additional-info trigger="What do these medication terms mean?" uswds>
+    <VaAdditionalInfo trigger="What do these medication terms mean?">
       {avs.pharmacyTerms.map((term, idx) => (
         <div key={`term-${idx}`}>
           <h4>
@@ -20,12 +19,8 @@ const MedicationTerms = props => {
           </p>
         </div>
       ))}
-    </va-additional-info>
+    </VaAdditionalInfo>
   );
-};
-
-MedicationTerms.propTypes = {
-  avs: PropTypes.object,
 };
 
 export default MedicationTerms;

@@ -1,7 +1,18 @@
 import { useEffect } from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - Datadog types may not be available
 import { datadogRum } from '@datadog/browser-rum';
-
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+// Extend window interface for Datadog
+declare global {
+  interface Window {
+    DD_RUM?: {
+      getInitConfiguration(): any;
+    };
+    Mocha?: any;
+  }
+}
 
 const datadogRumConfig = {
   applicationId: '8880279e-5c40-4f82-90f9-9a3cdb6d461b',
@@ -16,9 +27,9 @@ const datadogRumConfig = {
   trackResources: true,
   trackLongTasks: true,
   defaultPrivacyLevel: 'mask',
-  beforeSend: event => {
+  beforeSend: (event: any): boolean => {
     // Prevent PII from being sent to Datadog with click actions.
-    if (event.action?.type === 'click') {
+    if (event.action?.type === 'click' && event.action?.target) {
       // eslint-disable-next-line no-param-reassign
       event.action.target.name = 'AVS item';
     }
@@ -26,7 +37,7 @@ const datadogRumConfig = {
   },
 };
 
-const initializeDatadogRum = () => {
+const initializeDatadogRum = (): void => {
   if (
     // Prevent RUM from running on local/CI environments.
     environment.BASE_URL.indexOf('localhost') < 0 &&
@@ -37,18 +48,17 @@ const initializeDatadogRum = () => {
     if (!datadogRumConfig.env) {
       datadogRumConfig.env = environment.vspEnvironment();
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - Datadog RUM configuration may have compatibility issues
     datadogRum.init(datadogRumConfig);
     datadogRum.startSessionReplayRecording();
   }
 };
 
-const useDatadogRum = config => {
-  useEffect(
-    () => {
-      initializeDatadogRum();
-    },
-    [config],
-  );
+const useDatadogRum = (config?: any): void => {
+  useEffect(() => {
+    initializeDatadogRum();
+  }, [config]);
 };
 
 export { useDatadogRum };

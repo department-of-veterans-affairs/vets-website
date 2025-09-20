@@ -8,10 +8,13 @@ import startApp from '@department-of-veterans-affairs/platform-startup/withoutRo
 import router from './router';
 import reducer from './reducers';
 import manifest from './manifest.json';
+import type { ManifestType } from './types';
+
+const typedManifest = manifest as ManifestType;
 
 startApp({
-  entryName: manifest.entryName,
-  url: manifest.rootUrl,
+  entryName: typedManifest.entryName,
+  url: typedManifest.rootUrl,
   reducer,
   router: <RouterProvider router={router} />,
 });

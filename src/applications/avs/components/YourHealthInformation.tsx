@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { parse } from 'date-fns';
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore - No type definitions available for this module
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import {
-  formatDateLong,
-  getCernerURL,
-} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 
@@ -30,15 +29,33 @@ import {
 } from '../utils/medications';
 import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
+import type {
+  YourHealthInformationProps,
+  AvsData,
+  Appointment,
+  Immunization,
+  Problem,
+  Allergy,
+  LabResultValue,
+  Medication,
+  AppointmentType,
+} from '../types';
+
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
 import ParagraphBlock from './ParagraphBlock';
 
-const getAppointments = (type, appointments) => {
+const getAppointments = (
+  type: AppointmentType,
+  appointments: Appointment[],
+): Appointment[] => {
   return appointments.filter(appointment => appointment.type === type.label);
 };
 
-const getAppointmentContent = (type, appointments) => {
+const getAppointmentContent = (
+  type: AppointmentType,
+  appointments: Appointment[],
+): React.ReactNode => {
   const items = getAppointments(type, appointments);
   if (items.length > 0) {
     return items.map((item, idx) => (
@@ -57,7 +74,7 @@ const getAppointmentContent = (type, appointments) => {
   return null;
 };
 
-const primaryCareProvider = avs => {
+const primaryCareProvider = (avs: AvsData): React.ReactNode => {
   if (avs.primaryCareProviders?.length) {
     return (
       <div>
@@ -74,8 +91,11 @@ const primaryCareProvider = avs => {
   return null;
 };
 
-const primaryCareTeam = avs => {
-  if (avs.primaryCareTeamMembers?.length > 0) {
+const primaryCareTeam = (avs: AvsData): React.ReactNode => {
+  if (
+    avs.primaryCareTeamMembers?.length &&
+    avs.primaryCareTeamMembers.length > 0
+  ) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
         {member.name}
@@ -99,8 +119,8 @@ const primaryCareTeam = avs => {
   return null;
 };
 
-const appointments = avs => {
-  if (avs.appointments?.length > 0) {
+const appointments = (avs: AvsData): React.ReactNode => {
+  if (avs.appointments?.length && avs.appointments.length > 0) {
     const scheduledAppointments = getAppointmentContent(
       APPOINTMENT_TYPES.SCHEDULED,
       avs.appointments,
@@ -149,7 +169,7 @@ const appointments = avs => {
   return null;
 };
 
-const renderImmunization = immunization => {
+const renderImmunization = (immunization: Immunization): React.ReactNode => {
   return (
     <p>
       {immunization.name}
@@ -161,7 +181,7 @@ const renderImmunization = immunization => {
   );
 };
 
-const renderProblem = problem => {
+const renderProblem = (problem: Problem): React.ReactNode => {
   // cf. https://github.com/department-of-veterans-affairs/avs/blob/2af52456e924d8da21b5a8079ac0fb41e6498c63/ll-avs-web/src/main/java/gov/va/med/lom/avs/client/thread/PatientInfoThread.java#L100C87-L100C87
   const problemName = problem.description.replace(/ \(.*\)$/, '');
   return (
@@ -172,7 +192,7 @@ const renderProblem = problem => {
   );
 };
 
-const renderAllergy = allergy => {
+const renderAllergy = (allergy: Allergy): React.ReactNode => {
   return (
     <p>
       {allergy.allergen}
@@ -191,7 +211,7 @@ const renderAllergy = allergy => {
   );
 };
 
-const labResultValues = labResult => {
+const labResultValues = (labResult: LabResultValue[]): React.ReactNode => {
   return labResult.map((item, idx) => (
     <div className="lab-result-value vads-u-margin-bottom--2" key={idx}>
       <strong>{item.test}</strong>
@@ -207,8 +227,8 @@ const labResultValues = labResult => {
   ));
 };
 
-const labResults = avs => {
-  if (avs.labResults?.length > 0) {
+const labResults = (avs: AvsData): React.ReactNode => {
+  if (avs.labResults?.length && avs.labResults.length > 0) {
     const labResultItems = avs.labResults.map((item, idx) => (
       <div key={idx}>
         {labResultValues(item.values)}
@@ -222,7 +242,7 @@ const labResults = avs => {
           Performing lab: {item.performingLab}
           <br />
         </p>
-        {avs.labResults.length > 1 && <hr />}
+        {avs.labResults && avs.labResults.length > 1 && <hr />}
       </div>
     ));
 
@@ -242,21 +262,21 @@ const labResults = avs => {
   return null;
 };
 
-const getMyMedications = avs => {
+const getMyMedications = (avs: AvsData): Medication[] => {
   return filterMedicationsByType(
     getMedicationsTaking(avs),
     MEDICATION_TYPES.DRUG,
   );
 };
 
-const getMySupplies = avs => {
+const getMySupplies = (avs: AvsData): Medication[] => {
   return filterMedicationsByType(
     getCombinedMedications(avs),
     MEDICATION_TYPES.SUPPLY,
   );
 };
 
-const medsIntro = (avs, fullState) => {
+const medsIntro = (avs: AvsData, fullState: any): React.ReactNode => {
   return (
     <>
       <p>
@@ -305,9 +325,7 @@ const medsIntro = (avs, fullState) => {
           Prescriptions from VA providers at facilities that use our My VA
           Health portal. If any of your VA facilities use My VA Health, you can
           find those prescriptions in that portal.{' '}
-          <a href={getCernerURL('/pages/medications/current', true)}>
-            Go to My VA Health
-          </a>
+          <a href="/my-health">Go to My VA Health</a>
         </li>
         <li>
           Certain supplies you order through our Denver Logistics Center,
@@ -320,16 +338,16 @@ const medsIntro = (avs, fullState) => {
   );
 };
 
-const getDateLastFilled = medication => {
+const getDateLastFilled = (medication: Medication): string => {
   if (fieldHasValue(medication.dateLastFilled))
-    return medication.dateLastFilled;
+    return medication.dateLastFilled || '';
   if (fieldHasValue(medication.dateLastReleased))
-    return medication.dateLastReleased;
+    return medication.dateLastReleased || '';
 
   return '';
 };
 
-const renderFieldWithBreak = (field, prefix = '') => {
+const renderFieldWithBreak = (field: any, prefix = ''): React.ReactNode => {
   if (fieldHasValue(field)) {
     if (prefix) {
       return (
@@ -349,8 +367,8 @@ const renderFieldWithBreak = (field, prefix = '') => {
   return '';
 };
 
-const renderVaMedication = medication => {
-  const facilityPhone = normalizePhoneNumber(medication.facilityPhone);
+const renderVaMedication = (medication: Medication): React.ReactNode => {
+  const facilityPhone = normalizePhoneNumber(medication.facilityPhone || '');
   const phoneNotClickable = !numberIsClickable(facilityPhone);
 
   return (
@@ -368,11 +386,11 @@ const renderVaMedication = medication => {
         {!!medication.facilityPhone && (
           <>
             Main phone: [
-            <va-telephone
+            <VaTelephone
               contact={facilityPhone}
-              not-clickable={phoneNotClickable}
+              notClickable={phoneNotClickable}
             />
-            ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
+            ] (<VaTelephone contact={CONTACTS['711']} tty />)<br />
           </>
         )}
         {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
@@ -389,7 +407,7 @@ const renderVaMedication = medication => {
   );
 };
 
-const renderNonVaMedication = medication => {
+const renderNonVaMedication = (medication: Medication): React.ReactNode => {
   return (
     <p>
       {renderFieldWithBreak(medication.name)}
@@ -407,7 +425,7 @@ const renderNonVaMedication = medication => {
   );
 };
 
-const renderMedication = medication => {
+const renderMedication = (medication: Medication): React.ReactNode => {
   switch (medication.medicationSource) {
     case MEDICATION_SOURCES.NON_VA:
       return renderNonVaMedication(medication);
@@ -417,9 +435,10 @@ const renderMedication = medication => {
   }
 };
 
-const YourHealthInformation = props => {
-  const { avs } = props;
-  const fullState = useSelector(state => state);
+const YourHealthInformation: React.FC<YourHealthInformationProps> = ({
+  avs,
+}) => {
+  const fullState = useSelector((state: any) => state);
 
   const appointmentDate = getFormattedAppointmentDate(avs);
 
@@ -464,7 +483,7 @@ const YourHealthInformation = props => {
       {labResults(avs)}
       <ItemsBlock
         heading="My medications"
-        intro={medsIntro(avs, fullState)}
+        intro={medsIntro(avs, fullState) as any}
         itemType="my-medications"
         items={getMyMedications(avs)}
         renderItem={renderMedication}
@@ -482,7 +501,3 @@ const YourHealthInformation = props => {
 };
 
 export default YourHealthInformation;
-
-YourHealthInformation.propTypes = {
-  avs: PropTypes.object,
-};
