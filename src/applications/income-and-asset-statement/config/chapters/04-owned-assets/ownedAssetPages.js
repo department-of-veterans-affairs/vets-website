@@ -235,7 +235,25 @@ const updatedCustodianSummaryPage = {
       options,
       {
         title: genericTitle,
-        hint: genericHint,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedParentSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -599,7 +617,8 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
       showUpdatedContent() &&
       formData.claimantType !== 'SPOUSE' &&
       formData.claimantType !== 'CHILD' &&
-      formData.claimantType !== 'CUSTODIAN',
+      formData.claimantType !== 'CUSTODIAN' &&
+      formData.claimantType !== 'PARENT',
     uiSchema: updatedSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -625,6 +644,14 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     depends: formData =>
       showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
     uiSchema: updatedCustodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: updatedParentSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
