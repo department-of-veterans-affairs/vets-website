@@ -117,3 +117,47 @@ SupplementaryFormsAlert.propTypes = {
   }),
   headingLevel: PropTypes.oneOf(['h2', 'h3']),
 };
+
+export function SupplementaryFormsAlertUpdated({ formData, headingLevel }) {
+  const assets = formData?.ownedAssets || [];
+
+  // Filter for assets where user either declined to upload OR said yes but didn't upload
+  const alertAssets = assets.filter(asset => {
+    const isFarmOrBusiness = assetTypeAllowlist.includes(asset.assetType);
+    const declinedUpload = asset['view:addFormQuestion'] === false;
+    const saidYesButNoUpload =
+      asset['view:addFormQuestion'] === true &&
+      (!asset?.uploadedDocuments || asset.uploadedDocuments.length === 0);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButNoUpload);
+  });
+
+  if (alertAssets.length === 0) return null;
+
+  const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
+
+  return (
+    <va-alert status="info" visible>
+      <Heading slot="headline">Additional form needed</Heading>
+      {alertAssets.map((asset, index) => {
+        const assetType = asset.assetType.toLowerCase();
+        const formName = bodyTextMap[assetType];
+        return (
+          <>
+            <p key={index}>
+              You added a {assetType} but didn’t upload a {formName} form.
+            </p>
+            <p>You’ll need to send it by mail.</p>
+          </>
+        );
+      })}
+    </va-alert>
+  );
+}
+
+SupplementaryFormsAlertUpdated.propTypes = {
+  formData: PropTypes.shape({
+    ownedAssets: PropTypes.array,
+  }),
+  headingLevel: PropTypes.oneOf(['h2', 'h3']),
+};
