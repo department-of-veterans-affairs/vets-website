@@ -5,6 +5,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { TITLE } from '../constants';
 
 const OMB_RES_BURDEN = 10;
@@ -12,16 +13,29 @@ const OMB_NUMBER = '2900-0009';
 const OMB_EXP_DATE = '08/31/2025';
 
 const ProcessList = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const showEligibilityStatusLink = useToggleValue(
+    TOGGLE_NAMES.vreEligibilityStatusUpdates,
+  );
+
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
         <p className="vads-u-margin-bottom--0">
           Make sure you meet our eligibility requirements before you apply.
         </p>
-        <va-link
-          href="/careers-employment/vocational-rehabilitation/eligibility/"
-          text="Find out if you’re eligible for VR&E benefits"
-        />
+        {showEligibilityStatusLink ? (
+          <va-link
+            href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/check-eligibility-and-apply/"
+            text="Check your eleigibility and apply"
+          />
+        ) : (
+          <va-link
+            href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
+            text="Find out if you’re eligible for VR&E benefits"
+          />
+        )}
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <p>Here’s what you’ll need to apply:</p>
