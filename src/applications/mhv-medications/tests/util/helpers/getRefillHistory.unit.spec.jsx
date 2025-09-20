@@ -18,6 +18,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
     };
 
@@ -37,6 +38,7 @@ describe('getRefillHistory function', () => {
       frontImprint: 'front123',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       shape: 'round',
       rxRfRecords: [
         {
@@ -67,6 +69,9 @@ describe('getRefillHistory function', () => {
     );
     expect(originalFill.cmopNdcNumber).to.equal(prescription.cmopNdcNumber);
     expect(originalFill.dispensedDate).to.equal(prescription.dispensedDate);
+    expect(originalFill.prescriptionSource).to.equal(
+      prescription.prescriptionSource,
+    );
   });
 
   it('should handle prescription with empty rxRfRecords array and dispensed date', () => {
@@ -76,6 +81,7 @@ describe('getRefillHistory function', () => {
       dispensedDate: '2023-01-01',
       prescriptionId: '123456',
       prescriptionName: 'Test Medication',
+      prescriptionSource: 'RX',
       rxRfRecords: [],
     };
 
@@ -83,6 +89,7 @@ describe('getRefillHistory function', () => {
     expect(result.length).to.equal(1);
     expect(result[0].prescriptionId).to.equal('123456');
     expect(result[0].prescriptionName).to.equal('Test Medication');
+    expect(result[0].prescriptionSource).to.equal('RX');
   });
 
   it('should handle prescription with empty rxRfRecords array and no dispensed date', () => {

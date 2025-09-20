@@ -45,14 +45,14 @@ describe('VA prescription Config', () => {
 
   it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
   it('should NOT create "Refill history" section if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1]).to.not.exist;
@@ -60,7 +60,7 @@ describe('VA prescription Config', () => {
 
   it('should NOT create "Refill history" section if there are NO records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1]).to.not.exist;
@@ -75,7 +75,7 @@ describe('VA prescription Config', () => {
 
   it('should create "Refill history" section if there are 2 records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
