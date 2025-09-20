@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-import { merge } from 'lodash';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -14,7 +12,6 @@ import {
   defaultItemPageScrollAndFocusTarget,
   arrayBuilderDependsContextWrapper,
   arrayBuilderContextObject,
-  getArrayUrlSearchParams,
   maxItemsFn,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
