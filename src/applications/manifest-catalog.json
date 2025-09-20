@@ -136,12 +136,6 @@
       "rootUrl": "/track-claims"
     },
     {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
-    },
-    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -154,16 +148,22 @@
       "rootUrl": "/covid19screen"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674",
+      "directoryPath": "src/applications/dependents/686c-674-old",
+      "appName": "686C-674",
+      "entryName": "686C-674",
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
+    },
+    {
+      "directoryPath": "src/applications/dependents/686c-674/v2",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
       "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
-      "directoryPath": "src/applications/dependents/686c-674-old",
-      "appName": "686C-674",
-      "entryName": "686C-674",
-      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
+      "directoryPath": "src/applications/dependents/686c-674/v3",
+      "appName": "686C-674-v2",
+      "entryName": "686C-674-v2",
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674-v3"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
@@ -379,7 +379,7 @@
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
