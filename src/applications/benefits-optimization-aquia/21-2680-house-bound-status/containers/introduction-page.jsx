@@ -18,14 +18,15 @@ import {
 
 /** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes to complete form */
 const OMB_RES_BURDEN = 30;
+
 /** @constant {string} OMB_NUMBER - Office of Management and Budget control number */
 const OMB_NUMBER = '2900-0721';
+
 /** @constant {string} OMB_EXP_DATE - OMB approval expiration date */
 const OMB_EXP_DATE = '02/28/2026';
 
 /**
  * Process list component showing the steps to complete the form
- * @component
  * @returns {React.ReactElement} Process list with application steps
  */
 const ProcessList = () => {
@@ -70,13 +71,11 @@ const ProcessList = () => {
 };
 
 /**
- * Introduction page for VA Form 21-2680
- * Displays form title, process steps, and handles user authentication state
- *
- * @component
+ * Introduction page component for VA Form 21-2680
+ * Displays form overview, process steps, and handles authentication state
  * @param {Object} props - Component properties
- * @param {Object} props.route - Route configuration object
- * @param {Object} props.route.formConfig - Form configuration settings
+ * @param {Object} props.route - Route configuration from React Router
+ * @param {Object} props.route.formConfig - Form configuration object
  * @param {boolean} props.route.formConfig.prefillEnabled - Whether prefill is enabled
  * @param {Object} props.route.formConfig.savedFormMessages - Messages for saved forms
  * @param {Array} props.route.pageList - List of form pages

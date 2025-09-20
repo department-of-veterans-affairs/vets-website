@@ -4,10 +4,10 @@
  */
 
 /** @exports {React.Component} App - Main application container */
-export { default as App } from './app.jsx';
+export { default as App } from './app';
 
 /** @exports {React.Component} IntroductionPage - Form introduction page */
-export { IntroductionPage } from './introduction-page.jsx';
+export { IntroductionPage } from './introduction-page';
 
 /** @exports {React.Component} ConfirmationPage - Form submission confirmation page */
-export { ConfirmationPage } from './confirmation-page.jsx';
+export { ConfirmationPage } from './confirmation-page';

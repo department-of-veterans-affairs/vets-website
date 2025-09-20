@@ -21,7 +21,6 @@ import {
 import manifest from '../manifest.json';
 
 /**
- * Main form configuration object for VA Form 21-2680
  * @typedef {Object} FormConfig
  * @property {string} rootUrl - Base URL for the form
  * @property {string} urlPrefix - URL prefix for form pages
@@ -43,7 +42,10 @@ import manifest from '../manifest.json';
  * @property {React.Component|string} footerContent - Footer content component
  */
 
-/** @type {FormConfig} */
+/**
+ * Main form configuration object for VA Form 21-2680
+ * @type {FormConfig}
+ */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',

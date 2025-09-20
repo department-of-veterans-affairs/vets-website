@@ -5,14 +5,11 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 
 /**
  * Root application component that wraps the form with save-in-progress functionality
- *
- * @component
  * @param {Object} props - Component properties
  * @param {Object} props.location - React Router location object
  * @param {React.ReactNode} props.children - Child components to render
@@ -27,8 +24,6 @@ export default function App({ location, children }) {
 }
 
 App.propTypes = {
-  /** Child components rendered within the app wrapper */
   children: PropTypes.node,
-  /** React Router location object containing pathname, search, hash, etc. */
   location: PropTypes.object,
 };
