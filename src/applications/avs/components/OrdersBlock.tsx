@@ -6,7 +6,7 @@ import { ORDER_TYPES } from '../utils/constants';
 import type { OrdersBlockProps, Order } from '../types';
 
 const getOrderItems = (type: any, orders?: Order[]): Order[] => {
-  return orders?.filter((order) => order.type === type.label) || [];
+  return orders?.filter(order => order.type === type.label) || [];
 };
 
 const getOrderListItemsByType = (

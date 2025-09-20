@@ -14,7 +14,7 @@ declare module '@department-of-veterans-affairs/platform-startup/withoutRouter' 
     reducer: any;
     router: React.ReactElement;
   }
-  
+
   function startApp(config: StartAppConfig): void;
   export default startApp;
 }

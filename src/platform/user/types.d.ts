@@ -18,6 +18,6 @@ declare module '@department-of-veterans-affairs/platform-user/RequiredLoginView'
     serviceRequired: string[];
     children: React.ReactNode;
   }
-  
+
   export const RequiredLoginView: React.FC<RequiredLoginViewProps>;
 }

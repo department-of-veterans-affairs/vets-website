@@ -2,7 +2,7 @@ import React from 'react';
 import type { AvsPageHeaderProps } from '../types';
 
 const stripAvsTitle = (lines: string[]): string[] => {
-  return lines.filter((line) => {
+  return lines.filter(line => {
     return !line.match(/^\s*After[- ]Visit Summary\s*$/i);
   });
 };

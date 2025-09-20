@@ -49,7 +49,7 @@ const getAppointments = (
   type: AppointmentType,
   appointments: Appointment[],
 ): Appointment[] => {
-  return appointments.filter((appointment) => appointment.type === type.label);
+  return appointments.filter(appointment => appointment.type === type.label);
 };
 
 const getAppointmentContent = (
