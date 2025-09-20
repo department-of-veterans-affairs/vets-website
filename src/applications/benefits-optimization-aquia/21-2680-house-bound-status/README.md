@@ -75,6 +75,9 @@ This application uses the VA.gov forms system (RJSF - React JSON Schema Form) wi
 ### Running Locally
 
 ```bash
+# Run build for this single app
+yarn build --entry=21-2680-house-bound-status
+
 # Watch only this application
 yarn watch --env entry=21-2680-house-bound-status
 
