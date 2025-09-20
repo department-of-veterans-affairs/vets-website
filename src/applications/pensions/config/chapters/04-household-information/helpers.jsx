@@ -5,13 +5,26 @@ import { createSelector } from 'reselect';
 import { Title } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { isWithinInterval, parseISO, startOfDay, subYears } from 'date-fns';
+import { showPdfFormAlignment } from '../../../helpers';
 
 export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
 }
 
-export function isMarried(form = {}) {
-  return ['MARRIED', 'SEPARATED'].includes(form.maritalStatus);
+/**
+ * Determines if the formData.maritalStatus qualifies as "married".
+ * Behavior changes depending on the `showPdfFormAlignment` toggle:
+ * - If toggle is true: includes MARRIED, WIDOWED, DIVORCED, SEPARATED
+ * - If toggle is false: only includes MARRIED, SEPARATED
+ */
+export function isMarried(formData = {}) {
+  const pdfAlignmentEnabled = showPdfFormAlignment();
+
+  const validStatuses = pdfAlignmentEnabled
+    ? ['MARRIED', 'WIDOWED', 'DIVORCED', 'SEPARATED']
+    : ['MARRIED', 'SEPARATED'];
+
+  return validStatuses.includes(formData.maritalStatus);
 }
 
 export function doesHaveDependents(formData) {
