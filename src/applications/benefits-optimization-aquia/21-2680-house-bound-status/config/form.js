@@ -1,3 +1,9 @@
+/**
+ * @module config/form
+ * @description Main form configuration for VA Form 21-2680 - Examination for Housebound Status
+ * or Permanent Need for Regular Aid & Attendance
+ */
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
@@ -13,6 +19,29 @@ import {
   phoneAndEmailAddress,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 import manifest from '../manifest.json';
+
+/**
+ * Main form configuration object for VA Form 21-2680
+ * @typedef {Object} FormConfig
+ * @property {string} rootUrl - Base URL for the form
+ * @property {string} urlPrefix - URL prefix for form pages
+ * @property {string} submitUrl - API endpoint for form submission
+ * @property {Function} submit - Form submission handler
+ * @property {string} trackingPrefix - Analytics tracking prefix
+ * @property {React.Component} introduction - Introduction page component
+ * @property {React.Component} confirmation - Confirmation page component
+ * @property {Object} dev - Development settings
+ * @property {string} formId - Unique form identifier
+ * @property {Object} saveInProgress - Save-in-progress configuration
+ * @property {number} version - Form version number
+ * @property {boolean} prefillEnabled - Enable prefilling from user profile
+ * @property {Object} savedFormMessages - Custom messages for saved forms
+ * @property {string} title - Form title
+ * @property {string} subTitle - Form subtitle
+ * @property {Object} defaultDefinitions - Default schema definitions
+ * @property {Object} chapters - Form chapters configuration
+ * @property {React.Component|string} footerContent - Footer content component
+ */
 
 /** @type {FormConfig} */
 const formConfig = {

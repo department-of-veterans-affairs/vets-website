@@ -1,10 +1,19 @@
+/**
+ * @module pages/identification-information
+ * @description Page configuration for veteran's SSN or VA file number
+ */
+
 import {
   titleUI,
   ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
+/**
+ * Identification information page configuration
+ * Collects either Social Security Number or VA File Number
+ * @type {PageSchema}
+ */
 export default {
   uiSchema: {
     ...titleUI(

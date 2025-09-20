@@ -1,10 +1,19 @@
+/**
+ * @module pages/mailing-address
+ * @description Page configuration for veteran's mailing address
+ */
+
 import {
   addressSchema,
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
+/**
+ * Mailing address page configuration
+ * Collects veteran's mailing address for correspondence
+ * @type {PageSchema}
+ */
 export default {
   uiSchema: {
     ...titleUI(

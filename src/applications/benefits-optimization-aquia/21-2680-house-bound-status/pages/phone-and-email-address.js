@@ -1,3 +1,8 @@
+/**
+ * @module pages/phone-and-email-address
+ * @description Page configuration for veteran's contact information
+ */
+
 import {
   emailSchema,
   emailUI,
@@ -6,7 +11,11 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
+/**
+ * Phone and email address page configuration
+ * Collects veteran's phone numbers and email for contact purposes
+ * @type {PageSchema}
+ */
 export default {
   uiSchema: {
     ...titleUI('Phone and email address'),

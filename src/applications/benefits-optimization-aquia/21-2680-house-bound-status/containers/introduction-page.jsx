@@ -1,3 +1,9 @@
+/**
+ * @module containers/IntroductionPage
+ * @description Introduction page component for VA Form 21-2680 that displays
+ * form overview, process steps, and save-in-progress functionality
+ */
+
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
@@ -10,10 +16,18 @@ import {
   SUBTITLE,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 
+/** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes to complete form */
 const OMB_RES_BURDEN = 30;
+/** @constant {string} OMB_NUMBER - Office of Management and Budget control number */
 const OMB_NUMBER = '2900-0721';
+/** @constant {string} OMB_EXP_DATE - OMB approval expiration date */
 const OMB_EXP_DATE = '02/28/2026';
 
+/**
+ * Process list component showing the steps to complete the form
+ * @component
+ * @returns {React.ReactElement} Process list with application steps
+ */
 const ProcessList = () => {
   return (
     <va-process-list>
@@ -55,6 +69,20 @@ const ProcessList = () => {
   );
 };
 
+/**
+ * Introduction page for VA Form 21-2680
+ * Displays form title, process steps, and handles user authentication state
+ *
+ * @component
+ * @param {Object} props - Component properties
+ * @param {Object} props.route - Route configuration object
+ * @param {Object} props.route.formConfig - Form configuration settings
+ * @param {boolean} props.route.formConfig.prefillEnabled - Whether prefill is enabled
+ * @param {Object} props.route.formConfig.savedFormMessages - Messages for saved forms
+ * @param {Array} props.route.pageList - List of form pages
+ * @param {Object} [props.location] - React Router location object
+ * @returns {React.ReactElement} Introduction page component
+ */
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
