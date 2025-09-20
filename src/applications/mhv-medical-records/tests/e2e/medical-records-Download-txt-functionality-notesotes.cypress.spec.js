@@ -8,7 +8,7 @@ describe('Medical Records Care summaries and notes', () => {
   before(() => {
     site.login();
     cy.visit('my-health/medical-records');
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Care summaries and notes Page Toggle Menu button Print or download ', () => {

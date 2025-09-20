@@ -9,13 +9,14 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Pulse Oximetry', () => {
     VitalsListPage.goToVitals();
     // click pulse oximetry link
-    VitalsListPage.clickLinkByRecordListItemIndex(3);
+    VitalsListPage.clickLinkByRecordListItem(
+      'Blood oxygen level (pulse oximetry)',
+    );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

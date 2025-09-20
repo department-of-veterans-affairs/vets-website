@@ -4,15 +4,14 @@ import VitalsListPage from './pages/VitalsListPage';
 describe('Medical Records Vitals', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Page Toggle Menu button Print or download ', () => {
     // Given Navigate to Vitals Page
     VitalsListPage.goToVitals();
-    VitalsListPage.clickVitalsDetailsLink(0);
+    VitalsListPage.clickLinkByRecordListItem('Blood pressure');
     // should display a toggle menu button
     // Verify  PrintDownload button
     VitalsListPage.verifyPrintOrDownload();
