@@ -430,6 +430,10 @@ module.exports = async (env = {}) => {
       alias: {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
+        '@bio-aquia': path.resolve(
+          __dirname,
+          '../src/applications/benefits-optimization-aquia',
+        ),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
