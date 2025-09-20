@@ -8,10 +8,13 @@ import {
   validateTEConditions,
 } from '../../content/toxicExposure';
 import { formTitle, makeConditionsUI } from '../../utils';
-import ToxicExposureConditions from '../../components/ConfirmationFields/ToxicExposureConditions';
+import ToxicExposureChoicePage from './toxicExposureChoicePage';
 
 export const uiSchema = {
   'ui:title': formTitle(conditionsPageTitle),
+  'ui:options': {
+    forceDivWrapper: true,
+  },
   toxicExposure: {
     conditions: makeConditionsUI({
       title: conditionsQuestion,
@@ -21,7 +24,6 @@ export const uiSchema = {
     }),
   },
   'ui:validations': [validateTEConditions],
-  'ui:confirmationField': ToxicExposureConditions,
 };
 
 export const schema = {
@@ -34,4 +36,15 @@ export const schema = {
       },
     },
   },
+};
+
+// Export CustomPage as a named export for namespace imports
+export const CustomPage = ToxicExposureChoicePage;
+
+// Using custom page component to handle destructive modal
+export default {
+  uiSchema,
+  schema,
+  CustomPage: ToxicExposureChoicePage,
+  CustomPageReview: null,
 };
