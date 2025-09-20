@@ -14,12 +14,13 @@ before(() => {
   if (!global.scrollTo) global.scrollTo = () => {};
 });
 
-const getPage = submission =>
+const getPage = (data = {}, submission) =>
   render(
     <Provider
       store={mockStore({
         form: {
           ...createInitialState(formConfig),
+          data,
           submission,
         },
       })}
@@ -31,28 +32,75 @@ const getPage = submission =>
 describe('ConfirmationPage', () => {
   afterEach(cleanup);
 
-  it('shows success alert, heading, and confirmation number', () => {
+  it('shows success alert for "newCommitment" agreement type', () => {
     const { container, getByText } = getPage({
-      response: { confirmationNumber: '1234567890' },
-      timestamp: new Date().toISOString(),
+      agreementType: 'newCommitment',
     });
 
     expect(container.querySelector('va-alert')).to.have.attribute(
       'status',
       'success',
     );
-    getByText(/Form submission started/i);
-    getByText(/1234567890/);
+    expect(getByText(/new commitment/)).to.exist;
   });
 
-  it('renders safely when submission object is empty (defaults kick in)', () => {
-    const { container, queryByText } = getPage({});
+  it('shows success alert for "withdrawal" agreement type', () => {
+    const { container, getByText } = getPage({
+      agreementType: 'withdrawal',
+    });
 
     expect(container.querySelector('va-alert')).to.have.attribute(
       'status',
       'success',
     );
+    expect(getByText(/withdrawal of commitment/)).to.exist;
+  });
 
-    expect(queryByText(/\d{6,}/)).to.be.null;
+  it('shows summary box with button to print page', () => {
+    const { container } = getPage({
+      response: {
+        attributes: {
+          confirmationNumber: '1234567890',
+        },
+      },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(container.querySelector('va-summary-box')).to.exist;
+    expect(container.querySelectorAll('va-summary-box h4').length).to.equal(3);
+    expect(container.querySelector('va-button')).to.have.attribute(
+      'text',
+      'Print this page',
+    );
+  });
+
+  it('shows whats next section', () => {
+    const { getByText } = getPage({
+      response: {
+        attributes: {
+          confirmationNumber: '1234567890',
+        },
+      },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(getByText(/What to expect next/)).to.exist;
+    expect(getByText(/Your form will be evaluated/)).to.exist;
+  });
+
+  it('shows action link to return to VA.gov homepage', () => {
+    const { container } = getPage({
+      response: {
+        attributes: {
+          confirmationNumber: '1234567890',
+        },
+      },
+      timestamp: new Date().toISOString(),
+    });
+
+    expect(container.querySelector('va-link-action')).to.have.attribute(
+      'text',
+      'Go back to VA.gov',
+    );
   });
 });

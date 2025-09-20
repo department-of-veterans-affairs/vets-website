@@ -2,31 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import {
+  ConfirmationGoBackLink,
+  ConfirmationPrintThisPage,
+  ConfirmationSubmissionAlert,
+  ConfirmationWhatsNextProcessList,
+} from '../helpers';
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
-  const confirmationNumber = submission?.response?.confirmationNumber || '';
+  const confirmationNumber =
+    submission?.response?.attributes?.confirmationNumber || '';
+  const agreementType =
+    form.data.agreementType === 'newCommitment'
+      ? 'new commitment'
+      : 'withdrawal of commitment';
 
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
-      devOnly={{
-        showButtons: true,
-      }}
     >
-      <ConfirmationView.SubmissionAlert />
-      <ConfirmationView.SavePdfDownload />
-      <ConfirmationView.ChapterSectionCollection />
-      <ConfirmationView.PrintThisPage />
-      <ConfirmationView.WhatsNextProcessList />
-      <ConfirmationView.HowToContact />
-      <ConfirmationView.GoBackLink />
-      <ConfirmationView.NeedHelp />
+      <ConfirmationView.SubmissionAlert
+        title={`You've submitted your ${agreementType} to the Principles of Excellence for educational institutions`}
+        content={<ConfirmationSubmissionAlert />}
+        actions={null}
+      />
+      <ConfirmationPrintThisPage data={form.data} submitDate={submitDate} />
+      <ConfirmationWhatsNextProcessList />
+      <ConfirmationGoBackLink />
     </ConfirmationView>
   );
 };
