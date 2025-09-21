@@ -886,16 +886,29 @@ export function isCompletingModern4142(formData) {
   return formData?.disability526Enable2024Form4142 === true;
 }
 
+export const modern4142AuthURL =
+  '/supporting-evidence/private-medical-records-authorize-release';
+
+export const legacy4142AuthURL = '/supporting-evidence/private-medical-records';
+
+export const evidenceChoiceURL = '/supporting-evidence/evidence-types';
+
+export const minimum4142Setup = formData => {
+  return (
+    formData?.['view:hasEvidence'] === true &&
+    // And the user is still choosing to include private records
+    formData?.['view:selectableEvidenceTypes']?.[
+      'view:hasPrivateMedicalRecords'
+    ] === true
+  );
+};
+
 export const baseDoNew4142Logic = formData => {
   return (
     // If flipper is enabled
     formData.disability526Enable2024Form4142 === true &&
     // And the user has evidence for review
-    formData?.['view:hasEvidence'] === true &&
-    // And the user is still choosing to include private records
-    formData?.['view:selectableEvidenceTypes']?.[
-      'view:hasPrivateMedicalRecords'
-    ] === true &&
+    minimum4142Setup(formData) === true &&
     // And the user has previously acknowledged the 4142 authorization
     formData['view:patientAcknowledgement']?.['view:acknowledgement'] ===
       true &&
@@ -912,13 +925,8 @@ export const baseDoNew4142Logic = formData => {
 export const redirectWhenFlipperOff = props => {
   const { returnUrl, formData } = props;
   return (
-    formData?.['view:hasEvidence'] === true &&
-    // And the user is still choosing to include private records
-    formData?.['view:selectableEvidenceTypes']?.[
-      'view:hasPrivateMedicalRecords'
-    ] === true &&
-    returnUrl ===
-      '/supporting-evidence/private-medical-records-authorize-release' &&
+    minimum4142Setup(formData) === true &&
+    returnUrl === modern4142AuthURL &&
     formData.disability526Enable2024Form4142 !== true
   );
 };
@@ -927,9 +935,7 @@ export const redirectWhenNoEvidence = props => {
   const { returnUrl, formData } = props;
   return (
     formData?.['view:hasEvidence'] === false &&
-    (returnUrl ===
-      '/supporting-evidence/private-medical-records-authorize-release' ||
-      returnUrl === '/supporting-evidence/private-medical-records')
+    (returnUrl === modern4142AuthURL || returnUrl === legacy4142AuthURL)
   );
 };
 
@@ -938,7 +944,7 @@ export const onFormLoaded = props => {
   const shouldRedirectToModern4142Choice = baseDoNew4142Logic(formData);
   const shouldRevertWhenFlipperOff = redirectWhenFlipperOff(props);
   const shouldRevertWhenNoEvidence = redirectWhenNoEvidence(props);
-  const redirectUrl = '/supporting-evidence/private-medical-records';
+  const redirectUrl = legacy4142AuthURL;
 
   if (shouldRedirectToModern4142Choice === true) {
     // if we should redirect to the modern 4142 choice page, we set the shared variable

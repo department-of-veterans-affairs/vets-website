@@ -37,7 +37,7 @@ export const sponsorNameDobConfig = {
       ),
     ),
     veteransFullName: fullNameUI(),
-    sponsorDob: dateOfBirthUI(),
+    sponsorDob: dateOfBirthUI({ dataDogHidden: true }),
   },
   schema: {
     type: 'object',
