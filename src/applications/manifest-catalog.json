@@ -106,6 +106,12 @@
       "rootUrl": "/21-2680-house-bound-status"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "appName": "21-4192 Employment Information",
+      "entryName": "21-4192-employment-information",
+      "rootUrl": "/21-4192-employment-information"
+    },
+    {
       "directoryPath": "src/applications/burials-ez",
       "appName": "21P-530EZ Burials benefits form",
       "entryName": "burials-ez",
@@ -140,12 +146,6 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
-    },
-    {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -385,7 +385,7 @@
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
