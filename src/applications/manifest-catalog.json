@@ -148,6 +148,12 @@
       "rootUrl": "/track-claims"
     },
     {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -385,7 +391,7 @@
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
