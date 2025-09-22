@@ -50,8 +50,9 @@ describe('ExitForm', () => {
     const deleteInProgressFormStub = sandbox
       .stub(utils, 'deleteInProgressForm')
       .resolves();
-    const assignSpy = sandbox.spy();
-    const { container } = render(<ExitForm location={{ assign: assignSpy }} />);
+    const assignSpy = sinon.spy();
+    global.window.location.assign = assignSpy;
+    const { container } = render(<ExitForm />);
 
     fireEvent.click($('va-button[continue]', container));
 

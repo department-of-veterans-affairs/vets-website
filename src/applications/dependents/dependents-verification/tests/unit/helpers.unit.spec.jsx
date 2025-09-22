@@ -4,7 +4,6 @@ import { sub, format } from 'date-fns';
 import { hasSession, calculateAge, processDependents } from '../../helpers';
 
 describe('hasSession', () => {
-  global.localStorage = localStorage;
   it('should return true if hasSession is set to true in localStorage', () => {
     localStorage.setItem('hasSession', 'true');
     expect(hasSession()).to.be.true;
