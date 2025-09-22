@@ -570,7 +570,7 @@ const GetHelpPage = title => {
               <p>
                 Email the Accredited Representative Portal team at{' '}
                 {EmailHelpLink()}
-                 if you are a VSO manager or certifying official and would like
+                 if you’re a VSO manager or certifying official and you’d like
                 access to the Representation Request feature for your
                 organization.
               </p>

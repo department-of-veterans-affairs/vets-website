@@ -144,8 +144,9 @@ const LandingPage = title => {
                 text="Learn more about how to set up your account"
               />
               <p>
-                If you are a VSO manager and would like the representation
-                requests feature for your organization, email us at{' '}
+                If you’re a VSO manager and you’d like access to the
+                representation requests feature for your organization,
+                email us at{' '}
                 <va-link
                   class="hp__link hp__link--email"
                   reverse
