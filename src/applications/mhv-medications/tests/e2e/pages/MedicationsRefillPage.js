@@ -345,21 +345,21 @@ class MedicationsRefillPage {
   };
 
   verifyPartialSuccessAlertOnRefillPage = () => {
-    cy.get('[data-testid="partial-failed-message-title"]').should(
+    cy.get('[data-testid="partial-refill-title"]').should(
       'contain',
       'Only part of your request was submitted',
     );
   };
 
   verifyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="failed-message-title"]', { includeShadowDom: true })
+    cy.get('[data-testid="error-refill-title"]', { includeShadowDom: true })
       .should('be.visible')
       .first()
       .and('have.text', text);
   };
 
   verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="partial-failed-message-title"]', {
+    cy.get('[data-testid="partial-refill-title"]', {
       includeShadowDom: true,
     })
       .should('be.visible')
@@ -383,14 +383,14 @@ class MedicationsRefillPage {
   };
 
   verifyRefillRequestSuccessConfirmationMessage = () => {
-    cy.get('[data-testid="success-message-title"]').should(
+    cy.get('[data-testid="success-refill-title"]').should(
       'contain',
       'Refills requested',
     );
   };
 
   verifyMedicationRefillRequested = refillName => {
-    cy.get('[data-testid="medication-requested-successful"]').should(
+    cy.get('[data-testid="successful-medication-list"]').should(
       'contain',
       refillName,
     );
@@ -471,13 +471,13 @@ class MedicationsRefillPage {
   };
 
   verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
-    cy.get('[data-testid="success-message-title"]')
+    cy.get('[data-testid="success-refill-title"]')
       .should('have.text', alert)
       .and('not.be.visible');
   };
 
   verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
-    cy.get('[data-testid="failed-message-description"]')
+    cy.get('[data-testid="failed-refill-description"]')
       .should('have.text', text)
       .and('not.be.visible');
   };
@@ -533,10 +533,10 @@ class MedicationsRefillPage {
   };
 
   verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
-    cy.get('[data-testid="failed-request-text"]')
+    cy.get('[data-testid="failed-refill-text"]')
       .should('have.text', text)
       .and('be.visible');
-    cy.get('[data-testid="failed-request-suggestion"]')
+    cy.get('[data-testid="failed-refill-suggestion"]')
       .should('have.text', suggestion)
       .and('be.visible');
   };
