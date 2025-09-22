@@ -92,7 +92,7 @@ const ComboAlerts = ({ alertType }) => {
     case ALERT_TYPES.ZERO:
       return (
         <>
-          <h3>You don’t have any current VA debt or copay bills</h3>
+          <h2>You don’t have any current VA debt or copay bills</h2>
           <p>
             Our records show you don’t have any current VA benefit debt and you
             haven’t received a copay bill in the past 6 months.
