@@ -1,12 +1,11 @@
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_MENTAL_HEALTH } from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getFormPageInfo } from '../redux/selectors';
 
 import {
   openFormPage,
@@ -14,6 +13,7 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'typeOfMentalHealth';
 const pageTitle = 'Which type of mental health care do you need?';
@@ -32,11 +32,10 @@ const initialSchema = {
 const uiSchema = {
   typeOfMentalHealthId: {
     'ui:title': pageTitle,
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
+    'ui:widget': AppointmentsRadioWidget,
     'ui:options': {
       classNames: 'vads-u-margin-top--neg2',
-      labelHeaderLevel: '1',
+      hideLabelText: true,
       labels: {
         [TYPES_OF_MENTAL_HEALTH[0].id]: TYPES_OF_MENTAL_HEALTH[0].name,
         [TYPES_OF_MENTAL_HEALTH[1].id]: TYPES_OF_MENTAL_HEALTH[1].name,
@@ -76,6 +75,12 @@ export default function TypeOfMentalHealthPage() {
 
   return (
     <div className="vaos-form__radio-field-descriptive">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Type of mental health care"

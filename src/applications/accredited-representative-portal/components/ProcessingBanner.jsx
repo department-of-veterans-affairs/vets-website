@@ -11,7 +11,7 @@ const ProcessingBanner = ({
   representative,
 }) => {
   return (
-    <va-alert status={status} visible>
+    <va-alert status={status} visible className="poa__alert">
       <h2>{header}</h2>
       <p className="vads-u-margin-y--0">
         {accepted && (

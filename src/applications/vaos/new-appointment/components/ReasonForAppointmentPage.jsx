@@ -75,7 +75,8 @@ export default function ReasonForAppointmentPage() {
     shallowEqual,
   );
   const history = useHistory();
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const isCommunityCare =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
@@ -165,7 +166,7 @@ export default function ReasonForAppointmentPage() {
           <PostFormFieldContent>
             <InfoAlert
               status="warning"
-              headline="If you have an urgent medical need, please:"
+              headline="Only schedule appointments for non-urgent needs"
               className="vads-u-margin-y--3"
               level="2"
             >
@@ -175,18 +176,18 @@ export default function ReasonForAppointmentPage() {
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <VaTelephone
-                    contact="988"
-                    data-testid="crisis-hotline-telephone"
-                  />{' '}
-                  and select 1,{' '}
+                  Call
+                  {
+                    // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+                    <a href="tel:988">988 and select 1</a>
+                  }{' '}
+                  for the Veterans Crisis Line,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <NewTabAnchor href="/find-locations">
-                    Find your nearest VA medical center
+                  Go to your nearest emergency room or{' '}
+                  <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
+                    urgent care facility (opens in a new tab)
                   </NewTabAnchor>
                 </li>
               </ul>

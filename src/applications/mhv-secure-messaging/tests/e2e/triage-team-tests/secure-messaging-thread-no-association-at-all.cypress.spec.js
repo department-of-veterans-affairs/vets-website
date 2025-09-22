@@ -25,7 +25,9 @@ describe('Verify thread - No association at all', () => {
       },
     });
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).should(
+      'not.exist',
+    );
     cy.get(Locators.LINKS.GO_TO_INBOX).should('not.exist');
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)

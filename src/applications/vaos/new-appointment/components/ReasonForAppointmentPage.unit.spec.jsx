@@ -56,7 +56,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       expect(
         screen.getByRole('heading', {
-          name: /If you have an urgent medical need, please:/i,
+          name: /Only schedule appointments for non-urgent needs/i,
         }),
       );
     });
@@ -200,7 +200,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
   describe('Community care requests', () => {
     it('should show page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, 'communityCare');
+      await setTypeOfFacility(store, 'Community care facility');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -221,14 +221,14 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
-          name: /If you have an urgent medical need, please:/i,
+          name: /Only schedule appointments for non-urgent needs/i,
         }),
       );
     });
 
     it.skip('should show error msg when enter all spaces for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, 'communityCare');
+      await setTypeOfFacility(store, 'Community care facility');
 
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
@@ -256,7 +256,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
     it('should continue to the correct page for Community Care medical request', async () => {
       const store = createTestStore(initialState);
-      await setTypeOfFacility(store, 'communityCare');
+      await setTypeOfFacility(store, 'Community care facility');
       const screen = renderWithStoreAndRouter(
         <Route component={ReasonForAppointmentPage} />,
         {

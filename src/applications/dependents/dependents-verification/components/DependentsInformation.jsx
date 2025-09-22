@@ -6,7 +6,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { DEPENDENT_CHOICES } from '../constants';
+import { DEPENDENT_CHOICES, DEPENDENT_TITLE } from '../constants';
 import { maskID } from '../../shared/utils';
 
 import { removeEditContactInformation } from '../util/contact-info';
@@ -184,7 +184,7 @@ export const DependentsInformation = ({
       </ul>
 
       <VaRadio
-        label="Has the status of your dependents changed?"
+        label={DEPENDENT_TITLE}
         required
         onVaValueChange={handlers.onValueChange}
         label-header-level="3"
