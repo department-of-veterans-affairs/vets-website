@@ -528,9 +528,9 @@ class MedicationsRefillPage {
     cy.get('[header="We ship your refill to you"]').should('contain', text);
   };
 
-  verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
-    cy.get('[data-testid="error-refill-title"]')
-      .should('have.text', text)
+  verifyFailedAlertTextExistsOnRefillPage = (description, suggestion) => {
+    cy.get('[data-testid="error-refill-description"]')
+      .should('have.text', description)
       .and('be.visible');
     cy.get('[data-testid="error-refill-suggestion"]')
       .should('have.text', suggestion)
