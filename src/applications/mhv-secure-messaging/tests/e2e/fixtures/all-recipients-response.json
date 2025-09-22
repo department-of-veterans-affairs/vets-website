@@ -97,10 +97,10 @@
         }
       },
       {
-        "id": "OH123456",
+        "id": "123456",
         "type": "all_triage_teams",
         "attributes": {
-          "triageTeamId": "OH123456",
+          "triageTeamId": "123456",
           "name": "VHA 649 Release of Information (ROI)",
           "stationNumber": "649",
           "blockedStatus": false,
@@ -109,10 +109,10 @@
         }
       },
       {
-        "id": "OH234567",
+        "id": "234567",
         "type": "all_triage_teams",
         "attributes": {
-          "triageTeamId": "OH234567",
+          "triageTeamId": "234567",
           "name": "Ohio Columbus Release of Information – Medical Records",
           "stationNumber": "757",
           "blockedStatus": false,
@@ -121,10 +121,10 @@
         }
       },
       {
-        "id": "OH345678",
+        "id": "345678",
         "type": "all_triage_teams",
         "attributes": {
-          "triageTeamId": "OH345678",
+          "triageTeamId": "345678",
           "name": "Medical Center Release of Information Team",
           "stationNumber": "756",
           "blockedStatus": false,
