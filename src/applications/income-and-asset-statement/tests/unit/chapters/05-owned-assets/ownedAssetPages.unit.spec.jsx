@@ -55,7 +55,6 @@ describe('ownedAssetPages - list loop', () => {
 
     ['FARM', 'BUSINESS'].forEach(assetType => {
       it('check isItemIncomplete', () => {
-        // Stub the showUpdatedContent function instead of relying on sessionStorage
         sandbox.stub(helpers, 'showUpdatedContent').returns(true);
 
         const baseItem = {
@@ -1050,6 +1049,395 @@ describe('ownedAssetPages - list loop', () => {
       expect(mvpIsRequired(formData, index)).to.be.true;
       expect(otherRequiredStub.calledWith(formData, index, 'ownedAssets')).to.be
         .true;
+    });
+  });
+
+  describe('ownedAssetAdditionalFormNeeded page', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    describe('dependencies', () => {
+      it('should display for FARM asset type', () => {
+        const { depends } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+        const formData = { ownedAssets: [{ assetType: 'FARM' }] };
+        expect(depends(formData, 0)).to.be.true;
+      });
+
+      it('should display for BUSINESS asset type', () => {
+        const { depends } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+        const formData = { ownedAssets: [{ assetType: 'BUSINESS' }] };
+        expect(depends(formData, 0)).to.be.true;
+      });
+
+      it('should not display for other asset types', () => {
+        const { depends } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+        const formData = { ownedAssets: [{ assetType: 'RENTAL_PROPERTY' }] };
+        expect(depends(formData, 0)).to.be.false;
+      });
+
+      it('should not display when showUpdatedContent is false', () => {
+        helpers.showUpdatedContent.returns(false);
+        const { depends } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+        const formData = { ownedAssets: [{ assetType: 'FARM' }] };
+        expect(depends(formData, 0)).to.be.false;
+      });
+    });
+
+    describe('updateSchema functionality', () => {
+      const schema =
+        ownedAssetPages.ownedAssetAdditionalFormNeededPage.schema.properties
+          .ownedAssets.items;
+      const uiSchema =
+        ownedAssetPages.ownedAssetAdditionalFormNeededPage.uiSchema.ownedAssets
+          .items;
+
+      it('should clear uploadedDocuments when view:addFormQuestion is false', () => {
+        const { updateSchema } = uiSchema['ui:options'];
+        const formData = {
+          ownedAssets: [
+            {
+              'view:addFormQuestion': false,
+              uploadedDocuments: [{ name: 'test.pdf' }],
+            },
+          ],
+        };
+        const index = 0;
+
+        const result = updateSchema(formData, schema, uiSchema, index);
+
+        expect(formData.ownedAssets[0].uploadedDocuments).to.deep.equal([]);
+        expect(result).to.equal(schema);
+      });
+
+      it('should not clear uploadedDocuments when view:addFormQuestion is true', () => {
+        const { updateSchema } = uiSchema['ui:options'];
+        const formData = {
+          ownedAssets: [
+            {
+              'view:addFormQuestion': true,
+              uploadedDocuments: [{ name: 'test.pdf' }],
+            },
+          ],
+        };
+        const index = 0;
+
+        updateSchema(formData, schema, uiSchema, index);
+
+        expect(formData.ownedAssets[0].uploadedDocuments).to.deep.equal([
+          { name: 'test.pdf' },
+        ]);
+      });
+
+      it('should handle undefined uploadedDocuments', () => {
+        const { updateSchema } = uiSchema['ui:options'];
+        const formData = {
+          ownedAssets: [
+            {
+              'view:addFormQuestion': false,
+            },
+          ],
+        };
+        const index = 0;
+
+        expect(() => {
+          updateSchema(formData, schema, uiSchema, index);
+        }).to.not.throw();
+
+        expect(formData.ownedAssets[0].uploadedDocuments).to.deep.equal([]);
+      });
+
+      it('should handle fallback to formData when ownedAssets index is not available', () => {
+        const { updateSchema } = uiSchema['ui:options'];
+        const formData = {
+          'view:addFormQuestion': false,
+          uploadedDocuments: [{ name: 'test.pdf' }],
+        };
+        const index = 0;
+
+        updateSchema(formData, schema, uiSchema, index);
+
+        expect(formData.uploadedDocuments).to.deep.equal([]);
+      });
+    });
+
+    describe('form validation', () => {
+      const schema =
+        ownedAssetPages.ownedAssetAdditionalFormNeededPage.schema.properties
+          .ownedAssets.items;
+      const uiSchema =
+        ownedAssetPages.ownedAssetAdditionalFormNeededPage.uiSchema.ownedAssets
+          .items;
+
+      testNumberOfFieldsByType(
+        formConfig,
+        schema,
+        uiSchema,
+        { 'va-radio': 1 },
+        'additional form needed',
+      );
+
+      testSubmitsWithoutErrors(
+        formConfig,
+        schema,
+        uiSchema,
+        'additional form needed',
+        { assetType: 'FARM', 'view:addFormQuestion': true },
+        { loggedIn: true },
+      );
+    });
+  });
+
+  describe('ownedAssetDocumentMailingAddressPage', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    describe('dependencies', () => {
+      it('should display when view:addFormQuestion is false for FARM', () => {
+        const {
+          depends,
+        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const formData = {
+          ownedAssets: [
+            {
+              assetType: 'FARM',
+              'view:addFormQuestion': false,
+            },
+          ],
+        };
+        expect(depends(formData, 0)).to.be.true;
+      });
+
+      it('should display when view:addFormQuestion is false for BUSINESS', () => {
+        const {
+          depends,
+        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const formData = {
+          ownedAssets: [
+            {
+              assetType: 'BUSINESS',
+              'view:addFormQuestion': false,
+            },
+          ],
+        };
+        expect(depends(formData, 0)).to.be.true;
+      });
+
+      it('should not display when view:addFormQuestion is true', () => {
+        const {
+          depends,
+        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const formData = {
+          ownedAssets: [
+            {
+              assetType: 'FARM',
+              'view:addFormQuestion': true,
+            },
+          ],
+        };
+        expect(depends(formData, 0)).to.be.false;
+      });
+
+      it('should not display for non-FARM/BUSINESS asset types', () => {
+        const {
+          depends,
+        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const formData = {
+          ownedAssets: [
+            {
+              assetType: 'RENTAL_PROPERTY',
+              'view:addFormQuestion': false,
+            },
+          ],
+        };
+        expect(depends(formData, 0)).to.be.false;
+      });
+
+      it('should not display when showUpdatedContent is false', () => {
+        helpers.showUpdatedContent.returns(false);
+        const {
+          depends,
+        } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+        const formData = {
+          ownedAssets: [
+            {
+              assetType: 'FARM',
+              'view:addFormQuestion': false,
+            },
+          ],
+        };
+        expect(depends(formData, 0)).to.be.false;
+      });
+    });
+  });
+
+  describe('Dynamic UI descriptions', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    describe('AdditionalFormNeededDescription component', () => {
+      const uiSchema =
+        ownedAssetPages.ownedAssetAdditionalFormNeededPage.uiSchema.ownedAssets
+          .items;
+
+      it('should use AdditionalFormNeededDescription component', () => {
+        expect(
+          uiSchema['view:addFormDescription']['ui:description'].name,
+        ).to.equal('AdditionalFormNeededDescription');
+      });
+    });
+
+    describe('DocumentUploadGuidelinesDescription component', () => {
+      const uiSchema =
+        ownedAssetPages.ownedAssetDocumentUploadPage.uiSchema.ownedAssets.items;
+
+      it('should use DocumentUploadGuidelinesDescription component', () => {
+        expect(
+          uiSchema['view:uploadedDocumentsDescription']['ui:description'].name,
+        ).to.equal('DocumentUploadGuidelinesDescription');
+      });
+    });
+
+    describe('DocumentMailingAddressDescription component', () => {
+      const uiSchema =
+        ownedAssetPages.ownedAssetDocumentMailingAddressPage.uiSchema
+          .ownedAssets.items;
+
+      it('should use DocumentMailingAddressDescription component', () => {
+        expect(
+          uiSchema['view:documentMailingAddress']['ui:description'].name,
+        ).to.equal('DocumentMailingAddressDescription');
+      });
+    });
+  });
+
+  describe('Complete form flow for FARM and BUSINESS assets', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    ['FARM', 'BUSINESS'].forEach(assetType => {
+      describe(`${assetType} asset flow`, () => {
+        const baseFormData = {
+          ownedAssets: [
+            {
+              assetType,
+              recipientRelationship: 'VETERAN',
+              grossMonthlyIncome: 1000,
+              ownedPortionValue: 50000,
+            },
+          ],
+        };
+
+        it('should show additional form needed page', () => {
+          const {
+            depends,
+          } = ownedAssetPages.ownedAssetAdditionalFormNeededPage;
+          expect(depends(baseFormData, 0)).to.be.true;
+        });
+
+        it('should show upload page when user chooses to upload', () => {
+          const formDataWithUpload = {
+            ownedAssets: [
+              {
+                ...baseFormData.ownedAssets[0],
+                'view:addFormQuestion': true,
+              },
+            ],
+          };
+
+          const { depends } = ownedAssetPages.ownedAssetDocumentUploadPage;
+          expect(depends(formDataWithUpload, 0)).to.be.true;
+        });
+
+        it('should show mailing address page when user chooses not to upload', () => {
+          const formDataWithMailing = {
+            ownedAssets: [
+              {
+                ...baseFormData.ownedAssets[0],
+                'view:addFormQuestion': false,
+              },
+            ],
+          };
+
+          const {
+            depends,
+          } = ownedAssetPages.ownedAssetDocumentMailingAddressPage;
+          expect(depends(formDataWithMailing, 0)).to.be.true;
+        });
+
+        it('should not show both upload and mailing pages simultaneously', () => {
+          const formDataUpload = {
+            ownedAssets: [
+              {
+                ...baseFormData.ownedAssets[0],
+                'view:addFormQuestion': true,
+              },
+            ],
+          };
+
+          const formDataMailing = {
+            ownedAssets: [
+              {
+                ...baseFormData.ownedAssets[0],
+                'view:addFormQuestion': false,
+              },
+            ],
+          };
+
+          const uploadDepends =
+            ownedAssetPages.ownedAssetDocumentUploadPage.depends;
+          const mailingDepends =
+            ownedAssetPages.ownedAssetDocumentMailingAddressPage.depends;
+
+          expect(uploadDepends(formDataUpload, 0)).to.be.true;
+          expect(mailingDepends(formDataUpload, 0)).to.be.false;
+
+          expect(uploadDepends(formDataMailing, 0)).to.be.false;
+          expect(mailingDepends(formDataMailing, 0)).to.be.true;
+        });
+      });
+    });
+  });
+
+  describe('Page order and dependencies', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    it('should have correct page dependencies for complete flow', () => {
+      const formData = {
+        claimantType: 'VETERAN',
+        ownedAssets: [
+          {
+            assetType: 'FARM',
+            recipientRelationship: 'VETERAN',
+            'view:addFormQuestion': true,
+          },
+        ],
+      };
+
+      const pageChecks = [
+        { page: 'ownedAssetPagesUpdatedSummary', shouldShow: true },
+        { page: 'ownedAssetRecipientUpdatedPage', shouldShow: true },
+        { page: 'ownedAssetTypePage', shouldShow: true }, // Always shows
+        { page: 'ownedAssetAdditionalFormNeededPage', shouldShow: true },
+        { page: 'ownedAssetDocumentUploadPage', shouldShow: true },
+        { page: 'ownedAssetDocumentMailingAddressPage', shouldShow: false },
+      ];
+
+      pageChecks.forEach(({ page, shouldShow }) => {
+        const pageConfig = ownedAssetPages[page];
+        if (pageConfig && pageConfig.depends) {
+          const result = pageConfig.depends(formData, 0);
+          expect(result).to.equal(
+            shouldShow,
+            `${page} dependency check failed`,
+          );
+        }
+      });
     });
   });
 });

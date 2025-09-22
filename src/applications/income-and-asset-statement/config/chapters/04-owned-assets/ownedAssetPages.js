@@ -46,7 +46,12 @@ import {
   parentRelationshipLabelDescriptions,
   ownedAssetTypeLabels,
 } from '../../../labels';
-import { SummaryDescription } from '../../../components/OwnedAssetsSummaryDescription';
+import {
+  DocumentMailingAddressDescription,
+  AdditionalFormNeededDescription,
+  DocumentUploadGuidelinesDescription,
+  SummaryDescription,
+} from '../../../components/OwnedAssetsDescriptions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -655,23 +660,22 @@ const ownedAssetAdditionalFormNeeded = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
     'view:addFormDescription': {
-      'ui:description': (
-        <>
-          <p>
-            Since you added a farm, you’ll need to submit a Pension Claim
-            Questionnaire for Farm Income (VA Form 21P-4165).
-          </p>
-          <va-link
-            external
-            text="Get VA Form 21P-4165 to download"
-            href="/find-forms/about-form-21p-4165/"
-          />
-        </>
-      ),
+      'ui:description': AdditionalFormNeededDescription,
     },
     'view:addFormQuestion': yesNoUI({
       title: 'Do you want to upload the completed form now?',
     }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.ownedAssets?.[index] || formData;
+
+        if (itemData?.['view:addFormQuestion'] === false) {
+          itemData.uploadedDocuments = [];
+        }
+
+        return schema;
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -686,28 +690,14 @@ const ownedAssetAdditionalFormNeeded = {
 };
 
 const MAX_FILE_SIZE_MB = 20;
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1000 ** 2;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
 
 /** @returns {PageSchema} */
 const ownedAssetDocumentUpload = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
     'view:uploadedDocumentsDescription': {
-      'ui:description': (
-        <>
-          <p>
-            Be sure that the Pension Claim Questionnaire for Farm Income (VA
-            Form 21P-4165) you submit follow these guidelines:
-          </p>
-          <ul>
-            <li>The document is a .pdf, .jpeg, or .png file</li>
-            <li>
-              The document isn’t larger than {MAX_FILE_SIZE_MB}
-              MB
-            </li>
-          </ul>
-        </>
-      ),
+      'ui:description': DocumentUploadGuidelinesDescription,
     },
     uploadedDocuments: {
       ...fileInputUI({
@@ -724,7 +714,7 @@ const ownedAssetDocumentUpload = {
       }),
       'ui:validations': [
         // Taken from the arrayBuilderPatterns
-        // needed for validation to work correctly
+        // needed for validation to work correctly in arrays
         // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4837
         (errors, fieldData) => {
           if (fieldData?.isEncrypted && !fieldData?.confirmationCode) {
@@ -747,6 +737,25 @@ const ownedAssetDocumentUpload = {
         properties: {},
       },
       uploadedDocuments: fileInputSchema(),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const documentMailingAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Submit additional form by mail'),
+    'view:documentMailingAddress': {
+      'ui:description': DocumentMailingAddressDescription,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:documentMailingAddress': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
@@ -883,5 +892,16 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
       formData?.ownedAssets[index]?.['view:addFormQuestion'] === true,
     uiSchema: ownedAssetDocumentUpload.uiSchema,
     schema: ownedAssetDocumentUpload.schema,
+  }),
+  ownedAssetDocumentMailingAddressPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-mailing-address',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === false,
+    uiSchema: documentMailingAddressPage.uiSchema,
+    schema: documentMailingAddressPage.schema,
   }),
 }));
