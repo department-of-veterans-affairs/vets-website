@@ -27,7 +27,9 @@ const Unauthorized = () => {
             </Link>
           </va-banner>
         </div>
-        <h2 className="dashboard__header">Would you like to get accredited?</h2>
+        <h2 className="dashboard__header">
+          Would you like to become accredited?
+        </h2>
         <p>
           To apply for accreditation as a VSO representative, claims agent, or
           attorney, you need to submit an application to the Office of General
