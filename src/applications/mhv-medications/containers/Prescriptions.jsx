@@ -698,16 +698,15 @@ const Prescriptions = () => {
           data-testid="Title-Notes"
         >
           {titleNotesMessage}
-          <a
-            href="/my-health/medical-records/allergies"
-            rel="noreferrer"
-            className="vads-u-display--block vads-u-margin-bottom--3"
-            data-testid="allergies-link"
-          >
-            Go to your allergies and reactions
-          </a>
-          {renderMedsByMailContent()}
         </p>
+        <a
+          href="/my-health/medical-records/allergies"
+          rel="noreferrer"
+          className="vads-u-display--block vads-u-margin-bottom--3"
+          data-testid="allergies-link"
+        >
+          Go to your allergies and reactions
+        </a>
         {hasMedsByMailFacility && <MedsByMailContent />}
       </>
     );
