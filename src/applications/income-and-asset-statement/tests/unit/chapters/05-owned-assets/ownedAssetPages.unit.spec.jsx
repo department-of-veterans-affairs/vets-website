@@ -28,7 +28,7 @@ import {
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
-describe('ownedAssetPages - list loop', () => {
+describe('owned asset list and loop pages', () => {
   let sandbox;
 
   beforeEach(() => {
