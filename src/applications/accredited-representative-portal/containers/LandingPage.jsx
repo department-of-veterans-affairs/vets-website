@@ -153,8 +153,9 @@ const LandingPage = title => {
                       text="Learn more about how to set up your account"
                     />
                     <p>
-                      If you are a VSO manager and would like the representation
-                      requests feature for your organization, email us at{' '}
+                      If you’re a VSO manager and you’d like access to the
+                      representation requests feature for your organization,
+                      email us at{' '}
                       <va-link
                         class="home__link home__link--email"
                         reverse
@@ -320,7 +321,7 @@ const LandingPage = title => {
                   .
                   <p>
                     If you’re a Veteran Service Organization (VSO) manager and
-                    would like access to the POA feature for your organization,
+                    you’d like access to the POA feature for your organization,
                     let us know in your email to us.
                   </p>
                 </va-banner>
