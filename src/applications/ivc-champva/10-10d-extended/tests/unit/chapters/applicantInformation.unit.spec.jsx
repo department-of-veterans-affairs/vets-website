@@ -274,7 +274,7 @@ describe('generateParticipantName', () => {
           },
         ],
       }),
-    ).to.eq('App1 Jones');
+    ).to.eq("App1 Jones's");
   });
   it('should return "applicant" if no participant SSN hash matches', () => {
     expect(

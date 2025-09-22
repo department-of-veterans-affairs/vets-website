@@ -170,11 +170,7 @@ export async function setTypeOfEyeCare(store, label) {
   const screen = renderWithStoreAndRouter(<TypeOfEyeCarePage />, { store });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: label },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -198,11 +194,7 @@ export async function setTypeOfMentalHealth(store, label) {
   });
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value: label },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
@@ -310,10 +302,11 @@ export async function setVaccineFacility(store, facilityData = {}) {
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {string} value The string value of the radio button to click on
+ * @param {string|RegExp} label The string or regex to pass to *ByText query to get
+ *   a radio button to click on
  * @returns {Promise string} The url path that was routed to after clicking Continue
  */
-export async function setClinic(store, value) {
+export async function setClinic(store, label) {
   const screen = renderWithStoreAndRouter(
     <Route component={ClinicChoicePage} />,
     {
@@ -322,11 +315,7 @@ export async function setClinic(store, value) {
   );
   await screen.findByText(/Continue/i);
 
-  const radioSelector = screen.container.querySelector('va-radio');
-  const changeEvent = new CustomEvent('selected', {
-    detail: { value },
-  });
-  radioSelector.__events.vaValueChange(changeEvent);
+  fireEvent.click(await screen.findByLabelText(label));
   fireEvent.click(await screen.findByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

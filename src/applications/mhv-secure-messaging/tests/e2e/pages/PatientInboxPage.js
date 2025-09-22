@@ -420,7 +420,7 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .find(`#inputField`)
       .type('testSubject', { force: true });
     cy.get(Locators.FIELDS.MESSAGE_BODY)
