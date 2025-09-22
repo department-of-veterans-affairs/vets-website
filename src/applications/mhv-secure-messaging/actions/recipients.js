@@ -35,10 +35,10 @@ export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
   try {
     const response = await getAllRecipients();
 
-    const recipientsWithSignature = isSignatureRequired(response.data);
+    const recipients = isSignatureRequired(response.data);
     const updatedResponse = {
       ...response,
-      data: recipientsWithSignature.map(recipient => {
+      data: recipients.map(recipient => {
         return {
           ...recipient,
           attributes: {

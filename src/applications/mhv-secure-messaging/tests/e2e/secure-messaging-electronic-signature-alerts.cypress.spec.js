@@ -30,8 +30,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       Alerts.EL_SIGN_NAME,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't send a message without checkbox`, () => {
@@ -44,8 +43,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       Alerts.EL_SIGN_CHECK,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't save a message with electronic signature`, () => {
@@ -69,8 +67,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       .last()
       .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     PatientComposePage.closeESAlertModal();
   });
@@ -96,8 +93,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
       .last()
       .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN_ATTCH);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     PatientComposePage.closeESAlertModal();
   });
@@ -151,8 +147,7 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
       Alerts.EL_SIGN_NAME,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't send Oracle Health message without checkbox`, () => {
@@ -165,8 +160,7 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
       Alerts.EL_SIGN_CHECK,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it(`verify user can't save Oracle Health message with electronic signature`, () => {
@@ -190,8 +184,7 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
       .last()
       .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
     PatientComposePage.closeESAlertModal();
   });
