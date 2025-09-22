@@ -16,7 +16,9 @@ const GoodFitCard = ({ card, formResponses }) => {
   const startLink = getStartLink(card);
   const timeline = getDecisionTimeline(card);
   const timelineHeader =
-    card === CARD_SC ? 'Average time to receive a decision:' : 'Timeframe goal';
+    card === CARD_SC
+      ? 'Average time to receive a decision:'
+      : 'Timeframe goal:';
 
   return (
     <va-card
