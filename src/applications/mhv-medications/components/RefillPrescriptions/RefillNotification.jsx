@@ -7,7 +7,7 @@ import { setFilterOpen } from '../../redux/preferencesSlice';
 import { RefillMedicationList } from './RefillMedicationList';
 import { RefillNotificationCard } from './RefillNotificationCard';
 
-const NOTIFICATION_CONFIG = {
+const MEDICATION_REFILL = {
   ERROR: {
     id: 'error-refill',
     testId: 'error-refill',
@@ -68,29 +68,29 @@ const RefillNotification = ({
   );
 
   const ErrorNotification = () => (
-    <RefillNotificationCard config={NOTIFICATION_CONFIG.ERROR}>
+    <RefillNotificationCard config={MEDICATION_REFILL.ERROR}>
       <p
         aria-label="Error requesting refill"
         data-testid="error-refill-description"
       >
-        {NOTIFICATION_CONFIG.ERROR.description}
+        {MEDICATION_REFILL.ERROR.description}
       </p>
       <p
-        aria-label={NOTIFICATION_CONFIG.ERROR.suggestion}
+        aria-label={MEDICATION_REFILL.ERROR.suggestion}
         data-testid="error-refill-suggestion"
       >
-        {NOTIFICATION_CONFIG.ERROR.suggestion}
+        {MEDICATION_REFILL.ERROR.suggestion}
       </p>
     </RefillNotificationCard>
   );
 
   const PartialRefillNotification = () => (
-    <RefillNotificationCard config={NOTIFICATION_CONFIG.PARTIAL}>
+    <RefillNotificationCard config={MEDICATION_REFILL.PARTIAL}>
       <p
-        aria-label={NOTIFICATION_CONFIG.PARTIAL.description}
+        aria-label={MEDICATION_REFILL.PARTIAL.description}
         data-testid="partial-refill-description"
       >
-        {NOTIFICATION_CONFIG.PARTIAL.description}
+        {MEDICATION_REFILL.PARTIAL.description}
       </p>
       <RefillMedicationList
         medications={failedMeds}
@@ -98,18 +98,18 @@ const RefillNotification = ({
         showBold
       />
       <p
-        aria-label={NOTIFICATION_CONFIG.PARTIAL.suggestion}
+        aria-label={MEDICATION_REFILL.PARTIAL.suggestion}
         className="vads-u-margin-bottom--0"
         data-testid="partial-refill-suggestion"
       >
-        {NOTIFICATION_CONFIG.PARTIAL.suggestion}
+        {MEDICATION_REFILL.PARTIAL.suggestion}
       </p>
     </RefillNotificationCard>
   );
 
   const SuccessNotification = () => (
     <RefillNotificationCard
-      config={NOTIFICATION_CONFIG.SUCCESS}
+      config={MEDICATION_REFILL.SUCCESS}
       additionalProps={{ 'data-dd-privacy': 'mask' }}
     >
       <RefillMedicationList
@@ -120,8 +120,8 @@ const RefillNotification = ({
         className="vads-u-margin-y--0"
         data-testid="success-refill-description"
       >
-        <p aria-label={NOTIFICATION_CONFIG.SUCCESS.description}>
-          {NOTIFICATION_CONFIG.SUCCESS.description}
+        <p aria-label={MEDICATION_REFILL.SUCCESS.description}>
+          {MEDICATION_REFILL.SUCCESS.description}
         </p>
         <Link
           data-testid="back-to-medications-page-link"
@@ -133,7 +133,7 @@ const RefillNotification = ({
           }
           onClick={handleGoToMedicationsListOnSuccess}
         >
-          {NOTIFICATION_CONFIG.SUCCESS.linkText}
+          {MEDICATION_REFILL.SUCCESS.linkText}
         </Link>
       </div>
     </RefillNotificationCard>

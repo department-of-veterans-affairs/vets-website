@@ -2,6 +2,8 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import RefillNotificationCard from '../../../components/RefillPrescriptions/RefillNotificationCard';
+import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
+import refillableList from '../../fixtures/refillablePrescriptionsList.json';
 
 describe('RefillNotificationCard', () => {
   const defaultConfig = {
@@ -14,6 +16,10 @@ describe('RefillNotificationCard', () => {
       'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
     linkText: 'Go to your medications list',
   };
+
+  const initSuccessfulMeds = refillableList.slice(0, 3);
+  const initFailedMeds = [];
+  const initRefillStatus = 'finished';
 
   const mockChildren = (
     <>
@@ -28,9 +34,17 @@ describe('RefillNotificationCard', () => {
 
   const setup = (children = mockChildren) => {
     return renderWithStoreAndRouterV6(
-      <RefillNotificationCard config={defaultConfig}>
-        {children}
-      </RefillNotificationCard>,
+      <>
+        <RefillNotification
+          refillStatus={initRefillStatus}
+          successfulMeds={initSuccessfulMeds}
+          failedMeds={initFailedMeds}
+        />
+
+        <RefillNotificationCard config={defaultConfig}>
+          {children}
+        </RefillNotificationCard>
+      </>,
       {
         initialState: {},
         reducers: {},
@@ -43,6 +57,7 @@ describe('RefillNotificationCard', () => {
     const screen = setup();
     expect(screen);
   });
+
   it('should display the title, description, and link text', () => {
     const screen = setup();
 
