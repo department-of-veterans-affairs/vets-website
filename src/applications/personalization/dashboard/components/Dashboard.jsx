@@ -392,18 +392,15 @@ const Dashboard = ({
   );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const myVaAuthExpRedesignEnabled = useToggleValue(
-    Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
-  );
   const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
 
   useEffect(
     () => {
       if (!showGenericDebtCard) {
-        getDebts(!myVaAuthExpRedesignEnabled);
+        getDebts(true);
       }
     },
-    [getDebts, showGenericDebtCard, myVaAuthExpRedesignEnabled],
+    [getDebts, showGenericDebtCard],
   );
 
   useEffect(
