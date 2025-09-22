@@ -25,7 +25,7 @@ describe('Financial information total net worth pension page', () => {
     schema,
     uiSchema,
     [
-      `va-radio[label="Do you and your dependents have over $75,000 in combined assets?"]`,
+      `va-radio[label="Do you and your dependents have over $25,000 in combined assets?"]`,
     ],
     pageTitle,
   );

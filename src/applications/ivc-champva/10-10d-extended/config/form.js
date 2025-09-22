@@ -9,8 +9,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
-import { sponsorWording } from '../../10-10D/helpers/utilities';
 
 import {
   certifierRoleSchema,
@@ -40,6 +38,7 @@ import {
   proofOfIneligibilityUploadPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -181,28 +180,14 @@ const formConfig = {
         },
         page10b0: {
           path: 'veteran-address',
-          title: formData => `${sponsorWording(formData)} address selection`,
-          // Only show if we have addresses to pull from:
+          title: 'Veteran’s address selection',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
             get('street', formData?.certifierAddress),
           CustomPage: props => {
-            const extraProps = {
-              ...props,
-              customAddressKey: 'sponsorAddress',
-              customTitle: `${sponsorWording(props.data)} address selection`,
-              customDescription:
-                'We\u2019ll send any important information about this form to this address.',
-              customSelectText: `Does ${sponsorWording(
-                props.data,
-                false,
-                false,
-              )} live at a previously entered address?`,
-              positivePrefix: 'Yes, their address is',
-              negativePrefix: 'No, they have a different address',
-            };
-            return ApplicantAddressCopyPage(extraProps);
+            const opts = { ...props, dataKey: 'sponsorAddress' };
+            return AddressSelectionPage(opts);
           },
           CustomPageReview: null,
           uiSchema: {},
