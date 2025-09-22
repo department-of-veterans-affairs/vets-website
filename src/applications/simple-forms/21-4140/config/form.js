@@ -81,7 +81,7 @@ const formConfig = {
       pages: {
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
+          title: 'Your name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,
         },
@@ -98,7 +98,7 @@ const formConfig = {
       pages: {
         address: {
           path: 'address',
-          title: 'Address',
+          title: 'Your mailing address',
           uiSchema: address.uiSchema,
           schema: address.schema,
         },
@@ -109,7 +109,7 @@ const formConfig = {
       pages: {
         phoneAndEmailAddress: {
           path: 'phone-and-email-address',
-          title: 'Phone and email address',
+          title: 'Your phone and email address',
           uiSchema: phoneAndEmailAddress.uiSchema,
           schema: phoneAndEmailAddress.schema,
         },
