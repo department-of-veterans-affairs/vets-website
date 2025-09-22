@@ -13,12 +13,18 @@ export const isItemIncomplete = item => {
     !item?.spouseFullName?.last ||
     !item?.spouseSocialSecurityNumber ||
     !item?.spouseDateOfBirth ||
-    !item?.dateOfMarriage ||
-    item?.cohabitedLastYear === undefined ||
-    item?.sameAddress === undefined ||
-    item?.provideSupportLastYear === undefined;
+    !item?.dateOfMarriage;
 
   if (missingRequiredFields) {
+    return true;
+  }
+
+  // Financial support response is only required if spouse did not cohabitate last year.
+  let missingFinancialSupportFields;
+  if (item?.cohabitedLastYear === false) {
+    missingFinancialSupportFields = item?.provideSupportLastYear === undefined;
+  }
+  if (missingFinancialSupportFields) {
     return true;
   }
 
