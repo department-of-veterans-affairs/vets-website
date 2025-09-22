@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { uploadFile } from 'platform/forms-system/src/js/actions';
+import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,
   FILE_TYPE_MISMATCH_ERROR,
@@ -20,7 +20,7 @@ const createPayload = (file, formId) => {
   return payload;
 };
 
-export const uploadScannedForm = (
+export const uploadFile = (
   fileUploadUrl,
   formNumber,
   fileToUpload,
@@ -38,7 +38,7 @@ export const uploadScannedForm = (
   };
 
   return dispatch => {
-    const uploadRequest = uploadFile(
+    const uploadRequest = _uploadFile(
       fileToUpload,
       uiOptions,
       onProgress,
@@ -88,7 +88,7 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
     };
 
     dispatch(
-      uploadScannedForm(
+      uploadFile(
         fileUploadUrl,
         formNumber,
         file,
