@@ -164,7 +164,7 @@ const employmentDetailsPage = {
     },
     lostTimeFromIllness: {
       ...numberUI({
-        title: 'Lost time from illness',
+        title: 'Lost time from service-connected disabilities',
         hint: 'Total hours',
         errorMessages: {
           required: 'Enter total hours during your entire time of illness',
@@ -173,8 +173,7 @@ const employmentDetailsPage = {
     },
     highestGrossIncomePerMonth: {
       ...currencyUI({
-        title: 'Highest gross income per month',
-        hint: 'Total $ amount',
+        title: 'Highest monthly gross income',
         errorMessages: {
           required: 'Enter highest gross income per month',
         },
