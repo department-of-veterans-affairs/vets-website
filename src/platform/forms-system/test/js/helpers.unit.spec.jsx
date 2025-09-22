@@ -1961,6 +1961,70 @@ describe('Schemaform helpers:', () => {
       });
       expect(result).to.eql({});
     });
+    it('should not delete the array when children fields are active', () => {
+      const form = {
+        data: {
+          providers: [
+            {
+              insuranceName: 'Big Insurance Co',
+              insurancePolicyHolderName: 'Jim Doe',
+              insurancePolicyNumber: '2342344',
+              insuranceGroupCode: '2324234434',
+            },
+          ],
+        },
+      };
+
+      // Active page defines child fields under providers.0
+      const activePages = [
+        {
+          arrayPath: 'providers',
+          index: 0,
+          schema: {
+            properties: {
+              providers: {
+                items: {
+                  properties: {
+                    insuranceName: { type: 'string' },
+                    insurancePolicyHolderName: { type: 'string' },
+                    insurancePolicyNumber: { type: 'string' },
+                    insuranceGroupCode: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      // Inactive page lists the parent key "providers"
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              providers: { type: 'array' },
+            },
+          },
+        },
+      ];
+
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+
+      expect(result).to.eql({
+        providers: [
+          {
+            insuranceName: 'Big Insurance Co',
+            insurancePolicyHolderName: 'Jim Doe',
+            insurancePolicyNumber: '2342344',
+            insuranceGroupCode: '2324234434',
+          },
+        ],
+      });
+    });
     it('should not delete fields for a different array index (index scoping)', () => {
       const form = {
         data: {

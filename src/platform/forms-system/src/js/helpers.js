@@ -365,6 +365,16 @@ function hasActiveAncestor(prop, activeSet) {
   return false;
 }
 
+// guard to ensure parent array isn’t deleted if any parent.* key is active.
+function hasActiveDescendant(prop, activeSet) {
+  if (!prop || typeof prop !== 'string') return false;
+  const prefix = `${prop}.`;
+  for (const key of activeSet) {
+    if (typeof key === 'string' && key.startsWith(prefix)) return true;
+  }
+  return false;
+}
+
 /**
  * Removes inactive page data from a form while preserving active fields and ancestors.
  *
@@ -399,8 +409,12 @@ export function filterInactiveNestedPageData(inactivePages, activePages, form) {
 
   inactivePages.forEach(page => {
     getPageProperties(page).forEach(prop => {
-      // protected if there's an exact active match or an active ancestor (e.g., 'dependents' or 'events')
-      if (activePropsSet.has(prop) || hasActiveAncestor(prop, activePropsSet)) {
+      // protected if exact active match, has an active ancestor, OR has active descendants
+      if (
+        activePropsSet.has(prop) ||
+        hasActiveAncestor(prop, activePropsSet) ||
+        hasActiveDescendant(prop, activePropsSet)
+      ) {
         return;
       }
 
