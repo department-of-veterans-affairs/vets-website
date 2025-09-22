@@ -14,7 +14,6 @@ export function withAlertOrDescription({
   description,
   nounSingular,
   hasMultipleItemPages,
-  alertStatus = 'warning',
 }) {
   return () => {
     const search = getArrayUrlSearchParams();
@@ -25,7 +24,7 @@ export function withAlertOrDescription({
       return (
         <>
           <div className="vads-u-margin-top--4">
-            <va-alert slim status={alertStatus} visible>
+            <va-alert slim status="warning" visible>
               <p className="vads-u-margin-y--0">
                 {`You must add at least one ${nounSingular} for us to process this form.`}
               </p>
@@ -87,7 +86,6 @@ export const withEditTitle = (title, lowerCase = true) => {
  *   nounSingular: string,
  *   lowerCase?: boolean,
  *   hasMultipleItemPages?: boolean,
- *   alertStatus: string,
  *   description?: string | JSX.Element | ({ formData, formContext }) => string | JSX.Element
  * }} options
  * @returns {UISchemaOptions}
@@ -98,16 +96,10 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   nounSingular,
   lowerCase = true,
   hasMultipleItemPages = true,
-  alertStatus = 'warning',
 }) => {
   return titleUI(
     withEditTitle(title, lowerCase),
-    withAlertOrDescription({
-      description,
-      nounSingular,
-      hasMultipleItemPages,
-      alertStatus,
-    }),
+    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
   );
 };
 
