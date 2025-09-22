@@ -160,34 +160,51 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the signature alert when Oracle Health ROI recipient is selected', async () => {
-    const setAlertDisplayed = sinon.spy();
+    const onValueChange = sinon.spy();
+
+    // Verify that the Oracle Health ROI recipient requires signature
+    const recipient = recipientsList.find(r => r.id === 3); // Oracle Health ROI recipient (ID 3)
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
     const customProps = {
-      setAlertDisplayed,
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 3, // Oracle Health ROI recipient (ID 3)
     };
     const screen = setup({ props: customProps });
-    const val = recipientsList[2].id; // Oracle Health ROI recipient (ID 3)
-    selectVaSelect(screen.container, val);
-    const select = screen.getByTestId('compose-recipient-select');
 
-    waitFor(() => {
-      expect(setAlertDisplayed).to.be.calledOnce;
-      expect(select).to.have.value(val);
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
     });
   });
 
   it('displays the signature alert when Oracle Health Medical Records recipient is selected', async () => {
-    const setAlertDisplayed = sinon.spy();
+    const onValueChange = sinon.spy();
+
+    const recipient = recipientsList.find(r => r.id === 4); // Oracle Health Medical Records recipient
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
     const customProps = {
-      setAlertDisplayed,
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 4, // Oracle Health Medical Records recipient (ID 4)
     };
     const screen = setup({ props: customProps });
-    const val = recipientsList[3].id; // Oracle Health Medical Records recipient (ID 4)
-    selectVaSelect(screen.container, val);
-    const select = screen.getByTestId('compose-recipient-select');
 
-    waitFor(() => {
-      expect(setAlertDisplayed).to.be.calledOnce;
-      expect(select).to.have.value(val);
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
     });
   });
 
