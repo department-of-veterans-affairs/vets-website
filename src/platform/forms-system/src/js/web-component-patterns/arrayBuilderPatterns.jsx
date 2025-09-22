@@ -154,8 +154,8 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  *   required: boolean | (formData) => boolean,
  *   maxItems?: number | (formData) => number,
  * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
- * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsWithCards] yesNoUI options for 0 items
- * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsWithoutCards] yesNoUI options for more than 0 items
+ * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsInitial] yesNoUI options for 0 items
+ * @param {ArrayBuilderYesNoUIOptions} [yesNoOptionsAdditional] yesNoUI options for more than 0 items
  * @returns {UISchemaOptions}
  * Usage:
  * ```
@@ -192,12 +192,12 @@ export const arrayBuilderItemSubsequentPageTitleUI = (
  */
 export const arrayBuilderYesNoUI = (
   arrayBuilderOptions,
-  yesNoOptionsWithCards,
-  yesNoOptionsWithoutCards,
+  yesNoOptionsInitial,
+  yesNoOptionsAdditional,
 ) => {
   const { arrayPath, nounSingular, nounPlural, required } = arrayBuilderOptions;
   const defaultTitle =
-    yesNoOptionsWithCards?.title || `Do you have a ${nounSingular} to add?`;
+    yesNoOptionsInitial?.title || `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
@@ -210,8 +210,8 @@ export const arrayBuilderYesNoUI = (
     return null;
   };
 
-  const customHint = getCustomHint(yesNoOptionsWithoutCards);
-  const customMoreHint = getCustomHint(yesNoOptionsWithCards);
+  const customHint = getCustomHint(yesNoOptionsAdditional);
+  const customMoreHint = getCustomHint(yesNoOptionsInitial);
 
   return {
     ...yesNoUI({
@@ -223,16 +223,16 @@ export const arrayBuilderYesNoUI = (
         return arrayData?.length
           ? {
               'ui:title':
-                yesNoOptionsWithoutCards?.title ||
+                yesNoOptionsAdditional?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel:
-                  yesNoOptionsWithoutCards?.labelHeaderLevel || '4',
+                  yesNoOptionsAdditional?.labelHeaderLevel || '4',
                 ifMinimalHeader: {
                   labelHeaderLevel:
-                    yesNoOptionsWithoutCards?.labelHeaderLevel || '2',
+                    yesNoOptionsAdditional?.labelHeaderLevel || '2',
                   labelHeaderLevelStyle:
-                    yesNoOptionsWithoutCards?.labelHeaderLevelStyle || '3',
+                    yesNoOptionsAdditional?.labelHeaderLevelStyle || '3',
                 },
                 hint: customHint
                   ? customHint({
@@ -248,26 +248,25 @@ export const arrayBuilderYesNoUI = (
                       maxItems,
                     }),
                 labels: {
-                  Y: yesNoOptionsWithoutCards?.labels?.Y || 'Yes',
-                  N: yesNoOptionsWithoutCards?.labels?.N || 'No',
+                  Y: yesNoOptionsAdditional?.labels?.Y || 'Yes',
+                  N: yesNoOptionsAdditional?.labels?.N || 'No',
                 },
               },
               'ui:errorMessages': {
                 required:
-                  yesNoOptionsWithoutCards?.errorMessages?.required ||
+                  yesNoOptionsAdditional?.errorMessages?.required ||
                   `Select yes if you have another ${nounSingular} to add`,
               },
             }
           : {
               'ui:title': defaultTitle,
               'ui:options': {
-                labelHeaderLevel:
-                  yesNoOptionsWithCards?.labelHeaderLevel || '3',
+                labelHeaderLevel: yesNoOptionsInitial?.labelHeaderLevel || '3',
                 ifMinimalHeader: {
                   labelHeaderLevel:
-                    yesNoOptionsWithCards?.labelHeaderLevel || '1',
+                    yesNoOptionsInitial?.labelHeaderLevel || '1',
                   labelHeaderLevelStyle:
-                    yesNoOptionsWithCards?.labelHeaderLevelStyle || '2',
+                    yesNoOptionsInitial?.labelHeaderLevelStyle || '2',
                 },
                 hint: customMoreHint
                   ? customMoreHint({
@@ -285,13 +284,13 @@ export const arrayBuilderYesNoUI = (
                       },
                     )}`,
                 labels: {
-                  Y: yesNoOptionsWithCards?.labels?.Y || 'Yes',
-                  N: yesNoOptionsWithCards?.labels?.N || 'No',
+                  Y: yesNoOptionsInitial?.labels?.Y || 'Yes',
+                  N: yesNoOptionsInitial?.labels?.N || 'No',
                 },
               },
               'ui:errorMessages': {
                 required:
-                  yesNoOptionsWithCards?.errorMessages?.required ||
+                  yesNoOptionsInitial?.errorMessages?.required ||
                   `Select yes if you have a ${nounSingular} to add`,
               },
             };
