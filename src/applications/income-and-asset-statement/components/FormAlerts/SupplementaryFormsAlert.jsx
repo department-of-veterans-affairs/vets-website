@@ -127,30 +127,53 @@ export function SupplementaryFormsAlertUpdated({ formData, headingLevel }) {
     const declinedUpload = asset['view:addFormQuestion'] === false;
     const saidYesButNoUpload =
       asset['view:addFormQuestion'] === true &&
-      (!asset?.uploadedDocuments || asset.uploadedDocuments.length === 0);
+      (!asset?.uploadedDocuments || !asset.uploadedDocuments.name);
 
     return isFarmOrBusiness && (declinedUpload || saidYesButNoUpload);
   });
 
   if (alertAssets.length === 0) return null;
 
+  const missingAssetTypes = [
+    ...new Set(alertAssets.map(asset => asset.assetType)),
+  ];
+  const hasFarm = missingAssetTypes.includes('FARM');
+  const hasBusiness = missingAssetTypes.includes('BUSINESS');
+
   const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
+
+  const renderContent = () => {
+    if (hasFarm && hasBusiness) {
+      return (
+        <div>
+          <p>
+            You added a business and a farm, but didn’t upload a{' '}
+            {bodyTextMap.business} and {bodyTextMap.farm}.
+          </p>
+          <p>You’ll need to send them by mail.</p>
+        </div>
+      );
+    }
+
+    return missingAssetTypes.map(assetType => {
+      const assetTypeDisplay = assetType.toLowerCase();
+      const formName = bodyTextMap[assetTypeDisplay];
+
+      return (
+        <div key={assetType}>
+          <p>
+            You added a {assetTypeDisplay} but didn’t upload a {formName} form.
+          </p>
+          <p>You’ll need to send it by mail.</p>
+        </div>
+      );
+    });
+  };
 
   return (
     <va-alert status="info" visible>
       <Heading slot="headline">Additional form needed</Heading>
-      {alertAssets.map((asset, index) => {
-        const assetType = asset.assetType.toLowerCase();
-        const formName = bodyTextMap[assetType];
-        return (
-          <>
-            <p key={index}>
-              You added a {assetType} but didn’t upload a {formName} form.
-            </p>
-            <p>You’ll need to send it by mail.</p>
-          </>
-        );
-      })}
+      {renderContent()}
     </va-alert>
   );
 }
