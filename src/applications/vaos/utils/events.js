@@ -102,6 +102,12 @@ export function captureMissingModalityLogs(appointment) {
         'metadata',
         JSON.stringify({
           // Raw API fields
+          start: appointment.vaos.apiData.start,
+          created: appointment.vaos.apiData.created,
+          status: appointment.vaos.apiData.status,
+          past: appointment.vaos.apiData.past,
+          pending: appointment.vaos.apiData.pending,
+          future: appointment.vaos.apiData.future,
           serviceType: appointment.vaos.apiData.serviceType,
           serviceCategory: appointment.vaos.apiData.serviceCategory,
           kind: appointment.vaos.apiData.kind,
@@ -109,6 +115,8 @@ export function captureMissingModalityLogs(appointment) {
           hasAtlas: !!appointment.vaos.apiData.telehealth?.atlas,
           vvsVideoAppt: appointment.vaos.apiData.extension?.vvsVistaVideoAppt,
           apiModality: appointment.vaos.apiData.modality,
+          hasProvider: !!appointment.vaos.apiData.provider,
+          hasProviderId: !!appointment.vaos.apiData.provider?.id,
           // Derived fields
           type: appointment.type,
           modality: appointment.modality,
