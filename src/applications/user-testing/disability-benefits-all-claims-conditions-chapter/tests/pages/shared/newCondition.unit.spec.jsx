@@ -40,10 +40,13 @@ describe('526 new condition shared page', () => {
 
   it('renders the "If your condition isn’t listed" heading', () => {
     const { container } = mountPage();
-    const heading = container.querySelector('h4');
+    const AllHeadingsLvl4 = container.querySelectorAll('h4');
+    const secondHeading = AllHeadingsLvl4[1];
 
-    expect(heading).to.exist;
-    expect(heading.textContent).to.equal('If your condition isn’t listed');
+    expect(secondHeading).to.exist;
+    expect(secondHeading.textContent).to.equal(
+      'If your condition isn’t listed',
+    );
   });
 
   it('renders the instructional text for adding a new condition', () => {
@@ -65,7 +68,7 @@ describe('526 new condition shared page', () => {
       'Select or enter condition',
     );
     expect(textInputContainer.getAttribute('hint')).to.equal(
-      'Choose from the automatic suggestions or enter your own response.',
+      'Start typing for a list of conditions.',
     );
   });
 
