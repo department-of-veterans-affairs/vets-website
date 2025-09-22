@@ -179,32 +179,26 @@ describe('Landing Page', () => {
         }),
       ).to.exist;
 
-      // links to features
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your care summaries and notes',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your vaccines',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your allergies and reactions',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your health conditions',
-        }),
-      ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to your vitals',
-        }),
-      ).to.exist;
+      const notesVaLinkAction = screen.getByTestId('notes-landing-page-link');
+      expect(notesVaLinkAction).to.exist;
+      const allergiesVaLinkAction = screen.getByTestId(
+        'allergies-landing-page-link',
+      );
+      expect(allergiesVaLinkAction).to.exist;
+      const vaccinesVaLinkAction = screen.getByTestId(
+        'vaccines-landing-page-link',
+      );
+      expect(vaccinesVaLinkAction).to.exist;
+      const reactionsVaLinkAction = screen.getByTestId(
+        'conditions-landing-page-link',
+      );
+      expect(reactionsVaLinkAction).to.exist;
+      const conditionsVaLinkAction = screen.getByTestId(
+        'conditions-landing-page-link',
+      );
+      expect(conditionsVaLinkAction).to.exist;
+      const vitalsVaLinkAction = screen.getByTestId('vitals-landing-page-link');
+      expect(vitalsVaLinkAction).to.exist;
       const settingsVaLinkAction = screen.getByTestId(
         'settings-landing-page-link',
       );
