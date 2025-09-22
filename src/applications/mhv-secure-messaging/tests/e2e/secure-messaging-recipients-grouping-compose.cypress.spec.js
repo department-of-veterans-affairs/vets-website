@@ -1,29 +1,37 @@
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientComposePage from './pages/PatientComposePage';
-import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import PatientInterstitialPage from './pages/PatientInterstitialPage';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
     {
-      name: `mhv_secure_messaging_recipient_opt_groups`,
+      name: FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups,
+      value: true,
+    },
+    {
+      name: FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow,
       value: true,
     },
   ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.navigateToComposePage();
-    PatientComposePage.verifyHeader(Data.START_NEW_MSG);
+    // Navigate through curated list flow: create message -> interstitial -> select care team
+    PatientInboxPage.clickCreateNewMessage();
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientComposePage.verifyHeader('Select care team');
   });
 
   it('verify groups quantity', () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .should(`have.length`, 4);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .each(el => {
         cy.wrap(el)
