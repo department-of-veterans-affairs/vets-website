@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
@@ -54,6 +54,7 @@ const LandingPage = () => {
   );
 
   const { isLoading } = useAcceleratedData();
+  const history = useHistory();
 
   const accordionRef = useRef(null);
 
@@ -391,14 +392,9 @@ const LandingPage = () => {
                 </p>
                 <va-link-action
                   type="secondary"
-                  href={
-                    environment.isProduction()
-                      ? 'https://va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/'
-                      : 'https://staging.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/'
-                  }
+                  href="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
                   text={MEDICAL_RECORDS_REQUEST_LABEL}
-                  onClick={event => {
-                    event.preventDefault();
+                  onClick={() => {
                     sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
                   }}
                 />
@@ -411,16 +407,17 @@ const LandingPage = () => {
                   Review and update your medical records sharing and
                   notification settings.
                 </p>
-                <Link
-                  to="/settings"
-                  className="vads-c-action-link--blue"
+                <va-link-action
+                  type="secondary"
+                  href="/my-health/medical-records/settings"
                   data-testid="settings-landing-page-link"
-                  onClick={() => {
+                  text={MEDICAL_RECORDS_SETTINGS_LABEL}
+                  onClick={event => {
+                    event.preventDefault();
+                    history.push('/settings');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
-                >
-                  {MEDICAL_RECORDS_SETTINGS_LABEL}
-                </Link>
+                />
               </section>
               <section className="vads-u-padding-bottom--3">
                 <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
