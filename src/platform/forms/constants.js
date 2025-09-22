@@ -217,6 +217,75 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
     [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
     [VA_FORM_IDS.FORM_21P_8416]: `${tryGetAppUrl('21P-8416')}/`,
+    [VA_FORM_IDS.FORM_21_0779_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0779/introduction/`,
+    [VA_FORM_IDS.FORM_21_4192_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4192/introduction/`,
+    [VA_FORM_IDS.FORM_21_509_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-509/introduction/`,
+    [VA_FORM_IDS.FORM_21_8940_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8940/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0516_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0516-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0517_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0517-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0518_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0518-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0519C-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0519S-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_530A_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-530A/introduction/`,
+    [VA_FORM_IDS.FORM_21P_8049_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-8049/introduction/`,
+    [VA_FORM_IDS.FORM_21_2680_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-2680/introduction/`,
+    [VA_FORM_IDS.FORM_21_674B_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-674B/introduction/`,
+    [VA_FORM_IDS.FORM_21_8951_2_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8951-2/introduction/`,
+    [VA_FORM_IDS.FORM_21_0788_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0788/introduction/`,
+    [VA_FORM_IDS.FORM_21_4193_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4193/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4718A_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4718A/introduction/`,
+    [VA_FORM_IDS.FORM_21_4140_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4140/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4706C_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4706C/introduction/`,
+    [VA_FORM_IDS.FORM_21_8960_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8960/introduction/`,
+    [VA_FORM_IDS.FORM_21_0304_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0304/introduction/`,
+    [VA_FORM_IDS.FORM_21_651_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-651/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4185/introduction/`,
   };
 };
 
@@ -375,7 +444,7 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-8960-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_4706c_UPLOAD,
+    id: VA_FORM_IDS.FORM_21P_4706C_UPLOAD,
     benefit: 'form 21P-4706c upload',
     title: 'form 21P-4706c upload',
     description: 'uploaded file for form 21P-4706c',
@@ -389,7 +458,7 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-4140-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_4718a_UPLOAD,
+    id: VA_FORM_IDS.FORM_21P_4718A_UPLOAD,
     benefit: 'form 21P-4718a upload',
     title: 'form 21P-4718a upload',
     description: 'uploaded file for form 21P-4718a',
@@ -417,7 +486,7 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-8951-2-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21_674b_UPLOAD,
+    id: VA_FORM_IDS.FORM_21_674B_UPLOAD,
     benefit: 'form 21-674b upload',
     title: 'form 21-674b upload',
     description: 'uploaded file for form 21-674b',
