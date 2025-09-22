@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
 import {
   openFormPage,
@@ -12,6 +10,8 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+import { getFormPageInfo } from '../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'audiologyCareType';
 const pageTitle = 'Which type of audiology care do you need?';
@@ -30,11 +30,10 @@ const initialSchema = {
 const uiSchema = {
   audiologyType: {
     'ui:title': pageTitle,
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
+    'ui:widget': AppointmentsRadioWidget,
     'ui:options': {
       classNames: 'vads-u-margin-top--neg2',
-      labelHeaderLevel: '1',
+      hideLabelText: true,
       labels: {
         CCAUDRTNE: 'Routine hearing exam',
         CCAUDHEAR: 'Hearing aid support',
@@ -78,6 +77,12 @@ export default function TypeOfAudiologyCarePage() {
 
   return (
     <div className="vaos-form__radio-field-descriptive">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Type of appointment"

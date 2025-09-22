@@ -11,11 +11,12 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 import formConfig from '../../../config/form';
+import maxData from '../../e2e/fixtures/data/maximal-test.json';
 
 const mockStore = state => createStore(() => state);
 
 const initConfirmationPage = ({
-  formData,
+  formData = maxData,
   confirmationNumber,
   timestamp,
   userFullName,
@@ -52,7 +53,6 @@ describe('ConfirmationPage', () => {
 
   it('should show success alert, h2, and confirmation number if present', () => {
     const { container } = initConfirmationPage({
-      formData: {},
       confirmationNumber: '1234567890',
       timestamp: Date.now(),
       userFullName: { first: 'John', middle: 'A.', last: 'Doe', suffix: 'Jr.' },
@@ -66,9 +66,7 @@ describe('ConfirmationPage', () => {
     expect($('va-link-action', alert).getAttribute('text')).to.eq(
       'Check the status of your form on My VA',
     );
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('John A. Doe, Jr.');
+    expect($('va-accordion', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($$('va-link-action', container)).to.have.lengthOf(2);
   });
@@ -87,7 +85,7 @@ describe('ConfirmationPage', () => {
 
   it('should render when API fails', () => {
     const { container } = render(
-      <Provider store={mockStore({ form: {} })}>
+      <Provider store={mockStore({ form: { data: {} } })}>
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
@@ -95,8 +93,6 @@ describe('ConfirmationPage', () => {
       'Your confirmation number is',
     );
 
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('nameDate submitted');
+    expect($('va-accordion', container)).to.exist;
   });
 });

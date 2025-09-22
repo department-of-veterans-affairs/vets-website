@@ -12,12 +12,16 @@ const NotGoodFitCard = ({ card, formResponses }) => {
   const learnMoreLink = getLearnMoreLink(card);
 
   return (
-    <div className="not-good-fit-card" data-testid={`not-good-fit-${card}`}>
+    <va-card
+      background
+      class="not-good-fit-card"
+      data-testid={`not-good-fit-${card}`}
+    >
       <h3 className="vads-u-margin-top--0">{H3}</h3>
       <p>This may not be an option because:</p>
       {content}
       {learnMoreLink}
-    </div>
+    </va-card>
   );
 };
 

@@ -110,4 +110,8 @@ export default {
     en: '/resources/verifying-your-identity-on-vagov/',
     es: '/resources/verifying-your-identity-on-vagov-esp/',
   },
+  vocationalRehabilitation: {
+    en: '/careers-employment/vocational-rehabilitation/eligibility/',
+    es: '/careers-employment/vocational-rehabilitation/eligibility-esp/',
+  },
 };
