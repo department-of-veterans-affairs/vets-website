@@ -1,9 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount, render } from 'enzyme';
-import { fireEvent } from '@testing-library/react';
-import { $ } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { mount } from 'enzyme';
+import { fireEvent, render } from '@testing-library/react';
+// import { $ } from '@department-of-veterans-affairs/platform-testing/helpers'; // did not use this import
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui'; // import from the ui itself
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
