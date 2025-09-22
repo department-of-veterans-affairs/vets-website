@@ -9,16 +9,14 @@ describe('Medical Records View Allergies', () => {
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records');
-    cy.reload({ force: true });
-    // Given Navigate to Allergy Page
-
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
-
-    AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
+    site.loadPage();
   });
 
   it('Toggle Menu button Print or download on Details Page ', () => {
+    AllergiesListPage.clickGotoAllergiesLink(allergies);
+
+    AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
+
     // should display a toggle menu button
     AllergyDetailsPage.verifyPrintOrDownload();
 
