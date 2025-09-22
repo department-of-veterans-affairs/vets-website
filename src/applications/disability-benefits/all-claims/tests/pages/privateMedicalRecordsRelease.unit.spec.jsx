@@ -1,13 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
+import { mount, render } from 'enzyme';
+import { fireEvent } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import {
-  DefinitionTester,
-  fillData,
-  fillDate,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { waitFor } from '@testing-library/dom';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 import formConfig from '../../config/form';
@@ -78,11 +76,27 @@ describe('Disability benefits 4142 provider medical records facility information
     form.unmount();
   });
 
-  // TODO: fix this test, it's not working because of the select fields
   it('should add a provider facility', async () => {
     const onSubmit = sinon.spy();
-
-    const form = mount(
+    // Create a facility provider object -> simulate what a user would enter for a facility
+    const facilityProvider = {
+      providerFacilityName: 'Local facility',
+      treatedDisabilityNames: {
+        diabetesmelitus: true,
+      },
+      treatmentDateRange: {
+        from: '1950-01-03',
+        to: '1950-12-31',
+      },
+      providerFacilityAddress: {
+        country: 'USA',
+        city: 'AnyCity',
+        state: 'VA',
+        postalCode: '12345',
+        street: '123 Street',
+      },
+    };
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -93,86 +107,93 @@ describe('Disability benefits 4142 provider medical records facility information
           initialData,
           ...claimType,
           ratedDisabilities,
-          providerFacility: [
-            {
-              treatmentCenterName: 'Sommerset VA Clinic',
-              treatedDisabilityNames: {
-                diabetesmelitus: true,
-              },
-              treatmentDateRange: {
-                from: '2010-04-XX',
-              },
-              treatmentCenterAddress: {
-                country: 'USA',
-                city: 'APO',
-                state: 'VA',
-              },
-            },
-          ],
+          providerFacility: [facilityProvider],
         }}
         uiSchema={uiSchema}
       />,
     );
+    expect(
+      $(
+        'input#root_providerFacility_0_providerFacilityName',
+        container,
+      ).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityName);
+    expect(
+      $(
+        'select#root_providerFacility_0_treatmentDateRange_fromMonth',
+        container,
+      ).value,
+    ).to.eq('1');
+    expect(
+      $('select#root_providerFacility_0_treatmentDateRange_fromDay', container)
+        .value,
+    ).to.eq('3');
+    expect(
+      $(
+        'input#root_providerFacility_0_treatmentDateRange_fromYear',
+        container,
+      ).getAttribute('value'),
+    ).to.eq('1950');
+    expect(
+      $('select#root_providerFacility_0_treatmentDateRange_toMonth', container)
+        .value,
+    ).to.eq('12');
+    expect(
+      $('select#root_providerFacility_0_treatmentDateRange_toDay', container)
+        .value,
+    ).to.eq('31');
+    expect(
+      $(
+        'input#root_providerFacility_0_treatmentDateRange_toYear',
+        container,
+      ).getAttribute('value'),
+    ).to.eq('1950');
+    expect(
+      $('va-select[label="Country"]', container).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityAddress.country);
+    expect(
+      $('va-select[label="State"]', container).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityAddress.state);
+    expect(
+      $(
+        'input#root_providerFacility_0_providerFacilityAddress_street',
+        container,
+      ).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityAddress.street);
+    expect(
+      $(
+        'input#root_providerFacility_0_providerFacilityAddress_city',
+        container,
+      ).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityAddress.city);
+    expect(
+      $(
+        'input#root_providerFacility_0_providerFacilityAddress_postalCode',
+        container,
+      ).getAttribute('value'),
+    ).to.eq(facilityProvider.providerFacilityAddress.postalCode);
 
-    //  All fields filled
-    fillData(
-      form,
-      'input#root_providerFacility_0_providerFacilityName',
-      'Local facility',
-    );
-    fillDate(
-      form,
-      'root_providerFacility_0_treatmentDateRange_from',
-      '1950-1-3',
-    );
-    fillDate(form, 'root_providerFacility_0_treatmentDateRange_to', '1951-1-3');
-    // TODO: this may not be needed since it defaults to USA
-    fillData(
-      form,
-      'va-select[name="root_providerFacility_0_providerFacilityAddress_country"]',
-      'USA',
-    );
-    fillData(
-      form,
-      'input#root_providerFacility_0_providerFacilityAddress_street',
-      '101 Street',
-    );
+    // Check that there are no validation errors
+    expect(container.querySelectorAll('.usa-input-error').length).to.equal(0);
+    // Check that there are 2 va-select elements -> the new elements that is used in this pr
+    expect(container.querySelectorAll('va-select').length).to.equal(2);
 
-    // TODO: Selection is kind of weird, we have shadowroots to navigate
-    fillData(
-      form,
-      'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]',
-      'AK',
-    );
-    fillData(
-      form,
-      'input#root_providerFacility_0_providerFacilityAddress_city',
-      'Anyville',
-    );
-    fillData(
-      form,
-      'input#root_providerFacility_0_providerFacilityAddress_postalCode',
-      '29414',
-    );
+    // the following commented lines originate from the Enzyme style unit tests, which is also still referenced in the other , prior to the introduction of VADS components. they've been included here as a point of reference for how Enzyme tests confirmed the absence of errors countrySelector and stateSelector are
+    // // va-select element has error attribute when there is an error
+    // const countrySelector =
+    //   'va-select[name="root_providerFacility_0_providerFacilityAddress_country"]';
+    // expect(form.find(countrySelector).prop('error')).to.not.exist;
 
-    await waitFor(() => {
-      expect(form.find('.usa-input-error').length).to.equal(0);
+    // const stateSelector =
+    //   'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]';
+    // expect(form.find(stateSelector).prop('error')).to.not.exist;
 
-      // va-select element has error attribute when there is an error
-      const countrySelector =
-        'va-select[name="root_providerFacility_0_providerFacilityAddress_country"]';
-      expect(form.find(countrySelector).prop('error')).to.not.exist;
-
-      const stateSelector =
-        'va-select[name="root_providerFacility_0_providerFacilityAddress_state"]';
-      expect(form.find(stateSelector).prop('error')).to.not.exist;
-
-      // TODO: this was at the top of the waitFor, but it was just throwing a failed to submit error
-      //  and not highlighting exactly what was wrong. We can move it back up after we get the select fixed
-      form.find('form').simulate('submit');
-      expect(onSubmit.called).to.be.true;
-    });
-    form.unmount();
+    // Simulate form submission using RTL
+    const form = container.querySelector('form');
+    if (form) {
+      fireEvent.submit(form);
+    }
+    expect(onSubmit.called).to.be.true;
   });
 
   it('does not submit (and renders error messages) when no fields touched', async () => {
