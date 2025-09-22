@@ -615,17 +615,13 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       getText,
     };
 
-    // when options.maxItems is a function, compute numeric max at runtime.
+    // when options.maxItems is a function, compute numeric maxItems value
     const computeMaxItems = hasMaxItemsFn
-      ? (formData, schema) => {
+      ? formData => {
           const evaluatedMax = maxItemsFn(maxItems, formData);
-          const arrayNode = schema?.properties?.[arrayPath] ?? {};
           return {
-            ...schema,
             properties: {
-              ...schema.properties,
               [arrayPath]: {
-                ...arrayNode,
                 ...(Number.isFinite(evaluatedMax)
                   ? { maxItems: evaluatedMax }
                   : {}),
