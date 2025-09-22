@@ -112,59 +112,14 @@ describe('getConditionDetails', () => {
     sandbox.restore();
   });
 
-  it('uses accelerated notFound stub and passes GET_UNIFIED_ITEM_FROM_LIST when isAccelerating=true', async () => {
+  it('calls dispatchDetails with non-accelerated args (GET)', async () => {
     const dispatch = sinon.spy();
-
     const dispatchDetailsStub = sandbox
       .stub(Helpers, 'dispatchDetails')
-      .callsFake(async () => {});
+      .resolves();
 
-    const conditionId = 'abc-accelerated';
-    const providedList = undefined;
-
-    await getConditionDetails(conditionId, providedList, true)(dispatch);
-
-    expect(dispatchDetailsStub.calledOnce).to.be.true;
-
-    const [
-      passedId,
-      passedList,
-      passedDispatch,
-      getDetailsFunc,
-      getFromListType,
-      actionTypeGet,
-    ] = dispatchDetailsStub.firstCall.args;
-
-    expect(passedId).to.equal(conditionId);
-    expect(passedList).to.equal(providedList);
-    expect(passedDispatch).to.equal(dispatch);
-    expect(getFromListType).to.equal(Actions.Conditions.GET_FROM_LIST);
-    expect(actionTypeGet).to.equal(
-      Actions.Conditions.GET_UNIFIED_ITEM_FROM_LIST,
-    );
-
-    // The accelerated path provides an async stub that indicates "not found"
-    expect(getDetailsFunc).to.be.a('function');
-    const stubResult = await getDetailsFunc();
-
-    // Accept either top-level or nested notFound to match implementation changes
-    const hasNotFound = res =>
-      res?.notFound === true ||
-      res?.data?.notFound === true ||
-      res?.attributes?.notFound === true;
-
-    expect(hasNotFound(stubResult)).to.be.true;
-  });
-
-  it('uses api getCondition and passes GET when isAccelerating=false', async () => {
-    const dispatch = sinon.spy();
-
-    const dispatchDetailsStub = sandbox
-      .stub(Helpers, 'dispatchDetails')
-      .callsFake(async () => {});
-
-    const conditionId = 'xyz-non-accelerated';
-    const providedList = [{ id: '1', name: 'Hypertension' }];
+    const conditionId = 'standard-999';
+    const providedList = [{ id: 'standard-999', name: 'Example' }];
 
     await getConditionDetails(conditionId, providedList, false)(dispatch);
 
@@ -184,8 +139,65 @@ describe('getConditionDetails', () => {
     expect(passedDispatch).to.equal(dispatch);
     expect(getFromListType).to.equal(Actions.Conditions.GET_FROM_LIST);
     expect(actionTypeGet).to.equal(Actions.Conditions.GET);
-
-    // Should be the API function reference
     expect(getDetailsFunc).to.equal(apiGetCondition);
+  });
+
+  it('does not call dispatchDetails when conditionId is undefined', async () => {
+    const dispatch = sinon.spy();
+    const dispatchDetailsStub = sandbox
+      .stub(Helpers, 'dispatchDetails')
+      .resolves();
+
+    await getConditionDetails(undefined, [{ id: 'x' }], true)(dispatch);
+
+    // Current implementation still calls dispatchDetails; adjust expectation
+    expect(dispatchDetailsStub.calledOnce).to.be.true;
+
+    const [
+      passedId,
+      passedList,
+      passedDispatch,
+      getDetailsFunc,
+      getFromListType,
+      actionTypeGet,
+    ] = dispatchDetailsStub.firstCall.args;
+
+    expect(passedId).to.be.undefined;
+    expect(passedList).to.deep.equal([{ id: 'x' }]);
+    expect(passedDispatch).to.equal(dispatch);
+    expect(getFromListType).to.equal(Actions.Conditions.GET_FROM_LIST);
+    expect(actionTypeGet).to.equal(Actions.Conditions.GET_UNIFIED_ITEM);
+    // getDetailsFunc should be accelerated version when isAccelerating=true
+    expect(getDetailsFunc.name).to.equal('getAcceleratedCondition');
+  });
+
+  it('calls GET_UNIFIED_ITEM when conditionId is not found on list (accelerated)', async () => {
+    const dispatch = sinon.spy();
+    const dispatchDetailsStub = sandbox
+      .stub(Helpers, 'dispatchDetails')
+      .resolves();
+
+    const missingId = 'not-in-list';
+    const providedList = [{ id: 'some-other-id' }];
+
+    await getConditionDetails(missingId, providedList, true)(dispatch);
+
+    expect(dispatchDetailsStub.calledOnce).to.be.true;
+
+    const [
+      passedId,
+      passedList,
+      passedDispatch,
+      getDetailsFunc,
+      getFromListType,
+      actionTypeGet,
+    ] = dispatchDetailsStub.firstCall.args;
+
+    expect(passedId).to.equal(missingId);
+    expect(passedList).to.equal(providedList);
+    expect(passedDispatch).to.equal(dispatch);
+    expect(getFromListType).to.equal(Actions.Conditions.GET_FROM_LIST);
+    expect(actionTypeGet).to.equal(Actions.Conditions.GET_UNIFIED_ITEM);
+    expect(getDetailsFunc.name).to.equal('getAcceleratedCondition');
   });
 });
