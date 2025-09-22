@@ -154,6 +154,8 @@ const ComposeForm = props => {
       ehrDataByVhaId,
       recipients?.allowedRecipients,
       recipientExists,
+      draftInProgress,
+      sendMessageFlag,
     ],
   );
 

@@ -447,9 +447,7 @@ class PatientComposePage {
   };
 
   verifyElectronicSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Electronic signature');
+    cy.findByText('Electronic signature').should('be.visible');
   };
 
   verifyElectronicSignatureRequired = () => {

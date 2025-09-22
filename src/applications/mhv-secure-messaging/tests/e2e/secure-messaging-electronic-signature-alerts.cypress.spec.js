@@ -103,15 +103,19 @@ describe('Secure Messaging Digital Signature Error flows', () => {
   });
 
   it('verify no signature alerts with auto save', () => {
-    cy.intercept(`POST`, Paths.INTERCEPT.DRAFT_AUTO_SAVE).as(`autoSaveDraft`);
+    cy.intercept('POST', Paths.INTERCEPT.DRAFT_AUTO_SAVE).as('autoSaveDraft');
 
-    // Trigger auto-save by making a small change to the message body
-    PatientComposePage.getMessageBodyField().type(' ');
+    // Trigger auto-save by making a small change
+    cy.findByTestId('message-body-field')
+      .shadow()
+      .find('#input-type-textarea')
+      .type(' additional text');
 
-    cy.wait(`@autoSaveDraft`, { timeout: 15000 }).then(() => {
-      cy.get(Locators.ALERTS.EL_SIGN_NAME).should('not.exist');
-      cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(`not.exist`);
-    });
+    // Wait for auto-save to complete
+    cy.wait('@autoSaveDraft', { timeout: 15000 });
+
+    cy.findByText(Alerts.EL_SIGN_NAME).should('not.exist');
+    cy.findByText(Alerts.EL_SIGN_CHECK).should('not.exist');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -122,7 +126,7 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.selectRecipient('VHA 649 Release of Information ROI');
+    PatientComposePage.selectRecipient('VHA 649 Release of Information (ROI)');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(`Oracle Health DS test`, {
       force: true,
