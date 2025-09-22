@@ -15,58 +15,23 @@ const IntroContent = () => {
   return (
     <>
       <p>
-        Use VA Form 21-4140 if we asked you to verify your employment status
-        because you currently receive Individual Unemployment (IU) disability
-        service-connected conditions
+        Use VA Form 21-4140 if we asked you to verify your income and employment status
+        for your Individual Unemployment (IU) benefits.
       </p>
 
       <h2>What to know before you fill out this form</h2>
       <ul>
         <li>
-          You need to submit this form because the Social Security
-          Administration reported that you earned income while receiving IU
-          benefits
+          You need to complete this form within <strong>65 days</strong> of the notice you
+          received
         </li>
         <li>
-          You need to complete this form within 65 days of the notice you
-          received
+          You'll need to provide information about any employers and employment you've had in the past 12 months
         </li>
         <li>You’ll need your Social Security number or your VA file number</li>
         <li>
           After you submit this form we’ll review it and advise you of your
           decision and your options
-        </li>
-      </ul>
-
-      <h2>What you’ll need to report</h2>
-      <p>
-        Depending on your income source, you’ll also need to provide the
-        following:
-      </p>
-      <ul>
-        <li>
-          Information about any employers or employment you’ve had in the past
-          12 months
-        </li>
-        <li>
-          <strong>
-            If your income was from your spouse and taxes were filed jointly
-          </strong>
-          , documentation of the income source, such as a spouse’s W-2 or wage
-          and tax statement
-        </li>
-        <li>
-          <strong>If you’re no longer employed</strong>, evidence of when you
-          stopped working, such as a statement from your former employer with
-          the last day you worked
-        </li>
-        <li>
-          <strong>
-            If you’re currently employed but haven’t worked for a continuous
-            year
-          </strong>
-          , evidence of your employment status, such as a statement from your
-          employer with the dates you worked
         </li>
       </ul>
     </>
