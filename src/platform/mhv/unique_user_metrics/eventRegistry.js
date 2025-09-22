@@ -45,3 +45,31 @@ export const EVENT_REGISTRY = Object.freeze({
   // Appointments Events
   APPOINTMENTS_ACCESSED: 'mhv_appointments_accessed',
 });
+
+/**
+ * Site IDs that should have Oracle Health-specific event logging.
+ * Only facilities listed here will trigger additional site-specific events.
+ */
+export const ORACLE_HEALTH_TRACKED_SITES = Object.freeze({
+  // Site IDs that should trigger Oracle Health specific logging
+  COLUMBUS_OH: '757',
+  // Add more sites here as needed
+  // EXAMPLE_SITE: '123',
+});
+
+/**
+ * Events that should have Oracle Health site-specific logging.
+ * When any of these events are logged, if the user is registered at an Oracle Health site,
+ * we'll also log a site-specific version of the event.
+ */
+export const ORACLE_HEALTH_TRACKED_EVENTS = Object.freeze([
+  EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+  EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED,
+  EVENT_REGISTRY.APPOINTMENTS_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
+  EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
+]);

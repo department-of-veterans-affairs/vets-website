@@ -149,4 +149,195 @@ describe('logUniqueUserMetricsEvents', () => {
       });
     });
   });
+
+  describe('Oracle Health site-specific logging', () => {
+    let originalStore;
+
+    beforeEach(() => {
+      // Save original store
+      originalStore = global.window?.store;
+    });
+
+    afterEach(() => {
+      // Restore original store
+      if (originalStore) {
+        global.window.store = originalStore;
+      } else {
+        delete global.window?.store;
+      }
+    });
+
+    describe('user with Oracle Health facilities', () => {
+      beforeEach(() => {
+        // Mock Redux store with user having Columbus OH facility
+        global.window = {
+          store: {
+            getState: () => ({
+              user: {
+                profile: {
+                  facilities: [
+                    { facilityId: '757' }, // Columbus OH
+                    { facilityId: '123' }, // Non-Oracle Health facility
+                  ],
+                },
+              },
+            }),
+          },
+        };
+      });
+
+      it('should log both general and site-specific events for tracked events', () => {
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        const loggedEvents = logUniqueUserMetricsStub.firstCall.args[0];
+
+        expect(loggedEvents).to.include(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+        expect(loggedEvents).to.include('mhv_sm_message_sent_oh_site_757');
+        expect(loggedEvents).to.have.length(2);
+      });
+
+      it('should not log site-specific events for non-tracked events', () => {
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        // Use an event that's not in ORACLE_HEALTH_TRACKED_EVENTS
+        logUniqueUserMetricsEvents(EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED);
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        const loggedEvents = logUniqueUserMetricsStub.firstCall.args[0];
+
+        expect(loggedEvents).to.deep.equal([
+          EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED,
+        ]);
+        expect(loggedEvents).to.have.length(1);
+      });
+
+      it('should handle multiple tracked events', () => {
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+          EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        const loggedEvents = logUniqueUserMetricsStub.firstCall.args[0];
+
+        expect(loggedEvents).to.include(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+        expect(loggedEvents).to.include(
+          EVENT_REGISTRY.PRESCRIPTIONS_REFILL_REQUESTED,
+        );
+        expect(loggedEvents).to.include('mhv_sm_message_sent_oh_site_757');
+        expect(loggedEvents).to.include('mhv_rx_refill_requested_oh_site_757');
+        expect(loggedEvents).to.have.length(4);
+      });
+    });
+
+    describe('Redux store edge cases', () => {
+      it('should handle missing window.store gracefully', () => {
+        global.window = {};
+
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsStub.firstCall.args[0]).to.deep.equal([
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        ]);
+      });
+
+      it('should handle missing getState function gracefully', () => {
+        global.window = {
+          store: {},
+        };
+
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsStub.firstCall.args[0]).to.deep.equal([
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        ]);
+      });
+
+      it('should handle missing user profile gracefully', () => {
+        global.window = {
+          store: {
+            getState: () => ({}),
+          },
+        };
+
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsStub.firstCall.args[0]).to.deep.equal([
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        ]);
+      });
+
+      it('should handle facilities as null gracefully', () => {
+        global.window = {
+          store: {
+            getState: () => ({
+              user: {
+                profile: {
+                  facilities: null,
+                },
+              },
+            }),
+          },
+        };
+
+        const logUniqueUserMetricsStub = sinon.stub(
+          apiClient,
+          'logUniqueUserMetrics',
+        );
+
+        logUniqueUserMetricsEvents(
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+
+        expect(logUniqueUserMetricsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsStub.firstCall.args[0]).to.deep.equal([
+          EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        ]);
+      });
+    });
+  });
 });
