@@ -473,7 +473,7 @@ const incomeTypePage = {
       showUpdatedContent()
         ? {
             title: 'Who pays the income?',
-            hint: 'Name of business, financial institution, or program',
+            hint: 'Name of business, agency, or program',
           }
         : {
             title: 'Income payer name',
@@ -526,7 +526,7 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'financial-accounts-summary-custodian',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
-      uiSchema: parentSummaryPage.uiSchema,
+      uiSchema: custodianSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomePagesParentSummary: pageBuilder.summaryPage({
@@ -534,7 +534,7 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'financial-accounts-summary-parent',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'PARENT',
-      uiSchema: custodianSummaryPage.uiSchema,
+      uiSchema: parentSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
