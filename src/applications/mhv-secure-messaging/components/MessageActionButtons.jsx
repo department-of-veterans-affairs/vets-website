@@ -123,7 +123,7 @@ MessageActionButtons.propTypes = {
   messageId: PropTypes.number,
   setIsCreateNewModalVisible: PropTypes.func,
   showEditDraftButton: PropTypes.bool,
-  threadId: PropTypes.number,
+  threadId: PropTypes.number.isRequired,
 };
 
 export default MessageActionButtons;
