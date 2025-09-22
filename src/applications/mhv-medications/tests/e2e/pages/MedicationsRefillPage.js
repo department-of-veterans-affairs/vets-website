@@ -470,16 +470,12 @@ class MedicationsRefillPage {
     );
   };
 
-  verifySuccessAlertTextDoesNotExistOnRefillPage = alert => {
-    cy.get('[data-testid="success-refill-title"]')
-      .should('have.text', alert)
-      .and('not.be.visible');
+  verifySuccessAlertTextDoesNotExistOnRefillPage = () => {
+    cy.get('[data-testid="success-refill-title"]').should('not.exist');
   };
 
-  verifyFailedAlertTextDoesNotExistOnRefillPage = text => {
-    cy.get('[data-testid="failed-refill-description"]')
-      .should('have.text', text)
-      .and('not.be.visible');
+  verifyFailedAlertTextDoesNotExistOnRefillPage = () => {
+    cy.get('[data-testid="error-refill-description"]').should('not.exist');
   };
 
   verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
@@ -533,7 +529,7 @@ class MedicationsRefillPage {
   };
 
   verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
-    cy.get('[data-testid="error-refill-text"]')
+    cy.get('[data-testid="error-refill-title"]')
       .should('have.text', text)
       .and('be.visible');
     cy.get('[data-testid="error-refill-suggestion"]')
