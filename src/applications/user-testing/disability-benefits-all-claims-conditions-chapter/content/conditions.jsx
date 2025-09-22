@@ -31,7 +31,7 @@ export const NewConditionDescription = () => (
   </>
 );
 
-const createCauseFollowUpDescriptions = (item, fullData = {}) => {
+export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';
 
   const { conditions = [], ratedDisabilities = [] } = fullData;
@@ -50,7 +50,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       );
 
       return foundInConditions || foundInRated
-        ? `caused by ${item.causedByCondition}`
+        ? `caused by ${item.causedByCondition.trim()}`
         : 'cause is unknown or was removed';
     }
 
@@ -65,7 +65,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   }
 };
 
-const formatDateString = dateString => {
+export const formatDateString = dateString => {
   if (!dateString) {
     return '';
   }
