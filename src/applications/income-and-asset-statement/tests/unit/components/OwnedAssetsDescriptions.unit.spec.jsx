@@ -100,7 +100,6 @@ describe('OwnedAssetsDescriptions Components', () => {
         <DocumentMailingAddressDescription />,
       );
 
-      // Should still render the base content with fallback form description
       expect(container.innerHTML).to.include(
         'Since you aren’t uploading the form now',
       );
@@ -417,7 +416,7 @@ describe('OwnedAssetsDescriptions Components', () => {
         <DocumentMailingAddressDescription />,
       );
 
-      // Should still render without throwing error
+      // still should render without error
       expect(container.innerHTML).to.include(
         'Since you aren’t uploading the form now',
       );
