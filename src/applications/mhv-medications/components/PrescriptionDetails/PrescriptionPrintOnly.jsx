@@ -104,7 +104,7 @@ const PrescriptionPrintOnly = props => {
           <div className="print-only-rx-details-container">
             {!pendingMed && !pendingRenewal ? (
               <p>
-                This prescription was last filled on{' '}
+                <strong>Last filled on:</strong>{' '}
                 {rx?.sortedDispensedDate
                   ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
                   : 'Not filled yet'}
