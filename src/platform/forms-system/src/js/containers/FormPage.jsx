@@ -287,8 +287,7 @@ class FormPage extends React.Component {
     const isFirstRoutePage =
       route.pageList[0].path === this.props.location.pathname;
 
-    const showNavLinks =
-      environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
+    const showNavLinks = false; // TODO Re-enable after study; environment.isLocalhost() && route.formConfig?.dev?.showNavLinks;
     const hideNavButtons =
       !environment.isProduction() &&
       (route.formConfig?.formOptions?.noBottomNav ||
