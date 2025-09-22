@@ -197,6 +197,21 @@ export default function VaFileInputMultiplePage() {
         return newPasswordErrors;
       });
 
+      // Clear va-select error when file is replaced
+      setTimeout(() => {
+        const fileInputs = componentRef.current?.shadowRoot?.querySelectorAll(
+          'va-file-input',
+        );
+        if (fileInputs && fileInputs[index]) {
+          const slotContent = fileInputs[index].querySelector(
+            '.additional-input-container va-select',
+          );
+          if (slotContent) {
+            slotContent.removeAttribute('error');
+          }
+        }
+      }, 0);
+
       if (isEncrypted) {
         // For encrypted files, don't upload immediately - wait for password
         // Set file status to pending password
