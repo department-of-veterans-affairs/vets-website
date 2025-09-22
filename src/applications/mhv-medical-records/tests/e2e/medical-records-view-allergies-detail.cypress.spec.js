@@ -8,7 +8,7 @@ describe('Medical Records View Allergies', () => {
   it('Visits Medical Records View Allergies Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records');
+    site.loadPage();
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);

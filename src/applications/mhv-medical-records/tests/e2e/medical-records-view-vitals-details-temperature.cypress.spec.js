@@ -9,13 +9,12 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Temperature', () => {
     VitalsListPage.goToVitals();
     // click temperature link
-    VitalsListPage.clickLinkByRecordListItemIndex(4);
+    VitalsListPage.clickLinkByRecordListItem('Temperature');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

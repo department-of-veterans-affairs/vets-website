@@ -1,28 +1,67 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import sinon from 'sinon';
+import { Provider } from 'react-redux';
+import * as redux from 'react-redux';
+import { waitFor } from '@testing-library/react';
 
 import SubmissionError from '../../../config/submissionError';
 
-describe('SubmissionError', () => {
-  it('renders the alert with headline and links', () => {
-    const { getByText, getByRole, container } = render(<SubmissionError />);
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
-    const alert = container.querySelector('#submission-error');
-    expect(alert).to.exist;
+describe('<SubmissionError />', () => {
+  let store;
+  let useDispatchMock;
+  let useSelectorMock;
 
-    const headline = getByText('The form can’t be submitted');
-    expect(headline).to.exist;
+  const mockInitialState = {
+    form: {
+      submission: {
+        errorMessage: 'vets_server_error: Internal Server Error',
+      },
+    },
+  };
 
-    const poaLink = getByRole('link', { name: /VA Form 21-22/i });
-    expect(poaLink).to.have.attribute(
-      'href',
-      'https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/',
+  beforeEach(() => {
+    useSelectorMock = sinon.stub(redux, 'useSelector');
+    useDispatchMock = sinon.stub(redux, 'useDispatch').returns(() => {});
+    store = mockStore(mockInitialState);
+    useSelectorMock.callsFake(selector => selector(mockInitialState));
+  });
+
+  afterEach(() => {
+    useDispatchMock.restore();
+    useSelectorMock.restore();
+  });
+
+  it('renders the alert with headline and links', async () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <SubmissionError />
+      </Provider>,
     );
-
-    const backLink = getByRole('link', {
-      name: /Go back to submissions page/i,
+    await waitFor(() => {
+      expect(wrapper.find('#submission-error').exists()).to.be.true;
+      expect(wrapper.find('h3[slot="headline"]').exists()).to.be.true;
+      expect(
+        wrapper
+          .find(
+            'a.vads-c-action-link--green[href="/representative/submissions"]',
+          )
+          .exists(),
+      ).to.be.true;
+      expect(
+        wrapper
+          .find(
+            'a[href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"]',
+          )
+          .exists(),
+      ).to.be.true;
+      wrapper.unmount();
     });
-    expect(backLink).to.have.attribute('href', '/representative/submissions');
   });
 });

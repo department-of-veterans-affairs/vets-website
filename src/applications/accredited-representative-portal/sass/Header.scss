@@ -92,7 +92,9 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
   &:has(.is--displayed) {
-    border-bottom: none;
+    @media (min-width: $medium-screen) {
+      border-bottom: none;
+    }
   }
 
   &__mobile-menu-links {

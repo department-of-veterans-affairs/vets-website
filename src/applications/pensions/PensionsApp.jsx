@@ -16,8 +16,8 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
-  const pensionIncomeAndAssetsClarification = useToggleValue(
-    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
+  const pensionPdfFormAlignment = useToggleValue(
+    TOGGLE_NAMES.pensionPdfFormAlignment,
   );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
@@ -40,16 +40,12 @@ export default function PensionEntry({ location, children }) {
           pensionMultiplePageResponse,
         );
         window.sessionStorage.setItem(
-          'showIncomeAndAssetsClarification',
-          pensionIncomeAndAssetsClarification,
+          'showPdfFormAlignment',
+          pensionPdfFormAlignment,
         );
       }
     },
-    [
-      isLoadingFeatures,
-      pensionMultiplePageResponse,
-      pensionIncomeAndAssetsClarification,
-    ],
+    [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
