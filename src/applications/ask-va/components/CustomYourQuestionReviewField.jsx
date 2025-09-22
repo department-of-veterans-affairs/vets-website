@@ -1,22 +1,33 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import formConfig from '../config/form';
 import { setupPages } from '../utils/reviewPageHelper';
 
-const updateSubmitted = () => (
-  <va-alert
-    className="vads-u-margin-bottom--1"
-    close-btn-aria-label="Close notification"
-    disable-analytics="false"
-    full-width="false"
-    slim
-    status="success"
-    visible="true"
-  >
-    <p className="vads-u-margin-y--0">Your question has been updated</p>
-  </va-alert>
-);
+const UpdateSubmitted = () => {
+  useEffect(() => {
+    // TODO: The goal was to make UpdateSubmitted its own component
+    // and set the focus on the alert when it renders. We need
+    // to write the setFocus function. There are examples elsehwere,
+    // but I ran out of time to implement.
+    // setFocus('#updated-question-alert');
+  });
+
+  return (
+    <va-alert
+      id="updated-question-alert"
+      className="vads-u-margin-bottom--1"
+      close-btn-aria-label="Close notification"
+      disable-analytics="false"
+      full-width="false"
+      slim
+      status="success"
+      visible="true"
+    >
+      <p className="vads-u-margin-y--0">Your question has been updated</p>
+    </va-alert>
+  );
+};
 
 const PageFieldSummary = props => {
   const { renderedProperties, defaultEditButton, updatedPage } = props;
@@ -35,7 +46,7 @@ const PageFieldSummary = props => {
         <span>{defaultEditButton({ label: `Edit` })}</span>
       </div>
       {currentPage[0]?.chapterTitle === alertPage[0].chapterTitle &&
-        updateSubmitted()}
+        UpdateSubmitted()}
       <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
         {renderedProperties.map((question, index) => {
           if (
