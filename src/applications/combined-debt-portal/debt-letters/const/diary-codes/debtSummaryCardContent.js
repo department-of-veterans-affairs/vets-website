@@ -168,8 +168,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Contact the U.S. Department of the Treasury’s Debt Management Services
-          at <va-telephone contact={CONTACTS.DMC} />, 8:30 a.m. to 6:30 p.m. ET.
-          to pay this debt.
+          at <va-telephone contact={CONTACTS.TREASURY_DMS} />, 8:30 a.m. to 6:30
+          p.m. ET. to pay this debt.
         </DebtSummaryMessage>
       );
     // case '081': TODO: No Definition in mockup
