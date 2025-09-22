@@ -49,10 +49,10 @@ export const scrollToElement = async (el, scrollOptions) =>
 
 /**
  * Scroll to top of the page
- * @param {String|Number|Element} [el]='topScrollElement' - top scroll element, or
+ * @param {String|Number|Element} [position='topScrollElement'] - top scroll element, or
  *  selector, id, name, class name, number, or DOM element to position
  * @param {ScrollOptions} [scrollOptions] - settings & overrides
- * @returns Promise
+ * @returns {Promise<void>}
  */
 export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
