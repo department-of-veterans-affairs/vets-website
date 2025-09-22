@@ -23,11 +23,6 @@ const defaultUser = {
         birth_date: '1985-01-01',
         verified: true,
         edipi: null,
-        vapContactInfo: {
-          email: {
-            updatedAt: '2025-03-31T12:00:00.000+00:00',
-          },
-        },
       },
       session: {
         auth_broker: 'iam',

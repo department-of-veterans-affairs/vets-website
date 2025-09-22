@@ -6,6 +6,7 @@ export default function AgeEligibility() {
       close-btn-aria-label="Close notification"
       status="warning"
       visible
+      role="alert"
     >
       <h2 slot="headline">You may not qualify</h2>
       <React.Fragment key=".1">

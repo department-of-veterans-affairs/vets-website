@@ -115,12 +115,15 @@ const POARequestDetailsPage = title => {
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
   const navigation = useNavigation();
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   useEffect(
     () => {
-      focusElement('h1');
       document.title = title.title;
+      focusElement('.poa__alert');
     },
-    [title],
+    [title, poaRequestSubmission],
   );
 
   const handleSubmit = e => {

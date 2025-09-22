@@ -6,7 +6,6 @@ import manifest from '../../manifest.json';
 import {
   createSummaryHandler,
   fillAddressAndGoToNext,
-  selectSharedAddressAndGoToNext,
   setupBasicTest,
   startAsGuestUser,
 } from './utils';
@@ -24,33 +23,24 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         afterHook(() => startAsGuestUser());
       },
-      'your-information/mailing-address': ({ afterHook }) => {
+      'your-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('certifierAddress', data.certifierAddress);
           });
         });
       },
-      'veteran-information/address': ({ afterHook }) => {
-        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
-      },
-      'veteran-information/mailing-address': ({ afterHook }) => {
+      'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext('sponsorAddress', data.sponsorAddress);
           });
         });
       },
-      'applicant-information/summary': ({ afterHook }) => {
+      'review-your-applicants': ({ afterHook }) => {
         afterHook(() => handleApplicantSummary());
       },
-      'applicant-information/:index/address': ({ afterHook }) => {
-        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
-      },
-      'applicant-information/:index/mailing-address': ({
-        afterHook,
-        index,
-      }) => {
+      'applicant-mailing-address/:index': ({ afterHook, index }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             fillAddressAndGoToNext(
