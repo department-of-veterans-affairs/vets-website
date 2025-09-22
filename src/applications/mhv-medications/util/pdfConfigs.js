@@ -153,9 +153,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
           header: 'About your prescription',
           indent: 32,
           items: [
-            pendingMed || pendingRenewal
-              ? ''
-              : {
+            !pendingMed && !pendingRenewal
+              ? {
                   title: 'Last filled on',
                   value: dateFormat(
                     rx.sortedDispensedDate,
@@ -164,7 +163,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
                   ),
                   inline: true,
                   indent: 32,
-                },
+                }
+              : null,
             ...(!pendingMed && !pendingRenewal
               ? [
                   {

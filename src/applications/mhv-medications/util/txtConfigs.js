@@ -92,15 +92,15 @@ ${rx.prescriptionName}
 About your prescription
 
 ${
-      pendingMed || pendingRenewal
-        ? ''
-        : `
+      !pendingMed && !pendingRenewal
+        ? `
 Last filled on: ${dateFormat(
             rx.sortedDispensedDate,
             'MMMM D, YYYY',
             'Date not available',
           )}
 `
+        : ''
     }
 
 ${
