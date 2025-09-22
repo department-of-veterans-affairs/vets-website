@@ -10,12 +10,12 @@ describe('Medical Records Care Summary Page', () => {
   before(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink();
+    NotesListPage.gotoNotesList();
   });
 
   it('Discharge Summary Details, DS with discharged date', () => {
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink(4);
+    NotesDetailsPage.clickDischargeSummaryLink(1);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[1].resource.content[0].attachment.title,
