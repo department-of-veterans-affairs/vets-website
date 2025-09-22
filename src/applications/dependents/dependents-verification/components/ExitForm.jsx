@@ -12,6 +12,7 @@ export const ExitForm = ({
   goBack,
   contentBeforeButtons,
   contentAfterButtons,
+  location = window.location,
 }) => {
   useEffect(() => {
     scrollAndFocus('h1.page-title');

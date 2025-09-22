@@ -51,10 +51,9 @@ describe('ExitForm', () => {
       .stub(utils, 'deleteInProgressForm')
       .resolves();
     const assignSpy = sinon.spy();
-    global.window.location.assign = assignSpy;
-    const { container } = render(<ExitForm />);
+    const { container } = render(<ExitForm location={{ assign: assignSpy }} />);
 
-    fireEvent.click($('va-button[continue]', container));
+    fireEvent.click($('.exit-form', container));
 
     await waitFor(() => {
       expect(deleteInProgressFormStub.calledWith(VA_FORM_IDS.FORM_21_0538)).to
