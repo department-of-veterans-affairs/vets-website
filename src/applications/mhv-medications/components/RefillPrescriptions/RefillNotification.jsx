@@ -16,7 +16,7 @@ const MEDICATION_REFILL = {
     title: 'Request not submitted',
     description: 'We’re sorry. There’s a problem with our system.',
     suggestion:
-      "Try requesting your refills again. If it still doesn't work, contact your VA pharmacy.",
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
   },
   PARTIAL: {
     id: 'partial-refill',
