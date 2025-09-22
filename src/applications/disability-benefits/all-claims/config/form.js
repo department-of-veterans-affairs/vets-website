@@ -130,7 +130,6 @@ import {
   NULL_CONDITION_STRING,
   PTSD_INCIDENT_ITERATION,
   WIZARD_STATUS,
-  EMPTY_SCHEMA,
 } from '../constants';
 
 import migrations from '../migrations';
@@ -326,7 +325,7 @@ const formConfig = {
           depends: formData =>
             DISABILITY_SHARED_CONFIG.orientation.depends(formData),
           uiSchema: { 'ui:description': disabilitiesOrientation },
-          schema: EMPTY_SCHEMA,
+          schema: { type: 'object', properties: {} },
         },
         ratedDisabilities: {
           title: 'Existing conditions (rated disabilities)',
@@ -360,7 +359,7 @@ const formConfig = {
             'ui:description':
               'Now we’re going to ask you some follow-up questions about each of your conditions. We’ll go through them one by one.',
           },
-          schema: EMPTY_SCHEMA,
+          schema: { type: 'object', properties: {} },
         },
         newDisabilityFollowUp: {
           title: formData =>
@@ -392,7 +391,7 @@ const formConfig = {
           depends: () => false,
           path: 'new-disabilities/page-break',
           uiSchema: {},
-          schema: EMPTY_SCHEMA,
+          schema: { type: 'object', properties: {} },
         },
         // 781/a - 1. REVIEW INTRODUCTION PAGE
         newPTSDFollowUp: {
@@ -445,7 +444,7 @@ const formConfig = {
             'ui:title': ptsd781NameTitle,
             'ui:description': ptsdFirstIncidentIntro,
           },
-          schema: EMPTY_SCHEMA,
+          schema: { type: 'object', properties: {} },
         },
         // 781 - Pages 3 - 12 (Event Loop)
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),
@@ -576,7 +575,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:ancillaryFormsWizardIntro': EMPTY_SCHEMA,
+              'view:ancillaryFormsWizardIntro': {
+                type: 'object',
+                properties: {},
+              },
               'view:ancillaryFormsWizard': {
                 type: 'boolean',
               },
@@ -641,7 +643,7 @@ const formConfig = {
             'ui:description': formData =>
               supportingEvidenceOrientation(formData),
           },
-          schema: EMPTY_SCHEMA,
+          schema: { type: 'object', properties: {} },
         },
         serviceTreatmentRecords: {
           title: 'Service treatment records',
