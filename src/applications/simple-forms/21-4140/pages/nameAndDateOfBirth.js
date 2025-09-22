@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Name and date of birth'),
+    ...titleUI('Your name and date of birth'),
     fullName: fullNameUI(),
     dateOfBirth: dateOfBirthUI(),
   },
