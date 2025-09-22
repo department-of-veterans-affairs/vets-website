@@ -104,16 +104,18 @@ describe('VAOS ChooseDateAndTime component', () => {
     },
     appointmentApi: {
       queries: {
-        'getDraftDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
           status: 'fulfilled',
           data: createDraftAppointmentInfo(1),
+          endpoint: 'getDraftReferralAppointment',
+          requestId: 'abc',
           startedTimeStamp: 1758046349181,
           fulfilledTimeStamp: 1758046349182,
         },
       },
       subscriptions: {
-        'getDraftDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
-          abc: {},
+        'getDraftReferralAppointment({"referralConsultId":"984_646907","referralNumber":"VA0000007241"})': {
+          abc: { pollingInterval: 0 },
         },
       },
     },
