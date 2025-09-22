@@ -153,16 +153,18 @@ export const buildPrescriptionsPDFList = prescriptions => {
           header: 'About your prescription',
           indent: 32,
           items: [
-            {
-              title: 'Last filled on',
-              value: dateFormat(
-                rx.sortedDispensedDate,
-                'MMMM D, YYYY',
-                'Date not available',
-              ),
-              inline: true,
-              indent: 32,
-            },
+            pendingMed || pendingRenewal
+              ? ''
+              : {
+                  title: 'Last filled on',
+                  value: dateFormat(
+                    rx.sortedDispensedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  ),
+                  inline: true,
+                  indent: 32,
+                },
             ...(!pendingMed && !pendingRenewal
               ? [
                   {
@@ -396,15 +398,17 @@ export const buildVAPrescriptionPDFList = prescription => {
       sections: [
         {
           items: [
-            {
-              title: 'Last filled on',
-              value: dateFormat(
-                prescription.sortedDispensedDate,
-                'MMMM D, YYYY',
-                'Date not available',
-              ),
-              inline: true,
-            },
+            pendingMed || pendingRenewal
+              ? ''
+              : {
+                  title: 'Last filled on',
+                  value: dateFormat(
+                    prescription.sortedDispensedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  ),
+                  inline: true,
+                },
             ...(!pendingMed && !pendingRenewal
               ? [
                   {
