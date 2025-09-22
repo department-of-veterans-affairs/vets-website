@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
@@ -164,20 +164,21 @@ const LandingPage = () => {
               Get results of your VA medical tests. This includes blood tests,
               X-rays, and other imaging tests.
             </p>
-            <Link
-              to="/labs-and-tests"
+            <va-link-action
+              href="/my-health/medical-records/labs-and-tests"
               className="vads-c-action-link--blue"
               data-testid="labs-and-tests-landing-page-link"
-              onClick={() => {
+              text={LAB_TEST_RESULTS_LABEL}
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
                 logUniqueUserMetricsEvents(
                   EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
                 );
               }}
-            >
-              {LAB_TEST_RESULTS_LABEL}
-            </Link>
+            />
           </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -189,20 +190,21 @@ const LandingPage = () => {
               (called admission and discharge summaries).
             </p>
             <>
-              <Link
-                to="/summaries-and-notes"
+              <va-link-action
+                href="/my-health/medical-records/summaries-and-notes"
                 className="vads-c-action-link--blue"
                 data-testid="notes-landing-page-link"
-                onClick={() => {
+                text={CARE_SUMMARIES_AND_NOTES_LABEL}
+                onClick={event => {
+                  event.preventDefault();
+                  history.push('/summaries-and-notes');
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   logUniqueUserMetricsEvents(
                     EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
                   );
                 }}
-              >
-                {CARE_SUMMARIES_AND_NOTES_LABEL}
-              </Link>
+              />
             </>
           </section>
           <section>
@@ -213,20 +215,21 @@ const LandingPage = () => {
               Get a list of all vaccines (immunizations) in your VA medical
               records.
             </p>
-            <Link
-              to="/vaccines"
+            <va-link-action
+              href="/my-health/medical-records/vaccines"
               className="vads-c-action-link--blue"
               data-testid="vaccines-landing-page-link"
-              onClick={() => {
+              text={VACCINES_LABEL}
+              onClick={event => {
+                event.preventDefault();
+                history.push('/vaccines');
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
                 logUniqueUserMetricsEvents(
                   EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
                 );
               }}
-            >
-              {VACCINES_LABEL}
-            </Link>
+            />
           </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -237,20 +240,21 @@ const LandingPage = () => {
               VA medical records. This includes medication side effects (also
               called adverse drug reactions).
             </p>
-            <Link
-              to="/allergies"
+            <va-link-action
+              href="/my-health/medical-records/allergies"
               className="vads-c-action-link--blue"
               data-testid="allergies-landing-page-link"
-              onClick={() => {
+              text={ALLERGIES_AND_REACTIONS_LABEL}
+              onClick={event => {
+                event.preventDefault();
+                history.push('/allergies');
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
                 logUniqueUserMetricsEvents(
                   EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
                 );
               }}
-            >
-              {ALLERGIES_AND_REACTIONS_LABEL}
-            </Link>
+            />
           </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -260,20 +264,21 @@ const LandingPage = () => {
               Get a list of health conditions your VA providers are helping you
               manage.
             </p>
-            <Link
-              to="/conditions"
+            <va-link-action
+              href="/my-health/medical-records/conditions"
               className="vads-c-action-link--blue"
               data-testid="conditions-landing-page-link"
-              onClick={() => {
+              text={HEALTH_CONDITIONS_LABEL}
+              onClick={event => {
+                event.preventDefault();
+                history.push('/conditions');
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 logUniqueUserMetricsEvents(
                   EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
                 );
               }}
-            >
-              {HEALTH_CONDITIONS_LABEL}
-            </Link>
+            />
           </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -289,20 +294,21 @@ const LandingPage = () => {
               <li>Height and weight</li>
               <li>Temperature</li>
             </ul>
-            <Link
-              to="/vitals"
+            <va-link-action
+              href="/my-health/medical-records/vitals"
               className="vads-c-action-link--blue"
               data-testid="vitals-landing-page-link"
-              onClick={() => {
+              text={VITALS_LABEL}
+              onClick={event => {
+                event.preventDefault();
+                history.push('/vitals');
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
                 logUniqueUserMetricsEvents(
                   EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
                 );
               }}
-            >
-              {VITALS_LABEL}
-            </Link>
+            />
           </section>
 
           {!displayMarch17Updates && (
@@ -315,16 +321,17 @@ const LandingPage = () => {
                   Review and update your medical records sharing and
                   notification settings.
                 </p>
-                <Link
-                  to="/settings"
+                <va-link-action
+                  href="/my-health/medical-records/settings"
                   className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
-                  onClick={() => {
+                  text={MEDICAL_RECORDS_SETTINGS_LABEL}
+                  onClick={event => {
+                    event.preventDefault();
+                    history.push('/settings');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
-                >
-                  {MEDICAL_RECORDS_SETTINGS_LABEL}
-                </Link>
+                />
               </section>
               <section>
                 <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -338,16 +345,17 @@ const LandingPage = () => {
                   data-testid="go-to-mhv-download-records"
                   className="vads-u-margin-bottom--2"
                 >
-                  <Link
-                    to="/download"
+                  <va-link-action
+                    href="/my-health/medical-records/download"
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
-                    onClick={() => {
+                    text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                    onClick={event => {
+                      event.preventDefault();
+                      history.push('/download');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
-                  >
-                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                  </Link>
+                  />
                 </p>
               </section>
             </>
@@ -368,16 +376,17 @@ const LandingPage = () => {
                   data-testid="go-to-mhv-download-records"
                   className="vads-u-margin-bottom--2"
                 >
-                  <Link
-                    to="/download"
+                  <va-link-action
+                    href="/my-health/medical-records/download"
                     className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
-                    onClick={() => {
+                    text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                    onClick={event => {
+                      event.preventDefault();
+                      history.push('/download');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
-                  >
-                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                  </Link>
+                  />
                 </p>
               </section>
               <section className="vads-u-padding-bottom--3">
@@ -518,14 +527,15 @@ const LandingPage = () => {
                         Download your self-entered health information report.
                       </p>
                       <p className="vads-u-margin-bottom--2">
-                        <Link
-                          to="/download"
-                          onClick={() => {
+                        <va-link-action
+                          href="/my-health/medical-records/download"
+                          text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                          onClick={event => {
+                            event.preventDefault();
+                            history.push('/download');
                             sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                           }}
-                        >
-                          {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                        </Link>
+                        />
                       </p>
                     </div>
                   </va-accordion-item>
