@@ -746,9 +746,12 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_0839,
-    benefit: 'education benefits',
-    title: '0839',
-    description: 'education benefits',
+    benefit:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code)',
+    title:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code) (22-0839)',
+    description:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code) (22-0839)',
     trackingPrefix: '0839-edu-benefits',
   },
   {
