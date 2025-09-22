@@ -47,12 +47,12 @@ const Authorized = () => {
 
       <h2 className="dashboard__header">Are you new to the portal?</h2>
       <p>
-        Visit our help resources to learn more about the portal and contact us
-        with questions.
+        Learn more about using the portal features, resolving common issues, and
+        contacting us if you need additional support.
       </p>
       <va-link
         href="/representative/get-help"
-        text="Review our help resources"
+        text="Learn more about the portal"
       />
     </>
   );
