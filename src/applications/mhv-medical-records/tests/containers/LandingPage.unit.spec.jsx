@@ -205,17 +205,18 @@ describe('Landing Page', () => {
           name: 'Go to your vitals',
         }),
       ).to.exist;
-      expect(
-        screen.getByRole('link', {
-          name: 'Go to manage your electronic sharing settings',
-        }),
-      ).to.exist;
+      const settingsVaLinkAction = screen.getByTestId(
+        'settings-landing-page-link',
+      );
+      expect(settingsVaLinkAction).to.exist;
       expect(
         screen.getByText('What to do if you can’t find your medical records', {
           selector: 'h2',
           exact: true,
         }),
       ).to.exist;
+      const gpsVaLinkAction = screen.getByTestId('gps-landing-page-link');
+      expect(gpsVaLinkAction).to.exist;
       expect(
         screen.getByText('Share personal health data with your care team', {
           selector: 'h2',
