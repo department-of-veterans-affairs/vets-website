@@ -45,8 +45,10 @@ describe('Medications List Print Page', () => {
       );
     };
     const screen = setupWithError();
-    const rxName = screen.findByText('Medications | Veterans Affairs');
-    expect(rxName).to.exist;
+    const errorMessage = screen.findByText(
+      'We’re sorry. There’s a problem with our system.',
+    );
+    expect(errorMessage).to.exist;
   });
 
   it('renders without errors', async () => {
