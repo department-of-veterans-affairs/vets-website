@@ -40,7 +40,7 @@ const DebtSummaryCard = ({ debt }) => {
       {debtCardSubHeading}
 
       {showResolveLinks ? (
-        <>
+        <p>
           <VaLink
             active
             data-testid="debt-details-link"
@@ -69,9 +69,9 @@ const DebtSummaryCard = ({ debt }) => {
               aria-label={`Resolve ${debtCardHeading}`}
             />
           </div>
-        </>
+        </p>
       ) : (
-        <>
+        <p>
           <VaLink
             active
             data-testid="debt-details-button"
@@ -85,7 +85,7 @@ const DebtSummaryCard = ({ debt }) => {
             text="Check details and resolve this debt"
             label={`Check details and resolve this ${debtCardHeading}`}
           />
-        </>
+        </p>
       )}
     </va-card>
   );
