@@ -12,35 +12,35 @@ const Authorized = () => {
       <ul className="dashboard__list">
         <li>
           <va-card icon-name="search">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
                 href="/representative/claimant-search"
                 text="Find claimants you represent"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
         <li>
           <va-card icon-name="how_to_reg">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
                 href="/representative/poa-requests"
                 text="Review representation requests"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
         <li>
           <va-card icon-name="assignment_turned_in">
-            <div>
+            <h2>
               <va-link
                 class="dashboard__card-link vads-u-font-family--serif"
                 href="/representative/submissions"
                 text="Submit forms"
               />
-            </div>
+            </h2>
           </va-card>
         </li>
       </ul>
