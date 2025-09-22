@@ -78,7 +78,7 @@ export const sponsorIdentificationSchema = {
     ...titleUI(({ formData }) => {
       return `${formData?.certifierRole === 'sponsor' ? 'Your' : `Veteran's`} 
         identification information`;
-    }, 'You must enter a Social Security number.'),
+    }),
     sponsorSsn: ssnUI(),
     'ui:validations': [validateSponsorSsnIsUnique],
   },
@@ -121,7 +121,7 @@ export const sponsorStatusDetails = {
     sponsorDeathConditions: yesNoUI({
       title: 'Did the Veteran die during active military service?',
       hint:
-        'Depending on your response, you may need to submit additional documents with this application.',
+        'Depending on your response, you may need to submit additional documents.',
       labels: {
         yes: 'Yes',
         no: 'No',
@@ -159,18 +159,28 @@ export const sponsorAddress = {
     type: 'object',
     required: ['sponsorAddress'],
     properties: {
-      sponsorAddress: addressSchema(),
+      sponsorAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };
 
 export const sponsorContactInfo = {
   uiSchema: {
-    ...titleUI(({ formData }) => {
-      return `${
-        formData.certifierRole === 'sponsor' ? 'Your' : `Veteran's`
-      } contact information`;
-    }, `We'll use this phone number to contact the Veteran if we have any questions about their information.`),
+    ...titleUI(
+      ({ formData }) => {
+        return `${
+          formData.certifierRole === 'sponsor' ? 'Your' : `Veteran's`
+        } contact information`;
+      },
+      ({ formData }) => {
+        return (
+          "We'll use this phone number to contact " +
+          `${
+            formData.certifierRole === 'sponsor' ? 'you' : 'the Veteran'
+          } if we have any questions about their information.`
+        );
+      },
+    ),
     sponsorPhone: {
       ...phoneUI(),
       'ui:required': () => true,

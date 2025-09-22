@@ -24,7 +24,7 @@ function generateOptions({ data, pagePerItemIndex }) {
       value: 'intendsToEnroll',
     },
     {
-      label: `${relativeBeingVerb} over the age of 18, permanently incapable of self-support and was rated as a helpless child`,
+      label: `${relativeBeingVerb} over the age of 18, permanently incapable of self-support, and rated as a helpless child`,
       value: 'over18HelplessChild',
     },
   ];
