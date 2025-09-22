@@ -3,7 +3,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import { useEditOrAddForm } from './useEditOrAddForm';
@@ -110,13 +109,13 @@ export default function ArrayBuilderItemPage({
               {/* save-in-progress link, etc */}
               {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
+              {/** don't use webcomponents here until we resolve https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
+               * using web components the click handlers on underlying va-buttons don't run
+               */}
               <NavButtons
                 goBack={props.goBack}
                 goForward={props.onContinue}
                 submitToContinue
-                useWebComponents={
-                  props.formOptions?.useWebComponentForNavigation
-                }
               />
             </>
           )}
@@ -135,14 +134,20 @@ export default function ArrayBuilderItemPage({
                 />
               </div>
               <div>
-                <VaButton
-                  continue
+                {/** use button until we resolve https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
+                 * until then clicking on the va-button the onClick handler does not run
+                 */}
+                <button
+                  className="usa-button-primary vads-u-margin-top--0"
                   submit="prevent"
+                  onClick={() => navigationState.setNavigationEvent()}
                   // "Continue" will display instead of `text`
                   // prop until this is fixed:
                   // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/2733
-                  text={getText('editSaveButtonText')}
-                />
+                  // text={getText('editSaveButtonText')}
+                >
+                  {getText('editSaveButtonText')}
+                </button>
               </div>
             </div>
           )}
