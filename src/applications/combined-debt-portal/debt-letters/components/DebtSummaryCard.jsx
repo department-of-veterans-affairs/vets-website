@@ -52,7 +52,7 @@ const DebtSummaryCard = ({ debt }) => {
               debt.compositeDebtId
             }`}
             text="Review details"
-            aria-label={`Check details for ${debtCardHeading}`}
+            label={`Check details for ${debtCardHeading}`}
           />
           <div className="vads-u-margin-top--1">
             <VaLink
@@ -66,7 +66,7 @@ const DebtSummaryCard = ({ debt }) => {
                 debt.compositeDebtId
               }/resolve`}
               text="Resolve this debt"
-              aria-label={`Resolve ${debtCardHeading}`}
+              label={`Resolve ${debtCardHeading}`}
             />
           </div>
         </p>

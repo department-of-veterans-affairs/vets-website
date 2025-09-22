@@ -129,7 +129,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               }}
               href={`/copay-balances/${id}/detail`}
               text="Review details"
-              aria-label={`Review details for ${facility}`}
+              label={`Review details for ${facility}`}
             />
           </p>
 
@@ -144,7 +144,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               }}
               href={`/copay-balances/${id}/resolve`}
               text="Resolve this bill"
-              aria-label={`Resolve this bill for ${facility}`}
+              label={`Resolve this bill for ${facility}`}
             />
           </p>
         </div>
