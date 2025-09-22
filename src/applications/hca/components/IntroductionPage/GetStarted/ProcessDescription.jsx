@@ -23,7 +23,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
   });
 
   const sipIntro = useCallback(
-    ({ buttonOnly = false }) => {
+    ({ buttonOnly = false } = {}) => {
       const { savedFormMessages, prefillEnabled, downtime } = formConfig;
       const sipProps = {
         startText: content['sip-start-form-text'],
@@ -47,7 +47,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
         now.
       </p>
 
-      {isLoggedIn ? sipIntro({}) : <CheckAppStatusAlert />}
+      {isLoggedIn ? sipIntro() : <CheckAppStatusAlert />}
 
       <span className={className}>
         <ProcessTimeline />
