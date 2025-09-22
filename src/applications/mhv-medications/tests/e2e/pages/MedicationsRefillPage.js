@@ -457,7 +457,7 @@ class MedicationsRefillPage {
   };
 
   verifyRefillSuccessDescriptionText = () => {
-    cy.get('[data-testid="success-message-description"] > p').should(
+    cy.get('[data-testid="success-message-description"]').should(
       'contain',
       'recently requested',
     );

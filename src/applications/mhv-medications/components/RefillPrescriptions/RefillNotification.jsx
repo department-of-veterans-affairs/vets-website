@@ -14,7 +14,7 @@ const MEDICATION_REFILL = {
     status: 'error',
     className: 'vads-u-margin-y--1',
     title: 'Request not submitted',
-    description: "We're sorry. There's a problem with our system.",
+    description: 'We’re sorry. There’s a problem with our system.',
     suggestion:
       "Try requesting your refills again. If it still doesn't work, contact your VA pharmacy.",
   },
@@ -25,9 +25,9 @@ const MEDICATION_REFILL = {
     className: 'vads-u-margin-y--2',
     title: 'Only part of your request was submitted',
     description:
-      "We're sorry. There's a problem with our system. We couldn't submit these refill requests:",
+      'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
     suggestion:
-      "Try requesting these refills again. If it still doesn't work, call your VA pharmacy.",
+      'Try requesting these refills again. If it still doesn’t work, call your VA pharmacy.',
   },
   SUCCESS: {
     id: 'success-refill',

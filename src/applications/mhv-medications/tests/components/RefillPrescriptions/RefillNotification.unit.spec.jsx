@@ -40,10 +40,10 @@ describe('RefillNotification', () => {
       'Request not submitted',
     );
     expect(screen.getByTestId('error-refill-description')).to.include.text(
-      "We're sorry. There's a problem with our system.",
+      'We’re sorry. There’s a problem with our system.',
     );
     expect(screen.getByTestId('error-refill-suggestion')).to.include.text(
-      "Try requesting your refills again. If it still doesn't work, contact your VA pharmacy.",
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
   });
 
@@ -54,10 +54,10 @@ describe('RefillNotification', () => {
       'Request not submitted',
     );
     expect(screen.getByTestId('error-refill-description')).to.include.text(
-      "We're sorry. There's a problem with our system.",
+      'We’re sorry. There’s a problem with our system.',
     );
     expect(screen.getByTestId('error-refill-suggestion')).to.include.text(
-      "Try requesting your refills again. If it still doesn't work, contact your VA pharmacy.",
+      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
   });
 
@@ -68,11 +68,11 @@ describe('RefillNotification', () => {
       'Only part of your request was submitted',
     );
     expect(screen.getByTestId('partial-refill-description')).to.include.text(
-      "We're sorry. There's a problem with our system. We couldn't submit these refill requests:",
+      'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
     );
     expect(screen.getByTestId('failed-medication-list')).to.exist;
     expect(screen.getByTestId('partial-refill-suggestion')).to.include.text(
-      "Try requesting these refills again. If it still doesn't work, call your VA pharmacy.",
+      'Try requesting these refills again. If it still doesn’t work, call your VA pharmacy.',
     );
     expect(screen.getByTestId('success-refill-title')).to.include.text(
       'Refills requested',
