@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -10,46 +9,75 @@ describe('Pre-need preparer Details info', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.preparerDetails.pages.preparerDetails;
+  } = formConfig.chapters.preparerInformation.pages.preparerDetails;
 
-  it('should render', () => {
+  beforeEach(() => {
+    uiSchema.application.applicant.name.first['ui:required'] = () => true;
+    uiSchema.application.applicant.name.last['ui:required'] = () => true;
+  });
+
+  it('should render name input fields', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
-        formData={{}}
       />,
     );
-    // Check for va-text-inputs rendered (adjust count if needed)
-    expect(form.find('va-text-input').length).to.be.greaterThan(0);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
+
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
         uiSchema={uiSchema}
-        formData={{}}
+        onSubmit={onSubmit}
       />,
     );
+
     form.find('form').simulate('submit');
 
-    // Instead of .usa-input-error, look for web component error messages
-    // Typical error selector in VA forms: .rjsf-error-message inside va-text-input
-    const errorMessages = form.find('.rjsf-error-message');
-    // For debug: log the HTML output if failing
-    if (errorMessages.length !== 2) {
-      // eslint-disable-next-line no-console
-      console.log(form.html());
-    }
-    expect(errorMessages.length).to.equal(2);
-
+    const vaInputs = form.find('va-text-input');
+    const errors = vaInputs.filterWhere(node => node.prop('error'));
+    expect(errors.length).to.equal(2);
     expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
+
+  it('should submit with required fields filled in', () => {
+    const onSubmit = sinon.spy();
+
+    // Directly provide the filled data
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+        data={{
+          application: {
+            applicant: {
+              name: {
+                first: 'Jane',
+                last: 'Smith',
+              },
+            },
+          },
+        }}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+
+    const vaInputs = form.find('va-text-input');
+    const errors = vaInputs.filterWhere(node => node.prop('error'));
+    expect(errors.length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 });
