@@ -31,7 +31,6 @@ coverage
 yalc.lock
 /test-results.xml
 package-lock.json
-yarn.lock
 temp
 dump.rdb
 
