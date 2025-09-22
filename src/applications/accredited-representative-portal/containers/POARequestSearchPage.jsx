@@ -116,7 +116,9 @@ const POARequestSearchPage = title => {
         <>
           <br />
           <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
-            <h2 slot="headline">You don’t have access to this feature</h2>
+            <h2 slot="headline">
+              You currently can’t receive requests in the portal
+            </h2>
             <div className="vads-u-margin-y--0">
               <p className="vads-u-margin-bottom--1">
                 <strong>Veteran Service Organization representatives:</strong>{' '}
