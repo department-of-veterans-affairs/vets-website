@@ -10,7 +10,7 @@ const vamcUser = {
   },
 };
 const POA_REQUESTS =
-  '/representative/poa-requests?useMockData&useMockUser&status=pending&sort=created_at_asc&pageSize=20&pageNumber=1';
+  '/representative/representation-requests?useMockData&useMockUser&status=pending&sort=created_at_asc&pageSize=20&pageNumber=1';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
