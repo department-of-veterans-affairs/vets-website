@@ -11,6 +11,7 @@ const {
 } = require('./payment-history');
 const { createAppealsSuccess, createAppealsFailure } = require('./appeals');
 const {
+  createDebtsCountOnlySuccess,
   createDebtsSuccess,
   createNoDebtsSuccess,
   createDebtsFailure,
@@ -154,7 +155,7 @@ const responses = {
   },
   'GET /v0/debts': (req, res) => {
     if (req.query?.countOnly) {
-      return res.status(200).json({ debtsCount: 8 });
+      return res.status(200).json(createDebtsCountOnlySuccess());
     }
     const debtStatus = 'success';
     switch (debtStatus) {
