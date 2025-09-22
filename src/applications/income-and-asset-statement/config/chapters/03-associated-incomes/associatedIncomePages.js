@@ -25,14 +25,14 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  updatedRecipientNameRequired,
-  resolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -51,7 +51,7 @@ export const options = {
   nounPlural: 'financial accounts',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
@@ -68,7 +68,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
