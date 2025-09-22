@@ -533,10 +533,10 @@ class MedicationsRefillPage {
   };
 
   verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
-    cy.get('[data-testid="failed-refill-text"]')
+    cy.get('[data-testid="error-refill-text"]')
       .should('have.text', text)
       .and('be.visible');
-    cy.get('[data-testid="failed-refill-suggestion"]')
+    cy.get('[data-testid="error-refill-suggestion"]')
       .should('have.text', suggestion)
       .and('be.visible');
   };
