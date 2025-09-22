@@ -15,18 +15,19 @@ const IntroContent = () => {
   return (
     <>
       <p>
-        Use VA Form 21-4140 if we asked you to verify your income and employment status
-        for your Individual Unemployment (IU) benefits.
+        Use VA Form 21-4140 if we asked you to verify your income and employment
+        status for your Individual Unemployment (IU) benefits.
       </p>
 
       <h2>What to know before you fill out this form</h2>
       <ul>
         <li>
-          You need to complete this form within <strong>65 days</strong> of the notice you
-          received
+          You need to complete this form within <strong>65 days</strong> of the
+          notice you received
         </li>
         <li>
-          You'll need to provide information about any employers and employment you've had in the past 12 months
+          You’ll need to provide information about any employers and employment
+          you’ve had in the past 12 months
         </li>
         <li>You’ll need your Social Security number or your VA file number</li>
         <li>
