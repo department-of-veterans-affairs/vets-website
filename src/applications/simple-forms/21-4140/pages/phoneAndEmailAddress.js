@@ -10,7 +10,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Phone and email address'),
+    ...titleUI('Your phone and email address'),
     phoneNumber: phoneUI('Home phone number'),
     mobilePhoneNumber: phoneUI('Mobile phone number'),
     emailAddress: emailUI('Email address'),
