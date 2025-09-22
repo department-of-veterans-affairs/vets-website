@@ -16,6 +16,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
+  const pensionPdfFormAlignment = useToggleValue(
+    TOGGLE_NAMES.pensionPdfFormAlignment,
+  );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -36,9 +39,13 @@ export default function PensionEntry({ location, children }) {
           'showMultiplePageResponse',
           pensionMultiplePageResponse,
         );
+        window.sessionStorage.setItem(
+          'showPdfFormAlignment',
+          pensionPdfFormAlignment,
+        );
       }
     },
-    [isLoadingFeatures, pensionMultiplePageResponse],
+    [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {

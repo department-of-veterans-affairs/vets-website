@@ -129,6 +129,7 @@ export const medicareOptions = {
   required: false,
   // TODO: add proper checks
   isItemIncomplete: () => false,
+  maxItems: formData => formData?.applicants?.length,
   text: {
     getItemName: item => generateParticipantName(item),
     cardDescription: item => (
