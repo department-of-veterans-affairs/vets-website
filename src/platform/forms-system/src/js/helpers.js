@@ -77,20 +77,6 @@ export function getActivePages(pages, data) {
  *
  * @param {Page} page - Page definition with schema and optional array context.
  * @returns {string[]} Property keys (e.g., ["name"] or ["addresses.0.city"]).
- *
- * @example
- * getPageProperties({ schema: { properties: { name: {}, age: {} } } });
- * // ["name", "age"]
- *
- * @example
- * getPageProperties({
- *   schema: { properties: { addresses: { items: { properties: { street: {}, city: {} } } } } },
- *   arrayPath: "addresses",
- *   index: 0
- * });
- * // ["addresses.0.street", "addresses.0.city"]
- *
- * @see getActiveProperties
  */
 export function getPageProperties(page) {
   if (!page?.schema?.properties) return [];
@@ -121,14 +107,6 @@ export function getPageProperties(page) {
  * @param {Object} obj - The object to modify (mutated in place).
  * @param {string} pathString - Dot-separated path to the property (e.g., "user.address.street").
  * @returns {void}
- *
- * @example
- * const user = { profile: { name: "Alice", age: 30 } };
- * deleteNestedProperty(user, "profile.age");
- * // user => { profile: { name: "Alice" } }
- *
- * @see getPageProperties
- * @see getActiveProperties
  */
 export function deleteNestedProperty(obj, pathString) {
   const parts = pathString.split('.');
@@ -172,28 +150,8 @@ export function deleteNestedProperty(obj, pathString) {
  *
  * @param {Page[]} activePages - Pages considered active.
  * @returns {string[]} Unique list of active property keys.
- *
- * @example
- * getActiveProperties([
- *   { schema: { properties: { name: {}, age: {} } } },
- *   {
- *     schema: { properties: { addresses: { items: { properties: { city: {} } } } } },
- *     arrayPath: "addresses",
- *     index: 0
- *   }
- * ]);
- * // ["name", "age", "addresses.0.city"]
- *
- * @example
- * // $ref-like items with no inline properties
- * getActiveProperties([
- *   { schema: { properties: { dependents: { items: {} } } }, arrayPath: "dependents" }
- * ]);
- * // ["dependents"]
- *
- * @see getPageProperties
  */
-export function getActiveProperties(activePages) {
+export function getActivePageProperties(activePages) {
   const props = activePages.flatMap(page => {
     const pageProps = getPageProperties(page);
     if (pageProps.length) return pageProps;
@@ -211,6 +169,17 @@ export function getActiveProperties(activePages) {
   });
 
   return [...new Set(props)];
+}
+
+// TODO: remove when functionality from `filterInactiveNestedPages` is validated
+export function getActiveProperties(activePages) {
+  const allProperties = [];
+  activePages.forEach(page => {
+    if (page.schema) {
+      allProperties.push(...Object.keys(page.schema.properties));
+    }
+  });
+  return uniq(allProperties);
 }
 
 export function getInactivePages(pages, data) {
@@ -411,21 +380,9 @@ function hasActiveAncestor(prop, activeSet) {
  * @param {Page[]} activePages - Pages considered active; determine what to keep.
  * @param {FormDataWrapper} form - Object containing the `data` to be filtered.
  * @returns {Object} A deep-cloned `data` object with inactive properties removed.
- *
- * @example
- * const form = { data: { firstName: "Alice", middleName: "M.", lastName: "Smith" } };
- * filterInactivePageData(
- *   [{ schema: { properties: { middleName: {} } } }],
- *   [{ schema: { properties: { firstName: {}, lastName: {} } } }],
- *   form
- * );
- * // => { firstName: "Alice", lastName: "Smith" }
- *
- * @see getActiveProperties
- * @see deleteNestedProperty
  */
-export function filterInactivePageData(inactivePages, activePages, form) {
-  const activeProps = getActiveProperties(activePages);
+export function filterInactiveNestedPageData(inactivePages, activePages, form) {
+  const activeProps = getActivePageProperties(activePages);
   const activePropsSet = new Set(activeProps);
   const formData = cloneDeep(form.data); // don't mutate inputs
 
@@ -466,6 +423,24 @@ export function filterInactivePageData(inactivePages, activePages, form) {
   });
 
   return formData;
+}
+
+// TODO: remove when functionality from `filterInactiveNestedPages` is validated
+export function filterInactivePageData(inactivePages, activePages, form) {
+  const activeProperties = getActiveProperties(activePages);
+  let newData;
+
+  return inactivePages.reduce(
+    (formData, page) =>
+      Object.keys(page.schema.properties).reduce((currentData, prop) => {
+        newData = currentData;
+        if (!activeProperties.includes(prop)) {
+          delete newData[prop];
+        }
+        return newData;
+      }, formData),
+    form.data,
+  );
 }
 
 export const stringifyFormReplacer = createStringifyFormReplacer();
@@ -929,11 +904,10 @@ export function transformForSubmit(formConfig, form, options) {
     );
     const activePages = getActivePages(expandedPages, form.data);
     const inactivePages = getInactivePages(expandedPages, form.data);
-    const withoutInactivePages = filterInactivePageData(
-      inactivePages,
-      activePages,
-      form,
-    );
+    const withoutInactivePages = formConfig?.formOptions
+      ?.filterInactiveNestedPageData
+      ? filterInactiveNestedPageData(inactivePages, activePages, form)
+      : filterInactivePageData(inactivePages, activePages, form);
     const withoutViewFields = filterViewFields(withoutInactivePages);
 
     return JSON.stringify(withoutViewFields, replacer) || '{}';

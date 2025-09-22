@@ -17,9 +17,9 @@ import {
   getUrlPathIndex,
   convertUrlPathToPageConfigPath,
   getPageProperties,
-  getActiveProperties,
+  getActivePageProperties,
   deleteNestedProperty,
-  filterInactivePageData,
+  filterInactiveNestedPageData,
   createFormPageList,
 } from '../../src/js/helpers';
 
@@ -1578,7 +1578,7 @@ describe('Schemaform helpers:', () => {
       ]);
     });
   });
-  describe('getActiveProperties', () => {
+  describe('getActivePageProperties', () => {
     it('should return unique flattened props across pages', () => {
       const pages = [
         {
@@ -1602,7 +1602,7 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      expect(getActiveProperties(pages)).to.eql([
+      expect(getActivePageProperties(pages)).to.eql([
         'dob',
         'ssn',
         'providers',
@@ -1624,7 +1624,7 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      expect(getActiveProperties(pages)).to.eql(['events']);
+      expect(getActivePageProperties(pages)).to.eql(['events']);
     });
   });
   describe('deleteNestedProperties', () => {
@@ -1682,7 +1682,7 @@ describe('Schemaform helpers:', () => {
       expect(JSON.stringify(obj.arr)).to.equal('[{"keep":true}]');
     });
   });
-  describe('filterInactivePageData', () => {
+  describe('filterInactiveNestedPageData', () => {
     it('should delete root-level inactive props from form data', () => {
       const form = {
         data: {
@@ -1710,7 +1710,11 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      const result = filterInactivePageData(inactivePages, activePages, form);
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
       expect(result).to.eql({
         dob: '1990-01-01',
         ssn: '211111111',
@@ -1759,7 +1763,11 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      const result = filterInactivePageData(inactivePages, activePages, form);
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
       expect(result).to.eql({
         dependents: [
           { ssn: '411111111' },
@@ -1865,7 +1873,11 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      const result = filterInactivePageData(inactivePages, activePages, form);
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
       expect(result).to.eql(form.data); // 'agency' preserved because count >= 2
     });
     it('should delete inactive sibling fields when only nested descendants are active', () => {
@@ -1903,7 +1915,7 @@ describe('Schemaform helpers:', () => {
         },
       ];
 
-      const result = filterInactivePageData(inactivePages, activePages, {
+      const result = filterInactiveNestedPageData(inactivePages, activePages, {
         data: form.data,
       });
       expect(result).to.eql({
@@ -1944,7 +1956,7 @@ describe('Schemaform helpers:', () => {
         },
       ];
 
-      const result = filterInactivePageData(inactivePages, activePages, {
+      const result = filterInactiveNestedPageData(inactivePages, activePages, {
         data: form.data,
       });
       expect(result).to.eql({});
@@ -1976,7 +1988,11 @@ describe('Schemaform helpers:', () => {
           },
         },
       ];
-      const result = filterInactivePageData(inactivePages, activePages, form);
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
       expect(result).to.eql({
         dependents: [
           { ssn: '411111111', dob: '2000-01-01' }, // unchanged (index 0)
@@ -2000,7 +2016,7 @@ describe('Schemaform helpers:', () => {
         { schema: { properties: { email: { type: 'string' } } } },
       ];
 
-      filterInactivePageData(inactivePages, activePages, form);
+      filterInactiveNestedPageData(inactivePages, activePages, form);
       expect(form.data).to.eql(before); // original untouched
     });
     it('should prune inactive array children without leaving null entries', () => {
@@ -2041,7 +2057,11 @@ describe('Schemaform helpers:', () => {
         },
       ];
 
-      const filtered = filterInactivePageData(inactivePages, activePages, form);
+      const filtered = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
 
       // Array remains an array, but must not serialize with [null]
       expect(Array.isArray(filtered.vaMedicalCenters)).to.equal(true);
