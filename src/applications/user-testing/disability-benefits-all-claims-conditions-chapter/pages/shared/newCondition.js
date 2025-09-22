@@ -83,7 +83,6 @@ const newConditionPage = {
       () => createAddAndEditTitles('Add new condition', 'Edit new condition'),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
-        alertStatus: 'error',
       }),
     ),
     newCondition: {
