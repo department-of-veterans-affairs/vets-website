@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { uploadFile } from 'platform/forms-system/src/js/actions';
+import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,
   FILE_TYPE_MISMATCH_ERROR,
@@ -20,7 +20,7 @@ const createPayload = (file, formId) => {
   return payload;
 };
 
-export const uploadScannedForm = (
+export const uploadFile = (
   fileUploadUrl,
   formNumber,
   fileToUpload,
@@ -38,7 +38,7 @@ export const uploadScannedForm = (
   };
 
   return dispatch => {
-    const uploadRequest = uploadFile(
+    const uploadRequest = _uploadFile(
       fileToUpload,
       uiOptions,
       onProgress,
@@ -88,7 +88,7 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
     };
 
     dispatch(
-      uploadScannedForm(
+      uploadFile(
         fileUploadUrl,
         formNumber,
         file,
@@ -127,3 +127,68 @@ export async function getFileError(file, uiOptions) {
 }
 
 export const DEBOUNCE_WAIT = 500;
+
+// generate file data when no backend
+function getMockFileData(file) {
+  return {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    confirmationCode: `mock-upload-${Date.now()}`,
+  };
+}
+
+const START_PERCENT = 10;
+const PERCENT_MAX_STEP = 20;
+const INTERVAL = 50;
+
+/**
+ * This function invoked for mock form on staging which lacks a back-end but where we would like to show the progress of uploads.
+ * @param {Function} setPercent - function to set percent uploaded value
+ * @param {Function} update - function that updates the form state
+ * @param {File} file - the file to be uploaded
+ */
+export function simulateUploadSingle(setPercent, update, file) {
+  let per = START_PERCENT;
+  const id = setInterval(() => {
+    setPercent(per);
+    if (per >= 100) {
+      update(getMockFileData(file));
+      setPercent(null);
+      clearInterval(id);
+    }
+    per += Math.random() * PERCENT_MAX_STEP;
+  }, INTERVAL);
+}
+
+/**
+ * This function invoked skipUpload is true. Simulates progress of upload.
+ * @param {Function} setPercentsUploaded - function to set array of percent uploaded value
+ * @param {Array<string>} percentsUploaded - array of percent uploaded values
+ * @param {number} index - index of the file
+ * @param {Object} childrenProps - props passed to field, including data and onchange function
+ * @param {File} file - the file to be uploaded
+ */
+export function simulateUploadMultiple(
+  setPercentsUploaded,
+  percentsUploaded,
+  index,
+  childrenProps,
+  file,
+) {
+  let per = START_PERCENT;
+  const id = setInterval(() => {
+    const _percents = [...percentsUploaded];
+    _percents[index] = per;
+    setPercentsUploaded(_percents);
+    if (per >= 100) {
+      const files = [...childrenProps.formData];
+      files[index] = getMockFileData(file);
+      childrenProps.onChange(files);
+      _percents[index] = null;
+      setPercentsUploaded(_percents);
+      clearInterval(id);
+    }
+    per += Math.random() * PERCENT_MAX_STEP;
+  }, INTERVAL);
+}

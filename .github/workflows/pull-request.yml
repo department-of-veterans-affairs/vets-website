@@ -112,8 +112,8 @@ jobs:
           check_title: 'App Isolation Annotations'
           input_json: './isolation-annotations.json'
       
-  annotate-e2e-tests:
-    name: Annotate e2e Tests
+  annotate-files:
+    name: Platform-elected file notations
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -176,6 +176,25 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           check_title: 'Flaky e2e Annotations'
           input_json: './flaky-dates-times-annotations.json'
+
+      - name: Annotate files that use Enzyme instead of RTL
+        run: node script/github-actions/annotate-enzyme.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create e2e annotations file  
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$ENZYME_ANNOTATIONS_JSON" > enzyme-annotations.json
+          cat enzyme-annotations.json
+        
+      - name: Annotate files that use Enzyme instead of RTL
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Enzyme Annotations'
+          input_json: './enzyme-annotations.json'
 
   eslint-disable-check:
     name: ESLint Disable Check
