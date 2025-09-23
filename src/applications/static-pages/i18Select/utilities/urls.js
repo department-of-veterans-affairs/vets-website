@@ -127,5 +127,8 @@ export default {
   decisionReviewsBoardAppeal: {
     en: '/decision-reviews/board-appeal/',
     es: '/decision-reviews/board-appeal-esp/',
+  vocationalRehabilitation: {
+    en: '/careers-employment/vocational-rehabilitation/eligibility/',
+    es: '/careers-employment/vocational-rehabilitation/eligibility-esp/',
   },
 };

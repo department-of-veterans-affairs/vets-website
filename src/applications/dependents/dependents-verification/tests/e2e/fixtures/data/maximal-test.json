@@ -1,19 +1,20 @@
 {
-    "veteranInformation": {
-      "ssnLastFour": "5678"
-    },
-    "email": "test@test.com",
-    "phone": "8005551212",
-    "address": {
-      "street": "123 Main St",
-      "street2": "Apt 99",
-      "city": "Beverly Hills",
-      "state": "CA",
-      "postalCode": "90210",
-      "country": "USA"
-    },
-    "internationalPhone": "63123456789",
-    "hasDependentsStatusChanged": "Y",
-    "statementOfTruthSignature": "John Doe",
-    "statementOfTruthCertified": true
-  }
+  "veteranInformation": {
+    "ssnLastFour": "5678"
+  },
+  "email": "test@test.com",
+  "phone": "8005551212",
+  "view:phoneSource": "Mobile",
+  "address": {
+    "street": "123 Main St",
+    "street2": "Apt 99",
+    "city": "Beverly Hills",
+    "state": "CA",
+    "postalCode": "90210",
+    "country": "USA"
+  },
+  "internationalPhone": "63123456789",
+  "hasDependentsStatusChanged": "N",
+  "statementOfTruthSignature": "John Doe",
+  "statementOfTruthCertified": true
+}

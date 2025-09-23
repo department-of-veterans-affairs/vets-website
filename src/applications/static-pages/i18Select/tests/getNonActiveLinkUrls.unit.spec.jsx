@@ -10,6 +10,7 @@ describe('getNonActiveLinkUrls util', () => {
     });
 
     expect(result.length).to.equal(34);
+
   });
 
   it('should not return any "-esp" suffixed links when "es" is the active language code', () => {
@@ -20,6 +21,7 @@ describe('getNonActiveLinkUrls util', () => {
     });
 
     expect(result.length).to.equal(34);
+
   });
 
   it('should not return any "-tag" suffixed links when "tl" is the active language code', () => {
@@ -30,5 +32,6 @@ describe('getNonActiveLinkUrls util', () => {
     });
 
     expect(result.length).to.equal(56);
+
   });
 });

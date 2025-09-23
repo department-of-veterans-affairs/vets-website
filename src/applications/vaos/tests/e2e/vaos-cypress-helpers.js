@@ -18,6 +18,7 @@ export function mockFeatureToggles(
   toggles = {
     vaOnlineSchedulingRecentLocationsFilter: false,
     vaOnlineSchedulingCCDirectScheduling: false,
+    vaOnlineSchedulingCCDirectSchedulingChiropractic: false,
   },
 ) {
   cy.intercept(
