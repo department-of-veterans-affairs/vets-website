@@ -134,14 +134,15 @@ export const options = {
 
       const updatedContent =
         showUpdatedContent() &&
-        (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
-        item?.['view:addFormQuestion'] === true &&
-        isDefined(item?.uploadedDocuments) &&
-        item.uploadedDocuments.name ? (
+        (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') ? (
           <li key="upload">
             Form uploaded:{' '}
             <span className="vads-u-font-weight--bold">
-              {item.uploadedDocuments.name}
+              {item?.['view:addFormQuestion'] === true &&
+              isDefined(item?.uploadedDocuments) &&
+              item.uploadedDocuments.name
+                ? item.uploadedDocuments.name
+                : 'No'}
             </span>
           </li>
         ) : null;

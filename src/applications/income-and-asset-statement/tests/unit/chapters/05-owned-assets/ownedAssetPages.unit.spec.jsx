@@ -68,6 +68,59 @@ describe('owned asset list and loop pages', () => {
     });
   });
 
+  describe('cardDescription function + upload status', () => {
+    beforeEach(() => {
+      sandbox.stub(helpers, 'showUpdatedContent').returns(true);
+    });
+
+    it('should show "Form uploaded: No" when user declines upload', () => {
+      const assetWithNoUpload = {
+        ...testData.data.ownedAssets[0],
+        assetType: 'FARM',
+        'view:addFormQuestion': false,
+        grossMonthlyIncome: 1000,
+        ownedPortionValue: 50000,
+      };
+
+      const result = options.text.cardDescription(assetWithNoUpload);
+
+      const resultString = JSON.stringify(result);
+      expect(resultString).to.include('Form uploaded:');
+      expect(resultString).to.include('No');
+    });
+
+    it('should show filename when user uploads file', () => {
+      const assetWithUpload = {
+        ...testData.data.ownedAssets[0],
+        assetType: 'FARM',
+        'view:addFormQuestion': true,
+        uploadedDocuments: { name: 'test-file.pdf' },
+        grossMonthlyIncome: 1000,
+        ownedPortionValue: 50000,
+      };
+
+      const result = options.text.cardDescription(assetWithUpload);
+
+      const resultString = JSON.stringify(result);
+      expect(resultString).to.include('Form uploaded:');
+      expect(resultString).to.include('test-file.pdf');
+    });
+
+    it('should not show upload status for non-FARM/BUSINESS assets', () => {
+      const assetWithOther = {
+        ...testData.data.ownedAssets[0],
+        assetType: 'RENTAL_PROPERTY',
+        grossMonthlyIncome: 1000,
+        ownedPortionValue: 50000,
+      };
+
+      const result = options.text.cardDescription(assetWithOther);
+
+      const resultString = JSON.stringify(result);
+      expect(resultString).to.not.include('Form uploaded:');
+    });
+  });
+
   describe('text', () => {
     describe('getItemName function', () => {
       const mockFormData = {
