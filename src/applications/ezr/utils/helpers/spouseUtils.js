@@ -37,8 +37,7 @@ export const isItemIncomplete = item => {
       !item?.spouseAddress?.city ||
       !item?.spouseAddress?.state ||
       !item?.spouseAddress?.country ||
-      !item?.spouseAddress?.postalCode ||
-      !item?.spousePhone;
+      !item?.spouseAddress?.postalCode;
 
     if (missingContactFields) {
       return true;
