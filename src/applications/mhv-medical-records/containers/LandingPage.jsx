@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
@@ -54,7 +54,6 @@ const LandingPage = () => {
   );
 
   const { isLoading } = useAcceleratedData();
-  const history = useHistory();
 
   const accordionRef = useRef(null);
 
@@ -394,13 +393,6 @@ const LandingPage = () => {
                   to="/../../resources/how-to-get-your-medical-records-from-your-va-health-facility/"
                   className="vads-c-action-link--blue"
                   data-testid="gps-landing-page-link"
-                  onClick={event => {
-                    event.preventDefault();
-                    history.push(
-                      '/../../resources/how-to-get-your-medical-records-from-your-va-health-facility/',
-                    );
-                    sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
-                  }}
                 >
                   {MEDICAL_RECORDS_REQUEST_LABEL}
                 </Link>
