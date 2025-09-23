@@ -69,6 +69,9 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
+  formOptions: {
+    filterInactiveNestedPageData: true,
+  },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       {
