@@ -1,5 +1,5 @@
 /**
- * AQ Platform - Centralized form utilities and components for VA.gov
+ * @bio-aquia/shared - Centralized form utilities and components for VA.gov
  *
  * @module @bio-aquia/shared
  */

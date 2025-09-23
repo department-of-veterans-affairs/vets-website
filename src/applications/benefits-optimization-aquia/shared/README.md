@@ -4,9 +4,9 @@ A thin integration layer between VA.gov's form system and AQ applications, provi
 
 ## Overview
 
-The AQ Platform enhances VA.gov's robust form system with Zod validation for better error messages, VA web component adapters for consistent error handling, and reusable field components. We integrate with VA's infrastructure, not duplicate it.
+The `@bio-aq/shared` module enhances VA.gov's robust form system with Zod validation for better error messages, VA web component adapters for consistent error handling, and reusable field components. We integrate with VA's infrastructure, not duplicate it.
 
-## Platform Philosophy
+## Share Utility Philosophy
 
 - **Integration, not duplication** - Use VA.gov's form system, enhance it
 - **Thin abstraction layer** - Minimal wrapper around VA components
@@ -28,11 +28,10 @@ The AQ Platform enhances VA.gov's robust form system with Zod validation for bet
 
 ### Core Architecture
 
-- **[Platform Architecture](./PLATFORM_ARCHITECTURE.md)** - Integration patterns with VA.gov form system
 - **[Components](./components/README.md)** - Reusable form components with VA web component integration
 - **[Schemas](./schemas/README.md)** - Zod validation schemas with user-friendly messages
 
-## Platform Structure
+## Share Utility Structure
 
 ```bash
 src/applications/benefits-optimization-aquia/shared/
@@ -147,7 +146,8 @@ src/applications/benefits-optimization-aquia/shared/
 │   │   ├── zod-integration.unit.spec.jsx
 │   │   └── index.js
 │   └── index.js         # Barrel exports
-└── PLATFORM_ARCHITECTURE.md # Integration guide
+├── index.js             # Main barrel exports
+└── README.md            # This documentation
 ```
 
 ### Directory Organization Pattern
@@ -167,7 +167,7 @@ This organization provides:
 
 ## Quick Start
 
-### Using Platform Components
+### Using Share Utility Components
 
 ```javascript
 // Import components from bio-aquia/shared
@@ -315,8 +315,6 @@ Domain-specific components and schemas live in their respective applications:
 
 ## Known Issues & TODOs
 
-See **[Technical Debt & TODOs](./TECHNICAL_DEBT_AND_TODOS.md)** for complete analysis.
-
 ### Critical Issues
 
 - **Form ID Context** - ✅ Resolved with FormProvider context
@@ -334,7 +332,7 @@ See **[Technical Debt & TODOs](./TECHNICAL_DEBT_AND_TODOS.md)** for complete ana
 ### Component Testing
 
 ```bash
-# Run platform component tests
+# Run Share Utility component tests
 yarn test:unit src/applications/benefits-optimization-aquia/shared/
 
 # Run specific component tests
@@ -362,7 +360,7 @@ yarn test:unit --coverage
 - **Atomic components**: ~15KB gzipped
 - **Form utilities**: ~8KB gzipped
 - **Validation schemas**: ~5KB gzipped
-- **Total platform overhead**: ~28KB gzipped
+- **Total Share Utility overhead**: ~28KB gzipped
 
 ### Optimization Features
 
@@ -398,17 +396,17 @@ yarn test:unit --coverage
 
 ## Support
 
-### Documentation
+### Module Documentation
 
-- **Architecture**: [Platform Architecture](./PLATFORM_ARCHITECTURE.md)
-- **Implementation**: [Implementation Roadmap](./IMPLEMENTATION_ROADMAP.md)
+- **Components**: [Component Documentation](./components/README.md)
 - **Forms**: [Form System Documentation](./forms/README.md)
 - **Schemas**: [Schema Organization](./schemas/README.md)
+- **Hooks**: See hooks section in this document
 
 ### Getting Help
 
 - Review existing documentation
-- Check [Technical Debt & TODOs](./TECHNICAL_DEBT_AND_TODOS.md) for known issues
+- Check the Known Issues & TODOs section above
 - Follow development patterns from burial-flags-21-2008
 
 ## Success Metrics
@@ -420,7 +418,7 @@ yarn test:unit --coverage
 - ✅ **Zod validation** with user-friendly error messages
 - ✅ **VA web component** integration throughout
 
-### Platform Goals
+### Share Utility Goals
 
 - **Reusability**: 80%+ component reuse across forms
 - **Development Speed**: 50% faster new form development
@@ -428,7 +426,7 @@ yarn test:unit --coverage
 - **Maintainability**: Single source of truth for form patterns
 - **Accessibility**: 100% WCAG 2.1 AA compliance
 
-## Platform Architecture
+## Share Utility Architecture
 
 **Key Principle**: We integrate with VA.gov's form system, not duplicate it. VA.gov provides:
 
@@ -450,7 +448,7 @@ yarn test:unit --coverage
    - Redux stores manage form data
    - `CustomPage` pattern passes data/setFormData to pages
 
-2. **AQ Platform provides enhancements:**
+2. **Share Utility provides enhancements:**
 
    - Zod schemas for better validation messages
    - VA component adapters for consistent error display
@@ -463,15 +461,15 @@ yarn test:unit --coverage
    // Uses VA's CustomPage pattern
    export const PersonalInfoPage = ({ data, setFormData, goForward }) => {
      return (
-       // AQ Platform's PageTemplate
+       // Share Utility PageTemplate
        <PageTemplate
          data={data}
          setFormData={setFormData}
          goForward={goForward}
-         schema={personalInfoSchema} // AQ Platform schema
+         schema={personalInfoSchema} // Share Utility schema
          sectionName="personalInfo"
        >
-         {/* AQ Platform components that use VA web components */}
+         {/* Share Utility components that use VA web components */}
          <FullnameField />
          <SSNField />
        </PageTemplate>

@@ -33,11 +33,13 @@ components/
 ### Component Organization
 
 Each component follows a consistent directory structure:
+
 - **Component file** (`[component-name].jsx`) - Implementation
 - **Test file** (`[component-name].unit.spec.jsx`) - Unit tests
 - **Barrel file** (`index.js`) - Named export
 
 This structure provides:
+
 - **Co-location** - Tests live next to their components
 - **Encapsulation** - Each component is self-contained
 - **Clean imports** - Barrel files provide clean import paths
@@ -150,13 +152,13 @@ Page-level templates for consistent form structure:
 Import components using barrel exports:
 
 ```javascript
-// Import from aq-platform
+// Import Share Utility components
 import {
   FormField,
   DateField,
   AddressField,
   PageTemplate,
-  FormErrorBoundary
+  FormErrorBoundary,
 } from '@bio-aquia/shared/components';
 
 // Or import from specific subdirectories (recommended for tree-shaking)
@@ -173,6 +175,7 @@ import { PageTemplate } from '@bio-aquia/shared/components/templates/page-templa
 ### Directory Structure Benefits
 
 The new directory organization provides:
+
 - **Better testing** - Tests are co-located with components
 - **Easier navigation** - Each component has its own folder
 - **Clean imports** - Barrel files provide multiple import options

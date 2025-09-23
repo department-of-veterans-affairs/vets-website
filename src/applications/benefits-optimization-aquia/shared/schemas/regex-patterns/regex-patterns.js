@@ -1,6 +1,6 @@
 /**
  * @module regex-patterns
- * @description Centralized regular expression patterns for aq-platform validation.
+ * @description Centralized regular expression patterns for bio-aquia/shared validation.
  * These patterns are used across various schemas and components for consistent validation.
  */
 

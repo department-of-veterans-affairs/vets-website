@@ -1,5 +1,5 @@
 /**
- * Centralized logging utility for the AQ Platform.
+ * Centralized logging utility for the Share Utility.
  * Provides environment-aware logging with support for different log levels
  * and integration with monitoring services.
  *

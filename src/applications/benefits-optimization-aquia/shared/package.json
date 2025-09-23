@@ -1,7 +1,7 @@
 {
-  "name": "@aq/platform",
+  "name": "@bio-aquia/shared",
   "version": "0.1.0",
-  "description": "Shared platform components and utilities for AQ forms",
+  "description": "Shared utilities for Benefits Intake Optimization Aquia",
   "main": "index.js",
   "private": true
 }

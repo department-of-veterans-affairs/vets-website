@@ -342,7 +342,8 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#40306e3de819eb3edb9b49aff8d0f6deeada94e2",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "zod": "^4.1.11"
   },
   "resolutions": {
     "**/lodash": "4.17.21",
