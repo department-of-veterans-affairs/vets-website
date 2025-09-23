@@ -42,9 +42,8 @@ const formConfig = {
     },
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
-    noAuth:
-      'Please sign in again to continue your form for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
@@ -54,6 +53,7 @@ const formConfig = {
     startNewAppButtonText: 'Start a new form',
     finishAppLaterMessage: 'Finish this form later',
     appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
   chapters: {
