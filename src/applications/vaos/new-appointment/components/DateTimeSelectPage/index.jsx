@@ -47,10 +47,70 @@ function handleClick(history, dispatch, requestDateTime) {
   };
 }
 
-function AlertMessage({
+function getAlertMessage({
+  earliestDate,
+  fetchFailed,
+  slotAvailable,
+  preferredDate,
+  timezone,
+}) {
+  if (fetchFailed) {
+    return (
+      <>
+        <div className="vads-u-margin-bottom--2">
+          We’re sorry. There’s a problem with appointments. Refresh this page or
+          try again later.
+        </div>
+        <div className="vads-u-margin-bottom--2">
+          If that doesn’t work, you can call your local VA health care facility
+          to schedule this appointment.
+        </div>
+      </>
+    );
+  }
+
+  if (!slotAvailable) {
+    return (
+      <div className="vads-u-margin-bottom--2">
+        To find an available date to schedule this appointment, you can call
+        your local VA health care facility.
+      </div>
+    );
+  }
+
+  if (isValid(preferredDate) && isSameDay(preferredDate, new Date())) {
+    return (
+      <>
+        <div className="vads-u-margin-bottom--2">
+          The earliest we can schedule your appointment is{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatInTimeZone(
+              earliestDate,
+              timezone,
+              DATE_FORMATS.friendlyDate,
+            )}{' '}
+            at {formatInTimeZone(earliestDate, timezone, 'h:mm aaaa')}{' '}
+            {getFormattedTimezoneAbbr(earliestDate, timezone)}
+          </span>
+          . If this date date doesn’t work, you can pick a new one from the
+          calendar.
+        </div>
+        <div className="vads-u-margin-bottom--2">
+          If the date you want isn’t available, you can call your local VA
+          health care facility.
+        </div>
+      </>
+    );
+  }
+
+  return null;
+}
+
+function AlertSection({
   earliestDate,
   fetchStatus,
   history,
+  preferredDate,
   requestEligible,
   slotAvailable,
   timezone,
@@ -58,6 +118,18 @@ function AlertMessage({
   const fetchFailed = fetchStatus === FETCH_STATUS.failed;
   const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const dispatch = useDispatch();
+
+  const alertMessage = getAlertMessage({
+    earliestDate,
+    fetchFailed,
+    slotAvailable,
+    preferredDate,
+    timezone,
+  });
+
+  if (!alertMessage) {
+    return null;
+  }
 
   const alertTitle = fetchFailed
     ? 'This tool isn’t working right now'
@@ -71,46 +143,7 @@ function AlertMessage({
       className="vads-u-margin-bottom--2"
     >
       <InfoAlert status={alertStatus} level="2" headline={alertTitle}>
-        {fetchFailed && (
-          <>
-            <div className="vads-u-margin-bottom--2">
-              We’re sorry. There’s a problem with appointments. Refresh this
-              page or try again later.
-            </div>
-            <div className="vads-u-margin-bottom--2">
-              If that doesn’t work, you can call your local VA health care
-              facility to schedule this appointment.
-            </div>
-          </>
-        )}
-        {(!fetchFailed && !slotAvailable) ?? (
-          <div className="vads-u-margin-bottom--2">
-            To find an available date to schedule this appointment, you can call
-            your local VA health care facility.
-          </div>
-        )}
-        {(!fetchFailed && slotAvailable) ?? (
-          <>
-            <div className="vads-u-margin-bottom--2">
-              The earliest we can schedule your appointment is{' '}
-              <span className="vads-u-font-weight--bold">
-                {formatInTimeZone(
-                  earliestDate,
-                  timezone,
-                  DATE_FORMATS.friendlyDate,
-                )}{' '}
-                at {formatInTimeZone(earliestDate, timezone, 'h:mm aaaa')}{' '}
-                {getFormattedTimezoneAbbr(earliestDate, timezone)}
-              </span>
-              . If this date date doesn’t work, you can pick a new one from the
-              calendar.
-            </div>
-            <div className="vads-u-margin-bottom--2">
-              If the date you want isn’t available, you can call your local VA
-              health care facility.
-            </div>
-          </>
-        )}
+        {alertMessage}
         <div className="vads-u-margin-bottom--2">
           <NewTabAnchor href="/find-locations">
             Find your local VA health care facility (opens in a new tab)
@@ -137,10 +170,11 @@ function AlertMessage({
     </div>
   );
 }
-AlertMessage.propTypes = {
+AlertSection.propTypes = {
   earliestDate: PropTypes.object,
   fetchStatus: PropTypes.string,
   history: PropTypes.object,
+  preferredDate: PropTypes.object,
   requestEligible: PropTypes.bool,
   slotAvailable: PropTypes.bool,
   timezone: PropTypes.string,
@@ -258,18 +292,17 @@ export default function DateTimeSelectPage() {
           (*Required)
         </span>
       </h1>
-      {!loadingSlots &&
-        (fetchFailed ||
-          !slotAvailable ||
-          isSameDay(new Date(), preferredDate)) && (
-          <AlertMessage
-            fetchStatus={appointmentSlotsStatus}
-            history={history}
-            requestEligible={eligibleForRequests}
-            slotAvailable={slotAvailable}
-            earliestDate={earliestDate}
-          />
-        )}
+      {!loadingSlots && (
+        <AlertSection
+          fetchStatus={appointmentSlotsStatus}
+          history={history}
+          requestEligible={eligibleForRequests}
+          slotAvailable={slotAvailable}
+          earliestDate={earliestDate}
+          preferredDate={startMonth}
+          timezone={timezone}
+        />
+      )}
       {!fetchFailed &&
         slotAvailable && (
           <>
