@@ -186,6 +186,9 @@ const formConfig = {
   getHelp: GetFormHelp,
   defaultDefinitions: { date },
   dev: { disableWindowUnloadInCI: true },
+  formOptions: {
+    filterInactiveNestedPageData: true,
+  },
   chapters: {
     veteranInformation: {
       title: 'Veteran information',

@@ -137,7 +137,8 @@ const AdditionalInstructions = ({ formResponses }) => {
             </a>
           </li>
         )}
-        {serviceBranch === RESPONSES.AIR_FORCE &&
+        {(serviceBranch === RESPONSES.AIR_FORCE ||
+          serviceBranch === RESPONSES.SPACE_FORCE) &&
           abbr === BCMR && (
             <li>
               <a
