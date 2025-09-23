@@ -22,10 +22,7 @@ export const isItemIncomplete = item => {
   }
 
   // Financial support response is only required if spouse did not cohabitate last year.
-  let missingFinancialSupportFields;
-  if (item?.cohabitedLastYear === false) {
-    missingFinancialSupportFields = item?.provideSupportLastYear === undefined;
-  }
+  const missingFinancialSupportFields = item?.cohabitedLastYear === false && item?.provideSupportLastYear === undefined;
   if (missingFinancialSupportFields) {
     return true;
   }
