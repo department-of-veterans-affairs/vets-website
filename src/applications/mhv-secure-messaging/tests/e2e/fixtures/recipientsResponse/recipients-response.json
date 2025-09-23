@@ -188,10 +188,31 @@
         "groupTypePatientDisplay": null,
         "subGroupTypePatientDisplay": null
       }
+    },
+    {
+      "id": "7654321",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 7654321,
+        "name": "VHA 649 Release of Information (ROI)",
+        "stationNumber": "649",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT",
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null
+      }
     }
   ],
   "meta": {
-    "associatedTriageGroups": 7,
+    "associatedTriageGroups": 8,
     "associatedBlockedTriageGroups": 0,
     "sort": {
       "name": "ASC"
