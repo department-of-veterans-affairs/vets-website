@@ -12,8 +12,34 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  typecheck:
+    name: TypeScript Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+      - name: Run typecheck (capture output)
+        run: |
+          set -o pipefail
+          yarn typecheck --pretty false > typecheck.out 2>&1 || true
+          node script/github-actions/ts-annotation-format.js typecheck.out
+
   build:
     name: Build
+    needs: [typecheck]
     runs-on: ubuntu-16-cores-latest
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
