@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
@@ -106,12 +105,14 @@ const AllergyDetails = props => {
 
   useEffect(
     () => {
-      if (allergyData) {
-        focusElement(document.querySelector('h1'));
-        updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
+      if (allergyId) {
+        dispatch(
+          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+        );
       }
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
     },
-    [dispatch, allergyData],
+    [allergyId, allergyList, dispatch, isAcceleratingAllergies],
   );
 
   usePrintTitle(
@@ -177,18 +178,18 @@ Provider notes: ${allergyData.notes} \n`;
     generateTextFile(content, fileName);
   };
 
+  const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  if (accessAlert) {
+    return (
+      <AccessTroubleAlertBox
+        alertType={accessAlertTypes.ALLERGY}
+        className="vads-u-margin-bottom--9"
+      />
+    );
+  }
+
   const content = () => {
-    if (activeAlert && activeAlert.type === ALERT_TYPE_ERROR) {
-      return (
-        <>
-          <h1 className="vads-u-margin-bottom--0p5">Allergy:</h1>
-          <AccessTroubleAlertBox
-            alertType={accessAlertTypes.ALLERGY}
-            className="vads-u-margin-bottom--9"
-          />
-        </>
-      );
-    }
     if (allergyData) {
       return (
         <>

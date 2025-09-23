@@ -1,0 +1,51 @@
+{
+  "data": [
+    {
+      "id": "132892323",
+      "type": "allergy",
+      "attributes": {
+        "id": "132892323",
+        "name": "penicillins",
+        "categories": ["medication"],
+        "date": "2025-02-25T17:50:49Z",
+        "reactions": ["Urticaria (Hives)", "Sneezing"],
+        "location": "VA Medical Center",
+        "observedHistoric": "o",
+        "notes": [
+          "Patient reports adverse reaction to previously prescribed pencicillins"
+        ],
+        "provider": "Borland, Victoria A"
+      }
+    },
+    {
+      "id": "132892324",
+      "type": "allergy",
+      "attributes": {
+        "id": "132892324",
+        "name": "Shellfish",
+        "categories": ["food"],
+        "date": "2024-08-15T10:30:00Z",
+        "reaction": ["Difficulty breathing", "Rash"],
+        "location": "Community Care Center",
+        "observedHistoric": "h",
+        "notes": "Patient reports severe reaction to shellfish",
+        "provider": "Dr. Sarah Johnson"
+      }
+    },
+    {
+      "id": "132892325",
+      "type": "allergy",
+      "attributes": {
+        "id": "132892325",
+        "name": "Peanuts",
+        "categories": ["food"],
+        "date": "2023-12-10T14:20:00Z",
+        "reaction": ["Anaphylaxis", "Swelling"],
+        "location": "VA Medical Center",
+        "observedHistoric": "o",
+        "notes": "Severe allergic reaction requiring epinephrine",
+        "provider": "Dr. Michael Smith"
+      }
+    }
+  ]
+}

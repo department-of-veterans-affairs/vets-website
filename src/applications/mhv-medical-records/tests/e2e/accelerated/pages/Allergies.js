@@ -26,12 +26,40 @@ class Allergies {
     MedicalRecordsLandingPage.uumIntercept();
   };
 
+  checkLandingPageLinks = () => {
+    cy.get('[data-testid="allergies-landing-page-link"]').should('be.visible');
+  };
+
   goToAllergiesPage = () => {
     cy.findByRole('link', {
       name: 'Go to your allergies and reactions',
     }).click();
 
     cy.wait('@allergies-list');
+  };
+
+  selectAllergy = ({ index = 0 } = {}) => {
+    cy.get('[data-testid="record-list-item"]')
+      .eq(index)
+      .find('a')
+      .first()
+      .click({ waitForAnimations: true });
+  };
+
+  checkUnifiedAllergyListItem = ({ index = 0 } = {}) => {
+    cy.get('[data-testid="record-list-item"]')
+      .eq(index)
+      .should('be.visible')
+      .within(() => {
+        cy.get('a').should('be.visible');
+        cy.contains('Date entered:').should('be.visible');
+      });
+  };
+
+  validateAllergyDetailPage = () => {
+    cy.url().should('include', '/allergies/');
+    cy.get('h1').should('be.visible');
+    cy.contains('Date entered:').should('be.visible');
   };
 }
 

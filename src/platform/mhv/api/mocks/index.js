@@ -33,7 +33,7 @@ const acceleratedCareSummariesAndNotes = require('./medical-records/care-summari
 const healthConditions = require('./medical-records/health-conditions');
 const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
-const acceleratedAllergies = require('./medical-records/allergies/full-example');
+const acceleratedAllergies = require('./medical-records/allergies/accelerated');
 const vaccines = require('./medical-records/vaccines');
 const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
@@ -197,6 +197,9 @@ const responses = {
     }
     return allergies.single(req, res);
   },
+  'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
+  'GET /my_health/v2/medical_records/allergies/:id':
+    acceleratedAllergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v2/medical_records/immunizations': acceleratedVaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,

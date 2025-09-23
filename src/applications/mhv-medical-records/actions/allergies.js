@@ -1,4 +1,3 @@
-import { Actions } from '../util/actionTypes';
 import {
   getAllergies,
   getAllergy,
@@ -7,8 +6,9 @@ import {
   getAllergiesWithOHData,
   getAllergyWithOHData,
 } from '../api/MrApi';
-import * as Constants from '../util/constants';
+import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
+import * as Constants from '../util/constants';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 

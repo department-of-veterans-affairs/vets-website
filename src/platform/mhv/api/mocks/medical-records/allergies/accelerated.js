@@ -1,194 +1,80 @@
 const all = {
-  resourceType: 'Bundle',
-  type: 'searchset',
-  link: [
+  data: [
     {
-      relation: 'self',
-      url:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance?patient=23000219&-pageToken=1~6Z807QTZrKsurkk',
-    },
-  ],
-  entry: [
-    {
-      fullUrl:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance/4-6Z8D6dAzA9QPmy8',
-      resource: {
-        resourceType: 'AllergyIntolerance',
-        id: '4-6Z8D6dAzA9QPmy8',
-        meta: {
-          lastUpdated: '2022-11-25T00:00:00Z',
-        },
-        clinicalStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical',
-              code: 'active',
-            },
-          ],
-        },
-        verificationStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification',
-              code: 'confirmed',
-            },
-          ],
-        },
-        type: 'allergy',
-        category: ['medication'],
-        code: {
-          coding: [
-            {
-              system: 'http://www.nlm.nih.gov/research/umls/rxnorm',
-              code: '25037',
-              display: 'cefdinir',
-            },
-          ],
-          text: 'cefdinir',
-        },
-        patient: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/23000219',
-          display: 'Mr. Dexter530 Victor265 Schneider199',
-        },
-        recordedDate: '1967-05-28T12:24:29Z',
-        recorder: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MgdpowOn',
-          display: 'Dr. Regina408 Dietrich576',
-        },
-        note: [
-          {
-            authorReference: {
-              reference:
-                'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79MgdpowOn',
-              display: 'Dr. Regina408 Dietrich576',
-            },
-            time: '1967-05-28T12:24:29Z',
-            text: 'these are my notes about the cefdinir allergy',
-          },
+      id: '132892323',
+      type: 'allergy',
+      attributes: {
+        id: '132892323',
+        name: 'penicillins',
+        categories: ['medication'],
+        date: '2025-02-25T17:50:49Z',
+        reactions: ['Urticaria (Hives)', 'Sneezing'],
+        location: 'VA Medical Center',
+        // observedHistoric: null, // Not available in Oracle Health FHIR data
+        notes: [
+          'Patient reports adverse reaction to previously prescribed pencicillins',
         ],
-      },
-      search: {
-        mode: 'match',
+        provider: 'Borland, Victoria A',
       },
     },
     {
-      fullUrl:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/AllergyIntolerance/4-6Z8D6dAzABlkPZA',
-      resource: {
-        resourceType: 'AllergyIntolerance',
-        id: '4-6Z8D6dAzABlkPZA',
-        meta: {
-          lastUpdated: '2022-11-25T00:00:00Z',
-        },
-        clinicalStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical',
-              code: 'active',
-            },
-          ],
-        },
-        verificationStatus: {
-          coding: [
-            {
-              system:
-                'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification',
-              code: 'confirmed',
-            },
-          ],
-        },
-        type: 'allergy',
-        category: ['food'],
-        code: {
-          coding: [
-            {
-              system: 'http://snomed.info/sct',
-              code: '44027008',
-              display: 'Seafood (substance)',
-            },
-          ],
-          text: 'Seafood (substance)',
-        },
-        patient: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/23000219',
-          display: 'Mr. Dexter530 Victor265 Schneider199',
-        },
-        recordedDate: '1967-05-28T12:24:29Z',
-        recorder: {
-          reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79Mgdyt0Mj',
-          display: 'Dr. Marietta439 Schmeler639 MD',
-        },
-        note: [
-          {
-            authorReference: {
-              reference:
-                'https://sandbox-api.va.gov/services/fhir/v0/r4/Practitioner/4-Nn79Mgdyt0Mj',
-              display: 'Dr. Marietta439 Schmeler639 MD',
-            },
-            time: '1967-05-28T12:24:29Z',
-            text: 'Seafood (substance)',
-          },
-        ],
-        reaction: [
-          {
-            substance: {
-              coding: [
-                {
-                  system: 'http://snomed.info/sct',
-                  code: '44027008',
-                  display: 'Seafood (substance)',
-                },
-              ],
-              text: 'Seafood (substance)',
-            },
-            manifestation: [
-              {
-                coding: [
-                  {
-                    system: 'urn:oid:2.16.840.1.113883.6.233',
-                    code: '4637470',
-                    display: 'DYSPNEA',
-                  },
-                ],
-                text: 'DYSPNEA',
-              },
-              {
-                coding: [
-                  {
-                    system: 'urn:oid:2.16.840.1.113883.6.233',
-                    code: '4538635',
-                    display: 'RASH',
-                  },
-                ],
-                text: 'RASH',
-              },
-            ],
-          },
-        ],
+      id: '132892324',
+      type: 'allergy',
+      attributes: {
+        id: '132892324',
+        name: 'Shellfish',
+        categories: ['food'],
+        date: '2024-08-15T10:30:00Z',
+        reactions: ['Difficulty breathing', 'Rash'],
+        location: 'Community Care Center',
+        // observedHistoric: null, // Not available in Oracle Health FHIR data
+        notes: ['Patient reports severe reaction to shellfish'],
+        provider: 'Dr. Sarah Johnson',
       },
-      search: {
-        mode: 'match',
+    },
+    {
+      id: '132892325',
+      type: 'allergy',
+      attributes: {
+        id: '132892325',
+        name: 'Peanuts',
+        categories: ['food'],
+        date: '2023-12-10T14:20:00Z',
+        reactions: ['Anaphylaxis', 'Swelling'],
+        location: 'VA Medical Center',
+        // observedHistoric: null, // Not available in Oracle Health FHIR data
+        notes: ['Severe allergic reaction requiring epinephrine'],
+        provider: 'Dr. Michael Smith',
+      },
+    },
+    {
+      id: '30624',
+      type: 'allergy',
+      attributes: {
+        id: '30624',
+        name: 'NKA (NO KNOWN ALLERGY)',
+        categories: ['medication'],
+        date: '1994-10-05T15:54:34+00:00',
+        reactions: [],
+        location: 'VA Medical Center',
+        observedHistoric: 'h', // VistA data example - has this field
+        notes: ['PER PAN 10-5-94'],
+        provider: 'VA Medical Center',
       },
     },
   ],
 };
 
+const empty = { data: [] };
+
 const single = (req, res) => {
   const { id } = req.params;
-  const response = all.entry.find(item => {
-    return item.resource.id === id;
-  });
-  return res.json(response ? response.resource : {});
+  const response = all.data.find(item => item.id === id);
+  return res.json({ data: response });
 };
 
 module.exports = {
   all,
   single,
+  empty,
 };
