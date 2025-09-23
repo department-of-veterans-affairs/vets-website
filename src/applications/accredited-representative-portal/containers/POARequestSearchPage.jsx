@@ -10,7 +10,9 @@ import {
 import {
   VaLoadingIndicator,
   VaBreadcrumbs,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import api from '../utilities/api';
 import {
   SEARCH_BC_LABEL,
@@ -67,12 +69,18 @@ const POARequestSearchPage = title => {
   const [searchParams] = useSearchParams();
   useEffect(
     () => {
+      focusElement('h1');
       document.title = title.title;
     },
     [title],
   );
-  const poaRequests = useLoaderData().data;
-  const meta = useLoaderData().meta.page;
+  const loaderData = useLoaderData() || {};
+  const poaRequests = loaderData.data || [];
+  const meta =
+    loaderData.meta && loaderData.meta.page
+      ? loaderData.meta
+      : { page: { total: 0, number: 1, totalPages: 1 } };
+  const { showPOA403Alert } = loaderData;
   const searchStatus = searchParams.get('status');
   const selectedIndividual = searchParams.get('as_selected_individual');
   const navigation = useNavigation();
@@ -104,6 +112,36 @@ const POARequestSearchPage = title => {
         />
         .
       </p>
+      {showPOA403Alert && (
+        <>
+          <br />
+          <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
+            <h2 slot="headline">You don’t have access to this feature</h2>
+            <div className="vads-u-margin-y--0">
+              <p className="vads-u-margin-bottom--1">
+                <strong>Veteran Service Organization representatives:</strong>{' '}
+                None of your organizations have activated the Representation
+                Request feature. If you’d like one of your organizations to
+                activate this feature, ask the VSO manager or certifying us at{' '}
+                <a href="mailto:RepresentativePortalHelp@va.gov">
+                  RepresentativePortalHelp@va.gov
+                </a>
+                .
+              </p>
+              <p className="vads-u-margin-y--0">
+                <strong>Claims agents and attorneys:</strong> This feature is
+                not yet available for establishing representation with claims
+                agents or attorneys. We are exploring it as a future
+                enhancement. Visit our{' '}
+                <a href="/representative/get-help" rel="noopener noreferrer">
+                  help resources
+                </a>{' '}
+                to learn more about current and upcoming features.
+              </p>
+            </div>
+          </VaAlert>
+        </>
+      )}
 
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
@@ -204,8 +242,12 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            <POARequestSearchPageResults poaRequests={poaRequests} />
-            <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+            {meta.page.total > 0 && (
+              <>
+                <POARequestSearchPageResults poaRequests={poaRequests} />
+                <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />
+              </>
+            )}
           </div>
         )}
       </div>
@@ -217,7 +259,7 @@ POARequestSearchPage.propTypes = {
   title: PropTypes.string,
 };
 
-POARequestSearchPage.loader = ({ request }) => {
+POARequestSearchPage.loader = async ({ request }) => {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get(SEARCH_PARAMS.STATUS);
   const sort = searchParams.get(SEARCH_PARAMS.SORTORDER);
@@ -235,6 +277,7 @@ POARequestSearchPage.loader = ({ request }) => {
     searchParams.set(SEARCH_PARAMS.SORTORDER, SORT_BY.DESC);
     searchParams.set(SEARCH_PARAMS.SORTBY, SORT_BY.CREATED);
     searchParams.set(SEARCH_PARAMS.SIZE, PENDING_SORT_DEFAULTS.SIZE);
+    searchParams.set(SEARCH_PARAMS.NUMBER, PENDING_SORT_DEFAULTS.NUMBER);
     searchParams.set(
       SEARCH_PARAMS.SELECTED_INDIVIDUAL,
       PENDING_SORT_DEFAULTS.SELECTED_INDIVIDUAL,
@@ -242,12 +285,30 @@ POARequestSearchPage.loader = ({ request }) => {
     throw redirect(`?${searchParams}`);
   }
 
-  return api.getPOARequests(
-    { status, sort, size, number, sortBy, selectedIndividual },
-    {
-      signal: request.signal,
-    },
-  );
+  try {
+    return await api.getPOARequests(
+      { status, sort, size, number, sortBy, selectedIndividual },
+      {
+        signal: request.signal,
+        skip403Redirect: true,
+      },
+    );
+  } catch (err) {
+    if (err instanceof Response && err.status === 403) {
+      // Try authorization endpoint
+      try {
+        await api.checkAuthorized({
+          signal: request.signal,
+        });
+        // If authorized as a representative, show alert and empty data
+        return { data: [], meta: {}, showPOA403Alert: true };
+      } catch (authErr) {
+        // If not authorized, let the redirect/throw happen as usual
+        throw err;
+      }
+    }
+    throw err;
+  }
 };
 
 export default POARequestSearchPage;

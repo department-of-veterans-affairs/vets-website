@@ -331,6 +331,12 @@ class PatientInboxPage {
     cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
   };
 
+  clickCreateNewMessage = () => {
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
+  };
+
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
@@ -342,12 +348,54 @@ class PatientInboxPage {
       `sentThreadsResponse`,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    this.clickCreateNewMessage();
     // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
     PatientInterstitialPage.getContinueButton().click({ force: true });
+  };
+
+  navigateToComposePageCuratedFlow = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    // Mock empty recent recipients to force navigation to select care team
+    cy.intercept('POST', '/my_health/v1/messaging/folders/-1/search*', {
+      data: [],
+    }).as('recentRecipients');
+
+    this.clickCreateNewMessage();
+    // Continue through interstitial
+    PatientInterstitialPage.getContinueButton().click({ force: true });
+
+    // Wait for recent recipients check and redirect to select care team
+    cy.wait('@recentRecipients');
+
+    // Should now be on select care team page with recipients dropdown
+    cy.url().should('include', '/new-message/select-care-team');
+  };
+
+  navigateDirectlyToSelectCareTeam = () => {
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
+
+    cy.intercept(`GET`, Paths.INTERCEPT.SENT_THREADS, mockSentThreads).as(
+      `sentThreadsResponse`,
+    );
+
+    // Navigate directly to select care team page
+    cy.visit('/my-health/secure-messages/new-message/select-care-team/');
   };
 
   navigateToInterstitialPage = () => {
@@ -356,7 +404,9 @@ class PatientInboxPage {
       Paths.SM_API_EXTENDED + Paths.SIGNATURE,
       mockSignature,
     ).as('signature');
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
+    cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
+      force: true,
+    });
     cy.wait('@signature');
   };
 
@@ -412,7 +462,7 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .find(`#inputField`)
       .type('testSubject', { force: true });
     cy.get(Locators.FIELDS.MESSAGE_BODY)
@@ -494,10 +544,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Show filters') => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
-      'contain.text',
-      `${text}`,
-    );
+    cy.findByText(text).should('contain.text', `${text}`);
   };
 
   verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {

@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import * as uniqueUserMetrics from '~/platform/mhv/unique_user_metrics';
 import reducer from '../../reducers';
 import * as allergiesApiModule from '../../api/allergiesApi';
 import * as prescriptionsApiModule from '../../api/prescriptionsApi';
@@ -11,10 +12,15 @@ import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
 
 let sandbox;
+let logUniqueUserMetricsEventsStub;
 
 describe('Medications Prescriptions container', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    logUniqueUserMetricsEventsStub = sandbox.stub(
+      uniqueUserMetrics,
+      'logUniqueUserMetricsEvents',
+    );
     stubAllergiesApi({ sandbox });
     stubPrescriptionsListApi({ sandbox });
   });
@@ -41,6 +47,23 @@ describe('Medications Prescriptions container', () => {
   it('renders without errors', async () => {
     const screen = setup();
     expect(screen);
+  });
+
+  it('should log prescriptions accessed event when prescriptions are successfully loaded', async () => {
+    const screen = setup();
+
+    // Wait for the medications list to be displayed
+    await waitFor(() => {
+      expect(screen.getByTestId('med-list')).to.exist;
+    });
+
+    await waitFor(() => {
+      expect(
+        logUniqueUserMetricsEventsStub.calledWith(
+          uniqueUserMetrics.EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED,
+        ),
+      ).to.be.true;
+    });
   });
 
   it('should display loading message when loading prescriptions', async () => {
@@ -190,26 +213,10 @@ describe('Medications Prescriptions container', () => {
   it('displays link for allergies if mhv_medications_display_allergies feature flag is set to true', async () => {
     const screen = setup({
       ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: true,
-      },
     });
     expect(screen.getByText('Go to your allergies and reactions')).to.exist;
   });
 
-  it('displays "If you print or download this list, we\'ll include a list of your allergies." if mhv_medications_display_allergies feature flag is set to false', async () => {
-    const screen = setup({
-      ...initialState,
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medications_display_allergies: false,
-      },
-    });
-    expect(await screen.getByTestId('Title-Notes').textContent).to.match(
-      /If you print or download this list, we’ll include a list of your allergies./,
-    );
-  });
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;

@@ -4,8 +4,10 @@ import NotGoodFitCard from '../components/dr-results-screens/NotGoodFitCard';
 import OverviewPanel from '../components/dr-results-screens/OverviewPanel';
 import * as c from '../constants/results-content/dr-screens/card-content';
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
-import { displayConditionsMet } from './display-conditions';
+import { displayConditionsMet, isCFIVariant } from './display-conditions';
 import {
+  CLAIM_FOR_INCREASE_CARD,
+  CONDITION_HAS_WORSENED_INFO,
   DR_HEADING,
   HORIZ_RULE,
   PRINT_RESULTS,
@@ -22,53 +24,53 @@ import { showOutsideDROption } from './dr-results-content-utils';
  * card section or the "Not Good Fit" card section
  * @returns
  */
-export const displayCards = (formResponses, goodFit) => {
-  const cardsToDisplay = [];
-  const path = goodFit ? 'GOOD_FIT' : 'NOT_GOOD_FIT';
+export const getDisplayCards = formResponses => {
+  const cardsToDisplay = {
+    goodFitCards: [],
+    notGoodFitCards: [],
+  };
 
   c.CARDS.forEach(card => {
-    const displayConditionsForCard = DISPLAY_CONDITIONS?.[card]?.[path] || {};
+    const gfConditions = DISPLAY_CONDITIONS?.[card]?.GOOD_FIT || {};
+    const ngfConditions = DISPLAY_CONDITIONS?.[card]?.NOT_GOOD_FIT || {};
 
-    if (displayConditionsMet(formResponses, displayConditionsForCard)) {
-      if (goodFit) {
-        cardsToDisplay.push(
-          <GoodFitCard key={card} card={card} formResponses={formResponses} />,
-        );
-      } else {
-        cardsToDisplay.push(
-          <NotGoodFitCard
-            key={card}
-            card={card}
-            formResponses={formResponses}
-          />,
-        );
-      }
+    if (displayConditionsMet(formResponses, gfConditions)) {
+      cardsToDisplay.goodFitCards.push(
+        <li key={card}>
+          <GoodFitCard card={card} formResponses={formResponses} />
+        </li>,
+      );
     }
 
-    return null;
+    if (displayConditionsMet(formResponses, ngfConditions)) {
+      cardsToDisplay.notGoodFitCards.push(
+        <li key={card}>
+          <NotGoodFitCard card={card} formResponses={formResponses} />
+        </li>,
+      );
+    }
   });
 
   return cardsToDisplay;
 };
 
-export const displayNotGoodFitCards = formResponses => {
-  const cardsToDisplay = displayCards(formResponses, false);
-
-  if (cardsToDisplay.length) {
-    return (
-      <>
-        {HORIZ_RULE}
-        <h3>All other decision review options</h3>
-        <p>
-          Based on your answers, these choices may not fit your situation. You
-          are always free to submit any claim you choose.
-        </p>
-        {cardsToDisplay}
-      </>
-    );
-  }
-
-  return null;
+export const displayNotGoodFitCards = notGoodFitCards => {
+  return (
+    <>
+      {HORIZ_RULE}
+      <h3>All other decision review options</h3>
+      <p>
+        Based on your answers, these choices may not fit your situation. You are
+        always free to submit any claim you choose.
+      </p>
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+          a problem with Safari not treating the `ul` as a list. */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="onramp-list-none" role="list">
+        {notGoodFitCards}
+      </ul>
+    </>
+  );
 };
 
 const INTRO = (
@@ -79,6 +81,9 @@ const INTRO = (
 );
 
 export const getCardProps = formResponses => {
+  const { goodFitCards, notGoodFitCards } = getDisplayCards(formResponses);
+  const isCFI = isCFIVariant(formResponses);
+
   return {
     h1: DR_HEADING,
     bodyContent: (
@@ -86,9 +91,35 @@ export const getCardProps = formResponses => {
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
         {PRINT_RESULTS}
-        {displayCards(formResponses, true)}
+        {isCFI && (
+          <>
+            {HORIZ_RULE}
+            <h2 className="vads-u-margin-y--3">Disagree with a decision</h2>
+            <p>
+              Since you disagree with part of our decision, these options may be
+              a good fit for you.
+            </p>
+          </>
+        )}
+        {goodFitCards?.length && (
+          <>
+            {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul className="onramp-list-none" role="list">
+              {goodFitCards}
+            </ul>
+          </>
+        )}
+        {isCFI && (
+          <>
+            {HORIZ_RULE}
+            {CONDITION_HAS_WORSENED_INFO}
+            {CLAIM_FOR_INCREASE_CARD(true)}
+          </>
+        )}
         {showOutsideDROption(formResponses)}
-        {displayNotGoodFitCards(formResponses)}
+        {notGoodFitCards?.length && displayNotGoodFitCards(notGoodFitCards)}
         {HORIZ_RULE}
         {RESTART_GUIDE}
       </>

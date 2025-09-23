@@ -6,7 +6,7 @@ const KEYNAME = 'applicantRelationshipOrigin';
 
 function generateOptions({ data, pagePerItemIndex }) {
   const bp = appRelBoilerplate({ data, pagePerItemIndex });
-  const customTitle = `${bp.applicant}’s relationship to the Veteran`;
+  const customTitle = `${bp.applicant}’s dependent status`;
   const relativeBeingVerb = `${bp.relative} ${bp.beingVerbPresent}`;
   const surv = data.sponsorIsDeceased ? 'surviving' : '';
 
@@ -27,10 +27,6 @@ function generateOptions({ data, pagePerItemIndex }) {
         bp.personTitle
       }’s ${surv} adopted child`,
       value: 'adoption',
-    },
-    {
-      label: 'Other relationship',
-      value: 'other',
     },
   ];
 

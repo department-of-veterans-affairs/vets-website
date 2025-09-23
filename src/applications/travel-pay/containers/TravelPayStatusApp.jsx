@@ -1,100 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { focusElement } from 'platform/utilities/ui';
 
 import Breadcrumbs from '../components/Breadcrumbs';
-import { HelpTextGeneral, HelpTextManage } from '../components/HelpText';
-import { getTravelClaims } from '../redux/actions';
-import { getDateFilters } from '../util/dates';
-import { BTSSS_PORTAL_URL } from '../constants';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
-import TravelPayStatusList from '../components/TravelPayStatusList';
-import TravelPayDateRangeSelect from '../components/TravelPayDateRangeSelect';
-
-function SmocEntryContent() {
-  return (
-    <>
-      <p className="vads-u-font-family--serif vads-u-font-size--lg">
-        File new claims for travel reimbursement and review the status of all
-        your travel claims.
-      </p>
-      <h2 className="vads-u-margin-top--2">
-        File a new claim for travel reimbursement online
-      </h2>
-      <p>
-        If you’re claiming mileage only, you can file a travel claim for
-        eligible past appointments here on VA.gov.
-      </p>
-      <va-link-action
-        href="/my-health/appointments/past"
-        text="Go to your past appointments"
-        class="vads-u-margin-y--1"
-      />
-      <p>
-        <strong>
-          If you need to submit receipts for other expenses, like tolls, meals,
-          or lodging
-        </strong>
-        , you can file your travel claim through the{' '}
-        <va-link
-          external
-          href={BTSSS_PORTAL_URL}
-          text="Beneficiary Travel Self-Service System"
-        />
-        .
-      </p>
-    </>
-  );
-}
+import TravelPayStatusContent from '../components/TravelPayStatusContent';
 
 export default function TravelPayStatusApp() {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     focusElement('h1');
   });
-
-  const [availableDateRanges, setAvailableDateRanges] = useState();
-  const [selectedDateRange, setSelectedDateRange] = useState();
-
-  const { claims, isLoading } = useSelector(
-    state => state.travelPay.travelClaims,
-  );
-
-  useEffect(
-    () => {
-      if (
-        selectedDateRange &&
-        availableDateRanges &&
-        !claims[selectedDateRange.value]
-      ) {
-        // Fetch claims data if it hasn't been fetched yet
-        // or if the selected date range has changed
-        dispatch(getTravelClaims(selectedDateRange));
-      }
-    },
-    [dispatch, selectedDateRange, availableDateRanges, claims],
-  );
-
-  const setInitialDateSelection = useCallback(() => {
-    const dateFilters = getDateFilters();
-    if (dateFilters.length) {
-      setSelectedDateRange(dateFilters[0]);
-      setAvailableDateRanges(dateFilters);
-    }
-  }, []);
-
-  useEffect(() => {
-    setInitialDateSelection();
-  }, []);
-
-  const onDateRangeChange = e => {
-    setSelectedDateRange(JSON.parse(e.target.value));
-  };
 
   const {
     useToggleValue,
@@ -104,14 +21,8 @@ export default function TravelPayStatusApp() {
 
   const toggleIsLoading = useToggleLoadingValue();
   const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
-  const canViewClaimDetails = useToggleValue(
-    TOGGLE_NAMES.travelPayViewClaimDetails,
-  );
   const smocEnabled = useToggleValue(
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
-  const claimsMgmtToggle = useToggleValue(
-    TOGGLE_NAMES.travelPayClaimsManagement,
   );
 
   const title = smocEnabled
@@ -142,99 +53,7 @@ export default function TravelPayStatusApp() {
         {title}
       </h1>
       <DowntimeWindowAlert appTitle={title}>
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {smocEnabled ? (
-            <SmocEntryContent />
-          ) : (
-            <>
-              <h2 className="vads-u-font-size--h4">
-                You can use this tool to check the status of your VA travel
-                claims.
-              </h2>
-              {!isLoading && (
-                <va-additional-info
-                  class="vads-u-margin-y--3"
-                  trigger="How to manage your claims or get more information"
-                >
-                  <>
-                    <HelpTextManage />
-                    <va-link
-                      data-testid="status-explainer-link"
-                      href="/my-health/travel-pay/help"
-                      text="What does my claim status mean?"
-                    />
-                  </>
-                </va-additional-info>
-              )}
-            </>
-          )}
-
-          <div className="btsss-claims-sort-and-filter-container">
-            <h2 className="vads-u-margin-top--2">Your travel claims</h2>
-            <p>
-              This list shows all the appointments you've filed a travel claim
-              for.
-            </p>
-            {smocEnabled &&
-              !claimsMgmtToggle && (
-                <va-additional-info
-                  class="vads-u-margin-y--3"
-                  trigger="How to manage your claims or get more information"
-                >
-                  <div>
-                    <p className="vads-u-margin-top--0">
-                      You can call the BTSSS call center at{' '}
-                      <va-telephone contact="8555747292" /> (
-                      <va-telephone tty contact="711" />) Monday through Friday,
-                      8:00 a.m. to 8:00 p.m. ET. Have your claim number ready to
-                      share when you call.
-                    </p>
-                    <va-link
-                      data-testid="status-explainer-link"
-                      href="/my-health/travel-pay/help"
-                      text="What does my claim status mean?"
-                    />
-                  </div>
-                </va-additional-info>
-              )}
-          </div>
-
-          {isLoading && (
-            <va-loading-indicator
-              label="Loading"
-              message="Loading Travel Claims..."
-            />
-          )}
-          {!isLoading &&
-            availableDateRanges &&
-            selectedDateRange && (
-              <div className="vads-u-margin-bottom--2">
-                <TravelPayDateRangeSelect
-                  availableDateRanges={availableDateRanges}
-                  selectedDateRange={selectedDateRange}
-                  onDateRangeChange={onDateRangeChange}
-                />
-              </div>
-            )}
-          {!isLoading &&
-            selectedDateRange &&
-            claims[selectedDateRange.value] && (
-              <TravelPayStatusList
-                claims={claims[selectedDateRange.value]}
-                canViewClaimDetails={canViewClaimDetails}
-              />
-            )}
-          {claimsMgmtToggle && (
-            <div className="vads-u-margin-top--4">
-              <va-need-help>
-                <div slot="content">
-                  <HelpTextGeneral />
-                </div>
-              </va-need-help>
-            </div>
-          )}
-          <VaBackToTop />
-        </div>
+        <TravelPayStatusContent />
       </DowntimeWindowAlert>
     </article>
   );

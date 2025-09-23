@@ -17,7 +17,7 @@ describe('VAOS referral generator', () => {
     });
     it('Creates referrals with extra error referrals when specified', () => {
       const referrals = referralUtil.createReferrals(2, null, null, true);
-      expect(referrals.length).to.equal(7);
+      expect(referrals.length).to.equal(8);
     });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2025-10-11');
@@ -32,28 +32,26 @@ describe('VAOS referral generator', () => {
   });
   describe('filterReferrals', () => {
     let referrals = referralUtil.createReferrals(1);
-    const nonPhysicalTherapyReferral = referralUtil.createReferralById(
+    const physicalTherapyReferral = referralUtil.createReferralById(
       '2024-10-30',
       'uid',
       '111',
-      null,
-      'non-physical-therapy',
+      'physical-therapy',
     );
     const missingCategoryReferral = referralUtil.createReferralById(
       '2024-10-30',
       'uid2',
       '111',
-      null,
-      null,
+      'OPTOMETRY',
     );
 
     referrals = [
-      nonPhysicalTherapyReferral,
+      physicalTherapyReferral,
       missingCategoryReferral,
       ...referrals,
     ];
 
-    it('Filters out non-physical therapy referrals', () => {
+    it('Filters out physical therapy referrals', () => {
       const filteredReferrals = referralUtil.filterReferrals(referrals);
       expect(filteredReferrals.length).to.equal(1);
       expect(filteredReferrals[0].attributes.categoryOfCare).to.equal(

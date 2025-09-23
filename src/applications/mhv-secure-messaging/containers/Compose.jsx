@@ -23,9 +23,10 @@ import {
 import { getRecentThreads } from '../util/threads';
 import { getUniqueTriageGroups } from '../util/recipients';
 import featureToggles from '../hooks/useFeatureToggles';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 
 const Compose = () => {
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   const dispatch = useDispatch();
   const recipients = useSelector(state => state.sm.recipients);
@@ -45,7 +46,7 @@ const Compose = () => {
 
   const [draftType, setDraftType] = useState('');
   const [pageTitle, setPageTitle] = useState(
-    cernerPilotSmFeatureFlag ? 'Start message' : 'Start a new message',
+    mhvSecureMessagingCuratedListFlow ? 'Start message' : 'Start a new message',
   );
   const location = useLocation();
   const history = useHistory();
@@ -225,6 +226,7 @@ const Compose = () => {
             (noAssociations === (undefined || false) &&
               !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
+                <AlertBackgroundBox closeable />
                 {content()}
               </div>
             )}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import { HELP_BC_LABEL, HelpBC } from '../utilities/poaRequests';
@@ -29,12 +29,23 @@ const RepresentationLink = () => (
 );
 
 const GetHelpPage = title => {
+  const { hash } = useLocation();
+
   useEffect(
     () => {
-      focusElement('h1');
       document.title = title.title;
+      if (hash) {
+        const id = hash.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          focusElement(`#${id}`);
+        }
+      } else {
+        focusElement('h1');
+      }
     },
-    [title],
+    [title, hash],
   );
 
   /* eslint-disable no-irregular-whitespace */
@@ -183,11 +194,10 @@ const GetHelpPage = title => {
               </Link>
               . If you receive a message saying that we can’t verify you’re an
               accredited representative, refer to the commonly asked questions
-              in this section for next steps. Note: You can’t sign in to the
-              portal while on the VA network.
+              in this section for next steps.
             </va-accordion-item>
             <va-accordion-item
-              header="What if I have issues creating my login.gov account?"
+              header="What if I have issues creating my Login.gov account?"
               id="section-four"
               level="3"
             >
@@ -243,15 +253,16 @@ const GetHelpPage = title => {
               you use.
             </va-accordion-item>
             <va-accordion-item
-              header="What if I’ve tried everything above and still can’t log in?"
+              header="What if I’ve tried everything and still can’t sign in?"
               id="section-seven"
               level="3"
             >
-              If you’re still unable to resolve the issue, email the portal team
-              for help at {EmailHelpLink()}.
+              If you’re still unable to resolve the issue, call the VA
+              accredited representative support line at{' '}
+              <va-telephone contact="8552250709" />.
             </va-accordion-item>
             <va-accordion-item
-              header="Can I use ID.me instead of login.gov?"
+              header="Can I use ID.me instead of Login.gov?"
               id="section-eight"
               level="3"
             >
@@ -291,7 +302,7 @@ const GetHelpPage = title => {
               Portal, you will be logged out of your VA.gov Veteran account.
             </va-accordion-item>
           </va-accordion>
-          <h2 id="establishing-representation">Establishing Representation</h2>
+          <h2 id="establishing-representation">Establishing representation</h2>
           <p>
             You can quickly establish representation with a Veteran by using the
             portal Representation Requests feature. The portal currently manages
@@ -316,9 +327,9 @@ const GetHelpPage = title => {
                 accredited with the appointed VSO.
               </p>
               <p>
-                <strong>Note:</strong>
-                We encourage you to test completing the online{' '}
-                {RepresentationLink()} to understand the Veteran experience.
+                <strong>Note:</strong> We encourage you to test completing the
+                online {RepresentationLink()} to understand the Veteran
+                experience.
               </p>
             </va-accordion-item>
             <va-accordion-item
@@ -463,23 +474,37 @@ const GetHelpPage = title => {
               level="2"
               open="open"
             >
-              <h3 className="no-spacing-top">VA benefits hotline</h3>
+              <h3 className="no-spacing-top vads-u-font-size--h4">
+                VA accredited representative support line
+              </h3>
               <p>
-                <va-telephone contact="8008271000" />
+                <va-telephone contact="8552250709" />
                 <br />
                 Hours: Monday through Friday, 8:00 a.m. to 9:00 p.m. ET
               </p>
               <p>
-                Call the VA benefits hotline to get help with finding out the
-                status of a claim or appeal for disability compensation,
-                pension, or survivors benefits (including a PACT Act claim).
+                Call the VA accredited representative support line to get help
+                with these needs:
+                <ul>
+                  <li>
+                    Find out the status of a claim or appeal for disability
+                    compensation, pension, or survivors benefits (including a
+                    PACT Act claim)
+                  </li>
+                  <li>Resolve issues with sign-in to the portal</li>
+                  <li>
+                    Get answers to your other questions about the Accredited
+                    Representative Portal
+                  </li>
+                </ul>
               </p>
-              <h3>Portal team</h3>
+              <h3 className="vads-u-font-size--h4">Portal team</h3>
               <p>
-                Email the Accredited Representative Portal team if you are
-                unable to resolve sign-in issues, or if you are a VSO manager or
-                certifying official and would like access to the Representation
-                Request feature for your organization: {EmailHelpLink()}
+                Email the Accredited Representative Portal team at{' '}
+                {EmailHelpLink()}
+                 if you are a VSO manager or certifying official and would like
+                access to the Representation Request feature for your
+                organization.
               </p>
             </va-accordion-item>
           </va-accordion>

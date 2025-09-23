@@ -19,6 +19,12 @@ import {
   SET_FORM_ERRORS,
   setItf,
   SET_ITF,
+  closeReviewChapter,
+  CLOSE_REVIEW_CHAPTER,
+  openReviewChapter,
+  OPEN_REVIEW_CHAPTER,
+  toggleAllReviewChapters,
+  TOGGLE_ALL_REVIEW_CHAPTERS,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -986,6 +992,40 @@ describe('Schemaform actions:', () => {
       const action = setItf(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_ITF);
+    });
+  });
+
+  describe('closeReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = closeReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: CLOSE_REVIEW_CHAPTER,
+        closedChapter: data,
+        pageKeys: [],
+      });
+    });
+  });
+
+  describe('openReviewChapter', () => {
+    it('should return action', () => {
+      const data = { name: 'foo' };
+      const action = openReviewChapter(data);
+      expect(action).to.deep.equal({
+        type: OPEN_REVIEW_CHAPTER,
+        openedChapter: data,
+      });
+    });
+  });
+
+  describe('toggleAllReviewChapters', () => {
+    it('should return action', () => {
+      const data = { foo: true, bar: true };
+      const action = toggleAllReviewChapters(data);
+      expect(action).to.deep.equal({
+        type: TOGGLE_ALL_REVIEW_CHAPTERS,
+        chapters: data,
+      });
     });
   });
 });
