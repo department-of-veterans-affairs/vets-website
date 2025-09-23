@@ -265,6 +265,7 @@ export default function getNewAppointmentFlow(state) {
       url: 'date-time',
       label: 'What date and time do you want for this appointment?',
       next: 'reasonForAppointment',
+      requestAppointment: 'requestDateTime',
     },
     selectProvider: {
       url: 'provider',

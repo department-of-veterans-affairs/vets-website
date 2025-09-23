@@ -27,23 +27,24 @@ import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFormattedTimezoneAbbr } from '../../../utils/timezone';
-import getNewAppointmentFlow, { getPageTitle } from '../../newAppointmentFlow';
+import { getPageTitle } from '../../newAppointmentFlow';
 import {
   getAppointmentSlots,
   onCalendarChange,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  startRequestAppointmentFlow,
+  routeToRequestAppointmentPage,
 } from '../../redux/actions';
 import { getChosenClinicInfo, getDateTimeSelect } from '../../redux/selectors';
 import UrgentCareLinks from '../UrgentCareLinks';
 
 const pageKey = 'selectDateTime';
 
-function handleClick(history, dispatch, requestDateTime) {
-  return () => {
-    dispatch(startRequestAppointmentFlow());
-    history.push(requestDateTime.url);
+function handleClick(history, dispatch) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
+    dispatch(routeToRequestAppointmentPage(history, pageKey));
   };
 }
 
@@ -116,7 +117,6 @@ function AlertSection({
   timezone,
 }) {
   const fetchFailed = fetchStatus === FETCH_STATUS.failed;
-  const { requestDateTime } = useSelector(getNewAppointmentFlow);
   const dispatch = useDispatch();
 
   const alertMessage = getAlertMessage({
@@ -157,8 +157,8 @@ function AlertSection({
               </div>
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--2p5"
-                href={requestDateTime.url}
-                onClick={handleClick(history, dispatch, requestDateTime)}
+                href="my-health/appointments/schedule/va-request/"
+                onClick={handleClick(history, dispatch)}
               >
                 Request an appointment
               </a>
