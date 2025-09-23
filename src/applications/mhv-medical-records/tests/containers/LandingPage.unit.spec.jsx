@@ -173,6 +173,12 @@ describe('Landing Page', () => {
         }),
       ).to.exist;
       expect(
+        screen.getByText('What to do if you can’t find your medical records', {
+          selector: 'h2',
+          exact: true,
+        }),
+      ).to.exist;
+      expect(
         screen.getByText('Manage your electronic sharing settings', {
           selector: 'h2',
           exact: true,
@@ -203,6 +209,11 @@ describe('Landing Page', () => {
       expect(
         screen.getByRole('link', {
           name: 'Go to your vitals',
+        }),
+      ).to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: 'Learn more about submitting a medical records request',
         }),
       ).to.exist;
       expect(
