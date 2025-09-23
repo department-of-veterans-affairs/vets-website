@@ -34,6 +34,7 @@
  * @property {(props: any) => JSX.Element} [errorText]
  * @property {(props: any) => JSX.Element} [footerContent]
  * @property {string} [formId]
+ * @property {FormOptions} [formOptions]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
  * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
@@ -476,4 +477,11 @@
  * @typedef {Object} ReplacerOptions
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
+ */
+
+/**
+ * @typedef {Object} FormOptions
+ * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
+ * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
  */
