@@ -25,7 +25,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_22_10275,
   saveInProgress: {
     messages: {
-      inProgress: 'Your form (22-10295) is in progress.',
+      inProgress: 'Your form (22-10275) is in progress.',
       expired:
         'Your saved form (22-10275) has expired. Please start a new form.',
       saved: 'Your form has been saved.',
