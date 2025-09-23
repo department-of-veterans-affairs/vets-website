@@ -13,7 +13,9 @@ export const isItemIncomplete = item => {
     !item?.spouseFullName?.last ||
     !item?.spouseSocialSecurityNumber ||
     !item?.spouseDateOfBirth ||
-    !item?.dateOfMarriage;
+    !item?.dateOfMarriage ||
+    item?.cohabitedLastYear === undefined ||
+    item?.sameAddress === undefined;
 
   if (missingRequiredFields) {
     return true;

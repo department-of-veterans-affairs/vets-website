@@ -121,9 +121,10 @@ describe('spouseUtils', () => {
         expect(result).to.be.true;
       });
 
-      it('should return true if provideSupportLastYear is undefined', () => {
+      it('should return true if provideSupportLastYear is undefined and cohabitedLastYear is false', () => {
         const item = {
           ...completeSpouseItem,
+          cohabitedLastYear: false,
           provideSupportLastYear: undefined,
         };
         const result = isItemIncomplete(item);
@@ -134,6 +135,16 @@ describe('spouseUtils', () => {
         const item = {
           ...completeSpouseItem,
           provideSupportLastYear: false,
+        };
+        const result = isItemIncomplete(item);
+        expect(result).to.be.false;
+      });
+
+      it('should return false if provideSupportLastYear is undefined and cohabitedLastYear is true', () => {
+        const item = {
+          ...completeSpouseItem,
+          cohabitedLastYear: true,
+          provideSupportLastYear: undefined,
         };
         const result = isItemIncomplete(item);
         expect(result).to.be.false;
