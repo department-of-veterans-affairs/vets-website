@@ -30,7 +30,7 @@ describe('ezr spouseContactInformationPage config', () => {
 
   it('should have required fields', () => {
     expect(schema.required).to.include('spouseAddress');
-    expect(schema.required).to.include('spousePhone');
+    expect(schema.required).to.not.include('spousePhone');
   });
 
   it('should have correct properties', () => {
