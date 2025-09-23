@@ -303,6 +303,7 @@ const ReviewAndConfirm = props => {
                       draftAppointmentInfo.attributes.provider.networkIds[0],
                     providerServiceId:
                       draftAppointmentInfo.attributes.provider.id,
+                    categoryOfCare: currentReferral.categoryOfCare,
                   });
                 }}
               />
