@@ -121,9 +121,10 @@ describe('spouseUtils', () => {
         expect(result).to.be.true;
       });
 
-      it('should return true if provideSupportLastYear is undefined', () => {
+      it('should return true if provideSupportLastYear is undefined and cohabitedLastYear is false', () => {
         const item = {
           ...completeSpouseItem,
+          cohabitedLastYear: false,
           provideSupportLastYear: undefined,
         };
         const result = isItemIncomplete(item);
@@ -134,6 +135,16 @@ describe('spouseUtils', () => {
         const item = {
           ...completeSpouseItem,
           provideSupportLastYear: false,
+        };
+        const result = isItemIncomplete(item);
+        expect(result).to.be.false;
+      });
+
+      it('should return false if provideSupportLastYear is undefined and cohabitedLastYear is true', () => {
+        const item = {
+          ...completeSpouseItem,
+          cohabitedLastYear: true,
+          provideSupportLastYear: undefined,
         };
         const result = isItemIncomplete(item);
         expect(result).to.be.false;
@@ -176,7 +187,7 @@ describe('spouseUtils', () => {
           expect(result).to.be.true;
         });
 
-        it('should return true if spousePhone is missing', () => {
+        it('should return false if spousePhone is missing', () => {
           const item = {
             ...completeSpouseItem,
             sameAddress: false,
@@ -190,7 +201,7 @@ describe('spouseUtils', () => {
             // No spousePhone.
           };
           const result = isItemIncomplete(item);
-          expect(result).to.be.true;
+          expect(result).to.be.false;
         });
 
         it('should return true if spouseAddress.street is missing', () => {
