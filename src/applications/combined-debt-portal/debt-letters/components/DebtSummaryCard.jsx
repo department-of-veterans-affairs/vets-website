@@ -40,7 +40,7 @@ const DebtSummaryCard = ({ debt }) => {
       {debtCardSubHeading}
 
       {showResolveLinks ? (
-        <>
+        <p>
           <VaLink
             active
             data-testid="debt-details-link"
@@ -52,7 +52,7 @@ const DebtSummaryCard = ({ debt }) => {
               debt.compositeDebtId
             }`}
             text="Review details"
-            aria-label={`Check details for ${debtCardHeading}`}
+            label={`Check details for ${debtCardHeading}`}
           />
           <div className="vads-u-margin-top--1">
             <VaLink
@@ -66,12 +66,12 @@ const DebtSummaryCard = ({ debt }) => {
                 debt.compositeDebtId
               }/resolve`}
               text="Resolve this debt"
-              aria-label={`Resolve ${debtCardHeading}`}
+              label={`Resolve ${debtCardHeading}`}
             />
           </div>
-        </>
+        </p>
       ) : (
-        <>
+        <p>
           <VaLink
             active
             data-testid="debt-details-button"
@@ -85,7 +85,7 @@ const DebtSummaryCard = ({ debt }) => {
             text="Check details and resolve this debt"
             label={`Check details and resolve this ${debtCardHeading}`}
           />
-        </>
+        </p>
       )}
     </va-card>
   );

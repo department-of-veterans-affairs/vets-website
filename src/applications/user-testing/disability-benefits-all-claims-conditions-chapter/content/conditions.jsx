@@ -15,22 +15,23 @@ export const NewConditionDescription = () => (
       Add a condition that you haven’t claimed before. You can add more
       conditions later.
     </p>
-    <h4>If your condition isn’t listed</h4>
-    <p>
-      You can claim a condition that isn’t listed in the automatic suggestions.
-      Enter your condition, diagnosis or short description of your symptoms.
-    </p>
     <h4>Examples of conditions</h4>
     <ul>
       <li>PTSD (post-traumatic stress disorder)</li>
       <li>Hearing loss</li>
       <li>Ankylosis in knee</li>
     </ul>
+    <h4>If your condition isn’t listed</h4>
+    <p>
+      You can claim a condition that isn’t listed in the automatic suggestions.
+      Enter your condition, diagnosis or short description of your symptoms.
+    </p>
+
     <h4>Add a new condition</h4>
   </>
 );
 
-const createCauseFollowUpDescriptions = (item, fullData = {}) => {
+export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';
 
   const { conditions = [], ratedDisabilities = [] } = fullData;
@@ -49,7 +50,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       );
 
       return foundInConditions || foundInRated
-        ? `caused by ${item.causedByCondition}`
+        ? `caused by ${item.causedByCondition.trim()}`
         : 'cause is unknown or was removed';
     }
 
@@ -64,7 +65,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   }
 };
 
-const formatDateString = dateString => {
+export const formatDateString = dateString => {
   if (!dateString) {
     return '';
   }

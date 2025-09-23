@@ -90,10 +90,6 @@ class MedicalRecordsSite {
             value: true,
           },
           {
-            name: 'mhv_medical_records_display_settings_page',
-            value: true,
-          },
-          {
             name: 'mhvMedicalRecordsDisplaySidenav',
             value: true,
           },
@@ -200,7 +196,7 @@ class MedicalRecordsSite {
 
   loadPage = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@mockUser');
+    cy.wait(['@vamcEhr', '@mockUser', '@featureToggles', '@session']);
   };
 }
 export default MedicalRecordsSite;

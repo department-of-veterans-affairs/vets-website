@@ -25,7 +25,7 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
   });
 
   it('Understanding Your Results Radiology Detail Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
     // When I want to get "help to be able to understand results" of my MR data
     RadiologyDetailsPage.verifyExpandUnderstandResults();
     RadiologyDetailsPage.clickExpandUnderstandResults();

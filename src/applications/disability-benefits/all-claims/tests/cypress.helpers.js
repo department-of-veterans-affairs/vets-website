@@ -1,4 +1,6 @@
-import { add, format, formatISO } from 'date-fns';
+// tests/cypress.helpers.js (full file)
+
+import { add, format } from 'date-fns';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
@@ -19,6 +21,11 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../constants';
 
+// Helper: format to EVSS-like "YYYY-MM-DDTHH:mm:ss.SSSZ" with colon in offset
+// date-fns token "xxx" => ±HH:MM, which Moment "Z" accepts.
+// The key part is ensuring .SSS exists.
+const evssFormat = date => format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
+
 export const mockItf = (
   offset = { days: 1 },
   status = 'active',
@@ -32,7 +39,7 @@ export const mockItf = (
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: formatISO(add(new Date(), offset)),
+          expirationDate: evssFormat(add(new Date(), offset)),
           participantId: 1,
           source: 'EBN',
           status,
@@ -59,7 +66,7 @@ export const mockItf = (
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.789+00:00',
+          expirationDate: '2015-08-28T19:47:52.790+00:00',
           participantId: 1,
           source: 'EBN',
           status: 'expired',
@@ -98,7 +105,7 @@ export const postItf = () => ({
       intentToFile: {
         id: '1',
         creationDate: '2018-01-21T19:53:45.810+00:00',
-        expirationDate: formatISO(add(new Date(), { years: 1 })),
+        expirationDate: evssFormat(add(new Date(), { years: 1 })),
         participantId: 1,
         source: 'EBN',
         status: 'active',

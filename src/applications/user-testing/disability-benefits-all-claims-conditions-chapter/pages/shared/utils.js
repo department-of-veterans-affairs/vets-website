@@ -160,12 +160,35 @@ export const arrayBuilderOptions = {
   text: {
     getItemName,
     cardDescription,
+    alertItemUpdated: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `"${name}’s" information has been updated`
+        : `"${nounSingular}" information has been updated`;
+    },
+    cancelAddTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel adding "${name}"?`
+        : `Cancel adding this "${nounSingular}"?`;
+    },
+    cancelEditTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel editing "${name}"?`
+        : `Cancel editing this "${nounSingular}"?`;
+    },
+    deleteTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Delete "${name}’s" information?`
+        : `Delete this "${nounSingular}"?`;
+    },
   },
 };
 
 export const hasSideOfBody = (formData, index) => {
   const condition = formData?.[ARRAY_PATH][index]?.newCondition;
-
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,
   );

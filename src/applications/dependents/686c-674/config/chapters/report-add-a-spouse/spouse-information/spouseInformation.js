@@ -62,21 +62,21 @@ export const uiSchema = {
 
 export const modalContent = {
   title: 'You already have a dependent with this date of birth',
-  primaryButtonText: 'Don’t add this dependent',
-  secondaryButtonText: 'Add this dependent',
+  primaryButtonText: 'Cancel adding',
+  secondaryButtonText: 'Continue',
   content: currentSpouse => (
     <>
-      Our records show <strong>{getFullName(currentSpouse.fullName)}</strong> is
-      already listed on your benefits with{' '}
-      <strong>{getFormatedDate(currentSpouse.dateOfBirth)}</strong> as a date of
-      birth.
+      Our records show a dependent with a date of birth{' '}
+      <strong>{getFormatedDate(currentSpouse.dateOfBirth)}</strong> already
+      listed on your benefits as{' '}
+      <strong>{getFullName(currentSpouse.fullName)}</strong>.
       <p>
-        If you don’t have another dependent with the same date of birth, we’ll
-        take you back to Step 1 to update your selection.
+        If you’re adding a different dependent with the same date of birth,
+        continue.
       </p>
       <p>
-        If you need to add another dependent with the same date of birth, you
-        can continue adding this dependent.
+        Otherwise, cancel adding and we’ll take you back to Step 1 to update
+        your selection.
       </p>
     </>
   ),

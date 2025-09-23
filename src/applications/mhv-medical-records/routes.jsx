@@ -1,9 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
-import FeatureFlagRoute from './components/shared/FeatureFlagRoute';
 import AppRoute from './components/shared/AppRoute';
 
 // Lazy-loaded components.
@@ -123,14 +121,9 @@ const routes = (
         >
           <RadiologySingleImage />
         </AppRoute>
-        <FeatureFlagRoute
-          exact
-          path="/settings"
-          key="Settings"
-          featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage}
-        >
+        <AppRoute exact path="/settings" key="Settings">
           <SettingsPage />
-        </FeatureFlagRoute>
+        </AppRoute>
         <AppRoute exact path="/download" key="Download">
           <DownloadReportPage />
         </AppRoute>

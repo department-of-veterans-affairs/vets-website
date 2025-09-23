@@ -15,9 +15,9 @@ const causeNewPage = {
     ),
     primaryDescription: textareaUI({
       title:
-        'Briefly describe the injury, event, disease, or exposure that caused your condition. ',
+        'Briefly describe the exposure, event, injury, or onset of disease during your military service that caused your condition. ',
       hint:
-        'For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+        'For example, "I operated loud machinery while in the service, and this caused me to lose my hearing."',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Briefly describe the injury, event, disease, or exposure that caused ${createNewConditionName(
           fullData?.[arrayBuilderOptions.arrayPath]?.[index],

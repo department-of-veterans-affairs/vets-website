@@ -65,7 +65,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
         {(dslogonEnabled || dslogonRetired) && (
           <>
-            <h2>Other sign-in options</h2>
+            <h2>Other sign-in option</h2>
 
             {dslogonEnabled && (
               <>

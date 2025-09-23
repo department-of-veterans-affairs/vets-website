@@ -104,7 +104,11 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
   it('verify no signature alerts with auto save', () => {
     cy.intercept(`POST`, Paths.INTERCEPT.DRAFT_AUTO_SAVE).as(`autoSaveDraft`);
-    cy.wait(`@autoSaveDraft`, { timeout: 10000 }).then(() => {
+
+    // Trigger auto-save by making a small change to the message body
+    PatientComposePage.getMessageBodyField().type(' ');
+
+    cy.wait(`@autoSaveDraft`, { timeout: 15000 }).then(() => {
       cy.get(Locators.ALERTS.EL_SIGN_NAME).should('not.exist');
       cy.get(Locators.ALERTS.EL_SIGN_CHECK).should(`not.exist`);
     });

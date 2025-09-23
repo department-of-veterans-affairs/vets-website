@@ -222,7 +222,7 @@ export default function ContactInfoPage() {
               and services in your VA.gov profile.
               <br />
               <NewTabAnchor href="/profile/contact-information">
-                Go to your VA.gov profile (opens in new tab)
+                Go to your VA.gov profile (opens in a new tab)
               </NewTabAnchor>
             </div>
           </va-additional-info>

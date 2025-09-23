@@ -34,11 +34,15 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
-    cy.wait('@LabsAndTestsList');
-    cy.wait('@RadiologyRecordsMhv');
-    cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
-    cy.wait('@CvixRadiologyRecordsMhvImaging');
-    cy.wait('@vamcEhr');
+    cy.wait([
+      '@LabsAndTestsList',
+      '@RadiologyRecordsMhv',
+      '@CvixRadiologyRecordsMhvImagingStatus',
+      '@CvixRadiologyRecordsMhvImaging',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+    ]);
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -55,12 +59,13 @@ class LabsAndTestsListPage extends BaseListPage {
 
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
-  clickRadiologyDetailsLink = (labsAndTestsItemIndex = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(labsAndTestsItemIndex)
-      .click();
-    cy.wait('@BbmiNotificationStatus');
+  clickRadiologyDetailsLink = labsAndTestsItemHeading => {
+    cy.contains(labsAndTestsItemHeading, { includeShadowDom: true }).then(
+      element => {
+        cy.wrap(element).should('have.prop', 'tagName', 'A');
+        cy.wrap(element).click();
+      },
+    );
   };
 
   loadVAPaginationNext = () => {

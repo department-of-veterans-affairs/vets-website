@@ -23,9 +23,9 @@ export default function App({ location, children }) {
   const dependentsLoading = useSelector(state => {
     return state?.dependents?.loading;
   });
-  const isIntroPage = location?.pathname?.endsWith('/introduction');
-  const { pathname } = location || {};
-  const pageUrl = pathname?.slice(1);
+  const { pathname = '' } = location || {};
+  const isIntroPage = pathname.endsWith('/introduction');
+  const pageUrl = pathname.slice(1);
 
   const breadcrumbs = [
     {
@@ -49,8 +49,9 @@ export default function App({ location, children }) {
 
   useEffect(() => {
     if (!isIntroPage && dependentsLoading) {
-      window.location.replace(`${manifest.rootUrl}/introduction`);
+      location.replace(`${manifest.rootUrl}/introduction`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let content;

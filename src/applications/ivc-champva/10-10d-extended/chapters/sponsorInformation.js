@@ -159,7 +159,7 @@ export const sponsorAddress = {
     type: 'object',
     required: ['sponsorAddress'],
     properties: {
-      sponsorAddress: addressSchema(),
+      sponsorAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };

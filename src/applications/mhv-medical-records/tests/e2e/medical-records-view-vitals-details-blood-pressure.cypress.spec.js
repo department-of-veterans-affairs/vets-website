@@ -9,13 +9,12 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Blood Pressure', () => {
     VitalsListPage.goToVitals();
     // click blood pressure Link
-    VitalsListPage.clickLinkByRecordListItemIndex(0);
+    VitalsListPage.clickLinkByRecordListItem('Blood pressure');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,

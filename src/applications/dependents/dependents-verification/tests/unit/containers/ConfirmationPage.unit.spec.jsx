@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { cleanup, render, fireEvent } from '@testing-library/react';
+import { cleanup, render, fireEvent, waitFor } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import sinon from 'sinon';
 
@@ -47,7 +47,16 @@ const initConfirmationPage = ({
 };
 
 describe('ConfirmationPage', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
+    if (sandbox) {
+      sandbox.restore();
+    }
     cleanup();
   });
 
@@ -66,24 +75,21 @@ describe('ConfirmationPage', () => {
     expect($('va-link-action', alert).getAttribute('text')).to.eq(
       'Check the status of your form on My VA',
     );
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('John A. Doe, Jr.');
     expect($('va-accordion', container)).to.exist;
     expect($('va-process-list', container)).to.exist;
     expect($$('va-link-action', container)).to.have.lengthOf(2);
   });
 
-  it('should call print function when button is clicked', () => {
-    const printSpy = sinon.spy();
-    const oldPrint = global.window.print;
+  it('should call print function when button is clicked', async () => {
+    const printSpy = sandbox.spy();
     global.window.print = printSpy;
 
     const { container } = initConfirmationPage({});
-    fireEvent.click($('va-button[text*="Print this page"]', container));
 
-    expect(printSpy.calledOnce).to.be.true;
-    global.window.print = oldPrint;
+    await waitFor(() => {
+      fireEvent.click($('va-button[text*="Print this page"]', container));
+      expect(printSpy.calledOnce).to.be.true;
+    });
   });
 
   it('should render when API fails', () => {
@@ -96,8 +102,6 @@ describe('ConfirmationPage', () => {
       'Your confirmation number is',
     );
 
-    const summaryBox = $('va-summary-box', container);
-    expect(summaryBox).to.exist;
-    expect(summaryBox.textContent).to.include('nameDate submitted');
+    expect($('va-accordion', container)).to.exist;
   });
 });

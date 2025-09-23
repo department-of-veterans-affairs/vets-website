@@ -3,6 +3,7 @@
     "view:hasHealthInsurance": false,
     "view:hasMedicare": false,
     "view:hasApplicants": true,
+    "view:sharesAddressWith": "na",
     "applicants": [
       {
         "applicantName": {
@@ -22,7 +23,8 @@
         "applicantGender": "male",
         "applicantRelationshipOrigin": "blood",
         "applicantRelationshipToSponsor": "child",
-        "applicantDependentStatus": "over18HelplessChild"
+        "applicantDependentStatus": "over18HelplessChild",
+        "view:sharesAddressWith": "na"
       }
     ],
     "certifierName": {

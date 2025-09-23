@@ -5,14 +5,10 @@ import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
-import {
-  setFormCurrentPage,
-  cacheDraftReferralAppointment,
-} from './redux/actions';
-import { getCachedDraftAppointmentInfo } from './redux/selectors';
+import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { usePostDraftReferralAppointmentMutation } from '../redux/api/vaosApi';
+import { useGetDraftReferralAppointmentQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
@@ -20,20 +16,17 @@ export const ChooseDateAndTime = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const location = useLocation();
+  const {
+    data: draftAppointmentInfo,
+    isLoading: isDraftLoading,
+    isError: isDraftError,
+    isSuccess: isDraftSuccess,
+    isUninitialized: isDraftUninitialized,
+  } = useGetDraftReferralAppointmentQuery({
+    referralNumber: currentReferral.referralNumber,
+    referralConsultId: currentReferral.referralConsultId,
+  });
 
-  const [
-    postDraftReferralAppointment,
-    {
-      data: draftAppointmentData,
-      isError: isDraftError,
-      isLoading: isDraftLoading,
-      isUninitialized: isDraftUninitialized,
-      isSuccess: isDraftSuccess,
-    },
-  ] = usePostDraftReferralAppointmentMutation();
-  const draftAppointmentInfo = useSelector(state =>
-    getCachedDraftAppointmentInfo(state),
-  );
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
@@ -53,17 +46,9 @@ export const ChooseDateAndTime = props => {
         isDraftUninitialized ||
         futureStatus === FETCH_STATUS.notStarted
       ) {
-        if (isDraftUninitialized) {
-          postDraftReferralAppointment({
-            referralNumber: currentReferral.referralNumber,
-            referralConsultId: currentReferral.referralConsultId,
-          });
-        }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
-      } else if (isDraftSuccess) {
-        dispatch(cacheDraftReferralAppointment(draftAppointmentData));
       } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
@@ -72,13 +57,11 @@ export const ChooseDateAndTime = props => {
     [
       currentReferral,
       dispatch,
-      draftAppointmentData,
       draftAppointmentInfo,
       futureStatus,
       isDraftError,
       isDraftSuccess,
       isDraftUninitialized,
-      postDraftReferralAppointment,
     ],
   );
   useEffect(

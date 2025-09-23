@@ -1,5 +1,5 @@
 import { add } from 'date-fns';
-import { formatDate } from '../../../utils/dates';
+import { formatDate, parseDate } from '../../../utils/dates';
 
 /**
  * Test Date Helper Utilities
@@ -20,3 +20,5 @@ import { formatDate } from '../../../utils/dates';
  */
 export const daysFromToday = days =>
   formatDate(add(new Date(), { days }), 'YYYY-MM-DD');
+
+export const getToday = () => parseDate(daysFromToday(0));

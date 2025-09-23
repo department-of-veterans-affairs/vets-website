@@ -93,7 +93,7 @@ const newConditionPage = {
           debounceDelay={200}
           id={data.idSchema.$id}
           label="Select or enter condition"
-          hint="Choose from the automatic suggestions or enter your own response."
+          hint="Start typing for a list of conditions."
           formData={data.formData}
           onChange={data.onChange}
         />

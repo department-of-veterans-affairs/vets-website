@@ -128,7 +128,7 @@ const IntroductionPage = ({ router, setIntroPageViewed }) => {
           <ul className="onramp-list-none" role="list">
             <li className="vads-u-margin-bottom--2">
               <va-link
-                href="/choosing-a-decision-review-option"
+                href="/resources/choosing-a-decision-review-option/"
                 text="Choosing a decision review option"
               />
             </li>
