@@ -22,7 +22,7 @@ on:
       force_fail:
         description: If true with dry_run, force a job failure for testing
         required: false
-        default: 'false'
+        default: 'true'
 
 run-name: "Triggered by: ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} commit: ${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}"
 

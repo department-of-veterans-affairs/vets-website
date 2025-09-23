@@ -274,8 +274,8 @@ export function assignGetItemName(options) {
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
- * @returns {FormConfigChapter}
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigPages} pageBuilderCallback
+ * @returns {FormConfigPages}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
