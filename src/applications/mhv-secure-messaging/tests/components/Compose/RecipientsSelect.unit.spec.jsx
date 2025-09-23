@@ -53,6 +53,24 @@ describe('RecipientsSelect', () => {
       stationNumber: '402',
       signatureRequired: false,
     },
+    {
+      id: 3,
+      name: 'VHA 649 Release of Information (ROI)',
+      stationNumber: '649',
+      signatureRequired: true,
+    },
+    {
+      id: 4,
+      name: 'Ohio Columbus Release of Information – Medical Records',
+      stationNumber: '757',
+      signatureRequired: true,
+    },
+    {
+      id: 5,
+      name: 'Regular Cardiology Team',
+      stationNumber: '649',
+      signatureRequired: false,
+    },
   ];
 
   const defaultProps = {
@@ -141,6 +159,65 @@ describe('RecipientsSelect', () => {
     expect(alert).to.be.null;
   });
 
+  it('displays the signature alert when Oracle Health ROI recipient is selected', async () => {
+    const onValueChange = sinon.spy();
+
+    // Verify that the Oracle Health ROI recipient requires signature
+    const recipient = recipientsList.find(r => r.id === 3); // Oracle Health ROI recipient (ID 3)
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
+    const customProps = {
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 3, // Oracle Health ROI recipient (ID 3)
+    };
+    const screen = setup({ props: customProps });
+
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
+    });
+  });
+
+  it('displays the signature alert when Oracle Health Medical Records recipient is selected', async () => {
+    const onValueChange = sinon.spy();
+
+    const recipient = recipientsList.find(r => r.id === 4); // Oracle Health Medical Records recipient
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
+    const customProps = {
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 4, // Oracle Health Medical Records recipient (ID 4)
+    };
+    const screen = setup({ props: customProps });
+
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
+    });
+  });
+
+  it('does not display the signature alert when regular team (non-Oracle Health) is selected', () => {
+    const screen = setup({});
+    const select = screen.getByTestId('compose-recipient-select');
+    select.value = '5'; // Regular Cardiology Team (matches existing pattern)
+
+    expect(select.value).to.equal('5');
+    const alert = screen.queryByTestId('signature-alert');
+    expect(alert).to.be.null;
+  });
+
   it('displays the CantFindYourTeam component', () => {
     const { getByText, container } = setup({});
     const cantFindYourTeam = container.querySelector(`va-additional-info`);
@@ -206,9 +283,16 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
   });
 
   it('displays correct content in pilot environment vista facility', () => {
@@ -232,9 +316,16 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
   });
   it('renders recent recipients optgroup first when curated list & opt groups enabled', async () => {
     const customState = {
