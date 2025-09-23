@@ -30,12 +30,16 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
-      'Please sign in again to continue your application for education benefits.',
+      'Please sign in again to continue your form for education benefits.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
   customText: {
     appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    finishAppLaterMessage: 'Finish this form later',
+    appSavedSuccessfullyMessage: 'Your form has been saved',
   },
   defaultDefinitions: {},
   chapters: {

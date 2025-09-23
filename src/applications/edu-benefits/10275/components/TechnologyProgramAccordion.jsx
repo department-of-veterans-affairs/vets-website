@@ -9,7 +9,7 @@ export default function TechnologyProgramAccordion() {
           other than what has been authorized under the Privacy Act of 1974 or
           Title 38, Code of Federal Regulations, Section 1.526 for routine uses
           (e.g. VA sends education forms or letters with a veteran's identifying
-          information to the veteran's school or training establishment to (1)
+          information to the veteran's school or training establishment) to (1)
           assist the veteran in the completion of claims forms or (2) for the VA
           to obtain further information as may be necessary from the school for
           the VA to properly process the veteran's education claim or to monitor
