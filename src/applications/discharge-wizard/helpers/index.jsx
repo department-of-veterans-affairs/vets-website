@@ -96,9 +96,12 @@ export const determineBoardObj = (formResponses, noDRB) => {
     abbr: BCNR,
   };
   if (
-    [RESPONSES.ARMY, RESPONSES.AIR_FORCE, RESPONSES.COAST_GUARD].includes(
-      formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
-    )
+    [
+      RESPONSES.ARMY,
+      RESPONSES.AIR_FORCE,
+      RESPONSES.COAST_GUARD,
+      RESPONSES.SPACE_FORCE,
+    ].includes(formResponses[SHORT_NAME_MAP.SERVICE_BRANCH])
   ) {
     boardObj = {
       name: 'Board for Correction of Military Records (BCMR)',
@@ -115,7 +118,11 @@ export const determineBoardObj = (formResponses, noDRB) => {
       return boardObj;
     }
 
-    if (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE) {
+    if (
+      [RESPONSES.AIR_FORCE, RESPONSES.SPACE_FORCE].includes(
+        formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+      )
+    ) {
       return {
         name: 'Air Force Discharge Review Board (AFDRB)',
         abbr: AFDRB,
@@ -154,6 +161,7 @@ export const determineVenueAddress = (formResponses, noDRB) => {
           </p>
         );
       case RESPONSES.AIR_FORCE:
+      case RESPONSES.SPACE_FORCE:
         return (
           <p className="va-address-block">
             Air Force Discharge Review Board
@@ -212,6 +220,7 @@ export const determineVenueAddress = (formResponses, noDRB) => {
           </p>
         );
       case RESPONSES.AIR_FORCE:
+      case RESPONSES.SPACE_FORCE:
         return (
           <p className="va-address-block">
             Air Force Board for Correction of Military Records
@@ -274,7 +283,9 @@ export const determineFormData = formResponses => {
 
 // Determines if we should use AFRBA Portal and Link.
 export const determineAirForceAFRBAPortal = formResponses =>
-  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  [RESPONSES.AIR_FORCE, RESPONSES.SPACE_FORCE].includes(
+    formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+  ) &&
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
 
@@ -522,6 +533,7 @@ export const determineBoardName = branch => {
 
   switch (branch) {
     case RESPONSES.AIR_FORCE:
+    case RESPONSES.SPACE_FORCE:
       boardName = 'Air Force Board for Correction of Military Records';
       break;
     case RESPONSES.ARMY:
