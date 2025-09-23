@@ -75,7 +75,7 @@ export function getActivePages(pages, data) {
  * - For array pages, returns keys prefixed with `"arrayPath.index."`.
  * - Otherwise, returns the top-level schema property keys.
  *
- * @param {Page} page - Page definition with schema and optional array context.
+ * @param {FormConfigPage} page - Page definition with schema and optional array context.
  * @returns {string[]} Property keys (e.g., ["name"] or ["addresses.0.city"]).
  */
 export function getPageProperties(page) {
