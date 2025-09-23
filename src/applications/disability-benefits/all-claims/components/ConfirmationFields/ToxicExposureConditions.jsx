@@ -13,7 +13,7 @@ const ToxicExposureConditions = ({ formData }) => {
 
   return (
     <li>
-      <h4>Toxic Exposure </h4>
+      <h4>Toxic Exposure</h4>
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
         {claimedKeys.map(key => reviewEntry(null, key, {}, key, 'Claimed'))}
       </ul>
