@@ -92,6 +92,7 @@ const MessageReply = () => {
         <MessageThread messageHistory={messages} />
         {customFoldersRedesignEnabled && (
           <MessageActionButtons
+            threadId={messages[0]?.threadId}
             message={messages[0]}
             cannotReply={false}
             isCreateNewModalVisible={isCreateNewModalVisible}

@@ -10,13 +10,13 @@ class TypeOfEyeCarePageObject extends PageObject {
 
   assertTypeOfEyeCareValidationErrors() {
     this.clickNextButton();
-    this.assertValidationErrorShadow('You must provide a response');
+    this.assertValidationError('You must provide a response');
 
     return this;
   }
 
   selectTypeOfEyeCare(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

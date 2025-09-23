@@ -5,7 +5,12 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import {
+  authorizedOfficial,
+  agreementType,
+  acknowledgements,
+  institutionDetailsFacility,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -17,10 +22,6 @@ const formConfig = {
   trackingPrefix: 'edu-0839-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_22_0839,
   saveInProgress: {
     // messages: {
@@ -44,18 +45,64 @@ const formConfig = {
   },
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Personal details of authorized official',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        authorizedOfficial: {
+          path: 'authorized-official',
+          title: 'Authorized Official',
+          uiSchema: authorizedOfficial.uiSchema,
+          schema: authorizedOfficial.schema,
+        },
+      },
+    },
+    agreementTypeChapter: {
+      title: 'Agreement type',
+      pages: {
+        agreementType: {
+          path: 'agreement-type',
+          title: 'Agreement type',
+          uiSchema: agreementType.uiSchema,
+          schema: agreementType.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+              goPath('institution-details-facility');
+            } else {
+              goPath('acknowledgements');
+            }
+          },
+        },
+      },
+    },
+    acknowledgementsChapter: {
+      title: 'Acknowledgements of Yellow Ribbon Program terms',
+      pages: {
+        acknowledgements: {
+          path: 'acknowledgements',
+          title: 'Acknowledgements of Yellow Ribbon Program terms',
+          uiSchema: acknowledgements.uiSchema,
+          schema: acknowledgements.schema,
+        },
+      },
+    },
+    institutionDetailsChapter: {
+      title: 'Institution details',
+      pages: {
+        institutionDetailsFacility: {
+          path: 'institution-details-facility',
+          title: 'Institution details',
+          uiSchema: institutionDetailsFacility.uiSchema,
+          schema: institutionDetailsFacility.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData.agreementType === 'withdrawFromYellowRibbonProgram') {
+              goPath('/agreement-type');
+            } else {
+              goPath('/acknowledgements');
+            }
+          },
         },
       },
     },
   },
-  // getHelp,
   footerContent,
 };
 

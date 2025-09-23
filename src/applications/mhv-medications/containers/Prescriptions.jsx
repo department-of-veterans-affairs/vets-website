@@ -42,10 +42,7 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import {
-  selectGroupingFlag,
-  selectRefillProgressFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
@@ -88,7 +85,6 @@ const Prescriptions = () => {
   const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
 
   // Track if we've initialized from session storage
@@ -97,7 +93,7 @@ const Prescriptions = () => {
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -630,7 +626,7 @@ const Prescriptions = () => {
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
-          <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2 vads-u-font-size--h3">
             Refill prescriptions
           </h2>
           <Link
