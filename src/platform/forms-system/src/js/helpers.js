@@ -148,7 +148,7 @@ export function deleteNestedProperty(obj, pathString) {
  * are defined via `$ref` with no inline `properties`—in that case the array
  * path itself (e.g., "dependents") is treated as active.
  *
- * @param {Page[]} activePages - Pages considered active.
+ * @param {FormConfigPage[]} activePages - Pages considered active.
  * @returns {string[]} Unique list of active property keys.
  */
 export function getActivePageProperties(activePages) {
@@ -386,9 +386,9 @@ function hasActiveDescendant(prop, activeSet) {
  *   - If multiple fields within the same item are active, all siblings are preserved.
  *   - If only one field is active, inactive siblings are removed.
  *
- * @param {Page[]} inactivePages - Pages considered inactive; their properties may be removed.
- * @param {Page[]} activePages - Pages considered active; determine what to keep.
- * @param {FormDataWrapper} form - Object containing the `data` to be filtered.
+ * @param {FormConfigPage[]} inactivePages - Pages considered inactive; their properties may be removed.
+ * @param {FormConfigPage[]} activePages - Pages considered active; determine what to keep.
+ * @param {object} form - Object containing the `data` to be filtered.
  * @returns {Object} A deep-cloned `data` object with inactive properties removed.
  */
 export function filterInactiveNestedPageData(inactivePages, activePages, form) {
