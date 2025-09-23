@@ -70,9 +70,12 @@ export const options = {
       (!isDefined(item?.uploadedDocuments) || !item.uploadedDocuments.name)), // include all required fields here
   text: {
     summaryDescription: form => {
-      const shouldShowDeclinedAlert =
-        showUpdatedContent() &&
-        form?.formData?.ownedAssets?.some(item => {
+      if (!showUpdatedContent()) {
+        return <SupplementaryFormsAlert formData={form.formData} />;
+      }
+
+      const shouldShowDeclinedAlert = form?.formData?.ownedAssets?.some(
+        item => {
           const isFarmOrBusiness =
             item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
           const declinedUpload = item?.['view:addFormQuestion'] === false;
@@ -81,17 +84,14 @@ export const options = {
             (!item?.uploadedDocuments || !item.uploadedDocuments.name);
 
           return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
-        });
+        },
+      );
 
       if (shouldShowDeclinedAlert) {
         return <SupplementaryFormsAlertUpdated formData={form.formData} />;
       }
 
-      if (showUpdatedContent()) {
-        return null;
-      }
-
-      return <SupplementaryFormsAlert formData={form.formData} />;
+      return null;
     },
     summaryTitle: props => {
       if (showUpdatedContent()) {
