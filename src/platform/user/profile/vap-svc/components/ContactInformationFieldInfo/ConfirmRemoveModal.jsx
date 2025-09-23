@@ -93,20 +93,21 @@ const ConfirmRemoveModal = ({
           <p className="vads-u-margin-top--1">
             {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
           </p>
-          <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--3">
-            <va-button
-              loading={isLoading}
+          <div>
+            <LoadingButton
+              isLoading={isLoading}
               onClick={deleteAction}
-              text={isLoading ? '' : 'Yes, remove my information'}
-              class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
-            />
+              aria-label="Yes, remove my information"
+              loadingText="Removing your information"
+            >
+              Yes, remove my information
+            </LoadingButton>
 
             {!isLoading && (
               <va-button
                 secondary
                 onClick={cancelAction}
                 text="No, cancel this change"
-                class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
               />
             )}
           </div>
