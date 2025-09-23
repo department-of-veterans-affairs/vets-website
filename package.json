@@ -66,6 +66,7 @@
     "test:unit:gha": "node ./script/github-actions/run-unit-tests-gha.js",
     "test:unit:summary": "./script/test-summary.js",
     "test:watch": "node script/watch-tests.js",
+    "typecheck": "tsc --project tsconfig.typecheck.json",
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
     "watch:no-server": "yarn build:webpack --watch --stats=minimal",
