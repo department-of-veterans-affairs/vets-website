@@ -59,7 +59,8 @@ function selectTests(pathsOfChangedFiles) {
       // Custom logic needed to ensure that changes to the array builder inside the
       // platform directory trigger the e2e specs that live in the simple forms app
       
-      const ARRAY_BUILDER = 'src/platform/forms-system/src/js/patterns/array-builder';
+      const ARRAY_BUILDER = 
+        'src/platform/forms-system/src/js/patterns/array-builder';
       if (filteredChangedFiles.some(p => p.includes(ARRAY_BUILDER))) {
         const neededSimpleFormsPattern = path.join(
           __dirname,
