@@ -7,7 +7,7 @@ import {
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import netWorthEstimation, {
-  hideIfUnder25000,
+  hideIfUnderThreshold,
 } from '../../../../config/chapters/05-financial-information/netWorthEstimation';
 
 const { schema, uiSchema } = netWorthEstimation;
@@ -43,18 +43,18 @@ describe('Financial information net worth estimation pension page', () => {
     pageTitle,
   );
 
-  describe('hideIfUnder25000', () => {
+  describe('hideIfUnderThreshold', () => {
     it('should return true if under 25000', () => {
-      expect(hideIfUnder25000({ netWorthEstimation: 24999 })).to.be.true;
+      expect(hideIfUnderThreshold({ netWorthEstimation: 24999 })).to.be.true;
     });
     it('should return false if over 25000', () => {
-      expect(hideIfUnder25000({ netWorthEstimation: 26000 })).to.be.false;
+      expect(hideIfUnderThreshold({ netWorthEstimation: 26000 })).to.be.false;
     });
     it('should return true if undefined', () => {
-      expect(hideIfUnder25000({})).to.be.true;
+      expect(hideIfUnderThreshold({})).to.be.true;
     });
     it('should return true if null', () => {
-      expect(hideIfUnder25000({ netWorthEstimation: null })).to.be.true;
+      expect(hideIfUnderThreshold({ netWorthEstimation: null })).to.be.true;
     });
   });
 });

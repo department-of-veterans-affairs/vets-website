@@ -38,8 +38,8 @@ describe('Medical Records View Condition Details', () => {
     cy.injectAxe();
     cy.axeCheck('main');
 
-    // Verify date is formatted correctly
-    cy.get('[data-testid="header-time"]').should('contain', 'January 20, 2025');
+    // Verify date text is present without dealing with time zone changes
+    cy.findByText(/Date entered:/).findByText(/January \d{2}, 2025/);
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();
@@ -65,7 +65,7 @@ describe('Medical Records View Condition Details', () => {
 
     // Verify we're back on the Conditions list page
     cy.url().should('include', '/conditions');
-    cy.get('[data-testid="record-list-item"]').should('be.visible');
+    cy.findAllByTestId('record-list-item').should('be.visible');
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();

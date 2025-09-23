@@ -1,4 +1,11 @@
-export { default as nameAndDateOfBirth } from './nameAndDateOfBirth';
-export * as agreementType from './agreementType';
-export * as acknowledgements from './acknowledgements';
-export * as institutionDetailsFacility from './institutionDetailsFacility';
+import * as authorizedOfficial from './authorizedOfficial';
+import * as agreementType from './agreementType';
+import * as acknowledgements from './acknowledgements';
+import * as institutionDetailsFacility from './institutionDetailsFacility';
+
+export {
+  authorizedOfficial,
+  agreementType,
+  acknowledgements,
+  institutionDetailsFacility,
+};

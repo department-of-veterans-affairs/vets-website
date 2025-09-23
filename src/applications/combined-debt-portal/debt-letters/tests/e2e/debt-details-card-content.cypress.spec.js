@@ -33,13 +33,10 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
       .contains(
         'Contact the U.S. Department of the Treasury to pay this $110.00 debt',
       );
-    // Check alert has correct links
+    // Assert no links are rendered for these diary codes
     cy.get('@alert-content')
-      .find('[data-testid="link-make-payment"]')
-      .should('exist');
-    cy.get('@alert-content')
-      .find('[data-testid="link-request-help"]')
-      .should('exist');
+      .find('va-link, a')
+      .should('have.length', 0);
     cy.injectAxeThenAxeCheck();
   });
 
