@@ -393,6 +393,9 @@ const LandingPage = () => {
                   to="/../../resources/how-to-get-your-medical-records-from-your-va-health-facility/"
                   className="vads-c-action-link--blue"
                   data-testid="gps-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
+                  }}
                 >
                   {MEDICAL_RECORDS_REQUEST_LABEL}
                 </Link>
