@@ -299,7 +299,6 @@ const RecipientsSelect = ({
       mhvSecureMessagingCuratedListFlow,
     ],
   );
-
   return (
     <>
       {mhvSecureMessagingCuratedListFlow ? (
