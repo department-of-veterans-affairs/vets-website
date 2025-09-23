@@ -11,9 +11,9 @@ import {
 } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import ratedDisabilityDatePage from '../../../pages/disabilityConditions/shared/ratedDisabilityDate';
-import formConfig from '../../../config/form';
-import * as utils from '../../../pages/disabilityConditions/shared/utils';
+import ratedDisabilityDatePage from '../../../../pages/disabilityConditions/shared/ratedDisabilityDate';
+import formConfig from '../../../../config/form';
+import * as utils from '../../../../pages/disabilityConditions/shared/utils';
 
 const seed = {
   [utils.arrayOptions.arrayPath]: [{}],

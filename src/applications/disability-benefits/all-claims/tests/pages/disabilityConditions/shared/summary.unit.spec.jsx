@@ -11,9 +11,9 @@ import {
 } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import summaryPage from '../../../pages/disabilityConditions/shared/summary';
-import formConfig from '../../../config/form';
-import * as utils from '../../../pages/disabilityConditions/shared/utils';
+import summaryPage from '../../../../pages/disabilityConditions/shared/summary';
+import formConfig from '../../../../config/form';
+import * as utils from '../../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {

@@ -174,19 +174,19 @@ export const arrayOptions = {
       const name = getItemName(itemData);
       return name
         ? `Cancel adding "${name}"`
-        : `Cancel adding this "${nounSingular}"`;
+        : `Cancel adding this "${nounSingular}"?`;
     },
     cancelEditTitle: ({ itemData, nounSingular }) => {
       const name = getItemName(itemData);
       return name
         ? `Cancel editing "${name}"`
-        : `Cancel editing this "${nounSingular}"`;
+        : `Cancel editing this "${nounSingular}"?`;
     },
     deleteTitle: ({ itemData, nounSingular }) => {
       const name = getItemName(itemData);
       return name
         ? `Delete "${name}’s" information?`
-        : `Delete this "${nounSingular}?"`;
+        : `Delete this "${nounSingular}"?`;
     },
   },
   enforceYesNoOnSummary: true,

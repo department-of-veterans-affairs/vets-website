@@ -6,8 +6,8 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import causePage, {
   causeOptions,
-} from '../../../pages/disabilityConditions/shared/cause';
-import formConfig from '../../../config/form';
+} from '../../../../pages/disabilityConditions/shared/cause';
+import formConfig from '../../../../config/form';
 
 const newDisabilities = [
   {
