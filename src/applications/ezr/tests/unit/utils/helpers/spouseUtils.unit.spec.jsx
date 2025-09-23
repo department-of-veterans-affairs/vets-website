@@ -187,7 +187,7 @@ describe('spouseUtils', () => {
           expect(result).to.be.true;
         });
 
-        it('should return true if spousePhone is missing', () => {
+        it('should return false if spousePhone is missing', () => {
           const item = {
             ...completeSpouseItem,
             sameAddress: false,
@@ -201,7 +201,7 @@ describe('spouseUtils', () => {
             // No spousePhone.
           };
           const result = isItemIncomplete(item);
-          expect(result).to.be.true;
+          expect(result).to.be.false;
         });
 
         it('should return true if spouseAddress.street is missing', () => {
