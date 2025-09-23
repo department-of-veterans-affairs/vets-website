@@ -48,7 +48,7 @@ const ResolveDebtPage = ({ match }) => {
           { href: '/manage-va-debt/summary', label: 'Your VA debt and bills' },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Current overpayment balances',
           },
           {
             href: `/manage-va-debt/summary/debt-balances/details/${selectedId}`,
