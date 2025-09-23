@@ -660,7 +660,7 @@ const ownedAssetTypePage = {
             hint:
               'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
           }
-        : 'What is the value of your share of the asset?',
+        : 'Value of your portion of the property',
     ),
   },
   schema: {
