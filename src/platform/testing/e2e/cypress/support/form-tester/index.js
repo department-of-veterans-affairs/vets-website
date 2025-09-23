@@ -3,11 +3,7 @@ import path from 'path';
 import get from 'platform/utilities/data/get';
 
 import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
-import {
-  processPatternFieldGroups,
-  fillIndividualFields,
-  handleArrayItemAddition,
-} from './utilities';
+import { processPatternFieldGroups } from './utilities';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -558,48 +554,51 @@ Cypress.Commands.add('fillPage', () => {
       };
 
       const countFormElements = (fieldSelector, $form) => {
+        // Get the starting number of array items and fields to compare
+        // after filling out all currently visible fields, as new fields
+        // may get added or expanded after this iteration.
         snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
         snapshot.fieldCount = $form.find(fieldSelector).length;
-      };
-
-      const fillFormPatterns = () => {
-        return cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
-          return processPatternFieldGroups($form, arrayItemPath, touchedFields);
-        });
       };
 
       const fillFormFields = fieldSelector => {
         return cy
           .get(APP_SELECTOR, NO_LOG_OPTION)
           .within(NO_LOG_OPTION, $form => {
-            return fillIndividualFields(
-              $form,
-              fieldSelector,
-              processFieldObject,
-              createFieldObject,
-            ).then(() => {
-              handleArrayItemAddition(
-                $form,
-                fieldSelector,
-                snapshot,
-                addNewArrayItem,
+            // Fill out every field that's currently on the page.
+            const fields = $form.find(fieldSelector);
+            if (!fields.length) return;
+            cy.wrap(fields).each(element => {
+              cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
+                processFieldObject,
               );
-
-              return cy.wrap($form, NO_LOG_OPTION);
             });
+
+            // Once all currently visible fields have been filled, add an array
+            // item if there are more to be added according to the test data.
+            if (snapshot.fieldCount === $form.find(fieldSelector).length) {
+              addNewArrayItem($form);
+            }
+
+            cy.wrap($form, NO_LOG_OPTION);
           });
       };
 
-      const checkForAdditionalFields = fieldSelector => {
+      const fillAdditionalFields = fieldSelector => {
         return cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
+          // If there are new array items or fields to be filled,
+          // iterate through the page again.
           const { arrayItemCount, fieldCount } = snapshot;
           const fieldsNeedInput =
             arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
             fieldCount !== $form.find(fieldSelector).length;
+          if (fieldsNeedInput) fillAvailableFields();
+        });
+      };
 
-          if (fieldsNeedInput) {
-            fillAvailableFields();
-          }
+      const fillFormPatternFields = () => {
+        return cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
+          return processPatternFieldGroups($form, arrayItemPath, touchedFields);
         });
       };
 
@@ -607,9 +606,9 @@ Cypress.Commands.add('fillPage', () => {
         getFieldSelectors().then(fieldSelector => {
           cy.get(APP_SELECTOR, NO_LOG_OPTION)
             .then($form => countFormElements(fieldSelector, $form))
-            .then(() => fillFormPatterns())
+            .then(() => fillFormPatternFields())
             .then(() => fillFormFields(fieldSelector))
-            .then(() => checkForAdditionalFields(fieldSelector));
+            .then(() => fillAdditionalFields(fieldSelector));
         });
       };
 
