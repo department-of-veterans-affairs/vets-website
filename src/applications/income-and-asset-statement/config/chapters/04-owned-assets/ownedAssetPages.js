@@ -637,13 +637,31 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const ownedAssetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Asset information'),
     assetType: radioUI({
-      title: 'What is the type of the owned asset?',
+      title: showUpdatedContent()
+        ? 'What type of asset is it?'
+        : 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    ownedPortionValue: currencyUI('Value of your portion of the property'),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What’s the gross monthly income generated from this asset?',
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    ownedPortionValue: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What is the value of your share of the asset?',
+            hint:
+              'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
+          }
+        : 'What is the value of your share of the asset?',
+    ),
   },
   schema: {
     type: 'object',
