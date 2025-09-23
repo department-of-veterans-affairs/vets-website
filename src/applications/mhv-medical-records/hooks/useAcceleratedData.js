@@ -72,13 +72,9 @@ const useAcceleratedData = () => {
 
   const isAcceleratingAllergies = useMemo(
     () => {
-      return (
-        isAcceleratedDeliveryEnabled &&
-        isAcceleratingAllergiesEnabled &&
-        isCerner
-      );
+      return isAcceleratedDeliveryEnabled && isAcceleratingAllergiesEnabled;
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner],
+    [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled],
   );
 
   const isAcceleratingCareNotes = useMemo(

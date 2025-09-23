@@ -217,6 +217,15 @@ export const getAllergies = async () => {
   });
 };
 
+export const getAllergiesWithOHData = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
+};
+
 export const getAllergy = id => {
   return apiRequest(`${apiBasePath}/medical_records/allergies/${id}`, {
     headers,
