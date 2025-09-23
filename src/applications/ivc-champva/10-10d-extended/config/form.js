@@ -34,8 +34,8 @@ import {
 import { applicantPages } from '../chapters/applicantInformation';
 import {
   medicarePages,
-  missingMedicarePage,
-  proofOfIneligibilityUploadPage,
+  medicareStatusPage,
+  medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
 import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
@@ -215,8 +215,8 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         ...medicarePages,
-        page22: missingMedicarePage,
-        page23: proofOfIneligibilityUploadPage,
+        page22: medicareStatusPage,
+        page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {

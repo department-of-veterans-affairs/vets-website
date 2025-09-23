@@ -11,7 +11,7 @@ const renderDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
 };
 
 describe('getDebtDetailsCardContent', () => {
-  const testDate = '01/01/2025';
+  const testDate = '01/31/2025';
   const testAmountDue = '100';
   const testCases = [
     {
@@ -79,10 +79,8 @@ describe('getDebtDetailsCardContent', () => {
       debt: { diaryCode: '811' },
       expectedHeaderText:
         'Continue making monthly payments while we review your compromise offer',
-      expectedBodyText: `We’ll send you a letter with our decision. Please continue to make payments monthly while we complete our review. Your next payment is due by ${endDate(
-        testDate,
-        '811',
-      )}.`,
+      expectedBodyText: `We’ll send you a letter with our decision. Please continue to make payments monthly while we complete our review. 
+              Your next payment is due by ${endDate(testDate, '811')}.`,
     },
     {
       debt: { diaryCode: '816' },

@@ -4,8 +4,13 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
-import { agreementType, institutionDetailsFacility } from '../pages';
+import {
+  agreementType,
+  institutionDetailsFacility,
+  authorizingOfficial,
+} from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -27,6 +32,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'authorizingOfficial.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -90,6 +103,18 @@ const formConfig = {
           depends: data => data?.agreementType === 'withdrawal',
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    authorizingOfficialChapter: {
+      title: 'Authorizing official',
+      pages: {
+        authorizingOfficial: {
+          path: 'authorizing-official',
+          title: 'Authorizing official',
+          depends: data => data?.agreementType === 'withdrawal',
+          uiSchema: authorizingOfficial.uiSchema,
+          schema: authorizingOfficial.schema,
         },
       },
     },
