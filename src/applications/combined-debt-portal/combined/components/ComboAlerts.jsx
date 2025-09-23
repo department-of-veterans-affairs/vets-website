@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ALERT_TYPES } from '../utils/helpers';
+import ZeroDebtsCopaysSection from './ZeroDebtsCopaysSection';
 
 const ComboAlert = ({ children }) => children;
 
@@ -90,7 +91,7 @@ ComboAlert.Zero = () => {
 const ComboAlerts = ({ alertType }) => {
   switch (alertType) {
     case ALERT_TYPES.ZERO:
-      return <ComboAlert.Zero />;
+      return <ZeroDebtsCopaysSection />;
     case ALERT_TYPES.ERROR:
     default:
       recordEvent({
