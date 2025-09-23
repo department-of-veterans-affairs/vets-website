@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import capitalize from 'lodash/capitalize';
 import NeedHelp from '../components/NeedHelp';
 import { formatDate } from '../helpers';
 
-const CheckEligibilityAndApply = () => {
+const MyEligibilityAndBenefits = () => {
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
@@ -54,9 +53,9 @@ const CheckEligibilityAndApply = () => {
   };
 
   return (
-    <div className="row">
-      <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5">
-        <h1>Check your eligibility and apply</h1>
+    <div className="row ">
+      <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 mobile:vads-u-margin-x--1 ">
+        <h1>My eligibility and benefits</h1>
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
           own military service, character of discharge, Service Connected
@@ -73,7 +72,7 @@ const CheckEligibilityAndApply = () => {
           entitlement if you have two or more qualified periods of active duty.
         </p>
 
-        <p className="vads-u-margin-top--2">
+        <p className="vads-u-margin-top--2 vads-u-margin-bottom--4">
           <a href="https://benefits.va.gov/GIBILL/rudisill.asp">
             Find out more about requesting a Rudisill review
           </a>
@@ -82,58 +81,21 @@ const CheckEligibilityAndApply = () => {
           close-btn-aria-label="Close notification"
           status="success"
           visible
+          class="vads-u-margin-y--6"
         >
-          <p className="vads-u-margin-y--0">You’re eligible!</p>
-        </va-alert>
-        <h2 className="vads-u-margin-top--4">Next steps</h2>
-        <p>
-          If any of the eligibility criteria above are incorrect or if you have
-          any questions, review the requirements for{' '}
-          <a href="/careers-employment/vocational-rehabilitation/">
-            Eligibility for Veteran Readiness and Employment
-          </a>
-          .
-        </p>
-        <p>
-          If you are eligible and have entitlement, you can apply online right
-          now.
-        </p>
-        <p>
+          <h2 slot="headline">You’re eligible for benefits</h2>
+          <p className="vads-u-margin-y--2">
+            Since you’re eligible and have entitlement you can go ahead and
+            apply using VA Form 28-1900.
+          </p>
           <va-link-action
             href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
             text="Apply for VR&E benefits"
             type="primary"
           />
-        </p>
-        <p>
-          <a href="#learn-more">Learn more about how to apply</a>
-        </p>
-        <h2 className="vads-u-margin-top--5">Veteran Profile</h2>
-        <div className="vads-u-margin-bottom--3">
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ minWidth: '12rem' }}
-            >
-              Name:
-            </span>
-            <span>
-              {capitalize(mockResponse.veteranProfile.firstName)}{' '}
-              {capitalize(mockResponse.veteranProfile.lastName)}
-            </span>
-          </div>
-          <div className="vads-u-display--flex vads-u-align-items--baseline">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ minWidth: '12rem' }}
-            >
-              Date of birth:
-            </span>
-            <span>{formatDate(mockResponse.veteranProfile.dob)}</span>
-          </div>
-        </div>
+        </va-alert>
         <h2 className="vads-u-margin-top--4">Eligibility Criteria</h2>
-        <ul className="vads-u-margin-top--0 vads-u-padding-left--0">
+        <ul className="vads-u-margin-top--0 vads-u-padding-left--0 vads-u-padding-bottom--4">
           <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
             <va-icon
               icon="check"
@@ -147,16 +109,14 @@ const CheckEligibilityAndApply = () => {
                 September 16, 1940:
               </p>
               <ul className="vads-u-margin-top--0">
-                {mockResponse.veteranProfile.servicePeriod.map((sp, idx) => (
-                  <>
-                    <li key={`${sp.serviceBeganDate}-${idx}`}>
+                {mockResponse.veteranProfile.servicePeriod.map((sp, index) => (
+                  <div key={index}>
+                    <li>
                       Entered Active Duty (EOD):{' '}
                       {formatDate(sp.serviceBeganDate)};
                     </li>
-                    <li key={`${sp.serviceBeganDate}-${idx}`}>
-                      Released: {formatDate(sp.serviceEndDate)};
-                    </li>
-                  </>
+                    <li>Released: {formatDate(sp.serviceEndDate)};</li>
+                  </div>
                 ))}
               </ul>
             </div>
@@ -222,84 +182,53 @@ const CheckEligibilityAndApply = () => {
           </li>
         </ul>
 
-        <h2 className="vads-u-margin-top--4">Your Benefits</h2>
+        <h2 className="vads-u-margin-top--0">Your Benefits</h2>
         <div className="vads-u-margin-bottom--3">
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
             <span
               className="vads-u-font-weight--bold"
               style={{ minWidth: '18rem' }}
             >
-              Result:
+              Result
             </span>
             <span>{mockResponse.resEligibilityRecommendation}</span>
           </div>
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
             <span
               className="vads-u-font-weight--bold"
               style={{ minWidth: '18rem' }}
             >
-              Date of claim:
-            </span>
-            <span>{formatDate(mockResponse.dateOfClaim)}</span>
-          </div>
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ minWidth: '18rem' }}
-            >
-              Approved by:
-            </span>
-            <span>{mockResponse.approvedBy}</span>
-          </div>
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ minWidth: '18rem' }}
-            >
-              Approved on:
-            </span>
-            <span>{mockResponse.approvedOn}</span>
-          </div>
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ minWidth: '18rem' }}
-            >
-              Max CH31 entitlement:
+              Total months you received:
             </span>
             <span>
-              {mockResponse.entitlementDetails.maxCh31Entitlement.month}-
-              {String(
-                mockResponse.entitlementDetails.maxCh31Entitlement.days,
-              ).padStart(2, '0')}
+              {mockResponse.entitlementDetails.maxCh31Entitlement.month} months,{' '}
+              {mockResponse.entitlementDetails.maxCh31Entitlement.days} days
             </span>
           </div>
-          <div className="vads-u-display--flex vads-u-margin-bottom--1 vads-u-align-items--baseline">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
             <span
               className="vads-u-font-weight--bold"
               style={{ minWidth: '18rem' }}
             >
-              CH31 remaining entitlement:
+              Months you used:
             </span>
             <span>
-              {mockResponse.entitlementDetails.ch31EntitlementRemaining.month}-
-              {String(
-                mockResponse.entitlementDetails.ch31EntitlementRemaining.days,
-              ).padStart(2, '0')}
+              {mockResponse.entitlementDetails.entitlementUsed.month} months,{' '}
+              {mockResponse.entitlementDetails.entitlementUsed.days} days
             </span>
           </div>
-          <div className="vads-u-display--flex vads-u-align-items--baseline">
+          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
             <span
               className="vads-u-font-weight--bold"
               style={{ minWidth: '18rem' }}
             >
-              Entitlement used:
+              Months you have left to use:
             </span>
             <span>
-              {mockResponse.entitlementDetails.entitlementUsed.month}-
-              {String(
-                mockResponse.entitlementDetails.entitlementUsed.days,
-              ).padStart(2, '0')}
+              {mockResponse.entitlementDetails.ch31EntitlementRemaining.month}{' '}
+              months,{' '}
+              {mockResponse.entitlementDetails.ch31EntitlementRemaining.days}{' '}
+              days
             </span>
           </div>
         </div>
@@ -311,4 +240,4 @@ const CheckEligibilityAndApply = () => {
   );
 };
 
-export default CheckEligibilityAndApply;
+export default MyEligibilityAndBenefits;
