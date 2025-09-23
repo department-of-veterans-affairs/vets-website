@@ -19,7 +19,7 @@ const ProcessList = () => {
           Make sure you meet our eligibility requirements before you apply.
         </p>
         <va-link
-          href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
+          href="/careers-employment/vocational-rehabilitation/eligibility"
           text="Find out if you’re eligible for VR&E benefits"
         />
       </va-process-list-item>
