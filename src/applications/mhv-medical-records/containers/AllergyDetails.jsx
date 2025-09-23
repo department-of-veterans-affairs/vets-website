@@ -52,7 +52,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
+  const { isLoading } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -66,21 +66,20 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAcceleratingAllergies,
+        // Determine Oracle Health data from actual data structure
+        isOracleHealthData: allergy?.resourceType === 'AllergyIntolerance',
       };
     },
-    [allergy, isAcceleratingAllergies],
+    [allergy],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
-        dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-        );
+        dispatch(getAllergyDetails(allergyId, allergyList));
       }
     },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
+    [allergyId, allergyList, dispatch, isLoading],
   );
 
   useEffect(
@@ -126,7 +125,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAcceleratingAllergies) {
+    if (allergyData.isOracleHealthData) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n

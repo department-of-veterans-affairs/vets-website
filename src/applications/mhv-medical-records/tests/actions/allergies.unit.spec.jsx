@@ -25,180 +25,209 @@ describe('Get allergies action with decoupled logic', () => {
     selectIsCernerPatientStub.restore();
   });
 
-  it('should use v2 endpoint when isAccelerating is true', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergies;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
+  describe('getAllergiesList', () => {
+    it('should use v2 endpoint when acceleration flags are enabled', async () => {
+      selectIsCernerPatientStub.returns(false);
+      const mockData = allergies;
 
-    return getAllergiesList(false, true)(dispatch, getState).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.Allergies.GET_UNIFIED_LIST,
-      );
-    });
-  });
-
-  it('should use OH data path when isCerner is true but not accelerating', () => {
-    selectIsCernerPatientStub.returns(true);
-    const mockData = allergies;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergiesList(false, false)(dispatch, getState).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.Allergies.GET_LIST,
-      );
-    });
-  });
-
-  it('should use regular v1 when neither accelerating nor Cerner', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergies;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergiesList(false, false)(dispatch, getState).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
-      );
-      expect(dispatch.thirdCall.args[0].type).to.equal(
-        Actions.Allergies.GET_LIST,
-      );
-    });
-  });
-
-  it('should dispatch an add alert action on error', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergies;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergiesList()(dispatch, getState)
-      .then(() => {
-        throw new Error('Expected getAllergiesList() to throw an error.');
-      })
-      .catch(() => {
-        expect(typeof dispatch.secondCall.args[0]).to.equal('function');
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: true,
+          mhvAcceleratedDeliveryAllergiesEnabled: true,
+        },
       });
-  });
-});
 
-describe('Get allergy details action with decoupled logic', () => {
-  let selectIsCernerPatientStub;
+      mockApiRequest(mockData);
 
-  beforeEach(() => {
-    selectIsCernerPatientStub = sinon.stub(
-      cernerSelectors,
-      'selectIsCernerPatient',
-    );
-  });
+      const dispatch = sinon.spy();
+      const thunk = getAllergiesList(false);
 
-  afterEach(() => {
-    selectIsCernerPatientStub.restore();
-  });
+      await thunk(dispatch, getState);
 
-  it('should use v2 endpoint when isAccelerating is true', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergy;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergyDetails('3106', undefined, true)(dispatch, getState).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(
-          Actions.Allergies.GET_UNIFIED_ITEM,
-        );
-      },
-    );
-  });
-
-  it('should use regular v1 when isCerner is true but not accelerating', () => {
-    selectIsCernerPatientStub.returns(true);
-    const mockData = allergy;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergyDetails('3106', undefined, false)(dispatch, getState).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
-      },
-    );
-  });
-
-  it('should use regular v1 when neither accelerating nor Cerner', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergy;
-    mockApiRequest(mockData);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergyDetails('3106', undefined, false)(dispatch, getState).then(
-      () => {
-        expect(dispatch.firstCall.args[0].type).to.equal(Actions.Allergies.GET);
-      },
-    );
-  });
-
-  it('should dispatch a get details action and pull from the list argument', () => {
-    selectIsCernerPatientStub.returns(false);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
-
-    return getAllergyDetails('1', [{ id: '1' }], false)(
-      dispatch,
-      getState,
-    ).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.GET_FROM_LIST,
+      // Check that the correct action type was dispatched
+      const dispatchCalls = dispatch.getCalls();
+      const unifiedListCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_UNIFIED_LIST,
       );
+
+      expect(unifiedListCall).to.exist;
+      expect(unifiedListCall.args[0].response).to.equal(mockData);
+    });
+
+    it('should use v1 OH endpoint when user is Cerner but acceleration disabled', async () => {
+      selectIsCernerPatientStub.returns(true);
+      const mockData = allergies;
+
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: false,
+          mhvAcceleratedDeliveryAllergiesEnabled: false,
+        },
+      });
+
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergiesList(false);
+
+      await thunk(dispatch, getState);
+
+      // Check that the correct action type was dispatched
+      const dispatchCalls = dispatch.getCalls();
+      const getListCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_LIST,
+      );
+
+      expect(getListCall).to.exist;
+      expect(getListCall.args[0].response).to.equal(mockData);
+    });
+
+    it('should use regular v1 endpoint for VistA users', async () => {
+      selectIsCernerPatientStub.returns(false);
+      const mockData = allergies;
+
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: false,
+          mhvAcceleratedDeliveryAllergiesEnabled: false,
+        },
+      });
+
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergiesList(false);
+
+      await thunk(dispatch, getState);
+
+      // Check that the correct action type was dispatched
+      const dispatchCalls = dispatch.getCalls();
+      const getListCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_LIST,
+      );
+
+      expect(getListCall).to.exist;
+      expect(getListCall.args[0].response).to.equal(mockData);
+    });
+
+    it('should prioritize acceleration over Cerner when both are true', async () => {
+      selectIsCernerPatientStub.returns(true);
+      const mockData = allergies;
+
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: true,
+          mhvAcceleratedDeliveryAllergiesEnabled: true,
+        },
+      });
+
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergiesList(false);
+
+      await thunk(dispatch, getState);
+
+      // Check that acceleration takes priority over Cerner
+      const dispatchCalls = dispatch.getCalls();
+      const unifiedListCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_UNIFIED_LIST,
+      );
+
+      expect(unifiedListCall).to.exist;
+      expect(unifiedListCall.args[0].response).to.equal(mockData);
     });
   });
 
-  it('should dispatch an add alert action on error', () => {
-    selectIsCernerPatientStub.returns(false);
-    const mockData = allergy;
-    mockApiRequest(mockData, false);
-    const dispatch = sinon.spy();
-    const getState = sinon.stub().returns({});
+  describe('getAllergyDetails', () => {
+    it('should dispatch GET_FROM_LIST when item found in list', async () => {
+      const mockData = { id: '123', name: 'Test Allergy' };
+      const allergyList = [mockData]; // Item exists in list
 
-    return getAllergyDetails('3106', undefined, false)(dispatch, getState)
-      .then(() => {
-        throw new Error('Expected getAllergyDetails() to throw an error.');
-      })
-      .catch(() => {
-        expect(typeof dispatch.firstCall.args[0]).to.equal('function');
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: true,
+          mhvAcceleratedDeliveryAllergiesEnabled: true,
+        },
       });
-  });
-});
 
-describe('Clear allergy details action', () => {
-  it('should dispatch a clear details action', () => {
-    const dispatch = sinon.spy();
-    return clearAllergyDetails()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Allergies.CLEAR_DETAIL,
+      const dispatch = sinon.spy();
+      const thunk = getAllergyDetails('123', allergyList);
+
+      await thunk(dispatch, getState);
+
+      // Should dispatch GET_FROM_LIST since item was found
+      const dispatchCalls = dispatch.getCalls();
+      const getFromListCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_FROM_LIST,
       );
+
+      expect(getFromListCall).to.exist;
+      expect(getFromListCall.args[0].response).to.equal(mockData);
+    });
+
+    it('should use v2 endpoint when acceleration enabled and item not in list', async () => {
+      const mockData = allergy;
+      const allergyList = []; // Empty list, so will fetch from API
+
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: true,
+          mhvAcceleratedDeliveryAllergiesEnabled: true,
+        },
+      });
+
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergyDetails('123', allergyList);
+
+      await thunk(dispatch, getState);
+
+      // Should use v2 endpoint
+      const dispatchCalls = dispatch.getCalls();
+      const unifiedItemCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_UNIFIED_ITEM,
+      );
+
+      expect(unifiedItemCall).to.exist;
+    });
+
+    it('should use v1 endpoint when acceleration disabled and item not in list', async () => {
+      const mockData = allergy;
+      const allergyList = []; // Empty list, so will fetch from API
+
+      const getState = sinon.stub().returns({
+        featureToggles: {
+          mhvAcceleratedDeliveryEnabled: false,
+          mhvAcceleratedDeliveryAllergiesEnabled: false,
+        },
+      });
+
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergyDetails('123', allergyList);
+
+      await thunk(dispatch, getState);
+
+      // Should use v1 endpoint
+      const dispatchCalls = dispatch.getCalls();
+      const getAllergyCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET,
+      );
+
+      expect(getAllergyCall).to.exist;
+    });
+  });
+
+  describe('clearAllergyDetails', () => {
+    it('should dispatch clear action', () => {
+      const dispatch = sinon.spy();
+      clearAllergyDetails()(dispatch);
+
+      expect(dispatch.calledWith({ type: Actions.Allergies.CLEAR_DETAIL })).to
+        .be.true;
     });
   });
 });

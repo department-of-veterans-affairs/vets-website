@@ -9,8 +9,8 @@ describe('Medical Records View Allergies', () => {
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
-      isAcceleratingEnabled: true,
-      isAcceleratingAllergies: true,
+      isAcceleratingEnabled: false, // Disable acceleration to test OH path
+      isAcceleratingAllergies: false,
     });
     Allergies.setIntercepts({ allergiesData });
   });

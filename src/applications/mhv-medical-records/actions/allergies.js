@@ -12,10 +12,10 @@ import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getAllergiesList = (
-  isCurrent = false,
-  isAccelerating = false,
-) => async (dispatch, getState) => {
+export const getAllergiesList = (isCurrent = false) => async (
+  dispatch,
+  getState,
+) => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
@@ -23,6 +23,14 @@ export const getAllergiesList = (
   try {
     const state = getState();
     const isCerner = selectIsCernerPatient(state);
+
+    // Determine acceleration from state
+    const isAcceleratedDeliveryEnabled =
+      state.featureToggles?.mhvAcceleratedDeliveryEnabled;
+    const isAcceleratingAllergiesEnabled =
+      state.featureToggles?.mhvAcceleratedDeliveryAllergiesEnabled;
+    const isAccelerating =
+      isAcceleratedDeliveryEnabled && isAcceleratingAllergiesEnabled;
 
     let getData;
     let actionType;
@@ -53,12 +61,21 @@ export const getAllergiesList = (
   }
 };
 
-export const getAllergyDetails = (
-  id,
-  allergyList,
-  isAccelerating = false,
-) => async (dispatch, _getState) => {
+export const getAllergyDetails = (id, allergyList) => async (
+  dispatch,
+  getState,
+) => {
   try {
+    const state = getState();
+
+    // Determine acceleration from state
+    const isAcceleratedDeliveryEnabled =
+      state.featureToggles?.mhvAcceleratedDeliveryEnabled;
+    const isAcceleratingAllergiesEnabled =
+      state.featureToggles?.mhvAcceleratedDeliveryAllergiesEnabled;
+    const isAccelerating =
+      isAcceleratedDeliveryEnabled && isAcceleratingAllergiesEnabled;
+
     let getDetailsFunc;
     let actionType;
 

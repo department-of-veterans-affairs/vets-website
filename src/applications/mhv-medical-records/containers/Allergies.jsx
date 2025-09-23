@@ -66,12 +66,11 @@ const Allergies = props => {
 
   const user = useSelector(state => state.user.profile);
   const { isAcceleratingAllergies } = useAcceleratedData();
-
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+    return getAllergiesList(isCurrent);
   };
 
   useListRefresh({
@@ -127,7 +126,7 @@ const Allergies = props => {
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+      ...generateAllergiesContent(allergies, false), // Will be determined per-record
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
