@@ -16,7 +16,7 @@ const UrgentCareLinks = ({ boldText = false }) => {
           <span className="vads-u-font-weight--bold">or</span>
         </li>
         <li>
-          Call
+          Call{' '}
           {
             // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
             <a href="tel:988">988 and select 1</a>
