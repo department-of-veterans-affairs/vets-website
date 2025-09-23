@@ -79,27 +79,24 @@ describe('Unreimbursed care expenses pension page', () => {
   );
 
   context('care type feature toggle options', () => {
-    it('should have correct number of care type options', async () => {
-      sessionStorage.setItem('showPdfFormAlignment', 'true');
-      const updatedSchema = await careExpenseTypePage.uiSchema.careType[
-        'ui:options'
-      ].updateSchema();
-      const updatedUiSchema = await careExpenseTypePage.uiSchema.careType[
-        'ui:options'
-      ].updateUiSchema();
-      expect(updatedSchema.enum).to.have.lengthOf(4);
+    const uiOptions = careExpenseTypePage.uiSchema.careType['ui:options'];
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.setItem('showPdfFormAlignment', 'true');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
+      expect(updatedSchema?.enum).to.have.lengthOf(4);
       expect(
-        Object.keys(updatedUiSchema['ui:options'].labels),
+        Object.keys(updatedUiSchema?.['ui:options']?.labels),
       ).to.have.lengthOf(4);
     });
-    it('should have correct number of care type options', async () => {
-      sessionStorage.removeItem('showPdfFormAlignment');
-      const updatedSchema = await careExpenseTypePage.uiSchema.careType[
-        'ui:options'
-      ].updateSchema();
-      const updatedUiSchema = await careExpenseTypePage.uiSchema.careType[
-        'ui:options'
-      ].updateUiSchema();
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.removeItem('showPdfFormAlignment');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
       expect(updatedSchema.enum).to.have.lengthOf(2);
       expect(
         Object.keys(updatedUiSchema['ui:options'].labels),
