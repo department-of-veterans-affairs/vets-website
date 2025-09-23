@@ -743,7 +743,7 @@ export const MY_VA_SIP_FORMS = [
     title: 'Apply for VET TEC 2.0 (high-tech program) (22-10297)',
     description:
       'Application for High Technology Veterans Education, Training, and Skills (VA Form 22-10297)',
-    trackingPrefix: 'edu-10297',
+    trackingPrefix: 'edu-10297-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0839,
@@ -760,7 +760,7 @@ export const MY_VA_SIP_FORMS = [
       'Commit to the Principles of Excellence for educational institutions (22-10275)',
     description:
       'Principles of Excellence for educational institutions (VA Form 22-10275)',
-    trackingPrefix: '10275-edu-benefits',
+    trackingPrefix: 'edu-10275-',
   },
   {
     id: VA_FORM_IDS.FORM_40_4962,
