@@ -58,7 +58,9 @@ The mock API is located at `./src/applications/ezr/tests/mock-api.js`. You can c
 Redux DevTools are automatically enabled in development mode. Install the [Redux DevTools Extension](https://github.com/reduxjs/redux-devtools) in your browser to inspect application state, actions, and time-travel debugging.
 
 **Testing with real authentication:**
-For testing with actual VA user accounts, you'll need to run against a staging environment or use the vets-api locally with proper authentication setup. See the main [vets-website README](../../README.md) for instructions on connecting to staging environments.
+For testing with actual VA user accounts, use ID.me instead of Login.gov to allow for test accounts within lower environments to be used.
+
+Review Instances require an additional step to get the login to work. When you click on Sign in, a sign in modal appears, but before you click the id.me button, go to the URL and make sure that the oauth parameter in the URL is set to false and not true - &oauth=false. Once you adjusted the URL, click Enter to go to the new URL and the page should refresh. Now you can log in as normal.
 
 ### VA Forms
 
