@@ -26,6 +26,10 @@ const ALLOW_LIST =
       )
     : [];
 
+// Custom logic needed to ensure that changes to the array builder inside the
+// platform directory trigger the e2e specs that live in the simple forms app
+const ARRAY_BUILDER = 'src/platform/forms-system/src/js/patterns/array-builder';
+
 function allTests() {
   const pattern = path.join(__dirname, '../..', specPattern);
   return glob.sync(pattern);
@@ -55,6 +59,19 @@ function selectTests(pathsOfChangedFiles) {
 
         tests.push(...glob.sync(selectedTestsPattern));
       });
+
+      // Custom logic needed to ensure that changes to the array builder inside the
+      // platform directory trigger the e2e specs that live in the simple forms app
+      const ARRAY_BUILDER = 'src/platform/forms-system/src/js/patterns/array-builder';
+      if (filteredChangedFiles.some(p => p.includes(ARRAY_BUILDER))) {
+        const neededSimpleFormsPattern = path.join(
+          __dirname,
+          '../..',
+          'src/applications/simple-forms/mock-simple-forms-patterns',
+          '**/tests/**/*.cypress.spec.js?(x)',
+        );
+        tests.push(...glob.sync(neededSimpleFormsPattern));
+      }
 
       if (IS_CHANGED_APPS_BUILD) {
         const megaMenuTestPath = path.join(

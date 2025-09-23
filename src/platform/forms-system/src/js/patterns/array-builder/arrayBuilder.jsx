@@ -37,7 +37,7 @@ import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 function throwErrorPage(pageType, option) {
   throw new Error(
-    `arrayBuilderPages \`pageBuilder.${pageType}()\` must include \`${option}\` property like this: ` +
+    `arrayBuilderPagess \`pageBuilder.${pageType}()\` must include \`${option}\` property like this: ` +
       `\`...arrayBuilderPages(options, pageBuilder => ({ examplePage: pageBuilder.${pageType}({ ${option}: ... }) }))\``,
   );
 }
