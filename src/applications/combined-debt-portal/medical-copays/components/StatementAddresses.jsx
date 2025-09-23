@@ -46,9 +46,6 @@ const StatementAddresses = ({ copay }) => {
       <p className="va-address-block vads-u-margin-left--0">
         <span data-testid="recipient-address-one">{copay.pHAddress1}</span>
         <br aria-hidden="true" />
-        <span data-testid="sender-address-one">
-          {copay.station.staTAddress1}
-        </span>
         <br aria-hidden="true" />
         {copay.pHAddress2 && (
           <>
