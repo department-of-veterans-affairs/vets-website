@@ -54,7 +54,7 @@ const MyEligibilityAndBenefits = () => {
 
   return (
     <div className="row ">
-      <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 mobile:vads-u-margin-x--1 ">
+      <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 mobile:vads-u-margin-x--1 medium:vads-u-margin-x--0 ">
         <h1>My eligibility and benefits</h1>
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
