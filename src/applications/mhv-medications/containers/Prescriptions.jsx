@@ -626,7 +626,7 @@ const Prescriptions = () => {
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
-          <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2 vads-u-font-size--h3">
             Refill prescriptions
           </h2>
           <Link
