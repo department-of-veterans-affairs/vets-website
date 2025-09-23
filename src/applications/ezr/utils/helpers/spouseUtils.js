@@ -15,10 +15,17 @@ export const isItemIncomplete = item => {
     !item?.spouseDateOfBirth ||
     !item?.dateOfMarriage ||
     item?.cohabitedLastYear === undefined ||
-    item?.sameAddress === undefined ||
-    item?.provideSupportLastYear === undefined;
+    item?.sameAddress === undefined;
 
   if (missingRequiredFields) {
+    return true;
+  }
+
+  // Financial support response is only required if spouse did not cohabitate last year.
+  const missingFinancialSupportFields =
+    item?.cohabitedLastYear === false &&
+    item?.provideSupportLastYear === undefined;
+  if (missingFinancialSupportFields) {
     return true;
   }
 
@@ -29,8 +36,7 @@ export const isItemIncomplete = item => {
       !item?.spouseAddress?.city ||
       !item?.spouseAddress?.state ||
       !item?.spouseAddress?.country ||
-      !item?.spouseAddress?.postalCode ||
-      !item?.spousePhone;
+      !item?.spouseAddress?.postalCode;
 
     if (missingContactFields) {
       return true;
