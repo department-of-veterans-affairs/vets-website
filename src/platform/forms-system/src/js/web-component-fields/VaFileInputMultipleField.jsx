@@ -14,6 +14,7 @@ import {
   useFileUpload,
   DEBOUNCE_WAIT,
   getFileError,
+  simulateUploadMultiple,
 } from './vaFileInputFieldHelpers';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 
@@ -188,10 +189,7 @@ const VaFileInputMultipleField = props => {
     if (!uploadedFile || !uploadedFile.file) return;
 
     const _errors = [...errors];
-    // if there is no back-end (e.g. mock-forms) don't set network errors that would prevent navigation
-    const _error = uiOptions.skipUpload
-      ? null
-      : uploadedFile.errorMessage || null;
+    const _error = uploadedFile.errorMessage || null;
     _errors[index] = _error;
     setErrors(_errors);
     assignFileUploadToStore(uploadedFile, index);
@@ -217,14 +215,26 @@ const VaFileInputMultipleField = props => {
     _encrypted[index] = encryptedCheck;
     setEncrypted(_encrypted);
 
+    // keep track of potential missisng password errors
+    errorManager.addPasswordInstance(index, encryptedCheck);
+
     // cypress test / skip the network call and its callbacks
     if (environment.isTest() && !environment.isUnitTest()) {
       childrenProps.onChange([mockFormData]);
       return;
     }
 
-    // keep track of potential missisng password errors
-    errorManager.addPasswordInstance(index, encryptedCheck);
+    // mock form has no back-end but we want to add files and simulate progress of upload
+    if (uiOptions.skipUpload && !encryptedCheck) {
+      simulateUploadMultiple(
+        setPercentsUploaded,
+        percentsUploaded,
+        index,
+        childrenProps,
+        file,
+      );
+      return;
+    }
 
     // this file not encrypted - upload right now
     if (!encryptedCheck) {
@@ -257,11 +267,19 @@ const VaFileInputMultipleField = props => {
       debounce(DEBOUNCE_WAIT, ({ file, password }, index) => {
         if (password && password.length > 0) {
           errorManager.resetInstance(index);
-          handleUpload(file, handleFileProcessing, password, index);
           const _encrypted = [...encrypted];
           _encrypted[index] = null;
-          // don't show password input after password entered
           setEncrypted(_encrypted);
+          // eslint-disable-next-line no-unused-expressions
+          uiOptions.skipUpload
+            ? simulateUploadMultiple(
+                setPercentsUploaded,
+                percentsUploaded,
+                index,
+                childrenProps,
+                file,
+              )
+            : handleUpload(file, handleFileProcessing, password, index);
         }
       }),
     [handleUpload],

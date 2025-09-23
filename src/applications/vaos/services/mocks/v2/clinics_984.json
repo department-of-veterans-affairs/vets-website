@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "id": "308",
+      "type": "clinics",
+      "attributes": {
+        "vistaSite": 984,
+        "id": "308",
+        "serviceName": "Blue Team Clinic1",
+        "physicalLocation": "Blue Tower, 1st Floor",
+        "phoneNumber": null,
+        "stationId": "984",
+        "stationName": "CHYSHR-Dayton VA Medical Center",
+        "primaryStopCode": 323,
+        "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
+        "secondaryStopCode": null,
+        "secondaryStopCodeName": "*Missing*",
+        "patientDirectScheduling": true,
+        "patientDisplay": null,
+        "char4": null
+      }
+    }
+  ]
+}

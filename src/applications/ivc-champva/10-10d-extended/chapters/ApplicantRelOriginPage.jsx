@@ -28,10 +28,6 @@ function generateOptions({ data, pagePerItemIndex }) {
       }’s ${surv} adopted child`,
       value: 'adoption',
     },
-    {
-      label: 'Other relationship',
-      value: 'other',
-    },
   ];
 
   return {

@@ -154,7 +154,10 @@ export const Form526Entry = ({
   );
 
   const { useFormFeatureToggleSync } = useFeatureToggle();
-  useFormFeatureToggleSync(['disability526Enable2024Form4142']);
+  useFormFeatureToggleSync([
+    'disability526Enable2024Form4142',
+    'disability526ToxicExposureOptOutDataPurge',
+  ]);
 
   if (!loggedIn) {
     // clear service branches if not logged in

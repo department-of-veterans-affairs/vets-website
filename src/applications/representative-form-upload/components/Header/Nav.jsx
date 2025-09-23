@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Toggler } from 'platform/utilities/feature-toggles';
-import UserNav from './UserNav';
+import DropdownContainer from './DropdownContainer';
 import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
 
@@ -45,23 +45,18 @@ export const Nav = () => {
           />
         </a>
         <div className="heading-right">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          <a
+            href="/representative/get-help"
+            className={`usa-button-secondary heading-help-link ${
+              profile ? 'logged-in' : ''
+            }`}
+            data-testid="heading-help-link"
+            data-eventname="nav-link-click"
           >
-            <Toggler.Enabled>
-              <a
-                href="/representative/get-help"
-                className={`usa-button-secondary heading-help-link ${
-                  profile ? 'logged-in' : ''
-                }`}
-                data-testid="heading-help-link"
-                data-eventname="nav-link-click"
-              >
-                Help
-              </a>
-            </Toggler.Enabled>
-          </Toggler>
-          {profile ? <UserNav profile={profile} /> : <SignInButton />}
+            Help
+          </a>
+
+          {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
         </div>
       </div>
 
