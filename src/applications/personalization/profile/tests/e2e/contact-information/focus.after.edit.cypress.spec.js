@@ -85,7 +85,7 @@ describe('focus after editing fields', () => {
         waitForAnimations: true,
       });
       cy.get('[data-testid="update-success-alert"]').should('exist');
-      cy.get('#edit-home-phone-number').should('be.focused');
+      cy.get('va-alert[status="success"]').should('be.focused');
     });
   });
 });
