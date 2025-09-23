@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import causeNewPage from '../../../pages/disabilityConditions/shared/causeNew';
-import formConfig from '../../../config/form';
+import causeNewPage from '../../../../pages/disabilityConditions/shared/causeNew';
+import formConfig from '../../../../config/form';
 
 const mountPage = (data = {}, onSubmit = () => {}) =>
   render(
@@ -48,7 +48,7 @@ describe('526 cause new shared page', () => {
     const textareaContainer = container.querySelector('va-textarea');
 
     expect(textareaContainer.getAttribute('hint')).to.equal(
-      'For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
+      'For example, "I operated loud machinery while in the service, and this caused me to lose my hearing."',
     );
   });
 

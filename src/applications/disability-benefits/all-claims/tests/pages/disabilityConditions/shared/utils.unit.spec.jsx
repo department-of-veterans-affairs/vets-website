@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { cleanup } from '@testing-library/react';
 import * as abHelpers from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import * as utils from '../../../pages/disabilityConditions/shared/utils';
-import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../../constants';
+import * as utils from '../../../../pages/disabilityConditions/shared/utils';
+import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../../../constants';
 
 describe('526 utils shared page', () => {
   afterEach(() => {

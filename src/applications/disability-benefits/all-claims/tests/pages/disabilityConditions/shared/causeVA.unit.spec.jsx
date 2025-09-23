@@ -5,9 +5,9 @@ import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import causeVA from '../../../pages/disabilityConditions/shared/causeVA';
-import formConfig from '../../../config/form';
-import { arrayOptions } from '../../../pages/disabilityConditions/shared/utils';
+import causeVA from '../../../../pages/disabilityConditions/shared/causeVA';
+import formConfig from '../../../../config/form';
+import { arrayOptions } from '../../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {

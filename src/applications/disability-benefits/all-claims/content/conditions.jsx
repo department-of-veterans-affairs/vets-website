@@ -31,7 +31,7 @@ export const NewConditionDescription = () => (
   </>
 );
 
-const createCauseFollowUpDescriptions = (item, fullData = {}) => {
+export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   if (!item?.cause) return '';
 
   const norm = str => (typeof str === 'string' ? str.trim().toLowerCase() : '');
@@ -55,7 +55,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       const found = newNames.includes(target) || ratedNames.includes(target);
 
       return found
-        ? `caused by ${item.causedByCondition}`
+        ? `caused by ${item.causedByCondition.trim()}`
         : 'cause is unknown or was removed';
     }
 
@@ -70,7 +70,7 @@ const createCauseFollowUpDescriptions = (item, fullData = {}) => {
   }
 };
 
-const formatDateString = dateString => {
+export const formatDateString = dateString => {
   if (!dateString) {
     return '';
   }
