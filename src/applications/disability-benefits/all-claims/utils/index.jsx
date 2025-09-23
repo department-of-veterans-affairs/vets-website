@@ -839,17 +839,6 @@ export function validateConditions(conditions, errors, errorKey, errorMessage) {
  * @param {object} formData - Full formData for the form
  * @returns {object} - Object with ids for each condition
  */
-// export function makeConditionsSchema(formData) {
-//   console.log('make conditions schema formData', formData);
-//   const options = (formData?.newDisabilities || []).map(disability =>
-//     sippableId(disability.condition),
-//   );
-//   console.log('make conditions schema options', options);
-//   options.push('none');
-
-//   return checkboxGroupSchema(options);
-// }
-
 export function makeConditionsSchema(formData) {
   // Map only valid conditions and filter out 'blank' and other invalid values (null, empty strings, etc.)
   const options = (formData?.newDisabilities || [])
