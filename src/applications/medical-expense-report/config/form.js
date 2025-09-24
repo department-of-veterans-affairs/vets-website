@@ -1,29 +1,35 @@
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+import environment from 'platform/utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import footerContent from 'platform/forms/components/FormFooter';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-import identificationInformation from '../pages/identificationInformation';
-import mailingAddress from '../pages/mailingAddress';
-import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import FormSavedPage from '../containers/FormSavedPage';
+import { submit } from './submit';
+import { defaultDefinitions } from './definitions';
+import GetFormHelp from '../components/GetFormHelp';
+import ErrorText from '../components/ErrorText';
+import applicantInformation from './chapters/01-applicant-information';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
   trackingPrefix: 'med-expense-8416',
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  v3SegmentedProgressBar: true,
+  prefillEnabled: true,
   dev: {
+    disableWindowUnloadInCI: true,
     showNavLinks: true,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.icmhs],
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
@@ -35,66 +41,47 @@ const formConfig = {
     ],
   }),
   formId: VA_FORM_IDS.FORM_21P_8416,
+  useCustomScrollAndFocus: false,
+  defaultDefinitions,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your medical expense application (21P-8416) is in progress.',
-    //   expired: 'Your saved medical expense application (21P-8416) has expired. If you want to apply for medical expense, please start a new application.',
-    //   saved: 'Your medical expense application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your medical expense report is in progress.',
+      expired:
+        'Your saved medical expense report has expired. If you want to submit a Medical Expense Report (21P-8416), please submit a new expense report.',
+      saved: 'We saved your medical expense report',
+    },
   },
   version: 0,
-  prefillEnabled: true,
+  formSavedPage: FormSavedPage,
   savedFormMessages: {
-    notFound: 'Please start over to apply for medical expense.',
-    noAuth:
-      'Please sign in again to continue your application for medical expense.',
+    notFound: 'Please start over to submit a medical expense report.',
+    noAuth: 'Please sign in again to resume your medical expense report.',
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
   },
   title: TITLE,
   subTitle: SUBTITLE,
-  defaultDefinitions: {},
+  introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
+  errorText: ErrorText,
+  showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
-      pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
-      },
-    },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
-    },
+    applicantInformation,
+    // expenses,
+    // additionalInformation,
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;

@@ -1,6 +1,6 @@
 {
   "appName": "21P-8416 Medical expense report form",
-  "entryFile": "./app-entry.jsx",
+  "entryFile": "./medical-expense-report-entry.jsx",
   "entryName": "medical-expense-report",
   "rootUrl": "/medical-expense-report",
   "productId": "66940f08-4d8d-486c-8dc2-605ddeb9247e"

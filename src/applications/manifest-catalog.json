@@ -457,7 +457,7 @@
       "directoryPath": "src/applications/medical-expense-report",
       "appName": "21P-8416 Medical expense report form",
       "entryName": "medical-expense-report",
-      "rootUrl": "/pension/medical-expense-report-form-21p-8416"
+      "rootUrl": "/medical-expense-report"
     },
     {
       "directoryPath": "src/applications/messages",

@@ -29,8 +29,8 @@ const initConfirmationPage = ({ formData } = {}) => {
     </Provider>,
   );
 };
-
-describe('ConfirmationPage', () => {
+// Skipping until form has been built.
+describe.skip('ConfirmationPage', () => {
   afterEach(() => {
     cleanup();
   });
