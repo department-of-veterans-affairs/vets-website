@@ -1,5 +1,5 @@
 {
-  "associatedTriageGroupsQty": 6,
+  "associatedTriageGroupsQty": 7,
   "associatedBlockedTriageGroupsQty": 0,
   "noAssociations": false,
   "allTriageGroupsBlocked": false,
@@ -14,7 +14,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2323849,
@@ -23,7 +24,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2336822,
@@ -32,7 +34,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2666935,
@@ -41,7 +44,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2343333,
@@ -50,7 +54,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2710520,
@@ -59,7 +64,19 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
+    },
+    {
+      "id": 2710522,
+      "triageTeamId": 2710522,
+      "name": "Care Team OH Test",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": true
     }
   ],
   "mockAllowedRecipients": [
@@ -70,7 +87,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2323849,
@@ -79,7 +97,8 @@
       "stationNumber": "662",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2336822,
@@ -88,7 +107,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2666935,
@@ -97,7 +117,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2343333,
@@ -106,7 +127,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2710520,
@@ -115,7 +137,8 @@
       "stationNumber": "636",
       "blockedStatus": false,
       "preferredTeam": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
     },
     {
       "id": 2710521,
@@ -125,7 +148,19 @@
       "blockedStatus": false,
       "preferredTeam": true,
       "signatureRequired": true,
-      "relationshipType": "PATIENT"
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": false
+    },
+    {
+      "id": 2710522,
+      "triageTeamId": 2710522,
+      "name": "Care Team OH Test",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": true
     }
   ],
   "mockBlockedRecipients": []
