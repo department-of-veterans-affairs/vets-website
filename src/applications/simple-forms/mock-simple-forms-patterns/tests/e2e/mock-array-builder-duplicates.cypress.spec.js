@@ -32,7 +32,7 @@ const testConfig = createTestConfig(
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          cy.get('@testData').then(() => {
+          cy.get('@testData').then(data => {
             const expectInitialLayout = () => {
               cy.get('va-card').should('have.length', 2);
 
@@ -64,6 +64,29 @@ const testConfig = createTestConfig(
               cy.fillVaTextInput('root_name', name || 'test 1');
 
               cy.get('va-button[continue]').click();
+            };
+
+            const addNewDuplicate = () => {
+              cy.selectVaRadioOption('root_view:hasEmployment', 'Y');
+              cy.clickFormContinue();
+
+              cy.fillVaTextInput('root_name', 'test 3');
+              const { address } = data.employers[0];
+              cy.fillVaTextInput('root_address_city', address.city);
+              cy.selectVaSelect('root_address_country', address.country);
+              cy.fillVaTextInput('root_address_street', address.street);
+              cy.selectVaSelect('root_address_state', address.state);
+              cy.fillVaTextInput('root_address_postalCode', '99999');
+              cy.clickFormContinue();
+            };
+
+            const checkFormDataUpdate = () => {
+              cy.clickFormBack();
+              cy.get('va-text-input[name="root_address_postalCode"]')
+                .shadow()
+                .find('input')
+                .should('have.value', '99999');
+              cy.get('va-button[data-action="cancel"]').click();
             };
 
             const testModal = (button, text) => {
@@ -116,7 +139,16 @@ const testConfig = createTestConfig(
             testModal('first', 'Potential duplicate');
             cy.get(`va-card va-alert`).should('not.exist');
 
+            // ** Test new item data is saved to formData after accepting
+            // ** duplicate and navigating to the next page after the modal
+            cy.selectVaRadioOption('root_view:hasEmployment', 'Y');
+            addNewDuplicate();
+            testModal('last');
+            checkFormDataUpdate();
+            testModal('first', 'Cancel');
+
             // Should be able to submit
+            cy.selectVaRadioOption('root_view:hasEmployment', 'N');
             cy.clickFormContinue();
             cy.clickFormContinue();
           });
