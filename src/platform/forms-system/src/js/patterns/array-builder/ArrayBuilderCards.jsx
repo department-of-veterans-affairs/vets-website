@@ -151,22 +151,21 @@ const ArrayBuilderCards = ({
     },
   );
 
-  // // Not sure if this is needed - scroll & focus isn't working
-  // useArrayBuilderEvent(
-  //   ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
-  //   ({ index, arrayPath: duplicateArrayPath }) => {
-  //     if (duplicateArrayPath === arrayPath) {
-  //       const card = `va-card[name="${nounSingularSlug}_${index}"]`;
-  //       requestAnimationFrame(() => {
-  //         if (!isMounted.current) {
-  //           return;
-  //         }
-  //         scrollTo(card);
-  //         focusElement(`${card} .array-builder-duplicate-alert`);
-  //       });
-  //     }
-  //   },
-  // );
+  useArrayBuilderEvent(
+    ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
+    ({ index, arrayPath: duplicateArrayPath }) => {
+      if (duplicateArrayPath === arrayPath) {
+        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        requestAnimationFrame(() => {
+          if (!isMounted.current) {
+            return;
+          }
+          scrollTo(card);
+          focusElement(`${card} .array-builder-duplicate-alert`);
+        });
+      }
+    },
+  );
 
   if (!arrayData?.length) {
     return null;
