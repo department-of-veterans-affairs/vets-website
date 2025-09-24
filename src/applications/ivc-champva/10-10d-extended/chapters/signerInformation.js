@@ -9,6 +9,7 @@ import {
   fullNameUI,
   fullNameSchema,
   titleUI,
+  descriptionUI,
   radioUI,
   radioSchema,
   phoneUI,
@@ -21,38 +22,17 @@ import PropTypes from 'prop-types';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
-import manifest from '../manifest.json';
+import SignInAlert from '../components/FormAlerts/SignInAlert';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
-const signInAlert = loggedIn => (
-  <>
-    {!loggedIn && (
-      <va-alert status="info">
-        <p className="vads-u-margin-y--0">
-          It may take some time to complete this form. Sign in to save your
-          progress. We can also pre-fill some of the information for you to save
-          you time.
-          <br />
-          <va-link
-            href={`${manifest.rootUrl}?next=loginModal`}
-            text="Sign in to start your application"
-          />
-        </p>
-      </va-alert>
-    )}
-  </>
-);
-
 export const certifierRoleSchema = {
   uiSchema: {
-    ...titleUI('Your information', ({ formContext }) =>
-      signInAlert(formContext?.isLoggedIn),
-    ),
+    ...titleUI('Your information'),
+    ...descriptionUI(SignInAlert),
     certifierRole: radioUI({
       title: 'Which of these best describes you?',
-      required: () => true,
       labels: {
         applicant:
           'I’m the spouse, dependent, or survivor of a Veteran applying for benefits for myself',
