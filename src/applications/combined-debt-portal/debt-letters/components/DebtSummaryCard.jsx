@@ -43,22 +43,24 @@ const DebtSummaryCard = ({ debt }) => {
       {debtCardSubHeading}
 
       {showResolveLinks ? (
-        <p>
-          <VaLink
-            active
-            data-testid="debt-details-link"
-            onClick={() => {
-              recordEvent({ event: 'cta-link-click-debt-summary-card' });
-              dispatch(setActiveDebt(debt));
-            }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
-              debt.compositeDebtId
-            }`}
-            text="Review details"
-            label={`Check details for ${debtCardHeading}`}
-          />
+        <>
+          <p className="vads-u-margin-bottom--0">
+            <VaLink
+              active
+              data-testid="debt-details-link"
+              onClick={() => {
+                recordEvent({ event: 'cta-link-click-debt-summary-card' });
+                dispatch(setActiveDebt(debt));
+              }}
+              href={`/manage-va-debt/summary/debt-balances/details/${
+                debt.compositeDebtId
+              }`}
+              text="Review details"
+              label={`Check details for ${debtCardHeading}`}
+            />
+          </p>
           {resolveLinkDiaryCodes.includes(debt.diaryCode) ? (
-            <div className="vads-u-margin-top--1">
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
               <VaLink
                 active
                 data-testid="debt-resolve-link"
@@ -72,11 +74,11 @@ const DebtSummaryCard = ({ debt }) => {
                 text="Resolve this debt"
                 label={`Resolve ${debtCardHeading}`}
               />
-            </div>
+            </p>
           ) : null}
-        </p>
+        </>
       ) : (
-        <p>
+        <p className="vads-u-margin-bottom--0">
           <VaLink
             active
             data-testid="debt-details-button"
