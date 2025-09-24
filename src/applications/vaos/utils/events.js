@@ -115,7 +115,7 @@ export function captureMissingModalityLogs(appointment) {
           hasAtlas: !!appointment.vaos.apiData.telehealth?.atlas,
           vvsVideoAppt: appointment.vaos.apiData.extension?.vvsVistaVideoAppt,
           apiModality: appointment.vaos.apiData.modality,
-          provider: appointment.vaos.apiData.providerName,
+          hasProviderName: !!appointment.vaos.apiData.providerName,
           providerServiceId: appointment.vaos.apiData.providerServiceId,
           hasReferral: !!appointment.vaos.apiData.referral,
           referralId: appointment.vaos.apiData.referralId,
