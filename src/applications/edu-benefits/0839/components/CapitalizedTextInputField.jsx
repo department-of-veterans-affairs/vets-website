@@ -17,22 +17,15 @@ export default function CapitalizedTextInputField(props) {
 
     setDisplayValue(capitalizedValue);
 
-    if (mappedProps.onBlur) {
-      mappedProps.onBlur();
-    }
-
-    if (mappedProps.onInput) {
-      mappedProps.onInput(event, capitalizedValue);
-    }
+    mappedProps.onBlur();
+    mappedProps.onInput(event, capitalizedValue);
   };
 
   const handleInput = (event, value) => {
     const inputValue = value || event.target.value;
     setDisplayValue(inputValue);
 
-    if (mappedProps.onInput) {
-      mappedProps.onInput(event, value);
-    }
+    mappedProps.onInput(event, value);
   };
 
   return (
