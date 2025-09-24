@@ -4,7 +4,6 @@ import { Locators, Data } from '../../fixtures/constants';
 
 describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
-    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
       [],
     );
