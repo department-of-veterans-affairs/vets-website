@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { waitFor } from '@testing-library/react';
 import { schema, uiSchema } from '../../config/pages/veteranApplicantDetails';
 import formConfig from '../../config/form';
 
@@ -51,9 +52,12 @@ describe('Pre-need veteran applicant details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
-    form.unmount();
+
+    await waitFor(() => {
+      expect(onSubmit.called).to.be.false;
+      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
+      form.unmount();
+    });
   });
 
   it('should submit with required fields filled in', () => {
