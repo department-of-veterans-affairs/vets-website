@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
@@ -56,7 +55,6 @@ const LandingPage = () => {
   );
 
   const { isLoading } = useAcceleratedData();
-  const history = useHistory();
 
   const accordionRef = useRef(null);
 
@@ -167,13 +165,11 @@ const LandingPage = () => {
               X-rays, and other imaging tests.
             </p>
             <va-link-action
+              type="secondary"
               href="/my-health/medical-records/labs-and-tests"
-              className="vads-c-action-link--blue"
               data-testid="labs-and-tests-landing-page-link"
               text={LAB_TEST_RESULTS_LABEL}
-              onClick={event => {
-                event.preventDefault();
-                history.push('/labs-and-tests');
+              onClick={() => {
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -193,13 +189,11 @@ const LandingPage = () => {
             </p>
             <>
               <va-link-action
+                type="secondary"
                 href="/my-health/medical-records/summaries-and-notes"
-                className="vads-c-action-link--blue"
                 data-testid="notes-landing-page-link"
                 text={CARE_SUMMARIES_AND_NOTES_LABEL}
-                onClick={event => {
-                  event.preventDefault();
-                  history.push('/summaries-and-notes');
+                onClick={() => {
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   logUniqueUserMetricsEvents(
@@ -218,13 +212,11 @@ const LandingPage = () => {
               records.
             </p>
             <va-link-action
+              type="secondary"
               href="/my-health/medical-records/vaccines"
-              className="vads-c-action-link--blue"
               data-testid="vaccines-landing-page-link"
               text={VACCINES_LABEL}
-              onClick={event => {
-                event.preventDefault();
-                history.push('/vaccines');
+              onClick={() => {
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
                 logUniqueUserMetricsEvents(
@@ -243,13 +235,11 @@ const LandingPage = () => {
               called adverse drug reactions).
             </p>
             <va-link-action
+              type="secondary"
               href="/my-health/medical-records/allergies"
-              className="vads-c-action-link--blue"
               data-testid="allergies-landing-page-link"
               text={ALLERGIES_AND_REACTIONS_LABEL}
-              onClick={event => {
-                event.preventDefault();
-                history.push('/allergies');
+              onClick={() => {
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -267,13 +257,11 @@ const LandingPage = () => {
               manage.
             </p>
             <va-link-action
+              type="secondary"
               href="/my-health/medical-records/conditions"
-              className="vads-c-action-link--blue"
               data-testid="conditions-landing-page-link"
               text={HEALTH_CONDITIONS_LABEL}
-              onClick={event => {
-                event.preventDefault();
-                history.push('/conditions');
+              onClick={() => {
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -297,13 +285,11 @@ const LandingPage = () => {
               <li>Temperature</li>
             </ul>
             <va-link-action
+              type="secondary"
               href="/my-health/medical-records/vitals"
-              className="vads-c-action-link--blue"
               data-testid="vitals-landing-page-link"
               text={VITALS_LABEL}
-              onClick={event => {
-                event.preventDefault();
-                history.push('/vitals');
+              onClick={() => {
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -324,13 +310,11 @@ const LandingPage = () => {
                   notification settings.
                 </p>
                 <va-link-action
+                  type="secondary"
                   href="/my-health/medical-records/settings"
-                  className="vads-c-action-link--blue"
                   data-testid="settings-landing-page-link"
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
-                  onClick={event => {
-                    event.preventDefault();
-                    history.push('/settings');
+                  onClick={() => {
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
@@ -348,13 +332,11 @@ const LandingPage = () => {
                   className="vads-u-margin-bottom--2"
                 >
                   <va-link-action
+                    type="secondary"
                     href="/my-health/medical-records/download"
-                    className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                    onClick={event => {
-                      event.preventDefault();
-                      history.push('/download');
+                    onClick={() => {
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -379,13 +361,11 @@ const LandingPage = () => {
                   className="vads-u-margin-bottom--2"
                 >
                   <va-link-action
+                    type="secondary"
                     href="/my-health/medical-records/download"
-                    className="vads-c-action-link--blue"
                     data-testid="go-to-download-mr-reports"
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                    onClick={event => {
-                      event.preventDefault();
-                      history.push('/download');
+                    onClick={() => {
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -424,9 +404,7 @@ const LandingPage = () => {
                   href="/my-health/medical-records/settings"
                   data-testid="settings-landing-page-link"
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
-                  onClick={event => {
-                    event.preventDefault();
-                    history.push('/settings');
+                  onClick={() => {
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
@@ -530,11 +508,10 @@ const LandingPage = () => {
                       </p>
                       <p className="vads-u-margin-bottom--2">
                         <va-link-action
+                          type="secondary"
                           href="/my-health/medical-records/download"
                           text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                          onClick={event => {
-                            event.preventDefault();
-                            history.push('/download');
+                          onClick={() => {
                             sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                           }}
                         />
