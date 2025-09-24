@@ -179,6 +179,7 @@ const RecipientsSelect = ({
         updateDraftInProgress({
           recipientName: recipient.name,
           recipientId: recipient.id,
+          ohTriageGroup: recipient.ohTriageGroup,
         }),
       );
 

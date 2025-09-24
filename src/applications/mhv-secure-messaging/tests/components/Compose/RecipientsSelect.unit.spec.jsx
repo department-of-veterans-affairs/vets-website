@@ -8,6 +8,7 @@ import reducer from '../../../reducers';
 import RecipientsSelect from '../../../components/ComposeForm/RecipientsSelect';
 import * as Constants from '../../../util/constants';
 import { selectVaSelect } from '../../../util/testUtils';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RecipientsSelect', () => {
   const initialState = {
@@ -46,12 +47,14 @@ describe('RecipientsSelect', () => {
       name: 'Recipient 1',
       stationNumber: '552',
       signatureRequired: true,
+      ohTriageGroup: true,
     },
     {
       id: 2,
       name: 'Recipient 2',
       stationNumber: '402',
       signatureRequired: false,
+      ohTriageGroup: false,
     },
   ];
 
@@ -229,5 +232,34 @@ describe('RecipientsSelect', () => {
     expect(options).to.have.lengthOf(2);
     expect(options[0].textContent).to.equal('Recipient 1');
     expect(options[1].textContent).to.equal('Recipient 2');
+  });
+
+  it('dispatches selected recipient to state on selection', () => {
+    const sandbox = sinon.createSandbox();
+    const threadDetailsSpy = sandbox.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const screen = setup({});
+    selectVaSelect(screen.container, '1');
+
+    waitFor(() => {
+      expect(threadDetailsSpy.calledOnce).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: true,
+        recipientId: 1,
+        recipientName: 'Recipient 1',
+      });
+    });
+    selectVaSelect(screen.container, '2');
+    waitFor(() => {
+      expect(threadDetailsSpy.calledTwice).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: false,
+        recipientId: 2,
+        recipientName: 'Recipient 2',
+      });
+    });
+    sandbox.restore();
   });
 });
