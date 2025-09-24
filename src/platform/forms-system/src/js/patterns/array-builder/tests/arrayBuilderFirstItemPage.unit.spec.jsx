@@ -296,7 +296,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
-        internalPaths: {
+        itemPathModalChecks: {
           information: {
             comparisons: ['name'],
           },
@@ -339,7 +339,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
-        internalPaths: {
+        itemPathModalChecks: {
           information: {
             comparisons: ['name'],
           },
@@ -379,7 +379,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
-        internalPaths: {
+        itemPathModalChecks: {
           information: {
             comparisons: ['name'],
           },
@@ -420,7 +420,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       required: () => false,
       duplicateChecks: {
         comparisons: ['name'],
-        internalPaths: {
+        itemPathModalChecks: {
           information: {
             comparisonType: 'external',
             externalComparisonData: () => [['FullName']],

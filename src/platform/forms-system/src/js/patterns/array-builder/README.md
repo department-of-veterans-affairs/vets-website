@@ -397,7 +397,7 @@ const options = {
     getItemName: (item, index, fullData) => item.name,
   },
   duplicateChecks: {
-    internalPaths: {
+    itemPathModalChecks: {
       // path in form config would be 'dependent-children/:index/birth-date'
       'birth-date': {
         comparisons: ['fullName.first', 'birthDate'],
@@ -470,7 +470,7 @@ const options = {
         ]);
     },
 
-    internalPaths: {
+    itemPathModalChecks: {
       // path in config would be 'this-array/:index/date-of-birth'
       // Modal appears with duplicate when attempting to continue past this page
       'date-of-birth': {

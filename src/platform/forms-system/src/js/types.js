@@ -493,7 +493,7 @@
  *     // return array of array strings to be used for duplicate comparisons
  *     return [];
  *   },
- *   internalPaths: {
+ *   itemPathModalChecks: {
  *     // path in config would be 'this-array/:index/birth-date'
  *     'birth-date': {
  *       comparisons: ['birthDate'],
@@ -517,7 +517,7 @@
  *     duplicates are ignored)
  * @property {ExternalComparisonFunction} [externalComparisonData] - A function to
  * collect and return external data for comparison
- * @property {Object} [internalPaths]
+ * @property {Object} [itemPathModalChecks]
  *  - Optional object to override the comparisons for specific item pages
  *  - The key is the last part of the path after the index in the form config,
  *    e.g. 'dependent-children/:index/birth-date' would be 'birth-date'
@@ -536,7 +536,7 @@
  *     // return array of array strings to be used for duplicate comparisons
  *     return [];
  *   },
- *   internalPaths: {
+ *   itemPathModalChecks: {
  *     // path in form config would be 'dependent-children/:index/birth-date'
  *     'birth-date': {
  *       comparisons: ['fullName.first', 'birthDate'],

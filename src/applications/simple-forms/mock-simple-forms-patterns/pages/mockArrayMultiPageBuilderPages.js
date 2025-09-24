@@ -46,7 +46,7 @@ const employersOptions = {
         Before continuing, review these entries and delete any duplicates.
       </p>
     ),
-    internalPaths: {
+    itemPathModalChecks: {
       'name-and-address': {
         comparisons: ['name', 'address.street'],
       },

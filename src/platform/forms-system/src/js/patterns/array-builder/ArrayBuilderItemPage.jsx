@@ -63,7 +63,9 @@ export default function ArrayBuilderItemPage({
 
     // duplicateChecks will only apply to specific internal item pages
     const internalPageDuplicateChecks =
-      duplicateChecksGlobal?.internalPaths?.[currentPath.split(':index/')[1]];
+      duplicateChecksGlobal?.itemPathModalChecks?.[
+        currentPath.split(':index/')[1]
+      ];
     const duplicateChecks = internalPageDuplicateChecks
       ? {
           ...duplicateChecksGlobal,
@@ -367,7 +369,7 @@ export default function ArrayBuilderItemPage({
       duplicateModalSecondaryButtonText: PropTypes.func,
       duplicateModalDescription: PropTypes.func,
       externalComparisonData: PropTypes.func,
-      internalPaths: PropTypes.object,
+      itemPathModalChecks: PropTypes.object,
     }),
   };
 
