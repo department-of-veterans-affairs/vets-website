@@ -2,6 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import triageTeams from '../../fixtures/recipients.json';
 import categories from '../../fixtures/categories-response.json';
 import reducer from '../../../reducers';
@@ -260,5 +261,164 @@ describe('Attachments List component', () => {
       'remove-all-attachments-button',
     );
     expect(removeAllAttachments).to.exist;
+  });
+});
+
+describe('useLargeAttachments logic', () => {
+  let stub = null;
+
+  beforeEach(() => {
+    stub = null;
+  });
+
+  afterEach(() => {
+    if (stub) {
+      stub.restore();
+    }
+    cleanup();
+  });
+
+  const stubUseFeatureToggles = value => {
+    const useFeatureToggles = require('../../../hooks/useFeatureToggles');
+    stub = sinon.stub(useFeatureToggles, 'default').returns(value);
+    return stub;
+  };
+
+  it('passes useLargeAttachments=true to HowToAttachFiles when largeAttachmentsEnabled is true', () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: true,
+      cernerPilotSmFeatureFlag: false,
+    });
+
+    const customProps = {
+      attachments: [],
+      attachmentScanError: false,
+      editingEnabled: true,
+      isOhTriageGroup: false,
+      setAttachFileError: () => {},
+      setAttachFileSuccess: () => {},
+      setAttachments: () => {},
+      setNavigationError: () => {},
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Check that HowToAttachFiles receives useLargeAttachments=true
+    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
+    expect(howToAttachFiles).to.have.attribute('use-large-attachments', 'true');
+
+    useFeatureTogglesStub.restore();
+  });
+
+  it('passes useLargeAttachments=true to HowToAttachFiles when cernerPilotSmFeatureFlag=true and isOhTriageGroup=true', () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+      cernerPilotSmFeatureFlag: true,
+    });
+
+    const customProps = {
+      attachments: [],
+      attachmentScanError: false,
+      editingEnabled: true,
+      isOhTriageGroup: true,
+      setAttachFileError: () => {},
+      setAttachFileSuccess: () => {},
+      setAttachments: () => {},
+      setNavigationError: () => {},
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Check that HowToAttachFiles receives useLargeAttachments=true
+    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
+    expect(howToAttachFiles).to.have.attribute('use-large-attachments', 'true');
+
+    useFeatureTogglesStub.restore();
+  });
+
+  it('passes useLargeAttachments=false to HowToAttachFiles when neither condition is met', () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+      cernerPilotSmFeatureFlag: false,
+    });
+
+    const customProps = {
+      attachments: [],
+      attachmentScanError: false,
+      editingEnabled: true,
+      isOhTriageGroup: false,
+      setAttachFileError: () => {},
+      setAttachFileSuccess: () => {},
+      setAttachments: () => {},
+      setNavigationError: () => {},
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Check that HowToAttachFiles receives useLargeAttachments=false
+    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
+    expect(howToAttachFiles).to.have.attribute(
+      'use-large-attachments',
+      'false',
+    );
+
+    useFeatureTogglesStub.restore();
+  });
+
+  it('passes useLargeAttachments=false to HowToAttachFiles when cernerPilotSmFeatureFlag=true but isOhTriageGroup=false', () => {
+    const useFeatureTogglesStub = stubUseFeatureToggles({
+      largeAttachmentsEnabled: false,
+      cernerPilotSmFeatureFlag: true,
+    });
+
+    const customProps = {
+      attachments: [],
+      attachmentScanError: false,
+      editingEnabled: true,
+      isOhTriageGroup: false,
+      setAttachFileError: () => {},
+      setAttachFileSuccess: () => {},
+      setAttachments: () => {},
+      setNavigationError: () => {},
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Check that HowToAttachFiles receives useLargeAttachments=false
+    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
+    expect(howToAttachFiles).to.have.attribute(
+      'use-large-attachments',
+      'false',
+    );
+
+    useFeatureTogglesStub.restore();
   });
 });

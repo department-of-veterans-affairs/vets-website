@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const HowToAttachFiles = ({ useLargeAttachments }) => {
+const HowToAttachFiles = ({ useLargeAttachments = false }) => {
   const MAX_TOTAL_SIZE_DESCRIPTION = `The maximum total size for all files attached to 1 message is ${
     useLargeAttachments ? '25 MB' : '10 MB'
   }`;
@@ -15,6 +15,8 @@ const HowToAttachFiles = ({ useLargeAttachments }) => {
       disable-analytics={false}
       disable-border={false}
       data-dd-action-name="What to know about attaching files Expandable Info"
+      data-testid="how-to-attach-files"
+      useLargeAttachments={useLargeAttachments.toString()}
     >
       <section className="how-to-attach-files">
         <ul className="vads-u-margin-y--0">

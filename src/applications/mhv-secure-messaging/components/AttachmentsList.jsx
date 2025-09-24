@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -13,23 +13,25 @@ import { Alerts } from '../util/constants';
 
 const AttachmentsList = props => {
   const {
+    attachFileSuccess,
     attachments,
+    attachmentScanError,
     compose,
     draftSequence,
+    editingEnabled,
+    forPrint,
+    isOhTriageGroup,
     reply,
+    setAttachFileError,
+    setAttachFileSuccess,
     setAttachments,
     setNavigationError,
-    editingEnabled,
-    attachFileSuccess,
-    setAttachFileSuccess,
-    forPrint,
-    attachmentScanError,
-    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const {
     mhvSecureMessagingCuratedListFlow,
     cernerPilotSmFeatureFlag,
+    largeAttachmentsEnabled,
   } = featureToggles();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,6 +41,15 @@ const AttachmentsList = props => {
   const [recentlyRemovedFile, setRecentlyRemovedFile] = useState(false);
   const attachFileAlertRef = useRef();
   const [focusedElement, setFocusedElement] = useState(null);
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && isOhTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, isOhTriageGroup],
+  );
 
   useEffect(
     () => {
@@ -177,7 +188,7 @@ const AttachmentsList = props => {
         )}
       </div>
       {editingEnabled && (
-        <HowToAttachFiles isPilot={cernerPilotSmFeatureFlag} />
+        <HowToAttachFiles useLargeAttachments={useLargeAttachments} />
       )}
 
       {attachFileSuccess &&
@@ -409,6 +420,7 @@ AttachmentsList.propTypes = {
   draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
+  isOhTriageGroup: PropTypes.bool,
   reply: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
