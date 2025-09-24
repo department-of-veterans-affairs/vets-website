@@ -72,13 +72,17 @@ export const submissionForm = {
   formErrors: {},
   data: {
     bankAccount: {
-      accountType: 'checking',
+      accountType: 'Checking',
       routingNumber: '124003116',
       accountNumber: '333333',
     },
     parentGuardianSponsor: 'John Hancock',
     firstSponsor: '9001001080',
     // Updated test data for toeHighSchoolInfoChange scenarios
+    noHighSchoolQuestions: {
+      toeHighSchoolInfoChange: undefined,
+      highSchoolDiplomaLegacy: undefined,
+    },
     highSchoolDiplomaWithChangeFlagTrue: {
       toeHighSchoolInfoChange: true,
       highSchoolDiploma: 'Yes',

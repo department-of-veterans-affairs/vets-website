@@ -169,6 +169,16 @@ describe('form submit transform', () => {
             .highSchoolDiplomaOrCertificateDate,
         ).to.deep.equal('2000-01-02');
       });
+      it('should not set highSchoolDiplomaOrCertificate when not presented with the high school question', () => {
+        mockSubmissionForm.data = {
+          ...mockSubmissionForm.data,
+          ...mockSubmissionForm.data.noHighSchoolQuestions,
+        };
+        submissionObject = JSON.parse(transformTOEForm({}, mockSubmissionForm));
+        expect(
+          submissionObject.highSchoolDiplomaInfo.highSchoolDiplomaOrCertificate,
+        ).to.be.undefined;
+      });
       it('should set high school diploma certificate to false if No selected and change flag is true', () => {
         mockSubmissionForm.data = {
           ...mockSubmissionForm.data,
@@ -216,7 +226,7 @@ describe('form submit transform', () => {
     describe('creates Direct Deposit information', () => {
       it('sets up direct deposit account type', () => {
         expect(submissionObject.directDeposit.directDepositAccountType).to.eql(
-          'checking',
+          'Checking',
         );
       });
       it('sets up direct deposit account number', () => {
