@@ -1,5 +1,6 @@
 import React from 'react';
 import { lowercase } from 'lodash';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -12,6 +13,10 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
+  fileInputUI,
+  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -26,6 +31,10 @@ import {
   resolveRecipientFullName,
   showUpdatedContent,
 } from '../../../helpers';
+
+import SupplementaryFormsAlert, {
+  SupplementaryFormsAlertUpdated,
+} from '../../../components/FormAlerts/SupplementaryFormsAlert';
 import {
   relationshipLabels,
   relationshipLabelDescriptions,
@@ -37,8 +46,12 @@ import {
   parentRelationshipLabelDescriptions,
   ownedAssetTypeLabels,
 } from '../../../labels';
-import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
-import { SummaryDescription } from '../../../components/OwnedAssetsSummaryDescription';
+import {
+  DocumentMailingAddressDescription,
+  AdditionalFormNeededDescription,
+  DocumentUploadGuidelinesDescription,
+  SummaryDescription,
+} from '../../../components/OwnedAssetsDescriptions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -50,18 +63,46 @@ export const options = {
     isRecipientInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.ownedPortionValue) ||
-    !isDefined(item.assetType), // include all required fields here
+    !isDefined(item.assetType) ||
+    (showUpdatedContent() &&
+      (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
+      item?.['view:addFormQuestion'] === true &&
+      (!isDefined(item?.uploadedDocuments) || !item.uploadedDocuments.name)), // include all required fields here
   text: {
+    summaryDescription: form => {
+      if (!showUpdatedContent()) {
+        return <SupplementaryFormsAlert formData={form.formData} />;
+      }
+
+      const shouldShowDeclinedAlert = form?.formData?.ownedAssets?.some(
+        item => {
+          const isFarmOrBusiness =
+            item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+          const declinedUpload = item?.['view:addFormQuestion'] === false;
+          const saidYesButEmptyArray =
+            item?.['view:addFormQuestion'] === true &&
+            (!item?.uploadedDocuments || !item.uploadedDocuments.name);
+
+          return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+        },
+      );
+
+      if (shouldShowDeclinedAlert) {
+        return <SupplementaryFormsAlertUpdated formData={form.formData} />;
+      }
+
+      return null;
+    },
     summaryTitle: props => {
       if (showUpdatedContent()) {
         return 'Review property and business assets';
       }
       return `Review your ${props.nounPlural}`;
     },
-    summaryDescription: SupplementaryFormsAlert,
     summaryDescriptionWithoutItems: showUpdatedContent()
       ? SummaryDescription
       : null,
+
     getItemName: (item, index, formData) => {
       if (
         !isDefined(item?.recipientRelationship) ||
@@ -75,24 +116,48 @@ export const options = {
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },
-    cardDescription: item =>
-      isDefined(item?.grossMonthlyIncome) &&
-      isDefined(item?.ownedPortionValue) && (
-        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Gross monthly income:{' '}
+    cardDescription: item => {
+      const mvpContent = [
+        <li key="income">
+          Gross monthly income:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.grossMonthlyIncome)}
+          </span>
+        </li>,
+        <li key="value">
+          Owned portion value:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.ownedPortionValue)}
+          </span>
+        </li>,
+      ];
+
+      const updatedContent =
+        showUpdatedContent() &&
+        (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') ? (
+          <li key="upload">
+            Form uploaded:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.grossMonthlyIncome)}
+              {item?.['view:addFormQuestion'] === true &&
+              isDefined(item?.uploadedDocuments) &&
+              item.uploadedDocuments.name
+                ? item.uploadedDocuments.name
+                : 'No'}
             </span>
           </li>
-          <li>
-            Owned portion value:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.ownedPortionValue)}
-            </span>
-          </li>
-        </ul>
-      ),
+        ) : null;
+
+      const content = [...mvpContent, updatedContent].filter(Boolean);
+
+      return (
+        isDefined(item?.grossMonthlyIncome) &&
+        isDefined(item?.ownedPortionValue) && (
+          <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+            {content}
+          </ul>
+        )
+      );
+    },
     reviewAddButtonText: props => {
       if (showUpdatedContent()) {
         return 'Add more property or business assets';
@@ -591,6 +656,111 @@ const ownedAssetTypePage = {
   },
 };
 
+/** @returns {PageSchema} */
+const ownedAssetAdditionalFormNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
+    'view:addFormDescription': {
+      'ui:description': AdditionalFormNeededDescription,
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the completed form now?',
+    }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.ownedAssets?.[index] || formData;
+
+        if (itemData?.['view:addFormQuestion'] === false) {
+          itemData.uploadedDocuments = [];
+        }
+
+        return schema;
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+const MAX_FILE_SIZE_MB = 20;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
+
+/** @returns {PageSchema} */
+const ownedAssetDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    'view:uploadedDocumentsDescription': {
+      'ui:description': DocumentUploadGuidelinesDescription,
+    },
+    uploadedDocuments: {
+      ...fileInputUI({
+        title: 'Upload supporting form',
+        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        accept: '.pdf,.jpeg,.png',
+        required: () => true,
+        errorMessages: { required: 'Upload a supporting document' },
+        maxFileSize: MAX_FILE_SIZE_BYTES,
+        formNumber: '21P-0969',
+        skipUpload: environment.isLocalhost(),
+        // server response triggers required validation.
+        // skipUpload needed to bypass in local environment
+      }),
+      'ui:validations': [
+        // Taken from the arrayBuilderPatterns
+        // needed for validation to work correctly in arrays
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4837
+        (errors, fieldData) => {
+          if (fieldData?.isEncrypted && !fieldData?.confirmationCode) {
+            return;
+          }
+
+          if (!fieldData || !fieldData.name) {
+            errors.addError('Upload a supporting document');
+          }
+        },
+      ],
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['uploadedDocuments'],
+    properties: {
+      'view:uploadedDocumentsDescription': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedDocuments: fileInputSchema(),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const documentMailingAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Submit additional form by mail'),
+    'view:documentMailingAddress': {
+      'ui:description': DocumentMailingAddressDescription,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:documentMailingAddress': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetPagesUpdatedSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
@@ -701,5 +871,38 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
 
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
+  }),
+  ownedAssetAdditionalFormNeededPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/additional-form-needed',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS'),
+
+    uiSchema: ownedAssetAdditionalFormNeeded.uiSchema,
+    schema: ownedAssetAdditionalFormNeeded.schema,
+  }),
+  ownedAssetDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === true,
+    uiSchema: ownedAssetDocumentUpload.uiSchema,
+    schema: ownedAssetDocumentUpload.schema,
+  }),
+  ownedAssetDocumentMailingAddressPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-mailing-address',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === false,
+    uiSchema: documentMailingAddressPage.uiSchema,
+    schema: documentMailingAddressPage.schema,
   }),
 }));
