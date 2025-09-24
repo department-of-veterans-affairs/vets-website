@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { schema, uiSchema } from '../../config/pages/veteranApplicantDetails';
 import formConfig from '../../config/form';
 
@@ -43,7 +43,7 @@ describe('Pre-need veteran applicant details', () => {
 
   it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema()}
@@ -51,12 +51,14 @@ describe('Pre-need veteran applicant details', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('form').simulate('submit');
+
+    fireEvent.submit(container.querySelector('form'));
 
     await waitFor(() => {
       expect(onSubmit.called).to.be.false;
-      expect(form.find('.usa-input-error-message').length).to.be.greaterThan(0);
-      form.unmount();
+      expect(
+        container.querySelectorAll('.usa-input-error-message').length,
+      ).to.be.greaterThan(0);
     });
   });
 
