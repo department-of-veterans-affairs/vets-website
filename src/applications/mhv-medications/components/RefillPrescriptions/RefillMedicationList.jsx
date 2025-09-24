@@ -32,3 +32,5 @@ RefillMedicationList.propTypes = {
   medications: PropTypes.array,
   showBold: PropTypes.bool,
 };
+
+export default RefillMedicationList;
