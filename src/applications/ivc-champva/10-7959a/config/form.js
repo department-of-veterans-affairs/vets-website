@@ -108,7 +108,7 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: false,
+  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to file a CHAMPVA claim.',
     noAuth: 'Please sign in again to continue your CHAMPVA claim.',

@@ -1,13 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VaLink } from '../utils/imports';
 
-export default function IntroductionPage(props) {
-  const { route } = props;
+const OMB_RES_BURDEN = 10;
+const OMB_NUM = '2900-0219';
+const OMB_EXP_DATE = '12/31/2027';
+
+const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
+  const { customText, formId, prefillEnabled, savedFormMessages } = formConfig;
+
+  const sipIntroProps = useMemo(
+    () => ({
+      alertTitle: 'Sign in now to save time and save your work in progress',
+      unauthStartText: 'Sign in to start your claim',
+      messages: savedFormMessages,
+      hideUnauthedStartLink: false,
+      formConfig: { customText },
+      headingLevel: 2,
+      prefillEnabled,
+      pageList,
+      formId,
+    }),
+    [customText, formId, pageList, prefillEnabled, savedFormMessages],
+  );
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -51,23 +70,28 @@ export default function IntroductionPage(props) {
           text="Find out which supporting documents to submit with your claim"
         />
       </p>
-      <SaveInProgressIntro
-        headingLevel={2}
-        formConfig={formConfig}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start a claim"
-      />
+      <div className="vads-u-margin-y--4">
+        <SaveInProgressIntro {...sipIntroProps} />
+      </div>
       <va-omb-info
-        res-burden={10}
-        omb-number="2900-0219"
-        exp-date="12/31/2027"
+        res-burden={OMB_RES_BURDEN}
+        omb-number={OMB_NUM}
+        exp-date={OMB_EXP_DATE}
       />
     </div>
   );
-}
+};
 
 IntroductionPage.propTypes = {
-  route: PropTypes.object,
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      customText: PropTypes.object,
+      formId: PropTypes.string,
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+    }),
+  }).isRequired,
 };
+
+export default IntroductionPage;
