@@ -793,7 +793,6 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '21-2680-house-bound-status-',
   },
   {
-<<<<<<< HEAD
     id: VA_FORM_IDS.FORM_21_4192,
     benefit: 'employment information',
     title:
@@ -809,7 +808,6 @@ export const MY_VA_SIP_FORMS = [
     description: 'benefits',
     trackingPrefix: '21-0779-nursing-home-information-',
   },
-<<<<<<< HEAD
   {
     id: VA_FORM_IDS.FORM_21P_530A,
     benefit: 'benefits',
@@ -826,20 +824,12 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '21p-0537-dic-marital-status-',
   },
   {
-=======
-=======
->>>>>>> 148d51e45b (Adds new application for medical expense report form)
     id: VA_FORM_IDS.FORM_21P_8416,
     benefit: 'medical expense',
     title: '21P-8416 Medical expense report form',
     description: 'medical expense',
     trackingPrefix: 'med-expense-8416',
-<<<<<<< HEAD
   },
-=======
-  }
->>>>>>> a94022663c (Adds new application for medical expense report form)
->>>>>>> 148d51e45b (Adds new application for medical expense report form)
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
