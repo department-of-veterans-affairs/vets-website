@@ -47,8 +47,8 @@ class PatientMessageDetailsPage {
   };
 
   expandAllThreadMessages = () => {
-    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND).should('be.visible');
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+      .should('be.visible')
       .shadow()
       .find('button')
       .click({ force: true });
@@ -244,18 +244,16 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedThreadBody = (messageThread, messageIndex = 0) => {
-    cy.get(
-      `[data-testid="expand-message-button-${
-        messageThread.data[messageIndex].id
-      }"]`,
-    )
-      .find(
-        `[data-testid="message-body-${messageThread.data[messageIndex].id}"]`,
-      )
-      .should(
+    cy.findByTestId(
+      `expand-message-button-${messageThread.data[messageIndex].id}`,
+    ).within(() => {
+      cy.findByTestId(
+        `message-body-${messageThread.data[messageIndex].id}`,
+      ).should(
         'have.text',
         `${messageThread.data[messageIndex].attributes.body}`,
       );
+    });
   };
 
   replyToMessageTo = (messageDetails, messageIndex = 0) => {
@@ -389,6 +387,7 @@ class PatientMessageDetailsPage {
   verifyAccordionStatus = value => {
     cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
+      .should('have.length.greaterThan', 0)
       .each(el => {
         cy.wrap(el)
           .invoke(`prop`, 'open')
