@@ -433,6 +433,8 @@ export const validateIncompleteItems = ({
   // invalidIndex = null, 0, 1, 2, 3...
   const isValid = invalidIndex === null;
 
+  // eslint-disable-next-line no-console
+  console.log('about to get navigation status...', Math.random());
   if (!isValid && navigationState.getNavigationEventStatus()) {
     // The user clicked continue
     dispatchIncompleteItemError({
