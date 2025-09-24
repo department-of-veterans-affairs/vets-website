@@ -175,6 +175,13 @@ export const Edit = () => {
     [hasUnsavedEdits, hasBeforeUnloadListener],
   );
 
+  useEffect(
+    () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
+    },
+    [editPageHeadingString],
+  );
+
   const handlers = {
     cancel: () => {
       clearBeforeUnloadListener();
