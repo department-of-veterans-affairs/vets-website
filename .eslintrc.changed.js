@@ -30,8 +30,6 @@ module.exports = {
         ecmaFeatures: {
           jsx: true,
         },
-        project: ['./src/applications/avs/tsconfig.json'],
-        tsconfigRootDir: __dirname,
         // FIXME: remove this after the node upgrade is complete
         warnOnUnsupportedTypeScriptVersion: false,
       },
@@ -102,7 +100,11 @@ module.exports = {
     },
     {
       files: ['**/*.unit.spec.*'],
-      excludedFiles: ['**/*.unit.spec.jsx'],
+      excludedFiles: [
+        '**/*.unit.spec.jsx',
+        '**/*.unit.spec.ts',
+        '**/*.unit.spec.tsx',
+      ],
       rules: {
         'no-restricted-syntax': [
           'error',

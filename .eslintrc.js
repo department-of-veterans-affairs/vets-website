@@ -97,14 +97,18 @@ module.exports = {
         ecmaFeatures: {
           jsx: true,
         },
-        project: ['./src/applications/avs/tsconfig.json'],
-        tsconfigRootDir: __dirname,
         warnOnUnsupportedTypeScriptVersion: false,
+        project: [
+          './tsconfig.eslint.json',
+          './src/applications/*/tsconfig.json',
+        ],
+        tsconfigRootDir: __dirname,
       },
       plugins: ['@typescript-eslint'],
       extends: [
         'plugin:@department-of-veterans-affairs/recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:you-dont-need-momentjs/recommended',
       ],
       rules: {
@@ -207,7 +211,11 @@ module.exports = {
     },
     {
       files: ['**/*.unit.spec.*'],
-      excludedFiles: ['**/*.unit.spec.jsx'],
+      excludedFiles: [
+        '**/*.unit.spec.jsx',
+        '**/*.unit.spec.ts',
+        '**/*.unit.spec.tsx',
+      ],
       rules: {
         'no-restricted-syntax': [
           'error',
