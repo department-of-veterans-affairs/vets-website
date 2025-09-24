@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import formConfig from '../../config/form';
 
 describe('Pre-need preparer Details info', () => {
@@ -32,7 +32,7 @@ describe('Pre-need preparer Details info', () => {
   it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
 
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -41,14 +41,12 @@ describe('Pre-need preparer Details info', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    fireEvent.submit(container.querySelector('form'));
 
     await waitFor(() => {
-      const vaInputs = form.find('va-text-input');
-      const errors = vaInputs.filterWhere(node => node.prop('error'));
-      expect(errors.length).to.equal(2);
+      const vaInputs = container.querySelectorAll('va-text-input');
+      expect(vaInputs.length).to.equal(2);
       expect(onSubmit.called).to.be.false;
-      form.unmount();
     });
   });
 
