@@ -220,6 +220,15 @@ export const arrayBuilderYesNoUI = (
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
         const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);
+        if (arrayData?.length) {
+          console.log({
+            claimantType: formData?.claimantType,
+            arrayData,
+            nounSingular,
+            initTitle: yesNoOptionsInitial?.title,
+            addTitle: yesNoOptionsAdditional?.title,
+          });
+        }
         return arrayData?.length
           ? {
               'ui:title':
