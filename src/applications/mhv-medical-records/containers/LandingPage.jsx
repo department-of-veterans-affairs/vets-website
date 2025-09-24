@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
   renderMHVDowntime,
@@ -55,6 +56,7 @@ const LandingPage = () => {
   );
 
   const { isLoading } = useAcceleratedData();
+  const history = useHistory();
 
   const accordionRef = useRef(null);
 
@@ -169,7 +171,9 @@ const LandingPage = () => {
               href="/my-health/medical-records/labs-and-tests"
               data-testid="labs-and-tests-landing-page-link"
               text={LAB_TEST_RESULTS_LABEL}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Lab and test results');
                 sendDataDogAction(LAB_TEST_RESULTS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -193,7 +197,9 @@ const LandingPage = () => {
                 href="/my-health/medical-records/summaries-and-notes"
                 data-testid="notes-landing-page-link"
                 text={CARE_SUMMARIES_AND_NOTES_LABEL}
-                onClick={() => {
+                onClick={event => {
+                  event.preventDefault();
+                  history.push('/labs-and-tests');
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   logUniqueUserMetricsEvents(
@@ -216,7 +222,9 @@ const LandingPage = () => {
               href="/my-health/medical-records/vaccines"
               data-testid="vaccines-landing-page-link"
               text={VACCINES_LABEL}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
                 logUniqueUserMetricsEvents(
@@ -239,7 +247,9 @@ const LandingPage = () => {
               href="/my-health/medical-records/allergies"
               data-testid="allergies-landing-page-link"
               text={ALLERGIES_AND_REACTIONS_LABEL}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -261,7 +271,9 @@ const LandingPage = () => {
               href="/my-health/medical-records/conditions"
               data-testid="conditions-landing-page-link"
               text={HEALTH_CONDITIONS_LABEL}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -289,7 +301,9 @@ const LandingPage = () => {
               href="/my-health/medical-records/vitals"
               data-testid="vitals-landing-page-link"
               text={VITALS_LABEL}
-              onClick={() => {
+              onClick={event => {
+                event.preventDefault();
+                history.push('/labs-and-tests');
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -314,7 +328,9 @@ const LandingPage = () => {
                   href="/my-health/medical-records/settings"
                   data-testid="settings-landing-page-link"
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
-                  onClick={() => {
+                  onClick={event => {
+                    event.preventDefault();
+                    history.push('/labs-and-tests');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
@@ -336,7 +352,9 @@ const LandingPage = () => {
                     href="/my-health/medical-records/download"
                     data-testid="go-to-download-mr-reports"
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                    onClick={() => {
+                    onClick={event => {
+                      event.preventDefault();
+                      history.push('/labs-and-tests');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -365,7 +383,9 @@ const LandingPage = () => {
                     href="/my-health/medical-records/download"
                     data-testid="go-to-download-mr-reports"
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                    onClick={() => {
+                    onClick={event => {
+                      event.preventDefault();
+                      history.push('/labs-and-tests');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -404,7 +424,9 @@ const LandingPage = () => {
                   href="/my-health/medical-records/settings"
                   data-testid="settings-landing-page-link"
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
-                  onClick={() => {
+                  onClick={event => {
+                    event.preventDefault();
+                    history.push('/labs-and-tests');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
@@ -511,7 +533,9 @@ const LandingPage = () => {
                           type="secondary"
                           href="/my-health/medical-records/download"
                           text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                          onClick={() => {
+                          onClick={event => {
+                            event.preventDefault();
+                            history.push('/download');
                             sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                           }}
                         />
