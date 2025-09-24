@@ -6,7 +6,7 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, isLoading } = props;
+  const { onDownload, isSuccess, list, onPrint, isLoading, isFiltered } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -172,7 +172,11 @@ const PrintDownload = props => {
           ref={toggleButton}
           onFocus={handleFocus}
         >
-          <span>Print or download</span>
+          <span>
+            {list && isFiltered
+              ? 'Print or download filtered list'
+              : 'Print or download'}
+          </span>
           <va-icon
             size={3}
             icon={!menuOpen ? 'expand_more' : 'expand_less'}
@@ -243,4 +247,5 @@ PrintDownload.propTypes = {
   onPrint: PropTypes.func,
   onText: PropTypes.func,
   isLoading: PropTypes.bool,
+  isFiltered: PropTypes.bool,
 };

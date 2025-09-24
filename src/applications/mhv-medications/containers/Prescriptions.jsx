@@ -715,6 +715,10 @@ const Prescriptions = () => {
     const hasMedications =
       filteredList?.length > 0 || paginatedPrescriptionsList?.length > 0;
 
+    const filterApplied =
+      selectedFilterOption &&
+      selectedFilterOption !== ALL_MEDICATIONS_FILTER_KEY;
+
     if (noMedications) {
       return renderEmptyPrescriptions();
     }
@@ -764,6 +768,7 @@ const Prescriptions = () => {
                     PDF_TXT_GENERATE_STATUS.InProgress
                 }
                 list
+                isFiltered={filterApplied}
               />
             </>
           )}
