@@ -362,6 +362,12 @@
     {
       "rootFolder": "yellow-ribbon",
       "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "21-2680-house-bound-status",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
     }
   ]
 }
