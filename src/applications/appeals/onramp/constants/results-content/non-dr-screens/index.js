@@ -45,7 +45,7 @@ export const getDynamicPageContent = formResponses => {
 const RESULTS_2_S_3_CONTENT = Object.freeze([
   `You don’t have new and relevant evidence, which is required to submit a Supplemental Claim`,
   `You can’t request a Higher-Level review of a Board decision`,
-  `You can’t request a Board review of a Board decision`,
+  `You can’t request a Board Appeal for a Board decision`,
 ]);
 
 const RESULTS_2_S_3_1_CONTENT = RESULTS_2_S_3_CONTENT;
