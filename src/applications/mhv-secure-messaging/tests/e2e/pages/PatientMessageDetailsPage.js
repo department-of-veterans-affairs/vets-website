@@ -52,10 +52,6 @@ class PatientMessageDetailsPage {
       .shadow()
       .find('button')
       .click({ force: true });
-
-    // Wait for accordion state to stabilize after button click - fix flakiness
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(500);
   };
 
   verifyMessageDetails = messageDetails => {
