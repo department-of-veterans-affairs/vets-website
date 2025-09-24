@@ -37,6 +37,8 @@ const EditLink = withRouter(({ to, srText, router }) => {
       text="Edit"
       onClick={handleRouteChange}
       data-action="edit"
+      data-dd-privacy="mask"
+      data-dd-action-name="Edit Link"
       label={srText}
     />
   );
@@ -47,6 +49,8 @@ const RemoveButton = ({ onClick, srText }) => (
     data-action="remove"
     button-type="delete"
     onClick={onClick}
+    data-dd-privacy="mask"
+    data-dd-action-name="Delete Button"
     label={srText}
   />
 );
@@ -314,7 +318,7 @@ const ArrayBuilderCards = ({
                       {label}
                       <CardTitle
                         className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
-                        data-dd-action-name="Card title"
+                        data-dd-action-name="Item Name"
                       >
                         {itemName}
                       </CardTitle>
@@ -352,6 +356,8 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
+        data-dd-privacy="mask"
+        data-dd-action-name="Delete Modal"
         modalTitle={getText('deleteTitle', currentItem, formData, currentIndex)}
         primaryButtonText={getText(
           'deleteYes',
@@ -379,14 +385,19 @@ const ArrayBuilderCards = ({
         visible={isModalVisible}
         uswds
       >
-        {required(formData) && arrayData?.length === 1
-          ? getText(
-              'deleteNeedAtLeastOneDescription',
-              currentItem,
-              formData,
-              currentIndex,
-            )
-          : getText('deleteDescription', currentItem, formData, currentIndex)}
+        <div
+          className="dd-privacy-mask"
+          data-dd-action-name="Delete Confirmation"
+        >
+          {required(formData) && arrayData?.length === 1
+            ? getText(
+                'deleteNeedAtLeastOneDescription',
+                currentItem,
+                formData,
+                currentIndex,
+              )
+            : getText('deleteDescription', currentItem, formData, currentIndex)}
+        </div>
       </VaModal>
     </div>
   );

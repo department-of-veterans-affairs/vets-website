@@ -233,10 +233,10 @@
       "category": "FileInputMultiple",
       "uiSchema": "fileInputMultipleUI",
       "uiSchemaType": "function",
-      "uiSchemaDescription": null,
+      "uiSchemaDescription": "uiSchema for multiple file input field",
       "schema": "fileInputMultipleSchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for fileInputUI"
+      "schemaDescription": "Schema for fileInputMultipleUI"
     },
     {
       "category": "FullName",

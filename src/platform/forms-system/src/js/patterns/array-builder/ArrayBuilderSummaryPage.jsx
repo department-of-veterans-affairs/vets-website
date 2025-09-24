@@ -38,7 +38,9 @@ const SuccessAlert = ({ nounSingular, index, onDismiss, text }) => (
       closeBtnAriaLabel="Close notification"
       uswds
     >
-      {text}
+      <div className="dd-privacy-mask" data-dd-action-name="Success Alert">
+        {text}
+      </div>
     </VaAlert>
   </div>
 );

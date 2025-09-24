@@ -136,6 +136,8 @@ const ArrayBuilderCancelButton = ({
       <VaModal
         clickToClose
         status="warning"
+        data-dd-privacy="mask"
+        data-dd-action-name="Cancel Modal"
         modalTitle={getText(
           isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
           currentItem,
@@ -160,7 +162,12 @@ const ArrayBuilderCancelButton = ({
         visible={isModalVisible}
         uswds
       >
-        {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}
+        <div
+          className="dd-privacy-mask"
+          data-dd-action-name="Cancel Confirmation"
+        >
+          {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}
+        </div>
       </VaModal>
     </div>
   );

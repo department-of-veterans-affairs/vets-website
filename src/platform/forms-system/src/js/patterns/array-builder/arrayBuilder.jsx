@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
@@ -13,7 +12,7 @@ import {
   defaultItemPageScrollAndFocusTarget,
   arrayBuilderDependsContextWrapper,
   arrayBuilderContextObject,
-  getArrayUrlSearchParams,
+  maxItemsFn,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -275,8 +274,8 @@ export function assignGetItemName(options) {
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
- * @returns {FormConfigChapter}
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigPages} pageBuilderCallback
+ * @returns {FormConfigPages}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
@@ -317,6 +316,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     useButtonInsteadOfYesNo = false,
     duplicateChecks = {},
   } = options;
+  const hasMaxItemsFn = typeof maxItems === 'function';
 
   const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
   const getItemName = assignGetItemName(options);
@@ -620,6 +620,22 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       currentPath: pageConfig.path,
     };
 
+    // when options.maxItems is a function, compute numeric maxItems value
+    const computeMaxItems = hasMaxItemsFn
+      ? formData => {
+          const evaluatedMax = maxItemsFn(maxItems, formData);
+          return {
+            properties: {
+              [arrayPath]: {
+                ...(Number.isFinite(evaluatedMax)
+                  ? { maxItems: evaluatedMax }
+                  : {}),
+              },
+            },
+          };
+        }
+      : null;
+
     // If the user defines their own CustomPage to override ArrayBuilderItemPage,
     // then we should at least give them all the same props that we use for parity.
     // In the future, it would be nice to extract component features as a whole
@@ -647,6 +663,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       CustomPage,
       uiSchema: {
         [arrayPath]: {
+          ...(computeMaxItems && {
+            'ui:options': { updateSchema: computeMaxItems },
+          }),
           items: pageConfig.uiSchema,
         },
       },
@@ -656,7 +675,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
           [arrayPath]: {
             type: 'array',
             minItems,
-            maxItems,
+            ...(hasMaxItemsFn ? {} : { maxItems }), // static only when numeric, else computed at runtime
             items: pageConfig.schema,
           },
         },
