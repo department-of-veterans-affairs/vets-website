@@ -133,7 +133,7 @@ const AttachmentsList = props => {
         setFocusedElement(
           document
             .querySelector('.attach-file-button')
-            .shadowRoot.querySelector('button'),
+            ?.shadowRoot?.querySelector('button'),
         ),
       400,
     );
@@ -147,7 +147,7 @@ const AttachmentsList = props => {
           setFocusedElement(
             document
               .querySelector('.attach-file-button')
-              .shadowRoot.querySelector('button'),
+              ?.shadowRoot?.querySelector('button'),
           ),
         400,
       );
@@ -166,7 +166,7 @@ const AttachmentsList = props => {
       setFocusedElement(
         document
           .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
+          .shadowRoot?.querySelector('button'),
       );
     }
   };

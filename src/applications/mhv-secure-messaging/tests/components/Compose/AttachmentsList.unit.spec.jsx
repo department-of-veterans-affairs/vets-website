@@ -421,4 +421,94 @@ describe('useLargeAttachments logic', () => {
 
     useFeatureTogglesStub.restore();
   });
+
+  it('should call removeAttachment when remove button is clicked', () => {
+    const mockSetAttachments = sinon.spy();
+    const mockSetAttachFileSuccess = sinon.spy();
+    const mockSetAttachFileError = sinon.spy();
+
+    const customProps = {
+      attachments: [
+        { name: 'test1.png', size: 1000, lastModified: 1234567890 },
+        { name: 'test2.png', size: 2000, lastModified: 1234567891 },
+      ],
+      attachmentScanError: false,
+      editingEnabled: true,
+      compose: true,
+      setAttachFileError: mockSetAttachFileError,
+      setAttachFileSuccess: mockSetAttachFileSuccess,
+      setAttachments: mockSetAttachments,
+      setNavigationError: () => {},
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Find and click the first remove button
+    const removeButtons = screen.getAllByTestId('remove-attachment-button');
+    fireEvent.click(removeButtons[0]);
+    // Verify the modal opens (this indicates removeAttachment setup was called)
+    expect(screen.getByTestId('remove-attachment-modal')).to.have.attribute(
+      'visible',
+      'true',
+    );
+    const confirmButton = screen.getByTestId(
+      'confirm-remove-attachment-button',
+    );
+    fireEvent.click(confirmButton);
+
+    // Verify setAttachments was called to remove the attachment
+    expect(mockSetAttachments.calledOnce).to.be.true;
+    expect(
+      mockSetAttachments.calledWith([
+        { name: 'test2.png', size: 2000, lastModified: 1234567891 },
+      ]),
+    ).to.be.true;
+  });
+
+  it('should call handleRemoveAllAttachments when remove all button is clicked', async () => {
+    const mockSetAttachments = sinon.spy();
+    const mockSetAttachFileError = sinon.spy();
+
+    const customProps = {
+      attachments: [
+        { name: 'test1.png', size: 1000 },
+        { name: 'test2.png', size: 2000 },
+        { name: 'test3.png', size: 3000 },
+      ],
+      attachmentScanError: true,
+      editingEnabled: true,
+      setAttachFileError: mockSetAttachFileError,
+      setAttachments: mockSetAttachments,
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <AttachmentsList {...customProps} />,
+      {
+        initialState: {},
+        reducers: reducer,
+        path: Paths.MESSAGE_THREAD,
+      },
+    );
+
+    // Find and click the "Remove all attachments" button
+    const removeAllButton = screen.getByTestId('remove-all-attachments-button');
+    fireEvent.click(removeAllButton);
+
+    // Verify setAttachments was called with empty array
+    expect(mockSetAttachments.calledOnce).to.be.true;
+    expect(mockSetAttachments.calledWith([])).to.be.true;
+
+    // Verify setAttachFileError was called with null (after the dispatch resolves)
+    await waitFor(() => {
+      expect(mockSetAttachFileError.calledOnce).to.be.true;
+      expect(mockSetAttachFileError.calledWith(null)).to.be.true;
+    });
+  });
 });
