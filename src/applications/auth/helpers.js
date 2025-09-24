@@ -35,16 +35,36 @@ export const emailNeedsConfirmation = ({
   loginType,
   userAttributes,
 }) => {
+  const beforeDate = new Date('2025-03-01');
+  const {
+    profile = {},
+    vaProfile = {},
+    vet360ContactInformation,
+  } = userAttributes;
+
+  if (isEmailInterstitialEnabled === false || !profile || !vaProfile) {
+    return false;
+  }
+
+  // Confirmation Date is null
+  const hasNoConfirmationDate =
+    vet360ContactInformation?.email?.confirmationDate === null;
+
+  // Confirmation Date is before March 1, 2025
+  const confirmationDateIsBefore =
+    hasNoConfirmationDate === false
+      ? isBefore(
+          parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
+          beforeDate,
+        )
+      : false;
+
   return (
-    isEmailInterstitialEnabled &&
     [CSP_IDS.LOGIN_GOV, CSP_IDS.ID_ME].includes(loginType) &&
-    userAttributes.profile?.verified &&
-    userAttributes.vaProfile?.vaPatient &&
-    userAttributes.vaProfile?.facilities?.length > 0 &&
-    isBefore(
-      parseISO(userAttributes.vet360ContactInformation?.email?.updatedAt),
-      new Date('2025-03-01'),
-    )
+    profile?.verified && // Verified User
+    vaProfile?.vaPatient && // VA Patient
+    vaProfile?.facilities?.length > 0 && // Assigned to a facility
+    (hasNoConfirmationDate || confirmationDateIsBefore) // Confirmation Date related
   );
 };
 
