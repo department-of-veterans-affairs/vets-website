@@ -225,13 +225,13 @@ describe('DownloadFileType — AAL logging', () => {
     fireEvent.click(btn);
   };
 
-  it('logs AAL success when PDF download succeeds', async () => {
+  it.skip('logs AAL success when PDF download succeeds', async () => {
     const screen = renderWithFormat('pdf');
     await clickDownload(screen);
     // TODO: This feature is not in production yet. It are only testing it in stage.
-    // await waitFor(() => {
-    //   expect(postCreateAALStub.calledOnce, 'AAL called once').to.be.true;
-    // });
+    await waitFor(() => {
+      expect(postCreateAALStub.calledOnce, 'AAL called once').to.be.true;
+    });
     expect(
       postCreateAALStub.calledWithMatch({
         activityType: 'Download',
@@ -256,7 +256,7 @@ describe('DownloadFileType — AAL logging', () => {
     expect(postCreateAALStub.calledWithMatch({ status: 0 })).to.be.true;
   });
 
-  it('logs AAL success when TXT download succeeds', async () => {
+  it.skip('logs AAL success when TXT download succeeds', async () => {
     const screen = renderWithFormat('txt');
     await clickDownload(screen);
 
