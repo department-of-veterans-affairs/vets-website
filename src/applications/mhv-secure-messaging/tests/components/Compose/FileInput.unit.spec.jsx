@@ -160,4 +160,170 @@ describe('File input component', () => {
     expect(screen.getByTestId('attach-file-button')).to.exist;
     expect(screen.getByTestId('attach-file-input')).to.exist;
   });
+
+  describe('useLargeAttachments logic', () => {
+    it('should use large attachments when cernerPilotSmFeatureFlag=true and isOhTriageGroup=true', () => {
+      const useFeatureTogglesStub = stubUseFeatureToggles({
+        largeAttachmentsEnabled: false,
+        cernerPilotSmFeatureFlag: true,
+      });
+      useFeatureTogglesStub;
+
+      const screen = render(
+        <FileInput
+          attachments={[]}
+          isOhTriageGroup
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // With large attachments enabled, should allow up to 10 files
+      // Add 9 files first
+      const nineAttachments = Array.from({ length: 9 }, (_, i) => ({
+        name: `test${i + 1}.png`,
+        size: 100,
+        type: 'image/png',
+      }));
+
+      const { rerender } = screen;
+      rerender(
+        <FileInput
+          attachments={nineAttachments}
+          isOhTriageGroup
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // Should still show attach button for the 10th file
+      expect(screen.getByTestId('attach-file-button')).to.exist;
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
+
+    it('should NOT use large attachments when cernerPilotSmFeatureFlag=true but isOhTriageGroup=false', () => {
+      const useFeatureTogglesStub = stubUseFeatureToggles({
+        largeAttachmentsEnabled: false,
+        cernerPilotSmFeatureFlag: true,
+      });
+      useFeatureTogglesStub;
+
+      const screen = render(
+        <FileInput
+          attachments={[]}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // With large attachments disabled, should only allow up to 4 files
+      // Add 4 files
+      const fourAttachments = Array.from({ length: 4 }, (_, i) => ({
+        name: `test${i + 1}.png`,
+        size: 100,
+        type: 'image/png',
+      }));
+
+      const { rerender } = screen;
+      rerender(
+        <FileInput
+          attachments={fourAttachments}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // Should hide attach button after 4 files
+      expect(screen.queryByTestId('attach-file-button')).to.not.exist;
+      expect(screen.queryByTestId('attach-file-input')).to.not.exist;
+    });
+
+    it('should use large attachments when largeAttachmentsEnabled=true regardless of other flags', () => {
+      const useFeatureTogglesStub = stubUseFeatureToggles({
+        largeAttachmentsEnabled: true,
+        cernerPilotSmFeatureFlag: false,
+      });
+      useFeatureTogglesStub;
+
+      const screen = render(
+        <FileInput
+          attachments={[]}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // With large attachments enabled, should allow up to 10 files
+      // Add 9 files first
+      const nineAttachments = Array.from({ length: 9 }, (_, i) => ({
+        name: `test${i + 1}.png`,
+        size: 100,
+        type: 'image/png',
+      }));
+
+      const { rerender } = screen;
+      rerender(
+        <FileInput
+          attachments={nineAttachments}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // Should still show attach button for the 10th file
+      expect(screen.getByTestId('attach-file-button')).to.exist;
+      expect(screen.getByTestId('attach-file-input')).to.exist;
+    });
+
+    it('should NOT use large attachments when all flags are false', () => {
+      const useFeatureTogglesStub = stubUseFeatureToggles({
+        largeAttachmentsEnabled: false,
+        cernerPilotSmFeatureFlag: false,
+      });
+      useFeatureTogglesStub;
+
+      const screen = render(
+        <FileInput
+          attachments={[]}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // With large attachments disabled, should only allow up to 4 files
+      // Add 4 files
+      const fourAttachments = Array.from({ length: 4 }, (_, i) => ({
+        name: `test${i + 1}.png`,
+        size: 100,
+        type: 'image/png',
+      }));
+
+      const { rerender } = screen;
+      rerender(
+        <FileInput
+          attachments={fourAttachments}
+          isOhTriageGroup={false}
+          setAttachFileError={() => {}}
+          setAttachFileSuccess={() => {}}
+          setAttachments={() => {}}
+        />,
+      );
+
+      // Should hide attach button after 4 files
+      expect(screen.queryByTestId('attach-file-button')).to.not.exist;
+      expect(screen.queryByTestId('attach-file-input')).to.not.exist;
+    });
+  });
 });
