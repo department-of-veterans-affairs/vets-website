@@ -432,9 +432,9 @@ const PrescriptionDetails = () => {
                 <p
                   id="last-filled"
                   className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:${
-                    showGroupingContent
-                      ? 'vads-u-margin-bottom--3 vads-u-margin-bottom--2'
-                      : 'vads-u-margin-bottom--4 vads-u-margin-bottom--3'
+                    showGroupingContent || nonVaPrescription
+                      ? 'vads-u-margin-bottom--2'
+                      : 'vads-u-margin-bottom--3'
                   }`}
                   data-testid="rx-last-filled-date"
                 >
