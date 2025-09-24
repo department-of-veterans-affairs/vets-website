@@ -16,7 +16,7 @@ const createAppealsSuccess = (updatedDaysAgo = 10) => {
           incompleteHistory: false,
           type: 'original',
           // this determines if the appeal is open or closed
-          active: false,
+          active: true,
           description: 'Benefits as a result of VA error (Section 1151)',
           aod: false,
           location: 'bva',
