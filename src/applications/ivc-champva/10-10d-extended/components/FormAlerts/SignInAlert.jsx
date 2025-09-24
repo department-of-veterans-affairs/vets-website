@@ -11,15 +11,15 @@ const SignInAlert = () => {
     !loggedIn && (
       <va-alert status="info">
         <div>
-          <p>
+          <p className="vads-u-margin-top--0">
             It may take some time to complete this form. Sign in to save your
             progress.
           </p>
           <button
             type="button"
-            onClick={() => dispatch(toggleLoginModal(true))}
             className="va-button-link"
             data-testid="1010d-login-button"
+            onClick={() => dispatch(toggleLoginModal(true))}
           >
             Sign in to start your application.
           </button>

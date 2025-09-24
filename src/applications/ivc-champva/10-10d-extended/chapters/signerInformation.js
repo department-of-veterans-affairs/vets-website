@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash';
-import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import React from 'react';
+import PropTypes from 'prop-types';
+import get from 'platform/utilities/data/get';
 import {
   addressUI,
   addressSchema,
@@ -17,9 +18,8 @@ import {
   emailUI,
   emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import React from 'react';
-import PropTypes from 'prop-types';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { populateFirstApplicant } from '../helpers/utilities';
 import SignInAlert from '../components/FormAlerts/SignInAlert';
