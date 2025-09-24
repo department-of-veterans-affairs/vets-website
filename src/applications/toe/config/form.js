@@ -27,7 +27,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ApplicantIdentityWithModal from '../components/ApplicantIdentityWithModal';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import CustomEmailField from '../components/CustomEmailField';
-import EmailReviewField from '../components/EmailReviewField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
@@ -564,10 +563,8 @@ const formConfig = {
               },
               email: {
                 ...emailUI('Email address'),
-                'ui:title': 'Email address',
                 'ui:validations': [validateEmail],
                 'ui:widget': CustomEmailField,
-                'ui:reviewField': EmailReviewField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),

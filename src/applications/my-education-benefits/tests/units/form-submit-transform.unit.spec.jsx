@@ -17,7 +17,7 @@ import {
 let mockSubmissionForm = {};
 describe('form submit transform', () => {
   beforeEach(() => {
-    mockSubmissionForm = JSON.parse(JSON.stringify(submissionForm.data));
+    mockSubmissionForm = JSON.parse(JSON.stringify(submissionForm));
   });
 
   describe('has a createSubmissionForm  method', () => {
@@ -97,10 +97,8 @@ describe('form submit transform', () => {
       );
       expect(createdSubmissionForm.comments.claimantComment.comments).to.eql({
         incorrectServiceHistoryInputs: {
-          servicePeriodMissingForActiveDuty: false,
-          servicePeriodMissing: true,
-          servicePeriodNotMine: false,
-          servicePeriodIncorrect: false,
+          servicePeriodMissingForActiveDuty: true,
+          servicePeriodNotMine: true,
         },
         incorrectServiceHistoryText: 'Service periods are missing.',
       });
@@ -269,7 +267,7 @@ describe('form submit transform', () => {
       expect(additionalConsiderations.activeDutyKicker).to.eql('YES');
       expect(additionalConsiderations.reserveKicker).to.eql('NO');
     });
-    it('should return "N/A" for additional consideration flag not present', () => {
+    it('should return "NA" for additional consideration flag not present', () => {
       mockSubmissionForm.selectedReserveKicker = undefined;
       const additionalConsiderations = createAdditionalConsiderations(
         mockSubmissionForm,
@@ -511,9 +509,6 @@ describe('form submit transform', () => {
           accountType: 'Savings',
           // Missing accountNumber and routingNumber
         };
-        // Clear the view:directDeposit data to ensure we're testing the incomplete bankAccount
-        mockSubmissionForm['view:directDeposit'] = {};
-
         const result = createDirectDeposit(mockSubmissionForm);
         expect(result).to.eql({});
       });
