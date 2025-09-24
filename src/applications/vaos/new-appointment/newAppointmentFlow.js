@@ -271,7 +271,7 @@ export default function getNewAppointmentFlow(state) {
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
       requestAppointment(state, dispatch) {
-        dispatch(startRequestAppointmentFlow(true));
+        dispatch(startRequestAppointmentFlow());
         return 'requestDateTime';
       },
     },
