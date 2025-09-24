@@ -1,5 +1,4 @@
 import { cloneDeep } from 'lodash';
-import merge from 'lodash/merge';
 import {
   addressUI,
   addressSchema,
@@ -110,17 +109,12 @@ export const applicantAddressSchema = {
         privWrapper(
           `${nameWording(formData, true, true, true)} mailing address`,
         ),
-      'We’ll send any important information about this form to this address.',
+      'We’ll send any important information about this claim to this address.',
     ),
-    applicantAddress: merge({}, addressUI(), {
-      state: {
-        'ui:errorMessages': {
-          required: 'Enter a valid State, Province, or Region',
-        },
-      },
+    applicantAddress: addressUI({
       labels: {
         militaryCheckbox:
-          'Address is on a United States military base outside of the U.S.',
+          'Address is on military base outside of the United States.',
       },
     }),
     applicantNewAddress: {
