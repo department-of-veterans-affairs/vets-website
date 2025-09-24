@@ -1576,4 +1576,40 @@ describe('Compose form component', () => {
       }),
     ).to.exist;
   });
+
+  it('sets isAutoSave to false when sending message', async () => {
+    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    sendMessageSpy.resolves({});
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+    sendMessageSpy.restore();
+  });
 });

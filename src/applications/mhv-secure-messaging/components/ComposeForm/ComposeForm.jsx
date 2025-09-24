@@ -88,6 +88,7 @@ const ComposeForm = props => {
   const [attachFileError, setAttachFileError] = useState(null);
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [isAutoSave, setIsAutoSave] = useState(true);
 
   const recipientExists = useCallback(
     recipientId => {
@@ -351,7 +352,14 @@ const ComposeForm = props => {
           }
 
           try {
-            await dispatch(sendMessage(sendData, attachments.length > 0));
+            setIsAutoSave(false);
+            await dispatch(
+              sendMessage(
+                sendData,
+                attachments.length > 0,
+                draftInProgress.ohTriageGroup,
+              ),
+            );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
               navigateToFolderByFolderId(
@@ -363,6 +371,7 @@ const ComposeForm = props => {
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
+            setIsAutoSave(true);
           }
         }
       };
@@ -769,6 +778,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
+        isAutoSave === true &&
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
@@ -787,6 +797,7 @@ const ComposeForm = props => {
       saveDraftHandler,
       navigationErrorModalVisible,
       setUnsavedNavigationError,
+      isAutoSave,
     ],
   );
 
