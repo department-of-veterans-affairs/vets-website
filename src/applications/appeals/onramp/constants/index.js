@@ -100,8 +100,6 @@ export const ROUTES = Object.freeze({
   Q_2_H_2_NEW_EVIDENCE: getQuestionRouteName(S.Q_2_H_2_NEW_EVIDENCE, 'd'),
   Q_2_H_2A_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2A_JUDGE_HEARING, 'a'),
   Q_2_H_2B_JUDGE_HEARING: getQuestionRouteName(S.Q_2_H_2B_JUDGE_HEARING, 'b'),
-
-  // Use dedicated function for results routes for better readability
   RESULTS_NON_DR: getResultsRouteName('NON_DR'),
   RESULTS_DR: getResultsRouteName('DR'),
 });

@@ -28,14 +28,21 @@ export const defaultBreadcrumbs = [
 export const makeBreadcrumbs = (h1ForRoute, resultPage, route) => {
   const breadcrumbs = [...defaultBreadcrumbs];
 
-  if (route !== ROUTES.INTRODUCTION && route !== ROUTES.RESULTS && h1ForRoute) {
+  if (
+    route !== ROUTES.INTRODUCTION &&
+    ![ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR].includes(route) &&
+    h1ForRoute
+  ) {
     breadcrumbs.push({
       href: '#',
       label: h1ForRoute,
     });
   }
 
-  if (route === ROUTES.RESULTS && resultPage) {
+  if (
+    [ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR].includes(route) &&
+    resultPage
+  ) {
     const isNonDrResults = isNonDR.includes(resultPage);
 
     breadcrumbs.push({
