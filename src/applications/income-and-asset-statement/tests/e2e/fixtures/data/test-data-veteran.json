@@ -1,0 +1,179 @@
+{
+  "files": [
+    {
+      "name": "Screenshot from 2025-07-30 12-01-36.png",
+      "size": 110589,
+      "confirmationCode": "d5e3b558-6ba3-4419-b870-bcdb5cfa2291",
+      "isEncrypted": false
+    }
+  ],
+  "view:uploadMessage": {},
+  "view:incomeReceiptWaiversMissingInformation": {},
+  "view:isAddingIncomeReceiptWaivers": false,
+  "view:discontinuedIncomesMissingInformation": {},
+  "view:isAddingDiscontinuedIncomes": false,
+  "view:unreportedAssetsMissingInformation": {},
+  "view:isAddingUnreportedAssets": false,
+  "view:annuitiesMissingInformation": {},
+  "view:isAddingAnnuities": false,
+  "view:trustsMissingInformation": {},
+  "view:trustSupplementaryFormsAlert": {},
+  "view:isAddingTrusts": false,
+  "view:assetTransfersMissingInformation": {},
+  "view:isAddingAssetTransfers": false,
+  "view:royaltiesAndOtherPropertiesMissingInformation": {},
+  "view:isAddingRoyalties": false,
+  "view:ownedAssetsMissingInformation": {},
+  "view:supplementaryFormsAlert": {},
+  "view:isAddingOwnedAssets": false,
+  "view:associatedIncomesMissingInformation": {},
+  "view:isAddingAssociatedIncomes": false,
+  "view:unassociatedIncomesMissingInformation": {},
+  "view:isAddingUnassociatedIncomes": false,
+  "incomeNetWorthDateRange": {
+    "from": "2023-01-01",
+    "to": "2024-01-01"
+  },
+  "dateReceivedByVa": false,
+  "claimantType": "VETERAN",
+  "claimantFullName": {},
+  "email": "vets.gov.user80@gmail.com",
+  "claimantPhone": "2023336688",
+  "otherVeteranFullName": {},
+  "isLoggedIn": true,
+  "veteranSocialSecurityNumber": "111111111",
+  "veteranSsnLastFour": "1111",
+  "vaFileNumber": "111111111",
+  "vaFileNumberLastFour": "1111",
+  "veteranFullName": {
+    "first": "Eric",
+    "middle": "Victor",
+    "last": "Bishop"
+  },
+  "unassociatedIncomes": [
+    {
+      "incomeType": "RETIREMENT_PENSION",
+      "grossMonthlyIncome": 4000,
+      "payer": "Some entity",
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "associatedIncomes": [
+    {
+      "incomeType": "OTHER",
+      "otherIncomeType": "trust payments",
+      "grossMonthlyIncome": 2700,
+      "accountValue": 894876,
+      "payer": "Some trust",
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "ownedAssets": [
+    {
+      "view:uploadedDocumentsDescription": {},
+      "uploadedDocuments": {
+        "name": "Screenshot from 2025-07-30 12-01-36.png",
+        "size": 110589,
+        "type": "image/png",
+        "confirmationCode": "mock-upload-1758658006403"
+      },
+      "view:addFormDescription": {},
+      "view:addFormQuestion": true,
+      "assetType": "FARM",
+      "grossMonthlyIncome": 4000,
+      "ownedPortionValue": 3500,
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "royaltiesAndOtherProperties": [
+    {
+      "incomeGenerationMethod": "OTHER",
+      "view:propertyOrBusinessFormRequestAlert": {},
+      "otherIncomeType": "Events",
+      "grossMonthlyIncome": 1500,
+      "fairMarketValue": 500000,
+      "canBeSold": true,
+      "mitigatingCircumstances": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "assetTransfers": [
+    {
+      "fairMarketValue": 35000,
+      "saleValue": 30000,
+      "capitalGainValue": 0,
+      "assetTransferredUnderFairMarketValue": true,
+      "transferDate": "2025-02-14",
+      "newOwnerName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "newOwnerRelationship": "Friend",
+      "saleReportedToIrs": true,
+      "transferMethod": "SOLD",
+      "assetType": "vehicle",
+      "originalOwnerRelationship": "VETERAN"
+    }
+  ],
+  "trusts": [
+    {
+      "addedFundsDate": "2022-03-04",
+      "addedFundsAmount": 100000,
+      "addedFundsAfterEstablishment": true,
+      "haveAuthorityOrControlOfTrust": true,
+      "trustEstablishedForVeteransChild": true,
+      "trustUsedForMedicalExpenses": true,
+      "monthlyMedicalReimbursementAmount": 300,
+      "receivingIncomeFromTrust": true,
+      "annualReceivedIncome": 5000,
+      "trustType": "IRREVOCABLE",
+      "establishedDate": "2005-02-17",
+      "marketValueAtEstablishment": 122000
+    }
+  ],
+  "annuities": [
+    {
+      "addedFundsDate": "2022-02-04",
+      "addedFundsAmount": 100000,
+      "addedFundsAfterEstablishment": true,
+      "canBeLiquidated": true,
+      "surrenderValue": 150000,
+      "receivingIncomeFromAnnuity": true,
+      "annualReceivedIncome": 5000,
+      "revocable": false,
+      "establishedDate": "2021-07-17",
+      "marketValueAtEstablishment": 50000
+    }
+  ],
+  "unreportedAssets": [
+    {
+      "assetType": "cash",
+      "ownedPortionValue": 12000,
+      "assetLocation": "123 Fakesville, NV",
+      "assetOwnerRelationship": "OTHER",
+      "otherAssetOwnerRelationshipType": "other dependent"
+    }
+  ],
+  "discontinuedIncomes": [
+    {
+      "grossAnnualAmount": 12000,
+      "incomeLastReceivedDate": "2025-09-12",
+      "incomeFrequency": "RECURRING",
+      "incomeType": "interest",
+      "payer": "Some institution",
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "incomeReceiptWaivers": [
+    {
+      "expectedIncome": 4500,
+      "paymentResumeDate": "2025-10-15",
+      "view:paymentsWillResume": true,
+      "waivedGrossMonthlyIncome": 4500,
+      "payer": "Some institution",
+      "recipientRelationship": "VETERAN"
+    }
+  ],
+  "statementOfTruthCertified": true,
+  "statementOfTruthSignature": "Eric Victor Bishop"
+}

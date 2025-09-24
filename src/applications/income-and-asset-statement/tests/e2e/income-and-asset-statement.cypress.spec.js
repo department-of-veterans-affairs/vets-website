@@ -36,8 +36,27 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: '21P-0969 Income and Asset Statement Form',
     dataPrefix: 'data',
-    dataSets: ['test-data'],
+    dataSets: ['test-data-veteran'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
+    // Override the user profile to include SSN data
+    user: {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          profile: {
+            ...mockUser.data.attributes.profile,
+            ssn: '111111111',
+            userFullName: {
+              first: 'Eric',
+              middle: 'Victor',
+              last: 'Bishop',
+            },
+          },
+        },
+      },
+    },
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -471,7 +490,27 @@ const testConfig = createTestConfig(
           ],
         },
       });
+
       cy.intercept('GET', '/v0/user', mockUser);
+
+      // Use actual test data for prefill intercepts
+      cy.get('@testData').then(testData => {
+        // Wrap test data in proper in-progress form structure
+        const wrappedData = {
+          formData: testData,
+          metadata: {
+            version: 0,
+            prefill: true,
+            returnUrl: '/form/21P-0969',
+            savedAt: Date.now(),
+            lastUpdated: Date.now(),
+          },
+        };
+
+        cy.intercept('GET', '/v0/in_progress_forms/21P-0969', wrappedData);
+        cy.intercept('PUT', '/v0/in_progress_forms/21P-0969', wrappedData);
+      });
+
       cy.intercept('POST', `income_and_assets/v0/${formConfig.submitUrl}`, {
         data: {
           id: 'mock-id',
