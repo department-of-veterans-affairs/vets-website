@@ -143,11 +143,7 @@ describe('The My VA Dashboard', () => {
       disabilityRating,
     );
     cy.intercept('/v0/profile/payment_history', paymentHistory);
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ myVaAuthExpRedesignAvailableToOptIn: true }],
-      },
-    });
+    cy.intercept('GET', '/v0/feature_toggles*', { data: { features: [] } });
   });
 
   describe('there are draft forms', () => {
