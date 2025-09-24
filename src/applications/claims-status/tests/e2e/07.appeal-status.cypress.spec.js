@@ -1,5 +1,4 @@
 import legacyAppeal from './fixtures/mocks/legacy-appeal.json';
-import legacyAppealNoDescription from './fixtures/mocks/legacy-appeal-no-description.json';
 import backendStatuses from './fixtures/mocks/backend-statuses.json';
 
 beforeEach(() => {
@@ -116,9 +115,6 @@ describe('Appeals page test', () => {
   });
 
   it('should show no description items for issues without descriptions - C30840', () => {
-    // Intercept the appeals API call with our test data that has issues with null descriptions
-    cy.intercept('GET', '/v0/appeals', legacyAppealNoDescription);
-
     cy.visit('/track-claims/appeals/15/detail');
 
     cy.get('h1').should('contain', 'Appeal received August 2017');
