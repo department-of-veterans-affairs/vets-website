@@ -90,8 +90,8 @@ export const IntroductionPage = ({
                 <ul>
                   <li>
                     Your sponsor’s transferred GI Bill benefits. Make sure your
-                    sponsor has transferred benefits before starting this
-                    application. Your sponsor can{' '}
+                    sponsor has transferred GI bill benefits before starting
+                    this application. Your sponsor can{' '}
                     <a href="https://milconnect.dmdc.osd.mil/milconnect/">
                       update this information on the DoD milConnect website
                     </a>
