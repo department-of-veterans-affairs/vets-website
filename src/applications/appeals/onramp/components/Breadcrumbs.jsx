@@ -27,10 +27,11 @@ export const defaultBreadcrumbs = [
 
 export const makeBreadcrumbs = (h1ForRoute, resultPage, route) => {
   const breadcrumbs = [...defaultBreadcrumbs];
+  const resultsRoutes = [ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR];
 
   if (
     route !== ROUTES.INTRODUCTION &&
-    ![ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR].includes(route) &&
+    !resultsRoutes.includes(route) &&
     h1ForRoute
   ) {
     breadcrumbs.push({
@@ -39,10 +40,7 @@ export const makeBreadcrumbs = (h1ForRoute, resultPage, route) => {
     });
   }
 
-  if (
-    [ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR].includes(route) &&
-    resultPage
-  ) {
+  if (resultsRoutes.includes(route) && resultPage) {
     const isNonDrResults = isNonDR.includes(resultPage);
 
     breadcrumbs.push({
