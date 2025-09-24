@@ -27,9 +27,8 @@ const ApplicantContactDetailsLoggedIn = ({
     const { email, phoneNumber } = data?.application?.claimant || {};
     const formatPhone = phone => {
       if (!phone) return 'Not provided';
-      return `${phone.areaCode}${phone.phoneNumber}${
-        phone.phoneNumberExt ? ` ext. ${phone.phoneNumberExt}` : ''
-      }`;
+      // Phone is now a string, just return it as is
+      return phone;
     };
 
     return (

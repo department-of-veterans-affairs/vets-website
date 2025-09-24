@@ -6,9 +6,8 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
 
   const formatPhone = phone => {
     if (!phone) return 'Not provided';
-    return `${phone.areaCode}${phone.phoneNumber}${
-      phone.phoneNumberExt ? ` ext. ${phone.phoneNumberExt}` : ''
-    }`;
+    // Phone is now a string, just return it as is
+    return phone;
   };
 
   return (
@@ -19,45 +18,39 @@ const ApplicantContactInfoCard = ({ formData, onEdit, content = '' }) => {
         </div>
       )}
 
-      <VaCard>
-        <div className="vads-u-padding--2">
-          <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-            Contact information
-          </h3>
+      <VaCard canEdit>
+        <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Phone number
+        </h4>
+        <div className="dd-privacy-hidden vads-u-margin-y--2">
+          {formatPhone(phoneNumber)}
+        </div>
+        <div className="vads-u-margin-y--1">
+          <va-link
+            active
+            onClick={() => onEdit('phone')}
+            label="Edit phone number"
+            text="Edit"
+            data-testid="edit-phone-button"
+          />
+        </div>
+      </VaCard>
 
-          <div className="vads-u-margin-bottom--2">
-            <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--flex-start">
-              <div>
-                <p className="vads-u-margin--0">
-                  <strong>Phone number</strong>
-                </p>
-                <p className="vads-u-margin--0">{formatPhone(phoneNumber)}</p>
-              </div>
-              <va-button
-                secondary
-                text="Edit"
-                onClick={() => onEdit('phone')}
-                data-testid="edit-phone-button"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--flex-start">
-              <div>
-                <p className="vads-u-margin--0">
-                  <strong>Email address</strong>
-                </p>
-                <p className="vads-u-margin--0">{email || 'Not provided'}</p>
-              </div>
-              <va-button
-                secondary
-                text="Edit"
-                onClick={() => onEdit('email')}
-                data-testid="edit-email-button"
-              />
-            </div>
-          </div>
+      <VaCard canEdit className="vads-u-margin-top--2">
+        <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Email address
+        </h4>
+        <div className="dd-privacy-hidden vads-u-margin-y--2">
+          {email || 'Not provided'}
+        </div>
+        <div className="vads-u-margin-y--1">
+          <va-link
+            active
+            onClick={() => onEdit('email')}
+            label="Edit email address"
+            text="Edit"
+            data-testid="edit-email-button"
+          />
         </div>
       </VaCard>
     </div>

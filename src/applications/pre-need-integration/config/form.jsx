@@ -34,8 +34,8 @@ import * as nonVeteranApplicantDetailsPreparer from './pages/nonVeteranApplicant
 import * as applicantMailingAddress from './pages/applicantMailingAddress';
 import * as applicantContactDetails from './pages/applicantContactDetails';
 import ApplicantContactDetailsLoggedIn from './pages/applicantContactDetailsLoggedIn';
-import * as editPhone from './pages/editPhone';
-import * as editEmail from './pages/editEmail';
+import EditPhone from './pages/editPhone';
+import EditEmail from './pages/editEmail';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
@@ -438,15 +438,25 @@ const formConfig = {
           title: 'Edit phone number',
           path: 'applicant-contact-details-logged-in/edit-phone',
           depends: () => false, // accessed directly from contact details page
-          uiSchema: editPhone.uiSchema,
-          schema: editPhone.schema,
+          CustomPage: EditPhone,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         editEmail: {
           title: 'Edit email address',
           path: 'applicant-contact-details-logged-in/edit-email',
           depends: () => false, // accessed directly from contact details page
-          uiSchema: editEmail.uiSchema,
-          schema: editEmail.schema,
+          CustomPage: EditEmail,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         applicantMailingAddressPreparer: {
           title: applicantContactInfoPreparerAddressTitle,
