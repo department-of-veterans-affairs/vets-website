@@ -10,7 +10,7 @@ import {
   jsonResponse,
   setupServer,
 } from 'platform/testing/unit/msw-adapter';
-import { handleTokenRequest } from '../helpers';
+import { handleTokenRequest, emailNeedsConfirmation } from '../helpers';
 
 import AuthApp from '../containers/AuthApp';
 
@@ -517,5 +517,31 @@ describe('handleTokenRequest', () => {
       csp: 'logingov',
     });
     expect(handleTokenSpy.called).to.be.true;
+  });
+});
+
+describe('emailNeedsConfirmation', () => {
+  it('should return false when conditions are met', () => {
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: false,
+        userAttributes: {
+          profile: { verified: true },
+          vaProfile: { vaPatient: true },
+        },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
+    expect(
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled: true,
+        userAttributes: { profile: {} },
+      }),
+    ).to.be.false;
   });
 });
