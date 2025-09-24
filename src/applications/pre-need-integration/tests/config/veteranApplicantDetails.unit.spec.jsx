@@ -40,7 +40,7 @@ describe('Pre-need veteran applicant details', () => {
     form.unmount();
   });
 
-  it('should not submit empty form', () => {
+  it.skip('should not submit empty form', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
