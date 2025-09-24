@@ -25,7 +25,7 @@ class Allergies {
   };
 
   goToAllergiesPage = () => {
-    cy.findByTestId('vaccines-landing-page-link').click();
+    cy.findByTestId('allergies-landing-page-link').click();
   };
 }
 
