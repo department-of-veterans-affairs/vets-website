@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -75,7 +76,7 @@ const PrintDownload = props => {
   document.addEventListener('mousedown', closeMenu);
 
   const handleUserKeyPress = e => {
-    const NUM_OF_DROPDOWN_OPTIONS = list ? 4 : 3;
+    const NUM_OF_DROPDOWN_OPTIONS = 3;
     if (printIndex > 0 && e.keyCode === 38) {
       // If user pressed up arrow
       e.preventDefault();
@@ -190,26 +191,9 @@ const PrintDownload = props => {
               data-testid="download-print-button"
               onClick={() => handlePrint(PRINT_FORMAT.PRINT)}
             >
-              Print this {list ? 'page of the list' : 'page'}
+              {list ? 'Print' : 'Print this page'}
             </button>
           </li>
-          {list && (
-            <li>
-              <button
-                data-dd-action-name={
-                  dataDogActionNames.medicationsListPage
-                    .PRINT_ALL_MEDICATIONS_OPTION
-                }
-                className="vads-u-padding-x--2 print-download-btn-min-height"
-                id="printButton-1"
-                type="button"
-                data-testid="download-print-all-button"
-                onClick={() => handlePrint(PRINT_FORMAT.PRINT_FULL_LIST)}
-              >
-                Print all medications
-              </button>
-            </li>
-          )}
           <li>
             <button
               data-dd-action-name={`${
@@ -218,12 +202,12 @@ const PrintDownload = props => {
                 list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
-              id={`printButton-${list ? '2' : '1'}`}
+              id="printButton-1"
               type="button"
               data-testid="download-pdf-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.PDF)}
             >
-              Download a PDF of {list ? 'all medications' : 'this page'}
+              {list ? 'Download a PDF' : 'Download a PDF of this page'}
             </button>
           </li>
           <li>
@@ -235,12 +219,13 @@ const PrintDownload = props => {
                 list ? pageType.LIST : pageType.DETAILS
               }`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
-              id={`printButton-${list ? '3' : '2'}`}
+              id="printButton-2"
               data-testid="download-txt-button"
               onClick={() => handleDownload(DOWNLOAD_FORMAT.TXT)}
             >
-              Download a text file (.txt) of{' '}
-              {list ? 'all medications' : 'this page'}
+              {list
+                ? 'Download a text file (.txt)'
+                : 'Download a text file (.txt) of this page'}
             </button>
           </li>
         </ul>
