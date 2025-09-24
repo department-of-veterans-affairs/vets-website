@@ -54,6 +54,7 @@ describe('ReplyDraftItem component', () => {
         {...props}
         draftId={draft.messageId}
         categories={categories}
+        setIsSending={() => {}}
       />,
       {
         initialState,
@@ -187,5 +188,64 @@ describe('ReplyDraftItem component', () => {
       expect(refreshThreadCallbackSpy.calledOnce).to.be.true;
       refreshThreadCallbackSpy.restore();
     });
+  });
+
+  it('calls sendReply callback on send button click', async () => {
+    const sendReplySpy = sinon.spy(messagesActions, 'sendReply');
+    const customProps = {
+      ...defaultProps,
+      cannotReply: false,
+      editMode: true,
+    };
+    const { getByTestId } = setup({ props: customProps });
+    const sendButton = getByTestId('send-button');
+    mockApiRequest({ status: 200, body: {} }, true);
+    fireEvent.click(sendButton);
+    await waitFor(() => {
+      expect(sendReplySpy.calledOnce).to.be.true;
+      expect(sendReplySpy.lastCall.args[0]).to.include({
+        replyToId: 3190971,
+        message:
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+        attachments: false,
+        ohTriageGroup: undefined,
+      });
+      sendReplySpy.restore();
+    });
+  });
+
+  it('calls sendReply callback with ohTriageGroup on send button click', async () => {
+    const sandbox = sinon.createSandbox();
+    const sendReplySpy = sandbox.spy(messagesActions, 'sendReply');
+
+    const replyMessageWithOhTriage = {
+      ...replyMessage,
+      isOhMessage: true,
+    };
+    const customProps = {
+      ...defaultProps,
+      replyMessage: replyMessageWithOhTriage,
+      cannotReply: false,
+      editMode: true,
+    };
+    const { getByTestId } = setup({ props: customProps });
+
+    const sendButton = getByTestId('send-button');
+
+    mockApiRequest({ status: 200, body: {} }, true);
+    fireEvent.click(sendButton);
+
+    await waitFor(() => {
+      expect(sendReplySpy.calledOnce).to.be.true;
+      expect(sendReplySpy.lastCall.args[0]).to.include({
+        replyToId: 3190971,
+        message:
+          '{"category":"APPOINTMENTS","body":"draft test postman #1","subject":"Test","draft_id":3190971,"recipient_id":1013155}',
+        attachments: false,
+        ohTriageGroup: true,
+      });
+      sendReplySpy.restore();
+    });
+    sandbox.restore();
   });
 });
