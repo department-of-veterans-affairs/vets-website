@@ -334,7 +334,6 @@ export default function VAFacilityPageV2() {
             />
           </SchemaForm>
         )}
-
       {showEligibilityModal && (
         <EligibilityModal
           onClose={() => dispatch(hideEligibilityModal())}

@@ -148,12 +148,11 @@ export function openFacilityPage() {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
+
       let { facilities } = newBooking;
       let facilityId = newBooking.data.vaFacility;
 
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN,
-      });
+      dispatch({ type: FORM_PAGE_FACILITY_OPEN });
 
       // Fetch facilities that support this type of care
       if (!facilities) {
@@ -447,11 +446,10 @@ export function openContactFacilitiesPage() {
       const initialState = getState();
       const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
+
       let { facilities } = newBooking;
 
-      dispatch({
-        type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
-      });
+      dispatch({ type: FORM_PAGE_CONTACT_FACILITIES_OPEN });
 
       // Fetch facilities that support this type of care
       if (!facilities) {
