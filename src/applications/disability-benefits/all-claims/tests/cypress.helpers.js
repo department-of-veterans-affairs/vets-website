@@ -1,5 +1,8 @@
-import { add, format, formatISO } from 'date-fns';
+// tests/cypress.helpers.js (full file)
 
+import { add, format } from 'date-fns';
+
+import { expect } from 'chai';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -19,6 +22,11 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../constants';
 
+// Helper: format to EVSS-like "YYYY-MM-DDTHH:mm:ss.SSSZ" with colon in offset
+// date-fns token "xxx" => ±HH:MM, which Moment "Z" accepts.
+// The key part is ensuring .SSS exists.
+const evssFormat = date => format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
+
 export const mockItf = (
   offset = { days: 1 },
   status = 'active',
@@ -32,7 +40,7 @@ export const mockItf = (
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: formatISO(add(new Date(), offset)),
+          expirationDate: evssFormat(add(new Date(), offset)),
           participantId: 1,
           source: 'EBN',
           status,
@@ -59,7 +67,7 @@ export const mockItf = (
         {
           id: '1',
           creationDate: '2014-07-28T19:53:45.810+00:00',
-          expirationDate: '2015-08-28T19:47:52.789+00:00',
+          expirationDate: '2015-08-28T19:47:52.790+00:00',
           participantId: 1,
           source: 'EBN',
           status: 'expired',
@@ -98,7 +106,7 @@ export const postItf = () => ({
       intentToFile: {
         id: '1',
         creationDate: '2018-01-21T19:53:45.810+00:00',
-        expirationDate: formatISO(add(new Date(), { years: 1 })),
+        expirationDate: evssFormat(add(new Date(), { years: 1 })),
         participantId: 1,
         source: 'EBN',
         status: 'active',
@@ -238,6 +246,7 @@ export const setup = (cy, testOptions = {}) => {
 };
 
 export const reviewAndSubmitPageFlow = (
+  cy,
   submitButtonText = 'Submit application',
 ) => {
   const first = mockUser.data.attributes.profile.firstName;
@@ -445,8 +454,6 @@ export const pageHooks = (cy, testOptions) => ({
               .should('be.visible')
               .select(disability['view:secondaryFollowUp'].causedByDisability);
 
-            // .select(disability['view:secondaryFollowUp'].causedByDisability);
-
             // Fill in the description
             cy.get(
               'textarea[id="root_view:secondaryFollowUp_causedByDisabilityDescription"]',
@@ -530,19 +537,25 @@ export const pageHooks = (cy, testOptions) => ({
 
   'supporting-evidence/evidence-types': () => {
     cy.get('@testData').then(data => {
-      data.privateMedicalRecordAttachments?.forEach(attachment => {
-        if (attachment.name.endsWith('.PDF')) {
-          cy.get(
-            '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
-          ).check({ force: true });
-          cy.get(
-            'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
-          ).check({
-            force: true,
-          });
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        }
-      });
+      if (
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] === true
+      ) {
+        data?.privateMedicalRecordAttachments.forEach(attachment => {
+          if (attachment.name.endsWith('.PDF')) {
+            cy.get(
+              '[type="radio"][id="root_view:hasEvidenceYesinput"][value="Y"]',
+            ).check({ force: true });
+            cy.get(
+              'input[type="checkbox"][name="root_view:selectableEvidenceTypes_view:hasPrivateMedicalRecords"]',
+            ).check({
+              force: true,
+            });
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          }
+        });
+      }
       cy.fillPage();
     });
   },
@@ -717,10 +730,156 @@ export const pageHooks = (cy, testOptions) => ({
     });
   },
   'review-and-submit': ({ afterHook }) => {
+    cy.get('@testData').then(data => {
+      if (
+        data?.disability526Enable2024Form4142 === true &&
+        data?.['view:hasEvidence'] === true &&
+        data?.['view:selectableEvidenceTypes'][
+          'view:hasPrivateMedicalRecords'
+        ] === true &&
+        data?.['view:uploadPrivateRecordsQualifier']?.[
+          'view:hasPrivateRecordsToUpload'
+        ] !== true
+      ) {
+        cy.get('h3')
+          .invoke('text')
+          .then(textValue => {
+            expect(textValue).to.include('Supporting evidence');
+          });
+        cy.contains('h3', 'Supporting evidence').click();
+        cy.get('div[name="providerFacility"]')
+          .contains('Name of private provider or hospital')
+          .its('length')
+          .should('eq', 1);
+        const newProviderFacility = {
+          providerFacilityName: 'New Provider Facility',
+          providerFacilityAddress: {
+            street: '123 New St',
+            city: 'New City',
+            state: 'NY',
+            postalCode: '12345',
+            country: 'USA',
+          },
+          treatedDisabilityNames: {
+            'ankle replacement (ankle arthroplasty), bilateral': true,
+            'heart attack (myocardial infarction)': true,
+          },
+          treatmentDateRange: {
+            from: '01/02/2020',
+            fromYear: '2020',
+            fromMonth: '1',
+            fromDay: '2',
+            to: '12/07/2020',
+            toYear: '2020',
+            toMonth: '12',
+            toDay: '7',
+          },
+        };
+        cy.findByText(/add another provider or hospital/i).click();
+        // verify that the treated disability name checkboxes are visible and clickable
+        const ratedDisabilitiesCount = data?.ratedDisabilities.filter(
+          disability => disability['view:selected'] === true,
+        ).length;
+        const expectedCount =
+          data?.newDisabilities.length + ratedDisabilitiesCount;
+
+        cy.get('input[name^="root_treatedDisabilityNames"]').should(
+          'have.length',
+          expectedCount,
+        );
+        cy.get(
+          'input[name="root_treatedDisabilityNames1_anklereplacementanklearthroplastybilateral"]',
+        )
+          .should('exist')
+          .and('be.visible')
+          .and('be.enabled');
+
+        cy.get('input[name="root_providerFacilityName1"]').type(
+          newProviderFacility.providerFacilityName,
+        );
+        cy.get('input[name="root_providerFacilityAddress1_street1"]').type(
+          newProviderFacility.providerFacilityAddress.street,
+        );
+        cy.get('input[name="root_providerFacilityAddress1_city1"]').type(
+          newProviderFacility.providerFacilityAddress.city,
+        );
+        cy.get('select[name="root_providerFacilityAddress1_state1"]').select(
+          newProviderFacility.providerFacilityAddress.state,
+        );
+        cy.get('input[name="root_providerFacilityAddress1_postalCode1"]').type(
+          newProviderFacility.providerFacilityAddress.postalCode,
+        );
+        cy.get('select[name="root_providerFacilityAddress1_country1"]').select(
+          newProviderFacility.providerFacilityAddress.country,
+        );
+        cy.get(
+          'input[name="root_treatedDisabilityNames1_anklereplacementanklearthroplastybilateral"]',
+        ).check();
+        cy.get(
+          'input[name="root_treatedDisabilityNames1_heartattackmyocardialinfarction"]',
+        ).check();
+        cy.get('select[name="root_treatmentDateRange1_from1Month"]').select(
+          newProviderFacility.treatmentDateRange.fromMonth.toString(),
+        );
+        cy.get('input[name="root_treatmentDateRange1_from1Year"]').type(
+          `${newProviderFacility.treatmentDateRange.fromYear}`,
+        );
+        cy.get('select[name="root_treatmentDateRange1_from1Day"]').select(
+          `${newProviderFacility.treatmentDateRange.fromDay}`,
+        );
+        cy.get('select[name="root_treatmentDateRange1_to1Month"]').select(
+          `${newProviderFacility.treatmentDateRange.toMonth}`,
+        );
+        cy.get('select[name="root_treatmentDateRange1_to1Day"]').select(
+          `${newProviderFacility.treatmentDateRange.toDay}`,
+        );
+        cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
+          `${newProviderFacility.treatmentDateRange.toYear}`,
+        );
+        cy.findByText('Update', { selector: 'button' })
+          .should('exist')
+          .click();
+        cy.get('div[name="providerFacility-1"]')
+          .should('be.visible')
+          .within(() => {
+            cy.findByText(newProviderFacility.providerFacilityName).should(
+              'exist',
+            );
+            cy.findByText(
+              newProviderFacility.providerFacilityAddress.country.toString(),
+            ).should('exist');
+            cy.findByText(
+              newProviderFacility.providerFacilityAddress.street,
+            ).should('exist');
+            cy.findByText(
+              newProviderFacility.providerFacilityAddress.city,
+            ).should('exist');
+            cy.findByText('New York').should('exist');
+            cy.findByText(
+              newProviderFacility.providerFacilityAddress.postalCode,
+            ).should('exist');
+            cy.findByText(
+              /ankle replacement \(ankle arthroplasty\), bilateral/i,
+            ).should('exist');
+            cy.findByText(/heart attack \(myocardial infarction\)/i).should(
+              'exist',
+            );
+            cy.findByText(newProviderFacility.treatmentDateRange.from).should(
+              'exist',
+            );
+            cy.findByText(newProviderFacility.treatmentDateRange.to).should(
+              'exist',
+            );
+            cy.get('va-button[text="Edit"]').should('be.visible');
+            cy.get('va-button[text="Edit"]').click();
+            cy.findByText('New Provider or hospital').should('exist');
+            cy.get('button[aria-label="Remove Provider or hospital"]').click();
+            cy.findByText('New Provider or hospital').should('not.exist');
+          });
+      }
+    });
     afterHook(() => {
-      cy.get('@testData').then(() => {
-        reviewAndSubmitPageFlow();
-      });
+      reviewAndSubmitPageFlow(cy);
     });
   },
 });

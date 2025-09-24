@@ -43,6 +43,7 @@ export {
   DATE_FORMAT_SHORT,
   DATE_FORMAT_LONG,
   PARTIAL_DATE_FORMAT,
+  DATE_TEMPLATE,
 } from './formatting';
 
 export {

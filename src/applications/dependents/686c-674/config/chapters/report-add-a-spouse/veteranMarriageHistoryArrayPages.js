@@ -114,7 +114,7 @@ export const vetFormerMarriagePersonalInfoPage = {
 export const vetFormerMarriageEndReasonPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Your former marriage end details';
     }),
     reasonMarriageEnded: {
       ...radioUI({
@@ -160,7 +160,7 @@ export const vetFormerMarriageEndReasonPage = {
 export const vetFormerMarriageStartDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Date your former marriage started';
     }),
     startDate: currentOrPastDateUI({
       title: 'When did you get married?',
@@ -179,7 +179,7 @@ export const vetFormerMarriageStartDatePage = {
 export const vetFormerMarriageEndDatePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => {
-      return 'Your former marriage';
+      return 'Date your former marriage ended';
     }),
     endDate: {
       ...currentOrPastDateUI('When did the marriage end?'),
@@ -215,7 +215,9 @@ export const vetFormerMarriageEndDatePage = {
 
 export const vetFormerMarriageStartLocationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Your former marriage'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Location your former marriage started',
+    ),
     startLocation: {
       'ui:title': 'Where did you get married?',
       'ui:options': {
@@ -290,7 +292,9 @@ export const vetFormerMarriageStartLocationPage = {
 
 export const vetFormerMarriageEndLocationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Your former marriage'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      () => 'Location your former marriage ended',
+    ),
     endLocation: {
       'ui:title': 'Where did the marriage end?',
       'ui:options': {
