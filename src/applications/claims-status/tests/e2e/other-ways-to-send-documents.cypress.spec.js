@@ -3,6 +3,7 @@ import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
 import featureToggleClaimDetailV2Enabled from './fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
+import { MAILING_ADDRESS, CONTACT_INFO, LINKS } from '../../constants';
 
 describe('Other Ways to Send Documents Feature Toggle', () => {
   describe('when feature toggle is enabled', () => {
@@ -45,10 +46,15 @@ describe('Other Ways to Send Documents Feature Toggle', () => {
 
       cy.get('.other-ways-mail-section')
         .should('contain.text', 'Mail the document to this address:')
-        .and('contain.text', 'Department of Veterans Affairs')
-        .and('contain.text', 'Evidence Intake Center')
-        .and('contain.text', 'PO Box 4444')
-        .and('contain.text', 'Janesville, WI 53547-4444');
+        .and('contain.text', MAILING_ADDRESS.organization)
+        .and('contain.text', MAILING_ADDRESS.department)
+        .and('contain.text', MAILING_ADDRESS.poBox)
+        .and(
+          'contain.text',
+          `${MAILING_ADDRESS.city}, ${MAILING_ADDRESS.state} ${
+            MAILING_ADDRESS.zip
+          }`,
+        );
 
       cy.get('.other-ways-mail-section .va-address-block').should('be.visible');
 
@@ -63,8 +69,9 @@ describe('Other Ways to Send Documents Feature Toggle', () => {
         'Bring the document to a VA regional office',
       );
 
-      cy.get('va-link[href="/find-locations"]')
+      cy.get(`va-link[href="${LINKS.findVaLocations}"]`)
         .should('be.visible')
+        .and('have.attr', 'href', LINKS.findVaLocations)
         .and('have.attr', 'text', 'Find a VA regional office near you');
 
       // Confirmation Section
@@ -75,17 +82,10 @@ describe('Other Ways to Send Documents Feature Toggle', () => {
 
       cy.get('.other-ways-confirmation-section').should(
         'contain.text',
-        'To confirm we\u2019ve received a document you submitted by mail or in person, call us at 800-827-1000 (TTY: 711). We\u2019re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+        `To confirm we\u2019ve received a document you submitted by mail or in person, call us at ${
+          CONTACT_INFO.phone
+        } (TTY: ${CONTACT_INFO.tty}). We\u2019re here ${CONTACT_INFO.hours}.`,
       );
-
-      cy.axeCheck();
-    });
-
-    it('should display VA locations link with correct attributes', () => {
-      cy.get('va-link[href="/find-locations"]')
-        .should('be.visible')
-        .and('have.attr', 'href', '/find-locations')
-        .and('have.attr', 'text', 'Find a VA regional office near you');
 
       cy.axeCheck();
     });

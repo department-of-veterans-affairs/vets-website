@@ -4,25 +4,15 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
-import { renderWithRouter, rerenderWithRouter } from '../utils';
+import {
+  renderWithRouter,
+  rerenderWithRouter,
+  renderWithReduxAndRouter,
+} from '../utils';
 import * as helpers from '../../utils/helpers';
-
-// Custom render function that provides both Redux and Router context
-const renderWithReduxAndRouter = (element, options = {}) => {
-  return renderInReduxProvider(
-    <MemoryRouter>
-      <Routes>
-        <Route index element={element} />
-      </Routes>
-    </MemoryRouter>,
-    options,
-  );
-};
 
 // cst_show_document_upload_status false for old behavior)
 const defaultReduxState = {

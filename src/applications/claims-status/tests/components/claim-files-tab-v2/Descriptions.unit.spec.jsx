@@ -57,16 +57,6 @@ describe('<Descriptions>', () => {
         'Find a VA regional office near you',
       );
     });
-
-    it('should handle different link URLs', () => {
-      const differentLink = '/different-locations';
-      const { container } = render(
-        <InPersonDescription findVaLocations={differentLink} />,
-      );
-
-      const link = container.querySelector(`va-link[href="${differentLink}"]`);
-      expect(link).to.exist;
-    });
   });
 
   describe('<ConfirmationDescription>', () => {

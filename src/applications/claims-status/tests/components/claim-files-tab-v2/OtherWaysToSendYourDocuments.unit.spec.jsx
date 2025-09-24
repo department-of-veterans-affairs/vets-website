@@ -3,16 +3,24 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import OtherWaysToSendYourDocuments from '../../../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
+import { MAILING_ADDRESS, CONTACT_INFO, LINKS } from '../../../constants';
 
 describe('<OtherWaysToSendYourDocuments>', () => {
+  let getByText;
+  let container;
+
+  beforeEach(() => {
+    const result = render(<OtherWaysToSendYourDocuments />);
+    getByText = result.getByText;
+    container = result.container;
+  });
+
   describe('Main Structure', () => {
     it('should render the main heading', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(getByText('Other ways to send your documents')).to.exist;
     });
 
     it('should render the general instructions', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(
         getByText(
           'Print a copy of each document and write your Social Security number on the first page. Then resubmit by mail or in person.',
@@ -23,37 +31,31 @@ describe('<OtherWaysToSendYourDocuments>', () => {
 
   describe('Mail Section', () => {
     it('should render the mail section heading', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(getByText('Option 1: By mail')).to.exist;
     });
 
     it('should render the Option 1 general instructions', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(getByText('Mail the document to this address:')).to.exist;
     });
 
     it('should render the Option 1 mailing address', () => {
-      const { container } = render(<OtherWaysToSendYourDocuments />);
-      expect(container.textContent).to.include(
-        'Department of Veterans Affairs',
-      );
+      expect(container.textContent).to.include(MAILING_ADDRESS.organization);
     });
   });
 
   describe('In-Person Section', () => {
     it('should render the in-person section heading', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(getByText('Option 2: In person')).to.exist;
     });
 
     it('should render the Option 2 general instructions', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(getByText('Bring the document to a VA regional office.')).to.exist;
     });
 
     it('should render the Option 2 link to find a VA regional office', () => {
-      const { container } = render(<OtherWaysToSendYourDocuments />);
-      const link = container.querySelector('va-link[href="/find-locations"]');
+      const link = container.querySelector(
+        `va-link[href="${LINKS.findVaLocations}"]`,
+      );
       expect(link).to.exist;
       expect(link.getAttribute('text')).to.equal(
         'Find a VA regional office near you',
@@ -63,16 +65,16 @@ describe('<OtherWaysToSendYourDocuments>', () => {
 
   describe('Confirmation Section', () => {
     it('should render the confirmation section heading', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
-      expect(getByText('How to confirm we’ve received your documents')).to
+      expect(getByText('How to confirm we\u2019ve received your documents')).to
         .exist;
     });
 
     it('should render the confirmation section instructions', () => {
-      const { getByText } = render(<OtherWaysToSendYourDocuments />);
       expect(
         getByText(
-          'To confirm we’ve received a document you submitted by mail or in person, call us at 800-827-1000 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.',
+          `To confirm we\u2019ve received a document you submitted by mail or in person, call us at ${
+            CONTACT_INFO.phone
+          } (TTY: ${CONTACT_INFO.tty}). We\u2019re here ${CONTACT_INFO.hours}.`,
         ),
       ).to.exist;
     });
