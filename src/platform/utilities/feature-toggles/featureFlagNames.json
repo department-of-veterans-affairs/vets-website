@@ -62,6 +62,7 @@
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
   "dependentsModuleEnabled": "dependents_module_enabled",
+  "dependentsEnableFormViewerMFE": "dependents_enable_form_viewer_mfe",
   "dependencyVerification": "dependency_verification",
   "dgiRudisillHideBenefitsSelectionStep": "dgi_rudisill_hide_benefits_selection_step",
   "dhpConnectedDevicesFitbit": "dhp_connected_devices_fitbit",
