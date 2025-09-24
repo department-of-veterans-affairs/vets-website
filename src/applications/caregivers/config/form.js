@@ -112,6 +112,9 @@ const formConfig = {
     signature,
   },
   dev: { disableWindowUnloadInCI: true },
+  formOptions: {
+    filterInactiveNestedPageData: true,
+  },
   chapters: {
     veteranInformation: {
       title: content['vet-info-title--chapter'],
