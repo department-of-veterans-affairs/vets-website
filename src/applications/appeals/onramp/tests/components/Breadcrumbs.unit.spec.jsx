@@ -11,9 +11,15 @@ import { ROUTES } from '../../constants';
 
 describe('makeBreadcrumbs', () => {
   describe('introduction page', () => {
-    it('should return the three basic breadcrumbs', () => {
+    it('should return only the three basic breadcrumbs for introduction page', () => {
+      expect(makeBreadcrumbs('', null, ROUTES.INTRODUCTION)).to.deep.equal([
+        ...defaultBreadcrumbs,
+      ]);
+    });
+
+    it('should return only basic breadcrumbs even when H1 is provided for introduction', () => {
       expect(
-        makeBreadcrumbs('Introduction', null, ROUTES.INTRODUCTION),
+        makeBreadcrumbs('Some H1 Text', null, ROUTES.INTRODUCTION),
       ).to.deep.equal([...defaultBreadcrumbs]);
     });
   });
