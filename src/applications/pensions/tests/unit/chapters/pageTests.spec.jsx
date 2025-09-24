@@ -196,6 +196,11 @@ export const testNumberOfFieldsByType = (
       expect(container.querySelectorAll('input')).to.have.lengthOf(
         expectedFields.input || 0,
       );
+      if (expectedFields['va-radio-option']) {
+        expect(container.querySelectorAll('va-radio-option')).to.have.lengthOf(
+          expectedFields['va-radio-option'],
+        );
+      }
     });
   });
 };
