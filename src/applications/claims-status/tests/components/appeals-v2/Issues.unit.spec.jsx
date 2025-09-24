@@ -25,6 +25,16 @@ describe('<Issues/>', () => {
 
   const nonAppealIssues = { issues: addStatusToIssues([]), isAppeal: false };
 
+  const issuesWithoutDescription = {
+    issues: addStatusToIssues([
+      { lastAction: null, description: null },
+      { lastAction: null, description: null },
+      { lastAction: 'field_grant', description: null },
+      { lastAction: 'field_grant', description: 'Valid description' },
+    ]),
+    isAppeal: true,
+  };
+
   it('should render', () => {
     const wrapper = shallow(<Issues {...emptyIssues} />);
     expect(wrapper.type()).to.equal('div');
@@ -148,5 +158,29 @@ describe('<Issues/>', () => {
       'mask',
     );
     wrapper.unmount();
+  });
+
+  context('when there are issues without a description', () => {
+    it('should render a list item for issues without a description in the necessary section', () => {
+      const wrapper = mount(<Issues {...issuesWithoutDescription} />);
+      // Should render a list item for 2 issues without description in the open section
+      const openSection = wrapper.find('va-accordion-item').first();
+      expect(
+        openSection
+          .find('li')
+          .last()
+          .text(),
+      ).to.equal("We're unable to show 2 issues on appeal");
+      // Should render a list item for 1 issue without a description in the granted section
+      const closedSection = wrapper.find('va-accordion-item').at(1);
+      expect(
+        closedSection
+          .find('li')
+          .last()
+          .text(),
+      ).to.equal("We're unable to show 1 issue on appeal");
+
+      wrapper.unmount();
+    });
   });
 });
