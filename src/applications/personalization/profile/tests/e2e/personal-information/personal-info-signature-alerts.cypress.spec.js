@@ -27,6 +27,8 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
 
 describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
   beforeEach(() => {
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
+
     const noSignatureResponse = {
       ...mockSignature,
       data: {
