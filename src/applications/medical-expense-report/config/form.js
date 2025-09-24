@@ -3,7 +3,7 @@ import environment from 'platform/utilities/environment';
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import { TITLE, SUBTITLE } from '../utils/constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -13,6 +13,8 @@ import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
 import applicantInformation from './chapters/01-applicant-information';
+import expenses from './chapters/02-expenses';
+import additionalInformation from './chapters/03-additional-information';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -79,8 +81,8 @@ const formConfig = {
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation,
-    // expenses,
-    // additionalInformation,
+    expenses,
+    additionalInformation,
   },
 };
 
