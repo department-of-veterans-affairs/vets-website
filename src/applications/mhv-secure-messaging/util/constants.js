@@ -100,8 +100,8 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
       FILE_EMPTY: 'Your file is empty. Try attaching a different file.',
-      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, JPEG, JFIF, PJPEG, or PJP.`,
-      INVALID_FILE_TYPE_EXTENDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, PPT, PPSX, ODT, MP4, MOV, WMV, MPG.`,
+      INVALID_FILE_TYPE: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, JFIF, PJPEG, or PJP.`,
+      INVALID_FILE_TYPE_EXTENDED: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, JPEG, PDF, PNG, RTF, TXT, XLS, XLSX, BMP, TIFF, TIF, PPT, PPTX, PPS, PPSX, ODT, MP4, M4V, MOV, WMV, MPG, JFIF, PJPEG, or PJP.`,
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
         'Your file is too large. Try attaching a file smaller than 6MB.',
@@ -391,9 +391,10 @@ export const acceptedFileTypesExtended = {
 export const Attachments = {
   MAX_FILE_COUNT: 4,
   MAX_FILE_COUNT_LARGE: 10,
-  MAX_FILE_SIZE: 6000000,
-  TOTAL_MAX_FILE_SIZE: 10000000,
-  TOTAL_MAX_FILE_SIZE_LARGE: 26214400, // 25 MB
+  MAX_FILE_SIZE: 6 * 1024 * 1024, // 6 MB
+  MAX_FILE_SIZE_LARGE: 25 * 1024 * 1024, // 25 MB
+  TOTAL_MAX_FILE_SIZE: 10 * 1024 * 1024, // 10 MB
+  TOTAL_MAX_FILE_SIZE_LARGE: 25 * 1024 * 1024, // 25 MB
 };
 
 export const ElectronicSignatureBox = {
