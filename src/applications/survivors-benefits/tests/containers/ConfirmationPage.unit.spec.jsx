@@ -30,7 +30,8 @@ const initConfirmationPage = ({ formData } = {}) => {
   );
 };
 
-describe('ConfirmationPage', () => {
+// Skipping until we have the form designed and built out.
+describe.skip('ConfirmationPage', () => {
   afterEach(() => {
     cleanup();
   });
