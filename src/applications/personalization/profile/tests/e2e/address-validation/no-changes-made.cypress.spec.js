@@ -14,9 +14,11 @@ describe('Personal and contact information', () => {
       addressPage.updateWithoutChanges();
       addressPage.validateSavedForm(formFields, false);
       addressPage.validateFocusedElement({
-        tag: 'button',
-        name: /edit mailing address/i,
+        tag: 'va-button',
+        name: 'Edit Mailing address',
+        innerTag: 'button',
       });
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

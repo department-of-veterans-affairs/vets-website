@@ -3,12 +3,16 @@ import serviceHistory from '@@profile/tests/fixtures/service-history-success.jso
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import manifest from 'applications/personalization/dashboard/manifest.json';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
 import formStatusesNoError from '../fixtures/form-statuses-no-errors.json';
 import formStatusesWithError from '../fixtures/form-statuses-with-errors.json';
 import { copaysSuccessEmpty } from '../fixtures/test-copays-response';
 import { notificationsSuccessEmpty } from '../fixtures/test-notifications-response';
 import { debtsSuccessEmpty } from '../fixtures/test-debts-response';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 describe('The My VA Dashboard', () => {
   const oneDayInSeconds = 24 * 60 * 60;
@@ -46,6 +50,12 @@ describe('The My VA Dashboard', () => {
       'notifications1',
     );
     cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts');
+    cy.intercept('/v0/debts?countOnly=true', debtsSuccessEmpty()).as(
+      'noDebtsCount',
+    );
+    cy.intercept('/v0/appeals', appealsSuccess());
+    cy.intercept('/v0/benefits_claims', claimsSuccess());
+    cy.intercept('/vaos/v2/appointments*', MOCK_CC_APPOINTMENTS);
   });
 
   describe('there are submitted forms', () => {
@@ -138,6 +148,74 @@ describe('The My VA Dashboard', () => {
         /you have no benefit applications or forms to show/i,
       ).should('exist');
       cy.findAllByTestId('missing-application-help').should('have.length', 1);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+
+  describe('a submitted form is received and has a PDF download link', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            {
+              name: featureFlagNames.myVaFormPdfLink,
+              value: true,
+            },
+          ],
+        },
+      });
+      cy.intercept('/v0/my_va/submission_statuses', formStatusesNoError);
+      cy.intercept('POST', '/v0/my_va/submission_pdf_urls', {
+        statusCode: 200,
+        body: {
+          url: 'https://example.com/form.pdf',
+        },
+      }).as('pdfEndpoint');
+
+      cy.login(mockUser);
+      cy.visit(manifest.rootUrl);
+    });
+
+    it('should show success message if download works', () => {
+      cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.window().then(windowMock => {
+        cy.stub(windowMock, 'open').as('windowOpen');
+      });
+      cy.get('button')
+        .contains('Download your completed form (PDF)')
+        .should('be.visible')
+        .click();
+      cy.wait('@pdfEndpoint')
+        .its('response.statusCode')
+        .should('eq', 200);
+      // The file download moved to a window.open call in a
+      // new window so this is how we can check it fired
+      cy.get('@windowOpen').should(
+        'have.been.calledWith',
+        'https://example.com/form.pdf',
+        '_blank',
+      );
+      cy.get('va-alert[status="success"]').should('be.visible');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+
+    it('should show error alert if API call fails', () => {
+      cy.intercept('/v0/my_va/submission_pdf_urls', {
+        statusCode: 400,
+        body: { error: 'bad request' },
+      }).as('getPdfUrlError');
+      cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.get('button')
+        .contains('Download your completed form (PDF)')
+        .click();
+      cy.wait('@getPdfUrlError')
+        .its('response.statusCode')
+        .should('eq', 400);
+      cy.get('va-alert[status="error"]')
+        .should('be.visible')
+        .and('contain', "can't download");
       cy.injectAxe();
       cy.axeCheck();
     });

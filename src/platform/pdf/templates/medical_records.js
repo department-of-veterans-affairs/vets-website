@@ -93,7 +93,12 @@ const generateDetailsContent = async (doc, parent, data, config) => {
     ? config.indents.one
     : config.margins.left;
   for (const item of data.details.items) {
-    const structs = await createDetailItem(doc, config, itemIndent, item);
+    let structs;
+    if (item.isRich) {
+      structs = await createRichTextDetailItem(doc, config, itemIndent, item);
+    } else {
+      structs = await createDetailItem(doc, config, itemIndent, item);
+    }
     for (const struct of structs) {
       details.add(struct);
     }

@@ -1,9 +1,9 @@
-import { isValidYear } from '../validations';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { isValidYear } from '../validations';
 
 import { unemployabilityTitle } from '../content/unemployabilityFormIntro';
 import { incomeDescription } from '../content/incomeDetails';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 const {
   yearOfMostEarnings,

@@ -5,37 +5,57 @@
  * Cards with "Edit" and "DELETE"
  */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { focusElement } from 'platform/utilities/ui';
-import { createArrayBuilderItemEditPath } from './helpers';
+import { focusElement, scrollTo } from 'platform/utilities/ui';
+import { withRouter } from 'react-router';
+import {
+  arrayBuilderContextObject,
+  createArrayBuilderItemEditPath,
+  slugifyText,
+} from './helpers';
+import {
+  useArrayBuilderEvent,
+  ARRAY_BUILDER_EVENTS,
+} from './ArrayBuilderEvents';
 
-const EditLink = ({ to, srText }) => (
-  <Link to={to} data-action="edit" aria-label={srText}>
-    <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
-      Edit
-      <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-    </span>
-  </Link>
-);
+const EditLink = withRouter(({ to, srText, router }) => {
+  function handleRouteChange(event) {
+    event.preventDefault();
+    router.push(to);
+  }
+
+  return (
+    <va-link
+      active
+      href={to}
+      text="Edit"
+      onClick={handleRouteChange}
+      data-action="edit"
+      data-dd-privacy="mask"
+      data-dd-action-name="Edit Link"
+      label={srText}
+    />
+  );
+});
 
 const RemoveButton = ({ onClick, srText }) => (
   <va-button-icon
     data-action="remove"
     button-type="delete"
     onClick={onClick}
+    data-dd-privacy="mask"
+    data-dd-action-name="Delete Button"
     label={srText}
   />
 );
 
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
-    <va-alert status="error" uswds>
+    <va-alert status="error" uswds class="array-builder-missing-info-alert">
       {children}
     </va-alert>
   </div>
@@ -50,7 +70,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   getEditItemPathUrl: (formData: any, index: number) => string,
+ *   getEditItemPathUrl: (formData: any, index: number, context) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -65,7 +85,6 @@ const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
   getEditItemPathUrl,
-  setFormData,
   formData,
   nounSingular,
   titleHeaderLevel = '3',
@@ -74,13 +93,13 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
-  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
+  const nounSingularSlug = slugifyText(nounSingular);
 
   useEffect(() => {
     isMounted.current = true;
@@ -88,6 +107,17 @@ const ArrayBuilderCards = ({
       isMounted.current = false;
     };
   }, []);
+
+  useArrayBuilderEvent(
+    ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
+    ({ index, arrayPath: incompleteArrayPath }) => {
+      if (incompleteArrayPath === arrayPath) {
+        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
+        scrollTo(card);
+        focusElement(`${card} .array-builder-missing-info-alert`);
+      }
+    },
+  );
 
   if (!arrayData?.length) {
     return null;
@@ -110,7 +140,9 @@ const ArrayBuilderCards = ({
         focusElement(
           'button',
           null,
-          `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
+          `va-card[name="${slugifyText(
+            nounSingular,
+          )}_${lastIndex}"] [data-action="remove"]`,
         );
       });
     }
@@ -124,23 +156,21 @@ const ArrayBuilderCards = ({
       (_, index) => index !== currentIndex,
     );
     const newData = set(arrayPath, arrayWithRemovedItem, formData);
-    setFormData(newData);
+    if (!required(newData) && !arrayWithRemovedItem?.length) {
+      delete newData[arrayPath];
+    }
     hideRemoveConfirmationModal({
       focusRemoveButton: false,
     });
-    onRemove(removedIndex, removedItem);
-    // forceRerender should happen BEFORE onRemoveAll because
-    // we should handle any data manipulation before a potential
-    // change of URL
-    forceRerender(newData);
+    onRemove(removedIndex, removedItem, newData);
     if (arrayWithRemovedItem.length === 0) {
-      onRemoveAll();
+      onRemoveAll(newData);
     }
   }
 
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-top--2">
-      <va-card uswds name={`${nounSingular}_${index}`}>
+      <va-card uswds name={`${nounSingularSlug}_${index}`}>
         {children}
       </va-card>
     </div>
@@ -180,7 +210,8 @@ const ArrayBuilderCards = ({
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
                       <CardTitle
-                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                        className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
+                        data-dd-action-name="Item Name"
                       >
                         {itemName}
                       </CardTitle>
@@ -199,7 +230,14 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: getEditItemPathUrl(formData, index),
+                          path: getEditItemPathUrl(
+                            formData,
+                            index,
+                            arrayBuilderContextObject({
+                              edit: true,
+                              review: isReview,
+                            }),
+                          ),
                           index,
                           isReview,
                         })}
@@ -220,6 +258,8 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
+        data-dd-privacy="mask"
+        data-dd-action-name="Delete Modal"
         modalTitle={getText('deleteTitle', currentItem, formData, currentIndex)}
         primaryButtonText={getText(
           'deleteYes',
@@ -247,14 +287,19 @@ const ArrayBuilderCards = ({
         visible={isModalVisible}
         uswds
       >
-        {required(formData) && arrayData?.length === 1
-          ? getText(
-              'deleteNeedAtLeastOneDescription',
-              currentItem,
-              formData,
-              currentIndex,
-            )
-          : getText('deleteDescription', currentItem, formData, currentIndex)}
+        <div
+          className="dd-privacy-mask"
+          data-dd-action-name="Delete Confirmation"
+        >
+          {required(formData) && arrayData?.length === 1
+            ? getText(
+                'deleteNeedAtLeastOneDescription',
+                currentItem,
+                formData,
+                currentIndex,
+              )
+            : getText('deleteDescription', currentItem, formData, currentIndex)}
+        </div>
       </VaModal>
     </div>
   );
@@ -265,13 +310,8 @@ const mapStateToProps = state => ({
   pageList: state.form.pages,
 });
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
@@ -279,7 +319,6 @@ ArrayBuilderCards.propTypes = {
   isReview: PropTypes.bool.isRequired,
   nounSingular: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   cardDescription: PropTypes.oneOfType([
@@ -290,7 +329,4 @@ ArrayBuilderCards.propTypes = {
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ArrayBuilderCards);
+export default connect(mapStateToProps)(ArrayBuilderCards);

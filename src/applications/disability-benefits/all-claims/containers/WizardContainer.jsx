@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import {
   WIZARD_STATUS_COMPLETE,

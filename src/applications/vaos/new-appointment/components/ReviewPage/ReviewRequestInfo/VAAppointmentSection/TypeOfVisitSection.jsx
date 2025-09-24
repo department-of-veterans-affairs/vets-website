@@ -7,7 +7,7 @@ import { FLOW_TYPES, TYPE_OF_VISIT } from '../../../../../utils/constants';
 import getNewAppointmentFlow from '../../../../newAppointmentFlow';
 import { getFlowType } from '../../../../redux/selectors';
 
-export function handleClick(history, home, visitType) {
+function handleClick(history, home, visitType) {
   return e => {
     // Stop default behavior for anchor tag since we are using React routing.
     e.preventDefault();
@@ -52,7 +52,7 @@ export default function TypeOfVisitSection({ data }) {
             href={visitType.url}
             onClick={handleClick(history, home, visitType)}
             text="Edit"
-            aria-label="Edit how you want to attend"
+            label="Edit how you want to attend"
           />
         </div>
       </div>

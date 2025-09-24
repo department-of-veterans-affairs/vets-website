@@ -4,8 +4,8 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
+import { scrollTo, scrollToFirstError } from 'platform/utilities/scroll';
+import { focusElement } from '../../utilities/ui/focus';
 
 /**
  * Problems to address:
@@ -118,17 +118,14 @@ export const SubTask = props => {
     checkValid(newSubTaskData);
   };
 
-  const pageCheck = direction => {
+  const pageCheck = async direction => {
     // Don't check validation when going back
     if (direction === 'back') {
       setHasError(false);
     } else {
       setSubmitted(true);
       if (!checkValid()) {
-        // Let the browser render the error
-        window.requestAnimationFrame?.(() =>
-          scrollToFirstError({ focusOnAlertRole }),
-        );
+        await scrollToFirstError({ focusOnAlertRole });
         return false;
       }
     }

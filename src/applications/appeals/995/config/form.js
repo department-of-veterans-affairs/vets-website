@@ -15,7 +15,7 @@ import PrimaryPhone from '../components/PrimaryPhone';
 import PrimaryPhoneReview from '../components/PrimaryPhoneReview';
 import EvidenceVaRecords from '../components/EvidenceVaRecords';
 import EvidencePrivateRequest from '../components/EvidencePrivateRecordsRequest';
-import EvidencePrivateRecordsAuthorization from '../components/EvidencePrivateRecordsAuthorization';
+import PrivateRecordsAuthorization from '../components/4142/Authorization';
 import EvidencePrivateRecords from '../components/EvidencePrivateRecords';
 import EvidencePrivateLimitation from '../components/EvidencePrivateLimitation';
 import EvidenceSummary from '../components/EvidenceSummary';
@@ -62,7 +62,7 @@ import {
   onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
-import { hasHomeAndMobilePhone } from '../utils/contactInfo';
+import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 
 import manifest from '../manifest.json';
 import {
@@ -132,7 +132,6 @@ const formConfig = {
     requiredForPrefill: true,
     dependencies: [
       services.vaProfile, // for contact info
-      services.bgs, // submission
       services.mvi, // contestable issues
       services.appeals, // LOA3 & SSN
     ],
@@ -324,7 +323,7 @@ const formConfig = {
           title: 'Non-VA medical record authorization',
           path: 'supporting-evidence/private-medical-records-authorization',
           depends: hasPrivateEvidence,
-          CustomPage: EvidencePrivateRecordsAuthorization,
+          CustomPage: PrivateRecordsAuthorization,
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,

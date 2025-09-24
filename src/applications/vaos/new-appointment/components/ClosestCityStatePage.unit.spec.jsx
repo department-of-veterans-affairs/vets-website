@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import ClosestCityStatePage from './ClosestCityStatePage';
 import {
@@ -29,19 +29,19 @@ describe('VAOS Page: ClosestCityStatePage', () => {
       store,
     });
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'What’s the nearest city to you?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /What’s the nearest city to you\?/,
+      }),
+    ).to.exist;
 
     // And the user should see radio buttons for each city and state
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute('label', 'Bozeman, MT');
-    expect(radioOptions[1]).to.have.attribute('label', 'Belgrade, MT');
+    await screen.findByLabelText(/Bozeman, MT/i);
+    await screen.findByLabelText(/Belgrade, MT/i);
   });
 
   it('should not submit without choosing a site', async () => {
@@ -63,12 +63,7 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     // When the user continues
     userEvent.click(screen.getByText(/Continue/i));
 
-    // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByRole('alert')).to.contain.text('Select a city');
-
-    // And the user should stay on the page
+    // The user should stay on the page
     expect(screen.history.push.called).to.be.false;
   });
 
@@ -89,11 +84,7 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     });
 
     // And the user selected a site
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '983' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/Bozeman, MT/i));
 
     // When the user continues
     userEvent.click(screen.getByText(/Continue/i));
@@ -101,7 +92,7 @@ describe('VAOS Page: ClosestCityStatePage', () => {
     // Then preferences page should open
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-appointment/community-care-preferences',
+        'preferred-provider',
       );
     });
   });

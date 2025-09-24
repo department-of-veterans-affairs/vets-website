@@ -67,21 +67,21 @@ const aboutYourselfRelationshipFamilyMemberPage = {
         properties: {
           first: {
             type: 'string',
-            pattern: '^[A-Za-z]+$',
+            pattern: '^[^0-9]*$',
             minLength: 1,
-            maxLength: 25,
+            maxLength: 30,
           },
           middle: {
             type: 'string',
-            pattern: '^[A-Za-z]+$',
+            pattern: '^[^0-9]*$',
             minLength: 1,
-            maxLength: 25,
+            maxLength: 30,
           },
           last: {
             type: 'string',
-            pattern: '^[A-Za-z]+$',
+            pattern: '^[^0-9]*$',
             minLength: 1,
-            maxLength: 25,
+            maxLength: 30,
           },
           suffix: selectSchema(suffixes),
           socialOrServiceNum: {

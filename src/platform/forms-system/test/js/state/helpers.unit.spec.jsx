@@ -3,6 +3,7 @@ import sinon from 'sinon';
 
 import {
   updateRequiredFields,
+  getPreserveHiddenData,
   setHiddenFields,
   removeHiddenData,
   updateSchemaFromUiSchema,
@@ -126,10 +127,62 @@ describe('Schemaform formState:', () => {
       const data = [{ test2: true }];
       const fullData = { test: data, test3: false };
       updateRequiredFields(schema, uiSchema, data, null, fullData);
-      expect(requiredSpy.args[0]).to.deep.equal([data, 0, fullData]);
-      expect(requiredSpy.args[1]).to.deep.equal([data, 1, fullData]);
+      expect(requiredSpy.args[0]).to.deep.equal([
+        data,
+        0,
+        fullData,
+        [0, 'test'],
+      ]);
+      expect(requiredSpy.args[1]).to.deep.equal([
+        data,
+        1,
+        fullData,
+        [1, 'test'],
+      ]);
     });
   });
+
+  describe('getPreserveHiddenData', () => {
+    const preserveTrue = { 'ui:options': { preserveHiddenData: true } };
+    const preserveFalse = { 'ui:options': { preserveHiddenData: false } };
+
+    it('should return preserveHiddenData from top level uiSchema', () => {
+      expect(getPreserveHiddenData(preserveTrue)).to.be.true;
+      expect(getPreserveHiddenData()).to.be.false;
+      expect(getPreserveHiddenData({})).to.be.false;
+      expect(getPreserveHiddenData(preserveFalse)).to.be.false;
+    });
+    it('should return preserveHiddenData from one level deep in uiSchema', () => {
+      expect(getPreserveHiddenData({ test: preserveTrue })).to.be.true;
+      expect(getPreserveHiddenData({ test: preserveFalse })).to.be.false;
+    });
+
+    it('should return preserveHiddenData from two levels deep in uiSchema', () => {
+      expect(
+        getPreserveHiddenData({
+          test: { test1: preserveFalse, test2: preserveFalse },
+        }),
+      ).to.be.false;
+      expect(
+        getPreserveHiddenData({
+          test: { test1: preserveFalse, test2: preserveTrue },
+        }),
+      ).to.be.true;
+    });
+
+    it('should return preserveHiddenData true if set anywhere on the page', () => {
+      expect(
+        getPreserveHiddenData({
+          test: {
+            test1: preserveFalse,
+            test2: preserveFalse,
+            test3: preserveTrue,
+          },
+        }),
+      ).to.be.true;
+    });
+  });
+
   describe('setHiddenFields', () => {
     it('should set field as hidden', () => {
       const schema = {};
@@ -481,8 +534,18 @@ describe('Schemaform formState:', () => {
 
       expect(newSchema).not.to.equal(schema);
       expect(newSchema.items[0].properties.field['ui:hidden']).to.be.true;
-      expect(hideIfSpy.args[0]).to.deep.equal([data, 0, fullData]);
-      expect(hideIfSpy.args[1]).to.deep.equal([data, 1, fullData]);
+      expect(hideIfSpy.args[0]).to.deep.equal([
+        data,
+        0,
+        fullData,
+        ['test', 0, 'field'],
+      ]);
+      expect(hideIfSpy.args[1]).to.deep.equal([
+        data,
+        1,
+        fullData,
+        ['test', 1, 'field'],
+      ]);
     });
   });
   describe('removeHiddenData', () => {

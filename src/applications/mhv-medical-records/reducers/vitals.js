@@ -6,6 +6,7 @@ import {
   vitalUnitCodes,
   vitalUnitDisplayText,
   loadStates,
+  allowedVitalLoincs,
 } from '../util/constants';
 import {
   isArrayAndHasItems,
@@ -57,6 +58,17 @@ export const getMeasurement = (record, type) => {
     return `${systolic.valueQuantity.value}/${diastolic.valueQuantity.value}`;
   }
 
+  if (
+    vitalTypes.HEIGHT.includes(type) &&
+    record.valueQuantity?.code === '[in_i]'
+  ) {
+    const feet = Math.floor(record.valueQuantity.value / 12);
+    const inches = record.valueQuantity.value % 12;
+    return `${feet}${vitalUnitDisplayText.HEIGHT_FT}, ${inches}${
+      vitalUnitDisplayText.HEIGHT_IN
+    }`;
+  }
+
   if (record.valueQuantity) {
     const unit = getUnit(type, record.valueQuantity?.code);
     return `${record.valueQuantity?.value}${unit}`;
@@ -67,20 +79,24 @@ export const getMeasurement = (record, type) => {
 
 export const extractLocation = vital => {
   if (isArrayAndHasItems(vital.performer)) {
-    if (isArrayAndHasItems(vital.performer[0].extension)) {
-      const refId = vital.performer[0].extension[0].valueReference?.reference;
+    const firstPerformer = vital.performer[0];
+
+    if (isArrayAndHasItems(firstPerformer?.extension)) {
+      const refId = firstPerformer.extension[0]?.valueReference?.reference;
       const location = extractContainedResource(vital, refId);
       return location?.name || EMPTY_FIELD;
     }
 
     // Look for Organization references (to handle Lighthouse data)
     const organizations = vital.performer.filter(performer =>
-      performer.reference?.includes('/Organization/'),
+      performer?.reference?.includes('/Organization/'),
     );
+
     if (organizations.length) {
-      return organizations.map(organization => organization.display).join(', ');
+      return organizations.map(org => org?.display).join(', ');
     }
   }
+
   return EMPTY_FIELD;
 };
 
@@ -90,7 +106,7 @@ export const convertVital = record => {
     name:
       record.code?.text ||
       (isArrayAndHasItems(record.code?.coding) &&
-        record.code?.coding[0].display),
+        record.code?.coding[0]?.display),
     type,
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
@@ -100,7 +116,7 @@ export const convertVital = record => {
     effectiveDateTime: record?.effectiveDateTime,
     location: extractLocation(record),
     notes:
-      (isArrayAndHasItems(record.note) && record.note[0].text) || EMPTY_FIELD,
+      (isArrayAndHasItems(record.note) && record.note[0]?.text) || EMPTY_FIELD,
   };
 };
 
@@ -117,9 +133,15 @@ export const vitalReducer = (state = initialState, action) => {
     case Actions.Vitals.GET_LIST: {
       const oldList = state.vitalsList;
       const newList =
-        action.response.entry?.map(vital => {
-          return convertVital(vital.resource);
-        }) || [];
+        action.response.entry
+          ?.filter(entry =>
+            entry.resource.code.coding.some(coding =>
+              allowedVitalLoincs.includes(coding.code),
+            ),
+          )
+          .map(vital => {
+            return convertVital(vital.resource);
+          }) || [];
 
       return {
         ...state,

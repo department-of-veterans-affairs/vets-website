@@ -4,14 +4,15 @@ import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
-import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
+import PatientFilterPage from '../pages/PatientFilterPage';
+import mockThreadsResponse from '../fixtures/threads-response.json';
 
 describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
-  const filteredData = {
-    data: mockSingleThreadResponse.data.filter(item =>
-      item.attributes.subject.toLowerCase().includes('covid'),
-    ),
-  };
+  const filterData = 'test';
+  const filteredData = PatientFilterPage.filterMockResponse(
+    mockThreadsResponse,
+    filterData,
+  );
 
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -22,38 +23,31 @@ describe('SM CUSTOM FOLDER FILTER & SORT KB NAVIGATION', () => {
 
   it('verify filter works correctly', () => {
     GeneralFunctionsPage.verifyHeaderFocused();
-    PatientCustomFolderPage.inputFilterDataByKeyboard('covid');
-    PatientCustomFolderPage.submitFilterByKeyboard(filteredData);
-    PatientCustomFolderPage.verifyFilterResults('covid', filteredData);
+    PatientFilterPage.inputFilterDataByKeyboard(filterData);
+    PatientFilterPage.submitFilterByKeyboard(filteredData);
+    PatientFilterPage.verifyFilterResults(filterData, filteredData);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify clear filter btn works correctly', () => {
-    PatientCustomFolderPage.inputFilterDataByKeyboard('test');
-    PatientCustomFolderPage.submitFilterByKeyboard(filteredData);
-    PatientCustomFolderPage.clearFilterByKeyboard();
-    PatientCustomFolderPage.verifyFilterFieldCleared();
+    PatientFilterPage.inputFilterDataByKeyboard(filterData);
+    PatientFilterPage.submitFilterByKeyboard(filteredData);
+    PatientFilterPage.clearFilterByKeyboard();
+    PatientFilterPage.verifyFilterFieldCleared();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify sorting works properly', () => {
-    const testData = {
-      data: Array.from(mockSingleThreadResponse.data).sort(
-        (a, b) =>
-          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
-      ),
-    };
-
-    PatientCustomFolderPage.verifySortingByKeyboard(
-      'Oldest to newest',
-      testData,
+    const sortedResult = PatientFilterPage.sortMessagesThread(
+      mockThreadsResponse,
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    PatientFilterPage.verifySortingByKeyboard(sortedResult);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

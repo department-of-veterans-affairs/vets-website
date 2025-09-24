@@ -3,8 +3,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
+import formConfig from '../../config/form';
 
 describe('Disability benefits 4192', () => {
   const {
@@ -32,7 +33,7 @@ describe('Disability benefits 4192', () => {
     form.unmount();
   });
 
-  it('should require an option to be selected', () => {
+  it('should require an option to be selected', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -46,14 +47,15 @@ describe('Disability benefits 4192', () => {
         uiSchema={uiSchema}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(
-      form.find(
-        'va-checkbox-group[error=" Please select at least one option (or all that apply)."]',
-      ).length,
-    ).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(
+        form.find(
+          'va-checkbox-group[error=" Please select at least one option (or all that apply)."]',
+        ).length,
+      ).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -66,6 +67,15 @@ const Calcs = ({ data }) => {
     };
   }, []);
 
+  const totalLabelText = `Total Enrolled FTE: ${
+    programData?.supported || programData?.nonSupported
+      ? programData?.total
+      : 'N/A'
+  }`;
+
+  const pctLabelText = `Supported student percentage FTE: ${programData?.supportedFTEPercent ||
+    'N/A'}`;
+
   return (
     <>
       <div className="vads-u-margin-bottom--1">
@@ -75,12 +85,17 @@ const Calcs = ({ data }) => {
         <span
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="nonSupported"
+          tabIndex={0}
+          aria-label={totalLabelText}
         >
-          {programData?.supported || programData?.nonSupported
-            ? programData?.total
-            : '--'}
+          <span aria-hidden="true">
+            {programData?.supported || programData?.nonSupported
+              ? programData?.total
+              : '--'}
+          </span>
         </span>
       </div>
+
       <va-additional-info trigger="How is Total enrolled FTE calculated?">
         <p>
           Number of supported students FTE plus number of non-supported students
@@ -99,14 +114,18 @@ const Calcs = ({ data }) => {
         <span
           className="vads-u-font-size--h3 vads-u-font-weight--bold"
           data-testid="supportedFTEPercent"
+          tabIndex={0}
+          aria-label={pctLabelText}
         >
-          {programData?.supportedFTEPercent || '--%'}
+          <span aria-hidden="true">
+            {programData?.supportedFTEPercent || '--%'}
+          </span>
         </span>
       </div>
-      <va-additional-info trigger="How is Supported student percentage FTE calculated?">
+      <va-additional-info trigger="How is supported student percentage FTE calculated?">
         <p>
           (Number of supported students FTE divided by Total enrollment FTE)
-          multiplied by 100 = Supported student percentage FTE.
+          multiplied by 100 = supported student percentage FTE.
         </p>
         <br />
         <p>

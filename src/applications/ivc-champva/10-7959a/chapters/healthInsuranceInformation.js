@@ -18,7 +18,8 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { nameWording } from '../../shared/utilities';
+import { nameWording, privWrapper } from '../../shared/utilities';
+import { validFieldCharsOnly } from '../../shared/validations';
 
 const radioLabels = {
   group: 'Employer sponsored insurance (group)',
@@ -56,8 +57,10 @@ export const insuranceOptions = {
         ? `${item?.otherType}`
         : `${radioLabels[(item?.type)]}`,
     summaryTitle: item => {
-      return `${nameWording(item?.formData, true, true, true) ||
-        'Beneficiary’s'} health insurance review`;
+      return privWrapper(
+        `${nameWording(item?.formData, true, true, true) ||
+          'Beneficiary’s'} health insurance review`,
+      );
     },
     summaryDescription: '',
     cancelAddButtonText: 'Cancel adding this insurance',
@@ -67,12 +70,9 @@ export const insuranceOptions = {
 export const insuranceStatusSchema = {
   uiSchema: {
     ...titleUI(({ formData }) => {
-      return `${nameWording(
-        formData,
-        true,
-        true,
-        true,
-      )} health insurance status`;
+      return privWrapper(
+        `${nameWording(formData, true, true, true)} health insurance status`,
+      );
     }),
     hasOhi: {
       ...yesNoUI({
@@ -88,11 +88,15 @@ export const insuranceStatusSchema = {
               true,
             )} have health insurance coverage that isn’t through CHAMPVA?`,
             'ui:options': {
+              classNames: ['dd-privacy-hidden'],
               hint: hintText,
             },
           };
         },
       }),
+    },
+    'ui:options': {
+      itemAriaLabel: () => 'health insurance status',
     },
   },
   schema: {
@@ -114,6 +118,12 @@ const policyPage = {
     name: textUI('Name of insurance provider'),
     policyNum: textUI('Policy number'),
     providerPhone: phoneUI('Insurance provider phone number'),
+    'ui:validations': [
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'name'),
+      (errors, page, formData) =>
+        validFieldCharsOnly(errors, page, formData, 'policyNum'),
+    ],
   },
   schema: {
     type: 'object',
@@ -202,12 +212,15 @@ export const insurancePages = arrayBuilderPages(
     insuranceIntro: pageBuilder.introPage({
       path: 'insurance-intro',
       title: '[noun plural]',
-      depends: formData => get('hasOhi', formData),
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       uiSchema: {
         ...titleUI('Health insurance information', ({ formData }) => (
           <p>
             Next we’ll ask you to enter information about{' '}
-            {nameWording(formData, true, false, true)} health insurance.
+            {privWrapper(nameWording(formData, true, false, true))} health
+            insurance.
             <br />
             <br />
             You can add up to two health insurances, but do not include CHAMPVA.
@@ -224,19 +237,25 @@ export const insurancePages = arrayBuilderPages(
     insuranceSummary: pageBuilder.summaryPage({
       title: 'Review your [noun plural]',
       path: 'insurance-review',
-      depends: formData => get('hasOhi', formData),
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...summaryPage,
     }),
     insurancePolicy: pageBuilder.itemPage({
       title: 'Policy information',
       path: 'policy-info/:index',
-      depends: formData => get('hasOhi', formData),
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...policyPage,
     }),
     insuranceType: pageBuilder.itemPage({
       title: 'Type',
       path: 'insurance-type/:index',
-      depends: formData => get('hasOhi', formData),
+      depends: formData =>
+        get('hasOhi', formData) &&
+        get('claimStatus', formData) !== 'resubmission',
       ...insuranceProviderPage,
     }),
   }),

@@ -10,6 +10,10 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import {
@@ -19,19 +23,13 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  statsdFrontEndActions,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import {
-  generateTextFile,
-  getNameDateAndTime,
-  makePdf,
-  getLastUpdatedText,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../util/helpers';
+import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -41,9 +39,10 @@ import {
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-
 import useAcceleratedData from '../hooks/useAcceleratedData';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import NoRecordsMessage from '../components/shared/NoRecordsMessage';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -83,6 +82,8 @@ const Allergies = props => {
     dispatchAction,
     dispatch,
   });
+
+  useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
 
   useEffect(
     /**
@@ -129,7 +130,13 @@ const Allergies = props => {
       ...generateAllergiesContent(allergies, isAcceleratingAllergies),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Allergies - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateAllergyListItemTxt = item => {
@@ -187,14 +194,14 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         team at your next appointment.
       </p>
 
-      <CernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.ALLERGIES} />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
         accessAlertType={accessAlertTypes.ALLERGY}
         recordCount={allergies?.length}
-        recordType="allergies or reactions"
+        recordType={recordType.ALLERGIES}
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
@@ -213,24 +220,30 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
           />
         )}
 
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
-        <RecordList
-          records={allergies?.map(allergy => ({
-            ...allergy,
-            isOracleHealthData: isAcceleratingAllergies,
-          }))}
-          type={recordType.ALLERGIES}
-        />
+        {allergies?.length ? (
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+            <RecordList
+              records={allergies?.map(allergy => ({
+                ...allergy,
+                isOracleHealthData: isAcceleratingAllergies,
+              }))}
+              type={recordType.ALLERGIES}
+            />
+          </>
+        ) : (
+          <NoRecordsMessage type={recordType.ALLERGIES} />
+        )}
       </RecordListSection>
     </div>
   );

@@ -2,6 +2,7 @@ import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import { Data, Locators, Alerts, Paths } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
+import SharedComponents from './SharedComponents';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -93,9 +94,13 @@ class FolderManagementPage {
       .should(`${assertion}`, createdFolderResponse.data.attributes.name);
   };
 
-  selectFolderFromModal = (folderName = `Deleted`) => {
-    cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
-    cy.get(`#radiobutton-${folderName}`).click();
+  selectFolderFromModal = (folderName = `Trash`) => {
+    cy.findByText('Move')
+      .should('be.visible')
+      .click();
+    cy.findByLabelText(folderName)
+      .should('be.visible')
+      .click();
   };
 
   confirmMovingMessageToFolder = (
@@ -116,7 +121,7 @@ class FolderManagementPage {
   moveMessageToNewFolder = foldersList => {
     cy.intercept(
       `POST`,
-      Paths.SM_API_BASE + Paths.FOLDERS,
+      Paths.INTERCEPT.MESSAGE_FOLDERS,
       createdFolderResponse,
     ).as(`createdFolder`);
     cy.intercept(`GET`, `${Paths.SM_API_BASE}/folders*`, foldersList).as(
@@ -135,30 +140,20 @@ class FolderManagementPage {
       force: true,
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.findByText('Folder was successfully created.').should('be.visible');
+    cy.get('va-alert').should('have.focus');
   };
 
-  backToCreatedFolder = threadData => {
-    cy.intercept(
-      `GET`,
-      `${Paths.SM_API_BASE}/folders/${
-        createdFolderResponse.data.attributes.folderId
-      }*`,
-      createdFolderResponse,
-    ).as(`updatedFolder`);
+  backToInbox = () => {
     cy.intercept(
       `GET`,
       `${Paths.SM_API_BASE}/folders/${
         createdFolderResponse.data.attributes.folderId
       }/threads*`,
-      threadData,
-    ).as(`updatedThread`);
+      defaultMockThread,
+    ).as(`updatedFolder`);
 
-    cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
-      return new Cypress.Promise(resolve => {
-        setTimeout(resolve, 2000);
-        cy.wrap(btn).click();
-      });
-    });
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {

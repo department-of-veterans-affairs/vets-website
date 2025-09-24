@@ -1,11 +1,10 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -27,10 +26,6 @@ export default function UpcomingAppointmentsPage() {
     futureStatus,
     hasTypeChanged,
   } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
-
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
 
   useEffect(() => {
     recordEvent({
@@ -69,9 +64,9 @@ export default function UpcomingAppointmentsPage() {
     return (
       <InfoAlert
         status="error"
-        headline="We’re sorry. We’ve run into a problem"
+        headline="We can’t access your appointments right now"
       >
-        We’re having trouble getting your upcoming appointments. Please try
+        We’re sorry. There’s a problem with our system. Refresh this page or try
         again later.
       </InfoAlert>
     );
@@ -87,7 +82,7 @@ export default function UpcomingAppointmentsPage() {
       </div>
 
       {keys.map((key, index) => {
-        const monthDate = moment(key, 'YYYY-MM');
+        const monthDate = parseISO(key, 'yyyy-MM');
 
         let hashTable = appointmentsByMonth;
         hashTable = groupAppointmentByDay(hashTable[key]);
@@ -99,8 +94,9 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-margin-top--0': index === 0,
               })}
               data-testid="appointment-list-header"
+              data-dd-privacy="mask"
             >
-              {monthDate.format('MMMM YYYY')}
+              {format(monthDate, 'MMMM yyyy')}
             </h2>
             {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
@@ -110,11 +106,11 @@ export default function UpcomingAppointmentsPage() {
                 'vads-u-border-bottom--1px',
                 'vads-u-border-color--gray-medium',
               )}
-              data-testid={`appointment-list-${monthDate.format('YYYY-MM')}`}
+              data-testid={`appointment-list-${format(monthDate, 'yyyy-MM')}`}
+              data-dd-privacy="mask"
               role="list"
             >
               {UpcomingAppointmentLayout({
-                featureBreadcrumbUrlUpdate,
                 hashTable,
                 history,
               })}

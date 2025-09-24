@@ -6,7 +6,6 @@ import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { initializeProfile } from 'platform/user/profile/actions';
@@ -30,6 +29,11 @@ import { selectUserGreeting } from '../selectors';
 
 export class Main extends Component {
   componentDidMount() {
+    // This is a workaround for the fact that this component is mounted
+    // multiple times in the app. We need to make sure that we only
+    // bind the event listeners and call the user endpoint once.
+    if (Main.isMounted) return;
+
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
     window.addEventListener('storage', this.handleSessionChange);
@@ -39,6 +43,8 @@ export class Main extends Component {
     if (!window.location.pathname.includes('auth/login/callback')) {
       this.checkLoggedInStatus();
     }
+
+    Main.isMounted = true;
   }
 
   componentDidUpdate() {
@@ -48,6 +54,10 @@ export class Main extends Component {
       this.executeRedirect();
       this.closeModals();
     }
+  }
+
+  componentWillUnmount() {
+    Main.isMounted = false;
   }
 
   handleSessionChange = event => {
@@ -143,11 +153,6 @@ export class Main extends Component {
           onClose={this.closeFormSignInModal}
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
-        />
-        <SignInModal
-          onClose={this.closeLoginModal}
-          visible={this.props.showLoginModal}
-          useSiS={this.props.useSignInService}
         />
         <AutoSSO />
       </div>

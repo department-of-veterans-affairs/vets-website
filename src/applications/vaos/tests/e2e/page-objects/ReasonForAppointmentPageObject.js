@@ -1,13 +1,6 @@
 import PageObject from './PageObject';
 
-export class ReasonForAppointmentPageObject extends PageObject {
-  assertHeading({ name }) {
-    return this.assertShadow({
-      element: 'va-radio',
-      text: name,
-    });
-  }
-
+class ReasonForAppointmentPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/reason');
     cy.axeCheckBestPractice();
@@ -16,7 +9,14 @@ export class ReasonForAppointmentPageObject extends PageObject {
   }
 
   selectReasonForAppointment() {
-    return super.selectRadioButtonShadow(/Routine or follow-up visit/i);
+    return super.selectRadioButton(/Routine or follow-up visit/i);
+  }
+
+  assertLabel({ label }) {
+    return this.assertShadow({
+      element: 'va-textarea',
+      text: label,
+    });
   }
 
   typeAdditionalText({ content }) {

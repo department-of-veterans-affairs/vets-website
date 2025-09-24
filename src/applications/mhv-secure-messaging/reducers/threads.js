@@ -14,6 +14,7 @@ const initialState = {
     page: 1,
   },
   isLoading: false,
+  refetchRequired: false,
 };
 
 export const threadsReducer = (state = initialState, action) => {
@@ -26,6 +27,7 @@ export const threadsReducer = (state = initialState, action) => {
           return { ...thrdAttr };
         }),
         isLoading: false,
+        refetchRequired: false,
       };
     case Actions.Thread.GET_EMPTY_LIST:
       return {
@@ -61,6 +63,20 @@ export const threadsReducer = (state = initialState, action) => {
         ...state,
         isLoading: action.payload,
       };
+    case Actions.Thread.ERROR_LOADING_LIST:
+      return {
+        ...state,
+        threadList: undefined,
+        isLoading: false,
+        hasError: true,
+        error: action.response.errors,
+      };
+    case Actions.Thread.RE_FETCH_REQUIRED:
+      return {
+        ...state,
+        refetchRequired: action.payload,
+      };
+    case Actions.Thread.SET_TOTAL_COUNT:
     default:
       return state;
   }

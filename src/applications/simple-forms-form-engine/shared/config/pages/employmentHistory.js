@@ -70,24 +70,6 @@ export const detailPage = {
 };
 
 /** @returns {PageSchema} */
-export const introPage = options => ({
-  path: 'employers',
-  title: 'Employers',
-  uiSchema: {
-    ...webComponentPatterns.titleUI(
-      `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
-        options.maxItems
-      }.`,
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-});
-
-/** @returns {PageSchema} */
 export const namePage = options => ({
   title: 'Name and address of employer or unit',
   path: 'employers/:index/name-and-address',
@@ -115,7 +97,7 @@ export const namePage = options => ({
 
 /** @returns {PageSchema} */
 export const summaryPage = options => ({
-  path: options.required ? 'employers-summary' : 'employers',
+  path: 'employers',
   schema: {
     type: 'object',
     properties: {
@@ -123,7 +105,7 @@ export const summaryPage = options => ({
     },
     required: ['view:hasEmployers'],
   },
-  title: options.required ? 'Review your employers' : 'Your employers',
+  title: 'Your employers',
   uiSchema: {
     'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoUI(
       options,

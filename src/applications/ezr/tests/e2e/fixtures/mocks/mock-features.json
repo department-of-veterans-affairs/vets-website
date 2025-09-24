@@ -5,6 +5,18 @@
       {
         "name": "ezrProdEnabled",
         "value": true
+      },
+      {
+        "name": "ezrEmergencyContactsEnabled",
+        "value": true
+      },
+      {
+        "name": "ezrNextOfKinEnabled",
+        "value": true
+      },
+      {
+        "name": "ezrDownloadPdfEnabled",
+        "value": true
       }
     ]
   }

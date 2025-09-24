@@ -159,7 +159,10 @@ describe('Vitals list container', () => {
   it('displays the proper units for Height', async () => {
     await waitFor(() => {
       expect(
-        screen.getAllByText('70 inches', { selector: 'span', exact: true }),
+        screen.getAllByText('5 feet, 10 inches', {
+          selector: 'span',
+          exact: true,
+        }),
       ).to.exist;
     });
   });

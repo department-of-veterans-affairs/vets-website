@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { fetchPost911GiBillEligibility } from '../actions';
 import { STATIC_CONTENT_ENROLLMENT_URL } from '../constants';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';

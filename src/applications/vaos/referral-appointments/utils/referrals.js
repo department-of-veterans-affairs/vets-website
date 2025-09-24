@@ -1,91 +1,121 @@
 /* eslint-disable camelcase */
-
 const { addDays, addMonths, format, subMonths } = require('date-fns');
 
-const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
+const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
+
+const errorUUIDs = [
+  'appointment-submit-error',
+  'details-retry-error',
+  'details-error',
+  'draft-no-slots-error',
+  'referral-without-provider-error',
+  'eps-error-appointment-id',
+];
 
 /**
  * Creates a referral list object relative to a start date.
  *
  * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
- * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} categoryOfCare The category of care for the referral
  * @returns {Object} Referral object
  */
 
 const createReferralListItem = (
-  startDate,
-  uuid,
-  providerId = '111',
   expirationDate,
-  categoryOfCare = 'Physical Therapy',
+  uuid,
+  categoryOfCare = 'OPTOMETRY',
+  stationId = '659',
 ) => {
-  const [year, month, day] = startDate.split('-');
+  const [year, month, day] = expirationDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
   const mydFormat = 'yyyy-MM-dd';
   return {
-    uuid,
-    referralDate: startDate,
-    categoryOfCare,
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    providerId,
+    id: uuid,
+    type: 'referrals',
+    attributes: {
+      expirationDate:
+        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+      uuid,
+      categoryOfCare,
+      referralNumber: 'VA0000007241',
+      referralConsultId: '984_646907',
+      stationId,
+    },
   };
 };
 
+/* Creates a list of error referrals with specific UUIDs.
+ * These are used to test error handling.
+ */
+const errorReferralsList = (errorUUIDs || []).map(uuid => {
+  return createReferralListItem('2025-11-14', uuid);
+});
+
 /**
- * Creates a referral object relative to a start date.
+ * Creates a referral object with specified uuid and expiration date.
  *
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
- * @param {String} providerId The ID for the provider
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} categoryOfCare The category of care for the referral
+ * @param {Boolean} hasProvider Whether the referral has a provider
  * @returns {Object} Referral object
  */
 const createReferralById = (
   startDate,
   uuid,
-  providerId = '111',
   expirationDate,
-  categoryOfCare = 'Physical Therapy',
+  categoryOfCare = 'OPTOMETRY',
+  hasProvider = true,
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
 
+  const provider = hasProvider
+    ? {
+        name: 'Dr. Moreen S. Rafa',
+        npi: '1346206547',
+        phone: '(937) 236-6750',
+        facilityName: 'fake facility name',
+        address: {
+          street1: '76 Veterans Avenue',
+          city: 'BATH',
+          state: null,
+          zip: '14810',
+        },
+      }
+    : null;
+
   return {
-    uuid,
-    referralDate: format(relativeDate, mydFormat),
-    expirationDate:
-      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    referralNumber: 'VA0000009880',
-    status: 'Approved',
-    categoryOfCare,
-    stationId: '528A4',
-    sta6: '534',
-    referringFacility: 'Batavia VA Medical Center',
-    referringFacilityInfo: {
-      facilityName: 'Batavia VA Medical Center',
-      facilityCode: '528A4',
-      description: 'Batavia VA Medical Center',
-      address: {
-        address1: '222 Richmond Avenue',
-        city: 'BATAVIA',
-        state: 'NY',
-        zipCode: '14020',
+    id: uuid,
+    type: 'referrals',
+    attributes: {
+      uuid,
+      referralDate: '2023-01-01',
+      stationId: '659BY',
+      expirationDate:
+        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+      referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
+      categoryOfCare,
+      referralConsultId: '984_646907',
+      hasAppointments: false,
+      referringFacility: {
+        name: 'Batavia VA Medical Center',
+        phone: '(585) 297-1000',
+        code: '528A4',
+        address: {
+          street1: '222 Richmond Avenue',
+          city: 'BATAVIA',
+          state: null,
+          zip: '14020',
+        },
       },
-      phone: '(585) 297-1000',
+      provider,
     },
-    referralStatus: 'open',
-    provider: {
-      id: providerId,
-      name: 'Dr. Moreen S. Rafa',
-      location: 'FHA South Melbourne Medical Complex',
-    },
-    appointments: [],
   };
 };
 
@@ -95,37 +125,64 @@ const createReferralById = (
  * @param {Number} numberOfReferrals The number of referrals to create in the array
  * @param {String} baseDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {Number} numberOfExpiringReferrals The number of referrals that should be expired
+ * @param {Boolean} includeErrorReferrals Whether to include error referrals in the array
+ * @param {Boolean} includeOutOfPilotStation Whether to include an out of pilot station referral
  * @returns {Array} Referrals array
  */
 const createReferrals = (
   numberOfReferrals = 3,
   baseDate,
   numberOfExpiringReferrals = 0,
+  includeErrorReferrals = false,
+  includeOutOfPilotStation = false,
 ) => {
-  const [year, month, day] = baseDate.split('-');
-  const baseDateObject = new Date(year, month - 1, day);
+  // create a date object for today that is not affected by the time zone
+  const dateOjbect = baseDate ? new Date(baseDate) : new Date();
+  const baseDateObject = new Date(
+    dateOjbect.getUTCFullYear(),
+    dateOjbect.getUTCMonth(),
+    dateOjbect.getUTCDate(),
+  );
   const referrals = [];
-  const providerIds = ['111', '222', '0', '333'];
+
+  const categoriesOfCare = ['OPTOMETRY', 'CHIROPRACTIC'];
 
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
-    const startDate = addDays(
-      isExpired ? subMonths(baseDateObject, 6) : baseDateObject,
+    // make expiration date 6 months from the base date
+    // or 6 months before the base date if expired
+    // and add i days
+    const modifiedDate = addDays(
+      isExpired ? subMonths(baseDateObject, 6) : addMonths(baseDateObject, 6),
       i,
     );
     const mydFormat = 'yyyy-MM-dd';
-    const referralDate = format(startDate, mydFormat);
+    const expirationDate = format(modifiedDate, mydFormat);
+    const categoryOfCare =
+      i % 2 === 0 ? categoriesOfCare[1] : categoriesOfCare[0];
     referrals.push(
       createReferralListItem(
-        referralDate,
+        expirationDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
-        providerIds[i % providerIds.length],
-        isExpired ? format(addDays(startDate, 6), mydFormat) : undefined,
+        categoryOfCare,
       ),
     );
   }
-  return referrals;
+  if (includeOutOfPilotStation) {
+    referrals.push(
+      createReferralListItem(
+        '2025-11-14',
+        'out-of-pilot-station',
+        'OPTOMETRY',
+        '123',
+      ),
+    );
+  }
+  if (includeErrorReferrals) {
+    return [...referrals, ...errorReferralsList];
+  }
+  return [...referrals];
 };
 
 /**
@@ -143,12 +200,24 @@ const getReferralSlotKey = id => {
  * @param {Array} referrals The referrals to filter
  * @returns {Array} The filtered referrals
  */
-const filterReferrals = referrals => {
+const filterReferrals = (
+  referrals,
+  featureCCDirectSchedulingChiropractic = false,
+) => {
   if (!referrals?.length) {
     return [];
   }
-  return referrals.filter(
-    referral => referral.categoryOfCare === 'Physical Therapy',
+
+  const scheduleableCategories = ['optometry'];
+
+  if (featureCCDirectSchedulingChiropractic) {
+    scheduleableCategories.push('chiropractic');
+  }
+
+  return referrals.filter(referral =>
+    scheduleableCategories.includes(
+      referral.attributes.categoryOfCare?.toLowerCase(),
+    ),
   );
 };
 
@@ -159,17 +228,15 @@ const filterReferrals = referrals => {
  * @returns {String} Address string
  */
 const getAddressString = addressObject => {
-  let addressString = addressObject.address1;
-  if (addressObject.address2) {
-    addressString = `${addressString}, ${addressObject.address2}`;
+  if (!addressObject) {
+    return '';
   }
-  if (addressObject.street3) {
-    addressString = `${addressString}, ${addressObject.address3}`;
-  }
-  addressString = `${addressString}, ${addressObject.city}, ${
-    addressObject.state
-  }, ${addressObject.zipCode}`;
-  return addressString;
+  const { street1, street2, street3, city, state, zip } = addressObject;
+
+  const addressParts = [street1, street2, street3, city, state, zip];
+
+  // Filter out any undefined or empty parts and join with a comma
+  return addressParts.filter(Boolean).join(', ');
 };
 
 module.exports = {

@@ -1,18 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { countries } from 'platform/forms/address';
+import { addressConfirmationRenderLine } from '../utils/helpers';
 
 function AddressConfirmation({ subHeader, userAddress }) {
-  // Helper function to conditionally return a line with a break
-  const renderLine = content => {
-    return content ? (
-      <>
-        {content}
-        <br />
-      </>
-    ) : null;
-  };
-
   // For city/state/postalCode line, we build it conditionally:
   const cityStatePostal = [
     userAddress?.city,
@@ -37,7 +28,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
         status="warning"
         visible
       >
-        <h2 slot="headline">Check the address you entered</h2>
+        <h3 slot="headline">Check the address you entered</h3>
         <React.Fragment key=".1">
           <p className="vads-u-margin-y--0">
             We can’t confirm the address you entered with the U.S. Postal
@@ -45,17 +36,15 @@ function AddressConfirmation({ subHeader, userAddress }) {
           </p>
         </React.Fragment>
       </va-alert>
-      <h3 className="vads-u-font-size--h5" style={{ paddingTop: '2em' }}>
-        {subHeader}
-      </h3>
+      <h3 style={{ paddingTop: '2em' }}>{subHeader}</h3>
       <p style={{ marginTop: '1em' }}>You entered:</p>
       <div className="blue-bar-block">
         <p>
-          {renderLine(userAddress?.street)}
-          {renderLine(userAddress?.street2)}
-          {cityStatePostal && renderLine(cityStatePostal)}
+          {addressConfirmationRenderLine(userAddress?.street)}
+          {addressConfirmationRenderLine(userAddress?.street2)}
+          {cityStatePostal && addressConfirmationRenderLine(cityStatePostal)}
           {userAddress?.country !== 'USA' &&
-            renderLine(getCountry(userAddress?.country))}
+            addressConfirmationRenderLine(getCountry(userAddress?.country))}
         </p>
       </div>
       <p>

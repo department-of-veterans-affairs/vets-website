@@ -1,31 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
-import { getRealFacilityId } from '../../utils/appointment';
+import { shallowEqual } from 'recompose';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import DetailPageLayout, {
-  Details,
-  When,
-  What,
-  Where,
-  Who,
-  ClinicOrFacilityPhone,
-  Prepare,
-} from './DetailPageLayout';
+import { getRealFacilityId } from '../../utils/appointment';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import FacilityDirectionsLink from '../FacilityDirectionsLink';
-import Address from '../Address';
-import AddToCalendarButton from '../AddToCalendarButton';
-import NewTabAnchor from '../NewTabAnchor';
 import {
   NULL_STATE_FIELD,
   recordAppointmentDetailsNullStates,
+  captureMissingModalityLogs,
 } from '../../utils/events';
+import Address from '../Address';
+import AddToCalendarButton from '../AddToCalendarButton';
+import FacilityDirectionsLink from '../FacilityDirectionsLink';
+import NewTabAnchor from '../NewTabAnchor';
+import ClinicName from './ClinicName';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import DetailPageLayout, {
+  ClinicOrFacilityPhone,
+  Details,
+  Prepare,
+  What,
+  When,
+  Where,
+  Who,
+} from './DetailPageLayout';
 
 export default function InPersonLayout({ data: appointment }) {
   const {
@@ -40,6 +43,7 @@ export default function InPersonLayout({ data: appointment }) {
     practitionerName,
     startDate,
     status,
+    timezone,
     typeOfCareName,
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
@@ -56,6 +60,9 @@ export default function InPersonLayout({ data: appointment }) {
     heading = 'Canceled in-person appointment';
   else if (isPastAppointment) heading = 'Past in-person appointment';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -75,9 +82,9 @@ export default function InPersonLayout({ data: appointment }) {
   return (
     <DetailPageLayout heading={heading} data={appointment}>
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime appointment={appointment} timezone={timezone} />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -89,8 +96,14 @@ export default function InPersonLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
-      <Who>{practitionerName}</Who>
+      <What>
+        {typeOfCareName && <span data-dd-privacy="mask">{typeOfCareName}</span>}
+      </What>
+      <Who>
+        {practitionerName && (
+          <span data-dd-privacy="mask">{practitionerName}</span>
+        )}
+      </Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status ? 'Where to attend' : undefined
@@ -134,10 +147,8 @@ export default function InPersonLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone
@@ -152,12 +163,12 @@ export default function InPersonLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards. And bring a list of your medications
-              and other information to share with your provider.
+              Bring your insurance cards, a list of your medications, and other
+              things to share with your provider
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link
-                text="Find a full list of things to bring to your appointment"
+                text="Find out what to bring to your appointment"
                 href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
               />
             </p>

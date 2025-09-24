@@ -45,6 +45,8 @@ describe('Schemaform definition ssn', () => {
 
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelector('dd').textContent).to.equal('●●●-●●-6789');
+    expect(formDOM.querySelector('dd').textContent).to.equal(
+      '●●●-●●-6789ending with 6 7 8 9',
+    );
   });
 });

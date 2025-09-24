@@ -2,9 +2,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
-import content from '../../../../locales/en/content.json';
+
+// declare static values
+const TIMESTAMP = 1666887649663;
 
 describe('CG <ConfirmationScreenView>', () => {
   const subject = ({ timestamp = undefined } = {}) => {
@@ -42,11 +44,24 @@ describe('CG <ConfirmationScreenView>', () => {
     });
     return { selectors };
   };
+  let printSpy;
 
-  it('should render the appropriate Veteran name', () => {
-    const { selectors } = subject();
-    const { veteranName } = selectors();
-    expect(veteranName).to.contain.text('John Marjorie Smith Sr.');
+  beforeEach(() => {
+    printSpy = sinon.spy();
+    Object.defineProperty(window, 'print', {
+      value: printSpy,
+      configurable: true,
+    });
+  });
+
+  afterEach(() => {
+    printSpy.resetHistory();
+  });
+
+  it('should render Veteran name & application date when provided', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
+    const { submissionDate } = selectors();
+    expect(submissionDate).to.contain.text('Oct. 27, 2022');
   });
 
   it('should not render timestamp in `application information` section when not provided', () => {
@@ -55,26 +70,10 @@ describe('CG <ConfirmationScreenView>', () => {
     expect(submissionDate).to.not.exist;
   });
 
-  it('should render timestamp in `application information` section when provided', () => {
-    const { selectors } = subject({ timestamp: 1666887649663 });
-    const { submissionDate } = selectors();
-    expect(submissionDate).to.exist;
-    expect(submissionDate).to.contain.text('Oct. 27, 2022');
-  });
-
-  it('should render application print button', () => {
-    const { selectors } = subject();
+  it('should fire the correct event when the print button is clicked', () => {
+    const { selectors } = subject({ timestamp: TIMESTAMP });
     const { printBtn } = selectors();
-    expect(printBtn).to.exist;
-    expect(printBtn).to.have.attr('text', content['button-print']);
-  });
-
-  it('should fire `window.print` function when the print button is clicked', () => {
-    const printSpy = sinon.spy(window, 'print');
-    const { selectors } = subject();
-    const { printBtn } = selectors();
-
     fireEvent.click(printBtn);
-    expect(printSpy.called).to.be.true;
+    sinon.assert.calledOnce(printSpy);
   });
 });

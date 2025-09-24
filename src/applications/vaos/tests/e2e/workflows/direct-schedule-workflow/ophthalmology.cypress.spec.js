@@ -1,44 +1,45 @@
 // @ts-check
-import moment from 'moment';
+import { addMonths } from 'date-fns';
+import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
-  OPHTHALMOLOGY_ID,
+  TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
+import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfEyeCarePageObject from '../../page-objects/TypeOfEyeCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
-  mockAppointmentGetApi,
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
+  mockFacilityApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
+  mockSlotsApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityCCApi,
-  mockClinicsApi,
-  mockSlotsApi,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import TypeOfEyeCarePageObject from '../../page-objects/TypeOfEyeCarePageObject';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
-const typeOfCareId = getTypeOfCareById(OPHTHALMOLOGY_ID).idV2;
-const { cceType } = getTypeOfCareById(OPHTHALMOLOGY_ID);
+const typeOfCareId = getTypeOfCareById(TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID).idV2;
+const { cceType } = getTypeOfCareById(TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID);
 
 describe('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
@@ -58,9 +59,8 @@ describe('VAOS request schedule flow - Audiology', () => {
       });
       const response = new MockAppointmentResponse({
         id: 'mock1',
-        localStartTime: moment(),
+        localStartTime: new Date(),
         status: APPOINTMENT_STATUS.booked,
-        serviceType: typeOfCareId,
         future: true,
       });
 
@@ -85,7 +85,7 @@ describe('VAOS request schedule flow - Audiology', () => {
         locationId: '983',
         clinicId: '1',
         response: MockSlotResponse.createResponses({
-          startTimes: [moment().add(1, 'month')],
+          startTimes: [addMonths(new Date(), 1)],
         }),
       });
     };
@@ -101,6 +101,12 @@ describe('VAOS request schedule flow - Audiology', () => {
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
+        mockFacilityApi({
+          id: '983',
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983'],
+          })[0],
+        });
 
         // Act
         cy.login(mockUser);
@@ -113,6 +119,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           .clickNextButton();
 
         TypeOfEyeCarePageObject.assertUrl()
+          .assertTypeOfEyeCareValidationErrors()
           .selectTypeOfEyeCare(/Ophthalmology/i)
           .clickNextButton();
 

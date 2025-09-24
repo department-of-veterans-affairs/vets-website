@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "letters_page_new_design",
+        "value": true
+      }
+    ]
+  }
+}

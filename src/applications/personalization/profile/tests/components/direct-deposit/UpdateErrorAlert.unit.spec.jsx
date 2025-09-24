@@ -2,9 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import mockDisabilityCompensations from '@@profile/mocks/endpoints/disability-compensations';
+import directDeposits from '@@profile/mocks/endpoints/direct-deposits';
 
-const { errors } = mockDisabilityCompensations.updates;
+const { errors } = directDeposits.updates;
 
 import { UpdateErrorAlert } from '../../../components/direct-deposit/alerts/UpdateErrorAlert';
 
@@ -51,15 +51,21 @@ describe('<UpdateErrorAlert />', () => {
     ).to.exist;
   });
 
+  // The Payment Restriction error alert is shared with accountNumberFlagged and paymentRestrictionsPresent
+  const paymentRestrictionRegex = /We’re sorry. We couldn’t process your direct deposit update/i;
+
   it('renders the flagged account error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert saveError={errors.accountNumberFlagged.errors} />,
     );
-    expect(
-      await findByText(
-        'We’re sorry. You can’t change your direct deposit information right now because we’ve locked the ability to edit this information. We do this to protect your bank account information and prevent fraud when we think there may be a security issue.',
-      ),
-    ).to.exist;
+    expect(await findByText(paymentRestrictionRegex)).to.exist;
+  });
+
+  it('renders the payment restriction error', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.paymentRestrictionsPresent.errors} />,
+    );
+    expect(await findByText(paymentRestrictionRegex)).to.exist;
   });
 
   it('renders the flagged routing number error', async () => {
@@ -76,6 +82,17 @@ describe('<UpdateErrorAlert />', () => {
   it('renders the mailing address error', async () => {
     const { findByText } = render(
       <UpdateErrorAlert saveError={errors.invalidMailingAddress.errors} />,
+    );
+    expect(
+      await findByText(
+        /We’re sorry. We couldn’t update your direct deposit bank information because your mailing address is missing or invalid./i,
+      ),
+    ).to.exist;
+  });
+
+  it('renders the mailing address error for missing payment address', async () => {
+    const { findByText } = render(
+      <UpdateErrorAlert saveError={errors.missingPaymentAddress.errors} />,
     );
     expect(
       await findByText(

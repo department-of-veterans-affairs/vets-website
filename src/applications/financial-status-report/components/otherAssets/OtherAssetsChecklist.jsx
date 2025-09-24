@@ -68,6 +68,12 @@ const OtherAssetsChecklist = ({
             because it gives us a picture of your financial situation and allows
             us to make a more informed decision regarding your request.
           </va-additional-info>
+          <va-additional-info trigger="What is specialty equipment or technology?">
+            Specialty equipment or technology refers to tools, machinery, or
+            devices designed for specific industries, tasks, or functions that
+            go beyond general-purpose equipment. Examples include backhoes,
+            excavators, MRI machines, and quantum computers.
+          </va-additional-info>
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}

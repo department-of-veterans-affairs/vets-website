@@ -45,9 +45,12 @@ const DecisionReviewPage = () => {
         Send the completed form to the benefit office that matches the benefit
         type you select on the form.
       </p>
-      <a href={BENEFIT_OFFICES_URL} onClick={handlers.officeLinkClick}>
-        Find the address for mailing your form
-      </a>{' '}
+      <va-link
+        disable-analytics
+        href={BENEFIT_OFFICES_URL}
+        onClick={handlers.officeLinkClick}
+        text="Find the address for mailing your form"
+      />{' '}
       <p className="vads-u-margin-bottom--0">
         <DownloadLink subTaskEvent />
       </p>
@@ -55,9 +58,11 @@ const DecisionReviewPage = () => {
         If you don’t think this is the right form for you, find out about other
         decision review options.
       </p>
-      <a href="/resources/choosing-a-decision-review-option/">
-        Learn about choosing a decision review option
-      </a>
+      <va-link
+        disable-analytics
+        href="/resources/choosing-a-decision-review-option/"
+        text="Learn about choosing a decision review option"
+      />
     </div>
   );
 };

@@ -1,27 +1,43 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import VaPrescription from '../../../components/PrescriptionDetails/VaPrescription';
 import rxDetailsResponse from '../../fixtures/prescriptionDetails.json';
 import { dateFormat } from '../../../util/helpers';
+import * as rxApiExports from '../../../api/rxApi';
 
 describe('vaPrescription details container', () => {
   const prescription = rxDetailsResponse.data.attributes;
   const newRx = { ...prescription, phoneNumber: '1234567891' };
   const setup = (rx = newRx, ffEnabled = true) => {
-    return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+    return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
           mhv_medications_display_documentation_content: ffEnabled,
-          // eslint-disable-next-line camelcase
-          mhv_medications_display_grouping: ffEnabled,
         },
       },
       reducers: {},
-      path: '/prescriptions/1234567891',
+      initialEntries: ['/prescriptions/1234567891'],
     });
   };
+
+  let sandbox;
+  let landMedicationDetailsAalStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    landMedicationDetailsAalStub = sandbox.stub(
+      rxApiExports,
+      'landMedicationDetailsAal',
+    );
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('renders without errors', () => {
     const screen = setup();
@@ -58,20 +74,6 @@ describe('vaPrescription details container', () => {
       'Learn more about this medication',
     );
     expect(learnMoreLink).to.exist;
-  });
-
-  it('displays Shipped on in Refill History', () => {
-    const screen = setup();
-    const shippedOn = screen.getAllByText(
-      dateFormat(
-        rxDetailsResponse.data.attributes.trackingList[0].completeDateTime,
-      ),
-      {
-        exact: true,
-        selector: 'span',
-      },
-    );
-    expect(shippedOn).to.exist;
   });
 
   it('displays description correctly', async () => {
@@ -186,24 +188,56 @@ describe('vaPrescription details container', () => {
     expect(docLink).to.exist;
   });
 
-  it('does not display documentation if ff is off', () => {
-    const screen = setup({ ...prescription, cmopNdcNumber: '123456' }, false);
-    const docLink = screen.queryByTestId('va-prescription-documentation-link');
-    expect(docLink).to.not.exist;
-  });
-
-  it('displays "You haven’t filled this prescription yet" if there is no refill history', () => {
+  it('does not display refill history if there is one record with dispensedDate undefined', () => {
     const rxWithNoRefillHistory = {
       ...prescription,
-      rxRfRecords: [],
       dispensedDate: undefined,
+      rxRfRecords: [
+        { ...prescription.rxRfRecords[0], dispensedDate: undefined },
+      ],
     };
     const screen = setup(rxWithNoRefillHistory);
-    const haventFilledRxNotification = screen.getByText(
-      'You haven’t filled this prescription yet.',
-    );
+    const refillSubHeader = screen.queryByText('Refill history');
 
-    expect(haventFilledRxNotification).to.exist;
+    expect(refillSubHeader).to.not.exist;
+  });
+
+  it('displays refill history if there is one record with dispensedDate not undefined', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [{ ...prescription.rxRfRecords[0] }],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.exist;
+  });
+
+  it('does not display refill history if there is no records', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.not.exist;
+  });
+
+  it('displays refill history if there are 2 records', () => {
+    const rxWithNoRefillHistory = {
+      ...prescription,
+      dispensedDate: undefined,
+      rxRfRecords: [
+        { ...prescription.rxRfRecords[0], ...prescription.rxRfRecords[0] },
+      ],
+    };
+    const screen = setup(rxWithNoRefillHistory);
+    const refillSubHeader = screen.queryByText('Refill history');
+
+    expect(refillSubHeader).to.exist;
   });
 
   it('displays pending med content if prescription source is PD and dispStatus is NewOrder', () => {
@@ -242,19 +276,17 @@ describe('vaPrescription details container', () => {
 
   it('displays partial refill content if prescription source is pf and partial flag is on', () => {
     const setupWithPartialFill = (rx = newRx, ffEnabled = true) => {
-      return renderWithStoreAndRouter(<VaPrescription {...rx} />, {
+      return renderWithStoreAndRouterV6(<VaPrescription {...rx} />, {
         initialState: {
           featureToggles: {
             // eslint-disable-next-line camelcase
             mhv_medications_display_documentation_content: ffEnabled,
             // eslint-disable-next-line camelcase
-            mhv_medications_display_grouping: ffEnabled,
-            // eslint-disable-next-line camelcase
             mhv_medications_partial_fill_content: true,
           },
         },
         reducers: {},
-        path: '/prescriptions/1234567891',
+        initialEntries: ['/prescriptions/1234567891'],
       });
     };
     const screen = setupWithPartialFill({
@@ -264,5 +296,106 @@ describe('vaPrescription details container', () => {
     const accordionHeading = screen.getByText('Partial fill');
 
     expect(accordionHeading).to.exist;
+  });
+
+  it('calls AAL on load', async () => {
+    const screen = setup();
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    await waitFor(() => {
+      expect(landMedicationDetailsAalStub.calledOnce).to.be.true;
+      expect(landMedicationDetailsAalStub.calledWith(newRx)).to.be.true;
+    });
+  });
+
+  it('renders without errors when quantity is a string', () => {
+    const rxWithStringQuantity = {
+      ...prescription,
+      quantity: '30',
+    };
+    const screen = setup(rxWithStringQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is a string float', () => {
+    const rxWithStringFloatQuantity = {
+      ...prescription,
+      quantity: '15.5',
+    };
+    const screen = setup(rxWithStringFloatQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the float value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('15.5');
+  });
+
+  // TODO: Remove when the API is updated to return a string
+  it('renders without errors when quantity is an integer', () => {
+    const rxWithIntegerQuantity = {
+      ...prescription,
+      quantity: 30,
+    };
+    const screen = setup(rxWithIntegerQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the value is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('30');
+  });
+
+  it('renders without errors when quantity is null', () => {
+    const rxWithNullQuantity = {
+      ...prescription,
+      quantity: null,
+    };
+    const screen = setup(rxWithNullQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and the "not available" message is displayed
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('Quantity not available');
+  });
+
+  it('renders without errors when quantity is zero', () => {
+    const rxWithZeroQuantity = {
+      ...prescription,
+      quantity: 0,
+    };
+    const screen = setup(rxWithZeroQuantity);
+    expect(screen.queryByTestId('va-prescription-container')).to.exist;
+
+    // Verify the Quantity heading exists and zero is displayed correctly
+    const quantityHeading = screen.getByText('Quantity');
+    expect(quantityHeading).to.exist;
+
+    // Find the paragraph element that comes after the Quantity heading
+    const quantityValue = quantityHeading.nextElementSibling;
+    expect(quantityValue).to.exist;
+    expect(quantityValue.textContent).to.equal('0');
   });
 });

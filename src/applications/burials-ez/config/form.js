@@ -19,9 +19,12 @@ import contactInformation from './chapters/01-claimant-information/contactInform
 import veteranInformation from './chapters/02-veteran-information/veteranInformation';
 import burialInformation from './chapters/02-veteran-information/burialInformation';
 import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
+import homeHospiceCare from './chapters/02-veteran-information/homeHospiceCare';
+import homeHospiceCareAfterDischarge from './chapters/02-veteran-information/homeHospiceCareAfterDischarge';
 
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
+import serviceNumber from './chapters/03-military-history/serviceNumber';
 import servicePeriods from './chapters/03-military-history/servicePeriods';
 import previousNamesQuestion from './chapters/03-military-history/previousNamesQuestion';
 import previousNames from './chapters/03-military-history/previousNames';
@@ -44,7 +47,12 @@ import deathCertificate from './chapters/05-additional-information/deathCertific
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
-import { generateDeathFacilitySchemas } from '../utils/helpers';
+import {
+  pageAndReviewTitle,
+  generateDeathFacilitySchemas,
+  showHomeHospiceCarePage,
+  showHomeHospiceCareAfterDischargePage,
+} from '../utils/helpers';
 import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
@@ -68,6 +76,9 @@ const formConfig = {
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
   formId: VA_FORM_IDS.FORM_21P_530EZ,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   saveInProgress: {
     messages: {
       inProgress:
@@ -183,6 +194,21 @@ const formConfig = {
           uiSchema: locationOfDeath.uiSchema,
           schema: locationOfDeath.schema,
         },
+        homeHospiceCare: {
+          ...pageAndReviewTitle('Home hospice care'),
+          path: 'veteran-information/location-of-death/home-hospice-care',
+          depends: showHomeHospiceCarePage,
+          uiSchema: homeHospiceCare.uiSchema,
+          schema: homeHospiceCare.schema,
+        },
+        homeHospiceCareAfterDischarge: {
+          ...pageAndReviewTitle('Home hospice care after discharge'),
+          path:
+            'veteran-information/location-of-death/hme-hospice-care-after-discharge',
+          depends: showHomeHospiceCareAfterDischargePage,
+          uiSchema: homeHospiceCareAfterDischarge.uiSchema,
+          schema: homeHospiceCareAfterDischarge.schema,
+        },
         nursingHomeUnpaid: {
           title: 'Veteran death location details',
           reviewTitle: () => (
@@ -268,6 +294,16 @@ const formConfig = {
           depends: form => get('view:separationDocuments', form),
           uiSchema: uploadDD214.uiSchema,
           schema: uploadDD214.schema,
+        },
+        serviceNumber: {
+          title: 'Service number',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Service number</span>
+          ),
+          path: 'military-history/service-number',
+          depends: form => !get('view:separationDocuments', form),
+          uiSchema: serviceNumber.uiSchema,
+          schema: serviceNumber.schema,
         },
         servicePeriods: {
           title: 'Service periods',

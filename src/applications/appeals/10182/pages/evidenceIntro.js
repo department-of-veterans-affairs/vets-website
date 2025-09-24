@@ -25,7 +25,6 @@ const contactInfo = {
         Y: 'Yes',
         N: 'No, I’ll submit it later.',
       },
-      uswds: true,
     }),
   },
 

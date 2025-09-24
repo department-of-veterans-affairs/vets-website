@@ -4,7 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
-} from 'applications/static-pages/wizard';
+} from 'platform/site-wide/wizard';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 

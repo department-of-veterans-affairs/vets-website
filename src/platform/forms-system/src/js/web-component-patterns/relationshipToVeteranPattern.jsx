@@ -2,7 +2,7 @@ import { radioUI, radioSchema } from './radioPattern';
 import VaTextInputField from '../web-component-fields/VaTextInputField';
 
 /**
- * Web component uiSchema for relationship to veteran
+ * uiSchema for relationship to veteran. Includes spouse, child, parent, executor, and other fields
  *
  * Pattern recommendation: Use as a standalone on the page
  *
@@ -40,7 +40,7 @@ export const relationshipToVeteranUI = options => {
         other: 'We don’t have a relationship that’s listed here',
       },
       errorMessages: {
-        required: `Please select your relationship to the ${person}`,
+        required: `Select your relationship to the ${person}`,
       },
       labelHeaderLevel: labelHeaderLevel ?? '3',
     }),
@@ -53,7 +53,7 @@ export const relationshipToVeteranUI = options => {
         expandedContentFocus: true,
       },
       'ui:errorMessages': {
-        required: `Please enter your relationship to the ${person}`,
+        required: `Enter your relationship to the ${person}`,
       },
     },
     'ui:options': {
@@ -70,6 +70,9 @@ export const relationshipToVeteranUI = options => {
   };
 };
 
+/**
+ * uiSchema for relationship to veteran, specifically for spouse or child
+ */
 export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 
@@ -88,6 +91,9 @@ export const relationshipToVeteranSpouseOrChildUI = personTitle => {
   };
 };
 
+/**
+ * uiSchema for claimant relationship to veteran, specifically for spouse or child
+ */
 export const claimantRelationshipToVeteranSpouseOrChildUI = personTitle => {
   const person = personTitle ?? 'Veteran';
 

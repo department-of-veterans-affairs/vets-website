@@ -24,6 +24,7 @@ export const clearLocationMarkers = () => {
   const locationMarkers = window.document.getElementsByClassName(
     'mapboxgl-marker',
   );
+
   Array.from(locationMarkers).forEach(marker =>
     marker.parentNode.removeChild(marker),
   );

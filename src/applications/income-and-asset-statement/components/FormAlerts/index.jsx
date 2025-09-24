@@ -1,52 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isReviewAndSubmitPage } from '../../helpers';
 
-const RequestFormAlert = ({ title, formName, formLink, children }) => {
-  const linkText = `Get ${formName} to download (opens in new tab)`;
+export const TrustSupplementaryFormsAlert = ({ formData, headingLevel }) => {
+  const trusts = formData?.trusts || [];
+  if (trusts.length === 0) return null;
+
+  const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
+
   return (
-    <va-alert status="warning" uswds>
-      <p className="vads-u-margin-y--0">
-        You’ll need to submit an {title} ({formName}
-        ).
-      </p>
-      <p>{children}</p>
+    <va-alert status="info" visible>
+      <Heading slot="headline">Additional documents needed</Heading>
       <p>
-        We’ll ask you to upload this form at the end of this application. Or you
-        can send it to us by mail.
-      </p>
-      <p>
-        <a
-          href={formLink}
-          rel="noopener noreferrer"
-          target="_blank"
-          aria-label={linkText}
-        >
-          {linkText}
-        </a>
+        You’ve added a trust, so you’ll need to submit supporting documents. You
+        can upload them at a later part of this process.
       </p>
     </va-alert>
   );
 };
 
-RequestFormAlert.propTypes = {
-  children: PropTypes.node.isRequired,
-  formLink: PropTypes.string.isRequired,
-  formName: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+TrustSupplementaryFormsAlert.propTypes = {
+  formData: PropTypes.shape({
+    trusts: PropTypes.array,
+  }),
+  headingLevel: PropTypes.oneOf(['h2', 'h3']),
 };
-
-export const RequestPropertyOrBusinessIncomeFormAlert = () => (
-  <RequestFormAlert
-    title="Report of Income from Property or Business"
-    formName="VA Form 21P-4185"
-    formLink="https://www.va.gov/find-forms/about-form-21p-4185/"
-  />
-);
-
-export const RequestFarmIncomeFormAlert = () => (
-  <RequestFormAlert
-    title="Pension Claim Questionnaire for Farm Income"
-    formName="VA Form 21P-4165"
-    formLink="https://www.va.gov/find-forms/about-form-21p-4165/"
-  />
-);

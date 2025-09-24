@@ -12,8 +12,9 @@ import {
 } from '@department-of-veterans-affairs/platform-site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -151,6 +152,12 @@ export const Form526Entry = ({
     },
     [loggedIn],
   );
+
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync([
+    'disability526Enable2024Form4142',
+    'disability526ToxicExposureOptOutDataPurge',
+  ]);
 
   if (!loggedIn) {
     // clear service branches if not logged in

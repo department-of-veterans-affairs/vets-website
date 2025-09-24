@@ -30,7 +30,6 @@ const InformalConferenceReview = ({ data, editPage }) => {
           onClick={editPage}
           label={editButtonLabel}
           text={editButtonText}
-          uswds
         />
       </div>
       <dl className="review">

@@ -2,7 +2,6 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 import { getThreadList } from '../api/SmApi';
-import { getIsPilotFromState } from '.';
 
 export const setThreadSortOrder = ({
   value,
@@ -32,24 +31,29 @@ export const clearListOfThreads = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_LIST });
 };
 
+export const setThreadRefetchRequired = value => async dispatch => {
+  dispatch({
+    type: Actions.Thread.RE_FETCH_REQUIRED,
+    payload: value,
+  });
+};
+
 export const getListOfThreads = (
   folderId,
   pageSize,
   pageNumber,
   threadSort,
   update = false,
-) => async (dispatch, getState) => {
+) => async dispatch => {
   if (!update) {
     dispatch({ type: Actions.Thread.IS_LOADING, payload: true });
   }
   try {
-    const isPilot = getIsPilotFromState(getState);
     let response = await getThreadList({
       folderId,
       pageSize,
       pageNumber,
       threadSort,
-      isPilot,
     });
     if (response.data.length === 0 && pageNumber > 1) {
       // in a scenario when the last thread on a page is deleted,
@@ -61,7 +65,6 @@ export const getListOfThreads = (
         pageSize,
         decrementPage,
         threadSort,
-        isPilot,
       });
     }
     dispatch({
@@ -69,17 +72,22 @@ export const getListOfThreads = (
       response,
     });
   } catch (e) {
-    dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
     if (
       e.errors &&
       e.errors[0]?.detail === 'No messages in the requested folder'
     ) {
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       const noThreads = [];
       dispatch({
         type: Actions.Thread.GET_EMPTY_LIST,
         response: noThreads,
       });
     } else if (e.errors) {
+      dispatch({
+        type: Actions.Thread.ERROR_LOADING_LIST,
+        response: { errors: e.errors },
+      });
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
@@ -88,6 +96,7 @@ export const getListOfThreads = (
         ),
       );
     } else {
+      dispatch({ type: Actions.Thread.IS_LOADING, payload: false });
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,

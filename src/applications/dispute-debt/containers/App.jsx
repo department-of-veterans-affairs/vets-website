@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isLoggedIn } from 'platform/user/selectors';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
 import formConfig from '../config/form';
 import { fetchDebts } from '../actions';
 
@@ -12,16 +13,20 @@ export default function App({ children, location }) {
   const dispatch = useDispatch();
 
   const userLoggedIn = useSelector(state => isLoggedIn(state));
+  const isVerified = useSelector(
+    state => selectProfile(state)?.verified || false,
+  );
   const { isDebtPending } = useSelector(state => state.availableDebts);
-  const isLoadingFeatures = useSelector(state => toggleValues(state).loading);
+  const { useToggleLoadingValue } = useFeatureToggle();
+  const isLoadingFeatures = useToggleLoadingValue();
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && isVerified) {
         fetchDebts(dispatch);
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, isVerified],
   );
 
   // only need to show loading for debt pending if user is logged in
@@ -37,7 +42,12 @@ export default function App({ children, location }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <DowntimeNotification
+        appTitle="dispute debt system"
+        dependencies={formConfig.downtime.dependencies}
+      >
+        {children}
+      </DowntimeNotification>
     </RoutedSavableApp>
   );
 }

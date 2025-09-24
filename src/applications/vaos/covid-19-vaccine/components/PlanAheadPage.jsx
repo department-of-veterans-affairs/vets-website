@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   routeToNextAppointmentPage,
@@ -11,25 +10,18 @@ import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FormButtons from '../../components/FormButtons';
 import { selectPageChangeInProgress } from '../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'planAhead';
 const pageTitle = 'COVID-19 vaccine appointment';
 
-export default function PlanAheadPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function PlanAheadPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
 
   return (
@@ -80,7 +72,3 @@ export default function PlanAheadPage({ changeCrumb }) {
     </div>
   );
 }
-
-PlanAheadPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

@@ -11,10 +11,11 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
+import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import { paymentsSuccessEmpty } from '../fixtures/test-payments-response';
 import {
-  debtsSuccess,
   debtsSuccessEmpty,
+  debtsCountSuccess,
 } from '../fixtures/test-debts-response';
 import {
   copaysSuccess,
@@ -22,13 +23,22 @@ import {
 } from '../fixtures/test-copays-response';
 import appointmentsEmpty from '../fixtures/appointments-empty';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Outstanding Debts', () => {
   Cypress.config({ defaultCommandTimeout: 12000, requestTimeout: 25000 });
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', {
+      data: {
+        features: [
+          {
+            name: 'showGenericDebtCard',
+            value: false,
+          },
+        ],
+      },
+    });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/benefits_claims', claimsSuccess());
@@ -50,7 +60,9 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
     // No Debts
     describe('and user has no debts', () => {
       beforeEach(() => {
-        cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts1');
+        cy.intercept('/v0/debts?countOnly=true', debtsSuccessEmpty()).as(
+          'noDebts1',
+        );
       });
 
       describe('and copays exist', () => {
@@ -96,7 +108,9 @@ describe('The My VA Dashboard - Outstanding Debts', () => {
     // With debts
     describe('and user has recent debts', () => {
       beforeEach(() => {
-        cy.intercept('/v0/debts', debtsSuccess(true)).as('recentDebts1');
+        cy.intercept('/v0/debts?countOnly=true', debtsCountSuccess(8)).as(
+          'recentDebts1',
+        );
       });
 
       describe('and copays exist', () => {

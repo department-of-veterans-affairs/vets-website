@@ -6,6 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
 import formConfig from './config/form';
 import { isVeteran } from './utils/helpers';
+import { wrapWithBreadcrumb } from './components/Breadcrumbs';
 
 const veteranLabels = [
   [
@@ -55,6 +56,7 @@ const veteranLabelMap = new Map(veteranLabels);
 const nonVeteranMap = new Map(nonVeteranLabels);
 
 export default function PreNeedApp({ location, children }) {
+  const { pathname } = location || {};
   const selectorData = useSelector(state => state.form || {});
   // find all yes/no check boxes and attach analytics events
   useEffect(
@@ -95,12 +97,14 @@ export default function PreNeedApp({ location, children }) {
     },
     [location, selectorData],
   );
-  return (
-    <article id="pre-need" data-location={`${location?.pathname?.slice(1)}`}>
+
+  return wrapWithBreadcrumb(
+    <article id="form-4010007" data-location={`${pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
-    </article>
+    </article>,
+    selectorData,
   );
 }
 

@@ -34,8 +34,13 @@ const processAxeCheckResults = violations => {
  * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
  * @param {Object} [tempOptions={}] - Rules object to enable _13647 exception or modify aXe config.
  */
-Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
-  const { _13647Exception } = tempOptions;
+Cypress.Commands.add('axeCheck', (context = 'main', options = {}) => {
+  const {
+    _13647Exception,
+    headingOrder = true,
+    emptyHeading = true,
+    pageHasHeadingOne = true,
+  } = options;
 
   /**
    * Default required ruleset to meet Section 508 compliance.
@@ -53,13 +58,22 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
       'color-contrast': {
         enabled: false,
       },
+      'empty-heading': {
+        enabled: emptyHeading,
+      },
+      'heading-order': {
+        enabled: headingOrder,
+      },
+      'page-has-heading-one': {
+        enabled: pageHasHeadingOne,
+      },
     },
   };
 
   /**
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    */
-  axeBuilder = Object.assign(axeBuilder, tempOptions);
+  axeBuilder = Object.assign(axeBuilder, options);
 
   const axeConfig = _13647Exception
     ? { includedImpacts: ['critical'] }

@@ -22,7 +22,7 @@ import { arrayBuilderEventPageTitleUI } from '../../utils/form0781';
 
 export default {
   uiSchema: {
-    ...arrayBuilderEventPageTitleUI({
+    'ui:title': arrayBuilderEventPageTitleUI({
       title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
       editTitle: 'details',
     }),

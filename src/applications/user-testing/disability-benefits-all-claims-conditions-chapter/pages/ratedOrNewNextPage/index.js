@@ -1,28 +1,102 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { RATED_OR_NEW_NEXT_PAGE as demo } from '../../constants';
-import { introAndSummaryPages, remainingSharedPages } from '../shared';
+import { ConditionsIntroDescription } from '../../content/conditions';
 import {
   arrayBuilderOptions,
-  hasRatedDisabilitiesOrIsRatedDisability,
-  isActiveDemo,
+  hasRatedDisabilities,
+  isEditFromContext,
 } from '../shared/utils';
+import summaryPage from '../shared/summary';
+import { remainingSharedPages } from '../shared';
 import conditionPage from './condition';
 
+//  Local intro page schema (was intro.js – now lives right here)
+const ratedIntroPage = {
+  uiSchema: {
+    ...titleUI(
+      'Add your disabilities and conditions',
+      ConditionsIntroDescription,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+// Build every page explicitly w/o introAndSummaryPages
 const ratedOrNewNextPagePages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
-    ...introAndSummaryPages(demo, pageBuilder),
-    [`${demo.name}Condition`]: pageBuilder.itemPage({
-      title: 'Select rated disability or new condition',
-      path: `conditions-${demo.label}/:index/condition`,
-      depends: (formData, index) =>
-        isActiveDemo(formData, demo.name) &&
-        hasRatedDisabilitiesOrIsRatedDisability(formData, index),
+    // ---------- Intro ----------
+    Intro: pageBuilder.introPage({
+      title: 'Add your disabilities and conditions',
+      path: 'conditions-mango-intro',
+      initialData: {
+        demo: 'Mango Prototype',
+        ratedDisabilities: [
+          {
+            name: 'Tinnitus',
+            ratedDisabilityId: '111111',
+            ratingDecisionId: '0',
+            diagnosticCode: 6260,
+            decisionCode: 'SVCCONNCTED',
+            decisionText: 'Service Connected',
+            ratingPercentage: 10,
+            maximumRatingPercentage: 100,
+            disabilityActionType: 'NONE',
+            'view:selected': true,
+          },
+          {
+            name: 'Sciatica',
+            ratedDisabilityId: '222222',
+            ratingDecisionId: '0',
+            diagnosticCode: 8998,
+            decisionCode: 'SVCCONNCTED',
+            decisionText: 'Service Connected',
+            ratingPercentage: 20,
+            maximumRatingPercentage: 100,
+            disabilityActionType: 'NONE',
+            'view:selected': true,
+          },
+          {
+            name: 'Hypertension',
+            ratedDisabilityId: '333333',
+            ratingDecisionId: '0',
+            diagnosticCode: 7101,
+            decisionCode: 'SVCCONNCTED',
+            decisionText: 'Service Connected',
+            ratingPercentage: 10,
+            maximumRatingPercentage: 100,
+            disabilityActionType: 'NONE',
+          },
+        ],
+      },
+      uiSchema: ratedIntroPage.uiSchema,
+      schema: ratedIntroPage.schema,
+    }),
+
+    // ---------- Summary ----------
+    Summary: pageBuilder.summaryPage({
+      title: 'Review your conditions',
+      path: `conditions-mango-summary`,
+      uiSchema: summaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+
+    // ---------- Condition item page ----------
+    Condition: pageBuilder.itemPage({
+      title: 'Type of condition',
+      path: `conditions-mango/:index/condition`,
+      depends: (formData, _index, ctx) =>
+        !isEditFromContext(ctx) && hasRatedDisabilities(formData),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
     }),
-    ...remainingSharedPages(demo, pageBuilder, helpers),
+
+    // ---------- Any other shared pages ----------
+    ...remainingSharedPages(pageBuilder, helpers),
   }),
 );
 

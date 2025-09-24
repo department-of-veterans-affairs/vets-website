@@ -32,9 +32,7 @@ export default function PastAppointmentsDateDropdown({
         id="date-dropdown"
         value={dateRangeIndex.toString()}
         label="Select a date range"
-        className={classNames(
-          'mobile:vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4 vaos-hide-for-print',
-        )}
+        className={classNames('vads-u-margin-bottom--2', 'vaos-hide-for-print')}
       />
     </>
   );

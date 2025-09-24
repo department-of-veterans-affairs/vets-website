@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Report 85/15 Rule enrollment ratios",
+  "title": "Report 85/15 rule enrollment ratios",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

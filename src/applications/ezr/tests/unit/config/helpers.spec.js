@@ -1,9 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { renderProviderWrappedComponent } from '../../helpers';
 
-const expectedFieldTypes = 'input, select, textarea';
+export const expectedFieldTypes =
+  'input, select, textarea, va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 const expectedFieldTypesWebComponents =
   'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
 
@@ -17,7 +19,12 @@ export const testNumberOfFields = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should have appropriate number of fields', async () => {
-      const { container } = render(
+      const { container } = renderProviderWrappedComponent(
+        {
+          form: {
+            data,
+          },
+        },
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
@@ -28,9 +35,10 @@ export const testNumberOfFields = (
       );
 
       await waitFor(() => {
-        expect(container.querySelectorAll(expectedFieldTypes)).to.have.lengthOf(
-          expectedNumberOfFields,
+        const fields = Array.from(
+          container.querySelectorAll(expectedFieldTypes),
         );
+        expect(fields).to.have.lengthOf(expectedNumberOfFields);
       });
     });
   });
@@ -45,8 +53,13 @@ export const testNumberOfErrorsOnSubmit = (
   data = {},
 ) => {
   describe(`${pageTitle} page`, () => {
-    it('should show the correct number of errors on submit', async () => {
-      const { getByRole, queryAllByRole } = render(
+    it('should render the correct number of errors on submit', async () => {
+      const { container, getByRole } = renderProviderWrappedComponent(
+        {
+          form: {
+            data,
+          },
+        },
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
@@ -55,10 +68,10 @@ export const testNumberOfErrorsOnSubmit = (
           formData={{}}
         />,
       );
-
-      getByRole('button', { name: /submit/i }).click();
-      const errors = queryAllByRole('alert');
+      const submitButton = getByRole('button', { name: /submit/i });
+      fireEvent.click(submitButton);
       await waitFor(() => {
+        const errors = container.querySelectorAll('.usa-input-error');
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });
@@ -104,7 +117,12 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
 ) => {
   describe(`${pageTitle} page`, () => {
     it('should show the correct number of errors on submit for web components', async () => {
-      const { container, getByRole } = render(
+      const { container, getByRole } = renderProviderWrappedComponent(
+        {
+          form: {
+            data,
+          },
+        },
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
           schema={schema}
@@ -115,11 +133,11 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(expectedFieldTypesWebComponents),
-      );
-      const errors = nodes.filter(node => node.error);
       await waitFor(() => {
+        const nodes = Array.from(
+          container.querySelectorAll(expectedFieldTypesWebComponents),
+        );
+        const errors = nodes.filter(node => node.error);
         expect(errors).to.have.lengthOf(expectedNumberOfErrors);
       });
     });

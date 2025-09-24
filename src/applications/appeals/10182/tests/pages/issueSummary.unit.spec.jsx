@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
-import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../../shared/constants';
+import { SELECTED } from '../../../shared/constants';
 
 describe('NOD selected issues summary page', () => {
   const {
@@ -32,6 +32,7 @@ describe('NOD selected issues summary page', () => {
     expect(form.find('li').length).to.equal(2);
     form.unmount();
   });
+
   it('should render a link to the eligible issues page', () => {
     const form = mount(
       <DefinitionTester
@@ -43,12 +44,10 @@ describe('NOD selected issues summary page', () => {
       />,
     );
 
-    const link = form.find('Link');
+    const link = form.find('va-link');
 
     expect(link.length).to.equal(1);
-    expect(link.text()).to.contain('Go back to add more issues');
-    expect(link.props().to.pathname).to.equal(CONTESTABLE_ISSUES_PATH);
-    expect(link.props().to.search).to.equal('?redirect');
+    expect(link.props().text).to.contain('Go back to add more issues');
     form.unmount();
   });
 

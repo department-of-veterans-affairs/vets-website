@@ -18,13 +18,37 @@ const useAcceleratedData = () => {
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryAllergiesEnabled
       ],
   );
+  const isAcceleratingCareNotesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryCareNotesEnabled
+      ],
+  );
+  const isAcceleratingConditionsEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryConditionsEnabled
+      ],
+  );
   const isAcceleratingVitalsEnabled = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVitalSignsEnabled
       ],
   );
+  const isAcceleratingVaccinesEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryVaccinesEnabled
+      ],
+  );
 
+  const isAcceleratingLabsAndTestsEnabled = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvAcceleratedDeliveryLabsAndTestsEnabled
+      ],
+  );
   useEffect(
     () => {
       // TECH DEBT: Do not trigger the connection when running unit tests because
@@ -57,6 +81,20 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner],
   );
 
+  const isAcceleratingCareNotes = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingCareNotesEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingCareNotesEnabled],
+  );
+
+  const isAcceleratingConditions = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingConditionsEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingConditionsEnabled],
+  );
+
   const isAcceleratingVitals = useMemo(
     () => {
       return (
@@ -66,16 +104,48 @@ const useAcceleratedData = () => {
     [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
   );
 
+  const isAcceleratingVaccines = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingVaccinesEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingVaccinesEnabled],
+  );
+
+  const isAcceleratingLabsAndTests = useMemo(
+    () => {
+      return isAcceleratedDeliveryEnabled && isAcceleratingLabsAndTestsEnabled;
+    },
+    [isAcceleratedDeliveryEnabled, isAcceleratingLabsAndTestsEnabled],
+  );
   const isAccelerating = useMemo(
-    () => isAcceleratingAllergies || isAcceleratingVitals,
-    [isAcceleratingAllergies, isAcceleratingVitals],
+    () =>
+      isAcceleratedDeliveryEnabled ||
+      isAcceleratingAllergies ||
+      isAcceleratingCareNotes ||
+      isAcceleratingConditions ||
+      isAcceleratingVitals ||
+      isAcceleratingVaccines ||
+      isAcceleratingLabsAndTests,
+    [
+      isAcceleratedDeliveryEnabled,
+      isAcceleratingAllergies,
+      isAcceleratingConditions,
+      isAcceleratingCareNotes,
+      isAcceleratingVitals,
+      isAcceleratingVaccines,
+      isAcceleratingLabsAndTests,
+    ],
   );
 
   return {
     isLoading,
     isAccelerating,
     isAcceleratingAllergies,
+    isAcceleratingCareNotes,
+    isAcceleratingConditions,
     isAcceleratingVitals,
+    isAcceleratingVaccines,
+    isAcceleratingLabsAndTests,
   };
 };
 

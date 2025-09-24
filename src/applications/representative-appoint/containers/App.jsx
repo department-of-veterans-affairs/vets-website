@@ -4,25 +4,29 @@ import { connect, useSelector } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
-import configService from '../utilities/configService';
-import { getFormSubtitle } from '../utilities/helpers';
 
+import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
+
+import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { useDefaultFormData } from '../hooks/useDefaultFormData';
 
-import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
-
+import configService from '../utilities/configService';
+import { getFormSubtitle } from '../utilities/helpers';
 import { selectAuthStatus } from '../utilities/selectors/authStatus';
+import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
 
 function App({ location, children, formData }) {
   const subTitle = getFormSubtitle(formData);
   const { isLoadingFeatureFlags } = useSelector(selectFeatureToggles);
   const { isLoadingProfile } = useSelector(selectAuthStatus);
   const isAppLoading = isLoadingFeatureFlags || isLoadingProfile;
+
+  // Use Datadog Real User Monitoring (RUM)
+  useBrowserMonitoring();
 
   // Set default view fields within the form data
   useDefaultFormData();

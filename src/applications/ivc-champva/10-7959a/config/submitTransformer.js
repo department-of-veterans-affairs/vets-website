@@ -32,7 +32,7 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
 
   // ---
-  // Add type/category info to file uploads:
+  // Add type/category info to file uploads for Pega/DOCMP ingestion:
   const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
     return { ...el, attachmentId: 'MEDDOCS' };
   });

@@ -37,12 +37,12 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('renders without errors', () => {
-    expect(screen.getAllByText('Potassium, Sodium', { exact: true })[0]).to
+    expect(screen.getAllByText('POTASSIUM, SODIUM', { exact: true })[0]).to
       .exist;
   });
 
   it('should contain the name of the record', () => {
-    const recordName = screen.getAllByText('Potassium, Sodium', {
+    const recordName = screen.getAllByText('POTASSIUM, SODIUM', {
       exact: true,
     })[0];
     expect(recordName).to.exist;
@@ -56,7 +56,7 @@ describe('LabsAndTestsListItem component', () => {
   });
 
   it('should contain a link to view record details', () => {
-    const recordDetailsLink = screen.getByText('Potassium, Sodium', {
+    const recordDetailsLink = screen.getByText('POTASSIUM, SODIUM', {
       selector: 'a',
       exact: true,
     });
@@ -92,7 +92,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   });
 
   it('should display the name of the record as a link to view record details', () => {
-    const recordName = screen.getAllByText('Potassium, Sodium', {
+    const recordName = screen.getAllByText('POTASSIUM, SODIUM', {
       selector: 'a',
       exact: true,
     })[0];
@@ -255,7 +255,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
 
   // This test will give different results when run in different time zones.
   it('should display the date of the record', () => {
-    const date = screen.getByText('January 6, 2004, 7:27 p.m.', {
+    const date = screen.getByText('January 6, 2004 7:27 p.m.', {
       selector: 'div',
       exact: true,
     });

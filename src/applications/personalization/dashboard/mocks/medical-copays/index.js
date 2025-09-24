@@ -1658,7 +1658,26 @@ const user81Copays = {
   status: 200,
 };
 
+const user81NoCopays = {
+  data: [],
+  status: 200,
+};
+
+const user81ErrorCopays = {
+  errors: [
+    {
+      title: 'Internal Server Error',
+      detail: 'An unexpected error occurred while processing the request.',
+      code: 'InternalServerError',
+      status: '500',
+    },
+  ],
+  status: 500,
+};
+
 module.exports = {
   has3Copays,
   user81Copays,
+  user81ErrorCopays,
+  user81NoCopays,
 };

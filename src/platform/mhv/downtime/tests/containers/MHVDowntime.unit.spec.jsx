@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { addHours, addMinutes } from 'date-fns';
 
 import { externalServiceStatus } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
@@ -13,7 +14,7 @@ import MHVDowntime from '../../containers/MHVDowntime';
 describe('MHVDowntime', () => {
   it('renders MHVDown when a service is down', () => {
     const now = new Date();
-    const later = new Date(now).setHours(now.getHours() + 4);
+    const later = addHours(now, 4);
 
     const mockServiceProps = {
       endTime: later,
@@ -31,9 +32,8 @@ describe('MHVDowntime', () => {
 
   it('renders MHVDowntimeApproaching and children when a service is going down within an hour', () => {
     // Create a starting datetime 30 minutes into the future, though `status` is what really controls what renders
-    const soon = new Date(Date.now());
-    soon.setMinutes(soon.getMinutes() + 30);
-    const later = new Date(soon).setHours(soon.getHours() + 4);
+    const soon = addMinutes(new Date(), 30);
+    const later = addHours(soon, 4);
 
     const mockServiceProps = {
       endTime: later,
@@ -89,7 +89,7 @@ describe('MHVDowntime', () => {
 
   it('renders content with vague time interval and start time if end time does not exist', () => {
     const mockServiceProps = {
-      endTime: {},
+      endTime: null,
       startTime: new Date('July 4, 2019 09:00:00 EDT'),
       externalService: 'mhv_sm',
     };
@@ -108,7 +108,7 @@ describe('MHVDowntime', () => {
   it('renders content with vague time interval and end time if start time does not exist', () => {
     const mockServiceProps = {
       endTime: new Date('July 7, 2019 09:00:00 EDT'),
-      startTime: { toDate: () => 'FAKE' },
+      startTime: null,
       externalService: 'mhv_sm',
     };
     const mockProps = {

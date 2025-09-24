@@ -11,12 +11,12 @@ import {
   makeAuthRequest,
   roundToNearest,
   buildDateFormatter,
+  getUploadErrorMessage,
 } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks } from '../constants';
 import {
-  ADD_FILE,
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
@@ -34,14 +34,12 @@ import {
   FETCH_STEM_CLAIMS_SUCCESS,
   GET_CLAIM_DETAIL,
   RECORD_NOT_FOUND_ERROR,
-  REMOVE_FILE,
   RESET_UPLOADS,
   SET_ADDITIONAL_EVIDENCE_NOTIFICATION,
   SET_CLAIM_DETAIL,
   SET_CLAIMS_UNAVAILABLE,
   SET_DECISION_REQUEST_ERROR,
   SET_DECISION_REQUESTED,
-  SET_FIELDS_DIRTY,
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_PROGRESS,
@@ -50,7 +48,6 @@ import {
   SET_UPLOADER,
   SET_UPLOADING,
   SUBMIT_DECISION_REQUEST,
-  UPDATE_FIELD,
   USER_FORBIDDEN_ERROR,
   VALIDATION_ERROR,
 } from './types';
@@ -265,26 +262,9 @@ export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
     );
   };
 }
-// END lighthouse_migration
-
 export function resetUploads() {
   return {
     type: RESET_UPLOADS,
-  };
-}
-
-export function addFile(files, { isEncrypted = false } = {}) {
-  return {
-    type: ADD_FILE,
-    files,
-    isEncrypted,
-  };
-}
-
-export function removeFile(index) {
-  return {
-    type: REMOVE_FILE,
-    index,
   };
 }
 
@@ -309,189 +289,8 @@ export function clearAdditionalEvidenceNotification() {
   };
 }
 
-// TODO: remove this function when Lighthouse feature toggle is removed
+// Document upload function using Lighthouse endpoint
 export function submitFiles(claimId, trackedItem, files) {
-  let filesComplete = 0;
-  let bytesComplete = 0;
-  let hasError = false;
-  const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
-  const totalFiles = files.length;
-  const trackedItemId = trackedItem ? trackedItem.id : null;
-
-  recordEvent({
-    event: 'claims-upload-start',
-  });
-
-  return dispatch => {
-    dispatch(clearNotification());
-    dispatch(clearAdditionalEvidenceNotification());
-    dispatch({
-      type: SET_UPLOADING,
-      uploading: true,
-    });
-    dispatch({
-      type: SET_PROGRESS,
-      progress: 0,
-    });
-    require.ensure(
-      [],
-      require => {
-        const csrfTokenStored = localStorage.getItem('csrfToken');
-        const { FineUploaderBasic } = require('fine-uploader/lib/core');
-        const uploader = new FineUploaderBasic({
-          request: {
-            endpoint: `${
-              environment.API_URL
-            }/v0/evss_claims/${claimId}/documents`,
-            inputName: 'file',
-            customHeaders: {
-              'Source-App-Name': manifest.entryName,
-              'X-Key-Inflection': 'camel',
-              'X-CSRF-Token': csrfTokenStored,
-            },
-          },
-          cors: {
-            expected: true,
-            sendCredentials: true,
-          },
-          multiple: false,
-          callbacks: {
-            onAllComplete: () => {
-              if (canUseMocks()) {
-                dispatch({ type: DONE_UPLOADING });
-                dispatch(
-                  setNotification({
-                    title: 'We have your evidence',
-                    body: (
-                      <span>
-                        Thank you for sending us{' '}
-                        {trackedItem
-                          ? trackedItem.displayName
-                          : 'additional evidence'}
-                        . We will associate it with your record in a matter of
-                        days. If the submitted evidence impacts the status of
-                        your claim, then you will see that change within 30 days
-                        of submission.
-                        <br />
-                        Note: It may take a few minutes for your uploaded file
-                        to show here. If you don’t see your file, please try
-                        refreshing the page.
-                      </span>
-                    ),
-                  }),
-                );
-                return;
-              }
-
-              if (!hasError) {
-                recordEvent({
-                  event: 'claims-upload-success',
-                });
-                dispatch({
-                  type: DONE_UPLOADING,
-                });
-                dispatch(
-                  setNotification({
-                    title: 'We have your evidence',
-                    body: (
-                      <span>
-                        Thank you for sending us{' '}
-                        {trackedItem
-                          ? trackedItem.displayName
-                          : 'additional evidence'}
-                        . We will associate it with your record in a matter of
-                        days. If the submitted evidence impacts the status of
-                        your claim, then you will see that change within 30 days
-                        of submission.
-                        <br />
-                        Note: It may take a few minutes for your uploaded file
-                        to show here. If you don’t see your file, please try
-                        refreshing the page.
-                      </span>
-                    ),
-                  }),
-                );
-              } else {
-                recordEvent({
-                  event: 'claims-upload-failure',
-                });
-                dispatch({
-                  type: SET_UPLOAD_ERROR,
-                });
-                dispatch(
-                  setAdditionalEvidenceNotification({
-                    title: `Error uploading ${hasError?.fileName || 'files'}`,
-                    body:
-                      hasError?.errors?.[0]?.title ||
-                      'There was an error uploading your files. Please try again',
-                    type: 'error',
-                  }),
-                );
-              }
-            },
-            onTotalProgress: bytes => {
-              bytesComplete = bytes;
-              dispatch({
-                type: SET_PROGRESS,
-                progress: calcProgress(
-                  totalFiles,
-                  totalSize,
-                  filesComplete,
-                  bytesComplete,
-                ),
-              });
-            },
-            onComplete: () => {
-              filesComplete += 1;
-              dispatch({
-                type: SET_PROGRESS,
-                progress: calcProgress(
-                  totalFiles,
-                  totalSize,
-                  filesComplete,
-                  bytesComplete,
-                ),
-              });
-            },
-            onError: (_id, fileName, _reason, { response, status }) => {
-              if (status === 401) {
-                dispatch({
-                  type: SET_UNAUTHORIZED,
-                });
-              }
-              if (status < 200 || status > 299) {
-                hasError = JSON.parse(response || '{}');
-                hasError.fileName = fileName;
-              }
-            },
-          },
-        });
-        dispatch({
-          type: SET_UPLOADER,
-          uploader,
-        });
-        dispatch({
-          type: SET_PROGRESS,
-          progress: filesComplete / files.length,
-        });
-
-        /* eslint-disable camelcase */
-        files.forEach(({ file, docType, password }) => {
-          uploader.addFiles(file, {
-            tracked_item_id: trackedItemId,
-            document_type: docType.value,
-            password: password.value,
-          });
-        });
-        /* eslint-enable camelcase */
-      },
-      'claims-uploader',
-    );
-  };
-}
-
-// START lighthouse_migration
-export function submitFilesLighthouse(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
   let hasError = false;
@@ -567,13 +366,9 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
                   type: SET_UPLOAD_ERROR,
                 });
                 dispatch(
-                  setAdditionalEvidenceNotification({
-                    title: `Error uploading ${hasError?.fileName || 'files'}`,
-                    body:
-                      hasError?.errors?.[0]?.title ||
-                      'There was an error uploading your files. Please try again',
-                    type: 'error',
-                  }),
+                  setAdditionalEvidenceNotification(
+                    getUploadErrorMessage(hasError, claimId),
+                  ),
                 );
               }
             },
@@ -637,45 +432,6 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
     );
   };
 }
-// END lighthouse_migration
-
-export function updateField(path, field) {
-  return {
-    type: UPDATE_FIELD,
-    path,
-    field,
-  };
-}
-
-export function cancelUpload() {
-  return (dispatch, getState) => {
-    const { uploader } = getState().disability.status.uploads;
-    recordEvent({
-      event: 'claims-upload-cancel',
-    });
-
-    if (uploader) {
-      uploader.cancelAll();
-    }
-
-    dispatch({
-      type: CANCEL_UPLOAD,
-    });
-  };
-}
-
-export function setFieldsDirty() {
-  return {
-    type: SET_FIELDS_DIRTY,
-  };
-}
-
-export function setLastPage(page) {
-  return {
-    type: SET_LAST_PAGE,
-    page,
-  };
-}
 
 // Add some attributes to the STEM claim to help normalize it's shape
 const addAttributes = claim => ({
@@ -722,5 +478,29 @@ export function getStemClaims() {
       },
       () => dispatch({ type: FETCH_STEM_CLAIMS_ERROR }),
     );
+  };
+}
+
+export function cancelUpload() {
+  return (dispatch, getState) => {
+    const { uploader } = getState().disability.status.uploads;
+    recordEvent({
+      event: 'claims-upload-cancel',
+    });
+
+    if (uploader) {
+      uploader.cancelAll();
+    }
+
+    dispatch({
+      type: CANCEL_UPLOAD,
+    });
+  };
+}
+
+export function setLastPage(page) {
+  return {
+    type: SET_LAST_PAGE,
+    page,
   };
 }

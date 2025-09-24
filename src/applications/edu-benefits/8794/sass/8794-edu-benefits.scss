@@ -5,3 +5,52 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+
+@media (max-width: $small-screen) {
+  .form-22-8794-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-8794-container .schemaform-buttons,
+  .form-22-8794-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}
+.list-style {
+  list-style-type: disc;
+}
+
+.bottom-border {
+  border-bottom: 1px solid var(--vads-color-base-lighter);
+}
+.custom-classname {
+  display: block !important;
+}
+.need-help-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+va-accordion-item[data-chapter="institutionDetailsChapter"] {
+  #institutionHeading {
+    text-align: left;
+  }
+  dl.review .review-row:has(#institutionHeading) {
+    flex-direction: column;
+  }
+  .va-address-block {
+    margin-left: 0 !important;
+  }
+}
+
+

@@ -9,6 +9,7 @@ import {
   FETCHING_MHV_ACCOUNT,
   PROFILE_LOADING_FINISHED,
   REMOVING_SAVED_FORM_SUCCESS,
+  UPDATE_MHV_STATE_VALUE,
 } from '../../../profile/actions';
 
 describe('Profile reducer', () => {
@@ -82,5 +83,12 @@ describe('Profile reducer', () => {
 
     expect(state.savedForms.length).to.eq(1);
     expect(state.savedForms).to.deep.equal([{ form: 2 }]);
+  });
+  it('should set mhvAccountState', () => {
+    const state = reducer(
+      {},
+      { type: UPDATE_MHV_STATE_VALUE, accountState: 'OK' },
+    );
+    expect(state.mhvAccountState).to.eq('OK');
   });
 });

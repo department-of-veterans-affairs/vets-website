@@ -1,5 +1,6 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import { medicationsUrls } from '../../../util/constants';
 import { Paths } from '../utils/constants';
 
@@ -14,6 +15,8 @@ class MedicationsRefillPage {
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    // Note that we don't need specific event names in the response
+    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
@@ -105,13 +108,6 @@ class MedicationsRefillPage {
     cy.get('[data-testid="rx-breadcrumb"] > a').click({
       waitForAnimations: true,
     });
-  };
-
-  clickMedicationsLandingPageBreadcrumbsOnRefillPage = () => {
-    cy.get('[data-testid="rx-breadcrumb"]').should('be.visible');
-    cy.get('[data-testid="rx-breadcrumb"]')
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT}"]`)
-      .click({ waitForAnimations: true });
   };
 
   verifyShippedMedicationOnRefillPage = () => {
@@ -349,18 +345,26 @@ class MedicationsRefillPage {
   };
 
   verifyPartialSuccessAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should(
+    cy.get('[data-testid="partial-failed-message-title"]').should(
       'contain',
       'Only part of your request was submitted',
     );
   };
 
-  verifyFailedRequestMessageAlertOnRefillPage = () => {
-    cy.get('[data-testid="failed-message-title"]').should('exist');
-    cy.get('[data-testid="failed-message-title"]').should(
-      'contain',
-      'Request not submitted',
-    );
+  verifyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="failed-message-title"]', { includeShadowDom: true })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
+  };
+
+  verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
+    cy.get('[data-testid="partial-failed-message-title"]', {
+      includeShadowDom: true,
+    })
+      .should('be.visible')
+      .first()
+      .and('have.text', text);
   };
 
   verifyNetworkResponseForFailedRefillRequest = failedId => {
@@ -486,6 +490,12 @@ class MedicationsRefillPage {
     cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
   };
 
+  verifyRefillDelayAlertNotVisibleOnRefillPage(text) {
+    cy.get('[data-testid="rxDelay-alert-message"]')
+      .should('have.text', text)
+      .and('not.be.visible');
+  }
+
   verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
     cy.get('[data-testid="alert-banner"]').should('contain', rxName);
   };
@@ -520,6 +530,15 @@ class MedicationsRefillPage {
 
   verifyProcessStepThreeNoteOnRefillPage = text => {
     cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyFailedAlertTextExistsOnRefillPage = (text, suggestion) => {
+    cy.get('[data-testid="failed-request-text"]')
+      .should('have.text', text)
+      .and('be.visible');
+    cy.get('[data-testid="failed-request-suggestion"]')
+      .should('have.text', suggestion)
+      .and('be.visible');
   };
 }
 

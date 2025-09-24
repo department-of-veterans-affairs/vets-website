@@ -5,7 +5,8 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -213,7 +214,6 @@ const AddIssue = ({
           invalidYear={isInvalid('year')}
           aria-describedby="decision-date-description"
           month-select={false}
-          uswds
         />
         <p className="vads-u-margin-top--6">
           <va-button
@@ -222,14 +222,12 @@ const AddIssue = ({
             class="vads-u-width--auto"
             onClick={handlers.onCancel}
             text={content.button.cancel}
-            uswds
           />
           <va-button
             id="submit"
-            class="vads-u-width--auto"
+            class="vads-u-width--auto mobile:vads-u-margin-left--1 mobile-lg:vads-u-margin-left--0"
             onClick={handlers.onUpdate}
             text={content.button[addOrEdit]}
-            uswds
           />
         </p>
       </fieldset>

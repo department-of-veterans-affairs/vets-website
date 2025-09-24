@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfFacilityPageObject extends PageObject {
+class TypeOfFacilityPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/facility-type', { timeout: 5000 });
     cy.axeCheckBestPractice();
@@ -9,8 +9,15 @@ export class TypeOfFacilityPageObject extends PageObject {
     return this;
   }
 
+  assertTypeOfFacilityValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+
+    return this;
+  }
+
   selectTypeOfFacility(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

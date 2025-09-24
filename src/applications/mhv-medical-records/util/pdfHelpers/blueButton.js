@@ -6,7 +6,6 @@ import {
 } from '../constants';
 import {
   generateChemHemContent,
-  generateEkgContent,
   generateMicrobioContent,
   generatePathologyContent,
   generateRadiologyContent,
@@ -69,9 +68,6 @@ export const generateBlueButtonData = (
             if (record.type === labTypes.PATHOLOGY) {
               content = generatePathologyContent(record);
             }
-            if (record.type === labTypes.EKG) {
-              content = generateEkgContent(record);
-            }
             if (record.type === labTypes.RADIOLOGY) {
               content = generateRadiologyContent(record);
             }
@@ -86,6 +82,7 @@ export const generateBlueButtonData = (
     subtitles: [
       'This report only includes care summaries and notes from 2013 and later.',
       'For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.',
+      `Showing ${notes?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('careSummaries'),
     records: notes?.length
@@ -111,8 +108,8 @@ export const generateBlueButtonData = (
     type: recordType.VACCINES,
     title: 'Vaccines',
     subtitles: [
-      'This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.',
-      'For complete records of your allergies and reactions to vaccines, review your allergy records in this report.',
+      'This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records.',
+      `Showing ${vaccines?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('vaccines'),
     records: vaccines?.length ? generateVaccinesContent(vaccines) : [],
@@ -134,7 +131,9 @@ export const generateBlueButtonData = (
   data.push({
     title: 'Health conditions',
     subtitles: [
-      'This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.',
+      'This list includes the same information as your "VA problem list" in the previous My HealtheVet experience.',
+      'About the codes in some condition names: Some of your health conditions may have diagnosis codes in the name that start with SCT or ICD. Providers use these codes to track your health conditions and to communicate with other providers about your care. If you have a question about these codes or a health condition, ask your provider at your next appointment.',
+      `Showing ${conditions?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('conditions'),
     records: conditions?.length
@@ -150,7 +149,7 @@ export const generateBlueButtonData = (
     type: recordType.VITALS,
     title: 'Vitals',
     subtitles: [
-      'This list includes vitals and other basic health numbers your providers check at your appointments.',
+      'Vitals are basic health numbers your providers check at your appointments.',
     ],
     selected: recordFilter.includes('vitals'),
     records: vitals?.length ? generateVitalsContentByType(vitals) : [],
@@ -178,10 +177,12 @@ export const generateBlueButtonData = (
     appointments?.length && recordFilter.includes('upcomingAppts')
       ? appointments.filter(appt => appt.isUpcoming)
       : [];
+
   const past =
     appointments?.length && recordFilter.includes('pastAppts')
       ? appointments.filter(appt => !appt.isUpcoming)
       : [];
+
   data.push({
     type: blueButtonRecordTypes.APPOINTMENTS,
     title: 'Appointments',
@@ -190,7 +191,12 @@ export const generateBlueButtonData = (
     ],
     selected:
       recordFilter.includes('upcomingAppts') ||
-      recordFilter.includes('pastAppts'),
+      recordFilter.includes('pastAppts')
+        ? {
+            upcoming: recordFilter.includes('upcomingAppts'),
+            past: recordFilter.includes('pastAppts'),
+          }
+        : false,
     records: [
       {
         title: 'Upcoming appointments',

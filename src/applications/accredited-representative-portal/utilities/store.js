@@ -3,9 +3,8 @@ import thunk from 'redux-thunk';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-export default function createReduxStore() {
+export function createReduxStore() {
   const rootReducer = combineReducers({
     featureToggles: FeatureToggleReducer,
   });
@@ -13,15 +12,13 @@ export default function createReduxStore() {
   const useDevTools =
     !environment.isProduction() && window.__REDUX_DEVTOOLS_EXTENSION__;
 
-  const store = createStore(
+  return createStore(
     rootReducer,
     compose(
       applyMiddleware(thunk),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
   );
-
-  connectFeatureToggle(store.dispatch);
-
-  return store;
 }
+
+export default createReduxStore();

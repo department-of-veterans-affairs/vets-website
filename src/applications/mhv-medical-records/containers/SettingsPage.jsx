@@ -14,6 +14,7 @@ import {
 import { pageTitles } from '../util/constants';
 import ExternalLink from '../components/shared/ExternalLink';
 import { sendDataDogAction } from '../util/helpers';
+import TrackedSpinner from '../components/shared/TrackedSpinner';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -122,7 +123,8 @@ const SettingsPage = () => {
     if (isSharing === undefined) {
       return (
         <va-card background className="vads-u-padding--3">
-          <va-loading-indicator
+          <TrackedSpinner
+            id="sharing-status-loading-spinner"
             message="Loading..."
             class="vads-u-margin--4"
             data-testid="sharing-status-loading-indicator"

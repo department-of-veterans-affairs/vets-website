@@ -283,12 +283,10 @@ const mockCommunicationPreferencesState = {
 const baseState = {
   ...createBasicInitialState(),
   featureToggles: {
-    [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
-    [TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting]: false,
     [TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting]: false,
   },
   communicationPreferences: mockCommunicationPreferencesState,
@@ -487,20 +485,8 @@ describe('NotificationGroup component', () => {
     expect(view.queryByText('Biweekly MHV newsletter')).to.not.exist;
   });
 
-  it('should display New benefit overpayment debt notification when profileShowNewBenefitOverpaymentDebtNotificationSetting is true', () => {
+  it('should display New benefit overpayment debt notification by default', () => {
     const initialState = cloneDeep(baseState);
-    set(
-      initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
-      true,
-    );
-    set(
-      initialState,
-      `featureToggles[${
-        TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting
-      }]`,
-      true,
-    );
 
     const view = renderWithProfileReducersAndRouter(
       <NotificationGroup groupId="group4" />,
@@ -518,11 +504,10 @@ describe('NotificationGroup component', () => {
 
   it('should display New benefit overpayment debt notification when profileShowNewHealthCareCopayBillNotificationSetting is true', () => {
     const initialState = cloneDeep(baseState);
-    set(
-      initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
-      true,
-    );
+    // the toggle associated with "New benefit overpayment debt notification"
+    // has been removed, so it now shows by default.
+    // When the "profileShowNewHealthCareCopayBillNotificationSetting" toggle is
+    // removed, this spec can be removed as well.
     set(
       initialState,
       `featureToggles[${
@@ -541,7 +526,7 @@ describe('NotificationGroup component', () => {
     expect(view.queryByText('New health care copay bill')).to.exist;
     expect(view.queryByText('Disability and pension deposit notifications')).to
       .exist;
-    expect(view.queryByText('New benefit overpayment debt notification')).to.not
+    expect(view.queryByText('New benefit overpayment debt notification')).to
       .exist;
   });
 });

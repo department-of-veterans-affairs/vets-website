@@ -9,22 +9,24 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Height', () => {
     VitalsListPage.goToVitals();
     // click height link
-    VitalsListPage.clickLinkByRecordListItemIndex(6);
+    VitalsListPage.clickLinkByRecordListItem('Height');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
       moment
         .parseZone(defaultVitals.entry[3].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[3].resource.valueQuantity.value} inches`,
+      `${Math.floor(
+        defaultVitals.entry[3].resource.valueQuantity.value / 12,
+      )} feet, ${defaultVitals.entry[3].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[3].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -32,9 +34,12 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[13].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[13].resource.valueQuantity.value} inches`,
+      `${Math.floor(
+        defaultVitals.entry[13].resource.valueQuantity.value / 12,
+      )} feet, ${defaultVitals.entry[13].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[13].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -42,9 +47,12 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[23].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[23].resource.valueQuantity.value} inches`,
+      `${Math.floor(
+        defaultVitals.entry[23].resource.valueQuantity.value / 12,
+      )} feet, ${defaultVitals.entry[23].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[23].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -52,9 +60,12 @@ describe('Medical Records Vitals Details Page', () => {
       moment
         .parseZone(defaultVitals.entry[33].resource.effectiveDateTime)
         .format('MMMM D, YYYY, h:mm'),
-      `${defaultVitals.entry[33].resource.valueQuantity.value} inches`,
+      `${Math.floor(
+        defaultVitals.entry[33].resource.valueQuantity.value / 12,
+      )} feet, ${defaultVitals.entry[33].resource.valueQuantity.value %
+        12} inches`,
       defaultVitals.entry[33].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     // Axe check

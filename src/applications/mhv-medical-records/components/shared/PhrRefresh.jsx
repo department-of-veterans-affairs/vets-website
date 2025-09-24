@@ -29,7 +29,7 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
      * for as long as necessary.
      */
     () => {
-      const getEndPollingDate = () => {
+      const getTimeWhenToStopPolling = () => {
         const lastRefreshDate = parseInt(
           localStorage.getItem('lastPhrRefreshDate'),
           10,
@@ -51,12 +51,12 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
       } else {
         // Update the polling timeout from localStorage. Do this every time, because that date may
         // change when the action is dispatched.
-        const endPollingDate = getEndPollingDate();
+        const timeWhenToStopPolling = getTimeWhenToStopPolling();
         const now = Date.now();
         if (
           refresh.status &&
           refresh.phase !== refreshPhases.CURRENT &&
-          now <= endPollingDate
+          now <= timeWhenToStopPolling
         ) {
           timeoutId = setTimeout(() => {
             dispatch(fetchRefreshStatus());
@@ -64,7 +64,7 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
             setPollInterval(prevInterval => prevInterval * 1.05);
           }, pollInterval);
         }
-        if (now > endPollingDate) {
+        if (now > timeWhenToStopPolling) {
           dispatch({ type: Actions.Refresh.TIMED_OUT });
         }
       }

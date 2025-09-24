@@ -10,8 +10,18 @@ import content from '../../locales/en/content.json';
 export function getInsuranceSrLabel(formData) {
   const {
     insuranceName,
-    'view:policyOrGroup': { insurancePolicyNumber, insuranceGroupCode },
-  } = formData;
+    insurancePolicyNumber: topLevelPolicyNumber,
+    insuranceGroupCode: topLevelGroupCode,
+    'view:policyOrGroup': {
+      insurancePolicyNumber: nestedPolicyNumber,
+      insuranceGroupCode: nestedGroupCode,
+    } = {},
+  } = formData || {};
+
+  // Prefer nested structure if present, otherwise fall back to top-level
+  const insurancePolicyNumber = nestedPolicyNumber ?? topLevelPolicyNumber;
+  const insuranceGroupCode = nestedGroupCode ?? topLevelGroupCode;
+
   const labels = {
     policy: insurancePolicyNumber
       ? `${content['insurance-policy-number-label']} ${insurancePolicyNumber}`

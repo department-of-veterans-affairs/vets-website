@@ -88,7 +88,7 @@ describe('<IntroductionPage/>', () => {
   });
 
   it('should render a BDD form title', () => {
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')
@@ -105,21 +105,21 @@ describe('<IntroductionPage/>', () => {
 
   it('should render 2 SiP intros', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const sipIntro = wrapper.find('Connect(SaveInProgressIntro)');
+    const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
     expect(sipIntro.length).to.equal(2);
     expect(sipIntro.first().props().startText).to.equal(START_TEXT.ALL);
     wrapper.unmount();
   });
 
   it('should render BDD SiP intros', () => {
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       SAVED_SEPARATION_DATE,
       moment()
         .add(90, 'days')
         .format('YYYY-MM-DD'),
     );
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
-    const sipIntro = wrapper.find('Connect(SaveInProgressIntro)');
+    const sipIntro = wrapper.find('Connect(withRouter(SaveInProgressIntro))');
     expect(sipIntro.length).to.equal(2);
     expect(sipIntro.first().props().startText).to.equal(START_TEXT.BDD);
     wrapper.unmount();

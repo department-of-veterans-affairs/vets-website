@@ -9,13 +9,12 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Temperature', () => {
     VitalsListPage.goToVitals();
     // click temperature link
-    VitalsListPage.clickLinkByRecordListItemIndex(4);
+    VitalsListPage.clickLinkByRecordListItem('Temperature');
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
@@ -24,7 +23,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[8].resource.valueQuantity.value} °F`,
       defaultVitals.entry[8].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -34,7 +33,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[18].resource.valueQuantity.value} °F`,
       defaultVitals.entry[18].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -44,7 +43,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[28].resource.valueQuantity.value} °F`,
       defaultVitals.entry[28].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -54,7 +53,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[38].resource.valueQuantity.value} °F`,
       defaultVitals.entry[38].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     // Axe check

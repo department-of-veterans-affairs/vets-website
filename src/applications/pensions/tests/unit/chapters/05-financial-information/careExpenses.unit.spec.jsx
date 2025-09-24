@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import {
   testNumberOfWebComponentFields,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
   testSubmitsWithoutErrors,
@@ -14,12 +14,13 @@ import formConfig from '../../../../config/form';
 import careExpenses, {
   CareExpenseView,
 } from '../../../../config/chapters/05-financial-information/careExpenses';
+import { careExpenseTypePage } from '../../../../config/chapters/05-financial-information/careExpensesPages';
 
 const { schema, uiSchema } = careExpenses;
 
 describe('Unreimbursed care expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 2;
+  const expectedNumberOfFields = 0;
   testNumberOfFields(
     formConfig,
     schema,
@@ -28,7 +29,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -37,7 +38,7 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 8;
+  const expectedNumberOfWebComponentFields = 10;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -46,12 +47,18 @@ describe('Unreimbursed care expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 5;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrorsForWebComponents,
+    [
+      `va-radio[label="Who receives care?"]`,
+      `va-text-input[label="What’s the name of the care provider?"]`,
+      `va-radio[label="Choose the type of care:"]`,
+      `va-memorable-date[label="Care start date"]`,
+      `va-radio[label="How often are the payments?"]`,
+      `va-text-input[label="How much is each payment?"]`,
+    ],
     pageTitle,
   );
 
@@ -62,14 +69,40 @@ describe('Unreimbursed care expenses pension page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 2,
+      'va-text-input': 4,
       'va-memorable-date': 2,
       'va-checkbox': 1,
       'va-radio': 3,
-      input: 2,
+      'va-radio-option': 9, // includes 4 care type options
     },
     pageTitle,
   );
+
+  context('care type feature toggle options', () => {
+    const uiOptions = careExpenseTypePage.uiSchema.careType['ui:options'];
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.setItem('showPdfFormAlignment', 'true');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
+      expect(updatedSchema?.enum).to.have.lengthOf(4);
+      expect(
+        Object.keys(updatedUiSchema?.['ui:options']?.labels),
+      ).to.have.lengthOf(4);
+    });
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.removeItem('showPdfFormAlignment');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
+      expect(updatedSchema.enum).to.have.lengthOf(2);
+      expect(
+        Object.keys(updatedUiSchema['ui:options'].labels),
+      ).to.have.lengthOf(2);
+    });
+  });
 
   describe('CareExpenseView', () => {
     it('should render a list view', () => {

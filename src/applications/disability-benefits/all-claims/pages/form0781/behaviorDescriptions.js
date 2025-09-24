@@ -36,6 +36,10 @@ function makeUiSchema(behaviorType) {
         hint: behaviorDescriptionPageHint,
       }),
     },
+    'ui:options': {
+      // title wrapped in a <fieldset> causes screenreader bug on these pages
+      forceDivWrapper: true,
+    },
     'view:mentalHealthSupportAlert': {
       'ui:description': mentalHealthSupportAlert,
     },

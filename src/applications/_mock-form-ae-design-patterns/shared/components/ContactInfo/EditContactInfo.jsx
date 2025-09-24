@@ -15,7 +15,10 @@ import {
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
 import { refreshProfile, sanitizeUrl } from 'platform/user/exportsFile';
-import { ContactInfoFormAppConfigProvider } from '@@vap-svc/components/ContactInfoFormAppConfigContext';
+import {
+  ContactInfoFormAppConfigProvider,
+  useContactInfoFormAppConfig,
+} from '@@vap-svc/components/ContactInfoFormAppConfigContext';
 import { useRouteMetadata } from './useRouteMetadata';
 
 export const BuildPageBase = ({
@@ -32,6 +35,7 @@ export const BuildPageBase = ({
   const dispatch = useDispatch();
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
+  const contactInfoFormAppConfig = useContactInfoFormAppConfig();
 
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
@@ -96,6 +100,8 @@ export const BuildPageBase = ({
         returnPath,
         prefillPatternEnabled,
         fieldName: FIELD_NAMES[field],
+        formKey: router?.location?.state?.formKey || id,
+        keys: router?.location?.state?.keys || { wrapper: 'contactInfo' },
       }}
     >
       <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
@@ -119,6 +125,7 @@ export const BuildPageBase = ({
             successCallback={handlers.success}
             saveButtonText="Update"
             prefillPatternEnabled={prefillPatternEnabled}
+            contactInfoFormAppConfig={contactInfoFormAppConfig}
           />
         </InitializeVAPServiceID>
       </div>
@@ -135,6 +142,7 @@ BuildPageBase.propTypes = {
   field: PropTypes.string,
   goToPath: PropTypes.func,
   id: PropTypes.string,
+  prefillPatternEnabled: PropTypes.bool,
   title: PropTypes.string,
 };
 

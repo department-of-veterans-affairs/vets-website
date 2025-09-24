@@ -1,15 +1,16 @@
 import React from 'react';
 
-import MobileHeader from './MobileHeader/MobileHeader';
-import WiderThanMobileHeader from './WiderThanMobileHeader/WiderThanMobileHeader';
-
-import './Header.scss';
+import GovBanner from './GovBanner';
+import Nav from './Nav';
 
 const Header = () => {
   return (
-    <header data-testid="arp-header" className="header arp-header">
-      <MobileHeader />
-      <WiderThanMobileHeader />
+    <header
+      data-testid="arp-header"
+      className="header vads-u-background-color--white"
+    >
+      <GovBanner />
+      <Nav />
     </header>
   );
 };

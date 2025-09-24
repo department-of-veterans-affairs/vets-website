@@ -8,6 +8,7 @@ import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
 import * as submitTransform from '../../../config/submitTransformer';
+import * as listLoopPatterns from '../../../config/pages/listLoop';
 import { normalizedForm } from '../../../config/formConfig';
 import {
   createFormConfig,
@@ -20,6 +21,7 @@ const [
   address,
   phoneAndEmail,
   listLoop,
+  employmentHistory,
   customStep,
 ] = normalizedForm.chapters;
 
@@ -29,8 +31,14 @@ describe('createFormConfig', () => {
   let transformSpy;
 
   beforeEach(() => {
-    const FakeComponent = ({ ombInfo }) => (
+    const FakeComponent = ({ introParagraph, ombInfo, whatToKnow = [] }) => (
       <div>
+        <p data-testid="intro-paragraph">introParagraph: {introParagraph}</p>
+        <ul data-testid="what-to-know">
+          {whatToKnow.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
+          ))}
+        </ul>
         <p data-testid="exp-date">expDate: {ombInfo.expDate}</p>
         <p data-testid="omb-number">ombNumber: {ombInfo.ombNumber}</p>
         <p data-testid="res-burden">resBurden: {ombInfo.resBurden}</p>
@@ -38,11 +46,13 @@ describe('createFormConfig', () => {
     );
 
     FakeComponent.propTypes = {
+      introParagraph: PropTypes.string,
       ombInfo: PropTypes.shape({
         expDate: PropTypes.string,
         ombNumber: PropTypes.number,
         resBurden: PropTypes.string,
       }),
+      whatToKnow: PropTypes.array,
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
     transformSpy = sinon.spy(submitTransform, 'default');
@@ -82,9 +92,15 @@ describe('createFormConfig', () => {
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
   });
 
-  it('sends ombInfo to the Introduction Page', () => {
+  it('sends props to the Introduction Page', () => {
     const screen = render(formConfig.introduction());
 
+    expect(screen.getByTestId('intro-paragraph')).to.have.text(
+      `introParagraph: ${normalizedForm.introParagraph}`,
+    );
+    normalizedForm.whatToKnowBullets.map(bullet =>
+      expect(screen.getByTestId('what-to-know')).to.include.text(bullet),
+    );
     expect(screen.getByTestId('exp-date')).to.have.text(
       `expDate: ${normalizedForm.ombInfo.expDate}`,
     );
@@ -118,6 +134,10 @@ describe('createFormConfig', () => {
 
 describe('formatPages', () => {
   let spy;
+
+  afterEach(() => {
+    spy.restore();
+  });
 
   context('when digital_form_address', () => {
     beforeEach(() => {
@@ -157,13 +177,25 @@ describe('formatPages', () => {
 
   context('when digital_form_list_loop', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
     });
 
     it('calls listLoopPages', () => {
       formatPages(listLoop);
 
       expect(spy.calledWith(listLoop)).to.eq(true);
+    });
+  });
+
+  context('when list_loop_employment_history', () => {
+    beforeEach(() => {
+      spy = sinon.spy(listLoopPatterns, 'listLoopPages');
+    });
+
+    it('calls listLoopPages', () => {
+      formatPages(employmentHistory);
+
+      expect(spy.calledWith(employmentHistory)).to.eq(true);
     });
   });
 

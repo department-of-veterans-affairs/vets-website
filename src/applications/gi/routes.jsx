@@ -14,6 +14,7 @@ import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
 import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
+import FilterStudentFeedbackPage from './containers/FilterStudentFeedbackPage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -22,8 +23,8 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
-  const toggleGiProgramsFlag = useToggleValue(
-    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  const giComparisonToolCautionaryInfoUpdate = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolCautionaryInfoUpdate,
   );
 
   return (
@@ -57,12 +58,25 @@ const BuildRoutes = () => {
                 from="/institution/:facilityCode"
                 to="/schools-and-employers/institution/:facilityCode"
               />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/schools-and-employers/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+              <Route
+                path="/schools-and-employers/institution/:facilityCode/filter-student-feedback"
+                render={({ match }) =>
+                  giComparisonToolCautionaryInfoUpdate ? (
+                    <FilterStudentFeedbackPage />
+                  ) : (
+                    <Redirect
+                      to={`/schools-and-employers/institution/${
+                        match.params.facilityCode
+                      }`}
+                    />
+                  )
+                }
+              />
+              <Route
+                path="/schools-and-employers/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
+
               <Route
                 path="/schools-and-employers/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
@@ -112,12 +126,10 @@ const BuildRoutes = () => {
                 from="/profile/:facilityCode"
                 to="/institution/:facilityCode"
               />
-              {toggleGiProgramsFlag && (
-                <Route
-                  path="/institution/:facilityCode/:programType"
-                  render={({ match }) => <ProgramsList match={match} />}
-                />
-              )}
+              <Route
+                path="/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
               <Route
                 path="/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}

@@ -1,12 +1,54 @@
+import { showUpdatedContent } from './helpers';
+
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Spouse',
-  CHILD: 'Child',
+  CHILD: 'Child/children',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child',
-  OTHER: 'Other',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const parentRelationshipLabels = {
+  PARENT: 'Me',
+  SPOUSE: 'My spouse',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const spouseRelationshipLabels = {
+  SPOUSE: 'Surviving spouse',
+  CHILD: 'Child/children',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const custodianRelationshipLabels = {
+  CUSTODIAN: 'Child’s custodian',
+  SPOUSE: 'Custodian’s spouse',
+  CHILD: 'Veteran’s surviving child',
+  OTHER: 'Another dependent not listed here',
+};
+
+export const custodianRelationshipLabelDescriptions = {
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+};
+
+export const spouseRelationshipLabelDescriptions = {
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+};
+
+export const relationshipLabelDescriptions = {
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
+};
+
+export const parentRelationshipLabelDescriptions = {
+  SPOUSE: 'The Veteran’s other parent should file a separate claim',
 };
 
 export const transferMethodLabels = {
@@ -18,11 +60,11 @@ export const transferMethodLabels = {
 };
 
 export const claimantTypeLabels = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Surviving spouse',
-  CHILD: 'Surviving child',
-  PARENT: 'Parent',
-  CUSTODIAN: 'Custodian of child beneficiary',
+  VETERAN: 'I’m a Veteran submitting this form to support my own claim',
+  SPOUSE: 'I’m the Veteran’s surviving spouse',
+  CHILD: 'I’m the Veteran’s surviving child',
+  CUSTODIAN: 'I’m the custodian of a Veteran’s surviving child',
+  PARENT: 'I’m the Veteran’s surviving parent',
 };
 
 export const incomeFrequencyLabels = {
@@ -33,17 +75,25 @@ export const incomeFrequencyLabels = {
 
 export const incomeTypeLabels = {
   SOCIAL_SECURITY: 'Social Security',
-  PENSION_RETIREMENT: 'Pension or retirement income',
+  RETIREMENT_PENSION: 'Pension or retirement income',
   WAGES: 'Wages',
   UNEMPLOYMENT: 'Unemployment',
   CIVIL_SERVICE: 'Civil Service',
   OTHER: 'Other',
 };
 
+export const updatedIncomeTypeLabels = {
+  WAGES: 'Wage from a job',
+  RETIREMENT_PENSION: 'Pension or retirement',
+  SOCIAL_SECURITY: 'Social Security',
+  UNEMPLOYMENT: 'Unemployment',
+  OTHER: 'Another type of income',
+};
+
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: 'Other',
+  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
 };
 
 export const ownedAssetTypeLabels = {
@@ -54,7 +104,7 @@ export const ownedAssetTypeLabels = {
 
 export const generatedIncomeTypeLabels = {
   INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
-  MINERALS_LUMBER: 'Extraction of minerals/lumbar',
+  MINERALS_LUMBER: 'Extraction of minerals/lumber',
   USE_OF_LAND: 'Use of land',
   OTHER: 'Other',
 };

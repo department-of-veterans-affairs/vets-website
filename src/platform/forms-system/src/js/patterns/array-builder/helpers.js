@@ -1,13 +1,13 @@
+import { useMemo } from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import {
-  focusByOrder,
-  focusElement,
-  scrollTo,
-  scrollToTop,
-} from 'platform/utilities/ui';
+import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
+import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
+import environment from 'platform/utilities/environment';
+import { dispatchIncompleteItemError } from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -49,11 +49,34 @@ export function initGetText({
    */
   return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
-    if (key === 'getItemName' || key === 'cardDescription') {
-      // pass in full form data into getItemName & cardDescription functions
+
+    if (key === 'getItemName') {
       return typeof keyVal === 'function'
         ? keyVal(itemData, index, formData)
         : keyVal;
+    }
+
+    if (key === 'cardDescription') {
+      let text = keyVal;
+
+      if (typeof keyVal === 'function') {
+        // a try/catch is already done for getItemName in arrayBuilder.jsx,
+        // so only handle cardDescription here, possibly extend this to
+        // other text functions in the future
+        try {
+          text = keyVal(itemData, index, formData);
+        } catch (e) {
+          text = '';
+          if (!environment.isProduction()) {
+            // eslint-disable-next-line no-console
+            console.error(
+              `Error in array builder option "cardDescription":`,
+              e,
+            );
+          }
+        }
+      }
+      return text;
     }
 
     return typeof keyVal === 'function'
@@ -166,7 +189,7 @@ export function createArrayBuilderItemEditPath({ path, index, isReview }) {
   }`;
 }
 
-export function formatNounSingularForUrl(nounSingular) {
+export function slugifyText(nounSingular) {
   return nounSingular.toLowerCase().replace(/ /g, '-');
 }
 
@@ -183,9 +206,7 @@ export function createArrayBuilderUpdatedPath({
   nounSingular,
   index,
 }) {
-  return `${basePath}?updated=${formatNounSingularForUrl(
-    nounSingular,
-  )}-${index}`;
+  return `${basePath}?updated=${slugifyText(nounSingular)}-${index}`;
 }
 
 export function isDeepEmpty(obj) {
@@ -339,4 +360,150 @@ export const replaceItemInFormData = ({
   }
 
   return newFormData;
+};
+
+export const arrayBuilderContextObject = ({
+  add = false,
+  edit = false,
+  review = false,
+}) => {
+  return { add, edit, review };
+};
+
+export const arrayBuilderDependsContextWrapper = contextObject => {
+  let add = false;
+  let edit = false;
+  let review = false;
+
+  if (contextObject) {
+    add = contextObject.add;
+    edit = contextObject.edit;
+    review = contextObject.review;
+  } else {
+    const urlParams = getArrayUrlSearchParams();
+    add = urlParams.get('add') === 'true';
+    edit = urlParams.get('edit') === 'true';
+    review = urlParams.get('review') === 'true';
+  }
+
+  return { add, edit, review };
+};
+
+/**
+ *
+ * @param {Array} arrayData
+ * @param {Function} isItemIncomplete
+ * @returns {number|null}
+ */
+const getFirstInvalidArrayDataIndex = (arrayData, isItemIncomplete) => {
+  if (!arrayData || !arrayData.length) {
+    return null;
+  }
+
+  for (let i = 0; i < arrayData.length; i++) {
+    const item = arrayData[i];
+    if (isItemIncomplete(item)) {
+      return i;
+    }
+  }
+
+  return null;
+};
+
+/**
+ *
+ * @param {Object} props
+ * @param {Array} props.arrayData - The array data to validate
+ * @param {Function} props.isItemIncomplete - Function to check if an item is incomplete
+ * @param {string} [props.arrayPath] - The array path (e.g. 'treatmentRecords')
+ * @param {Function} [props.addError] - Optional function to add an error
+ * @returns {boolean} - Returns an object with the index of the incomplete item or null if all items are complete
+ */
+export const validateIncompleteItems = ({
+  arrayData,
+  isItemIncomplete,
+  nounSingular,
+  errors,
+  arrayPath,
+}) => {
+  const invalidIndex = getFirstInvalidArrayDataIndex(
+    arrayData,
+    isItemIncomplete,
+  );
+  // invalidIndex = null, 0, 1, 2, 3...
+  const isValid = invalidIndex === null;
+
+  if (!isValid && navigationState.getNavigationEventStatus()) {
+    // The user clicked continue
+    dispatchIncompleteItemError({
+      index: invalidIndex,
+      arrayPath,
+    });
+
+    // If provided, this is what will block continuing in
+    // a normal uiSchema/schema flow, visible or not.
+    if (errors && errors.addError) {
+      errors.addError(
+        `You haven’t completed all of the required fields for at least one ${nounSingular}. Edit or delete the ${nounSingular} marked "incomplete" before continuing.`,
+      );
+    }
+  }
+
+  return isValid;
+};
+
+/**
+ * Determines the appropriate heading level and style based on user input,
+ * review page state, and whether the current path uses a minimal header layout.
+ *
+ * @param {string|undefined} userHeaderLevel - An optional custom heading level to use (e.g., '1', '2', '3').
+ * @param {boolean} isReviewPage - Whether the current page is a review page.
+ * @returns {{ headingLevel: string, headingStyle: Object }}
+ * An object containing:
+ *  - `headingLevel`: The resolved heading level as a string.
+ *  - `headingStyle`: A style object for applying conditional font size classes.
+ */
+export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
+  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
+  let defaultLevel;
+
+  if (isMinimalHeader) {
+    defaultLevel = isReviewPage ? '3' : '1';
+  } else {
+    defaultLevel = isReviewPage ? '4' : '3';
+  }
+
+  const headingLevel = userHeaderLevel ?? defaultLevel;
+  const headingStyle = {
+    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
+  };
+
+  return { headingLevel, headingStyle };
+};
+
+/**
+ * Resolves `maxItems` to a numeric value.
+ *
+ * - If `maxItems` is a function, it is called with `formData` and the returned
+ *   value is validated as a number.
+ * - If `maxItems` is a number, it is validated as finite and returned.
+ * - If `maxItems` is a string, it is trimmed, parsed into a number, and validated.
+ *
+ * @param {number | string | ((formData: object) => number | string)} maxItems
+ *   A static limit, string value, or resolver function.
+ * @param {object} formData
+ *   Data passed to the resolver when `maxItems` is a function.
+ * @returns {number | undefined}
+ *   The resolved maximum item count, or `undefined` if invalid or an error occurs.
+ */
+export const maxItemsFn = (maxItems, formData = {}) => {
+  try {
+    const raw = typeof maxItems === 'function' ? maxItems(formData) : maxItems;
+    const value = typeof raw === 'string' ? Number(raw.trim()) : raw;
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined;
+  } catch {
+    return undefined;
+  }
 };

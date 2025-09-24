@@ -20,6 +20,9 @@ const PersonalInformationReviewField = ({
   return (
     <>
       <div className="form-review-panel-page">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          Review your personal information
+        </h4>
         <div className="form-review-panel-page-header-row">
           <va-button
             aria-label={`Edit ${title}`}

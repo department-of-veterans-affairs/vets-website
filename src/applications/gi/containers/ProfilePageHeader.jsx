@@ -8,6 +8,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import {
   convertRatingToStars,
   createId,
+  deriveInstitutionTitle,
+  deriveLearnMoreAriaLabel,
+  deriveModalText,
   formatNumber,
   locationInfo,
   schoolSize,
@@ -54,6 +57,7 @@ const ProfilePageHeader = ({
     vetTecProvider,
     programs,
     ownershipName,
+    accredited,
   } = institution;
 
   const lowerType = type && type.toLowerCase();
@@ -152,6 +156,28 @@ const ProfilePageHeader = ({
     (lowerType && lowerType !== 'ojt') ||
     (localeType && lowerType && lowerType !== 'ojt') ||
     website;
+  const schoolType = deriveInstitutionTitle(lowerType);
+
+  const schoolTypeDiv = () => {
+    const modalText = deriveModalText(lowerType);
+    const ariaLabel = deriveLearnMoreAriaLabel(lowerType, ariaLabels);
+    if (modalText !== undefined) {
+      return (
+        <>
+          {'   '}
+          <LearnMoreLabel
+            text={schoolType}
+            onClick={() => {
+              dispatchShowModal(modalText);
+            }}
+            ariaLabel={ariaLabel}
+            buttonId={`${modalText}-button`}
+          />
+        </>
+      );
+    }
+    return schoolType;
+  };
 
   const renderIconSection = () =>
     (showLeftIconSection || showRightIconSection) && (
@@ -180,23 +206,30 @@ const ProfilePageHeader = ({
               {'   '}
               On-the-job training
             </IconWithInfo>
-            <IconWithInfo
-              icon="account_balance"
-              present={lowerType && lowerType !== 'ojt'}
-            >
-              {'   '}
-              {_.capitalize(lowerType)} school
-            </IconWithInfo>
-            <IconWithInfo icon="bookmark" present={accreditationType}>
-              {'   '}
+            <IconWithInfo icon="school" present>
               <LearnMoreLabel
-                text={<>{_.capitalize(accreditationType)} Accreditation</>}
+                text="Yellow Ribbon Program"
                 onClick={() => {
-                  dispatchShowModal('typeAccredited');
+                  dispatchShowModal('yribbon');
                 }}
-                ariaLabel={ariaLabels.learnMore.numberOfStudents}
-                buttonId="typeAccredited-button"
+                buttonClassName="small-screen-font"
+                buttonId="yellow-ribbon-additional-info-learn-more"
               />
+              : &nbsp;
+              {institution.yr ? 'Yes' : 'No'}
+            </IconWithInfo>
+            <IconWithInfo icon="bookmark" present={accredited}>
+              {'   '}
+              {accredited && !accreditationType ? (
+                <span>Accreditation: Yes</span>
+              ) : (
+                <LearnMoreLabel
+                  text={`${_.capitalize(accreditationType)} Accreditation`}
+                  onClick={() => dispatchShowModal('typeAccredited')}
+                  ariaLabel={ariaLabels.learnMore.accreditation}
+                  buttonId="typeAccredited-button"
+                />
+              )}
             </IconWithInfo>
             <IconWithInfo icon="location_city" present>
               {'   '}
@@ -230,18 +263,6 @@ const ProfilePageHeader = ({
                 {'  '}
                 {website}
               </a>
-            </IconWithInfo>
-            <IconWithInfo icon="school" present>
-              <LearnMoreLabel
-                text="Yellow Ribbon Program"
-                onClick={() => {
-                  dispatchShowModal('yribbon');
-                }}
-                buttonClassName="small-screen-font"
-                buttonId="yellow-ribbon-additional-info-learn-more"
-              />
-              : &nbsp;
-              {institution.yr ? 'Yes' : 'No'}
             </IconWithInfo>
           </div>
         )}
@@ -321,8 +342,8 @@ const ProfilePageHeader = ({
           {name}
         </h1>
         <p>{formattedAddress}</p>
-        <div className="vads-u-padding-bottom--1p5">
-          {preferredProvider && (
+        {preferredProvider && (
+          <div className="vads-u-padding-bottom--1p5">
             <span className="preferred-provider-text">
               <LearnMoreLabel
                 text={preferredProvideLearnMore}
@@ -333,8 +354,17 @@ const ProfilePageHeader = ({
                 buttonId="preferredProviders-button"
               />
             </span>
-          )}
-        </div>
+          </div>
+        )}
+        {schoolTypeDiv() && (
+          <IconWithInfo
+            icon="account_balance"
+            present={lowerType && lowerType !== 'ojt'}
+          >
+            {'   '}
+            {schoolTypeDiv()}
+          </IconWithInfo>
+        )}
         {displayStars &&
           isShowRatingsToggle && (
             <div className={starClasses}>
@@ -359,7 +389,7 @@ const ProfilePageHeader = ({
           )}
         {!displayStars &&
           type.toUpperCase() !== 'OJT' &&
-          isShowRatingsToggle && <span>Not yet rated by Veterans</span>}
+          isShowRatingsToggle && <p>Not yet rated by Veterans</p>}
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
@@ -404,7 +434,7 @@ ProfilePageHeader.propTypes = {
   dispatchRemoveCompareInstitution: PropTypes.func,
   dispatchShowModal: PropTypes.func,
   institution: PropTypes.object,
-  onViewWarnings: PropTypes.func,
+  isShowRatingsToggle: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

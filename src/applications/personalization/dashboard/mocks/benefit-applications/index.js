@@ -17,6 +17,7 @@ const createApplications = (updatedDaysAgo = 1) => {
           status: 'received',
           createdAt: '2023-12-15T20:40:47.583Z',
           updatedAt: formatISO(daysAgo),
+          pdfSupport: true,
         },
       },
       {
@@ -30,6 +31,22 @@ const createApplications = (updatedDaysAgo = 1) => {
           status: 'vbms',
           createdAt: '2023-12-15T20:40:47.583Z',
           updatedAt: formatISO(daysAgo),
+          pdfSupport: false,
+        },
+      },
+      {
+        // Error 'API DOC105' on form submission from the Benefits Intake API
+        id: '417f5024-1154-4949-9e2e-4a196726014e',
+        type: 'submission_status',
+        attributes: {
+          id: '417f5024-1154-4949-9e2e-4a196726014e',
+          detail: 'Invalid or unknown id',
+          formType: '686C-674-V2',
+          message: null,
+          status: 'error',
+          createdAt: '2025-04-30T14:50:48.504Z',
+          updatedAt: null,
+          pdfSupport: false,
         },
       },
     ],

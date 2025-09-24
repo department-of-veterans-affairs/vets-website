@@ -6,8 +6,8 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
 import { AccountUpdateView } from '@@profile/components/direct-deposit/AccountUpdateView';
-import { renderWithProfileReducers } from '../../unit-test-helpers';
 import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
+import { renderWithProfileReducers } from '../../unit-test-helpers';
 
 const createInitialState = ({
   saveError,
@@ -112,7 +112,6 @@ describe('<AccountUpdateView />', () => {
   });
 
   it('renders the UpdateErrorAlert when saveError is provided', () => {
-    const errorHeadline = 'We couldn’t update your bank information';
     const errorMessage =
       'We’re sorry. We couldn’t update your payment information. Please try again later.';
     props.saveError = 'Internal Server Error';
@@ -124,12 +123,11 @@ describe('<AccountUpdateView />', () => {
       },
     );
 
-    expect(getByText(errorHeadline)).to.exist;
     expect(getByText(errorMessage)).to.exist;
   });
 
   it('calls formSubmit when the form is submitted', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <AccountUpdateView
           {...props}
@@ -142,7 +140,9 @@ describe('<AccountUpdateView />', () => {
       </Provider>,
     );
 
-    fireEvent.click(getByText('Save'));
+    // we have to simulate form submission since the va-button sets submit="prevent"
+    const form = getByTestId('save-direct-deposit').closest('form');
+    fireEvent.submit(form);
 
     expect(props.formSubmit.calledOnce).to.be.true;
   });

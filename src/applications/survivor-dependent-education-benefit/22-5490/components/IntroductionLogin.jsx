@@ -45,7 +45,7 @@ function IntroductionLogin({
 
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
-          Begin your application for education benefits
+          Start your application for benefits
         </h2>
       )}
 
@@ -104,7 +104,7 @@ function IntroductionLogin({
             messages={route?.formConfig.savedFormMessages}
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText="Start your benefit application"
+            startText="Start your benefits application"
             user={user}
           />
         )}

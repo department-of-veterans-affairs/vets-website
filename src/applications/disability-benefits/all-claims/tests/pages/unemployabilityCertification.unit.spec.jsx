@@ -6,6 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 describe('Recent Job Applications', () => {
@@ -67,12 +68,14 @@ describe('Recent Job Applications', () => {
 
     expect($$('va-checkbox').length).to.equal(2);
 
-    await userEvent.click(getByText('Submit'));
+    userEvent.click(getByText('Submit'));
+    await waitFor(() => {
+      expect(
+        $$('va-checkbox[error="You must provide a response"]', container)
+          .length,
+      ).to.equal(2);
 
-    expect(
-      $$('va-checkbox[error="You must provide a response"]', container).length,
-    ).to.equal(2);
-
-    expect(onSubmit.called).to.be.false;
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });

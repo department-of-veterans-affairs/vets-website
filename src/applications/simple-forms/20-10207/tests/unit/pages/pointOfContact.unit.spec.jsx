@@ -3,7 +3,7 @@ import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFields,
   testNumberOfWebComponentFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
 const {
@@ -44,7 +44,7 @@ testNumberOfErrorsOnSubmitForWebComponents(
 );
 
 // veteran without email - point of contact should be required
-expectedNumberOfWebComponentErrors = 1;
+expectedNumberOfWebComponentErrors = 2;
 
 data = {
   preparerType: 'veteran',

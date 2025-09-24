@@ -1,13 +1,14 @@
 import React from 'react';
 import DebtSelection from '../components/DebtSelection';
+import ConfirmationDisputeInformation from '../components/confirmation/ConfirmationDisputeInformation';
 
 const debtSelection = {
   uiSchema: {
     'ui:title': () => (
       <>
-        <legend className="schemaform-block-title">
-          <h3 className="vads-u-margin--0">What debt do you need help with?</h3>
-        </legend>
+        <h3 className="vads-u-margin--0 vads-u-font-size--h2">
+          Which debt are you disputing?
+        </h3>
       </>
     ),
     selectedDebts: {
@@ -23,6 +24,7 @@ const debtSelection = {
         },
       ],
     },
+    'ui:confirmationField': ConfirmationDisputeInformation,
   },
   schema: {
     type: 'object',

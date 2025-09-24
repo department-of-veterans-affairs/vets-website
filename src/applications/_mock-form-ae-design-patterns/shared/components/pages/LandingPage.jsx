@@ -30,7 +30,9 @@ export const LandingPage = ({
             <div className="vads-l-row">
               <div className="vads-l-col--12">
                 <h1 className="vads-u-font-size--h1 vads-u-margin-top--4">
-                  {`User Research Study - ${displayMonth} ${displayYear}`}
+                  {location.pathname.includes('6')
+                    ? `Pattern prototype - ${displayMonth} ${displayYear}`
+                    : `User Research Study - ${displayMonth} ${displayYear}`}
                 </h1>
               </div>
             </div>

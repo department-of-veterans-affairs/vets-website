@@ -1,24 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   truncateDescription,
   isAutomated5103Notice,
   buildDateFormatter,
+  getDisplayFriendlyName,
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
-import DueDate from '../DueDate';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function FilesNeeded({ item, previousPage = null }) {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const cst5103UpdateEnabled = useToggleValue(
-    TOGGLE_NAMES.cst5103UpdateEnabled,
-  );
-  const cstFriendlyEvidenceRequests = useToggleValue(
-    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
-  );
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
@@ -29,24 +22,27 @@ export default function FilesNeeded({ item, previousPage = null }) {
   ];
 
   const getItemDisplayName = () => {
-    let { displayName } = item;
-
-    if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
-      displayName = standard5103Item.displayName;
+    if (isAutomated5103Notice(item.displayName)) {
+      return standard5103Item.displayName;
     }
-
-    if (cstFriendlyEvidenceRequests && item.friendlyName) {
-      displayName = `Provide ${item.friendlyName}`;
+    if (evidenceDictionary[item.displayName]?.isSensitive) {
+      return `Request for evidence`;
     }
-    return displayName;
+    if (evidenceDictionary[item.displayName]?.noProvidePrefix) {
+      return item.friendlyName;
+    }
+    if (item.friendlyName) {
+      return `Provide ${getDisplayFriendlyName(item)}`;
+    }
+    return 'Request for evidence';
   };
 
   const getItemDescription = () => {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
       i => i.type === item.displayName,
     );
-    if (cstFriendlyEvidenceRequests && item.friendlyDescription) {
-      return item.friendlyDescription;
+    if (item.shortDescription || item.activityDescription) {
+      return item.shortDescription || item.activityDescription;
     }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
@@ -62,26 +58,23 @@ export default function FilesNeeded({ item, previousPage = null }) {
       <h4 slot="headline" className="alert-title">
         {getItemDisplayName()}
       </h4>
-      {!isAutomated5103Notice(item.displayName) &&
-        !cstFriendlyEvidenceRequests && <DueDate date={item.suspenseDate} />}
-      {cstFriendlyEvidenceRequests && (
-        <p className="vads-u-font-size--h3">Respond by {formattedDueDate}</p>
-      )}
+
+      <p>Respond by {formattedDueDate}</p>
 
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
-          aria-label={`Details for ${item.displayName}`}
-          title={`Details for ${item.displayName}`}
+          aria-label={`About this request for ${item.friendlyName ||
+            item.displayName}`}
           className="vads-c-action-link--blue"
-          to={`../document-request/${item.id}`}
+          to={`../needed-from-you/${item.id}`}
           onClick={() => {
             if (previousPage !== null) {
               sessionStorage.setItem('previousPage', previousPage);
             }
           }}
         >
-          {cstFriendlyEvidenceRequests ? 'About this request' : 'Details'}
+          About this request
         </Link>
       </div>
     </va-alert>

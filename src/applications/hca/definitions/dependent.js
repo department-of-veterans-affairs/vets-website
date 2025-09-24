@@ -1,9 +1,13 @@
+import {
+  arrayBuilderYesNoUI,
+  arrayBuilderYesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency, validateDependentDate } from '../utils/validation';
-import { LAST_YEAR } from '../utils/constants';
+import { LAST_YEAR } from '../utils/helpers';
 import { FULL_SCHEMA } from '../utils/imports';
 import {
   DependentEducationExpensesDescription,
@@ -192,3 +196,22 @@ export const dependentSchema = {
     },
   },
 };
+
+/**
+ * Declare schema attributes for summary page
+ * @returns {PageSchema}
+ */
+export const summaryPage = options => ({
+  uiSchema: {
+    'view:reportDependents': arrayBuilderYesNoUI(options, {
+      hint: null,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['view:reportDependents'],
+    properties: {
+      'view:reportDependents': arrayBuilderYesNoSchema,
+    },
+  },
+});

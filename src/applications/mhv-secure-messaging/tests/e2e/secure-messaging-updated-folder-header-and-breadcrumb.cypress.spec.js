@@ -7,20 +7,12 @@ import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
 import ContactListPage from './pages/ContactListPage';
+import SharedComponents from './pages/SharedComponents';
 
 describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
   beforeEach(() => {
     const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
-      [
-        {
-          name: 'mhv_secure_messaging_remove_landing_page',
-          value: true,
-        },
-        {
-          name: 'mhv_secure_messaging_edit_contact_list',
-          value: true,
-        },
-      ],
+      [],
     );
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
     PatientInboxPage.loadInboxMessages();
@@ -50,7 +42,7 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientMessageDraftsPage.loadDrafts();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
@@ -61,7 +53,7 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientMessageTrashPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Trash`);
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();

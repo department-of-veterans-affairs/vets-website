@@ -11,7 +11,7 @@ describe('MHV Signin CTA', () => {
     const serviceDescription = 'order supplies';
     const linkText = 'order medical supplies';
 
-    it('unanthenticated user', async () => {
+    it('unauthenticated user', async () => {
       const initialState = {
         user: {
           login: { currentlyLoggedIn: false },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { APP_URLS } from '../../../utils/constants';
+import { APP_URLS } from '../../../utils/appUrls';
 import { CONTACTS } from '../../../utils/imports';
 
 const ProcessTimeline = () => (
@@ -23,56 +23,57 @@ const ProcessTimeline = () => (
             text="Find out how to get mental health care"
           />
         </p>
-        <va-additional-info
-          trigger="What are the eligibility requirements to enroll in VA health care?"
-          uswds
-        >
-          <p>
-            You may be eligible to enroll in VA health care if all of these
-            statements are true:
-          </p>
-          <ul>
-            <li>
-              You served in the active military, naval, or air service
-              (including being called up from the National Guard or Reserve by a
-              federal order), <strong>and</strong>
-            </li>
-            <li>
-              You didn’t receive a dishonorable discharge, <strong>and</strong>
-            </li>
-            <li>
-              You meet at least one of the service requirements for enrollment
-            </li>
-          </ul>
+        <va-additional-info trigger="What are the eligibility requirements to enroll in VA health care?">
+          <div>
+            <p className="vads-u-margin-top--0">
+              You may be eligible to enroll in VA health care if all of these
+              statements are true:
+            </p>
+            <ul>
+              <li>
+                You served in the active military, naval, or air service
+                (including being called up from the National Guard or Reserve by
+                a federal order), <strong>and</strong>
+              </li>
+              <li>
+                You didn’t receive a dishonorable discharge,{' '}
+                <strong>and</strong>
+              </li>
+              <li>
+                You meet at least one of the service requirements for enrollment
+              </li>
+            </ul>
 
-          <p>You must meet at least one of these service requirements:</p>
-          <ul>
-            <li>
-              You served at least 24 months in a row without a break (called
-              continuous), or for your full active-duty period,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              You were discharged for a service-connected disability,{' '}
-              <strong>or</strong>
-            </li>
-            <li>
-              You were discharged for a hardship or “early out,”{' '}
-              <strong>or</strong>
-            </li>
-            <li>You served before September 7, 1980</li>
-          </ul>
+            <p>You must meet at least one of these service requirements:</p>
+            <ul>
+              <li>
+                You served at least 24 months in a row without a break (called
+                continuous), or for your full active-duty period,{' '}
+                <strong>or</strong>
+              </li>
+              <li>
+                You were discharged for a service-connected disability,{' '}
+                <strong>or</strong>
+              </li>
+              <li>
+                You were discharged for a hardship or “early out,”{' '}
+                <strong>or</strong>
+              </li>
+              <li>You served before September 7, 1980</li>
+            </ul>
 
-          <p>
-            <strong>Note:</strong> Time spent on active-duty status for training
-            purposes only doesn’t count toward the service requirements.
-          </p>
-          <p>
-            <va-link
-              href={APP_URLS.dischargeWizard}
-              text="Get instructions on how to apply for a discharge upgrade or correction"
-            />
-          </p>
+            <p>
+              <strong>Note:</strong> Time spent on active-duty status for
+              training purposes only doesn’t count toward the service
+              requirements.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              <va-link
+                href={APP_URLS.dischargeWizard}
+                text="Get instructions on how to apply for a discharge upgrade or correction"
+              />
+            </p>
+          </div>
         </va-additional-info>
       </va-process-list-item>
 
@@ -123,22 +124,24 @@ const ProcessTimeline = () => (
           We’ll take you through each step of the process. It should take about
           35 minutes.
         </p>
-        <va-additional-info trigger="What happens after I apply?" uswds>
-          <p>
-            We process health care applications within about a week. We’ll send
-            you a letter in the mail with our decision.
-          </p>
-          <p>
-            If you don’t receive your decision letter within a week after you
-            apply, please don’t apply again. Call us at{' '}
-            <va-telephone contact={CONTACTS['222_VETS']} /> (
-            <va-telephone contact={CONTACTS['711']} tty />
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
-            <dfn>
-              <abbr title="Eastern Time">ET</abbr>
-            </dfn>
-            .
-          </p>
+        <va-additional-info trigger="What happens after I apply?">
+          <div>
+            <p className="vads-u-margin-top--0">
+              We process health care applications within about a week. We’ll
+              send you a letter in the mail with our decision.
+            </p>
+            <p className="vads-u-margin-bottom--0">
+              If you don’t receive your decision letter within a week after you
+              apply, please don’t apply again. Call us at{' '}
+              <va-telephone contact={CONTACTS['222_VETS']} /> (
+              <va-telephone contact={CONTACTS['711']} tty />
+              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+              <dfn>
+                <abbr title="Eastern Time">ET</abbr>
+              </dfn>
+              .
+            </p>
+          </div>
         </va-additional-info>
       </va-process-list-item>
     </va-process-list>

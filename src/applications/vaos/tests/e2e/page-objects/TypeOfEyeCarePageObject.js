@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class TypeOfEyeCarePageObject extends PageObject {
+class TypeOfEyeCarePageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/eye-care');
     cy.axeCheckBestPractice();
@@ -8,8 +8,15 @@ export class TypeOfEyeCarePageObject extends PageObject {
     return this;
   }
 
+  assertTypeOfEyeCareValidationErrors() {
+    this.clickNextButton();
+    this.assertValidationError('You must provide a response');
+
+    return this;
+  }
+
   selectTypeOfEyeCare(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

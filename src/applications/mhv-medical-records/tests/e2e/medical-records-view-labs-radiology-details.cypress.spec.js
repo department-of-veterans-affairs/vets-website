@@ -14,15 +14,14 @@ describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   });
 
   it('View Radiology Details Page', () => {
-    cy.reload();
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
 
     RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[11].procedureName);
     RadiologyDetailsPage.verifyDate(
       moment(radiologyRecordsMhv[11].eventDate).format('MMMM D, YYYY'),
     );
 
-    RadiologyDetailsPage.verifyRadiologyReason('None noted');
+    RadiologyDetailsPage.verifyRadiologyReason('None recorded');
 
     // Regex: replace \r\n line terminating characters, with spaces
     // then eliminate multiple spaces

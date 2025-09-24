@@ -10,6 +10,7 @@ describe('Medications Download Txt Error when API Call Fails on List Page', () =
     listPage.clickPrintOrDownloadThisListDropDown();
     listPage.clickDownloadListAsTxtButtonOnListPage();
     listPage.verifyDownloadErrorMessageForAllergiesAPICallFail();
+    listPage.verifyFocusOnDownloadFailureAlertBanner();
     cy.injectAxe();
     cy.axeCheck('main');
   });

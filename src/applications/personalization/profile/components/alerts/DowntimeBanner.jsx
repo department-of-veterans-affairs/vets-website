@@ -1,9 +1,11 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import { externalServiceStatus } from '~/platform/monitoring/DowntimeNotification';
 
 function DowntimeBanner({ downtime, section }) {
+  const endTime = moment(downtime.endTime);
   return (
     <va-alert status="warning" visible uswds>
       <h3 slot="headline">
@@ -12,7 +14,7 @@ function DowntimeBanner({ downtime, section }) {
 
       <p className="vads-u-margin-bottom--0">
         {`We’re sorry. The system that handles ${section} information is down for
-        maintenance right now. We hope to be finished with our work by ${downtime.endTime.format(
+        maintenance right now. We hope to be finished with our work by ${endTime.format(
           'MMMM Do, LT',
         )} Please check back soon.`}
       </p>

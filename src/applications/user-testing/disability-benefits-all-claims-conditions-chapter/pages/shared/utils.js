@@ -1,34 +1,70 @@
-import { format } from 'date-fns';
+import { useEffect } from 'react';
 import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-import { RATED_OR_NEW_RADIOS } from '../../constants';
+import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
+import {
+  NewConditionCardDescription,
+  RatedDisabilityCardDescription,
+} from '../../content/conditions';
 
-const arrayPath = 'demos';
+export const isEditFromContext = context => context?.edit;
 
-export const isActiveDemo = (formData, currentDemo) =>
-  formData?.demo === currentDemo;
+const isEditFromUrl = () => Boolean(getArrayUrlSearchParams().get('edit'));
 
-export const isEdit = () => {
-  const search = getArrayUrlSearchParams();
-  return search.get('edit');
+export const createAddAndEditTitles = (addTitle, editTitle) =>
+  isEditFromUrl() ? editTitle : addTitle;
+
+export const createRatedDisabilityDescriptions = fullData => {
+  return fullData.ratedDisabilities.reduce((acc, disability) => {
+    let description = `Current rating: ${disability.ratingPercentage}%`;
+
+    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
+      description += ` (You're already at the maximum for this rated disability.)`;
+    }
+
+    acc[disability.name] = description;
+
+    return acc;
+  }, {});
 };
 
-export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
-  if (isEdit()) {
-    return editTitle;
+const isNewConditionOption = ratedDisability =>
+  ratedDisability === NEW_CONDITION_OPTION;
+
+export const isNewCondition = (formData, index) => {
+  if (formData?.[ARRAY_PATH]) {
+    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
+    return !ratedDisability || isNewConditionOption(ratedDisability);
   }
-  return defaultTitle;
+
+  return (
+    !formData?.ratedDisability ||
+    isNewConditionOption(formData?.ratedDisability)
+  );
+};
+
+export const isRatedDisability = (formData, index) => {
+  if (formData?.[ARRAY_PATH]) {
+    const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
+    return ratedDisability && !isNewConditionOption(ratedDisability);
+  }
+
+  return (
+    formData?.ratedDisability &&
+    !isNewConditionOption(formData?.ratedDisability)
+  );
 };
 
 const getSelectedRatedDisabilities = fullData => {
   const currentIndex = getArrayIndexFromPathName();
 
-  return fullData?.[arrayPath]?.reduce((acc, item, index) => {
-    if (index !== currentIndex) {
+  return fullData?.[ARRAY_PATH]?.reduce((acc, item, index) => {
+    if (index !== currentIndex && isRatedDisability(item)) {
       acc.push(item?.ratedDisability);
     }
     return acc;
@@ -56,88 +92,47 @@ export const hasRatedDisabilities = fullData => {
   return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
 };
 
-const checkNewConditionRadio = ratedDisability =>
-  !ratedDisability ||
-  ratedDisability === 'Add a new condition' ||
-  ratedDisability === 'Edit new condition';
-
-const isNewConditionRatedOrNewRadios = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
-
-    return ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
-  }
-
-  return formData?.ratedOrNew === 'NEW' || !hasRatedDisabilities(formData);
-};
-
-const isNewConditionRatedOrNewNextPage = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
-
-    return checkNewConditionRadio(ratedDisability);
-  }
-
-  return checkNewConditionRadio(formData?.ratedDisability);
-};
-
-export const isNewCondition = (formData, index) => {
-  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
-    return isNewConditionRatedOrNewRadios(formData, index);
-  }
-
-  return isNewConditionRatedOrNewNextPage(formData, index);
-};
-
-export const hasRatedDisabilitiesOrIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) || !isNewCondition(fullData, index);
-
-export const hasRatedDisabilitiesAndIsRatedDisability = (fullData, index) =>
-  hasRatedDisabilities(fullData) && !isNewCondition(fullData, index);
-
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
-const capitalizeFirstLetter = string => {
-  return string?.charAt(0).toUpperCase() + string?.slice(1);
-};
+const capitalizeFirstLetter = string =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
 
-export const createNewConditionName = (item, capFirstLetter = false) => {
+export const createNewConditionName = (item = {}, capFirstLetter = false) => {
+  const newConditionName = item.newCondition;
+
+  // Check for a non-empty string here instead of each time
+  // arrayBuilderItemSubsequentPageTitleUI is called in different files
+  const checkNewConditionName =
+    typeof newConditionName === 'string' && newConditionName.trim()
+      ? newConditionName.trim()
+      : 'condition';
+
   const newCondition = capFirstLetter
-    ? capitalizeFirstLetter(item?.newCondition)
-    : item?.newCondition || 'condition';
+    ? capitalizeFirstLetter(checkNewConditionName)
+    : checkNewConditionName;
 
   if (item?.sideOfBody) {
-    return `${newCondition}, ${item?.sideOfBody.toLowerCase()}`;
+    return `${newCondition}, ${item.sideOfBody.toLowerCase()}`;
   }
 
   return newCondition;
 };
 
-const getItemName = item => {
-  if (isNewCondition(item)) {
-    return createNewConditionName(item, true);
-  }
-
-  return item?.ratedDisability;
-};
-
-const createCauseDescriptions = item => ({
-  NEW: 'Caused by an injury or exposure during my service.',
-  SECONDARY: `Caused by ${item?.causedByCondition}.`,
-  WORSENED:
-    'Existed before I served in the military, but got worse because of my military service.',
-  VA:
-    'Caused by an injury or event that happened when I was receiving VA care.',
-});
+const getItemName = item =>
+  isNewCondition(item)
+    ? createNewConditionName(item, true)
+    : item?.ratedDisability;
 
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
-    !item?.causedByCondition || !item?.causedByConditionDescription,
+    !item?.causedByCondition ||
+    !Object.keys(item?.causedByCondition).length || // Check only needed for the secondary enhanced flow
+    !item?.causedByConditionDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
-const isItemIncomplete = item => {
+export const isItemIncomplete = item => {
   if (isNewCondition(item)) {
     return (
       !item?.newCondition ||
@@ -149,54 +144,14 @@ const isItemIncomplete = item => {
   return !item?.ratedDisability;
 };
 
-const formatYearMonth = dateString => {
-  if (!dateString) {
-    return '';
-  }
-
-  const [year, month] = dateString.split('-').map(Number);
-  return format(new Date(year, month - 1), 'MMMM yyyy');
-};
-
-const createRatedDisabilityCardDescription = item => {
-  let ratedDisabilityDescription = 'Claim for increase';
-
-  if (item?.ratedDisabilityDate) {
-    ratedDisabilityDescription += `; worsened ${formatYearMonth(
-      item?.ratedDisabilityDate,
-    )}`;
-  }
-
-  return ratedDisabilityDescription;
-};
-
-const createNewConditionCardDescription = item => {
-  let newConditionDescription = 'New condition';
-
-  if (item?.newConditionDate) {
-    newConditionDescription += `; started ${formatYearMonth(
-      item?.newConditionDate,
-    )}`;
-  }
-
-  newConditionDescription += `; ${
-    createCauseDescriptions(item)[(item?.cause)]
-  }`;
-
-  return newConditionDescription;
-};
-
-const cardDescription = item => {
-  if (isNewCondition(item)) {
-    return createNewConditionCardDescription(item);
-  }
-
-  return createRatedDisabilityCardDescription(item);
-};
+const cardDescription = (item, _index, formData) =>
+  isNewCondition(item)
+    ? NewConditionCardDescription(item, formData)
+    : RatedDisabilityCardDescription(item, formData);
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
-  arrayPath,
+  arrayPath: ARRAY_PATH,
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,
@@ -205,16 +160,121 @@ export const arrayBuilderOptions = {
   text: {
     getItemName,
     cardDescription,
+    alertItemUpdated: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `"${name}’s" information has been updated`
+        : `"${nounSingular}" information has been updated`;
+    },
+    cancelAddTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel adding "${name}"?`
+        : `Cancel adding this "${nounSingular}"?`;
+    },
+    cancelEditTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel editing "${name}"?`
+        : `Cancel editing this "${nounSingular}"?`;
+    },
+    deleteTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Delete "${name}’s" information?`
+        : `Delete this "${nounSingular}"?`;
+    },
   },
 };
 
 export const hasSideOfBody = (formData, index) => {
-  const condition =
-    formData?.[arrayBuilderOptions.arrayPath][index]?.newCondition;
-
+  const condition = formData?.[ARRAY_PATH][index]?.newCondition;
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,
   );
 
   return conditionObject ? conditionObject.sideOfBody : false;
+};
+
+// Ensure every continue click blurs inputs,
+// which triggers internal VA form field update logic
+export const ForceFieldBlur = () => {
+  useEffect(() => {
+    const handleClick = () => {
+      document.activeElement?.blur?.();
+    };
+
+    const buttons = document.querySelectorAll('button[type="submit"]');
+    buttons.forEach(btn => btn.addEventListener('click', handleClick));
+
+    return () => {
+      buttons.forEach(btn => btn.removeEventListener('click', handleClick));
+    };
+  }, []);
+
+  return null;
+};
+
+// VA platform runs validation based on formData.dateString,
+// which is populated after all field blur events
+const getCurrentYear = () => new Date().getFullYear();
+
+export const validateApproximateDate = (errors, dateString) => {
+  if (!dateString) return;
+
+  const [year, month, day] = dateString.split('-');
+  const isYearValid = year && year !== 'XXXX';
+  const isMonthValid = month && month !== 'XX';
+  const isDayValid = day && day !== 'XX';
+
+  const isValid =
+    (isYearValid && !isMonthValid && !isDayValid) || // Year only
+    (isYearValid && isMonthValid && !isDayValid) || // Year + Month
+    (isYearValid && isMonthValid && isDayValid); // Full date
+
+  if (!isValid) {
+    errors.addError(
+      'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
+    );
+    return;
+  }
+
+  const y = Number(year);
+  const minYear = 1900;
+  const maxYear = getCurrentYear();
+  if (!Number.isInteger(y) || y < minYear || y > maxYear) {
+    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
+  }
+};
+
+// Inject a CSS rule into the shadow DOM of any matching web-component(s)
+// found on the current page (whose URL matches one of the `urlArray` items).
+// Usage:
+//   addStyleToShadowDomOnPages(
+//     [''],                 // URLs to match – '' means “this page”
+//     ['va-memorable-date'],// components to patch
+//     '#dateHint{display:none}'
+//   );
+// This is to hide the second For example date in the UI on pages
+// where a date can be entered
+export const addStyleToShadowDomOnPages = async (
+  urlArray,
+  targetElements,
+  style,
+) => {
+  if (urlArray.some(u => window.location.href.includes(u)))
+    targetElements.forEach(selector => {
+      document.querySelectorAll(selector).forEach(async component => {
+        try {
+          const el = await waitForShadowRoot(component);
+          if (el?.shadowRoot) {
+            const sheet = new CSSStyleSheet();
+            sheet.replaceSync(style);
+            el.shadowRoot.adoptedStyleSheets.push(sheet);
+          }
+        } catch (_) {
+          // Fail silently (styles just won't be applied)
+        }
+      });
+    });
 };

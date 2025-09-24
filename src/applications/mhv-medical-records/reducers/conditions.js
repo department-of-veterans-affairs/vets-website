@@ -5,6 +5,7 @@ import {
   isArrayAndHasItems,
   extractContainedResource,
   formatNameFirstToLast,
+  formatDateTime,
 } from '../util/helpers';
 
 const initialState = {
@@ -42,7 +43,7 @@ const initialState = {
  */
 export const extractLocation = condition => {
   if (isArrayAndHasItems(condition?.recorder?.extension)) {
-    const ref = condition.recorder.extension[0].valueReference?.reference;
+    const ref = condition.recorder.extension[0]?.valueReference?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
     if (org?.name) {
@@ -63,7 +64,7 @@ export const extractProvider = condition => {
     const ref = condition.recorder?.reference;
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
-    if (org?.name) {
+    if (isArrayAndHasItems(org?.name)) {
       return formatNameFirstToLast(org.name[0]);
     }
   }
@@ -97,12 +98,58 @@ export const convertCondition = condition => {
   };
 };
 
+export const convertNewCondition = condition => {
+  if (condition) {
+    return {
+      id: condition.id,
+      name: condition.name || EMPTY_FIELD,
+      date: condition.date ? formatDateLong(condition.date) : EMPTY_FIELD,
+      provider: condition.provider || EMPTY_FIELD,
+      facility: condition.facility || EMPTY_FIELD,
+      comments: isArrayAndHasItems(condition.comments)
+        ? condition.comments
+        : EMPTY_FIELD,
+    };
+  }
+  return null;
+};
+
+export const convertUnifiedCondition = condition => {
+  const formatConditionDate = formatDateTime(condition?.attributes?.date);
+  const conditionDate = formatConditionDate
+    ? formatConditionDate.formattedDate
+    : '';
+  // Ensure a finite timestamp
+  const ts = new Date(condition?.attributes?.date).getTime();
+
+  return {
+    id: condition?.id,
+    name: condition?.attributes?.name || EMPTY_FIELD,
+    date: conditionDate || EMPTY_FIELD,
+    sortKey: Number.isFinite(ts) ? ts : null,
+    provider: condition?.attributes?.provider || EMPTY_FIELD,
+    facility: condition?.attributes?.facility || EMPTY_FIELD,
+    comments: isArrayAndHasItems(condition?.attributes?.comments)
+      ? condition.attributes?.comments
+      : EMPTY_FIELD,
+  };
+};
+
 export const conditionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Conditions.GET: {
+      const condition = action.response;
+
+      let conditionDetails = null;
+      if (condition) {
+        conditionDetails = condition.resourceType
+          ? convertCondition(condition)
+          : convertNewCondition(condition.data?.attributes);
+      }
+
       return {
         ...state,
-        conditionDetails: convertCondition(action.response),
+        conditionDetails,
       };
     }
     case Actions.Conditions.GET_FROM_LIST: {
@@ -113,13 +160,47 @@ export const conditionReducer = (state = initialState, action) => {
     }
     case Actions.Conditions.GET_LIST: {
       const oldList = state.conditionsList;
+      let newList;
+      if (action.response.resourceType) {
+        newList =
+          action.response.entry
+            ?.map(record => {
+              const condition = record.resource;
+              return convertCondition(condition);
+            })
+            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+      } else {
+        newList = action.response.data?.map(record =>
+          convertNewCondition(record.attributes),
+        );
+      }
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        conditionsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        conditionDetails: convertUnifiedCondition(action.response.data),
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_LIST: {
+      const data = action.response?.data || [];
+      const oldList = state.conditionsList;
       const newList =
-        action.response.entry
-          ?.map(record => {
-            const condition = record.resource;
-            return convertCondition(condition);
+        data
+          .map(condition => {
+            return convertUnifiedCondition(condition);
           })
-          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+          .sort((a, b) => {
+            const ak = Number.isFinite(a.sortKey) ? a.sortKey : -Infinity;
+            const bk = Number.isFinite(b.sortKey) ? b.sortKey : -Infinity;
+            return bk - ak; // desc, missing/invalid last
+          }) || [];
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,

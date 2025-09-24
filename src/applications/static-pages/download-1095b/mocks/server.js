@@ -1,22 +1,9 @@
 const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
-const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const { delaySingleResponse } = require('./script/utils');
 // const error500 = require('../tests/fixtures/500.json');
 
 const responses = {
-  'GET /v0/feature_toggles': (_req, res) => {
-    const secondsOfDelay = 0;
-    delaySingleResponse(
-      () =>
-        res.json(
-          generateFeatureToggles({
-            showDigitalForm1095b: true,
-          }),
-        ),
-      secondsOfDelay,
-    );
-  },
   'GET /v0/form1095_bs/available_forms': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(() => {

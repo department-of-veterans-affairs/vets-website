@@ -19,31 +19,22 @@ export function LH_MIGRATION__getEntryPoint(topLevelObject, entryPointKeys) {
   }, topLevelObject);
 }
 
-export function LH_MIGRATION__getOptions(shouldUseLighthouse) {
-  const migrationOptions = {
+export function LH_MIGRATION__getOptions() {
+  return {
     listEndpoint: {
       method: 'GET',
-      path: '/v0/letters',
+      path: '/v0/letters_generator',
     },
     summaryEndpoint: {
       method: 'GET',
-      path: '/v0/letters/beneficiary',
+      path: '/v0/letters_generator/beneficiary',
     },
     downloadEndpoint: {
       method: 'POST',
-      path: '/v0/letters',
+      path: '/v0/letters_generator/download',
     },
-    dataEntryPoint: ['data', 'attributes'],
+    dataEntryPoint: [],
   };
-
-  if (shouldUseLighthouse) {
-    migrationOptions.listEndpoint.path = '/v0/letters_generator';
-    migrationOptions.summaryEndpoint.path = '/v0/letters_generator/beneficiary';
-    migrationOptions.downloadEndpoint.path = '/v0/letters_generator/download';
-    migrationOptions.dataEntryPoint = [];
-  }
-
-  return migrationOptions;
 }
 
 export function apiRequest(resource, optionalSettings = {}, success, error) {
@@ -168,6 +159,99 @@ export const letterContent = {
     'This letter shows the benefits you’re receiving from VA. The letter also shows your benefit gross amount (the amount before anything is taken out) and net amount (the amount after deductions are taken out), your benefit effective date, and your disability rating.',
 };
 
+export const newLetterContent = {
+  commissary: (
+    <>
+      <p>
+        The Commissary Letter shows that you’re eligible to receive commissary
+        store and exchange privileges from the Armed Forces.
+      </p>
+      <p>
+        You can use this letter to get a Retiree Military ID card to access
+        these facilities at your local base.
+      </p>
+    </>
+  ),
+  proof_of_service: (
+    <>
+      <p>
+        The Proof of Service Card shows that you served honorably in the Armed
+        Forces.
+      </p>
+      <p>
+        You can use this card to receive discounts at certain stores and
+        restaurants.
+      </p>
+    </>
+  ),
+  medicare_partd: (
+    <>
+      <p>
+        The Proof of Creditable Prescription Drug Coverage Letter proves that
+        you qualify for Medicare Part D prescription drug coverage.
+      </p>
+      <p>
+        You may need to submit this letter when applying for Medicare Part D
+        prescription drug coverage.
+      </p>
+    </>
+  ),
+  minimum_essential_coverage: (
+    <>
+      <p>
+        The Proof of Minimum Essential Coverage Letter proves that you have the
+        right amount of health care coverage required by the Affordable Care Act
+        (ACA).
+      </p>
+      <p>
+        You can use this letter when filing your taxes or applying for something
+        that requires proof of health insurance.
+      </p>
+    </>
+  ),
+  service_verification: serviceVerificationLetterContent,
+  civil_service: (
+    <>
+      <p>
+        The Civil Service Preference Letter proves that you’re a disabled
+        Veteran and you qualify for preference for civil service jobs.
+      </p>
+      <p>You can use this letter when applying for a federal government job.</p>
+    </>
+  ),
+  benefit_summary:
+    'This letter can be customized and used for many things, including to verify service history, income, disability status, and more.',
+  benefit_verification: (
+    <>
+      <p>The Benefit Verification Letter shows your VA financial benefits.</p>
+      <p>
+        You can use this letter to prove your income, such as when applying for
+        a car loan or a mortgage.
+      </p>
+    </>
+  ),
+  benefit_summary_dependent: (
+    <>
+      <p className="vads-u-margin-top--0">
+        The Benefit Summary Letter shows the VA benefits you receive as the
+        survivor of a disabled Veteran.
+      </p>
+
+      <p>
+        You can use this letter to apply for programs or services that ask for
+        proof of your VA benefits. Some examples include:
+      </p>
+
+      <ul className="usa-list vads-u-margin-bottom--3">
+        <li>Apply for home loans or other housing benefits</li>
+        <li>Reduce property or vehicle taxes</li>
+        <li>Apply for a civil service job</li>
+        <li>Get free or discounted state park memberships</li>
+      </ul>
+    </>
+  ),
+};
+
 // Options returned by the benefit summary letter request that should be offered in
 // the checkbox list regardless of their values (e.g., true, false, 'unavailable', or other)
 // All other options are conditionally displayed, depending on the value
@@ -179,6 +263,63 @@ export const optionsToAlwaysDisplay = [
   BENEFIT_OPTIONS.hasSurvivorsPensionAward,
   BENEFIT_OPTIONS.serviceConnectedPercentage,
 ];
+
+// This is a new option map that assumes the only letter making use of it
+// will be the new Benefit Summary and Service Verification letter. This letter
+// is Veteran-only, so there is no dependent option for the first iteration.
+// We are leaving the dependent option in place, because there may be a future
+// enhancement to offer options in the dependent Benefit Summary letter.
+const benefitSummaryLetterLabels = {
+  awardEffectiveDate: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasAdaptedHousing: {
+    veteran:
+      'Housing grant eligibility for Special Adapted Housing (SAH) and Special Home Adaption (SHA)',
+    dependent: undefined,
+  },
+  hasChapter35Eligibility: {
+    veteran: 'Permanent or temporary disability status',
+    dependent: undefined,
+  },
+  hasDeathResultOfDisability: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasIndividualUnemployabilityGranted: {
+    veteran: 'Individual unemployability status',
+    dependent: undefined,
+  },
+  hasNonServiceConnectedPension: {
+    veteran: 'Non-service-connected pension status',
+    dependent: undefined,
+  },
+  hasServiceConnectedDisabilities: {
+    veteran: 'Service-connected disabilities',
+    dependent: undefined,
+  },
+  hasSpecialMonthlyCompensation: {
+    veteran: 'Special monthly compensation status',
+    dependent: undefined,
+  },
+  hasSurvivorsIndemnityCompensationAward: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  hasSurvivorsPensionAward: {
+    veteran: undefined,
+    dependent: undefined,
+  },
+  monthlyAwardAmount: {
+    veteran: 'Monthly benefit amount',
+    dependent: undefined,
+  },
+  serviceConnectedPercentage: {
+    veteran: 'Combined disability rating',
+    dependent: undefined,
+  },
+};
 
 const benefitOptionText = {
   hasNonServiceConnectedPension: {
@@ -356,6 +497,11 @@ export const getFormattedDate = dateTime => {
   return formatDateShort(stripOffTime(dateTime));
 };
 
+export function getFriendlyBenefitSummaryLabels(option, isVeteran) {
+  const personTypeString = isVeteran ? 'veteran' : 'dependent';
+  return benefitSummaryLetterLabels[option][personTypeString];
+}
+
 export function getBenefitOptionText(
   option,
   value,
@@ -472,4 +618,10 @@ export function isAddressEmpty(address) {
       emptySoFar && (fieldsToIgnore.includes(nextField) || !address[nextField]),
     true,
   );
+}
+
+export function getDownloadSuccessMessage(optionsLength) {
+  return `Your letter includes the ${
+    optionsLength === 1 ? 'one topic' : `${optionsLength} topics`
+  } you selected.`;
 }

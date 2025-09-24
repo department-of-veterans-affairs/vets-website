@@ -1,11 +1,10 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import DependentInformation from '../../../../components/FormPages/DependentInformation';
-import { simulateInputChange } from '../../../helpers';
 
 describe('hca DependentInformation page', () => {
   const getData = ({ dependents = undefined }) => ({
@@ -90,24 +89,25 @@ describe('hca DependentInformation page', () => {
           </Provider>,
         );
         const selector = container.querySelector('.usa-button-primary');
+        const dataToSet = {
+          fullName_first: 'Jane',
+          fullName_last: 'Smith',
+          dependentRelation: 'Daughter',
+          socialSecurityNumber: '234243444',
+          dateOfBirthMonth: '1',
+          dateOfBirthDay: '1',
+          dateOfBirthYear: '2000',
+          becameDependentMonth: '1',
+          becameDependentDay: '1',
+          becameDependentYear: '2000',
+        };
 
-        simulateInputChange(container, '#root_fullName_first', 'Jane');
-        simulateInputChange(container, '#root_fullName_last', 'Smith');
-        simulateInputChange(container, '#root_dependentRelation', 'Daughter');
-        simulateInputChange(
-          container,
-          '#root_socialSecurityNumber',
-          '234243444',
-        );
-        simulateInputChange(container, '#root_dateOfBirthMonth', '1');
-        simulateInputChange(container, '#root_dateOfBirthDay', '1');
-        simulateInputChange(container, '#root_dateOfBirthYear', '2000');
-        simulateInputChange(container, '#root_becameDependentMonth', '1');
-        simulateInputChange(container, '#root_becameDependentDay', '1');
-        simulateInputChange(container, '#root_becameDependentYear', '2000');
+        for (const [key, value] of Object.entries(dataToSet)) {
+          const el = container.querySelector(`#root_${key}`);
+          fireEvent.change(el, { target: { value } });
+        }
 
         fireEvent.click(selector);
-
         await waitFor(() => {
           expect(props.goToPath.called).to.be.false;
           expect(props.setFormData.called).to.be.false;

@@ -21,7 +21,7 @@ Mission: Make it easier for Veterans to apply for enrollment in VA health-relate
 
 ### Project URLS
 
-``` markdown
+```markdown
 /health-care/apply-for-health-care-form-10-10ez/
 ```
 
@@ -31,14 +31,18 @@ Follow the standard directions to run the app. Vets API needs to be running in o
 
 ### VA Forms
 
-We are using version 1 of the forms library, Formation. This is a straight forward standard form. We are using [the vets-json-scheam](https://github.com/department-of-veterans-affairs/vets-json-schema) to validate the shape of the data.  
+We are using version 1 of the forms library, Formation. This is a straight forward standard form. We are using [the vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) to validate the shape of the data.
 
 ### What API(s) does this use?
 
-- `/v0/health_care_applications` - Form submission API
-- `/v0/hca_attachments` - File upload API for discharge documents
-- `/health_care_applications/enrollment_status` - Enrollment status fetch API
-- `/health_care_applications/rating_info` - Disability rating fetch API
+This uses the Health Care Application API, the main controller is [here](https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/health_care_applications_controller.rb).
+
+- [`/v0/health_care_applications`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/addHealthCareApplication) - Form submission API
+- [`/v0/hca_attachments`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/postHealthCareApplicationAttachment) - File upload API for discharge documents
+- [`/v0/health_care_applications/enrollment_status`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/enrollmentStatusHealthCareApplication) - Enrollment status fetch API
+- [`/v0/health_care_applications/rating_info`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/getDisabilityRating) - Disability rating fetch API
+- [`/v0/health_care_applications/facilities`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/getFacilities) - Retrieve a list of active healthcare facilities
+- [`/v0/health_care_applications/download_pdf`](https://department-of-veterans-affairs.github.io/va-digital-services-platform-docs/api-reference/#/benefits_forms/post_v0_health_care_applications_download_pdf) - Download a pre-filled 10-10EZ PDF form upon submission receipt.
 
 ### Feature toggles
 

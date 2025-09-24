@@ -9,7 +9,7 @@
  *
  * @returns {HealthCareService} A HealthCareService resource
  */
-export function transformClinicV2(clinic) {
+function transformClinicV2(clinic) {
   return {
     // ID: VA facility site code and clinic id
     id: `${clinic.vistaSite}_${clinic.id}`,

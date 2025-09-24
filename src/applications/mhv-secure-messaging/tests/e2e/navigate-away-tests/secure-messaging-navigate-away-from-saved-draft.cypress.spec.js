@@ -17,7 +17,7 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
   it('navigate away with no data change', () => {
     FolderLoadPage.backToParentFolder();
     GeneralFunctionsPage.verifyUrl(`drafts`);
-    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
+    GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

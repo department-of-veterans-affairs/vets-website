@@ -69,9 +69,7 @@ describe('VAOS Page: CommunityCareLanguagePage', () => {
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/reason-appointment',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('reason'),
     );
   });
 

@@ -81,7 +81,9 @@ const testConfig = createTestConfig(
             testData.contestedIssues.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
-                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                  `label:contains("${
+                    issue.attributes.ratingIssueSubjectText
+                  }")`,
                 )
                   .closest('li')
                   .find('input[type="checkbox"]')

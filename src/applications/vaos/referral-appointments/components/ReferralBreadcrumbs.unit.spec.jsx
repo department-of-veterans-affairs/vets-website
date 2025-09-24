@@ -25,21 +25,19 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
   });
 
   it('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
-    sandbox.stub(flow, 'getReferralUrlLabel').returns('Label');
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
     });
-
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
+    screen.history.push('/');
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const crumb =
       navigation.breadcrumbList[navigation.breadcrumbList.length - 1].label;
-    expect(crumb).to.equal('Label');
+    expect(crumb).to.equal('Appointments');
   });
 
   it('Should have Referrals and requests in breadcrumb', () => {
-    sandbox.stub(flow, 'getReferralUrlLabel').returns('Label');
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
@@ -48,9 +46,7 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     screen.history.push(
       '/schedule-referral?id=1234&referrer=referrals-requests',
     );
-
-    const navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
-
+    const navigation = screen.getByTestId('vaos-breadcrumbs');
     expect(navigation).to.exist;
     const hasReferralBreadcrumbs = navigation.breadcrumbList.some(
       breadcrumb => breadcrumb.label === 'Referrals and requests',
@@ -60,9 +56,8 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
   });
 
   it('should render back link correctly when breadcrumb starts with "Back"', () => {
-    sandbox.stub(flow, 'getReferralUrlLabel').returns('Back to previous page');
-
     const store = createTestStore(initialState);
+    initialState.referral.currentPage = 'complete';
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,
     });
@@ -71,17 +66,16 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     expect(navigation).to.exist;
     const backLink = screen.getByTestId('back-link');
     expect(backLink).to.exist;
-    expect(backLink).to.have.attribute('href', '#');
-    expect(backLink).to.have.attribute('text', 'Back to previous page');
+    expect(backLink).to.have.attribute('href', '/my-health/appointments');
+    expect(backLink).to.have.attribute('text', 'Back to appointments');
   });
 
   it('should call routeToPreviousReferralPage when back link is clicked', () => {
-    const routeToPreviousReferralPage = sandbox.stub(
+    const routeToPreviousReferralPage = sandbox.spy(
       flow,
       'routeToPreviousReferralPage',
     );
-    sandbox.stub(flow, 'getReferralUrlLabel').returns('Back to previous page');
-
+    initialState.referral.currentPage = 'complete';
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
       store,

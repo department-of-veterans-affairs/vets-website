@@ -23,6 +23,7 @@ export const formatPages = chapter => {
     case 'digital_form_custom_step':
       return customStepPages(chapter);
     case 'digital_form_list_loop':
+    case 'list_loop_employment_history':
       return listLoopPages(chapter);
     case 'digital_form_phone_and_email':
       return phoneAndEmailPages(chapter);
@@ -53,9 +54,21 @@ export const statementOfTruthBody =
   'I confirm that the identifying information in this form is accurate and ' +
   'has been represented correctly.';
 
-/** @returns {FormConfig} */
+/**
+ * @param {NormalizedForm} form
+ * @param {Object} options
+ * @returns {FormConfig}
+ */
 export const createFormConfig = (form, options) => {
-  const { chapters, formId, ombInfo, title, plainLanguageHeader } = form;
+  const {
+    chapters,
+    formId,
+    introParagraph,
+    ombInfo,
+    title,
+    plainLanguageHeader,
+    whatToKnowBullets,
+  } = form;
   const { rootUrl, trackingPrefix } = options;
   const subTitle = `${title} (VA Form ${formId})`;
 
@@ -68,7 +81,14 @@ export const createFormConfig = (form, options) => {
       },
     },
     rootUrl,
-    introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
+    introduction: props => (
+      <IntroductionPage
+        {...props}
+        introParagraph={introParagraph}
+        ombInfo={ombInfo}
+        whatToKnow={whatToKnowBullets}
+      />
+    ),
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},

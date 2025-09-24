@@ -5,7 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
@@ -50,6 +49,15 @@ const getData = ({
       routes: [{ path: pathname }],
     },
     data: {
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: {
+          get() {},
+        },
+        dismissedDowntimeWarnings: [],
+      },
       routes: [{ path: pathname }],
       user: {
         login: {

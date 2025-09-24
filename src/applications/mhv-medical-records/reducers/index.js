@@ -14,7 +14,6 @@ import { pageTrackerReducer } from './pageTracker';
 import { imagesReducer } from './images';
 import { downloadsReducer } from './downloads';
 import { blueButtonReducer } from './blueButton';
-import { selfEnteredReducer } from './selfEnteredData';
 
 const rootReducer = {
   mr: combineReducers({
@@ -32,7 +31,6 @@ const rootReducer = {
     pageTracker: pageTrackerReducer,
     images: imagesReducer,
     blueButton: blueButtonReducer,
-    selfEntered: selfEnteredReducer,
   }),
 };
 

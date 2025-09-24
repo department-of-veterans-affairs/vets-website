@@ -32,6 +32,7 @@ export function updateRequiredFields(
   formData,
   index = null,
   fullData,
+  path = [],
 ) {
   if (!uiSchema) {
     return schema;
@@ -42,7 +43,12 @@ export function updateRequiredFields(
       (requiredArray, nextProp) => {
         const field = uiSchema[nextProp];
         if (field && field['ui:required']) {
-          const isRequired = field['ui:required'](formData, index, fullData);
+          const isRequired = field['ui:required'](
+            formData,
+            index,
+            fullData,
+            path.concat(nextProp),
+          );
           const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
           if (arrayHasField && !isRequired) {
@@ -69,6 +75,7 @@ export function updateRequiredFields(
             formData,
             index,
             fullData,
+            path.concat(nextProp),
           );
           if (nextSchema !== currentSchema.properties[nextProp]) {
             return set(['properties', nextProp], nextSchema, currentSchema);
@@ -94,7 +101,14 @@ export function updateRequiredFields(
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = schema.items.map((item, idx) =>
-      updateRequiredFields(item, uiSchema.items, formData, idx, fullData),
+      updateRequiredFields(
+        item,
+        uiSchema.items,
+        formData,
+        idx,
+        fullData,
+        path.concat(idx),
+      ),
     );
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return set('items', newItemSchemas, schema);
@@ -113,6 +127,26 @@ export function isContentExpanded(data, matcher, formData, index, fullData) {
   }
 
   return data === matcher;
+}
+
+/**
+ * Gets preserveHiddenData value for the page (multiple levels deep).
+ * At least three levels are needed to work with arrays:
+ * uiSchema (0) > arrayValue > items > formEl > ui:options > preserveHiddenData
+ * @param {UISchemaOptions} uiSchema
+ * @returns {Boolean} Flag to preserve hidden data is set to true anywhere
+ * within the page uiSchema ui:options
+ */
+export function getPreserveHiddenData(uiSchema, index = 0) {
+  // Stop recursion after 3 levels deep
+  return index > 3
+    ? false
+    : get(['ui:options', 'preserveHiddenData'], uiSchema || {}) ||
+        Object.keys(uiSchema || {}).reduce(
+          (result, key) =>
+            result || getPreserveHiddenData(uiSchema[key], index + 1) || false,
+          false,
+        );
 }
 
 /*
@@ -150,7 +184,7 @@ export function setHiddenFields(
     );
   }
 
-  if (hideIf && hideIf(formData, index, fullData)) {
+  if (hideIf && hideIf(formData, index, fullData, path)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = set('ui:hidden', true, updatedSchema);
     }
@@ -653,7 +687,7 @@ export function updateSchemasAndData(
   schema,
   uiSchema,
   formData,
-  preserveHiddenData = false,
+  preserveHiddenData = false, // also in uiSchema['ui:options']
   fullData,
   index,
 ) {
@@ -664,6 +698,7 @@ export function updateSchemasAndData(
     formData,
     index,
     fullData,
+    [], // path
   );
 
   // Update the schema with any fields that are now hidden because of the data change
@@ -693,7 +728,7 @@ export function updateSchemasAndData(
     fullData || formData,
   );
 
-  if (!preserveHiddenData) {
+  if (!(preserveHiddenData || getPreserveHiddenData(uiSchema))) {
     // Remove any data that’s now hidden in the schema
     const newData = removeHiddenData(newSchema, formData);
 
@@ -743,7 +778,7 @@ export function recalculateSchemaAndData(reduxFormState) {
       page.schema,
       page.uiSchema,
       formData,
-      false,
+      false, // preserveHiddenData
       formData,
       // index: undefined; assuming we're recalculating outside of arrays
     );

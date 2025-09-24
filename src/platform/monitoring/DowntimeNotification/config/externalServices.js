@@ -5,10 +5,13 @@
 export default {
   arcgis: 'arcgis',
   appeals: 'appeals',
+  askva: 'askva',
   // Benefits Gateway Services
   bgs: 'bgs',
   // CARMA (Caregiver Record Management Application)
   carma: 'carma',
+  decisionReviews: 'decision_reviews',
+  disabilityCompensationForm: 'disability_compensation_form',
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
@@ -59,10 +62,12 @@ export default {
   search: 'search',
   // The Image Management System (education forms)
   tims: 'tims',
+  // Travel Pay API
+  travelPay: 'travel_pay',
   // Online appointment scheduling
   vaos: 'vaos',
   // Online appointment scheduling warning message
-  vaosWarning: 'vaosWarning',
+  vaosWarning: 'vaoswarning',
   // VA Profile (formerly Vet360) - data source for centralized veteran contact information
   vaProfile: 'vet360',
   // Veteran Benefits Management System
@@ -81,6 +86,8 @@ export default {
   pcie: 'pcie',
   // Travel claim
   tc: 'tc',
+  // Community Care Direct Scheduling
+  communityCareDS: 'community_care_ds',
   // MDOT/ROES/DLC
   mdot: 'mdot',
   // stagingMdot: 'staging_mdot', // unnecessary

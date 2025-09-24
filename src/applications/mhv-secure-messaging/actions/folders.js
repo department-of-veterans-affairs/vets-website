@@ -1,5 +1,4 @@
 import { Actions } from '../util/actionTypes';
-import { getIsPilotFromState } from '.';
 import {
   getFolderList,
   getFolder,
@@ -9,23 +8,24 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
+import { getFirstError } from '../util/serverErrors';
 
 const handleErrors = err => async dispatch => {
+  const newErr = getFirstError(err);
   dispatch({
     type: Actions.Alerts.ADD_ALERT,
     payload: {
       alertType: 'error',
-      header: err.title,
-      content: err.detail,
-      response: err,
+      header: newErr.title,
+      content: newErr.detail,
+      response: newErr,
     },
   });
 };
 
-export const getFolders = () => async (dispatch, getState) => {
-  const isPilot = getIsPilotFromState(getState);
+export const getFolders = () => async dispatch => {
   try {
-    const response = await getFolderList(isPilot);
+    const response = await getFolderList();
     if (response.data) {
       dispatch({
         type: Actions.Folder.GET_LIST,
@@ -33,21 +33,18 @@ export const getFolders = () => async (dispatch, getState) => {
       });
     }
     if (response.errors) {
-      const err = response.errors[0];
-      dispatch(handleErrors(err));
+      dispatch(handleErrors(response));
     }
   } catch (error) {
-    const err = error.errors[0];
-    dispatch(handleErrors(err));
+    dispatch(handleErrors(error));
     dispatch({
       type: Actions.Folder.GET_LIST_ERROR,
     });
   }
 };
 
-export const retrieveFolder = folderId => async (dispatch, getState) => {
-  const isPilot = getIsPilotFromState(getState);
-  await getFolder({ folderId, isPilot })
+export const retrieveFolder = folderId => async dispatch => {
+  await getFolder({ folderId })
     .then(response => {
       if (response.data) {
         if (
@@ -67,7 +64,7 @@ export const retrieveFolder = folderId => async (dispatch, getState) => {
           type: Actions.Folder.GET,
           response: null,
         });
-        dispatch(handleErrors(response.errors[0]));
+        dispatch(handleErrors(response));
       }
     })
     .catch(error => {
@@ -75,7 +72,7 @@ export const retrieveFolder = folderId => async (dispatch, getState) => {
         type: Actions.Folder.GET,
         response: null,
       });
-      dispatch(handleErrors(error.errors[0]));
+      dispatch(handleErrors(error));
     });
 };
 

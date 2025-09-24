@@ -1,17 +1,15 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
 } from '../../tests/mocks/setup';
-
 import TypeOfAudiologyCarePage from './TypeOfAudiologyCarePage';
 
 const initialState = {
@@ -39,39 +37,35 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Which type of audiology care do you need?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of audiology care do you need\?/,
+      }),
+    ).to.exist;
 
-    // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // And the user should see radio buttons for each type of audiology care
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute('label', 'Routine hearing exam');
-    expect(radioOptions[1]).to.have.attribute('label', 'Hearing aid support');
+    await screen.findByLabelText(/Routine hearing exam/i);
+    await screen.findByLabelText(/Hearing aid support/i);
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
+
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
+
     // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+    expect(await screen.findByText('You must provide a response')).to.exist;
 
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'CCAUDRTNE' }, // Routine hearing exam
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDRTNE');
-    });
-
+    fireEvent.click(screen.getByText(/Routine hearing exam/));
     fireEvent.click(screen.getByText(/Continue/));
+
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        'community-request/',
       ),
     );
   });
@@ -84,15 +78,7 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'CCAUDHEAR' }, // Hearing aid support
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDHEAR');
-    });
-
+    fireEvent.click(screen.getByText(/Routine hearing exam/));
     await cleanup();
 
     screen = renderWithStoreAndRouter(
@@ -102,8 +88,8 @@ describe('VAOS Page: TypeOfAudiologyCarePage', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', 'CCAUDHEAR');
-    });
+    expect(
+      await screen.findByLabelText(/Routine hearing exam/i),
+    ).to.have.attribute('checked');
   });
 });

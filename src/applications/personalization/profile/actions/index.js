@@ -4,6 +4,9 @@ import {
   ERROR_SOURCES,
 } from '@@vap-svc/util/analytics';
 import recordEvent from '~/platform/monitoring/record-event';
+
+import environment from '~/platform/utilities/environment';
+import { apiRequest } from '~/platform/utilities/api';
 import { getData } from '../util';
 
 export { fetchProfileContacts } from './contacts';
@@ -11,6 +14,11 @@ export { fetchProfileContacts } from './contacts';
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_HERO_FAILED = 'FETCH_HERO_FAILED';
+
+export const FETCH_POWER_OF_ATTORNEY = 'FETCH_POWER_OF_ATTORNEY';
+export const FETCH_POWER_OF_ATTORNEY_SUCCESS =
+  'FETCH_POWER_OF_ATTORNEY_SUCCESS';
+export const FETCH_POWER_OF_ATTORNEY_FAILED = 'FETCH_POWER_OF_ATTORNEY_FAILED';
 
 export const FETCH_MILITARY_INFORMATION = 'FETCH_MILITARY_INFORMATION';
 export const FETCH_MILITARY_INFORMATION_SUCCESS =
@@ -38,6 +46,30 @@ const captureMilitaryInfoErrorResponse = ({ error, apiEventName }) => {
     status,
   });
 };
+
+export const POA_URL = `${
+  environment.API_URL
+}/representation_management/v0/power_of_attorney`;
+
+export function fetchPowerOfAttorney() {
+  return async dispatch => {
+    dispatch({ type: FETCH_POWER_OF_ATTORNEY });
+    const response = await apiRequest(POA_URL);
+
+    if (response.errors || response.error) {
+      dispatch({
+        type: FETCH_POWER_OF_ATTORNEY_FAILED,
+        poa: { errors: response },
+      });
+      return;
+    }
+
+    dispatch({
+      type: FETCH_POWER_OF_ATTORNEY_SUCCESS,
+      poa: response.data,
+    });
+  };
+}
 
 export function fetchHero() {
   return async dispatch => {

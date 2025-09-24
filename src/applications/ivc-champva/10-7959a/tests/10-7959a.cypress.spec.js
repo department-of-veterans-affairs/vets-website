@@ -11,7 +11,6 @@ import manifest from '../manifest.json';
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
-  fillAddressWebComponentPattern,
   selectRadioWebComponent,
   getAllPages,
 } from '../../shared/tests/helpers';
@@ -32,10 +31,12 @@ const testConfig = createTestConfig(
 
     // Rename and modify the test data as needed.
     dataSets: [
+      'basic-resubmission.json',
       'test-data.json',
       'military-address-no-ohi-pharmacy-work.json',
       'third-party-foreign-address-ohi-medical-claim-work-auto.json',
       'two-ohi-other-type.json',
+      'no-packet.json',
     ],
 
     pageHooks: {
@@ -60,24 +61,39 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page1b.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
+      // When we land on this screener page, progressing through the form is
+      // blocked (by design). To successfully complete the test,
+      // once we land here, change `certifierReceivedPacket` to `true`
+      // and click '<< Back' so that we can proceed past the screener
+      [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.injectAxeThenAxeCheck();
+            if (data.certifierReceivedPacket === false) {
+              // eslint-disable-next-line no-param-reassign
+              data.certifierReceivedPacket = true;
+              // This targets the '<< Back' button
+              cy.get('[data-testid="btn-back"]').click();
+            }
+          });
+        });
+      },
+      [ALL_PAGES.page1b.path]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'applicantAddress',
               data.applicantAddress,
             );
@@ -85,23 +101,21 @@ const testConfig = createTestConfig(
               'applicantNewAddress',
               data.applicantNewAddress,
             );
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2c.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('select').select(1);
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -110,12 +124,11 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page8.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -124,12 +137,25 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      // Resubmission pharmacy upload path
+      [ALL_PAGES.page1k.path]: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('input[type="file"]')
+            .upload(
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
+              'testing',
+            )
+            .get('.schemaform-file-uploading')
+            .should('not.exist');
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -138,7 +164,7 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
@@ -152,7 +178,7 @@ const testConfig = createTestConfig(
             attributes: {
               confirmationCode: '1b39d28c-5d38-4467-808b-9da252b6e95a',
               isEncrypted: 'false',
-              name: 'file.png',
+              name: 'example_upload.png',
               size: '123',
             },
           },
@@ -174,7 +200,7 @@ const testConfig = createTestConfig(
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

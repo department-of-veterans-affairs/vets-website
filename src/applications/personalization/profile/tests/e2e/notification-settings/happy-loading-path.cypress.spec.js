@@ -55,14 +55,10 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 2)
+          .should('have.length', 3)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')
-          .should(
-            'match',
-            /Manage your health care email notifications on My HealtheVet/i,
-          )
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
         cy.findAllByText(/check with your VA pharmacy first/i).should(
@@ -99,14 +95,10 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 2)
+          .should('have.length', 3)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')
-          .should(
-            'match',
-            /Manage your health care email notifications on My HealtheVet/i,
-          )
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
         cy.findAllByText(/check with your VA pharmacy first/i).should(
@@ -141,14 +133,10 @@ describe('Notification Settings', () => {
         // TODO: uncomment when email is a supported communication channel
         // cy.findByText('veteran@gmail.com').should('exist');
         cy.findAllByTestId('notification-group')
-          .should('have.length', 2)
+          .should('have.length', 3)
           .first()
           .should('contain.text', 'Your health care')
           .invoke('text')
-          .should(
-            'match',
-            /Manage your health care email notifications on My HealtheVet/i,
-          )
           .should('not.match', /prescription.*shipment/i)
           .should('not.match', /prescription.*tracking/i);
         cy.findAllByText(/check with your VA pharmacy first/i).should(
@@ -179,9 +167,6 @@ describe('Notification Settings', () => {
         .should('have.length.above', 0)
         .each($el => {
           expect($el.text()).not.to.match(/your health care/i);
-          expect($el.text()).not.to.match(
-            /You can manage your health care email notifications through my healthevet/i,
-          );
         });
       cy.injectAxeThenAxeCheck();
     });

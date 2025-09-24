@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Outlet } from 'react-router-dom-v5-compat';
 import moment from 'moment';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 
 import { getAppealsV2 as getAppealsV2Action } from '../actions';

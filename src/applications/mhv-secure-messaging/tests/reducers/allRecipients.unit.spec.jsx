@@ -8,7 +8,7 @@ import allRecipientsTriageTeams from '../fixtures/mock-api-responses/all-triage-
 import { RecipientStatus } from '../../util/constants';
 
 describe('allRecipients reducers', () => {
-  const mockStore = (initialState = {}) => {
+  const mockStore = (initialState = { featureToggles: {} }) => {
     return createStore(recipientsReducer, initialState, applyMiddleware(thunk));
   };
 
@@ -26,6 +26,8 @@ describe('allRecipients reducers', () => {
           blockedStatus: recipient.attributes.blockedStatus,
           preferredTeam: recipient.attributes.preferredTeam,
           relationshipType: recipient.attributes.relationshipType,
+          signatureRequired: false,
+          healthCareSystemName: undefined,
           type: 'Care Team',
           status: recipient.attributes.blockedStatus
             ? RecipientStatus.BLOCKED

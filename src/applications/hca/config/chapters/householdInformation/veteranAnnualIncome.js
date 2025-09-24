@@ -1,11 +1,16 @@
+import {
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { validateCurrency } from '../../../utils/validation';
-import { LAST_YEAR } from '../../../utils/constants';
+import { LAST_YEAR, replaceStrValues } from '../../../utils/helpers';
 import { FULL_SCHEMA } from '../../../utils/imports';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
 } from '../../../components/FormDescriptions';
+import content from '../../../locales/en/content.json';
 
 const {
   veteranGrossIncome,
@@ -15,31 +20,45 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': `Your annual income from ${LAST_YEAR}`,
+    ...titleUI(
+      replaceStrValues(content['household-info--vet-income-title'], LAST_YEAR),
+    ),
     'view:veteranGrossIncome': {
-      'ui:title': 'Gross income from work',
-      'ui:description': GrossIncomeDescription,
+      'ui:title': content['household-info--vet-income-gross-title'],
+      ...descriptionUI(GrossIncomeDescription),
       veteranGrossIncome: {
-        ...currencyUI(`Enter your gross annual income from ${LAST_YEAR}`),
+        ...currencyUI(
+          replaceStrValues(
+            content['household-info--vet-income-gross-label'],
+            LAST_YEAR,
+          ),
+        ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:veteranNetIncome': {
-      'ui:title': 'Net income from a farm, property, or business',
-      'ui:description':
-        'Net income is income after any taxes and other deductions are subtracted.',
+      'ui:title': content['household-info--vet-income-net-title'],
+      ...descriptionUI(content['household-info--vet-income-net-description']),
       veteranNetIncome: {
         ...currencyUI(
-          `Enter your net annual income from a farm, property, or business from ${LAST_YEAR}`,
+          replaceStrValues(
+            content['household-info--vet-income-net-label'],
+            LAST_YEAR,
+          ),
         ),
         'ui:validations': [validateCurrency],
       },
     },
     'view:veteranOtherIncome': {
-      'ui:title': 'Other income',
-      'ui:description': OtherIncomeDescription,
+      'ui:title': content['household-info--vet-income-other-title'],
+      ...descriptionUI(OtherIncomeDescription),
       veteranOtherIncome: {
-        ...currencyUI(`Enter your other annual income from ${LAST_YEAR}`),
+        ...currencyUI(
+          replaceStrValues(
+            content['household-info--vet-income-other-label'],
+            LAST_YEAR,
+          ),
+        ),
         'ui:validations': [validateCurrency],
       },
     },

@@ -26,6 +26,12 @@ const ProgramCard = ({ program }) => {
       </div>
       <div>
         <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
+          Degree type
+        </p>
+        <p className="vads-u-margin-top--0">{program.degreeLevel}</p>
+      </div>
+      <div>
+        <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
           Funding available
         </p>
         <p className="vads-u-margin-top--0">
@@ -148,19 +154,20 @@ const YellowRibbonSelector = ({ programs }) => {
   );
 
   const resultText = filteredPrograms.length === 1 ? 'result' : 'results';
-  const resultDegreeLevel =
-    degreeLevelOptions.length === 1
-      ? `${activeOption} degree levels`
-      : `"${activeOption}" degree levels`;
-
   const renderResultsSummary = () => {
     let activeOptionLabel = '';
     if (activeOption === 'All' || activeOption === 'Other') {
-      activeOptionLabel = resultDegreeLevel;
-    } else if (degreeLevelOptions.length === 1) {
-      activeOptionLabel = `${activeOption} degree level`;
+      activeOptionLabel = (
+        <>
+          "<strong>{activeOption}</strong>" degree levels
+        </>
+      );
     } else {
-      activeOptionLabel = `"${activeOption}" degree level`;
+      activeOptionLabel = (
+        <>
+          "<strong>{activeOption}</strong>" degree level
+        </>
+      );
     }
     return (
       <p
@@ -172,7 +179,8 @@ const YellowRibbonSelector = ({ programs }) => {
       >
         {`Showing ${startIndex}-${endIndex} of ${
           filteredPrograms.length
-        } ${resultText} for ${activeOptionLabel}`}
+        } ${resultText} for `}
+        {activeOptionLabel}
       </p>
     );
   };

@@ -15,7 +15,7 @@ import _ from 'lodash';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import {
   fetchProfile,
   setPageTitle,
@@ -71,6 +71,9 @@ export function ComparePage({
     },
     [allLoaded, dispatchFetchCompareDetails, filters, selected, version],
   );
+  useEffect(() => {
+    document.title = `Institution comparison: GI Bill® Comparison Tool | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {

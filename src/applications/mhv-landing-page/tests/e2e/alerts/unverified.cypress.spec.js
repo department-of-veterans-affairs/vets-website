@@ -56,8 +56,7 @@ describe(appName, () => {
         cy.findAllByTestId(/^mhv-link-group-hub-/).should.exist;
 
         // Test for the conditional heading for VA health benefits
-        cy.findByRole('heading', { name: 'My VA health benefits' }).should
-          .exist;
+        cy.findByRole('heading', { name: 'VA health benefits' }).should.exist;
 
         // Test that the unverified identity message is NOT present
         cy.findByTestId('mhv-alert--verify-and-register').should('not.exist');

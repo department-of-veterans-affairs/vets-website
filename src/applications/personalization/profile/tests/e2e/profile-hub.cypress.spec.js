@@ -21,6 +21,7 @@ describe('Profile - Hub page', () => {
       'exist',
     );
     cy.findByText('Military information', { selector: 'h2' }).should('exist');
+    cy.findByText('Veteran Status Card', { selector: 'h2' }).should('exist');
     cy.findByText('Direct deposit information', { selector: 'h2' }).should(
       'exist',
     );

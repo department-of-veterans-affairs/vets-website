@@ -49,9 +49,11 @@ export default {
           you can submit a statement in support of your claim (VA Form 21-4138).
         </p>
         <p>
-          <a href="/find-forms/about-form-21-4138/" target="_blank">
-            Get VA Form 21-4138 to download (opens in new tab)
-          </a>
+          <va-link
+            href="/find-forms/about-form-21-4138/"
+            text="Get VA Form 21-4138 to download"
+            external
+          />
         </p>
         <p>
           <strong>
@@ -73,17 +75,21 @@ export default {
             A completed Authorization to Disclose Information to the Department
             of Veterans Affairs (VA Form 21-4142)
             <br />
-            <a href="/find-forms/about-form-21-4142/" target="_blank">
-              Get VA Form 21-4142 to download (opens in new tab)
-            </a>
+            <va-link
+              href="/find-forms/about-form-21-4142/"
+              text="Get VA Form 21-4142 to download"
+              external
+            />
           </li>
           <li>
             General Release for Medical Provider Information to the Department
             of Veterans Affairs (VA Form 21-4142a)
             <br />
-            <a href="/find-forms/about-form-21-4142a/" target="_blank">
-              Get VA Form 21-4142a to download (opens in new tab)
-            </a>
+            <va-link
+              href="/find-forms/about-form-21-4142a/"
+              text="Get VA Form 21-4142a to download"
+              external
+            />
           </li>
         </ul>
         <p>

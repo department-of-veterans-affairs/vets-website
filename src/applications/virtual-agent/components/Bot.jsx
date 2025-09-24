@@ -10,6 +10,9 @@ import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utiliti
 import App from './App';
 import ChatboxDisclaimer from './ChatboxDisclaimer';
 
+// Hooks
+import useLoginModal from '../hooks/useLoginModal';
+
 // Utils
 import {
   getInAuthExp,
@@ -29,8 +32,7 @@ const MINUTE = 60 * 1000;
 
 function Bot({
   virtualAgentEnableParamErrorDetection,
-  virtualAgentEnableMsftPvaTesting,
-  virtualAgentEnableNluPvaTesting,
+  virtualAgentUseStsAuthentication,
 }) {
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
@@ -38,6 +40,8 @@ function Bot({
   const loggedInFlow = getLoggedInFlow();
 
   webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
+
+  useLoginModal(isLoggedIn, isAuthTopic, virtualAgentUseStsAuthentication);
 
   if (loggedInFlow === 'true' && isLoggedIn) {
     setInAuthExp('true');
@@ -49,7 +53,7 @@ function Bot({
     return <ChatboxDisclaimer />;
   }
 
-  if (!isLoggedIn && isAuthTopic) {
+  if (!isLoggedIn && isAuthTopic && !virtualAgentUseStsAuthentication) {
     return (
       <SignInModal
         data-testid="sign-in-modal"
@@ -68,27 +72,21 @@ function Bot({
       virtualAgentEnableParamErrorDetection={
         virtualAgentEnableParamErrorDetection
       }
-      virtualAgentEnableMsftPvaTesting={virtualAgentEnableMsftPvaTesting}
-      virtualAgentEnableNluPvaTesting={virtualAgentEnableNluPvaTesting}
     />
   );
 }
 
 Bot.propTypes = {
-  virtualAgentEnableMsftPvaTesting: PropTypes.bool,
-  virtualAgentEnableNluPvaTesting: PropTypes.bool,
   virtualAgentEnableParamErrorDetection: PropTypes.bool,
+  virtualAgentUseStsAuthentication: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   virtualAgentEnableParamErrorDetection: toggleValues(state)[
     FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection
   ],
-  virtualAgentEnableMsftPvaTesting: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentEnableMsftPvaTesting
-  ],
-  virtualAgentEnableNluPvaTesting: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentEnableNluPvaTesting
+  virtualAgentUseStsAuthentication: toggleValues(state)[
+    FEATURE_FLAG_NAMES.virtualAgentUseStsAuthentication
   ],
 });
 

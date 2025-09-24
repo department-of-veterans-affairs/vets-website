@@ -4,10 +4,293 @@ import formConfig from '../../../../config/form';
 
 describe('ezr submit transformer', () => {
   context('when all required data is provided', () => {
-    it('should successfully transform data', () => {
-      const form = {
-        loadedData: {
-          formData: {
+    context(
+      "when 'view:isProvidersAndDependentsPrefillEnabled' is true",
+      () => {
+        it('should successfully transform data', () => {
+          const form = {
+            loadedData: {
+              formData: {
+                veteranFullName: {
+                  first: 'Jane',
+                  last: 'Doe',
+                },
+                veteranSocialSecurityNumber: '234243444',
+                veteranDateOfBirth: '1990-01-01',
+                gender: 'F',
+              },
+            },
+            data: {
+              veteranFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+              veteranSocialSecurityNumber: '234243444',
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'F',
+              medicareClaimNumber: '7AD5WC9MW60',
+              medicarePartAEffectiveDate: '2009-01-02',
+              'view:isMedicaidEligible': {
+                isMedicaidEligible: true,
+              },
+              'view:isEnrolledMedicarePartA': {
+                isEnrolledMedicarePartA: true,
+              },
+              'view:deductibleMedicalExpenses': {
+                deductibleMedicalExpenses: 78634,
+              },
+              'view:deductibleFuneralExpenses': {
+                deductibleFuneralExpenses: 92743,
+              },
+              'view:deductibleEducationExpenses': {
+                deductibleEducationExpenses: 7547,
+              },
+              'view:veteranGrossIncome': {
+                veteranGrossIncome: 75665,
+              },
+              'view:veteranNetIncome': {
+                veteranNetIncome: 78663,
+              },
+              'view:veteranOtherIncome': {
+                veteranOtherIncome: 7657,
+              },
+              'view:spouseGrossIncome': {
+                spouseGrossIncome: 98746,
+              },
+              'view:spouseNetIncome': {
+                spouseNetIncome: 77463,
+              },
+              'view:spouseOtherIncome': {
+                spouseOtherIncome: 86657,
+              },
+              'view:isProvidersAndDependentsPrefillEnabled': true,
+              financialInformation: [
+                {
+                  'view:deductibleMedicalExpenses': {
+                    deductibleMedicalExpenses: 234,
+                  },
+                  'view:deductibleFuneralExpenses': {
+                    deductibleFuneralExpenses: 11,
+                  },
+                  'view:deductibleEducationExpenses': {
+                    deductibleEducationExpenses: 0,
+                  },
+                  'view:veteranGrossIncome': {
+                    veteranGrossIncome: 234234,
+                  },
+                  'view:veteranNetIncome': {
+                    veteranNetIncome: 234234,
+                  },
+                  'view:veteranOtherIncome': {
+                    veteranOtherIncome: 3454,
+                  },
+                  'view:spouseGrossIncome': {
+                    spouseGrossIncome: 75454,
+                  },
+                  'view:spouseNetIncome': {
+                    spouseNetIncome: 2656,
+                  },
+                  'view:spouseOtherIncome': {
+                    spouseOtherIncome: 324,
+                  },
+                },
+              ],
+              'view:addInsurancePolicy': false,
+              'view:reportDependents': false,
+              veteranAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              'view:doesMailingMatchHomeAddress': true,
+              'view:maritalStatus': {
+                maritalStatus: 'never married',
+              },
+              privacyAgreementAccepted: true,
+              'view:householdEnabled': true,
+              'view:userDob': '1990-01-01',
+              'view:userGender': 'F',
+            },
+          };
+          const expectedResult = JSON.stringify({
+            asyncCompatible: true,
+            form: JSON.stringify({
+              veteranFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+              veteranSocialSecurityNumber: '234243444',
+              medicareClaimNumber: '7AD5WC9MW60',
+              medicarePartAEffectiveDate: '2009-01-02',
+              isMedicaidEligible: true,
+              isEnrolledMedicarePartA: true,
+              veteranAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              maritalStatus: 'never married',
+              privacyAgreementAccepted: true,
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'F',
+              veteranHomeAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              dependents: [],
+              deductibleMedicalExpenses: 234,
+              deductibleFuneralExpenses: 11,
+              deductibleEducationExpenses: 0,
+              veteranGrossIncome: 234234,
+              veteranNetIncome: 234234,
+              veteranOtherIncome: 3454,
+              spouseGrossIncome: 75454,
+              spouseNetIncome: 2656,
+              spouseOtherIncome: 324,
+            }),
+          });
+          expect(submitTransformer(formConfig, form)).to.deep.equal(
+            expectedResult,
+          );
+        });
+      },
+    );
+    context(
+      "when 'view:isProvidersAndDependentsPrefillEnabled' is false",
+      () => {
+        it('should successfully transform data', () => {
+          const form = {
+            loadedData: {
+              formData: {
+                veteranFullName: {
+                  first: 'Jane',
+                  last: 'Doe',
+                },
+                veteranSocialSecurityNumber: '234243444',
+                veteranDateOfBirth: '1990-01-01',
+                gender: 'F',
+              },
+            },
+            data: {
+              veteranFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+              veteranSocialSecurityNumber: '234243444',
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'F',
+              medicareClaimNumber: '7AD5WC9MW60',
+              medicarePartAEffectiveDate: '2009-01-02',
+              'view:isMedicaidEligible': {
+                isMedicaidEligible: true,
+              },
+              'view:isEnrolledMedicarePartA': {
+                isEnrolledMedicarePartA: true,
+              },
+              'view:deductibleMedicalExpenses': {
+                deductibleMedicalExpenses: 234,
+              },
+              'view:deductibleFuneralExpenses': {
+                deductibleFuneralExpenses: 11,
+              },
+              'view:deductibleEducationExpenses': {
+                deductibleEducationExpenses: 0,
+              },
+              'view:veteranGrossIncome': {
+                veteranGrossIncome: 234234,
+              },
+              'view:veteranNetIncome': {
+                veteranNetIncome: 234234,
+              },
+              'view:veteranOtherIncome': {
+                veteranOtherIncome: 0,
+              },
+              'view:addInsurancePolicy': false,
+              'view:reportDependents': false,
+              veteranAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              'view:doesMailingMatchHomeAddress': true,
+              'view:maritalStatus': {
+                maritalStatus: 'never married',
+              },
+              privacyAgreementAccepted: true,
+              'view:householdEnabled': true,
+              'view:userDob': '1990-01-01',
+              'view:userGender': 'F',
+            },
+          };
+          const expectedResult = JSON.stringify({
+            asyncCompatible: true,
+            form: JSON.stringify({
+              veteranFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+              veteranSocialSecurityNumber: '234243444',
+              medicareClaimNumber: '7AD5WC9MW60',
+              medicarePartAEffectiveDate: '2009-01-02',
+              isMedicaidEligible: true,
+              isEnrolledMedicarePartA: true,
+              deductibleMedicalExpenses: 234,
+              deductibleFuneralExpenses: 11,
+              deductibleEducationExpenses: 0,
+              veteranGrossIncome: 234234,
+              veteranNetIncome: 234234,
+              veteranOtherIncome: 0,
+              veteranAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              maritalStatus: 'never married',
+              privacyAgreementAccepted: true,
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'F',
+              veteranHomeAddress: {
+                country: 'USA',
+                street: '123 elm st',
+                city: 'Northampton',
+                state: 'MA',
+                postalCode: '01060',
+              },
+              dependents: [],
+            }),
+          });
+          expect(submitTransformer(formConfig, form)).to.deep.equal(
+            expectedResult,
+          );
+        });
+      },
+    );
+    context("when 'view:isEmergencyContactsIsEnabled' is true", () => {
+      it('should successfully transform data', () => {
+        const form = {
+          loadedData: {
+            formData: {
+              veteranFullName: {
+                first: 'Jane',
+                last: 'Doe',
+              },
+              veteranSocialSecurityNumber: '234243444',
+              veteranDateOfBirth: '1990-01-01',
+              gender: 'F',
+            },
+          },
+          data: {
             veteranFullName: {
               first: 'Jane',
               last: 'Doe',
@@ -15,101 +298,231 @@ describe('ezr submit transformer', () => {
             veteranSocialSecurityNumber: '234243444',
             veteranDateOfBirth: '1990-01-01',
             gender: 'F',
+            medicareClaimNumber: '7AD5WC9MW60',
+            medicarePartAEffectiveDate: '2009-01-02',
+            'view:isMedicaidEligible': {
+              isMedicaidEligible: true,
+            },
+            'view:isEnrolledMedicarePartA': {
+              isEnrolledMedicarePartA: true,
+            },
+            'view:deductibleMedicalExpenses': {
+              deductibleMedicalExpenses: 234,
+            },
+            'view:deductibleFuneralExpenses': {
+              deductibleFuneralExpenses: 11,
+            },
+            'view:deductibleEducationExpenses': {
+              deductibleEducationExpenses: 0,
+            },
+            'view:veteranGrossIncome': {
+              veteranGrossIncome: 234234,
+            },
+            'view:veteranNetIncome': {
+              veteranNetIncome: 234234,
+            },
+            'view:veteranOtherIncome': {
+              veteranOtherIncome: 0,
+            },
+            'view:addInsurancePolicy': false,
+            'view:reportDependents': false,
+            veteranAddress: {
+              country: 'USA',
+              street: '123 elm st',
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '01060',
+            },
+            'view:doesMailingMatchHomeAddress': true,
+            'view:maritalStatus': {
+              maritalStatus: 'never married',
+            },
+            privacyAgreementAccepted: true,
+            'view:householdEnabled': true,
+            'view:userDob': '1990-01-01',
+            'view:userGender': 'F',
+            'view:isEmergencyContactsEnabled': true,
+            emergencyContacts: [
+              {
+                contactType: 'Emergency Contact',
+                relationship: 'BROTHER',
+                fullName: {
+                  first: 'Test',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+              {
+                contactType: 'Emergency Contact',
+                relationship: 'SISTER',
+                fullName: {
+                  first: 'Tester',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+            ],
+            nextOfKins: [
+              {
+                contactType: 'Primary Next of Kin',
+                relationship: 'BROTHER',
+                fullName: {
+                  first: 'Test',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+              {
+                contactType: 'Primary Next of Kin',
+                relationship: 'SISTER',
+                fullName: {
+                  first: 'Tester',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+            ],
           },
-        },
-        data: {
-          veteranFullName: {
-            first: 'Jane',
-            last: 'Doe',
-          },
-          veteranSocialSecurityNumber: '234243444',
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'F',
-          medicareClaimNumber: '7AD5WC9MW60',
-          medicarePartAEffectiveDate: '2009-01-02',
-          'view:isMedicaidEligible': {
+        };
+        const expectedResult = JSON.stringify({
+          asyncCompatible: true,
+          form: JSON.stringify({
+            veteranFullName: {
+              first: 'Jane',
+              last: 'Doe',
+            },
+            veteranSocialSecurityNumber: '234243444',
+            medicareClaimNumber: '7AD5WC9MW60',
+            medicarePartAEffectiveDate: '2009-01-02',
             isMedicaidEligible: true,
-          },
-          'view:isEnrolledMedicarePartA': {
             isEnrolledMedicarePartA: true,
-          },
-          'view:deductibleMedicalExpenses': {
             deductibleMedicalExpenses: 234,
-          },
-          'view:deductibleFuneralExpenses': {
             deductibleFuneralExpenses: 11,
-          },
-          'view:deductibleEducationExpenses': {
             deductibleEducationExpenses: 0,
-          },
-          'view:veteranGrossIncome': {
             veteranGrossIncome: 234234,
-          },
-          'view:veteranNetIncome': {
             veteranNetIncome: 234234,
-          },
-          'view:veteranOtherIncome': {
             veteranOtherIncome: 0,
-          },
-          'view:addInsurancePolicy': false,
-          'view:reportDependents': false,
-          veteranAddress: {
-            country: 'USA',
-            street: '123 elm st',
-            city: 'Northampton',
-            state: 'MA',
-            postalCode: '01060',
-          },
-          'view:doesMailingMatchHomeAddress': true,
-          'view:maritalStatus': {
+            veteranAddress: {
+              country: 'USA',
+              street: '123 elm st',
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '01060',
+            },
             maritalStatus: 'never married',
-          },
-          privacyAgreementAccepted: true,
-          'view:householdEnabled': true,
-          'view:userDob': '1990-01-01',
-          'view:userGender': 'F',
-        },
-      };
-      const expectedResult = JSON.stringify({
-        asyncCompatible: true,
-        form: JSON.stringify({
-          veteranFullName: {
-            first: 'Jane',
-            last: 'Doe',
-          },
-          veteranSocialSecurityNumber: '234243444',
-          medicareClaimNumber: '7AD5WC9MW60',
-          medicarePartAEffectiveDate: '2009-01-02',
-          isMedicaidEligible: true,
-          isEnrolledMedicarePartA: true,
-          deductibleMedicalExpenses: 234,
-          deductibleFuneralExpenses: 11,
-          deductibleEducationExpenses: 0,
-          veteranGrossIncome: 234234,
-          veteranNetIncome: 234234,
-          veteranOtherIncome: 0,
-          veteranAddress: {
-            country: 'USA',
-            street: '123 elm st',
-            city: 'Northampton',
-            state: 'MA',
-            postalCode: '01060',
-          },
-          maritalStatus: 'never married',
-          privacyAgreementAccepted: true,
-          veteranDateOfBirth: '1990-01-01',
-          gender: 'F',
-          veteranHomeAddress: {
-            country: 'USA',
-            street: '123 elm st',
-            city: 'Northampton',
-            state: 'MA',
-            postalCode: '01060',
-          },
-          dependents: [],
-        }),
+            privacyAgreementAccepted: true,
+            emergencyContacts: [
+              {
+                contactType: 'Emergency Contact',
+                relationship: 'BROTHER',
+                fullName: {
+                  first: 'Test',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+              {
+                contactType: 'Other emergency contact',
+                relationship: 'SISTER',
+                fullName: {
+                  first: 'Tester',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+            ],
+            nextOfKins: [
+              {
+                contactType: 'Primary Next of Kin',
+                relationship: 'BROTHER',
+                fullName: {
+                  first: 'Test',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+              {
+                contactType: 'Other Next of Kin',
+                relationship: 'SISTER',
+                fullName: {
+                  first: 'Tester',
+                  last: 'Testerson',
+                },
+                address: {
+                  street: '1 test ave',
+                  city: 'Tampa',
+                  state: 'FL',
+                  postalCode: '33765',
+                  country: 'USA',
+                },
+                primaryPhone: '3015557501',
+              },
+            ],
+            veteranDateOfBirth: '1990-01-01',
+            gender: 'F',
+            veteranHomeAddress: {
+              country: 'USA',
+              street: '123 elm st',
+              city: 'Northampton',
+              state: 'MA',
+              postalCode: '01060',
+            },
+            dependents: [],
+          }),
+        });
+        expect(submitTransformer(formConfig, form)).to.deep.equal(
+          expectedResult,
+        );
       });
-      expect(submitTransformer(formConfig, form)).to.deep.equal(expectedResult);
     });
   });
 

@@ -17,28 +17,18 @@ import {
   startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
-import {
-  selectFeatureFeSourceOfTruth,
-  selectFeatureFeSourceOfTruthCC,
-} from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
-import TypeOfCareRadioWidget from '../VAFacilityPage/TypeOfCareRadioWidget';
+import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
 
 const pageKey = 'typeOfCare';
 
 export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const useFeSourceOfTruth = useSelector(state =>
-    selectFeatureFeSourceOfTruth(state),
-  );
-  const useFeSourceOfTruthCC = useSelector(state =>
-    selectFeatureFeSourceOfTruthCC(state),
-  );
 
   const dispatch = useDispatch();
   const {
@@ -83,7 +73,7 @@ export default function TypeOfCarePage() {
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
         typeOfCare =>
-          typeOfCare.id !== PODIATRY_ID ||
+          typeOfCare.id !== TYPE_OF_CARE_IDS.PODIATRY_ID ||
           (showCommunityCare && !removePodiatry),
       ).sort(
         (careA, careB) =>
@@ -105,7 +95,7 @@ export default function TypeOfCarePage() {
     uiSchema: {
       typeOfCareId: {
         'ui:title': pageTitle,
-        'ui:widget': TypeOfCareRadioWidget,
+        'ui:widget': AppointmentsRadioWidget,
         'ui:options': {
           classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,
@@ -150,10 +140,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2(
-                useFeSourceOfTruth,
-                useFeSourceOfTruthCC,
-              );
+              getLongTermAppointmentHistoryV2();
             }
 
             setData(newData);

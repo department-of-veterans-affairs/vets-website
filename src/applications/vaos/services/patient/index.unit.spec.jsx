@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { addDays } from 'date-fns';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { fetchPatientRelationships } from '.';
 
@@ -13,32 +14,28 @@ describe('VAOS Services: Patient ', () => {
         {
           type: 'relationship',
           attributes: {
-            type: 'string',
-            attributes: {
-              provider: {
-                cernerId: 'Practitioner/123456',
-                name: 'Doe, John D, MD',
-              },
-              location: {
-                vhaFacilityId: 'string',
-                name: 'Marion VA Clinic',
-              },
-              clinic: {
-                vistaSite: '534',
-                ien: '6569',
-                name: 'Zanesville Primary Care',
-              },
-              serviceType: {
-                coding: [
-                  {
-                    code: 'Routine Follow-up',
-                  },
-                ],
-                text: 'string',
-              },
-              lastSeen: '2024-11-26T00:32:34.216Z',
-              hasAvailability: false,
+            provider: {
+              cernerId: 'Practitioner/123456',
+              name: 'Doe, John D, MD',
             },
+            location: {
+              vhaFacilityId: '692',
+              name: 'Marion VA Clinic',
+            },
+
+            serviceType: {
+              coding: [
+                {
+                  system:
+                    'http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type',
+                  code: 'foodAndNutrition',
+                  display: 'Food and Nutrition',
+                },
+              ],
+              text: 'Food and Nutrition',
+            },
+            lastSeen: '2024-11-26T00:32:34.216Z',
+            hasAvailability: false,
           },
         },
       ];
@@ -49,7 +46,11 @@ describe('VAOS Services: Patient ', () => {
 
       setFetchJSONResponse(global.fetch, { data: relationships });
 
-      const data = await fetchPatientRelationships('123', typeOfCare);
+      const data = await fetchPatientRelationships(
+        '123',
+        typeOfCare,
+        addDays(new Date(), 395),
+      );
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,

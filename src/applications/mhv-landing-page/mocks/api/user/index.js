@@ -22,6 +22,7 @@ const defaultUser = {
         gender: 'F',
         birth_date: '1985-01-01',
         verified: true,
+        edipi: null,
       },
       session: {
         auth_broker: 'iam',
@@ -76,9 +77,14 @@ const generateUser = ({
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
+  oracleHealth = false,
   firstName = 'Gina',
   preferredName = 'Ginny',
+  edipi = null,
 } = {}) => {
+  const facilities = defaultUser.data.attributes.va_profile.facilities.map(
+    facility => ({ ...facility, is_cerner: oracleHealth }),
+  );
   return {
     ...defaultUser,
     data: {
@@ -89,6 +95,7 @@ const generateUser = ({
           ...defaultUser.data.attributes.va_profile,
           mhv_account_state: mhvAccountState,
           va_patient: vaPatient,
+          facilities,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
@@ -98,6 +105,7 @@ const generateUser = ({
           sign_in: {
             service_name: serviceName,
           },
+          edipi,
         },
       },
     },
@@ -113,7 +121,18 @@ const CSP_IDS = {
 
 const USER_MOCKS = Object.freeze({
   ALL_CAPS_NAME: generateUser({ firstName: 'KEVIN', preferredName: '' }),
-  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNREGISTERED: generateUser({ loa: 3, vaPatient: false, edipi: '2116564958' }),
+  UNREGISTERED_NO_EDIPI: generateUser({
+    loa: 3,
+    vaPatient: false,
+    edipi: null,
+  }),
+  UNREGISTERED_NO_MHV: generateUser({
+    loa: 3,
+    vaPatient: false,
+    edipi: '2116564958',
+    mhvAccountState: 'NONE',
+  }),
   UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
   LOGIN_GOV_UNVERIFIED: generateUser({
     loa: 1,
@@ -123,6 +142,7 @@ const USER_MOCKS = Object.freeze({
   NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
   MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
   DEFAULT: generateUser(),
+  ORACLE_HEALTH_USER: generateUser({ oracleHealth: true }),
 });
 
 module.exports = {

@@ -1,10 +1,11 @@
 import React from 'react';
-import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  currencyUI,
+  currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
   radioUI,
@@ -12,7 +13,6 @@ import {
   textUI,
   textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { recipientTypeLabels, careFrequencyLabels } from '../../../labels';
 import { childNameRequired, MedicalExpenseDescription } from './helpers';
@@ -144,20 +144,14 @@ const medicalExpensePaymentPage = {
       title: 'How often are the payments?',
       labels: careFrequencyLabels,
     }),
-    paymentAmount: merge({}, currencyUI('How much is each payment?'), {
-      'ui:options': {
-        classNames: 'schemaform-currency-input-v3',
-      },
-    }),
+    paymentAmount: currencyUI('How much is each payment?'),
   },
   schema: {
     type: 'object',
     properties: {
       paymentDate: currentOrPastDateSchema,
       paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
-      paymentAmount: {
-        type: 'number',
-      },
+      paymentAmount: currencySchema,
     },
     required: ['paymentDate', 'paymentFrequency', 'paymentAmount'],
   },

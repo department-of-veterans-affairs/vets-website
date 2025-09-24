@@ -1,13 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
-
 import { HearingTypeReviewField } from '../../content/hearingType';
 
 describe('NOD board review page', () => {
@@ -31,7 +28,7 @@ describe('NOD board review page', () => {
     expect($$('va-radio-option', container).length).to.equal(3);
   });
 
-  it('should allow submit', () => {
+  it('should allow submit', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -50,12 +47,14 @@ describe('NOD board review page', () => {
 
     fireEvent.submit($('form', container));
 
-    expect($$('[error]', container).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      expect($$('[error]', container).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
   });
 
   // board option is required
-  it('should prevent continuing', () => {
+  it('should prevent continuing', async () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -69,8 +68,11 @@ describe('NOD board review page', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('[error]', container).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      expect($$('[error]', container).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
   });
 });
 

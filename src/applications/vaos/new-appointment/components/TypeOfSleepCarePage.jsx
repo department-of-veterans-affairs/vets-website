@@ -1,10 +1,10 @@
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
+import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -12,9 +12,7 @@ import {
   updateFormData,
 } from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'typeOfSleepCare';
 const pageTitle = 'Which type of sleep care do you need?';
@@ -33,11 +31,10 @@ const initialSchema = {
 const uiSchema = {
   typeOfSleepCareId: {
     'ui:title': pageTitle,
-    'ui:widget': 'radio', // Required
-    'ui:webComponentField': VaRadioField,
+    'ui:widget': AppointmentsRadioWidget,
     'ui:options': {
       classNames: 'vads-u-margin-top--neg2',
-      labelHeaderLevel: '1',
+      hideLabelText: true,
       labels: {
         [TYPES_OF_SLEEP_CARE[0].id]: TYPES_OF_SLEEP_CARE[0].name,
         [TYPES_OF_SLEEP_CARE[1].id]: TYPES_OF_SLEEP_CARE[1].name,
@@ -57,11 +54,7 @@ const uiSchema = {
   },
 };
 
-export default function TypeOfSleepCarePage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function TypeOfSleepCarePage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -71,14 +64,24 @@ export default function TypeOfSleepCarePage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
   }, []);
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
 
   return (
     <div className="vaos-form__radio-field-descriptive">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Type of sleep care"
@@ -105,7 +108,3 @@ export default function TypeOfSleepCarePage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfSleepCarePage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

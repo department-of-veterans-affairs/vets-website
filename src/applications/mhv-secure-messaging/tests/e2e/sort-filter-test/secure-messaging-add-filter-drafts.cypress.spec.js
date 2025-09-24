@@ -17,9 +17,9 @@ describe('SM DRAFTS ADD FILTER CATEGORY', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();
-    PatientInboxPage.openAdvancedSearch();
-    PatientInboxPage.selectAdvancedSearchCategory('COVID');
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.openAdditionalFilter();
+    PatientFilterPage.selectAdvancedSearchCategory('COVID');
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
   });
 
   it('verify all draft messages contain the searched category', () => {
@@ -43,7 +43,7 @@ describe('SM DRAFTS ADD FILTER FIXED DATE RANGE', () => {
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();
-    PatientInboxPage.openAdvancedSearch();
+    PatientFilterPage.openAdditionalFilter();
   });
 
   it('verify filter by last 3 month', () => {
@@ -53,8 +53,8 @@ describe('SM DRAFTS ADD FILTER FIXED DATE RANGE', () => {
       mockDraftMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(3);
@@ -74,8 +74,8 @@ describe('SM DRAFTS ADD FILTER FIXED DATE RANGE', () => {
       mockDraftMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(6);
@@ -95,8 +95,8 @@ describe('SM DRAFTS ADD FILTER FIXED DATE RANGE', () => {
       mockDraftMessages,
     );
 
-    PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
+    PatientFilterPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
+    PatientFilterPage.clickApplyFilterButton(filterResultResponse);
 
     PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
     PatientFilterPage.verifyMessageDate(12);

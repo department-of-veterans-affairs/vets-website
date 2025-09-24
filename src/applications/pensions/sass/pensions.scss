@@ -10,31 +10,6 @@
 
 $font-size: 16.96px;
 
-// Override widget styles to match v3 web components
-// until there is a web component pattern replacement
-.schemaform-currency-input-v3 {
-  margin-top: 24px;
-  .schemaform-widget-wrapper {
-    position: relative;
-    &:before {
-      content: "$";
-      display: block;
-      position: absolute;
-      top: 9px;
-      left: 10px;
-    }
-  }
-  label {
-    font-size: $font-size;
-  }
-  input {
-    width: 100%;
-    max-width: 480px;
-    font-size: $font-size;
-    padding-left: 25px;
-  }
-}
-
 .schemaform-date-input-v3 {
   &.schemaform-first-field {
     margin-top: 8px !important;
@@ -66,6 +41,10 @@ $font-size: 16.96px;
 
 .u-list-no-bullets {
   list-style-type: none;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 // Break long words on modals, see

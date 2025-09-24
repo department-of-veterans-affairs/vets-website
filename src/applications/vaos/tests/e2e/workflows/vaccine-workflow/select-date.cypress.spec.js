@@ -1,7 +1,9 @@
-import moment from 'moment-timezone';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import { addDays, isLastDayOfMonth, lastDayOfMonth } from 'date-fns';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
 import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
@@ -19,7 +21,6 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
 
 describe('VAOS select appointment date', () => {
   beforeEach(() => {
@@ -39,20 +40,17 @@ describe('VAOS select appointment date', () => {
       });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
-        typeOfCareId: 'covid',
+        typeOfCareId: TYPE_OF_CARE_IDS.COVID_VACCINE_ID,
         isDirect: true,
         isRequest: true,
       });
     });
 
-    // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/99727
-    it.skip('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
+    it('should allow a user to choose available slot and fetch new slots after changing clinics', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
-      const secondDate = moment()
-        .tz('America/Denver')
-        .add(2, 'day');
+      const firstDate = addDays(new Date(), 1);
+      const secondDate = addDays(new Date(), 2);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
       const response = MockSlotResponse.createResponses({
         startTimes: [firstDate, secondDate],
@@ -111,11 +109,12 @@ describe('VAOS select appointment date', () => {
         .selectClinic({ selection: /Clinic 2/i, isCovid: true })
         .clickNextButton();
 
-      DateTimeSelectPageObject.assertUrl()
-        // advance to next month if secondDate lands on following month
-        .compareDatesClickNextMonth(firstDate, secondDate)
-        .selectDate(secondDate)
-        .assertDateSelected(secondDate);
+      DateTimeSelectPageObject.assertUrl();
+      if (isLastDayOfMonth(firstDate))
+        DateTimeSelectPageObject.clickNextMonth();
+      DateTimeSelectPageObject.selectDate(secondDate).assertDateSelected(
+        secondDate,
+      );
 
       // Assert
       cy.axeCheckBestPractice();
@@ -173,22 +172,21 @@ describe('VAOS select appointment date', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should fetch slots when moving between months', () => {
+    it(`should fetch slots when moving between months`, () => {
       // Arrange
-      // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
+      cy.clock(lastDayOfMonth(new Date()), ['Date']);
+
+      // Add two days since date is set to the last day of the month end of day.
+      // Timezone conversion for MT will result in the previous day thus the need
+      // to add 2 days. NOTE: Same day appointments are not allowed.
+      const preferredDate = addDays(lastDayOfMonth(new Date()), 2);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
-      const todayDate = moment().date();
-      const endOfMonthDate = moment()
-        .clone()
-        .endOf('month')
-        .date();
 
       mockSlotsApi({
         locationId: '983',
         clinicId: '1',
         response: MockSlotResponse.createResponses({
-          startTimes: [firstDate],
+          startTimes: [preferredDate],
         }),
       });
 
@@ -230,12 +228,83 @@ describe('VAOS select appointment date', () => {
 
       DateTimeSelectPageObject.assertUrl()
         // Account for 1st call returning 2 months of slots
+        .assertCallCount({
+          alias: '@v2:get:slots',
+          count: 1,
+        })
         .clickNextMonth()
         .wait({ alias: '@v2:get:slots' })
         .assertCallCount({
           alias: '@v2:get:slots',
-          count: todayDate < endOfMonthDate ? 2 : 3,
+          count: 2,
         });
+
+      // Assert
+      cy.axeCheckBestPractice();
+    });
+
+    // Check for test flakyness on the last day of each month
+    it('should fetch next-month slots when current date is the last day of the month', () => {
+      // Arrange
+      // On the last day of the month, available slots roll into the next month.
+      // Adding 2 days avoids same-day and timezone edge cases.
+      cy.clock(lastDayOfMonth(new Date()), ['Date']);
+
+      // Need to set this as well since the Cypress command to set the system
+      // time has not been executed yet.
+      const preferredDate = addDays(lastDayOfMonth(new Date()), 2);
+      const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+
+      mockSlotsApi({
+        locationId: '983',
+        clinicId: '1',
+        response: MockSlotResponse.createResponses({
+          startTimes: [preferredDate],
+        }),
+      });
+
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          locationId: '983',
+          count: 2,
+        }),
+      });
+
+      // Act
+      cy.login(mockUser);
+
+      AppointmentListPageObject.visit().scheduleAppointment();
+
+      TypeOfCarePageObject.assertUrl()
+        .assertAddressAlert({ exist: false })
+        .selectTypeOfCare(/COVID-19 vaccine/i)
+        .clickNextButton();
+
+      PlanAheadPageObject.assertUrl().clickNextButton();
+
+      DosesReceivedPageObject.assertUrl()
+        .selectRadioButton(/No\/I.?m not sure/i)
+        .clickNextButton();
+
+      VAFacilityPageObject.assertUrl()
+        .assertHomeAddress({ address: /123 Main St/i })
+        .selectLocation(/Facility 983/i)
+        .clickNextButton();
+
+      ClinicChoicePageObject.assertUrl()
+        .selectClinic({ selection: /Clinic 1/i, isCovid: true })
+        .clickNextButton();
+
+      DateTimeSelectPageObject.assertUrl()
+        // First call returns initial window of slots
+        .assertCallCount({ alias: '@v2:get:slots', count: 1 })
+        .selectDate(preferredDate)
+        .assertDateSelected(preferredDate)
+        // Move to next month and ensure a new fetch occurs
+        .clickNextMonth()
+        .wait({ alias: '@v2:get:slots' })
+        .assertCallCount({ alias: '@v2:get:slots', count: 2 });
 
       // Assert
       cy.axeCheckBestPractice();
@@ -244,7 +313,7 @@ describe('VAOS select appointment date', () => {
     it('should show validation error if no date selected', () => {
       // Arrange
       // Add one day since same day appointments are not allowed.
-      const firstDate = moment().add(1, 'day');
+      const firstDate = addDays(new Date(), 1);
       const mockUser = new MockUser({ addressLine1: '123 Main St.' });
 
       mockSlotsApi({

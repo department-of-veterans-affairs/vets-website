@@ -3,6 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import { waitFor } from '@testing-library/react';
 
 import {
   DefinitionTester,
@@ -21,6 +22,15 @@ import {
 const definitions = formConfig.defaultDefinitions;
 
 describe('Edu 1995 applicantInformation', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
   const {
     schema,
     uiSchema,
@@ -58,7 +68,7 @@ describe('Edu 1995 applicantInformation', () => {
     );
     expect(inputs.length).to.equal(8);
   });
-  it('should conditionally require SSN or file number', () => {
+  it('should conditionally require SSN or file number', async () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         formData={{}}
@@ -74,24 +84,27 @@ describe('Edu 1995 applicantInformation', () => {
     // not found nodes will return undefined instead of null
 
     // VA file number input is not visible; error is shown for empty SSN input
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
-      form,
-      'input',
-    );
-    expect(
-      inputs.find(input => input.id === 'root_veteranSocialSecurityNumber'),
-    ).to.be.ok;
-    expect(inputs.find(input => input.id === 'root_vaFileNumber')).not.to.be.ok;
+    await waitFor(() => {
+      const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(
+        form,
+        'input',
+      );
+      expect(
+        inputs.find(input => input.id === 'root_veteranSocialSecurityNumber'),
+      ).to.be.ok;
+      expect(inputs.find(input => input.id === 'root_vaFileNumber')).not.to.be
+        .ok;
 
-    const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
-      form,
-      'usa-input-error-message',
-    );
-    expect(
-      errors.find(input =>
-        input.id.includes('root_veteranSocialSecurityNumber'),
-      ),
-    ).to.be.ok;
+      const errors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
+        form,
+        'usa-input-error-message',
+      );
+      expect(
+        errors.find(input =>
+          input.id.includes('root_veteranSocialSecurityNumber'),
+        ),
+      ).to.be.ok;
+    });
 
     // Check no-SSN box
     const noSSNBox = ReactTestUtils.scryRenderedDOMComponentsWithTag(
@@ -105,19 +118,21 @@ describe('Edu 1995 applicantInformation', () => {
     });
 
     // No error is shown for empty SSN input; error is shown for empty file number input
-    const newErrors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
-      form,
-      'usa-input-error-message',
-    );
-    expect(
-      newErrors.find(input =>
-        input.id.includes('root_veteranSocialSecurityNumber'),
-      ),
-    ).not.to.be.ok;
-    expect(newErrors.find(input => input.id.includes('root_vaFileNumber'))).to
-      .be.ok;
+    await waitFor(() => {
+      const newErrors = ReactTestUtils.scryRenderedDOMComponentsWithClass(
+        form,
+        'usa-input-error-message',
+      );
+      expect(
+        newErrors.find(input =>
+          input.id.includes('root_veteranSocialSecurityNumber'),
+        ),
+      ).not.to.be.ok;
+      expect(newErrors.find(input => input.id.includes('root_vaFileNumber'))).to
+        .be.ok;
+    });
   });
-  it('should submit with no errors with all required fields filled in', () => {
+  it('should submit with no errors with all required fields filled in', async () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -131,8 +146,10 @@ describe('Edu 1995 applicantInformation', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
     const find = formDOM.querySelector.bind(formDOM);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+        .empty;
+    });
 
     ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
@@ -184,12 +201,14 @@ describe('Edu 1995 applicantInformation', () => {
       },
     });
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+        .empty;
+    });
     submitForm(form);
     expect(onSubmit.called).to.be.true;
   });
-  it('should submit with no errors applicant under 18', () => {
+  it('should submit with no errors applicant under 18', async () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -203,8 +222,10 @@ describe('Edu 1995 applicantInformation', () => {
     const formDOM = findDOMNode(form);
     submitForm(form);
     const find = formDOM.querySelector.bind(formDOM);
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+        .empty;
+    });
 
     ReactTestUtils.Simulate.change(find('#root_veteranFullName_first'), {
       target: {
@@ -256,8 +277,10 @@ describe('Edu 1995 applicantInformation', () => {
       },
     });
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+        .empty;
+    });
 
     const graduatedOrGED = ReactTestUtils.scryRenderedDOMComponentsWithTag(
       form,
@@ -271,8 +294,10 @@ describe('Edu 1995 applicantInformation', () => {
         value: true,
       },
     });
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).not.to.be
+        .empty;
+    });
 
     ReactTestUtils.Simulate.change(graduatedOrGED, {
       target: {
@@ -293,8 +318,10 @@ describe('Edu 1995 applicantInformation', () => {
       },
     });
 
-    expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
-      .empty;
+    await waitFor(() => {
+      expect(Array.from(formDOM.querySelectorAll('.usa-input-error'))).to.be
+        .empty;
+    });
 
     submitForm(form);
     expect(onSubmit.called).to.be.true;

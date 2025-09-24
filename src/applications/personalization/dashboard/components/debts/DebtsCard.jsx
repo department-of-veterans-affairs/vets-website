@@ -1,33 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import CTALink from '../CTALink';
 
-export const DebtsCard = ({ debts }) => {
-  const debtHistory = debts.reduce(
-    (acc, debt) => (debt.debtHistory ? acc.concat(debt.debtHistory) : acc),
-    [],
-  );
-  const allDebtHistoryDates = debtHistory
-    .reduce((acc, history) => acc.concat(history.date), [])
-    .sort((a, b) => {
-      const aSplit = a
-        .split('/')
-        .reverse()
-        .join('');
-      const bSplit = b
-        .split('/')
-        .reverse()
-        .join('');
-      return bSplit.localeCompare(aSplit);
-    });
-  const lastUpdatedDate = (allDebtHistoryDates || [])[0] || new Date();
-  const formattedLastUpdatedDate = format(
-    new Date(lastUpdatedDate),
-    'MMMM dd, yyyy',
-  );
-  const debtsCount = debts?.length || 0;
+export const DebtsCard = ({ debtsCount }) => {
   if (debtsCount < 1) {
     return (
       <p
@@ -46,7 +22,7 @@ export const DebtsCard = ({ debts }) => {
         {debtsCount > 1 ? 's' : ''}
       </h3>
       <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-        Updated on {formattedLastUpdatedDate}
+        Review your current VA benefit debt
       </p>
       <CTALink
         text="Manage your VA debt"
@@ -80,29 +56,7 @@ export const DebtsCard = ({ debts }) => {
 };
 
 DebtsCard.propTypes = {
-  debts: PropTypes.arrayOf(
-    PropTypes.shape({
-      amountOverpaid: PropTypes.number.isRequired,
-      amountWithheld: PropTypes.number.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      currentAr: PropTypes.number.isRequired,
-      debtHistory: PropTypes.arrayOf(
-        PropTypes.shape({
-          date: PropTypes.string.isRequired,
-          letterCode: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-        }),
-      ),
-      deductionCode: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
-      fileNumber: PropTypes.string.isRequired,
-      originalAr: PropTypes.number.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-    }),
-  ),
-  hasError: PropTypes.bool,
+  debtsCount: PropTypes.number.isRequired,
 };
 
 export default DebtsCard;

@@ -20,13 +20,18 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  // concat international phone object to appropriate numeric string
+  const intlPhoneJoined =
+    (transformedData.veteranPhoneNumber?.callingCode || '') +
+    (transformedData.veteranPhoneNumber?.contact || '');
+
   const dataPostTransform = {
     veteran: {
       date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
       full_name: transformedData?.veteranFullName,
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
-        : transformedData.physical_address || {
+        : transformedData.physicalAddress || {
             country: 'NA',
             street: 'NA',
             city: 'NA',
@@ -40,10 +45,9 @@ export default function transformForSubmit(formConfig, form) {
         state: 'NA',
         postalCode: 'NA',
       },
-      ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      va_claim_number:
-        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
-      phone_number: transformedData.veteranPhoneNumber || '',
+      ssn: transformedData?.veteranSocialSecurityNumber || '',
+      va_claim_number: '',
+      phone_number: intlPhoneJoined,
       email_address: transformedData.veteranEmailAddress || '',
       send_payment: transformedData.sendPayment,
     },
@@ -54,10 +58,14 @@ export default function transformForSubmit(formConfig, form) {
         first: transformedData.veteranFullName?.first,
         last: transformedData.veteranFullName?.last,
       },
-      phone: transformedData.veteranPhoneNumber,
+      phone: intlPhoneJoined,
       email: transformedData.veteranEmailAddress,
     },
-    supportingDocs: getObjectsWithAttachmentId(transformedData),
+    // Grab all files uploaded
+    supportingDocs: getObjectsWithAttachmentId(
+      transformedData,
+      'confirmationCode',
+    ),
   };
 
   // Stringify and format the addresses so they fit in the PDF fields properly

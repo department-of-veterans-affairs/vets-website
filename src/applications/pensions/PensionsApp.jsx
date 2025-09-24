@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import IntentToFile from 'platform/shared/itf/IntentToFile';
+
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
@@ -14,11 +16,8 @@ export default function PensionEntry({ location, children }) {
   const pensionMultiplePageResponse = useToggleValue(
     TOGGLE_NAMES.pensionMultiplePageResponse,
   );
-  const pensionIncomeAndAssetsClarification = useToggleValue(
-    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
-  );
-  const pensionMedicalEvidenceClarification = useToggleValue(
-    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
+  const pensionPdfFormAlignment = useToggleValue(
+    TOGGLE_NAMES.pensionPdfFormAlignment,
   );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
@@ -41,21 +40,12 @@ export default function PensionEntry({ location, children }) {
           pensionMultiplePageResponse,
         );
         window.sessionStorage.setItem(
-          'showIncomeAndAssetsClarification',
-          pensionIncomeAndAssetsClarification,
-        );
-        window.sessionStorage.setItem(
-          'showPensionEvidenceClarification',
-          !!pensionMedicalEvidenceClarification,
+          'showPdfFormAlignment',
+          pensionPdfFormAlignment,
         );
       }
     },
-    [
-      isLoadingFeatures,
-      pensionMultiplePageResponse,
-      pensionIncomeAndAssetsClarification,
-      pensionMedicalEvidenceClarification,
-    ],
+    [isLoadingFeatures, pensionMultiplePageResponse, pensionPdfFormAlignment],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
@@ -68,6 +58,7 @@ export default function PensionEntry({ location, children }) {
 
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <IntentToFile itfType="pension" location={location} disableAutoFocus />
       {children}
     </RoutedSavableApp>
   );

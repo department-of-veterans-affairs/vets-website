@@ -35,7 +35,7 @@ export default () => {
             </div>
           </div>
           <p>
-            <SubmitSignInForm startSentence /> We're here 24/7.
+            <SubmitSignInForm startSentence />
           </p>
         </div>
       </div>

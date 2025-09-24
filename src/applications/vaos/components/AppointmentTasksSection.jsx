@@ -32,7 +32,10 @@ export default function AppointmentTasksSection({ appointment }) {
         href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
         text="File a travel reimbursement claim"
       />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4">
+      <p
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-margin-left--4"
+        data-testid="days-left-to-file"
+      >
         Days left to file: {daysRemainingToFileClaim}
       </p>
     </Section>

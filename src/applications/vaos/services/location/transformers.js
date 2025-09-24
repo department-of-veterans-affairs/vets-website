@@ -2,6 +2,7 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   TYPES_OF_CARE,
   TYPES_OF_EYE_CARE,
+  TYPES_OF_MENTAL_HEALTH,
   TYPES_OF_SLEEP_CARE,
   VHA_FHIR_ID,
 } from '../../utils/constants';
@@ -99,12 +100,11 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
  * Transforms a single vets-api PPMS provider format into a Location
  * resource
  *
- * @export
  * @param {Object<PPMSProvider>} provider A PPMS provider
  * @returns {Array<Location>} A Location resource
  */
 
-export function transformCommunityProvider(provider) {
+function transformCommunityProvider(provider) {
   return {
     id: provider.id,
     identifier: [{ system: 'PPMS', value: provider.uniqueId }],
@@ -171,6 +171,7 @@ function getTypeOfCareIdFromV2(id) {
     ...TYPES_OF_EYE_CARE,
     ...TYPES_OF_SLEEP_CARE,
     ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_MENTAL_HEALTH,
     ...TYPES_OF_CARE,
   ];
 

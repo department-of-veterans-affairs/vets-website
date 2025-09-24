@@ -35,6 +35,9 @@ export const uiSchema = {
       },
     },
   },
+  'ui:options': {
+    itemName: 'Your Details',
+  },
 };
 export const schema = {
   type: 'object',

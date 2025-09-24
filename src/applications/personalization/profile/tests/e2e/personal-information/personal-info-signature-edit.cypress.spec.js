@@ -15,12 +15,9 @@ const updatedSignatureResponse = {
 };
 describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
   beforeEach(() => {
-    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
-      {
-        name: 'mhv_secure_messaging_signature_settings',
-        value: true,
-      },
-    ]);
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles(
+      [],
+    );
 
     PersonalInformationPage.load(updatedFeatureToggles);
   });

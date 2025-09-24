@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
-import { validateVeteranDob } from '../utils/validation';
+import { validateDateOfBirth } from '../utils/validation';
 
 /**
  * NOTE: `veteranFullName` is included in the dependency list to reset view fields when
@@ -17,7 +17,7 @@ export const useDefaultFormData = () => {
   const { totalRating } = useSelector(state => state.disabilityRating);
   const { data: formData } = useSelector(state => state.form);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { dob: veteranDob } = useSelector(selectProfile);
+  const { dob: veteranDob, userFullName } = useSelector(selectProfile);
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const dispatch = useDispatch();
 
@@ -37,7 +37,8 @@ export const useDefaultFormData = () => {
       const userData = isLoggedIn
         ? {
             'view:veteranInformation': {
-              veteranDateOfBirth: validateVeteranDob(veteranDob),
+              veteranDateOfBirth: validateDateOfBirth(veteranDob),
+              veteranFullName: userFullName,
             },
           }
         : {};
@@ -52,6 +53,7 @@ export const useDefaultFormData = () => {
     [
       isLoggedIn,
       veteranDob,
+      userFullName,
       veteranFullName,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,

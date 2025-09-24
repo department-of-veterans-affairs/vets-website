@@ -38,6 +38,6 @@ export function validateTopLevelDomain(errors, email) {
 
   if (hasNumbers(topLevelDomain))
     errors.addError(
-      'Enter a valid email address using the format email@domain.com. Your email address can only have letters, numbers, the @ symbol and a period, with no spaces.',
+      'Enter a valid email address using the format email@domain.com.',
     );
 }

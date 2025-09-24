@@ -12,8 +12,14 @@ describe('SM DELETE REPLY DRAFT', () => {
   const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
     singleThreadResponse,
   );
+  const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_custom_folders_redesign',
+      value: false,
+    },
+  ]);
   it('verify user can delete draft on reply', () => {
-    SecureMessagingSite.login();
+    SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
@@ -24,7 +30,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     FolderManagementPage.confirmMovingMessageToFolder();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationMessage();
     FolderManagementPage.verifyMoveMessageSuccessConfirmationHasFocus();
-    GeneralFunctionsPage.verifyPageHeader('Inbox');
+    GeneralFunctionsPage.verifyPageHeader('Messages: Inbox');
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
     cy.injectAxe();

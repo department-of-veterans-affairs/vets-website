@@ -1,14 +1,11 @@
+import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { getFormPageInfo } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../redux/selectors';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openFormPage,
   routeToNextAppointmentPage,
@@ -16,7 +13,10 @@ import {
   startDirectScheduleFlow,
   updateFormData,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFormPageInfo } from '../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
+
+const facilityTypesValues = Object.values(FACILITY_TYPES);
 
 const initialSchema = {
   type: 'object',
@@ -24,33 +24,24 @@ const initialSchema = {
   properties: {
     facilityType: {
       type: 'string',
-      enum: Object.keys(FACILITY_TYPES).map(key => FACILITY_TYPES[key]),
+      enum: facilityTypesValues.map(type => type.id),
+      enumNames: facilityTypesValues.map(type => type.name),
     },
   },
 };
 
 const pageKey = 'typeOfFacility';
 
-export default function TypeOfFacilityPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
-
+export default function TypeOfFacilityPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const uiSchema = {
     facilityType: {
       'ui:title': pageTitle,
-      'ui:widget': 'radio', // Required
-      'ui:webComponentField': VaRadioField,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
-        showFieldLabel: false,
-        labelHeaderLevel: '1',
-        labels: {
-          [FACILITY_TYPES.VAMC]: 'VA medical center or clinic',
-          [FACILITY_TYPES.COMMUNITY_CARE]: 'Community care facility',
-        },
+        hideLabelText: true,
       },
     },
   };
@@ -64,16 +55,26 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    if (featureBreadcrumbUrlUpdate) {
-      changeCrumb(pageTitle);
-    }
-
     dispatch(startDirectScheduleFlow({ isRecordEvent: false }));
   }, []);
 
+  useEffect(
+    () => {
+      if (schema) {
+        focusFormHeader();
+      }
+    },
+    [schema],
+  );
+
   return (
     <div className="vaos-form__facility-type">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
@@ -111,7 +112,3 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
     </div>
   );
 }
-
-TypeOfFacilityPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

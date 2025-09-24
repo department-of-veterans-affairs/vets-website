@@ -21,150 +21,6 @@ describe('Notification Settings Feature Toggles', () => {
     });
   });
 
-  describe('Shows/Hides payment notification settings via feature toggle', () => {
-    it('should SHOW the payment notification when toggle profileShowPaymentsNotificationSetting is TRUE', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          profileShowPaymentsNotificationSetting: true,
-        }),
-      );
-
-      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: true,
-      });
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('should NOT SHOW the payment notification setting when toggle is FALSE', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          profileShowPaymentsNotificationSetting: false,
-        }),
-      );
-
-      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('should SHOW the New benefit overpayment debt notification notification when toggle profileShowPaymentsNotificationSetting and profileShowNewBenefitOverpaymentDebtNotificationSetting are TRUE', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          profileShowPaymentsNotificationSetting: true,
-          profileShowNewBenefitOverpaymentDebtNotificationSetting: true,
-          profileShowNewHealthCareCopayBillNotificationSetting: false,
-        }),
-      );
-
-      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: true,
-      });
-
-      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
-        {
-          exists: true,
-        },
-      );
-
-      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
-        {
-          exists: false,
-        },
-      );
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('should SHOW the New health care copay bill when toggle profileShowPaymentsNotificationSetting and profileShowNewHealthCareCopayBillNotificationSetting are TRUE', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          profileShowPaymentsNotificationSetting: true,
-          profileShowNewHealthCareCopayBillNotificationSetting: true,
-          profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
-        }),
-      );
-
-      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: true,
-      });
-
-      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
-        {
-          exists: true,
-        },
-      );
-
-      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
-        {
-          exists: false,
-        },
-      );
-
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('should NOT SHOW the New health care copay bill or New benefit overpayment debt notification notification when toggle profileShowPaymentsNotificationSetting is FALSE', () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        generateFeatureToggles({
-          profileShowPaymentsNotificationSetting: false,
-          profileShowNewHealthCareCopayBillNotificationSetting: true,
-          profileShowNewBenefitOverpaymentDebtNotificationSetting: true,
-        }),
-      );
-
-      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
-
-      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
-
-      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
-        {
-          exists: false,
-        },
-      );
-
-      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
-        {
-          exists: false,
-        },
-      );
-
-      cy.injectAxeThenAxeCheck();
-    });
-  });
-
   describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
     it('should NOT SHOW the QuickSubmit if setting EVEN when toggle is TRUE', () => {
       cy.intercept(
@@ -217,17 +73,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: true,
           profileShowMhvNotificationSettingsEmailRxShipment: true,
           profileShowMhvNotificationSettingsMedicalImages: true,
-          profileShowPaymentsNotificationSetting: true,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: true,
-      });
 
       cy.findByText('General VA Updates and Information').should('not.exist');
       cy.findByText('Biweekly MHV newsletter').should('not.exist');
@@ -240,6 +91,9 @@ describe('Notification Settings Feature Toggles', () => {
       );
       cy.findByText('Secure messaging alert').should('exist');
       cy.findByText('Medical images and reports available').should('exist');
+      cy.findByText('Disability and pension deposit notifications').should(
+        'exist',
+      );
 
       cy.injectAxeThenAxeCheck();
     });
@@ -253,17 +107,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: false,
           profileShowMhvNotificationSettingsEmailRxShipment: false,
           profileShowMhvNotificationSettingsMedicalImages: false,
-          profileShowPaymentsNotificationSetting: false,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
 
       cy.findByText('Appointment reminders').should('exist');
 
@@ -286,17 +135,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: false,
           profileShowMhvNotificationSettingsEmailRxShipment: false,
           profileShowMhvNotificationSettingsMedicalImages: false,
-          profileShowPaymentsNotificationSetting: false,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
 
       cy.findByText('Appointment reminders').should('exist');
 
@@ -319,17 +163,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: true,
           profileShowMhvNotificationSettingsEmailRxShipment: false,
           profileShowMhvNotificationSettingsMedicalImages: false,
-          profileShowPaymentsNotificationSetting: false,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
 
       cy.findByText('Appointment reminders').should('exist');
       cy.findByText('Secure messaging alert').should('exist');
@@ -352,17 +191,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: false,
           profileShowMhvNotificationSettingsEmailRxShipment: true,
           profileShowMhvNotificationSettingsMedicalImages: false,
-          profileShowPaymentsNotificationSetting: false,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
 
       cy.findByText('Appointment reminders').should('exist');
       cy.findByText('Prescription shipment and tracking updates').should(
@@ -388,17 +222,12 @@ describe('Notification Settings Feature Toggles', () => {
           profileShowMhvNotificationSettingsNewSecureMessaging: false,
           profileShowMhvNotificationSettingsEmailRxShipment: true,
           profileShowMhvNotificationSettingsMedicalImages: false,
-          profileShowPaymentsNotificationSetting: false,
         }),
       );
 
       NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
-
-      NotificationSettingsFeature.confirmPaymentNotificationSetting({
-        exists: false,
-      });
 
       cy.findByText('Appointment reminders').should('exist');
       cy.findByText('Prescription shipment and tracking updates').should(

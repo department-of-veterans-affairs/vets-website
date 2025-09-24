@@ -1,4 +1,8 @@
 import moment from 'moment-timezone';
+import {
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -15,7 +19,8 @@ import {
   isOlderThan,
   decodeHtmlEntities,
 } from '../util/helpers';
-import { getIsPilotFromState } from '.';
+import { resetRecentRecipient } from './recipients';
+import { setThreadRefetchRequired } from './threads';
 
 export const clearThread = () => async dispatch => {
   dispatch({ type: Actions.Thread.CLEAR_THREAD });
@@ -49,14 +54,10 @@ export const markMessageAsReadInThread = messageId => async dispatch => {
  * @returns
  *
  */
-export const retrieveMessageThread = messageId => async (
-  dispatch,
-  getState,
-) => {
-  const isPilot = getIsPilotFromState(getState);
+export const retrieveMessageThread = messageId => async dispatch => {
   try {
     dispatch(clearThread());
-    const response = await getMessageThreadWithFullBody({ messageId, isPilot });
+    const response = await getMessageThreadWithFullBody({ messageId });
 
     // finding last sent message in a thread to check if it is not too old for replies
     const lastSentDate = getLastSentMessage(response.data)?.attributes.sentDate;
@@ -83,6 +84,8 @@ export const retrieveMessageThread = messageId => async (
         ?.attributes.folderId.toString() ||
       response.data[0].attributes.folderId;
 
+    const { isOhMessage } = response.data[0].attributes;
+
     dispatch({
       type: Actions.Thread.GET_THREAD,
       payload: {
@@ -100,6 +103,7 @@ export const retrieveMessageThread = messageId => async (
           body: decodeHtmlEntities(m.attributes.body),
           messageBody: decodeHtmlEntities(m.attributes.body),
         })),
+        isOhMessage,
       },
     });
   } catch (e) {
@@ -161,6 +165,7 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
 export const sendMessage = (message, attachments) => async dispatch => {
   try {
     await createMessage(message, attachments);
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -168,6 +173,8 @@ export const sendMessage = (message, attachments) => async dispatch => {
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
   } catch (e) {
     if (
       e.errors &&
@@ -201,6 +208,9 @@ export const sendMessage = (message, attachments) => async dispatch => {
         ),
       );
     throw e;
+  } finally {
+    // Log message sending even if failed for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -216,6 +226,7 @@ export const sendReply = (
 ) => async dispatch => {
   try {
     await createReplyToMessage(replyToId, message, attachments);
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
@@ -223,6 +234,8 @@ export const sendReply = (
         Constants.Alerts.Message.SEND_MESSAGE_SUCCESS,
       ),
     );
+    dispatch(resetRecentRecipient());
+    dispatch(setThreadRefetchRequired(true));
   } catch (e) {
     if (
       e.errors &&
@@ -262,5 +275,8 @@ export const sendReply = (
       );
     }
     throw e;
+  } finally {
+    // Log message sending even if failed for analytics
+    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };

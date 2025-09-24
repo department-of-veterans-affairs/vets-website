@@ -1,6 +1,7 @@
 {
   "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
   "data": {
+    "claimStatus": "new",
     "view:hasPolicies": true,
     "primaryEob": [
       {
@@ -34,14 +35,14 @@
     "applicantNewAddress": "yes",
     "applicantMemberNumber": "123123123",
     "applicantName": {
-      "first": "Beneficiary",
+      "first": "Jim",
       "middle": "Middle",
       "last": "Lastname",
       "suffix": "II"
     },
     "applicantDOB": "2022-05-14",
     "sponsorName": {
-      "first": "Sponsor",
+      "first": "John",
       "middle": "Middle",
       "last": "Jones",
       "suffix": "Sr."
@@ -54,18 +55,18 @@
       "country": "USA",
       "street": "123 Cert St",
       "street2": "St 2",
-      "street3": "St 3",
       "city": "Certland",
       "state": "AS",
       "postalCode": "12312"
     },
     "certifierName": {
-      "first": "Certifier",
+      "first": "Jerry",
       "middle": "Middle",
       "last": "Jones",
       "suffix": "Jr."
     },
     "certifierRole": "other",
+    "certifierReceivedPacket": true,
     "policies": [
       {
         "type": "group",
@@ -81,26 +82,6 @@
       }
     ],
     "sharesAddressWith": "not-shared",
-    "missingUploads": [
-      {
-        "name": "medicalUpload",
-        "path": "medical-claim-upload",
-        "required": false,
-        "uploaded": true
-      },
-      {
-        "name": "primaryEob",
-        "path": "eob-upload",
-        "required": false,
-        "uploaded": true
-      },
-      {
-        "name": "secondaryEob",
-        "path": "additional-eob-upload",
-        "required": false,
-        "uploaded": true
-      }
-    ],
     "statementOfTruthSignature": "Certifier Middle Jones",
     "statementOfTruthCertified": true
   }

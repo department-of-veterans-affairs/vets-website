@@ -36,7 +36,31 @@ export const claimantResponse = {
           trainingPeriods: [],
         },
       ],
-      toeSponsors: null,
+      toeSponsors: {
+        transferOfEntitlements: [
+          {
+            firstName: 'Sharon',
+            lastName: 'Parker',
+            sponsorRelationship: 'Spouse',
+            sponsorVaId: 8009623331,
+            dateOfBirth: '1985-05-10',
+          },
+          {
+            firstName: 'Kathi',
+            lastName: 'Parker',
+            sponsorRelationship: 'Child',
+            sponsorVaId: 8009623332,
+            dateOfBirth: '1966-05-10',
+          },
+          {
+            firstName: 'Rich',
+            lastName: 'Crawford',
+            sponsorRelationship: 'Child',
+            sponsorVaId: 8009623333,
+            dateOfBirth: '1966-05-10',
+          },
+        ],
+      },
     },
   },
 };

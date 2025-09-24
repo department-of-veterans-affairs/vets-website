@@ -9,13 +9,14 @@ describe('Medical Records Vitals Details Page', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Vitals Details Pulse Oximetry', () => {
     VitalsListPage.goToVitals();
     // click pulse oximetry link
-    VitalsListPage.clickLinkByRecordListItemIndex(3);
+    VitalsListPage.clickLinkByRecordListItem(
+      'Blood oxygen level (pulse oximetry)',
+    );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
@@ -24,7 +25,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[6].resource.valueQuantity.value}%`,
       defaultVitals.entry[6].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -34,7 +35,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[16].resource.valueQuantity.value}%`,
       defaultVitals.entry[16].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -44,7 +45,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[26].resource.valueQuantity.value}%`,
       defaultVitals.entry[26].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     VitalsDetailsPage.verifyVitalReadingByIndex(
@@ -54,7 +55,7 @@ describe('Medical Records Vitals Details Page', () => {
         .format('MMMM D, YYYY, h:mm'),
       `${defaultVitals.entry[36].resource.valueQuantity.value}%`,
       defaultVitals.entry[36].resource.contained[0].name,
-      'None noted',
+      'None recorded',
     );
 
     // Axe check

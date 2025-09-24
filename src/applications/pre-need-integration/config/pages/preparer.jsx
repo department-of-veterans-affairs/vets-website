@@ -24,6 +24,9 @@ export const uiSchema = {
       },
     },
   },
+  'ui:options': {
+    itemName: 'Preparer',
+  },
 };
 export const schema = {
   type: 'object',

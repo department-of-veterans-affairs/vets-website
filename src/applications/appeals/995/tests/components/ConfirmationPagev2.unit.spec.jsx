@@ -4,15 +4,11 @@ import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
-import ConfirmationPageV2, {
-  LivingSituationQuestions,
-} from '../../components/ConfirmationPageV2';
+import ConfirmationPageV2 from '../../components/ConfirmationPageV2';
 import maxData from '../fixtures/data/maximal-test.json';
 import maxDataV2 from '../fixtures/data/maximal-test-v2.json';
 import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
@@ -155,7 +151,6 @@ describe('ConfirmationPageV2', () => {
       'buddy-statement.pdf',
       'photos.pdf',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with evidence', () => {
@@ -252,7 +247,6 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'I gave permission in the past, but I want to revoke (or cancel) my permission',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the confirmation page with no evidence', () => {
@@ -324,7 +318,6 @@ describe('ConfirmationPageV2', () => {
       'Test 2Decision date: June 28, 2022',
       'Yes, I certify',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with no evidence & alternate living situation', () => {
@@ -406,7 +399,6 @@ describe('ConfirmationPageV2', () => {
       'None selected',
       'No',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with alternate choices', () => {
@@ -457,7 +449,6 @@ describe('ConfirmationPageV2', () => {
       'Yes',
       'No',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
   });
 
   it('should render the v2 confirmation page with more alternate choices', () => {
@@ -509,60 +500,6 @@ describe('ConfirmationPageV2', () => {
       'None selected',
       'Yes',
       'None selected',
-    ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
-  });
-});
-
-describe('LivingSituationQuestions', () => {
-  it('should render the living situation questions', () => {
-    const data = { housingRisk: true };
-    const { container } = render(<LivingSituationQuestions data={data} />);
-    expect($$('li', container).length).to.eq(4);
-  });
-
-  it('should prevent submission & show error if none & any other option selected', () => {
-    const data = { housingRisk: false };
-    const { container } = render(<LivingSituationQuestions data={data} />);
-    expect($$('li', container).length).to.eq(1);
-  });
-
-  it('should render the other living situation question with nothing entered', () => {
-    const data = { housingRisk: true, livingSituation: { other: true } };
-    const { container } = render(<LivingSituationQuestions data={data} />);
-
-    const list = $$('li', container);
-    expect(list.length).to.eq(5);
-    expect(list.map(el => el.textContent)).to.deep.equal([
-      'Are you experiencing homelessness or at risk of becoming homeless?Yes',
-      'Which of these statements best describes your living situation?I have another housing risk not listed here.',
-      'Tell us about other housing risks you’re experiencing.Nothing entered',
-      'Name of your point of contactNothing entered',
-      'Telephone number of your point of contactNothing entered',
-    ]);
-  });
-
-  it('should render the other living situation question', () => {
-    const data = {
-      housingRisk: true,
-      livingSituation: {
-        other: true,
-        friendOrFamily: true,
-      },
-      otherHousingRisks: 'Lorem ipsum',
-      pointOfContactName: 'John Doe',
-      pointOfContactPhone: '8005551212',
-    };
-    const { container } = render(<LivingSituationQuestions data={data} />);
-
-    const list = $$('li', container);
-    expect(list.length).to.eq(5);
-    expect(list.map(el => el.textContent)).to.deep.equal([
-      'Are you experiencing homelessness or at risk of becoming homeless?Yes',
-      'Which of these statements best describes your living situation?I have another housing risk not listed here and I’m staying with a friend or family member',
-      'Tell us about other housing risks you’re experiencing.Lorem ipsum',
-      'Name of your point of contactJohn Doe',
-      'Telephone number of your point of contact', // number inside va-telephone
     ]);
   });
 });

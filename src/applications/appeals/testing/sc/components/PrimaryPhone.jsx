@@ -3,7 +3,7 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
-import { scrollToFirstError } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/scroll';
 
 import { getFormattedPhone } from '../utils/contactInfo';
 import { missingPrimaryPhone } from '../validations';

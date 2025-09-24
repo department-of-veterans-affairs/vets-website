@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ReviewPageObject extends PageObject {
+class ReviewPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/review');
     cy.axeCheckBestPractice();

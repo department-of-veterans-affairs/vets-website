@@ -2,12 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
 import { MST_OPTION } from '../../constants';
+import * as helpers from '../../../shared/utils/helpers';
 
 describe('Supplemental Claims option for MST page', () => {
   const {
@@ -44,10 +43,14 @@ describe('Supplemental Claims option for MST page', () => {
 
   // Increase test coverage
   it('should updateUiSchema for review page', () => {
-    window.location = { pathname: '/review-and-submit' };
+    const isOnReviewPageStub = sinon
+      .stub(helpers, 'isOnReviewPage')
+      .returns(true);
+
     const result = uiSchema[MST_OPTION]['ui:options'].updateUiSchema();
     expect(result).to.deep.equal({
       'ui:options': { labelHeaderLevel: 4 },
     });
+    isOnReviewPageStub.restore();
   });
 });

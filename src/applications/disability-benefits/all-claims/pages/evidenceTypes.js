@@ -6,10 +6,12 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { validateIfHasEvidence } from '../validations';
+import { standardTitle } from '../content/form0781';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
 export const uiSchema = {
+  'ui:title': standardTitle('Types of supporting evidence'),
   'view:hasEvidence': yesNoUI({
     title:
       'Is there any evidence you’d like us to review as part of your claim?',
@@ -34,7 +36,7 @@ export const uiSchema = {
     },
     'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
     'view:hasPrivateMedicalRecords': {
-      'ui:title': 'Private medical records',
+      'ui:title': 'Non-VA treatment records',
     },
     'view:hasOtherEvidence': {
       'ui:title': 'Supporting (lay) statements or other evidence',

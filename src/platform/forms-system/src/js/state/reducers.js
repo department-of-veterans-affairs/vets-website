@@ -3,6 +3,7 @@ import set from '../../../../utilities/data/set';
 import {
   CLOSE_REVIEW_CHAPTER,
   OPEN_REVIEW_CHAPTER,
+  TOGGLE_ALL_REVIEW_CHAPTERS,
   SET_DATA,
   SET_EDIT_MODE,
   SET_PRE_SUBMIT,
@@ -10,6 +11,7 @@ import {
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
   SET_FORM_ERRORS,
+  SET_ITF,
 } from '../actions';
 
 import { recalculateSchemaAndData } from './helpers';
@@ -36,6 +38,9 @@ export default {
     action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
 
     return set('reviewPageView.viewedPages', viewedPages, newState);
+  },
+  [TOGGLE_ALL_REVIEW_CHAPTERS]: (state, action) => {
+    return set('reviewPageView.openChapters', action.chapters, state);
   },
   [SET_DATA]: (state, action) => {
     const newState = set('data', action.data, state);
@@ -93,5 +98,10 @@ export default {
     // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
     // data structure
     formErrors: data,
+  }),
+  // Intent to File data
+  [SET_ITF]: (state, { data = {} }) => ({
+    ...state,
+    itf: data,
   }),
 };

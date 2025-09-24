@@ -8,6 +8,8 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { Toggler } from 'platform/utilities/feature-toggles';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
@@ -33,6 +35,28 @@ const breadcrumbList = [
 ];
 
 export default function App({ location, children }) {
+  // Add Datadog RUM to the app
+  useBrowserMonitoring({
+    loggedIn: undefined,
+    toggleName: 'form107959cBrowserMonitoringEnabled',
+    applicationId: '3e211ba8-dbcd-4a8d-b3eb-18950d5a46bc',
+    clientToken: 'pub383f4e654ef2030cd6045c8532593afc',
+    service: 'ivc-ohi-10-7959c',
+    version: '1.0.0',
+    // record 100% of staging sessions, but only 20% of production
+    sessionReplaySampleRate:
+      environment.vspEnvironment() === 'staging' ? 100 : 20,
+    sessionSampleRate: 50,
+    beforeSend: event => {
+      // Prevent PII from being sent to Datadog with click actions.
+      if (event.action?.type === 'click') {
+        // eslint-disable-next-line no-param-reassign
+        event.action.target.name = 'Clicked item';
+      }
+      return true;
+    },
+  });
+
   document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates

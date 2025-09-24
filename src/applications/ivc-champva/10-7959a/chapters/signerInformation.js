@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import merge from 'lodash/merge';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   addressUI,
@@ -13,7 +14,15 @@ import {
   phoneSchema,
   emailUI,
   emailSchema,
+  yesNoUI,
+  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import {
+  validAddressCharsOnly,
+  validFieldCharsOnly,
+  validObjectCharsOnly,
+} from '../../shared/validations';
 
 const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
 fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
@@ -42,10 +51,52 @@ export const certifierRoleSchema = {
   },
 };
 
+export const certifierReceivedPacketSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA benefit status`;
+    }),
+
+    certifierReceivedPacket: {
+      ...yesNoUI({
+        type: 'radio',
+        updateUiSchema: formData => {
+          return {
+            'ui:title': `${
+              formData?.certifierRole === 'applicant'
+                ? 'Do you'
+                : 'Does the beneficiary'
+            } receive CHAMPVA benefits now?`,
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['certifierReceivedPacket'],
+    properties: {
+      titleSchema,
+      certifierReceivedPacket: yesNoSchema,
+    },
+  },
+};
+
+export const certifierNotEnrolledChampvaSchema = {
+  uiSchema: {},
+  schema: blankSchema,
+};
+
 export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
     certifierName: fullNameMiddleInitialUI,
+    'ui:validations': [
+      (errors, formData) =>
+        validObjectCharsOnly(errors, null, formData, 'certifierName'),
+    ],
   },
   schema: {
     type: 'object',
@@ -62,7 +113,17 @@ export const certifierAddressSchema = {
       'Your mailing address',
       'We’ll send any important information about this form to this address',
     ),
-    certifierAddress: addressUI(),
+    certifierAddress: merge({}, addressUI(), {
+      state: {
+        'ui:errorMessages': {
+          required: 'Enter a valid State, Province, or Region',
+        },
+      },
+    }),
+    'ui:validations': [
+      (errors, formData) =>
+        validAddressCharsOnly(errors, null, formData, 'certifierAddress'),
+    ],
   },
   schema: {
     type: 'object',
@@ -113,6 +174,7 @@ export const certifierRelationshipSchema = {
       'ui:title': `Describe your relationship to the beneficiary`,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames: ['dd-privacy-hidden'],
         expandUnder: 'certifierRelationship',
         expandUnderCondition: 'other',
         expandedContentFocus: true,
@@ -132,6 +194,15 @@ export const certifierRelationshipSchema = {
         };
       },
     },
+    'ui:validations': [
+      (errors, formData) =>
+        validFieldCharsOnly(
+          errors,
+          null,
+          formData,
+          'certifierOtherRelationship',
+        ),
+    ],
   },
   schema: {
     type: 'object',
@@ -142,6 +213,33 @@ export const certifierRelationshipSchema = {
       certifierOtherRelationship: {
         type: 'string',
       },
+    },
+  },
+};
+
+export const certifierClaimStatusSchema = {
+  uiSchema: {
+    ...titleUI(({ formData }) => {
+      return `${
+        formData?.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+      } CHAMPVA claim status`;
+    }),
+    claimStatus: radioUI({
+      type: 'radio',
+      title: 'Is this a new claim or a resubmission for an existing claim?',
+      required: () => true,
+      labels: {
+        new: 'A new claim',
+        resubmission: 'A resubmission for an existing claim',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['claimStatus'],
+    properties: {
+      titleSchema,
+      claimStatus: radioSchema(['new', 'resubmission']),
     },
   },
 };

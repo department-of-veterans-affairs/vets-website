@@ -26,7 +26,7 @@ export const claimExamsDescription = (
       </p>
     </va-alert>
 
-    <p>At this time we partner with 3 vendors:</p>
+    <p>At this time, we partner with 3 vendors:</p>
     <ul>
       <li>QTC Medical Services (QTC)</li>
       <li>Veterans Evaluation Services (VES)</li>

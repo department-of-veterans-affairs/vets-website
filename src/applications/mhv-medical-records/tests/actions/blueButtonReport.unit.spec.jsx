@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
-import { formatISO, subYears } from 'date-fns';
+import { subYears, addMonths, format } from 'date-fns';
 import {
   getBlueButtonReportData,
   clearFailedList,
@@ -17,16 +17,15 @@ describe('Blue Button Actions', () => {
       mockApiRequest(mockData);
       const dispatch = sinon.spy();
 
+      // Only allergies is enabled, so no dateFilter is needed.
       const action = getBlueButtonReportData({ allergies: true });
       await action(dispatch);
-      // Verify that dispatch was called only once
       expect(dispatch.calledOnce).to.be.true;
-
-      // Check the first and only dispatch action type
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Allergies.GET_LIST,
       );
     });
+
     describe('should get only that domain', () => {
       it('should get allergies', async () => {
         const mockData = { mockData: 'mockData' };
@@ -35,14 +34,12 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ allergies: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.Allergies.GET_LIST,
         );
       });
+
       it('should get labsAndTests', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
@@ -50,10 +47,7 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ labsAndTests: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.LabsAndTests.GET_LIST,
         );
@@ -66,10 +60,8 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ radiology: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
+        // Radiology and labsAndTests are combined into one action
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.LabsAndTests.GET_LIST,
         );
@@ -82,10 +74,7 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ notes: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.CareSummariesAndNotes.GET_LIST,
         );
@@ -98,14 +87,12 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ vaccines: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.Vaccines.GET_LIST,
         );
       });
+
       it('should get conditions', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
@@ -113,14 +100,12 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ conditions: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.Conditions.GET_LIST,
         );
       });
+
       it('should get vitals', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
@@ -128,107 +113,154 @@ describe('Blue Button Actions', () => {
 
         const action = getBlueButtonReportData({ vitals: true });
         await action(dispatch);
-        // Verify that dispatch was called only once
         expect(dispatch.calledOnce).to.be.true;
-
-        // Check the first and only dispatch action type
         expect(dispatch.firstCall.args[0].type).to.equal(
           Actions.Vitals.GET_LIST,
         );
       });
 
-      it('should trigger the same action for medications, appointments, demographics, militaryService, or patient', async () => {
+      it('should trigger the same action for medications, demographics, militaryService, or patient', async () => {
         const mockData = { mockData: 'mockData' };
         mockApiRequest(mockData);
-        const dispatch = sinon.spy();
-
-        const actions = [
+        // Exclude 'appointments' because its tests are handled separately
+        const actionTypes = [
           'medications',
-          'appointments',
           'demographics',
           'militaryService',
           'patient',
         ];
-        actions.forEach(async actionType => {
+
+        const promises = actionTypes.map(actionType => {
+          const dispatch = sinon.spy();
           const action = getBlueButtonReportData({ [actionType]: true });
-          await action(dispatch);
-          // Verify that dispatch was called only once
-          expect(dispatch.calledOnce).to.be.true;
-
-          // Check the first and only dispatch action type
-          expect(dispatch.firstCall.args[0].type).to.equal(
-            Actions.BlueButtonReport.GET,
-          );
+          return action(dispatch).then(() => {
+            expect(dispatch.calledOnce).to.be.true;
+            expect(dispatch.firstCall.args[0].type).to.equal(
+              Actions.BlueButtonReport.GET,
+            );
+          });
         });
+
+        await Promise.all(promises);
       });
 
-      it('should fetch appointments with the correct date range when dateFilter.option is "any"', async () => {
-        const mockData = { mockData: 'appointmentsMockData' };
-        const getAppointmentsStub = sinon
-          .stub(MrApi, 'getAppointments')
-          .resolves(mockData);
+      describe('Appointments', () => {
+        let clock;
+        const fakeCurrentDate = new Date('2022-01-01T00:00:00Z');
+        beforeEach(() => {
+          // Only fake the Date API to avoid interfering with performance
+          clock = sinon.useFakeTimers({
+            now: fakeCurrentDate.getTime(),
+            toFake: ['Date'],
+          });
+        });
+        afterEach(() => {
+          if (clock) {
+            clock.restore();
+          }
+        });
 
-        const dispatch = sinon.spy();
-        const action = getBlueButtonReportData(
-          { appointments: true },
-          { option: 'any' },
-        );
-        await action(dispatch);
+        it('should fetch appointments with the correct date range when dateFilter.option is "any"', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
 
-        // Verify that getAppointments was called once
-        expect(getAppointmentsStub.calledOnce).to.be.true;
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            { option: 'any' },
+          );
+          await action(dispatch);
 
-        // The 'any' option should calculate fromDate as 2 years ago and toDate as far future
-        const currentDate = new Date();
-        const dateTwoYearsAgo = subYears(currentDate, 2);
-        const farFutureDate = new Date(2099, 0, 1);
+          const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
+          expect(fromDateArg).to.not.be.null;
+          expect(toDateArg).to.not.be.null;
+          expect(getAppointmentsStub.calledOnce).to.be.true;
 
-        const expectedFromDate = formatISO(dateTwoYearsAgo);
-        const expectedToDate = formatISO(farFutureDate);
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+          expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
 
-        const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
-        expect(fromDateArg).to.equal(expectedFromDate);
-        expect(toDateArg).to.equal(expectedToDate);
+          getAppointmentsStub.restore();
+        });
 
-        // Verify dispatch
-        expect(dispatch.calledOnce).to.be.true;
-        const dispatchedAction = dispatch.firstCall.args[0];
-        expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
-        expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
+        it('should fetch appointments with the provided custom dateFilter range', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
 
-        getAppointmentsStub.restore();
-      });
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            { fromDate: '2021-06-01', toDate: '2021-12-31' },
+          );
+          await action(dispatch);
 
-      it('should fetch appointments with the provided custom dateFilter range', async () => {
-        const mockData = { mockData: 'appointmentsMockData' };
-        const getAppointmentsStub = sinon
-          .stub(MrApi, 'getAppointments')
-          .resolves(mockData);
+          const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
+          expect(fromDateArg).to.not.be.null;
+          expect(toDateArg).to.not.be.null;
+          expect(getAppointmentsStub.calledOnce).to.be.true;
 
-        const fromDateCustom = '2021-01-01';
-        const toDateCustom = '2021-12-31';
-        const dispatch = sinon.spy();
-        const action = getBlueButtonReportData(
-          { appointments: true },
-          { fromDate: fromDateCustom, toDate: toDateCustom },
-        );
-        await action(dispatch);
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+          expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
 
-        // Verify that getAppointments was called once
-        expect(getAppointmentsStub.calledOnce).to.be.true;
+          getAppointmentsStub.restore();
+        });
 
-        // Check arguments passed to getAppointments
-        const [fromDateArg, toDateArg] = getAppointmentsStub.firstCall.args;
-        expect(fromDateArg).to.equal(formatISO(new Date(fromDateCustom)));
-        expect(toDateArg).to.equal(formatISO(new Date(toDateCustom)));
+        it('should NOT fetch appointments if selected dateFilter is more than 2 years past', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
 
-        // Verify dispatch
-        expect(dispatch.calledOnce).to.be.true;
-        const dispatchedAction = dispatch.firstCall.args[0];
-        expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
-        expect(dispatchedAction.appointmentsResponse).to.deep.equal(mockData);
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            {
+              fromDate: format(subYears(new Date(), 4), 'yyyy-MM-dd'),
+              toDate: format(subYears(new Date(), 3), 'yyyy-MM-dd'),
+            },
+          );
+          await action(dispatch);
 
-        getAppointmentsStub.restore();
+          expect(getAppointmentsStub.called).to.not.be.true;
+
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+
+          getAppointmentsStub.restore();
+        });
+
+        it('should NOT fetch appointments if selected dateFilter is more than 13 months future', async () => {
+          const mockData = { mockData: 'appointmentsMockData' };
+          const getAppointmentsStub = sinon
+            .stub(MrApi, 'getAppointments')
+            .resolves(mockData);
+
+          const dispatch = sinon.spy();
+          const action = getBlueButtonReportData(
+            { appointments: true },
+            {
+              fromDate: format(addMonths(new Date(), 14), 'yyyy-MM-dd'),
+              toDate: format(addMonths(new Date(), 16), 'yyyy-MM-dd'),
+            },
+          );
+          await action(dispatch);
+
+          expect(getAppointmentsStub.called).to.not.be.true;
+
+          expect(dispatch.calledOnce).to.be.true;
+          const dispatchedAction = dispatch.firstCall.args[0];
+          expect(dispatchedAction.type).to.equal(Actions.BlueButtonReport.GET);
+
+          getAppointmentsStub.restore();
+        });
       });
     });
 
@@ -236,20 +268,16 @@ describe('Blue Button Actions', () => {
       const dispatch = sinon.spy();
       const action = getBlueButtonReportData({});
       await action(dispatch);
-      // Assert that dispatch was never called
       expect(dispatch.notCalled).to.be.true;
     });
 
     it('should dispatch an error for a failed API call', async () => {
       const mockData = allergies;
-      mockApiRequest(mockData, false); // Unresolved promise
+      mockApiRequest(mockData, false); // Simulate a failed request
       const dispatch = sinon.spy();
       const action = getBlueButtonReportData({ allergies: true });
       await action(dispatch);
-      // Verify that dispatch was called only once
       expect(dispatch.calledOnce).to.be.true;
-
-      // Check the first and only dispatch action type
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.BlueButtonReport.ADD_FAILED,
       );
@@ -265,7 +293,6 @@ describe('Blue Button Actions', () => {
         radiology: true,
       });
       await action(dispatch);
-      // Verify dispatch was called once for the combined action
       expect(dispatch.calledOnce).to.be.true;
 
       const dispatchedAction = dispatch.firstCall.args[0];
@@ -274,6 +301,7 @@ describe('Blue Button Actions', () => {
       expect(dispatchedAction.radiologyResponse).to.deep.equal(mockData);
     });
   });
+
   describe('ClearFailedList', () => {
     it('should dispatch an action of type ClearFailedList', () => {
       const dispatch = sinon.spy();

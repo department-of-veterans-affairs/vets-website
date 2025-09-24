@@ -1,6 +1,6 @@
 import {
   testNumberOfWebComponentFields,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfErrorsOnSubmit,
   testNumberOfFields,
   testSubmitsWithoutErrors,
@@ -13,7 +13,7 @@ const { schema, uiSchema } = medicalExpenses;
 
 describe('Medical expenses pension page', () => {
   const pageTitle = 'Care expenses';
-  const expectedNumberOfFields = 1;
+  const expectedNumberOfFields = 0;
   testNumberOfFields(
     formConfig,
     schema,
@@ -22,7 +22,7 @@ describe('Medical expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
+  const expectedNumberOfErrors = 0;
   testNumberOfErrorsOnSubmit(
     formConfig,
     schema,
@@ -31,7 +31,7 @@ describe('Medical expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfWebComponentFields = 5;
+  const expectedNumberOfWebComponentFields = 6;
   testNumberOfWebComponentFields(
     formConfig,
     schema,
@@ -40,12 +40,18 @@ describe('Medical expenses pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrorsForWebComponents = 5;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrorsForWebComponents,
+    [
+      `va-radio[label="Who is the expense for?"]`,
+      `va-text-input[label="Who receives the payment?"]`,
+      `va-text-input[label="What’s the payment for?"]`,
+      `va-memorable-date[label="What’s the date of the payment?"]`,
+      `va-radio[label="How often are the payments?"]`,
+      `va-text-input[label="How much is each payment?"]`,
+    ],
     pageTitle,
   );
 
@@ -56,10 +62,9 @@ describe('Medical expenses pension page', () => {
     schema,
     uiSchema,
     {
-      'va-text-input': 2,
+      'va-text-input': 3,
       'va-memorable-date': 1,
       'va-radio': 2,
-      input: 1,
     },
     pageTitle,
   );

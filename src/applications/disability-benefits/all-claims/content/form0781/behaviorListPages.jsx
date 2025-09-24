@@ -6,41 +6,24 @@ import {
   LISTED_BEHAVIOR_TYPES_WITH_SECTION,
   MH_0781_URL_PREFIX,
 } from '../../constants';
-
+import { rememberTextBlob } from '../form0781';
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
   <>
-    <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences.
-    </p>
-    <p>
-      These questions are optional. Any information you provide will help us
-      understand your situation and identify evidence to support your claim. You
-      can provide only details you’re comfortable sharing.
-    </p>
-    <h4>Information we’ll ask you for</h4>
-    <p>
-      We’ll ask you for this information:
-      <ul>
-        <li>
-          The types of behavioral changes you experienced after your traumatic
-          events
-        </li>
-        <li>
-          A description of each behavioral change, including when it happened,
-          whether any records exist, and any other details you want to provide
-        </li>
-      </ul>
-    </p>
-    <h4>You can take a break at any time</h4>
-    <p>
-      We understand that some of the questions may be difficult to answer. You
-      can take a break at any time and come back to continue your application
-      later. We’ll save the information you’ve entered so far.
-    </p>
+    <p>In this section, we’ll ask you for this information:</p>
+    <ul>
+      <li>
+        The types of behavioral changes you experienced after your traumatic
+        events
+      </li>
+      <li>
+        A brief description of each behavioral change, including when it
+        happened, and whether you have records of these changes
+      </li>
+    </ul>
+    {rememberTextBlob}
   </>
 );
 
@@ -90,15 +73,8 @@ export const behaviorListAdditionalInformation = (
 export const behaviorListNoneLabel =
   'I didn’t experience any behavioral changes after my traumatic events.';
 
-export const behaviorListValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more behavioral changes. You also selected "I didn’t
-      experience any behavioral changes." Revise your selection so they don’t
-      conflict to continue.
-    </p>
-  </va-alert>
-);
+export const conflictingBehaviorErrorMessage =
+  'If you select no behavioral changes to include, unselect other behavioral changes before continuing.';
 
 /**
  * Returns true if 'none' selected, false otherwise
@@ -106,7 +82,7 @@ export const behaviorListValidationError = (
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(formData['view:noneCheckbox'] || {}).some(
+  return Object.values(formData.noBehavioralChange || {}).some(
     selected => selected === true,
   );
 }
@@ -161,7 +137,6 @@ export function hasSelectedBehaviors(formData) {
 export function showConflictingAlert(formData) {
   const noneSelected = hasSelectedNoneCheckbox(formData);
   const somethingSelected = hasSelectedBehaviors(formData);
-
   return !!(noneSelected && somethingSelected);
 }
 
@@ -176,10 +151,69 @@ export function validateBehaviorSelections(errors, formData) {
 
   // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError(
+    errors.noBehavioralChange.addError(
       'If you select no behavioral changes to include, unselect other behavioral changes before continuing.',
     );
   }
+}
+
+/**
+ * Returns an object containing the selected behavior types from the form data.
+ * @param {object} formData
+ * @returns {object} //example: { reassignment: true, consultations: true }
+ */
+export const allSelectedBehaviorTypes = formData => {
+  const allBehaviorTypes = {
+    ...formData.workBehaviors,
+    ...formData.healthBehaviors,
+    ...formData.otherBehaviors,
+  };
+
+  return Object.entries(allBehaviorTypes)
+    .filter(([, value]) => value === true)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {});
+};
+
+/**
+ * Returns an object containing the orphaned behavior type with the provided details.
+ * @param {object} formData
+ * @returns {object} // example: { performance: 'Changes in performance or performance evaluations', socialEconomic: 'Economic or social behavioral changes' }
+ */
+export function orphanedBehaviorDetails(formData) {
+  const updatedSelections = allSelectedBehaviorTypes(formData);
+
+  const existingDetails = formData.behaviorsDetails;
+
+  const orphanedObject = {};
+  if (Object.keys(updatedSelections).length === 0) {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
+      if (!detail) {
+        return; // skip if detail is empty string or undefined
+      }
+      const behaviorTypeDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+      orphanedObject[behaviorType] = behaviorTypeDescription;
+    });
+  } else {
+    Object.entries(existingDetails).forEach(([behaviorType, detail]) => {
+      if (
+        !!detail &&
+        !Object.prototype.hasOwnProperty.call(updatedSelections, behaviorType)
+      ) {
+        const behaviorTypeDescription =
+          behaviorType === 'unlisted'
+            ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+            : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+        orphanedObject[behaviorType] = behaviorTypeDescription;
+      }
+    });
+  }
+  return orphanedObject;
 }
 
 // behavior description pages
@@ -212,7 +246,7 @@ function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : allBehaviorDescriptions[behaviorType];
       newObject[behaviorDescription] =
-        behaviorDetails[behaviorType] || 'Optional description not provided.';
+        behaviorDetails?.[behaviorType] || 'Optional description not provided.';
     }
   });
   return newObject;
@@ -243,24 +277,14 @@ function behaviorSummariesList(behaviorAndDetails) {
   );
 }
 
-export const summarizeBehaviors = formData => {
-  const allBehaviorTypes = {
-    ...formData.workBehaviors,
-    ...formData.healthBehaviors,
-    ...formData.otherBehaviors,
-  };
-
-  const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
-    .filter(([, value]) => value === true)
-    .reduce((acc, [key, value]) => {
-      acc[key] = value;
-      return acc;
-    }, {});
-
-  const selectedBehaviorsWithDetails = getDescriptionForBehavior(
-    allSelectedBehaviorTypes,
+export const selectedBehaviorsWithDetails = formData => {
+  return getDescriptionForBehavior(
+    allSelectedBehaviorTypes(formData),
     formData.behaviorsDetails,
   );
+};
 
-  return behaviorSummariesList(selectedBehaviorsWithDetails);
+export const summarizeBehaviors = formData => {
+  const summarizedObject = selectedBehaviorsWithDetails(formData);
+  return behaviorSummariesList(summarizedObject);
 };

@@ -52,6 +52,7 @@ export default function vaTextInputFieldMapping(props) {
       newVal = newVal === '' ? undefined : newVal;
       childrenProps.onChange(newVal);
     },
+    onChange: childrenProps.onChange,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
     children: (
       <>

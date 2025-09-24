@@ -12,13 +12,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    // Intercept feature toggles once for all tests
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
-      },
-    }).as('featureToggles');
   });
 
   describe('National Exams List Page', () => {
@@ -31,7 +24,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
       cy.visit('/education/gi-bill-comparison-tool/national-exams');
       cy.wait('@nationalExamsList');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 
@@ -196,7 +188,6 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
       }).as('examDetailsSingle');
       cy.visit('/education/gi-bill-comparison-tool/national-exams/1@acce9');
       cy.wait('@examDetailsSingle');
-      cy.wait('@featureToggles');
       cy.injectAxeThenAxeCheck();
     });
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
-import { setupServer } from 'msw/node';
+import { setupServer } from 'platform/testing/unit/msw-adapter';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
@@ -23,12 +23,18 @@ const ui = (
 let view;
 let server;
 
+// helper function that returns the va-button for Edit or Remove actions
+// since RTL doesn't support getByRole/getByText queries for web components
+function getEmailVaButton(action) {
+  return view.container.querySelector(
+    `va-button[label="${action} Contact email address"]`,
+  );
+}
+
 // helper function that enters the `Edit contact email address` view and clicks on the `Remove` and `Confirm` buttons
 function deleteEmailAddress() {
   // delete
-  view
-    .getByLabelText(/remove contact email address/i, { selector: 'button' })
-    .click();
+  getEmailVaButton('Remove').click();
 
   const confirmDeleteButton = $(
     'button[aria-label="Yes, remove my information"]',
@@ -86,11 +92,9 @@ describe('Deleting email address', () => {
     await waitForElementToBeRemoved(deletingMessage);
 
     // the edit email button should still exist
-    view.getByRole('button', { name: /edit.*email address/i });
+    expect(getEmailVaButton('Edit')).to.exist;
     // and the email address should not exist
     expect(view.queryByText(userNameRegex)).not.to.exist;
-    // and the add email text should exist
-    view.getByText(/add.*email address/i);
   });
   it('should handle a deletion succeeds after some time', async () => {
     server.use(...mocks.transactionPending);
@@ -110,11 +114,9 @@ describe('Deleting email address', () => {
     await view.findByText('Update saved.');
 
     // the edit email button should still exist
-    view.getByRole('button', { name: /edit.*email address/i });
+    expect(getEmailVaButton('Edit')).to.exist;
     // and the email address should not exist
     expect(view.queryByText(userNameRegex)).not.to.exist;
-    // and the add email text should exist
-    view.getByText(/add.*email address/i);
   });
   it('should show an error if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);

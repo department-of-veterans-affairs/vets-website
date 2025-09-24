@@ -1,16 +1,11 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+import { useParams } from 'react-router-dom-v5-compat';
+import { useSelector } from 'react-redux';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { getDocumentation } from '../api/rxApi';
-import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
   dateFormat,
-  sanitizeKramesHtmlStr,
   generateTextFile,
   generateMedicationsPDF,
   convertHtmlForDownload,
@@ -18,71 +13,61 @@ import {
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
-import { DOWNLOAD_FORMAT } from '../util/constants';
+import {
+  rxListSortingOptions,
+  defaultSelectedSortOption,
+  filterOptions,
+  DOWNLOAD_FORMAT,
+} from '../util/constants';
 import { pageType } from '../util/dataDogConstants';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 import CallPharmacyPhone from '../components/shared/CallPharmacyPhone';
+import { useGetPrescriptionDocumentationQuery } from '../api/prescriptionsApi';
+import { usePrescriptionData } from '../hooks/usePrescriptionData';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
   const contentRef = useRef();
-  const {
-    prescription,
-    isDisplayingDocumentation,
-    hasPrescriptionApiError,
-    dob,
-    userName,
-  } = useSelector(state => ({
-    prescription: state.rx.prescriptions.prescriptionDetails,
-    isDisplayingDocumentation:
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
-      ],
-    hasPrescriptionApiError: state.rx.prescriptions?.apiError,
+
+  const { dob, userName } = useSelector(state => ({
     userName: state.user.profile.userFullName,
     dob: state.user.profile.dob,
   }));
 
-  const dispatch = useDispatch();
-  const [htmlContent, setHtmlContent] = useState(null);
-  const [hasDocApiError, setHasDocApiError] = useState(false);
-  const [isLoadingDoc, setIsLoadingDoc] = useState(false);
-  const [isLoadingRx, setIsLoadingRx] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const {
+    data: htmlContent,
+    isLoading: isLoadingDoc,
+    error: hasDocApiError,
+  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+
+  // Get sort/filter selections from store.
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
+  const [queryParams] = useState({
+    page: currentPage || 1,
+    perPage: 10,
+    sortEndpoint:
+      rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
+      rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+    filterOption: filterOptions[selectedFilterOption]?.url || '',
+  });
+
+  // Use the custom hook to fetch prescription data
+  const {
+    prescription,
+    prescriptionApiError,
+    isLoading: isLoadingRx,
+  } = usePrescriptionData(prescriptionId, queryParams);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
-  useEffect(
-    () => {
-      if (prescriptionId) {
-        setIsLoadingDoc(true);
-        getDocumentation(prescriptionId)
-          .then(response => {
-            setHasDocApiError(false);
-            setHtmlContent(
-              sanitizeKramesHtmlStr(response.data.attributes.html),
-            );
-          })
-          .catch(() => {
-            setHasDocApiError(true);
-          })
-          .finally(() => {
-            setIsLoadingDoc(false);
-          });
-      }
-    },
-    [prescriptionId],
-  );
-
-  useEffect(
-    () => {
-      if (!prescription && prescriptionId && !isLoadingRx) {
-        setIsLoadingRx(true);
-        dispatch(getPrescriptionDetails(prescriptionId));
-      } else if (prescription && prescriptionId && isLoadingRx) {
-        setIsLoadingRx(false);
-      }
-    },
-    [prescriptionId, prescription, dispatch, isLoadingRx],
-  );
 
   const buildMedicationInformationTxt = useCallback(
     information => {
@@ -109,55 +94,63 @@ const PrescriptionDetailsDocumentation = () => {
     updatePageTitle(`More about this medication | Veteran Affairs`);
   }, []);
 
-  const downloadText = () => {
-    const formattedText = convertHtmlForDownload(htmlContent);
-    const textData = buildMedicationInformationTxt(formattedText);
-    generateTextFile(
-      textData,
-      `medication-information-${prescription.prescriptionName}-${
-        userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
-    );
-  };
+  const downloadFile = async format => {
+    setIsLoading(true);
+    try {
+      const formattedText = await convertHtmlForDownload(
+        htmlContent,
+        format === DOWNLOAD_FORMAT.PDF ? DOWNLOAD_FORMAT.PDF : undefined,
+      );
 
-  const downloadPdf = async () => {
-    const formattedText = convertHtmlForDownload(
-      htmlContent,
-      DOWNLOAD_FORMAT.PDF,
-    );
-    const pdfData = buildMedicationInformationPDF(formattedText);
-    const setup = {
-      subject: 'Medication Information',
-      headerBanner: [
-        {
-          text:
-            'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
-        },
-        {
-          text: '988',
-          weight: 'bold',
-        },
-        {
-          text: '. Then select 1.',
-        },
-      ],
-      footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Medication information: ${prescription?.prescriptionName}`,
-      preface: [
-        {
-          value: `We're providing this content from our trusted health care information partner, WebMD, to help you learn more about the medications you're taking. WebMD content is reviewed and approved by medical experts. But this content isn't directly reviewed by VA health care providers and isn't personalized to your use of the medications. If you have any questions about your medications and your specific needs, ask your VA health care team.`,
-        },
-      ],
-      results: [{ list: [pdfData] }],
-    };
-    await generateMedicationsPDF(
-      'medications',
-      `medication-information-${prescription.prescriptionName}-${dateFormat(
-        Date.now(),
-        'M-D-YYYY',
-      ).replace(/\./g, '')}`,
-      setup,
-    );
+      if (format === DOWNLOAD_FORMAT.PDF) {
+        const pdfData = buildMedicationInformationPDF(formattedText);
+        const setup = {
+          subject: 'Medication Information',
+          headerBanner: [
+            {
+              text:
+                'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
+            },
+            {
+              text: '988',
+              weight: 'bold',
+            },
+            {
+              text: '. Then select 1.',
+            },
+          ],
+          footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
+          title: `Medication information: ${prescription?.prescriptionName}`,
+          preface: [
+            {
+              value: `We're providing this content from our trusted health care information partner, WebMD, to help you learn more about the medications you're taking. WebMD content is reviewed and approved by medical experts. But this content isn't directly reviewed by VA health care providers and isn't personalized to your use of the medications. If you have any questions about your medications and your specific needs, ask your VA health care team.`,
+            },
+          ],
+          results: [{ list: [pdfData] }],
+        };
+        await generateMedicationsPDF(
+          'medications',
+          `medication-information-${prescription.prescriptionName}-${dateFormat(
+            Date.now(),
+            'M-D-YYYY_hmmssa',
+          ).replace(/\./g, '')}`,
+          setup,
+        );
+      } else {
+        const textData = buildMedicationInformationTxt(formattedText);
+        generateTextFile(
+          textData,
+          `medication-information-${prescription.prescriptionName}-${
+            userName.first
+              ? `${userName.first}-${userName.last}`
+              : userName.last
+          }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
+        );
+      }
+      setIsSuccess(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const printPage = () => window.print();
@@ -172,10 +165,7 @@ const PrescriptionDetailsDocumentation = () => {
     [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
   );
 
-  if (!isDisplayingDocumentation) {
-    return <PageNotFound />;
-  }
-  if (hasDocApiError || hasPrescriptionApiError) {
+  if (hasDocApiError || prescriptionApiError) {
     return (
       <div>
         <h1
@@ -197,14 +187,15 @@ const PrescriptionDetailsDocumentation = () => {
         <h1 data-testid="medication-information-title" data-dd-privacy="mask">
           Medication information: {prescription?.prescriptionName}
         </h1>
-        <PrintDownload
-          onPrint={printPage}
-          onText={downloadText}
-          onDownload={downloadPdf}
-          isSuccess={false}
-          isLoading={false}
-        />
-        <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
+        <div className="no-print">
+          <PrintDownload
+            onPrint={printPage}
+            onDownload={downloadFile}
+            isSuccess={isSuccess}
+            isLoading={isLoading}
+          />
+          <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
+        </div>
         <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
         <va-on-this-page />
         <p data-testid="medication-information-warning">

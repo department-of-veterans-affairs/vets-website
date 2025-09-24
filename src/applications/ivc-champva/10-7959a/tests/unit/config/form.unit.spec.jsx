@@ -1,9 +1,12 @@
+import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
 import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
+import { NotEnrolledChampvaPage } from '../../../chapters/NotEnrolledChampvaPage';
 
 describe('Certifier role page', () => {
   testNumberOfWebComponentFields(
@@ -14,6 +17,35 @@ describe('Certifier role page', () => {
     'Certifier role',
     { ...mockData.data },
   );
+});
+
+describe('Certifier enrolled in CHAMPVA page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1a1.schema,
+    formConfig.chapters.signerInformation.pages.page1a1.uiSchema,
+    1,
+    'Certifier enrolled in CHAMPVA page',
+    { ...mockData.data },
+  );
+});
+
+describe('Certifier enrolled in CHAMPVA (role: other) page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1a1.schema,
+    formConfig.chapters.signerInformation.pages.page1a1.uiSchema,
+    1,
+    'Certifier enrolled in CHAMPVA page',
+    { ...mockData.data, certifierRole: 'other' },
+  );
+});
+
+describe('NotEnrolledChampvaPage', () => {
+  it('should render', () => {
+    const { container } = render(<NotEnrolledChampvaPage goBack={() => {}} />);
+    expect(container).to.exist;
+  });
 });
 
 describe('Certifier relationship page', () => {
@@ -36,6 +68,28 @@ describe('Certifier relationship (other) page', () => {
     2,
     'Certifier relationship (other)',
     { ...mockData.data, certifierRelationship: 'other' },
+  );
+});
+
+describe('Certifier enrolled in CHAMPVA page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1e.schema,
+    formConfig.chapters.signerInformation.pages.page1e.uiSchema,
+    1,
+    'Certifier is claim resubmission',
+    { ...mockData.data },
+  );
+});
+
+describe('Certifier enrolled in CHAMPVA page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.signerInformation.pages.page1e.schema,
+    formConfig.chapters.signerInformation.pages.page1e.uiSchema,
+    1,
+    'Certifier is claim resubmission (applicant)',
+    { ...mockData.data, certifierRole: 'applicant' },
   );
 });
 
@@ -214,9 +268,11 @@ describe('health insurance array builder options.text', () => {
       providerPhone: '1231231234',
       formData: mockData.data,
     };
-    expect(insuranceOptions.text.summaryTitle(completeItem)).to.include(
-      'health insurance review',
+    // It returns JSX with the privacy class wrapper
+    const { container } = render(
+      insuranceOptions.text.summaryTitle(completeItem),
     );
+    expect(container.innerHTML).to.include('health insurance review');
   });
 });
 
@@ -358,7 +414,7 @@ describe('title text logic', () => {
       Object.keys(formConfig.chapters[`${ch}`].pages).forEach(pg => {
         const { title } = formConfig.chapters[`${ch}`].pages[`${pg}`];
         if (typeof title === 'function') {
-          title();
+          title({ formData: {} });
           titleCount += 1;
         }
       });

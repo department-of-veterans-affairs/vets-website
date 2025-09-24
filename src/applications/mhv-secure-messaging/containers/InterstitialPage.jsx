@@ -1,10 +1,18 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropType from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
+import { Paths } from '../util/constants';
+import featureToggles from '../hooks/useFeatureToggles';
+import { acceptInterstitial } from '../actions/threadDetails';
 
 const InterstitialPage = props => {
-  const { acknowledge, type } = props;
+  const { type } = props;
+  const history = useHistory();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
@@ -24,6 +32,16 @@ const InterstitialPage = props => {
     [type],
   );
 
+  const handleContinueButton = useCallback(
+    () => {
+      dispatch(acceptInterstitial());
+      if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
+        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+      }
+    },
+    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+  );
+
   return (
     <div className="interstitial-page">
       <h1 className="vads-u-margin-bottom--2">
@@ -39,7 +57,7 @@ const InterstitialPage = props => {
         <button
           className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
           data-testid="continue-button"
-          onClick={acknowledge}
+          onClick={handleContinueButton}
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         >
           {continueButtonText}
@@ -80,7 +98,6 @@ const InterstitialPage = props => {
 };
 
 InterstitialPage.propTypes = {
-  acknowledge: PropType.func,
   type: PropType.string,
 };
 

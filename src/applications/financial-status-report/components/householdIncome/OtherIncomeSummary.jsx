@@ -124,6 +124,7 @@ const OtherIncomeSummary = ({
           )}
           <Link
             className="vads-c-action-link--green"
+            data-testid="add-link"
             to={{
               pathname: '/add-other-income',
               search: `?index=${addlIncRecords.length}`,

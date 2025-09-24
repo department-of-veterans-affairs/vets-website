@@ -20,4 +20,20 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['**/*.unit.spec.*'],
+      excludedFiles: ['**/*.unit.spec.jsx'],
+      rules: {
+        'no-restricted-syntax': [
+          'error',
+          {
+            selector: 'Program',
+            message:
+              'Only .jsx files are allowed for unit spec files. Rename this file to .unit.spec.jsx.',
+          },
+        ],
+      },
+    },
+  ],
 };

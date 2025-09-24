@@ -53,9 +53,3 @@ CallToActionAlert.propTypes = {
   secondaryButtonText: PropTypes.string,
   status: PropTypes.string,
 };
-
-CallToActionAlert.defaultProps = {
-  headerLevel: 3,
-  ariaDescribedby: null,
-  ariaLabel: null,
-};
