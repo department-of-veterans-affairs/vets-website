@@ -74,10 +74,9 @@ const UnderReviewChapter1606 = ({
         <p>
           If more than a month has passed since you gave us your application and
           you haven’t heard back, please don’t apply again. Call our Education
-          Call Center toll-free Education Call Center at{' '}
-          <va-telephone contact="8884424551" /> or{' '}
-          <va-telephone contact="9187815678" international /> if you are outside
-          the U.S.
+          Call Center toll-freeCenter at <va-telephone contact="8884424551" />{' '}
+          or <va-telephone contact="9187815678" international /> if you are
+          outside the U.S.
         </p>
       </va-card>
 
