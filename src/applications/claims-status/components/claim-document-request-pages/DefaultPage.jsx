@@ -90,19 +90,29 @@ export default function DefaultPage({
       </h1>
       {item.status === 'NEEDED_FROM_YOU' &&
         (pastDueDate ? (
-          <va-alert status="warning" class="vads-u-margin-top--4">
-            <h2 slot="headline">Deadline passed for requested information</h2>
-            <p className="vads-u-margin-y--0">
-              We haven’t received the information we asked for. You can still
-              send it, but we may review your claim without it.
-            </p>
-            <p>
-              If you have questions, call the VA benefits hotline at{' '}
-              <va-telephone contact="8008271000" /> (
-              <va-telephone contact="711" tty="true" />
-              ).
-            </p>
-          </va-alert>
+          <>
+            <div className="alert-demo-text">
+              <span>
+                Past Deadline Alert
+                <br />
+                Triggered by: Evidence deadline has passed (suspenseDate before
+                current date)
+              </span>
+            </div>
+            <va-alert status="warning" class="vads-u-margin-top--4">
+              <h2 slot="headline">Deadline passed for requested information</h2>
+              <p className="vads-u-margin-y--0">
+                We haven't received the information we asked for. You can still
+                send it, but we may review your claim without it.
+              </p>
+              <p>
+                If you have questions, call the VA benefits hotline at{' '}
+                <va-telephone contact="8008271000" /> (
+                <va-telephone contact="711" tty="true" />
+                ).
+              </p>
+            </va-alert>
+          </>
         ) : (
           !item.friendlyName && (
             <p>

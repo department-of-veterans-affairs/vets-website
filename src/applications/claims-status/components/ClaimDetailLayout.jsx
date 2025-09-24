@@ -58,6 +58,20 @@ export default function ClaimDetailLayout(props) {
 
     headingContent = (
       <>
+        <div className="alert-demo-text">
+          <span>
+            Claim Detail Page Notification
+            <br />
+            Triggered by: Evidence waiver submission or claim decision request
+          </span>
+        </div>
+        <Notification
+          title="We received your evidence waiver"
+          body="Thank you. We'll move your claim to the next step as soon as possible."
+          type="success"
+          onClose={clearNotification}
+          onSetFocus={focusNotificationAlert}
+        />
         {message && (
           <Notification
             title={message.title}
@@ -89,18 +103,29 @@ export default function ClaimDetailLayout(props) {
     );
 
     bodyContent = (
-      <div className="claim-container">
-        <TabNav id={claim.id} />
-        {tabs.map(tab => (
-          <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
-            {currentTab === tab && (
-              <div className="tab-content claim-tab-content">
-                {props.children}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+      <>
+        <div className="claim-container">
+          <TabNav id={claim.id} />
+          {tabs.map(tab => (
+            <div key={tab} id={`tabPanel${tab}`} className="tab-panel">
+              {currentTab === tab && (
+                <div className="tab-content claim-tab-content">
+                  {props.children}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="alert-demo-text">
+          <span>
+            Claims Unavailable Alert <br />
+            Triggered by: Shown instead of the above content when claims data
+            service fails to load or returns an error
+          </span>
+        </div>
+        <h1>We encountered a problem</h1>
+        <ClaimsUnavailable headerLevel={2} />
+      </>
     );
   } else {
     // Will provide a default title, e.g. "Status of your claim"

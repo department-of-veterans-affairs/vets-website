@@ -207,29 +207,38 @@ export default function RecentActivity({ claim }) {
 
   const thirdPartyRequesAlertText = item => {
     return (
-      <va-alert
-        data-testid={`item-from-others-${item.id}`}
-        class="optional-alert vads-u-padding-bottom--1"
-        status="info"
-        slim
-      >
-        {item.activityDescription ? (
-          <>
-            {item.activityDescription}
+      <>
+        <div className="alert-demo-text">
+          <span>
+            Recent Activity - Third Party Request Alert
             <br />
-          </>
-        ) : (
-          renderDefaultThirdPartyMessage(item.oldDisplayName)
-        )}
-        <Link
-          aria-label={`About this notice for ${item.friendlyName ||
-            item.displayName}`}
-          className="add-your-claims-link"
-          to={`../needed-from-others/${item.id}`}
+            Triggered by: Activity item with status 'NEEDED_FROM_OTHERS'
+          </span>
+        </div>
+        <va-alert
+          data-testid={`item-from-others-${item.id}`}
+          class="optional-alert vads-u-padding-bottom--1"
+          status="info"
+          slim
         >
-          About this notice
-        </Link>
-      </va-alert>
+          {item.activityDescription ? (
+            <>
+              {item.activityDescription}
+              <br />
+            </>
+          ) : (
+            renderDefaultThirdPartyMessage(item.oldDisplayName)
+          )}
+          <Link
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
+            className="add-your-claims-link"
+            to={`../needed-from-others/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </va-alert>
+      </>
     );
   };
 
@@ -272,8 +281,7 @@ export default function RecentActivity({ claim }) {
                   </p>
                 </>
               )}
-              {item.status === 'NEEDED_FROM_OTHERS' &&
-                thirdPartyRequesAlertText(item)}
+              {true && thirdPartyRequesAlertText(item)}
             </li>
           ))}
         </ol>

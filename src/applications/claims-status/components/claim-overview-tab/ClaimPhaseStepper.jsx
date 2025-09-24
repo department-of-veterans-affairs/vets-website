@@ -84,14 +84,24 @@ export default function ClaimPhaseStepper({
             )}
             {isCurrentPhase(claimPhase.phase) &&
               currentPhaseBack && (
-                <va-alert
-                  class="optional-alert vads-u-padding-bottom--1"
-                  status="info"
-                  slim
-                >
-                  We moved your claim back to this step because we needed to
-                  find or review more evidence
-                </va-alert>
+                <>
+                  <div className="alert-demo-text">
+                    <span>
+                      Claim Phase Stepper Alert
+                      <br />
+                      Triggered by: Claim moved back to previous phase
+                      (currentPhaseBack=true)
+                    </span>
+                  </div>
+                  <va-alert
+                    class="optional-alert vads-u-padding-bottom--1"
+                    status="info"
+                    slim
+                  >
+                    We moved your claim back to this step because we needed to
+                    find or review more evidence
+                  </va-alert>
+                </>
               )}
             {(!isCurrentPhase(claimPhase.phase) || !currentPhaseBack) &&
               phaseCanRepeat(claimPhase.phase) && (

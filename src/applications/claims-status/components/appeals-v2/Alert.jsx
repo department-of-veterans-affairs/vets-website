@@ -11,6 +11,13 @@ const Alert = ({ title, description, displayType }) => {
 
   return (
     <li>
+      <div className="alert-demo-text">
+        <span>
+          Individual Appeal Alert (
+          {displayType === 'take_action' ? 'Warning' : 'Info'})<br />
+          Legacy USWDS alert within list item
+        </span>
+      </div>
       <div className={`usa-alert ${cssClass}`}>
         <div className="usa-alert-body">
           <h4 className="usa-alert-heading">{title}</h4>

@@ -60,15 +60,24 @@ export default function WhatWeAreDoing({
             {getPhaseChangeDateText(phaseChangeDate)}
           </p>
         )}
-        {currentPhaseBack && (
-          <va-alert
-            class="optional-alert vads-u-padding-bottom--1"
-            status="info"
-            slim
-          >
-            We moved your claim back to this step because we needed to find or
-            review more evidence
-          </va-alert>
+        {true && (
+          <>
+            <div className="alert-demo-text">
+              <span>
+                What We Are Doing Alert (Phase Back Warning)
+                <br />
+                Triggered by: Claim has been moved back to a previous phase
+              </span>
+            </div>
+            <va-alert
+              class="optional-alert vads-u-padding-bottom--1"
+              status="info"
+              slim
+            >
+              We moved your claim back to this step because we needed to find or
+              review more evidence
+            </va-alert>
+          </>
         )}
         <Link
           aria-label={linkText}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -98,6 +99,43 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
+          {/* <div className="alert-demo-text">
+            <span>
+              Additional Evidence Page - Success Notification
+              <br />
+              Triggered by: All files upload successfully (but user would be
+              redirected to Files tab)
+            </span>
+          </div>
+          <Notification
+            title="Success"
+            body="If your uploaded file doesn't appear in the Documents Filed section on this page, please try refreshing the page."
+            type="success"
+            onSetFocus={focusNotificationAlert}
+          />
+          <div className="alert-demo-text">
+            <span>
+              Additional Evidence Page - Error Notification
+              <br />
+              Triggered by: File upload fails (duplicate, invalid claimant, or
+              other error)
+            </span>
+          </div>
+          <Notification
+            title="You've already uploaded example-file.pdf"
+            body={
+              <>
+                It can take up to 2 days for the file to show up in{' '}
+                <va-link
+                  text="your list of documents filed"
+                  href={`/track-claims/your-claims/${claim.id}/files`}
+                />
+                . Try checking back later before uploading again.
+              </>
+            }
+            type="error"
+            onSetFocus={focusNotificationAlert}
+          /> */}
           <h3 id="add-files" className="vads-u-margin-bottom--3">
             Additional evidence
           </h3>

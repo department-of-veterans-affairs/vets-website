@@ -150,6 +150,14 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
       <div className="usa-width-two-thirds medium-8 columns">
         <ClaimsBreadcrumbs crumbs={[crumb]} />
         {content}
+        <div className="alert-demo-text">
+          <span>
+            Work In Progress (WIP) Alert <br />
+            Triggered by: Feature flag `claimLettersAccess` is disabled
+            (permanently enabled in production - this is dead code)
+          </span>
+        </div>
+        <WIP />
       </div>
     </article>
   );

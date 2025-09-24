@@ -146,6 +146,22 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
+          {/* Demo notification for documentation */}
+          <div className="alert-demo-text">
+            <span>
+              Document Request Page Notification
+              <br />
+              Triggered by: Evidence waiver submission or claim decision request
+            </span>
+          </div>
+          <div>
+            <Notification
+              title="We received your evidence waiver"
+              body="Thank you. We'll move your claim to the next step as soon as possible."
+              type="success"
+              onSetFocus={focusNotificationAlert}
+            />
+          </div>
 
           {isAutomated5103Notice(trackedItem.displayName) ? (
             <Default5103EvidenceNotice item={trackedItem} />

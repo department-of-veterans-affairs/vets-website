@@ -249,6 +249,31 @@ class YourClaimsPageV2 extends React.Component {
                 </div>
               </va-additional-info>
             </div>
+            <div className="alert-demo-text">
+              <span>
+                Claims Unavailable Alert <br />
+                Triggered by: Claims data service fails to load or returns an
+                error
+              </span>
+              <ClaimsUnavailable headerLevel={3} />
+              <span>
+                Claims & Appeals Unavailable Alert <br />
+                Triggered by: Both claims and appeals data services fail to load
+                or return errors
+              </span>
+              <ClaimsAppealsUnavailable />
+              <span>
+                Appeals Unavailable Alert <br />
+                Triggered by: Appeals data service fails to load or returns an
+                error
+              </span>
+              <AppealsUnavailable />
+              <span>
+                No Claims Alert <br />
+                Triggered by: User has no claims, appeals, or STEM claims
+              </span>
+              <NoClaims />
+            </div>
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">

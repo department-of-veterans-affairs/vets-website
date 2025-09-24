@@ -50,34 +50,44 @@ export default function FilesNeeded({ item, previousPage = null }) {
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   return (
-    <va-alert
-      data-testid={`item-${item.id}`}
-      class="primary-alert vads-u-margin-bottom--2"
-      status="warning"
-    >
-      <h4 slot="headline" className="alert-title">
-        {getItemDisplayName()}
-      </h4>
-
-      <p>Respond by {formattedDueDate}</p>
-
-      <span className="alert-description">{getItemDescription()}</span>
-      <div className="link-action-container">
-        <Link
-          aria-label={`About this request for ${item.friendlyName ||
-            item.displayName}`}
-          className="vads-c-action-link--blue"
-          to={`../needed-from-you/${item.id}`}
-          onClick={() => {
-            if (previousPage !== null) {
-              sessionStorage.setItem('previousPage', previousPage);
-            }
-          }}
-        >
-          About this request
-        </Link>
+    <>
+      <div className="alert-demo-text">
+        <span>
+          Files Needed Alert
+          <br />
+          Triggered by: VA requires evidence from veteran
+          (status=NEEDED_FROM_YOU)
+        </span>
       </div>
-    </va-alert>
+      <va-alert
+        data-testid={`item-${item.id}`}
+        class="primary-alert vads-u-margin-bottom--2"
+        status="warning"
+      >
+        <h4 slot="headline" className="alert-title">
+          {getItemDisplayName()}
+        </h4>
+
+        <p>Respond by {formattedDueDate}</p>
+
+        <span className="alert-description">{getItemDescription()}</span>
+        <div className="link-action-container">
+          <Link
+            aria-label={`About this request for ${item.friendlyName ||
+              item.displayName}`}
+            className="vads-c-action-link--blue"
+            to={`../needed-from-you/${item.id}`}
+            onClick={() => {
+              if (previousPage !== null) {
+                sessionStorage.setItem('previousPage', previousPage);
+              }
+            }}
+          >
+            About this request
+          </Link>
+        </div>
+      </va-alert>
+    </>
   );
 }
 

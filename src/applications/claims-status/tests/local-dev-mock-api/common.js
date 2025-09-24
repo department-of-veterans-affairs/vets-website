@@ -40,6 +40,33 @@ const createSupportingDocument = (
   uploadDate,
 });
 
+const createStemClaim = (
+  id,
+  {
+    confirmationNumber,
+    isEnrolledStem = true,
+    isPursuingTeachingCert = null,
+    benefitLeft = 'moreThanSixMonths',
+    remainingEntitlement = null,
+    automatedDenial = true,
+    deniedAt,
+    submittedAt,
+  },
+) => ({
+  id,
+  type: 'education_benefits_claims',
+  attributes: {
+    confirmationNumber,
+    isEnrolledStem,
+    isPursuingTeachingCert,
+    benefitLeft,
+    remainingEntitlement,
+    automatedDenial,
+    deniedAt,
+    submittedAt,
+  },
+});
+
 const createClaim = (
   id,
   {
@@ -121,7 +148,7 @@ const appealData1 = {
   attributes: {
     appealIds: ['SC10755'],
     updated: '2025-06-27T10:48:58-04:00',
-    incompleteHistory: false,
+    incompleteHistory: true, // Changed to true to trigger Missing Events Alert
     active: true,
     description:
       'Service connection for Hypertension, essential is granted with an evaluation of 0 percent effective October 1, 2022. and 3 others',
@@ -132,7 +159,24 @@ const appealData1 = {
       type: 'sc_recieved',
       details: {},
     },
-    alerts: [],
+    alerts: [
+      {
+        type: 'scheduled_hearing',
+        details: {
+          date: '2024-12-15',
+        },
+      },
+      {
+        type: 'held_for_evidence',
+        details: {
+          dueDate: '2024-11-30',
+        },
+      },
+      {
+        type: 'decision_soon',
+        details: {},
+      },
+    ],
     issues: [
       {
         active: true,
@@ -251,7 +295,6 @@ const baseClaims = [
     baseEndProductCode: '020',
     claimDate: '2024-10-11',
     phaseType: 'GATHERING_OF_EVIDENCE', // 5-step process uses phaseType
-    claimType: 'Compensation',
     claimTypeCode: '020CPHLP', // 5-step process code
     endProductCode: '022',
     status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
@@ -306,7 +349,8 @@ const baseClaims = [
         '2025-05-27',
       ),
     ],
-    contentions: [], // empty contentions force the slim alert on the claim status page
+    contentions: [{ name: 'Back pain' }, { name: 'Tinnitus' }],
+    claimType: null, // missing claimType forces the Adding Details alert on claim status page
   }),
   // 8 step disability compensation claim process
   createClaim('4', {
@@ -376,11 +420,133 @@ const baseClaims = [
       },
     ],
   }),
+  // Disability compensation claim with phase moved back (triggers phase stepper alert)
+  {
+    data: {
+      id: '5',
+      type: 'claim',
+      attributes: {
+        baseEndProductCode: '020',
+        claimDate: '2024-09-15',
+        claimPhaseDates: {
+          phaseChangeDate: '2024-10-20',
+          currentPhaseBack: true, // This triggers the "moved back" alert in phase stepper
+          phaseType: 'GATHERING_OF_EVIDENCE',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase3CompleteDate: '2024-09-20',
+            phase4CompleteDate: '2024-10-01', // Was in phase 4, then moved back
+            phase5CompleteDate: null,
+            phase6CompleteDate: null,
+            phase7CompleteDate: null,
+          },
+        },
+        claimType: 'Disability Compensation',
+        claimTypeCode: '020SMB', // valid disability compensation claim type
+        closeDate: null,
+        decisionLetterSent: false,
+        developmentLetterSent: true,
+        documentsNeeded: false,
+        endProductCode: undefined,
+        evidenceWaiverSubmitted5103: false,
+        lighthouseId: null,
+        status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+        hasFailedUploads: false,
+        supportingDocuments: [
+          createSupportingDocument(
+            '{B9B8B809-F4GE-55GB-CD89-1E26640DDD11}',
+            'Medical Records',
+            'hearing_test_results.pdf',
+            445678,
+            '2024-09-20',
+          ),
+          createSupportingDocument(
+            '{C9C8C809-G5HF-66HC-DE90-2F37751EEE22}',
+            'Service Treatment Records',
+            'service_medical_records.pdf',
+            667890,
+            '2024-10-15',
+          ),
+        ],
+        contentions: [
+          {
+            name: 'Service connection for hearing loss',
+          },
+          {
+            name: 'Service connection for knee condition',
+          },
+        ],
+        events: [
+          createEvent('2024-09-15', 'CLAIM_RECEIVED'),
+          createEvent('2024-09-20', 'UNDER_REVIEW'),
+          createEvent('2024-10-01', 'GATHERING_OF_EVIDENCE'),
+          createEvent('2024-10-20', 'GATHERING_OF_EVIDENCE'), // Moved back event
+        ],
+        issues: [
+          createIssue(
+            'Service connection for hearing loss',
+            '6100',
+            '2024-09-15',
+            '2024-09-20',
+          ),
+          createIssue(
+            'Service connection for knee condition',
+            '5257',
+            '2024-09-15',
+            '2024-09-20',
+          ),
+        ],
+        evidence: [
+          createEvidence(
+            '2024-09-15',
+            'VA Form 21-526EZ, Application for Disability Compensation',
+          ),
+          createEvidence('2024-10-20', 'Additional medical evidence requested'),
+        ],
+      },
+    },
+  },
+];
+
+// STEM Claims
+const baseStemClaims = [
+  createStemClaim('9043', {
+    confirmationNumber: 'V-EBC-9043',
+    isEnrolledStem: true,
+    isPursuingTeachingCert: null,
+    benefitLeft: 'moreThanSixMonths',
+    automatedDenial: true,
+    deniedAt: '2022-01-31T15:08:20.489Z',
+    submittedAt: '2022-01-31T15:08:20.489Z',
+  }),
+  createStemClaim('9317', {
+    confirmationNumber: 'V-EBC-9317',
+    isEnrolledStem: false,
+    isPursuingTeachingCert: false,
+    benefitLeft: 'sixMonthsOrLess',
+    automatedDenial: true,
+    deniedAt: '2022-02-10T22:33:22.668Z',
+    submittedAt: '2022-02-10T22:33:22.668Z',
+  }),
+  createStemClaim('9048', {
+    confirmationNumber: 'V-EBC-9048',
+    isEnrolledStem: true,
+    isPursuingTeachingCert: true,
+    benefitLeft: 'sixMonthsOrLess',
+    automatedDenial: true,
+    deniedAt: '2022-01-31T18:19:52.045Z',
+    submittedAt: '2022-01-31T18:19:52.045Z',
+  }),
 ];
 
 function getClaimDataById(id) {
   const claim = baseClaims.find(c => c.data.id === id);
   return claim || null;
+}
+
+function getStemClaimById(id) {
+  const claim = baseStemClaims.find(c => c.id === id);
+  return claim ? { data: claim } : null;
 }
 
 function getClaimSummary(claim) {
@@ -561,6 +727,21 @@ const responses = {
   'GET /v0/benefits_claims/2': getClaimDataById('2'),
   'GET /v0/benefits_claims/3': getClaimDataById('3'),
   'GET /v0/benefits_claims/4': getClaimDataById('4'),
+  'GET /v0/benefits_claims/5': getClaimDataById('5'),
+
+  // STEM Claims endpoints
+  'GET /v0/education_benefits_claims/stem_claim_status': {
+    data: baseStemClaims,
+  },
+  'GET /v0/education_benefits_claims/stem_claim_status/9043': getStemClaimById(
+    '9043',
+  ),
+  'GET /v0/education_benefits_claims/stem_claim_status/9317': getStemClaimById(
+    '9317',
+  ),
+  'GET /v0/education_benefits_claims/stem_claim_status/9048': getStemClaimById(
+    '9048',
+  ),
 
   'GET /v0/appeals': {
     data: [appealData1],
@@ -605,6 +786,7 @@ const responses = {
         { name: 'cst_use_dd_rum', value: false },
         { name: 'cst_claim_phases', value: true }, // <-- controls 8-step claim process (disabilityCompensationClaim)
         { name: 'cst_5103_update_enabled', value: false }, // <-- controls access to ask-va-to-decide and 5103-evidence-notice routes
+        { name: 'stem_automated_decision', value: true }, // <-- enables STEM claims to show in claims list
       ],
     },
   },

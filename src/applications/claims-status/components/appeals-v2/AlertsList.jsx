@@ -33,10 +33,19 @@ const AlertsList = ({ alerts, appealIsActive }) => {
   });
 
   return (
-    <div className="alerts-list-container">
-      {takeActionHeader}
-      <ul className="alerts-list">{alertsList}</ul>
-    </div>
+    <>
+      <div className="alert-demo-text">
+        <span>
+          Appeals Alert List Container
+          <br />
+          Groups multiple alerts into "take action" and "info" categories
+        </span>
+      </div>
+      <div className="alerts-list-container">
+        {takeActionHeader}
+        <ul className="alerts-list">{alertsList}</ul>
+      </div>
+    </>
   );
 };
 

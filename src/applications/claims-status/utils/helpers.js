@@ -1322,7 +1322,7 @@ export const getTrackedItemDateFromStatus = item => {
 };
 
 export const renderDefaultThirdPartyMessage = displayName => {
-  return displayName.toLowerCase().includes('dbq') ? (
+  return displayName?.toLowerCase().includes('dbq') ? (
     <>
       We’ve requested an exam related to your claim. The examiner’s office will
       contact you to schedule this appointment.

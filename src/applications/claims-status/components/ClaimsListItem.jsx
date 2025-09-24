@@ -99,7 +99,14 @@ export default function ClaimsListItem({ claim }) {
         {humanStatus && <p>{humanStatus}</p>}
         <p>{getLastUpdated(claim)}</p>
       </div>
-      {showAlert && (
+      <>
+        <div className="alert-demo-text">
+          <span>
+            Claims List Item - Requested Evidence Alert <br />
+            Triggered by: VA has requested evidence from the veteran and the
+            claim is still in progress
+          </span>
+        </div>
         <va-alert status="info" slim>
           <span className="vads-u-font-weight--bold">
             We requested more information from you:
@@ -109,7 +116,7 @@ export default function ClaimsListItem({ claim }) {
             This message will go away when we finish reviewing your response.
           </div>
         </va-alert>
-      )}
+      </>
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />
     </ClaimCard>
   );

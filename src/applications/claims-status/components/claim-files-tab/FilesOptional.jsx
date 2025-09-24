@@ -32,27 +32,37 @@ function FilesOptional({ item }) {
     return 'Request for evidence outside VA';
   };
   return (
-    <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
-      <h4 slot="headline" className="alert-title">
-        {getItemDisplayName()}
-      </h4>
-      <p>{getRequestText()}</p>
-      <p className="alert-description">
-        {item.shortDescription || item.activityDescription
-          ? renderOverrideThirdPartyMessage(item)
-          : renderDefaultThirdPartyMessage(item.displayName)}
-      </p>
-      <div className="call-to-action">
-        <Link
-          aria-label={`About this notice for ${item.friendlyName ||
-            item.displayName}`}
-          className="add-your-claims-link"
-          to={`../needed-from-others/${item.id}`}
-        >
-          About this notice
-        </Link>
+    <>
+      <div className="alert-demo-text">
+        <span>
+          Files Optional Alert
+          <br />
+          Triggered by: VA requested evidence from third party
+          (status=NEEDED_FROM_OTHERS)
+        </span>
       </div>
-    </va-alert>
+      <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
+        <h4 slot="headline" className="alert-title">
+          {getItemDisplayName()}
+        </h4>
+        <p>{getRequestText()}</p>
+        <p className="alert-description">
+          {item.shortDescription || item.activityDescription
+            ? renderOverrideThirdPartyMessage(item)
+            : renderDefaultThirdPartyMessage(item.displayName)}
+        </p>
+        <div className="call-to-action">
+          <Link
+            aria-label={`About this notice for ${item.friendlyName ||
+              item.displayName}`}
+            className="add-your-claims-link"
+            to={`../needed-from-others/${item.id}`}
+          >
+            About this notice
+          </Link>
+        </div>
+      </va-alert>
+    </>
   );
 }
 

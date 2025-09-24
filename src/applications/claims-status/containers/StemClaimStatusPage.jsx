@@ -40,11 +40,29 @@ class StemClaimStatusPage extends React.Component {
       } = claim.attributes;
 
       content = (
-        <StemDeniedDetails
-          deniedAt={deniedAt}
-          isEnrolledStem={isEnrolledStem}
-          isPursuingTeachingCert={isPursuingTeachingCert}
-        />
+        <>
+          <div className="alert-demo-text">
+            <span>
+              STEM Denied Details (Alert-styled)
+              <br />
+              Triggered by: User is viewing a STEM scholarship claim status page
+            </span>
+          </div>
+          <StemDeniedDetails
+            deniedAt={deniedAt}
+            isEnrolledStem={isEnrolledStem}
+            isPursuingTeachingCert={isPursuingTeachingCert}
+          />
+          <div className="alert-demo-text">
+            <span>
+              Claims Unavailable Alert <br />
+              Triggered by: Shown instead of the above content when claims data
+              service fails to load or returns an error
+            </span>
+          </div>
+          <h1>We encountered a problem</h1>
+          <ClaimsUnavailable headerLevel={2} />
+        </>
       );
     } else {
       content = (
