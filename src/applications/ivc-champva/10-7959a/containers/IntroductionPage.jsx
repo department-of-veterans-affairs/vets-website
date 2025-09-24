@@ -45,8 +45,9 @@ export default function IntroductionPage(props) {
         </li>
         <li>
           You’ll also need to submit supporting documents with your claim, like
-          an itemized billing statement or pharmacy receipt. For certain types
-          of claims, you may need other supporting documents.
+          an <b>itemized billing statement</b>, an{' '}
+          <b>explanation of benefits</b> (EOB) from another insurance provider,
+          or a <b>pharmacy receipt</b>.
         </li>
       </ul>
 

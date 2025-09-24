@@ -8,6 +8,12 @@ export const INVALID_ADDRESS_PROPERTY = 'INVALID_ADDRESS_PROPERTY'; // 422
 export const LETTER_ELIGIBILITY_ERROR = 'LETTER_ELIGIBILITY_ERROR'; // 502
 export const LETTER_HAS_EMPTY_ADDRESS = 'LETTER_HAS_EMPTY_ADDRESS';
 
+// getLettersPdfLinks() actions
+export const GET_ENHANCED_LETTERS_DOWNLOADING =
+  'GET_ENHANCED_LETTERS_DOWNLOADING';
+export const GET_ENHANCED_LETTERS_SUCCESS = 'GET_ENHANCED_LETTERS_SUCCESS';
+export const GET_ENHANCED_LETTERS_FAILURE = 'GET_ENHANCED_LETTERS_FAILURE';
+
 // getBenefitSummaryOptions() actions
 export const GET_BENEFIT_SUMMARY_OPTIONS_FAILURE =
   'GET_BENEFIT_SUMMARY_OPTIONS_FAILURE';
@@ -35,6 +41,7 @@ export const AVAILABILITY_STATUSES = Object.freeze({
 });
 
 export const DOWNLOAD_STATUSES = Object.freeze({
+  notStarted: 'not started',
   pending: 'pending',
   downloading: 'downloading',
   success: 'success',

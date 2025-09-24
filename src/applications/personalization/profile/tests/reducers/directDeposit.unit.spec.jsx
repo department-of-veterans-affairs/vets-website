@@ -20,6 +20,7 @@ describe('directDeposit reducer', () => {
       isEditing: false,
       isSaving: false,
     },
+    veteranStatus: null,
   };
 
   it('should return the initial state', () => {
@@ -48,6 +49,7 @@ describe('directDeposit reducer', () => {
         accountNumber: '*******5487',
         routingNumber: '*****1533',
       },
+      veteranStatus: 'VETERAN',
     };
     const action = {
       type: DIRECT_DEPOSIT_FETCH_SUCCEEDED,
@@ -62,6 +64,7 @@ describe('directDeposit reducer', () => {
         isEditing: false,
         isSaving: false,
       },
+      veteranStatus: response.veteranStatus,
     };
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });
@@ -128,6 +131,7 @@ describe('directDeposit reducer', () => {
         accountNumber: '*******5487',
         routingNumber: '*****1533',
       },
+      veteranStatus: 'VETERAN',
     };
     const action = {
       type: DIRECT_DEPOSIT_SAVE_SUCCEEDED,
@@ -142,6 +146,7 @@ describe('directDeposit reducer', () => {
         isEditing: false,
         isSaving: false,
       },
+      veteranStatus: response.veteranStatus,
     };
     expect(directDeposit(initialState, action)).deep.equal(expectedState);
   });

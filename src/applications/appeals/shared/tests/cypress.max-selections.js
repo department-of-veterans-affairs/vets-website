@@ -4,10 +4,10 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 import { getPastItf, fetchItf } from '../../995/tests/995.cypress.helpers';
 
-import { maxSelectedErrorMessage } from '../content/contestableIssues';
 import cypressSetup from './cypress.setup';
 import mockUser from './fixtures/mocks/user.json';
 import inProgressMock from './fixtures/mocks/get-in-progress';
+import { MAX_SELECTED_ERROR } from '../constants';
 
 const preventMaxSelections = ({
   baseUrl,
@@ -74,7 +74,7 @@ const preventMaxSelections = ({
           }
         });
 
-      cy.get('input#root_contestedIssues_0').as('issueCheckbox');
+      cy.get('va-checkbox#root_contestedIssues_0').as('issueCheckbox');
 
       cy.get('@issueCheckbox')
         .should('not.be.checked')
@@ -83,7 +83,7 @@ const preventMaxSelections = ({
       cy.get('va-modal[visible]:not([visible="false"])', {
         timeout: Timeouts.slow,
       })
-        .should('have.attr', 'modal-title', maxSelectedErrorMessage)
+        .should('have.attr', 'modal-title', MAX_SELECTED_ERROR)
         .and('be.visible');
 
       cy.realPress('Escape'); // close modal

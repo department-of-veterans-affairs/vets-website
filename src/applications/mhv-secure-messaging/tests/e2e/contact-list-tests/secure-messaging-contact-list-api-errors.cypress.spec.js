@@ -1,35 +1,36 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import ContactListPage from '../pages/ContactListPage';
-import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
 
-describe('Contact list API errors', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
-    {
-      name: 'mhv_secure_messaging_edit_contact_list',
-      value: true,
-    },
-  ]);
+describe('SM CONTACT LIST API ERRORS', () => {
+  it('verify contact list loading error', () => {
+    SecureMessagingSite.login();
+    cy.intercept('GET', `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`, {
+      statusCode: 500,
+      body: {},
+    }).as('allRecipientsFail');
 
-  it(`verify contact list loading error`, () => {
-    SecureMessagingSite.login(updatedFeatureToggle);
     cy.visit(`${Paths.UI_MAIN}/contact-list`);
+    cy.wait('@allRecipientsFail');
 
     ContactListPage.verifyLoadAPIAlerts();
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify contact list saving error', () => {
-    SecureMessagingSite.login(updatedFeatureToggle);
+    SecureMessagingSite.login();
     ContactListPage.loadContactList();
-    ContactListPage.selectCheckBox(`100`);
+
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
+      statusCode: 500,
+      body: {},
+    }).as('saveRecipientsFail');
+
+    ContactListPage.selectCheckBox('100');
     ContactListPage.clickSaveContactListButton();
+    cy.wait('@saveRecipientsFail');
 
     ContactListPage.verifySaveAPIAlert();
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

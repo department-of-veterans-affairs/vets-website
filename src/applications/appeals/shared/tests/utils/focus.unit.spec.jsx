@@ -150,7 +150,7 @@ describe('focusCancelButton', () => {
             )}
           </li>
         </ul>
-        <div id="upload-wrap">
+        <div className="upload-wrap">
           <va-button
             id="upload-button"
             secondary
@@ -352,7 +352,7 @@ describe('focusAddAnotherButton', () => {
       <div id="main">
         <h3>Title</h3>
         <ul className="schemaform-file-list" />
-        <div id="upload-wrap">
+        <div className="upload-wrap">
           {showButton && (
             <va-button
               id="upload-button"

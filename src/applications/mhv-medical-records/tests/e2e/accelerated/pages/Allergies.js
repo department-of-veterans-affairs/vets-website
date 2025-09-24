@@ -1,7 +1,10 @@
 import sessionStatus from '../fixtures/session/default.json';
+import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Allergies {
   setIntercepts = ({ allergiesData, useOhData = true } = {}) => {
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
+
     cy.intercept('POST', '/my_health/v1/medical_records/session', {}).as(
       'session',
     );
@@ -18,12 +21,13 @@ class Allergies {
       }
       req.reply(allergiesData);
     }).as('allergies-list');
+    MedicalRecordsLandingPage.uumIntercept();
   };
 
   goToAllergiesPage = () => {
-    cy.get('[data-testid="allergies-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    cy.findByRole('link', {
+      name: 'Go to your allergies and reactions',
+    }).click();
   };
 }
 

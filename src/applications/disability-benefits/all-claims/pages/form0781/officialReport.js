@@ -6,10 +6,6 @@ import {
 import {
   officialReportPageTitle,
   officialReportsDescription,
-  militaryReportsHint,
-  noReportHint,
-  otherReportsHint,
-  otherReportTypesTitle,
   otherReportTypesExamples,
   validateReportSelections,
 } from '../../content/officialReport';
@@ -24,6 +20,7 @@ import {
   MILITARY_REPORT_TYPES,
   OTHER_REPORT_TYPES,
   NO_REPORT_TYPE,
+  OFFICIAL_REPORT_TYPES_HINTS,
 } from '../../constants';
 
 const pageTitleWithTag = titleWithTag(
@@ -59,18 +56,18 @@ export const officialReport = {
     'ui:description': officialReportsDescription(),
     otherReports: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
-      hint: otherReportsHint,
+      hint: OFFICIAL_REPORT_TYPES_HINTS.other,
       labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
     unlistedReport: textUI({
-      title: otherReportTypesTitle,
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
       description: otherReportTypesExamples,
     }),
     noReport: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.none,
-      hint: noReportHint,
+      hint: OFFICIAL_REPORT_TYPES_HINTS.none,
       labelHeaderLevel: '4',
       labels: NO_REPORT_TYPE,
       required: false,
@@ -105,25 +102,25 @@ export const officialReportMst = {
     'ui:description': officialReportsDescription('mst'),
     militaryReports: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.military,
-      hint: militaryReportsHint,
+      hint: OFFICIAL_REPORT_TYPES_HINTS.military,
       labelHeaderLevel: '4',
       labels: MILITARY_REPORT_TYPES,
       required: false,
     }),
     otherReports: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.other,
-      hint: otherReportsHint,
+      hint: OFFICIAL_REPORT_TYPES_HINTS.other,
       labelHeaderLevel: '4',
       labels: OTHER_REPORT_TYPES,
       required: false,
     }),
     unlistedReport: textUI({
-      title: otherReportTypesTitle,
+      title: OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
       description: otherReportTypesExamples,
     }),
     noReport: checkboxGroupUI({
       title: OFFICIAL_REPORT_TYPES_SUBTITLES.none,
-      hint: noReportHint,
+      hint: OFFICIAL_REPORT_TYPES_HINTS.none,
       labelHeaderLevel: '4',
       labels: NO_REPORT_TYPE,
       required: false,

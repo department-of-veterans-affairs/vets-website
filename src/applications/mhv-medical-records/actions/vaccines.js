@@ -1,22 +1,38 @@
 import { Actions } from '../util/actionTypes';
-import { getVaccine, getVaccineList } from '../api/MrApi';
+import {
+  getVaccine,
+  getVaccineList,
+  getAcceleratedImmunizations,
+  getAcceleratedImmunization,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getVaccinesList = (isCurrent = false) => async dispatch => {
+export const getVaccinesList = (
+  isCurrent = false,
+  page,
+  useBackendPagination = false,
+  isAccelerating = false,
+) => async dispatch => {
   dispatch({
     type: Actions.Vaccines.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getVaccineList);
+    const getData = isAccelerating
+      ? getAcceleratedImmunizations
+      : getVaccineList;
 
+    const response = await getListWithRetry(dispatch, getData);
     dispatch({
-      type: Actions.Vaccines.GET_LIST,
+      type: isAccelerating
+        ? Actions.Vaccines.GET_UNIFIED_LIST
+        : Actions.Vaccines.GET_LIST,
       response,
       isCurrent,
+      useBackendPagination,
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
@@ -24,15 +40,34 @@ export const getVaccinesList = (isCurrent = false) => async dispatch => {
   }
 };
 
-export const getVaccineDetails = (vaccineId, vaccineList) => async dispatch => {
+export const checkForVaccineUpdates = () => async dispatch => {
   try {
+    // We don't need to use getListWithRetry here. By the time we are checking for list updates,
+    // the list will already be loaded, by definition.
+    const response = await getVaccineList(1, false);
+    dispatch({ type: Actions.Vaccines.CHECK_FOR_UPDATE, response });
+  } catch (error) {
+    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
+    throw error;
+  }
+};
+
+export const getVaccineDetails = (
+  vaccineId,
+  vaccineList,
+  isAccelerating,
+) => async dispatch => {
+  try {
+    const getData = isAccelerating ? getAcceleratedImmunization : getVaccine;
     await dispatchDetails(
       vaccineId,
       vaccineList,
       dispatch,
-      getVaccine,
+      getData,
       Actions.Vaccines.GET_FROM_LIST,
-      Actions.Vaccines.GET,
+      isAccelerating
+        ? Actions.Vaccines.GET_UNIFIED_VACCINE
+        : Actions.Vaccines.GET,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

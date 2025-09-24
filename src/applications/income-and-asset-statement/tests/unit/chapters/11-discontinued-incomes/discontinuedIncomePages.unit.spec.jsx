@@ -1,10 +1,8 @@
-import { expect } from 'chai';
 import formConfig from '../../../../config/form';
 import {
   discontinuedIncomePages,
   options,
-} from '../../../../config/chapters/11-discontinued-incomes/discontinuedIncomePages';
-import { relationshipLabels } from '../../../../labels';
+} from '../../../../config/chapters/10-discontinued-incomes/discontinuedIncomePages';
 
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
@@ -12,11 +10,12 @@ import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json
 import {
   testOptionsIsItemIncomplete,
   testOptionsIsItemIncompleteWithZeroes,
+  testOptionsTextGetItemNameRecurringIncome,
   testOptionsTextCardDescription,
 } from '../multiPageTests.spec';
 import {
   testNumberOfFieldsByType,
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testSubmitsWithoutErrors,
   testSelectAndValidateField,
 } from '../pageTests.spec';
@@ -35,9 +34,7 @@ describe('discontinued income list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return text', () => {
-      expect(options.text.getItemName()).to.equal('Discontinued income');
-    });
+    testOptionsTextGetItemNameRecurringIncome(options);
   });
 
   describe('text cardDescription function', () => {
@@ -46,10 +43,12 @@ describe('discontinued income list and loop pages', () => {
       payer,
       incomeFrequency,
       incomeLastReceivedDate,
+      recipientRelationship,
+      recipientName,
       ...baseItem
     } = testData.data.discontinuedIncomes[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+    testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('text cardDescription function with zero values', () => {
@@ -58,10 +57,12 @@ describe('discontinued income list and loop pages', () => {
       payer,
       incomeFrequency,
       incomeLastReceivedDate,
+      recipientRelationship,
+      recipientName,
       ...baseItem
     } = testDataZeroes.data.discontinuedIncomes[0];
     /* eslint-enable no-unused-vars */
-    testOptionsTextCardDescription(options, baseItem, relationshipLabels);
+    testOptionsTextCardDescription(options, baseItem);
   });
 
   describe('summary page', () => {
@@ -73,11 +74,13 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'summary page',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-radio[label="Did you or your dependents receive income that has stopped or is no longer being received within the last calendar year?"]',
+      ],
       'summary page',
     );
     testSubmitsWithoutErrors(
@@ -105,11 +108,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'relationship',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[name="root_recipientRelationship"]'],
       'relationship',
     );
     testSubmitsWithoutErrors(
@@ -141,14 +144,17 @@ describe('discontinued income list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-text-input': 1 },
+      { 'va-text-input': 3 },
       'recipient',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
       'recipient',
     );
     testSubmitsWithoutErrors(
@@ -156,9 +162,7 @@ describe('discontinued income list and loop pages', () => {
       schema,
       uiSchema,
       'recipient',
-      {
-        recipientName: 'Jane Doe',
-      },
+      testData.data.discontinuedIncomes[0],
       { loggedIn: true },
     );
   });
@@ -178,11 +182,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-text-input': 1 },
       'payer',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-text-input[label="Income payer name"]'],
       'payer',
     );
     testSubmitsWithoutErrors(
@@ -210,11 +214,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-text-input': 1 },
       'type',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-text-input[label="What is the type of income received?"]'],
       'type',
     );
     testSubmitsWithoutErrors(
@@ -242,11 +246,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-radio': 1 },
       'frequency',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-radio[name="root_incomeFrequency"]'],
       'frequency',
     );
     testSubmitsWithoutErrors(
@@ -274,11 +278,11 @@ describe('discontinued income list and loop pages', () => {
       { 'va-memorable-date': 1 },
       'date',
     );
-    testNumberOfErrorsOnSubmitForWebComponents(
+    testComponentFieldsMarkedAsRequired(
       formConfig,
       schema,
       uiSchema,
-      1,
+      ['va-memorable-date[name="root_incomeLastReceivedDate"]'],
       'date',
     );
     testSubmitsWithoutErrors(

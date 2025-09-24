@@ -36,7 +36,7 @@ const mockChapterRadio = {
   title: 'Radio chapter',
   pages: {
     radioPage: {
-      title: 'Radio page',
+      title: 'Radio page title',
       pageKey: 'radioPage',
       uiSchema: {
         widgetRadio: {
@@ -443,6 +443,65 @@ describe('confirmation page view helpers', () => {
     expect(title).to.equal('Review function title');
   });
 
+  it('should return the correct title for the page', () => {
+    const {
+      getPageTitle,
+    } = require('platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection');
+    // Test with a string title
+    const pageConfigString = {
+      title: 'String Page Title',
+      pageKey: 'page1',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    let title = getPageTitle(pageConfigString, {}, {});
+    expect(title).to.equal('String Page Title');
+
+    // Test with a function title
+    const pageConfigFunc = {
+      title: () => 'Function Page Title',
+      pageKey: 'page2',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigFunc, {}, {});
+    expect(title).to.equal('Function Page Title');
+
+    // Test with a function reviewTitle
+    const pageConfigReviewFunc = {
+      title: 'Page Title',
+      reviewTitle: () => 'Review Function Page Title',
+      pageKey: 'page3',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigReviewFunc, {}, {});
+    expect(title).to.equal('Review Function Page Title');
+
+    // Test with a string reviewTitle
+    const pageConfigReviewString = {
+      title: 'Page Title',
+      reviewTitle: 'Review Page Title',
+      pageKey: 'page4',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigReviewString, {}, {});
+    expect(title).to.equal('Review Page Title');
+
+    // Test error handling: return empty string if error
+    const pageConfigThrows = {
+      title: () => {
+        throw new Error('fail');
+      },
+      pageKey: 'page5',
+      uiSchema: {},
+      schema: { properties: {} },
+    };
+    title = getPageTitle(pageConfigThrows, {}, {});
+    expect(title).to.equal('');
+  });
+
   it('should show radio fields correctly', () => {
     const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
     const fields = chapter.buildConfirmationFields();
@@ -467,9 +526,7 @@ describe('confirmation page view helpers', () => {
     expect(getByText('Social Security number')).to.exist;
     expect(getByText('VA file number')).to.exist;
     expect(getByText('●●●-●●-6789')).to.exist;
-
-    // bug: va file number should also be masked
-    expect(getByText('987654321')).to.exist;
+    expect(getByText('●●●-●●-4321')).to.exist;
   });
 
   it('should show checkbox group correctly', () => {
@@ -588,7 +645,7 @@ describe('Component ChapterSectionCollection', () => {
     expect(getByText('Social Security number')).to.exist;
     expect(getByText('VA file number')).to.exist;
     expect(getByText('●●●-●●-6789')).to.exist;
-    expect(getByText('987654321')).to.exist;
+    expect(getByText('●●●-●●-4321')).to.exist;
 
     expect(getByText('Checkbox group chapter')).to.exist;
     expect(getByText('Checkbox group')).to.exist;
@@ -656,5 +713,141 @@ describe('Component ChapterSectionCollection', () => {
 
     expect(getByText('Radio page confirmation field')).to.exist;
     expect(getByText('Page level confirmation field rendered')).to.exist;
+  });
+
+  it('should render dividers (hr) between chapters', () => {
+    const { mockStore } = mockRedux({
+      formData: {
+        ...mockChapterRadioData,
+        ...mockChapterTextData,
+      },
+    });
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ChapterSectionCollection
+          formConfig={{
+            chapters: {
+              radioChapter: mockChapterRadio,
+              textChapter: mockChapterText,
+            },
+          }}
+        />
+      </Provider>,
+    );
+
+    // Should have exactly one <hr> since there are two chapters
+    const hrElements = container.querySelectorAll('hr');
+    expect(hrElements.length).to.equal(1);
+  });
+
+  describe('optional page titles', () => {
+    it('renders page title H4s when showPageTitles is true', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+            showPageTitles
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+      expect(h4.textContent).to.equal('Radio page title');
+    });
+
+    it('should display blank H4 element if no page title exists and showPageTitles is true', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      // Remove the page title property from the radioPage
+      const chapterNoTitle = {
+        ...mockChapterRadio,
+        pages: {
+          radioPage: {
+            ...mockChapterRadio.pages.radioPage,
+          },
+        },
+      };
+      delete chapterNoTitle.pages.radioPage.title;
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: chapterNoTitle,
+              },
+            }}
+            showPageTitles
+          />
+        </Provider>,
+      );
+
+      const h4 = container.querySelector('h4');
+      expect(h4).to.exist;
+      expect(h4.textContent).to.equal('');
+      expect(queryByText('Radio page title')).to.be.null;
+    });
+
+    it('does not render showPageTitles by default', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+            showPageTitles={false}
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.not.exist;
+      expect(queryByText('Radio page title')).to.be.null;
+    });
+
+    it('does not render showPageTitles by default (when prop is not passed)', () => {
+      const { mockStore } = mockRedux({
+        formData: {
+          ...mockChapterRadioData,
+        },
+      });
+
+      const { container, queryByText } = render(
+        <Provider store={mockStore}>
+          <ChapterSectionCollection
+            formConfig={{
+              chapters: {
+                radioChapter: mockChapterRadio,
+              },
+            }}
+          />
+        </Provider>,
+      );
+      const h4 = container.querySelector('h4');
+      expect(h4).to.not.exist;
+      expect(queryByText('Radio page title')).to.be.null;
+    });
   });
 });

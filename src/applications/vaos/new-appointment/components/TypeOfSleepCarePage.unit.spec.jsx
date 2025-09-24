@@ -30,7 +30,7 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /sleep/i);
-    expect(nextPage).to.equal('/new-appointment/choose-sleep-care');
+    expect(nextPage).to.equal('sleep-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfSleepCarePage} />,
@@ -40,43 +40,34 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Which type of sleep care do you need?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of sleep care do you need\?/,
+      }),
+    ).to.exist;
 
-    // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // And the user should see radio buttons for each type of sleep care
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute(
-      'label',
-      'Continuous Positive Airway Pressure (CPAP)',
+    await screen.findByLabelText(
+      /Continuous Positive Airway Pressure \(CPAP\)/i,
     );
-    expect(radioOptions[1]).to.have.attribute(
-      'label',
-      'Sleep medicine and home sleep testing',
-    );
+    await screen.findByLabelText(/Sleep medicine and home sleep testing/i);
 
     fireEvent.click(screen.getByText(/Continue/));
+
     // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+    expect(await screen.findByText('You must provide a response')).to.exist;
+    expect(screen.history.push.called).to.be.false;
 
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '349' }, // CPAP
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-
+    fireEvent.click(
+      await screen.findByLabelText(/Sleep medicine and home sleep testing/i),
+    );
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -88,11 +79,9 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '143' }, // Sleep medicine
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(
+      await screen.findByLabelText(/Sleep medicine and home sleep testing/i),
+    );
     await cleanup();
 
     screen = renderWithStoreAndRouter(
@@ -102,8 +91,8 @@ describe('VAOS Page: TypeOfSleepCarePage', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '143');
-    });
+    expect(
+      await screen.findByLabelText(/Sleep medicine and home sleep testing/i),
+    ).to.have.attribute('checked');
   });
 });

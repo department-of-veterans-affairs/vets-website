@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class DateTimeRequestPageObject extends PageObject {
+class DateTimeRequestPageObject extends PageObject {
   assertUrl({ isVARequest = true } = {}) {
     if (isVARequest) cy.url().should('include', '/va-request');
     else cy.url().should('include', '/community-request');
@@ -25,6 +25,15 @@ export class DateTimeRequestPageObject extends PageObject {
   }
 
   selectFirstAvailableDate() {
+    cy.get('body').then($body => {
+      if (
+        $body.find(
+          '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled]):first',
+        ).length === 0
+      ) {
+        this.selectNextMonth();
+      }
+    });
     cy.get(
       '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled]):first',
     ).click();

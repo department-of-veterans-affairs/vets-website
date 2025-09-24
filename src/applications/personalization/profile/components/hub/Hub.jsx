@@ -20,6 +20,10 @@ export const Hub = () => {
     TOGGLE_NAMES.representativeStatusEnableV2Features,
   );
 
+  const showPaperlessDelivery = useToggleValue(
+    TOGGLE_NAMES.profileShowPaperlessDelivery,
+  );
+
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
 
@@ -73,20 +77,6 @@ export const Hub = () => {
           />
         </HubCard>
 
-        {showAccreditedRepresentative && (
-          <HubCard
-            heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
-            content="Accredited representative or VSO"
-          >
-            <>
-              <ProfileLink
-                className="vads-u-display--block vads-u-margin-bottom--2"
-                text="Review your accredited representative or VSO"
-                href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
-              />
-            </>
-          </HubCard>
-        )}
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}
           content="Military branches and dates of service"
@@ -101,6 +91,19 @@ export const Hub = () => {
               className="medium-screen--line-break-at-40-characters"
               text="Learn how to request your DD214 and other military records"
               href="/records/get-military-service-records/"
+            />
+          </>
+        </HubCard>
+
+        <HubCard
+          heading={PROFILE_PATH_NAMES.VETERAN_STATUS_CARD}
+          content="Your Veteran Status Card makes it easy to prove your service and access Veteran discounts."
+        >
+          <>
+            <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
+              text="View your Veteran Status Card"
+              href={PROFILE_PATHS.VETERAN_STATUS_CARD}
             />
           </>
         </HubCard>
@@ -121,15 +124,47 @@ export const Hub = () => {
           />
         </HubCard>
 
-        <HubCard
-          heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
-          content="Text and email notifications you get from VA"
-        >
-          <ProfileLink
-            text="Manage notification settings"
-            href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
-          />
-        </HubCard>
+        {showAccreditedRepresentative && (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE}
+            content="Contact information for your current accredited attorney, claims agent, or Veterans Service Organization (VSO)"
+          >
+            <>
+              <ProfileLink
+                className="vads-u-display--block vads-u-margin-bottom--2"
+                text="Check your accredited representative or VSO"
+                href={PROFILE_PATHS.ACCREDITED_REPRESENTATIVE}
+              />
+            </>
+          </HubCard>
+        )}
+
+        {showPaperlessDelivery ? (
+          <HubCard
+            heading="Communication settings"
+            content="Preferred ways to get VA communications and documents"
+          >
+            <ProfileLink
+              className="vads-u-display--block vads-u-margin-bottom--2"
+              text="Manage email and text notification settings"
+              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+            />
+            <ProfileLink
+              text="Update paperless delivery settings"
+              href={PROFILE_PATHS.PAPERLESS_DELIVERY}
+            />
+          </HubCard>
+        ) : (
+          <HubCard
+            heading={PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}
+            content="Text and email notifications you get from VA"
+          >
+            <ProfileLink
+              text="Manage notification settings"
+              href={PROFILE_PATHS.NOTIFICATION_SETTINGS}
+            />
+          </HubCard>
+        )}
 
         <HubCard
           heading={PROFILE_PATH_NAMES.ACCOUNT_SECURITY}

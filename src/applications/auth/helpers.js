@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import {
   EXTERNAL_APPS,
+  ARP_APPS,
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import {
@@ -20,10 +21,10 @@ export const checkReturnUrl = passedUrl => {
   return (
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) ||
-    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE]) ||
     passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP]) ||
-    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD])
+    passedUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD]) ||
+    passedUrl.includes(EXTERNAL_REDIRECTS[ARP_APPS.FORM21A])
   );
 };
 
@@ -60,12 +61,12 @@ export const handleTokenRequest = async ({
     });
   } else {
     // Matches - requestToken exchange
-    try {
-      await requestToken({ code, csp });
-    } catch (error) {
-      const { errors } = await error.json();
-      const oauthErrorCode = OAUTH_ERROR_RESPONSES[errors];
-      const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR_DEFAULT;
+    const response = await requestToken({ code, csp });
+
+    if (!response.ok) {
+      const data = await response?.json();
+      const oauthErrorCode = OAUTH_ERROR_RESPONSES[(data?.errors)];
+      const event = OAUTH_EVENTS[(data?.errors)] ?? OAUTH_EVENTS.ERROR_DEFAULT;
       generateOAuthError({ oauthErrorCode, event });
     }
   }

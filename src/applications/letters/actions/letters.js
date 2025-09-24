@@ -5,7 +5,7 @@ import {
   apiRequest,
   getStatus,
   // eslint-disable-next-line -- LH_MIGRATION
-  LH_MIGRATION__getEntryPoint
+  LH_MIGRATION__getEntryPoint,
 } from '../utils/helpers.jsx';
 import {
   BACKEND_AUTHENTICATION_ERROR,
@@ -22,22 +22,27 @@ import {
   UPDATE_BENEFIT_SUMMARY_REQUEST_OPTION,
   INVALID_ADDRESS_PROPERTY,
   LETTER_HAS_EMPTY_ADDRESS,
+  GET_ENHANCED_LETTERS_DOWNLOADING,
+  GET_ENHANCED_LETTERS_SUCCESS,
+  GET_ENHANCED_LETTERS_FAILURE,
 } from '../utils/constants';
 
 // eslint-disable-next-line -- LH_MIGRATION
-export function getLetterList(dispatch, LH_MIGRATION__options, shouldUseLettersDiscrepancies = false) {
-  if (shouldUseLettersDiscrepancies) {
-    // Call the endpoint to log evss vs lighthouse letter discrepancies
-    apiRequest('/v0/letters_discrepancy');
-  }
-
+export function getLetterList(
+  dispatch,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
   // eslint-disable-next-line -- LH_MIGRATION
   return apiRequest(LH_MIGRATION__options.listEndpoint.path)
     .then(response => {
       // eslint-disable-next-line -- LH_MIGRATION
       const LH_MIGRATION__entryPointKeys = LH_MIGRATION__options.dataEntryPoint;
       // eslint-disable-next-line -- LH_MIGRATION
-      const data = LH_MIGRATION__getEntryPoint(response, LH_MIGRATION__entryPointKeys)
+      const data = LH_MIGRATION__getEntryPoint(
+        response,
+        LH_MIGRATION__entryPointKeys,
+      );
 
       recordEvent({ event: 'letter-list-success' });
       return dispatch({ type: GET_LETTERS_SUCCESS, data });
@@ -73,14 +78,21 @@ export function getLetterList(dispatch, LH_MIGRATION__options, shouldUseLettersD
 }
 
 // eslint-disable-next-line -- LH_MIGRATION
-export function getBenefitSummaryOptions(dispatch, LH_MIGRATION__options) {
+export function getBenefitSummaryOptions(
+  dispatch,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
   // eslint-disable-next-line -- LH_MIGRATION
   return apiRequest(LH_MIGRATION__options.summaryEndpoint.path)
     .then(response => {
       // eslint-disable-next-line -- LH_MIGRATION
       const LH_MIGRATION__entryPointKeys = LH_MIGRATION__options.dataEntryPoint;
       // eslint-disable-next-line -- LH_MIGRATION
-      const data = LH_MIGRATION__getEntryPoint(response, LH_MIGRATION__entryPointKeys)
+      const data = LH_MIGRATION__getEntryPoint(
+        response,
+        LH_MIGRATION__entryPointKeys,
+      );
 
       recordEvent({ event: 'letter-get-bsl-success' });
       return dispatch({ type: GET_BENEFIT_SUMMARY_OPTIONS_SUCCESS, data });
@@ -95,25 +107,41 @@ export function getBenefitSummaryOptions(dispatch, LH_MIGRATION__options) {
 
 // Call getLetterList then getBenefitSummaryOptions
 // eslint-disable-next-line -- LH_MIGRATION
-export function getLetterListAndBSLOptions(LH_MIGRATION__options, shouldUseLettersDiscrepancies) {
+export function getLetterListAndBSLOptions(
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
   return dispatch =>
     // eslint-disable-next-line -- LH_MIGRATION
-    getLetterList(dispatch, LH_MIGRATION__options, shouldUseLettersDiscrepancies)
+    getLetterList(
+      dispatch,
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options,
+    )
       // eslint-disable-next-line -- LH_MIGRATION
       .then(() => getBenefitSummaryOptions(dispatch, LH_MIGRATION__options))
       .catch(() => {});
 }
 
-export function getLetterPdfFailure(letterType) {
+export function getLetterPdfFailure(
+  letterType,
+  eventName = 'letter-pdf-failure',
+) {
   recordEvent({
-    event: 'letter-pdf-failure',
+    event: eventName,
     'letter-type': letterType,
   });
   return { type: GET_LETTER_PDF_FAILURE, data: letterType };
 }
 
 // eslint-disable-next-line -- LH_MIGRATION
-export function getLetterPdf(letterType, letterName, letterOptions, LH_MIGRATION__options) {
+export function getLetterPdf(
+  letterType,
+  letterName,
+  letterOptions,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
   let settings;
   if (letterType === LETTER_TYPES.benefitSummary) {
     settings = {
@@ -156,8 +184,11 @@ export function getLetterPdf(letterType, letterName, letterOptions, LH_MIGRATION
       //  a user interaction.
       downloadWindow = window.open();
     }
-    // eslint-disable-next-line -- LH_MIGRATION
-    return apiRequest(`${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`, settings)
+    return apiRequest(
+      // eslint-disable-next-line -- LH_MIGRATION
+      `${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`,
+      settings,
+    )
       .then(response => {
         let downloadUrl;
         response.blob().then(blob => {
@@ -212,6 +243,93 @@ export function updateBenefitSummaryRequestOption(propertyPath, value) {
   };
 }
 
+// Get the actual blob URL that's generated and in memory
+export function getLetterBlobUrl(
+  dispatch,
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) {
+  const settings = {
+    // TODO: Add proper settings for Benefit Summary letter
+    // eslint-disable-next-line -- LH_MIGRATION
+    method: LH_MIGRATION__options.downloadEndpoint.method,
+  };
+
+  return new Promise((resolve, reject) => {
+    apiRequest(
+      // eslint-disable-next-line -- LH_MIGRATION
+      `${LH_MIGRATION__options.downloadEndpoint.path}/${letterType}`,
+      settings,
+    )
+      .then(response => {
+        response.blob().then(blob => {
+          window.URL = window.URL || window.webkitURL;
+          const downloadUrl = window.URL.createObjectURL(blob);
+          return resolve(downloadUrl);
+        });
+      })
+      .catch(() => {
+        // TODO: Add DataDog RUM monitoring
+        return reject(
+          dispatch(
+            getLetterPdfFailure(letterType, 'enhanced-letter-pdf-failure'),
+          ),
+        );
+      });
+  });
+}
+
 export const profileHasEmptyAddress = () => ({
   type: LETTER_HAS_EMPTY_ADDRESS,
 });
+
+export async function getSingleLetterPDFLink(
+  dispatch,
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+  getState,
+) {
+  try {
+    dispatch({
+      type: GET_ENHANCED_LETTERS_DOWNLOADING,
+      letterType,
+    });
+    const blobUrl = await getLetterBlobUrl(
+      dispatch,
+      letterType,
+      LH_MIGRATION__options,
+    );
+
+    const state = getState();
+    const currentLetters = state.letters?.enhancedLetters || [];
+    const updatedLetters = [
+      ...currentLetters.filter(letter => letter.letterType !== letterType),
+      { letterType, downloadUrl: blobUrl },
+    ];
+    return dispatch({
+      type: GET_ENHANCED_LETTERS_SUCCESS,
+      data: updatedLetters,
+    });
+  } catch {
+    return dispatch({
+      type: GET_ENHANCED_LETTERS_FAILURE,
+      letterType,
+    });
+  }
+}
+export const getSingleLetterPDFLinkAction = (
+  letterType,
+  // eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__options,
+) => {
+  return (dispatch, getState) => {
+    getSingleLetterPDFLink(
+      dispatch,
+      letterType,
+      LH_MIGRATION__options,
+      getState,
+    );
+  };
+};

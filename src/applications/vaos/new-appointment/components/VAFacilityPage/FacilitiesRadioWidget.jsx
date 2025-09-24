@@ -35,6 +35,7 @@ export default function FacilitiesRadioWidget({
     ? sortOptions.find(type => type.value === sortMethod).label
     : sortOptions[0].label;
   const requestingLocationFailed =
+    sortMethod === 'distanceFromCurrentLocation' &&
     requestLocationStatus === FETCH_STATUS.failed;
 
   // If user has already selected a value, and the index of that value is > 4,
@@ -91,7 +92,7 @@ export default function FacilitiesRadioWidget({
             {hasUserAddress ? selectOptions : selectOptions.slice(1)}
           </VaSelect>
         </div>
-        {!hasUserAddress && <NoAddressNote />}
+        {!hasUserAddress && <NoAddressNote optionType="facilities" />}
         {requestingLocationFailed && (
           <div className="vads-u-padding-top--1">
             <InfoAlert
@@ -101,17 +102,15 @@ export default function FacilitiesRadioWidget({
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
-              <button
-                type="button"
+              <va-link
+                text="Retry searching based on current location"
                 className="va-button-link"
                 onClick={() =>
                   updateFacilitySortMethod(
                     FACILITY_SORT_METHODS.distanceFromCurrentLocation,
                   )
                 }
-              >
-                Retry searching based on current location
-              </button>
+              />
             </InfoAlert>
           </div>
         )}
@@ -170,20 +169,17 @@ export default function FacilitiesRadioWidget({
       {!displayAll &&
         !requestingLocationFailed &&
         hiddenCount > 0 && (
-          <button
-            type="button"
+          <va-button
+            secondary
+            text={`Show ${hiddenCount} more location${
+              hiddenCount === 1 ? '' : 's'
+            }`}
             className="additional-info-button usa-button-secondary vads-u-display--block"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
-          >
-            <span className="sr-only">show</span>
-            <span>
-              {`Show ${hiddenCount} more location${
-                hiddenCount === 1 ? '' : 's'
-              }`}
-            </span>
-          </button>
+            data-testid="show-more-locations"
+          />
         )}
     </div>
   );

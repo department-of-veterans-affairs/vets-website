@@ -1,0 +1,66 @@
+{
+  "data": {
+    "remarks": "Here are some remarks for the VA Form 22-8794.",
+    "hasReadOnlyCertifyingOfficial": false,
+    "view:introduction": {},
+    "view:additionalOfficialSummary": false,
+    "primaryOfficialBenefitStatus": {
+      "hasVaEducationBenefits": true,
+      "view:benefitsDisclaimer": true
+    },
+    "primaryOfficialDetails": {
+      "fullName": { "first": "Bob", "middle": "Test", "last": "Smith" },
+      "title": "Certifying Official",
+      "phoneType": "us",
+      "phoneNumber": "1112223333",
+      "emailAddress": "bob.smith@test.com"
+    },
+    "institutionDetails": {
+      "facilityCode": "10002000",
+      "institutionName": "INSTITUTE OF TESTING",
+      "institutionAddress": {
+        "street": "123 STREET WAY",
+        "street2": "",
+        "street3": "",
+        "city": "SAN FRANCISCO",
+        "state": "CA",
+        "postalCode": "13579",
+        "country": "USA"
+      },
+      "hasVaFacilityCode": true
+    },
+    "designatingOfficial": {
+      "fullName": { "first": "John", "middle": "William", "last": "Doe" },
+      "title": "President",
+      "phoneType": "us",
+      "phoneNumber": "1234567890",
+      "emailAddress": "john.doe@test.com"
+    },
+    "view:description": {},
+    "primaryOfficialTraining": { "trainingExempt": true },
+    "additional-certifying-official": [
+      {
+        "additionalOfficialBenefitStatus": { "hasVaEducationBenefits": false },
+        "additionalOfficialTraining": {
+          "trainingCompletionDate": "2025-07-02"
+        },
+        "additionalOfficialDetails": {
+          "fullName": {
+            "first": "Certifying",
+            "middle": "Test",
+            "last": "Official"
+          },
+          "title": "Vice Certifying Official",
+          "phoneType": "us",
+          "phoneNumber": "1231231234",
+          "emailAddress": "certifying.official@test.com"
+        }
+      }
+    ],
+    "readOnlyCertifyingOfficials": [
+      { "fullName": { "first": "Read", "middle": "Only", "last": "Official" } }
+    ],
+    "statementOfTruthSignature": "John William Doe",
+    "statementOfTruthCertified": true
+  }
+}

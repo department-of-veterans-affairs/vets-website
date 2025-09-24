@@ -13,7 +13,7 @@ describe('VAOS Component: TravelReimbursement', () => {
     MockDate.reset();
   });
 
-  const startTime = '2021-09-01T10:00:00Z';
+  const startTime = new Date('2021-09-01T10:00:00Z');
   const inPersonVideoKinds = [VIDEO_TYPES.clinic, VIDEO_TYPES.storeForward];
   inPersonVideoKinds.forEach(kind => {
     it(`should display Travel Reimbursement section with file claim link for ${kind} video appointment`, async () => {
@@ -33,6 +33,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           isCommunityCare: false,
           isPhone: false,
           isVideo: true,
+          isVideoAtVA: true,
         },
         videoData: {
           kind,
@@ -49,6 +50,9 @@ describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with file claim link', async () => {
     const appointment = {
       id: '1234567890',
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       start: startTime,
       vaos: {
         apiData: {
@@ -61,6 +65,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
@@ -77,7 +82,10 @@ describe('VAOS Component: TravelReimbursement', () => {
   it('should display travel reimbursement section with how to file a claim link', async () => {
     // appointment is past the 30 day window
     const appointment = {
-      start: '2021-08-31T10:00:00Z',
+      start: new Date('2021-08-31T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -89,6 +97,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
@@ -100,7 +109,10 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
+      kind: 'clinic',
+      type: 'VA',
+      modality: 'vaInPerson',
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -121,6 +133,7 @@ describe('VAOS Component: TravelReimbursement', () => {
           },
         },
         isPastAppointment: true,
+        isInPersonVisit: true,
       },
     };
     const screen = render(
@@ -138,7 +151,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should not display travel reimbursement section if appointment is not past', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -159,7 +172,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should not display travel reimbursement section if appointment is video', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -181,7 +194,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should not display travel reimbursement section if appointment is cc', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -203,7 +216,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should not display travel reimbursement section if appointment is phone', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
       vaos: {
         apiData: {
           travelPayClaim: {
@@ -225,7 +238,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should not display travel reimbursement section if claim data is not present', async () => {
     const appointment = {
-      start: '2021-09-01T10:00:00Z',
+      start: new Date('2021-09-01T10:00:00Z'),
       vaos: {
         apiData: {},
       },

@@ -129,7 +129,6 @@ describe('<EvidenceSummaryReview>', () => {
     expect(items[6].textContent).to.contain('x-rays.pdfOther Correspondence');
 
     expect($$('a', container).length).to.eq(0);
-    expect($('a.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should render VA evidence one section', () => {
@@ -142,7 +141,6 @@ describe('<EvidenceSummaryReview>', () => {
     expect($$('h4', container).length).to.eq(1);
     expect($$('ul', container).length).to.eq(1);
     expect($$('li', container).length).to.eq(2);
-    expect($('a.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should only render VA evidence section with new data', () => {
@@ -160,7 +158,6 @@ describe('<EvidenceSummaryReview>', () => {
     expect(items.length).to.eq(2);
     expect(items[0].textContent).to.contain('VAMC Location 1TestMay 2002');
     expect(items[1].textContent).to.contain('VAMC Location 2Test 2July 2002');
-    expect($('a.vads-c-action-link--green', container)).to.not.exist;
   });
 
   it('should render missing evidence alert', () => {
@@ -174,7 +171,6 @@ describe('<EvidenceSummaryReview>', () => {
     expect($$('h3', container).length).to.eq(0);
     expect($$('ul', container).length).to.eq(0);
     expect($$('a', container).length).to.eq(0);
-    expect($('a.vads-c-action-link--green', container)).to.not.exist;
     expect(container.innerHTML).to.contain(content.missingEvidenceReviewText);
   });
 

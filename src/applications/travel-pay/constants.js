@@ -1,5 +1,6 @@
 export const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
 export const FORM_103542_LINK = '/find-forms/about-form-10-3542/';
+export const FORM_100998_LINK = '/find-forms/about-form-10-0998/';
 export const FIND_FACILITY_TP_CONTACT_LINK =
   '/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp';
 export const TRAVEL_PAY_INFO_LINK =
@@ -69,7 +70,7 @@ export const STATUSES = {
     description:
       'The Travel Clerk determined the claim does not qualify for a full reimbursement. Instead, they approved a partial payment and a Partial Payment letter was sent to you.',
     definition:
-      'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter on the Claim Details page soon for more information.',
+      'Some of the expenses you submitted aren’t eligible for reimbursement. You can review the decision letter for more information.',
     reasons: null,
   },
   Denied: {
@@ -77,7 +78,7 @@ export const STATUSES = {
     description:
       'The Travel Clerk denied your claim for one or more of the following reasons:',
     definition:
-      'We denied your claim. You can review the decision letter on the Claim Details page for more information and how to appeal.',
+      'We denied your claim. You can review the decision letter for more information and how to appeal.',
     reasons: [
       'Claim is not eligible for reimbursement.',
       'The Travel Clerk could not verify the services in your claim.',

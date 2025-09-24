@@ -1,4 +1,5 @@
 import appendQuery from 'append-query';
+import Cookies from 'js-cookie';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
@@ -16,7 +17,6 @@ import {
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
   IDME_TYPES,
 } from './constants';
@@ -135,12 +135,6 @@ export const createExternalApplicationUrl = () => {
       break;
     case EXTERNAL_APPS.VA_OCC_MOBILE:
       URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
-      break;
-    case EXTERNAL_APPS.EBENEFITS:
-      URL = sanitizeUrl(
-        `${externalRedirectUrl}`,
-        `${!to ? EBENEFITS_DEFAULT_PATH : sanitizePath(to)}`,
-      );
       break;
     case EXTERNAL_APPS.MHV:
       URL = sanitizeUrl(
@@ -363,12 +357,13 @@ export async function login({
   version = API_VERSION,
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
+  isLink = false,
 }) {
   const url = await sessionTypeUrl({ type: policy, version, queryParams });
   if (!isExternalRedirect()) {
     setLoginAttempted();
   }
-  return redirect(url, clickedEvent);
+  return isLink ? url : redirect(url, clickedEvent);
 }
 
 export function mfa(version = API_VERSION) {
@@ -455,4 +450,40 @@ export async function signupOrVerify({
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
+
+/**
+ * @description See https://github.com/department-of-veterans-affairs/identity-documentation/issues/260 for technical diagram
+ * @param {Boolean} cernerNonEligibleSisEnabled feature toggle that controls logic
+ * @returns {Boolean} Returns a boolean to determine AuthBroker
+ */
+export const determineAuthBroker = featureFlagEnabled => {
+  if (featureFlagEnabled) {
+    const cookieValue = Cookies.get('CERNER_ELIGIBLE');
+    const rawCookie = cookieValue?.split('--')[0];
+
+    /**
+     * @returns false if cookie doesn't exist or if cookie does exist with no value
+     */
+    if (!cookieValue || !rawCookie) return false;
+
+    const parsedJson = JSON.parse(atob(rawCookie));
+    const message = parsedJson?._rails?.message;
+
+    /**
+     * @returns false when no message or malformed
+     */
+    if (!message) return false;
+
+    const secondDecode = atob(message);
+    const parsedCookie = secondDecode?.charAt(2);
+
+    /**
+     * @returns false if parsed cookie contains a value other than `T` or `F`
+     */
+    if (!['T', 'F']?.includes(parsedCookie)) return false;
+
+    return parsedCookie === 'F';
+  }
+  return false;
 };

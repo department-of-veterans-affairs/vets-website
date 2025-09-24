@@ -17,6 +17,7 @@ describe('Medication Information Error Message', () => {
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
     detailsPage.clickLearnMoreAboutMedicationLinkOnDetailsPageError();
     informationPage.verifyApiErrorText();
+    informationPage.verifyFocusOnAPIErrorAlertTextOnPatientInformationPage();
     cy.injectAxe();
     cy.axeCheck('main');
   });

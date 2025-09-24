@@ -16,7 +16,13 @@ import {
 } from '../helpers';
 import InstitutionName from '../components/InstitutionName';
 
-function validateTermStartDate(errors, xyz, formData, schema, errorMessages) {
+export const validateTermStartDate = (
+  errors,
+  xyz,
+  formData,
+  schema,
+  errorMessages,
+) => {
   const today = getTodayDateYyyyMmDd();
   const { termStartDate } = formData.institutionDetails;
 
@@ -30,15 +36,15 @@ function validateTermStartDate(errors, xyz, formData, schema, errorMessages) {
   if (!isWithinThirtyDaysLogic(today, termStartDate)) {
     errors.addError(errorMessages.pattern);
   }
-}
+};
 
-function validateDateOfCalculations(
+export const validateDateOfCalculations = (
   errors,
   xyz,
   formData,
   schema,
   errorMessages,
-) {
+) => {
   const { termStartDate, dateOfCalculations } = formData.institutionDetails;
   if (!termStartDate || !dateOfCalculations) return;
 
@@ -60,7 +66,19 @@ function validateDateOfCalculations(
   if (!isWithinThirtyDaysLogic(termStartDate, dateOfCalculations)) {
     errors.addError(errorMessages.pattern);
   }
-}
+};
+
+const facilityCodeUIValidation = (errors, fieldData, formData) => {
+  const institutionName = formData?.institutionDetails?.institutionName;
+  if (
+    (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) ||
+    institutionName === 'not found'
+  ) {
+    errors.addError(
+      'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+    );
+  }
+};
 
 const uiSchema = {
   institutionDetails: {
@@ -71,25 +89,17 @@ const uiSchema = {
         hint: '',
         errorMessages: {
           required:
-            'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+            'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
         },
       }),
-      'ui:validations': [
-        (errors, fieldData, formData) => {
-          const institutionName = formData?.institutionDetails?.institutionName;
-          if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
-            errors.addError('Please enter a valid 8-digit facility code');
-          } else if (institutionName === 'not found') {
-            errors.addError(
-              'Please enter a valid facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
-            );
-          }
-        },
-      ],
+      'ui:validations': [facilityCodeUIValidation],
     },
     institutionName: {
       'ui:title': 'Institution name',
-      'ui:webComponentField': InstitutionName,
+      'ui:field': InstitutionName,
+      'ui:options': {
+        classNames: 'vads-u-margin-top--2',
+      },
     },
     termStartDate: {
       ...currentOrPastDateUI({

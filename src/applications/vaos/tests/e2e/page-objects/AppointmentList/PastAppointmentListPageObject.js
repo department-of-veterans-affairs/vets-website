@@ -1,6 +1,6 @@
 import { AppointmentListPageObject } from './AppointmentListPageObject';
 
-export class PastAppointmentListPageObject extends AppointmentListPageObject {
+class PastAppointmentListPageObject extends AppointmentListPageObject {
   assertAppointmentList({ numberOfAppointments = 0 } = {}) {
     super.assertAppointmentList({ numberOfAppointments });
 

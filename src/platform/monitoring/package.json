@@ -7,11 +7,11 @@
     "exports": {
       "." : "./exportsFile.js",
       "./DowntimeNotification" : "./DowntimeNotification/index.jsx",
-      "./DowntimeNotification/containers/DowntimeNotification" : "./DowntimeNotification/containers/DowntimeNotification.jsx",
       "./DowntimeNotification/components/Banner" : "./DowntimeNotification/components/Banner.jsx",
       "./DowntimeNotification/components/Down" : "./DowntimeNotification/components/Down.jsx",
       "./DowntimeNotification/components/DowntimeApproaching" : "./DowntimeNotification/components/DowntimeApproaching.jsx",
       "./DowntimeNotification/components/Wrapper" : "./DowntimeNotification/components/Wrapper.jsx",
+      "./DowntimeNotification/containers/DowntimeNotification" : "./DowntimeNotification/containers/DowntimeNotification.jsx",
       "./DowntimeNotification/util/helpers" : "./DowntimeNotification/util/helpers.js",
       "./external-services/ExternalServicesError" : "./external-services/ExternalServicesError.jsx"
      },
@@ -19,13 +19,13 @@
       "react": "*",
       "react-redux": "*",
       "prop-types": "*",
-      "moment": "*",
-      "@sentry/browser": "*", 
-      "chai": "*", 
+      "date-fns": "*",
+      "@sentry/browser": "*",
+      "chai": "*",
       "sinon": "*",
       "enzyme": "*"
     },
     "license": "MIT",
     "private": true
   }
-  
+

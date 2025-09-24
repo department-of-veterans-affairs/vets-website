@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -19,12 +18,6 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const previousPath = useRef(null);
 
@@ -39,65 +32,57 @@ const SmBreadcrumbs = () => {
 
   const newCrumbsList = useMemo(
     () => {
-      let updatedCrumbsList = crumbsList;
-
-      if (removeLandingPageFF) {
-        updatedCrumbsList = updatedCrumbsList?.filter(
-          item => item.label !== 'Messages',
-        );
-      }
-
-      return updatedCrumbsList?.map(item => ({
-        ...item,
-        ...(removeLandingPageFF
-          ? {
-              label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
-                item?.label
-              }`,
-            }
-          : {}),
-      }));
+      return crumbsList
+        ?.filter(item => item.label !== 'Messages')
+        ?.map(item => ({
+          ...item,
+          label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
+            item?.label
+          }`,
+        }));
     },
-    [crumbsList, removeLandingPageFF],
+    [crumbsList],
   );
 
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
-    ...(removeLandingPageFF
-      ? [
-          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-          `${Constants.Paths.REPLY}${locationChildPath}/`,
-        ]
-      : []),
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
+
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
-    ...(removeLandingPageFF
-      ? [
-          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-          `${Constants.Paths.REPLY}${locationChildPath}/`,
-        ]
-      : []),
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
 
   const crumbPath = `/${locationBasePath}/${
-    removeLandingPageFF && locationChildPath ? `${locationChildPath}/` : ''
+    locationChildPath ? `${locationChildPath}/` : ''
   }`;
   const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
   const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
 
   const navigateBack = useCallback(
     () => {
+      const { pathname } = location;
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
@@ -109,18 +94,34 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
+      const isSelectCareTeam = pathname.includes(
+        Constants.Paths.SELECT_CARE_TEAM,
+      );
+      const wasSelectCareTeam = previousUrl.includes(
+        Constants.Paths.SELECT_CARE_TEAM,
+      );
+      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
+      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
+      const wasStartMessage =
+        pathname ===
+        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (
-        removeLandingPageFF &&
-        crumb.href === Constants.Paths.FOLDERS
-      ) {
+      } else if (crumb.href === Constants.Paths.FOLDERS) {
         history.push(Constants.Paths.FOLDERS);
-      } else if (removeLandingPageFF && isSentFolder && !isReplyPath) {
+      } else if (isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);
-      } else if (removeLandingPageFF && isInboxFolder && !isReplyPath) {
+      } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
+      } else if (wasCareTeamHelp) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (!isDraft && wasStartMessage) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (wasSelectCareTeam) {
+        history.push(Constants.Paths.INBOX);
+      } else if (isSelectCareTeam) {
+        history.push(Constants.Paths.COMPOSE);
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
@@ -129,7 +130,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
+    [
+      activeDraftId,
+      crumb?.href,
+      history,
+      locationBasePath,
+      previousUrl,
+      location,
+    ],
   );
 
   useEffect(
@@ -200,7 +208,7 @@ const SmBreadcrumbs = () => {
               href: `/${locationBasePath}/${locationChildPath}`,
               label: folderList.find(
                 item => item.id === parseInt(locationChildPath, 10),
-              ).name,
+              )?.name,
               isRouterLink: true,
             },
           ]),
@@ -245,35 +253,25 @@ const SmBreadcrumbs = () => {
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            <va-icon
-              icon="arrow_back"
-              size={1}
-              style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              class="vads-u-color--gray-medium"
-            />
             {backBreadcrumb ? (
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <Link
-                to="#"
+              <va-link
+                back
+                text="Back"
+                href={previousUrl}
                 onClick={e => {
                   e.preventDefault();
                   navigateBack();
                 }}
-                className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
                 data-dd-action-name="Breadcrumb - Back"
-              >
-                Back
-              </Link>
+              />
             ) : (
-              <Link
-                to={crumb.href}
-                className="vads-u-font-size--md"
+              <va-link
+                text={`Back to ${crumb.label}`}
+                href={crumb.href}
                 data-dd-privacy="mask"
                 data-dd-action-name="Breadcrumb - Back to"
-              >
-                {`Back to ${crumb.label}`}
-              </Link>
+              />
             )}
           </span>
         </nav>

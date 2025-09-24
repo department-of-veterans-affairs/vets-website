@@ -1,40 +1,31 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import {
-  mockFetch,
-  resetFetch,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import reducers from '../../reducers';
 import PrescriptionsPrintOnly from '../../containers/PrescriptionsPrintOnly';
-import { allergiesList } from '../fixtures/allergiesList.json';
-import { rxListSortingOptions } from '../../util/constants';
+
+let sandbox;
 
 describe('Medications List Print Page', () => {
   const setup = (params = {}) => {
-    return renderWithStoreAndRouter(<PrescriptionsPrintOnly />, {
-      initialState: {
-        rx: {
-          prescriptions: {
-            selectedSortOption: rxListSortingOptions.alphabeticalOrder,
-          },
-          allergies: {
-            allergiesList: { allergiesList },
-          },
-        },
-      },
+    return renderWithStoreAndRouterV6(<PrescriptionsPrintOnly />, {
+      initialState: {},
       reducers,
-      path: '/?page=1',
+      initialEntries: ['/?page=1'],
       ...params,
     });
   };
 
   beforeEach(() => {
-    mockFetch();
+    sandbox = sinon.createSandbox();
+    stubAllergiesApi({ sandbox });
+    stubPrescriptionsListApi({ sandbox });
   });
 
   afterEach(() => {
-    resetFetch();
+    sandbox.restore();
   });
 
   it('renders without errors', async () => {

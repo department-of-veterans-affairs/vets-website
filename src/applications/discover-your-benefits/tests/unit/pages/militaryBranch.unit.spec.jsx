@@ -27,14 +27,14 @@ describe('Military Branch Form', () => {
 
   it('should render the correct title for military branch checkbox group', () => {
     const checkboxGroup = document.querySelector(
-      'va-checkbox-group[label="What branch(es) of the military did you serve in?"]',
+      'va-checkbox-group[label="Which branch(es) of the military did you serve in?"]',
     );
     expect(checkboxGroup).to.exist;
   });
 
   it('should render the correct hint for military branch checkbox group', () => {
     const hint = document.querySelector(
-      'va-checkbox-group[hint="Check all that apply."]',
+      'va-checkbox-group[hint="Select all that apply."]',
     );
     expect(hint).to.exist;
   });

@@ -5,16 +5,16 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 export default {
   uiSchema: {
     ...titleUI(
-      'Other compensation and/or pension record details',
+      'Details about other compensation or pension records',
       'You requested access to another type of record that wasn’t listed. Any extra information you can share will help us find your records.',
     ),
     otherCompAndPenDetails: {
       'ui:title':
-        'Describe the compensation and/or pension records you’d like to request',
+        'Describe the compensation or pension records you’d like to request',
       'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required:
-          'Describe the compensation and/or pension records you’re requesting.',
+          'Describe the compensation or pension records you’re requesting.',
       },
       'ui:options': {
         charcount: true,

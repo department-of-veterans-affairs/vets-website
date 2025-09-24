@@ -13,7 +13,7 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 import { NoRep } from '../cards';
 import { Unauth } from '../alerts';
-import { CheckUsersRep } from '../CheckUsersRep';
+import { RepresentativeStatusContainer } from '../../containers/RepresentativeStatusContainer';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
 export const App = ({
@@ -22,17 +22,25 @@ export const App = ({
   isUserLOA1,
   isUserLOA3,
 }) => {
-  // Based on user.icn.present? && user.participant_id.present? in vets-api policy
-  // From src/applications/personalization/profile/hooks/useDirectDeposit.js
+  /*
+   Based on user.icn.present? && user.participant_id.present? in vets-api policy
+   From src/applications/personalization/profile/hooks/useDirectDeposit.js
+  */
   const isUserLOA3WithParticipantId = useSelector(
     createIsServiceAvailableSelector(backendServices.LIGHTHOUSE),
   );
+
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
+  /*
+    When the tool is instantiated in profile, there are some unique
+    content/design constraints which are taken care of here
+  */
+
   if (isUserLOA3WithParticipantId) {
     return (
-      <CheckUsersRep
+      <RepresentativeStatusContainer
         DynamicHeader={DynamicHeader}
         DynamicSubheader={DynamicSubheader}
         useRepresentativeStatus={useRepresentativeStatus}
@@ -41,7 +49,7 @@ export const App = ({
   }
 
   if (isUserLOA3) {
-    return <NoRep DynamicHeader={DynamicHeader} />;
+    return <NoRep DynamicHeader={DynamicHeader} isWidget />;
   }
 
   if (isUserLOA1) {

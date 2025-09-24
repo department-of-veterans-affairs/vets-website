@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import UnderReviewConfirmationFry from '../components/confirmation/UnderReviewConfirmationFry';
 import UnderReviewConfirmationDEAChapter35 from '../components/confirmation/UnderReviewConfirmationDEAChapter35';

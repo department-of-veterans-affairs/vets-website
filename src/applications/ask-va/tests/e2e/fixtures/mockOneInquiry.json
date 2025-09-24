@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "id": "a90960f2-a626-f011-8c4e-001dd806c085",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250501-06126",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "createdOn": "5/1/2025 4:11:40 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Updating DEERS records",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/1/2025 12:00:00 AM",
+                "queueId": "e9a4bc5e-d5fa-eb11-94ef-001dd83015a1",
+                "queueName": "EVSS Data Mismatch",
+                "status": "New",
+                "submitterQuestion": "test again",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        }
+    ]
+}

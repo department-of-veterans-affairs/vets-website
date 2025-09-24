@@ -14,11 +14,12 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    expect(await view.findByText('Add your mobile phone number')).to.exist;
+    // Assuming fieldData is empty, heading should start with 'Add' and be focused
+    const heading = await view.findByText('Add your mobile phone number');
+    expect(heading).to.exist;
+    expect(document.activeElement).to.equal(heading);
 
-    expect(await view.container.innerHTML).to.contain(
-      'Mobile phone number (U.S. numbers only)',
-    );
+    expect(await view.container.innerHTML).to.contain('Mobile phone number');
   });
 
   it('renders fallback when invalid fieldName query present', async () => {
@@ -68,8 +69,33 @@ describe('<Edit>', () => {
         '/profile/edit?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications',
     });
 
-    // Assuming fieldData is not empty, heading should start with 'Update'
-    expect(await viewWithData.findByText('Update your mobile phone number')).to
-      .exist;
+    // Assuming fieldData is not empty, heading should start with 'Update' and be focused
+    const heading = await viewWithData.findByText(
+      'Update your mobile phone number',
+    );
+    expect(heading).to.exist;
+    expect(document.activeElement).to.equal(heading);
+  });
+
+  it('renders path name in breadcrumb', () => {
+    const { getByRole } = renderWithStoreAndRouter(<Edit />, {
+      initialState: {},
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+    });
+
+    expect(getByRole('link', { name: 'Back to Paperless delivery' })).to.exist;
+  });
+
+  it('renders path name in body', () => {
+    const { getByText } = renderWithStoreAndRouter(<Edit />, {
+      initialState: {},
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+    });
+
+    expect(getByText('PAPERLESS DELIVERY', { exact: true })).to.exist;
   });
 });

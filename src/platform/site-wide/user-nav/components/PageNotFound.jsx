@@ -9,9 +9,9 @@ export const pageNotFoundTestId = 'page-not-found';
 export const pageNotFoundEvent = 'nav-404-error';
 
 export const helpfulLinks = [
-  { href: '/find-locations', text: 'Find a VA Location' },
+  { href: '/find-locations', text: 'Find a VA location' },
   { href: '/find-forms', text: 'Find a VA form' },
-  { href: '/resources', text: 'Find benefit resourcecs and support' },
+  { href: '/resources', text: 'Find benefit resources and support' },
   { href: '/outreach-and-events/events', text: 'Find an outreach event' },
 ];
 

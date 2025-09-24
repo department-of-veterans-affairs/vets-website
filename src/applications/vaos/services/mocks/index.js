@@ -1,22 +1,56 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
-const moment = require('moment');
+
+// v2
+const { formatInTimeZone } = require('date-fns-tz');
+const {
+  isAfter,
+  isValid,
+  isWithinInterval,
+  differenceInMinutes,
+} = require('date-fns');
+const {
+  getMockConfirmedAppointments,
+  findNextBusinessDay,
+} = require('./utils/confirmedAppointments');
+const { getMockSlots } = require('./utils/slots');
 
 // v2
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
-const appointmentSlotsV2 = require('./v2/slots.json');
-const clinicsV2 = require('./v2/clinics.json');
+// Generate dynamic slots with conflicts based on confirmed appointments
+const confirmedAppointmentsv3 = getMockConfirmedAppointments();
+// Find appointments scheduled for the next business day to force conflicts
+const nextBusinessDay = findNextBusinessDay();
+const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+
+const nextBusinessDayAppointments = confirmedAppointmentsv3.data.filter(
+  appointment => {
+    const appointmentDate = appointment.attributes.start.split('T')[0];
+    return appointmentDate === nextBusinessDayString;
+  },
+);
+const appointmentSlotsV2 = getMockSlots({
+  existingAppointments: confirmedAppointmentsv3.data,
+  futureMonths: 6,
+  pastMonths: 1,
+  slotsPerDay: 10,
+  conflictRate: 0.4, // 40% of days with appointments will have conflicts
+  forceConflictWithAppointments: nextBusinessDayAppointments,
+});
+const clinics983V2 = require('./v2/clinics_983.json');
+const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
+const vamcEhr = require('./v2/vamc_ehr.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // To locally test appointment details null state behavior, comment out
@@ -35,13 +69,13 @@ const epsAppointmentUtils = require('../../referral-appointments/utils/appointme
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
-const momentTz = require('../../lib/moment-tz');
-const features = require('../../utils/featureFlags');
+const features = require('./featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-const draftAppointments = {};
+
+const referrals = referralUtils.createReferrals(4, null, null, true, true);
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -76,7 +110,7 @@ const responses = {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
       kind,
     } = req.body;
-    const selectedClinic = clinicsV2.data.filter(
+    const selectedClinic = clinics983V2.data.filter(
       clinic => clinic.id === req.body.clinic,
     );
     const providerNpi = practitioners[0]?.identifier[0].value;
@@ -84,17 +118,24 @@ const responses = {
       .filter(slot => slot.id === req.body.slot?.id)
       .map(slot => slot.attributes.start);
     // convert to local time in America/Denver timezone
-    const localTime = momentTz(selectedTime[0])
-      .tz('America/Denver')
-      .format('YYYY-MM-DDTHH:mm:ss');
+    let localTime;
+    if (selectedTime && selectedTime.length) {
+      localTime = formatInTimeZone(
+        selectedTime[0],
+        'America/Denver',
+        'yyyy-MM-ddTHH:mm:ss',
+      );
+    }
     const pending = req.body.status === 'proposed';
     const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
     let type;
+    let modality;
     if (req.body.kind === 'cc') {
       patientComments = req.body.reasonCode?.text;
       type = pending ? 'COMMUNITY_CARE_REQUEST' : 'COMMUNITY_CARE_APPOINTMENT';
+      modality = 'communityCare';
     } else {
       const tokens = req.body.reasonCode?.text?.split('|') || [];
       for (const token of tokens) {
@@ -106,6 +147,7 @@ const responses = {
         }
       }
       type = pending ? 'REQUEST' : 'VA';
+      modality = 'vaInPerson';
     }
 
     const submittedAppt = {
@@ -115,7 +157,9 @@ const responses = {
         created: new Date().toISOString(),
         kind,
         type,
+        modality,
         localStartTime: req.body.slot?.id ? localTime : null,
+        start: req.body.slot?.id ? selectedTime[0] : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
           telecom: [
@@ -144,7 +188,7 @@ const responses = {
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
     const appointments = requestsV2.data
-      .concat(confirmedV2.data)
+      .concat(confirmedAppointmentsv3.data)
       .concat(mockAppts);
 
     const appt = appointments.find(item => item.id === req.params.id);
@@ -153,8 +197,9 @@ const responses = {
       appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
       appt.attributes.cancellable = false;
       if (appt.attributes.start) {
-        appt.attributes.future = moment(appt.attributes.start).isAfter(
-          moment(),
+        appt.attributes.future = isAfter(
+          new Date(appt.attributes.start),
+          new Date(),
         );
       }
     }
@@ -171,12 +216,32 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
-    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+
+    const appointments = confirmedAppointmentsv3.data.concat(
+      requestsV2.data,
+      mockAppts,
+    );
     for (const appointment of appointments) {
-      if (appointment.attributes.start) {
-        appointment.attributes.future = moment(
-          appointment.attributes.start,
-        ).isAfter(moment());
+      if (
+        appointment.attributes.start &&
+        !appointment.attributes.referral?.referralNumber
+      ) {
+        appointment.attributes.future = isAfter(
+          new Date(appointment.attributes.start),
+          new Date(),
+        );
+
+        if (appointment.attributes.modality === 'vaVideoCareAtHome') {
+          const diff = differenceInMinutes(
+            new Date(),
+            new Date(appointment.attributes.start),
+          );
+          if (!appointment.attributes.telehealth) {
+            appointment.attributes.telehealth = {};
+          }
+          appointment.attributes.telehealth.displayLink =
+            diff > -30 && diff < 240;
+        }
       }
     }
     const filteredAppointments = appointments.filter(appointment => {
@@ -190,24 +255,25 @@ const responses = {
             return true;
 
           const { requestedPeriods } = appointment.attributes;
-          let date = moment.invalid();
+          let date;
 
           if (status === 'proposed') {
-            // Must check for valid data since creating a moment object with invalid
-            // data defaults to creating a moment object using the current date.
             if (
               Array.isArray(requestedPeriods) &&
               requestedPeriods.length > 0
             ) {
-              date = moment(requestedPeriods[0].start);
+              date = new Date(requestedPeriods[0].start);
             }
           } else if (status === 'booked') {
-            date = moment(appointment.attributes.start);
+            date = new Date(appointment.attributes.start);
           }
 
           if (
-            date.isValid() &&
-            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+            isValid(date) &&
+            isWithinInterval(date, {
+              start: new Date(req.query.start),
+              end: new Date(req.query.end),
+            })
           ) {
             return true;
           }
@@ -229,13 +295,16 @@ const responses = {
 
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+      data: requestsV2.data
+        .concat(confirmedAppointmentsv3.data)
+        .concat(mockAppts),
     };
     const appointment = appointments.data.find(
       appt => appt.id === req.params.id,
     );
-    if (appointment.start) {
-      appointment.future = moment(appointment.start).isAfter(moment());
+
+    if (appointment?.start && !appointment.referral?.referralNumber) {
+      appointment.future = isAfter(new Date(appointment.start), new Date());
     }
     return res.json({
       data: appointment,
@@ -290,11 +359,11 @@ const responses = {
     req,
     res,
   ) => {
-    const start = moment(req.query.start);
-    const end = moment(req.query.end);
+    const start = new Date(req.query.start);
+    const end = new Date(req.query.end);
     const slots = appointmentSlotsV2.data.filter(slot => {
-      const slotStartDate = moment(slot.attributes.start);
-      return slotStartDate.isBetween(start, end, '[]');
+      const slotStartDate = new Date(slot.attributes.start);
+      return isWithinInterval(slotStartDate, { start, end });
     });
     return res.json({
       data: slots,
@@ -365,14 +434,18 @@ const responses = {
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
     if (req.query.clinic_ids) {
       return res.json({
-        data: clinicsV2.data.filter(clinic =>
+        data: clinics983V2.data.filter(clinic =>
           req.query.clinic_ids.includes(clinic.id),
         ),
       });
     }
 
     if (req.params.id === '983') {
-      return res.json(clinicsV2);
+      return res.json(clinics983V2);
+    }
+
+    if (req.params.id === '984') {
+      return res.json(clinics984V2);
     }
 
     return res.json({
@@ -384,7 +457,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4),
+      data: referrals,
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
@@ -392,108 +465,164 @@ const responses = {
       return res.status(500).json({ error: true });
     }
 
+    if (req.params.referralId === 'scheduled-referral') {
+      const scheduledReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        'scheduled-referral',
+      );
+      // Set hasAppointments to true to test redirect
+      scheduledReferral.attributes.hasAppointments = true;
+      return res.json({
+        data: scheduledReferral,
+      });
+    }
+
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
       const expiredReferral = referralUtils.createReferralById(
-        req.params.referralId,
         '2024-12-02',
+        req.params.referralId,
       );
       return res.json({
         data: expiredReferral,
       });
     }
-    const referral = referralUtils.createReferralById(req.params.referralId);
+
+    if (req.params.referralId === 'referral-without-provider-error') {
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        undefined,
+        undefined,
+        false, // hasProvider
+      );
+      return res.json({
+        data: expiredReferral,
+      });
+    }
+    const originalReferral = referrals.find(
+      ref => ref.id === req.params.referralId,
+    );
+    const referral = referralUtils.createReferralById(
+      '2024-12-02',
+      req.params.referralId,
+      null,
+      originalReferral.attributes.categoryOfCare || 'OPTOMETRY',
+    );
+
     return res.json({
       data: referral,
     });
   },
-  'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
-    // Provider 3 throws error
-    if (req.params.providerId === '3') {
+  'POST /vaos/v2/appointments/draft': (req, res) => {
+    const { referral_number: referralNumber } = req.body;
+    // empty referral number throws error
+    if (referralNumber === '') {
       return res.status(500).json({ error: true });
-    }
-    // Provider 0 has no available slots
-    if (req.params.providerId === '0') {
-      return res.json({
-        data: providerUtils.createProviderDetails(0, req.params.providerId),
-      });
-    }
-    return res.json({
-      data: providerUtils.createProviderDetails(5, req.params.providerId),
-    });
-  },
-  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
-    const { referralId } = req.body;
-
-    // Provider 3 throws error
-    if (referralId === '3') {
-      return res.status(500).json({ error: true });
-    }
-
-    let slots = 5;
-    // Provider 0 has no available slots
-    if (referralId === '0') {
-      slots = 0;
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      slots,
-      referralId,
+      referralNumber,
     );
 
-    draftAppointments[draftAppointment.appointment.id] = draftAppointment;
+    if (referralNumber !== 'draft-no-slots-error') {
+      draftAppointment.attributes.slots = getMockSlots({
+        existingAppointments: confirmedAppointmentsv3.data,
+        futureMonths: 2,
+        pastMonths: 0,
+        slotsPerDay: 3,
+        conflictRate: 0,
+        forceConflictWithAppointments: nextBusinessDayAppointments,
+        communityCareSlots: true,
+      }).data;
+    }
 
     return res.json({
       data: draftAppointment,
     });
   },
-  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+  'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
+    // create a mock appointment in draft state for polling simulation
+    const mockAppointment = epsAppointmentUtils.createMockEpsAppointment(
+      appointmentId,
+      'draft',
+      epsAppointmentUtils.appointmentData,
+    );
 
-    if (appointmentId === 'timeout-appointment-id') {
+    if (appointmentId === 'details-retry-error') {
       // Set a very high poll count to simulate a timeout
-      draftAppointments[
-        appointmentId
-      ] = providerUtils.createDraftAppointmentInfo(5);
       successPollCount = 1000;
     }
 
-    const draftAppointment = draftAppointments[appointmentId];
-    if (!draftAppointment || appointmentId === 'eps-error-appointment-id') {
+    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
+      return res.status(500).json({ error: true });
+    }
+
+    if (appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
 
+    if (appointmentId === 'details-error') {
+      return res.status(500).json({ error: true });
+    }
+
+    // Check if the request is coming from the details page
+    // We can determine this by checking the referer header or request path
+    const refererHeader = req.headers.referer || '';
+    const isDetailsView =
+      refererHeader.includes(`/${appointmentId}`) ||
+      req.query.view === 'details';
+
+    if (isDetailsView) {
+      // For details view, immediately return appointment in booked state
+      mockAppointment.attributes.status = 'booked';
+      return res.json({
+        data: mockAppointment,
+      });
+    }
+
+    // Continue with normal polling behavior for ReviewAndConfirm component
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { status } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      status = 'booked';
+      // reassign status of mocked appointment to booked to simulate success
+      mockAppointment.attributes.status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: epsAppointmentUtils.createMockEpsAppointment(
-        appointmentId,
-        status,
-        epsAppointmentUtils.appointmentData,
-      ),
+      data: mockAppointment,
     });
   },
-  'POST /vaos/v2/epsApi/appointments': (req, res) => {
-    const { slotId, draftApppointmentId, referralId } = req.body;
+  'POST /vaos/v2/appointments/submit': (req, res) => {
+    const {
+      id,
+      referralNumber,
+      slotId,
+      networkId,
+      providerServiceId,
+    } = req.body;
 
-    if (!referralId || !slotId || !draftApppointmentId) {
+    if (!id || !referralNumber || !slotId || !networkId || !providerServiceId) {
       return res.status(400).json({ error: true });
     }
 
-    draftAppointmentPollCount[draftApppointmentId] = 1;
+    if (referralNumber === 'appointment-submit-error') {
+      return res.status(500).json({ error: true });
+    }
+
+    draftAppointmentPollCount[id] = 1;
 
     return res.status(201).json({
-      data: { appointmentId: draftApppointmentId },
+      data: { id },
     });
+  },
+  'GET /data/cms/vamc-ehr.json': (req, res) => {
+    return res.json(vamcEhr);
   },
   // Required v0 APIs
   'GET /v0/user': {
@@ -571,8 +700,8 @@ const responses = {
           },
           residentialAddress: {
             addressLine1: '345 Home Address St.',
-            addressLine2: null,
-            addressLine3: null,
+            addressLine2: 'line 2',
+            addressLine3: 'line 3',
             addressPou: 'RESIDENCE/CHOICE',
             addressType: 'DOMESTIC',
             city: 'San Francisco',
@@ -699,4 +828,4 @@ const responses = {
   // End of required v0 APIs
 };
 
-module.exports = delay(responses, 1000);
+module.exports = delay(responses, 100);

@@ -11,11 +11,7 @@ import draftMessage from '../fixtures/message-draft-response.json';
 import reducer from '../../reducers';
 import Compose from '../../containers/Compose';
 import { Paths, BlockedTriageAlertText } from '../../util/constants';
-import {
-  inputVaTextInput,
-  selectVaRadio,
-  selectVaSelect,
-} from '../../util/testUtils';
+import { inputVaTextInput, selectVaSelect } from '../../util/testUtils';
 
 describe('Compose container', () => {
   const initialState = {
@@ -93,6 +89,13 @@ describe('Compose container', () => {
           noAssociations: false,
           allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         },
+        preferences: {
+          signature: {
+            signatureName: 'TEST',
+            signatureTitle: 'TITLE',
+            includeSignature: true,
+          },
+        },
       },
     };
 
@@ -101,9 +104,7 @@ describe('Compose container', () => {
       fireEvent.click(screen.getByTestId('continue-button'));
     });
     const recipient = screen.getByTestId('compose-recipient-select');
-    const categoryRadioButtons = screen.getAllByTestId(
-      'compose-category-radio-button',
-    );
+    const categoryDropdown = screen.getByTestId('compose-message-categories');
 
     const subject = waitFor(() => {
       screen.getByTestId('message-subject-field');
@@ -111,15 +112,12 @@ describe('Compose container', () => {
     const body = waitFor(() => {
       screen.getByTestId('message-body-field');
     });
-    expect(screen.getByText('Edit preferences')).to.exist;
-    expect(screen.getByTestId('edit-list')).to.have.attribute(
-      'visible',
-      'false',
-    );
+
     expect(recipient).to.exist;
-    expect(categoryRadioButtons).to.have.length(6);
+    expect(categoryDropdown).to.exist;
     expect(subject).to.exist;
     expect(body).to.exist;
+    expect(screen.getByTestId('edit-signature-link')).to.exist;
   });
 
   it(`displays compose action buttons if path is ${Paths.COMPOSE}`, () => {
@@ -174,7 +172,11 @@ describe('Compose container', () => {
       screen.container,
       initialState.sm.recipients.allowedRecipients[0].id,
     );
-    selectVaRadio(screen.container, 'Education');
+    selectVaSelect(
+      screen.container,
+      'EDUCATION',
+      'va-select[data-testid="compose-message-categories"]',
+    );
     inputVaTextInput(screen.container, 'Test Subject');
     inputVaTextInput(screen.container, 'Test Body', 'va-textarea');
     mockApiRequest({ ok: true, status: 204 });
@@ -261,5 +263,39 @@ describe('Compose container', () => {
     expect(findLocationsLink)
       .to.have.attribute('href')
       .to.contain('/find-locations');
+  });
+
+  it('displays AlertBackgroundBox component if there are any errors', async () => {
+    const customState = {
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertFocusOut: false,
+          alertList: [
+            {
+              datestamp: '2025-09-17T19:06:02.367Z',
+              isActive: true,
+              alertType: 'error',
+              header: 'Error',
+              content: 'We’re sorry. Something went wrong on our end.',
+            },
+          ],
+        },
+      },
+    };
+
+    const { container, getByTestId, getByText } = setup({
+      state: customState,
+    });
+    await waitFor(() => {
+      fireEvent.click(getByTestId('continue-button'));
+    });
+
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+    });
+    expect(getByText('We’re sorry. Something went wrong on our end.')).to.exist;
   });
 });

@@ -236,7 +236,7 @@ export const footerColumnData = {
     {
       ariaLabel: 'TTY: 7 1 1.',
       column: 4,
-      href: 'tel:+1711',
+      href: 'tel:711',
       order: 4,
       target: null,
       title: 'TTY: 711',
@@ -573,7 +573,7 @@ export const headerFooterData = {
     {
       ariaLabel: 'TTY: 7 1 1.',
       column: 4,
-      href: 'tel:+1711',
+      href: 'tel:711',
       order: 4,
       target: null,
       title: 'TTY: 711',

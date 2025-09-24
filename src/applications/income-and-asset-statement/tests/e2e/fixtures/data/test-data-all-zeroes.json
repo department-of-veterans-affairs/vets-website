@@ -9,17 +9,18 @@
       "last": "Doe"
     },
     "veteranSocialSecurityNumber": "321654987",
-    "view:applicantIsVeteran": false,
     "claimantFullName": {
       "first": "Jane",
       "last": "Doe"
     },
     "claimantSocialSecurityNumber": "321654987",
     "claimantType": "SPOUSE",
+    "email": "test.user@example.com",
     "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "incomeType": "SOCIAL_SECURITY",
         "grossMonthlyIncome": 0,
         "payer": "Business name"
@@ -29,6 +30,7 @@
     "associatedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "incomeType": "INTEREST",
         "grossMonthlyIncome": 0,
         "accountValue": 0,
@@ -39,7 +41,7 @@
     "ownedAssets": [
       {
         "recipientRelationship": "SPOUSE",
-        "recipientName": "Recipient name",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "grossMonthlyIncome": 0,
         "ownedPortionValue": 0,
         "assetType": "BUSINESS"
@@ -49,6 +51,7 @@
     "royaltiesAndOtherProperties": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "canBeSold": true,
         "fairMarketValue": 0,
         "grossMonthlyIncome": 0,
@@ -116,6 +119,7 @@
     "discontinuedIncomes": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
         "incomeType": "Social Security",
         "incomeFrequency": "RECURRING",
@@ -127,6 +131,7 @@
     "incomeReceiptWaivers": [
       {
         "recipientRelationship": "SPOUSE",
+        "recipientName": { "first": "Jane", "last": "Smith" },
         "payer": "Social Security Administration",
         "expectedIncome": 0,
         "view:paymentsWillResume": true,

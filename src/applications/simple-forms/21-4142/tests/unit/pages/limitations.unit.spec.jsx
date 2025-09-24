@@ -1,27 +1,27 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import formConfig from '../../../config/form';
 
 const { schema, uiSchema } = formConfig.chapters.limitations.pages.limitations;
 
 const pageTitle = 'limitations';
 
-const expectedNumberOfFields = 1;
-testNumberOfFields(
+const numberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  numberOfWebComponentFields,
   pageTitle,
 );
 
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
+const numberOfWebComponentErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  numberOfWebComponentErrors,
   pageTitle,
 );

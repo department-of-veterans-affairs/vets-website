@@ -1,7 +1,13 @@
 import { useEffect } from 'react';
 import { formatDateShort } from '../../utilities/date';
+import { updatePageTitle as updatePageTitleFn } from '../util/helpers';
 
-const usePrintTitle = (baseTitle, userDetails, dob, updatePageTitle) => {
+const usePrintTitle = (
+  baseTitle,
+  userDetails,
+  dob,
+  updatePageTitle = updatePageTitleFn,
+) => {
   useEffect(
     () => {
       const { first, last, suffix } = userDetails;

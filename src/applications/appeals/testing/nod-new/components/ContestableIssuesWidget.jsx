@@ -20,12 +20,10 @@ import {
   SELECTED,
 } from '../../../shared/constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../../shared/actions';
-import {
-  NoEligibleIssuesAlert,
-  NoneSelectedAlert,
-  MaxSelectionsAlert,
-  removeModalContent,
-} from '../../../shared/content/contestableIssues';
+import { removeModalContent } from '../../../shared/content/contestableIssues';
+import { MaxSelectionsAlert } from '../../../shared/components/MaxSelectionsAlert';
+import { MessageAlert } from '../../../shared/components/MessageAlert';
+import { NoneSelectedAlert } from '../../../shared/components/NoneSelectedAlert';
 import { isEmptyObject } from '../../../shared/utils/helpers';
 import {
   getSelected,
@@ -240,7 +238,14 @@ const ContestableIssuesWidget = props => {
   return (
     <>
       <div name="eligibleScrollElement" />
-      {showNoIssues && <NoEligibleIssuesAlert />}
+      {showNoIssues && (
+        <MessageAlert
+          title="Sorry, we couldn’t find any eligible issues"
+          message={`If you’d like to add your issue for review, select "Add a new issue" to get started.`}
+          errorKey="no_eligible_issues_loaded"
+          errorReason="No eligible issues loaded"
+        />
+      )}
       {!showNoIssues &&
         !hasSelected &&
         (onReviewPage || submitted) && (

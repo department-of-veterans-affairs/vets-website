@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import { snakeCase, capitalize } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import ADDRESS_DATA from 'platform/forms/address/data';
@@ -6,8 +6,7 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
-import { scroller } from 'react-scroll';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import environment from 'platform/utilities/environment';
 import mapboxClient from '../components/MapboxClient';
 
@@ -325,7 +324,7 @@ export const scrollToFocusedElement = () => {
     compareDrawerHeight &&
     activeElementBounding.bottom > window.innerHeight - compareDrawerHeight
   ) {
-    scroller.scrollTo(document.activeElement.id, getScrollOptions());
+    scrollTo(document.activeElement.id, getScrollOptions());
   }
 };
 
@@ -1133,4 +1132,82 @@ export const focusElement = (ref, delay = 0) => {
       ref.focus();
     }
   }, delay);
+};
+
+export const deriveModalText = lowerType => {
+  let modalName;
+  switch (lowerType) {
+    case 'public':
+      modalName = 'publicSchool';
+      break;
+    case 'private':
+      modalName = 'privateSchool';
+      break;
+    case 'for profit':
+      modalName = 'proprietarySchool';
+      break;
+    case 'foreign':
+      modalName = 'foreignSchool';
+      break;
+    default:
+      modalName = undefined;
+  }
+  return modalName;
+};
+
+export const deriveLearnMoreAriaLabel = (lowerType, ariaLabels) => {
+  let ariaLabel;
+  switch (lowerType) {
+    case 'public':
+      ariaLabel = ariaLabels.learnMore.publicSchool;
+      break;
+    case 'private':
+      ariaLabel = ariaLabels.learnMore.privateSchool;
+      break;
+    case 'for profit':
+      ariaLabel = ariaLabels.learnMore.proprietarySchool;
+      break;
+    case 'foreign':
+      ariaLabel = ariaLabels.learnMore.foreignSchool;
+      break;
+    default:
+      ariaLabel = undefined;
+  }
+  return ariaLabel;
+};
+
+export const deriveInstitutionTitle = localType => {
+  if (localType === 'private') {
+    return 'Private Nonprofit Institution';
+  }
+  if (localType === 'for profit') {
+    return 'Proprietary Institution';
+  }
+  return `${capitalize(localType)} Institution`;
+};
+
+export const norm = s => String(s || '').toLowerCase();
+
+export const toSnakeLower = s =>
+  String(s)
+    .replace(/([A-Z])/g, '_$1')
+    .replace(/^_/, '') // strip leading underscore if present
+    .toLowerCase();
+
+// title case and space underscores for display fallbacks
+export const humanize = s =>
+  String(s || '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, m => m.toUpperCase());
+
+// de-dupe + lowercase the record’s categories
+export const tagsForRecord = rec =>
+  Array.from(new Set((rec?.categories || []).map(norm)));
+
+export const formatMDY = date => {
+  if (!date) return '';
+  const [y, m, d] = String(date)
+    .split('T')[0]
+    .split('-'); // "2022-01-20"
+  return `${m.padStart(2, '0')}/${d.padStart(2, '0')}/${y}`;
 };

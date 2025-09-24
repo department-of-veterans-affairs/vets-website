@@ -21,7 +21,7 @@ const MissingContactInfoAlertLink = ({ missingInfo }) => {
           linkTestId: 'add-email-address-link',
         },
         [MISSING_CONTACT_INFO.MOBILE]: {
-          linkText: 'Add a phone number to your profile',
+          linkText: 'Add a US based mobile number to your profile',
           linkTarget: generateContactInfoLink({
             fieldName: FIELD_NAMES.MOBILE_PHONE,
             returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),

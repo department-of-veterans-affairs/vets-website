@@ -50,7 +50,7 @@ describe('22-10216 Edu form', () => {
 
     // Tab to and press 'Start your 35% exemption request' to start form
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('va-accordion-item[header="VA Education Service help"]');
+    cy.repeatKey('Tab', 4);
     cy.realPress('Space');
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(100);
@@ -74,11 +74,13 @@ describe('22-10216 Edu form', () => {
     cy.typeInFocused('Director');
     cy.tabToContinueForm();
 
-    cy.typeInFocused(
-      'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
-    );
+    // cy.typeInFocused(
+    //   'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
+    // );
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
     cy.typeInFocused('10B35423');
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(200);
     cy.tabToElement(
       'select[name="root_institutionDetails_termStartDateMonth"]',
     );
@@ -154,5 +156,10 @@ describe('22-10216 Edu form', () => {
       '/confirmation',
     );
     cy.injectAxeThenAxeCheck();
+    // Go back to review page and check that "Continue" button is present to allow re-submission
+    cy.get('va-link[text="Back"]').click();
+    cy.location('pathname').should('include', '/review-and-submit');
+    cy.tabToElement('.usa-button-primary').click();
+    cy.location('pathname').should('include', '/confirmation');
   });
 });

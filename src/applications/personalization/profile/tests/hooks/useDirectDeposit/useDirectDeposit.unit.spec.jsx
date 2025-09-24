@@ -3,8 +3,11 @@ import { expect } from 'chai';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import {
+  createPutHandler,
+  jsonResponse,
+  setupServer,
+} from 'platform/testing/unit/msw-adapter';
 
 import {
   DIRECT_DEPOSIT_API_ENDPOINT,
@@ -73,9 +76,9 @@ describe('useDirectDeposit hook', () => {
 
   before(() => {
     server = setupServer(
-      rest.put(endpointUrl, (req, res, ctx) => {
-        return res(ctx.status(200), ctx.json(directDeposits.updates.success));
-      }),
+      createPutHandler(endpointUrl, () =>
+        jsonResponse(directDeposits.updates.success, { status: 200 }),
+      ),
     );
 
     server.listen();

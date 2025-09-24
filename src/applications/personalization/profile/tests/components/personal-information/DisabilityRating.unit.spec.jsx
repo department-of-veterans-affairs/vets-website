@@ -23,6 +23,14 @@ describe('Personal Info - Disability Rating', () => {
     expect(tree.getByText(/40% service connected/i)).to.exist;
   });
 
+  it('should render a Disability Rating of zero', () => {
+    const happyState = createHappyState();
+    const tree = render(<DisabilityRating />, {
+      initialState: set(happyState, 'totalRating.totalDisabilityRating', 0),
+    });
+    expect(tree.getByText(/0% service connected/i)).to.exist;
+  });
+
   it('should render an error alert if totalRating has error state', () => {
     const happyState = createHappyState();
     const tree = render(<DisabilityRating />, {

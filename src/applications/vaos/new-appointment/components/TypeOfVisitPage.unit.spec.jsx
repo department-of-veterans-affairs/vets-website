@@ -34,21 +34,20 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
 
     expect(await screen.findByText(/Continue/i)).to.exist;
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'How do you want to attend this appointment?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /How do you want to attend this appointment\?/,
+      }),
+    ).to.exist;
 
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // And the user should see radio buttons for each clinic
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(3);
-    expect(radioOptions[0]).to.have.attribute('label', 'In person');
-    expect(radioOptions[1]).to.have.attribute('label', 'By phone');
-    expect(radioOptions[2]).to.have.attribute(
-      'label',
-      'Through VA Video Connect (telehealth)',
-    );
+    await screen.findByLabelText(/In person/i);
+    await screen.findByLabelText(/By phone/i);
+    await screen.findByLabelText(/Through VA Video Connect \(telehealth\)/i);
   });
 
   it('should not submit empty form', async () => {
@@ -58,15 +57,11 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
     });
     expect(await screen.findByText(/Continue/i)).to.exist;
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(screen.history.push.called).to.not.be.true;
-
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByRole('alert')).to.contain.text(
-    //   'Select an option',
-    // );
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
   });
 
   it('should save type of visit choice on page change', async () => {
@@ -81,23 +76,17 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
     // Wait for page to render completely
     expect(await screen.findByText(/Continue/i)).to.exist;
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'clinic' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-    let [firstRadioOption] = screen.container.querySelectorAll(
-      'va-radio-option',
-    );
-    expect(firstRadioOption).to.have.attribute('checked', 'true');
+    fireEvent.click(await screen.findByLabelText(/In person/i));
+    fireEvent.click(screen.getByText(/Continue/));
     await cleanup();
 
     screen = renderWithStoreAndRouter(<Route component={TypeOfVisitPage} />, {
       store,
     });
 
-    [firstRadioOption] = screen.container.querySelectorAll('va-radio-option');
-    expect(firstRadioOption).to.have.attribute('checked', 'true');
+    expect(await screen.findByLabelText(/In person/i)).to.have.attribute(
+      'checked',
+    );
   });
 
   it('should continue to the correct page once type is selected', async () => {
@@ -112,16 +101,12 @@ describe('VAOS Page: TypeOfVisitPage ', () => {
     // Wait for page to render completely
     expect(await screen.findByText(/Continue/i)).to.exist;
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: 'clinic' },
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(await screen.findByLabelText(/In person/i));
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/contact-info',
+        'contact-information',
       ),
     );
   });

@@ -1,75 +1,94 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { createBrowserRouter, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { useMyHealthAccessGuard } from '~/platform/mhv/hooks/useMyHealthAccessGuard';
+import { useSelector } from 'react-redux';
+import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
+import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
+import manifest from './manifest.json';
+import AppProviders from './containers/AppProviders';
 import App from './containers/App';
-import PrescriptionDetails from './containers/PrescriptionDetails';
 import RxBreadcrumbs from './containers/RxBreadcrumbs';
-import Prescriptions from './containers/Prescriptions';
-import LandingPage from './containers/LandingPage';
-import RefillPrescriptions from './containers/RefillPrescriptions';
-import PrescriptionDetailsDocumentation from './containers/PrescriptionDetailsDocumentation';
+import { allergiesLoader } from './loaders/allergiesLoader';
+import { prescriptionsLoader } from './loaders/prescriptionsLoader';
 
-/**
- * Route that wraps its children within the application component.
- */
-const AppRoute = ({ children, ...rest }) => {
+const Prescriptions = lazy(() => import('./containers/Prescriptions'));
+const RefillPrescriptions = lazy(() =>
+  import('./containers/RefillPrescriptions'),
+);
+const PrescriptionDetails = lazy(() =>
+  import('./containers/PrescriptionDetails'),
+);
+const PrescriptionDetailsDocumentation = lazy(() =>
+  import('./containers/PrescriptionDetailsDocumentation'),
+);
+
+// Loading component to display while lazy-loaded components are being fetched
+const Loading = () => (
+  <va-loading-indicator
+    message="Loading..."
+    set-focus
+    data-testid="loading-indicator"
+  />
+);
+
+const RouteWrapper = props => {
+  const { id, prescriptionId } = useParams();
+  const user = useSelector(selectUser);
+
   return (
-    <Route {...rest}>
+    <AppProviders user={user}>
       <App>
         <RxBreadcrumbs />
-        <div>{children}</div>
+        <Suspense fallback={<Loading />}>
+          {props.children ? (
+            props.children
+          ) : (
+            <props.Component
+              {...props}
+              id={id}
+              prescriptionId={prescriptionId}
+            />
+          )}
+        </Suspense>
       </App>
-    </Route>
+    </AppProviders>
   );
 };
 
-AppRoute.propTypes = {
-  children: PropTypes.object,
+RouteWrapper.propTypes = {
+  Component: PropTypes.elementType,
+  children: PropTypes.node,
 };
 
-const AccessGuardWrapper = ({ children }) => {
-  useMyHealthAccessGuard();
-  return children;
-};
+const routes = [
+  {
+    path: 'refill',
+    element: <RouteWrapper Component={RefillPrescriptions} />,
+    loader: prescriptionsLoader,
+  },
+  {
+    path: '/',
+    element: <RouteWrapper Component={Prescriptions} />,
+    loader: prescriptionsLoader,
+  },
+  {
+    path: 'prescription/:prescriptionId/documentation',
+    element: <RouteWrapper Component={PrescriptionDetailsDocumentation} />,
+    loader: prescriptionsLoader,
+  },
+  {
+    path: 'prescription/:prescriptionId',
+    element: <RouteWrapper Component={PrescriptionDetails} />,
+    loader: allergiesLoader,
+  },
+  {
+    path: '*',
+    element: <MhvPageNotFound />,
+  },
+];
 
-const routes = (
-  <AccessGuardWrapper>
-    <Switch>
-      {/* TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod */}
-      <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
-        <LandingPage />
-      </AppRoute>
-      <AppRoute exact path={['/refill']} key="RefillPage">
-        <div>
-          <RefillPrescriptions />
-        </div>
-      </AppRoute>
-      <AppRoute exact path={['/', '/:page']} key="App">
-        <div>
-          <Prescriptions />
-        </div>
-      </AppRoute>
-      <AppRoute
-        exact
-        path="/prescription/:prescriptionId"
-        key="prescriptionDetails"
-      >
-        <PrescriptionDetails />
-      </AppRoute>
-      <AppRoute
-        exact
-        path="/prescription/:prescriptionId/documentation"
-        key="prescriptionDetailsDocumentation"
-      >
-        <PrescriptionDetailsDocumentation />
-      </AppRoute>
-      <Route>
-        <PageNotFound />
-      </Route>
-    </Switch>
-  </AccessGuardWrapper>
-);
+const router = createBrowserRouter(routes, {
+  basename: manifest.rootUrl,
+});
 
-export default routes;
+export { routes, router as default };

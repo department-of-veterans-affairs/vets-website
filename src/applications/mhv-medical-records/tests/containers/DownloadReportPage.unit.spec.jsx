@@ -1,13 +1,15 @@
 import { expect } from 'chai';
 import React from 'react';
 import { waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { fireEvent } from '@testing-library/dom';
+import sinon from 'sinon';
 import reducer from '../../reducers';
 import DownloadReportPage from '../../containers/DownloadReportPage';
 import user from '../fixtures/user.json';
-import { ALERT_TYPE_BB_ERROR, SEI_DOMAINS } from '../../util/constants';
+import { ALERT_TYPE_BB_ERROR } from '../../util/constants';
 
 describe('DownloadRecordsPage', () => {
   const baseState = {
@@ -21,24 +23,9 @@ describe('DownloadRecordsPage', () => {
       blueButton: {
         failedDomains: [],
       },
-      selfEntered: {
-        failedDomains: [],
-        // Include empty objects for SEI domains if necessary for your test setup
-        activityJournal: [],
-        allergies: [],
-        demographics: [],
-        familyHistory: [],
-        foodJournal: [],
-        providers: [],
-        healthInsurance: [],
-        testEntries: [],
-        medicalEvents: [],
-        medications: [],
-        militaryHistory: [],
-        treatmentFacilities: [],
-        vaccines: [],
-        vitals: [],
-      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
     },
   };
 
@@ -56,13 +43,51 @@ describe('DownloadRecordsPage', () => {
     expect(screen.getByText('Download your medical records reports')).to.exist;
   });
 
-  it('generates ccd on button click', () => {
+  it('generates CCD (XML) on button click', () => {
     const ccdAccordion = screen.getByTestId('ccdAccordionItem');
     expect(ccdAccordion).to.exist;
 
     fireEvent.click(ccdAccordion);
-    const ccdGenerateButton = screen.getByTestId('generateCcdButton');
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
     expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download XML (best for sharing with your provider)',
+    );
+
+    fireEvent.click(ccdGenerateButton);
+    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+      .exist;
+  });
+
+  it('generates CCD (PDF) on button click', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+
+    fireEvent.click(ccdAccordion);
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
+    expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download PDF (best for printing)',
+    );
+
+    fireEvent.click(ccdGenerateButton);
+    expect(screen.container.querySelector('#generating-ccd-indicator')).to
+      .exist;
+  });
+
+  it('generates CCD (HTML) on button click', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+
+    fireEvent.click(ccdAccordion);
+    const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
+    expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
+    );
 
     fireEvent.click(ccdGenerateButton);
     expect(screen.container.querySelector('#generating-ccd-indicator')).to
@@ -76,38 +101,49 @@ describe('DownloadRecordsPage', () => {
 });
 
 describe('DownloadRecordsPage with all SEI domains failed', () => {
-  const stateWithAllSeiFailed = {
-    user,
-    mr: {
-      downloads: {
-        generatingCCD: false,
-        ccdError: false,
-        bbDownloadSuccess: false,
-      },
-      blueButton: {
-        failedDomains: [],
-      },
-      selfEntered: {
-        failedDomains: SEI_DOMAINS, // All SEI domains failed
-      },
-    },
-  };
-
   let screen;
+  let generateSEIPdfStub;
+
   beforeEach(() => {
-    screen = renderWithStoreAndRouter(<DownloadReportPage />, {
-      initialState: stateWithAllSeiFailed,
+    generateSEIPdfStub = sinon
+      .stub(exports, 'generateSEIPdf')
+      .rejects(new Error('SEI PDF generation failed'));
+
+    screen = renderWithStoreAndRouter(<DownloadReportPage runningUnitTest />, {
+      initialState: {
+        user,
+        mr: {
+          downloads: {
+            generatingCCD: false,
+            ccdError: false,
+            bbDownloadSuccess: false,
+          },
+          blueButton: { failedDomains: [] },
+        },
+      },
       reducers: reducer,
       path: '/download-all',
     });
   });
 
-  it('displays access trouble alert for SEI document', () => {
-    expect(
-      screen.getByText(
-        "We can't download your self-entered information right now",
-      ),
-    ).to.exist;
+  afterEach(() => {
+    generateSEIPdfStub.restore();
+  });
+
+  it('displays access trouble alert for SEI document on error', async () => {
+    const seiAccordion = screen.getByTestId('selfEnteredAccordionItem');
+    fireEvent.click(seiAccordion);
+
+    const seiGenerateButton = screen.getByTestId('downloadSelfEnteredButton');
+    fireEvent.click(seiGenerateButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "We can't download your self-entered information right now",
+        ),
+      ).to.exist;
+    });
   });
 });
 
@@ -123,24 +159,6 @@ describe('DownloadRecordsPage triggering SEI PDF download', () => {
       },
       blueButton: {
         failedDomains: [],
-      },
-      selfEntered: {
-        failedDomains: [],
-        activityJournal: [{ id: 1, note: 'Jogging' }],
-        allergies: [{ id: 1, name: 'Peanut' }],
-        demographics: [{ name: 'John Doe' }],
-        // Provide minimal mock data for all SEI domains as needed
-        familyHistory: [],
-        foodJournal: [],
-        providers: [],
-        healthInsurance: [],
-        testEntries: [],
-        medicalEvents: [],
-        medications: [],
-        militaryHistory: [],
-        treatmentFacilities: [],
-        vaccines: [],
-        vitals: [],
       },
     },
   };
@@ -190,7 +208,7 @@ describe('DownloadRecordsPage with a general BB download error', () => {
     },
   };
 
-  it('displays access trouble alert for SEI document', async () => {
+  it('displays access trouble alert for BB document', async () => {
     const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
       initialState: stateWithAllSeiFailed,
       reducers: reducer,
@@ -219,24 +237,6 @@ describe('DownloadRecordsPage with successful Blue Button download alert', () =>
       blueButton: {
         failedDomains: [],
       },
-      selfEntered: {
-        failedDomains: [],
-        // Provide empty arrays for SEI domains if needed
-        activityJournal: [],
-        allergies: [],
-        demographics: [],
-        familyHistory: [],
-        foodJournal: [],
-        providers: [],
-        healthInsurance: [],
-        testEntries: [],
-        medicalEvents: [],
-        medications: [],
-        militaryHistory: [],
-        treatmentFacilities: [],
-        vaccines: [],
-        vitals: [],
-      },
     },
   };
 
@@ -252,5 +252,47 @@ describe('DownloadRecordsPage with successful Blue Button download alert', () =>
   it('renders the Blue Button download success alert', () => {
     expect(screen.getByText('Your VA Blue Button report download has started'))
       .to.exist;
+  });
+});
+
+describe('DownloadRecordsPage with extended file types flag OFF', () => {
+  const baseState = {
+    user,
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: false,
+      },
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: baseState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+  });
+
+  it('does not render the CCD PDF button', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+    fireEvent.click(ccdAccordion);
+    expect(screen.queryByTestId('generateCcdButtonPdf')).to.be.null;
+  });
+
+  it('does not render the CCD HTML button', () => {
+    const ccdAccordion = screen.getByTestId('ccdAccordionItem');
+    expect(ccdAccordion).to.exist;
+    fireEvent.click(ccdAccordion);
+    expect(screen.queryByTestId('generateCcdButtonHtml')).to.be.null;
   });
 });

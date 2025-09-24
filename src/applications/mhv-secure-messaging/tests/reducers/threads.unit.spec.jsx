@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import { threadsReducer } from '../../reducers/threads';
 import inboxThreadResponse from '../fixtures/mock-api-responses/inbox-threads-response.json';
 import inboxNoThreadsResponse from '../fixtures/mock-api-responses/inbox-no-threads-response.json';
+import { Actions } from '../../util/actionTypes';
 
 import {
   clearListOfThreads,
@@ -18,7 +19,7 @@ import {
 import { threadSortingOptions } from '../../util/constants';
 
 describe('threads reducer', () => {
-  const mockStore = (initialState = {}) => {
+  const mockStore = (initialState = { featureToggles: {} }) => {
     return createStore(threadsReducer, initialState, applyMiddleware(thunk));
   };
 
@@ -27,6 +28,7 @@ describe('threads reducer', () => {
     mockApiRequest(inboxThreadResponse);
     store.dispatch(getListOfThreads(0, 10, 1));
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       isLoading: true,
     });
   });
@@ -38,11 +40,13 @@ describe('threads reducer', () => {
     await store.dispatch(getListOfThreads(0, 10, 1));
 
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       threadList: inboxThreadResponse.data.map(thread => {
         const thrdAttr = thread.attributes;
         return { ...thrdAttr };
       }),
       isLoading: false,
+      refetchRequired: false,
     });
   });
 
@@ -52,6 +56,7 @@ describe('threads reducer', () => {
 
     await store.dispatch(getListOfThreads(0, 10, 1));
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       threadList: [],
       isLoading: false,
     });
@@ -62,6 +67,7 @@ describe('threads reducer', () => {
     await store.dispatch(clearListOfThreads());
 
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       threadList: undefined,
     });
   });
@@ -72,6 +78,7 @@ describe('threads reducer', () => {
     await store.dispatch(setThreadPage(page));
 
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       threadSort: { page },
     });
   });
@@ -81,11 +88,28 @@ describe('threads reducer', () => {
     await store.dispatch(resetThreadSortOrder());
 
     expect(store.getState()).to.deep.equal({
+      featureToggles: {},
       threadSort: {
         value: threadSortingOptions.SENT_DATE_DESCENDING.value,
         folderId: undefined,
         page: 1,
       },
+    });
+  });
+
+  it('should handle ERROR_LOADING_LIST action', () => {
+    const store = mockStore();
+    const errorResponse = { errors: [{ title: 'Some error', code: 500 }] };
+    store.dispatch({
+      type: Actions.Thread.ERROR_LOADING_LIST,
+      response: { ...errorResponse },
+    });
+    expect(store.getState()).to.deep.equal({
+      featureToggles: {},
+      threadList: undefined,
+      isLoading: false,
+      hasError: true,
+      error: errorResponse.errors,
     });
   });
 });

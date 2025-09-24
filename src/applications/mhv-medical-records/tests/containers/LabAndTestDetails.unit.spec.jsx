@@ -10,7 +10,6 @@ import LabAndTestDetails from '../../containers/LabAndTestDetails';
 import microbiology from '../fixtures/microbiology.json';
 import chemhem from '../fixtures/chemHem.json';
 import pathology from '../fixtures/pathology.json';
-// import ekg from '../fixtures/ekg.json';
 import radiologyMhv from '../fixtures/radiologyMhv.json';
 
 describe('LabsAndTests details container', () => {
@@ -42,7 +41,7 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays the test name as an h1', () => {
-    const testName = screen.getByText('Potassium, Sodium', {
+    const testName = screen.getByText('POTASSIUM, SODIUM', {
       exact: true,
       selector: 'h1',
     });
@@ -142,35 +141,6 @@ describe('LabAndTestDetails pathology', () => {
     ).to.exist;
   });
 });
-
-// describe('LabAndTestDetails ekg', () => {
-//   const initialState = {
-//     user,
-//     mr: {
-//       labsAndTests: {
-//         labsAndTestsDetails: convertLabsAndTestsRecord(ekg),
-//       },
-//     },
-//   };
-
-//   let screen;
-//   beforeEach(() => {
-//     screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
-//       initialState,
-//       reducers: reducer,
-//       path: '/labs-and-tests/ex-MHV-chReport-1',
-//     });
-//   });
-
-//   it('displays ekg label', () => {
-//     expect(
-//       screen.getByText('Electrocardiogram (EKG)', {
-//         exact: true,
-//         selector: 'h1',
-//       }),
-//     ).to.exist;
-//   });
-// });
 
 describe('LabAndTestDetails radiology', () => {
   it('displays radiology label', () => {

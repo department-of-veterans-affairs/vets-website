@@ -17,7 +17,7 @@ import {
   fillAgentOrangeDateRange,
   fillTextWebComponent,
 } from './helpers';
-import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
+import { MOCK_ENROLLMENT_RESPONSE, API_ENDPOINTS } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
 
 function setUserData(user, prefillData) {
@@ -25,7 +25,7 @@ function setUserData(user, prefillData) {
   cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
     'mockFeatures',
   );
-  cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+  cy.intercept('GET', `/v0${API_ENDPOINTS.enrollmentStatus}*`, {
     statusCode: 200,
     body: MOCK_ENROLLMENT_RESPONSE,
   }).as('mockEnrollmentStatus');
@@ -173,9 +173,10 @@ describe("EZR branching logic based on the user's DOB", () => {
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxic-exposure');
-      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
-        .scrollIntoView()
-        .click();
+      cy.get(
+        '[name="root_view:otherToxicExposures_exposureToOther"]',
+      ).scrollIntoView();
+      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]').click();
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxins-or-hazards');
@@ -194,9 +195,10 @@ describe("EZR branching logic based on the user's DOB", () => {
 
     it('only displays the other toxic exposure pages', () => {
       goToNextPage('/military-service/other-toxic-exposure');
-      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
-        .scrollIntoView()
-        .click();
+      cy.get(
+        '[name="root_view:otherToxicExposures_exposureToOther"]',
+      ).scrollIntoView();
+      cy.get('[name="root_view:otherToxicExposures_exposureToOther"]').click();
       cy.injectAxeThenAxeCheck();
 
       goToNextPage('/military-service/other-toxins-or-hazards');

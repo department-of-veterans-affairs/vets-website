@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import scrollTo from 'platform/utilities/ui/scrollTo';
-import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function NewFeatureProgramsYRTAlert({
@@ -35,33 +35,36 @@ export default function NewFeatureProgramsYRTAlert({
           {customHeadline}
         </h2>
       ) : (
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          {institution.yr === true && programTypes.length > 0
-            ? 'New features'
-            : 'New feature'}
-        </h2>
+        <>
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            {institution.yr === true && programTypes.length > 0
+              ? 'New features'
+              : 'New feature'}
+          </h2>
+          <p>We've added new details for institutions:</p>
+        </>
       )}
       {customParagraph ? (
         <p className="vads-u-margin-y--0">{customParagraph}</p>
       ) : (
         <p className="vads-u-margin-y--0">
-          Go to the “On this page” directory or click{' '}
           {institution.yr === true && (
-            <>
-              <a
-                href="#yellow-ribbon-program-information"
-                onClick={e =>
-                  handleLinkClick(e, 'yellow-ribbon-program-information')
-                }
-              >
-                Yellow Ribbon Program information
-              </a>
-              {programTypes.length > 0 && ' and '}
-            </>
+            <a
+              href="#yellow-ribbon-program-information"
+              onClick={e =>
+                handleLinkClick(e, 'yellow-ribbon-program-information')
+              }
+            >
+              <ul>
+                <li>Learn about Yellow Ribbon Program information</li>
+              </ul>
+            </a>
           )}{' '}
           {programTypes.length > 0 && (
             <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
-              Programs
+              <ul>
+                <li> Learn about approved programs of study</li>
+              </ul>
             </a>
           )}
         </p>

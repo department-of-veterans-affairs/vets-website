@@ -10,7 +10,7 @@ describe('CG <SubmitLoadingIndicator>', () => {
     const selectors = () => ({
       loader: container.querySelector('.loading-container'),
     });
-    return { container, selectors };
+    return { selectors };
   };
 
   it('should not render loading container when submission has not been made', () => {
@@ -25,8 +25,6 @@ describe('CG <SubmitLoadingIndicator>', () => {
 
   it('should render loading container when submission is pending', async () => {
     const { selectors } = subject({ status: 'submitPending' });
-    await waitFor(() => {
-      expect(selectors().loader).to.exist;
-    });
+    await waitFor(() => expect(selectors().loader).to.exist);
   });
 });

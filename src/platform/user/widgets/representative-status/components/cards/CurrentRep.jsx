@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { representativeTypeMap } from '../../utilities/representativeTypeMap';
 
@@ -19,6 +20,13 @@ export function CurrentRep({
   concatAddress,
   vcfUrl,
 }) {
+  // "Learn more" link becomes Find-a-Rep link when place in profile (per design)
+  const containerIsProfile = window.location.pathname.startsWith(
+    '/profile/accredited-representative',
+  );
+
+  const isOrganization = poaType === 'organization';
+
   return (
     <va-card show-shadow>
       <div className="auth-card">
@@ -26,20 +34,21 @@ export function CurrentRep({
           <va-icon icon="account_circle" size={4} />{' '}
         </div>
         <div className="auth-rep-text">
-          <div className="auth-rep-header">
-            <DynamicHeader>
-              Your current {representativeTypeMap(poaType)}
-            </DynamicHeader>
-          </div>
-          <div className="auth-rep-subheader">
-            <DynamicSubheader>{name}</DynamicSubheader>
-            {poaType === 'organization' && (
-              <p className="vads-u-margin-top--0">
-                You can work with any accredited representative at this
-                organization
-              </p>
-            )}
-          </div>
+          <DynamicHeader
+            className="vads-u-font-size--h3 vads-u-margin-top--0"
+            slot="headline"
+          >
+            Your current {representativeTypeMap(poaType)}
+          </DynamicHeader>
+          <DynamicSubheader className="vads-u-font-size--h4 vads-u-margin-top--0">
+            {name}
+          </DynamicSubheader>
+          {isOrganization && (
+            <p className="vads-u-margin-top--0">
+              <strong>Note:</strong> You can work with any accredited VSO
+              representative at this organization.
+            </p>
+          )}
 
           <div className="auth-rep-body">
             {concatAddress && (
@@ -72,7 +81,7 @@ export function CurrentRep({
                 </div>
               </div>
             )}
-            {poaType === 'representative' &&
+            {!isOrganization &&
               email && (
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
                   <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -101,7 +110,7 @@ export function CurrentRep({
                 />
               </div>
             )}
-            {poaType === 'representative' &&
+            {!isOrganization &&
               (contact || email) && (
                 <div className="vads-u-display--flex vads-u-margin-top--1p5">
                   <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
@@ -119,10 +128,21 @@ export function CurrentRep({
               <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                 <va-icon icon="search" size={2} />
               </div>
-              <va-link
-                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-                text="Learn about accredited representatives"
-              />
+              {containerIsProfile && isOrganization ? (
+                <va-link
+                  href={`${
+                    environment.BASE_URL
+                  }/get-help-from-accredited-representative/find-rep`}
+                  text="Find an accredited VSO representative at this organization"
+                />
+              ) : (
+                <va-link
+                  href={`${
+                    environment.BASE_URL
+                  }/resources/va-accredited-representative-faqs/`}
+                  text="Learn about accredited representatives"
+                />
+              )}
             </div>
           </div>
         </div>

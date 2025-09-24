@@ -6,6 +6,8 @@ import {
   renderMHVDowntime,
   updatePageTitle,
   openCrisisModal,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -15,20 +17,14 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
+import environment from 'platform/utilities/environment';
 import {
   CernerAlertContent,
   downtimeNotificationParams,
   pageTitles,
 } from '../util/constants';
-import { createSession } from '../api/MrApi';
-import {
-  selectConditionsFlag,
-  selectNotesFlag,
-  selectVaccinesFlag,
-  selectVitalsFlag,
-  selectLabsAndTestsFlag,
-  selectMarch17UpdatesFlag,
-} from '../util/selectors';
+import { createSession, postCreateAAL } from '../api/MrApi';
+import { selectMarch17UpdatesFlag } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
@@ -44,15 +40,12 @@ const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
+const SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM =
+  'Go to the Share My Health Data website';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const fullState = useSelector(state => state);
-  const displayNotes = useSelector(selectNotesFlag);
-  const displayVaccines = useSelector(selectVaccinesFlag);
-  const displayConditions = useSelector(selectConditionsFlag);
-  const displayVitals = useSelector(selectVitalsFlag);
-  const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
   const displayMarch17Updates = useSelector(selectMarch17UpdatesFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
@@ -61,6 +54,8 @@ const LandingPage = () => {
   const { isLoading } = useAcceleratedData();
 
   const accordionRef = useRef(null);
+
+  const headingRef = useRef(null);
 
   useEffect(() => {
     const expandButton = accordionRef.current?.shadowRoot?.querySelector(
@@ -83,18 +78,42 @@ const LandingPage = () => {
 
   useEffect(
     () => {
+      setTimeout(() => {
+        const heading = headingRef.current;
+        focusElement(heading);
+      }, 400);
+    },
+    [headingRef],
+  );
+
+  useEffect(
+    () => {
       // Create the user's MHV session when they arrive at the MR landing page
       createSession();
-      focusElement(document.querySelector('h1'));
+
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
+
+      // Log unique user metrics for medical records access
+      logUniqueUserMetricsEvents(EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED);
     },
     [dispatch],
   );
+
+  const sendAalViewList = activityType => {
+    postCreateAAL({
+      activityType,
+      action: 'View',
+      performerType: 'Self',
+      status: 1,
+      oncePerSession: true,
+    });
+  };
 
   return (
     <div className="landing-page">
       <section className="vads-u-margin-bottom--2">
         <h1
+          ref={headingRef}
           className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           data-testid="mr-landing-page-title"
         >
@@ -134,72 +153,78 @@ const LandingPage = () => {
 
       {!isLoading && (
         <>
-          {displayLabsAndTest && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Lab and test results
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get results of your VA medical tests. This includes blood tests,
-                X-rays, and other imaging tests.
-              </p>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Lab and test results
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get results of your VA medical tests. This includes blood tests,
+              X-rays, and other imaging tests.
+            </p>
+            <Link
+              to="/labs-and-tests"
+              className="vads-c-action-link--blue"
+              data-testid="labs-and-tests-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Lab and test results');
+                sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_LABS_ACCESSED,
+                );
+              }}
+            >
+              {LAB_TEST_RESULTS_LABEL}
+            </Link>
+          </section>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Care summaries and notes
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get notes from your VA providers about your health and health
+              care. This includes summaries of your stays in health facilities
+              (called admission and discharge summaries).
+            </p>
+            <>
               <Link
-                to="/labs-and-tests"
+                to="/summaries-and-notes"
                 className="vads-c-action-link--blue"
-                data-testid="labs-and-tests-landing-page-link"
+                data-testid="notes-landing-page-link"
                 onClick={() => {
-                  sendDataDogAction(LAB_TEST_RESULTS_LABEL);
+                  sendAalViewList('Care Summaries and Notes');
+                  sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
+                  logUniqueUserMetricsEvents(
+                    EVENT_REGISTRY.MEDICAL_RECORDS_NOTES_ACCESSED,
+                  );
                 }}
               >
-                {LAB_TEST_RESULTS_LABEL}
+                {CARE_SUMMARIES_AND_NOTES_LABEL}
               </Link>
-            </section>
-          )}
-          {displayNotes && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Care summaries and notes
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get notes from your VA providers about your health and health
-                care. This includes summaries of your stays in health facilities
-                (called admission and discharge summaries).
-              </p>
-              <>
-                <Link
-                  to="/summaries-and-notes"
-                  className="vads-c-action-link--blue"
-                  data-testid="notes-landing-page-link"
-                  onClick={() => {
-                    sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
-                  }}
-                >
-                  {CARE_SUMMARIES_AND_NOTES_LABEL}
-                </Link>
-              </>
-            </section>
-          )}
-          {displayVaccines && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vaccines
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get a list of all vaccines (immunizations) in your VA medical
-                records.
-              </p>
-              <Link
-                to="/vaccines"
-                className="vads-c-action-link--blue"
-                data-testid="vaccines-landing-page-link"
-                onClick={() => {
-                  sendDataDogAction(VACCINES_LABEL);
-                }}
-              >
-                {VACCINES_LABEL}
-              </Link>
-            </section>
-          )}
+            </>
+          </section>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vaccines
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get a list of all vaccines (immunizations) in your VA medical
+              records.
+            </p>
+            <Link
+              to="/vaccines"
+              className="vads-c-action-link--blue"
+              data-testid="vaccines-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vaccines');
+                sendDataDogAction(VACCINES_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_VACCINES_ACCESSED,
+                );
+              }}
+            >
+              {VACCINES_LABEL}
+            </Link>
+          </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               Allergies and reactions
@@ -214,60 +239,68 @@ const LandingPage = () => {
               className="vads-c-action-link--blue"
               data-testid="allergies-landing-page-link"
               onClick={() => {
+                sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_ALLERGIES_ACCESSED,
+                );
               }}
             >
               {ALLERGIES_AND_REACTIONS_LABEL}
             </Link>
           </section>
-          {displayConditions && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Health conditions
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get a list of health conditions your VA providers are helping
-                you manage.
-              </p>
-              <Link
-                to="/conditions"
-                className="vads-c-action-link--blue"
-                data-testid="conditions-landing-page-link"
-                onClick={() => {
-                  sendDataDogAction(HEALTH_CONDITIONS_LABEL);
-                }}
-              >
-                {HEALTH_CONDITIONS_LABEL}
-              </Link>
-            </section>
-          )}
-          {displayVitals && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Vitals
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Get records of these basic health numbers your providers check
-                at appointments:
-              </p>
-              <ul>
-                <li>Blood pressure and blood oxygen level</li>
-                <li>Breathing rate and heart rate</li>
-                <li>Height and weight</li>
-                <li>Temperature</li>
-              </ul>
-              <Link
-                to="/vitals"
-                className="vads-c-action-link--blue"
-                data-testid="vitals-landing-page-link"
-                onClick={() => {
-                  sendDataDogAction(VITALS_LABEL);
-                }}
-              >
-                {VITALS_LABEL}
-              </Link>
-            </section>
-          )}
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Health conditions
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get a list of health conditions your VA providers are helping you
+              manage.
+            </p>
+            <Link
+              to="/conditions"
+              className="vads-c-action-link--blue"
+              data-testid="conditions-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Health Conditions');
+                sendDataDogAction(HEALTH_CONDITIONS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_CONDITIONS_ACCESSED,
+                );
+              }}
+            >
+              {HEALTH_CONDITIONS_LABEL}
+            </Link>
+          </section>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Vitals
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Get records of these basic health numbers your providers check at
+              appointments:
+            </p>
+            <ul>
+              <li>Blood pressure and blood oxygen level</li>
+              <li>Breathing rate and heart rate</li>
+              <li>Height and weight</li>
+              <li>Temperature</li>
+            </ul>
+            <Link
+              to="/vitals"
+              className="vads-c-action-link--blue"
+              data-testid="vitals-landing-page-link"
+              onClick={() => {
+                sendAalViewList('Vitals');
+                sendDataDogAction(VITALS_LABEL);
+                logUniqueUserMetricsEvents(
+                  EVENT_REGISTRY.MEDICAL_RECORDS_VITALS_ACCESSED,
+                );
+              }}
+            >
+              {VITALS_LABEL}
+            </Link>
+          </section>
 
           {!displayMarch17Updates && (
             <>
@@ -362,6 +395,29 @@ const LandingPage = () => {
                 >
                   {MEDICAL_RECORDS_SETTINGS_LABEL}
                 </Link>
+              </section>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Share personal health data with your care team
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  You can share your personal health data with your care team
+                  using the Share My Health Data website.
+                </p>
+                <va-link
+                  href={
+                    environment.isProduction()
+                      ? 'https://veteran.apps.va.gov/smhdWeb'
+                      : 'https://veteran.apps-staging.va.gov/smhdWeb'
+                  }
+                  text={SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM}
+                  data-testid="health-data-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(
+                      SHARE_PERSONAL_HEALTH_DATA_WITH_YOUR_CARE_TEAM,
+                    );
+                  }}
+                />
               </section>
             </>
           )}

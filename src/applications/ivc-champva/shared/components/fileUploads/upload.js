@@ -10,30 +10,50 @@ const uploadUrl = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
 
-export function createPayload(file, _formId, password) {
+export function createPayload(
+  file,
+  _formId,
+  password,
+  attachmentId = undefined,
+) {
   const payload = new FormData();
   payload.append('file', file);
   payload.append('form_id', _formId);
+  // For hard-coded attachment IDs (needed for LLM validation)
+  if (attachmentId) payload.append('attachment_id', attachmentId);
   // password for encrypted PDFs
-  if (password) {
-    payload.append('password', password);
-  }
+  if (password) payload.append('password', password);
 
   return payload;
 }
 
-export function findAndFocusLastSelect() {
-  const lastSelect = [...document.querySelectorAll('va-select')].slice(-1);
+/**
+ * This function handles setting focus after uploading a file.
+ * It sets focus to the first <select> element in the host.
+ * If no <select> is found it attempts to set focus to the delete button
+ * and falls back to the upload button if no delete button is found.
+ * @param {Object} host DOM node we want to look inside
+ * @returns last <select> element found in host or undefined
+ */
+export function findAndFocusLastSelect(host) {
+  if (host === undefined) return undefined;
+  const lastSelect = [...host?.querySelectorAll('va-select')].slice(-1);
   if (lastSelect.length) {
     focusElement(lastSelect[0]);
   } else {
-    // focus on upload button as a fallback
-    focusElement(
-      // including `#upload-button` because RTL can't access the shadowRoot
-      'button, #upload-button',
-      {},
-      document.querySelector(`#upload-button`)?.shadowRoot,
-    );
+    // focus on delete button with upload button as a fallback
+    const delBtn = host?.querySelector('.delete-upload');
+    if (delBtn) {
+      const delBtnShadow = delBtn?.shadowRoot?.querySelector('button');
+      focusElement(delBtnShadow);
+    } else {
+      focusElement(
+        // including `#upload-button` because RTL can't access the shadowRoot
+        'button, #upload-button',
+        {},
+        host.querySelector(`#upload-button`)?.shadowRoot,
+      );
+    }
   }
   return lastSelect;
 }
@@ -50,16 +70,30 @@ export const fileUploadUi = content => {
     addAnotherLabel,
     buttonText: content.buttonText || 'Upload file',
     fileTypes,
-    createPayload,
+    createPayload: (file, _formId, password) =>
+      createPayload(file, _formId, password, content.attachmentId),
     parseResponse: (response, file) => {
       setTimeout(() => {
-        findAndFocusLastSelect();
+        // Get the host element that contains our upload/delete buttons.
+        // This is so we can improve the focus behavior after upload.
+        let host = Array.from(
+          document.querySelectorAll('.schemaform-file-list li'),
+        );
+        // From the list, select the one that holds a file with the same name
+        // as the one just uploaded. Take the last match.
+        host = host.filter(el => el.innerText?.includes(file.name));
+        findAndFocusLastSelect(host?.pop());
       }, 500);
-      return {
+      // optionally add llmResponse to the response
+      const returnValue = {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,
         attachmentId: content.attachmentId ?? '',
       };
+      if (response.llmResponse) {
+        returnValue.llmResponse = response.llmResponse;
+      }
+      return returnValue;
     },
     attachmentSchema: (/* { fileId, index } */) => ({
       'ui:title': 'Document type',

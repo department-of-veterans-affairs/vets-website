@@ -12,7 +12,7 @@ export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
   //  bottom margin of 0 and overrides it
   <div className="full-page-alert itf-wrapper">
-    <va-alert visible status={status} uswds>
+    <va-alert visible status={status}>
       <h2 slot="headline">{headline}</h2>
       {content}
     </va-alert>
@@ -31,7 +31,6 @@ export const itfExpander = (
     trigger="What is an Intent to File?"
     disableAnalytics
     onClick={recordITFHelpEvent}
-    uswds
   >
     <p>
       When you submit an Intent to File, you’re telling us that you plan to file
@@ -83,13 +82,12 @@ export const itfError = (
         </li>
       </ul>
       <p>
-        <a
+        <va-link
+          disable-analytics
           href="/resources/your-intent-to-file-a-va-claim/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          Learn more about the intent to file process (opens in a new tab)
-        </a>
+          external
+          text="Learn more about the intent to file process"
+        />
       </p>
     </div>
   </div>

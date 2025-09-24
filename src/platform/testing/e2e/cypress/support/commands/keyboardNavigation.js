@@ -154,7 +154,7 @@ Cypress.Commands.add('tabToStartForm', () => {
         .focus();
     } else {
       cy.tabToElement(
-        'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green',
+        'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green[href="#start"], va-link-action[href="#start"]',
       );
     }
     cy.realPress('Enter');
@@ -163,27 +163,29 @@ Cypress.Commands.add('tabToStartForm', () => {
 
 // Target & use the "Continue" button on a form page
 Cypress.Commands.add('tabToContinueForm', () => {
-  cy.tabToElement('button[type="submit"]');
+  cy.tabToElement('button[type="submit"], va-button[continue]');
   cy.realPress('Space');
 });
 
 // Target & use the "Continue" button on a form page wit a simulated {enter}
 // press
 Cypress.Commands.add('tabToContinueFormSimulatedEnter', () => {
-  cy.tabToElement('button[type="submit"]');
+  cy.tabToElement('button[type="submit"], va-button[continue]');
   cy.get(':focus').type('{enter}');
 });
 
 // Target & use the "Back" form button on a form page
 Cypress.Commands.add('tabToGoBack', (forward = true) => {
-  cy.tabToElement('#1-continueButton', forward);
+  cy.tabToElement('#1-continueButton, va-button[back]', forward);
   cy.get(':focus').type('{enter}');
 });
 
 // Target & use the "Submit" form button on the review & submit page
 Cypress.Commands.add('tabToSubmitForm', () => {
   // Form submit button is a button type?
-  cy.tabToElement('button[id$="continueButton"].usa-button-primary');
+  cy.tabToElement(
+    'button[id$="continueButton"].usa-button-primary, va-button:not([secondary])',
+  );
   cy.realPress('Space');
 });
 

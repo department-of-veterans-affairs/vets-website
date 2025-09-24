@@ -1,6 +1,7 @@
-import { Paths, Alerts, Locators } from '../utils/constants';
+import { Paths, Alerts, Locators, Data } from '../utils/constants';
+import GeneralFunctionsPage from './GeneralFunctionsPage';
 
-class PatienErrorPage {
+class PatientErrorPage {
   loadParticularFolderError = () => {
     cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/*`, {
       errors: [
@@ -50,6 +51,35 @@ class PatienErrorPage {
       .scrollIntoView()
       .should('contain.text', text);
   };
+
+  verifyPageNotFoundContent = () => {
+    GeneralFunctionsPage.verifyPageHeader(`Page not found`);
+
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
+      .find(`p`)
+      .eq(0)
+      .should(`be.visible`)
+      .and(`include.text`, Data.NOT_FOUND.P_O);
+
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
+      .find(`p`)
+      .eq(1)
+      .should(`be.visible`)
+      .and(`include.text`, Data.NOT_FOUND.P_1);
+
+    cy.findByTestId(Locators.PAGE_NOT_FOUND)
+      .find(`va-link`)
+      .eq(0)
+      .should(`be.visible`)
+      .and(`have.attr`, `href`, `/my-health`)
+      .and(`have.attr`, `text`, Data.NOT_FOUND.LINK);
+  };
+
+  verifyAttachmentErrorMessage = errormessage => {
+    cy.get(Locators.ALERTS.ERROR_MESSAGE)
+      .should('include.text', errormessage)
+      .should('be.visible');
+  };
 }
 
-export default new PatienErrorPage();
+export default new PatientErrorPage();

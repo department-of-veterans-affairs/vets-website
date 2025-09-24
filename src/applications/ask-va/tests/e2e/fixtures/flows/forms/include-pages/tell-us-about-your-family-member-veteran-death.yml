@@ -1,0 +1,15 @@
+steps:
+  - action: exists
+    target: header
+    value:  Date of Veteran's death
+  - action: select
+    target: MONTH
+    value:  2
+  - action: typeTextInput
+    target: DAY
+    value:  2
+  - action: typeTextInput
+    target: YEAR
+    value:  2025
+  - action: click
+    target: call-to-action

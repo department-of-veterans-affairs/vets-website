@@ -1,0 +1,12 @@
+{
+  "data": {
+     "claimantAddress": {
+      "view:militaryBaseDescription": {},
+      "country": "USA",
+      "street": "1234 Other Street",
+      "city": "Kansas City",
+      "state": "KS",
+      "postalCode": "66099"
+    }
+  }
+}

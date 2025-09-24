@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
 import {
   VaTextInputField,
   VaRadioField,
 } from '~/platform/forms-system/src/js/web-component-fields';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
 import { BankNumberFaq } from './BankNumberFaq';
 import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
@@ -104,21 +102,20 @@ export const AccountUpdateView = props => {
         onChange={data => setFormData(data)}
         onSubmit={formSubmit}
       >
-        <LoadingButton
-          aria-label="save your bank information for benefits"
-          type="submit"
-          loadingText="saving bank information"
-          className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
-          isLoading={isSaving}
-        >
-          Save
-        </LoadingButton>
-        <VaButton
-          className="vads-u-width--full medium-screen:vads-u-width--auto"
+        <va-button
+          data-testid="save-direct-deposit"
+          label="save your bank information for benefits"
+          loading={isSaving}
+          submit="prevent"
+          text={isSaving ? '' : 'Save'}
+          class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+        />
+        <va-button
           data-testid="cancel-direct-deposit"
           onClick={onCancel}
           secondary
           text="Cancel"
+          class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
         />
       </SchemaForm>
 

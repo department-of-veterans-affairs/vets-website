@@ -1,7 +1,7 @@
 import { VaTextInputField, VaTextareaField } from '../web-component-fields';
 
 /**
- * Web component v3 uiSchema for generic text field
+ * uiSchema for generic text input field
  *
  * Considerations:
  * - Can we instead use a specific text pattern?
@@ -91,7 +91,7 @@ export const textUI = stringOrOptions => {
 };
 
 /**
- * Schema for generic text field
+ * Schema textUI
  *
  * If you need to use `maxLength` or `minLength`, just define manually rather than use this.
  *
@@ -108,7 +108,7 @@ export const textSchema = {
 };
 
 /**
- * Web component v3 uiSchema for generic textarea field
+ * uiSchema for generic textarea input field
  *
  * Usage uiSchema:
  * ```js
@@ -197,7 +197,7 @@ export const textareaUI = stringOrOptions => {
 };
 
 /**
- * Schema for generic textarea field
+ * Schema for textareaUI
  *
  * If you need to use `maxLength` or `minLength`, just define manually rather than use this.
  *

@@ -4,7 +4,6 @@ import {
   getReceivedDoseScreenerNextPage,
   getVAFacilityNextPage,
 } from './redux/actions';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
 
 /**
  * Function to get new COVID appointment page flow.
@@ -12,90 +11,66 @@ import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
  * is true.
  *
  * @export
- * @param {boolean} state - New COVID appointment state
  * @returns {object} COVID appointment workflow object
  */
-export default function getPageFlow(state) {
-  const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
-
+export default function getPageFlow() {
   return {
     clinicChoice: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'clinic'
-        : '/new-covid-19-vaccine-appointment/choose-clinic',
+      url: 'clinic',
       label: 'Choose a clinic',
       next: 'selectDate1',
     },
     contactFacilities: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'contact-facility'
-        : '/new-covid-19-vaccine-appointment/contact-facility',
+      url: 'contact-facility',
       label: 'We can’t schedule your second dose online',
     },
     contactInfo: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'contact-information'
-        : '/new-covid-19-vaccine-appointment/contact-info',
+      url: 'contact-information',
       label: 'Confirm your contact information',
       next: 'review',
     },
     home: {
-      url: featureBreadcrumbUrlUpdate
-        ? '/schedule/type-of-care'
-        : '/new-appointment',
+      url: '/schedule/type-of-care',
     },
     planAhead: {
-      url: featureBreadcrumbUrlUpdate
-        ? './'
-        : '/new-covid-19-vaccine-appointment',
+      url: 'covid-vaccine/',
       next: 'receivedDoseScreener',
+      label: 'COVID-19 vaccine appointment',
     },
     receivedDoseScreener: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'doses-received'
-        : '/new-covid-19-vaccine-appointment/confirm-doses-received',
+      url: 'doses-received',
       label: 'Have you received a COVID-19 vaccine?',
       next: getReceivedDoseScreenerNextPage(),
     },
     review: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'review'
-        : '/new-covid-19-vaccine-appointment/review',
+      url: 'review',
       label: 'Review your appointment details',
       next: '',
     },
     root: {
-      url: featureBreadcrumbUrlUpdate
-        ? '/my-health/appointments'
-        : '/health-care/schedule-view-va-appointments/appointments/',
+      url: '/my-health/appointments',
     },
     secondDosePage: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'second-dose'
-        : '/new-covid-19-vaccine-appointment/second-dose-info',
+      url: 'second-dose',
       label: 'When to plan for a second dose',
       next: 'contactInfo',
     },
     selectDate1: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'date-time'
-        : '/new-covid-19-vaccine-appointment/select-date',
+      url: 'date-time',
       label: 'Choose a date and time',
       next: 'secondDosePage',
     },
     vaFacility: {
-      url: featureBreadcrumbUrlUpdate
-        ? 'location'
-        : '/new-covid-19-vaccine-appointment/choose-facility',
+      url: 'location',
       label: 'Choose a location',
       next: getVAFacilityNextPage(),
     },
   };
 }
 
-export function routeToPageInFlow(history, current, action, data) {
+function routeToPageInFlow(history, current, action, data) {
   return async (dispatch, getState) => {
-    const pageFlow = getPageFlow(getState());
+    const pageFlow = getPageFlow();
 
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
@@ -151,18 +126,15 @@ export function routeToNextAppointmentPage(history, current, data) {
  * flow URL
  *
  * @export
- * @param {object} state
  * @param {string} location - the pathname
  * @returns {string} the label string
  */
 
-export function getCovidUrlLabel(state, location) {
-  const _flow = getPageFlow(state);
-  const home = '/';
-  const results = Object.values(_flow).filter(
-    value => location.pathname.endsWith(value.url) && value.url !== home,
+export function getCovidUrlLabel(location) {
+  const _flow = getPageFlow();
+  const results = Object.values(_flow).filter(value =>
+    location.pathname.endsWith(value.url),
   );
-
   if (results && results.length) {
     return results[0].label;
   }

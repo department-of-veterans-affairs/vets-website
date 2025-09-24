@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import constants from 'vets-json-schema/dist/constants.json';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { scrollToTop } from 'platform/utilities/scroll';
 import { TOOL_TIP_CONTENT, TOOL_TIP_LABEL } from '../../constants';
 import { fetchResultsThunk } from '../../actions';
 import { getYellowRibbonAppState } from '../../helpers/selectors';

@@ -186,11 +186,11 @@
         "monthlyUtilityAmount": "350.45"
       },
       {
-        "utilityType": "Water",
+        "utilityType": "Water/Sewer",
         "monthlyUtilityAmount": "75.43"
       },
       {
-        "utilityType": "Cable",
+        "utilityType": "Cable/TV Subscription",
         "monthlyUtilityAmount": "275.47"
       }
     ],

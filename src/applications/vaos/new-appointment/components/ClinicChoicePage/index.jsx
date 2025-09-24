@@ -19,8 +19,9 @@ import {
   selectEligibility,
 } from '../../redux/selectors';
 import useClinicFormState from './useClinicFormState';
-import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
 
 function formatTypeOfCare(careLabel) {
   if (careLabel.startsWith('MOVE') || careLabel.startsWith('CPAP')) {
@@ -42,6 +43,11 @@ export default function ClinicChoicePage() {
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const eligibility = useSelector(selectEligibility);
 
+  // Flipper state
+  const featurePastVisitMHFilter = useSelector(
+    selectFeatureMentalHealthHistoryFiltering,
+  );
+
   const {
     data,
     schema,
@@ -54,7 +60,9 @@ export default function ClinicChoicePage() {
   const usingUnsupportedRequestFlow =
     data.clinicId === 'NONE' && !eligibility?.request;
   const usingPastClinics =
-    typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
+    typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+      featurePastVisitMHFilter);
 
   useEffect(
     () => {
@@ -77,7 +85,7 @@ export default function ClinicChoicePage() {
 
   return (
     <div className="vaos-form__radio-field">
-      {schema.properties.clinicId.enum.length === 2 && (
+      {schema.properties.clinicId.enum.length === 2 ? (
         <>
           <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
@@ -96,6 +104,13 @@ export default function ClinicChoicePage() {
           </div>
           <br />
         </>
+      ) : (
+        <h1 className="vaos__dynamic-font-size--h2">
+          {pageTitle}
+          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+            (*Required)
+          </span>
+        </h1>
       )}
       <SchemaForm
         name="Clinic choice"

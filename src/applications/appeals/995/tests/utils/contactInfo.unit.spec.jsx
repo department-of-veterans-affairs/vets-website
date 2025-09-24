@@ -6,28 +6,26 @@ import {
   hasHomePhone,
   hasMobilePhone,
   hasHomeAndMobilePhone,
-} from '../../utils/contactInfo';
+} from '../../../shared/utils/contactInfo';
 
 const getPhone = ({
   country = '1',
   area = '800',
   number = '5551212',
   ext = '',
+  isInternational = false,
 } = {}) => ({
   countryCode: country,
   areaCode: area,
   phoneNumber: number,
   extension: ext,
+  isInternational,
 });
 
 describe('getPhoneString', () => {
   it('should return a full phone number', () => {
     const phone = getPhone();
     expect(getPhoneString(phone)).to.eq(phone.areaCode + phone.phoneNumber);
-  });
-  it('should return a partial phone number', () => {
-    expect(getPhoneString({ areaCode: '123' })).to.eq('123');
-    expect(getPhoneString({ phoneNumber: '4567890' })).to.eq('4567890');
   });
 });
 
@@ -36,19 +34,108 @@ describe('getFormattedPhone', () => {
     expect(getFormattedPhone()).to.eq('');
     expect(getFormattedPhone(getPhone({ area: '', number: '' }))).to.eq('');
   });
-  it('should return unformatted phone number', () => {
-    expect(getFormattedPhone(getPhone({ area: '' }))).to.eq('5551212');
-    expect(getFormattedPhone(getPhone({ area: '1', number: '2' }))).to.eq('12');
-    expect(
-      getFormattedPhone(getPhone({ area: '123', number: '456789' })),
-    ).to.eq('123456789');
+
+  describe('domestic phone numbers', () => {
+    it('should return a formatted domestic phone number', () => {
+      expect(getFormattedPhone(getPhone())).to.eq('800-555-1212');
+    });
+
+    it('should return a formatted domestic phone number with extension', () => {
+      const phone = getPhone({ ext: '54321' });
+      expect(getFormattedPhone(phone)).to.eq('800-555-1212, ext. 54321');
+    });
+
+    it('should not display country code for US numbers (countryCode: "1")', () => {
+      expect(
+        getFormattedPhone(
+          getPhone({ country: '1', area: '562', number: '5551234' }),
+        ),
+      ).to.eq('562-555-1234');
+    });
+
+    it('should not return a phone number without a phone number', () => {
+      expect(getFormattedPhone(getPhone({ area: '123', number: '' }))).to.eq(
+        '',
+      );
+    });
+
+    it('should not return a phone number without area code', () => {
+      expect(
+        getFormattedPhone(getPhone({ area: '', number: '2344123' })),
+      ).to.eq('');
+    });
+
+    it('should not return a phone number with a null area code', () => {
+      expect(
+        getFormattedPhone(getPhone({ area: null, number: '2344123' })),
+      ).to.eq('');
+    });
   });
-  it('should return a formatted phone number', () => {
-    expect(getFormattedPhone(getPhone())).to.eq('(800) 555-1212');
-  });
-  it('should return a formatted phone number with extension', () => {
-    const phone = getPhone({ ext: '54321' });
-    expect(getFormattedPhone(phone)).to.eq('(800) 555-1212, ext. 54321');
+
+  describe('international phone numbers', () => {
+    it('should return formatted international phone number without area code', () => {
+      const internationalPhone = getPhone({
+        country: '44',
+        area: null,
+        number: '79460000',
+        isInternational: true,
+      });
+      expect(getFormattedPhone(internationalPhone)).to.eq('+44 79460000');
+    });
+
+    it('should return formatted international phone number with area code', () => {
+      const internationalPhone = getPhone({
+        country: '44',
+        area: '20',
+        number: '71234567',
+        isInternational: true,
+      });
+      expect(getFormattedPhone(internationalPhone)).to.eq('+44 2071234567');
+    });
+
+    it('should return formatted international phone number with extension', () => {
+      const internationalPhone = getPhone({
+        country: '54',
+        area: null,
+        number: '1234567890',
+        isInternational: true,
+        ext: '456',
+      });
+      expect(getFormattedPhone(internationalPhone)).to.eq(
+        '+54 1234567890, ext. 456',
+      );
+    });
+
+    it('should return formatted international phone number with area code and extension', () => {
+      const internationalPhone = getPhone({
+        country: '54',
+        area: '11',
+        number: '12345678',
+        isInternational: true,
+        ext: '123',
+      });
+      expect(getFormattedPhone(internationalPhone)).to.eq(
+        '+54 1112345678, ext. 123',
+      );
+    });
+
+    it('should handle different country codes', () => {
+      const ukPhone = getPhone({
+        country: '44',
+        area: '20',
+        number: '71234567',
+        isInternational: true,
+      });
+      expect(getFormattedPhone(ukPhone)).to.eq('+44 2071234567');
+
+      const argentinaPhone = getPhone({
+        country: '54',
+        area: '11',
+        number: '12345678',
+        isInternational: true,
+      });
+      expect(getFormattedPhone(argentinaPhone)).to.eq('+54 1112345678');
+    });
   });
 });
 
@@ -90,6 +177,17 @@ describe('hasHomePhone', () => {
     // schema allows 4 digit area code & 14 digit phone number
     expect(hasHomePhone(getData('1234', '12345678901234'))).to.be.true;
   });
+
+  it('should return true for international home phone', () => {
+    const internationalHome = getPhone({
+      country: '44',
+      area: null,
+      number: '79460000',
+      isInternational: true,
+    });
+    const data = getVeteran({ homePhone: internationalHome });
+    expect(hasHomePhone(data)).to.be.true;
+  });
 });
 
 describe('hasMobilePhone', () => {
@@ -104,7 +202,7 @@ describe('hasMobilePhone', () => {
     expect(hasMobilePhone(getData('1', ''))).to.be.false;
     expect(hasMobilePhone(getData('', '2'))).to.be.false;
   });
-  it('should return false for partial mobile phone', () => {
+  it('should return true for partial mobile phone', () => {
     expect(hasMobilePhone(getData('1', '2'))).to.be.true;
     expect(hasMobilePhone(getData('12', '3'))).to.be.true;
     expect(hasMobilePhone(getData('123', '4'))).to.be.true;
@@ -119,6 +217,17 @@ describe('hasMobilePhone', () => {
     expect(hasMobilePhone(getData('123', '4567890'))).to.be.true;
     // schema allows 4 digit area code & 14 digit phone number
     expect(hasMobilePhone(getData('1234', '12345678901234'))).to.be.true;
+  });
+
+  it('should return true for international mobile phone', () => {
+    const internationalMobile = getPhone({
+      country: '44',
+      area: null,
+      number: '79460000',
+      isInternational: true,
+    });
+    const data = getVeteran({ mobilePhone: internationalMobile });
+    expect(hasMobilePhone(data)).to.be.true;
   });
 });
 
@@ -177,5 +286,40 @@ describe('hasHomeAndMobilePhone', () => {
         getBoth('1234', '12345678901234', '1234', '12345678901234'),
       ),
     ).to.be.true;
+  });
+
+  it('should return true for international home and mobile phones', () => {
+    const internationalHome = getPhone({
+      country: '44',
+      area: '20',
+      number: '71234567',
+      isInternational: true,
+    });
+    const internationalMobile = getPhone({
+      country: '54',
+      area: '11',
+      number: '12345678',
+      isInternational: true,
+    });
+    const data = getVeteran({
+      homePhone: internationalHome,
+      mobilePhone: internationalMobile,
+    });
+    expect(hasHomeAndMobilePhone(data)).to.be.true;
+  });
+
+  it('should return true for mixed domestic and international phones', () => {
+    const domesticHome = getPhone();
+    const internationalMobile = getPhone({
+      country: '44',
+      area: null,
+      number: '79460000',
+      isInternational: true,
+    });
+    const data = getVeteran({
+      homePhone: domesticHome,
+      mobilePhone: internationalMobile,
+    });
+    expect(hasHomeAndMobilePhone(data)).to.be.true;
   });
 });

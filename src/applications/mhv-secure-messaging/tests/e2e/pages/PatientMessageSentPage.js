@@ -39,6 +39,7 @@ class PatientMessageSentPage {
       }`,
       singleMessageResponse,
     ).as(`threadFirstMessageResponse`);
+
     cy.get(
       `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
     ).click();
@@ -75,6 +76,16 @@ class PatientMessageSentPage {
 
   verifySentToFieldContainsPalinTGName = value => {
     cy.get('[data-testid="message-list-item"]').should('contain.text', value);
+  };
+
+  verifyReadReceipt = text => {
+    cy.get('[data-testid^="expand-message-button-"]')
+      .not('[data-testid*="for-print"]')
+      .each(el => {
+        cy.wrap(el)
+          .should(`be.visible`)
+          .and(`contain.text`, text);
+      });
   };
 }
 

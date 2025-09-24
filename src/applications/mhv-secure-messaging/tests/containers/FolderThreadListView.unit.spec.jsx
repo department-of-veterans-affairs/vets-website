@@ -1,8 +1,13 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockApiRequest,
+  mockFetch,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
+import * as mhvExports from '~/platform/mhv/unique_user_metrics';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import {
   inbox,
@@ -10,7 +15,6 @@ import {
   drafts,
   customFolder,
 } from '../fixtures/folder-inbox-response.json';
-import messageResponse from '../fixtures/message-response.json';
 import folderList from '../fixtures/folder-response.json';
 import {
   DefaultFolders,
@@ -27,11 +31,30 @@ import {
   cernerFacilities,
   userProfileFacilities,
 } from '../fixtures/cerner-facility-mock-data.json';
+import * as threadsActions from '../../actions/threads';
+import { selectVaSelect } from '../../util/testUtils';
+import getInbox from '../fixtures/mock-api-responses/get-inbox-response.json';
 
 describe('Folder Thread List View container', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    // Create a new sandbox for each test
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    // Restore all stubs/spies in the sandbox
+    sandbox.restore();
+  });
+
+  const expectTitleToEqual = expected => {
+    expect(global.document.title.replace(/\s+/g, ' ')).to.equal(
+      expected.replace(/\s+/g, ' '),
+    );
+  };
   const initialState = {
     sm: {
-      messageDetails: { message: messageResponse },
       folders: { folder: inbox, folderList },
       facilities: {
         cernerFacilities,
@@ -46,7 +69,7 @@ describe('Folder Thread List View container', () => {
   };
 
   const setup = (state = initialState, path = Paths.INBOX) => {
-    return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+    return renderWithStoreAndRouter(<FolderThreadListView />, {
       initialState: state,
       reducers: reducer,
       path,
@@ -64,12 +87,12 @@ describe('Folder Thread List View container', () => {
     });
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Inbox ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Inbox${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.INBOX.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.INBOX.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
     const startANewMessageLink = screen.getByTestId('compose-message-link');
@@ -78,10 +101,35 @@ describe('Folder Thread List View container', () => {
     expect(startANewMessageLink).to.have.attr('href', Paths.COMPOSE);
   });
 
+  it('logs unique user metrics when inbox is accessed', async () => {
+    const logUniqueUserMetricsEventsStub = sinon.stub(
+      mhvExports,
+      'logUniqueUserMetricsEvents',
+    );
+
+    setup({
+      ...initialState,
+      user: {
+        profile: {
+          facilities: userProfileFacilities,
+        },
+      },
+    });
+
+    await waitFor(() => {
+      // Verify unique user metrics logging for inbox access
+      expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
+      expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
+        mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_INBOX_ACCESSED,
+      );
+
+      logUniqueUserMetricsEventsStub.restore();
+    });
+  });
+
   it(`verifies page title tag for 'Sent' FolderThreadListView page`, async () => {
     const initialStateSent = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: { folder: sent, folderList },
       },
     };
@@ -89,12 +137,12 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateSent, Paths.SENT);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Sent ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Sent${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.SENT.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.SENT.header}`,
+      );
     });
     expect(screen.queryByText('Start a new message')).to.exist;
   });
@@ -102,7 +150,6 @@ describe('Folder Thread List View container', () => {
   it(`verifies page title tag for 'Drafts' FolderThreadListView page`, async () => {
     const initialStateDrafts = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: { folder: drafts, folderList },
       },
     };
@@ -110,12 +157,14 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateDrafts, Paths.DRAFTS);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Drafts ${PageTitles.PAGE_TITLE_TAG}`,
+      expectTitleToEqual(
+        `Messages: Drafts${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(DefaultFolders.DRAFTS.header);
+      expect(folderName).to.have.text(
+        `Messages: ${DefaultFolders.DRAFTS.header}`,
+      );
 
       expect(screen.queryByText('Start a new message')).to.not.exist;
     });
@@ -124,7 +173,6 @@ describe('Folder Thread List View container', () => {
   it(`verifies page title tag for 'Trash' FolderThreadListView page`, async () => {
     const initialStateTrash = {
       sm: {
-        messageDetails: { message: messageResponse },
         folders: {
           folder: {
             folderId: -3,
@@ -140,13 +188,13 @@ describe('Folder Thread List View container', () => {
     const screen = setup(initialStateTrash, Paths.DELETED);
 
     await waitFor(() => {
-      expect(global.document.title).to.equal(
-        `Trash ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      expectTitleToEqual(`Messages: Trash${PageTitles.DEFAULT_PAGE_TITLE_TAG}`);
     });
     const folderName = screen.getByRole('heading', { level: 1 });
     expect(folderName).to.exist;
-    expect(folderName).to.have.text(DefaultFolders.DELETED.header);
+    expect(folderName).to.have.text(
+      `Messages: ${DefaultFolders.DELETED.header}`,
+    );
 
     const folderDescription = screen.getByTestId('folder-description');
     expect(folderDescription).to.exist;
@@ -170,7 +218,7 @@ describe('Folder Thread List View container', () => {
 
     await waitFor(() => {
       const alert = document.querySelector('va-alert');
-      const ariaLabel = document.querySelector('h1');
+      const ariaLabel = document.querySelector('span');
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
@@ -221,20 +269,17 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(
-          <FolderThreadListView testing removeLandingPageFF />,
-          {
-            initialState: state,
-            reducers: reducer,
-            path,
-          },
-        );
+        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
+          initialState: state,
+          reducers: reducer,
+          path,
+        });
       };
 
       const screen = await customSetup();
       const folderName = screen.getByRole('heading', { level: 1 });
       expect(folderName).to.exist;
-      expect(folderName).to.have.text(customFolder.name);
+      expect(folderName).to.have.text(`Messages: ${customFolder.name}`);
       const folderDescription = screen.getByTestId('folder-description');
       expect(folderDescription).to.exist;
       expect(folderDescription).to.have.text(DefaultFolders.CUSTOM_FOLDER.desc);
@@ -251,11 +296,188 @@ describe('Folder Thread List View container', () => {
       expect(folderNotEmptyModal).to.have.attribute('visible', 'true');
       expect(folderNotEmptyModal).to.have.attribute('status', 'warning');
 
-      expect(global.document.title).to.equal(
-        `${customFolder.name} ${PageTitles.PAGE_TITLE_TAG}`,
+      expectTitleToEqual(
+        `Messages: More folders${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
       );
       expect(screen.getByText(Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_BODY))
         .to.exist;
+    });
+  });
+
+  describe('useCallback and useEffect refactoring', () => {
+    it('should render without errors after useCallback refactoring', async () => {
+      // This test verifies that the refactored useCallback functions don't break rendering
+      const screen = setup({
+        ...initialState,
+        user: {
+          profile: {
+            facilities: userProfileFacilities,
+          },
+        },
+      });
+
+      await waitFor(() => {
+        const folderName = screen.getByRole('heading', { level: 1 });
+        expect(folderName).to.exist;
+        expect(folderName).to.have.text(
+          `Messages: ${DefaultFolders.INBOX.header}`,
+        );
+      });
+    });
+
+    it('should render drafts folder correctly with new logic', async () => {
+      // This test verifies the new folderId-based logic for drafts works correctly
+      const initialStateDrafts = {
+        sm: {
+          folders: { folder: drafts, folderList },
+        },
+      };
+
+      const screen = setup(initialStateDrafts, Paths.DRAFTS);
+
+      await waitFor(() => {
+        const folderName = screen.getByRole('heading', { level: 1 });
+        expect(folderName).to.exist;
+        expect(folderName).to.have.text(
+          `Messages: ${DefaultFolders.DRAFTS.header}`,
+        );
+      });
+    });
+
+    it('should maintain functionality after useEffect separation', async () => {
+      // This test verifies that separating the large useEffect into smaller ones maintains functionality
+      const screen = setup({
+        ...initialState,
+        user: {
+          profile: {
+            facilities: userProfileFacilities,
+          },
+        },
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Start a new message')).to.exist;
+        const startANewMessageLink = screen.getByTestId('compose-message-link');
+        expect(startANewMessageLink).to.exist;
+      });
+    });
+  });
+
+  describe('handleSortCallback function', () => {
+    it('should call getListOfThreads when handleSortCallback is triggered', async () => {
+      const testState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          threads: {
+            threadList: threadListResponse,
+            threadSort: {
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+              folderId: inbox.folderId,
+              page: 1,
+            },
+            isLoading: false,
+          },
+        },
+      };
+
+      mockApiRequest(getInbox);
+
+      const screen = setup(testState);
+
+      await waitFor(
+        () => {
+          // Check if we have the folder header at least
+          const folderName = screen.queryByRole('heading', { level: 1 });
+          expect(folderName).to.exist;
+        },
+        { timeout: 5000 },
+      );
+
+      const getListOfThreadsSpy = sandbox
+        .stub(threadsActions, 'getListOfThreads')
+        .callThrough();
+      const sortComponent = screen.queryByTestId('thread-list-sort');
+      const sortButton = screen.getByTestId('sort-button');
+      selectVaSelect(sortComponent, 'SENT_DATE_ASCENDING');
+      fireEvent.click(sortButton);
+      await waitFor(() => {
+        const expectedArgs = [0, 10, 1, 'SENT_DATE_ASCENDING', false];
+        expect(getListOfThreadsSpy.args[0]).deep.equal(expectedArgs);
+      });
+    });
+
+    it('should work correctly with different folder types', async () => {
+      // Test handleSortCallback with drafts folder to ensure folderId dependency works
+      const initialStateDrafts = {
+        sm: {
+          folders: { folder: drafts, folderList },
+        },
+      };
+
+      const screen = setup(initialStateDrafts, Paths.DRAFTS);
+
+      await waitFor(() => {
+        const folderName = screen.getByRole('heading', { level: 1 });
+        expect(folderName).to.exist;
+        expect(folderName).to.have.text(
+          `Messages: ${DefaultFolders.DRAFTS.header}`,
+        );
+      });
+
+      // handleSortCallback should work correctly with different folder types
+      expect(screen.container).to.exist;
+    });
+  });
+
+  describe('handlePagination function', () => {
+    it('should call retrieveListOfThreads when pageSelect event is emitted', async () => {
+      // Render FolderThreadListView component for Inbox folder, page 1, default sort
+      const testState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          folders: {
+            folder: inbox,
+            folderList,
+          },
+          threads: {
+            threadList: threadListResponse,
+            threadSort: {
+              value: threadSortingOptions.SENT_DATE_DESCENDING.value,
+              folderId: inbox.folderId,
+              page: 1,
+            },
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(testState, Paths.INBOX);
+
+      await waitFor(() => {
+        const folderName = screen.queryByRole('heading', { level: 1 });
+        expect(folderName).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(screen.findByText('Showing 1 to')).to.exist;
+      });
+
+      const getListOfThreadsSpy = sandbox
+        .stub(threadsActions, 'getListOfThreads')
+        .callThrough();
+      const pagination = screen.container.querySelector('va-pagination');
+      const pageSelectEvent = new CustomEvent('pageSelect', {
+        detail: { page: 2 },
+        bubbles: true,
+      });
+      pagination.dispatchEvent(pageSelectEvent);
+
+      await waitFor(() => {
+        const expectedArgs = [0, 10, 2, 'SENT_DATE_DESCENDING', false];
+        expect(getListOfThreadsSpy.args[0]).to.deep.equal(expectedArgs);
+      });
     });
   });
 });

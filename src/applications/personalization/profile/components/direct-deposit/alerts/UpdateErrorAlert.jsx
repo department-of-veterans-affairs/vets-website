@@ -13,27 +13,6 @@ import {
   hasPaymentRestrictionIndicatorsError,
 } from '@@profile/util';
 
-function FlaggedAccount() {
-  return (
-    <>
-      <p className="vads-u-margin-top--0" data-testid="flagged-account-error">
-        We’re sorry. You can’t change your direct deposit information right now
-        because we’ve locked the ability to edit this information. We do this to
-        protect your bank account information and prevent fraud when we think
-        there may be a security issue.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        To request that we unlock this function, please call us at{' '}
-        <span className="no-wrap">
-          <va-telephone contact="8008271000" />
-        </span>{' '}
-        (<va-telephone contact={CONTACTS['711']} tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-    </>
-  );
-}
-
 function FlaggedRoutingNumber() {
   return (
     <>
@@ -50,13 +29,14 @@ function FlaggedRoutingNumber() {
         (<va-telephone contact={CONTACTS['711']} tty />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         You can also update this information by mail or in person at a VA
-        regional office.{' '}
+        regional office.
+      </p>
+      <p className="vads-u-margin-bottom--0">
         <a href="/change-direct-deposit">
-          Learn how to update your direct deposit bank information
+          Learn how to update your direct deposit bank information.
         </a>
-        .
       </p>
     </>
   );
@@ -143,10 +123,11 @@ function PaymentRestrictionError() {
         details and fix the problem. We’re here Monday through Friday, 8:00 a.m.
         to 9:00 p.m. ET.
       </p>
-      <p className="vads-u-margin-bottom--0">
+      <p>
         Or you can contact a regional office near you to come in for help in
         person.
-        <br />
+      </p>
+      <p className="vads-u-margin-bottom--0">
         <a
           href="/find-locations/?page=&facilityType=benefits&serviceType"
           target="_blank"
@@ -181,18 +162,16 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
   }
 
   let content = <GenericError />;
-  let title = 'We couldn’t update your bank information';
 
   if (Array.isArray(saveError) && saveError?.length > 0) {
-    if (hasAccountFlaggedError(saveError)) {
-      content = <FlaggedAccount />;
-    } else if (hasPaymentRestrictionIndicatorsError(saveError)) {
-      title = "We couldn't update your direct deposit information";
+    if (
+      hasAccountFlaggedError(saveError) ||
+      hasPaymentRestrictionIndicatorsError(saveError)
+    ) {
       content = <PaymentRestrictionError />;
     } else if (hasRoutingNumberFlaggedError(saveError)) {
       content = <FlaggedRoutingNumber />;
     } else if (hasInvalidRoutingNumberError(saveError)) {
-      title = '';
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(saveError)) {
       content = <UpdateAddressError />;
@@ -205,14 +184,13 @@ export const UpdateErrorAlert = ({ className, saveError }) => {
 
   return (
     <va-alert
-      slim={!title}
+      slim
       status="error"
       visible="true"
       class={className}
       ref={alertRef}
       uswds
     >
-      {title && <h2 slot="headline">{title}</h2>}
       {content}
     </va-alert>
   );

@@ -1,7 +1,18 @@
 // @ts-check
-import moment from 'moment';
-import MockSlotResponse from '../../fixtures/MockSlotResponse';
-import MockUser from '../../fixtures/MockUser';
+import { addDays } from 'date-fns';
+import { getTypeOfCareById } from '../../../../utils/appointment';
+import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockSlotResponse from '../../../fixtures/MockSlotResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
+import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
+import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
@@ -14,20 +25,10 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
-import MockClinicResponse from '../../fixtures/MockClinicResponse';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import ClinicChoicePageObject from '../../page-objects/ClinicChoicePageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import PreferredDatePageObject from '../../page-objects/PreferredDatePageObject';
-import DateTimeSelectPageObject from '../../page-objects/DateTimeSelectPageObject';
-import { PRIMARY_CARE } from '../../../../utils/constants';
-import { getTypeOfCareById } from '../../../../utils/appointment';
 
-const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
-const { cceType } = getTypeOfCareById(PRIMARY_CARE);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.PRIMARY_CARE,
+);
 
 describe('VAOS direct schedule flow - calendar dead ends', () => {
   beforeEach(() => {
@@ -122,7 +123,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'day')],
+            startTimes: [addDays(new Date(), 1)],
           }),
         });
 
@@ -295,7 +296,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           locationId: '983',
           clinicId: '1',
           response: MockSlotResponse.createResponses({
-            startTimes: [moment().add(1, 'day')],
+            startTimes: [addDays(new Date(), 1)],
           }),
         });
 

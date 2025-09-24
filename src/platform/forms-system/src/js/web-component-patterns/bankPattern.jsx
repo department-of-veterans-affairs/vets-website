@@ -17,7 +17,7 @@ const BankAccountDescription = () => (
 );
 
 /**
- * Web component pattern for bank account information.
+ * uiSchema for bank account information. Includes fields for account type, account number, routing number, and bank name. Bank name may be omitted.
  *
  * ```js
  * // Simple usage:
@@ -90,6 +90,7 @@ const bankAccountUI = ({
 };
 
 /**
+ * schema for bankAccountUI
  * ```js
  * schema: {
  *   accountInformation: bankAccountSchema(),

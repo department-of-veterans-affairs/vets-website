@@ -13,16 +13,13 @@
 
 export function transformPatientRelationships(patientRelationships) {
   const relationships = patientRelationships.data;
-
   return relationships.map(relationship => ({
     resourceType: 'PatientProviderRelationship',
-    providerName: relationship.attributes.attributes.provider.name,
-    providerId: relationship.attributes.attributes.provider.cernerId,
-    serviceType: relationship.attributes.attributes.serviceType.coding[0].code,
-    locationName: relationship.attributes.attributes.location.name,
-    clinicName: relationship.attributes.attributes.clinic.name,
-    vistaId: relationship.attributes.attributes.clinic.vistaSite,
-    lastSeen: relationship.attributes.attributes.lastSeen,
-    hasAvailability: relationship.attributes.attributes.hasAvailability,
+    providerName: relationship.attributes.provider.name,
+    providerId: relationship.attributes.provider.cernerId,
+    serviceType: relationship.attributes.serviceType.coding[0].code,
+    locationName: relationship.attributes.location.name,
+    lastSeen: relationship.attributes.lastSeen,
+    hasAvailability: relationship.attributes.hasAvailability,
   }));
 }

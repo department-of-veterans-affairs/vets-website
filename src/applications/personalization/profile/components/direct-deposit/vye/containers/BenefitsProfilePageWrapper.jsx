@@ -21,7 +21,7 @@ const BenefitsProfileWrapper = () => {
           message="Loading mailing address..."
         />
       ) : (
-        <section className="profile-info-card vads-u-margin-bottom--6">
+        <section className="profile-info-section vads-u-margin-bottom--6">
           {!serviceName ||
           [CSP_IDS.DS_LOGON, CSP_IDS.MHV].includes(serviceName) ? (
             <LoginAlert />

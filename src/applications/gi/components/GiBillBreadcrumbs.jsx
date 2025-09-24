@@ -8,6 +8,7 @@ import {
 } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
+  const institutionName = localStorage.getItem('institutionName');
   const location = useLocation();
 
   const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
@@ -32,6 +33,10 @@ const GiBillBreadcrumbs = () => {
   const nationalExamsMatch = useRouteMatch('/national-exams');
   const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
 
+  const seFilterFeedbackMatch = useRouteMatch(
+    '/schools-and-employers/institution/:facilityCode/filter-student-feedback',
+  );
+
   const query = new URLSearchParams(location.search);
   const selectedExamName = query.get('examName') || '';
   const searchByName = isSearchByNamePage();
@@ -43,14 +48,8 @@ const GiBillBreadcrumbs = () => {
   );
 
   const crumbs = [
-    {
-      href: '/',
-      label: 'Home',
-    },
-    {
-      href: '/education',
-      label: 'Education and training',
-    },
+    { href: '/', label: 'Home' },
+    { href: '/education', label: 'Education and training' },
     {
       href: '/education/gi-bill-comparison-tool/',
       label: `GI Bill® Comparison Tool ${
@@ -65,7 +64,7 @@ const GiBillBreadcrumbs = () => {
         searchByLocationPage &&
         !schoolsEmployersMatch &&
         !location.pathname.includes('institution')
-          ? '(Search by location}'
+          ? '(Search by location)'
           : ''
       }`,
     },
@@ -81,33 +80,38 @@ const GiBillBreadcrumbs = () => {
       }${searchByLocationPage ? '(Search by location}' : ''}`,
     });
   }
+
   if (profileMatch || programsTypeMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/institution/${profileMatch
         ?.params?.facilityCode || programsTypeMatch?.params?.facilityCode}`,
-      label: 'Institution details',
+      label: institutionName,
     });
   }
+
   if (seProfileMatch || seProgramsTypeMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${seProfileMatch
         ?.params?.facilityCode || seProgramsTypeMatch?.params?.facilityCode}`,
-      label: 'Institution details',
+      label: institutionName,
     });
   }
+
   if (nationalExamsMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/national-exams',
       label: 'National exams',
     });
   }
+
   if (nationalExamsDetailMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/national-exams',
       label: selectedExamName || 'National exam details',
     });
   }
-  if (programsTypeMatch) {
+
+  if (programsTypeMatch && !seFilterFeedbackMatch) {
     crumbs.push({
       href: `/institution/${programsTypeMatch.params.facilityCode}/${
         programsTypeMatch.params.programType
@@ -115,7 +119,8 @@ const GiBillBreadcrumbs = () => {
       label: `${formatedProgramType} programs`,
     });
   }
-  if (seProgramsTypeMatch) {
+
+  if (seProgramsTypeMatch && !seFilterFeedbackMatch) {
     crumbs.push({
       href: `/schools-and-employers/institution/${
         seProgramsTypeMatch.params.facilityCode
@@ -123,12 +128,11 @@ const GiBillBreadcrumbs = () => {
       label: `${formatedProgramType} programs`,
     });
   }
+
   if (compareMatch) {
-    crumbs.push({
-      href: '/',
-      label: 'Institution comparison',
-    });
+    crumbs.push({ href: '/', label: 'Institution comparison' });
   }
+
   if (lcMatch) {
     crumbs.push({
       href:
@@ -136,6 +140,7 @@ const GiBillBreadcrumbs = () => {
       label: 'Licenses, certifications, and prep courses',
     });
   }
+
   if (lcResultsMatch) {
     crumbs.push({
       href:
@@ -143,12 +148,22 @@ const GiBillBreadcrumbs = () => {
       label: 'Search results',
     });
   }
+
   if (lcResultInfoMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
         lcResultInfoMatch.params.type
       }/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
       label: lcResultInfoMatch.params.name,
+    });
+  }
+
+  if (seFilterFeedbackMatch) {
+    crumbs.push({
+      href: `/education/gi-bill-comparison-tool/schools-and-employers/institution/${
+        seFilterFeedbackMatch.params.facilityCode
+      }/filter-student-feedback`,
+      label: 'Filter student feedback and complaints data',
     });
   }
 

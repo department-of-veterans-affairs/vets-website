@@ -1,0 +1,372 @@
+{
+  "data": {
+      "id": "",
+      "type": "user",
+      "attributes": {
+          "services": [
+              "facilities",
+              "hca",
+              "edu-benefits",
+              "form-save-in-progress",
+              "form-prefill",
+              "rx",
+              "messaging",
+              "medical-records",
+              "health-records",
+              "evss-claims",
+              "lighthouse",
+              "form526",
+              "user-profile",
+              "appeals-status",
+              "identity-proofed",
+              "vet360"
+          ],
+          "account": {
+              "accountUuid": "ab50bb37-d4c9-4c20-9d6e-767cee4a15e5"
+          },
+          "profile": {
+              "email": "vets.gov.user+229@gmail.com",
+              "firstName": "Mark",
+              "middleName": "Tux",
+              "lastName": "Polarbear",
+              "preferredName": "Polarbear",
+              "birthDate": "1950-10-04",
+              "gender": "M",
+              "zip": "09618-0001",
+              "lastSignedIn": "2025-05-08T16:18:49.791Z",
+              "loa": {
+                  "current": 3,
+                  "highest": 3
+              },
+              "multifactor": true,
+              "verified": true,
+              "signIn": {
+                  "serviceName": "idme",
+                  "clientId": "vaweb",
+                  "authBroker": "sis"
+              },
+              "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+              "claims": {
+                  "appeals": true,
+                  "coe": true,
+                  "communicationPreferences": true,
+                  "connectedApps": true,
+                  "medicalCopays": true,
+                  "militaryHistory": true,
+                  "paymentHistory": true,
+                  "personalInformation": true,
+                  "ratingInfo": true,
+                  "form526RequiredIdentifierPresence": {
+                      "participantId": true,
+                      "birlsId": true,
+                      "ssn": true,
+                      "birthDate": true,
+                      "edipi": true
+                  }
+              },
+              "icn": "1012592956V095840",
+              "birlsId": "796104437",
+              "edipi": "1013590059",
+              "secId": "0000027745",
+              "logingovUuid": null,
+              "idmeUuid": "1babbd957ca14e44880a534b65bb0ed4",
+              "idTheftFlag": false,
+              "initialSignIn": "2022-01-05T15:37:39.457Z"
+          },
+          "vaProfile": {
+              "status": "OK",
+              "birthDate": "19501004",
+              "familyName": "Polarbear",
+              "gender": "M",
+              "givenNames": [
+                  "Mark",
+                  "Tux"
+              ],
+              "isCernerPatient": true,
+              "cernerId": "1013590059",
+              "cernerFacilityIds": [
+                  "668",
+                  "463",
+                  "583",
+                  "531",
+                  "687",
+                  "668"
+              ],
+              "facilities": [
+                  {
+                      "facilityId": "983",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "668",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "984",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "987",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "463",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "583",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "531",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "660",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "687",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "668",
+                      "isCerner": true
+                  },
+                  {
+                      "facilityId": "607",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "636",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "662",
+                      "isCerner": false
+                  },
+                  {
+                      "facilityId": "589",
+                      "isCerner": false
+                  }
+              ],
+              "vaPatient": true,
+              "mhvAccountState": "OK",
+              "activeMHVIds": [
+                  "14522380"
+              ]
+          },
+          "veteranStatus": {
+              "status": "OK",
+              "isVeteran": false,
+              "servedInMilitary": false
+          },
+          "inProgressForms": [
+          ],
+          "prefillsAvailable": [
+              "40-10007",
+              "0873",
+              "21-22",
+              "21-22A",
+              "26-4555",
+              "26-1880",
+              "20-0995",
+              "20-0996",
+              "10182",
+              "686C-674",
+              "686C-674-V2",
+              "DISPUTE-DEBT",
+              "22-1990",
+              "22-1990N",
+              "22-1990E",
+              "22-1990EMEB",
+              "22-1995",
+              "22-5490",
+              "22-5490E",
+              "22-5495",
+              "22-0993",
+              "22-0994",
+              "FEEDBACK-TOOL",
+              "22-10203",
+              "22-1990S",
+              "22-1990EZ",
+              "21-526EZ",
+              "FORM-MOCK-AE-DESIGN-PATTERNS",
+              "21-0779-UPLOAD",
+              "21-4192-UPLOAD",
+              "21-509-UPLOAD",
+              "21-8940-UPLOAD",
+              "21P-0516-1-UPLOAD",
+              "21P-0517-1-UPLOAD",
+              "21P-0518-1-UPLOAD",
+              "21P-0519C-1-UPLOAD",
+              "21P-0519S-1-UPLOAD",
+              "21P-530a-UPLOAD",
+              "21P-8049-UPLOAD",
+              "5655",
+              "1010ez",
+              "10-10EZR",
+              "21-0966",
+              "10-7959C",
+              "MDOT",
+              "21P-530EZ",
+              "21P-527EZ",
+              "28-8832",
+              "28-1900"
+          ],
+          "vet360ContactInformation": {
+              "vet360Id": "121435",
+              "vaProfileId": "121435",
+              "email": {
+                  "createdAt": "2025-05-06T15:45:15.000+00:00",
+                  "emailAddress": "test@gmail.com",
+                  "effectiveEndDate": null,
+                  "effectiveStartDate": "2025-05-06T15:45:12.000+00:00",
+                  "id": 358967,
+                  "sourceDate": "2025-05-06T15:45:12.000+00:00",
+                  "sourceSystemUser": null,
+                  "transactionId": "5604f56c-9a1b-4263-a73d-4f7e2abbdd69",
+                  "updatedAt": "2025-05-06T15:45:15.000+00:00",
+                  "vet360Id": "121435",
+                  "vaProfileId": "121435"
+              },
+              "residentialAddress": {
+                  "addressLine1": "PSC 808 Box 40",
+                  "addressLine2": null,
+                  "addressLine3": null,
+                  "addressPou": "RESIDENCE",
+                  "addressType": "OVERSEAS MILITARY",
+                  "city": "FPO",
+                  "countryName": "United States",
+                  "countryCodeIso2": "US",
+                  "countryCodeIso3": "USA",
+                  "countryCodeFips": null,
+                  "countyCode": "36061",
+                  "countyName": "New York County",
+                  "createdAt": "2022-07-14T19:44:08.000+00:00",
+                  "effectiveEndDate": null,
+                  "effectiveStartDate": "2024-04-03T00:22:38.000+00:00",
+                  "geocodeDate": "2024-04-03T00:22:57.000+00:00",
+                  "geocodePrecision": 0.0,
+                  "id": 334314,
+                  "internationalPostalCode": null,
+                  "latitude": 40.7142,
+                  "longitude": -74.0059,
+                  "province": null,
+                  "sourceDate": "2024-04-03T00:22:38.000+00:00",
+                  "sourceSystemUser": null,
+                  "stateCode": "AE",
+                  "transactionId": "183633e3-5f41-4292-8197-d336a21db899",
+                  "updatedAt": "2024-04-03T00:22:57.000+00:00",
+                  "overrideValidationKey": null,
+                  "vet360Id": "121435",
+                  "vaProfileId": "121435",
+                  "zipCode": "09618",
+                  "zipCodeSuffix": "0001",
+                  "badAddress": false
+              },
+              "mailingAddress": {
+                  "addressLine1": "8814 Covey Rise Ct",
+                  "addressLine2": null,
+                  "addressLine3": null,
+                  "addressPou": "CORRESPONDENCE",
+                  "addressType": "DOMESTIC",
+                  "city": "Charlotte",
+                  "countryName": "United States",
+                  "countryCodeIso2": "US",
+                  "countryCodeIso3": "USA",
+                  "countryCodeFips": null,
+                  "countyCode": null,
+                  "countyName": null,
+                  "createdAt": "2022-07-15T13:49:44.000+00:00",
+                  "effectiveEndDate": null,
+                  "effectiveStartDate": "2024-02-01T14:43:14.000+00:00",
+                  "geocodeDate": "2024-02-01T14:43:16.000+00:00",
+                  "geocodePrecision": 31.0,
+                  "id": 334540,
+                  "internationalPostalCode": null,
+                  "latitude": 35.0868,
+                  "longitude": -80.8202,
+                  "province": null,
+                  "sourceDate": "2024-02-01T14:43:14.000+00:00",
+                  "sourceSystemUser": null,
+                  "stateCode": "NC",
+                  "transactionId": "3b6652f4-ff1a-48e4-a6e9-3fa959675e7e",
+                  "updatedAt": "2024-02-01T14:43:16.000+00:00",
+                  "overrideValidationKey": null,
+                  "vet360Id": "121435",
+                  "vaProfileId": "121435",
+                  "zipCode": "28225",
+                  "zipCodeSuffix": null,
+                  "badAddress": false
+              },
+              "mobilePhone": {
+                  "areaCode": "587",
+                  "countryCode": "1",
+                  "createdAt": "2025-05-06T15:45:04.000+00:00",
+                  "extension": null,
+                  "effectiveEndDate": null,
+                  "effectiveStartDate": "2025-05-06T15:45:01.000+00:00",
+                  "id": 524086,
+                  "isInternational": false,
+                  "isTextable": null,
+                  "isTextPermitted": null,
+                  "isTty": null,
+                  "isVoicemailable": null,
+                  "phoneNumber": "3874873",
+                  "phoneType": "MOBILE",
+                  "sourceDate": "2025-05-06T15:45:01.000+00:00",
+                  "sourceSystemUser": null,
+                  "transactionId": "81901c95-aec6-45fd-8b3a-e4bbbc84246d",
+                  "updatedAt": "2025-05-06T15:45:04.000+00:00",
+                  "vet360Id": "121435",
+                  "vaProfileId": "121435"
+              },
+              "homePhone": null,
+              "workPhone": {
+                  "areaCode": "314",
+                  "countryCode": "1",
+                  "createdAt": "2023-02-03T16:31:18.000+00:00",
+                  "extension": null,
+                  "effectiveEndDate": null,
+                  "effectiveStartDate": "2023-02-03T16:31:16.000+00:00",
+                  "id": 341136,
+                  "isInternational": false,
+                  "isTextable": null,
+                  "isTextPermitted": null,
+                  "isTty": null,
+                  "isVoicemailable": null,
+                  "phoneNumber": "5222222",
+                  "phoneType": "WORK",
+                  "sourceDate": "2023-02-03T16:31:16.000+00:00",
+                  "sourceSystemUser": null,
+                  "transactionId": "a372f987-dec7-46c7-8f92-d962ab338d3b",
+                  "updatedAt": "2023-02-03T16:31:18.000+00:00",
+                  "vet360Id": "121435",
+                  "vaProfileId": "121435"
+              },
+              "temporaryPhone": null,
+              "faxNumber": null
+          },
+          "session": {
+              "authBroker": "sis",
+              "ssoe": false,
+              "transactionid": null
+          },
+          "onboarding": {
+              "show": null
+          }
+      }
+  },
+  "meta": {
+    "errors": [
+      {
+        "externalService": "VAProfile",
+        "startTime": "2023-06-22T19:17:15Z",
+        "endTime": null,
+        "description": "Mock Error Description for Testing",
+        "status": 404
+      }
+    ]
+  }
+}

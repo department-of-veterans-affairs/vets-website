@@ -14,6 +14,9 @@ describe('Accelerated Cerner Facility Alert', () => {
     isAccelerating = false,
     isAcceleratingAllergies = false,
     isAcceleratingVitals = false,
+    isAcceleratingVaccines = false,
+    isAcceleratingCareNotes = false,
+    isAcceleratingConditions = false,
   }) => ({
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_enabled: isAccelerating,
@@ -21,6 +24,12 @@ describe('Accelerated Cerner Facility Alert', () => {
     mhv_accelerated_delivery_allergies_enabled: isAcceleratingAllergies,
     // eslint-disable-next-line camelcase
     mhv_accelerated_delivery_vital_signs_enabled: isAcceleratingVitals,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_vaccines_enabled: isAcceleratingVaccines,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_care_summaries_and_notes_enabled: isAcceleratingCareNotes,
+    // eslint-disable-next-line camelcase
+    mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
   });
   const initialState = {
     drupalStaticData,
@@ -58,6 +67,7 @@ describe('Accelerated Cerner Facility Alert', () => {
       CernerAlertContent.MR_LANDING_PAGE,
       CernerAlertContent.VITALS,
       CernerAlertContent.ALLERGIES,
+      CernerAlertContent.HEALTH_CONDITIONS,
     ].forEach(async page => {
       const screen = setup(
         {
@@ -66,6 +76,7 @@ describe('Accelerated Cerner Facility Alert', () => {
             isAccelerating: true,
             isAcceleratingAllergies: true,
             isAcceleratingVitals: true,
+            isAcceleratingConditions: true,
           }),
         },
         {
@@ -93,6 +104,7 @@ describe('Accelerated Cerner Facility Alert', () => {
             isAccelerating: true,
             isAcceleratingAllergies: true,
             isAcceleratingVitals: true,
+            isAcceleratingConditions: true,
           }),
         },
         {
@@ -151,6 +163,74 @@ describe('Accelerated Cerner Facility Alert', () => {
       },
       { facilities: [] },
       CernerAlertContent.ALLERGIES,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingLabsAndTest is false', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingLabsAndTest: false,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.LABS_AND_TESTS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingVaccines is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingVaccines: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.VACCINES,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingCareNotes is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingCareNotes: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.CARE_SUMMARIES_AND_NOTES,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
+
+  it('hides correctly when isAcceleratingConditions is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingConditions: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.HEALTH_CONDITIONS,
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;

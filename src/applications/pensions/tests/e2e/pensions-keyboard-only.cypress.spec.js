@@ -47,7 +47,7 @@ const testForm = (data, pageHooks = {}) => {
   cy.url().should('include', '/confirmation');
 };
 
-describe('Higher-Level Review keyboard only navigation', () => {
+describe('Pensions keyboard only navigation', () => {
   before(() => {
     cypressBeforeAllSetup();
   });

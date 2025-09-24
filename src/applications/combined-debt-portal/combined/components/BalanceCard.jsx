@@ -11,8 +11,8 @@ const BalanceCard = ({ amount, count, date, appType }) => {
 
   const linkText =
     appType === APP_TYPES.DEBT
-      ? 'Check the status and resolve your debt'
-      : 'Check your balance and resolve your bill';
+      ? 'Review details and resolve your debt'
+      : 'Review details and resolve your bill';
 
   // Linking to existing applications
   // TODO: update a tag with Link component after merge

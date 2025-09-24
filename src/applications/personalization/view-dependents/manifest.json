@@ -1,6 +1,0 @@
-{
-  "appName": "View Dependents",
-  "entryFile": "./view-dependents-entry.jsx",
-  "entryName": "dependents-view-dependents",
-  "rootUrl": "/view-change-dependents/view"
-}

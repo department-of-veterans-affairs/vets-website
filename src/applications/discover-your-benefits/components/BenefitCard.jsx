@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 
 const BenefitCard = ({ benefit }) => {
   const {
@@ -11,19 +12,49 @@ const BenefitCard = ({ benefit }) => {
     applyNowURL,
   } = benefit;
 
+  const handleClick = (url, text, label) => {
+    return recordEvent({
+      event: 'nav-link-click',
+      'link-label': text,
+      'link-destination': url,
+      'link-origin': label,
+    });
+  };
+
   const renderLink = (url, text, label, action = false) => {
     if (url) {
       return action === true ? (
-        <va-link-action href={url} text={text} label={label} type="secondary" />
+        <va-link-action
+          href={url}
+          text={text}
+          label={label}
+          type="secondary"
+          disable-analytics
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
+        />
       ) : (
-        <va-link active href={url} text={text} label={label} />
+        <va-link
+          active
+          href={url}
+          text={text}
+          label={label}
+          disable-analytics
+          onClick={() => {
+            handleClick(url, text, label);
+          }}
+        />
       );
     }
     return null;
   };
 
   return (
-    <div className="benefit-card vads-u-margin-bottom--2">
+    <div
+      className="benefit-card vads-u-margin-bottom--2"
+      data-testid={`benefit-card-${benefit.name}`}
+    >
       <va-card>
         <>
           {isTimeSensitive && (

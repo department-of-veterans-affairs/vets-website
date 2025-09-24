@@ -6,6 +6,7 @@ tmp/
 out/
 src/applications/vaos/docs/
 src/site/tests/html/
+mocha/results
 
 # Files to ignore
 ._*
@@ -45,6 +46,7 @@ all-links.csv
 *.iml
 .ignore
 .tool-versions
+.cursorrules
 
 # Track shared IDE config
 !.vscode/extensions.json

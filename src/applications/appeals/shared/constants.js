@@ -151,3 +151,9 @@ export const SUBMITTED_DISAGREEMENTS = {
 
 // session storage keys
 export const LAST_ISSUE = 'last-issue'; // focus management across pages
+
+export const NONE_SELECTED_ERROR =
+  'You must select at least 1 issue before you can continue filling out your request.';
+
+export const MAX_SELECTED_ERROR =
+  'You’ve reached the maximum number of allowed selected issues';

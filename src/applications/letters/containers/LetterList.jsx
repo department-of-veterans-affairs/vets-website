@@ -7,51 +7,99 @@ import { Toggler } from 'platform/utilities/feature-toggles';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import DownloadLetterLink from '../components/DownloadLetterLink';
+import DownloadLetterBlobLink from '../components/DownloadLetterBlobLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
+import VeteranBenefitSummaryOptions from './VeteranBenefitSummaryOptions';
 
 import {
   letterContent,
   bslHelpInstructions,
   //  eslint-disable-next-line -- LH_MIGRATION
   LH_MIGRATION__getOptions,
+  newLetterContent,
 } from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
-import { lettersUseLighthouse } from '../selectors';
+
+import { lettersPageNewDesign, togglesAreLoaded } from '../selectors';
 
 export class LetterList extends React.Component {
   constructor(props) {
     super(props);
     // eslint-disable-next-line -- LH_MIGRATION
     this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
+    this.accordionRefs = {};
   }
 
   componentDidMount() {
-    const { shouldUseLighthouse } = this.props;
-    focusElement('h2#nav-form-header');
+    const { lettersNewDesign } = this.props;
+    focusElement(lettersNewDesign ? '#letters-title-id' : 'h2#nav-form-header');
     this.setState({
       // eslint-disable-next-line -- LH_MIGRATION
-      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(),
     });
   }
 
   render() {
     const downloadStatus = this.props.letterDownloadStatus;
     const letterItems = (this.props.letters || []).map((letter, index) => {
+      if (!this.accordionRefs[index]) {
+        this.accordionRefs[index] = React.createRef();
+      }
+      const accordionRef = this.accordionRefs[index];
       let content;
       let letterTitle;
       let helpText;
       if (letter.letterType === LETTER_TYPES.benefitSummary) {
         letterTitle = 'Benefit Summary and Service Verification Letter';
-        content = <VeteranBenefitSummaryLetter />;
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <VeteranBenefitSummaryOptions />
+              ) : (
+                <VeteranBenefitSummaryLetter />
+              )
+            }
+          </Toggler.Hoc>
+        );
         helpText = bslHelpInstructions;
       } else if (letter.letterType === LETTER_TYPES.proofOfService) {
         letterTitle = 'Proof of Service Card';
-        content = letterContent[letter.letterType] || '';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
+      } else if (letter.letterType === LETTER_TYPES.benefitSummaryDependent) {
+        letterTitle = 'Benefit Summary Letter';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
       } else {
         letterTitle = letter.name;
-        content = letterContent[letter.letterType] || '';
+        content = (
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue
+                ? newLetterContent[letter.letterType] || ''
+                : letterContent[letter.letterType] || ''
+            }
+          </Toggler.Hoc>
+        );
       }
 
+      // OLD conditional download button
+      // TODO: Remove after feature flag is turned off.
       let conditionalDownloadButton;
       if (
         letter.letterType !== LETTER_TYPES.benefitSummary ||
@@ -69,12 +117,47 @@ export class LetterList extends React.Component {
         );
       }
 
+      // NEW conditional download link (KEEP)
+      let conditionalDownloadElem;
+      if (letter.letterType === LETTER_TYPES.benefitSummary) {
+        conditionalDownloadElem = (
+          <DownloadLetterLink
+            letterType={letter.letterType}
+            letterTitle={`Download ${letterTitle}`}
+            downloadStatus={downloadStatus[letter.letterType]}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            key={`download-link-${index}`}
+          />
+        );
+      } else {
+        conditionalDownloadElem = (
+          <DownloadLetterBlobLink
+            letterTitle={letterTitle}
+            letterType={letter.letterType}
+            // eslint-disable-next-line -- LH_MIGRATION
+            LH_MIGRATION__options={this.state.LH_MIGRATION__options}
+            accordionRef={accordionRef}
+          />
+        );
+      }
+
       return (
-        <va-accordion-item key={`panel-${index}`}>
+        <va-accordion-item key={`panel-${index}`} ref={accordionRef}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
-          {conditionalDownloadButton}
-          {helpText}
+          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+            {toggleValue =>
+              toggleValue ? (
+                <>{conditionalDownloadElem}</>
+              ) : (
+                <>
+                  {conditionalDownloadButton}
+                  {helpText}
+                </>
+              )
+            }
+          </Toggler.Hoc>
         </va-accordion-item>
       );
     });
@@ -136,83 +219,78 @@ export class LetterList extends React.Component {
         </Toggler.Hoc>
 
         {letterItems.length !== 0 && (
-          <va-accordion bordered>{letterItems}</va-accordion>
+          <va-accordion data-test-id="letters-accordion" bordered>
+            {letterItems}
+          </va-accordion>
         )}
         {eligibilityMessage}
 
-        <h2 slot="headline">Other sources of VA benefit documentation</h2>
-        <p>
-          A lot of people come to this page looking for their Post-9/11 GI Bill
-          statement of benefits, their Certificate of Eligibility (COE) for home
-          loan benefits, and their DD214. We don’t have these documents
-          available here yet, but if you’re eligible for them, you can get them
-          through these links:
-        </p>
-        <ul className="vads-u-margin-bottom--9 bullet-disc">
-          <li>
-            <a
-              href="/education/download-letters/"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              VA education letters
-            </a>
-          </li>
-          <li>
-            <a
-              href="/education/gi-bill/post-9-11/ch-33-benefit"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Post-9/11 GI Bill statement of benefits
-            </a>
-          </li>
-          <li>
-            <a
-              href="/housing-assistance/home-loans/check-coe-status/"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Certificate of home loan benefits
-            </a>
-          </li>
-          <li>
-            <a
-              href="/records/get-military-service-records/"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="vads-u-text-decoration--none"
-            >
-              Discharge or separation papers (DD214)
-            </a>
-          </li>
-        </ul>
         <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
           {toggleValue =>
-            toggleValue ? (
-              <va-need-help>
-                <div slot="content">
-                  <p>
-                    Call us at <va-telephone contact="8008271000" />. We're here
-                    Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-                    hearing loss, call <va-telephone contact="711" tty="true" />
-                    .
-                  </p>
-                </div>
-              </va-need-help>
-            ) : (
+            toggleValue ? null : (
               <>
-                <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-                  Need help?
+                <h2 slot="headline">
+                  Other sources of VA benefit documentation
                 </h2>
-                <div className="vads-u-margin-bottom--4">
-                  If you have any questions, please call the VA Benefits Help
-                  Desk:
-                  <br />
-                  <va-telephone contact="8008271000" />, Monday &#8211; Friday,
-                  8 a.m. &#8211; 9 p.m. ET
-                </div>
+                <p>
+                  A lot of people come to this page looking for their Post-9/11
+                  GI Bill statement of benefits, their Certificate of
+                  Eligibility (COE) for home loan benefits, and their DD214. We
+                  don’t have these documents available here yet, but if you’re
+                  eligible for them, you can get them through these links:
+                </p>
+                <ul className="vads-u-margin-bottom--9 bullet-disc">
+                  <li>
+                    <a
+                      href="/education/download-letters/"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      VA education letters
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/education/gi-bill/post-9-11/ch-33-benefit"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Post-9/11 GI Bill statement of benefits
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/housing-assistance/home-loans/check-coe-status/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Certificate of home loan benefits
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/records/get-military-service-records/"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="vads-u-text-decoration--none"
+                    >
+                      Discharge or separation papers (DD214)
+                    </a>
+                  </li>
+                </ul>
+                <>
+                  <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+                    Need help?
+                  </h2>
+                  <div className="vads-u-margin-bottom--4">
+                    If you have any questions, please call the VA Benefits Help
+                    Desk:
+                    <br />
+                    <va-telephone contact="8008271000" />, Monday &#8211;
+                    Friday, 8 a.m. &#8211; 9 p.m. ET
+                  </div>
+                </>
               </>
             )
           }
@@ -224,12 +302,16 @@ export class LetterList extends React.Component {
 
 function mapStateToProps(state) {
   const letterState = state.letters;
+  const togglesLoaded = togglesAreLoaded(state);
+  const lettersNewDesign = lettersPageNewDesign(state);
+
   return {
     letters: letterState.letters,
     lettersAvailability: letterState.lettersAvailability,
     letterDownloadStatus: letterState.letterDownloadStatus,
     optionsAvailable: letterState.optionsAvailable,
-    shouldUseLighthouse: lettersUseLighthouse(state),
+    togglesLoaded,
+    lettersNewDesign,
   };
 }
 
@@ -242,8 +324,12 @@ LetterList.propTypes = {
     }),
   ),
   lettersAvailability: PropTypes.string,
+  lettersNewDesign: PropTypes.bool,
   optionsAvailable: PropTypes.bool,
-  shouldUseLighthouse: PropTypes.bool,
+  togglesLoaded: PropTypes.bool,
 };
 
-export default connect(mapStateToProps)(LetterList);
+export default connect(
+  mapStateToProps,
+  null,
+)(LetterList);

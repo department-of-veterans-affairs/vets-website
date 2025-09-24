@@ -4,11 +4,12 @@
     "emailAddress": "person.name@testmail.com",
     "address": {
       "view:militaryBaseDescription": {},
+      "isMilitary": true,
       "country": "USA",
       "street": "1234 Main St",
-      "city": "City",
-      "state": "ID",
-      "postalCode": "12345"
+      "city": "APO",
+      "state": "AA",
+      "postalCode": "34056"
     },
     "relationshipToVeteran": {
       "relationshipToVeteran": "other",

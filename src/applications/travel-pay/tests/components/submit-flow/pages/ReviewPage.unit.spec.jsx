@@ -2,6 +2,8 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import * as recordEventModule from 'platform/monitoring/record-event';
+
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
@@ -34,12 +36,12 @@ const mockAppt = {
 
 const practitioner = 'Kenneth J. Bernardo';
 
-const onSubmitSpy = sinon.spy();
-const setIsAgreementCheckedSpy = sinon.spy();
-const setPageIndexSpy = sinon.spy();
-const setYesNoSpy = sinon.spy();
-
 describe('Review page', () => {
+  const onSubmitSpy = sinon.spy();
+  const setIsAgreementCheckedSpy = sinon.spy();
+  const setPageIndexSpy = sinon.spy();
+  const setYesNoSpy = sinon.spy();
+
   const getData = ({ homeAddress = home, pract } = {}) => {
     return {
       user: {
@@ -73,7 +75,17 @@ describe('Review page', () => {
     setYesNo: () => setYesNoSpy(),
   };
 
-  it('should render properly with all data', () => {
+  let recordEventStub;
+
+  beforeEach(() => {
+    recordEventStub = sinon.stub(recordEventModule, 'default');
+  });
+
+  afterEach(() => {
+    recordEventStub.restore();
+  });
+
+  it('should render properly with all data and record pageview', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -87,6 +99,16 @@ describe('Review page', () => {
     expect(screen.getByText(/Apt. 3B/i)).to.exist;
     // Check that text from the travel agreement is rendering
     expect(screen.getByText(/I have incurred a cost/i)).to.exist;
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-pageview',
+        action: 'view',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
 
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
@@ -138,6 +160,17 @@ describe('Review page', () => {
     expect(screen.getByText('Review your travel claim')).to.exist;
 
     $('va-button-pair').__events.secondaryClick(); // start over
+
+    expect(
+      recordEventStub.calledWith({
+        event: 'smoc-button',
+        action: 'click',
+        /* eslint-disable camelcase */
+        heading_1: 'review',
+        link_text: 'start-over',
+        /* eslint-enable camelcase */
+      }),
+    ).to.be.true;
     expect(setPageIndexSpy.called).to.be.true;
     expect(setYesNoSpy.called).to.be.true;
   });

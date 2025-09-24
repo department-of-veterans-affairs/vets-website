@@ -4,6 +4,7 @@ import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatentMessageSentPage from './pages/PatientMessageSentPage';
+import SharedComponents from './pages/SharedComponents';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
@@ -12,37 +13,33 @@ describe(manifest.appName, () => {
   });
 
   it('Check the Inbox folder', () => {
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Inbox');
-    FolderLoadPage.verifyBreadCrumbsLength(4);
-  });
+    FolderLoadPage.verifyFolderHeaderText('Messages: Inbox');
+    FolderLoadPage.verifyBreadCrumbsLength(3);
 
-  it('Check the Draft folder', () => {
-    FolderLoadPage.loadDraftMessages();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Drafts');
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('Check the Sent folder', () => {
     PatentMessageSentPage.loadMessages();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Sent');
-    FolderLoadPage.verifyBreadCrumbsLength(4);
+    FolderLoadPage.verifyFolderHeaderText('Messages: Sent');
+    FolderLoadPage.verifyBreadCrumbsLength(3);
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it('Check the Draft folder', () => {
+    FolderLoadPage.loadDraftMessages();
+    FolderLoadPage.verifyFolderHeaderText('Messages: Drafts');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('Check the Trash folder', () => {
     FolderLoadPage.loadDeletedMessages();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-    FolderLoadPage.verifyFolderHeaderText('Trash');
-    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
-  });
+    FolderLoadPage.verifyFolderHeaderText('Messages: Trash');
+    SharedComponents.backBreadcrumb().should('have.attr', 'text', 'Back');
 
-  // afterEach(() => {
-  //   FolderLoadPage.backToFolder('Messages');
-  // });
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
 });

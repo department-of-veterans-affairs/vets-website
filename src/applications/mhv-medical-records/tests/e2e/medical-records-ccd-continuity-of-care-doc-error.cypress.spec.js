@@ -14,11 +14,13 @@ describe('Medical Records download CCD page', () => {
 
     DownloadReportsPage.verifyCcdDownloadXmlFileButton();
 
-    const responseWithNewDate = DownloadReportsPage.updateDateGenerated(
+    const generateResponseWithNewDate = DownloadReportsPage.updateDateGenerated(
       ccdGenerateErrorResponse,
     );
 
-    DownloadReportsPage.clickCcdDownloadXmlFileButton(responseWithNewDate);
+    DownloadReportsPage.clickCcdDownloadXmlFileButtonWithoutDownloadIntercept(
+      generateResponseWithNewDate,
+    );
 
     DownloadReportsPage.verifyCcdExpiredError();
 

@@ -4,7 +4,6 @@ import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import {
-  fillAddressWebComponentPattern,
   fillDateWebComponentPattern,
   fillFullNameWebComponentPattern,
   fillTextAreaWebComponent,
@@ -90,7 +89,7 @@ const testConfig = createTestConfig(
       'mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'mailingAddress',
               data.mailingAddress,
             );

@@ -1,6 +1,6 @@
 {
   "confirmationCode": "123456",
-  "formName": "Declaration of Status of Dependents",
+  "formName": "Application Request to Add and/or Remove Dependents",
   "formData": {
     "veteranSsn": {},
     "veteranFullName": {},

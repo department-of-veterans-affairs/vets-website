@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment-timezone';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import NewTabAnchor from './NewTabAnchor';
@@ -9,28 +8,22 @@ import { selectConfirmedAppointmentData } from '../appointment-list/redux/select
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
-  const diff = moment().diff(moment(appointment.start), 'minutes');
   const { clinicPhone, clinicPhoneExtension, facilityPhone } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
   );
-
-  // Button is enabled 30 minutes prior to start time, until 4 hours after start time
-  // NOTE: If the moment is earlier than the moment you are passing to moment.fn.diff,
-  // the return value will be negative. So checking to see if the appointment start
-  // time is before or after the current time.
-  const disableVideoLink = diff > 30 || diff < -240;
+  const displayVideoLink = appointment.videoData.displayLink;
 
   return (
     <div className="vaos-appts__video-visit">
-      {disableVideoLink && (
+      {!displayVideoLink && (
         <>
-          We'll add the link to join this appointment 30 minutes before your
-          appointment time.
+          We’ll add the link to join this appointment on this page 30 minutes
+          before your appointment time.
         </>
       )}
 
-      {!disableVideoLink &&
+      {displayVideoLink &&
         !url && (
           <div className="vads-u-margin-y--1">
             <va-alert
@@ -39,7 +32,7 @@ export default function VideoLink({ appointment }) {
               visible
             >
               <h3 slot="headline">
-                We're sorry, we couldn't load the link to join your appointment
+                We’re sorry, we couldn’t load the link to join your appointment
               </h3>
               <p className="vads-u-margin-y--0">
                 Please contact your facility for help joining this appointment.
@@ -52,7 +45,7 @@ export default function VideoLink({ appointment }) {
             </va-alert>
           </div>
         )}
-      {!disableVideoLink &&
+      {displayVideoLink &&
         !!url && (
           <>
             Join the video appointment using the link.
@@ -76,6 +69,7 @@ VideoLink.propTypes = {
     id: PropTypes.string.isRequired,
     videoData: PropTypes.shape({
       url: PropTypes.string,
+      displayLink: PropTypes.bool,
     }),
   }),
 };

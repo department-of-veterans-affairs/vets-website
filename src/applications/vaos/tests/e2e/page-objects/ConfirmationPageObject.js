@@ -1,6 +1,6 @@
 import PageObject from './PageObject';
 
-export class ConfirmationPageObject extends PageObject {
+class ConfirmationPageObject extends PageObject {
   assertUrl({ isDirect = true } = {}) {
     cy.url().should('include', isDirect ? '/mock1' : '/pending');
     cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(

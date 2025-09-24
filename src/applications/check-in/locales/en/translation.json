@@ -445,5 +445,12 @@
   "if-you-traveled-from-a-different-address-you--helptext--v2": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
   "were-sorry-cant-file-travel-file-later--info-message--v2": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file your claim online through the Beneficiary Travel Self Service System (BTSSS).",
   "you-can-still-check-in-travel-reimbursement--v2": "You can still check in for your appointment, but our travel reimbursement system isn’t working at this time. You can still file through the Beneficiary Travel Self Service System (BTSSS).",
-  "sorry-we-cant-file-now--v2": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file your claim online through the Beneficiary Travel Self Service System (BTSSS)."
+  "sorry-we-cant-file-now--v2": "We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file your claim online through the Beneficiary Travel Self Service System (BTSSS).",
+  "consider-taking-our-pilot-feedback-survey": "Please consider taking our pilot feedback survey",
+  "first-follow-the-link-below-to-the-sign-up-survey-with-our-recruitment-partner": "First, follow the link below to the sign-up survey with our recruitment partner.",
+   "next-wait-to-be-contacted-by-our-recruitment-partner-who-will-provide-the-feedback-survey": "Next, wait to be contacted by our recruitment partner, who will provide the feedback survey.",
+   "our-recruiting-partner-will-provide-compensation": "Our recruiting partner will provide compensation.",
+   "start-the-sign-up-survey": "Start the sign-up survey",
+   "submit-claim": "Submit claim",
+  "start-mileage-only-claim": "Start a mileage-only claim"
 }

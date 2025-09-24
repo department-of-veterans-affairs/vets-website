@@ -7,6 +7,10 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
+import {
+  militaryBranchComponentTypes,
+  militaryBranchTypes,
+} from '../constants/benefits';
 
 import manifest from '../manifest.json';
 
@@ -17,8 +21,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
-import militaryBranch from '../pages/militaryBranch';
+import activeDuty from '../pages/activeDuty';
+import militaryBranch, {
+  getBranchComponentPages,
+} from '../pages/militaryBranch';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import titleTenServiceTime from '../pages/titleTenTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import characterOfDischarge from '../pages/characterOfDischarge';
@@ -90,20 +98,47 @@ export const formConfig = {
       pages: {
         militaryServiceTimeServed: {
           path: 'service/time-served',
-          title: 'Military Service Time Served',
+          title: 'Length of service',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
         militaryBranch: {
           path: 'service/branch-served',
-          title: 'Military Branch Served',
+          title: 'Branch',
           uiSchema: militaryBranch.uiSchema,
           schema: militaryBranch.schema,
-          depends: () => !environment.isProduction(),
+        },
+        ...getBranchComponentPages(),
+        titleTenActiveDuty: {
+          path: 'service/active-duty',
+          title: 'Title 10 service',
+          uiSchema: activeDuty.uiSchema,
+          schema: activeDuty.schema,
+          depends: formData => {
+            return Object.values(militaryBranchTypes).some(pageName => {
+              return (
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.NATIONAL_GUARD_SERVICE
+                ] ||
+                formData[pageName]?.[
+                  militaryBranchComponentTypes.RESERVE_SERVICE
+                ]
+              );
+            });
+          },
+        },
+        titleTenTimeServed: {
+          path: 'service/title-ten',
+          title: 'Length of Title 10 service',
+          uiSchema: titleTenServiceTime.uiSchema,
+          schema: titleTenServiceTime.schema,
+          depends: formData => {
+            return formData.titleTenActiveDuty === true;
+          },
         },
         militaryService: {
           path: 'service/current',
-          title: 'Military Service',
+          title: 'Military service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
@@ -121,8 +156,13 @@ export const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          // Hide this question incase we need it later. The previous question skips this, but the 'depends' statement makes it show up on the review page even if
+          // the question doesn't show up in the questionnaire.
           depends: formData => {
-            return formData.militaryServiceCurrentlyServing === true;
+            return (
+              environment.isTest() &&
+              formData.militaryServiceCurrentlyServing === true
+            );
           },
           onNavForward: ({ formData, goPath }) => {
             if (formData.militaryServiceCurrentlyServing === true) {
@@ -152,7 +192,7 @@ export const formConfig = {
       pages: {
         characterOfDischarge: {
           path: 'discharge',
-          title: 'Character of Discharge',
+          title: 'Character of discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
           onNavBack: ({ formData, goPath }) => {
@@ -170,7 +210,7 @@ export const formConfig = {
       pages: {
         disabilityRating: {
           path: 'disability',
-          title: 'Disability Rating',
+          title: 'Disability',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
         },

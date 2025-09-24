@@ -6,6 +6,14 @@ import ResBurdenPrivacyPolicy from './ResBurdenPrivacyAct';
 const PrivacyPolicy = () => {
   const [showModal, setShowModal] = useState(false);
 
+  const removeNoteText = async () => {
+    const noteText = await querySelectorWithShadowRoot(
+      'p.font-sans-6',
+      document.querySelector('va-statement-of-truth'),
+    );
+    noteText?.setAttribute('style', 'display:none;');
+  };
+
   const removeOldPrivacyPolicy = async () => {
     const privacyPolicyText = await querySelectorWithShadowRoot(
       'p.short-line',
@@ -14,9 +22,31 @@ const PrivacyPolicy = () => {
     privacyPolicyText?.setAttribute('style', 'display:none;');
   };
 
+  const updateCheckbox = async () => {
+    const checkbox = await querySelectorWithShadowRoot(
+      'va-checkbox',
+      document.querySelector('va-statement-of-truth'),
+    );
+
+    if (checkbox) {
+      checkbox.setAttribute(
+        'label',
+        'I certify that the information above is true and correct to the best of my knowledge and belief.',
+      );
+    }
+  };
+
   useEffect(() => {
-    // Hide platform line for privacy policy, use custom
-    removeOldPrivacyPolicy();
+    const initializeComponent = async () => {
+      // Update checkbox label
+      await updateCheckbox();
+      // Hide "Note" above Certification statement
+      await removeNoteText();
+      // Hide platform line for privacy policy, use custom
+      await removeOldPrivacyPolicy();
+    };
+
+    initializeComponent();
   }, []);
 
   return (
@@ -25,7 +55,7 @@ const PrivacyPolicy = () => {
         I have read and accept the{' '}
         <va-link
           onClick={() => setShowModal(true)}
-          text="privacy policy"
+          text="privacy policy."
           aria-label="View the privacy policy"
           role="button"
           tabIndex="0"

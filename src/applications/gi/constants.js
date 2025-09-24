@@ -107,6 +107,10 @@ export const ariaLabels = Object.freeze({
     militaryTuitionAssistance: 'Learn more about Military Tuition Assistance',
     numberOfStudents:
       'Learn more about how we calculate the number of GI Bill students',
+    publicSchool: 'Learn more about Public Institution',
+    privateSchool: 'Learn more about Private Institution',
+    proprietarySchool: 'Learn more about Proprietary Institution',
+    foreignSchool: 'Learn more about Foreign Institution',
     onlineOnlyDistanceLearning:
       'Learn more about how we calculate your housing allowance based on where you take classes',
     opeCode: 'Learn more about the ED OPE code',

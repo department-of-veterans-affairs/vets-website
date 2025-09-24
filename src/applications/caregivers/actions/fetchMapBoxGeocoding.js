@@ -1,6 +1,5 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../utils/mapbox/mapboxClient';
-import { replaceStrValues } from '../utils/helpers';
 import content from '../locales/en/content.json';
 
 /* NOTE: 'ph' is intentionally excluded because caregiver support
@@ -47,20 +46,12 @@ export const fetchMapBoxGeocoding = async (
 
     return features[0];
   } catch (error) {
-    const errMessage =
-      error.request?.origin === 'https://api.mapbox.com'
-        ? error.body.message
-        : error;
-
     const message = 'Error fetching Mapbox coordinates';
     window.DD_LOGS?.logger.error(message, {}, error);
 
     return {
       type: 'SEARCH_FAILED',
-      errorMessage: replaceStrValues(
-        content['error--facility-search-failed'],
-        errMessage,
-      ),
+      errorMessage: content['error--facility-search-failed'],
     };
   }
 };

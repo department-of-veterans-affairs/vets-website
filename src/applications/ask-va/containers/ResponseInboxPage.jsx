@@ -4,6 +4,7 @@ import {
   VaIcon,
   VaTextarea,
   VaLink,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -14,7 +15,6 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import BreadCrumbs from '../components/BreadCrumbs';
 import FileUpload from '../components/FileUpload';
 import NeedHelpFooter from '../components/NeedHelpFooter';
@@ -23,7 +23,6 @@ import {
   formatDate,
   getFiles,
   getVAStatusFromCRM,
-  ServerErrorAlert,
 } from '../config/helpers';
 import {
   envUrl,
@@ -55,18 +54,6 @@ const ResponseInboxPage = ({ router }) => {
     return pathArray[pathArray.length - 1];
   };
   const inquiryId = getLastSegment();
-
-  const {
-    TOGGLE_NAMES,
-    useToggleLoadingValue,
-    useToggleValue,
-  } = useFeatureToggle();
-
-  const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
-  const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
-  const isLoadingFeatureFlags = useToggleLoadingValue(toggleOldPortalAlert);
-  const showAlertAndHideForm =
-    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
 
   const postApiData = useCallback(
     async url => {
@@ -131,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (getMockTestingFlagforAPI()) {
+    if (getMockTestingFlagforAPI() && !window.Cypress) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -207,14 +194,9 @@ const ResponseInboxPage = ({ router }) => {
       });
   };
 
-  const handleRetry = () => {
-    if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
-  };
-
   useEffect(
     () => {
-      if (inquiryId && !showAlertAndHideForm)
-        getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
+      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
     },
     [inquiryId, getApiData],
   );
@@ -228,10 +210,22 @@ const ResponseInboxPage = ({ router }) => {
 
   if (error) {
     return (
-      <VaAlert status="error" className="vads-u-margin-y--4">
-        <ServerErrorAlert />
-        <VaButton onClick={handleRetry} text="Retry" />
-      </VaAlert>
+      <>
+        <VaAlert status="error" className="vads-u-margin-y--4">
+          <h2
+            slot="headline"
+            className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+          >
+            We’ve run into a problem
+          </h2>
+          <p className="vads-u-font-size--base">
+            We’re sorry. Something went wrong on our end. Please try again later
+            or call us at <VaTelephone contact="800-698-2411" /> (
+            <VaTelephone contact="711" tty />
+            ). We’re here 24/7.
+          </p>
+        </VaAlert>
+      </>
     );
   }
 
@@ -245,26 +239,6 @@ const ResponseInboxPage = ({ router }) => {
     return (
       <VaAlert status="info" className="vads-u-margin-y--4">
         No inquiry data available.
-      </VaAlert>
-    );
-  }
-
-  if (showAlertAndHideForm) {
-    return (
-      <VaAlert
-        className="vads-u-margin-x--2 vads-u-margin-top--3  vads-u-margin-bottom--9"
-        close-btn-aria-label="Close notification"
-        status="warning"
-        uswds
-      >
-        <h2 id="track-your-status-on-mobile" slot="headline">
-          This version of Ask VA isn’t working right now
-        </h2>
-        <p className="vads-u-margin-y--0">
-          We’re making some updates to Ask VA on VA.gov. We’re sorry it’s not
-          working right now. You can still use the{' '}
-          <a href="https://ask.va.gov/">previous version of Ask VA</a>
-        </p>
       </VaAlert>
     );
   }

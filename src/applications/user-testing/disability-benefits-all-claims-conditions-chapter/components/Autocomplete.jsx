@@ -9,10 +9,16 @@ const INSTRUCTIONS =
 
 const createFreeTextItem = val => `Enter your condition as "${val}"`;
 
+const focusOnInput = inputRef => {
+  const inputEl = inputRef.current?.shadowRoot?.querySelector('input');
+  inputEl?.focus();
+};
+
 const Autocomplete = ({
   availableResults,
   debounceDelay,
   formData,
+  hint,
   id,
   label,
   onChange,
@@ -62,78 +68,101 @@ const Autocomplete = ({
     [debouncedSearch, debouncedSetAriaLiveText],
   );
 
-  const handleInputChange = inputValue => {
-    setValue(inputValue);
-    onChange(inputValue);
+  const handleInputChange = useCallback(
+    inputValue => {
+      setValue(inputValue);
+      onChange(inputValue);
 
-    if (!inputValue) {
-      closeList();
-      setAriaLiveText('Input is empty. Please enter a condition.');
-      return;
-    }
+      if (!inputValue) {
+        closeList();
+        setAriaLiveText('Input is empty. Please enter a condition.');
+        return;
+      }
 
-    debouncedSearch(inputValue);
-  };
+      debouncedSearch(inputValue);
+    },
+    [onChange, closeList, debouncedSearch],
+  );
 
-  const activateScrollToAndFocus = index => {
+  const activateScrollToAndFocus = useCallback(index => {
     setActiveIndex(index);
 
-    const activeResult = resultsRef.current[index];
-    activeResult?.scrollIntoView({
-      block: 'nearest',
-      behavior: 'instant',
-    });
+    const activeEl = resultsRef.current[index];
+    activeEl?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    activeEl?.focus();
+  }, []);
 
-    activeResult?.focus();
-  };
+  const navigateList = useCallback(
+    (e, adjustment) => {
+      e.preventDefault();
+      const newIndex = activeIndex + adjustment;
+      if (newIndex > results.length - 1) {
+        return;
+      }
 
-  const focusOnInput = () =>
-    inputRef.current.shadowRoot.querySelector('input').focus();
+      if (newIndex < 1) {
+        activateScrollToAndFocus(0);
+        focusOnInput(inputRef);
+      } else {
+        activateScrollToAndFocus(newIndex);
+      }
+    },
+    [activeIndex, results.length, activateScrollToAndFocus],
+  );
 
-  const navigateList = (e, adjustment) => {
-    e.preventDefault();
-    const newIndex = activeIndex + adjustment;
-    if (newIndex > results.length - 1) {
-      return;
-    }
-
-    if (newIndex < 1) {
-      activateScrollToAndFocus(0);
-
-      focusOnInput();
-    } else {
-      activateScrollToAndFocus(newIndex);
-    }
-  };
-
-  const selectResult = result => {
-    const newValue = result === createFreeTextItem(value) ? value : result;
-    setValue(newValue);
-    onChange(newValue);
-    setAriaLiveText(`${newValue} is selected`);
-    closeList();
-
-    focusOnInput();
-  };
+  const selectResult = useCallback(
+    result => {
+      const newValue = result === createFreeTextItem(value) ? value : result;
+      setValue(newValue);
+      onChange(newValue);
+      setAriaLiveText(`${newValue} is selected`);
+      closeList();
+      focusOnInput(inputRef);
+    },
+    [value, onChange, closeList],
+  );
 
   const handleKeyDown = e => {
-    if (results.length > 0) {
-      if (e.key === 'ArrowDown') {
+    if (results.length === 0) return;
+    switch (e.key) {
+      case 'ArrowDown':
         navigateList(e, 1);
-      } else if (e.key === 'ArrowUp') {
+        break;
+      case 'ArrowUp':
         navigateList(e, -1);
-      } else if (e.key === 'Enter') {
+        break;
+      case 'Enter':
         selectResult(results[activeIndex]);
-      } else if (e.key === 'Escape') {
+        break;
+      case 'Escape':
         closeList();
-        focusOnInput();
-      } else if (e.key === 'Tab') {
+        focusOnInput(inputRef);
+        break;
+      case 'Tab':
         closeList();
-      } else {
-        focusOnInput();
-      }
+        break;
+      default:
+        focusOnInput(inputRef);
     }
   };
+
+  const handleFocus = () => {
+    if (value && results.length === 0) {
+      debouncedSearch(value);
+    }
+  };
+
+  // Keep local state in sync with external formData
+  useEffect(() => setValue(formData), [formData]);
+
+  // Cancel debounced functions on unmount to avoid setting state on an unmounted component
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+      debouncedSetAriaLiveText.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(
     () => {
@@ -154,12 +183,6 @@ const Autocomplete = ({
     [closeList],
   );
 
-  const handleFocus = () => {
-    if (value && results.length === 0) {
-      debouncedSearch(value);
-    }
-  };
-
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
@@ -167,6 +190,7 @@ const Autocomplete = ({
         data-testid="autocomplete-input"
         id={id}
         label={label}
+        hint={hint}
         message-aria-describedby={!value ? INSTRUCTIONS : null}
         ref={inputRef}
         required
@@ -191,7 +215,7 @@ const Autocomplete = ({
                 activeIndex === index ? 'cc-autocomplete__option--active' : ''
               }`}
               id={`option-${index}`}
-              key={result}
+              key={`${result}-${index}`} // Ensure every list item has a unique key
               ref={el => {
                 resultsRef.current[index] = el;
               }}
@@ -221,6 +245,7 @@ Autocomplete.propTypes = {
   availableResults: PropTypes.array,
   debounceDelay: PropTypes.number,
   formData: PropTypes.string,
+  hint: PropTypes.string,
   id: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,

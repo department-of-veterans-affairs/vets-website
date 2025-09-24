@@ -1,12 +1,11 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
-import { formatReviewDate } from 'platform/forms-system/exportsFile';
 import {
   customStepPage,
-  employmentHistory,
   identificationInformation,
   nameAndDateOfBirth,
 } from '../config/pages';
+
+export { listLoopPages } from '../config/pages/listLoop';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
@@ -49,7 +48,6 @@ export const addressPages = ({ additionalFields, id, pageTitle }) => {
 export const customStepPages = chapter => {
   const pages = {};
   chapter.pages.forEach(page => {
-    // This assumes every pageTitle within a chapter is unique.
     pages[`page${page.id}`] = customStepPage(page);
   });
 
@@ -80,57 +78,6 @@ export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
   }
 
   return singlePageChapter({ id, pageTitle, schema, uiSchema });
-};
-
-/** @returns {FormConfigPages} */
-export const listLoopPages = (
-  { additionalFields: { optional } },
-  arrayBuilder = arrayBuilderPages,
-) => {
-  /** @type {ArrayBuilderOptions} */
-  const options = {
-    arrayPath: 'employers',
-    nounSingular: 'employer',
-    nounPlural: 'employers',
-    required: !optional,
-    isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
-    maxItems: 4,
-    text: {
-      getItemName: item => item.name,
-      cardDescription: item =>
-        `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
-          item?.dateRange?.to,
-        )}`,
-    },
-  };
-
-  const {
-    datePage,
-    detailPage,
-    introPage,
-    namePage,
-    summaryPage,
-  } = employmentHistory;
-
-  /** @returns {FormConfigPages} */
-  const pageBuilderCallback = pageBuilder => {
-    /** @type {FormConfigPages} */
-    const pages = {};
-
-    if (!optional) {
-      pages.employer = pageBuilder.introPage(introPage(options));
-    }
-
-    return {
-      ...pages,
-      employerSummary: pageBuilder.summaryPage(summaryPage(options)),
-      employerNamePage: pageBuilder.itemPage(namePage(options)),
-      employerDatePage: pageBuilder.itemPage(datePage),
-      employerDetailPage: pageBuilder.itemPage(detailPage),
-    };
-  };
-
-  return arrayBuilder(options, pageBuilderCallback);
 };
 
 /** @returns {FormConfigPages} */

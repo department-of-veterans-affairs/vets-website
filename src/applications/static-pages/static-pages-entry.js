@@ -19,6 +19,7 @@ import createModernGetMedicalRecordsPage from './health-care-manage-benefits/mod
 import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
+import createModernOrderMedicalSuppliesPage from './health-care-manage-benefits/modern-order-medical-supplies-page';
 import createMhvPortalLandingPage from './health-care-manage-benefits/mhv-portal-landing-page';
 // Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -95,14 +96,17 @@ import create400247Access from './simple-forms/40-0247/entry';
 import createFormUploadAccess from './simple-forms/form-upload/entry';
 import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
+import create21P0969Access from './income-and-asset';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
+import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
+import createDependentsVerificationHowToVerify from './dependents-verification';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -135,6 +139,7 @@ connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
+create21P0969Access(store, widgetTypes.INCOME_AND_ASSET_STATEMENT_STAGED_ENTRY);
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_10_10EZ,
@@ -208,6 +213,10 @@ createModernSecureMessagingPage(
   store,
   widgetTypes.MODERN_SECURE_MESSAGING_PAGE,
 );
+createModernOrderMedicalSuppliesPage(
+  store,
+  widgetTypes.MODERN_ORDER_MEDICAL_SUPPLIES_PAGE,
+);
 createMhvPortalLandingPage(store, widgetTypes.MHV_PORTAL_LANDING_PAGE);
 createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
@@ -215,9 +224,15 @@ createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+createDependentsVerificationHowToVerify(
+  store,
+  widgetTypes.DEPENDENTS_VERIFICATION_HOW_TO_VERIFY,
+);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
+// Second instance is for another widget type on the same page
+createManageVADebtCTA(store, widgetTypes.DISPUTE_DEBT_LINK);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 createHomepageSearch(store, widgetTypes.HOMEPAGE_SEARCH);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
@@ -244,6 +259,7 @@ createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
+create1010DExtendedAccess(store, widgetTypes.FORM_1010D_EXTENDED);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);

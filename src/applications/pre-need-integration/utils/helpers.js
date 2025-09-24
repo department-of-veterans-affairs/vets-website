@@ -13,7 +13,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -41,7 +41,7 @@ export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
 export const veteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your details</h3>
+    <h3 className="vads-u-font-size--h3">Your details</h3>
   </div>
 );
 
@@ -66,13 +66,13 @@ export function veteranApplicantDetailsSummary({ formContext }) {
 
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant details</h3>
+    <h3>Applicant details</h3>
   </div>
 );
 
 export const nonVeteranApplicantDetailsSubHeader = (
   <div className="applicantDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your details</h3>
+    <h3>Your details</h3>
   </div>
 );
 
@@ -92,9 +92,7 @@ export function CurrentlyBurriedPersonsDescriptionWrapper({ formContext }) {
   );
 }
 
-export const currentlyBuriedPersonsTitle = (
-  <h3 className="vads-u-font-size--h5">Name of deceased person(s)</h3>
-);
+export const currentlyBuriedPersonsTitle = <h3>Name of deceased person(s)</h3>;
 
 export const sponsorDeceasedDescription = (
   <div className="sponsorDeceasedDescriptionNotProd">
@@ -126,7 +124,7 @@ export function sponsorDetailsSubHeader({ formContext, formData }) {
           </div>
         )}
       <div className="sponsorDetailsSubHeader">
-        <h3 className="vads-u-font-size--h5">Sponsor details</h3>
+        <h3>Sponsor details</h3>
       </div>
     </>
   );
@@ -143,7 +141,7 @@ export const sponsorDetailsGuidingText = (
 
 export const sponsorDemographicsSubHeader = (
   <div className="sponsorDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor demographics</h3>
+    <h3>Sponsor demographics</h3>
   </div>
 );
 
@@ -170,19 +168,19 @@ export const sponsorDateOfDeathSubheader = (
 
 export const sponsorMilitaryDetailsSubHeader = (
   <div className="sponsorMilitaryDetailsSubHeader">
-    <h3 className="vads-u-font-size--h5">Sponsor’s military details</h3>
+    <h3>Sponsor’s military details</h3>
   </div>
 );
 
 export const applicantDemographicsSubHeader = (
   <div className="applicantDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Your demographics</h3>
+    <h3>Your demographics</h3>
   </div>
 );
 
 export const applicantDemographicsPreparerSubHeader = (
   <div className="applicantDemographicsSubHeader">
-    <h3 className="vads-u-font-size--h5">Applicant demographics</h3>
+    <h3>Applicant demographics</h3>
   </div>
 );
 
@@ -200,12 +198,30 @@ export function militaryDetailsSubHeader(formData) {
     <div className="militaryDetailsSubHeader">
       {get('applicant.applicantRelationshipToClaimant', formData.formData) ===
       'Authorized Agent/Rep' ? (
-        <h3 className="vads-u-font-size--h5">Applicant’s military details</h3>
+        <h3>Applicant’s military details</h3>
       ) : (
-        <h3 className="vads-u-font-size--h5">Your military details</h3>
+        <h3>Your military details</h3>
       )}
     </div>
   );
+}
+
+export function militaryDetailsReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s military details`
+    : `Your military details`;
+}
+
+export function previousNameReviewHeader(formData) {
+  return get(
+    'application.applicant.applicantRelationshipToClaimant',
+    formData,
+  ) === 'Authorized Agent/Rep'
+    ? `Applicant’s previous name`
+    : `Your previous name`;
 }
 
 export const createPayload = (file, formId, password) => {
@@ -290,26 +306,45 @@ export const nonVeteranApplicantDetailsDescription =
 export const nonVeteranApplicantDetailsDescriptionPreparer =
   'Provide the details for the person you are filling out the application for (called the applicant). Then we’ll ask for the details for the Veteran or service member the applicant is connected to.';
 
-export const applicantContactInfoAddressTitle = 'Your mailing address';
+export const applicantContactInfoAddressTitle = (
+  <div>
+    <h3>Your mailing address</h3>
+  </div>
+);
 
-export const applicantContactInfoPreparerAddressTitle =
-  'Applicant mailing address';
+export const applicantContactInfoPreparerAddressTitle = (
+  <div>
+    <h3>Applicant mailing address</h3>
+  </div>
+);
+
+export const applicantContactDetailsTitle = (
+  <div>
+    <h3>Your contact details</h3>
+  </div>
+);
+
+export const applicantContactDetailsPreparerTitle = (
+  <div>
+    <h3>Applicant’s contact details</h3>
+  </div>
+);
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
-    <h3 className="vads-u-font-size--h5">Your contact details</h3>
+    <h3>Your contact details</h3>
   </div>
 );
 
 export const applicantContactInfoPreparerSubheader = (
   <div className="applicantContactInfoPreparerSubheader">
-    <h3 className="vads-u-font-size--h5">Applicant’s contact details</h3>
+    <h3>Applicant’s contact details</h3>
   </div>
 );
 
 export const sponsorContactInfoSubheader = (
   <div className="sponsorContactInfoSubheader">
-    <h3 className="vads-u-font-size--h5">Sponsor’s contact details</h3>
+    <h3>Sponsor’s contact details</h3>
   </div>
 );
 
@@ -628,6 +663,13 @@ export function hasServiceRecord(item) {
   return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
+export function hasDeceasedPersons(item) {
+  const deceasedPersons =
+    get('currentlyBuriedPersons', item) ||
+    get('formData.currentlyBuriedPersons', item);
+  return !(deceasedPersons === undefined || deceasedPersons.length === 0);
+}
+
 export function formatName(name) {
   const { first, middle, last, suffix } = name;
   return (
@@ -758,10 +800,22 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: { 'ui:title': 'First name' },
-  middle: { 'ui:title': 'Middle name' },
-  last: { 'ui:title': 'Last name' },
-  maiden: { 'ui:title': 'Maiden name' },
+  first: {
+    'ui:title': 'First name',
+  },
+  middle: {
+    'ui:title': 'Middle name',
+  },
+  last: {
+    'ui:title': 'Last name',
+  },
+  suffix: {
+    'ui:webComponentField': VaSelectField,
+    'ui:options': { classNames: 'form-select-medium' },
+  },
+  maiden: {
+    'ui:title': 'Maiden name',
+  },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
 
@@ -841,7 +895,6 @@ export const veteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },
@@ -921,20 +974,19 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
-
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
-    'ui:required': form => {
-      return form?.application?.veteran?.race?.isOther;
-    },
+    'ui:required': form => !!form?.application?.veteran?.race?.isOther,
     'ui:options': {
       expandUnder: 'race',
-      maxLength: 100,
-      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
-      hideIf: form => {
-        return !form?.application?.veteran?.race?.isOther;
+      expandUnderCondition: form => {
+        return !!form?.isOther;
       },
+      expandedContentFocus: true,
+    },
+    'ui:errorMessages': {
+      required: 'Please provide a response.',
     },
   },
   militaryStatus: {
@@ -992,7 +1044,6 @@ export const preparerVeteranUI = {
       labels: {
         female: 'Female',
         male: 'Male',
-        na: 'Prefer not to answer',
       },
     },
   },
@@ -1328,7 +1379,9 @@ export function DesiredCemeteryNoteDescription() {
 }
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
+  const apiUrl = `${environment.API_URL}/simple_forms_api/v1/cemeteries`;
+
+  return fetch(apiUrl, {
     credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
@@ -1339,31 +1392,29 @@ export function getCemeteries() {
       if (!res.ok) {
         return Promise.reject(res);
       }
-
       return res.json();
     })
-    .then(res =>
-      res.data.map(item => ({
+    .then(res => {
+      return res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      })),
-    )
-    .catch(res => {
-      if (res instanceof Error) {
-        Sentry.captureException(res);
+      }));
+    })
+    .catch(error => {
+      if (error instanceof Error) {
+        Sentry.captureException(error);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
-
-      // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }
 
 export function MailingAddressStateTitle(props) {
-  const { elementPath } = props;
-  const data = useSelector(state => state.form.data || {});
+  const { elementPath, formData } = props;
+  const reduxFormData = useSelector(state => state.form.data || {});
+  const data = formData || reduxFormData;
   const country = get(elementPath, data);
+
   if (country === 'CAN') {
     return 'Province';
   }
@@ -1453,4 +1504,55 @@ export const addressConfirmationRenderLine = content => {
       <br />
     </>
   ) : null;
+};
+
+// This function ensures the `depends` function of each page is called with the correct form data
+// in the burialBenefits section of the form
+export const addConditionalDependency = (pages, condition) => {
+  return Object.fromEntries(
+    Object.entries(pages).map(([key, page]) => [
+      key,
+      {
+        ...page,
+        depends: formData => page.depends?.(formData) && condition(formData),
+      },
+    ]),
+  );
+};
+
+export const ApplicantDetailsHeader = () => {
+  return (
+    <h3 className="vads-u-margin-bottom--3">
+      Confirm the personal information we have on file for you
+    </h3>
+  );
+};
+
+// Helper functions to check authentication status for veteran applicant details pages
+export const isLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteran = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isVet && !isLoggedIn;
+};
+
+export const isLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && isLoggedIn;
+};
+
+export const isNotLoggedInVeteranPreparer = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isVet = isVeteran(formData);
+  const isAgent = isAuthorizedAgent(formData);
+  return isAgent && isVet && !isLoggedIn;
 };

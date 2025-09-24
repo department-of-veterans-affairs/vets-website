@@ -25,7 +25,6 @@ export default {
       errorMessages: {
         required: errorMessages.requiredYesNo,
       },
-      uswds: true,
       hideOnReview: true,
     }),
 

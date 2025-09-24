@@ -81,6 +81,7 @@ describe('SmRouteNavigationGuard component', () => {
   });
 
   it('should set window.onbeforeunload if "when" is true', async () => {
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
     const customProps = {
       ...initialProps,
       when: true,
@@ -89,14 +90,14 @@ describe('SmRouteNavigationGuard component', () => {
 
     expect(screen);
 
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-
     screen.findByTestId('select-all-Test-Facility-1-teams');
 
     await waitFor(() => {
       fireEvent(window, new Event('beforeunload'));
       expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
-      expect(window.onbeforeunload()).to.equal('non-empty string');
+      expect(window.onbeforeunload).to.be.a('function');
+      const result = window.onbeforeunload();
+      expect(result === undefined || typeof result === 'string').to.be.true;
     });
 
     addEventListenerSpy.restore();

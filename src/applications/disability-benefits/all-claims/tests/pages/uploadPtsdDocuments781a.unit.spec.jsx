@@ -5,17 +5,16 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import {
-  DefinitionTester, // selectCheckbox
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
+import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
 describe('781a record upload', () => {
   const page = formConfig.chapters.disabilities.pages.uploadPtsdDocuments781a;
   const { schema, uiSchema, arrayPath } = page;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <Provider store={uploadStore}>
         <DefinitionTester
@@ -37,7 +36,7 @@ describe('781a record upload', () => {
     form.unmount();
   });
 
-  it('should not submit without required upload', () => {
+  it('should not submit without required upload', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -57,13 +56,15 @@ describe('781a record upload', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit with uploaded form', () => {
+  it('should submit with uploaded form', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <Provider store={uploadStore}>
@@ -87,9 +88,11 @@ describe('781a record upload', () => {
       </Provider>,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

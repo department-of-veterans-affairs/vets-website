@@ -14,6 +14,15 @@ const DEFAULT_CONFIG = {
   sessionSampleRate: 100,
 };
 
+// declare 3rd party domains to exclude from logs
+const EXCLUDED_DOMAINS = [
+  'resource.digital.voice.va.gov',
+  'browser-intake-ddog-gov.com',
+  'google-analytics.com',
+  'eauth.va.gov',
+  'api.va.gov',
+];
+
 const initializeRealUserMonitoring = () => {
   // prevent RUM from re-initializing the SDK
   if (!window.DD_RUM?.getInitConfiguration()) {
@@ -26,6 +35,12 @@ const initializeRealUserMonitoring = () => {
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
+      beforeSend: ({ type, resource }) => {
+        return !(
+          type === 'resource' &&
+          EXCLUDED_DOMAINS.some(domain => resource.url.includes(domain))
+        );
+      },
     });
 
     // if sessionReplaySampleRate > 0, we need to manually start the recording
@@ -33,12 +48,18 @@ const initializeRealUserMonitoring = () => {
   }
 };
 
-const intitalizeBrowserLogging = () => {
+const initializeBrowserLogging = () => {
   // prevent LOGS from re-initializing the SDK
   if (!window.DD_LOGS?.getInitConfiguration()) {
     datadogLogs.init({
       ...DEFAULT_CONFIG,
       forwardErrorsToLogs: true,
+      beforeSend: ({ http }) => {
+        return !(
+          http?.url &&
+          EXCLUDED_DOMAINS.some(domain => http.url.includes(domain))
+        );
+      },
     });
   }
 };
@@ -53,7 +74,7 @@ const useBrowserMonitoring = () => {
       if (!environment.BASE_URL.includes('localhost')) return;
 
       // enable browser logging
-      intitalizeBrowserLogging();
+      initializeBrowserLogging();
 
       // enable RUM if feature flag value is `true`
       if (isBrowserMonitoringEnabled) {

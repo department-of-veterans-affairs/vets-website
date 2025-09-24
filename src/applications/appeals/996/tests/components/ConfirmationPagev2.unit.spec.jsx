@@ -133,7 +133,7 @@ describe('ConfirmationPageV2', () => {
       'sully@pixar.com',
       'Morning hours in your accredited representative’s time zone',
     ]);
-    expect($$('.vads-c-action-link--green', container).length).to.eq(1);
+    expect($$('va-link-action', container).length).to.eq(1);
   });
 
   it('should render the confirmation page with a hearing request', () => {

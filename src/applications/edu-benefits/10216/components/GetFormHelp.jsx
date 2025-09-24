@@ -8,6 +8,7 @@ const GetFormHelp = () => (
     <va-link
       text="contact your Education Liaison Representative."
       href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/elr.asp"
+      external
     />
   </p>
 );

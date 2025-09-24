@@ -11,7 +11,7 @@ import {
   showUnlistedDescriptionPage,
   showBehaviorDescriptionsPage,
 } from '../../utils/form0781';
-import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoices';
 
 describe('showForm0781Pages', () => {
   describe('when the flipper is on and a user is claiming a new condition', () => {
@@ -81,7 +81,7 @@ describe('isCompletingForm0781', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         'view:claimType': {
           'view:claimingNew': true,
@@ -94,8 +94,7 @@ describe('isCompletingForm0781', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
-          form0781WorkflowChoices.SUBMIT_PAPER_FORM,
+        mentalHealthWorkflowChoice: form0781WorkflowChoices.SUBMIT_PAPER_FORM,
         'view:claimType': {
           'view:claimingNew': true,
         },
@@ -107,8 +106,7 @@ describe('isCompletingForm0781', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
-          form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
+        mentalHealthWorkflowChoice: form0781WorkflowChoices.OPT_OUT_OF_FORM0781,
         'view:claimType': {
           'view:claimingNew': true,
         },
@@ -124,7 +122,7 @@ describe('isRelatedToMST', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -138,7 +136,7 @@ describe('isRelatedToMST', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -156,7 +154,7 @@ describe('showBehaviorIntroCombatPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -171,7 +169,7 @@ describe('showBehaviorIntroCombatPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -186,7 +184,7 @@ describe('showBehaviorIntroCombatPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: false,
@@ -203,7 +201,7 @@ describe('showBehaviorIntroPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -218,7 +216,7 @@ describe('showBehaviorIntroPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -235,9 +233,9 @@ describe('showBehaviorListPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        'view:answerCombatBehaviorQuestions': 'true',
+        answerCombatBehaviorQuestions: 'true',
         eventTypes: {
           combat: true,
           nonMst: false,
@@ -251,7 +249,7 @@ describe('showBehaviorListPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
           combat: true,
@@ -270,7 +268,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: true,
@@ -283,7 +281,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -294,7 +292,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           absences: true,
@@ -306,7 +304,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -317,7 +315,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: false,
@@ -330,7 +328,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -341,7 +339,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: true,
@@ -354,7 +352,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: true,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -365,7 +363,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           absences: true,
@@ -376,7 +374,7 @@ describe('showBehaviorDescriptionPages', () => {
           relationships: true,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -387,7 +385,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: false,
@@ -400,7 +398,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -414,7 +412,7 @@ describe('showUnlistedDescriptionPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: true,
@@ -427,7 +425,7 @@ describe('showUnlistedDescriptionPage', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(true);
     });
@@ -436,7 +434,7 @@ describe('showUnlistedDescriptionPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           absences: true,
@@ -447,7 +445,7 @@ describe('showUnlistedDescriptionPage', () => {
           relationships: true,
           misconduct: false,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(false);
     });
@@ -456,7 +454,7 @@ describe('showUnlistedDescriptionPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           absences: true,
@@ -468,7 +466,7 @@ describe('showUnlistedDescriptionPage', () => {
           misconduct: false,
           unlisted: false,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(false);
     });
@@ -480,7 +478,7 @@ describe('showBehaviorSummaryPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: false,
@@ -493,7 +491,7 @@ describe('showBehaviorSummaryPage', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(true);
     });
@@ -503,7 +501,7 @@ describe('showBehaviorSummaryPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
@@ -514,7 +512,7 @@ describe('showBehaviorSummaryPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
           reassignment: false,
@@ -531,7 +529,7 @@ describe('showBehaviorSummaryPage', () => {
           misconduct: false,
           unlisted: false,
         },
-        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+        noBehavioralChange: { noChange: false },
       };
 
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
@@ -542,9 +540,9 @@ describe('showBehaviorSummaryPage', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
-        'view:mentalHealthWorkflowChoice':
+        mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+        noBehavioralChange: { noChange: true },
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
     });

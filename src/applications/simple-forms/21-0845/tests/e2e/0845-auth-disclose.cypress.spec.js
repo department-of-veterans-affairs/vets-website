@@ -8,10 +8,7 @@ import manifest from '../../manifest.json';
 import featureToggles from '../../../shared/tests/e2e/fixtures/mocks/feature-toggles.json';
 import user from './fixtures/mocks/user.json';
 import { AUTHORIZER_TYPES } from '../../definitions/constants';
-import {
-  fillAddressWebComponentPattern,
-  reviewAndSubmitPageFlow,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 import sipPut from './fixtures/mocks/in-progress-forms-put.json';
 import sipGet from './fixtures/mocks/in-progress-forms-get.json';
 
@@ -32,7 +29,7 @@ const testConfig = createTestConfig(
       'authorizer-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'authorizerAddress',
               data.authorizerAddress,
             );
@@ -53,7 +50,10 @@ const testConfig = createTestConfig(
       'disclosure-information-person-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern('personAddress', data.personAddress);
+            cy.fillAddressWebComponentPattern(
+              'personAddress',
+              data.personAddress,
+            );
 
             cy.axeCheck('.form-panel');
             cy.findByText(/continue/i, { selector: 'button' }).click();
@@ -63,7 +63,7 @@ const testConfig = createTestConfig(
       'disclosure-information-organization-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillAddressWebComponentPattern(
+            cy.fillAddressWebComponentPattern(
               'organizationAddress',
               data.organizationAddress,
             );

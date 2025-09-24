@@ -9,8 +9,17 @@ class PatientFilterSortPage {
   //   cy.get(Locators.BUTTONS.FILTER).click();
   // };
 
+  filterMockResponse = (originalResponse, text) => {
+    return {
+      ...originalResponse,
+      data: originalResponse.data.filter(item =>
+        item.attributes.subject.toLowerCase().includes(text.toLowerCase()),
+      ),
+    };
+  };
+
   openAdditionalFilter = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
+    cy.findByText('Show filters', { selector: 'h3' }).click();
   };
 
   // This method will access the input field and enters the text that will be used for search.
@@ -89,6 +98,14 @@ class PatientFilterSortPage {
     cy.get(Locators.FIELDS.SEARCH_MESSAGE_HEADING)
       .should('be.visible')
       .and('have.text', Assertions.NO_MATCHES_SEARCH);
+    cy.get(Locators.SEARCH_RESULT)
+      .find(`ul li`)
+      .each(el => {
+        cy.wrap(el).should(`be.visible`);
+        cy.wrap(el)
+          .invoke(`text`)
+          .should(`not.be.empty`);
+      });
   };
 
   clickClearFilterButton = () => {

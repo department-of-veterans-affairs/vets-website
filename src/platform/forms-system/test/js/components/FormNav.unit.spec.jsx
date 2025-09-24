@@ -41,8 +41,14 @@ describe('Schemaform FormNav', () => {
       chapter1: {
         title: 'Testing',
         pages: {
+          introduction: {
+            path: '/introduction',
+          },
           page1: {
             path: 'testing1',
+          },
+          page2: {
+            path: 'testing2',
           },
         },
       },
@@ -189,9 +195,10 @@ describe('Schemaform FormNav', () => {
       'Custom Review Page Title',
     );
   });
-  it('should display the auto-save message & in-progress ID on the first page', () => {
+
+  it('should display the auto-save message & in-progress ID on the second page (index 1) of the first chapter', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'testing1';
+    const currentPath = '/testing1'; // This is at index 1 as introduction is first
 
     const tree = render(
       <FormNav
@@ -212,6 +219,23 @@ describe('Schemaform FormNav', () => {
       }),
     ).to.not.be.null;
   });
+
+  it('should hide the auto-save message & in-progress ID on any page after index 1', () => {
+    const formConfigReviewData = getReviewData();
+    const currentPath = '/testing2'; // This is after index 1
+
+    const tree = render(
+      <FormNav
+        formConfig={formConfigReviewData}
+        currentPath={currentPath}
+        inProgressFormId={12345}
+        isLoggedIn
+      />,
+    );
+    const content = tree.queryByTestId('navFormDiv').textContent;
+    expect(content).to.eq('');
+  });
+
   it('should not display the auto-save message', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';

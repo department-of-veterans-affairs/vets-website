@@ -31,18 +31,6 @@ export const officialReportsDescription = (type = 'default') => {
   );
 };
 
-export const militaryReportsHint =
-  'Select any military incident reports filed for this event.';
-
-export const noReportHint =
-  'Select this option if you didn’t have any reports filed, don’t know about any official reports, or prefer not to include them.';
-
-export const otherReportTypesTitle =
-  'Other official report type not listed here:';
-
-export const otherReportsHint =
-  'Select any any other types of reports filed for this event.';
-
 export const otherReportTypesExamples = (
   <va-additional-info trigger="Examples of ’other’ types of reports">
     <div>

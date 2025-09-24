@@ -13,6 +13,7 @@ describe('SM MESSAGING COMPOSE', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+    PatientComposePage.interceptSentFolder();
   });
 
   it('verify interface', () => {
@@ -26,7 +27,7 @@ describe('SM MESSAGING COMPOSE', () => {
 
     cy.get(Locators.DROPDOWN.ADD_INFO).should(`be.visible`);
 
-    PatientComposePage.verifyRecipientsDropdownLinks();
+    PatientComposePage.verifyAdditionalInfoDropdownLinks();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -79,7 +80,7 @@ describe('SM MESSAGING COMPOSE', () => {
     PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT).should(
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID).should(
       'have.attr',
       'value',
       `${maxText}`,

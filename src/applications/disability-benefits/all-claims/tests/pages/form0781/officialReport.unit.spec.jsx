@@ -19,9 +19,6 @@ import {
 } from '../../../pages/form0781/officialReport';
 import {
   officialReportPageTitle,
-  militaryReportsHint,
-  otherReportsHint,
-  otherReportTypesTitle,
   selectedReportTypes,
   showConflictingAlert,
   validateReportSelections,
@@ -31,6 +28,7 @@ import {
   MILITARY_REPORT_TYPES,
   OTHER_REPORT_TYPES,
   NO_REPORT_TYPE,
+  OFFICIAL_REPORT_TYPES_HINTS,
 } from '../../../constants';
 
 describe('Official report custom schemas', () => {
@@ -68,7 +66,7 @@ describe('Official report without MST event type', () => {
       OFFICIAL_REPORT_TYPES_SUBTITLES.other,
     );
     expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
-      otherReportsHint,
+      OFFICIAL_REPORT_TYPES_HINTS.other,
     );
 
     Object.values(OTHER_REPORT_TYPES).forEach(option => {
@@ -93,7 +91,9 @@ describe('Official report without MST event type', () => {
     expect(textInputs.length).to.eq(1);
 
     const otherReportTextInput = Array.from(textInputs).find(
-      input => input.getAttribute('label') === otherReportTypesTitle,
+      input =>
+        input.getAttribute('label') ===
+        OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
     );
     expect(otherReportTextInput).to.not.be.null;
     expect(otherReportTextInput.getAttribute('required')).to.eq('false');
@@ -174,7 +174,7 @@ describe('Official Report with MST event type', () => {
       OFFICIAL_REPORT_TYPES_SUBTITLES.military,
     );
     expect($('va-checkbox-group', container).getAttribute('hint')).to.equal(
-      militaryReportsHint,
+      OFFICIAL_REPORT_TYPES_HINTS.military,
     );
 
     Object.values(MILITARY_REPORT_TYPES).forEach(option => {
@@ -199,7 +199,9 @@ describe('Official Report with MST event type', () => {
     expect(textInputs.length).to.eq(1);
 
     const otherReportTextInput = Array.from(textInputs).find(
-      input => input.getAttribute('label') === otherReportTypesTitle,
+      input =>
+        input.getAttribute('label') ===
+        OFFICIAL_REPORT_TYPES_SUBTITLES.unlisted,
     );
     expect(otherReportTextInput).to.not.be.null;
     expect(otherReportTextInput.getAttribute('required')).to.eq('false');

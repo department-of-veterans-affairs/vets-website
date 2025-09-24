@@ -8,9 +8,15 @@ const initialState = {
    */
   allRecipients: [],
   allowedRecipients: [],
+  recentRecipients: undefined,
   blockedRecipients: [],
   blockedFacilities: [],
   allFacilities: [],
+  allowedVistaFacilities: [],
+  allowedOhFacilities: [],
+  activeCareSystem: null,
+  activeCareTeam: null,
+  activeDraftId: null,
   associatedTriageGroupsQty: undefined,
   associatedBlockedTriageGroupsQty: undefined,
   noAssociations: undefined,
@@ -48,7 +54,9 @@ export const recipientsReducer = (state = initialState, action) => {
           .filter(
             recipient =>
               recipient.blockedStatus === false &&
-              recipient.preferredTeam === true,
+              recipient.preferredTeam === true &&
+              (state.activeCareSystem?.vhaId === undefined ||
+                state.activeCareSystem?.vhaId === recipient.stationNumber),
           )
           .map(recipient => formatRecipient(recipient)),
 
@@ -65,10 +73,50 @@ export const recipientsReducer = (state = initialState, action) => {
         allTriageGroupsBlocked,
       };
     }
+
     case Actions.AllRecipients.GET_LIST_ERROR:
       return {
         ...state,
         error: true,
+      };
+
+    case Actions.AllRecipients.GET_RECENT: {
+      // action.response is an array of triageTeamIds
+      // allowedRecipients is an array of recipient objects with triageTeamId and name
+      // Filter recent recipients to only include those that are allowed
+
+      const allowedMap = new Map(
+        state.allowedRecipients.map(r => [
+          r.triageTeamId,
+          {
+            name: r.suggestedNameDisplay || r.name,
+            healthCareSystemName: r.healthCareSystemName,
+            stationNumber: r.stationNumber,
+          },
+        ]),
+      );
+
+      const filteredRecent = (action.response || [])
+        .filter(id => allowedMap.has(id))
+        .map(id => ({
+          triageTeamId: id,
+          ...allowedMap.get(id),
+        }))
+        .slice(0, 4);
+      return {
+        ...state,
+        recentRecipients: filteredRecent || null,
+      };
+    }
+    case Actions.AllRecipients.RESET_RECENT:
+      return {
+        ...state,
+        recentRecipients: undefined,
+      };
+    case Actions.AllRecipients.GET_RECENT_ERROR:
+      return {
+        ...state,
+        recentRecipients: 'error',
       };
     default:
       return state;

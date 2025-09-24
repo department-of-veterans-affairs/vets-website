@@ -4,32 +4,36 @@ import {
   signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
-  isLoggedIn,
   selectProfile,
-  isLOA1,
   isLOA3,
   isInMPI,
-  isProfileLoading,
   isVAPatient,
 } from '~/platform/user/selectors';
-import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
 import { personalizationEnabled } from './featureToggles';
+import { hasEdipi } from './hasEdipi';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
-import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 import { hasMessagingAccess } from './hasMessagingAccess';
 
 import {
   mhvAccountStatusLoading,
-  mhvAccountStatusUsersuccess,
   mhvAccountStatusUserError,
-  mhvAccountStatusNonUserError,
   mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
-
-import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  militaryServiceLoading,
+  militaryServiceSuccessfulDownload,
+  militaryServiceFailedDownload,
+} from './militaryServicePdf';
+import {
+  seiLoading,
+  seiFailedDomains,
+  seiSuccessfulDownload,
+  seiFailedDownload,
+} from './seiPdf';
+import { profileHasEHRM, profileHasVista, isCerner } from './facilities';
 import {
   selectVaPatient,
   selectProfileLoa,
@@ -37,25 +41,27 @@ import {
 } from './accountInformation';
 
 export {
+  hasEdipi,
   hasMhvAccount,
-  hasMhvBasicAccount,
   hasMessagingAccess,
   isAuthenticatedWithSSOe,
+  isCerner,
   isInMPI,
-  isLOA1,
   isLOA3,
-  isLoggedIn,
-  isProfileLoading,
   isVAPatient,
   mhvAccountStatusLoading,
-  mhvAccountStatusUsersuccess,
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
-  mhvAccountStatusNonUserError,
+  militaryServiceLoading,
+  militaryServiceSuccessfulDownload,
+  militaryServiceFailedDownload,
   personalizationEnabled,
   profileHasEHRM,
   profileHasVista,
-  selectDrupalStaticData,
+  seiLoading,
+  seiFailedDomains,
+  seiSuccessfulDownload,
+  seiFailedDownload,
   selectGreetingName,
   selectVaPatient,
   selectProfile,

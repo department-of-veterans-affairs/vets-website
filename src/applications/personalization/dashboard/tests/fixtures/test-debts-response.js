@@ -278,3 +278,9 @@ export const debtsError = () => {
     ],
   };
 };
+
+export const debtsCountSuccess = (count = 8) => {
+  return {
+    debtsCount: count,
+  };
+};

@@ -25,8 +25,11 @@ import NewTabAnchor from '../NewTabAnchor';
 import FacilityPhone from '../FacilityPhone';
 import {
   NULL_STATE_FIELD,
+  captureMissingModalityLogs,
   recordAppointmentDetailsNullStates,
 } from '../../utils/events';
+import ClinicPhysicalLocation from './ClinicPhysicalLocation';
+import ClinicName from './ClinicName';
 
 export default function ClaimExamLayout({ data: appointment }) {
   const {
@@ -54,6 +57,9 @@ export default function ClaimExamLayout({ data: appointment }) {
   if (APPOINTMENT_STATUS.cancelled === status) heading = 'Canceled claim exam';
   else if (isPastAppointment) heading = 'Past claim exam';
 
+  if (!appointment.modality) {
+    captureMissingModalityLogs(appointment);
+  }
   recordAppointmentDetailsNullStates(
     {
       type: appointment.type,
@@ -72,9 +78,12 @@ export default function ClaimExamLayout({ data: appointment }) {
   return (
     <DetailPageLayout heading={heading} data={appointment}>
       <When>
-        <AppointmentDate date={startDate} />
+        <AppointmentDate date={startDate} timezone={appointment.timezone} />
         <br />
-        <AppointmentTime appointment={appointment} />
+        <AppointmentTime
+          appointment={appointment}
+          timezone={appointment.timezone}
+        />
         <br />
         {APPOINTMENT_STATUS.booked === status &&
           !isPastAppointment && (
@@ -86,8 +95,18 @@ export default function ClaimExamLayout({ data: appointment }) {
             </div>
           )}
       </When>
-      <What>{typeOfCareName}</What>
-      <Who>{practitionerName}</Who>
+      <What>
+        {typeOfCareName && (
+          <span className="typeOfCareName" data-dd-privacy="mask">
+            {typeOfCareName}
+          </span>
+        )}
+      </What>
+      <Who>
+        {practitionerName && (
+          <span data-dd-privacy="mask">{practitionerName}</span>
+        )}
+      </Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status && !isPastAppointment
@@ -133,10 +152,8 @@ export default function ClaimExamLayout({ data: appointment }) {
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
               <FacilityDirectionsLink location={facility} icon />
             </div>
-            <br />
-            <span>Clinic: {clinicName || 'Not available'}</span> <br />
-            <span>Location: {clinicPhysicalLocation || 'Not available'}</span>
-            <br />
+            <ClinicName name={clinicName} />{' '}
+            <ClinicPhysicalLocation location={clinicPhysicalLocation} /> <br />
           </>
         )}
         <ClinicOrFacilityPhone
@@ -175,11 +192,11 @@ export default function ClaimExamLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              <li>You don't need to bring anything to your exam.</li>
+              <li>You don’t need to bring anything to your exam</li>
               <li>
                 If you have any new non-VA medical records (like records from a
                 recent surgery or illness), be sure to submit them before your
-                appointment.
+                appointment
               </li>
             </ul>
             <a

@@ -196,7 +196,8 @@ export const ProfileInformationEditViewFc = ({
     const shouldUseFormAppFieldData =
       contactInfoFormAppConfig.fieldName === FIELD_NAMES.MAILING_ADDRESS &&
       contactInfoFormAppConfig?.formFieldData &&
-      contactInfoFormAppConfig?.formFieldData?.updateProfileChoice === 'no';
+      (contactInfoFormAppConfig?.formFieldData?.updateProfileChoice === 'no' ||
+        contactInfoFormAppConfig?.formFieldData?.formOnlyUpdate === true);
 
     const initialFormValues = shouldUseFormAppFieldData
       ? contactInfoFormAppConfig?.formFieldData
@@ -250,7 +251,7 @@ export const ProfileInformationEditViewFc = ({
       if (isPendingTransactionMemo && !intervalId) {
         const newIntervalId = window.setInterval(
           () => handleRefreshTransaction(),
-          window.VetsGov.pollTimeout || 1000,
+          window.VetsGov.pollTimeout || 2000,
         );
         setIntervalId(newIntervalId);
       }
@@ -326,6 +327,7 @@ export const ProfileInformationEditViewFc = ({
       return;
     }
 
+    // Create a new field value based on the input value
     const newFieldValue = {
       ...value,
     };
@@ -351,8 +353,12 @@ export const ProfileInformationEditViewFc = ({
 
     let payload = field.value;
 
-    // this is to handle the case where the user has selected "no" to updating
-    // their profile information from a form app context
+    // For addresses, check if this is a form-only update via updateProfileChoice='no'
+    // For phone/email, we always use formOnlyUpdate=true
+    const isFormOnly = isAddressField
+      ? payload?.updateProfileChoice === 'no'
+      : true; // Phone/email are always form-only updates
+
     const onlyValidate =
       payload?.updateProfileChoice && payload?.updateProfileChoice === 'no';
 
@@ -380,12 +386,15 @@ export const ProfileInformationEditViewFc = ({
     const method = payload?.id ? 'PUT' : 'POST';
 
     if (isAddressField) {
+      // For addresses, we validate and potentially update the form data
+      // await validateAddressAction(
       const validationResult = await validateAddressAction(
         apiRoute,
         method,
         fieldName,
         payload,
         analyticsSectionName,
+        isFormOnly,
         onlyValidate,
       );
 
@@ -437,7 +446,15 @@ export const ProfileInformationEditViewFc = ({
             name="Contact Info Form"
             title="Contact Info Form"
             schema={field.formSchema}
-            data={field.value}
+            data={
+              contactInfoFormAppConfig.fieldName ===
+                FIELD_NAMES.MAILING_ADDRESS &&
+              contactInfoFormAppConfig?.formFieldData &&
+              contactInfoFormAppConfig?.formFieldData?.updateProfileChoice ===
+                'no'
+                ? contactInfoFormAppConfig.formFieldData
+                : field.value
+            }
             uiSchema={field.uiSchema}
             onChange={event => onInput(event, field.formSchema, field.uiSchema)}
             onSubmit={onSubmit}
@@ -560,7 +577,6 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    formAppData: state?.form?.data,
   };
 };
 

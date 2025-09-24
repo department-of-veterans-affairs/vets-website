@@ -21,11 +21,14 @@ describe('LoginHeader', () => {
 
   it('should display the SessionTimeoutAlert component when the session is expired', () => {
     const originalLocation = window.location;
-    delete window.location;
-    window.location = {
-      ...originalLocation,
-      search: '?status=session_expired',
-    };
+    window.location.search = '?status=session_expired';
+    if (!window.location.search) {
+      delete window.location;
+      window.location = {
+        ...originalLocation,
+        search: '?status=session_expired',
+      };
+    }
     const screen = renderInReduxProvider(<LoginHeader />, {
       initialState: generateState({}),
     });

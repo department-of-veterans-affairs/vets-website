@@ -1,8 +1,25 @@
 import { expect } from 'chai';
+import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
 import mockData from '../../e2e/fixtures/data/test-data.json';
-import { REQUIRED_FILES } from '../../../config/constants';
+import { REQUIRED_FILES, FILE_UPLOAD_ORDER } from '../../../config/constants';
+
+// helper: pick the first upload key that survives the platform transform
+const getUploadKey = testData => {
+  const candidates = FILE_UPLOAD_ORDER.filter(k =>
+    Object.prototype.hasOwnProperty.call(REQUIRED_FILES, k),
+  );
+  for (const k of candidates) {
+    const trial = JSON.parse(JSON.stringify(testData));
+    trial.data.applicants[0][k] = [{ name: 'file.png' }];
+    const filtered = JSON.parse(
+      formsSystemTransformForSubmit(formConfig, trial),
+    );
+    if (Array.isArray(filtered?.applicants?.[0]?.[k])) return k;
+  }
+  return null;
+};
 
 describe('transform for submit', () => {
   it('should return passed in relationship if already flat', () => {
@@ -57,14 +74,20 @@ describe('transform for submit', () => {
   });
   it('should attach applicant name to each uploaded file', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
-    const fileKey = Object.keys(REQUIRED_FILES)[0]; // grab a file we expect to be uploaded
-    modified.data.applicants[0][fileKey] = [
-      {
-        name: 'file.png',
-      },
-    ];
+    const fileKey = getUploadKey(modified);
+    expect(fileKey, 'no key survived form-system transform').to.be.a('string');
+
+    modified.data.applicants[0][fileKey] = [{ name: 'file.png' }];
+
     const transformed = JSON.parse(transformForSubmit(formConfig, modified));
-    expect(transformed.supportingDocs[0].applicantName.first).to.equal(
+    const filteredDocs = transformed.supportingDocs.filter(
+      d =>
+        d?.applicantName?.first ===
+        transformed.applicants[0].applicantName.first,
+    );
+
+    expect(filteredDocs).to.not.be.empty;
+    expect(filteredDocs[0].applicantName.first).to.equal(
       transformed.applicants[0].applicantName.first,
     );
   });

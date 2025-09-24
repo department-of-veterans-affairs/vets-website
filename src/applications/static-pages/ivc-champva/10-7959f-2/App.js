@@ -5,6 +5,72 @@ import PropTypes from 'prop-types';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
+import manifest from '../../../ivc-champva/10-7959f-2/manifest.json';
+// eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
+import {
+  FMP_ADDRESS,
+  FMP_CANADA_ADDRESS,
+  FMP_FAX_NUMBER,
+  FMP_CANADA_FAX_NUMBER,
+} from '../../../ivc-champva/shared/constants';
+
+const introText = (
+  <p>
+    You’ll need to fill out an FMP Claim Cover Sheet (VA Form 10-7959f-2) and
+    provide supporting documents. Keep reading to find out the supporting
+    documents you need based on the type of care.
+  </p>
+);
+
+const downloadLink = (
+  <va-link
+    href="https://www.va.gov/find-forms/about-form-10-7959f-2/"
+    text="Get VA Form 10-7959f-2 to download"
+  />
+);
+
+const emailOption = (
+  <>
+    <p>
+      Email us your completed VA Form 10-7959f-2 and supporting documents to{' '}
+      <a href="mailto:HAC.FMP@va.gov">HAC.FMP@va.gov</a>.
+    </p>
+  </>
+);
+
+const mailOption = (
+  <>
+    <p>
+      Mail your completed VA Form 10-7959f-2 and supporting documents to this
+      address (for care in any country except for Canada):
+    </p>
+
+    {FMP_ADDRESS}
+
+    <p>
+      If you got care in Canada, mail your completed VA Form 10-7959f-2 and
+      supporting documents to this address:
+    </p>
+
+    {FMP_CANADA_ADDRESS}
+  </>
+);
+
+const faxOption = (
+  <>
+    <p>
+      Fax your completed VA Form 10-7959f-2 and supporting documents to{' '}
+      <va-telephone contact={FMP_FAX_NUMBER} /> (for care in any country except
+      for Canada).
+    </p>
+    <p>
+      If you got care in Canada, fax your completed VA Form 10-7959f-2 and
+      supporting documents to <va-telephone contact={FMP_CANADA_FAX_NUMBER} />.
+    </p>
+  </>
+);
+
 const App = ({ formEnabled }) => {
   if (formEnabled === undefined) {
     return <va-loading-indicator message="Loading..." />;
@@ -13,49 +79,26 @@ const App = ({ formEnabled }) => {
   if (formEnabled) {
     return (
       <>
-        <p>
-          You can file a claim online, by mail, or by fax. You’ll need your
-          Security number or your VA claim number (also called VA file number).
-          In most cases, your claim number and Social Security number are the
-          same.
-        </p>
-        <p>
-          <strong>Note</strong>: You don’t need to be enrolled in VA health care
-          to file a claim for the Foreign Medical Program.
-        </p>
-        <h3>
-          <strong>Option 1: Online</strong>
-        </h3>
-        <a
-          className="vads-c-action-link--green"
-          href="/health-care/foreign-medical-program/claim-form-10-7959f-2"
-        >
-          File a claim for the Foreign Medical Program
+        <p>You can file a claim in any of these 4 ways.</p>
+
+        <h3>Option 1: Online</h3>
+        <p>You can file a claim online now.</p>
+        <a className="vads-c-action-link--blue" href={manifest?.rootUrl}>
+          File an FMP claim online
         </a>
-        <h3>Option 2: By mail</h3>
-        <p>Fill out an FMP Claim Form (VA Form 10-7959f-2).</p>
-        <a href="https://www.va.gov/find-forms/about-form-10-7959f-2/">
-          Get VA Form 10-7959f-2 to download
-        </a>
-        <p>Mail your completed form to this address:</p>
-        <p className="va-address-block">
-          VHA Office of Integrated Veteran Care (OIVC)
-          <br />
-          Foreign Medical Program (FMP)
-          <br />
-          P.O. Box 469061
-          <br />
-          Denver, CO 80246-9061
-          <br />
-        </p>
-        <h3>Option 3: By fax</h3>
-        <p>Fill out an FMP Claim Form (VA Form 10-7959f-2).</p>
-        <a href="https://www.va.gov/find-forms/about-form-10-7959f-2/">
-          Get VA Form 10-7959f-2 to download
-        </a>
-        <p>
-          Fax your completed form to <va-telephone contact="3033317803" />.
-        </p>
+
+        <h3>Option 2: By email</h3>
+        {introText}
+        {downloadLink}
+        {emailOption}
+        <h3>Option 3: By mail</h3>
+        {introText}
+        {downloadLink}
+        {mailOption}
+        <h3>Option 4: By fax</h3>
+        {introText}
+        {downloadLink}
+        {faxOption}
       </>
     );
   }
@@ -63,46 +106,21 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <p>
-        Fill out an FMP Claim Form (VA Form 10-7959f-2). You’ll need your
-        Security number or your VA claim number (also called VA file number). In
-        most cases, your claim number and Social Security number are the same.
+        You can file your claim by email, mail or fax. The address or fax number
+        for your claim depends on the country where you got care.
       </p>
       <p>
-        <strong>Note</strong>: You don’t need to be enrolled in VA health care
-        to file a claim for for the Foreign Medical Program.
+        You’ll need to include a completed FMP Claim Cover Sheet (VA Form
+        10-7959f-2) and your supporting documents. Keep reading to find out the
+        supporting documents you need based on the type of care.
       </p>
-      <a
-        className="vads-c-action-link--green"
-        href="https://www.va.gov/find-forms/about-form-10-7959f-2/"
-      >
-        Get VA Form 10-7959f-2 to download
-      </a>
-      <h3>
-        <strong>Option 1: Online</strong>
-      </h3>
-      <a href="https://ask.va.gov/">
-        Upload your completed form through Ask VA
-      </a>
-      <h3>
-        <strong>Option 2: By mail</strong>
-      </h3>
-      <p>Mail your completed form to this address:</p>
-      <p className="va-address-block">
-        VHA Office of Integrated Veteran Care (OIVC)
-        <br />
-        Foreign Medical Program (FMP)
-        <br />
-        P.O. Box 469061
-        <br />
-        Denver, CO 80246-9061
-        <br />
-      </p>
-      <h3>
-        <strong>Option 3: By fax</strong>
-      </h3>
-      <p>
-        Fax your completed form to <va-telephone contact="3033317803" />.
-      </p>
+      {downloadLink}
+      <h3>Option 1: By email</h3>
+      {emailOption}
+      <h3>Option 2: By mail</h3>
+      {mailOption}
+      <h3>Option 3: By fax</h3>
+      {faxOption}
     </>
   );
 };

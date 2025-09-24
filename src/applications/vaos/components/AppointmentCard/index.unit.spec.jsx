@@ -1,61 +1,33 @@
-import React from 'react';
 import { expect } from 'chai';
+import React from 'react';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import AppointmentCard from '.';
-import AppointmentDateTime from '../../appointment-list/components/AppointmentDateTime';
-import { createTestStore } from '../../tests/mocks/setup';
-
-const appointmentData = {
-  start: '2024-07-19T08:00:00-07:00',
-  version: 2,
-  vaos: {
-    isCanceled: false,
-    appointmentType: 'vaAppointment',
-    isUpcomingAppointment: true,
-    isPastAppointment: false,
-    isCompAndPenAppointment: false,
-  },
-  videoData: {
-    isVideo: false,
-  },
-  location: {
-    vistaId: '983',
-    clinicId: '848',
-    stationId: '983',
-    clinicName: 'CHY PC VAR2',
-  },
-};
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
 
 describe('VAOS Component: AppointmentCard', () => {
-  const initialState = {
-    featureToggles: {},
-  };
+  const initialState = {};
 
-  it('should display appointment card', async () => {
-    const state = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-      },
-    };
+  it('should display appointment card with children', async () => {
+    // Arrange
+    const response = MockAppointmentResponse.createPhoneResponse();
+    const appointment = MockAppointmentResponse.getTransformedResponse(
+      response,
+    );
 
-    const store = createTestStore(state);
-
-    const appointment = {
-      ...appointmentData,
-    };
-
+    // Act
     const wrapper = renderWithStoreAndRouter(
       <AppointmentCard appointment={appointment}>
         <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
+          <p>This is a test</p>
         </h1>
       </AppointmentCard>,
       {
-        store,
+        initialState,
       },
     );
 
+    // Assert
     expect(wrapper.getByTestId('appointment-card')).to.exist;
+    expect(wrapper.getByText(/This is a test/i)).to.be.ok;
   });
 });

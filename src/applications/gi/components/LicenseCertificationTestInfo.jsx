@@ -113,6 +113,7 @@ function LcTestInfo({ tests }) {
             <va-table
               table-type={isSmallScreen() ? 'bordered' : 'borderless'}
               stacked
+              table-title="Test name and fee details"
             >
               <va-table-row slot="headers">
                 <span>Test Name</span>
@@ -146,7 +147,6 @@ function LcTestInfo({ tests }) {
       ) : (
         <div className="single-test-wrapper">
           <h4 className="vads-u-margin-top--1p5">Test name: {tests[0].name}</h4>
-          {/* <p className="fee">Fee {formatCurrency(tests[0].fee)}</p> */}
           <p className="fee vads-u-margin-y--0">
             Fee:{' '}
             {formatDollarAmountWithCents(

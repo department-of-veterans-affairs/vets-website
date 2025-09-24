@@ -17,7 +17,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
 SubmitLoadingIndicator.propTypes = {
   submission: PropTypes.shape({
     hasAttemptedSubmit: PropTypes.bool,
-    status: PropTypes.string,
+    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
 };
 

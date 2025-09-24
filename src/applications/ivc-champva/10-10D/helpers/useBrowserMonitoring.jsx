@@ -24,6 +24,14 @@ const initializeRealUserMonitoring = () => {
       trackResources: true,
       trackLongTasks: true,
       defaultPrivacyLevel: 'mask-user-input',
+      beforeSend: event => {
+        // Prevent PII from being sent to Datadog with click actions.
+        if (event.action?.type === 'click') {
+          // eslint-disable-next-line no-param-reassign
+          event.action.target.name = 'CHAMPVA item';
+        }
+        return true;
+      },
     });
 
     // If sessionReplaySampleRate > 0, we need to manually start the recording

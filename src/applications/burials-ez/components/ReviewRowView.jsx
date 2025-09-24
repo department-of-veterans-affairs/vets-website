@@ -37,19 +37,4 @@ AltReviewRowView.propTypes = {
   }),
 };
 
-export const CurrencyReviewRowView = ({ children }) => {
-  return (
-    <div className="review-row">
-      <dt>{children?.props?.uiSchema?.['ui:title']}</dt>
-      <dd>${children}</dd>
-    </div>
-  );
-};
-
-CurrencyReviewRowView.propTypes = {
-  children: PropTypes.shape({
-    props: PropTypes.object,
-  }),
-};
-
 export default ReviewRowView;

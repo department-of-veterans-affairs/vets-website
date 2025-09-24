@@ -2,7 +2,7 @@ const generateFeatureToggles = () => {
   return {
     data: {
       type: 'feature_toggles',
-      features: [],
+      features: [{ name: 'mhv_secure_messaging_cerner_pilot', value: false }],
     },
   };
 };

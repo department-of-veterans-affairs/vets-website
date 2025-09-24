@@ -13,6 +13,10 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  getNameDateAndTime,
+  makePdf,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearVitalDetails,
@@ -24,14 +28,10 @@ import {
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import {
-  getNameDateAndTime,
   macroCase,
-  makePdf,
   generateTextFile,
   getLastUpdatedText,
-  formatNameFirstLast,
   formatDateInLocalTimezone,
-  formatUserDob,
   sendDataDogAction,
 } from '../util/helpers';
 import {
@@ -41,6 +41,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   loadStates as LOAD_STATES,
+  statsdFrontEndActions,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -57,6 +58,7 @@ import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
+import { useTrackAction } from '../hooks/useTrackAction';
 
 const VitalDetails = props => {
   const { runningUnitTest } = props;
@@ -93,6 +95,8 @@ const VitalDetails = props => {
   );
 
   const { isAcceleratingVitals, isLoading } = useAcceleratedData();
+
+  useTrackAction(statsdFrontEndActions.VITALS_DETAILS);
 
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const dispatchAction = isCurrent => {
@@ -238,7 +242,13 @@ const VitalDetails = props => {
       ...generateVitalContent(records, true),
     };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Vital details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Vital details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generateVitalsTxt = async () => {

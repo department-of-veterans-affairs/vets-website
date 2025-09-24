@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui/focus';
+import { scrollToTop } from 'platform/utilities/scroll';
 
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import {
+  recordSmocButtonClick,
+  recordSmocPageview,
+} from '../../../util/events-helpers';
 
 const title = 'Did you travel in your own vehicle?';
 
@@ -18,6 +23,7 @@ const VehiclePage = ({
   setIsUnsupportedClaimType,
 }) => {
   useEffect(() => {
+    recordSmocPageview('vehicle');
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
@@ -28,6 +34,7 @@ const VehiclePage = ({
 
   const handlers = {
     onNext: () => {
+      recordSmocButtonClick('vehicle', 'continue');
       if (!yesNo.vehicle) {
         setRequiredAlert(true);
       } else if (yesNo.vehicle !== 'yes') {
@@ -38,6 +45,7 @@ const VehiclePage = ({
       }
     },
     onBack: () => {
+      recordSmocButtonClick('vehicle', 'back');
       setPageIndex(pageIndex - 1);
     },
   };
@@ -52,12 +60,14 @@ const VehiclePage = ({
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
       <HelpTextOptions
+        dataTestId="vehicle-help-text"
         trigger="If you didn't travel in your own vehicle"
         headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
       />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
+        disable-analytics
         onPrimaryClick={e => handlers.onNext(e)}
         onSecondaryClick={e => handlers.onBack(e)}
       />

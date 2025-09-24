@@ -1,31 +1,25 @@
-import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import classNames from 'classnames';
 import FormButtons from '../../components/FormButtons';
-import { getFormPageInfo } from '../redux/selectors';
-import { focusFormHeader } from '../../utils/scrollAndFocus';
-import { PURPOSE_TEXT_V2, FACILITY_TYPES } from '../../utils/constants';
-import TextareaWidget from '../../components/TextareaWidget';
-import PostFormFieldContent from '../../components/PostFormFieldContent';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
+import NewTabAnchor from '../../components/NewTabAnchor';
+import PostFormFieldContent from '../../components/PostFormFieldContent';
+import TextareaWidget from '../../components/TextareaWidget';
+import { FACILITY_TYPES, PURPOSE_TEXT_V2 } from '../../utils/constants';
+import { focusFormHeader } from '../../utils/scrollAndFocus';
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openReasonForAppointment,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import {
-  selectFeatureVAOSServiceRequests,
-  selectFeatureBreadcrumbUrlUpdate,
-} from '../../redux/selectors';
-import { getPageTitle } from '../newAppointmentFlow';
+import { getFormPageInfo } from '../redux/selectors';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -71,10 +65,7 @@ const initialSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-export default function ReasonForAppointmentPage({ changeCrumb }) {
-  const featureBreadcrumbUrlUpdate = useSelector(state =>
-    selectFeatureBreadcrumbUrlUpdate(state),
-  );
+export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
   const dispatch = useDispatch();
@@ -83,22 +74,22 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     shallowEqual,
   );
   const history = useHistory();
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const isCommunityCare =
+    data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
   const pageInitialSchema = isCommunityCare
     ? initialSchema.cc
     : initialSchema.default;
-  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
   const uiSchema = {
     default: {
       reasonForAppointment: {
-        'ui:widget': 'radio', // Required
-        'ui:webComponentField': VaRadioField,
+        'ui:widget': AppointmentsRadioWidget,
         'ui:title': pageTitle,
         'ui:errorMessages': {
           required: 'Select a reason for your appointment',
         },
         'ui:options': {
-          labelHeaderLevel: '1',
+          classNames: 'vads-u-margin-top--neg2',
+          hideLabelText: true,
         },
       },
       reasonAdditionalInfo: {
@@ -131,16 +122,8 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(
-        openReasonForAppointment(
-          pageKey,
-          pageUISchema,
-          pageInitialSchema,
-          useV2,
-        ),
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
-      if (featureBreadcrumbUrlUpdate) {
-        changeCrumb(pageTitle);
-      }
     },
     [dispatch],
   );
@@ -155,14 +138,15 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
   );
 
   return (
-    <div
-      className={classNames('vaos-form__radio-field', {
-        'vads-u-margin-top--neg3': !isCommunityCare,
-      })}
-    >
-      {isCommunityCare && (
-        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
-      )}
+    <div className="vaos-form__radio-field">
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        {!isCommunityCare && (
+          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+            (*Required)
+          </span>
+        )}
+      </h1>
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"
@@ -174,12 +158,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(
-                pageKey,
-                pageUISchema,
-                newData,
-                useV2,
-              ),
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
             )
           }
           data={data}
@@ -187,7 +166,7 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
           <PostFormFieldContent>
             <InfoAlert
               status="warning"
-              headline="If you have an urgent medical need, please:"
+              headline="Only schedule appointments for non-urgent needs"
               className="vads-u-margin-y--3"
               level="2"
             >
@@ -197,18 +176,18 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Call the Veterans Crisis hotline at{' '}
-                  <VaTelephone
-                    contact="988"
-                    data-testid="crisis-hotline-telephone"
-                  />{' '}
-                  and select 1,{' '}
+                  Call
+                  {
+                    // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+                    <a href="tel:988">988 and select 1</a>
+                  }{' '}
+                  for the Veterans Crisis Line,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
-                  Go to your nearest emergency room or VA medical center.{' '}
-                  <NewTabAnchor href="/find-locations">
-                    Find your nearest VA medical center
+                  Go to your nearest emergency room or{' '}
+                  <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
+                    urgent care facility (opens in a new tab)
                   </NewTabAnchor>
                 </li>
               </ul>
@@ -226,7 +205,3 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
     </div>
   );
 }
-
-ReasonForAppointmentPage.propTypes = {
-  changeCrumb: PropTypes.func,
-};

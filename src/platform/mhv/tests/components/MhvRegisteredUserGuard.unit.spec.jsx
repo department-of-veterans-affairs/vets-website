@@ -10,7 +10,6 @@ describe('MhvRegisteredUserGuard component', () => {
 
   beforeEach(() => {
     oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };

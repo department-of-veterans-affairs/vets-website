@@ -2,11 +2,22 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
+import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import sinon from 'sinon';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import MhvTemporaryAccess from '../../containers/MhvTemporaryAccess';
 
 describe('MhvTemporaryAccess', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox = undefined;
+  });
+
   it('renders main title', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const mainTitle = screen.getByRole('heading', {
@@ -24,7 +35,7 @@ describe('MhvTemporaryAccess', () => {
   });
 
   it('renders button and calls login with correct parameters on click', async () => {
-    const loginStub = sinon.stub(authUtilities, 'login');
+    const loginStub = sandbox.stub(authUtilities, 'login');
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const signInHeading = screen.getByRole('heading', { name: /sign in/i });
     expect(signInHeading).to.exist;
@@ -34,8 +45,8 @@ describe('MhvTemporaryAccess', () => {
     fireEvent.click(accessButton);
 
     await waitFor(() => {
-      sinon.assert.calledOnce(loginStub);
-      sinon.assert.calledWith(loginStub, {
+      sandbox.assert.called(loginStub);
+      sandbox.assert.calledWith(loginStub, {
         policy: 'mhv',
         queryParams: { operation: 'mhv_exception' },
       });
@@ -43,10 +54,25 @@ describe('MhvTemporaryAccess', () => {
     loginStub.restore();
   });
 
-  it('renders having trouble section', () => {
+  it('renders update password link with correct parameters on click', async () => {
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
+    const updateHeading = screen.getByRole('heading', {
+      name: /Account information and password/i,
+    });
+    expect(updateHeading).to.exist;
+    const accessButton = await screen.findByTestId('updateMhvBtn');
+    expect(accessButton).to.exist;
+
+    fireEvent.click(accessButton);
+    expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
+      'https://eauth.va.gov/mhv-portal-web/eauth?deeplinking=account-information',
+    );
+  });
+
+  it('renders help and support section', () => {
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const troubleHeading = screen.getByRole('heading', {
-      name: /having trouble signing in/i,
+      name: /Help and support/i,
     });
     expect(troubleHeading).to.exist;
 

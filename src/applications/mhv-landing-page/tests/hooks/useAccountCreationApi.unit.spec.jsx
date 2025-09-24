@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { useAccountCreationApi } from '../../hooks';
 import {
@@ -34,8 +35,10 @@ describe('useAccountCreationApi', () => {
     renderWithStoreAndRouter(<TestComponent spy={dispatch} />, {
       initialState,
     });
-    expect(dispatch.firstCall.calledWith({ type: fetchAccountStatus })).to.be
-      .true;
+    await waitFor(() => {
+      expect(dispatch.firstCall.calledWith({ type: fetchAccountStatus })).to.be
+        .true;
+    });
   });
 
   it('does not call dispatch if not LOA3', async () => {
@@ -51,7 +54,9 @@ describe('useAccountCreationApi', () => {
     renderWithStoreAndRouter(<TestComponent spy={dispatch} />, {
       initialState,
     });
-    expect(dispatch.called).to.be.false;
+    await waitFor(() => {
+      expect(dispatch.called).to.be.false;
+    });
   });
 
   it('calls dispatch with fetchAccountStatusSuccess if user has MHV account', async () => {
@@ -68,12 +73,14 @@ describe('useAccountCreationApi', () => {
     renderWithStoreAndRouter(<TestComponent spy={dispatch} />, {
       initialState,
     });
-    expect(
-      dispatch.firstCall.calledWith({
-        type: fetchAccountStatusSuccess,
-        data: { error: false },
-      }),
-    ).to.be.true;
+    await waitFor(() => {
+      expect(
+        dispatch.firstCall.calledWith({
+          type: fetchAccountStatusSuccess,
+          data: { error: false },
+        }),
+      ).to.be.true;
+    });
   });
 
   it('does not call dispatch if loading', async () => {
@@ -89,6 +96,8 @@ describe('useAccountCreationApi', () => {
     renderWithStoreAndRouter(<TestComponent spy={dispatch} />, {
       initialState,
     });
-    expect(dispatch.called).to.be.false;
+    await waitFor(() => {
+      expect(dispatch.called).to.be.false;
+    });
   });
 });

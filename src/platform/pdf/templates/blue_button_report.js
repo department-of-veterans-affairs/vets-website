@@ -18,6 +18,7 @@ import {
   generateFooterContent,
   generateInitialHeaderContent,
   createRichTextDetailItem,
+  addBulletList,
 } from './utils';
 
 const config = {
@@ -28,6 +29,7 @@ const config = {
     right: 16,
   },
   indents: {
+    bulletList: 30,
     one: 45,
   },
   headings: {
@@ -37,7 +39,7 @@ const config = {
     },
     H2: {
       font: 'Bitter-Bold',
-      size: 24,
+      size: 20,
     },
     H3: {
       font: 'Bitter-Bold',
@@ -73,7 +75,7 @@ const generateTitleSection = (doc, parent, data) => {
   titleSection.add(
     createHeading(doc, 'H1', config, 'VA Blue Button® report', {
       x: config.margins.left,
-      paragraphGap: 12,
+      paragraphGap: 10,
     }),
   );
   parent.add(titleSection);
@@ -90,7 +92,7 @@ const generateTitleSection = (doc, parent, data) => {
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
 
   titleSection.add(
     doc.struct('P', () => {
@@ -148,11 +150,11 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(data.lastUpdated, config.margins.left, doc.y, { lineGap: 20 });
+        .text(data.lastUpdated, config.margins.left, doc.y);
     }),
   );
 
-  doc.moveDown(0.75);
+  doc.moveDown();
   titleSection.end();
 };
 
@@ -176,7 +178,6 @@ const generateDateRangeParagraph = (section, doc, data) => {
         });
     }),
   );
-  doc.moveDown();
 };
 
 const getAvailableRecordSets = recordSets => {
@@ -184,7 +185,7 @@ const getAvailableRecordSets = recordSets => {
     if (!recordSet.selected) return false;
     // appointments records are broken into two sub-lists: past and upcoming
     if (recordSet.type === 'appointments') {
-      return !recordSet.records.every(type => !type?.results?.items?.length);
+      return recordSet.records.some(type => type?.results?.items?.length);
     }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
@@ -196,14 +197,19 @@ const getAvailableRecordSets = recordSets => {
   });
 };
 
-const getUnavailableRecordSets = recordSets => {
+const getEmptyRecordSets = (recordSets, failedDomains) => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
     // appointments records are broken into two sub-lists: past and upcoming
+    if (failedDomains.includes(recordSet.title)) return false;
     if (recordSet.type === 'appointments') {
-      return recordSet.records.every(
-        type => type?.results?.items?.length === 0,
+      return (
+        recordSet.records.some(type => type?.results?.items?.length === 0) &&
+        !failedDomains.includes('VA appointments')
       );
+    }
+    if (recordSet.type === 'demographics' && !recordSet.records.length) {
+      return !failedDomains.includes('VA demographics records');
     }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
@@ -215,46 +221,95 @@ const getUnavailableRecordSets = recordSets => {
   });
 };
 
+// helper to turn “past”/“upcoming” into the proper title
+const titleFor = key =>
+  key === 'past' ? 'Past appointments' : 'Upcoming appointments';
+
+function expandAppointments(
+  items,
+  recordSets,
+  {
+    matchItem = 'Appointments', // which incoming item to replace
+    showWhenPresent = true, // true ⇒ include when records exist; false ⇒ include when empty
+    alwaysShow = false, // ignore record counts when true (for “failed” case)
+  } = {},
+) {
+  const appSet = recordSets.find(set => set.type === 'appointments');
+  if (!appSet) return items;
+
+  // build a map of title → hasRecords boolean
+  const hasRecords = Object.fromEntries(
+    appSet.records.map(r => [r.title, r.results.items.length > 0]),
+  );
+
+  return items.flatMap(item => {
+    if (item !== matchItem) return [item];
+
+    return (
+      Object.entries(appSet.selected)
+        // filter by selection and (either alwaysShow or presence matches desired flag)
+        .filter(([key, isSelected]) => {
+          const title = titleFor(key);
+          return (
+            isSelected && (alwaysShow || hasRecords[title] === showWhenPresent)
+          );
+        })
+        // map back into the human‐readable titles
+        .map(([key]) => titleFor(key))
+    );
+  });
+}
+
+const expandAvailableAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'Appointments',
+    showWhenPresent: true,
+  });
+
+const expandEmptyAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'Appointments',
+    showWhenPresent: false,
+  });
+
+const expandFailedAppointments = (items, recordSets) =>
+  expandAppointments(items, recordSets, {
+    matchItem: 'VA appointments',
+    alwaysShow: true,
+  });
+
 const generateInfoForAvailableRecords = (infoSection, doc, data) => {
   infoSection.add(
     createHeading(doc, 'H2', config, 'Records in this report', {
       x: config.margins.left,
-      paragraphGap: 12,
+      paragraphGap: 10,
     }),
   );
 
   generateDateRangeParagraph(infoSection, doc, data);
 
-  const listOptions = {
-    lineGap: -2,
-    paragraphGap: 6,
-    listType: 'bullet',
-    bulletRadius: 2,
-    bulletIndent: config.margins.left,
-    x: 6,
-  };
-  infoSection.add(
-    doc.struct('List', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .list(
-          getAvailableRecordSets(data.recordSets).map(
-            recordSet => recordSet.title,
-          ),
-          listOptions,
-        );
-    }),
+  doc.moveDown(0.75);
+
+  const items = expandAvailableAppointments(
+    getAvailableRecordSets(data.recordSets).map(recordSet => recordSet.title),
+    data.recordSets,
   );
+
+  addBulletList(infoSection, doc, items, config, {
+    bulletRadius: 2,
+    bulletIndent: config.indents.bulletList,
+    paragraphGap: 3,
+    textOffset: 4,
+  });
 };
 
-const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
-  doc.moveDown();
+const generateInfoForEmptyRecords = (infoSection, doc, recordSets) => {
+  doc.moveDown(0.75);
 
   infoSection.add(
     createHeading(doc, 'H2', config, 'Records not in this report', {
       x: config.margins.left,
-      paragraphGap: 12,
+      paragraphGap: 10,
     }),
   );
 
@@ -264,38 +319,42 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          "You don't have any VA medical records in these categories you selected for this report:",
+          "You don't have any VA medical reports in these categories you selected for this report. " +
+            'If you think you should have records in these categories, contact your VA health facility.',
           config.margins.left,
           doc.y,
         );
     }),
   );
 
-  doc.moveDown();
+  doc.moveDown(0.75);
+  const items = expandEmptyAppointments(
+    recordSets.map(recordSet => recordSet.title),
+    recordSets,
+  );
 
-  const listOptions = {
-    lineGap: -2,
-    paragraphGap: 6,
-    listType: 'bullet',
+  addBulletList(infoSection, doc, items, config, {
     bulletRadius: 2,
-    bulletIndent: config.margins.left,
-    x: 6,
-  };
+    bulletIndent: config.indents.bulletList,
+    paragraphGap: 3,
+    textOffset: 4,
+  });
+};
+
+const generateInfoForFailedRecordsets = (
+  infoSection,
+  doc,
+  failedDomains,
+  recordSets,
+) => {
+  doc.moveDown(0.75);
+
   infoSection.add(
-    doc.struct('List', () => {
-      doc
-        .font(config.text.font)
-        .fontSize(config.text.size)
-        .list(
-          getUnavailableRecordSets(data.recordSets).map(
-            recordSet => recordSet.title,
-          ),
-          listOptions,
-        );
+    createHeading(doc, 'H2', config, "Information we can't access right now", {
+      x: config.margins.left,
+      paragraphGap: 10,
     }),
   );
-
-  doc.moveDown();
 
   infoSection.add(
     doc.struct('P', () => {
@@ -303,15 +362,27 @@ const generateInfoForUnavailableRecords = (infoSection, doc, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          'If you think you should have records in these categories, contact your VA health facility.',
+          "We're sorry, there was a problem with our system. Try downloading your report again later.",
           config.margins.left,
           doc.y,
         );
     }),
   );
+
+  doc.moveDown(0.75);
+
+  const items = expandFailedAppointments(failedDomains, recordSets);
+
+  addBulletList(infoSection, doc, items, config, {
+    bulletRadius: 2,
+    bulletIndent: config.indents.bulletList,
+    paragraphGap: 3,
+    textOffset: 4,
+  });
 };
 
 const generateInfoSection = (doc, parent, data) => {
+  const { recordSets, failedDomains } = data;
   const infoSection = doc.struct('Sect', {
     title: 'Information',
   });
@@ -319,12 +390,23 @@ const generateInfoSection = (doc, parent, data) => {
 
   generateInfoForAvailableRecords(infoSection, doc, data);
 
-  if (getUnavailableRecordSets(data.recordSets).length) {
-    generateInfoForUnavailableRecords(infoSection, doc, data);
+  const emptyRecordSets = getEmptyRecordSets(recordSets, failedDomains);
+
+  if (emptyRecordSets?.length) {
+    generateInfoForEmptyRecords(infoSection, doc, emptyRecordSets);
+  }
+
+  if (failedDomains?.length) {
+    generateInfoForFailedRecordsets(
+      infoSection,
+      doc,
+      failedDomains,
+      data.recordSets,
+    );
   }
 
   // Add horizontal rule
-  addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
+  addHorizontalRule(doc, config.margins.left, 1, 0);
 
   infoSection.end();
 };

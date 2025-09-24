@@ -57,6 +57,13 @@ describe('hca ConfirmationPage', () => {
     return { container, selectors };
   };
 
+  beforeEach(() => {
+    Object.defineProperty(window, 'print', {
+      value: () => {},
+      configurable: true,
+    });
+  });
+
   it('should render success alert & application summary when the page renders', () => {
     const { mockStore } = getData({});
     const { selectors } = subject({ mockStore });

@@ -1,10 +1,20 @@
 export const recordType = {
-  ALLERGIES: 'allergies',
+  ALLERGIES: 'allergies or reactions',
   VACCINES: 'vaccines',
   CARE_SUMMARIES_AND_NOTES: 'care summaries and notes',
   LABS_AND_TESTS: 'lab and test results',
   VITALS: 'vitals',
   HEALTH_CONDITIONS: 'health conditions',
+};
+
+/** for use in Datadog RUM IDs, e.g. 'allergies-list-spinner' */
+export const recordTypeKeyNames = {
+  [recordType.ALLERGIES]: 'allergies',
+  [recordType.VACCINES]: 'vaccines',
+  [recordType.CARE_SUMMARIES_AND_NOTES]: 'care-summaries',
+  [recordType.LABS_AND_TESTS]: 'labs-and-tests',
+  [recordType.VITALS]: 'vitals',
+  [recordType.HEALTH_CONDITIONS]: 'health-conditions',
 };
 
 export const blueButtonRecordTypes = {
@@ -41,7 +51,6 @@ export const labTypes = {
   CHEM_HEM: 'chemistry_hematology',
   MICROBIOLOGY: 'microbiology',
   PATHOLOGY: 'pathology',
-  EKG: 'electrocardiogram',
   RADIOLOGY: 'radiology',
   CVIX_RADIOLOGY: 'cvix_radiology',
   OTHER: 'other',
@@ -58,7 +67,9 @@ export const loincCodes = {
   // lab and test results
   MICROBIOLOGY: '18725-2', // changed from '79381-0'
   PATHOLOGY: '11526-1', // changed from '60567-5'
-  EKG: '11524-6',
+  SURGICAL_PATHOLOGY: '27898-6',
+  ELECTRON_MICROSCOPY: '50668-3',
+  CYTOPATHOLOGY: '26438-2',
   RADIOLOGY: '18748-4',
   // care summaries and notes
   PHYSICIAN_PROCEDURE_NOTE: '11506-3',
@@ -66,9 +77,15 @@ export const loincCodes = {
   DISCHARGE_SUMMARY: '18842-5',
   // vitals
   BLOOD_PRESSURE: '85354-9',
+  BREATHING_RATE: '9279-1',
+  HEIGHT: '8302-2',
+  TEMPERATURE: '8310-5',
+  WEIGHT: '29463-7',
   SYSTOLIC: '8480-6',
   DIASTOLIC: '8462-4',
   HEART_RATE: '8867-4',
+  PULSE_OXIMETRY_1: '59408-5',
+  PULSE_OXIMETRY_2: '2708-6',
 };
 
 export const fhirResourceTypes = {
@@ -153,19 +170,6 @@ export const vitalTypes = {
   TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
-  PAIN_SEVERITY: ['PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED'],
-};
-
-export const seiVitalTypes = {
-  BLOOD_PRESSURE: 'bloodPressure',
-  BLOOD_SUGAR: 'bloodSugar',
-  BODY_TEMPERATURE: 'bodyTemperature',
-  BODY_WEIGHT: 'bodyWeight',
-  CHOLESTEROL: 'cholesterol',
-  HEART_RATE: 'heartRate',
-  INR: 'inr',
-  PAIN: 'pain',
-  PULSE_OXIMETRY: 'pulseOximetry',
 };
 
 export const vitalTypeDisplayNames = {
@@ -211,7 +215,8 @@ export const vitalUnitDisplayText = {
   TEMPERATURE: ' °F',
   WEIGHT: ' pounds',
   BODY_WEIGHT: ' pounds',
-  HEIGHT: ' inches',
+  HEIGHT_FT: ' feet',
+  HEIGHT_IN: ' inches',
   BODY_HEIGHT: ' inches',
   PAIN_SEVERITY: '',
 };
@@ -220,7 +225,6 @@ export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_BB_ERROR = 'blue button download error';
-export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
 export const ALERT_TYPE_CCD_ERROR =
   'continuity of care document download error';
 
@@ -256,41 +260,6 @@ export const pageTitles = {
     'Medical Records Settings - Medical Records | Veterans Affairs',
 };
 
-export const selfEnteredTypes = {
-  ACTIVITY_JOURNAL: 'activity journal',
-  ALLERGIES: 'allergies',
-  DEMOGRAPHICS: 'demographics',
-  FAMILY_HISTORY: 'family health history',
-  FOOD_JOURNAL: 'food journal',
-  HEALTH_PROVIDERS: 'healthcare providers',
-  HEALTH_INSURANCE: 'health insurance',
-  TEST_ENTRIES: 'lab and test results',
-  MEDICAL_EVENTS: 'medical events',
-  MEDICATIONS: 'medications and supplements',
-  MILITARY_HISTORY: 'military health history',
-  TREATMENT_FACILITIES: 'treatment facilities',
-  VACCINES: 'vaccines',
-  VITALS: 'vitals and readings',
-};
-
-// --- Constants and helper functions moved outside the component ---
-export const SEI_DOMAIN_DISPLAY_MAP = {
-  activityJournal: 'Activity journal',
-  allergies: 'Allergies',
-  demographics: 'Demographics',
-  familyHistory: 'Family health history',
-  foodJournal: 'Food journal',
-  providers: 'Healthcare providers',
-  healthInsurance: 'Health insurance',
-  testEntries: 'Lab and test results',
-  medicalEvents: 'Medical events',
-  medications: 'Medications and supplements',
-  militaryHistory: 'Military health history',
-  treatmentFacilities: 'Treatment facilities',
-  vaccines: 'Vaccines',
-  vitals: 'Vitals and readings',
-};
-
 export const BB_DOMAIN_DISPLAY_MAP = {
   labsAndTests: 'Lab and test results',
   notes: 'Care summaries and notes',
@@ -306,25 +275,6 @@ export const BB_DOMAIN_DISPLAY_MAP = {
   patient: 'Account summary',
 };
 
-// All SEI domains in one place for easy iteration
-export const SEI_DOMAINS = [
-  'activityJournal',
-  'allergies',
-  'demographics',
-  'emergencyContacts',
-  'familyHistory',
-  'foodJournal',
-  'providers',
-  'healthInsurance',
-  'testEntries',
-  'medicalEvents',
-  'medications',
-  'militaryHistory',
-  'treatmentFacilities',
-  'vaccines',
-  'vitals',
-];
-
 export const allergyTypes = {
   OBSERVED:
     'Observed (you experienced this allergy or reaction while you were getting care at this VA location)',
@@ -333,8 +283,8 @@ export const allergyTypes = {
 };
 
 export const studyJobStatus = {
-  NONE: 'NONE', // has not been requested
   NEW: 'NEW', // has been requested but not yet processing (very short-lived)
+  QUEUED: 'QUEUED', // has been requested but not yet processing (also very short-lived)
   PROCESSING: 'PROCESSING', // has been requested
   COMPLETE: 'COMPLETE', // request complete
   ERROR: 'ERROR', // error
@@ -519,4 +469,101 @@ export const CernerAlertContent = {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
   },
+};
+
+export const LABS_AND_TESTS_DISPLAY_LABELS = {
+  DATE: 'Date and time collected',
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  ORDERED_BY: 'Ordered by',
+  LOCATION: 'Location',
+  COMMENTS: 'Lab comments',
+  RESULTS: 'Results',
+};
+
+export const LABS_AND_TESTS_DISPLAY_DISPLAY_MAP = {
+  date: LABS_AND_TESTS_DISPLAY_LABELS.DATE,
+  testCode: LABS_AND_TESTS_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: LABS_AND_TESTS_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: LABS_AND_TESTS_DISPLAY_LABELS.BODY_SITE,
+  orderedBy: LABS_AND_TESTS_DISPLAY_LABELS.ORDERED_BY,
+  location: LABS_AND_TESTS_DISPLAY_LABELS.LOCATION,
+  comments: LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS,
+  result: LABS_AND_TESTS_DISPLAY_LABELS.RESULTS,
+};
+
+export const OBSERVATION_DISPLAY_LABELS = {
+  TEST_CODE: 'Type of test',
+  SAMPLE_TESTED: 'Site or sample tested',
+  BODY_SITE: 'Body site tested',
+  STATUS: 'Status',
+  COMMENTS: 'Lab comments',
+  REFERENCE_RANGE: 'Reference range',
+  VALUE: 'Result',
+};
+export const OBSERVATION_DISPLAY_DISPLAY_MAP = {
+  testCode: OBSERVATION_DISPLAY_LABELS.TEST_CODE,
+  sampleTested: OBSERVATION_DISPLAY_LABELS.SAMPLE_TESTED,
+  bodySite: OBSERVATION_DISPLAY_LABELS.BODY_SITE,
+  status: OBSERVATION_DISPLAY_LABELS.STATUS,
+  comments: OBSERVATION_DISPLAY_LABELS.COMMENTS,
+  referenceRange: OBSERVATION_DISPLAY_LABELS.REFERENCE_RANGE,
+  value: OBSERVATION_DISPLAY_LABELS.VALUE,
+};
+
+export const SortTypes = {
+  ALPHABETICAL: {
+    value: 'alphatetically',
+    label: 'alphabetically',
+  },
+  ASC_DATE: {
+    value: 'ascDate',
+    label: 'newest to oldest',
+    labelWithDateEntered: 'newest to oldest (date entered)',
+  },
+  DSC_DATE: {
+    value: 'dscDate',
+    label: 'oldest to newest',
+    labelWithDateEntered: 'oldest to newest (date entered)',
+  },
+};
+export const radiologyErrors = {
+  ERROR_REQUEST_AGAIN:
+    'We’re sorry. There was a problem with our system. Try requesting your images again.',
+  ERROR_TRY_LATER:
+    'We’re sorry. There was a problem with our system. Try again later.',
+};
+
+export const allowedVitalLoincs = [
+  loincCodes.BLOOD_PRESSURE,
+  loincCodes.BREATHING_RATE,
+  loincCodes.HEART_RATE,
+  loincCodes.WEIGHT,
+  loincCodes.HEIGHT,
+  loincCodes.TEMPERATURE,
+  loincCodes.PULSE_OXIMETRY_1,
+  loincCodes.PULSE_OXIMETRY_2,
+];
+
+export const statsdFrontEndActions = {
+  // list calls
+  LABS_AND_TESTS_LIST: 'labs_and_tests_list',
+  CARE_SUMMARIES_AND_NOTES_LIST: 'care_summaries_and_notes_list',
+  VACCINES_LIST: 'vaccines_list',
+  ALLERGIES_LIST: 'allergies_list',
+  HEALTH_CONDITIONS_LIST: 'health_conditions_list',
+  VITALS_LIST: 'vitals_list',
+  // detail calls
+  LABS_AND_TESTS_DETAILS: 'labs_and_tests_details',
+  RADIOLOGY_IMAGES_LIST: 'radiology_images_list',
+  CARE_SUMMARIES_AND_NOTES_DETAILS: 'care_summaries_and_notes_details',
+  VACCINES_DETAILS: 'vaccines_details',
+  ALLERGIES_DETAILS: 'allergies_details',
+  HEALTH_CONDITIONS_DETAILS: 'health_conditions_details',
+  VITALS_DETAILS: 'vitals_details',
+  // download calls
+  DOWNLOAD_BLUE_BUTTON: 'download_blue_button',
+  DOWNLOAD_CCD: 'download_ccd',
+  DOWNLOAD_SEI: 'download_sei',
 };

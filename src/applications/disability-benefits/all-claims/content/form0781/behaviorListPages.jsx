@@ -6,41 +6,24 @@ import {
   LISTED_BEHAVIOR_TYPES_WITH_SECTION,
   MH_0781_URL_PREFIX,
 } from '../../constants';
-
+import { rememberTextBlob } from '../form0781';
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
   <>
-    <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences.
-    </p>
-    <p>
-      These questions are optional. Any information you provide will help us
-      understand your situation and identify evidence to support your claim. You
-      can provide only details you’re comfortable sharing.
-    </p>
-    <h4>Information we’ll ask you for</h4>
-    <p>
-      We’ll ask you for this information:
-      <ul>
-        <li>
-          The types of behavioral changes you experienced after your traumatic
-          events
-        </li>
-        <li>
-          A description of each behavioral change, including when it happened,
-          whether any records exist, and any other details you want to provide
-        </li>
-      </ul>
-    </p>
-    <h4>You can take a break at any time</h4>
-    <p>
-      We understand that some of the questions may be difficult to answer. You
-      can take a break at any time and come back to continue your application
-      later. We’ll save the information you’ve entered so far.
-    </p>
+    <p>In this section, we’ll ask you for this information:</p>
+    <ul>
+      <li>
+        The types of behavioral changes you experienced after your traumatic
+        events
+      </li>
+      <li>
+        A brief description of each behavioral change, including when it
+        happened, and whether you have records of these changes
+      </li>
+    </ul>
+    {rememberTextBlob}
   </>
 );
 
@@ -99,7 +82,7 @@ export const conflictingBehaviorErrorMessage =
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(formData['view:noneCheckbox'] || {}).some(
+  return Object.values(formData.noBehavioralChange || {}).some(
     selected => selected === true,
   );
 }
@@ -168,7 +151,7 @@ export function validateBehaviorSelections(errors, formData) {
 
   // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError(
+    errors.noBehavioralChange.addError(
       'If you select no behavioral changes to include, unselect other behavioral changes before continuing.',
     );
   }
@@ -263,7 +246,7 @@ function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
           ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
           : allBehaviorDescriptions[behaviorType];
       newObject[behaviorDescription] =
-        behaviorDetails[behaviorType] || 'Optional description not provided.';
+        behaviorDetails?.[behaviorType] || 'Optional description not provided.';
     }
   });
   return newObject;

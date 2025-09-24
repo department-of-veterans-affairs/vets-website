@@ -94,7 +94,7 @@ describe('BehaviorListPage', () => {
       otherBehaviors: {
         unlisted: true,
       },
-      'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+      noBehavioralChange: { noChange: false },
       behaviorsDetails: {
         reassignment: 'details about reassignment',
         unlisted: 'details about unlisted',
@@ -110,7 +110,7 @@ describe('BehaviorListPage', () => {
   describe('validating selections', () => {
     describe('invalid: conflicting selections', () => {
       const errors = {
-        'view:noneCheckbox': {
+        noBehavioralChange: {
           addError: sinon.spy(),
         },
         workBehaviors: { addError: sinon.spy() },
@@ -127,19 +127,19 @@ describe('BehaviorListPage', () => {
           otherBehaviors: {
             unlisted: true,
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+          noBehavioralChange: { noChange: true },
         };
 
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.true;
-        expect(errors['view:noneCheckbox'].addError.called).to.be.true;
+        expect(errors.noBehavioralChange.addError.called).to.be.true;
       });
     });
 
     describe('valid selections', () => {
       const errors = {
-        'view:noneCheckbox': {
+        noBehavioralChange: {
           addError: sinon.spy(),
         },
         workBehaviors: { addError: sinon.spy() },
@@ -153,13 +153,13 @@ describe('BehaviorListPage', () => {
             reassignment: false,
             absences: false,
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': true },
+          noBehavioralChange: { noChange: true },
         };
 
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.false;
-        expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+        expect(errors.noBehavioralChange.addError.called).to.be.false;
       });
 
       it('should not add errors when none is unselected and behaviors are selected', () => {
@@ -169,13 +169,13 @@ describe('BehaviorListPage', () => {
             reassignment: false,
             absences: true,
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          noBehavioralChange: { noChange: false },
         };
 
         validateBehaviorSelections(errors, formData);
 
         expect(showConflictingAlert(formData)).to.be.false;
-        expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+        expect(errors.noBehavioralChange.addError.called).to.be.false;
       });
     });
   });
@@ -192,7 +192,7 @@ describe('BehaviorListPage', () => {
           otherBehaviors: {
             unlisted: false, // this checkbox is unselected
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          noBehavioralChange: { noChange: false },
           behaviorsDetails: {
             reassignment: 'details about reassignment',
             unlisted: 'details about unlisted',
@@ -219,7 +219,7 @@ describe('BehaviorListPage', () => {
           otherBehaviors: {
             unlisted: false, // this checkbox is unselected
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          noBehavioralChange: { noChange: false },
           behaviorsDetails: {
             reassignment: 'details about reassignment',
             unlisted: 'details about unlisted',
@@ -248,7 +248,7 @@ describe('BehaviorListPage', () => {
           otherBehaviors: {
             unlisted: true,
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          noBehavioralChange: { noChange: false },
           behaviorsDetails: {
             reassignment: 'details about reassignment',
             unlisted: 'details about unlisted',
@@ -274,7 +274,7 @@ describe('BehaviorListPage', () => {
           otherBehaviors: {
             unlisted: false, // this checkbox is unselected
           },
-          'view:noneCheckbox': { 'view:noBehaviorChanges': false },
+          noBehavioralChange: { noChange: false },
           behaviorsDetails: {
             reassignment: undefined, // details were provided, then later deleted
             unlisted: undefined, // details were provided, then later deleted
@@ -500,7 +500,7 @@ describe('BehaviorListPage', () => {
       const { container } = render(
         page({ onReviewPage: true, updatePage: updateSpy }),
       );
-      fireEvent.click($('va-button[text="Update page"]', container));
+      fireEvent.click(container.querySelector('button.usa-button-primary'));
       expect(updateSpy.called).to.be.true;
     });
   });

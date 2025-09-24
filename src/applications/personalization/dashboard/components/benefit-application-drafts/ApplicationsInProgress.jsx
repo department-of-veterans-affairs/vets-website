@@ -26,6 +26,8 @@ const ApplicationsInProgress = ({
   submittedForms,
   savedForms,
   hideH3,
+  hideMissingApplicationHelp,
+  emptyState,
 }) => {
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
@@ -83,13 +85,14 @@ const ApplicationsInProgress = ({
   const isEmptyState = allForms.length === 0 && !submittedError;
   const hasForms = allForms.length > 0 && !submittedError;
 
-  const emptyStateText = 'You have no benefit applications or forms to show.';
+  const emptyStateText =
+    emptyState || 'You have no benefit applications or forms to show.';
 
   return (
     <div data-testid="applications-in-progress">
       {!hideH3 && (
         <h3
-          className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5"
+          className="vads-u-font-size--h4 vads-u-margin-bottom--2p5"
           data-testid="applications-in-progress-header"
         >
           Applications in progress
@@ -103,7 +106,7 @@ const ApplicationsInProgress = ({
             <p data-testid="applications-in-progress-empty-state">
               {emptyStateText}
             </p>
-            <MissingApplicationHelp />
+            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
           </>
         )}
         {hasForms && (
@@ -111,10 +114,23 @@ const ApplicationsInProgress = ({
             {allForms.map(form => {
               const formId = form.form;
               const formStatus = form.status;
-              const formTitle = `application for ${
-                MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-              }`;
-              const presentableFormId = presentableFormIDs[formId];
+              const { pdfSupport } = form;
+              // Determine form title: use benefit name for SiP forms,
+              // otherwise use "VA Form {formId}" for non-SiP forms
+              const formMeta = MY_VA_SIP_FORMS.find(e => e.id === formId);
+              const hasBenefit = !!formMeta?.benefit;
+              // Temporary custom label for 21-4142 via 526 claim
+              // and for 686C-674-v2 so they can be user-friendly
+              let formIdLabel;
+              if (formId === 'form526_form4142') {
+                formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+              } else {
+                formIdLabel = form.form.replace(/-V2$/i, '');
+              }
+              const formTitle = hasBenefit
+                ? `application for ${formMeta.benefit}`
+                : `VA Form ${formIdLabel}`;
+              const presentableFormId = presentableFormIDs[formId] || '';
               const { lastUpdated } = form || {};
               const lastSavedDate = format(
                 fromUnixTime(lastUpdated),
@@ -138,7 +154,7 @@ const ApplicationsInProgress = ({
                     formId={formId}
                     formTitle={formTitle}
                     lastSavedDate={lastSavedDate}
-                    presentableFormId={presentableFormId}
+                    presentableFormId={hasBenefit ? presentableFormId : false}
                   />
                 );
               }
@@ -150,14 +166,17 @@ const ApplicationsInProgress = ({
                   fromUnixTime(createdAt),
                   'MMMM d, yyyy',
                 );
+
                 return (
                   <SubmissionCard
                     key={formId}
                     formId={formId}
                     formTitle={formTitle}
+                    guid={form.id}
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
-                    presentableFormId={presentableFormId}
+                    pdfSupport={pdfSupport}
+                    presentableFormId={hasBenefit ? presentableFormId : false}
                     status={normalizeSubmissionStatus(formStatus)}
                   />
                 );
@@ -165,7 +184,7 @@ const ApplicationsInProgress = ({
 
               return null;
             })}
-            <MissingApplicationHelp />
+            {!hideMissingApplicationHelp && <MissingApplicationHelp />}
           </div>
         )}
       </DashboardWidgetWrapper>
@@ -174,7 +193,9 @@ const ApplicationsInProgress = ({
 };
 
 ApplicationsInProgress.propTypes = {
+  emptyState: PropTypes.string,
   hideH3: PropTypes.bool,
+  hideMissingApplicationHelp: PropTypes.bool,
   savedForms: PropTypes.array,
   submittedError: PropTypes.bool, // bool error for _any_ error in request for "submitted forms"
   submittedForms: PropTypes.array,

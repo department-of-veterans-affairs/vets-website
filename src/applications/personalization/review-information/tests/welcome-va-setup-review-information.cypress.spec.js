@@ -12,7 +12,24 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_inputPhoneNumber"]').clear();
     cy.get('input[name="root_inputPhoneNumber"]').type('1234567890');
 
-    cy.findByText('Update').click();
+    cy.findByTestId('save-edit-button').click();
+  };
+
+  // Uses the VaTelephoneInput component when the profileInternationalPhoneNumbers flag is ON
+  const editMobileNumberWithVaTelephoneInput = () => {
+    cy.get('#edit-mobile-phone').click();
+    cy.location('pathname').should('include', '/edit-mobile-phone');
+    cy.axeCheck();
+
+    cy.get('va-telephone-input')
+      .shadow()
+      .find('va-text-input')
+      .shadow()
+      .find('input')
+      .clear()
+      .type('1234567890', { force: true });
+
+    cy.findByTestId('save-edit-button').click();
   };
 
   const editEmailAddress = () => {
@@ -24,8 +41,8 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_emailAddress"]').type('test@email.com');
 
     // Update fails in CI, so we'll cancel instead
-    // cy.findByText('Update').click();
-    cy.findByText('Cancel').click();
+    // cy.findByTestId('save-edit-button').click();
+    cy.findByTestId('cancel-edit-button').click();
   };
 
   const editMailingAddress = () => {
@@ -53,9 +70,9 @@ describe('Welcome to My VA Review Contact Information form', () => {
     cy.get('input[name="root_zipCode"]').type('12345');
 
     // Update fails in CI, so we'll cancel instead
-    // cy.findByText('Update').click();
-    // cy.findByText('Use this address').click();
-    cy.findByText('Cancel').click();
+    // cy.findByTestId('save-edit-button').click();
+    // cy.findByTestId('confirm-address-button').click();
+    cy.findByTestId('cancel-edit-button').click();
   };
 
   const checkConfirmationPage = () => {
@@ -85,6 +102,30 @@ describe('Welcome to My VA Review Contact Information form', () => {
       cy.get('[name="header-mobile-phone"]').should('exist');
 
       editMobileNumber();
+      editEmailAddress();
+      editMailingAddress();
+      checkConfirmationPage();
+    });
+  });
+
+  context('when signed in and profileInternationalPhoneNumbers is ON', () => {
+    beforeEach(() => {
+      cypressSetup({ internationalPhonesEnabled: true });
+      cy.login(mockUser);
+      cy.visit(formURL);
+      cy.wait(['@mockUser', '@mockVamc']);
+    });
+
+    it('should be completable', () => {
+      cy.location('pathname').should('match', /\/contact-information$/);
+
+      cy.injectAxe();
+      cy.axeCheck();
+
+      cy.get('h1[data-testid="form-title"]').should('exist');
+      cy.get('[name="header-mobile-phone"]').should('exist');
+
+      editMobileNumberWithVaTelephoneInput();
       editEmailAddress();
       editMailingAddress();
       checkConfirmationPage();

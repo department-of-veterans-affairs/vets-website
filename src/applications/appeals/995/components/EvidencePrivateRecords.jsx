@@ -19,12 +19,10 @@ import {
   isEmptyPrivateEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../../shared/utils/focus';
-import {
-  HeaderAndModal,
-  FacilityAddress,
-  IssueAndDates,
-  PageNavigation,
-} from './EvidenceRecords';
+import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
+import { EvidenceFacilityAddress } from './EvidenceFacilityAddress';
+import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
+import { EvidencePageNavigation } from './EvidencePageNavigation';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
@@ -337,7 +335,7 @@ const EvidencePrivateRecords = ({
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
-        <HeaderAndModal
+        <EvidenceHeaderAndModal
           currentData={currentData}
           currentState={currentState}
           currentIndex={currentIndex}
@@ -358,17 +356,16 @@ const EvidencePrivateRecords = ({
           // ignore submitted & dirty state when showing unique error
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
-          uswds
         />
 
-        <FacilityAddress
+        <EvidenceFacilityAddress
           currentData={currentData}
           content={content}
           handlers={handlers}
           showError={showError}
         />
 
-        <IssueAndDates
+        <EvidenceIssueAndDates
           currentData={currentData}
           availableIssues={availableIssues}
           content={content}
@@ -378,7 +375,7 @@ const EvidencePrivateRecords = ({
           dateRangeKey="treatmentDateRange"
         />
 
-        <PageNavigation
+        <EvidencePageNavigation
           path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
           content={{
             ...content,

@@ -53,7 +53,7 @@ function exitBankInfoForm() {
 }
 
 function saveNewBankInfo() {
-  cy.findByRole('button', { name: /save/i }).click({ force: true });
+  cy.findByTestId('save-direct-deposit').click({ force: true });
   cy.axeCheck();
 }
 
@@ -229,7 +229,7 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
     testFailure('generic-error', mockDirectDeposits.updates.errors.unspecified);
 
     testFailure(
-      'flagged-account-error',
+      'payment-restriction-error',
       mockDirectDeposits.updates.errors.accountNumberFlagged,
     );
 

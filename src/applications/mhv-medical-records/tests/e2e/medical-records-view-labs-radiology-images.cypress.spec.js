@@ -20,12 +20,13 @@ describe('Medical Records - Radiology images are shown when requested', () => {
   });
 
   it('View Radiology Images On Radiology Details Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
-
+    LabsAndTestsListPage.clickRadiologyDetailsLink(
+      'KNEE 4 OR MORE VIEWS (LEFT)',
+    );
     const studyId = statusResponseComplete[0].studyIdUrn;
     RadiologyDetailsPage.clickViewImages(studyId, viewImagesResponse);
 
-    RadiologyDetailsPage.verifyFocus();
+    RadiologyDetailsPage.verifyH1Focus();
 
     RadiologyDetailsPage.verifyRadiologyImageCount(10);
 

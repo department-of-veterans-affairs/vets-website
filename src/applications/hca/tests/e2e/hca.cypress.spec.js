@@ -44,11 +44,11 @@ const testConfig = createTestConfig(
       },
       'household-information/dependents': ({ afterHook }) => {
         afterHook(() => {
-          cy.selectRadio('root_view:reportDependents', 'N');
+          cy.selectYesNoVaRadioOption('root_view:reportDependents', false);
           goToNextPage();
         });
       },
-      'insurance-information/va-facility-api': ({ afterHook }) => {
+      'insurance-information/va-facility': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(testData => {
             fillVaFacility(testData['view:preferredFacility']);

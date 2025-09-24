@@ -2,6 +2,7 @@ import { fireEvent, render, within } from '@testing-library/react';
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as minimalHeaderUtils from 'platform/forms-system/src/js/patterns/minimal-header';
 import ObjectField from '../../../src/js/review/ObjectField';
 
 describe('Schemaform review: ObjectField', () => {
@@ -1035,5 +1036,64 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.queryByLabelText('foo')).to.be.null;
     expect(tree.queryByLabelText('bar')).to.be.null;
     expect(tree.queryByLabelText('baz')).to.be.null;
+  });
+
+  it('should render h3 heading when isMinimalHeaderApp is true', () => {
+    const stub = sinon
+      .stub(minimalHeaderUtils, 'isMinimalHeaderApp')
+      .returns(true);
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const { getByRole } = render(
+      <ObjectField
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: 'Minimal Header Page' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={() => {}}
+        onBlur={() => {}}
+      />,
+    );
+
+    const heading = getByRole('heading', { level: 3 });
+    expect(heading).to.contain.text('Minimal Header Page');
+    stub.restore();
+  });
+
+  it('should render h4 heading when isMinimalHeaderApp is false', () => {
+    sinon.stub(minimalHeaderUtils, 'isMinimalHeaderApp').returns(false);
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+      },
+    };
+
+    const { getByRole } = render(
+      <ObjectField
+        uiSchema={{}}
+        schema={schema}
+        formContext={{ pageTitle: 'Default Header Page' }}
+        requiredSchema={{}}
+        idSchema={{ $id: 'root' }}
+        formData={{}}
+        onChange={() => {}}
+        onBlur={() => {}}
+      />,
+    );
+
+    const heading = getByRole('heading', { level: 4 });
+    expect(heading).to.contain.text('Default Header Page');
   });
 });

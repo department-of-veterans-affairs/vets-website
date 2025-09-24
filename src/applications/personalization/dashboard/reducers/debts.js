@@ -15,6 +15,7 @@ const initialState = {
   debts: [],
   debtsErrors: [],
   hasDependentDebts: false,
+  debtsCount: 0,
 };
 
 export const debtsReducer = (state = initialState, action) => {
@@ -31,6 +32,7 @@ export const debtsReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
         debts: action.debts,
+        debtsCount: action.debtsCount || 0,
         hasDependentDebts: action.hasDependentDebts,
       };
     case DEBTS_FETCH_FAILURE:

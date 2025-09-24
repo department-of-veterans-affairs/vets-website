@@ -1,10 +1,8 @@
 import get from 'platform/utilities/data/get';
 import merge from 'lodash/merge';
-// Use date widget because currentOrPastDate web component does not work with array
-// list loop data as a show per page item
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
+  currentOrPastDateUI,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
@@ -16,7 +14,7 @@ import {
   getMarriageTitleWithCurrent,
   MarriageTitle,
   isCurrentMarriage,
-  isMarried,
+  hasMarriageHistory,
 } from './helpers';
 
 const dateSchema = {
@@ -29,7 +27,7 @@ export default {
   title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
     getMarriageTitleWithCurrent(form, pagePerItemIndex),
   path: 'household/marriages/:index',
-  depends: isMarried,
+  depends: hasMarriageHistory,
   showPagePerItem: true,
   arrayPath: 'marriages',
   uiSchema: {

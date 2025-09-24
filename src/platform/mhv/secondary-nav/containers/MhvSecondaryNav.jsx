@@ -1,12 +1,25 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { toggleValuesSelector } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
+ *
+ * Notes:
+ * - `title` is the text displayed in the navigation.
+ * - `abbreviation` is an optional short version of the title, used for smaller screens.
+ * - `ariaLabel` is paired with the abbreviation and it is used for accessibility purposes.
+ * - `actionName` is used for analytics tracking.
+ * - `icon` is the name of the icon to be displayed in the navigation.
+ * - `href` is the link to the page.
+ * - `appRootUrl` is used to determine which secondary navigation item should be marked as
+ *   "current" when the navigation link points to a sub-page within the app rather than its root.
+ *   If `appRootUrl` differs from the `href`, it must be explicitly defined to ensure the correct
+ *   active state is applied (i.e. the appropriate tab is highlighted) in the secondary nav.
+ *   Example:
+ *     appRootUrl: '/my-health/secure-messages'      // root path of the app
+ *     href: '/my-health/secure-messages/inbox'      // specific sub-page (e.g., inbox)
  */
 export const mhvSecNavItems = [
   {
@@ -27,16 +40,15 @@ export const mhvSecNavItems = [
     title: 'Messages',
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
-    href: `/my-health/secure-messages`,
     appRootUrl: '/my-health/secure-messages',
+    href: `/my-health/secure-messages/inbox`,
   },
   {
     title: 'Medications',
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
     icon: 'pill',
-    href: '/my-health/medications/about',
-    appRootUrl: '/my-health/medications',
+    href: '/my-health/medications',
   },
   {
     title: 'Records',
@@ -51,33 +63,7 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const {
-    loading = true,
-    mhvMedicationsRemoveLandingPage = false,
-    mhvSecureMessagingRemoveLandingPage = false,
-  } = useSelector(toggleValuesSelector);
-
-  const updatedNavItems = mhvSecNavItems.map(item => {
-    // Current URL: /my-health/secure-messages
-    // Replace with milestone1 URL: /my-health/secure-messages/inbox
-    if (
-      mhvSecureMessagingRemoveLandingPage &&
-      item.href === '/my-health/secure-messages'
-    ) {
-      return { ...item, href: '/my-health/secure-messages/inbox' };
-    }
-    // Current URL: /my-health/medications/about
-    // Replace with milestone1 URL: /my-health/medications
-    if (
-      mhvMedicationsRemoveLandingPage &&
-      item.href === '/my-health/medications/about'
-    ) {
-      return { ...item, href: '/my-health/medications' };
-    }
-    return item;
-  });
-
-  return <MhvSecondaryNavMenu items={updatedNavItems} loading={loading} />;
+  return <MhvSecondaryNavMenu items={mhvSecNavItems} />;
 };
 
 export default MhvSecondaryNav;

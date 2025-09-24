@@ -1,7 +1,7 @@
 // we're not using JSON schema for this form.
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
-import getHelp from '../../shared/components/GetFormHelp';
+import GetFormHelp from '../containers/GetFormHelp';
 
 import manifest from '../manifest.json';
 
@@ -67,6 +67,7 @@ const formConfig = {
   },
   title: 'Request a Presidential Memorial Certificate',
   subTitle: 'Presidential Memorial Certificate request form (VA Form 40-0247)',
+  getHelp: GetFormHelp,
   v3SegmentedProgressBar: true,
   defaultDefinitions: {
     privacyAgreementAccepted: {
@@ -132,11 +133,11 @@ const formConfig = {
       },
     },
     applicantPersonalInfoChapter: {
-      title: 'Your personal information',
+      title: 'Applicant information',
       pages: {
         applicantPersonalInfoPage: {
           path: 'applicant-personal-information',
-          title: 'Your personal information',
+          title: 'Applicant information',
           uiSchema: appPersInfoPg.uiSchema,
           schema: appPersInfoPg.schema,
           pageClass: 'applicant-personal-information',
@@ -207,7 +208,6 @@ const formConfig = {
     },
   },
   footerContent,
-  getHelp,
   customText: {
     appType: 'request',
   },

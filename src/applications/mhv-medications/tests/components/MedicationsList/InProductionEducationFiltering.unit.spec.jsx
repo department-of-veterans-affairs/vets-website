@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -19,8 +19,7 @@ describe('In Production Education Filtering component', () => {
     },
   };
   const setup = (state = initialState) => {
-    return renderWithStoreAndRouter(<InProductionEducationFiltering />, {
-      path: '/',
+    return renderWithStoreAndRouterV6(<InProductionEducationFiltering />, {
       initialState: state,
       reducers,
     });

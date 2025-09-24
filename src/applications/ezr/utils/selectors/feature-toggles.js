@@ -9,6 +9,9 @@ const selectFeatureToggles = createSelector(
       FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled
     ],
     isUploadEnabled: toggleValues(state)[FEATURE_FLAG_NAMES.ezrUploadEnabled],
+    isEmergencyContactsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.ezrEmergencyContactsEnabled
+    ],
   }),
   toggles => toggles,
 );

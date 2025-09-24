@@ -1,0 +1,7 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your questions
+  - action: click
+    target: tab
+    value: Personal

@@ -5,65 +5,63 @@ import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
-import {
-  setFormCurrentPage,
-  createDraftReferralAppointment,
-} from './redux/actions';
+import { setFormCurrentPage } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { getDraftAppointmentInfo } from './redux/selectors';
+import { useGetDraftReferralAppointmentQuery } from '../redux/api/vaosApi';
 import { FETCH_STATUS } from '../utils/constants';
-import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
 
 export const ChooseDateAndTime = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const location = useLocation();
+  const {
+    data: draftAppointmentInfo,
+    isLoading: isDraftLoading,
+    isError: isDraftError,
+    isSuccess: isDraftSuccess,
+    isUninitialized: isDraftUninitialized,
+  } = useGetDraftReferralAppointmentQuery({
+    referralNumber: currentReferral.referralNumber,
+    referralConsultId: currentReferral.referralConsultId,
+  });
 
-  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
-    state => getDraftAppointmentInfo(state),
-    shallowEqual,
-  );
   const { futureStatus, appointmentsByMonth } = useSelector(
     state => getUpcomingAppointmentListInfo(state),
     shallowEqual,
   );
-
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   useEffect(
     () => {
-      if (
-        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
-        futureStatus === FETCH_STATUS.notStarted
-      ) {
-        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-          dispatch(createDraftReferralAppointment(currentReferral.uuid));
-        }
+      if (draftAppointmentInfo?.attributes) {
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
+        if (futureStatus === FETCH_STATUS.succeeded) {
+          setLoading(false);
+        }
       } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
-        futureStatus === FETCH_STATUS.succeeded
+        isDraftUninitialized ||
+        futureStatus === FETCH_STATUS.notStarted
       ) {
-        setLoading(false);
-        scrollAndFocus('h1');
-      } else if (
-        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
-        futureStatus === FETCH_STATUS.failed
-      ) {
+        if (futureStatus === FETCH_STATUS.notStarted) {
+          dispatch(fetchFutureAppointments({ includeRequests: false }));
+        }
+      } else if (isDraftError || futureStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
-        scrollAndFocus('h1');
       }
     },
     [
-      currentReferral.uuid,
+      currentReferral,
       dispatch,
-      draftAppointmentCreateStatus,
+      draftAppointmentInfo,
       futureStatus,
+      isDraftError,
+      isDraftSuccess,
+      isDraftUninitialized,
     ],
   );
   useEffect(
@@ -73,11 +71,14 @@ export const ChooseDateAndTime = props => {
     [location, dispatch],
   );
 
-  if (loading) {
+  if (loading || isDraftLoading) {
     return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading available appointments times..." />
-      </div>
+      <ReferralLayout
+        data-testid="loading"
+        loadingMessage="Loading available appointment times..."
+        hasEyebrow
+        heading="Schedule an appointment with your provider"
+      />
     );
   }
 

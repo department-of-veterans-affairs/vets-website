@@ -59,8 +59,8 @@ const InProductionEducationFiltering = () => {
       dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
     );
     await dispatch(updateTooltipVisibility(tooltipId, false));
-    const filterAccordionElement = document.getElementById('filter');
-    focusElement(filterAccordionElement);
+    const filterAccordionShadowRoot = document.getElementById('filter');
+    focusElement('button', {}, filterAccordionShadowRoot);
   };
 
   return (
@@ -70,7 +70,7 @@ const InProductionEducationFiltering = () => {
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
-          aria-label="Hint for filter list"
+          aria-label="Filter your list to find a specific medication"
         >
           <p
             className="vads-u-margin--0 vads-u-padding-right--5"

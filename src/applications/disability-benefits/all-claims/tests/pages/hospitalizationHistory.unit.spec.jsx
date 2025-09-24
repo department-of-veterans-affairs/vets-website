@@ -7,6 +7,7 @@ import {
   DefinitionTester,
   fillData,
 } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import initialData from '../initialData';
 
@@ -17,7 +18,7 @@ describe('Hospitalization Interview Questions', () => {
     arrayPath,
   } = formConfig.chapters.disabilities.pages.hospitalizationHistory;
 
-  it('should render hospital info form', () => {
+  it('should render hospital info form', async () => {
     const form = mount(
       <DefinitionTester
         arrayPath={arrayPath}
@@ -34,7 +35,7 @@ describe('Hospitalization Interview Questions', () => {
     form.unmount();
   });
 
-  it('should add a hospital', () => {
+  it('should add a hospital', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -56,9 +57,11 @@ describe('Hospitalization Interview Questions', () => {
       'Local facility',
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.true;
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(onSubmit.called).to.be.true;
+      expect(form.find('.usa-input-error').length).to.equal(0);
+    });
     form.unmount();
   });
 });

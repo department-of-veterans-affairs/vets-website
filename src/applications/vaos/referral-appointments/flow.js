@@ -24,7 +24,7 @@ export function getPageFlow(referralId, appointmentId) {
     },
     scheduleReferral: {
       url: `/schedule-referral?id=${referralId}`,
-      label: 'Referral for {{ categoryOfCare }}',
+      label: 'Appointment Referral',
       next: 'scheduleAppointment',
       previous: 'referralsAndRequests',
     },
@@ -41,10 +41,16 @@ export function getPageFlow(referralId, appointmentId) {
       previous: 'scheduleAppointment',
     },
     complete: {
-      url: `/schedule-referral/complete/${appointmentId}`,
+      url: `/schedule-referral/complete/${appointmentId}?id=${referralId}`,
       label: 'Your appointment is scheduled',
-      next: '',
+      next: 'details',
       previous: 'appointments',
+    },
+    details: {
+      url: `/${appointmentId}?eps=true`,
+      label: '',
+      next: '',
+      previous: 'complete',
     },
   };
 }
@@ -113,19 +119,16 @@ export function routeToCCPage(history, page, referralId = null) {
  *
  * @export
  * @param {string} currentPage - the current page in the referral flow
- * @param {string} categoryOfCare - the category of care
  * @returns {string} the label string
  */
 
-export function getReferralUrlLabel(currentPage, categoryOfCare = '') {
+export function getReferralUrlLabel(currentPage) {
   const _flow = getPageFlow();
   const result = _flow[currentPage];
 
   switch (currentPage) {
     case 'complete':
       return 'Back to appointments';
-    case 'scheduleReferral':
-      return result.label.replace('{{ categoryOfCare }}', categoryOfCare);
     case 'reviewAndConfirm':
     case 'scheduleAppointment':
       return 'Back';

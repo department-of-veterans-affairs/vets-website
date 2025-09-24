@@ -12,7 +12,7 @@ import {
   scrollToTop,
   scrollToFirstError,
   scrollAndFocus,
-} from './scroll';
+} from '../scroll';
 import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 
 export {

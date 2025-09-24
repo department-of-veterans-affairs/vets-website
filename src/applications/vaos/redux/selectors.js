@@ -64,32 +64,14 @@ export const selectHasVAPResidentialAddress = state =>
 export const selectSystemIds = state =>
   selectPatientFacilities(state)?.map(f => f.facilityId) || null;
 
-export const selectFeatureVAOSServiceRequests = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceRequests;
-
-export const selectFeatureVAOSServiceVAAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceVAAppointments;
-
-export const selectFeatureVAOSServiceCCAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
-
-export const selectFeatureClinicFilter = state =>
-  toggleValues(state).vaOnlineSchedulingClinicFilter;
-
-export const selectFeatureConvertUtcToLocaL = state =>
-  toggleValues(state).vaOnlineSchedulingConvertUtcToLocal;
-
-export const selectFeatureBreadcrumbUrlUpdate = state =>
-  toggleValues(state).vaOnlineSchedulingBreadcrumbUrlUpdate;
-
-export const selectFeatureStaticLandingPage = state =>
-  toggleValues(state).vaOnlineSchedulingStaticLandingPage;
-
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
 
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
+
+export const selectFeatureCCDirectSchedulingChiropractic = state =>
+  toggleValues(state).vaOnlineSchedulingCCDirectSchedulingChiropractic;
 
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
@@ -104,39 +86,6 @@ export const selectFeatureOHRequest = state =>
 
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
-
-export const selectFeatureUseVaDate = state =>
-  toggleValues(state).vaosOnlineSchedulingUseVADate;
-
-export const selectFeaturePastApptDateRange = state =>
-  toggleValues(state).vaOnlineSchedulingPastApptDateRange;
-
-export const selectFeatureFeSourceOfTruth = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
-
-export const selectFeatureFeSourceOfTruthVA = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthVA;
-
-export const selectFeatureFeSourceOfTruthCC = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthCC;
-
-export const selectFeatureFeSourceOfTruthModality = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthModality;
-
-export const selectFeatureFeSourceOfTruthTelehealth = state =>
-  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
-
-export const selectFeatureMhvRouteGuards = state =>
-  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
-
-export const selectFeatureDirectScheduleAppointmentConflict = state =>
-  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
-
-export const selectFeatureDisplayPastCancelledAppointments = state =>
-  toggleValues(state).vaOnlineSchedulingDisplayPastCancelledAppointments;
-
-export const selectFeaturePatientHistoryFutureAppts = state =>
-  toggleValues(state).vaOnlineSchedulingPatientHistoryFutureAppts;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
@@ -161,3 +110,21 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+
+export const selectFeatureMentalHealthHistoryFiltering = state =>
+  toggleValues(state).vaOnlineSchedulingMentalHealthHistoryFiltering;
+
+export const selectFeatureSubstanceUseDisorder = state =>
+  toggleValues(state).vaOnlineSchedulingAddSubstanceUseDisorder;
+
+export const selectFeatureListViewClinicInfo = state =>
+  toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
+
+export const selectFeatureAddOhAvs = state =>
+  toggleValues(state).vaOnlineSchedulingAddOhAvs;
+
+export const selectFeatureImmediateCareAlert = state =>
+  toggleValues(state).vaOnlineSchedulingImmediateCareAlert;
+
+export const selectFeatureRemoveFacilityConfigCheck = state =>
+  toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;

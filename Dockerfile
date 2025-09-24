@@ -10,6 +10,11 @@ RUN groupadd -g $userid vets-website \
 ENV YARN_VERSION 1.19.1
 ENV NODE_ENV production
 
+# Fix for Debian Buster EOL - use archive repositories
+RUN echo "deb http://archive.debian.org/debian buster main" > /etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list && \
+    echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/100disablechecks
+
 RUN apt-get update
 
 # Install specific version of Chrome to match ChromeDriver installation.
@@ -27,9 +32,6 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
                                                 xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev
-
-RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
-RUN chmod +x /cc-test-reporter
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip

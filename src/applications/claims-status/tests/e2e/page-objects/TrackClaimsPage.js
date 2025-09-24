@@ -1,18 +1,12 @@
 // START lighthouse_migration
 import featureToggleDisabled from '../fixtures/mocks/lighthouse/feature-toggle-disabled.json';
-import featureToggle5103UpdateEnabled from '../fixtures/mocks/lighthouse/feature-toggle-5103-update-enabled.json';
 // END lighthouse_migration
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPage {
-  loadPage(
-    claimsList,
-    mock = null,
-    submitForm = false,
-    cst5103UpdateEnabled = false,
-  ) {
+  loadPage(claimsList, mock = null, submitForm = false) {
     if (submitForm) {
       cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
         body: {},
@@ -22,14 +16,6 @@ class TrackClaimsPage {
     if (mock) {
       cy.intercept('GET', `/v0/benefits_claims/189685`, mock).as(
         'detailRequest',
-      );
-    }
-    if (cst5103UpdateEnabled) {
-      // When cst_use_claim_details_v2 is disabled, cst_5103_update_enabled is enabled
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles?*',
-        featureToggle5103UpdateEnabled,
       );
     } else {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggleDisabled);

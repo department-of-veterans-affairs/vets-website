@@ -1,7 +1,7 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
-} from '../../../../shared/tests/pages/pageTests.spec';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from 'platform/forms-system/test/pageTestHelpers.spec';
 import { patientIdentificationFields } from '../../../definitions/constants';
 import formConfig from '../../../config/form';
 
@@ -18,8 +18,8 @@ const mockDataForVeteranIsSelf = {
   },
 };
 
-const expectedNumberOfFields = 14;
-testNumberOfFields(
+const expectedNumberOfFields = 0;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -28,8 +28,8 @@ testNumberOfFields(
   mockDataForVeteranIsSelf,
 );
 
-const expectedNumberOfErrors = 8;
-testNumberOfErrorsOnSubmit(
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

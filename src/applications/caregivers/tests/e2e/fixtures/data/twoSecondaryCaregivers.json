@@ -47,6 +47,7 @@
   },
   "secondaryOneSignature": "George Geef Goofus II",
   "secondaryOneDateOfBirth": "1932-05-12",
+  "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
   "primaryAddress": {
     "street": "1375 E Buena Vista Dr",

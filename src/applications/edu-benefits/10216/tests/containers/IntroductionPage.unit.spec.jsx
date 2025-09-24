@@ -1,8 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-// import sinon from 'sinon';
-
 import IntroductionPage from '../../containers/IntroductionPage';
 
 describe('22-10216 <IntroductionPage>', () => {
@@ -19,7 +17,7 @@ describe('22-10216 <IntroductionPage>', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
 
     expect(wrapper.find('FormTitle').props().title).to.contain(
-      'Request exemption from the 85/15 Rule reporting requirements',
+      'Request exemption from the 85/15 rule reporting requirements',
     );
 
     wrapper.unmount();
@@ -65,7 +63,9 @@ describe('22-10216 <IntroductionPage>', () => {
 
   it('should render save in progress widget', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
-    const sipContainer = wrapper.find('Connect(SaveInProgressIntro)');
+    const sipContainer = wrapper.find(
+      'Connect(withRouter(SaveInProgressIntro))',
+    );
 
     expect(sipContainer.length).to.equal(1);
     expect(sipContainer.props().startText).to.contain(

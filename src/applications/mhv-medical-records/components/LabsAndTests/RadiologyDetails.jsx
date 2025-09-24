@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -10,6 +9,9 @@ import {
   reportGeneratedBy,
   txtLine,
   usePrintTitle,
+  formatNameFirstLast,
+  getNameDateAndTime,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -23,15 +25,9 @@ import {
   pageTitles,
   studyJobStatus,
   ALERT_TYPE_IMAGE_STATUS_ERROR,
+  radiologyErrors,
 } from '../../util/constants';
-import {
-  formatNameFirstLast,
-  generateTextFile,
-  getNameDateAndTime,
-  formatDateAndTime,
-  formatUserDob,
-  sendDataDogAction,
-} from '../../util/helpers';
+import { generateTextFile, sendDataDogAction } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import {
@@ -43,6 +39,8 @@ import {
 import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
 import LabelValue from '../shared/LabelValue';
+import TrackedSpinner from '../shared/TrackedSpinner';
+import JobCompleteAlert from '../shared/JobsCompleteAlert';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -85,11 +83,6 @@ const RadiologyDetails = props => {
 
   const activeAlert = useAlerts(dispatch);
 
-  const ERROR_REQUEST_AGAIN =
-    'We’re sorry. There was a problem with our system. Try requesting your images again.';
-  const ERROR_TRY_LATER =
-    'We’re sorry. There was a problem with our system. Try again later.';
-
   useEffect(
     () => {
       dispatch(fetchImageRequestStatus());
@@ -103,8 +96,9 @@ const RadiologyDetails = props => {
       if (studyJobs?.length) {
         const jobsInProcess = studyJobs.filter(
           job =>
-            job.status === studyJobStatus.PROCESSING ||
-            job.status === studyJobStatus.NEW,
+            job.status === studyJobStatus.NEW ||
+            job.status === studyJobStatus.QUEUED ||
+            job.status === studyJobStatus.PROCESSING,
         );
         if (jobsInProcess.length >= 3) {
           dispatch(setStudyRequestLimitReached(true));
@@ -113,7 +107,7 @@ const RadiologyDetails = props => {
         }
       }
     },
-    [studyJobs],
+    [dispatch, studyJobs, studyRequestLimitReached],
   );
 
   useEffect(
@@ -143,11 +137,15 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
-      if (imageRequestApiFailed || studyRequestLimitReached) {
+      if (
+        imageRequestApiFailed ||
+        studyRequestLimitReached ||
+        studyJob?.status
+      ) {
         setProcessingRequest(false);
       }
     },
-    [imageRequestApiFailed, studyRequestLimitReached],
+    [imageRequestApiFailed, studyJob, studyRequestLimitReached],
   );
 
   useEffect(
@@ -155,6 +153,7 @@ const RadiologyDetails = props => {
       let timeoutId;
       if (
         studyJob?.status === studyJobStatus.NEW ||
+        studyJob?.status === studyJobStatus.QUEUED ||
         studyJob?.status === studyJobStatus.PROCESSING
       ) {
         setProcessingRequest(false);
@@ -190,7 +189,7 @@ const RadiologyDetails = props => {
     GenerateRadiologyPdf(record, user, runningUnitTest);
   };
 
-  const generateRadioloyTxt = async () => {
+  const generateRadiologyTxt = async () => {
     setDownloadStarted(true);
     const content = `\n
 ${crisisLineHeader}\n\n
@@ -279,20 +278,7 @@ ${record.results}`;
     </p>
   );
 
-  const imagesNotRequested = imageRequest => (
-    <>
-      {requestNote()}
-      <va-button
-        onClick={() => makeImageRequest()}
-        disabled={imageRequest?.percentComplete < 100}
-        ref={elementRef}
-        text="Request Images"
-        uswds
-      />
-    </>
-  );
-
-  const imageAlertProcessing = imageRequest => {
+  const jobProcessingAlert = imageRequest => {
     const percent =
       imageRequest.status === studyJobStatus.NEW
         ? 0
@@ -322,35 +308,9 @@ ${record.results}`;
     );
   };
 
-  const imageAlertComplete = () => {
-    const endDateParts = formatDateAndTime(
-      new Date(studyJob.endDate + 3 * 24 * 60 * 60 * 1000), // Add 3 days
-    );
-    return (
-      <>
-        <p>
-          You have until {endDateParts.date} at {endDateParts.time}{' '}
-          {endDateParts.timeZone} to view and download your images. After that,
-          you’ll need to request them again.
-        </p>
-        <p>
-          <Link
-            to={`/labs-and-tests/${record.id}/images`}
-            className="vads-c-action-link--blue"
-            data-testid="radiology-view-all-images"
-            onClick={() => {
-              sendDataDogAction('View all images');
-            }}
-          >
-            View all {radiologyDetails.imageCount} images
-          </Link>
-        </p>
-      </>
-    );
-  };
-
   const imageAlert = message => (
     <va-alert
+      class="vads-u-margin-bottom--2"
       status="error"
       visible
       aria-live="polite"
@@ -369,35 +329,79 @@ ${record.results}`;
     </va-alert>
   );
 
-  const imageAlertError = imageRequest => (
-    <>
-      <p>To review and download your images, you’ll need to request them.</p>
-      {imageAlert(ERROR_REQUEST_AGAIN)}
+  const isLimitReachedPertinent =
+    studyRequestLimitReached &&
+    studyJob?.status !== studyJobStatus.NEW &&
+    studyJob?.status !== studyJobStatus.QUEUED &&
+    studyJob?.status !== studyJobStatus.PROCESSING &&
+    studyJob?.status !== studyJobStatus.COMPLETE;
+
+  /**
+   * Determines whether image requests should be disabled for a given study job.
+   */
+  const disableRequestImages = imageStudyJob => {
+    return (
+      imageStudyJob &&
+      (imageStudyJob.status === studyJobStatus.NEW ||
+        imageStudyJob.status === studyJobStatus.QUEUED ||
+        imageStudyJob.status === studyJobStatus.PROCESSING) &&
+      imageStudyJob.percentComplete < 100
+    );
+  };
+
+  /**
+   * Either renders the “limit reached” paragraph or the Request Images button.
+   */
+  const renderRequestImagesControl = imageRequest => {
+    if (isLimitReachedPertinent) {
+      return (
+        <p>
+          You can’t request images for this report right now. You can only have
+          3 image requests at a time. Once a report is done processing you can
+          request images for this report here.
+        </p>
+      );
+    }
+
+    return (
       <va-button
-        class="vads-u-margin-top--2"
-        onClick={() => makeImageRequest()}
-        data-testid="radiology-request-images-button"
-        disabled={imageRequest?.percentComplete < 100}
+        onClick={makeImageRequest}
+        disabled={disableRequestImages(imageRequest)}
         ref={elementRef}
         text="Request Images"
+        data-testid="radiology-request-images-button"
         uswds
       />
+    );
+  };
+
+  const imagesNotRequested = imageRequest => (
+    <>
+      {!isLimitReachedPertinent && requestNote()}
+      {renderRequestImagesControl(imageRequest)}
     </>
   );
 
-  const requestLimitReachedAlert = () => (
-    <p>
-      You can’t request images for this report right now. You can only have 3
-      image requests at a time. Once a report is done processing you can request
-      images for this report here.
-    </p>
+  const imageAlertError = imageRequest => (
+    <>
+      <p>To review and download your images, you’ll need to request them.</p>
+      {imageAlert(radiologyErrors.ERROR_REQUEST_AGAIN)}
+      {renderRequestImagesControl(imageRequest)}
+    </>
   );
+
+  const renderJobCompleteAlert = () => {
+    return (
+      <JobCompleteAlert records={[radiologyDetails]} studyJobs={[studyJob]} />
+    );
+  };
 
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (processingRequest) {
         return (
-          <va-loading-indicator
+          <TrackedSpinner
+            id="radiology-images-requested-spinner"
             message="Loading..."
             setFocus
             data-testid="loading-indicator"
@@ -406,26 +410,25 @@ ${record.results}`;
       }
 
       if (activeAlert && activeAlert.type === ALERT_TYPE_IMAGE_STATUS_ERROR) {
-        return imageAlert(ERROR_TRY_LATER);
+        return imageAlert(radiologyErrors.ERROR_TRY_LATER);
       }
+
+      const newOrProcessing =
+        studyJob?.status === studyJobStatus.NEW ||
+        studyJob?.status === studyJobStatus.QUEUED ||
+        studyJob?.status === studyJobStatus.PROCESSING;
+      const jobComplete = studyJob?.status === studyJobStatus.COMPLETE;
+      const requestFailedOrError =
+        imageRequestApiFailed || studyJob?.status === studyJobStatus.ERROR;
+      const nillOrLimitReached =
+        (!studyJob || studyRequestLimitReached) && !requestFailedOrError;
 
       return (
         <>
-          {(!studyJob || studyJob.status === studyJobStatus.NONE) &&
-            !studyRequestLimitReached &&
-            imagesNotRequested(studyJob)}
-          {(studyJob?.status === studyJobStatus.NEW ||
-            studyJob?.status === studyJobStatus.PROCESSING) &&
-            imageAlertProcessing(studyJob)}
-          {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
-          {studyRequestLimitReached &&
-            studyJob.status !== studyJobStatus.PROCESSING &&
-            studyJob.status !== studyJobStatus.NEW &&
-            studyJob.status !== studyJobStatus.COMPLETE &&
-            requestLimitReachedAlert()}
-          {(imageRequestApiFailed ||
-            studyJob?.status === studyJobStatus.ERROR) &&
-            imageAlertError(studyJob)}
+          {nillOrLimitReached && imagesNotRequested(studyJob)}
+          {newOrProcessing && jobProcessingAlert(studyJob)}
+          {jobComplete && renderJobCompleteAlert()}
+          {requestFailedOrError && imageAlertError(studyJob)}
           {notificationContent()}
         </>
       );
@@ -458,17 +461,15 @@ ${record.results}`;
             role="alert"
             data-testid="alert-download-started"
           >
-            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
-              Images ready
-            </h3>
-            {imageAlertComplete()}
+            <h3 className="vads-u-font-size--lg no-print">Images ready</h3>
+            {renderJobCompleteAlert()}
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           description="L&TR Detail"
           downloadPdf={downloadPdf}
-          downloadTxt={generateRadioloyTxt}
+          downloadTxt={generateRadiologyTxt}
           allowTxtDownloads={allowTxtDownloads}
         />
         <DownloadingRecordsInfo

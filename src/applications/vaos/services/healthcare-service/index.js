@@ -74,13 +74,3 @@ export async function fetchHealthcareServiceById({ locationId, id }) {
 export function getClinicId(clinic) {
   return clinic.id.split('_')[1];
 }
-
-/**
- * Method to get the site code.
- *
- * @param {Object} clinic
- * @returns {String} The clinic site code or empty string.
- */
-export function getSiteCode(clinic) {
-  return clinic.id.split('_')[0];
-}

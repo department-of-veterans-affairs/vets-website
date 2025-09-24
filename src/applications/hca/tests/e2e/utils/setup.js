@@ -33,7 +33,7 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('GET', APIs.features, features).as('mockFeatures');
   cy.intercept('GET', APIs.maintenance, mockMaintenanceWindows);
   cy.intercept('GET', APIs.vamc, mockVamc);
-  cy.intercept('GET', APIs.enrollment, enrollmentStatus).as(
+  cy.intercept('POST', APIs.enrollment, enrollmentStatus).as(
     'mockEnrollmentStatus',
   );
   cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');

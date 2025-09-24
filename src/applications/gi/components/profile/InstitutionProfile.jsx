@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { getScrollOptions } from 'platform/utilities/ui';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { getScrollOptions, scrollTo } from 'platform/utilities/scroll';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import SchoolLocations from './SchoolLocations';
-import CautionaryInformation from './CautionaryInformation';
+import CautionaryInformationLegacy from './CautionaryInformation';
+import CautionaryInformationUpdate from './CautionaryInformationUpdate';
 import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
@@ -45,8 +45,7 @@ export default function InstitutionProfile({
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type, facilityCode, name, programTypes } = institution;
-  localStorage.setItem('institutionName', name);
+  const { type, facilityCode, programTypes } = institution;
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
   };
@@ -54,6 +53,12 @@ export default function InstitutionProfile({
   const isShowRatingsToggle = useToggleValue(
     TOGGLE_NAMES.giComparisonToolShowRatings,
   );
+  const showNewCautionary = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolCautionaryInfoUpdate,
+  );
+  const CautionaryInformationCmp = showNewCautionary
+    ? CautionaryInformationUpdate
+    : CautionaryInformationLegacy;
 
   let stars = false;
   let ratingCount = 0;
@@ -153,7 +158,7 @@ export default function InstitutionProfile({
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
           {programTypes?.length > 0 && (
-            <JumpLink label="Programs" jumpToId="programs" />
+            <JumpLink label="Approved programs of study" jumpToId="programs" />
           )}
           {!isOJT && (
             <JumpLink
@@ -168,7 +173,8 @@ export default function InstitutionProfile({
         </div>
       </div>
       {((institution.yr === true && programTypes?.length > 0) ||
-        programTypes?.length > 0) && (
+        programTypes?.length > 0 ||
+        institution.yr === true) && (
         <NewFeatureProgramsYRTAlert
           institution={institution}
           programTypes={programTypes}
@@ -263,7 +269,7 @@ export default function InstitutionProfile({
         id="cautionary-information"
       >
         <CautionaryInformationLearMore />
-        <CautionaryInformation
+        <CautionaryInformationCmp
           institution={institution}
           showModal={showModal}
         />
@@ -282,7 +288,7 @@ export default function InstitutionProfile({
         </ProfileSection>
       )}
       {programTypes.length > 0 && (
-        <ProfileSection label="Programs" id="programs">
+        <ProfileSection label="Approved programs of study" id="programs">
           <Programs programTypes={programTypes} facilityCode={facilityCode} />
         </ProfileSection>
       )}

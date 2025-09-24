@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
-
+import { daysFromToday } from '../utils/dates/dateHelper';
 // Failed on master: http://jenkins.vfs.va.gov/blue/organizations/jenkins/testing%2Fvets-website/detail/master/10203/tests
 describe.skip('Separation location', () => {
   const {
@@ -13,7 +13,7 @@ describe.skip('Separation location', () => {
     uiSchema,
   } = formConfig.chapters.veteranDetails.pages.separationLocation;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -28,7 +28,7 @@ describe.skip('Separation location', () => {
     form.unmount();
   });
 
-  it('should fail to submit for BDD separation dates when no separation location is entered', () => {
+  it('should fail to submit for BDD separation dates when no separation location is entered', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -40,9 +40,7 @@ describe.skip('Separation location', () => {
             servicePeriods: [
               {
                 dateRange: {
-                  to: moment()
-                    .add(90, 'days')
-                    .format('YYYY-MM-DD'),
+                  to: daysFromToday(90),
                 },
               },
             ],
@@ -53,13 +51,15 @@ describe.skip('Separation location', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit for non BDD separation dates when no separation location is entered', () => {
+  it('should submit for non BDD separation dates when no separation location is entered', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -72,9 +72,11 @@ describe.skip('Separation location', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find('.usa-input-error-message').length).to.equal(0);
+      expect(onSubmit.called).to.be.true;
+    });
     form.unmount();
   });
 });

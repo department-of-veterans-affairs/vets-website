@@ -1,19 +1,33 @@
 import { Actions } from '../util/actionTypes';
-import { getConditions, getCondition } from '../api/MrApi';
+import {
+  getConditions,
+  getCondition,
+  getAcceleratedConditions,
+  getAcceleratedCondition,
+} from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { dispatchDetails } from '../util/helpers';
 import { getListWithRetry } from './common';
 
-export const getConditionsList = (isCurrent = false) => async dispatch => {
+export const getConditionsList = (
+  isCurrent = false,
+  isAccelerating = false,
+) => async dispatch => {
   dispatch({
     type: Actions.Conditions.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const response = await getListWithRetry(dispatch, getConditions);
+    const getData = isAccelerating ? getAcceleratedConditions : getConditions;
+    const requestActionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_LIST
+      : Actions.Conditions.GET_LIST;
+
+    const response = await getListWithRetry(dispatch, getData);
+
     dispatch({
-      type: Actions.Conditions.GET_LIST,
+      type: requestActionType,
       response,
       isCurrent,
     });
@@ -26,15 +40,24 @@ export const getConditionsList = (isCurrent = false) => async dispatch => {
 export const getConditionDetails = (
   conditionId,
   conditionList,
+  isAccelerating = false,
 ) => async dispatch => {
   try {
+    const getDetailsFunc = isAccelerating
+      ? getAcceleratedCondition
+      : getCondition;
+
+    const detailsRequestActionType = isAccelerating
+      ? Actions.Conditions.GET_UNIFIED_ITEM
+      : Actions.Conditions.GET;
+
     await dispatchDetails(
       conditionId,
       conditionList,
       dispatch,
-      getCondition,
+      getDetailsFunc,
       Actions.Conditions.GET_FROM_LIST,
-      Actions.Conditions.GET,
+      detailsRequestActionType,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

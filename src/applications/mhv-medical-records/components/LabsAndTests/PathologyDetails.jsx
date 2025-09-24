@@ -9,18 +9,16 @@ import {
   crisisLineHeader,
   txtLine,
   usePrintTitle,
+  makePdf,
+  getNameDateAndTime,
+  formatNameFirstLast,
+  formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import {
-  makePdf,
-  getNameDateAndTime,
-  generateTextFile,
-  formatNameFirstLast,
-  formatUserDob,
-} from '../../util/helpers';
+import { generateTextFile } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 
@@ -67,7 +65,13 @@ const PathologyDetails = props => {
       ...generatePathologyContent(record),
     };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
-    makePdf(pdfName, pdfData, 'Pathology details', runningUnitTest);
+    makePdf(
+      pdfName,
+      pdfData,
+      'medicalRecords',
+      'Medical Records - Pathology details - PDF generation error',
+      runningUnitTest,
+    );
   };
 
   const generatePathologyTxt = async () => {
@@ -80,8 +84,7 @@ Date of birth: ${formatUserDob(user)}\n
 Details about this test: \n
 ${txtLine} \n
 Date and time collected: ${record.dateCollected}\n
-Site or sample tested: ${record.sampleTested} \n
-Collection sample: ${record.sampleFrom} \n
+Site or sample tested: ${record.sampleFrom}\n
 Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
@@ -131,15 +134,9 @@ ${record.results} \n`;
           <HeaderSection header="Details about this test">
             <LabelValue
               label="Site or sample tested"
-              value={record.sampleTested}
+              value={record.sampleFrom}
               testId="pathology-sample-tested"
               actionName="[lab and tests - pathology site]"
-            />
-            <LabelValue
-              label="Collection sample"
-              value={record.sampleFrom}
-              testId="pathology-collection-sample"
-              actionName="[lab and tests - pathology sample]"
             />
             <LabelValue
               label="Location"

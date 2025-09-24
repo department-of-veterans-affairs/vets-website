@@ -9,7 +9,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import manifest from '../manifest.json';
 import submitForm from './submitForm';
 import transform from './transform';
-import { getFTECalcs } from '../helpers';
+import { daysAgoYyyyMmDd, getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
@@ -43,14 +43,15 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return convertPercentageToText(percent);
+
+      return parseInt(item?.supportedStudents, 10) < 10
+        ? 'Fewer than 10 supported students'
+        : convertPercentageToText(percent);
     },
     summaryTitle: props =>
-      location?.pathname.includes('review-and-submit')
-        ? ''
-        : `Review your ${
-            props?.formData?.programs.length > 1 ? 'programs' : 'program'
-          }`,
+      `Review your ${
+        props?.formData?.programs.length > 1 ? 'programs' : 'program'
+      }`,
   },
 };
 
@@ -58,7 +59,14 @@ const { date } = commonDefinitions;
 
 export const submitFormLogic = (form, formConfig) => {
   if (environment.isDev() || environment.isLocalhost()) {
-    return Promise.resolve(testData);
+    const testDataShallowCopy = { ...testData };
+    testDataShallowCopy.data.institutionDetails.termStartDate = daysAgoYyyyMmDd(
+      14,
+    );
+    testDataShallowCopy.data.institutionDetails.dateOfCalculations = daysAgoYyyyMmDd(
+      10,
+    );
+    return Promise.resolve(testDataShallowCopy);
   }
   return submitForm(form, formConfig);
 };
@@ -112,7 +120,7 @@ const formConfig = {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
   },
-  title: 'Report 85/15 Rule enrollment ratios',
+  title: 'Report 85/15 rule enrollment ratios',
   subTitle: () => (
     <p className="vads-u-margin-bottom--0">
       Statement of Assurance of Compliance with 85% Enrollment Ratios (VA Form
@@ -125,6 +133,7 @@ const formConfig = {
     date,
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     institutionDetailsChapter: {
       title: 'Identifying details',

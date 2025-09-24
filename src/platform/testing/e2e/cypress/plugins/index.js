@@ -46,7 +46,7 @@ module.exports = async (on, config) => {
 
     setup(build) {
       // eslint-disable-next-line consistent-return
-      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
+      build.onLoad({ filter: /\.jsx?$/ }, ({ path: filePath }) => {
         // Filter out files in node_modules
         if (!filePath.split(path.sep).includes('node_modules')) {
           const regex = /.*\/vets-website\/(.+)/;
@@ -61,7 +61,11 @@ module.exports = async (on, config) => {
           // Inject __dirname and fix imports
           contents = `${injectedDir}\n\n${contents
             .replace(/~\//g, '')
-            .replace(/@@profile/g, 'applications/personalization/profile')}`;
+            .replace(/@@profile/g, 'applications/personalization/profile')
+            .replace(
+              /@bio-aquia/g,
+              'applications/benefits-optimization-aquia',
+            )}`;
           return {
             contents,
             loader: 'jsx',

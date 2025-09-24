@@ -44,9 +44,11 @@ export const ProcessList = () => (
           </li>
         </ul>
         <p>
-          <a href={HLR_INFO_URL}>
-            Find out if a Higher-Level Review is an option for you.
-          </a>
+          <va-link
+            disable-analytics
+            href={HLR_INFO_URL}
+            text="Find out if a Higher-Level Review is an option for you."
+          />
         </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
@@ -70,9 +72,11 @@ export const ProcessList = () => (
           work with us on your behalf.
         </p>
         <p>
-          <a href={GET_HELP_REP_OR_VSO_URL}>
-            Get help requesting a Higher-Level Review
-          </a>
+          <va-link
+            disable-analytics
+            href={GET_HELP_REP_OR_VSO_URL}
+            text="Get help requesting a Higher-Level Review"
+          />
         </p>
         <va-additional-info trigger="What happens after you submit your request?">
           <div>
@@ -133,10 +137,13 @@ export const OtherBenefits = () => (
       coverage for the services you need to help you get—and stay—healthy.
     </p>
     <p>
-      <a href={HEALTH_BENEFITS_URL} target="_blank" rel="noreferrer">
-        Learn more about Veterans Health Administration (VHA) health care
-        services (opens in a new tab)
-      </a>
+      <va-link
+        disable-analytics
+        external
+        href={HEALTH_BENEFITS_URL}
+        text="Learn more about Veterans Health Administration (VHA) health care
+        services"
+      />
     </p>
     <p>
       <strong>If you experienced military sexual trauma (MST)</strong>, we
@@ -145,9 +152,12 @@ export const OtherBenefits = () => (
       the time or have other proof that the MST occurred to get care.
     </p>
     <p>
-      <a href={MST_INFO} target="_blank" rel="noreferrer">
-        Learn more about MST-related benefits and services (opens in a new tab)
-      </a>
+      <va-link
+        disable-analytics
+        external
+        href={MST_INFO}
+        text="Learn more about MST-related benefits and services"
+      />
     </p>
   </>
 );

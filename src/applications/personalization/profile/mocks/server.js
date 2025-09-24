@@ -96,20 +96,23 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: false,
             representativeStatusEnableV2Features: true,
+            profileInternationalPhoneNumbers: false,
+            profileLimitDirectDepositForNonBeneficiaries: true,
             profileShowCredentialRetirementMessaging: true,
-            profileShowPaymentsNotificationSetting: true,
-            profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
             profileShowNewHealthCareCopayBillNotificationSetting: false,
-            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
-            profileShowPrivacyPolicy: true,
+            profileShowPrivacyPolicy: false,
+            profileShowPaperlessDelivery: false,
+            vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
+            vreCutoverNotice: true,
           }),
         ),
       secondsOfDelay,
@@ -140,6 +143,8 @@ const responses = {
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address
+    // return res.json(user.loa3UserWithInternationalMobilePhoneNumber); // international mobile phone number
+    // return res.json(user.loa3UserWithIntlMobilePhoneAndNoEmail); // user with international mobile phone number and no email
     // data claim users
     // return res.json(user.loa3UserWithNoRatingInfoClaim);
     // return res.json(user.loa3UserWithNoMilitaryHistoryClaim);
@@ -190,7 +195,7 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
-    const secondsOfDelay = 2;
+    const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(directDeposits.base),
       secondsOfDelay,
@@ -211,12 +216,9 @@ const responses = {
     const secondsOfDelay = 1;
     delaySingleResponse(
       // () => res.status(500).json(error500),
-      // () => res.status(200).json(mockDisabilityCompensations.updates.success),
-      () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
-      // () =>
-      //   res
-      //     .status(422)
-      //     .json(directDeposits.updates.errors.paymentRestrictionsPresent),
+      () => res.status(200).json(directDeposits.updates.success),
+      // () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () => res.status(422).json(directDeposits.updates.errors.missingPaymentAddress),
       secondsOfDelay,
     );
   },
@@ -227,7 +229,21 @@ const responses = {
       secondsOfDelay,
     );
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': (_req, res) => {
+    const addressValidationResponse = 'success';
+    delaySingleResponse(() => {
+      switch (addressValidationResponse) {
+        case 'success':
+          return res.status(200).json(address.addressValidation);
+        case 'downstreamError':
+          return res.status(400).json(address.downstreamError);
+        case 'noCandidateFound':
+          return res.status(400).json(address.noCandidateFound);
+        default:
+          return res.status(200).json('');
+      }
+    }, 1);
+  },
   'GET /v0/mhv_account': mhvAcccount.needsPatient,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
@@ -242,13 +258,27 @@ const responses = {
     return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    // user doesnt have any service history or is not authorized
-    // return res.status(403).json(genericErrors.error403);
-
+    // Succcess
     return res.status(200).json(serviceHistory.airForce);
+
+    // No service history
+    // return res.status(200).json(serviceHistory.none);
+
+    // 403 error (no service found)
     // return res
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
+
+    // Non-403 error
+    // return res
+    //   .status(200)
+    //   .json(serviceHistory.generateServiceHistoryError('500'));
+
+    // Dishonorable discharge
+    // return res.status(200).json(serviceHistory.dishonorableDischarge);
+
+    // Unknown discharge
+    // return res.status(200).json(serviceHistory.unknownDischarge);
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);

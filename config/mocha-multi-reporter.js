@@ -3,10 +3,8 @@ module.exports = {
   mochawesomeReporterOptions: {
     consoleReporter: 'min',
     reportDir: 'mocha/results',
-    reportFilename: `${process.env.STEP}_${new Date()
-      .toISOString()
-      .replace(/[.:]/g, '')}`,
-    overwrite: false,
+    reportFilename: 'unit-tests',
+    overwrite: true,
     html: false,
     json: true,
   },

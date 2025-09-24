@@ -3,11 +3,11 @@ import {
   mockFetch,
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import configureMockStore from 'redux-mock-store';
+import * as mhvExports from '~/platform/mhv/unique_user_metrics';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as apiCalls from '../../api/SmApi';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -22,7 +22,8 @@ import * as messageResponse from '../e2e/fixtures/message-response.json';
 
 describe('messages actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const mockStore = (initialState = { featureToggles: {} }) =>
+    configureStore(middlewares)(initialState);
   const errorResponse = {
     errors: [
       {
@@ -61,26 +62,6 @@ describe('messages actions', () => {
       expect(store.getActions()[1]).to.include({
         type: Actions.Thread.GET_THREAD,
       });
-    });
-  });
-
-  it('should call getMessageThreadWithFullBody with arg true when isPilot', async () => {
-    const messageId = '1234';
-    const isPilot = true;
-    const isPilotState = {
-      sm: {
-        app: {
-          isPilot,
-        },
-      },
-    };
-    const getThreadSpy = sinon.spy(apiCalls, 'getMessageThreadWithFullBody');
-    const store = mockStore(isPilotState);
-    const req1 = { shouldResolve: true, response: threadResponse };
-    const req2 = { shouldResolve: true, response: messageResponse };
-    mockMultipleApiRequests([req1, req2]);
-    await store.dispatch(retrieveMessageThread('1234')).then(() => {
-      expect(getThreadSpy.calledWith({ messageId, isPilot })).to.be.true;
     });
   });
 
@@ -246,6 +227,10 @@ describe('messages actions', () => {
   });
 
   it('should dispatch action on sendMessage', async () => {
+    const logUniqueUserMetricsEventsStub = sinon.stub(
+      mhvExports,
+      'logUniqueUserMetricsEvents',
+    );
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -261,7 +246,8 @@ describe('messages actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'success',
@@ -273,6 +259,15 @@ describe('messages actions', () => {
             response: undefined,
           },
         });
+        // Check that resetRecentRecipient is dispatched after successful send
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
+          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+        logUniqueUserMetricsEventsStub.restore();
       });
   });
 
@@ -292,7 +287,8 @@ describe('messages actions', () => {
         ),
       )
       .catch(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'error',
@@ -303,6 +299,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Ensure resetRecentRecipient is NOT called on error
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });
@@ -339,6 +339,10 @@ describe('messages actions', () => {
   });
 
   it('should dispatch action on sendReply', async () => {
+    const logUniqueUserMetricsEventsStub = sinon.stub(
+      mhvExports,
+      'logUniqueUserMetricsEvents',
+    );
     const store = mockStore();
     mockApiRequest(messageResponse);
     await store
@@ -355,7 +359,8 @@ describe('messages actions', () => {
         ),
       )
       .then(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'success',
@@ -367,6 +372,15 @@ describe('messages actions', () => {
             response: undefined,
           },
         });
+        // Check that resetRecentRecipient is dispatched after successful reply
+        expect(actions).to.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
+        });
+        expect(logUniqueUserMetricsEventsStub.calledOnce).to.be.true;
+        expect(logUniqueUserMetricsEventsStub.firstCall.args[0]).to.equal(
+          mhvExports.EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT,
+        );
+        logUniqueUserMetricsEventsStub.restore();
       });
   });
 
@@ -387,7 +401,8 @@ describe('messages actions', () => {
         ),
       )
       .catch(() => {
-        expect(store.getActions()).to.deep.include({
+        const actions = store.getActions();
+        expect(actions).to.deep.include({
           type: Actions.Alerts.ADD_ALERT,
           payload: {
             alertType: 'error',
@@ -398,6 +413,10 @@ describe('messages actions', () => {
             title: undefined,
             response: undefined,
           },
+        });
+        // Ensure resetRecentRecipient is NOT called on error
+        expect(actions).to.not.deep.include({
+          type: Actions.AllRecipients.RESET_RECENT,
         });
       });
   });

@@ -15,7 +15,7 @@ import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
-const arrayBuilderOptions = {
+export const arrayBuilderOptions = {
   arrayPath: 'agenciesOrCourts',
   nounSingular: 'state or Federal agency or court',
   nounPlural: 'state or Federal agencies or courts',

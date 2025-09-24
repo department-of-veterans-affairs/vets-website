@@ -37,15 +37,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
   const [submitted, setSubmitted] = useState(false);
 
   const handlers = {
-    onSubmit: event => {
-      // handle page navigation
-      // goToPath needs to be encapsulated separately from setFormData
-      // or data updates won't be reflected when page navigation occurs
-      event.preventDefault();
-      if (!nameError && !amountError) {
-        goToPath(SUMMARY_PATH);
-      }
-    },
     onUtilityNameChange: ({ target }) => {
       setUtilityName(target.value);
     },
@@ -78,8 +69,9 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
           ...data,
           utilityRecords: newUtility,
         });
+
+        goToPath(SUMMARY_PATH);
       }
-      handlers.onSubmit(event);
     },
   };
 
@@ -92,7 +84,7 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
 
   return (
     <>
-      <form onSubmit={handlers.onSubmit}>
+      <form>
         <fieldset className="vads-u-margin-y--2">
           <legend
             id="decision-date-description"
@@ -138,7 +130,6 @@ const AddUtilityBill = ({ data, goToPath, setFormData }) => {
               {
                 label: `${labelText} utility bill`,
                 onClick: handlers.onUpdate,
-                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

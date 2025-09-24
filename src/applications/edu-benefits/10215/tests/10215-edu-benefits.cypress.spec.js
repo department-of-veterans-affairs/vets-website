@@ -5,6 +5,7 @@ import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-te
 import manifest from '../manifest.json';
 
 import formConfig from '../config/form';
+import { daysAgoYyyyMmDd } from '../helpers';
 
 const mockManifest = {
   appName: manifest.appName,
@@ -29,6 +30,32 @@ const testConfig = createTestConfig(
           cy.get('[class="schemaform-start-button"]')
             .first()
             .click();
+        });
+      },
+      '/school-administrators/85-15-rule-enrollment-ratio/identifying-details-1': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          const termStartDate = daysAgoYyyyMmDd(10);
+          const dateOfCalculations = daysAgoYyyyMmDd(10);
+          cy.fillVaTextInput(
+            'root_institutionDetails_facilityCode',
+            '15012020',
+          );
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(200);
+          cy.fillVaMemorableDate(
+            'root_institutionDetails_termStartDate',
+            termStartDate,
+            true,
+          );
+          cy.repeatKey('Tab', 1);
+          cy.fillVaMemorableDate(
+            'root_institutionDetails_dateOfCalculations',
+            dateOfCalculations,
+            true,
+          );
+          cy.tabToSubmitForm();
         });
       },
       '/school-administrators/85-15-rule-enrollment-ratio/85-15-calculations/summary': ({

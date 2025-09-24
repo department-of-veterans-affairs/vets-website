@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { mount } from 'enzyme';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 
 import {
@@ -18,7 +19,7 @@ describe('Homeless or At Risk Info', () => {
     uiSchema,
   } = formConfig.chapters.veteranDetails.pages.homelessOrAtRisk;
 
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -33,7 +34,7 @@ describe('Homeless or At Risk Info', () => {
     form.unmount();
   });
 
-  it('should submit when user not homeless or at risk', () => {
+  it('should submit when user not homeless or at risk', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -49,13 +50,15 @@ describe('Homeless or At Risk Info', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+    });
     form.unmount();
   });
 
-  it('should require living situation, needToLeave, and contact name / number when homeless', () => {
+  it('should require living situation, needToLeave, and contact name / number when homeless', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -71,13 +74,15 @@ describe('Homeless or At Risk Info', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(4);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should require living situation and contact name / number when at risk', () => {
+  it('should require living situation and contact name / number when at risk', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -93,13 +98,15 @@ describe('Homeless or At Risk Info', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(3);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it("should require homeless housing input when 'other' selected", () => {
+  it("should require homeless housing input when 'other' selected", async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -122,14 +129,15 @@ describe('Homeless or At Risk Info', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it("should require at risk housing input when 'other' option selected", () => {
+  it("should require at risk housing input when 'other' option selected", async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -152,14 +160,15 @@ describe('Homeless or At Risk Info', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit when all fields filled', () => {
+  it('should submit when all fields filled', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(
@@ -184,9 +193,11 @@ describe('Homeless or At Risk Info', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+    });
     form.unmount();
   });
 });

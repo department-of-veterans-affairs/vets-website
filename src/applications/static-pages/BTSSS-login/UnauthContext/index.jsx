@@ -15,7 +15,7 @@ const UnauthContext = () => {
     <va-alert-sign-in
       data-testid="btsss-login-alert"
       variant="signInRequired"
-      heading-level={3}
+      heading-level={4}
       visible
     >
       <span slot="SignInButton">

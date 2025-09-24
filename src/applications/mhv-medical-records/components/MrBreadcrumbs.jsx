@@ -37,7 +37,7 @@ const MrBreadcrumbs = () => {
   const page = searchIndex.get('page');
   const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
-  const urlVitalsDate = searchIndex.get('timeFrame');
+  const urlTimeFrame = searchIndex.get('timeFrame');
 
   useEffect(
     () => {
@@ -69,12 +69,12 @@ const MrBreadcrumbs = () => {
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
-        } else if (urlVitalsDate) {
+        } else if (urlTimeFrame) {
           const backToVitalsDateCrumb = {
             ...Breadcrumbs[feature],
             href: `${removeTrailingSlash(
               Breadcrumbs[feature].href,
-            )}?timeFrame=${urlVitalsDate}`,
+            )}?timeFrame=${urlTimeFrame}`,
           };
           dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
@@ -96,7 +96,7 @@ const MrBreadcrumbs = () => {
       locationChildPath,
       textContent,
       pageNumber,
-      urlVitalsDate,
+      urlTimeFrame,
     ],
   );
 
@@ -108,7 +108,7 @@ const MrBreadcrumbs = () => {
 
   const backToImagesBreadcrumb = location.pathname.includes('/images')
     ? crumbsList[crumbsList.length - 1].href
-    : `/${locationBasePath}`;
+    : `/${locationBasePath}${pageNumber ? `?page=${pageNumber}` : ''}`;
 
   const backToAllergiesBreadcrumb = () =>
     location.pathname.includes(`/allergies/${allergyId}`)
@@ -124,6 +124,13 @@ const MrBreadcrumbs = () => {
         conditionId}`,
     )
   ) {
+    const url = `${backToImagesBreadcrumb}${
+      urlTimeFrame
+        ? `${
+            backToImagesBreadcrumb?.includes('?') ? '&' : '?'
+          }timeFrame=${urlTimeFrame}`
+        : ''
+    }`;
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -134,7 +141,7 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
-          to={backToImagesBreadcrumb}
+          to={url}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();
@@ -157,7 +164,7 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={`${backToImagesBreadcrumb}${
-            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+            urlTimeFrame ? `?timeFrame=${urlTimeFrame}` : ''
           }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });

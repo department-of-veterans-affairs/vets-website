@@ -149,7 +149,7 @@ describe('Helpers Module', () => {
     it('should correctly transform form data based on the provided state', () => {
       const pages = {};
       const formData = {
-        relationShipToMember: 'Spouse',
+        relationshipToMember: 'Spouse',
         relativeSocialSecurityNumber: '123-45-6789',
         highSchoolDiploma: 'Yes',
         graduationDate: '2000-01-01',

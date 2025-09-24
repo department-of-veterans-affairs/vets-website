@@ -8,6 +8,9 @@ export function uiSchema(title) {
         },
       },
     },
+    'ui:options': {
+      itemName: 'sponsor’s service name',
+    },
   };
 }
 export const schema = {

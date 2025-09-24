@@ -1,42 +1,45 @@
 // @ts-check
-import moment from 'moment';
-import { APPOINTMENT_STATUS, OPTOMETRY_ID } from '../../../../utils/constants';
-import MockAppointmentResponse from '../../fixtures/MockAppointmentResponse';
+import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
-  mockAppointmentGetApi,
+  APPOINTMENT_STATUS,
+  TYPE_OF_CARE_IDS,
+} from '../../../../utils/constants';
+import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockProviderResponse from '../../../fixtures/MockProviderResponse';
+import MockUser from '../../../fixtures/MockUser';
+import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
+import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
+import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
+import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
+import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
+import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
+import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
+import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
+import ReviewPageObject from '../../page-objects/ReviewPageObject';
+import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
+import TypeOfEyeCarePageObject from '../../page-objects/TypeOfEyeCarePageObject';
+import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
+import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
+import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
+import {
   mockAppointmentCreateApi,
+  mockAppointmentGetApi,
   mockAppointmentsGetApi,
+  mockCCProvidersApi,
   mockEligibilityApi,
+  mockEligibilityCCApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
   mockVamcEhrApi,
   vaosSetup,
-  mockEligibilityCCApi,
-  mockCCProvidersApi,
 } from '../../vaos-cypress-helpers';
-import MockUser from '../../fixtures/MockUser';
-import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
-import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
-import VAFacilityPageObject from '../../page-objects/VAFacilityPageObject';
-import MockEligibilityResponse from '../../fixtures/MockEligibilityResponse';
-import MockFacilityResponse from '../../fixtures/MockFacilityResponse';
-import DateTimeRequestPageObject from '../../page-objects/DateTimeRequestPageObject';
-import TypeOfVisitPageObject from '../../page-objects/TypeOfVisitPageObject';
-import ContactInfoPageObject from '../../page-objects/ContactInfoPageObject';
-import ReviewPageObject from '../../page-objects/ReviewPageObject';
-import ConfirmationPageObject from '../../page-objects/ConfirmationPageObject';
-import ReasonForAppointmentPageObject from '../../page-objects/ReasonForAppointmentPageObject';
-import TypeOfEyeCarePageObject from '../../page-objects/TypeOfEyeCarePageObject';
-import { getTypeOfCareById } from '../../../../utils/appointment';
-import TypeOfFacilityPageObject from '../../page-objects/TypeOfFacilityPageObject';
-import CommunityCarePreferencesPageObject from '../../page-objects/CommunityCarePreferencesPageObject';
-import ClosestCityStatePageObject from '../../page-objects/ClosestCityStatePageObject';
-import MockProviderResponse from '../../fixtures/MockProviderResponse';
-import PreferredLanguagePageObject from '../../page-objects/PreferredLanguagePageObject';
 
-const typeOfCareId = getTypeOfCareById(OPTOMETRY_ID).idV2;
-const { cceType } = getTypeOfCareById(OPTOMETRY_ID);
+const { idV2: typeOfCareId, cceType } = getTypeOfCareById(
+  TYPE_OF_CARE_IDS.OPTOMETRY_ID,
+);
 
 describe('VAOS direct schedule flow - Optometry', () => {
   beforeEach(() => {
@@ -44,10 +47,9 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
     const response = new MockAppointmentResponse({
       id: 'mock1',
-      localStartTime: moment(),
+      localStartTime: new Date(),
       status: APPOINTMENT_STATUS.proposed,
-      serviceType: typeOfCareId,
-    });
+    }).setTypeOfCare(typeOfCareId);
     mockAppointmentGetApi({
       response,
     });
@@ -110,8 +112,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -165,8 +169,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -242,8 +248,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();
@@ -297,8 +305,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({
+            .assertLabel({
               label: /Add any details you.d like to share with your provider/,
+            })
+            .typeAdditionalText({
               content: 'This is a test',
             })
             .clickNextButton();

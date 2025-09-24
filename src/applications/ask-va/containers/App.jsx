@@ -4,6 +4,9 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import BreadCrumbs from '../components/BreadCrumbs';
 import ProgressBar from '../components/ProgressBar';
 import formConfig from '../config/form';
@@ -18,6 +21,8 @@ export default function App({ location, children }) {
   // manually set cookie to true to force new VA.gov experience
   const isCanaryEnabledViaCookie =
     cookie.get('askVaCanaryReleaseOverride') === 'true';
+  // manually set cookie to true to force new VA.gov experience
+  const isAppEnabledViaCookie = cookie.get('askVaEnableAppOverride') === 'true';
 
   const toggleName = TOGGLE_NAMES.askVaCanaryRelease;
   const toggleOldPortalAlert = TOGGLE_NAMES.askVaAlertLinkToOldPortal;
@@ -25,7 +30,7 @@ export default function App({ location, children }) {
   const isOldPortalAlertEnabled = useToggleValue(toggleOldPortalAlert);
   const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
   const showAlertAndHideForm =
-    !isLoadingFeatureFlags && isOldPortalAlertEnabled;
+    !isLoadingFeatureFlags && isOldPortalAlertEnabled && !isAppEnabledViaCookie;
   const performRedirect =
     !isLoadingFeatureFlags && !(isCanaryEnabled || isCanaryEnabledViaCookie);
 
@@ -57,10 +62,15 @@ export default function App({ location, children }) {
   return !isLoadingFeatureFlags ? (
     <>
       <BreadCrumbs currentLocation={location.pathname} />
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        <ProgressBar pathname={location.pathname} />
-        {children}
-      </RoutedSavableApp>
+      <DowntimeNotification
+        appTitle="Ask VA"
+        dependencies={[externalServices.askva]}
+      >
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          <ProgressBar pathname={location.pathname} />
+          {children}
+        </RoutedSavableApp>
+      </DowntimeNotification>
     </>
   ) : (
     <></>

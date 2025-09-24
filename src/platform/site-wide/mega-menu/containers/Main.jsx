@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { replaceDomainsInData } from 'platform/utilities/environment/stagingDomains';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import MY_VA_LINK from '../constants/MY_VA_LINK';
 import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
@@ -182,15 +183,25 @@ const mapStateToProps = (state, ownProps) => {
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
-  if (loggedIn) {
+  // Use feature toggle to conditionally add links
+  const featureToggles = toggleValues(state);
+  const featureToggleMhvHeaderLinks = featureToggles.mhvHeaderLinks;
+
+  if (loggedIn && !featureToggleMhvHeaderLinks) {
+    defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
+  }
+
+  if (featureToggleMhvHeaderLinks) {
     defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
   const authenticatedLinks = [];
 
+  // Handle authenticatedLinks?
   const data = flagCurrentPageInTopLevelLinks(
     getAuthorizedLinkData(loggedIn, defaultLinks, authenticatedLinks),
   );
+
   return {
     currentDropdown: state.megaMenu?.currentDropdown,
     currentSection: state.megaMenu?.currentSection,

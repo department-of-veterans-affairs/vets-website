@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
@@ -16,30 +16,31 @@ import {
   updateTriageGroupRecipientStatus,
 } from '../../util/helpers';
 
+const { alertTitle, alertMessage } = BlockedTriageAlertText;
+const MESSAGE_TO_CARE_TEAM = "You can't send messages to";
+const MESSAGE_TO_CARE_TEAMS = "You can't send messages to care teams at";
+const ACCOUNT_DISCONNECTED = 'Your account is no longer connected to';
+const { MULTIPLE_TEAMS_BLOCKED, ALL_TEAMS_BLOCKED } = alertTitle;
+
 const BlockedTriageGroupAlert = props => {
   const {
     alertStyle,
     parentComponent,
     currentRecipient,
-    setShowBlockedTriageGroupAlert = () => {},
+    setShowBlockedTriageGroupAlert,
+    isOhMessage,
   } = props;
-
-  const { alertTitle, alertMessage } = BlockedTriageAlertText;
-  const MESSAGE_TO_CARE_TEAM = "You can't send messages to";
-  const MESSAGE_TO_CARE_TEAMS = "You can't send messages to care teams at";
-  const ACCOUNT_DISCONNECTED = 'Your account is no longer connected to';
 
   const DATADOG_FIND_VA_FACILITY_LINK =
     'Find your VA health facility link - in Blocked/Not Associated alert';
 
-  const [alertTitleText, setAlertTitleText] = useState(
-    alertTitle.NO_ASSOCIATIONS,
-  );
+  const [alertTitleText, setAlertTitleText] = useState(null);
   const [alertInfoText, setAlertInfoText] = useState(
     alertMessage.NO_ASSOCIATIONS,
   );
   const [showAlert, setShowAlert] = useState(false);
   const [blockedTriageList, setBlockedTriageList] = useState([]);
+  const [isAnalyticsSent, setIsAnalyticsSent] = useState(false);
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -53,16 +54,12 @@ const BlockedTriageGroupAlert = props => {
     blockedFacilities,
   } = recipients;
 
-  const blockedFacilityNames =
-    blockedFacilities
-      ?.filter(facility => getVamcSystemNameFromVhaId(ehrDataByVhaId, facility))
-      .map(facility => {
-        return {
-          stationNumber: facility,
-          name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
-          type: Recipients.FACILITY,
-        };
-      }) || [];
+  const handleShowBlockedTriageGroupAlert = useCallback(
+    () => {
+      if (setShowBlockedTriageGroupAlert) setShowBlockedTriageGroupAlert(true);
+    },
+    [setShowBlockedTriageGroupAlert],
+  );
 
   const organizeBlockedList = (recipientList, facilityNames) => {
     return recipientList?.length > 1 && facilityNames.length > 0
@@ -83,6 +80,20 @@ const BlockedTriageGroupAlert = props => {
 
   useEffect(
     () => {
+      const blockedFacilityNames =
+        (blockedFacilities?.length > 0 &&
+          blockedFacilities
+            ?.filter(facility =>
+              getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+            )
+            .map(facility => {
+              return {
+                stationNumber: facility,
+                name: getVamcSystemNameFromVhaId(ehrDataByVhaId, facility),
+                type: Recipients.FACILITY,
+              };
+            })) ||
+        [];
       if (associatedBlockedTriageGroupsQty !== undefined) {
         if (currentRecipient) {
           const { formattedRecipient } = updateTriageGroupRecipientStatus(
@@ -102,8 +113,10 @@ const BlockedTriageGroupAlert = props => {
             } else {
               setBlockedTriageList([formattedRecipient]);
             }
-            setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
+            if (!isOhMessage) {
+              setShowAlert(true);
+              handleShowBlockedTriageGroupAlert();
+            }
           } else if (formattedRecipient.status === RecipientStatus.BLOCKED) {
             if (parentComponent === ParentComponent.COMPOSE_FORM) {
               const organizedList = organizeBlockedList(
@@ -114,17 +127,17 @@ const BlockedTriageGroupAlert = props => {
               if (organizedList.length > 0) {
                 setBlockedTriageList([...organizedList]);
                 setShowAlert(true);
-                setShowBlockedTriageGroupAlert(true);
+                handleShowBlockedTriageGroupAlert();
               }
             } else {
               setBlockedTriageList([formattedRecipient]);
               setShowAlert(true);
-              setShowBlockedTriageGroupAlert(true);
+              handleShowBlockedTriageGroupAlert();
             }
           }
         } else if (noAssociations || allTriageGroupsBlocked) {
           setShowAlert(true);
-          setShowBlockedTriageGroupAlert(true);
+          handleShowBlockedTriageGroupAlert();
         } else if (
           parentComponent === ParentComponent.COMPOSE_FORM ||
           parentComponent === ParentComponent.CONTACT_LIST
@@ -137,50 +150,35 @@ const BlockedTriageGroupAlert = props => {
           if (organizedList.length > 0) {
             setBlockedTriageList([...organizedList]);
             setShowAlert(true);
-            setShowBlockedTriageGroupAlert(true);
+            handleShowBlockedTriageGroupAlert();
           }
         }
       }
     },
-    [currentRecipient, recipients],
-  );
-
-  useEffect(
-    () => {
-      if (alertTitleText !== alertTitle.NO_ASSOCIATIONS) {
-        let value = '';
-        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
-          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
-        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
-          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
-        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
-          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
-        } else {
-          value = alertTitleText;
-        }
-        datadogRum.addAction('Blocked triage group alert', { type: value });
-      }
-    },
-    [alertTitle.NO_ASSOCIATIONS, alertTitleText],
+    [
+      currentRecipient,
+      recipients,
+      allTriageGroupsBlocked,
+      associatedBlockedTriageGroupsQty,
+      blockedFacilities,
+      blockedRecipients,
+      ehrDataByVhaId,
+      noAssociations,
+      parentComponent,
+      handleShowBlockedTriageGroupAlert,
+      isOhMessage,
+    ],
   );
 
   useEffect(
     () => {
       if (associatedBlockedTriageGroupsQty !== undefined) {
-        if (parentComponent === ParentComponent.FOLDER_HEADER) {
+        if (
+          parentComponent === ParentComponent.FOLDER_HEADER ||
+          parentComponent === ParentComponent.COMPOSE_FORM
+        ) {
           if (noAssociations) {
-            return;
-          }
-
-          if (allTriageGroupsBlocked) {
-            setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
-            setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-            return;
-          }
-        }
-
-        if (parentComponent === ParentComponent.COMPOSE_FORM) {
-          if (noAssociations) {
+            setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
             return;
           }
 
@@ -216,13 +214,44 @@ const BlockedTriageGroupAlert = props => {
         } else if (allTriageGroupsBlocked) {
           setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
-        } else {
+        } else if (blockedTriageList?.length > 1) {
           setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
         }
       }
     },
-    [blockedTriageList, recipients, noAssociations],
+    [
+      allTriageGroupsBlocked,
+      associatedBlockedTriageGroupsQty,
+      blockedTriageList,
+      noAssociations,
+      parentComponent,
+      recipients,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (showAlert && alertTitleText && !isAnalyticsSent) {
+        let value = '';
+        if (alertTitleText.includes(MESSAGE_TO_CARE_TEAMS)) {
+          value = `${MESSAGE_TO_CARE_TEAMS} FACILITY`;
+        } else if (alertTitleText.includes(MULTIPLE_TEAMS_BLOCKED)) {
+          value = `${alertTitleText}`;
+        } else if (alertTitleText.includes(ALL_TEAMS_BLOCKED)) {
+          value = alertTitleText;
+        } else if (alertTitleText.includes(MESSAGE_TO_CARE_TEAM)) {
+          value = `${MESSAGE_TO_CARE_TEAM} TG_NAME`;
+        } else if (alertTitleText.includes(ACCOUNT_DISCONNECTED)) {
+          value = `${ACCOUNT_DISCONNECTED} TG_NAME`;
+        } else {
+          value = alertTitleText;
+        }
+        datadogRum.addAction('Blocked triage group alert', { type: value });
+        setIsAnalyticsSent(true);
+      }
+    },
+    [showAlert, alertTitleText, isAnalyticsSent],
   );
 
   if (!showAlert) {
@@ -296,6 +325,7 @@ BlockedTriageGroupAlert.propTypes = {
   alertStyle: PropTypes.string,
   blockedTriageGroupList: PropTypes.arrayOf(PropTypes.object),
   currentRecipient: PropTypes.object,
+  isOhMessage: PropTypes.bool,
   parentComponent: PropTypes.string,
   setShowBlockedTriageGroupAlert: PropTypes.func,
 };

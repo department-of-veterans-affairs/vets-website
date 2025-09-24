@@ -163,10 +163,10 @@ const FileUpload = props => {
       <div className="usa-form-group">
         {route === '/your-question' && (
           <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+            <div className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <div className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                 {existingFiles.map(file => (
-                  <div
+                  <dl
                     key={`${file.fileID}-${file.fileName}-edit`}
                     className="review-page-attachments"
                   >
@@ -187,10 +187,10 @@ const FileUpload = props => {
                         onClick={() => deleteExistingFile(file.fileID)}
                       />
                     </dd>
-                  </div>
+                  </dl>
                 ))}
-              </dl>
-            </dl>
+              </div>
+            </div>
           </div>
         )}
         <VaFileInput

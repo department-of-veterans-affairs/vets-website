@@ -5,7 +5,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollTo from 'platform/utilities/ui/scrollTo';
+import { scrollTo } from 'platform/utilities/scroll';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 
 import {

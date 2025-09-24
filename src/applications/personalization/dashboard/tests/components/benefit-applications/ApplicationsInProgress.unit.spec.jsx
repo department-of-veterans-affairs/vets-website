@@ -113,6 +113,7 @@ const formsWithStatus = [
       status: 'received',
       createdAt: STATUS_CREATED_AT,
       updatedAt: STATUS_UPDATED_AT,
+      pdfSupport: true,
     },
   },
   {
@@ -126,6 +127,7 @@ const formsWithStatus = [
       status: 'vbms',
       createdAt: STATUS_CREATED_AT,
       updatedAt: STATUS_UPDATED_AT,
+      pdfSupport: false,
     },
   },
 ];
@@ -147,6 +149,9 @@ describe('ApplicationsInProgress component', () => {
       },
       submittedForms: {
         forms: formsWithStatus,
+      },
+      myVaFormPdfs: {
+        loading: false,
       },
     }),
     subscribe: () => {},

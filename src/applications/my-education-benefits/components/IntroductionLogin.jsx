@@ -36,7 +36,7 @@ function IntroductionLogin({
   if (showMeb1990EZR6MaintenanceMessage) {
     // Message for the R6 maintenance period
     maintenanceMessage =
-      'We are currently performing system updates. Please come back on July 8 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+      'We are currently performing system updates. Please come back after 6:00 a.m. ET on Monday, July 28 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
   } else if (shouldShowMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
@@ -47,7 +47,7 @@ function IntroductionLogin({
       {shouldShowLoadingIndicator && <LoadingIndicator />}
       {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
-          Begin your application for education benefits
+          Start your application for benefits
         </h2>
       )}
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -105,7 +105,7 @@ function IntroductionLogin({
             messages={route?.formConfig.savedFormMessages}
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText="Start your application"
+            startText="Start your benefits application"
             user={user}
           />
         )}

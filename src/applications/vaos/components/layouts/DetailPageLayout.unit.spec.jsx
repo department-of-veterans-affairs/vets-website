@@ -1,10 +1,15 @@
-import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment';
+import { subDays } from 'date-fns';
+import React from 'react';
+import { MockAppointment } from '../../tests/fixtures/MockAppointment';
+import MockAppointmentResponse from '../../tests/fixtures/MockAppointmentResponse';
+import MockFacility from '../../tests/fixtures/MockFacility';
+import MockTravelPayClaim from '../../tests/fixtures/MockTravelPayClaim';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../tests/mocks/setup';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
 import DetailPageLayout from './DetailPageLayout';
 
 describe('VAOS Component: DetailPageLayout', () => {
@@ -20,39 +25,16 @@ describe('VAOS Component: DetailPageLayout', () => {
     it('should display appointment task and travel reimbursement info', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const tomorrow = moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DDTHH:mm:ss');
-      const appointment = {
-        id: '123',
-        start: tomorrow,
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          isCancellable: true,
-          apiData: {
-            travelPayClaim: {
-              metadata: {
-                status: 200,
-                message: 'No claims found.',
-                success: true,
-              },
-            },
-            localStartTime: tomorrow,
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'booked',
-        isPastAppointment: true,
-      };
-
+      const appointment = new MockAppointment()
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: subDays(new Date(), 1),
+          }).setTravelPayClaim(new MockTravelPayClaim()),
+        )
+        .setIsInPersonVisit(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
+      appointment.start = subDays(new Date(), 1);
       // Act
       const screen = renderWithStoreAndRouter(
         <DetailPageLayout data={appointment} facility={facilityData} />,
@@ -75,39 +57,19 @@ describe('VAOS Component: DetailPageLayout', () => {
     it('should not display appointment task and travel reimbursement info', async () => {
       // Arrange
       const store = createTestStore(initialState);
-      const tomorrow = moment()
-        .subtract(1, 'day')
-        .format('YYYY-MM-DDTHH:mm:ss');
-      const appointment = {
-        id: '123',
-        start: tomorrow,
-        location: {
-          stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
-          clinicPhone: '500-500-5000',
-          clinicPhoneExtension: '1234',
-        },
-        videoData: {},
-        vaos: {
-          isPastAppointment: true,
-          isCancellable: true,
-          apiData: {
-            travelPayClaim: {
-              metadata: {
-                status: 200,
-                message: 'No claims found.',
-                success: true,
-              },
-            },
-            localStartTime: tomorrow,
-            serviceType: 'primaryCare',
-          },
-        },
-        status: 'cancelled',
-        isPastAppointment: true,
-      };
-
+      const appointment = new MockAppointment({
+        status: APPOINTMENT_STATUS.cancelled,
+      })
+        .setApiData(
+          new MockAppointmentResponse({
+            localStartTime: subDays(new Date(), 1),
+            status: APPOINTMENT_STATUS.cancelled,
+          }).setTravelPayClaim(new MockTravelPayClaim()),
+        )
+        .setIsInPersonVisit(true)
+        .setIsPastAppointment(true)
+        .setLocation(new MockFacility());
+      appointment.start = subDays(new Date(), 1);
       // Act
       const screen = renderWithStoreAndRouter(
         <DetailPageLayout data={appointment} facility={facilityData} />,

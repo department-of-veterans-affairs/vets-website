@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { formatDowntime } from 'platform/utilities/date';
 
 import {
   getGlobalDowntime,
-  getScheduledDowntime,
+  getScheduledDowntime as getScheduledDowntimeFunc,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 } from '../actions';
@@ -32,97 +32,114 @@ import { APP_TYPE_DEFAULT } from '../../../forms-system/src/js/constants';
  * @property {function} [render] - A function that may be supplied for custom rendering, useful for customizing how downtime/downtime approaching is handled. Receives the derived status, downtimeWindow, downtimeMap, children as arguments.
  * @module platform/monitoring/DowntimeNotification
  */
-class DowntimeNotification extends React.Component {
-  static propTypes = {
-    appTitle: PropTypes.string,
-    children: PropTypes.node,
-    content: PropTypes.node,
-    dependencies: PropTypes.arrayOf(
-      PropTypes.oneOf(Object.values(externalServices)),
-    ).isRequired,
-    getGlobalDowntime: PropTypes.func.isRequired,
-    getScheduledDowntime: PropTypes.func.isRequired,
-    isReady: PropTypes.bool,
-    loadingIndicator: PropTypes.node,
-    render: PropTypes.func,
-  };
+const DowntimeNotification = props => {
+  const {
+    appTitle,
+    getScheduledDowntime,
+    isReady,
+    children,
+    content,
+    loadingIndicator,
+    render,
+    customText,
+    globalDowntime,
+    shouldSendRequest,
+    status,
+    startTime,
+    endTime,
+    description,
+    externalService,
+  } = props;
 
-  static defaultProps = {
-    dependencies: [],
-  };
+  useEffect(
+    () => {
+      // getGlobalDowntime();
+      if (shouldSendRequest) getScheduledDowntime();
+    },
+    [shouldSendRequest, getScheduledDowntime],
+  );
 
-  componentDidMount() {
-    // this.props.getGlobalDowntime();
-    if (this.props.shouldSendRequest) this.props.getScheduledDowntime();
-  }
-
-  renderGlobalDowntimeOverride = appTypeContent => {
-    const appType = Object.values(VA_FORM_IDS).includes(this.props.appTitle)
+  const renderGlobalDowntimeOverride = appTypeContent => {
+    const appType = Object.values(VA_FORM_IDS).includes(appTitle)
       ? appTypeContent
       : 'tool';
-
-    const endTime = formatDowntime(
-      this.props.globalDowntime.endTime ?? new Date(),
-    );
-
+    const end = formatDowntime(globalDowntime?.endTime ?? new Date());
     return (
       <va-alert class="vads-u-margin-bottom--4" visible status="warning">
         <h3 slot="headline">This {appType} is down for maintenance</h3>
         <p>
           We’re making some updates to this {appType}. We’re sorry it’s not
-          working right now and we hope to be finished by {endTime}. Please
-          check back soon.
+          working right now and we hope to be finished by {end}. Please check
+          back soon.
         </p>
       </va-alert>
     );
   };
 
-  render() {
-    const { customText } = this.props;
+  const appType = customText?.appType || APP_TYPE_DEFAULT;
 
-    const appType = customText?.appType || APP_TYPE_DEFAULT;
-
-    if (this.props.globalDowntime) {
-      return this.renderGlobalDowntimeOverride(appType);
-    }
-
-    if (!this.props.isReady) {
-      return (
-        this.props.loadingIndicator || (
-          <va-loading-indicator
-            message={`Checking the ${this.props.appTitle} status...`}
-          />
-        )
-      );
-    }
-
-    const children = this.props.children || this.props.content;
-
-    if (this.props.render) {
-      return this.props.render(
-        {
-          appTitle: this.props.appTitle,
-          externalService: this.props.externalService,
-          status: this.props.status,
-          startTime: this.props.startTime,
-          endTime: this.props.endTime,
-          description: this.props.description,
-        },
-        children,
-      );
-    }
-
-    if (this.props.status === externalServiceStatus.downtimeApproaching) {
-      return <DowntimeApproaching {...this.props} />;
-    }
-
-    if (this.props.status === externalServiceStatus.down) {
-      return <Down {...this.props} appType={appType} headerLevel={2} />;
-    }
-
-    return children;
+  if (globalDowntime) {
+    return renderGlobalDowntimeOverride(appType);
   }
-}
+
+  if (!isReady) {
+    return (
+      loadingIndicator || (
+        <va-loading-indicator message={`Checking the ${appTitle} status...`} />
+      )
+    );
+  }
+
+  const childrenToRender = children || content;
+
+  if (render) {
+    return render(
+      {
+        appTitle,
+        externalService,
+        status,
+        startTime,
+        endTime,
+        description,
+      },
+      childrenToRender,
+    );
+  }
+
+  if (status === externalServiceStatus.downtimeApproaching) {
+    return <DowntimeApproaching {...props} />;
+  }
+
+  if (status === externalServiceStatus.down) {
+    return <Down {...props} appType={appType} headerLevel={2} />;
+  }
+
+  return childrenToRender;
+};
+
+DowntimeNotification.propTypes = {
+  appTitle: PropTypes.string.isRequired,
+  dependencies: PropTypes.arrayOf(
+    PropTypes.oneOf(Object.values(externalServices)),
+  ).isRequired,
+  dismissDowntimeWarning: PropTypes.func.isRequired,
+  getGlobalDowntime: PropTypes.func.isRequired,
+  getScheduledDowntime: PropTypes.func.isRequired,
+  initializeDowntimeWarnings: PropTypes.func.isRequired,
+  children: PropTypes.node,
+  content: PropTypes.node,
+  customText: PropTypes.object,
+  description: PropTypes.string,
+  endTime: PropTypes.instanceOf(Date),
+  externalService: PropTypes.string,
+  globalDowntime: PropTypes.object,
+  isReady: PropTypes.bool,
+  loadingIndicator: PropTypes.node,
+  render: PropTypes.func,
+  shouldSendRequest: PropTypes.bool,
+  startTime: PropTypes.instanceOf(Date),
+  status: PropTypes.string,
+};
 
 // exported for unit tests
 export const mapStateToProps = (state, ownProps) => {
@@ -155,7 +172,7 @@ export const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
   getGlobalDowntime,
-  getScheduledDowntime,
+  getScheduledDowntime: getScheduledDowntimeFunc,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,
 };

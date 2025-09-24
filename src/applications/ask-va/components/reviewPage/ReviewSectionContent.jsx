@@ -33,14 +33,12 @@ const ReviewSectionContent = ({
             </div>
           </div>
           <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-            <dl className="vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-              {removeNullitems.map(item => (
-                <div className="review-row" key={item.name}>
-                  <dt className="">{item.name}</dt>
-                  <dd className="">{item.data}</dd>
-                </div>
-              ))}
-            </dl>
+            {removeNullitems.map(item => (
+              <div className="review-row" key={item.name}>
+                <dt className="">{item.name}</dt>
+                <dd className="">{item.data}</dd>
+              </div>
+            ))}
           </dl>
         </form>
       </div>

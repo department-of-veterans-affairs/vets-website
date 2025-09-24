@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import reducer from '../../../reducers';
 import {
@@ -24,10 +24,10 @@ describe('Cerner Facility Alert', () => {
   };
 
   const setup = (state = initialStateMock, facilities = { facilities: [] }) => {
-    return renderWithStoreAndRouter(<CernerFacilityAlert />, {
+    return renderWithStoreAndRouterV6(<CernerFacilityAlert />, {
       initialState: { ...state, user: { ...state.user, profile: facilities } },
       reducers: reducer,
-      path: '/about',
+      initialEntries: ['/about'],
     });
   };
 
@@ -52,6 +52,8 @@ describe('Cerner Facility Alert', () => {
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health');
+    expect(link).to.exist;
     expect(screen.getByText('VA Spokane health care')).to.exist;
     expect(screen.getByText('VA Walla Walla health care')).to.exist;
     expect(screen.getByText('VA Southern Oregon health care')).to.exist;
@@ -63,6 +65,8 @@ describe('Cerner Facility Alert', () => {
     });
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
+    const link = screen.getByText('Go to My VA Health');
+    expect(link).to.exist;
 
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,

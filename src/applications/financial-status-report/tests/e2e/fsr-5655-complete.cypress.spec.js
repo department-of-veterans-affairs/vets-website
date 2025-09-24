@@ -2,7 +2,6 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
-import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
@@ -16,6 +15,7 @@ import {
   fillInputList,
   verifySummaryPage,
   verifyEditPage,
+  verifyAddPage,
 } from './pages/ChecklistSummaryFlow';
 import { data } from './fixtures/data/fsr-maximal.json';
 import {
@@ -42,7 +42,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
-      sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      sessionStorage.setItem('wizardStatus', WIZARD_STATUS_COMPLETE);
 
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -188,8 +188,8 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .as('BenefitAmount');
-          cy.get('@BenefitAmount').clear();
-          cy.get('@BenefitAmount').type('1015.23');
+          cy.get('@BenefitAmount').clear({ force: true });
+          cy.get('@BenefitAmount').type('1015.23', { force: true });
           customButtonGroupContinue('Update');
           cy.get('[data-testid="mini-summary-card"]')
             .eq(0)
@@ -223,6 +223,7 @@ const testConfig = createTestConfig(
             additionalIncome.addlIncRecords,
             'Update other income',
           );
+          verifyAddPage(additionalIncome.addlIncRecords, 'Add other income');
           customButtonGroupContinue();
         });
       },
@@ -257,9 +258,10 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get(
             'input[name="root_benefits_spouseBenefits_compensationAndPension"]',
-          ).type('165.21');
+          ).type('165.21', { force: true });
           cy.get('input[name="root_benefits_spouseBenefits_education"]').type(
             '0',
+            { force: true },
           );
           cy.get('.usa-button-primary').click();
         });
@@ -286,6 +288,7 @@ const testConfig = createTestConfig(
 
           // add-other-income
           verifyEditPage(spouse.spAddlIncome, 'Update other income');
+          verifyAddPage(spouse.spAddlIncome, 'Add other income');
           customButtonGroupContinue();
         });
       },
@@ -458,6 +461,7 @@ const testConfig = createTestConfig(
 
           // add-other-asset
           verifyEditPage(otherAssets, 'Update asset');
+          verifyAddPage(otherAssets, 'Add asset');
           customButtonGroupContinue();
         });
       },
@@ -512,6 +516,7 @@ const testConfig = createTestConfig(
 
           // add-utility-bill
           verifyEditPage(utilityRecords, 'Update utility bill');
+          verifyAddPage(utilityRecords, 'Add utility bill');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -674,6 +679,7 @@ const testConfig = createTestConfig(
 
           // add-other-expense
           verifyEditPage(otherExpenses, 'Update expense');
+          verifyAddPage(otherExpenses, 'Add expense');
           customButtonGroupContinue();
         });
       },
@@ -785,7 +791,7 @@ const testConfig = createTestConfig(
             .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
-          }).click();
+          }).click({ force: true });
         });
       },
     },

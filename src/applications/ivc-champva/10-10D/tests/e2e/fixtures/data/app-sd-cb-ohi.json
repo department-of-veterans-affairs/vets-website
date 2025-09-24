@@ -36,7 +36,13 @@
             "uploaded": false
           },
           {
-            "name": "applicantOhiCard",
+            "name": "applicantOhiCardFront",
+            "path": "applicant-other-insurance-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOhiCardBack",
             "path": "applicant-other-insurance-file/:index",
             "required": true,
             "uploaded": false
@@ -65,9 +71,7 @@
     "sponsorDOD": "2000-01-01",
     "sponsorDeathConditions": true,
     "sponsorIsDeceased": true,
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "123123123",
     "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {

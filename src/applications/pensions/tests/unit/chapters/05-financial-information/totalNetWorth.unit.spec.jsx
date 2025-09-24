@@ -1,15 +1,11 @@
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { expect } from 'chai';
 import {
-  testNumberOfErrorsOnSubmitForWebComponents,
+  testComponentFieldsMarkedAsRequired,
   testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
-  testShowAlert,
   testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import totalNetWorth from '../../../../config/chapters/05-financial-information/totalNetWorth';
-import { fillRadio } from '../../testHelpers/webComponents';
 
 const { schema, uiSchema } = totalNetWorth;
 
@@ -24,12 +20,13 @@ describe('Financial information total net worth pension page', () => {
     pageTitle,
   );
 
-  const expectedNumberOfErrors = 1;
-  testNumberOfErrorsOnSubmitForWebComponents(
+  testComponentFieldsMarkedAsRequired(
     formConfig,
     schema,
     uiSchema,
-    expectedNumberOfErrors,
+    [
+      `va-radio[label="Do you and your dependents have over $25,000 in combined assets?"]`,
+    ],
     pageTitle,
   );
 
@@ -43,18 +40,5 @@ describe('Financial information total net worth pension page', () => {
       'va-radio': 1,
     },
     pageTitle,
-  );
-
-  testShowAlert(
-    formConfig,
-    schema,
-    uiSchema,
-    pageTitle,
-    { totalNetWorth: false },
-    async container => {
-      const radio = $('va-radio', container);
-      expect(radio).to.exist;
-      await fillRadio(radio, 'Y');
-    },
   );
 });

@@ -1,8 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -35,66 +34,53 @@ describe('Breadcrumbs', () => {
   };
   afterEach(() => cleanup());
 
-  it('renders breadcrumb that includes "My HealtheVet" on Landing Page', async () => {
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: `/`,
-    });
-
-    const breadcrumbs = $('va-breadcrumbs', screen.container);
-    const { breadcrumbList } = breadcrumbs;
-
-    // Validate the props
-    expect(breadcrumbList).to.deep.equal(defaultCrumbs);
-  });
-
   it('on Message Details renders without errors', async () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState,
       reducers: reducer,
       path: `/thread/${messageResponse.messageId}`,
     });
-    expect(await screen.findByText('Back to inbox', { exact: true }));
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
   });
 
-  it('on Drafts page, renders Drafts as last link in breadcrumb list', async () => {
-    const initialStateDrafts = {
+  it('on Drafts page, renders Back button with correct href', async () => {
+    const customState = {
       sm: {
-        messageDetails: { message: messageResponse },
-        folders: {
-          folder: {
-            folderId: -2,
-            name: 'Drafts',
-            count: 49,
-            unreadCount: 49,
-            systemFolder: true,
-          },
-        },
         breadcrumbs: {
-          list: [],
-          crumbsList: [...defaultCrumbs, Breadcrumbs.DRAFTS],
+          previousUrl: '/inbox/',
         },
       },
     };
+
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialStateDrafts,
+      initialState: customState,
       reducers: reducer,
       path: Breadcrumbs.DRAFTS.href,
     });
 
-    const breadcrumb = await screen.findByText('Back', { exact: true });
-    expect(breadcrumb).to.have.attribute('href', '/drafts/');
+    const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(breadcrumb).to.have.attribute('href', '/inbox/');
   });
 
   it('on Compose renders as back link only', async () => {
+    const initialStateWithPreviousUrl = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        breadcrumbs: {
+          previousUrl: '/new-message/',
+        },
+      },
+    };
+
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState,
+      initialState: initialStateWithPreviousUrl,
       reducers: reducer,
       path: Breadcrumbs.COMPOSE.href,
     });
 
-    const breadcrumb = await screen.findByText('Back', { exact: true });
+    const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
     expect(breadcrumb).to.have.attribute('href', '/new-message/');
   });
 
@@ -122,11 +108,8 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: '/thread/7155731',
     });
-    expect(
-      await screen.findByText('Back to drafts', {
-        exact: true,
-      }),
-    );
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
   });
 
   it('on Sent Folder renders without errors', async () => {
@@ -153,11 +136,8 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: '/thread/7155731',
     });
-    expect(
-      await screen.findByText('Back to sent', {
-        exact: true,
-      }),
-    );
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
   });
 
   it('on Trash Folder renders without errors', async () => {
@@ -184,14 +164,11 @@ describe('Breadcrumbs', () => {
       reducers: reducer,
       path: `/thread/7155731`,
     });
-    expect(
-      await screen.findByText('Back to trash', {
-        exact: true,
-      }),
-    );
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
   });
 
-  it('should navigate to the INBOX if the previousUrl is contact list', () => {
+  it('should navigate to the INBOX if the previousUrl is contact list', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
@@ -206,12 +183,13 @@ describe('Breadcrumbs', () => {
       path: Paths.COMPOSE,
     });
 
-    fireEvent.click(screen.getByText('Back'));
-
-    expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    });
   });
 
-  it('should navigate to the previousUrl if the previousUrl is not contact list', () => {
+  it('should navigate to the previousUrl if the previousUrl is not contact list', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
@@ -226,9 +204,11 @@ describe('Breadcrumbs', () => {
       path: Paths.COMPOSE,
     });
 
-    fireEvent.click(screen.getByText('Back'));
+    fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
 
-    expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+    });
   });
 
   it('should redirect back to draft message if an active draft is present', async () => {
@@ -251,10 +231,40 @@ describe('Breadcrumbs', () => {
       path: Paths.CONTACT_LIST,
     });
 
-    fireEvent.click(screen.getByText('Back'));
+    fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
 
     expect(screen.history.location.pathname).to.equal(
       `${Paths.MESSAGE_THREAD}123123/`,
     );
+  });
+
+  it('navigates back correctly from CARE_TEAM_HELP to Select care team (previousUrl)', async () => {
+    const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: previous,
+        },
+      },
+    };
+
+    const { container, history } = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CARE_TEAM_HELP,
+    });
+
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(container.querySelector('va-link'));
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(previous);
+    });
   });
 });

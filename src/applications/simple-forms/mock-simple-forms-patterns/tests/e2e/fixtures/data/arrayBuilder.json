@@ -1,6 +1,7 @@
 {
   "data": {
     "arrayBuilderPatternFlowType": "optional",
+    "arrayBuilderPatternInteractionType": "yesNoQuestion",
     "view:hasEmployment": true,
     "employers": [
       {

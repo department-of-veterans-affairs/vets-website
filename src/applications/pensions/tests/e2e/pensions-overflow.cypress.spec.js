@@ -16,7 +16,7 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataDir: null,
     dataSets: [{ title: 'overflow', data: overflowFixture }],
-    pageHooks,
+    pageHooks: pageHooks(),
     setupPerTest: () => {
       cy.login(mockUser);
       setupPerTest(cy);

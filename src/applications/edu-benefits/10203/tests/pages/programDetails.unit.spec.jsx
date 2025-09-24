@@ -1,15 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { mount } from 'enzyme';
 import formConfig from '../../config/form';
 
 describe('Program Details', () => {
+  let sandbox;
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.programDetails.pages.programDetails;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   it('should render', () => {
     const form = mount(
@@ -26,7 +36,7 @@ describe('Program Details', () => {
   });
 
   it('should successfully submit', () => {
-    const onSubmit = sinon.spy();
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -48,8 +58,8 @@ describe('Program Details', () => {
     form.unmount();
   });
 
-  it('should require degreeName', () => {
-    const onSubmit = sinon.spy();
+  it('should require degreeName', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -65,13 +75,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require schoolName', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolName', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -87,13 +102,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require schoolCity', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolCity', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -109,13 +129,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require schoolState for USA', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolState for USA', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -131,13 +156,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require schoolState for CAN', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolState for CAN', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -153,13 +183,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
-  it('should require schoolState for MEX', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolState for MEX', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -175,13 +210,18 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 
   it('should not require schoolState for countries other than USA, CAN, and MEX', () => {
-    const onSubmit = sinon.spy();
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -202,8 +242,8 @@ describe('Program Details', () => {
     form.unmount();
   });
 
-  it('should require schoolCountry', () => {
-    const onSubmit = sinon.spy();
+  it('should require schoolCountry', async () => {
+    const onSubmit = sandbox.spy();
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -220,8 +260,13 @@ describe('Program Details', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+
+    await waitFor(() => {
+      form.update();
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
+
     form.unmount();
   });
 });

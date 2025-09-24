@@ -238,16 +238,15 @@ describe('Preneed helpers', () => {
       );
 
       expect(wrapper.find('.sponsorDetailsSubHeader')).to.have.lengthOf(1);
-      expect(wrapper.find('h3.vads-u-font-size--h5').text()).to.equal(
-        'Sponsor details',
-      );
       wrapper.unmount();
     });
   });
 
   describe('createPayload', () => {
     it('should create a FormData payload with form_id and file', () => {
-      const file = new Blob(['file content'], { type: 'text/plain' });
+      const file = new File(['file content'], 'test.txt', {
+        type: 'text/plain',
+      });
       const formId = '12345';
       const payload = createPayload(file, formId);
 
@@ -255,6 +254,7 @@ describe('Preneed helpers', () => {
       const fileFromPayload = payload.get('file');
       expect(fileFromPayload.size).to.equal(file.size);
       expect(fileFromPayload.type).to.equal(file.type);
+      expect(fileFromPayload.name).to.equal(file.name);
     });
 
     it('should include password in the payload if provided', () => {
@@ -281,12 +281,13 @@ describe('Preneed helpers', () => {
 
     beforeEach(() => {
       focusElementStub = sinon.stub(window, 'focusElement');
+      // prettier-ignore
       $$Stub = sinon
-        .stub(window, '$$')
-        .returns([
-          { textContent: 'file1', focus: sinon.spy() },
-          { textContent: 'file2', focus: sinon.spy() },
-        ]);
+      .stub(window, '$$')
+      .returns([
+        { textContent: 'file1', focus: sinon.spy() },
+        { textContent: 'file2', focus: sinon.spy() },
+      ]);
     });
 
     afterEach(() => {

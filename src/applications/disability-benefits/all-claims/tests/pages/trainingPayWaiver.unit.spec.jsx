@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
 
@@ -12,7 +13,7 @@ describe('trainingPayWaiver', () => {
     uiSchema,
   } = formConfig.chapters.additionalInformation.pages.trainingPayWaiver;
   const { defaultDefinitions } = formConfig;
-  it('should render', () => {
+  it('should render', async () => {
     const form = mount(
       <DefinitionTester
         definitions={defaultDefinitions}
@@ -25,7 +26,7 @@ describe('trainingPayWaiver', () => {
     form.unmount();
   });
 
-  it('should not submit when user does not make a selection', () => {
+  it('should not submit when user does not make a selection', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -36,14 +37,15 @@ describe('trainingPayWaiver', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      expect(onSubmit.called).to.be.false;
+    });
     form.unmount();
   });
 
-  it('should submit when user makes a selection', () => {
+  it('should submit when user makes a selection', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -57,10 +59,11 @@ describe('trainingPayWaiver', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-
-    expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
-    expect(onSubmit.calledOnce).to.be.true;
+    await waitFor(() => {
+      form.find('form').simulate('submit');
+      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
+      expect(onSubmit.calledOnce).to.be.true;
+    });
     form.unmount();
   });
 });

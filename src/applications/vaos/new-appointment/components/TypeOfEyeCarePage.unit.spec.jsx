@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
-import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
@@ -12,14 +12,16 @@ import {
   setTypeOfCare,
 } from '../../tests/mocks/setup';
 
-import TypeOfEyeCarePage from './TypeOfEyeCarePage';
+import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse, {
+  MockServiceConfiguration,
+} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import {
-  mockSchedulingConfigurations,
+  mockFacilitiesApi,
+  mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
-} from '../../tests/mocks/helpers';
-import { getSchedulingConfigurationMock } from '../../tests/mocks/mock';
-import { createMockFacility } from '../../tests/mocks/data';
-import { mockFacilitiesFetch } from '../../tests/mocks/fetch';
+} from '../../tests/mocks/mockApis';
+import TypeOfEyeCarePage from './TypeOfEyeCarePage';
 
 const initialState = {
   featureToggles: {
@@ -35,21 +37,25 @@ const initialState = {
 describe('VAOS Page: TypeOfEyeCarePage', () => {
   beforeEach(() => {
     mockFetch();
-    mockSchedulingConfigurations(
-      [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
+    mockSchedulingConfigurationsApi({
+      isCCEnabled: true,
+      response: [
+        new MockSchedulingConfigurationResponse({
+          facilityId: '983',
+          services: [
+            new MockServiceConfiguration({
+              typeOfCareId: 'primaryCare',
+              requestEnabled: true,
+            }),
+          ],
         }),
       ],
-      true,
-    );
+    });
   });
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -59,40 +65,33 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    // Then the primary header should have focus
-    const radioSelector = screen.container.querySelector('va-radio');
-    expect(radioSelector).to.exist;
-    expect(radioSelector).to.have.attribute(
-      'label',
-      'Which type of eye care do you need?',
-    );
+    // Should show title
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /Which type of eye care do you need\?/,
+      }),
+    ).to.exist;
 
-    // And the user should see radio buttons for each clinic
-    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    // And the user should see radio buttons for each type of eye care
+    const radioOptions = screen.getAllByRole('radio');
     expect(radioOptions).to.have.lengthOf(2);
-    expect(radioOptions[0]).to.have.attribute('label', 'Optometry');
-    expect(radioOptions[1]).to.have.attribute('label', 'Ophthalmology');
+    await screen.findByLabelText(/Optometry/i);
+    await screen.findByLabelText(/Ophthalmology/i);
 
+    // When the user continues
     fireEvent.click(screen.getByText(/Continue/));
+
+    // The user should stay on the page
+    expect(screen.history.push.called).to.be.false;
+
     // Then there should be a validation error
-    // Assertion currently disabled due to
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
-    // expect(await screen.findByText('You must provide a response')).to.exist;
-    expect(screen.history.push.called).to.not.be.true;
+    expect(await screen.findByText('You must provide a response')).to.exist;
 
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '407' }, // Ophthalmology
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '407');
-    });
-
+    fireEvent.click(screen.getByText(/Ophthalmology/));
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('location'),
     );
   });
 
@@ -104,20 +103,16 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '408' }, // Optometry
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(screen.getByText(/Optometry/));
     await cleanup();
 
     screen = renderWithStoreAndRouter(<Route component={TypeOfEyeCarePage} />, {
       store,
     });
 
-    await waitFor(() => {
-      expect(radioSelector).to.have.attribute('value', '408');
-    });
+    expect(await screen.findByLabelText(/Optometry/i)).to.have.attribute(
+      'checked',
+    );
   });
 
   it('should facility type page when CC eligible and optometry is chosen', async () => {
@@ -126,18 +121,14 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
       supportedSites: ['983GC'],
       careType: 'Optometry',
     });
-    mockFacilitiesFetch({
+    mockFacilitiesApi({
       children: true,
-      facilities: [
-        createMockFacility({
-          id: '983',
-        }),
-      ],
+      response: [new MockFacilityResponse({ id: '983' })],
     });
 
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /eye care/i);
-    expect(nextPage).to.equal('/new-appointment/choose-eye-care');
+    expect(nextPage).to.equal('eye-care');
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfEyeCarePage} />,
@@ -147,17 +138,11 @@ describe('VAOS Page: TypeOfEyeCarePage', () => {
     );
     await screen.findByText(/Continue/i);
 
-    const radioSelector = screen.container.querySelector('va-radio');
-    const changeEvent = new CustomEvent('selected', {
-      detail: { value: '408' }, // Optometry
-    });
-    radioSelector.__events.vaValueChange(changeEvent);
+    fireEvent.click(screen.getByText(/Optometry/));
     fireEvent.click(screen.getByText(/Continue/));
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-facility-type',
-      ),
+      expect(screen.history.push.lastCall?.args[0]).to.equal('facility-type'),
     );
   });
 });

@@ -15,7 +15,21 @@ const PrivacyPolicy = () => {
     );
     noteText?.setAttribute('style', 'display:none;');
   };
-
+  const verteranClarifyingText = async () => {
+    const clarifyingText = await querySelectorWithShadowRoot(
+      'va-checkbox',
+      document.querySelector('va-statement-of-truth'),
+    );
+    // clarifyingText?.setAttribute('style', 'display:none;');
+    const clarifyingTextLabel = await querySelectorWithShadowRoot(
+      'span[part="label"]',
+      clarifyingText,
+    );
+    if (clarifyingTextLabel) {
+      clarifyingTextLabel.innerHTML =
+        'I certify that the information I have provided is true and correct to the best of my knowledge and belief.';
+    }
+  };
   const removeOldPrivacyPolicy = async () => {
     const privacyPolicyText = await querySelectorWithShadowRoot(
       'p.short-line',
@@ -30,6 +44,7 @@ const PrivacyPolicy = () => {
       await removeNoteText();
       // Hide platform line for privacy policy, use custom
       await removeOldPrivacyPolicy();
+      await verteranClarifyingText();
     };
 
     removeElements();
