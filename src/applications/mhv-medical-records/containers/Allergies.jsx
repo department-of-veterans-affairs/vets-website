@@ -65,12 +65,12 @@ const Allergies = props => {
   );
 
   const user = useSelector(state => state.user.profile);
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isCerner, isAcceleratingAllergies } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent);
+    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
   };
 
   useListRefresh({

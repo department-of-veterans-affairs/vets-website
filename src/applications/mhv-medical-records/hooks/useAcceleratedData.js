@@ -135,6 +135,7 @@ const useAcceleratedData = () => {
 
   return {
     isLoading,
+    isCerner,
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingCareNotes,

@@ -233,7 +233,7 @@ export const getAllergy = id => {
 };
 
 export const getAcceleratedAllergies = async () => {
-  return apiRequest(`${apiBasePath}/v2/medical_records/allergies`, {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies`, {
     headers,
   });
 };

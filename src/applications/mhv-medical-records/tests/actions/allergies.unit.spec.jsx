@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
-import * as cernerSelectors from '~/platform/user/cerner-dsot/selectors';
 import {
   clearAllergyDetails,
   getAllergiesList,
@@ -11,38 +10,16 @@ import { Actions } from '../../util/actionTypes';
 import allergies from '../fixtures/allergies.json';
 import allergy from '../fixtures/allergy.json';
 
-describe('Get allergies action with decoupled logic', () => {
-  let selectIsCernerPatientStub;
-
-  beforeEach(() => {
-    selectIsCernerPatientStub = sinon.stub(
-      cernerSelectors,
-      'selectIsCernerPatient',
-    );
-  });
-
-  afterEach(() => {
-    selectIsCernerPatientStub.restore();
-  });
-
+describe('Get allergies action with parameter-based logic', () => {
   describe('getAllergiesList', () => {
     it('should use v2 endpoint when acceleration flags are enabled', async () => {
-      selectIsCernerPatientStub.returns(false);
       const mockData = allergies;
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: true,
-          mhvAcceleratedDeliveryAllergiesEnabled: true,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false);
+      const thunk = getAllergiesList(false, true, false); // isCurrent=false, isAccelerating=true, isCerner=false
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Check that the correct action type was dispatched
       const dispatchCalls = dispatch.getCalls();
@@ -55,22 +32,13 @@ describe('Get allergies action with decoupled logic', () => {
     });
 
     it('should use v1 OH endpoint when user is Cerner but acceleration disabled', async () => {
-      selectIsCernerPatientStub.returns(true);
       const mockData = allergies;
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: false,
-          mhvAcceleratedDeliveryAllergiesEnabled: false,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false);
+      const thunk = getAllergiesList(false, false, true); // isCurrent=false, isAccelerating=false, isCerner=true
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Check that the correct action type was dispatched
       const dispatchCalls = dispatch.getCalls();
@@ -83,22 +51,13 @@ describe('Get allergies action with decoupled logic', () => {
     });
 
     it('should use regular v1 endpoint for VistA users', async () => {
-      selectIsCernerPatientStub.returns(false);
       const mockData = allergies;
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: false,
-          mhvAcceleratedDeliveryAllergiesEnabled: false,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false);
+      const thunk = getAllergiesList(false, false, false); // isCurrent=false, isAccelerating=false, isCerner=false
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Check that the correct action type was dispatched
       const dispatchCalls = dispatch.getCalls();
@@ -111,22 +70,13 @@ describe('Get allergies action with decoupled logic', () => {
     });
 
     it('should prioritize acceleration over Cerner when both are true', async () => {
-      selectIsCernerPatientStub.returns(true);
       const mockData = allergies;
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: true,
-          mhvAcceleratedDeliveryAllergiesEnabled: true,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false);
+      const thunk = getAllergiesList(false, true, true); // isCurrent=false, isAccelerating=true, isCerner=true
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Check that acceleration takes priority over Cerner
       const dispatchCalls = dispatch.getCalls();
@@ -144,17 +94,10 @@ describe('Get allergies action with decoupled logic', () => {
       const mockData = { id: '123', name: 'Test Allergy' };
       const allergyList = [mockData]; // Item exists in list
 
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: true,
-          mhvAcceleratedDeliveryAllergiesEnabled: true,
-        },
-      });
-
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList);
+      const thunk = getAllergyDetails('123', allergyList, true); // id, allergyList, isAccelerating=true
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Should dispatch GET_FROM_LIST since item was found
       const dispatchCalls = dispatch.getCalls();
@@ -169,20 +112,12 @@ describe('Get allergies action with decoupled logic', () => {
     it('should use v2 endpoint when acceleration enabled and item not in list', async () => {
       const mockData = allergy;
       const allergyList = []; // Empty list, so will fetch from API
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: true,
-          mhvAcceleratedDeliveryAllergiesEnabled: true,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList);
+      const thunk = getAllergyDetails('123', allergyList, true); // id, allergyList, isAccelerating=true
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Should use v2 endpoint
       const dispatchCalls = dispatch.getCalls();
@@ -196,20 +131,12 @@ describe('Get allergies action with decoupled logic', () => {
     it('should use v1 endpoint when acceleration disabled and item not in list', async () => {
       const mockData = allergy;
       const allergyList = []; // Empty list, so will fetch from API
-
-      const getState = sinon.stub().returns({
-        featureToggles: {
-          mhvAcceleratedDeliveryEnabled: false,
-          mhvAcceleratedDeliveryAllergiesEnabled: false,
-        },
-      });
-
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList);
+      const thunk = getAllergyDetails('123', allergyList, false); // id, allergyList, isAccelerating=false
 
-      await thunk(dispatch, getState);
+      await thunk(dispatch);
 
       // Should use v1 endpoint
       const dispatchCalls = dispatch.getCalls();
