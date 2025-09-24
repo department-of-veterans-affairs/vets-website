@@ -104,19 +104,22 @@ const VaFileInputField = props => {
     [percentUploaded],
   );
 
-  useEffect(() => {
-    const instance = passwordErrorState.getInstance(_id);
-    setPasswordErrorManager(instance);
-    return () => {
-      instance.reset();
-    };
-  }, []);
+  useEffect(
+    () => {
+      const instance = passwordErrorState.getInstance(_id);
+      setPasswordErrorManager(instance);
+      return () => {
+        instance.reset();
+      };
+    },
+    [_id],
+  );
 
   const getErrorMessage = field => {
     let errorMessage = null;
     const errorArray = childrenProps.errorSchema[field]?.__errors;
     if (errorArray && errorArray.length > 0) {
-      errorMessage = errorArray[0];
+      [errorMessage] = errorArray;
     }
     return errorMessage;
   };
@@ -173,7 +176,7 @@ const VaFileInputField = props => {
           });
         }
       }),
-    [passwordErrorManager, fileWithPassword, childrenProps.formData, _id],
+    [passwordErrorManager, fileWithPassword, childrenProps, _id],
   );
 
   const handleVaChange = async e => {
@@ -297,8 +300,7 @@ const VaFileInputField = props => {
   if (uiOptions?.testHarness && typeof uiOptions.testHarness === 'function') {
     // Only invoke once per render cycle with current closures
     uiOptions.testHarness({
-      triggerFile: file =>
-        handleVaChange({ detail: { files: [file] } }),
+      triggerFile: file => handleVaChange({ detail: { files: [file] } }),
       triggerPassword: password =>
         handleVaPasswordChange({ detail: { password } }),
       clickAddPassword: handleAddPasswordClick,
@@ -326,16 +328,17 @@ const VaFileInputField = props => {
       passwordError={combinedPasswordError}
     >
       {/* Show the confirmation button when awaiting an encrypted file's password */}
-      {encrypted && fileWithPassword && (
-        <div className="vads-u-margin-top--2">
-          <va-button
-            class="vads-u-width--auto"
-            text="Add password"
-            onClick={handleAddPasswordClick}
-            uswds
-          />
-        </div>
-      )}
+      {encrypted &&
+        fileWithPassword && (
+          <div className="vads-u-margin-top--2">
+            <va-button
+              class="vads-u-width--auto"
+              text="Add password"
+              onClick={handleAddPasswordClick}
+              uswds
+            />
+          </div>
+        )}
       <div className="additional-input-container">
         {fileHasBeenAdded &&
           mappedProps.additionalInput &&

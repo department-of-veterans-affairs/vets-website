@@ -4,8 +4,8 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import VaFileInputField from '../../../src/js/web-component-fields/VaFileInputField.jsx';
-import * as helpers from '../../../src/js/web-component-fields/vaFileInputFieldHelpers.jsx';
+import VaFileInputField from '../../../src/js/web-component-fields/VaFileInputField';
+import * as helpers from '../../../src/js/web-component-fields/vaFileInputFieldHelpers';
 
 // Basic Redux store mock
 const makeStore = dispatchStub => ({
@@ -59,7 +59,10 @@ describe('VaFileInputField - encrypted PDF password flow', () => {
   function waitForAddPasswordButton() {
     return new Promise(resolve => {
       const check = () => {
-        if (document.querySelector('va-button[text="Add password"]')) return resolve();
+        if (document.querySelector('va-button[text="Add password"]')) {
+          resolve();
+          return;
+        }
         setTimeout(check, 10);
       };
       check();
@@ -72,7 +75,9 @@ describe('VaFileInputField - encrypted PDF password flow', () => {
     });
     const props = makeProps();
     let harness = {};
-    props.uiOptions.testHarness = a => (harness = a);
+    props.uiOptions.testHarness = a => {
+      harness = a;
+    };
 
     render(
       <Provider store={store}>
@@ -86,15 +91,18 @@ describe('VaFileInputField - encrypted PDF password flow', () => {
     await new Promise(r => setTimeout(r, DEBOUNCE_WAIT));
     if (harness.getState) {
       const st = harness.getState();
-      expect(st.hasFileWithPassword, 'Harness state: file not flagged').to.be.true;
+      expect(st.hasFileWithPassword, 'Harness state: file not flagged').to.be
+        .true;
       expect(st.pendingPassword).to.equal(' secret ');
     }
     const stateBefore = harness.getState();
-    expect(stateBefore.lastUpload, 'Upload executed before confirmation').to.be.null;
+    expect(stateBefore.lastUpload, 'Upload executed before confirmation').to.be
+      .null;
     harness.clickAddPassword();
     await new Promise(r => setTimeout(r, 120));
     const stateAfter = harness.getState();
-    expect(stateAfter.lastUpload, 'Upload did not execute after confirmation').to.not.be.null;
+    expect(stateAfter.lastUpload, 'Upload did not execute after confirmation')
+      .to.not.be.null;
     expect(stateAfter.lastUpload.password).to.equal(' secret ');
   });
 
@@ -103,7 +111,9 @@ describe('VaFileInputField - encrypted PDF password flow', () => {
     const store = makeStore(dispatchSpy);
     const props = makeProps();
     let harness = {};
-    props.uiOptions.testHarness = a => (harness = a);
+    props.uiOptions.testHarness = a => {
+      harness = a;
+    };
 
     render(
       <Provider store={store}>
@@ -114,7 +124,7 @@ describe('VaFileInputField - encrypted PDF password flow', () => {
     await waitForAddPasswordButton();
     harness.clickAddPassword();
     await new Promise(r => setTimeout(r, 0));
-    expect(dispatchSpy.called, 'Upload dispatched despite missing password').to.be.false;
+    expect(dispatchSpy.called, 'Upload dispatched despite missing password').to
+      .be.false;
   });
 });
-
