@@ -348,6 +348,46 @@ describe('SelectCareTeam', () => {
     });
   });
 
+  it('dispatches ohTriageGroup attribute for care system', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            careSystemName: null,
+            careSystemVhaId: null,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      const val = customState.sm.recipients.allowedRecipients.find(
+        r => r.ohTriageGroup === true,
+      ).id;
+      selectVaSelect(screen.container, val);
+
+      const continueButton = screen.getByTestId('continue-button');
+      fireEvent.click(continueButton);
+
+      sinon.assert.calledWith(updateDraftInProgressSpy);
+      const callArgs = updateDraftInProgressSpy.lastCall.args[0];
+
+      expect(callArgs).to.include({
+        ohTriageGroup: true,
+      });
+    });
+  });
+
   it('dispatches care system when user has only one facility', async () => {
     const customState = {
       ...initialState,
