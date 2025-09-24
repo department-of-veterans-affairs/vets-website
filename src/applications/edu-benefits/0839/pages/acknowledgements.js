@@ -48,6 +48,15 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
+    'ui:validations': [
+      (errors, fieldData, formData) => {
+        const a = (fieldData || '').toUpperCase();
+        const b = (formData?.statement1Initial || '').toUpperCase();
+        if (a && b && a !== b) {
+          errors.addError('Initials must match across all statements');
+        }
+      },
+    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
     },
@@ -63,6 +72,15 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
+    'ui:validations': [
+      (errors, fieldData, formData) => {
+        const a = (fieldData || '').toUpperCase();
+        const b = (formData?.statement1Initial || '').toUpperCase();
+        if (a && b && a !== b) {
+          errors.addError('Initials must match across all statements');
+        }
+      },
+    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
     },
@@ -78,6 +96,15 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
+    'ui:validations': [
+      (errors, fieldData, formData) => {
+        const a = (fieldData || '').toUpperCase();
+        const b = (formData?.statement1Initial || '').toUpperCase();
+        if (a && b && a !== b) {
+          errors.addError('Initials must match across all statements');
+        }
+      },
+    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
     },
