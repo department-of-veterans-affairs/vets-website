@@ -18,7 +18,7 @@ export default {
   depends: formData => {
     if (!showMultiplePageResponse()) {
       if (showPdfFormAlignment()) {
-        return isUnder65(formData) || hasNoSocialSecurityDisability(formData);
+        return isUnder65(formData) && !hasNoSocialSecurityDisability(formData);
       }
       return isUnder65(formData);
     }
