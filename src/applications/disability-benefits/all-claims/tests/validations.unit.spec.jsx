@@ -1674,13 +1674,14 @@ describe('526 All Claims validations', () => {
         expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
       });
 
-      it('should throw error when service period has undefined dateRange', () => {
+      it('should filter out service periods with undefined dateRange', () => {
         const servicePeriods = [
           { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
           { serviceBranch: 'Navy' },
         ];
 
-        expect(() => findEarliestServiceDate(servicePeriods)).to.throw();
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2003-03-12');
       });
     });
   });
