@@ -284,6 +284,14 @@ export default function DateTimeSelectPage() {
   const startMonth = preferredDate ? parseISO(preferredDate) : null;
   const earliestDate = new Date(availableSlots?.[0]?.start);
   const slotAvailable = isValid(earliestDate);
+  const disabledMessage = (
+    <va-loading-indicator
+      data-testid="loadingIndicator"
+      set-focus
+      message="Finding appointment availability..."
+      label="Finding appointment availability"
+    />
+  );
 
   return (
     <div>
@@ -323,15 +331,7 @@ export default function DateTimeSelectPage() {
               }}
               disabled={loadingSlots}
               hideWhileDisabled
-              disabledMessage={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <va-loading-indicator
-                  data-testid="loadingIndicator"
-                  set-focus
-                  message="Finding appointment availability..."
-                  label="Finding appointment availability"
-                />
-              }
+              disabledMessage={disabledMessage}
               onChange={(...args) => dispatch(onCalendarChange(...args))}
               onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
               onPreviousMonth={(...args) =>

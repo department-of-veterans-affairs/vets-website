@@ -152,12 +152,6 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         309: [slot309Date],
       },
     });
-    // mockAppointmentSlotApi({
-    //   clinicId: '308',
-    //   facilityId: '983',
-    //   preferredDate: new Date(),
-    //   response: [],
-    // });
     const preferredDate = addDays(new Date(), 1);
 
     const store = createTestStore(initialState);
