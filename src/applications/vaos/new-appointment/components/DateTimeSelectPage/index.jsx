@@ -145,7 +145,7 @@ function AlertSection({
       <InfoAlert status={alertStatus} level="2" headline={alertTitle}>
         {alertMessage}
         <div className="vads-u-margin-bottom--2">
-          <NewTabAnchor href="/find-locations">
+          <NewTabAnchor href="/find-locations" renderAriaLabel={false}>
             Find your local VA health care facility (opens in a new tab)
           </NewTabAnchor>
         </div>
@@ -158,6 +158,7 @@ function AlertSection({
               <a
                 className="vads-c-action-link--blue vads-u-margin-bottom--2p5"
                 href="my-health/appointments/schedule/va-request/"
+                data-testid="appointment-request-link"
                 onClick={handleClick(history, dispatch)}
               >
                 Request an appointment
@@ -304,7 +305,7 @@ export default function DateTimeSelectPage() {
         />
       )}
       {!fetchFailed &&
-        slotAvailable && (
+        (loadingSlots || slotAvailable) && (
           <>
             <p>
               {clinic && `Scheduling at ${clinic.serviceName}`}

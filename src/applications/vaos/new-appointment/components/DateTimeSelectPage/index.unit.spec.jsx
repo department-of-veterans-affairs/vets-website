@@ -152,13 +152,13 @@ describe('VAOS Page: DateTimeSelectPage', () => {
         309: [slot309Date],
       },
     });
-    mockAppointmentSlotApi({
-      clinicId: '308',
-      facilityId: '983',
-      preferredDate: new Date(),
-      response: [],
-    });
-    const preferredDate = new Date();
+    // mockAppointmentSlotApi({
+    //   clinicId: '308',
+    //   facilityId: '983',
+    //   preferredDate: new Date(),
+    //   response: [],
+    // });
+    const preferredDate = addDays(new Date(), 1);
 
     const store = createTestStore(initialState);
 
@@ -266,21 +266,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'We’ve run into a problem trying to find an appointment time',
+        name: 'This tool isn’t working right now',
       }),
     ).to.be.ok;
 
-    // it should display link to contact the local VA medical center
+    // it should display link to find your local VA health care facility
     expect(
       screen.getByRole('link', {
-        name: 'Contact your local VA medical center Link opens in a new tab.',
-      }),
-    ).to.be.ok;
-
-    // it should display link to call the local VA medical center
-    expect(
-      screen.getByRole('link', {
-        name: 'call your local VA medical center Link opens in a new tab.',
+        name: 'Find your local VA health care facility (opens in a new tab)',
       }),
     ).to.be.ok;
 
@@ -337,7 +330,11 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       await waitForElementToBeRemoved(overlay);
     }
 
-    expect(screen.getByText('Your appointment time')).to.be.ok;
+    expect(
+      screen.getByText(
+        'We couldn’t find an appointment for your selected date',
+      ),
+    ).to.be.ok;
 
     // 2. Simulate user selecting a date
     const slot308DateString = formatInTimeZone(
@@ -606,6 +603,12 @@ describe('VAOS Page: DateTimeSelectPage', () => {
       store,
     });
 
+    // 1. Wait for progressbar to disappear
+    const overlay = screen.queryByTestId('loadingIndicator');
+    if (overlay) {
+      await waitForElementToBeRemoved(overlay);
+    }
+
     await screen.findByText(/Scheduling at Green team clinic/i);
     await screen.findByText(/Times are displayed in Mountain time \(MT\)\./i);
 
@@ -696,7 +699,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // Then the urgent care alert is displayed
     expect(
       await screen.findByText(
-        /If you have an urgent medical need or need care right away/i,
+        /If you need care sooner, use one of these urgent communications options/i,
+      ),
+    ).to.exist;
+
+    // And the info about later slots is displayed
+    expect(
+      await screen.findByText(
+        /If this date date doesn’t work, you can pick a new one from the calendar./i,
       ),
     ).to.exist;
 
@@ -743,13 +753,14 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // Then the urgent care alert is displayed
     expect(
       await screen.findByText(
-        /If you have an urgent medical need or need care right away/i,
+        /If you need care sooner, use one of these urgent communications options/i,
       ),
     ).to.exist;
 
+    // And the info about calling the facility is displayed
     expect(
       screen.getByText(
-        /We couldn’t find an appointment for your selected date/,
+        /To find an available date to schedule this appointment, you can call your local VA health care facility./,
       ),
     ).to.be.ok;
   });
@@ -815,7 +826,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     ).to.exist;
 
     // Go to the request flow if these dates don't work
-    userEvent.click(screen.getByTestId('earlier-request-btn'));
+    userEvent.click(screen.getByTestId('appointment-request-link'));
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal('va-request/'),

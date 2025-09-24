@@ -19,14 +19,19 @@ const UrgentCareLinks = ({ boldText = false }) => {
           Call{' '}
           {
             // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
-            <a href="tel:988">988 and select 1</a>
+            <a data-testid="crisis-hotline-telephone" href="tel:988">
+              988 and select 1
+            </a>
           }{' '}
           for the Veterans Crisis Line,{' '}
           <span className="vads-u-font-weight--bold">or</span>
         </li>
         <li>
           Go to your nearest emergency room or{' '}
-          <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
+          <NewTabAnchor
+            href="/find-locations/?facilityType=urgent_care"
+            renderAriaLabel={false}
+          >
             urgent care facility (opens in a new tab)
           </NewTabAnchor>
         </li>
