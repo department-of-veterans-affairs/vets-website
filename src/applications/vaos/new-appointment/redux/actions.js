@@ -675,6 +675,7 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          typeOfCare: data.typeOfCareId,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
