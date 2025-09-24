@@ -37,7 +37,7 @@ const createAppealsSuccess = (updatedDaysAgo = 10) => {
             {
               description: 'Benefits as a result of VA error (Section 1151)',
               diagnosticCode: null,
-              active: false,
+              active: true,
               lastAction: 'withdrawn',
               date: new Date().toISOString(),
             },
