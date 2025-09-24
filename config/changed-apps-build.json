@@ -184,7 +184,7 @@
     {
       "rootFolder": "mhv-landing-page",
       "slackGroup": "@mhv-vagov-dev",
-      "slackChannel": "C0581MN69TJ"
+      "slackChannel": "C096YQLRWHK"
     },
     {
       "rootFolder": "mhv-medical-records",
@@ -192,8 +192,8 @@
     },
     {
       "rootFolder": "mhv-medications",
-      "slackGroup": "<@U05J06WJNUE> <@U03R3CJ3N3D> <@U063FU5526B>",
-      "slackChannel": "C08VD854EF5"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C04PRFEJQTY"
     },
     {
       "rootFolder": "mhv-secure-messaging",
@@ -362,6 +362,12 @@
     {
       "rootFolder": "yellow-ribbon",
       "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "21-2680-house-bound-status",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
     }
   ]
 }

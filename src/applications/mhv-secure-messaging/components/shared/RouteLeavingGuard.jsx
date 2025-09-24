@@ -11,7 +11,11 @@ import {
 import { ErrorMessages, Paths } from '../../util/constants';
 import useBeforeUnloadGuard from '../../hooks/useBeforeUnloadGuard';
 
-export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
+export const RouteLeavingGuard = ({
+  saveDraftHandler,
+  type,
+  persistDraftPaths = [],
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -163,7 +167,9 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
   useEffect(
     () => {
       if (confirmedNavigation && lastLocation?.pathname) {
-        dispatch(clearDraftInProgress());
+        if (!persistDraftPaths.includes(lastLocation?.pathname)) {
+          dispatch(clearDraftInProgress());
+        }
         navigate(lastLocation.pathname);
         updateConfirmedNavigation(false);
       }
@@ -207,6 +213,7 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
             text={cancelButtonText}
             onClick={handleCancelNavigationClick} // need to pass a func to save draft
             data-dd-action-name={cancelButtonDDActionName}
+            data-testid="route-guard-primary-button"
           />
           <va-button
             class="vads-u-margin-top--1 vads-u-flex--auto"
@@ -214,6 +221,7 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
             text={confirmButtonText}
             onClick={handleConfirmNavigationClick}
             data-dd-action-name={confirmButtonDDActionName}
+            data-testid="route-guard-secondary-button"
           />
         </div>
       </VaModal>
@@ -230,6 +238,7 @@ RouteLeavingGuard.propTypes = {
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
+  persistDraftPaths: PropTypes.array,
   saveDraftHandler: PropTypes.func,
   saveError: PropTypes.object,
   savedDraft: PropTypes.bool,

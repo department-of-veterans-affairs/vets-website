@@ -108,4 +108,41 @@ describe('Toxic Exposure Conditions', () => {
       expect($('va-checkbox-group').error).to.equal(noneAndConditionError);
     });
   });
+
+  describe('ui:confirmationField', () => {
+    it('should render the custom ToxicExposureConditions confirmation component', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            anemia: true,
+            tinnitus: true,
+          },
+        },
+      };
+
+      const confirmationField = uiSchema['ui:confirmationField']({ formData });
+      const { container } = render(confirmationField);
+
+      const heading = container.querySelector('h4');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.equal('Toxic Exposure');
+      // Check that the list includes exactly 2 claimed conditions
+      const list = heading.nextElementSibling;
+      const items = list.querySelectorAll('li');
+      expect(items.length).to.equal(2);
+    });
+
+    it('should not render the component if "none" is selected', () => {
+      const formData = {
+        toxicExposure: {
+          conditions: {
+            none: true,
+          },
+        },
+      };
+
+      const confirmationField = uiSchema['ui:confirmationField']({ formData });
+      expect(confirmationField).to.be.null;
+    });
+  });
 });

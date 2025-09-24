@@ -24,10 +24,10 @@ export const uiSchema = {
       },
     ),
     'ui:description': UploadDescription,
-    // Example of a custom confirmation field function
+    // TODO: confirm and update this confirmationField label copy, can be multiple files
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
-      label: 'Lay statements and other evidence',
+      label: 'Uploaded file(s)',
     }),
   },
 };

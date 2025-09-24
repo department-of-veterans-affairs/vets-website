@@ -120,6 +120,64 @@ describe('convertNewCondition', () => {
   });
 });
 
+describe('convertUnifiedCondition', () => {
+  it('should return null if not passed an argument', () => {
+    expect(convertNewCondition()).to.eq(null);
+  });
+
+  it('should return null if null is passed as argument', () => {
+    expect(convertNewCondition(null)).to.eq(null);
+  });
+
+  it('should correctly format date when date is provided', () => {
+    const condition = {
+      id: '123',
+      name: 'Hypertension',
+      date: '2023-12-07T08:43:00-05:00',
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result.date).to.eq('December 7, 2023');
+  });
+
+  it('should return "None recorded" for missing data fields', () => {
+    const condition = {
+      id: '123',
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result.name).to.eq(EMPTY_FIELD);
+    expect(result.date).to.eq(EMPTY_FIELD);
+    expect(result.provider).to.eq(EMPTY_FIELD);
+    expect(result.facility).to.eq(EMPTY_FIELD);
+    expect(result.comments).to.eq(EMPTY_FIELD);
+  });
+
+  it('should preserve all original properties and add formatted properties', () => {
+    const condition = {
+      id: '123',
+      name: 'Hypertension',
+      date: '2023-01-10',
+      provider: 'Dr. Smith',
+      facility: 'VA Hospital',
+      comments: ['First visit', 'Follow-up needed'],
+    };
+
+    const result = convertNewCondition(condition);
+
+    expect(result).to.include({
+      id: '123',
+      name: 'Hypertension',
+      date: 'January 10, 2023',
+      provider: 'Dr. Smith',
+      facility: 'VA Hospital',
+    });
+    expect(result.comments).to.deep.equal(['First visit', 'Follow-up needed']);
+  });
+});
+
 describe('conditionReducer', () => {
   describe('GET action', () => {
     it('should use convertCondition for FHIR format responses', () => {
@@ -312,6 +370,102 @@ describe('conditionReducer', () => {
         {
           type: Actions.Conditions.GET_LIST,
           response: nonFhirResponse,
+          isCurrent: true,
+        },
+      );
+
+      expect(newState.conditionsList).to.have.lengthOf(0);
+    });
+  });
+
+  describe('GET_UNIFIED_LIST action', () => {
+    it('creates a list', () => {
+      const response = {
+        data: [
+          { id: 1, attributes: { id: 1 } },
+          { id: 2, attributes: { id: 2 } },
+          { id: 3, attributes: { id: 3 } },
+        ],
+        resourceType: 'Condition',
+      };
+      const newState = conditionReducer(
+        {},
+        { type: Actions.Conditions.GET_UNIFIED_LIST, response },
+      );
+      expect(newState.conditionsList.length).to.equal(3);
+      expect(newState.updatedList).to.equal(undefined);
+    });
+
+    it('puts updated records in updatedList', () => {
+      const response = {
+        data: [
+          { id: 1, attributes: { id: 1 } },
+          { id: 2, attributes: { id: 2 } },
+          { id: 3, attributes: { id: 3 } },
+        ],
+        resourceType: 'Condition',
+      };
+      const newState = conditionReducer(
+        {
+          conditionsList: [
+            { id: 1, attributes: { id: 1 } },
+            { id: 2, attributes: { id: 2 } },
+          ],
+        },
+        { type: Actions.Conditions.GET_UNIFIED_LIST, response },
+      );
+      expect(newState.conditionsList.length).to.equal(2);
+      expect(newState.updatedList.length).to.equal(3);
+    });
+
+    it('should use convertUnifiedCondition', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: '123',
+            attributes: {
+              id: '123',
+              name: 'Type 2 Diabetes',
+              date: '2023-05-15',
+            },
+          },
+          {
+            id: '456',
+            attributes: {
+              id: '456',
+              name: 'Hypertension',
+              date: '2023-01-10',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: true,
+        },
+      );
+
+      expect(newState.conditionsList).to.have.lengthOf(2);
+      expect(newState.conditionsList[0]).to.include({
+        id: '123',
+        name: 'Type 2 Diabetes',
+      });
+      expect(newState.listState).to.equal(loadStates.FETCHED);
+      expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
+    });
+
+    it('should properly handle no results for unified format responses', () => {
+      const unifiedResponse = { data: [] };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_LIST,
+          response: unifiedResponse,
           isCurrent: true,
         },
       );

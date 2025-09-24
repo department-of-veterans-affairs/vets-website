@@ -106,6 +106,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10297: '22-10297',
   FORM_22_0839: '22-0839',
   FORM_22_10275: '22-10275',
+  FORM_40_4962: '40-4962',
+  FORM_21_2680: '21-2680',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -202,6 +204,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
+    [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
+    [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
   };
 };
 
@@ -755,6 +759,21 @@ export const MY_VA_SIP_FORMS = [
     title: '10275',
     description: 'education benefits',
     trackingPrefix: '10275-edu-benefits',
+  },
+  {
+    id: VA_FORM_IDS.FORM_40_4962,
+    benefit: 'burial benefits',
+    title: 'Apply for burial in a VA national cemetery"',
+    description: 'burial benefits',
+    trackingPrefix: '40-4962-ToN-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_2680,
+    benefit: 'benefits',
+    title:
+      'Application for Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+    description: 'benefits',
+    trackingPrefix: '21-2680-house-bound-status-',
   },
 ];
 

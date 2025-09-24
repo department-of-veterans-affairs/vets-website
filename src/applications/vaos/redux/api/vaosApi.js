@@ -3,7 +3,6 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { apiRequestWithUrl } from 'applications/vaos/services/utils';
 import { captureError } from '../../utils/error';
 import { fetchPendingAppointments } from '../actions';
-import { cacheDraftReferralAppointment } from '../../referral-appointments/redux/actions';
 
 export const vaosApi = createApi({
   reducerPath: 'appointmentApi',
@@ -14,6 +13,7 @@ export const vaosApi = createApi({
   // Cache is normally 60 seconds by default, but it causes each test
   // to take an additional 60 seconds to run, so we set it to 0.
   keepUnusedDataFor: environment.isUnitTest() ? 0 : 60,
+  tagTypes: ['Referral'],
   endpoints: builder => ({
     getReferralById: builder.query({
       async queryFn(referralId) {
@@ -26,6 +26,7 @@ export const vaosApi = createApi({
           };
         }
       },
+      providesTags: ['Referral'],
     }),
     getPatientReferrals: builder.query({
       async queryFn() {
@@ -38,11 +39,10 @@ export const vaosApi = createApi({
           };
         }
       },
+      providesTags: ['Referral'],
       // Needs an argumant to be passed in to trigger the query.
       async onQueryStarted(id, { dispatch }) {
         dispatch(fetchPendingAppointments());
-        // Reset draft referral appointment cache when fetching new referrals.
-        dispatch(cacheDraftReferralAppointment({}));
       },
     }),
     getAppointmentInfo: builder.query({
@@ -59,7 +59,7 @@ export const vaosApi = createApi({
         }
       },
     }),
-    postDraftReferralAppointment: builder.mutation({
+    getDraftReferralAppointment: builder.query({
       async queryFn({ referralNumber, referralConsultId }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/draft`, {
@@ -81,6 +81,7 @@ export const vaosApi = createApi({
           };
         }
       },
+      providesTags: ['Referral'],
     }),
     postReferralAppointment: builder.mutation({
       async queryFn({
@@ -111,6 +112,7 @@ export const vaosApi = createApi({
           };
         }
       },
+      invalidatesTags: ['Referral'],
     }),
   }),
 });
@@ -119,6 +121,6 @@ export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
   useGetAppointmentInfoQuery,
-  usePostDraftReferralAppointmentMutation,
   usePostReferralAppointmentMutation,
+  useGetDraftReferralAppointmentQuery,
 } = vaosApi;

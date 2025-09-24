@@ -53,38 +53,6 @@ class VitalsDetailsPage extends BaseDetailsPage {
       .click();
   };
 
-  clickBloodPressureLink = (bloodPressure = 0) => {
-    // Click Vitals Page Blood Pressure Link
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(bloodPressure)
-      .click();
-  };
-
-  clickHeartRateLink = (HeartRate = 1) => {
-    // Click Vitals Page Heart Rate Link
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(HeartRate)
-      .click();
-  };
-
-  clickWeightLink = (Weight = 2) => {
-    // Click Vitals Page Weight Link
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(Weight)
-      .click();
-  };
-
-  clickPainLink = (Pain = 3) => {
-    // Click Vitals Page Blood Pressure Link
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(Pain)
-      .click();
-  };
-
   verifyVitalDate = VitalDate => {
     // Verify Vital Date
     cy.get('[data-testid="vital-date"]').should('be.visible');

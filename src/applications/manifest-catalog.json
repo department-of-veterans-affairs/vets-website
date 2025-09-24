@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 135,
+  "totalApplications": 137,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -98,6 +98,12 @@
       "appName": "After Visit Summary",
       "entryName": "avs",
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "appName": "21-2680 House Bound Status",
+      "entryName": "21-2680-house-bound-status",
+      "rootUrl": "/21-2680-house-bound-status"
     },
     {
       "directoryPath": "src/applications/burials-ez",
@@ -746,6 +752,12 @@
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
       "rootUrl": "/terms-of-use"
+    },
+    {
+      "directoryPath": "src/applications/time-of-need",
+      "appName": "Apply for burial in a VA national cemetery",
+      "entryName": "40-xxxx-ton",
+      "rootUrl": "/burials-and-memorials/time-of-need"
     },
     {
       "directoryPath": "src/applications/toe",

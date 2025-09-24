@@ -46,6 +46,7 @@ const DebtDetails = () => {
     payeeNumber: currentDebt.payeeNumber,
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
+    receivableId: currentDebt.rcvblId,
   };
 
   const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
@@ -101,7 +102,7 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Current overpayment balances',
           },
           {
             href: `/manage-va-debt/summary/debt-balances/details/${

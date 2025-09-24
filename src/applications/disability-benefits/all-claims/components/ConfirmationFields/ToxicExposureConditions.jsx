@@ -5,15 +5,7 @@ import { reviewEntry } from 'platform/forms-system/src/js/components/Confirmatio
 const ToxicExposureConditions = ({ formData }) => {
   const conditions = formData?.toxicExposure?.conditions || {};
 
-  // Return null if no conditions are present (either 'none' selected or specific conditions selected)
-  if (
-    !conditions.none &&
-    !Object.keys(conditions).some(
-      key => key !== 'none' && conditions[key] === true,
-    )
-  ) {
-    return null;
-  }
+  if (conditions?.none === true) return null;
 
   const claimedKeys = Object.keys(conditions).filter(
     key => key !== 'none' && conditions[key] === true,
@@ -24,7 +16,7 @@ const ToxicExposureConditions = ({ formData }) => {
 
   return (
     <li>
-      <h4>Toxic Exposure </h4>
+      <h4>Toxic Exposure</h4>
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
         {claimedKeys.map(key => reviewEntry(null, key, {}, key, 'Claimed'))}
       </ul>
