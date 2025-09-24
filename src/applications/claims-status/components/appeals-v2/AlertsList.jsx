@@ -35,11 +35,8 @@ const AlertsList = ({ alerts, appealIsActive }) => {
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Appeals Alert List Container
-          <br />
-          Groups multiple alerts into "take action" and "info" categories
-        </span>
+        Appeals Alert List Container <br />
+        Groups multiple alerts into "take action" and "info" categories
       </div>
       <div className="alerts-list-container">
         {takeActionHeader}

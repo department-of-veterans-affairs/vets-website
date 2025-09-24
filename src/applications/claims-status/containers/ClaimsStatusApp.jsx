@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
@@ -54,6 +54,35 @@ AppContent.propTypes = {
   isDataAvailable: PropTypes.bool,
 };
 
+// Simple toggle component for demo elements
+const DemoToggle = () => {
+  const [showDemos, setShowDemos] = useState(() => {
+    const saved = localStorage.getItem('showAlertDemos');
+    const shouldShow = saved === 'true';
+    if (shouldShow) {
+      document.body.classList.add('show-alert-demos');
+    }
+    return shouldShow;
+  });
+
+  const handleToggle = () => {
+    const newValue = !showDemos;
+    setShowDemos(newValue);
+    localStorage.setItem('showAlertDemos', newValue);
+    if (newValue) {
+      document.body.classList.add('show-alert-demos');
+    } else {
+      document.body.classList.remove('show-alert-demos');
+    }
+  };
+
+  return (
+    <button className="alert-demo-toggle" onClick={handleToggle} type="button">
+      {showDemos ? 'Hide' : 'Show'} Demos
+    </button>
+  );
+};
+
 function ClaimsStatusApp({
   dispatchSetLastPage,
   featureFlagsLoading,
@@ -77,35 +106,40 @@ function ClaimsStatusApp({
   });
 
   return (
-    <RequiredLoginView
-      loadingIndicator={<AppLoadingIndicator id="required-login-view-loader" />}
-      verify
-      serviceRequired={[
-        backendServices.EVSS_CLAIMS,
-        backendServices.APPEALS_STATUS,
-        backendServices.LIGHTHOUSE,
-      ]}
-      user={user}
-    >
-      <div id="downtime-app">
-        <DowntimeNotification
-          appTitle="Claim Status"
-          dependencies={[
-            externalServices.evss,
-            externalServices.lighthouseBenefitsClaims,
-            externalServices.global,
-            externalServices.mvi,
-            externalServices.vaProfile,
-            externalServices.vbms,
-          ]}
-          loadingIndicator={
-            <AppLoadingIndicator id="downtime-notification-loader" />
-          }
-        >
-          <AppContent featureFlagsLoading={featureFlagsLoading} />
-        </DowntimeNotification>
-      </div>
-    </RequiredLoginView>
+    <>
+      <DemoToggle />
+      <RequiredLoginView
+        loadingIndicator={
+          <AppLoadingIndicator id="required-login-view-loader" />
+        }
+        verify
+        serviceRequired={[
+          backendServices.EVSS_CLAIMS,
+          backendServices.APPEALS_STATUS,
+          backendServices.LIGHTHOUSE,
+        ]}
+        user={user}
+      >
+        <div id="downtime-app">
+          <DowntimeNotification
+            appTitle="Claim Status"
+            dependencies={[
+              externalServices.evss,
+              externalServices.lighthouseBenefitsClaims,
+              externalServices.global,
+              externalServices.mvi,
+              externalServices.vaProfile,
+              externalServices.vbms,
+            ]}
+            loadingIndicator={
+              <AppLoadingIndicator id="downtime-notification-loader" />
+            }
+          >
+            <AppContent featureFlagsLoading={featureFlagsLoading} />
+          </DowntimeNotification>
+        </div>
+      </RequiredLoginView>
+    </>
   );
 }
 

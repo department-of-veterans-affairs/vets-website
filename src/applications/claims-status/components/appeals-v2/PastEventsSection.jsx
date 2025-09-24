@@ -6,11 +6,8 @@ const PastEventsSection = ({ events, missingEvents }) => {
   const missingEventsAlert = (
     <>
       <div className="alert-demo-text">
-        <span>
-          Missing Events Alert
-          <br />
-          Triggered by: Appeal with missing event history (missingEvents=true)
-        </span>
+        Missing Events Alert <br />
+        Triggered by: Appeal with missing event history (missingEvents=true)
       </div>
       <div className="usa-alert usa-alert-warning">
         <div className="usa-alert-body">

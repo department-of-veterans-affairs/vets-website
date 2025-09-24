@@ -17,11 +17,8 @@ export default function ClosedClaimAlert({
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Closed Claim Alert
-          <br />
-          Triggered by: Claim is closed (status=COMPLETE or has closeDate)
-        </span>
+        Closed Claim Alert <br />
+        Triggered by: Claim is closed (status=COMPLETE or has closeDate)
       </div>
       <va-alert
         data-testid="closed-claim-alert"

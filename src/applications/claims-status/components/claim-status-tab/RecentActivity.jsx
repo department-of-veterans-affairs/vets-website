@@ -209,11 +209,8 @@ export default function RecentActivity({ claim }) {
     return (
       <>
         <div className="alert-demo-text">
-          <span>
-            Recent Activity - Third Party Request Alert
-            <br />
-            Triggered by: Activity item with status 'NEEDED_FROM_OTHERS'
-          </span>
+          Recent Activity - Third Party Request Alert <br />
+          Triggered by: Activity item with status 'NEEDED_FROM_OTHERS'
         </div>
         <va-alert
           data-testid={`item-from-others-${item.id}`}

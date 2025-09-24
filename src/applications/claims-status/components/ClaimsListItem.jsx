@@ -101,11 +101,9 @@ export default function ClaimsListItem({ claim }) {
       </div>
       <>
         <div className="alert-demo-text">
-          <span>
-            Claims List Item - Requested Evidence Alert <br />
-            Triggered by: VA has requested evidence from the veteran and the
-            claim is still in progress
-          </span>
+          Claims List Item - Requested Evidence Alert <br />
+          Triggered by: VA has requested evidence from the veteran and the claim
+          is still in progress
         </div>
         <va-alert status="info" slim>
           <span className="vads-u-font-weight--bold">

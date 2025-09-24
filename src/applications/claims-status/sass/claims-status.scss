@@ -6,13 +6,38 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 
-.alert-demo-text > span {
-  /* stylelint-disable */
+/* stylelint-disable */
+// Hide demo elements by default, show when body has class
+body:not(.show-alert-demos) .alert-demo-text {
+  display: none;
+}
+
+.alert-demo-text {
   color: #ff6b6b;
   font-style: italic;
-  display: none;
-  /* stylelint-enable */
 }
+
+// Minimal toggle button styles
+.alert-demo-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 9999;
+  padding: 6px 12px;
+  background: #112e51; // VA dark blue
+  color: #fff;
+  border: 2px solid #fdb81e; // VA gold
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: #205493; // Lighter blue on hover
+  }
+}
+/* stylelint-enable */
 
 .loading-indicator-full-page-container {
   height: 100vh;

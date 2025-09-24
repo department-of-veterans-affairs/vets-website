@@ -59,11 +59,8 @@ export default function ClaimDetailLayout(props) {
     headingContent = (
       <>
         <div className="alert-demo-text">
-          <span>
-            Claim Detail Page Notification
-            <br />
-            Triggered by: Evidence waiver submission or claim decision request
-          </span>
+          Claim Detail Page Notification <br />
+          Triggered by: Evidence waiver submission or claim decision request
         </div>
         <Notification
           title="We received your evidence waiver"
@@ -117,11 +114,9 @@ export default function ClaimDetailLayout(props) {
           ))}
         </div>
         <div className="alert-demo-text">
-          <span>
-            Claims Unavailable Alert <br />
-            Triggered by: Shown instead of the above content when claims data
-            service fails to load or returns an error
-          </span>
+          Claims Unavailable Alert <br />
+          Triggered by: Shown instead of the above content when claims data
+          service fails to load or returns an error
         </div>
         <h1>We encountered a problem</h1>
         <ClaimsUnavailable headerLevel={2} />

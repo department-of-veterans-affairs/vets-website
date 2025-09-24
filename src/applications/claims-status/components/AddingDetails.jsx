@@ -4,11 +4,8 @@ function AddingDetails() {
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Adding Details Alert
-          <br />
-          Triggered by: Claim missing required data (type, contentions, or date)
-        </span>
+        Adding Details Alert <br />
+        Triggered by: Claim missing required data (type, contentions, or date)
       </div>
       <va-alert
         class="vads-u-margin-bottom--1"

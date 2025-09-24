@@ -86,12 +86,9 @@ export default function ClaimPhaseStepper({
               currentPhaseBack && (
                 <>
                   <div className="alert-demo-text">
-                    <span>
-                      Claim Phase Stepper Alert
-                      <br />
-                      Triggered by: Claim moved back to previous phase
-                      (currentPhaseBack=true)
-                    </span>
+                    Claim Phase Stepper Alert <br />
+                    Triggered by: Claim moved back to previous phase
+                    (currentPhaseBack=true)
                   </div>
                   <va-alert
                     class="optional-alert vads-u-padding-bottom--1"

@@ -151,11 +151,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
         <ClaimsBreadcrumbs crumbs={[crumb]} />
         {content}
         <div className="alert-demo-text">
-          <span>
-            Work In Progress (WIP) Alert <br />
-            Triggered by: Feature flag `claimLettersAccess` is disabled
-            (permanently enabled in production - this is dead code)
-          </span>
+          Work In Progress (WIP) Alert <br />
+          Triggered by: Feature flag `claimLettersAccess` is disabled
+          (permanently enabled in production - this is dead code)
         </div>
         <WIP />
       </div>

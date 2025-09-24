@@ -34,12 +34,9 @@ function FilesOptional({ item }) {
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Files Optional Alert
-          <br />
-          Triggered by: VA requested evidence from third party
-          (status=NEEDED_FROM_OTHERS)
-        </span>
+        Files Optional Alert <br />
+        Triggered by: VA requested evidence from third party
+        (status=NEEDED_FROM_OTHERS)
       </div>
       <va-alert class="optional-alert vads-u-margin-bottom--2" status="info">
         <h4 slot="headline" className="alert-title">

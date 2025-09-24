@@ -250,30 +250,29 @@ class YourClaimsPageV2 extends React.Component {
               </va-additional-info>
             </div>
             <div className="alert-demo-text">
-              <span>
-                Claims Unavailable Alert <br />
-                Triggered by: Claims data service fails to load or returns an
-                error
-              </span>
-              <ClaimsUnavailable headerLevel={3} />
-              <span>
-                Claims & Appeals Unavailable Alert <br />
-                Triggered by: Both claims and appeals data services fail to load
-                or return errors
-              </span>
-              <ClaimsAppealsUnavailable />
-              <span>
-                Appeals Unavailable Alert <br />
-                Triggered by: Appeals data service fails to load or returns an
-                error
-              </span>
-              <AppealsUnavailable />
-              <span>
-                No Claims Alert <br />
-                Triggered by: User has no claims, appeals, or STEM claims
-              </span>
-              <NoClaims />
+              Claims Unavailable Alert <br />
+              Triggered by: Claims data service fails to load or returns an
+              error
             </div>
+            <ClaimsUnavailable headerLevel={3} />
+
+            <div className="alert-demo-text">
+              Claims & Appeals Unavailable Alert <br />
+              Triggered by: Both claims and appeals data services fail to load
+              or return errors
+            </div>
+            <ClaimsAppealsUnavailable />
+            <div className="alert-demo-text">
+              Appeals Unavailable Alert <br />
+              Triggered by: Appeals data service fails to load or returns an
+              error
+            </div>
+            <AppealsUnavailable />
+            <div className="alert-demo-text">
+              No Claims Alert <br />
+              Triggered by: User has no claims, appeals, or STEM claims
+            </div>
+            <NoClaims />
             {content}
             <ClaimLetterSection />
             <h2 id="what-if-i-dont-see-my-appeal">

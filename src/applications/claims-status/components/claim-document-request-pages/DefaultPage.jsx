@@ -92,12 +92,9 @@ export default function DefaultPage({
         (pastDueDate ? (
           <>
             <div className="alert-demo-text">
-              <span>
-                Past Deadline Alert
-                <br />
-                Triggered by: Evidence deadline has passed (suspenseDate before
-                current date)
-              </span>
+              Past Deadline Alert <br />
+              Triggered by: Evidence deadline has passed (suspenseDate before
+              current date)
             </div>
             <va-alert status="warning" class="vads-u-margin-top--4">
               <h2 slot="headline">Deadline passed for requested information</h2>

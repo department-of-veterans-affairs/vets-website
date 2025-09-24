@@ -146,13 +146,9 @@ class DocumentRequestPage extends React.Component {
               />
             </div>
           )}
-          {/* Demo notification for documentation */}
           <div className="alert-demo-text">
-            <span>
-              Document Request Page Notification
-              <br />
-              Triggered by: Evidence waiver submission or claim decision request
-            </span>
+            Document Request Page Notification <br />
+            Triggered by: Evidence waiver submission or claim decision request
           </div>
           <div>
             <Notification

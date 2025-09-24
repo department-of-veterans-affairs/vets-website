@@ -52,12 +52,8 @@ export default function FilesNeeded({ item, previousPage = null }) {
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Files Needed Alert
-          <br />
-          Triggered by: VA requires evidence from veteran
-          (status=NEEDED_FROM_YOU)
-        </span>
+        Files Needed Alert <br />
+        Triggered by: VA requires evidence from veteran (status=NEEDED_FROM_YOU)
       </div>
       <va-alert
         data-testid={`item-${item.id}`}

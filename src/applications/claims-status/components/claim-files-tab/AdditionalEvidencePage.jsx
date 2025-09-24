@@ -99,13 +99,10 @@ class AdditionalEvidencePage extends React.Component {
               />
             </>
           )}
-          {/* <div className="alert-demo-text">
-            <span>
-              Additional Evidence Page - Success Notification
-              <br />
-              Triggered by: All files upload successfully (but user would be
-              redirected to Files tab)
-            </span>
+          <div className="alert-demo-text">
+            Additional Evidence Page - Success Notification <br />
+            Triggered by: All files upload successfully (but user would be
+            redirected to Files tab)
           </div>
           <Notification
             title="Success"
@@ -114,12 +111,9 @@ class AdditionalEvidencePage extends React.Component {
             onSetFocus={focusNotificationAlert}
           />
           <div className="alert-demo-text">
-            <span>
-              Additional Evidence Page - Error Notification
-              <br />
-              Triggered by: File upload fails (duplicate, invalid claimant, or
-              other error)
-            </span>
+            Additional Evidence Page - Error Notification <br />
+            Triggered by: File upload fails (duplicate, invalid claimant, or
+            other error)
           </div>
           <Notification
             title="You've already uploaded example-file.pdf"
@@ -135,7 +129,7 @@ class AdditionalEvidencePage extends React.Component {
             }
             type="error"
             onSetFocus={focusNotificationAlert}
-          /> */}
+          />
           <h3 id="add-files" className="vads-u-margin-bottom--3">
             Additional evidence
           </h3>

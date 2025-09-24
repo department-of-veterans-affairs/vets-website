@@ -9,11 +9,8 @@ function Standard5103Alert({ previousPage = null }) {
   return (
     <>
       <div className="alert-demo-text">
-        <span>
-          Standard 5103 Notice Alert
-          <br />
-          Component is dead code - not imported or used anywhere
-        </span>
+        Standard 5103 Notice Alert <br />
+        Component is dead code - not imported or used anywhere
       </div>
       <va-alert
         data-testid="standard-5103-notice-alert"
