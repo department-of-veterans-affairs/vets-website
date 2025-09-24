@@ -368,6 +368,12 @@
       "slackGroup": "@benefits-optimization-aquia",
       "slackChannel": "C09FWT9U1JP",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-4192-employment-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
     }
   ]
 }

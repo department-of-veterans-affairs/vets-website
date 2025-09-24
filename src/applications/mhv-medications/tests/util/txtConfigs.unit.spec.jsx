@@ -130,6 +130,22 @@ describe('VA prescription Config', () => {
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.include('Refill history\n');
   });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'NewOrder';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and the disp status is Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'Renew';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
 });
 
 describe('Non VA prescription Config', () => {
