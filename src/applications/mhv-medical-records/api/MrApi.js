@@ -233,12 +233,9 @@ export const getAllergy = id => {
 };
 
 export const getAcceleratedAllergies = async () => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
-    {
-      headers,
-    },
-  );
+  return apiRequest(`${apiBasePath}/v2/medical_records/allergies`, {
+    headers,
+  });
 };
 
 export const getAcceleratedAllergy = id => {
