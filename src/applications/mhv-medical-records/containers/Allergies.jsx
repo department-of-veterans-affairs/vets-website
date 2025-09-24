@@ -126,7 +126,10 @@ const Allergies = props => {
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, false), // Will be determined per-record
+      ...generateAllergiesContent(
+        allergies,
+        isAcceleratingAllergies || isCerner,
+      ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
