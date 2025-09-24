@@ -21,6 +21,7 @@ import blockedFacilityAndTeam from '../../fixtures/json-triage-mocks/triage-team
 import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import {
   Paths,
@@ -32,7 +33,6 @@ import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
-import * as threadDetailsActions from '../../../actions/threadDetails';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
@@ -1611,5 +1611,57 @@ describe('Compose form component', () => {
       expect(sendMessageSpy.calledOnce).to.be.true;
     });
     sendMessageSpy.restore();
+  });
+
+  it('sets the state of draftInProgress when compose draft is rendered', async () => {
+    const updateDraftInProgressSpy = sinon.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const oracleHealthDraftRecipient = noBlockedRecipients.mockAllRecipients.find(
+      r => r.ohTriageGroup,
+    ).id;
+    const customDraftMessage = {
+      ...draftMessage,
+      body: 'Hello',
+      recipientId: oracleHealthDraftRecipient,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          draftInProgress: {},
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    await waitFor(() => {
+      expect(updateDraftInProgressSpy.called).to.be.true;
+      const args = updateDraftInProgressSpy.getCall(0).args[0];
+      expect(args).to.deep.equal({
+        careSystemVhaId: customDraftMessage.careSystemVhaId,
+        careSystemName: customDraftMessage.careSystemName,
+        recipientId: customDraftMessage.recipientId,
+        recipientName: customDraftMessage.recipientName,
+        category: customDraftMessage.category,
+        subject: customDraftMessage.subject,
+        body: customDraftMessage.body,
+        messageId: customDraftMessage.id,
+        ohTriageGroup: true,
+      });
+    });
   });
 });

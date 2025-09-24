@@ -97,6 +97,25 @@ const ComposeForm = props => {
     [recipientsList],
   );
 
+  const ohTriageGroup = useCallback(
+    recipientId => {
+      return (
+        recipients?.allowedRecipients.find(r => +r.id === +recipientId)
+          ?.ohTriageGroup || false
+      );
+    },
+    [recipients?.allowedRecipients],
+  );
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && ohTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
+  );
+
   useEffect(
     () => {
       // Consider draftInProgress "empty" if it has no recipientId
@@ -127,6 +146,7 @@ const ComposeForm = props => {
                 draftInProgress?.recipientName ||
                 draft.suggestedNameDisplay ||
                 draft.recipientName,
+              ohTriageGroup: ohTriageGroup(draft.recipientId),
               category: draftInProgress?.category || draft.category,
               subject: draftInProgress?.subject || draft.subject,
               body: draftInProgress?.body || draft.body,
@@ -155,6 +175,9 @@ const ComposeForm = props => {
       ehrDataByVhaId,
       recipients?.allowedRecipients,
       recipientExists,
+      ohTriageGroup,
+      draftInProgress,
+      sendMessageFlag,
     ],
   );
 
@@ -859,7 +882,7 @@ const ComposeForm = props => {
     return (
       <va-loading-indicator
         message={
-          largeAttachmentsEnabled
+          useLargeAttachments
             ? 'Do not refresh the page. Sending message...'
             : 'Sending message...'
         }
@@ -1019,6 +1042,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
 
                   <FileInput
@@ -1028,7 +1052,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={cernerPilotSmFeatureFlag}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
                 </section>
               ))}
