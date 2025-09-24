@@ -211,10 +211,9 @@ export default function ArrayBuilderItemPage({
           props.fullData,
         );
         props.setFormData(newFullData);
-
+        // showDuplicateModal contains newest item page formData
+        onSubmit(showDuplicateModal); // Navigate to next page
         setShowDuplicateModal(false);
-        // Navigate to next page
-        onSubmit(newFullData);
       },
     };
 
