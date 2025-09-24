@@ -21,7 +21,7 @@ export const defaultBreadcrumbs = [
   },
   {
     href: manifest.rootUrl,
-    label: 'Explore decision reviews for your disability claim',
+    label: 'Explore disability claim decision review options',
   },
 ];
 
