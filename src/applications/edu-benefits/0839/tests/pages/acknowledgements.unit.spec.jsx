@@ -1,19 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import * as page from '../../pages/acknowledgements';
 
-const renderPage = (formData = {}) =>
-  render(
-    <DefinitionTester
-      schema={page.schema}
-      uiSchema={page.uiSchema}
-      formData={formData}
-      definitions={{}}
-    />,
+const mockStore = configureStore();
+
+const renderPage = (formData = {}) => {
+  const store = mockStore({
+    form: {
+      data: formData,
+    },
+  });
+
+  return render(
+    <Provider store={store}>
+      <DefinitionTester
+        schema={page.schema}
+        uiSchema={page.uiSchema}
+        formData={formData}
+        definitions={{}}
+      />
+    </Provider>,
   );
+};
 
 describe('22-0839 acknowledgements page', () => {
   it('renders the external link to additional instructions', () => {
@@ -37,18 +50,18 @@ describe('22-0839 acknowledgements page', () => {
     );
     expect(statements.length).to.be.greaterThan(0);
 
-    // Verify the content of each statement is present
+    // Verify the content of each statement is present (matching actual uiSchema descriptions)
     expect(container.textContent).to.include(
-      'The Institution of Higher Learning (IHL) agrees that this Yellow Ribbon Program agreement is open-ended',
+      'once this agreement is accepted by VA, it will be considered an open-ended agreement',
     );
     expect(container.textContent).to.include(
-      'The IHL agrees to provide contributions to eligible individuals on a first-come-first-serve basis',
+      'The IHL agrees to provide contributions to eligible individuals who apply for such program at the institution',
     );
     expect(container.textContent).to.include(
-      'The IHL agrees to provide contributions for participating individuals during the current academic year',
+      'The IHL agrees to provide contributions on behalf of a participating individual during the current academic year',
     );
     expect(container.textContent).to.include(
-      'The IHL agrees that the maximum amount of contributions payable toward the net cost',
+      'The IHL agrees to provide the maximum amount of contributions payable toward the net cost',
     );
   });
 
@@ -77,10 +90,10 @@ describe('22-0839 acknowledgements page', () => {
 
   it('accepts valid form data without errors', () => {
     const { container, unmount } = renderPage({
-      statement1Initial: 'ABC',
-      statement2Initial: 'DEF',
-      statement3Initial: 'GHI',
-      statement4Initial: 'JKL',
+      statement1Initial: 'AB',
+      statement2Initial: 'CD',
+      statement3Initial: 'EFG',
+      statement4Initial: 'HI',
       agreementCheckbox: true,
     });
 
@@ -99,12 +112,12 @@ describe('22-0839 acknowledgements page', () => {
     });
   });
 
-  it('validates initial field pattern (1-3 letters only)', async () => {
+  it('validates initial field pattern (2-3 letters only)', async () => {
     const { container, getByRole } = renderPage({
       statement1Initial: '123', // Invalid: numbers
       statement2Initial: 'AB', // Valid: 2 letters
       statement3Initial: 'ABCD', // Invalid: too long
-      statement4Initial: 'A', // Valid: 1 letter
+      statement4Initial: 'A', // Invalid: too short (1 letter)
       agreementCheckbox: true,
     });
 
@@ -148,17 +161,17 @@ describe('22-0839 acknowledgements page', () => {
 
       const checkbox = container.querySelector('va-checkbox[error]');
       expect(checkbox.getAttribute('error')).to.equal(
-        'Please check the box to agree to provide Yellow Ribbon Program contributions',
+        'Please agree to provide Yellow Ribbon Program contributions',
       );
     });
   });
 
   it('accepts valid initials with different lengths', () => {
     const { container, unmount } = renderPage({
-      statement1Initial: 'A', // 1 character
-      statement2Initial: 'AB', // 2 characters
-      statement3Initial: 'ABC', // 3 characters
-      statement4Initial: 'X', // 1 character
+      statement1Initial: 'AB', // 2 characters
+      statement2Initial: 'CD', // 2 characters
+      statement3Initial: 'EFG', // 3 characters
+      statement4Initial: 'HI', // 2 characters
       agreementCheckbox: true,
     });
 
@@ -168,10 +181,10 @@ describe('22-0839 acknowledgements page', () => {
 
   it('accepts both uppercase and lowercase letters in initials', () => {
     const { container, unmount } = renderPage({
-      statement1Initial: 'abc', // lowercase
+      statement1Initial: 'ab', // lowercase
       statement2Initial: 'Def', // mixed case
       statement3Initial: 'GHI', // uppercase
-      statement4Initial: 'j', // lowercase
+      statement4Initial: 'jk', // lowercase
       agreementCheckbox: true,
     });
 
