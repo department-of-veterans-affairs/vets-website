@@ -28,7 +28,7 @@ describe('Pre-need preparer Details info', () => {
     form.unmount();
   });
 
-  it.skip('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
 
     const form = mount(

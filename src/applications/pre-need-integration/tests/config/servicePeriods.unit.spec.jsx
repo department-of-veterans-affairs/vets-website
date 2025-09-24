@@ -45,7 +45,7 @@ describe('pension add federal medical centers page', () => {
     form.unmount();
   });
 
-  it.skip('should not submit empty form', () => {
+  it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
