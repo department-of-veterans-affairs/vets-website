@@ -216,10 +216,10 @@ describe('SelectCareTeam', () => {
 
     selectVaRadio(screen.container, '636');
 
+    const careTeamSelect = screen.getByTestId('compose-recipient-select');
+    const careTeamOptions = careTeamSelect.querySelectorAll('option');
     await waitFor(() => {
-      const careTeamSelect = screen.getByTestId('compose-recipient-select');
-      const careTeamOptions = careTeamSelect.querySelectorAll('option');
-      expect(careTeamOptions).to.have.lengthOf(5);
+      expect(careTeamOptions).to.have.lengthOf(6);
     });
   });
 
