@@ -95,7 +95,7 @@ describe('Get allergies action with parameter-based logic', () => {
       const allergyList = [mockData]; // Item exists in list
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, true); // id, allergyList, isAccelerating=true
+      const thunk = getAllergyDetails('123', allergyList, true, false); // id, allergyList, isAccelerating=true, isCerner=false
 
       await thunk(dispatch);
 
@@ -115,7 +115,7 @@ describe('Get allergies action with parameter-based logic', () => {
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, true); // id, allergyList, isAccelerating=true
+      const thunk = getAllergyDetails('123', allergyList, true, false); // id, allergyList, isAccelerating=true, isCerner=false
 
       await thunk(dispatch);
 
@@ -128,23 +128,61 @@ describe('Get allergies action with parameter-based logic', () => {
       expect(unifiedItemCall).to.exist;
     });
 
-    it('should use v1 endpoint when acceleration disabled and item not in list', async () => {
+    it('should use v1 OH endpoint when Cerner user and acceleration disabled', async () => {
       const mockData = allergy;
       const allergyList = []; // Empty list, so will fetch from API
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, false); // id, allergyList, isAccelerating=false
+      const thunk = getAllergyDetails('123', allergyList, false, true); // id, allergyList, isAccelerating=false, isCerner=true
 
       await thunk(dispatch);
 
-      // Should use v1 endpoint
+      // Should use v1 endpoint with OH path
       const dispatchCalls = dispatch.getCalls();
       const getAllergyCall = dispatchCalls.find(
         call => call.args[0].type === Actions.Allergies.GET,
       );
 
       expect(getAllergyCall).to.exist;
+    });
+
+    it('should use v1 PHR endpoint when VistA user and acceleration disabled', async () => {
+      const mockData = allergy;
+      const allergyList = []; // Empty list, so will fetch from API
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergyDetails('123', allergyList, false, false); // id, allergyList, isAccelerating=false, isCerner=false
+
+      await thunk(dispatch);
+
+      // Should use v1 PHR endpoint
+      const dispatchCalls = dispatch.getCalls();
+      const getAllergyCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET,
+      );
+
+      expect(getAllergyCall).to.exist;
+    });
+
+    it('should prioritize acceleration over Cerner when both are true', async () => {
+      const mockData = allergy;
+      const allergyList = []; // Empty list, so will fetch from API
+      mockApiRequest(mockData);
+
+      const dispatch = sinon.spy();
+      const thunk = getAllergyDetails('123', allergyList, true, true); // id, allergyList, isAccelerating=true, isCerner=true
+
+      await thunk(dispatch);
+
+      // Should use v2 endpoint (acceleration takes priority)
+      const dispatchCalls = dispatch.getCalls();
+      const unifiedItemCall = dispatchCalls.find(
+        call => call.args[0].type === Actions.Allergies.GET_UNIFIED_ITEM,
+      );
+
+      expect(unifiedItemCall).to.exist;
     });
   });
 

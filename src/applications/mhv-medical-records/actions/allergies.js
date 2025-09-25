@@ -5,6 +5,7 @@ import {
   getAcceleratedAllergies,
   getAcceleratedAllergy,
   getAllergiesWithOHData,
+  getAllergyWithOHData,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -54,15 +55,22 @@ export const getAllergyDetails = (
   id,
   allergyList,
   isAccelerating,
+  isCerner,
 ) => async dispatch => {
   try {
     let getDetailsFunc;
     let actionType;
 
     if (isAccelerating) {
+      // Path 1: v2 SCDF endpoint (flag-enabled users)
       getDetailsFunc = getAcceleratedAllergy;
       actionType = Actions.Allergies.GET_UNIFIED_ITEM;
+    } else if (isCerner) {
+      // Path 2: v1 OH endpoint (Cerner patients)
+      getDetailsFunc = getAllergyWithOHData;
+      actionType = Actions.Allergies.GET;
     } else {
+      // Path 3: v1 regular endpoint (VistA patients)
       getDetailsFunc = getAllergy;
       actionType = Actions.Allergies.GET;
     }

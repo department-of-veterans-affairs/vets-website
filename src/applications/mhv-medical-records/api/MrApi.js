@@ -238,13 +238,19 @@ export const getAcceleratedAllergies = async () => {
   });
 };
 
-export const getAcceleratedAllergy = id => {
+export const getAllergyWithOHData = id => {
   return apiRequest(
     `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
     {
       headers,
     },
   );
+};
+
+export const getAcceleratedAllergy = id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies/${id}`, {
+    headers,
+  });
 };
 
 /**

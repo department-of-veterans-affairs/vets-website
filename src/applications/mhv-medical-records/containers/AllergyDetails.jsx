@@ -76,11 +76,23 @@ const AllergyDetails = props => {
     () => {
       if (allergyId && !isLoading) {
         dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
+          getAllergyDetails(
+            allergyId,
+            allergyList,
+            isAcceleratingAllergies,
+            isCerner,
+          ),
         );
       }
     },
-    [allergyId, allergyList, dispatch, isLoading, isAcceleratingAllergies],
+    [
+      allergyId,
+      allergyList,
+      dispatch,
+      isLoading,
+      isAcceleratingAllergies,
+      isCerner,
+    ],
   );
 
   useEffect(
