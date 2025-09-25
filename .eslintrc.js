@@ -191,6 +191,10 @@ module.exports = {
         '**/*.spec.js',
         'src/platform/testing/**/*.js',
         'src/platform/testing/**/*.jsx',
+        '**/*.spec.tsx',
+        '**/*.spec.ts',
+        'src/platform/testing/**/*.ts',
+        'src/platform/testing/**/*.tsx',
       ],
       rules: {
         'cypress/unsafe-to-chain-command': 'warn',
