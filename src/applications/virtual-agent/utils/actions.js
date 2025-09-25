@@ -2,6 +2,11 @@ import * as _ from 'lodash';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
+import {
+  EVENT_API_CALL,
+  ACTIVITY_EVENT_NAMES,
+  API_CALL_NAMES,
+} from './analyticsConstants';
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
@@ -54,13 +59,12 @@ function getEventValue(action) {
 function handleSkillEntryEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
-  const apiName = `Chatbot Skill Entry - ${eventValue}`;
-  if (actionEventName === 'Skill_Entry') {
+  const apiName = `${API_CALL_NAMES.SKILL_ENTRY} - ${eventValue}`;
+  if (actionEventName === ACTIVITY_EVENT_NAMES.SKILL_ENTRY) {
     setEventSkillValue(eventValue);
     recordEvent({
-      event: 'api_call',
+      event: EVENT_API_CALL,
       'api-name': apiName,
-      topic: eventValue,
       'api-status': 'successful',
     });
   }
@@ -69,32 +73,11 @@ function handleSkillEntryEvent(action) {
 function handleSkillExitEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
-  const apiName = `Chatbot Skill Exit - ${eventValue}`;
-  if (actionEventName === 'Skill_Exit') {
+  const apiName = `${API_CALL_NAMES.SKILL_EXIT} - ${eventValue}`;
+  if (actionEventName === ACTIVITY_EVENT_NAMES.SKILL_EXIT) {
     recordEvent({
-      event: 'api_call',
+      event: EVENT_API_CALL,
       'api-name': apiName,
-      topic: eventValue,
-      'api-status': 'successful',
-    });
-  }
-}
-
-function handleRouterLLMEvent(action) {
-  const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
-
-  if (actionEventName === 'RouterLLMResponse') {
-    const utterance = eventValue.utterance || '';
-    const topics = eventValue.parsed?.items || [];
-    const topicNames = topics.map(item => item.topic).join(', ');
-
-    recordEvent({
-      event: 'chatbot_llm_interaction',
-      'interaction-type': 'router_classification',
-      'user-query': piiReplace(utterance).substring(0, 100),
-      'classified-topics': topicNames,
-      'topic-count': topics.length,
       'api-status': 'successful',
     });
   }
@@ -104,8 +87,7 @@ function handleRagAgentLLMEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
-  if (actionEventName === 'AgentLLMResponse') {
-    const utterance = eventValue.utterance || '';
+  if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE) {
     const intent = eventValue.intent || 'Unknown';
     const response = eventValue.parsed || {};
     const hasLinks = response.message
@@ -116,15 +98,16 @@ function handleRagAgentLLMEvent(action) {
       : 0;
 
     recordEvent({
-      event: 'chatbot_llm_interaction',
-      'interaction-type': 'rag_response',
+      event: EVENT_API_CALL,
+      'api-name': API_CALL_NAMES.RAG_AGENT_RESPONSE,
+      'api-status': 'successful',
+      'api-request-id': eventValue.utteranceId || undefined,
+      // Optional analytics fields (non-PII)
       'skill-name': intent,
-      'user-query': piiReplace(utterance).substring(0, 100),
       'response-type': hasLinks ? 'with_links' : 'plain_text',
       'link-count': linkCount,
       answerable: response.answerable || false,
       complete: response.complete || false,
-      'api-status': 'successful',
     });
   }
 }
@@ -133,25 +116,18 @@ function handleSignInLLMEvents(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
-  // Track Sign-In Support specific LLM interactions
+  // Track Sign-In Support specific LLM interactions (Agent only)
   if (
-    (actionEventName === 'AgentLLMResponse' ||
-      actionEventName === 'RouterLLMResponse') &&
+    actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE &&
     (eventValue.intent === 'Sign-In Support' ||
       eventValue.parsed?.items?.some(item => item.topic === 'Sign-In Support'))
   ) {
-    const utterance = eventValue.utterance || '';
-    const interactionType =
-      actionEventName === 'RouterLLMResponse'
-        ? 'signin_classification'
-        : 'signin_response';
-
     recordEvent({
-      event: 'chatbot_signin_interaction',
-      'interaction-type': interactionType,
-      'user-query': piiReplace(utterance).substring(0, 100),
-      'skill-name': 'Sign-In Support',
+      event: EVENT_API_CALL,
+      'api-name': API_CALL_NAMES.SIGNIN_RESPONSE,
       'api-status': 'successful',
+      'api-request-id': eventValue.utteranceId || undefined,
+      'skill-name': 'Sign-In Support',
     });
   }
 }
@@ -160,22 +136,18 @@ function handleSemanticSearchEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
-  if (
-    actionEventName === 'RouterSemanticSearchResponse' ||
-    actionEventName === 'AgentSemanticSearchResponse'
-  ) {
-    const utterance = eventValue.utterance || '';
+  if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_SEMANTIC_SEARCH_RESPONSE) {
     const intent = eventValue.intent || 'Router';
     const resultCount = eventValue.parsed?.length || 0;
 
     recordEvent({
-      event: 'chatbot_semantic_search',
-      'search-type':
-        actionEventName === 'RouterSemanticSearchResponse' ? 'router' : 'agent',
-      'skill-name': intent,
-      'user-query': piiReplace(utterance).substring(0, 100),
-      'result-count': resultCount,
+      event: EVENT_API_CALL,
+      'api-name': API_CALL_NAMES.SEMANTIC_SEARCH_AGENT,
       'api-status': 'successful',
+      'api-request-id': eventValue.utteranceId || undefined,
+      // Optional analytics fields (non-PII)
+      'skill-name': intent,
+      'result-count': resultCount,
     });
   }
 }
@@ -265,7 +237,6 @@ export const processIncomingActivity = ({
 
   handleSkillEntryEvent(action);
   handleSkillExitEvent(action);
-  handleRouterLLMEvent(action);
   handleRagAgentLLMEvent(action);
   handleSignInLLMEvents(action);
   handleSemanticSearchEvent(action);
