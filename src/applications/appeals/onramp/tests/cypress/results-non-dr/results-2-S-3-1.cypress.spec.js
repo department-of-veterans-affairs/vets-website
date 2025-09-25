@@ -35,7 +35,7 @@ describe('Decision Reviews Onramp', () => {
       h.navigateToResults(path);
 
       // RESULTS
-      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyUrl(ROUTES.RESULTS_NON_DR);
       h.verifyNonDrResultsHeader(RESULTS_2_S_3_1);
       cy.go('back');
 

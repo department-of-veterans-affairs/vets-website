@@ -307,8 +307,8 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         // here in order to hide/show alerts correctly.
         props.setData({
           ...data,
-          _metadata: {
-            ...data._metadata,
+          metadata: {
+            ...data.metadata,
             [`${nounPlural}ForceRenderTimestamp`]: Date.now(),
           },
         });
