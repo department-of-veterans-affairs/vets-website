@@ -29,7 +29,7 @@ describe('Address Validations', () => {
           },
         },
       ],
-      validationKey: 1232036439,
+      overrideValidationKey: 1232036439,
     };
   };
 

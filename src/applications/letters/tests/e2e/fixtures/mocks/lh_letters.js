@@ -154,7 +154,6 @@ const validatedAddresses = {
     },
   ],
   overrideValidationKey: 1939876526,
-  validationKey: 1939876526,
 };
 
 const mockUserData = {
@@ -240,7 +239,7 @@ const mockUserData = {
           stateCode: 'CA',
           transactionId: '7139aa82-fd06-45ea-a217-9654869924bd',
           updatedAt: '2020-07-10T20:10:46.000+00:00',
-          validationKey: null,
+          overrideValidationKey: null,
           vet360Id: '1273780',
           zipCode: '94608',
           zipCodeSuffix: null,
