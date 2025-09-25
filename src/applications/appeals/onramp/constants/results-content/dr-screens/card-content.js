@@ -113,7 +113,7 @@ export const START_BOARD = {
 };
 
 export const DECISION_TIMELINES = {
-  SC: '79.3 days',
+  SC: '79.3 days (roughly 3 months)',
   HLR: '125 days (4 to 5 months)',
   BOARD_DIRECT: '365 days (1 year)',
   BOARD_EVIDENCE: '550 days (1.5 years)',
