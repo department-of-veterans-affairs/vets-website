@@ -6,7 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  nameAndDateOfBirth,
+  authorizedOfficial,
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
@@ -22,10 +22,6 @@ const formConfig = {
   trackingPrefix: 'edu-0839-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  dev: {
-    showNavLinks: true,
-    collapsibleNavLinks: true,
-  },
   formId: VA_FORM_IDS.FORM_22_0839,
   saveInProgress: {
     // messages: {
@@ -49,13 +45,13 @@ const formConfig = {
   },
   chapters: {
     personalInformationChapter: {
-      title: 'Your personal information',
+      title: 'Personal details of authorized official',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        authorizedOfficial: {
+          path: 'authorized-official',
+          title: 'Authorized Official',
+          uiSchema: authorizedOfficial.uiSchema,
+          schema: authorizedOfficial.schema,
         },
       },
     },
@@ -85,6 +81,7 @@ const formConfig = {
           title: 'Acknowledgements of Yellow Ribbon Program terms',
           uiSchema: acknowledgements.uiSchema,
           schema: acknowledgements.schema,
+          pageClass: 'acknowledgements-page',
         },
       },
     },

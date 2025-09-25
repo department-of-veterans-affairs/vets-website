@@ -29,8 +29,6 @@ import {
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import { CustomApplicantSSNPage } from '../../shared/components/CustomApplicantSSNPage';
 import { validateApplicantSsnIsUnique } from '../../shared/validations';
-
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
@@ -56,7 +54,7 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-
+import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
 import { validateMarriageAfterDob } from '../helpers/validations';
@@ -149,13 +147,22 @@ const applicantIntroPage = {
         );
       },
     ),
-    applicantName: fullNameUI(),
+    applicantName: fullNameMiddleInitialUI,
     applicantDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      applicantName: fullNameSchema,
+      applicantName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
       applicantDob: dateOfBirthSchema,
     },
     required: ['applicantName', 'applicantDob'],
@@ -219,7 +226,7 @@ const applicantMailingAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      applicantAddress: addressSchema(),
+      applicantAddress: addressSchema({ omit: ['street3'] }),
     },
     required: ['applicantAddress'],
   },
@@ -741,7 +748,10 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-address/:index',
       title: 'Address selection',
       ...applicantAddressSelectionPage,
-      CustomPage: ApplicantAddressCopyPage,
+      CustomPage: props => {
+        const opts = { ...props, dataKey: 'applicantAddress' };
+        return AddressSelectionPage(opts);
+      },
       depends: (formData, index) => page15aDepends(formData, index),
     }),
     page15: pageBuilder.itemPage({

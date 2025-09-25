@@ -20,12 +20,12 @@ describe('Pensions net worth asset alert', () => {
     });
   });
   context('Net worth estimation', () => {
-    it('should show an alert if assets are over 75000', () => {
+    it('should show an alert if assets are over 25000', () => {
       // start the form
       // earlier chapters have been prefilled
       cy.findByTestId('continue-your-application').click();
 
-      // select no to do you have >$75000 in assets
+      // select no to do you have >$25000 in assets
       cy.get(`va-radio-option[value="N"]`).click();
       cy.get('va-button[continue]').click();
 
@@ -36,12 +36,12 @@ describe('Pensions net worth asset alert', () => {
       cy.get('va-text-input[name="root_netWorthEstimation"]')
         .shadow()
         .find('input')
-        .type('75001');
+        .type('25001');
 
       // check warning exists
       cy.get('va-alert[status="warning"]').should(
         'contain.text',
-        'You answered that you have more than $75,000 in assets.',
+        'Because you have more than $25,000 in assets',
       );
       cy.injectAxe();
       cy.axeCheck();

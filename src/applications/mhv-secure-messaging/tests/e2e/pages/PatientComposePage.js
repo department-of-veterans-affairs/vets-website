@@ -447,9 +447,7 @@ class PatientComposePage {
   };
 
   verifyElectronicSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Electronic signature');
+    cy.findByText('Electronic signature').should('be.visible');
   };
 
   verifyElectronicSignatureRequired = () => {
@@ -526,7 +524,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsQuantityInGroup = (index, quantity) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .find('option')
@@ -534,7 +532,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsGroupName = (index, text) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .invoke('attr', 'label')
@@ -542,8 +540,10 @@ class PatientComposePage {
   };
 
   verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
-    cy.contains(recipientName)
-      .parent()
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup')
+      .contains(recipientName)
+      .parent('optgroup')
       .should('have.attr', 'label', facilityName);
   };
 
