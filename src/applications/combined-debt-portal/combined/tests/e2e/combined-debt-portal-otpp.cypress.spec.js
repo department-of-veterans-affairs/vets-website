@@ -81,7 +81,7 @@ describe('CDP - One Thing Per Page', () => {
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this bill');
         cy.get('@resolveLink').click();
-        cy.url().should('match', /\/copay-balances\/details\/[^/]+\/resolve$/);
+        cy.url().should('match', /\/copay-balances\/detail\/[^/]+\/resolve$/);
 
         cy.injectAxeThenAxeCheck();
       });
