@@ -172,7 +172,8 @@ describe('ArrayBuilderFirstItemPage', () => {
     ).to.exist;
   });
 
-  it('should display web component FormNav buttons', () => {
+  // unskip when we resolve https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4716
+  it.skip('should display web component FormNav buttons', () => {
     const { container, queryByText } = setupArrayBuilderItemPage({
       title: 'Single page employer',
       index: 0,
