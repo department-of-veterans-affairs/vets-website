@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   setPageFocus,
@@ -15,6 +14,7 @@ import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import ZeroDebtsCopaysSection from '../../combined/components/ZeroDebtsCopaysSection';
+import NeedHelp from '../components/NeedHelp';
 
 const renderAlert = (alertType, statements) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
@@ -143,21 +143,7 @@ const DebtLettersSummary = () => {
             </Link>
           </section>
         ) : null}
-        <va-need-help id="needHelp" class="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              If you have any questions about your benefit overpayment or if you
-              think your debt was created in an error, you can dispute it.
-              Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
-              or call the Debt Management Center at{' '}
-              <va-telephone contact={CONTACTS.DMC} /> (
-              <va-telephone contact="711" tty="true" />
-              ). For international callers, use{' '}
-              <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
+        <NeedHelp />
       </article>
     );
   };

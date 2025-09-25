@@ -1,4 +1,3 @@
-import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { validateWhiteSpace } from '@department-of-veterans-affairs/platform-forms/validations';
 import React, { useEffect } from 'react';
@@ -6,7 +5,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import InfoAlert from '../../components/InfoAlert';
-import NewTabAnchor from '../../components/NewTabAnchor';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import TextareaWidget from '../../components/TextareaWidget';
 import { FACILITY_TYPES, PURPOSE_TEXT_V2 } from '../../utils/constants';
@@ -20,6 +18,7 @@ import {
 } from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
 import AppointmentsRadioWidget from './AppointmentsRadioWidget';
+import UrgentCareLinks from './UrgentCareLinks';
 
 function isValidComment(value) {
   // exclude the ^ since the caret is a delimiter for MUMPS (Vista)
@@ -170,27 +169,7 @@ export default function ReasonForAppointmentPage() {
               className="vads-u-margin-y--3"
               level="2"
             >
-              <ul>
-                <li>
-                  Call <VaTelephone contact="911" />,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Call
-                  {
-                    // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
-                    <a href="tel:988">988 and select 1</a>
-                  }{' '}
-                  for the Veterans Crisis Line,{' '}
-                  <span className="vads-u-font-weight--bold">or</span>
-                </li>
-                <li>
-                  Go to your nearest emergency room or{' '}
-                  <NewTabAnchor href="/find-locations/?facilityType=urgent_care">
-                    urgent care facility (opens in a new tab)
-                  </NewTabAnchor>
-                </li>
-              </ul>
+              <UrgentCareLinks />
             </InfoAlert>
           </PostFormFieldContent>
           <FormButtons

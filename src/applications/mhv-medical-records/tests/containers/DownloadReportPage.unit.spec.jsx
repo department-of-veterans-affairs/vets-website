@@ -50,6 +50,10 @@ describe('DownloadRecordsPage', () => {
     fireEvent.click(ccdAccordion);
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonXml');
     expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download XML (best for sharing with your provider)',
+    );
 
     fireEvent.click(ccdGenerateButton);
     expect(screen.container.querySelector('#generating-ccd-indicator')).to
@@ -63,6 +67,10 @@ describe('DownloadRecordsPage', () => {
     fireEvent.click(ccdAccordion);
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonPdf');
     expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download PDF (best for printing)',
+    );
 
     fireEvent.click(ccdGenerateButton);
     expect(screen.container.querySelector('#generating-ccd-indicator')).to
@@ -76,6 +84,10 @@ describe('DownloadRecordsPage', () => {
     fireEvent.click(ccdAccordion);
     const ccdGenerateButton = screen.getByTestId('generateCcdButtonHtml');
     expect(ccdGenerateButton).to.exist;
+    expect(ccdGenerateButton).to.have.attribute(
+      'text',
+      'Download HTML (best for screen readers, enlargers, and refreshable Braille displays)',
+    );
 
     fireEvent.click(ccdGenerateButton);
     expect(screen.container.querySelector('#generating-ccd-indicator')).to

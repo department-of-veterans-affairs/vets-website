@@ -77,7 +77,7 @@ export const certifierRoleSchema = {
 export const certifierNameSchema = {
   uiSchema: {
     ...titleUI('Your name'),
-    certifierName: fullNameUI(),
+    certifierName: fullNameMiddleInitialUI,
     // TODO: get this validation back in place
     // 'ui:validations': [certifierNameValidation],
   },
@@ -85,7 +85,16 @@ export const certifierNameSchema = {
     type: 'object',
     required: ['certifierName'],
     properties: {
-      certifierName: fullNameSchema,
+      certifierName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
     },
   },
 };

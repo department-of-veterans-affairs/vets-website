@@ -2,7 +2,7 @@ import React from 'react';
 
 const HowDoIDispute = () => {
   return (
-    <div>
+    <section>
       <h2
         id="howDoIDispute"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
@@ -24,9 +24,8 @@ const HowDoIDispute = () => {
         href="/manage-va-debt/dispute-debt/"
         message-aria-describedby="Opens pay.va.gov"
         text="Dispute an overpayment online"
-        class="vads-u-margin-top--2"
       />
-    </div>
+    </section>
   );
 };
 

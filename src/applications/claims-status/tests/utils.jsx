@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 // When using react-router hooks, the component that uses the
 // hooks has to be wrapped in a <Router> component. This is a
@@ -27,5 +28,19 @@ export const rerenderWithRouter = (rerender, element) => {
         <Route index element={element} />
       </Routes>
     </MemoryRouter>,
+  );
+};
+
+// When using components that need both Redux state and React Router hooks, the component
+// has to be wrapped in both <Router> and Redux Provider components. This is a helper to
+// reduce the amount of code needed when calling the render method on a component
+export const renderWithReduxAndRouter = (element, options = {}) => {
+  return renderInReduxProvider(
+    <MemoryRouter>
+      <Routes>
+        <Route index element={element} />
+      </Routes>
+    </MemoryRouter>,
+    options,
   );
 };

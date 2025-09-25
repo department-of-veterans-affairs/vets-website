@@ -344,7 +344,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 download
                 href="#"
                 onClick={e => handleDownloadCCD(e, 'xml')}
-                text="Download Continuity of Care Document (XML)"
+                text="Download XML (best for sharing with your provider)"
                 data-testid="generateCcdButtonXml"
                 data-dd-action-name="Download CCD XML"
               />
@@ -354,7 +354,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                     download
                     href="#"
                     onClick={e => handleDownloadCCD(e, 'pdf')}
-                    text="Download Continuity of Care Document (PDF)"
+                    text="Download PDF (best for printing)"
                     data-testid="generateCcdButtonPdf"
                     data-dd-action-name="Download CCD PDF"
                     class="vads-u-margin-top--1"
@@ -363,7 +363,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                     download
                     href="#"
                     onClick={e => handleDownloadCCD(e, 'html')}
-                    text="Download Continuity of Care Document (HTML)"
+                    text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
                     data-testid="generateCcdButtonHtml"
                     data-dd-action-name="Download CCD HTML"
                     class="vads-u-margin-top--1"
