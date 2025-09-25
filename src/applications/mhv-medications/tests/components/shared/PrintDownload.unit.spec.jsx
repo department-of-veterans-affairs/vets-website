@@ -83,18 +83,18 @@ describe('Medications Print/Download button component', () => {
   it('button displays different text for list', () => {
     const screen = setup(handleFullListDownload, true, true);
 
-    const successMessage = screen.getByText(
-      'Download a PDF of all medications',
-    );
-    expect(successMessage).to.exist;
+    const printButton = screen.getByText('Print');
+    const pdfDownloadButton = screen.getByText('Download a PDF');
+    const textDownloadButton = screen.getByText('Download a text file (.txt)');
+    expect(printButton).to.exist;
+    expect(pdfDownloadButton).to.exist;
+    expect(textDownloadButton).to.exist;
   });
 
   it('should start downloading PDF on PDF button click', () => {
     setGlobalNavigator(true);
     const screen = setup(handleFullListDownload, false, true);
-    const downloadButton = screen.getByText(
-      'Download a PDF of all medications',
-    );
+    const downloadButton = screen.getByText('Download a PDF');
     fireEvent.click(downloadButton);
     expect(handleFullListDownload.getCalls().length).to.equal(1);
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.false;
@@ -104,9 +104,7 @@ describe('Medications Print/Download button component', () => {
   it('should start downloading TXT on TXT button click', () => {
     setGlobalNavigator(true);
     const screen = setup(handleFullListDownload, false, true);
-    const downloadButton = screen.getByText(
-      'Download a text file (.txt) of all medications',
-    );
+    const downloadButton = screen.getByText('Download a text file (.txt)');
     fireEvent.click(downloadButton);
     expect(handleFullListDownload.getCalls().length).to.equal(1);
     expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.false;
