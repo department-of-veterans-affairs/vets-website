@@ -36,9 +36,10 @@ const formConfig = {
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
       { href: '/', label: 'VA.gov home' },
+      { href: '/', label: 'Pension benefits' },
       {
         href: '/pension/medical-expense-report-form-21p-8416',
-        label: 'Medical expense report',
+        label: 'Report medical expenses',
       },
     ],
   }),

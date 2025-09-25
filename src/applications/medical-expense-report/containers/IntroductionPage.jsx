@@ -11,41 +11,54 @@ const OMB_RES_BURDEN = 30;
 const OMB_NUMBER = '2900-0161';
 const OMB_EXP_DATE = '10/31/2026';
 
+const exampleExpenses = [
+  { id: 1, name: 'Hospital expenses' },
+  { id: 2, name: 'Doctor’s office fees' },
+  { id: 3, name: 'Dental fees' },
+  { id: 4, name: 'Nursing home costs' },
+  { id: 5, name: 'Hearing aid costs' },
+  { id: 6, name: 'Home health service expenses' },
+  { id: 7, name: 'Prescription/non-prescription drug costs' },
+  {
+    id: 8,
+    name:
+      'Expenses related to transportation to a hospital, doctor or other medical facility',
+  },
+  { id: 9, name: 'Vision care costs' },
+  { id: 10, name: 'Medical insurance premiums' },
+  { id: 11, name: 'Monthly Medicare deduction' },
+];
+
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check that your expenses qualify">
+        <h4>Here are some examples of expenses you may include:</h4>
         <ul>
-          <li>Social Security number (required)</li>
+          {exampleExpenses.map(item => (
+            <li key={item.id}>{item.name}</li>
+          ))}
         </ul>
-        <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
-        </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
+      <va-process-list-item header="Gather your information">
+        <h4>Here’s what you’ll need to apply:</h4>
+        <ul>
+          <li>Veteran Social Security number or VA file number</li>
+        </ul>
+        <h4>You’ll also need this medical expense information:</h4>
+        <ul>
+          <li>The date of each of each expense</li>
+          <li>The amount you paid for each expense</li>
+          <li>The name of the provider</li>
+        </ul>
       </va-process-list-item>
-      <va-process-list-item header="VA Review">
+      <va-process-list-item header="Start your application">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          We’ll take you through each step of the process. The time it takes to
+          complete the application varies. It depends on what supporting
+          documents you’re required to submit. We’ll let you know what
+          supporting documents are required for you as you fill out the
+          application.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -67,6 +80,12 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <p>
+        Use our online tool to report medical or dental expenses that you have
+        paid for yourself or for a family member living in your household. These
+        must be expenses you weren’t reimbursed for and don’t expect to be
+        reimbursed for.
+      </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for medical expense.
       </h2>

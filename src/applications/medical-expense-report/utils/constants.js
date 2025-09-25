@@ -1,2 +1,2 @@
-export const TITLE = '21P-8416 Medical expense report form';
-export const SUBTITLE = 'medical expense (VA Form 21P-8416)';
+export const TITLE = 'Report medical expenses';
+export const SUBTITLE = 'Medical Expense Report VA Form 21P-8416';
