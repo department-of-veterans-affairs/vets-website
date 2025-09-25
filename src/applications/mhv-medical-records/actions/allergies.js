@@ -2,8 +2,6 @@ import { Actions } from '../util/actionTypes';
 import {
   getAllergies,
   getAllergy,
-  getAcceleratedAllergies,
-  getAcceleratedAllergy,
   getAllergiesWithOHData,
   getAllergyWithOHData,
 } from '../api/MrApi';
@@ -25,16 +23,12 @@ export const getAllergiesList = (
     let getData;
     let actionType;
 
-    if (isAccelerating) {
-      // Path 1: v2 SCDF endpoint (flag-enabled users)
-      getData = getAcceleratedAllergies;
-      actionType = Actions.Allergies.GET_UNIFIED_LIST;
-    } else if (isCerner) {
-      // Path 2: v1 OH endpoint (Cerner patients)
+    if (isAccelerating || isCerner) {
+      // Path 1: v1 OH endpoint (flag-enabled users OR Cerner patients)
       getData = getAllergiesWithOHData;
       actionType = Actions.Allergies.GET_LIST;
     } else {
-      // Path 3: v1 regular endpoint (VistA patients)
+      // Path 2: v1 regular endpoint (VistA patients)
       getData = getAllergies;
       actionType = Actions.Allergies.GET_LIST;
     }
@@ -61,16 +55,12 @@ export const getAllergyDetails = (
     let getDetailsFunc;
     let actionType;
 
-    if (isAccelerating) {
-      // Path 1: v2 SCDF endpoint (flag-enabled users)
-      getDetailsFunc = getAcceleratedAllergy;
-      actionType = Actions.Allergies.GET_UNIFIED_ITEM;
-    } else if (isCerner) {
-      // Path 2: v1 OH endpoint (Cerner patients)
+    if (isAccelerating || isCerner) {
+      // Path 1: v1 OH endpoint (flag-enabled users OR Cerner patients)
       getDetailsFunc = getAllergyWithOHData;
       actionType = Actions.Allergies.GET;
     } else {
-      // Path 3: v1 regular endpoint (VistA patients)
+      // Path 2: v1 regular endpoint (VistA patients)
       getDetailsFunc = getAllergy;
       actionType = Actions.Allergies.GET;
     }
