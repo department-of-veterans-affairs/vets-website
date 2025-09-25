@@ -28,7 +28,7 @@ const testConfig = createTestConfig(
             '@getDirectDeposit',
             '@getVamcEhr',
           ]);
-          cy.findByText('Begin your application for education benefits', {
+          cy.findByText('Start your application for benefits', {
             selector: 'h2',
           }).should('exist');
 
