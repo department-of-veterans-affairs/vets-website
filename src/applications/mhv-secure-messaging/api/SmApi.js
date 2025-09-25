@@ -187,7 +187,9 @@ export const updateReplyDraft = (replyToId, draftMessageId, message) => {
 export const createMessage = (sendData, attachmentFlag, ohTriageGroup) => {
   if (attachmentFlag === false) {
     return apiRequest(
-      `${apiBasePath}/messaging/messages?is_oh_triage_group=${ohTriageGroup}`,
+      `${apiBasePath}/messaging/messages${
+        ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+      }`,
       {
         method: 'POST',
         headers: {
@@ -198,7 +200,9 @@ export const createMessage = (sendData, attachmentFlag, ohTriageGroup) => {
     );
   }
   return apiRequest(
-    `${apiBasePath}/messaging/messages?is_oh_triage_group=${ohTriageGroup}`,
+    `${apiBasePath}/messaging/messages${
+      ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+    }`,
     {
       method: 'POST',
       body: sendData,
@@ -219,7 +223,9 @@ export const createReplyToMessage = (
 ) => {
   if (attachmentFlag === false) {
     return apiRequest(
-      `${apiBasePath}/messaging/messages/${replyToId}/reply?is_oh_triage_group=${ohTriageGroup}`,
+      `${apiBasePath}/messaging/messages/${replyToId}/reply${
+        ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+      }`,
       {
         method: 'POST',
         headers: {
@@ -230,7 +236,9 @@ export const createReplyToMessage = (
     );
   }
   return apiRequest(
-    `${apiBasePath}/messaging/messages/${replyToId}/reply?is_oh_triage_group=${ohTriageGroup}`,
+    `${apiBasePath}/messaging/messages/${replyToId}/reply${
+      ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+    }`,
     {
       method: 'POST',
       body: sendData,
