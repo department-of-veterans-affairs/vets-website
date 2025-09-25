@@ -12,12 +12,16 @@ export function isSeparated(formData) {
 }
 
 /**
- * Determines if the formData.maritalStatus qualifies as "married".
- * Behavior changes depending on the `showPdfFormAlignment` toggle:
- * - If toggle is true: includes MARRIED, WIDOWED, DIVORCED, SEPARATED
- * - If toggle is false: only includes MARRIED, SEPARATED
+ * Determines if the Veteran's marital status requires providing marriage history.
+ *
+ * Behavior depends on the `showPdfFormAlignment` feature toggle:
+ * - When enabled: marriage history is required for MARRIED, SEPARATED, WIDOWED, or DIVORCED
+ * - When disabled: marriage history is required only for MARRIED or SEPARATED
+ *
+ * @param {Object} formData - The form data containing maritalStatus
+ * @returns {boolean} True if marriage history should be collected
  */
-export function isMarried(formData = {}) {
+export function hasMarriageHistory(formData = {}) {
   const pdfAlignmentEnabled = showPdfFormAlignment();
 
   const validStatuses = pdfAlignmentEnabled
@@ -31,19 +35,42 @@ export function doesHaveDependents(formData) {
   return get(['view:hasDependents'], formData) === true;
 }
 
-export function isCurrentMarriage(formData, index) {
-  const numMarriages =
-    formData && formData.marriages ? formData.marriages.length : 0;
-  return isMarried(formData) && numMarriages - 1 === index;
+export function isCurrentMarriage(formData = {}, index) {
+  const numMarriages = Array.isArray(formData.marriages)
+    ? formData.marriages.length
+    : 0;
+
+  return (
+    ['MARRIED', 'SEPARATED'].includes(formData.maritalStatus) &&
+    numMarriages - 1 === index
+  );
+}
+
+/**
+ * Determines if spouse information pages are required.
+ *
+ * Spouse info is required when maritalStatus is either:
+ * - MARRIED
+ * - SEPARATED
+ *
+ * @param {object} formData - The form data
+ * @returns {boolean} True if spouse info pages should be shown
+ */
+export function requiresSpouseInfo(formData = {}) {
+  return ['MARRIED', 'SEPARATED'].includes(formData.maritalStatus);
 }
 
 export function currentSpouseHasFormerMarriages(formData) {
-  return isMarried(formData) && formData.currentSpouseMaritalHistory === 'YES';
+  return (
+    hasMarriageHistory(formData) &&
+    formData.currentSpouseMaritalHistory === 'YES'
+  );
 }
 
 export function showSpouseAddress(formData) {
   return (
-    isMarried(formData) &&
+    hasMarriageHistory(formData) &&
+    requiresSpouseInfo(formData) &&
     (formData.maritalStatus === 'SEPARATED' ||
       get(['view:liveWithSpouse'], formData) === false)
   );
@@ -75,8 +102,15 @@ export function getMarriageTitle(index) {
   return `${titleCase(desc)} marriage`;
 }
 
-export function getMarriageTitleWithCurrent(form, index) {
-  if (isMarried(form) && form.marriages.length - 1 === index) {
+export function getMarriageTitleWithCurrent(form = {}, index) {
+  const numMarriages = Array.isArray(form.marriages)
+    ? form.marriages.length
+    : 0;
+
+  if (
+    ['MARRIED', 'SEPARATED'].includes(form.maritalStatus) &&
+    numMarriages - 1 === index
+  ) {
     return 'Current marriage';
   }
 
