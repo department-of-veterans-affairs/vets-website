@@ -6,7 +6,7 @@ import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-te
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-import { pageHooks } from './995.cypress.helpers';
+import { setupPerTest, pageHooks } from './995.cypress.helpers';
 
 const testConfig = createTestConfig(
   {
@@ -18,13 +18,10 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     pageHooks,
-<<<<<<< HEAD
     setupPerTest: data => {
       const toggles = [];
       setupPerTest(data, toggles);
     },
-=======
->>>>>>> 299a276925 (Fixing unit and Cypress tests)
   },
   manifest,
   formConfig,
