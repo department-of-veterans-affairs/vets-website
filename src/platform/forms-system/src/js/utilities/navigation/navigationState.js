@@ -1,4 +1,4 @@
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /**
  * Use this module in a validation function to determine if validation
@@ -24,10 +24,20 @@ const navigationState = {
      * the path check is relevant only to file input / multiple file input / international telephone
      * in which navigation status is checked on initial page load validation
      */
-    if (environment.isTest() && !environment.isUnitTest()) {
-      return this._navigationEvent;
-    }
+    // if (environment.isTest() && !environment.isUnitTest()) {
+    //   return this._navigationEvent;
+    // }
     // only return true if the navigation happened on the current page
+    // eslint-disable-next-line no-console
+    console.log(
+      'the status is',
+      this._navigationEvent,
+      'and the current path is',
+      this._currentPath,
+      'and the window.location.href is',
+      window.location.href,
+      Date.now(),
+    );
     return this._navigationEvent && this._currentPath === window.location.href;
   },
 };
