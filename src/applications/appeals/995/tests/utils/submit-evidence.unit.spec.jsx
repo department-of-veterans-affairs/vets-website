@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
 import {
-  EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
+  LIMITED_CONSENT_RESPONSE,
   SC_NEW_FORM_DATA,
 } from '../../constants';
 import {
@@ -460,7 +460,10 @@ describe('getForm4142', () => {
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
-    expect(getForm4142(data)).to.deep.equal(getData(true));
+    expect(getForm4142(data)).to.deep.equal({
+      ...getData(true),
+      limitedConsent: '',
+    });
   });
 
   it('should return 4142 form data', () => {
@@ -468,8 +471,12 @@ describe('getForm4142', () => {
       [EVIDENCE_PRIVATE]: true,
       ...getData(),
     };
-    expect(getForm4142(data)).to.deep.equal(getData(true));
+    expect(getForm4142(data)).to.deep.equal({
+      ...getData(true),
+      limitedConsent: '',
+    });
   });
+
   it('should return empty object since private evidence not selected', () => {
     const data = {
       [EVIDENCE_PRIVATE]: false,
@@ -484,32 +491,53 @@ describe('getForm4142', () => {
     };
     data.providerFacility.push(data.providerFacility[0]); // add duplicate
     expect(data.providerFacility.length).to.eq(3);
-    expect(getForm4142(data)).to.deep.equal(getData(true));
+    expect(getForm4142(data)).to.deep.equal({
+      ...getData(true),
+      limitedConsent: '',
+    });
   });
 
-  it('should return 4142 form data with limited consent when y/n is set to yes', () => {
+  it('should return with limited consent when y/n is set to yes', () => {
     const data = {
       [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
-      [EVIDENCE_LIMIT]: true,
+      [LIMITED_CONSENT_RESPONSE]: true,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
     expect(getForm4142(data)).to.deep.equal(getData(true));
   });
 
-  it('should return 4142 form data with no limited consent when y/n is set to no', () => {
+  it('should return with empty limited consent when y/n is set to no', () => {
     const data = {
       [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
-      [EVIDENCE_LIMIT]: false,
+      [LIMITED_CONSENT_RESPONSE]: false,
       ...getData(),
       privacyAgreementAccepted: undefined,
     };
+
     const result = {
       ...getData(true),
       limitedConsent: '',
     };
+
+    expect(getForm4142(data)).to.deep.equal(result);
+  });
+
+  it('should return with empty limited consent when y/n is not set at all', () => {
+    const data = {
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      ...getData(),
+      privacyAgreementAccepted: undefined,
+    };
+
+    const result = {
+      ...getData(true),
+      limitedConsent: '',
+    };
+
     expect(getForm4142(data)).to.deep.equal(result);
   });
 });
