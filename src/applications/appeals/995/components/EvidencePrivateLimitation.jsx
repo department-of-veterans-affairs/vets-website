@@ -9,7 +9,6 @@ import {
 } from '../constants';
 
 import { content } from '../content/evidencePrivateLimitation';
-import { showScNewForm } from '../utils/toggle';
 
 import { customPageProps995 } from '../../shared/props';
 
@@ -22,15 +21,9 @@ const EvidencePrivateLimitation = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const showNewContent = showScNewForm(data);
-
   // Set y/n value, if textarea is already filled
   useEffect(() => {
-    if (
-      showNewContent &&
-      typeof data[EVIDENCE_LIMIT] === 'undefined' &&
-      data.limitedConsent
-    ) {
+    if (typeof data[EVIDENCE_LIMIT] === 'undefined' && data.limitedConsent) {
       setFormData({
         ...data,
         [EVIDENCE_LIMIT]: true,

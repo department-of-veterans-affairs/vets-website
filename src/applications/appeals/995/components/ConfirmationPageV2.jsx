@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
+import { EVIDENCE_LIMIT } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -55,10 +55,9 @@ export const ConfirmationPageV2 = () => {
   const otherEvidence = getOtherEvidence(data);
   const noEvidence =
     vaEvidence.length + privateEvidence.length + otherEvidence.length === 0;
-  const showScNewForm = data[SC_NEW_FORM_DATA];
 
   let mstOptionText = '';
-  if (showScNewForm && typeof data.mstOption === 'boolean') {
+  if (typeof data.mstOption === 'boolean') {
     mstOptionText = data.mstOption ? 'Yes' : 'No';
   }
 
@@ -66,9 +65,7 @@ export const ConfirmationPageV2 = () => {
     submission?.timestamp || new Date().toISOString(),
   );
 
-  const livingSituation = showScNewForm ? (
-    <LivingSituation data={data} />
-  ) : null;
+  const livingSituation = <LivingSituation data={data} />;
 
   return (
     <>
@@ -146,7 +143,7 @@ export const ConfirmationPageV2 = () => {
         userFullName={profile.userFullName}
         veteran={data.veteran}
         hasHomeAndMobilePhone
-        livingSituation={showScNewForm ? livingSituation : null}
+        livingSituation={livingSituation}
         formData={data}
       />
 
@@ -171,19 +168,17 @@ export const ConfirmationPageV2 = () => {
           </div>
         </li>
 
-        {showScNewForm && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {facilityTypeTitle}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-dd-action-name="facility types selected"
-            >
-              {facilityTypeList(data.facilityTypes) || 'None selected'}
-            </div>
-          </li>
-        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {facilityTypeTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="facility types selected"
+          >
+            {facilityTypeList(data.facilityTypes) || 'None selected'}
+          </div>
+        </li>
       </ul>
 
       {noEvidence && (
@@ -196,12 +191,7 @@ export const ConfirmationPageV2 = () => {
       )}
 
       {vaEvidence.length ? (
-        <EvidenceVaContent
-          list={vaEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly />
       ) : null}
 
       {privateEvidence.length ? (
@@ -211,56 +201,48 @@ export const ConfirmationPageV2 = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          showScNewForm={showScNewForm}
-          showLimitedConsentYN={showScNewForm && data[EVIDENCE_LIMIT]}
+          showLimitedConsentYN={data[EVIDENCE_LIMIT]}
         />
       ) : null}
 
       {otherEvidence.length ? (
-        <EvidenceUploadContent
-          list={otherEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}
 
-      {showScNewForm && (
-        <>
-          <h3 className={chapterHeaderClass}>VHA indicator</h3>
+      <>
+        <h3 className={chapterHeaderClass}>VHA indicator</h3>
 
-          {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
-              a problem with Safari not treating the `ul` as a list. */}
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
+        {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+            a problem with Safari not treating the `ul` as a list. */}
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              {optionForMstTitle}
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="option for MST"
+            >
+              {mstOptionText}
+            </div>
+          </li>
+          {data.mstOption && (
             <li>
               <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                {optionForMstTitle}
+                {optionIndicatorLabel}
               </div>
               <div
                 className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                data-dd-action-name="option for MST"
+                data-dd-action-name="MST option indicator"
               >
-                {mstOptionText}
+                {optionIndicatorChoices[data.optionIndicator] ??
+                  'None selected'}
               </div>
             </li>
-            {data.mstOption && (
-              <li>
-                <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                  {optionIndicatorLabel}
-                </div>
-                <div
-                  className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                  data-dd-action-name="MST option indicator"
-                >
-                  {optionIndicatorChoices[data.optionIndicator] ??
-                    'None selected'}
-                </div>
-              </li>
-            )}
-          </ul>
-        </>
-      )}
+          )}
+        </ul>
+      </>
 
       <ConfirmationReturnLink />
     </>

@@ -1,8 +1,6 @@
 import { MST_OPTION } from '../../constants';
 import { optionForMstChoices } from '../../content/optionIndicator';
 
-import { showScNewForm } from '../toggle';
-
 /*
 
 "mstUpcomingEventDisclosure": {
@@ -19,7 +17,7 @@ import { showScNewForm } from '../toggle';
 
 export const getMstData = formData => {
   const result = {};
-  if (showScNewForm(formData) && formData[MST_OPTION]) {
+  if (formData[MST_OPTION]) {
     const value = optionForMstChoices[formData.optionIndicator] || '';
     if (value) {
       result.mstUpcomingEventDisclosure = value;
