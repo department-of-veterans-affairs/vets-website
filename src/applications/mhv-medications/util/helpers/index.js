@@ -2,7 +2,6 @@ export { convertHtmlForDownload } from './convertHtmlForDownload';
 export { convertPrescription } from './convertPrescription';
 export { createBreadcrumbs } from './createBreadcrumbs';
 export { createNoDescriptionText } from './createNoDescriptionText';
-export { createOriginalFillRecord } from './getRefillHistory';
 export { createVAPharmacyText } from './createVAPharmacyText';
 export { dateFormat } from './dateFormat';
 export { determineRefillLabel } from './determinRefillLabel';
