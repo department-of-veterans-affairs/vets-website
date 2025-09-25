@@ -79,83 +79,53 @@ class ArrayField extends React.Component {
     }
   }
 
-  getItemSchema(index) {
-    const { schema } = this.props;
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-
-    return schema.additionalItems;
-  }
-
-  /**
-   * Scroll to an element, then focus on a button within the element
-   * @param {string} scrollElementName - element with "name" attribute to scroll
-   *   to
-   * @param {string} focusElementSelector - element to focus within element
-   */
-  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
-    if (scrollElementName) {
-      setTimeout(() => {
-        scrollTo(
-          scrollElementName,
-          window.Forms?.scroll || {
-            duration: 500,
-            delay: 0,
-            smooth: true,
-            offset: -60,
-          },
-        );
-        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, scrollToTimeout);
-    }
-  }
-
-  scrollToRow(id) {
-    setTimeout(() => {
-      scrollTo(
-        `table_${id}`,
-        window.Forms?.scroll || {
-          duration: 500,
-          delay: 0,
-          smooth: true,
-          offset: 0,
-        },
-      );
-    }, scrollToTimeout);
-  }
-
   /*
    * Clicking edit on the item in review mode
    */
   handleEdit(index, status = true) {
-    this.setState(set(['editing', index], status, this.state), () => {
-      const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
-      this.scrollToRow(id);
-      focusElement(`#table_${id}`);
-    });
+    this.setState(
+      prevState => set(['editing', index], status, prevState),
+      () => {
+        const id = `${this.props.path[this.props.path.length - 1]}_${index}`;
+        this.scrollToRow(id);
+        focusElement(`#table_${id}`);
+      },
+    );
   }
 
   /*
    * Clicking Add Another in the header of the array field section
    */
   handleAdd() {
+    const newItem =
+      getDefaultFormState(
+        this.getItemSchema(this.state.items.length),
+        undefined,
+        this.props.schema.definitions,
+      ) || {};
+
     const newState = {
-      items: this.state.items.concat(
-        getDefaultFormState(
-          this.getItemSchema(this.state.items.length),
-          undefined,
-          this.props.schema.definitions,
-        ) || {},
-      ),
+      items: this.state.items.concat(newItem),
       editing: this.state.editing.concat(true),
     };
+
     this.setState(newState, () => {
       this.scrollToRow(
         `${this.props.path[this.props.path.length - 1]}_${this.state.items
           .length - 1}`,
       );
     });
+
+    const newItemIndex = newState.items.length - 1;
+
+    // This conditional allows Form 526's implementation of VACheckboxGroupField to get the form data passed down to just-added provider facility
+    // See https://github.com/department-of-veterans-affairs/vets-website/pull/38788/
+    if (
+      this.props?.trackingPrefix === 'disability-526EZ-' &&
+      this.props?.pageKey === 'privateMedicalRecordsRelease'
+    ) {
+      this.handleSetData(newItemIndex, newItem);
+    }
   }
 
   /**
@@ -188,10 +158,15 @@ class ArrayField extends React.Component {
    */
   handleSetData(index, data) {
     const { path, formData } = this.props;
-    const newArray = set(index, data, this.state.items);
-    this.setState({ items: newArray }, () => {
-      this.props.setData(set(path, newArray, formData));
-    });
+    this.setState(
+      prevState => {
+        const newArray = set(index, data, prevState.items);
+        return { items: newArray };
+      },
+      () => {
+        this.props.setData(set(path, this.state.items, formData));
+      },
+    );
   }
 
   /**
@@ -219,8 +194,55 @@ class ArrayField extends React.Component {
     });
   }
 
+  getItemSchema(index) {
+    const { schema } = this.props;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
+  }
+
   isLocked() {
     return this.props.uiSchema['ui:field'] === 'BasicArrayField';
+  }
+
+  /**
+   * Scroll to an element, then focus on a button within the element
+   * @param {string} scrollElementName - element with "name" attribute to scroll
+   *   to
+   * @param {string} focusElementSelector - element to focus within element
+   */
+  scrollToAndFocus(scrollElementName, focusElementSelector = '') {
+    if (scrollElementName) {
+      setTimeout(() => {
+        scrollTo(
+          scrollElementName,
+          window.Forms?.scroll || {
+            duration: 500,
+            delay: 0,
+            smooth: true,
+            offset: -60,
+          },
+        );
+        focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
+      }, this.constructor.scrollToTimeout || scrollToTimeout);
+    }
+  }
+
+  scrollToRow(id) {
+    // Use 'this' to access scrollToTimeout from the class context
+    setTimeout(() => {
+      scrollTo(
+        `table_${id}`,
+        window.Forms?.scroll || {
+          duration: 500,
+          delay: 0,
+          smooth: true,
+          offset: 0,
+        },
+      );
+    }, this.constructor.scrollToTimeout || scrollToTimeout);
   }
 
   render() {
@@ -333,6 +355,7 @@ class ArrayField extends React.Component {
                               <button
                                 type="submit"
                                 className="float-left"
+                                text="Update"
                                 aria-label={`Update ${itemName}`}
                               >
                                 Update
@@ -467,5 +490,7 @@ ArrayField.propTypes = {
   }),
   formData: PropTypes.object,
   pageTitle: PropTypes.string,
+  setData: PropTypes.func,
   uiSchema: PropTypes.object,
+  onBlur: PropTypes.func,
 };

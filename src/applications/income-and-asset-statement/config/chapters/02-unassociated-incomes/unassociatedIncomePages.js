@@ -161,7 +161,7 @@ const summaryPage = {
 };
 
 /** @returns {PageSchema} */
-const updatedSummaryPage = {
+const veteranSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -181,7 +181,7 @@ const updatedSummaryPage = {
 };
 
 /** @returns {PageSchema} */
-const updatedSpouseSummaryPage = {
+const spouseSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -200,7 +200,7 @@ const updatedSpouseSummaryPage = {
 };
 
 /** @returns {PageSchema} */
-const updatedChildSummaryPage = {
+const childSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -219,8 +219,27 @@ const updatedChildSummaryPage = {
   },
 };
 
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
 /** @returns {PageSchema} */
-const updatedCustodianSummaryPage = {
+const custodianSummaryPage = {
   uiSchema: {
     'view:isAddingUnassociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -477,15 +496,12 @@ const incomeTypePage = {
 export const unassociatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    unassociatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
+    unassociatedIncomePagesVeteranSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
-      path: 'recurring-income-summary-updated',
+      path: 'recurring-income-summary-veteran',
       depends: formData =>
-        showUpdatedContent() &&
-        formData.claimantType !== 'SPOUSE' &&
-        formData.claimantType !== 'CHILD' &&
-        formData.claimantType !== 'CUSTODIAN',
-      uiSchema: updatedSummaryPage.uiSchema,
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedSpouseSummary: pageBuilder.summaryPage({
@@ -493,7 +509,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'recurring-income-summary-spouse',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'SPOUSE',
-      uiSchema: updatedSpouseSummaryPage.uiSchema,
+      uiSchema: spouseSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedChildSummary: pageBuilder.summaryPage({
@@ -501,7 +517,7 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'recurring-income-summary-child',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CHILD',
-      uiSchema: updatedChildSummaryPage.uiSchema,
+      uiSchema: childSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     unassociatedIncomePagesUpdatedCustodianSummary: pageBuilder.summaryPage({
@@ -509,7 +525,15 @@ export const unassociatedIncomePages = arrayBuilderPages(
       path: 'recurring-income-summary-custodian',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
-      uiSchema: updatedCustodianSummaryPage.uiSchema,
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    unassociatedIncomePagesUpdatedParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'recurring-income-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
