@@ -122,7 +122,7 @@ const formConfig = {
           pageClass: 'preparer-type',
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
-          initialData: getMockData(mockData, isLocalhost),
+          // initialData: getMockData(mockData, isLocalhost),
         },
         thirdPartyVeteranIdentityPage: {
           depends: formData =>
