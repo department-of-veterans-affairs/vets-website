@@ -109,6 +109,7 @@ export const Edit = () => {
 
   useEffect(
     () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
       // Set initial focus on the page heading for keyboard navigation
       if (fieldInfo && !hasVAPServiceError) {
         const headingElement = document.querySelector('h1');
@@ -121,7 +122,7 @@ export const Edit = () => {
         }
       }
     },
-    [fieldInfo, hasVAPServiceError],
+    [editPageHeadingString, fieldInfo, hasVAPServiceError],
   );
 
   useEffect(() => {
@@ -173,13 +174,6 @@ export const Edit = () => {
       }
     },
     [hasUnsavedEdits, hasBeforeUnloadListener],
-  );
-
-  useEffect(
-    () => {
-      document.title = `${editPageHeadingString} | Veterans Affairs`;
-    },
-    [editPageHeadingString],
   );
 
   const handlers = {
