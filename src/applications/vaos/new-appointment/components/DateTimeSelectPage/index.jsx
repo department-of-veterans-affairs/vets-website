@@ -256,7 +256,7 @@ export default function DateTimeSelectPage() {
         !loadingSlots &&
         appointmentSlotsStatus !== FETCH_STATUS.failed
       ) {
-        scrollAndFocus('h2');
+        scrollAndFocus('h1');
       } else if (
         (!loadingSlots && isInitialLoad) ||
         appointmentSlotsStatus === FETCH_STATUS.failed
