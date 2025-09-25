@@ -66,7 +66,7 @@ const ChemHemDetails = props => {
     // Test to see if formatDateLong and formatBirthDate return the same value for the user's
     // date of birth. If not, throw an error that will get picked up by Datadog that indicates
     // which date is earlier.
-    asyncErrorForUnequalBirthDates('1980-09-01');
+    asyncErrorForUnequalBirthDates(user.dob);
 
     setDownloadStarted(true);
     const { title, subject, subtitles } = generateLabsIntro(record);
