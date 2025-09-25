@@ -15,6 +15,7 @@ import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
 import getNewAppointmentFlow from '../newAppointmentFlow';
+import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -36,6 +37,16 @@ function Nav({ pageTitle }) {
   const history = useHistory();
   const location = useLocation();
   const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
+
+  if (featureImmediateCareAlert && location.pathname === '/schedule')
+    return (
+      <Breadcrumbs>
+        <a href="/my-health/appointments/schedule">{pageTitle}</a>
+      </Breadcrumbs>
+    );
 
   if (location.pathname === '/schedule/type-of-care')
     return (

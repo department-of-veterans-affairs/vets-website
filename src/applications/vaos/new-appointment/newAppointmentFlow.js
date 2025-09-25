@@ -372,6 +372,11 @@ export default function getNewAppointmentFlow(state) {
         : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
     },
+    urgentCareInformation: {
+      url: '/schedule',
+      label: 'Only schedule appointments for non-urgent needs',
+      next: 'typeOfCare',
+    },
     vaccineFlow: {
       url:
         // IMPORTANT!!!

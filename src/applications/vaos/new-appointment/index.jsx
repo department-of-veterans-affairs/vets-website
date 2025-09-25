@@ -35,6 +35,8 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import ScheduleCernerPage from './components/ScheduleCernerPage';
+import UrgentCareInformationPage from './components/UrgentCareInformationPage';
+import { selectFeatureImmediateCareAlert } from '../redux/selectors';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
@@ -42,6 +44,9 @@ export function NewAppointment() {
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
 
   useManualScrollRestoration();
 
@@ -164,9 +169,21 @@ export function NewAppointment() {
         >
           <ReviewPage />
         </Route>
-        <Route path={match.url}>
-          <TypeOfCarePage />
-        </Route>
+        {featureImmediateCareAlert && (
+          <>
+            <Route path={`${match.url}/type-of-care`}>
+              <TypeOfCarePage />
+            </Route>
+            <Route path={match.url}>
+              <UrgentCareInformationPage />
+            </Route>
+          </>
+        )}
+        {!featureImmediateCareAlert && (
+          <Route path={match.url}>
+            <TypeOfCarePage />
+          </Route>
+        )}
       </Switch>
     </FormLayout>
   );
