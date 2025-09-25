@@ -33,9 +33,6 @@ describe('ErrorNotification component', () => {
 
     expect(errorDescription.exists()).to.be.true;
     expect(errorDescription.text()).to.equal(defaultConfig.description);
-    expect(errorDescription.prop('aria-label')).to.equal(
-      'Error requesting refill',
-    );
   });
 
   it('displays the correct suggestion message', () => {
@@ -46,8 +43,5 @@ describe('ErrorNotification component', () => {
 
     expect(suggestionMessage.exists()).to.be.true;
     expect(suggestionMessage.text()).to.equal(defaultConfig.suggestion);
-    expect(suggestionMessage.prop('aria-label')).to.equal(
-      'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
-    );
   });
 });

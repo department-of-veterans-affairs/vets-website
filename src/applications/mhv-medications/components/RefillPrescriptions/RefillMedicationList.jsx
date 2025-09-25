@@ -12,7 +12,6 @@ export const RefillMedicationList = ({
     <ul className="va-list--disc" data-dd-privacy="mask" data-testid={testId}>
       {medications.map((medication, idx) => (
         <li
-          aria-label={medication?.prescriptionName}
           className={`vads-u-padding-y--0 ${
             showBold ? 'vads-u-font-weight--bold' : ''
           }`}

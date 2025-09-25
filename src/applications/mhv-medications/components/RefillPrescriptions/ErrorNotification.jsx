@@ -4,15 +4,8 @@ import { RefillAlert } from './RefillAlert';
 
 export const ErrorNotification = ({ config }) => (
   <RefillAlert config={config}>
-    <p
-      aria-label="Error requesting refill"
-      data-testid="error-refill-description"
-    >
-      {config.description}
-    </p>
-    <p aria-label={config.suggestion} data-testid="error-refill-suggestion">
-      {config.suggestion}
-    </p>
+    <p data-testid="error-refill-description">{config.description}</p>
+    <p data-testid="error-refill-suggestion">{config.suggestion}</p>
   </RefillAlert>
 );
 

@@ -352,14 +352,14 @@ class MedicationsRefillPage {
   };
 
   verifyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="error-refill-title"]', { includeShadowDom: true })
+    cy.findByTestId('error-refill-title', { includeShadowDom: true })
       .should('be.visible')
       .first()
       .and('have.text', text);
   };
 
   verifyPartiallyFailedRequestMessageAlertOnRefillPage = text => {
-    cy.get('[data-testid="partial-refill-title"]', {
+    cy.findByTestId('partial-refill-title', {
       includeShadowDom: true,
     })
       .should('be.visible')

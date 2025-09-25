@@ -5,16 +5,13 @@ import { RefillMedicationList } from './RefillMedicationList';
 
 export const PartialRefillNotification = ({ config, failedMeds }) => (
   <RefillAlert config={config}>
-    <p aria-label={config.description} data-testid="partial-refill-description">
-      {config.description}
-    </p>
+    <p data-testid="partial-refill-description">{config.description}</p>
     <RefillMedicationList
       medications={failedMeds}
       testId="failed-medication-list"
       showBold
     />
     <p
-      aria-label={config.suggestion}
       className="vads-u-margin-bottom--0"
       data-testid="partial-refill-suggestion"
     >

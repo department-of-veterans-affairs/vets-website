@@ -19,7 +19,7 @@ export const SuccessNotification = ({
       className="vads-u-margin-y--0"
       data-testid="success-refill-description"
     >
-      <p aria-label={config.description}>{config.description}</p>
+      <p>{config.description}</p>
       <Link
         data-testid="back-to-medications-page-link"
         to="/"

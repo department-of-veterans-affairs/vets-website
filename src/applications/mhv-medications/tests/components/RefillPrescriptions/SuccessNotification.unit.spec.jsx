@@ -76,9 +76,6 @@ describe('SuccessNotification component', () => {
     expect(descriptionContainer.exists()).to.be.true;
     expect(descriptionParagraph.exists()).to.be.true;
     expect(descriptionParagraph.text()).to.equal(defaultConfig.description);
-    expect(descriptionParagraph.prop('aria-label')).to.equal(
-      defaultConfig.description,
-    );
   });
 
   it('renders Link component with correct props', () => {

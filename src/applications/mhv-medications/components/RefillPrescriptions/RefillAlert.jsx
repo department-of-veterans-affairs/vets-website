@@ -7,7 +7,7 @@ export const RefillAlert = ({ config, children, additionalProps = {} }) => {
       id={config.id}
       data-testid={config.testId}
       status={config.status}
-      setFocus
+      set-focus
       uswds
       class={config.className}
       {...additionalProps}

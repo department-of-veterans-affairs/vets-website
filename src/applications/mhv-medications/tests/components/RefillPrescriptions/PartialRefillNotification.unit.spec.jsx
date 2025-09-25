@@ -38,9 +38,6 @@ describe('PartialRefillNotification component', () => {
 
     expect(description.exists()).to.be.true;
     expect(description.text()).to.equal(defaultConfig.description);
-    expect(description.prop('aria-label')).to.equal(
-      'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
-    );
   });
 
   it('renders RefillMedicationList with correct props', () => {
@@ -71,8 +68,5 @@ describe('PartialRefillNotification component', () => {
 
     expect(suggestionMessage.exists()).to.be.true;
     expect(suggestionMessage.text()).to.equal(defaultConfig.suggestion);
-    expect(suggestionMessage.prop('aria-label')).to.equal(
-      'Try requesting these refills again. If it still doesn’t work, call your VA pharmacy.',
-    );
   });
 });
