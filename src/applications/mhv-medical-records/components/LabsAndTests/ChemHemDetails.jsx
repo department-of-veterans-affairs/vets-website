@@ -62,7 +62,7 @@ const ChemHemDetails = props => {
      * which date is earlier.
      */
     () => {
-      asyncErrorForUnequalBirthDates('1980-09-01');
+      asyncErrorForUnequalBirthDates(user.dob);
     },
     [user.dob],
   );
