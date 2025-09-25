@@ -72,6 +72,7 @@ export const vaosApi = createApi({
               referral_number: referralNumber,
               // eslint-disable-next-line camelcase
               referral_consult_id: referralConsultId,
+              // Maybe add category of care here as well?
             }),
           });
         } catch (error) {
@@ -90,6 +91,7 @@ export const vaosApi = createApi({
         slotId,
         networkId,
         providerServiceId,
+        categoryOfCare,
       }) {
         try {
           return await apiRequestWithUrl(`/vaos/v2/appointments/submit`, {
@@ -103,6 +105,7 @@ export const vaosApi = createApi({
               slotId,
               networkId,
               providerServiceId,
+              categoryOfCare,
             }),
           });
         } catch (error) {
