@@ -43,11 +43,21 @@ import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json'
 
 describe('Compose form component', () => {
   let stub;
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
     if (stub) {
       stub.restore();
       stub = null;
     }
+    if (sandbox) {
+      sandbox.restore();
+    }
+    cleanup();
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
@@ -120,10 +130,6 @@ describe('Compose form component', () => {
       },
     );
   };
-
-  afterEach(() => {
-    cleanup();
-  });
 
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
@@ -1098,35 +1104,67 @@ describe('Compose form component', () => {
   it('displays modal on attempt to manual save with electronic signature populated', async () => {
     const customProps = {
       ...draftMessage,
+      recipientId: 2710522, // This recipient requires signature
       messageValid: true,
-      isSignatureRequired: true,
     };
     const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.exist;
+      expect(screen.getByTestId('save-draft-button')).to.exist;
+    });
 
     const val = initialState.sm.recipients.allowedRecipients.find(
       r => r.signatureRequired,
     ).id;
-    selectVaSelect(screen.container, val);
 
-    const electronicSignature = await screen.findByText(
-      ElectronicSignatureBox.TITLE,
-      {
-        selector: 'h2',
+    selectVaSelect(screen.container, val);
+    await waitFor(
+      () => {
+        const electronicSignature = screen.queryByText(
+          ElectronicSignatureBox.TITLE,
+          { selector: 'h2' },
+        );
+        expect(electronicSignature).to.exist;
       },
+      { timeout: 3000 },
     );
-    expect(electronicSignature).to.exist;
+
     const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+
+    // Wait for the signature text field to be available
+    await waitFor(
+      () => {
+        const signatureField = screen.container.querySelector(
+          signatureTextFieldSelector,
+        );
+        expect(signatureField).to.exist;
+      },
+      { timeout: 3000 },
+    );
+
+    // Input signature value and wait for it to be processed
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
-    let modal = null;
+
+    await waitFor(() => {
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(
+        signatureField.value || signatureField.getAttribute('value'),
+      ).to.equal('Test User');
+    });
 
     fireEvent.click(screen.getByTestId('save-draft-button'));
-    await waitFor(() => {
-      modal = screen.queryByTestId('navigation-warning-modal');
-      expect(modal).to.exist;
-    });
-    expect(modal).to.have.attribute(
-      'modal-title',
-      "We can't save your signature in a draft message",
+    await waitFor(
+      () => {
+        const modal = screen.queryByTestId('navigation-warning-modal');
+        expect(modal).to.exist;
+        expect(modal).to.have.attribute(
+          'modal-title',
+          "We can't save your signature in a draft message",
+        );
+      },
+      { timeout: 3000 },
     );
   });
 
@@ -1524,7 +1562,7 @@ describe('Compose form component', () => {
     useFeatureTogglesStub25MB.restore();
   });
 
-  it('should contain Edit Signature Link', () => {
+  it('should contain Edit Signature Link', async () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
@@ -1614,7 +1652,7 @@ describe('Compose form component', () => {
   });
 
   it('sets the state of draftInProgress when compose draft is rendered', async () => {
-    const updateDraftInProgressSpy = sinon.spy(
+    const updateDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'updateDraftInProgress',
     );

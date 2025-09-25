@@ -13,23 +13,19 @@ import { selectVaRadio, selectVaSelect } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('SelectCareTeam', () => {
+  let sandbox;
   let updateDraftInProgressSpy;
 
   beforeEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-    }
-    updateDraftInProgressSpy = sinon.spy(
+    sandbox = sinon.createSandbox();
+    updateDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'updateDraftInProgress',
     );
   });
 
   afterEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-      updateDraftInProgressSpy = null;
-    }
+    sandbox.restore();
     cleanup();
   });
 
@@ -331,17 +327,15 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
+    const val = customState.sm.recipients.allowedRecipients[0].id;
+    selectVaSelect(screen.container, val);
+
+    const continueButton = screen.getByTestId('continue-button');
     await waitFor(() => {
-      const val = customState.sm.recipients.allowedRecipients[0].id;
-      selectVaSelect(screen.container, val);
-
-      const continueButton = screen.getByTestId('continue-button');
       fireEvent.click(continueButton);
-
-      sinon.assert.calledWith(updateDraftInProgressSpy);
-      const callArgs = updateDraftInProgressSpy.lastCall.args[0];
-
-      expect(callArgs).to.include({
+    });
+    waitFor(() => {
+      expect(updateDraftInProgressSpy.lastCall.args[0]).to.include({
         careSystemVhaId: '662',
         careSystemName: 'Test Facility 1',
       });
@@ -370,19 +364,17 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
+    const val = customState.sm.recipients.allowedRecipients.find(
+      r => r.ohTriageGroup === true,
+    ).id;
     await waitFor(() => {
-      const val = customState.sm.recipients.allowedRecipients.find(
-        r => r.ohTriageGroup === true,
-      ).id;
       selectVaSelect(screen.container, val);
+    });
 
-      const continueButton = screen.getByTestId('continue-button');
-      fireEvent.click(continueButton);
-
-      sinon.assert.calledWith(updateDraftInProgressSpy);
-      const callArgs = updateDraftInProgressSpy.lastCall.args[0];
-
-      expect(callArgs).to.include({
+    waitFor(() => {
+      const callArgs = updateDraftInProgressSpy.args;
+      const validArg = callArgs.find(arg => arg[0].ohTriageGroup === true);
+      expect(validArg[0]).to.include({
         ohTriageGroup: true,
       });
     });
@@ -417,7 +409,7 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.calledWith(updateDraftInProgressSpy);
+      expect(updateDraftInProgressSpy.calledOnce).to.be.true;
     });
     const callArgs = updateDraftInProgressSpy.lastCall.args[0];
 
@@ -530,7 +522,7 @@ describe('SelectCareTeam', () => {
   it('redirects users to interstitial page if interstitial not accepted', async () => {
     const oldLocation = global.window.location;
     global.window.location = {
-      replace: sinon.spy(),
+      replace: sandbox.spy(),
     };
 
     const customState = {

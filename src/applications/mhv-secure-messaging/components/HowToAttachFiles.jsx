@@ -16,7 +16,6 @@ const HowToAttachFiles = ({ useLargeAttachments = false }) => {
       disable-border={false}
       data-dd-action-name="What to know about attaching files Expandable Info"
       data-testid="how-to-attach-files"
-      useLargeAttachments={useLargeAttachments.toString()}
     >
       <section className="how-to-attach-files">
         <ul className="vads-u-margin-y--0">

@@ -236,18 +236,11 @@ describe('RecentCareTeams component', () => {
         'updateDraftInProgress',
       );
       const screen = renderComponent(customState);
-
       expect(screen.getByText('Recent care teams')).to.exist;
 
-      // await waitFor(() => {
       selectVaRadio(screen.container, '636');
-      // });
-      // await waitFor(() => {
-      //   expect(updateDraftInProgressStub.called).to.be.true;
-      // });
       await waitFor(() => {
         const callArgs = updateDraftInProgressStub.lastCall.args[0];
-
         expect(callArgs).to.include({
           recipientId: '636',
           recipientName: 'VA Boston',

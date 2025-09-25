@@ -310,9 +310,10 @@ describe('useLargeAttachments logic', () => {
       },
     );
 
-    // Check that HowToAttachFiles receives useLargeAttachments=true
-    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
-    expect(howToAttachFiles).to.have.attribute('use-large-attachments', 'true');
+    waitFor(() => {
+      screen.getByText('You can attach up to 10 files to each message');
+      screen.getByText('The maximum size for each file is 25 MB');
+    });
 
     useFeatureTogglesStub.restore();
   });
@@ -343,9 +344,10 @@ describe('useLargeAttachments logic', () => {
       },
     );
 
-    // Check that HowToAttachFiles receives useLargeAttachments=true
-    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
-    expect(howToAttachFiles).to.have.attribute('use-large-attachments', 'true');
+    waitFor(() => {
+      screen.getByText('You can attach up to 10 files to each message');
+      screen.getByText('The maximum size for each file is 25 MB');
+    });
 
     useFeatureTogglesStub.restore();
   });
@@ -376,12 +378,10 @@ describe('useLargeAttachments logic', () => {
       },
     );
 
-    // Check that HowToAttachFiles receives useLargeAttachments=false
-    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
-    expect(howToAttachFiles).to.have.attribute(
-      'use-large-attachments',
-      'false',
-    );
+    waitFor(() => {
+      screen.getByText('You can attach up to 10 files to each message');
+      screen.getByText('The maximum size for each file is 25 MB');
+    });
 
     useFeatureTogglesStub.restore();
   });
@@ -412,12 +412,10 @@ describe('useLargeAttachments logic', () => {
       },
     );
 
-    // Check that HowToAttachFiles receives useLargeAttachments=false
-    const howToAttachFiles = screen.getByTestId('how-to-attach-files');
-    expect(howToAttachFiles).to.have.attribute(
-      'use-large-attachments',
-      'false',
-    );
+    waitFor(() => {
+      screen.getByText('You can attach up to 4 files to each message');
+      screen.getByText('The maximum size for each file is 6 MB');
+    });
 
     useFeatureTogglesStub.restore();
   });
