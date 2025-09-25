@@ -27,7 +27,11 @@ const ProgressButton = props => {
   const id = uniqueId();
 
   const handleClick = e => {
+    // eslint-disable-next-line no-console
+    console.log('in handleClick about to check navigation...', Date.now());
     navigationState.setNavigationEvent();
+    // eslint-disable-next-line no-console
+    console.log('in handleClick, just checked navigation...', Date.now());
     // onButtonClick may not be present (see FormNavButtons)
     if (onButtonClick) {
       onButtonClick(e);
