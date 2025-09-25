@@ -424,12 +424,6 @@ class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
-  fetchInProgressForm: PropTypes.func.isRequired,
-  formId: PropTypes.string.isRequired,
-  pageList: PropTypes.array.isRequired,
-  removeInProgressForm: PropTypes.func.isRequired,
-  toggleLoginModal: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
   alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
@@ -444,6 +438,7 @@ SaveInProgressIntro.propTypes = {
   }),
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
+  fetchInProgressForm: PropTypes.func,
   formConfig: PropTypes.shape({
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
@@ -457,6 +452,7 @@ SaveInProgressIntro.propTypes = {
     }),
   }),
   formData: PropTypes.object,
+  formId: PropTypes.string,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
@@ -464,9 +460,11 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   messages: PropTypes.object,
   migrations: PropTypes.array,
+  pageList: PropTypes.array,
   pathname: PropTypes.string,
   prefillEnabled: PropTypes.bool,
   prefillTransformer: PropTypes.func,
+  removeInProgressForm: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   retentionPeriodStart: PropTypes.string,
@@ -476,8 +474,10 @@ SaveInProgressIntro.propTypes = {
   }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
+  toggleLoginModal: PropTypes.func,
   unauthStartText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
+  user: PropTypes.object,
   verifiedPrefillAlert: PropTypes.element,
   verifyRequiredPrefill: PropTypes.bool,
 };
