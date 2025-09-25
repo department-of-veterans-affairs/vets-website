@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 136,
+  "totalApplications": 138,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -98,6 +98,18 @@
       "appName": "After Visit Summary",
       "entryName": "avs",
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "appName": "21-2680 House Bound Status",
+      "entryName": "21-2680-house-bound-status",
+      "rootUrl": "/21-2680-house-bound-status"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "appName": "21-4192 Employment Information",
+      "entryName": "21-4192-employment-information",
+      "rootUrl": "/21-4192-employment-information"
     },
     {
       "directoryPath": "src/applications/burials-ez",

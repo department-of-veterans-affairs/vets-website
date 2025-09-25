@@ -252,6 +252,7 @@ const RefillPrescriptions = () => {
                       : 'Select at least one prescription to refill'
                   }
                 >
+                  <div className="vads-u-margin-top--2" />
                   {fullRefillList?.length > 1 && (
                     <VaCheckbox
                       id="select-all-checkbox"

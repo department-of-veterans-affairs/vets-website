@@ -316,3 +316,5 @@ export const REFILL_STATUS = {
   IN_PROGRESS: 'inProgress',
   ERROR: 'error',
 };
+
+export const MEDS_BY_MAIL_FACILITY_ID = '741MM';
