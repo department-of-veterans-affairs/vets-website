@@ -48,7 +48,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     appName: '21P-0969 Income and Asset Statement Form',
     dataPrefix: 'data',
-    dataSets: ['test-data-veteran'],
+    dataSets: ['test-data'],
     dataDir: path.join(__dirname, 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -453,16 +453,20 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.get('#veteran-signature')
-              .shadow()
-              .find('input')
-              .first()
-              .type(data.statementOfTruthSignature);
-            cy.get(`#veteran-certify`)
-              .first()
-              .shadow()
-              .find('input')
-              .click({ force: true });
+            if (data.claimantType === 'VETERAN') {
+              cy.fillPage();
+            } else {
+              cy.get('#veteran-signature')
+                .shadow()
+                .find('input')
+                .first()
+                .type(data.statementOfTruthSignature);
+              cy.get(`#veteran-certify`)
+                .first()
+                .shadow()
+                .find('input')
+                .click({ force: true });
+            }
             cy.clickFormContinue(); // Submit
           });
         });
@@ -483,18 +487,24 @@ const testConfig = createTestConfig(
           ],
         },
       });
-
       cy.intercept('GET', '/v0/user', mockUser);
       cy.get('@testData').then(testData => {
+        // Note: This is causing the normal data fill functionality
+        // to break in both tests.
+        // Have to find some way to set metadata only to bypass alert
         const data = {
-          metadata: mockPrefill,
-          formData: testData,
+          metadata: mockPrefill.metadata,
+          formData: {
+            ...testData,
+            veteranSsnLastFour: mockPrefill.formData.veteranSsnLastFour,
+            veteranVaFileNumberLastFour:
+              mockPrefill.formData.veteranVaFileNumberLastFour,
+          },
         };
 
         cy.intercept('GET', '/v0/in_progress_forms/21P-0969', data);
         cy.intercept('PUT', '/v0/in_progress_forms/21P-0969', data);
       });
-
       cy.intercept('POST', `income_and_assets/v0/${formConfig.submitUrl}`, {
         data: {
           id: 'mock-id',
