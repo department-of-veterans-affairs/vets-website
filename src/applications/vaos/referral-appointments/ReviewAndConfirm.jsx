@@ -316,7 +316,7 @@ const ReviewAndConfirm = props => {
               data-testid="create-error-alert"
               class="vads-u-margin-top--4"
             >
-              <h4>We couldn’t schedule this appointment</h4>
+              <h3>We couldn’t schedule this appointment</h3>
               <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
                 We’re sorry. Something went wrong when we tried to schedule your
                 appointment. Try again later, or call this provider to schedule

@@ -45,14 +45,13 @@ export class ScheduleReferralPageObject extends PageObject {
   }
 
   /**
-   * Validates that referring facility information is displayed
+   * Validates that the community care office link is displayed
    */
-  assertreferringFacility() {
+  assertCommunityCareOfficeLink() {
     // Verify that the facility information is populated
-    cy.findByTestId('referral-facility')
+    cy.findByTestId('referral-community-care-office')
       .should('exist')
-      .and('contain.text', 'Referring VA facility:')
-      .and('contain.text', 'Phone:');
+      .and('contain.text', 'Find your community care office');
 
     return this;
   }
