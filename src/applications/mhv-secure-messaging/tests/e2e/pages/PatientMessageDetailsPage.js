@@ -385,9 +385,17 @@ class PatientMessageDetailsPage {
   };
 
   verifyAccordionStatus = value => {
+    // First, wait for at least one accordion to have the expected state - fixes flakiness to split these up.
     cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
       .find(`va-accordion-item`)
       .should('have.length.greaterThan', 0)
+      .first()
+      .invoke('prop', 'open')
+      .should('eq', value);
+
+    // Then check all accordions
+    cy.findByTestId(Locators.BUTTONS.THREAD_EXPAND)
+      .find(`va-accordion-item`)
       .each(el => {
         cy.wrap(el)
           .invoke(`prop`, 'open')
