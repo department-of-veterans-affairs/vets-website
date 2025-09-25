@@ -32,6 +32,21 @@ const testConfig = createTestConfig(
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
+          cy.window().then(win => {
+            if (!win.__CONSOLE_LOG_PATCHED__) {
+              // eslint-disable-next-line no-param-reassign
+              win.__CONSOLE_LOG_PATCHED__ = true;
+              const originalLog = win.console.log;
+              // eslint-disable-next-line no-param-reassign
+              win.console.log = (...args) => {
+                const message = args.join(' ');
+                cy.task('log', `[CONSOLE] ${message}`).catch(() => {
+                  // Ignore task failures (when running locally)
+                });
+                originalLog.apply(win.console, args);
+              };
+            }
+          });
           cy.get('@testData').then(() => {
             const expectInitialLayout = () => {
               cy.get('va-card').should('have.length', 2);
