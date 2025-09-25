@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 138,
+  "totalApplications": 139,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -100,6 +100,12 @@
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
+      "appName": "21-0779 Nursing Home Information",
+      "entryName": "21-0779-nursing-home-information",
+      "rootUrl": "/benefits-optimization-aquia/21-0779-nursing-home-information"
+    },
+    {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
       "appName": "21-2680 House Bound Status",
       "entryName": "21-2680-house-bound-status",
@@ -146,12 +152,6 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
-    },
-    {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -391,7 +391,7 @@
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",

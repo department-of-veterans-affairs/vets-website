@@ -165,7 +165,7 @@ const summaryPage = {
   },
 };
 
-const updatedSummaryPage = {
+const veteranSummaryPage = {
   uiSchema: {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -228,7 +228,7 @@ const parentSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -497,12 +497,12 @@ const incomeTypePage = {
 export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    associatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
+    associatedIncomePagesVeteranSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
-      path: 'financial-accounts-summary-updated',
+      path: 'financial-accounts-summary-veteran',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
-      uiSchema: updatedSummaryPage.uiSchema,
+      uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomePagesSpouseSummary: pageBuilder.summaryPage({
