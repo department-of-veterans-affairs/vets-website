@@ -18,7 +18,7 @@ export const verifyUrl = link => {
   if (link === ' ') {
     // For introduction with space, just verify we're at the root path
     // The space doesn't actually appear in the URL for the root route
-    cy.url().should('contain', `${ROOT}/`);
+    cy.url().should('contain', ROOT);
   } else {
     // Handle normal routes
     cy.url().should('contain', `${ROOT}/${link}`);

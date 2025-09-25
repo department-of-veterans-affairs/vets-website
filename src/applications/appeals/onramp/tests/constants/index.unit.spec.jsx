@@ -22,17 +22,13 @@ describe('constants utilities', () => {
 
   describe('getResultsRouteName: ', () => {
     it('should return converted route for NON_DR result type', () => {
-      const result = getResultsRouteName('NON_DR');
-
-      expect(result).to.not.equal('');
-      expect(result).to.equal('your-available-options');
+      expect(getResultsRouteName('NON_DR')).to.equal('your-available-options');
     });
 
     it('should return converted route for DR result type', () => {
-      const result = getResultsRouteName('DR');
-
-      expect(result).to.not.equal('');
-      expect(result).to.equal('your-decision-review-options');
+      expect(getResultsRouteName('DR')).to.equal(
+        'your-decision-review-options',
+      );
     });
   });
 });
