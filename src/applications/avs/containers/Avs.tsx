@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { Await, useLoaderData } from 'react-router-dom-v5-compat';
 import { connect, useSelector } from 'react-redux';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectUser } from '@department-of-veterans-affairs/platform-user/selectors';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
@@ -45,7 +45,9 @@ const generateAppointmentHeader = (avs: AvsData): string => {
 const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
   useDatadogRum();
 
-  const user = useSelector(selectUser);
+  const user = useSelector(selectUser) as Record<string, unknown>;
+
+  // Use the feature toggle hook with proper typing from platform
   const { useToggleValue, useToggleLoadingValue, TOGGLE_NAMES } =
     useFeatureToggle();
   const avsEnabled = useToggleValue(TOGGLE_NAMES.avsEnabled);
@@ -65,7 +67,8 @@ const Avs: React.FC<AvsProps & StateToProps> = ({ id, isLoggedIn }) => {
     />
   );
 
-  if (isLoggedIn && (!loader.avs || featureTogglesLoading)) {
+  // Show loading indicator if feature toggles are still loading
+  if (isLoggedIn && featureTogglesLoading) {
     return loadingIndicator;
   }
 
@@ -125,4 +128,4 @@ export default connect<
   Record<string, never>,
   AvsProps,
   RootState
->(mapStateToProps)(Avs as any);
+>(mapStateToProps)(Avs);

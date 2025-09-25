@@ -12,7 +12,8 @@ const YourTreatmentPlan: React.FC<YourTreatmentPlanProps> = ({ avs }) => {
   const { medChangesSummary, orders } = avs;
 
   const medChanges =
-    medChangesSummary && !allArraysEmpty(medChangesSummary as any)
+    medChangesSummary &&
+    !allArraysEmpty(medChangesSummary as Record<string, unknown[]>)
       ? medChangesSummary
       : null;
 
@@ -72,7 +73,7 @@ const YourTreatmentPlan: React.FC<YourTreatmentPlanProps> = ({ avs }) => {
       />
       <OrdersBlock
         heading="Medications & supplies"
-        intro={medsIntro as any}
+        intro={medsIntro}
         orders={orders}
         type={ORDER_TYPES.MED}
       />
@@ -86,8 +87,10 @@ const YourTreatmentPlan: React.FC<YourTreatmentPlanProps> = ({ avs }) => {
         heading="Health reminders"
         intro="The list below is your health reminders. These are health checks for prevention care (for example cancer screening) and checks on chronic conditions like diabetes. Your primary care provider and team will see this list in the computer and should discuss them with you."
         itemType="health-reminders"
-        items={avs.clinicalReminders}
-        renderItem={renderReminder}
+        items={avs.clinicalReminders as unknown as Record<string, unknown>[]}
+        renderItem={(item: Record<string, unknown>) =>
+          renderReminder(item as unknown as ClinicalReminder)
+        }
         showSeparators
       />
       <ParagraphBlock

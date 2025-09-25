@@ -11,7 +11,7 @@ export interface ManifestType {
 // Define the application state structure
 export interface AppState {
   // Currently the reducer is empty, but we'll define this for future use
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Route parameters

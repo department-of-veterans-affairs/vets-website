@@ -3,13 +3,13 @@
 import type { AvsData } from './domain';
 
 // API Response types
-export interface ApiResponseData<T = any> {
+export interface ApiResponseData<T = unknown> {
   id: string;
   type: string;
   attributes: T;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: ApiResponseData<T>;
 }
 

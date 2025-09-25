@@ -2,21 +2,23 @@ import React from 'react';
 import { allFieldsEmpty } from '../utils';
 import type { ItemsBlockProps } from '../types';
 
-const ItemsBlock: React.FC<ItemsBlockProps> = ({
+const ItemsBlock = <T = unknown,>({
   heading,
   intro,
   itemType,
   items,
   renderItem,
   showSeparators,
-}) => {
+}: ItemsBlockProps<T>) => {
   if (!items) return null;
 
   // Filter out null/empty field values.
-  const listItems = items.filter((item: any) => !allFieldsEmpty(item));
+  const listItems = items.filter(
+    item => !allFieldsEmpty(item as Record<string, unknown>),
+  );
   if (!listItems.length) return null;
 
-  const listElements = listItems.map((item: any, idx: number) => {
+  const listElements = listItems.map((item, idx: number) => {
     return (
       <div key={idx}>
         {renderItem(item)}

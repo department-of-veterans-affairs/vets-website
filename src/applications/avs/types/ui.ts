@@ -1,6 +1,7 @@
 // UI component props and React-related types
 
 import type { AvsData, Order } from './domain';
+import type { OrderType } from '../utils/constants';
 
 export interface MedicationTermsProps {
   avs: AvsData;
@@ -11,7 +12,7 @@ export interface ListBlockProps {
   itemType: string;
   headingLevel?: number;
   itemName?: string | null;
-  items?: any[];
+  items?: unknown[];
   keyName?: string;
 }
 
@@ -19,7 +20,7 @@ export interface OrdersBlockProps {
   heading: string;
   intro?: React.ReactNode | string;
   orders?: Order[];
-  type: any; // OrderType from constants
+  type: OrderType;
 }
 
 export interface YourAppointmentProps {
@@ -45,7 +46,6 @@ export interface ErrorBoundaryProps {
 
 export interface ErrorBoundaryState {
   hasError: boolean;
-  error?: Error;
 }
 
 // Component props
@@ -57,11 +57,11 @@ export interface YourHealthInformationProps {
   avs: AvsData;
 }
 
-export interface ItemsBlockProps {
+export interface ItemsBlockProps<T = unknown> {
   heading: string;
   itemType: string;
-  items?: any[];
-  renderItem: (item: any, index?: number) => React.ReactNode;
+  items?: T[];
+  renderItem: (item: T, index?: number) => React.ReactNode;
   showSeparators?: boolean;
   intro?: React.ReactNode;
 }

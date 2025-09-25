@@ -2,16 +2,16 @@
 
 declare module '@department-of-veterans-affairs/platform-startup/exports' {
   export function authenticatedLoader(config: {
-    loader: (params: any) => any;
-    defaultReturn: any;
-  }): any;
+    loader: (...args: unknown[]) => unknown;
+    fallbackValue?: unknown;
+  }): (...args: unknown[]) => Promise<unknown>;
 }
 
 declare module '@department-of-veterans-affairs/platform-startup/withoutRouter' {
   interface StartAppConfig {
     entryName: string;
     url: string;
-    reducer: any;
+    reducer: Record<string, unknown>;
     router: React.ReactElement;
   }
 

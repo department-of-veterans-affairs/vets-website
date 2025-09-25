@@ -4,13 +4,23 @@ import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+// Type definitions for Datadog RUM events
+interface DatadogRumEvent {
+  action?: {
+    type?: string;
+    target?: {
+      name?: string;
+    };
+  };
+}
+
 // Extend window interface for Datadog
 declare global {
   interface Window {
     DD_RUM?: {
-      getInitConfiguration(): any;
+      getInitConfiguration(): Record<string, unknown>;
     };
-    Mocha?: any;
+    Mocha?: Record<string, unknown>;
   }
 }
 
@@ -19,7 +29,7 @@ const datadogRumConfig = {
   clientToken: 'pubcf8129b0768db883d760a1fd6abdc8a0',
   site: 'ddog-gov.com',
   service: 'avs',
-  env: environment.vspEnvironment(),
+  env: environment.vspEnvironment() as string,
   sessionSampleRate: 50,
   sessionReplaySampleRate: 50,
   trackInteractions: true,
@@ -27,7 +37,7 @@ const datadogRumConfig = {
   trackResources: true,
   trackLongTasks: true,
   defaultPrivacyLevel: 'mask',
-  beforeSend: (event: any): boolean => {
+  beforeSend: (event: DatadogRumEvent): boolean => {
     // Prevent PII from being sent to Datadog with click actions.
     if (event.action?.type === 'click' && event.action?.target) {
       // eslint-disable-next-line no-param-reassign
@@ -40,13 +50,13 @@ const datadogRumConfig = {
 const initializeDatadogRum = (): void => {
   if (
     // Prevent RUM from running on local/CI environments.
-    environment.BASE_URL.indexOf('localhost') < 0 &&
+    (environment.BASE_URL as string).indexOf('localhost') < 0 &&
     // Prevent re-initializing the SDK.
     !window.DD_RUM?.getInitConfiguration() &&
     !window.Mocha
   ) {
     if (!datadogRumConfig.env) {
-      datadogRumConfig.env = environment.vspEnvironment();
+      datadogRumConfig.env = environment.vspEnvironment() as string;
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore - Datadog RUM configuration may have compatibility issues
@@ -55,7 +65,7 @@ const initializeDatadogRum = (): void => {
   }
 };
 
-const useDatadogRum = (config?: any): void => {
+const useDatadogRum = (config?: Record<string, unknown>): void => {
   useEffect(() => {
     initializeDatadogRum();
   }, [config]);

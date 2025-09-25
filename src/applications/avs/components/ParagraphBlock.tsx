@@ -12,7 +12,9 @@ const ParagraphBlock: React.FC<ParagraphBlockProps> = ({
 }) => {
   if (content) {
     const Heading = `h${headingLevel}` as keyof JSX.IntrinsicElements;
-    const testId = kebabCase(heading.substring(0, 32));
+    const testId = (kebabCase as (str: string) => string)(
+      heading.substring(0, 32),
+    );
     const paragraph = htmlContent ? (
       /* eslint-disable react/no-danger */
       /*

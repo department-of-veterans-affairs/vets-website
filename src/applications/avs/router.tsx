@@ -5,10 +5,14 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
 import ErrorBoundary from './components/ErrorBoundary';
 import avsLoader from './loaders/avsLoader';
-import type { RouteParams } from './types';
+import type { RouteParams, AvsProps } from './types';
 
-// Import the connected component directly for now - using any to bypass typing issues
-const AvsContainer = React.lazy(() => import('./containers/Avs') as any);
+// Import the connected component with proper typing for React.lazy
+const AvsContainer = React.lazy(() =>
+  import('./containers/Avs').then(module => ({
+    default: module.default as React.ComponentType<AvsProps>,
+  })),
+);
 
 const ErrorBoundaryWrapper: React.FC = () => {
   const { id }: RouteParams = useParams();
@@ -30,7 +34,7 @@ const routes = [
     path: '/my-health/medical-records/summaries-and-notes/visit-summary/:id',
     loader: authenticatedLoader({
       loader: avsLoader,
-      defaultReturn: { avs: {} },
+      fallbackValue: { avs: {} },
     }),
     element: <ErrorBoundaryWrapper />,
     errorElement: <ErrorBoundary />,

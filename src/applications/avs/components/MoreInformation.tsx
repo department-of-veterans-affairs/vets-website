@@ -35,10 +35,14 @@ const MoreInformation: React.FC<MoreInformationProps> = ({ avs }) => {
   return (
     <div>
       <ItemsBlock
-        heading={`Clinical services (${clinicsVisited[0]?.site})`}
+        heading={`Clinical services${
+          clinicsVisited[0]?.site ? ` (${clinicsVisited[0].site})` : ''
+        }`}
         itemType="clinical-services"
-        items={clinicalServices}
-        renderItem={renderClinicalService}
+        items={clinicalServices as unknown as Record<string, unknown>[]}
+        renderItem={(item: Record<string, unknown>) =>
+          renderClinicalService(item as unknown as ClinicalService)
+        }
       />
       <ParagraphBlock
         heading="More help and information"

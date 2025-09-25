@@ -4,20 +4,23 @@ import React from 'react';
 import { kebabCase } from 'lodash';
 import { ORDER_TYPES } from '../utils/constants';
 import type { OrdersBlockProps, Order } from '../types';
+import type { OrderType } from '../utils/constants';
 
-const getOrderItems = (type: any, orders?: Order[]): Order[] => {
+const getOrderItems = (type: OrderType, orders?: Order[]): Order[] => {
   return orders?.filter(order => order.type === type.label) || [];
 };
 
 const getOrderListItemsByType = (
-  type: any,
+  type: OrderType,
   orders?: Order[],
 ): React.ReactNode[] => {
   const items = getOrderItems(type, orders);
   return (
     items?.map((item, idx) => {
-      let itemText = item.text;
-      if (type === ORDER_TYPES.LAB) itemText += ` (${item.date})`;
+      let itemText = item.text || '';
+      if (type === ORDER_TYPES.LAB && item.date) {
+        itemText += ` (${item.date})`;
+      }
       return <li key={idx}>{itemText}</li>;
     }) || []
   );
@@ -36,7 +39,10 @@ const OrdersBlock: React.FC<OrdersBlockProps> = ({
       <div>
         <h4>{heading}</h4>
         {intro && <div>{intro}</div>}
-        <ul className="bulleted-list" data-testid={kebabCase(type.label)}>
+        <ul
+          className="bulleted-list"
+          data-testid={(kebabCase as (str: string) => string)(type.label)}
+        >
           {orderListItems}
         </ul>
       </div>

@@ -39,6 +39,7 @@ import type {
   LabResultValue,
   Medication,
   AppointmentType,
+  RootState,
 } from '../types';
 
 import ItemsBlock from './ItemsBlock';
@@ -276,7 +277,7 @@ const getMySupplies = (avs: AvsData): Medication[] => {
   );
 };
 
-const medsIntro = (avs: AvsData, fullState: any): React.ReactNode => {
+const medsIntro = (avs: AvsData, fullState: RootState): React.ReactNode => {
   return (
     <>
       <p>
@@ -347,7 +348,10 @@ const getDateLastFilled = (medication: Medication): string => {
   return '';
 };
 
-const renderFieldWithBreak = (field: any, prefix = ''): React.ReactNode => {
+const renderFieldWithBreak = (
+  field: string | number | undefined,
+  prefix = '',
+): React.ReactNode => {
   if (fieldHasValue(field)) {
     if (prefix) {
       return (
@@ -390,7 +394,12 @@ const renderVaMedication = (medication: Medication): React.ReactNode => {
               contact={facilityPhone}
               notClickable={phoneNotClickable}
             />
-            ] (<VaTelephone contact={CONTACTS['711']} tty />)<br />
+            ] (
+            <VaTelephone
+              contact={(CONTACTS as Record<string, string>)['711']}
+              tty
+            />
+            )<br />
           </>
         )}
         {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
@@ -438,7 +447,7 @@ const renderMedication = (medication: Medication): React.ReactNode => {
 const YourHealthInformation: React.FC<YourHealthInformationProps> = ({
   avs,
 }) => {
-  const fullState = useSelector((state: any) => state);
+  const fullState = useSelector((state: RootState) => state);
 
   const appointmentDate = getFormattedAppointmentDate(avs);
 
@@ -454,7 +463,7 @@ const YourHealthInformation: React.FC<YourHealthInformationProps> = ({
       {primaryCareTeam(avs)}
       {appointments(avs)}
 
-      <ItemsBlock
+      <ItemsBlock<Problem>
         heading="Problem list"
         itemType="problems"
         items={avs.problems}
@@ -466,14 +475,14 @@ const YourHealthInformation: React.FC<YourHealthInformationProps> = ({
         heading="Smoking status"
         content={avs.patientInfo?.smokingStatus}
       />
-      <ItemsBlock
+      <ItemsBlock<Immunization>
         heading="Immunizations"
         itemType="immunizations"
         items={avs.immunizations}
         renderItem={renderImmunization}
         showSeparators
       />
-      <ItemsBlock
+      <ItemsBlock<Allergy>
         heading="Allergies and adverse drug reactions (signs / symptoms)"
         itemType="allergies-reactions"
         items={avs.allergiesReactions?.allergies}
@@ -481,15 +490,15 @@ const YourHealthInformation: React.FC<YourHealthInformationProps> = ({
         showSeparators
       />
       {labResults(avs)}
-      <ItemsBlock
+      <ItemsBlock<Medication>
         heading="My medications"
-        intro={medsIntro(avs, fullState) as any}
+        intro={medsIntro(avs, fullState)}
         itemType="my-medications"
         items={getMyMedications(avs)}
         renderItem={renderMedication}
         showSeparators
       />
-      <ItemsBlock
+      <ItemsBlock<Medication>
         heading="My VA supplies"
         itemType="my-va-supplies"
         items={getMySupplies(avs)}
