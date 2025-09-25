@@ -24,24 +24,28 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_0839,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-0839) is in progress.',
-    //   expired: 'Your saved education benefits application (22-0839) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your form (22-0839) is in progress.',
+      expired:
+        'Your saved form (22-0839) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   customText: {
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
     appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
+    startNewAppButtonText: 'Start a new form',
   },
   chapters: {
     personalInformationChapter: {
@@ -81,6 +85,7 @@ const formConfig = {
           title: 'Acknowledgements of Yellow Ribbon Program terms',
           uiSchema: acknowledgements.uiSchema,
           schema: acknowledgements.schema,
+          pageClass: 'acknowledgements-page',
         },
       },
     },

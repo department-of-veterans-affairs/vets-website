@@ -6,7 +6,6 @@ import { selectProfile } from 'platform/user/selectors';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { selectAuthStatus } from '../../../utils/selectors';
-import SaveInProgressDescription from './SaveInProgressDescription';
 import CheckAppStatusAlert from '../../FormAlerts/CheckAppStatusAlert';
 import SaveTimeSipAlert from '../../FormAlerts/SaveTimeSipAlert';
 import ProcessTimeline from './ProcessTimeline';
@@ -24,7 +23,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
   });
 
   const sipIntro = useCallback(
-    ({ buttonOnly = false, children = null }) => {
+    ({ buttonOnly = false } = {}) => {
       const { savedFormMessages, prefillEnabled, downtime } = formConfig;
       const sipProps = {
         startText: content['sip-start-form-text'],
@@ -34,9 +33,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
         downtime,
         pageList,
       };
-      return (
-        <SaveInProgressIntro {...sipProps}>{children}</SaveInProgressIntro>
-      );
+      return <SaveInProgressIntro {...sipProps} />;
     },
     [formConfig, pageList],
   );
@@ -50,11 +47,7 @@ const ProcessDescription = ({ route: { formConfig, pageList } }) => {
         now.
       </p>
 
-      {isLoggedIn ? (
-        sipIntro({ children: SaveInProgressDescription })
-      ) : (
-        <CheckAppStatusAlert />
-      )}
+      {isLoggedIn ? sipIntro() : <CheckAppStatusAlert />}
 
       <span className={className}>
         <ProcessTimeline />
