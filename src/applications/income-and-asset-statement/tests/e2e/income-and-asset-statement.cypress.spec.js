@@ -15,8 +15,6 @@ import mockUser from '../fixtures/mocks/user.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-Cypress.config('waitForAnimations', true);
-
 const SUBMISSION_DATE = new Date().toISOString();
 const SUBMISSION_CONFIRMATION_NUMBER = '01e77e8d-79bf-4991-a899-4e2defff11e0';
 
@@ -30,6 +28,8 @@ let addedAnnuityItem = false;
 let addedUnreportedAssetItem = false;
 let addedDiscontinuedIncomeItem = false;
 let addedIncomeReceiptWaiverItem = false;
+
+Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
@@ -451,7 +451,6 @@ const testConfig = createTestConfig(
               .shadow()
               .find('input')
               .click({ force: true });
-
             cy.clickFormContinue(); // Submit
           });
         });
