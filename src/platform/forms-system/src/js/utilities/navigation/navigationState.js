@@ -15,14 +15,18 @@ const navigationState = {
   _currentPath: null,
 
   setNavigationEvent() {
-    console.log(`setNavigationEvent called on instance: ${this.instanceId}`);
-    this._navigationEvent = true;
-    this._currentPath = window.location.href;
+    try {
+      console.log(`setNavigationEvent called on instance: ${this.instanceId}`);
+      this._navigationEvent = true;
+      this._currentPath = window.location.href;
 
-    setTimeout(() => {
-      this._navigationEvent = false;
-      this._currentPath = null;
-    }, 0);
+      setTimeout(() => {
+        this._navigationEvent = false;
+        this._currentPath = null;
+      }, 0);
+    } catch (error) {
+      console.log('ERROR from setNavigationEvent!:', error);
+    }
   },
 
   getNavigationEventStatus() {
@@ -36,20 +40,27 @@ const navigationState = {
     // }
     // only return true if the navigation happened on the current page
     // eslint-disable-next-line no-console
-    console.log(
-      `getNavigationEventStatus called on instance: ${this.instanceId}`,
-    );
-    console.log(
-      'the status is\n',
-      this._navigationEvent,
-      'and the current path is\n',
-      this._currentPath,
-      'and the window.location.href is\n',
-      window.location.href,
-      '\n',
-      Date.now(),
-    );
-    return this._navigationEvent && this._currentPath === window.location.href;
+    try {
+      console.log(
+        `getNavigationEventStatus called on instance: ${this.instanceId}`,
+      );
+      console.log(
+        'the status is\n',
+        this._navigationEvent,
+        'and the current path is\n',
+        this._currentPath,
+        'and the window.location.href is\n',
+        window.location.href,
+        '\n',
+        Date.now(),
+      );
+      return (
+        this._navigationEvent && this._currentPath === window.location.href
+      );
+    } catch (error) {
+      console.log('ERROR from getNavigationStatus!!!', error);
+      return false;
+    }
   },
 };
 
