@@ -315,6 +315,26 @@ const LandingPage = () => {
 
           {!displayMarch17Updates && (
             <>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  What to do if you can’t find your medical records
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Some of your medical records may not be available on VA.gov
+                  right now. If you need to access your records and can’t find
+                  them here, you can submit a request by mail, by fax, or in
+                  person at your VA health facility.
+                </p>
+                <va-link-action
+                  type="secondary"
+                  href="/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+                  data-testid="gps-landing-page-link"
+                  text={MEDICAL_RECORDS_REQUEST_LABEL}
+                  onClick={() => {
+                    sendDataDogAction(MEDICAL_RECORDS_REQUEST_LABEL);
+                  }}
+                />
+              </section>
               <section>
                 <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
                   Manage your medical records settings

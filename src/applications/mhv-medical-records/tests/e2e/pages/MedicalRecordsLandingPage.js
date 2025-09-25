@@ -78,6 +78,15 @@ class MedicalRecordsLandingPage {
       .and('include', '/my-health/medical-records/vitals');
   };
 
+  verifyGpsLink = () => {
+    cy.get('[data-testid="gps-landing-page-link"]')
+      .should('have.attr', 'href')
+      .and(
+        'include',
+        '/resources/how-to-get-your-medical-records-from-your-va-health-facility/',
+      );
+  };
+
   verifySettingsLink = () => {
     cy.get('[data-testid="settings-landing-page-link"]')
       .should('have.attr', 'href')
