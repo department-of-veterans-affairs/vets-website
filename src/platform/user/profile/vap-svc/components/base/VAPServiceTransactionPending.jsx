@@ -33,8 +33,8 @@ class VAPServiceTransactionPending extends React.Component {
     if (this.props.method === 'DELETE') {
       content = (
         <span>
-          We’re in the process of deleting your {this.props.title.toLowerCase()}
-          . We’ll remove this information soon.
+          We’re in the process of deleting your
+          {this.props.title.toLowerCase()}. We’ll remove this information soon.
         </span>
       );
     }
