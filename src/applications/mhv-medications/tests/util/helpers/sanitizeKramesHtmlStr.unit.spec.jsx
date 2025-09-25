@@ -79,4 +79,23 @@ describe('sanitizeKramesHtmlStr function', () => {
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
   });
+
+  it('should remove all pilcrows (¶) from the HTML string', () => {
+    const inputHtml = `<div>
+                      <strong>
+                      <p>¶This branded product is no longer on the market.</p>
+                      </strong>
+                      <ul>
+                      <li>¶BrandName1</li>
+                      <li>¶BrandName2</li>
+                      </ul>
+                      </div>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('¶');
+    expect(outputHtml).to.include(
+      'This branded product is no longer on the market.',
+    );
+    expect(outputHtml).to.include('BrandName1');
+    expect(outputHtml).to.include('BrandName2');
+  });
 });

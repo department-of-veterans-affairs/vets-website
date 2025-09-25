@@ -144,5 +144,52 @@ export const sanitizeKramesHtmlStr = htmlString => {
     table.setAttribute('role', 'presentation');
   });
 
+  const strongTags = tempDiv.querySelectorAll('strong');
+  strongTags.forEach(strong => {
+    if (!strong.textContent.includes('Brand Name')) return;
+    const parent = strong.parentNode;
+
+    const label = document.createElement('p');
+    label.innerHTML = '<strong>Brand Name(s):</strong>';
+    parent.insertBefore(label, strong);
+
+    const ul = strong.querySelector('ul');
+    if (ul) {
+      parent.insertBefore(ul, strong.nextSibling);
+
+      const liElements = ul.querySelectorAll('li');
+      let liIndex = 0;
+      while (liIndex < liElements.length) {
+        const li = liElements[liIndex];
+        const cleanedText = li.textContent.replace(/¶/g, '').trim();
+        li.textContent = cleanedText;
+        liIndex += 1;
+      }
+    }
+
+    const extraP = strong.querySelector('p');
+    if (extraP) {
+      parent.insertBefore(extraP, strong.nextSibling);
+    }
+
+    strong.remove();
+  });
+
+  const removePilcrowRecursive = node => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentNode;
+      if (parent) {
+        const newNode = document.createTextNode(
+          node.textContent.replace(/¶/g, '').trimStart(),
+        );
+        parent.replaceChild(newNode, node);
+      }
+    } else {
+      node.childNodes.forEach(child => removePilcrowRecursive(child));
+    }
+  };
+
+  removePilcrowRecursive(tempDiv);
+
   return tempDiv.innerHTML;
 };
