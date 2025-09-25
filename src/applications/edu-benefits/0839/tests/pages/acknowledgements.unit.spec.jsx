@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import * as page from '../../pages/acknowledgements';
 
 const mockStore = configureStore();
@@ -161,7 +162,7 @@ describe('22-0839 acknowledgements page', () => {
 
       const checkbox = container.querySelector('va-checkbox[error]');
       expect(checkbox.getAttribute('error')).to.equal(
-        'Please agree to provide Yellow Ribbon Program contributions',
+        'You must agree to provide Yellow Ribbon Program contributions',
       );
     });
   });
@@ -190,5 +191,81 @@ describe('22-0839 acknowledgements page', () => {
 
     expect(container.querySelectorAll('[error]')).to.have.length(0);
     unmount();
+  });
+
+  it('enforces matching initials across all statement fields (case-insensitive)', async () => {
+    const { container, getByRole } = renderPage();
+
+    inputVaTextInput(
+      container,
+      'ab',
+      'va-text-input[name="root_statement1Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'AC',
+      'va-text-input[name="root_statement2Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'Ad',
+      'va-text-input[name="root_statement3Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'AE',
+      'va-text-input[name="root_statement4Initial"]',
+    );
+
+    const checkbox = container.querySelector('va-checkbox');
+    checkbox.dispatchEvent(
+      new CustomEvent('vaChange', { detail: { checked: true }, bubbles: true }),
+    );
+
+    getByRole('button', { name: /submit/i }).click();
+
+    await waitFor(() => {
+      const mismatchErrors = $$(
+        'va-text-input[error="Initials must match across all statements"]',
+        container,
+      );
+      expect(mismatchErrors.length).to.equal(3);
+    });
+  });
+
+  it('allows submission when all initials match statement1', async () => {
+    const { container, getByRole } = renderPage();
+
+    inputVaTextInput(
+      container,
+      'AB',
+      'va-text-input[name="root_statement1Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'AB',
+      'va-text-input[name="root_statement2Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'AB',
+      'va-text-input[name="root_statement3Initial"]',
+    );
+    inputVaTextInput(
+      container,
+      'AB',
+      'va-text-input[name="root_statement4Initial"]',
+    );
+
+    const checkbox = container.querySelector('va-checkbox');
+    checkbox.dispatchEvent(
+      new CustomEvent('vaChange', { detail: { checked: true }, bubbles: true }),
+    );
+
+    getByRole('button', { name: /submit/i }).click();
+
+    await waitFor(() => {
+      expect($$('va-text-input[error]', container).length).to.equal(0);
+    });
   });
 });

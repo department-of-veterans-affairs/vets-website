@@ -112,7 +112,7 @@ const uiSchema = {
   agreementCheckbox: checkboxUI({
     title: 'Our school agrees to provide Yellow Ribbon Program contributions',
     errorMessages: {
-      required: 'Please agree to provide Yellow Ribbon Program contributions',
+      required: 'You must agree to provide Yellow Ribbon Program contributions',
     },
   }),
 };
