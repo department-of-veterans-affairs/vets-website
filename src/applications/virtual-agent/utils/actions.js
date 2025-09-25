@@ -65,6 +65,7 @@ function handleSkillEntryEvent(action) {
     recordEvent({
       event: EVENT_API_CALL,
       'api-name': apiName,
+      topic: eventValue,
       'api-status': 'successful',
     });
   }
