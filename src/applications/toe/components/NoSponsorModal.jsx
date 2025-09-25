@@ -29,9 +29,9 @@ const NoSponsorModal = ({ sponsorsList }) => {
       modalClass="vads-u-max-width--5xl"
       onPrimaryButtonClick={handleContinue}
       primaryButtonText="Yes, continue"
-      onSecondaryButtonClick={handleContinue}
+      onSecondaryButtonClick={handleExit}
       secondaryButtonText="No, exit application"
-      onCloseEvent={handleExit}
+      onCloseEvent={handleContinue}
     >
       <ul className="vads-u-margin-bottom--2">
         <li>
@@ -60,7 +60,7 @@ const NoSponsorModal = ({ sponsorsList }) => {
         </li>
         <li>
           If you are a Veteran or service member applying for a benefit based on
-          your own your own service,{' '}
+          your own service,{' '}
           <a
             href="/education/apply-for-gi-bill-form-22-1990/introduction"
             target="_blank"
