@@ -1,0 +1,41 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "William",
+      "middle": "Thomas",
+      "last": "Johnson"
+    },
+    "veteranIdentification": {
+      "ssn": "434353344"
+    },
+    "recipientName": {
+      "first": "Susan",
+      "middle": "Ann",
+      "last": "Williams"
+    },
+    "recipient": {
+      "phone": {
+        "daytime": "202-555-9876",
+        "evening": "202-555-1234"
+      },
+      "email": "susan.williams@example.com"
+    },
+    "hasRemarried": true,
+    "remarriage": {
+      "dateOfMarriage": "2020-09-10",
+      "spouseName": {
+        "first": "Robert",
+        "middle": "James",
+        "last": "Williams",
+        "suffix": "Jr."
+      },
+      "spouseDateOfBirth": "1960-07-15",
+      "ageAtMarriage": "56",
+      "spouseIsVeteran": false,
+      "hasTerminated": true,
+      "terminationDate": "2024-03-15",
+      "terminationReason": "Divorce"
+    },
+    "signature": "Susan Ann Williams"
+  }
+}
