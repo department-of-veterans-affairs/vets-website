@@ -83,8 +83,6 @@ describe('Deleting email address', () => {
     await wait(100);
 
     // check that the "we're saving your..." message appears
-    // eslint-disable-next-line no-console
-    // console.log('all text:', view.container.textContent);
     const deletingMessage = await view.findByText(
       /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
     );
@@ -105,7 +103,7 @@ describe('Deleting email address', () => {
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
-      /We're in the process of deleting your contact email address. We'll remove this information soon./i,
+      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
     );
     expect(deletingMessage).to.exist;
 
