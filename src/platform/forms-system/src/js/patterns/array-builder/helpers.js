@@ -437,6 +437,9 @@ export const validateIncompleteItems = ({
   const proceed = !isValid;
   // eslint-disable-next-line no-console
   console.log('about to run the check...proceed is...', proceed, Date.now());
+  console.log('navigationState:', typeof navigationState);
+  console.log('navigationState is undefined:', navigationState === undefined);
+
   // eslint-disable-next-line sonarjs/no-collapsible-if
   if (proceed) {
     console.log('we made it past the !isValid check....');
