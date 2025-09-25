@@ -199,7 +199,7 @@ const LandingPage = () => {
                 text={CARE_SUMMARIES_AND_NOTES_LABEL}
                 onClick={event => {
                   event.preventDefault();
-                  history.push('/labs-and-tests');
+                  history.push('/summaries-and-notes');
                   sendAalViewList('Care Summaries and Notes');
                   sendDataDogAction(CARE_SUMMARIES_AND_NOTES_LABEL);
                   logUniqueUserMetricsEvents(
@@ -224,7 +224,7 @@ const LandingPage = () => {
               text={VACCINES_LABEL}
               onClick={event => {
                 event.preventDefault();
-                history.push('/labs-and-tests');
+                history.push('/vaccines');
                 sendAalViewList('Vaccines');
                 sendDataDogAction(VACCINES_LABEL);
                 logUniqueUserMetricsEvents(
@@ -249,7 +249,7 @@ const LandingPage = () => {
               text={ALLERGIES_AND_REACTIONS_LABEL}
               onClick={event => {
                 event.preventDefault();
-                history.push('/labs-and-tests');
+                history.push('/allergies');
                 sendAalViewList('Allergy and Reactions');
                 sendDataDogAction(ALLERGIES_AND_REACTIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -273,7 +273,7 @@ const LandingPage = () => {
               text={HEALTH_CONDITIONS_LABEL}
               onClick={event => {
                 event.preventDefault();
-                history.push('/labs-and-tests');
+                history.push('/conditions');
                 sendAalViewList('Health Conditions');
                 sendDataDogAction(HEALTH_CONDITIONS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -303,7 +303,7 @@ const LandingPage = () => {
               text={VITALS_LABEL}
               onClick={event => {
                 event.preventDefault();
-                history.push('/labs-and-tests');
+                history.push('/vitals');
                 sendAalViewList('Vitals');
                 sendDataDogAction(VITALS_LABEL);
                 logUniqueUserMetricsEvents(
@@ -330,7 +330,7 @@ const LandingPage = () => {
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
                   onClick={event => {
                     event.preventDefault();
-                    history.push('/labs-and-tests');
+                    history.push('/settings');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
@@ -354,7 +354,7 @@ const LandingPage = () => {
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
                     onClick={event => {
                       event.preventDefault();
-                      history.push('/labs-and-tests');
+                      history.push('/download');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -385,7 +385,7 @@ const LandingPage = () => {
                     text={MEDICAL_RECORDS_DOWNLOAD_LABEL}
                     onClick={event => {
                       event.preventDefault();
-                      history.push('/labs-and-tests');
+                      history.push('/download');
                       sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                     }}
                   />
@@ -426,7 +426,7 @@ const LandingPage = () => {
                   text={MEDICAL_RECORDS_SETTINGS_LABEL}
                   onClick={event => {
                     event.preventDefault();
-                    history.push('/labs-and-tests');
+                    history.push('/settings');
                     sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
                   }}
                 />
