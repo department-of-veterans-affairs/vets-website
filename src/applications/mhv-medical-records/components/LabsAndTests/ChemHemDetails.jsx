@@ -22,7 +22,11 @@ import ChemHemResults from './ChemHemResults';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import InfoAlert from '../shared/InfoAlert';
-import { processList, generateTextFile } from '../../util/helpers';
+import {
+  processList,
+  generateTextFile,
+  asyncErrorForUnequalBirthDates,
+} from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
 import {
@@ -49,6 +53,18 @@ const ChemHemDetails = props => {
       focusElement(document.querySelector('h1'));
     },
     [record.date, record.name],
+  );
+
+  useEffect(
+    /**
+     * Test to see if formatDateLong and formatBirthDate return the same value for the user's
+     * date of birth. If not, throw an error that will get picked up by Datadog that indicates
+     * which date is earlier.
+     */
+    () => {
+      asyncErrorForUnequalBirthDates('1980-09-01');
+    },
+    [user.dob],
   );
 
   usePrintTitle(
