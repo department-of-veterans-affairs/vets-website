@@ -12,7 +12,6 @@ import { getListWithRetry } from './common';
 
 export const getAllergiesList = (
   isCurrent = false,
-  isAccelerating,
   isCerner,
 ) => async dispatch => {
   dispatch({
@@ -23,8 +22,8 @@ export const getAllergiesList = (
     let getData;
     let actionType;
 
-    if (isAccelerating || isCerner) {
-      // Path 1: v1 OH endpoint (flag-enabled users OR Cerner patients)
+    if (isCerner) {
+      // Path 1: v1 OH endpoint (Cerner patients)
       getData = getAllergiesWithOHData;
       actionType = Actions.Allergies.GET_LIST;
     } else {
@@ -48,15 +47,14 @@ export const getAllergiesList = (
 export const getAllergyDetails = (
   id,
   allergyList,
-  isAccelerating,
   isCerner,
 ) => async dispatch => {
   try {
     let getDetailsFunc;
     let actionType;
 
-    if (isAccelerating || isCerner) {
-      // Path 1: v1 OH endpoint (flag-enabled users OR Cerner patients)
+    if (isCerner) {
+      // Path 1: v1 OH endpoint (Cerner patients)
       getDetailsFunc = getAllergyWithOHData;
       actionType = Actions.Allergies.GET;
     } else {
