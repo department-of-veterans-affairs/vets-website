@@ -216,6 +216,9 @@ describe('SelectCareTeam', () => {
     const careTeamOptions = careTeamSelect.querySelectorAll('option');
     await waitFor(() => {
       expect(careTeamOptions).to.have.lengthOf(6);
+      // const careTeamSelect = screen.getByTestId('compose-recipient-select');
+      // const careTeamOptions = careTeamSelect.querySelectorAll('option');
+      // expect(careTeamOptions).to.have.lengthOf(6); // Updated: station 636 has 6 recipients in mock data
     });
   });
 

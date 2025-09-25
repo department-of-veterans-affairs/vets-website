@@ -1168,6 +1168,78 @@ describe('Compose form component', () => {
     );
   });
 
+  it('should display electronic signature box when Oracle Health ROI recipient is selected', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    // Find an Oracle Health ROI recipient from our fixture data
+    const oracleHealthRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r =>
+        r.attributes &&
+        r.attributes.name &&
+        r.attributes.name.includes('Release of Information'),
+    );
+
+    if (oracleHealthRecipient) {
+      selectVaSelect(screen.container, oracleHealthRecipient.id);
+
+      const electronicSignature = await screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+    }
+  });
+
+  it('should handle Oracle Health Medical Records recipient signature requirement', async () => {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    // Find an Oracle Health Medical Records recipient from our fixture data
+    const medicalRecordsRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r =>
+        r.attributes &&
+        r.attributes.name &&
+        r.attributes.name.includes('Release of Information') &&
+        r.attributes.name.includes('Medical Records'),
+    );
+
+    if (medicalRecordsRecipient) {
+      selectVaSelect(screen.container, medicalRecordsRecipient.id);
+
+      const electronicSignature = await screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+
+      const signatureTextFieldSelector =
+        'va-text-input[label="Your full name"]';
+      inputVaTextInput(
+        screen.container,
+        'Test User',
+        signatureTextFieldSelector,
+      );
+
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(signatureField.value).to.equal('Test User');
+    }
+  });
+
   it('should display an error message when a file is 0B', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
     const file = new File([''], 'test.png', { type: 'image/png' });
