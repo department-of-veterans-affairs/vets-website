@@ -379,6 +379,12 @@
       "slackGroup": "@benefits-optimization-aquia",
       "slackChannel": "C09FWT9U1JP",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21p-530a-interment-allowance",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
     }
   ]
 }
