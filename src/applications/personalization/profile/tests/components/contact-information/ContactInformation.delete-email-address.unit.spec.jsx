@@ -84,7 +84,7 @@ describe('Deleting email address', () => {
 
     // check that the "we're saving your..." message appears
     const deletingMessage = await view.findByText(
-      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
+      /We're in the process of deleting your contact email address. We'll remove this information soon./i,
     );
     expect(deletingMessage).to.exist;
 
