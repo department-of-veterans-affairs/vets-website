@@ -35,9 +35,9 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
-import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { postRecordDatadogAction } from '../api/MrApi';
 
 // --- Main component ---

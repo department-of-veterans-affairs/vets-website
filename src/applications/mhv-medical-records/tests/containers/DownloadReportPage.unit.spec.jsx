@@ -454,7 +454,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
         'To get your medical records reports from these facilities, go to My VA Health',
       ),
     ).to.exist;
-    
+
     // Should show both facilities in a list
     const facilityList = screen.getAllByTestId('cerner-facility');
     expect(facilityList.length).to.equal(2);
