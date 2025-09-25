@@ -11,6 +11,13 @@ import manifest from './manifest.json';
 import routes from './routes';
 import reducer from './reducers';
 
+import { canUseMocks } from './constants';
+
+// Automatically set hasSession for local development to bypass login when using mock APIs.
+if (canUseMocks()) {
+  localStorage.setItem('hasSession', 'true');
+}
+
 applyPolyfills().then(() => {
   defineCustomElements();
 });
