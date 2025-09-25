@@ -46,6 +46,7 @@ const GuestVerifiedInformation = ({ user }) => {
               data-dd-action-name="Date of birth"
             >
               {veteranDOB}
+              GVI valid? {new Date(veteranDOB).getFullYear() > 1950}
             </span>
           </li>
           <li>
