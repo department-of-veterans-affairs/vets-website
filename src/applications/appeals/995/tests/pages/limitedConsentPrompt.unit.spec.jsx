@@ -5,14 +5,14 @@ import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
-import { EVIDENCE_LIMIT } from '../../constants';
+import { LIMITED_CONSENT_RESPONSE } from '../../constants';
 import * as helpers from '../../../shared/utils/helpers';
 
-describe('Supplemental Claims private limitation request page', () => {
+describe('Supplemental Claims Limited Consent Prompt Page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.evidencePrivateLimitationRequest;
+  } = formConfig.chapters.evidence.pages.limitedConsentPrompt;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
@@ -34,8 +34,8 @@ describe('Supplemental Claims private limitation request page', () => {
     expect($('button[type="submit"]', container)).to.exist;
   });
 
-  it('should call updateUiSchema and updateSchema and return US phone patterns when checkbox is false', () => {
-    const options = uiSchema[EVIDENCE_LIMIT]['ui:options'];
+  it('should call updateUiSchema and updateSchema', () => {
+    const options = uiSchema[LIMITED_CONSENT_RESPONSE]['ui:options'];
     const isOnReviewPageStub = sinon
       .stub(helpers, 'isOnReviewPage')
       .returns(true);
