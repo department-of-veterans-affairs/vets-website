@@ -67,6 +67,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  formOptions: {
+    filterInactiveNestedPageData: true,
+  },
   customText: {
     reviewPageTitle: 'Review and submit',
     submitButtonText: 'Submit',

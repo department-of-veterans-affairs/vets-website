@@ -137,7 +137,6 @@ export const fileInputMultipleUI = options => {
           );
 
           const _required =
-            !uiOptions.skipUpload &&
             isRequired &&
             isNavigationEvent &&
             !_encryptedFileWaitingForPassword;
