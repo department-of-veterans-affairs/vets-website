@@ -1,6 +1,5 @@
 import sessionStatus from '../fixtures/session-status.json';
 import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
-import { MEDICAL_RECORDS_REQUEST_LABEL } from '../../../containers/LandingPage';
 
 class MedicalRecordsLandingPage {
   handleSession = () => {
@@ -77,17 +76,6 @@ class MedicalRecordsLandingPage {
     cy.get('[data-testid="vitals-landing-page-link"]')
       .should('have.attr', 'href')
       .and('include', '/my-health/medical-records/vitals');
-  };
-
-  verifyGpsLink = () => {
-    cy.get('[data-testid="gps-landing-page-link"]')
-      .should('have.attr', 'href')
-      .and(
-        'include',
-        '/resources/how-to-get-your-medical-records-from-your-va-health-facility/',
-      )
-      .should('have.attr', 'text')
-      .and('include', MEDICAL_RECORDS_REQUEST_LABEL);
   };
 
   verifySettingsLink = () => {

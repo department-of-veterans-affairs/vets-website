@@ -17,7 +17,6 @@ describe('Medical Records Authenticated Users', () => {
     LandingPage.verifyAllergiesLink();
     LandingPage.verifyConditionsLink();
     LandingPage.verifyVitalsLink();
-    LandingPage.verifyGpsLink();
     LandingPage.verifySettingsLink();
     LandingPage.verifyDownloadReportsLink();
     // Axe check
