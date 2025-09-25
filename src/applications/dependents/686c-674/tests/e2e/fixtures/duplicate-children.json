@@ -13,6 +13,7 @@
       "postalCode": "30033"
     }
   },
+  "vaDependentsDuplicateModals": true,
   "dependents": {
     "hasDependents": true,
     "awarded": [
