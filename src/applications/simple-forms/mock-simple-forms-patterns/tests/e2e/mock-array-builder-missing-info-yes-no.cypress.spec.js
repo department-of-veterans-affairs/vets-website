@@ -32,6 +32,8 @@ const testConfig = createTestConfig(
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
+          // eslint-disable-next-line prefer-const
+          let storedLogs = [];
           cy.window().then(win => {
             if (!win.__CONSOLE_LOG_PATCHED__) {
               // eslint-disable-next-line no-param-reassign
@@ -40,9 +42,7 @@ const testConfig = createTestConfig(
               // eslint-disable-next-line no-param-reassign
               win.console.log = (...args) => {
                 const message = args.join(' ');
-                cy.task('log', `[CONSOLE] ${message}`).catch(() => {
-                  // Ignore task failures (when running locally)
-                });
+                storedLogs.push(message);
                 originalLog.apply(win.console, args);
               };
             }
@@ -93,6 +93,15 @@ const testConfig = createTestConfig(
             tryContinueAndShouldBeStoppedByError();
             deleteCard();
             continueNoError();
+
+            // Flush stored console logs to CI output
+            cy.then(() => {
+              storedLogs.forEach(msg => {
+                cy.task('log', `[CONSOLE] ${msg}`).catch(() => {
+                  // Ignore task failures when running locally
+                });
+              });
+            });
           });
         });
       },

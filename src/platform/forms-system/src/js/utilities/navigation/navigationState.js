@@ -59,7 +59,7 @@ const navigationState = {
       );
     } catch (error) {
       console.log('ERROR from getNavigationStatus!!!', error);
-      return false;
+      return null;
     }
   },
 };
