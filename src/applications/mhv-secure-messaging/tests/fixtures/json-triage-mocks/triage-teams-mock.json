@@ -1,5 +1,5 @@
 {
-  "associatedTriageGroupsQty": 7,
+  "associatedTriageGroupsQty": 9,
   "associatedBlockedTriageGroupsQty": 0,
   "noAssociations": false,
   "allTriageGroupsBlocked": false,
@@ -77,6 +77,27 @@
       "signatureRequired": true,
       "relationshipType": "PATIENT",
       "ohTriageGroup": true
+    },
+    {
+      "id": 2710523,
+      "triageTeamId": 2710523,
+      "name": "VHA 636 Release of Information (ROI)",
+      "stationNumber": "636",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT",
+      "ohTriageGroup": true
+    },
+    {
+      "id": 2710524,
+      "triageTeamId": 2710524,
+      "name": "Texas Austin Release of Information – Medical Records",
+      "stationNumber": "662",
+      "blockedStatus": false,
+      "preferredTeam": true,
+      "signatureRequired": true,
+      "relationshipType": "PATIENT"
     }
   ],
   "mockAllowedRecipients": [
@@ -163,8 +184,8 @@
       "ohTriageGroup": true
     },
     {
-      "id": "OH789012",
-      "triageTeamId": "OH789012",
+      "id": 2710523,
+      "triageTeamId": 2710523,
       "name": "VHA 636 Release of Information (ROI)",
       "stationNumber": "636",
       "blockedStatus": false,
@@ -174,8 +195,8 @@
       "ohTriageGroup": true
     },
     {
-      "id": "OH890123",
-      "triageTeamId": "OH890123",
+      "id": 2710524,
+      "triageTeamId": 2710524,
       "name": "Texas Austin Release of Information – Medical Records",
       "stationNumber": "662",
       "blockedStatus": false,

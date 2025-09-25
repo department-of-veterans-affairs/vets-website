@@ -112,11 +112,11 @@ describe('Edit Contact List container', async () => {
       const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
         'label',
-        'Select all 5 teams',
+        'Select all 6 teams',
       );
       expect(selectAllTeams[1]).to.have.attribute(
         'label',
-        'Select all 2 teams',
+        'Select all 3 teams',
       );
 
       const allTriageTeams = screen.getAllByTestId(/contact-list-select-team-/);
