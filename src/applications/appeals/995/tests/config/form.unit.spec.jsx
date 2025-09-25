@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import formConfig from '../../config/form';
 
 describe('formConfig', () => {
