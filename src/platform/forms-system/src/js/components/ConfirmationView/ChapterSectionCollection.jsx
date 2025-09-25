@@ -88,10 +88,16 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
     );
   }
 
+  // WIP fix to resolve "Objects are not valid as a React child (found: object with keys {none})"
+  const displayData =
+    typeof data === 'object' && data !== null && !React.isValidElement(data)
+      ? JSON.stringify(data)
+      : data;
+
   return (
     <li key={keyString} className={className}>
       <div className="vads-u-color--gray">{label}</div>
-      <div>{data}</div>
+      <div>{displayData}</div>
     </li>
   );
 };
@@ -210,6 +216,9 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
     // multi page array data
     addMarginIfNewIndex(key, index);
+
+    // WIP fix to resolve "Cannot convert undefined or null to object"
+    if (!uiSchema?.items) return null;
     return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
       return fieldEntries(
         arrKey,
