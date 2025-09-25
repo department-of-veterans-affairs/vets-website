@@ -1,14 +1,21 @@
+/* eslint-disable no-console */
 // import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+const instanceId = Math.random()
+  .toString(36)
+  .substring(7);
+console.log(`NavigationState instance created: ${instanceId}`);
 
 /**
  * Use this module in a validation function to determine if validation
  * was triggered by user attempting to navigate form page
  */
 const navigationState = {
+  instanceId,
   _navigationEvent: false,
   _currentPath: null,
 
   setNavigationEvent() {
+    console.log(`setNavigationEvent called on instance: ${this.instanceId}`);
     this._navigationEvent = true;
     this._currentPath = window.location.href;
 
@@ -29,6 +36,9 @@ const navigationState = {
     // }
     // only return true if the navigation happened on the current page
     // eslint-disable-next-line no-console
+    console.log(
+      `getNavigationEventStatus called on instance: ${this.instanceId}`,
+    );
     console.log(
       'the status is\n',
       this._navigationEvent,

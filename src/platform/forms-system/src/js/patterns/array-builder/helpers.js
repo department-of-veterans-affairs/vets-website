@@ -434,11 +434,13 @@ export const validateIncompleteItems = ({
   // invalidIndex = null, 0, 1, 2, 3...
   const isValid = invalidIndex === null;
 
+  const proceed = !isValid;
   // eslint-disable-next-line no-console
-  console.log('about to run the check...!isValid is...', !isValid, Date.now());
+  console.log('about to run the check...proceed is...', proceed, Date.now());
   // eslint-disable-next-line sonarjs/no-collapsible-if
-  if (!isValid) {
+  if (proceed) {
     console.log('we made it past the !isValid check....');
+    console.log('navstate object: ', JSON.stringify(navigationState));
     const navstat = navigationState.getNavigationEventStatus();
     console.log('nav stat is...', navstat);
     if (navstat) {
