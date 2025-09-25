@@ -118,7 +118,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <p>
+          <p className="vads-u-margin--0">
             <VaLink
               active
               data-testid={`detail-link-${id}`}
@@ -133,7 +133,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             />
           </p>
 
-          <p>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
             <VaLink
               active
               data-testid={`resolve-link-${id}`}
