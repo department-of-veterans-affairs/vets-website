@@ -8,7 +8,7 @@ describe('Personal and contact information', () => {
   it('shows the NO_SUGGESTIONS_NO_OVERRIDE alert when there are no suggestions and no validation key', () => {
     const addressPage = new AddressPage();
     addressPage.loadPage('no-suggestions-no-override', {
-      profileShowNoValidationKeyAddressAlert: true,
+      profileShowNooverrideValidationKeyAddressAlert: true,
     });
     addressPage.fillAddressForm({
       address: '999 Nowhere Rd',

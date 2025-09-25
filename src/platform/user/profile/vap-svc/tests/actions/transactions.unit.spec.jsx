@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import {
   resetAddressValidation,
   validateAddress,
-  updateValidationKeyAndSave,
+  updateoverrideValidationKeyAndSave,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_RESET,
@@ -119,10 +119,10 @@ describe('validateAddress', () => {
   });
 });
 
-describe('updateValidationKeyAndSave', () => {
+describe('updateoverrideValidationKeyAndSave', () => {
   it('verify return data', () => {
     const dispatch = sinon.spy();
-    return updateValidationKeyAndSave(
+    return updateoverrideValidationKeyAndSave(
       route,
       method,
       fieldName,

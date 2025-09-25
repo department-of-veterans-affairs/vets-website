@@ -230,7 +230,7 @@ export {
   refreshTransaction,
   createTransaction,
   validateAddress,
-  updateValidationKeyAndSave,
+  updateoverrideValidationKeyAndSave,
   resetAddressValidation,
 } from './profile/vap-svc/actions/transactions';
 export {

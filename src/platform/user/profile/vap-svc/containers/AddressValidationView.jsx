@@ -21,13 +21,13 @@ import { setData } from 'platform/forms-system/exportsFile';
 import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
 import {
-  clearAddressValidationKey,
+  clearAddressoverrideValidationKey,
   closeModal,
   createTransaction,
   openModal,
   resetAddressValidation as resetAddressValidationAction,
   updateSelectedAddress,
-  updateValidationKeyAndSave,
+  updateoverrideValidationKeyAndSave,
 } from '../actions';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
@@ -86,10 +86,10 @@ class AddressValidationView extends React.Component {
     this.props.updateSelectedAddress(selectedAddress, selectedAddressId);
   };
 
-  requiresNewValidationKey = payload => {
-    const { addressMetaData, validationKey } = payload;
-    if (validationKey) {
-      // if there is a validationKey, assume the validationKey is already updated
+  requiresNewoverrideValidationKey = payload => {
+    const { addressMetaData, overrideValidationKey } = payload;
+    if (overrideValidationKey) {
+      // if there is a overrideValidationKey, assume the overrideValidationKey is already updated
       return false;
     }
     if (
@@ -109,7 +109,7 @@ class AddressValidationView extends React.Component {
   onSubmit = async event => {
     event.preventDefault();
     const {
-      validationKey,
+      overrideValidationKey,
       addressValidationType,
       selectedAddress,
       selectedAddressId,
@@ -118,7 +118,7 @@ class AddressValidationView extends React.Component {
 
     const payload = {
       ...selectedAddress,
-      validationKey,
+      overrideValidationKey,
     };
 
     if (this.context?.prefillPatternEnabled) {
@@ -168,16 +168,16 @@ class AddressValidationView extends React.Component {
     }
 
     if (suggestedAddressSelected) {
-      // if the user selected a suggested address, we need to remove the validationKey
+      // if the user selected a suggested address, we need to remove the overrideValidationKey
       // so that the API doesn't throw an error
-      delete payload.validationKey;
-      this.props.clearAddressValidationKey();
+      delete payload.overrideValidationKey;
+      this.props.clearAddressoverrideValidationKey();
     }
-    if (this.requiresNewValidationKey(payload)) {
-      // if the suggested address selected, there will be no validationKey so if the
-      // address has a low confidence rating we need to fetch a new validationKey for
+    if (this.requiresNewoverrideValidationKey(payload)) {
+      // if the suggested address selected, there will be no overrideValidationKey so if the
+      // address has a low confidence rating we need to fetch a new overrideValidationKey for
       // the update request
-      await this.props.updateValidationKeyAndSave(
+      await this.props.updateoverrideValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,
         method,
         addressValidationType,
@@ -218,7 +218,7 @@ class AddressValidationView extends React.Component {
   renderPrimaryButton = () => {
     const {
       addressValidationError,
-      validationKey,
+      overrideValidationKey,
       isLoading,
       confirmedSuggestions,
       selectedAddressId,
@@ -226,7 +226,7 @@ class AddressValidationView extends React.Component {
 
     let buttonText = 'Use address you entered';
 
-    if (confirmedSuggestions.length === 0 && validationKey) {
+    if (confirmedSuggestions.length === 0 && overrideValidationKey) {
       buttonText = 'Use address you entered';
     }
 
@@ -239,7 +239,7 @@ class AddressValidationView extends React.Component {
 
     if (
       addressValidationError ||
-      (!confirmedSuggestions.length && !validationKey)
+      (!confirmedSuggestions.length && !overrideValidationKey)
     ) {
       return (
         <va-button
@@ -267,15 +267,15 @@ class AddressValidationView extends React.Component {
     const {
       confirmedSuggestions,
       selectedAddressId,
-      validationKey,
+      overrideValidationKey,
     } = this.props;
 
     const isAddressFromUser = id === 'userEntered';
     const hasConfirmedSuggestions =
-      (confirmedSuggestions.length > 0 && validationKey) ||
+      (confirmedSuggestions.length > 0 && overrideValidationKey) ||
       confirmedSuggestions.length > 1;
     const isFirstOptionOrEnabled =
-      (isAddressFromUser && validationKey) || !isAddressFromUser;
+      (isAddressFromUser && overrideValidationKey) || !isAddressFromUser;
 
     const { street, cityStateZip, country } = formatAddress(address);
     const puralizedAddress =
@@ -363,17 +363,17 @@ class AddressValidationView extends React.Component {
       transaction,
       transactionRequest,
       isLoading,
-      validationKey,
-      isNoValidationKeyAlertEnabled,
+      overrideValidationKey,
+      isNooverrideValidationKeyAlertEnabled,
     } = this.props;
 
     const validationMessageKey = getValidationMessageKey({
       suggestedAddresses,
       addressValidationError,
       confirmedSuggestions,
-      validationKey,
+      overrideValidationKey,
       addressValidationErrorCode,
-      isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
+      isNooverrideValidationKeyAlertEnabled, // remove when profileShowNooverrideValidationKeyAddressAlert flag is retired
     });
 
     const addressValidationMessage =
@@ -451,11 +451,11 @@ const mapStateToProps = (state, ownProps) => {
     selectedAddress,
     selectedAddressId,
     suggestedAddresses,
-    validationKey,
+    overrideValidationKey,
   } = selectAddressValidation(state);
   const userHasBadAddress = hasBadAddress(state);
-  const isNoValidationKeyAlertEnabled =
-    state.featureToggles?.profileShowNoValidationKeyAddressAlert; // remove when profileShowNoValidationKeyAddressAlert flag is retired
+  const isNooverrideValidationKeyAlertEnabled =
+    state.featureToggles?.profileShowNooverrideValidationKeyAddressAlert; // remove when profileShowNooverrideValidationKeyAddressAlert flag is retired
   return {
     vapServiceFormFields,
     formAppData,
@@ -473,8 +473,8 @@ const mapStateToProps = (state, ownProps) => {
     selectedAddressId,
     suggestedAddresses,
     userHasBadAddress,
-    validationKey,
-    isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
+    overrideValidationKey,
+    isNooverrideValidationKeyAlertEnabled, // remove when profileShowNooverrideValidationKeyAddressAlert flag is retired
   };
 };
 
@@ -482,10 +482,10 @@ const mapDispatchToProps = {
   closeModal,
   openModal,
   updateSelectedAddress,
-  updateValidationKeyAndSave,
+  updateoverrideValidationKeyAndSave,
   createTransaction,
   resetAddressValidation: resetAddressValidationAction,
-  clearAddressValidationKey,
+  clearAddressoverrideValidationKey,
   setDataAction: setData,
 };
 
@@ -493,7 +493,7 @@ AddressValidationView.propTypes = {
   addressFromUser: PropTypes.object.isRequired,
   addressValidationError: PropTypes.bool.isRequired,
   addressValidationType: PropTypes.string.isRequired,
-  clearAddressValidationKey: PropTypes.func.isRequired,
+  clearAddressoverrideValidationKey: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
@@ -501,7 +501,7 @@ AddressValidationView.propTypes = {
   setDataAction: PropTypes.func.isRequired,
   suggestedAddresses: PropTypes.array.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
-  updateValidationKeyAndSave: PropTypes.func.isRequired,
+  updateoverrideValidationKeyAndSave: PropTypes.func.isRequired,
   addressValidationErrorCode: PropTypes.string,
   analyticsSectionName: PropTypes.string,
   confirmedSuggestions: PropTypes.arrayOf(
@@ -521,7 +521,7 @@ AddressValidationView.propTypes = {
   ),
   formAppData: PropTypes.object,
   isLoading: PropTypes.bool,
-  isNoValidationKeyAlertEnabled: PropTypes.bool,
+  isNooverrideValidationKeyAlertEnabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
@@ -529,7 +529,7 @@ AddressValidationView.propTypes = {
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
-  validationKey: PropTypes.number,
+  overrideValidationKey: PropTypes.number,
   vapServiceFormFields: PropTypes.object,
 };
 

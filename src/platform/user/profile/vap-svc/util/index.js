@@ -36,9 +36,9 @@ export const getValidationMessageKey = ({
   suggestedAddresses,
   addressValidationError,
   confirmedSuggestions = [],
-  validationKey,
+  overrideValidationKey,
   addressValidationErrorCode,
-  isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
+  isNooverrideValidationKeyAlertEnabled, // remove when profileShowNooverrideValidationKeyAddressAlert flag is retired
 }) => {
   const singleSuggestion = suggestedAddresses?.length === 1;
   const multipleSuggestions = suggestedAddresses?.length > 1;
@@ -65,12 +65,12 @@ export const getValidationMessageKey = ({
     return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
   }
 
-  if (isNoValidationKeyAlertEnabled) {
-    if (!validationKey && confirmedSuggestions.length) {
+  if (isNooverrideValidationKeyAlertEnabled) {
+    if (!overrideValidationKey && confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
     }
 
-    if (!validationKey && !confirmedSuggestions.length) {
+    if (!overrideValidationKey && !confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
     }
   }

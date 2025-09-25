@@ -10,7 +10,7 @@ describe('Personal and contact information', () => {
     it('shows the SHOW_SUGGESTIONS_NO_OVERRIDE alert', () => {
       const addressPage = new AddressPage();
       addressPage.loadPage('show-suggestions-no-override', {
-        profileShowNoValidationKeyAddressAlert: true,
+        profileShowNooverrideValidationKeyAddressAlert: true,
       });
       addressPage.fillAddressForm({
         address: '999 Unknown Ave',

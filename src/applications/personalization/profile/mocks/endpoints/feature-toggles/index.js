@@ -16,7 +16,7 @@ const profileToggles = {
   profileShowMhvNotificationSettingsNewSecureMessaging: false,
   profileShowMhvNotificationSettingsEmailRxShipment: false,
   profileShowMhvNotificationSettingsMedicalImages: false,
-  profileShowNoValidationKeyAddressAlert: false,
+  profileShowNooverrideValidationKeyAddressAlert: false,
   profileShowPaperlessDelivery: false,
 };
 

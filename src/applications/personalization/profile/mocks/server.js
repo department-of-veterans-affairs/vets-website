@@ -105,7 +105,7 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
-            profileShowNoValidationKeyAddressAlert: false,
+            profileShowNooverrideValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
             profileShowPaperlessDelivery: false,
