@@ -16,6 +16,61 @@ const isPathIncludedInPossibleLocations = (location, possibleLocations) => {
   );
 };
 
+const interceptDemoNavigation = () => {
+  // Intercept all click events on the document to block navigation
+  document.addEventListener(
+    'click',
+    e => {
+      const target = e.target.closest('a');
+      if (!target) return;
+
+      const href = target.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('#')) return;
+
+      // Check if this is a demo navigation button we want to allow
+      const isDemoNavigation =
+        target.closest('va-button') ||
+        target.closest('va-button-pair') ||
+        target.closest('[class*="vads-c-action-link"]') ||
+        target.classList.contains('usa-button') ||
+        target.classList.contains('va-button') ||
+        // Allow skip-to-content for accessibility
+        href === '#main' ||
+        // Allow demo internal navigation
+        (href.includes('/7/copy-of-submission/') || href.includes('pattern7'));
+
+      if (!isDemoNavigation) {
+        e.preventDefault();
+        e.stopPropagation();
+        // eslint-disable-next-line no-console
+        console.log('Demo: Blocked click navigation to', href);
+      }
+    },
+    true,
+  ); // Use capture phase to catch events early
+
+  // Also intercept form submissions that might navigate away
+  document.addEventListener(
+    'submit',
+    e => {
+      const form = e.target;
+      const action = form.getAttribute('action');
+
+      if (
+        action &&
+        !action.includes('/7/copy-of-submission/') &&
+        action !== '#'
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        // eslint-disable-next-line no-console
+        console.log('Demo: Blocked form submission to', action);
+      }
+    },
+    true,
+  );
+};
+
 export const handleEditPageDisplayTweaks = location => {
   const navHeader = document.querySelector('#nav-form-header');
   const chapterProgress = document.querySelector(
@@ -50,6 +105,9 @@ export const handleEditPageDisplayTweaks = location => {
           }
         });
 
+        // Intercept all navigation attempts to keep users on demo pages
+        interceptDemoNavigation();
+
         // Mock signed-in user for review and confirmation pages
         const isReviewOrConfirmation =
           location.pathname.includes('/review') ||
@@ -81,14 +139,14 @@ export const handleEditPageDisplayTweaks = location => {
                   </button>
                   <div class="va-dropdown-panel" id="account-menu" hidden="">
                     <ul>
-                      <li><a href="/my-va/">My VA</a></li>
-                      <li><a class="my-health-link" href="/my-health/">My HealtheVet</a></li>
-                      <li><a href="/profile">Profile</a></li>
-                      <li><a href="/manage-dependents/view">Dependents</a></li>
+                      <li><a href="#" data-demo-processed="true">My VA</a></li>
+                      <li><a class="my-health-link" href="#" data-demo-processed="true">My HealtheVet</a></li>
+                      <li><a href="#" data-demo-processed="true">Profile</a></li>
+                      <li><a href="#" data-demo-processed="true">Dependents</a></li>
                       <li class="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--1">
-                        <a href="/records/download-va-letters/letters">Letters</a>
+                        <a href="#" data-demo-processed="true">Letters</a>
                       </li>
-                      <li><a href="#" onclick="return false;">Sign Out</a></li>
+                      <li><a href="#" onclick="return false;" data-demo-processed="true">Sign Out</a></li>
                     </ul>
                   </div>
                 </div>
