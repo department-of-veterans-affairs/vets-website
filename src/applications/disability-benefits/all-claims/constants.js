@@ -603,3 +603,7 @@ export const SUPPORTING_EVIDENCE_HINTS = Object.freeze({
   none:
     'Select this option if you don’t have any supporting documents to include, or prefer not to include them.',
 });
+
+export const ARRAY_PATH = 'newDisabilities';
+export const NEW_CONDITION_OPTION = "A condition I haven't claimed before";
+export const CONDITION_NOT_LISTED_OPTION = 'My condition is not listed';

@@ -199,17 +199,28 @@ export function makeTEConditionsUISchema(formData) {
   const { newDisabilities = [] } = formData;
   const options = {};
 
+  const formatSide = side => {
+    if (!side || typeof side !== 'string') return '';
+    const clean = side.trim().toLowerCase();
+    const map = { left: 'Left', right: 'Right', bilateral: 'Bilateral' };
+    return map[clean] || clean.charAt(0).toUpperCase() + clean.slice(1);
+  };
+
   newDisabilities.forEach(disability => {
-    const { condition } = disability;
+    const { condition, sideOfBody } = disability;
 
-    const capitalizedDisabilityName =
-      typeof condition === 'string'
-        ? capitalizeEachWord(condition)
-        : NULL_CONDITION_STRING;
+    let id = sippableId(NULL_CONDITION_STRING);
+    let title = NULL_CONDITION_STRING;
 
-    options[sippableId(condition || NULL_CONDITION_STRING)] = {
-      'ui:title': capitalizedDisabilityName,
-    };
+    if (typeof condition === 'string' && condition.trim() !== '') {
+      const base = condition.trim();
+      const side = formatSide(sideOfBody);
+      id = sippableId(base);
+      const display = capitalizeEachWord(base);
+      title = side ? `${display}, ${side}` : display;
+    }
+
+    options[id] = { 'ui:title': title };
   });
 
   options.none = {

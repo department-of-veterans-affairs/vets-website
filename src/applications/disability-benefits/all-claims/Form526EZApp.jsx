@@ -158,6 +158,7 @@ export const Form526Entry = ({
     'disability526Enable2024Form4142',
     'disability526ToxicExposureOptOutDataPurge',
   ]);
+  useFormFeatureToggleSync(['disabilityCompNewConditionsWorkflow']);
 
   if (!loggedIn) {
     // clear service branches if not logged in
