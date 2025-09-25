@@ -140,9 +140,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               onClick={event => {
                 event.preventDefault();
                 recordEvent({ event: 'cta-link-click-copay-balance-card' });
-                history.push(`/copay-balances/${id}/resolve`);
+                history.push(`/copay-balances/${id}/detail/resolve`);
               }}
-              href={`/copay-balances/${id}/resolve`}
+              href={`/copay-balances/${id}/detail/resolve`}
               text="Resolve this bill"
               label={`Resolve this bill for ${facility}`}
             />
