@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { datadogRum } from '@datadog/browser-rum';
-import * as recordEventModule from 'platform/monitoring/record-event';
 import NonPatientLandingPage from '../../../components/nonPatientPage/NonPatientLandingPage';
 import reducers from '../../../reducers';
 
@@ -86,15 +85,14 @@ describe('NonPatientLandingPage component', () => {
   });
 
   it('calls recordEvent and datadogRum', async () => {
-    const recordEventSpy = sinon.stub(recordEventModule, 'default');
+    const recordEvent = sinon.spy();
     const datadogRumSpy = sinon.spy(datadogRum, 'addAction');
-    setup();
-    expect(recordEventSpy.calledOnce).to.be.true;
-    expect(recordEventSpy.calledWith({ event: 'nav-non-patient-landing-page' }))
-      .to.be.true;
+    setup({ props: { recordEvent } });
+    expect(recordEvent.calledOnce).to.be.true;
+    expect(recordEvent.calledWith({ event: 'nav-non-patient-landing-page' })).to
+      .be.true;
     expect(datadogRumSpy.calledOnce).to.be.true;
 
-    recordEventSpy.restore();
     datadogRumSpy.restore();
   });
 });
