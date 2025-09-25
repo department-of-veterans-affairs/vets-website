@@ -39,8 +39,6 @@ import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPerson
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { LivingSituation } from './LivingSituation';
 
-// import maxData from '../tests/fixtures/data/maximal-test-v2.json';
-
 export const ConfirmationPageV2 = () => {
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
