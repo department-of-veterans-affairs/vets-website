@@ -39,7 +39,7 @@ VA Profile is an asynchronous, transaction-based service. Making updates is a tw
 
 ## Direct deposit
 
-Users must be LOA3 and have 2FA set up to access Direct Deposit. Users must also be eligible for Direct Deposit (based on the response from the `GET ppiu/payment_information` endpoint) to see the feature (most user will not see the feature in their Profile). Some users who have direct deposit set up are blocked from accessing the feature because they are flagged as incompetent or having a fiduciary.
+Users must be LOA3 and have 2FA set up to access Direct Deposit. Users must also be eligible for Direct Deposit (based on the response from the `GET v0/profile/direct_deposits` endpoint) to see the feature (most user will not see the feature in their Profile). Some users who have direct deposit set up are blocked from accessing the feature because they are flagged as deceased, incompetent, or having a fiduciary.
 
 ## Connected apps
 

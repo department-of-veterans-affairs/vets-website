@@ -7,13 +7,9 @@ import {
   getAppointmentCreateStatus,
   getSelectedSlotStartTime,
 } from './redux/selectors';
-import {
-  POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
-  POST_REFERRAL_REQUEST_CACHE,
-} from '../utils/constants';
 import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
-  usePostDraftReferralAppointmentMutation,
+  useGetDraftReferralAppointmentQuery,
   usePostReferralAppointmentMutation,
 } from '../redux/api/vaosApi';
 
@@ -35,30 +31,32 @@ const ReviewAndConfirm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
-  const [
-    postDraftReferralAppointment,
-    {
-      data: draftAppointmentInfo,
-      isError: isDraftError,
-      isLoading: isDraftLoading,
-      isUninitialized: isDraftUninitialized,
-      isSuccess: isDraftSuccess,
-    },
-  ] = usePostDraftReferralAppointmentMutation({
-    fixedCacheKey: POST_DRAFT_REFERRAL_APPOINTMENT_CACHE,
-  });
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [skipDraft, setSkipDraft] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
+  const savedSelectedSlot = sessionStorage.getItem(
+    getReferralSlotKey(currentReferral.uuid),
+  );
+  const {
+    data: draftAppointmentInfo,
+    isLoading: isDraftLoading,
+    isError: isDraftError,
+    isSuccess: isDraftSuccess,
+    isUninitialized: isDraftUninitialized,
+  } = useGetDraftReferralAppointmentQuery(
+    {
+      referralNumber: currentReferral.referralNumber,
+      referralConsultId: currentReferral.referralConsultId,
+    },
+    { skip: skipDraft },
+  );
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
-  );
-  const savedSelectedSlot = sessionStorage.getItem(
-    getReferralSlotKey(currentReferral.uuid),
   );
   const [
     postReferralAppointment,
@@ -68,9 +66,7 @@ const ReviewAndConfirm = props => {
       isLoading: isAppointmentLoading,
       isSuccess: isAppointmentSuccess,
     },
-  ] = usePostReferralAppointmentMutation({
-    fixedCacheKey: POST_REFERRAL_REQUEST_CACHE,
-  });
+  ] = usePostReferralAppointmentMutation();
   useEffect(
     () => {
       dispatch(setFormCurrentPage('reviewAndConfirm'));
@@ -88,22 +84,23 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (isDraftUninitialized) {
-        postDraftReferralAppointment(currentReferral.referralNumber);
-      } else if (isDraftSuccess) {
+      if (!isDraftLoading && !isDraftUninitialized) {
         setLoading(false);
-      } else if (isDraftError) {
-        setLoading(false);
+        setSkipDraft(true);
+      }
+      if (isDraftError) {
         setFailed(true);
       }
     },
     [
+      draftAppointmentInfo,
       currentReferral.referralNumber,
       dispatch,
       isDraftError,
       isDraftSuccess,
+      isDraftLoading,
       isDraftUninitialized,
-      postDraftReferralAppointment,
+      currentReferral.referralConsultId,
     ],
   );
 
@@ -156,11 +153,7 @@ const ReviewAndConfirm = props => {
           currentReferral.uuid,
           draftAppointmentInfo.id,
         );
-      } else if (
-        isAppointmentError &&
-        draftAppointmentInfo?.id &&
-        isDraftSuccess
-      ) {
+      } else if (isAppointmentError && draftAppointmentInfo?.id) {
         setCreateLoading(false);
         setCreateFailed(true);
       }
@@ -175,10 +168,12 @@ const ReviewAndConfirm = props => {
       currentReferral.uuid,
       isDraftSuccess,
       history,
+      draftAppointmentInfo,
+      dispatch,
     ],
   );
 
-  if (loading || isDraftLoading) {
+  if (isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow
@@ -190,7 +185,6 @@ const ReviewAndConfirm = props => {
   }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
-
   return (
     <ReferralLayout
       hasEyebrow
@@ -201,111 +195,120 @@ const ReviewAndConfirm = props => {
       <div>
         <hr className="vads-u-margin-y--2" />
         {isAppointmentSuccess && <p data-testid="success-text">success</p>}
-        <div className=" vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col">
-              <h2 className={headingStyles}>
+        {draftAppointmentInfo?.attributes && (
+          <>
+            <div className=" vads-l-grid-container vads-u-padding--0">
+              <div className="vads-l-row">
+                <div className="vads-l-col">
+                  <h2 className={headingStyles}>
+                    <span data-dd-privacy="mask">
+                      {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                    </span>
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <p className="vads-u-margin--0">
+              <span data-dd-privacy="mask">
+                {draftAppointmentInfo.attributes.provider.name}
+              </span>{' '}
+              <br />
+              <span data-dd-privacy="mask">
+                {
+                  draftAppointmentInfo.attributes.provider.providerOrganization
+                    .name
+                }
+              </span>
+            </p>
+            {draftAppointmentInfo.attributes.provider.location.address}
+            {currentReferral.provider?.telephone && (
+              <p className="vads-u-margin--0" data-testid="phone">
+                Phone:{' '}
                 <span data-dd-privacy="mask">
-                  {`${titleCase(currentReferral.categoryOfCare)} provider`}
+                  <va-telephone
+                    contact={currentReferral.provider?.telephone}
+                    data-testid="provider-telephone"
+                  />
                 </span>
-              </h2>
+              </p>
+            )}
+            <hr className="vads-u-margin-y--2" />
+            <div className=" vads-l-grid-container vads-u-padding--0">
+              <div className="vads-l-row">
+                <div className="vads-l-col">
+                  <h2 className={headingStyles}>Date and time</h2>
+                </div>
+                <div className="vads-l-col vads-u-text-align--right">
+                  <va-link
+                    href={`/my-health/appointments/schedule-referral/date-time?id=${
+                      currentReferral.uuid
+                    }`}
+                    label="Edit date and time"
+                    text="Edit"
+                    data-testid="edit-when-information-link"
+                    onClick={e => {
+                      handleGoBack(e);
+                    }}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <p className="vads-u-margin--0">
-          <span data-dd-privacy="mask">
-            {draftAppointmentInfo.attributes.provider.name}
-          </span>{' '}
-          <br />
-          <span data-dd-privacy="mask">
-            {draftAppointmentInfo.attributes.provider.providerOrganization.name}
-          </span>
-        </p>
-        {draftAppointmentInfo.attributes.provider.location.address}
-        {currentReferral.provider?.telephone && (
-          <p className="vads-u-margin--0" data-testid="phone">
-            Phone:{' '}
-            <span data-dd-privacy="mask">
-              <va-telephone
-                contact={currentReferral.provider?.telephone}
-                data-testid="provider-telephone"
-              />
-            </span>
-          </p>
-        )}
-        <hr className="vads-u-margin-y--2" />
-        <div className=" vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col">
-              <h2 className={headingStyles}>Date and time</h2>
-            </div>
-            <div className="vads-l-col vads-u-text-align--right">
-              <va-link
-                href={`/my-health/appointments/schedule-referral/date-time?id=${
-                  currentReferral.uuid
-                }`}
-                label="Edit date and time"
-                text="Edit"
-                data-testid="edit-when-information-link"
+            {slotDetails && (
+              <p className="vads-u-margin--0" data-testid="slot-day-time">
+                <>
+                  {formatInTimeZone(
+                    new Date(slotDetails.start),
+                    draftAppointmentInfo.attributes.provider.location.timezone,
+                    'EEEE, LLLL d, yyyy',
+                  )}
+                </>
+                <br />
+                <>
+                  {stripDST(
+                    formatInTimeZone(
+                      new Date(slotDetails.start),
+                      draftAppointmentInfo.attributes.provider.location
+                        .timezone,
+                      'h:mm aaaa zzz',
+                    ),
+                  )}
+                </>
+              </p>
+            )}
+            <hr className="vads-u-margin-y--2" />
+            <div className="vads-u-margin-top--4">
+              <va-button
+                label="Back"
+                text="Back"
+                secondary
+                uswds
                 onClick={e => {
                   handleGoBack(e);
                 }}
               />
+              <va-button
+                data-testid="continue-button"
+                loading={createLoading}
+                class="vads-u-margin-left--2"
+                label="Confirm"
+                text="Confirm"
+                uswds
+                onClick={e => {
+                  e.preventDefault();
+                  postReferralAppointment({
+                    draftApppointmentId: draftAppointmentInfo.id,
+                    referralNumber: currentReferral.referralNumber,
+                    slotId: slotDetails.id,
+                    networkId:
+                      draftAppointmentInfo.attributes.provider.networkIds[0],
+                    providerServiceId:
+                      draftAppointmentInfo.attributes.provider.id,
+                  });
+                }}
+              />
             </div>
-          </div>
-        </div>
-        {slotDetails && (
-          <p className="vads-u-margin--0" data-testid="slot-day-time">
-            <>
-              {formatInTimeZone(
-                new Date(slotDetails.start),
-                draftAppointmentInfo.attributes.provider.location.timezone,
-                'EEEE, LLLL d, yyyy',
-              )}
-            </>
-            <br />
-            <>
-              {stripDST(
-                formatInTimeZone(
-                  new Date(slotDetails.start),
-                  draftAppointmentInfo.attributes.provider.location.timezone,
-                  'h:mm aaaa zzz',
-                ),
-              )}
-            </>
-          </p>
+          </>
         )}
-        <hr className="vads-u-margin-y--2" />
-        <div className="vads-u-margin-top--4">
-          <va-button
-            label="Back"
-            text="Back"
-            secondary
-            uswds
-            onClick={e => {
-              handleGoBack(e);
-            }}
-          />
-          <va-button
-            data-testid="continue-button"
-            loading={createLoading}
-            class="vads-u-margin-left--2"
-            label="Confirm"
-            text="Confirm"
-            uswds
-            onClick={e => {
-              e.preventDefault();
-              postReferralAppointment({
-                draftApppointmentId: draftAppointmentInfo.id,
-                referralNumber: currentReferral.referralNumber,
-                slotId: slotDetails.id,
-                networkId:
-                  draftAppointmentInfo.attributes.provider.networkIds[0],
-                providerServiceId: draftAppointmentInfo.attributes.provider.id,
-              });
-            }}
-          />
-        </div>
         {createFailed &&
           !createLoading && (
             <va-alert

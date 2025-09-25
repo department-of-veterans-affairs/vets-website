@@ -13,14 +13,15 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
-  reportGeneratedBy,
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
+import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
-  generateMedicationsPDF,
   generateTextFile,
   getErrorTypeFromFormat,
 } from '../util/helpers';
@@ -42,13 +43,7 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import {
-  selectAllergiesFlag,
-  selectGroupingFlag,
-  selectRefillProgressFlag,
-  selectRemoveLandingPageFlag,
-  selectIPEContentFlag,
-} from '../util/selectors';
+import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
@@ -67,30 +62,36 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
+import {
+  selectUserDob,
+  selectUserFullName,
+  selectHasMedsByMailFacility,
+} from '../selectors/selectUser';
+import { selectPrescriptionId } from '../selectors/selectPrescription';
+import {
+  selectSortOption,
+  selectFilterOption,
+  selectPageNumber,
+} from '../selectors/selectPreferences';
+import { buildPdfData } from '../util/buildPdfData';
+import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
 
 const Prescriptions = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const userName = useSelector(state => state.user.profile.userFullName);
-  const dob = useSelector(state => state.user.profile.dob);
+  const userName = useSelector(selectUserFullName);
+  const dob = useSelector(selectUserDob);
+  const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
 
   // Get sort/filter selections from store.
-  const selectedSortOption = useSelector(
-    state => state.rx.preferences.sortOption,
-  );
-  const selectedFilterOption = useSelector(
-    state => state.rx.preferences.filterOption,
-  );
-  const currentPage = useSelector(state => state.rx.preferences.pageNumber);
+  const selectedSortOption = useSelector(selectSortOption);
+  const selectedFilterOption = useSelector(selectFilterOption);
+  const currentPage = useSelector(selectPageNumber);
 
   // Get feature flags
-  const showGroupingContent = useSelector(selectGroupingFlag);
-  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
-  const showIPEContent = useSelector(selectIPEContentFlag);
 
   // Track if we've initialized from session storage
   const initializedFromSession = useRef(false);
@@ -98,7 +99,7 @@ const Prescriptions = () => {
   // Consolidate query parameters into a single state object to avoid multiple re-renders
   const [queryParams, setQueryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -156,9 +157,7 @@ const Prescriptions = () => {
     [filteredList],
   );
 
-  const prescriptionId = useSelector(
-    state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
-  );
+  const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
@@ -263,7 +262,7 @@ const Prescriptions = () => {
         }));
       }
     },
-    [page],
+    [page, queryParams.page],
   );
 
   useEffect(() => {
@@ -309,7 +308,11 @@ const Prescriptions = () => {
         setIsFirstLoad(false);
       }
     },
-    [isLoading, filteredList],
+    [
+      isLoading,
+      filteredList,
+      // isFirstLoad TODO: This breaks the code. Need to refactor to add this.
+    ],
   );
 
   // Update page title
@@ -318,6 +321,26 @@ const Prescriptions = () => {
       updatePageTitle('Medications | Veterans Affairs');
     },
     [currentPage],
+  );
+
+  // Log when prescriptions are successfully displayed to the user
+  useEffect(
+    () => {
+      if (
+        !isPrescriptionsLoading &&
+        !isPrescriptionsFetching &&
+        !prescriptionsApiError &&
+        prescriptionsData
+      ) {
+        logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED);
+      }
+    },
+    [
+      isPrescriptionsLoading,
+      isPrescriptionsFetching,
+      prescriptionsApiError,
+      prescriptionsData,
+    ],
   );
 
   // Update loading state based on RTK Query states
@@ -367,86 +390,6 @@ const Prescriptions = () => {
     [dispatch, selectedFilterOption],
   );
 
-  const pdfData = useCallback(
-    (rxList, allergiesList) => {
-      return {
-        subject: 'Full Medications List',
-        headerBanner: [
-          {
-            text:
-              'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
-          },
-          {
-            text: '988',
-            weight: 'bold',
-          },
-          {
-            text: '. Then select 1.',
-          },
-        ],
-        headerLeft: userName.first
-          ? `${userName.last}, ${userName.first}`
-          : `${userName.last || ' '}`,
-        headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-        footerLeft: reportGeneratedBy,
-        footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-        title: 'Medications',
-        preface: [
-          {
-            value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-          },
-        ],
-        results: [
-          {
-            header: 'Medications list',
-            preface: `Showing ${
-              rxList?.length
-            } medications, ${rxListSortingOptions[
-              selectedSortOption
-            ].LABEL.toLowerCase()}`,
-            list: rxList,
-          },
-          {
-            header: 'Allergies',
-            ...(allergiesList &&
-              allergiesList.length > 0 && {
-                preface: [
-                  {
-                    value:
-                      'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
-                  },
-                  {
-                    value: `Showing ${
-                      allergiesList.length
-                    } records from newest to oldest`,
-                  },
-                ],
-              }),
-            list: allergiesList || [],
-            ...(allergiesList &&
-              !allergiesList.length && {
-                preface:
-                  'There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.',
-              }),
-            ...(!allergiesList && {
-              preface: [
-                {
-                  value:
-                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later.',
-                },
-                {
-                  value:
-                    'If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
-                },
-              ],
-            }),
-          },
-        ],
-      };
-    },
-    [userName, dob, selectedSortOption, selectedFilterOption],
-  );
-
   const txtData = useCallback(
     (rxList, allergiesList) => {
       return (
@@ -470,28 +413,22 @@ const Prescriptions = () => {
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [
-      userName,
-      dob,
-      selectedSortOption,
-      selectedFilterOption,
-      prescriptionsFullList,
-    ],
+    [userName, dob, selectedSortOption, prescriptionsFullList],
   );
 
   const generatePDF = useCallback(
-    (rxList, allergiesList) => {
-      generateMedicationsPDF(
-        'medications',
-        `VA-medications-list-${
-          userName.first ? `${userName.first}-${userName.last}` : userName.last
-        }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
-        pdfData(rxList, allergiesList),
-      ).then(() => {
-        setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
+    async (rxList, allergiesList) => {
+      const pdfDataObj = buildPdfData({
+        userName,
+        dob,
+        selectedSortOption,
+        rxList,
+        allergiesList,
       });
+      await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
+      setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, pdfData, setPdfTxtGenerateStatus],
+    [userName, dob, selectedSortOption, setPdfTxtGenerateStatus],
   );
 
   const generateTXT = useCallback(
@@ -695,7 +632,7 @@ const Prescriptions = () => {
     return (
       <va-card background>
         <div className="vads-u-padding-x--1">
-          <h2 className="vads-u-margin--0 vads-u-font-size--h3">
+          <h2 className="vads-u-margin--0 vads-u-margin-bottom--2 vads-u-font-size--h3">
             Refill prescriptions
           </h2>
           <Link
@@ -740,37 +677,28 @@ const Prescriptions = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
-      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-        Medications
-      </h1>
-      <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        data-testid="Title-Notes"
-      >
-        {removeLandingPage ? (
-          <>
-            Bring your medications list to each appointment. And tell your
-            provider about any new allergies or reactions. If you use Meds by
-            Mail, you can also call your servicing center and ask them to update
-            your records.
-          </>
-        ) : (
-          <>
-            When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications.
-          </>
-        )}
-        {!showAllergiesContent && (
-          <>
-            {' '}
-            If you print or download this list, we’ll include a list of your
-            allergies.
-          </>
-        )}
-      </p>
-      {showAllergiesContent && (
+  const renderHeader = () => {
+    let titleNotesMessage =
+      'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
+
+    if (!hasMedsByMailFacility) {
+      titleNotesMessage +=
+        ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
+    }
+
+    const titleNotesBottomMarginUnit = hasMedsByMailFacility ? 3 : 4;
+
+    return (
+      <>
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
+          data-testid="Title-Notes"
+        >
+          {titleNotesMessage}
+        </p>
         <a
           href="/my-health/medical-records/allergies"
           rel="noreferrer"
@@ -779,9 +707,10 @@ const Prescriptions = () => {
         >
           Go to your allergies and reactions
         </a>
-      )}
-    </>
-  );
+        {hasMedsByMailFacility && <MedsByMailContent />}
+      </>
+    );
+  };
 
   const renderMedicationsContent = () => {
     // No medications exist
@@ -826,7 +755,7 @@ const Prescriptions = () => {
               updateFilter={updateFilterAndSort}
               filterCount={filterCount}
             />
-            {showIPEContent && <InProductionEducationFiltering />}
+            <InProductionEducationFiltering />
           </>
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
@@ -874,7 +803,7 @@ const Prescriptions = () => {
             {renderMedicationsContent()}
           </>
         )}
-        {removeLandingPage && <NeedHelp page={pageType.LIST} />}
+        <NeedHelp page={pageType.LIST} />
       </div>
     );
   };

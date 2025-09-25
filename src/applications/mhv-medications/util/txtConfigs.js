@@ -25,10 +25,7 @@ export const buildNonVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription.prescriptionName ||
-    (prescription.dispStatus === 'Active: Non-VA'
-      ? prescription.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 Instructions: ${validateIfAvailable('Instructions', prescription.sig)}
 
@@ -89,17 +86,23 @@ export const buildPrescriptionsTXT = prescriptions => {
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
-
     result += `
 ${rx.prescriptionName}
 
 About your prescription
 
+${
+      !pendingMed && !pendingRenewal
+        ? `
 Last filled on: ${dateFormat(
-      rx.sortedDispensedDate,
-      'MMMM D, YYYY',
-      'Date not available',
-    )}
+            rx.sortedDispensedDate,
+            'MMMM D, YYYY',
+            'Date not available',
+          )}
+`
+        : ''
+    }
+
 ${
       !pendingMed && !pendingRenewal
         ? `
@@ -221,20 +224,23 @@ export const buildVAPrescriptionTXT = prescription => {
 ---------------------------------------------------------------------------------
 
 
-${prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '')}
+${prescription?.prescriptionName || prescription?.orderableItem}
 
 
 Most recent prescription
 
-
+${
+    pendingMed || pendingRenewal
+      ? ''
+      : `
 Last filled on: ${dateFormat(
-    prescription.sortedDispensedDate,
-    'MMMM D, YYYY',
-    'Date not available',
-  )}
+          prescription.sortedDispensedDate,
+          'MMMM D, YYYY',
+          'Date not available',
+        )}
+`
+  }
+
 ${
     !pendingMed && !pendingRenewal
       ? `

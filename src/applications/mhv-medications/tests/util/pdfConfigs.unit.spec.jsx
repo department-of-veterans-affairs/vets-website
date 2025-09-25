@@ -91,6 +91,26 @@ describe('VA prescription Config', () => {
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
     expect(pdfList[0].sections[0].items[12].value).to.equal('test');
   });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const items = pdfList[0].sections[0].items.map(item => item.label);
+    expect(items).to.not.include('Last filled on:');
+  });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const items = pdfList[0].sections[0].items.map(item => item.label);
+    expect(items).to.not.include('Last filled on:');
+  });
 });
 
 describe('Non VA prescription Config', () => {
@@ -104,7 +124,7 @@ describe('Non VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildNonVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[6].value).to.equal('test, ');
+    expect(pdfList[0].sections[0].items[6].value).to.equal('test');
   });
 });
 

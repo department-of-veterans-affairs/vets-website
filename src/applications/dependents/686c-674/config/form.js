@@ -1,4 +1,4 @@
-import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
+import fullSchema from 'vets-json-schema/dist/686C-674-V2-schema.json';
 import environment from 'platform/utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -10,6 +10,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
+import CurrentSpouse from '../components/CurrentSpouse';
 
 // Chapter imports
 import {
@@ -68,6 +69,7 @@ import {
   veteranInformation,
   veteranAddress,
   veteranContactInformation,
+  checkVeteranPension,
 } from './chapters/veteran-information';
 import {
   removeChildStoppedAttendingSchoolOptions,
@@ -117,6 +119,7 @@ import {
   removeChildHouseholdIntroPage,
   removeChildHouseholdOptions,
   removeChildHouseholdSummaryPage,
+  stepchildLeftHouseholdDatePage,
   supportAmountPage,
   veteranSupportsChildPage,
 } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
@@ -127,10 +130,15 @@ import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
 import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
 import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
-import { spouseEvidence, childEvidence } from './utilities';
 
-const emptyMigration = savedData => savedData;
-const migrations = [emptyMigration];
+import {
+  spouseEvidence,
+  childEvidence,
+  showPensionRelatedQuestions,
+  showPensionBackupPath,
+  shouldShowStudentIncomeQuestions,
+} from './utilities';
+import migrations from './migrations';
 
 export const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -217,6 +225,13 @@ export const formConfig = {
           schema: removeDependentOptions.schema,
           depends: form => form?.['view:addOrRemoveDependents']?.remove,
         },
+        checkVeteranPension: {
+          depends: formData => showPensionBackupPath(formData),
+          path: 'check-veteran-pension',
+          title: 'Check Veteran Pension',
+          uiSchema: checkVeteranPension.uiSchema,
+          schema: checkVeteranPension.schema,
+        },
       },
     },
 
@@ -251,8 +266,10 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
             formData?.['view:addOrRemoveDependents']?.add,
-          title: 'Spouse’s current legal name',
+          title: 'Your spouse’s personal information',
           path: 'add-spouse/current-legal-name',
+          CustomPage: CurrentSpouse,
+          CustomPageReview: null,
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
@@ -308,7 +325,8 @@ export const formConfig = {
         currentMarriageInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            formData?.['view:addOrRemoveDependents']?.add,
+            formData?.['view:addOrRemoveDependents']?.add &&
+            showPensionRelatedQuestions(formData),
           title: 'Spouse’s income',
           path: 'current-marriage-information/spouse-income',
           uiSchema: currentMarriageInformationPartTwo.uiSchema,
@@ -537,7 +555,8 @@ export const formConfig = {
             schema: studentIncomePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-              formData?.['view:addOrRemoveDependents']?.add,
+              formData?.['view:addOrRemoveDependents']?.add &&
+              !formData?.vaDependentsNetWorthAndPension,
           }),
           addStudentsPartFour: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -668,7 +687,8 @@ export const formConfig = {
             schema: claimsOrReceivesPensionPage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
-              formData?.['view:addOrRemoveDependents']?.add,
+              formData?.['view:addOrRemoveDependents']?.add &&
+              !formData?.vaDependentsNetWorthAndPension,
           }),
           addStudentsPartSeventeen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -678,7 +698,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartEighteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -688,7 +708,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartNineteen: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -698,7 +718,7 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              formData?.studentInformation?.[index]?.claimsOrReceivesPension,
+              shouldShowStudentIncomeQuestions({ formData, index }),
           }),
           addStudentsPartTwenty: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',
@@ -737,7 +757,8 @@ export const formConfig = {
         formerSpouseInformationPartThree: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDivorce) &&
-            formData?.['view:addOrRemoveDependents']?.remove,
+            formData?.['view:addOrRemoveDependents']?.remove &&
+            !formData?.vaDependentsNetWorthAndPension,
           title: 'Divorced spouse’s income',
           path: 'report-a-divorce/former-spouse-income',
           uiSchema: formerSpouseInformationPartThree.uiSchema,
@@ -781,6 +802,19 @@ export const formConfig = {
               '686-stepchild-no-longer-part-of-household/:index/child-information',
             uiSchema: householdChildInfoPage.uiSchema,
             schema: householdChildInfoPage.schema,
+            depends: formData =>
+              isChapterFieldRequired(
+                formData,
+                TASK_KEYS.reportStepchildNotInHousehold,
+              ) && formData?.['view:addOrRemoveDependents']?.remove,
+          }),
+          stepchildLeftHouseholdDate: pageBuilder.itemPage({
+            title:
+              'Information needed to report a stepchild is no longer part of your household',
+            path:
+              '686-stepchild-no-longer-part-of-household/:index/date-child-left-household',
+            uiSchema: stepchildLeftHouseholdDatePage.uiSchema,
+            schema: stepchildLeftHouseholdDatePage.schema,
             depends: formData =>
               isChapterFieldRequired(
                 formData,
@@ -920,7 +954,8 @@ export const formConfig = {
             schema: deceasedDependentIncomePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath) &&
-              formData?.['view:addOrRemoveDependents']?.remove,
+              formData?.['view:addOrRemoveDependents']?.remove &&
+              !formData?.vaDependentsNetWorthAndPension,
           }),
         })),
       },
@@ -988,7 +1023,9 @@ export const formConfig = {
               isChapterFieldRequired(
                 formData,
                 TASK_KEYS.reportMarriageOfChildUnder18,
-              ) && formData?.['view:addOrRemoveDependents']?.remove,
+              ) &&
+              formData?.['view:addOrRemoveDependents']?.remove &&
+              !formData?.vaDependentsNetWorthAndPension,
           }),
         })),
       },
@@ -1061,7 +1098,9 @@ export const formConfig = {
                 isChapterFieldRequired(
                   formData,
                   TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-                ) && formData?.['view:addOrRemoveDependents']?.remove,
+                ) &&
+                formData?.['view:addOrRemoveDependents']?.remove &&
+                !formData?.vaDependentsNetWorthAndPension,
             }),
           }),
         ),
@@ -1072,6 +1111,7 @@ export const formConfig = {
       title: 'Your net worth',
       pages: {
         householdIncome: {
+          depends: formData => showPensionRelatedQuestions(formData),
           path: 'net-worth',
           title: 'Information about your net worth',
           uiSchema: householdIncome.uiSchema,

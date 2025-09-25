@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   addressSchema,
@@ -11,7 +12,11 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { emptyObjectSchema, claimantTitleAndDescription } from './helpers';
+import {
+  emptyObjectSchema,
+  claimantTitleAndDescription,
+  CustomAlertPage,
+} from './helpers';
 import ClaimantInfoViewField from '../components/ClaimantInfoViewField';
 
 /** @type {PageSchema} */
@@ -71,8 +76,12 @@ export const veteranInformationPage = {
     ],
   },
 };
+/** @type {CustomPageType} */
+export function VeteranInformationPage(props) {
+  return <CustomAlertPage {...props} />;
+}
 
-veteranInformationPage.propTypes = {
+VeteranInformationPage.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   uiSchema: PropTypes.object.isRequired,

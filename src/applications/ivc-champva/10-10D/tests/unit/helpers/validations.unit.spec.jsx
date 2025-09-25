@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fieldsMustMatchValidation } from '../../../helpers/validations';
+import {
+  fieldsMustMatchValidation,
+  validateMarriageAfterDob,
+  validateMarriageAfterSponsorDob,
+} from '../../../helpers/validations';
 import {
   certifierAddressCleanValidation,
   applicantAddressCleanValidation,
@@ -517,5 +521,53 @@ describe('SSN validation helpers', () => {
       expect(errors.applicantSSN.addError.called).to.be.false;
       expect(res).to.be.undefined;
     });
+  });
+});
+
+describe('validateMarriageAfterDob', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      addError: sinon.spy(),
+    };
+  });
+
+  it('should set an error if applicant date of birth after applicant date of marriage', () => {
+    validateMarriageAfterDob(errors, '2000-01-01', {
+      applicantDob: '2001-01-01',
+    });
+    expect(errors.addError.calledOnce).to.be.true;
+  });
+
+  it('should NOT set an error if applicant date of birth before applicant date of marriage', () => {
+    validateMarriageAfterDob(errors, '2000-01-01', {
+      applicantDob: '1980-01-01',
+    });
+    expect(errors.addError.calledOnce).to.be.false;
+  });
+});
+
+describe('validateMarriageAfterSponsorDob', () => {
+  let errors;
+
+  beforeEach(() => {
+    errors = {
+      addError: sinon.spy(),
+    };
+  });
+
+  it('should set an error if sponsor date of birth after applicant date of marriage', () => {
+    validateMarriageAfterSponsorDob(errors, '2000-01-01', {
+      'view:sponsorDob': '2001-01-01',
+    });
+    expect(errors.addError.calledOnce).to.be.true;
+  });
+
+  it('should NOT set an error if sponsor date of birth before applicant date of marriage', () => {
+    validateMarriageAfterSponsorDob(errors, '2000-01-01', {
+      'view:sponsorDob': '1980-01-01',
+    });
+    expect(errors.addError.calledOnce).to.be.false;
   });
 });

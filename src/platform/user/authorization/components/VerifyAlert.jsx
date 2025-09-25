@@ -24,13 +24,13 @@ export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
         headingLevel={headingLevel}
         data-testid={dataTestId}
       >
-        <span slot="LoginGovSignInButton">
-          <VerifyLogingovButton
+        <span slot="IdMeSignInButton">
+          <VerifyIdmeButton
             queryParams={{ operation: 'verify_cta_authenticated' }}
           />
         </span>
-        <span slot="IdMeSignInButton">
-          <VerifyIdmeButton
+        <span slot="LoginGovSignInButton">
+          <VerifyLogingovButton
             queryParams={{ operation: 'verify_cta_authenticated' }}
           />
         </span>

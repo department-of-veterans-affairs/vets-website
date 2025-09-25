@@ -1,8 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { subDays, addDays, format } from 'date-fns';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import TravelClaimDetails from '../../components/TravelClaimDetails';
 import reducer from '../../redux/reducer';
 
@@ -41,6 +43,13 @@ describe('TravelClaimDetails', () => {
         data: detailsData,
       },
     },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: {},
+      dismissedDowntimeWarnings: [],
+    },
   });
 
   let oldLocation;
@@ -65,7 +74,12 @@ describe('TravelClaimDetails', () => {
 
     expect(
       screen.getByText(
-        /If you're eligible for reimbursement, we'll deposit your reimbursement in your bank account./i,
+        /If you’re eligible for reimbursement, we’ll deposit your reimbursement in your bank account./i,
+      ),
+    );
+    expect(
+      screen.getByText(
+        /Even if you already set up direct deposit for your VA benefits, you’ll need to set up another direct deposit for VA travel pay reimbursements./i,
       ),
     );
   });
@@ -118,5 +132,37 @@ describe('TravelClaimDetails', () => {
 
     expect(screen.getByText(/There was an error loading the claim details/i)).to
       .exist;
+  });
+
+  it('shows downtime alert during maintenance window', () => {
+    const serviceMap = createServiceMap([
+      {
+        attributes: {
+          externalService: 'travel_pay',
+          status: 'down',
+          startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+        },
+      },
+    ]);
+
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: {
+        ...getState({
+          detailsData: { '1234': { ...claimDetailsProps } },
+        }),
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap,
+          dismissedDowntimeWarnings: [],
+        },
+      },
+      path: '/claims/1234',
+      reducers: reducer,
+    });
+
+    expect(screen.getByText(/is down for maintenance/i)).to.exist;
   });
 });

@@ -5,7 +5,9 @@ import mockSignature from '../fixtures/signature-response.json';
 import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
+import SharedComponents from './SharedComponents';
 
 class PatientComposePage {
   messageSubjectText = 'testSubject';
@@ -14,6 +16,8 @@ class PatientComposePage {
 
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    // Note that we don't need specific event names in the response
+    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
@@ -76,20 +80,36 @@ class PatientComposePage {
       .select(index, { force: true });
   };
 
+  getComboBox = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(`#options`);
+  };
+
+  getComboBoxDropdown = () => {
+    return cy
+      .get('va-combo-box')
+      .shadow()
+      .find(Locators.DROPDOWN.RECIPIENTS_COMBO);
+  };
+
   selectComboBoxRecipient = text => {
-    cy.get(`#options`).clear();
-    cy.get(`#options`).type(text);
+    const comboBox = this.getComboBox();
+    comboBox.clear();
+    comboBox.type(text, { waitForAnimations: true });
   };
 
   selectCategory = (category = 'OTHER') => {
-    cy.get(`#compose-message-categories${category}input`).click({
-      force: true,
-    });
+    cy.get('[data-testid="compose-message-categories"]')
+      .shadow()
+      .find('select')
+      .select(category, { force: true });
   };
 
   getMessageSubjectField = () => {
     return cy
-      .get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inPutField`);
   };
@@ -106,7 +126,7 @@ class PatientComposePage {
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inputField`)
       .type(text, { force: true });
@@ -161,9 +181,10 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .select(1, { force: true });
-    cy.tabToElement(Locators.BUTTONS.CATEGORY_RADIO_BUTTON)
-      .first()
-      .click();
+    // Tab to category select and verify it's focusable
+    cy.tabToElement('[data-testid="compose-message-categories"]')
+      .should('be.visible')
+      .invoke('attr', 'value', 'OTHER');
     cy.tabToElement(Locators.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField')
@@ -230,7 +251,9 @@ class PatientComposePage {
   };
 
   closeAlertModal = () => {
-    cy.get(`.first-focusable-child`).click({ force: true });
+    cy.get('va-modal[status="warning"]')
+      .find('button.va-modal-close')
+      .click({ force: true });
   };
 
   closeAttachmentErrorModal = () => {
@@ -314,7 +337,7 @@ class PatientComposePage {
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
     this.verifyRecipientNameText();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .invoke(`val`)
       .should(`contain`, this.messageSubjectText);
     cy.get(Locators.FIELDS.MESSAGE_BODY)
@@ -424,9 +447,7 @@ class PatientComposePage {
   };
 
   verifyElectronicSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Electronic signature');
+    cy.findByText('Electronic signature').should('be.visible');
   };
 
   verifyElectronicSignatureRequired = () => {
@@ -473,7 +494,7 @@ class PatientComposePage {
   };
 
   backToInbox = () => {
-    cy.get(Locators.BACK_TO).click();
+    SharedComponents.clickBackBreadcrumb();
   };
 
   verifyCantSaveAlert = (
@@ -481,24 +502,18 @@ class PatientComposePage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`[status="warning"]`)
+    cy.get(`va-modal[status="warning"]`)
       .find(`h2`)
       .should('be.visible')
-      .and(`have.text`, alertText);
+      .and(`contain.text`, alertText);
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${firstBtnText}']`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`have.text`, firstBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${firstBtnText}']`)
+      .should('be.visible');
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${secondBtnText}']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .should('be.visible')
-      .and(`have.text`, secondBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${secondBtnText}']`)
+      .should('be.visible');
   };
 
   verifyAttchedFilesList = listLength => {
@@ -509,7 +524,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsQuantityInGroup = (index, quantity) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .find('option')
@@ -517,7 +532,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsGroupName = (index, text) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .invoke('attr', 'label')
@@ -525,8 +540,10 @@ class PatientComposePage {
   };
 
   verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
-    cy.contains(recipientName)
-      .parent()
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup')
+      .contains(recipientName)
+      .parent('optgroup')
       .should('have.attr', 'label', facilityName);
   };
 
@@ -552,8 +569,11 @@ class PatientComposePage {
   };
 
   deleteUnsavedDraft = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click();
-    cy.get(Locators.BUTTONS.DELETE_CONFIRM).click();
+    // We need to delete the draft, so Cypress does not get stuck
+    // with a warning dialog when the browser is closed.
+    cy.findByRole('button', { name: 'Delete draft' }).click();
+    // Click the confirm button in the confirmation modal.
+    cy.findByTestId('confirm-delete-draft').click();
   };
 
   interceptSentFolder = () => {

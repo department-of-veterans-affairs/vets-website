@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { parseDateWithOffset } from '../../utils/dates';
 
 import { SELECTED } from '../../constants';
-
+import { PRIMARY_PHONE } from '../../../995/constants';
 import {
   removeEmptyEntries,
   createIssueName,
@@ -191,29 +191,76 @@ describe('addIncludedIssues', () => {
 });
 
 describe('getPhone', () => {
-  it('should return a cleaned up phone object', () => {
-    const wrap = obj => ({ veteran: { phone: obj } });
-    expect(getPhone()).to.deep.equal({});
-    expect(getPhone(wrap({}))).to.deep.equal({});
-    expect(getPhone(wrap({ temp: 'test' }))).to.deep.equal({});
-    expect(getPhone(wrap({ areaCode: '111' }))).to.deep.equal({
-      areaCode: '111',
+  describe('for Supplemental Claims', () => {
+    it('should properly select the primary home phone and format the number', () => {
+      const formData = {
+        veteran: {
+          homePhone: {
+            countryCode: '44 ',
+            areaCode: '123',
+            phoneNumber: ' 4567890',
+            extension: '1234  ',
+          },
+          mobilePhone: {
+            countryCode: '1',
+            areaCode: '210',
+            phoneNumber: ' 8758937',
+          },
+        },
+        [PRIMARY_PHONE]: 'home',
+      };
+
+      expect(getPhone(formData, true)).to.deep.equal({
+        countryCode: '44',
+        areaCode: '123',
+        phoneNumber: '4567890',
+        phoneNumberExt: '1234',
+      });
     });
-    expect(
-      getPhone(
-        wrap({
-          countryCode: '1',
-          areaCode: '222',
-          phoneNumber: '1234567',
-          extension: '0000',
-          extra: 'will not be included',
-        }),
-      ),
-    ).to.deep.equal({
-      countryCode: '1',
-      areaCode: '222',
-      phoneNumber: '1234567',
-      phoneNumberExt: '0000',
+
+    it('should properly select the primary mobile phone and format the number', () => {
+      const formData = {
+        veteran: {
+          homePhone: {
+            countryCode: '44 ',
+            areaCode: '123',
+            phoneNumber: ' 4567890',
+            extension: '1234  ',
+          },
+          mobilePhone: {
+            countryCode: '1',
+            areaCode: '210',
+            phoneNumber: ' 8758937',
+          },
+        },
+        [PRIMARY_PHONE]: 'mobile',
+      };
+
+      expect(getPhone(formData, true)).to.deep.equal({
+        countryCode: '1',
+        areaCode: '210',
+        phoneNumber: '8758937',
+      });
+    });
+  });
+
+  describe('for HLR or NOD', () => {
+    it('should properly format the number', () => {
+      const formData = {
+        veteran: {
+          phone: {
+            countryCode: '1 ',
+            areaCode: '994',
+            phoneNumber: ' 9590384',
+          },
+        },
+      };
+
+      expect(getPhone(formData)).to.deep.equal({
+        countryCode: '1',
+        areaCode: '994',
+        phoneNumber: '9590384',
+      });
     });
   });
 });

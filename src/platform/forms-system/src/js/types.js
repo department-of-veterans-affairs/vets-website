@@ -34,6 +34,7 @@
  * @property {(props: any) => JSX.Element} [errorText]
  * @property {(props: any) => JSX.Element} [footerContent]
  * @property {string} [formId]
+ * @property {FormOptions} [formOptions]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
  * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
@@ -85,6 +86,7 @@
  * @typedef {Object} Dev
  * @property {boolean} [showNavLinks] - Show navigation links on every page to every route in your form (dev only)
  * @property {boolean} [collapsibleNavLinks] - Must be used with `showNavLinks: true`. If true, the nav links will be wrapped in a `va-additional-info` component
+ * @property {boolean} [disableWindowUnloadInCI] - Disables the window unload listener in CI environments to prevent tests from failing due to the "Are you sure you want to leave?" prompt.
  */
 
 /**
@@ -161,7 +163,7 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean, index: number, context: any) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
+ * @property {((formData: Object) => (boolean, index: number, context: any)) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
@@ -465,6 +467,7 @@
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
+ * @property {string} [reviewPanelHeadingLevel] The heading level for the summary title on the review page.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
@@ -474,4 +477,11 @@
  * @typedef {Object} ReplacerOptions
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
+ */
+
+/**
+ * @typedef {Object} FormOptions
+ * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
+ * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
+ * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
  */

@@ -1,14 +1,19 @@
 import { phoneUI } from 'platform/forms-system/src/js/web-component-patterns';
 import EditInternationalPhonePage from '../../../components/EditInternationalPhonePage';
 
+// Wikipedia says "E.164 permits a maximum length of 15 digits", but RBPS has
+// an 11 digit limit
+const internationalPhoneDigitLimit = 11;
+
 const intPhoneSchema = {
   type: 'string',
-  pattern: '^$|^\\d{11}$', // needs to allow empty string OR 11 digits for downstream services
+  // needs to allow empty string OR 15 digits for downstream services
+  pattern: `^$|^\\d{1,${internationalPhoneDigitLimit}}$`,
 };
 
 /** @type {PageSchema} */
 export default {
-  title: 'Edit international phone number',
+  title: 'Edit international number',
   path: 'veteran-contact-information/international-phone',
   hideNavButtons: true,
   CustomPage: EditInternationalPhonePage,
@@ -16,9 +21,9 @@ export default {
   uiSchema: {
     internationalPhone: {
       ...phoneUI({
-        title: 'International phone number',
+        title: 'International number',
         errorMessages: {
-          pattern: 'Enter an international phone number up to 11 digits',
+          pattern: `Enter an international phone number up to ${internationalPhoneDigitLimit} digits`,
         },
       }),
       'ui:options': {

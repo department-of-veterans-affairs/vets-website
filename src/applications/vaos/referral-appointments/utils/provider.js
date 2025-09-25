@@ -1,5 +1,4 @@
 /* eslint-disable no-plusplus */
-const dateFns = require('date-fns');
 
 const createDefaultDraftAppointment = () => ({
   id: 'EEKoGzEf',
@@ -76,10 +75,8 @@ const createDefaultDraftAppointment = () => ({
  * @returns {Object} draftAppointmentInfo object
  */
 const createDraftAppointmentInfo = (
-  numberOfSlots,
   referralNumber = '6cg8T26YivnL68JzeTaV0w==',
 ) => {
-  const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   const draftApppointmentInfo = createDefaultDraftAppointment();
 
   if (referralNumber === 'draft-no-slots-error') {
@@ -91,22 +88,7 @@ const createDraftAppointmentInfo = (
   if (referralNumber === 'details-retry-error') {
     draftApppointmentInfo.id = 'details-retry-error';
   }
-
-  let hourFromNow = 12;
-  for (let i = 0; i < numberOfSlots; i++) {
-    const startTime = dateFns.addHours(tomorrow, hourFromNow);
-    const endTime = dateFns.addMinutes(startTime, 30);
-    draftApppointmentInfo.attributes.slots.push({
-      id: `5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov${i.toString()}`,
-      start: startTime.toISOString(),
-      end: endTime.toISOString(),
-      status: 'free',
-      overbooked: false,
-      localStart: '2024-11-18T08:00:00-05:00',
-      localEnd: '2024-11-18T08:30:00-05:00',
-    });
-    hourFromNow++;
-  }
+  draftApppointmentInfo.attributes.slots = [];
   return draftApppointmentInfo;
 };
 

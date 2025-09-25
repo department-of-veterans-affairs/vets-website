@@ -14,6 +14,7 @@ import ErrorBoundary from './components/Error/ErrorBoundary';
 import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
+import DashboardPage from './containers/DashboardPage';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -88,6 +89,11 @@ const routes = [
             element: <SignedInLayout />,
             children: [
               {
+                path: 'dashboard',
+                element: <DashboardPage />,
+                loader: DashboardPage.loader,
+              },
+              {
                 path: 'poa-requests',
                 element: (
                   <POARequestSearchPage title="Representation requests | Veterans Affairs" />
@@ -108,11 +114,12 @@ const routes = [
               {
                 path: 'claimant-search',
                 element: <ClaimantSearchPage />,
+                loader: ClaimantSearchPage.loader,
               },
               {
                 path: 'poa-requests/:id',
                 element: (
-                  <POARequestDetailsPage title="POA request | Veterans Affairs" />
+                  <POARequestDetailsPage title="Representation request | Veterans Affairs" />
                 ),
                 loader: POARequestDetailsPage.loader,
                 children: [

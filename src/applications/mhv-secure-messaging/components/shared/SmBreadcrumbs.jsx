@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -49,8 +49,10 @@ const SmBreadcrumbs = () => {
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
     `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
     `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -61,8 +63,10 @@ const SmBreadcrumbs = () => {
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
     `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
     Constants.Paths.DELETED,
     `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -78,6 +82,7 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
+      const { pathname } = location;
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
 
@@ -89,6 +94,17 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
+      const isSelectCareTeam = pathname.includes(
+        Constants.Paths.SELECT_CARE_TEAM,
+      );
+      const wasSelectCareTeam = previousUrl.includes(
+        Constants.Paths.SELECT_CARE_TEAM,
+      );
+      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
+      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
+      const wasStartMessage =
+        pathname ===
+        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -98,6 +114,14 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
+      } else if (wasCareTeamHelp) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (!isDraft && wasStartMessage) {
+        history.push(Constants.Paths.SELECT_CARE_TEAM);
+      } else if (wasSelectCareTeam) {
+        history.push(Constants.Paths.INBOX);
+      } else if (isSelectCareTeam) {
+        history.push(Constants.Paths.COMPOSE);
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
@@ -106,7 +130,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
+    [
+      activeDraftId,
+      crumb?.href,
+      history,
+      locationBasePath,
+      previousUrl,
+      location,
+    ],
   );
 
   useEffect(
@@ -222,35 +253,25 @@ const SmBreadcrumbs = () => {
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            <va-icon
-              icon="arrow_back"
-              size={1}
-              style={{ position: 'relative', top: '-5px', left: '-1px' }}
-              class="vads-u-color--gray-medium"
-            />
             {backBreadcrumb ? (
-              // eslint-disable-next-line jsx-a11y/anchor-is-valid
-              <Link
-                to="#"
+              <va-link
+                back
+                text="Back"
+                href={previousUrl}
                 onClick={e => {
                   e.preventDefault();
                   navigateBack();
                 }}
-                className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
                 data-dd-action-name="Breadcrumb - Back"
-              >
-                Back
-              </Link>
+              />
             ) : (
-              <Link
-                to={crumb.href}
-                className="vads-u-font-size--md"
+              <va-link
+                text={`Back to ${crumb.label}`}
+                href={crumb.href}
                 data-dd-privacy="mask"
                 data-dd-action-name="Breadcrumb - Back to"
-              >
-                {`Back to ${crumb.label}`}
-              </Link>
+              />
             )}
           </span>
         </nav>

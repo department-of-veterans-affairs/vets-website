@@ -37,7 +37,7 @@ function generateOptions({ data, pagePerItemIndex }) {
     keyname: KEYNAME,
     customTitle,
     customHint:
-      'Depending on your response, you may need to submit proof of dependent status with this application.',
+      'Depending on your response, you may need to submit additional documents.',
     description: `What’s ${customTitle}?`,
   };
 }

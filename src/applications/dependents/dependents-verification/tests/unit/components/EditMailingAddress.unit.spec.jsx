@@ -50,6 +50,8 @@ const mockData = {
   },
 };
 
+const store = createMockStore();
+
 describe('EditMailingAddressPage', () => {
   afterEach(() => {
     cleanup();
@@ -57,7 +59,6 @@ describe('EditMailingAddressPage', () => {
   });
 
   it('renders address inputs with correct labels and values', () => {
-    const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
@@ -92,7 +93,6 @@ describe('EditMailingAddressPage', () => {
   });
 
   it('renders Update and Cancel buttons', () => {
-    const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
         <EditMailingAddress
@@ -120,7 +120,6 @@ describe('EditMailingAddressPage', () => {
 
   it('handler: onCancel navigates to review-and-submit if onReviewPage', async () => {
     sessionStorage.setItem('onReviewPage', true);
-    const store = createMockStore();
     const goToPathSpy = sinon.spy();
     const { container } = render(
       <Provider store={store}>
@@ -143,11 +142,13 @@ describe('EditMailingAddressPage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,cancel',
+      );
     });
   });
 
   it('handler: onCancel navigates to contact-info if not onReviewPage', async () => {
-    const store = createMockStore();
     const goToPathSpy = sinon.spy();
     const { container } = render(
       <Provider store={store}>
@@ -175,7 +176,6 @@ describe('EditMailingAddressPage', () => {
 
   it('handler: onUpdate navigates to review-and-submit if onReviewPage, and setFormData is called on change', async () => {
     sessionStorage.setItem('onReviewPage', true);
-    const store = createMockStore();
     const goToPathSpy = sinon.spy();
     const setFormDataSpy = sinon.spy();
     const { container } = render(
@@ -205,11 +205,13 @@ describe('EditMailingAddressPage', () => {
 
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.address.city).to.equal('Big City');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'address,update',
+      );
     });
   });
 
   it('topScrollElement is called', async () => {
-    const store = createMockStore();
     const { container } = render(
       <Provider store={store}>
         <div name="topScrollElement" />

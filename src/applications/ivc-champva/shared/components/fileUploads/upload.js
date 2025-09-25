@@ -84,11 +84,16 @@ export const fileUploadUi = content => {
         host = host.filter(el => el.innerText?.includes(file.name));
         findAndFocusLastSelect(host?.pop());
       }, 500);
-      return {
+      // optionally add llmResponse to the response
+      const returnValue = {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,
         attachmentId: content.attachmentId ?? '',
       };
+      if (response.llmResponse) {
+        returnValue.llmResponse = response.llmResponse;
+      }
+      return returnValue;
     },
     attachmentSchema: (/* { fileId, index } */) => ({
       'ui:title': 'Document type',

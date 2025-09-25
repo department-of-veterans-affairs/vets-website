@@ -4,7 +4,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { uploadStore } from '~/platform/forms-system/test/config/helpers';
@@ -27,7 +26,6 @@ const fileFormProps = {
 };
 
 describe('<AdditionalEvidencePage>', () => {
-  const getStore = createStore(() => ({}));
   let originalSetInterval;
   let intervalIds = [];
 
@@ -62,9 +60,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render loading div', () => {
       const { container } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
-        </Provider>,
+        <AdditionalEvidencePage {...fileFormProps} claim={claim} loading />,
       );
 
       expect($('va-loading-indicator', container)).to.exist;
@@ -78,14 +74,11 @@ describe('<AdditionalEvidencePage>', () => {
         type: 'error',
       };
       const { container } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            message={message}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          message={message}
+        />,
       );
 
       expect($('va-alert', container)).to.exist;
@@ -94,9 +87,7 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render upload error alert when rerendered', () => {
       const { container, rerender } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
-        </Provider>,
+        <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
       );
       expect($('va-alert', container)).not.to.exist;
 
@@ -107,14 +98,11 @@ describe('<AdditionalEvidencePage>', () => {
       };
 
       rerender(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            message={message}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          message={message}
+        />,
       );
       expect($('va-alert', container)).to.exist;
       expect($('va-alert h2', container).textContent).to.equal(message.title);
@@ -129,17 +117,14 @@ describe('<AdditionalEvidencePage>', () => {
       const clearAdditionalEvidenceNotification = sinon.spy();
 
       const { container, unmount } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            clearAdditionalEvidenceNotification={
-              clearAdditionalEvidenceNotification
-            }
-            message={message}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          clearAdditionalEvidenceNotification={
+            clearAdditionalEvidenceNotification
+          }
+          message={message}
+        />,
       );
 
       expect($('va-alert', container)).to.exist;
@@ -157,18 +142,15 @@ describe('<AdditionalEvidencePage>', () => {
       const clearAdditionalEvidenceNotification = sinon.spy();
 
       const { container, unmount } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            uploadComplete
-            clearAdditionalEvidenceNotification={
-              clearAdditionalEvidenceNotification
-            }
-            message={message}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          uploadComplete
+          clearAdditionalEvidenceNotification={
+            clearAdditionalEvidenceNotification
+          }
+          message={message}
+        />,
       );
 
       expect($('va-alert', container)).to.exist;
@@ -181,13 +163,11 @@ describe('<AdditionalEvidencePage>', () => {
       const location = { hash: '#add-files' };
 
       render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            location={location}
-          />
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          location={location}
+        />,
       );
       expect(document.activeElement.id).to.equal('add-files');
     });
@@ -221,30 +201,24 @@ describe('<AdditionalEvidencePage>', () => {
       const resetUploads = sinon.spy();
       const navigate = sinon.spy();
       const { rerender } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            navigate={navigate}
-            getClaim={getClaim}
-            resetUploads={resetUploads}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          navigate={navigate}
+          getClaim={getClaim}
+          resetUploads={resetUploads}
+        />,
       );
 
       rerender(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            uploadComplete
-            navigate={navigate}
-            getClaim={getClaim}
-            resetUploads={resetUploads}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          uploadComplete
+          navigate={navigate}
+          getClaim={getClaim}
+          resetUploads={resetUploads}
+        />,
       );
 
       expect(getClaim.calledWith(1)).to.be.true;
@@ -271,16 +245,13 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container } = renderWithRouter(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            router={getRouter()}
-            filesNeeded={filesNeeded}
-            filesOptional={filesOptional}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          router={getRouter()}
+          filesNeeded={filesNeeded}
+          filesOptional={filesOptional}
+        />,
       );
 
       expect($('.primary-alert', container)).to.exist;
@@ -289,13 +260,11 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesn’t show va-alerts when no files are needed', () => {
       const { container } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            router={getRouter()}
-          />
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          router={getRouter()}
+        />,
       );
 
       expect($('.primary-alert', container)).not.to.exist;
@@ -347,21 +316,18 @@ describe('<AdditionalEvidencePage>', () => {
       ];
 
       const { container, getByText, getByTestId } = renderWithRouter(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            router={getRouter()}
-            filesNeeded={filesNeeded}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          router={getRouter()}
+          filesNeeded={filesNeeded}
+        />,
       );
 
       expect($('.primary-alert', container)).to.exist;
       expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
         .exist;
-      getByText('Automated 5103 Notice Response');
+      getByText('Review evidence list (5103 notice)');
     });
   });
   context('when claim is open with only standard 5103', () => {
@@ -383,14 +349,11 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('doesnt show va-alert for standard 5103 notice', () => {
       const { queryByText, queryByTestId } = renderWithRouter(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            router={getRouter()}
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          router={getRouter()}
+        />,
       );
 
       expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
@@ -433,15 +396,12 @@ describe('<AdditionalEvidencePage>', () => {
 
     it('should render closed message', () => {
       const { container, getByText } = render(
-        <Provider store={getStore}>
-          <AdditionalEvidencePage
-            {...fileFormProps}
-            claim={claim}
-            resetUploads={resetUploads}
-            uploadComplete
-          />
-          ,
-        </Provider>,
+        <AdditionalEvidencePage
+          {...fileFormProps}
+          claim={claim}
+          resetUploads={resetUploads}
+          uploadComplete
+        />,
       );
       const additionalEvidenceSection = $(
         '.additional-evidence-container',

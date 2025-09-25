@@ -41,6 +41,11 @@ import {
   filterSuggestions,
   showMultipleNames,
   formatDollarAmountWithCents,
+  norm,
+  toSnakeLower,
+  humanize,
+  tagsForRecord,
+  formatMDY,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -1165,6 +1170,96 @@ describe('GIBCT helpers:', () => {
       expect(formatDollarAmountWithCents('1000.5', 'N/A')).to.equal(
         '$1,000.50',
       );
+    });
+  });
+  describe('norm', () => {
+    it('lowercases a normal string', () => {
+      expect(norm('HeLLo')).to.equal('hello');
+    });
+
+    it('returns empty string for null/undefined', () => {
+      expect(norm(null)).to.equal('');
+      expect(norm(undefined)).to.equal('');
+    });
+
+    it('stringifies non-strings then lowercases', () => {
+      expect(norm(123)).to.equal('123');
+      expect(norm(true)).to.equal('true');
+    });
+  });
+
+  describe('toSnakeLower', () => {
+    it('converts camelCase to snake_lower', () => {
+      expect(toSnakeLower('studentLoans')).to.equal('student_loans');
+    });
+
+    it('converts PascalCase to snake_lower', () => {
+      expect(toSnakeLower('StudentLoans')).to.equal('student_loans');
+    });
+
+    it('keeps an already snake_lower string unchanged', () => {
+      expect(toSnakeLower('degree_requirements')).to.equal(
+        'degree_requirements',
+      );
+    });
+
+    it('handles empty, null, and undefined inputs', () => {
+      expect(toSnakeLower('')).to.equal('');
+      expect(toSnakeLower(null)).to.equal('null');
+      expect(toSnakeLower(undefined)).to.equal('undefined');
+    });
+  });
+
+  describe('humanize', () => {
+    it('replaces underscores with spaces and title-cases words', () => {
+      expect(humanize('degree_requirements')).to.equal('Degree Requirements');
+      expect(humanize('on_the_job_training')).to.equal('On The Job Training');
+    });
+
+    it('handles empty / null / undefined as empty string', () => {
+      expect(humanize('')).to.equal('');
+      expect(humanize(null)).to.equal('');
+      expect(humanize(undefined)).to.equal('');
+    });
+
+    it('does not force lowercase for inner letters (documents behavior)', () => {
+      expect(humanize('mixed_CASE_input')).to.equal('Mixed CASE Input');
+    });
+  });
+
+  describe('tagsForRecord', () => {
+    it('dedupes and lowercases categories', () => {
+      const rec = { categories: ['Marketing', 'Other', 'marketing', 'OTHER'] };
+      expect(tagsForRecord(rec)).to.deep.equal(['marketing', 'other']);
+    });
+
+    it('preserves order of first occurrences', () => {
+      const rec = { categories: ['Quality', 'Refund', 'quality', 'Other'] };
+      expect(tagsForRecord(rec)).to.deep.equal(['quality', 'refund', 'other']);
+    });
+
+    it('returns empty array when categories is missing, null, or rec is falsy', () => {
+      expect(tagsForRecord({})).to.deep.equal([]);
+      expect(tagsForRecord({ categories: null })).to.deep.equal([]);
+      expect(tagsForRecord(undefined)).to.deep.equal([]);
+    });
+
+    it('handles non-string values in categories by stringifying then lowercasing', () => {
+      const rec = { categories: [123, true, 'FiNaNcIaL'] };
+      expect(tagsForRecord(rec)).to.deep.equal(['123', 'true', 'financial']);
+    });
+  });
+  describe('formatMDY (API dates YYYY-MM-DD)', () => {
+    it('formats API date strings like "2020-10-29" to "10/29/2020"', () => {
+      expect(formatMDY('2020-10-29')).to.equal('10/29/2020');
+      expect(formatMDY('1996-10-20')).to.equal('10/20/1996');
+      expect(formatMDY('2022-01-05')).to.equal('01/05/2022');
+    });
+
+    it('returns empty string for falsy inputs', () => {
+      expect(formatMDY('')).to.equal('');
+      expect(formatMDY(null)).to.equal('');
+      expect(formatMDY(undefined)).to.equal('');
     });
   });
 });

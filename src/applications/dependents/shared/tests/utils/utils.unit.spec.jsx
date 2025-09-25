@@ -1,7 +1,13 @@
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { getFullName, maskID, isEmptyObject } from '../../utils';
+import {
+  getFullName,
+  getFormatedDate,
+  maskID,
+  isEmptyObject,
+  getRootParentUrl,
+} from '../../utils';
 
 describe('getFullName', () => {
   it('should return empty string for undefined name object', () => {
@@ -83,5 +89,44 @@ describe('isEmptyObject', () => {
   it('should return false for an object with non-empty nested objects', () => {
     const result = isEmptyObject({ a: { b: 'value' } });
     expect(result).to.be.false;
+  });
+});
+
+describe('getRootParentUrl', () => {
+  it('should return the root parent URL for a URL without trailing slash', () => {
+    expect(getRootParentUrl('/root/app-name/')).to.equal('/root');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674'),
+    ).to.equal('/manage-dependents');
+    expect(
+      getRootParentUrl('/view-change-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/view-change-dependents');
+    expect(
+      getRootParentUrl('/manage-dependents/add-remove-form-21-686c-674/'),
+    ).to.equal('/manage-dependents');
+  });
+});
+
+describe('getFormatedDate', () => {
+  it('should return empty string for undefined date', () => {
+    const formattedDate = getFormatedDate();
+    expect(formattedDate).to.equal('Unknown date');
+  });
+
+  it('should return empty string for invalid date', () => {
+    const formattedDate = getFormatedDate('Summer 2000');
+    expect(formattedDate).to.equal('Summer 2000');
+  });
+
+  it('should return formatted date for valid date', () => {
+    const formattedDate = getFormatedDate('2020-01-01');
+    expect(formattedDate).to.equal('January 1, 2020');
+  });
+  it('should return formatted date for valid Date object', () => {
+    const formattedDate = getFormatedDate('12/05/2022', 'MM/dd/yyyy', 'PPPP');
+    expect(formattedDate).to.equal('Monday, December 5th, 2022');
   });
 });

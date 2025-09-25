@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 134,
+  "totalApplications": 139,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -49,7 +49,7 @@
       "directoryPath": "src/applications/appeals/onramp",
       "appName": "Decision Reviews Onramp Tool",
       "entryName": "onramp",
-      "rootUrl": "/decision-reviews/onramp-to-dr"
+      "rootUrl": "/decision-reviews/explore-disability-claim-decision-review-options"
     },
     {
       "directoryPath": "src/applications/appeals/testing/download",
@@ -100,6 +100,24 @@
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
+      "appName": "21-0779 Nursing Home Information",
+      "entryName": "21-0779-nursing-home-information",
+      "rootUrl": "/benefits-optimization-aquia/21-0779-nursing-home-information"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "appName": "21-2680 House Bound Status",
+      "entryName": "21-2680-house-bound-status",
+      "rootUrl": "/21-2680-house-bound-status"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "appName": "21-4192 Employment Information",
+      "entryName": "21-4192-employment-information",
+      "rootUrl": "/21-4192-employment-information"
+    },
+    {
       "directoryPath": "src/applications/burials-ez",
       "appName": "21P-530EZ Burials benefits form",
       "entryName": "burials-ez",
@@ -136,12 +154,6 @@
       "rootUrl": "/track-claims"
     },
     {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
-    },
-    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -157,25 +169,25 @@
       "directoryPath": "src/applications/dependents/686c-674",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c-674"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
       "directoryPath": "src/applications/dependents/686c-674-old",
       "appName": "686C-674",
       "entryName": "686C-674",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
-      "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
     },
     {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
-      "rootUrl": "/view-change-dependents/view"
+      "rootUrl": "/manage-dependents/view"
     },
     {
       "directoryPath": "src/applications/dhp-connected-devices",
@@ -226,6 +238,12 @@
       "rootUrl": "/ds-v3-playground"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/0839",
+      "appName": "0839",
+      "entryName": "0839-edu-benefits",
+      "rootUrl": "/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/0994",
       "appName": "22-0994 Education benefits form",
       "entryName": "0994-edu-benefits",
@@ -250,6 +268,12 @@
       "rootUrl": "/school-administrators/35-percent-exemption"
     },
     {
+      "directoryPath": "src/applications/edu-benefits/10275",
+      "appName": "10275",
+      "entryName": "10275-edu-benefits",
+      "rootUrl": "/school-administrators/commit-principles-of-excellence-form-22-10275"
+    },
+    {
       "directoryPath": "src/applications/edu-benefits/10282",
       "appName": "22-10282 IBM Skillsbuild Training Program Intake Application",
       "entryName": "10282-edu-benefits",
@@ -259,7 +283,7 @@
       "directoryPath": "src/applications/edu-benefits/10297",
       "appName": "10297",
       "entryName": "10297-edu-benefits",
-      "rootUrl": "/education/other-va-education-benefits/high-technology-program/apply-for-high-technology-program-form-22-10297"
+      "rootUrl": "/education/other-va-education-benefits/vet-tec-2/apply-for-program-form-22-10297"
     },
     {
       "directoryPath": "src/applications/edu-benefits/1919",
@@ -343,7 +367,7 @@
       "directoryPath": "src/applications/income-and-asset-statement",
       "appName": "21P-0969 Income and Asset Statement Form",
       "entryName": "income-and-asset-statement",
-      "rootUrl": "/income-and-asset-statement-form-21p-0969"
+      "rootUrl": "/supporting-forms-for-claims/submit-income-and-asset-statement-form-21p-0969"
     },
     {
       "directoryPath": "src/applications/income-limits",
@@ -361,13 +385,13 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/ivc-champva/10-10d-extended"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
@@ -452,12 +476,6 @@
       "appName": "MHV Secure Messaging",
       "entryName": "mhv-secure-messaging",
       "rootUrl": "/my-health/secure-messages"
-    },
-    {
-      "directoryPath": "src/applications/mhv-secure-messaging/pilot",
-      "appName": "MHV Secure Messaging - OH Pilot",
-      "entryName": "mhv-secure-messaging-pilot",
-      "rootUrl": "/my-health/secure-messages-pilot"
     },
     {
       "directoryPath": "src/applications/mhv-supply-reordering",
@@ -740,6 +758,12 @@
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
       "rootUrl": "/terms-of-use"
+    },
+    {
+      "directoryPath": "src/applications/time-of-need",
+      "appName": "Apply for burial in a VA national cemetery",
+      "entryName": "40-xxxx-ton",
+      "rootUrl": "/burials-and-memorials/time-of-need"
     },
     {
       "directoryPath": "src/applications/toe",

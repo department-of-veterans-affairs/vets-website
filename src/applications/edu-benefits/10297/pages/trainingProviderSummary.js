@@ -43,7 +43,7 @@ const uiSchema = {
       </>
     ),
     'ui:options': {
-      hideIf: formData => formData?.trainingProvider?.length > 0,
+      hideIf: formData => formData?.trainingProviders?.length > 0,
     },
   },
   'view:summary': arrayBuilderYesNoUI(trainingProviderArrayOptions, {

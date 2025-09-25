@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
@@ -45,7 +46,9 @@ const IntroductionPage = ({ route, router }) => {
     },
     [route.pageList, router],
   );
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <article className="schemaform-intro representative-form">
       <VaAlert
@@ -55,7 +58,7 @@ const IntroductionPage = ({ route, router }) => {
         uswds
         onCloseEvent={() => setVisibleAlert(false)}
         visible={visibleAlert}
-        className="form-686c__alert"
+        className="form-upload__alert"
       >
         <h2 id="track-your-status-on-mobile" slot="headline">
           We are working to improve this tool

@@ -120,11 +120,11 @@ export const App = ({ toggleLoginModal }) => {
         }
         return (
           <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-            <span slot="LoginGovSignInButton">
-              <VerifyLogingovButton />
-            </span>
             <span slot="IdMeSignInButton">
               <VerifyIdmeButton />
+            </span>
+            <span slot="LoginGovSignInButton">
+              <VerifyLogingovButton />
             </span>
           </VaAlertSignIn>
         );

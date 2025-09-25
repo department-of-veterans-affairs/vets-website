@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
@@ -13,7 +12,7 @@ import {
   defaultItemPageScrollAndFocusTarget,
   arrayBuilderDependsContextWrapper,
   arrayBuilderContextObject,
-  getArrayUrlSearchParams,
+  maxItemsFn,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -178,31 +177,46 @@ export function getPageAfterPageKey(pageList, pageKey) {
 }
 
 export function validatePages(orderedPageTypes) {
-  const pageTypes = {};
+  const pageTypes = {
+    summaryCount: 0,
+  };
+
   for (const pageType of orderedPageTypes) {
     if (pageType === 'intro') {
-      if (pageTypes.intro || pageTypes.summary || pageTypes.item) {
+      if (pageTypes.intro || pageTypes.item) {
         throw new Error(
-          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text.",
+          "arrayBuilderPages `pageBuilder.introPage` must be first and defined only once. Intro page should be used for 'required' flow, and should contain only text",
         );
       }
       pageTypes.intro = true;
     } else if (pageType === 'summary') {
-      if (pageTypes.summary || pageTypes.item) {
+      pageTypes.summaryCount += 1;
+
+      if (pageTypes.item) {
         throw new Error(
-          'arrayBuilderPages `pageBuilder.summaryPage` must be defined only once and be defined before the item pages. This is so the loop cycle, and back and continue buttons will work consistently and appropriately. In a "required" flow, the summary path will be skipped on the first round despite being defined first.',
+          'arrayBuilderPages `pageBuilder.summaryPage` must come before item pages',
         );
       }
-      pageTypes.summary = true;
     } else if (pageType === 'item') {
       pageTypes.item = true;
     }
   }
-  if (!pageTypes.summary) {
+
+  if (pageTypes.summaryCount < 1) {
     throw new Error(
       'arrayBuilderPages must include a summary page with `pageBuilder.summaryPage`',
     );
   }
+
+  // Allow multiple summaries — assume they are mutually exclusive via `depends`
+  // But optionally warn in console if more than one exists
+  if (pageTypes.summaryCount > 1) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[arrayBuilderPages] More than one summaryPage defined. Ensure they are gated by \`depends\` so only one is ever shown`,
+    );
+  }
+
   if (!pageTypes.item) {
     throw new Error(
       'arrayBuilderPages must include at least one item page with `pageBuilder.itemPage`',
@@ -260,8 +274,8 @@ export function assignGetItemName(options) {
  *
  *
  * @param {ArrayBuilderOptions} options
- * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigChapter} pageBuilderCallback
- * @returns {FormConfigChapter}
+ * @param {(pageBuilder: ArrayBuilderPages, helpers?: ArrayBuilderHelpers) => FormConfigPages} pageBuilderCallback
+ * @returns {FormConfigPages}
  */
 export function arrayBuilderPages(options, pageBuilderCallback) {
   let introPath;
@@ -301,6 +315,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     useLinkInsteadOfYesNo = false,
     useButtonInsteadOfYesNo = false,
   } = options;
+  const hasMaxItemsFn = typeof maxItems === 'function';
 
   const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
   const getItemName = assignGetItemName(options);
@@ -600,6 +615,22 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       getText,
     };
 
+    // when options.maxItems is a function, compute numeric maxItems value
+    const computeMaxItems = hasMaxItemsFn
+      ? formData => {
+          const evaluatedMax = maxItemsFn(maxItems, formData);
+          return {
+            properties: {
+              [arrayPath]: {
+                ...(Number.isFinite(evaluatedMax)
+                  ? { maxItems: evaluatedMax }
+                  : {}),
+              },
+            },
+          };
+        }
+      : null;
+
     // If the user defines their own CustomPage to override ArrayBuilderItemPage,
     // then we should at least give them all the same props that we use for parity.
     // In the future, it would be nice to extract component features as a whole
@@ -627,6 +658,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       CustomPage,
       uiSchema: {
         [arrayPath]: {
+          ...(computeMaxItems && {
+            'ui:options': { updateSchema: computeMaxItems },
+          }),
           items: pageConfig.uiSchema,
         },
       },
@@ -636,7 +670,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
           [arrayPath]: {
             type: 'array',
             minItems,
-            maxItems,
+            ...(hasMaxItemsFn ? {} : { maxItems }), // static only when numeric, else computed at runtime
             items: pageConfig.schema,
           },
         },

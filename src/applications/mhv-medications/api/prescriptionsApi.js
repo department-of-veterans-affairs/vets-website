@@ -164,7 +164,7 @@ export const prescriptionsApi = createApi({
       query: id => {
         return {
           path: `${apiBasePath}/prescriptions/${id}/refill`,
-          method: 'PATCH',
+          options: { method: 'PATCH' },
         };
       },
     }),

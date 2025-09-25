@@ -5,28 +5,16 @@ import {
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-import {
-  ARRAY_PATH,
-  CONDITION_TYPE_RADIO,
-  NEW_CONDITION_OPTION,
-} from '../../constants';
+import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 import {
   NewConditionCardDescription,
   RatedDisabilityCardDescription,
 } from '../../content/conditions';
 
-// Just for user testing demo functionality
-export const isActiveDemo = (formData, currentDemo) =>
-  formData?.demo === currentDemo;
-
 export const isEditFromContext = context => context?.edit;
 
-const isEditFromUrl = () => {
-  const search = getArrayUrlSearchParams();
-  const hasEdit = search.get('edit');
-  return !!hasEdit;
-};
+const isEditFromUrl = () => Boolean(getArrayUrlSearchParams().get('edit'));
 
 export const createAddAndEditTitles = (addTitle, editTitle) =>
   isEditFromUrl() ? editTitle : addTitle;
@@ -45,40 +33,12 @@ export const createRatedDisabilityDescriptions = fullData => {
   }, {});
 };
 
-// Just for ConditionTypeRadio demo
-const isNewConditionForConditionTypeRadio = (formData, index) => {
-  if (formData?.[ARRAY_PATH]) {
-    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
-
-    return !conditionType || conditionType === 'NEW';
-  }
-
-  return (
-    !formData?.['view:conditionType'] ||
-    formData?.['view:conditionType'] === 'NEW'
-  );
-};
-
-// Just for ConditionTypeRadio demo
-const isRatedDisabilityForConditionTypeRadio = (formData, index) => {
-  if (formData?.[ARRAY_PATH]) {
-    const conditionType = formData[ARRAY_PATH]?.[index]?.['view:conditionType'];
-
-    return conditionType === 'RATED';
-  }
-
-  return formData?.['view:conditionType'] === 'RATED';
-};
-
-// Just for RatedOrNewNextPage demo
 const isNewConditionOption = ratedDisability =>
   ratedDisability === NEW_CONDITION_OPTION;
 
-// Just for RatedOrNewNextPage demo
-const isNewConditionForRatedOrNewNextPage = (formData, index) => {
+export const isNewCondition = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-
     return !ratedDisability || isNewConditionOption(ratedDisability);
   }
 
@@ -88,11 +48,9 @@ const isNewConditionForRatedOrNewNextPage = (formData, index) => {
   );
 };
 
-// Just for RatedOrNewNextPage demo
-const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
+export const isRatedDisability = (formData, index) => {
   if (formData?.[ARRAY_PATH]) {
     const ratedDisability = formData?.[ARRAY_PATH]?.[index]?.ratedDisability;
-
     return ratedDisability && !isNewConditionOption(ratedDisability);
   }
 
@@ -100,22 +58,6 @@ const isRatedDisabilityForRatedOrNewNextPage = (formData, index) => {
     formData?.ratedDisability &&
     !isNewConditionOption(formData?.ratedDisability)
   );
-};
-
-export const isNewCondition = (formData, index) => {
-  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isNewConditionForConditionTypeRadio(formData, index);
-  }
-
-  return isNewConditionForRatedOrNewNextPage(formData, index);
-};
-
-export const isRatedDisability = (formData, index) => {
-  if (isActiveDemo(formData, CONDITION_TYPE_RADIO.name)) {
-    return isRatedDisabilityForConditionTypeRadio(formData, index);
-  }
-
-  return isRatedDisabilityForRatedOrNewNextPage(formData, index);
 };
 
 const getSelectedRatedDisabilities = fullData => {
@@ -190,7 +132,7 @@ const causeFollowUpChecks = {
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };
 
-const isItemIncomplete = item => {
+export const isItemIncomplete = item => {
   if (isNewCondition(item)) {
     return (
       !item?.newCondition ||
@@ -218,12 +160,35 @@ export const arrayBuilderOptions = {
   text: {
     getItemName,
     cardDescription,
+    alertItemUpdated: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `"${name}’s" information has been updated`
+        : `"${nounSingular}" information has been updated`;
+    },
+    cancelAddTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel adding "${name}"?`
+        : `Cancel adding this "${nounSingular}"?`;
+    },
+    cancelEditTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Cancel editing "${name}"?`
+        : `Cancel editing this "${nounSingular}"?`;
+    },
+    deleteTitle: ({ itemData, nounSingular }) => {
+      const name = getItemName(itemData);
+      return name
+        ? `Delete "${name}’s" information?`
+        : `Delete this "${nounSingular}"?`;
+    },
   },
 };
 
 export const hasSideOfBody = (formData, index) => {
   const condition = formData?.[ARRAY_PATH][index]?.newCondition;
-
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,
   );
@@ -252,6 +217,8 @@ export const ForceFieldBlur = () => {
 
 // VA platform runs validation based on formData.dateString,
 // which is populated after all field blur events
+const getCurrentYear = () => new Date().getFullYear();
+
 export const validateApproximateDate = (errors, dateString) => {
   if (!dateString) return;
 
@@ -269,6 +236,14 @@ export const validateApproximateDate = (errors, dateString) => {
     errors.addError(
       'Enter a year only (e.g., 1988), a month and year (e.g., June 1988), or a full date (e.g., June 1 1988)',
     );
+    return;
+  }
+
+  const y = Number(year);
+  const minYear = 1900;
+  const maxYear = getCurrentYear();
+  if (!Number.isInteger(y) || y < minYear || y > maxYear) {
+    errors.addError(`Please enter a year between ${minYear} and ${maxYear}`);
   }
 };
 

@@ -1682,6 +1682,12 @@ const loa3UserWithInternationalMobilePhoneNumber = set(
   },
 );
 
+const loa3UserWithIntlMobilePhoneAndNoEmail = set(
+  cloneDeep(loa3UserWithInternationalMobilePhoneNumber),
+  'data.attributes.vet360ContactInformation.email',
+  null,
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1703,6 +1709,7 @@ const responses = {
   loa3UserWithoutMailingAddress,
   loa3UserWithoutLighthouseServiceAvailable,
   loa3UserWithInternationalMobilePhoneNumber,
+  loa3UserWithIntlMobilePhoneAndNoEmail,
 };
 
 // handler that can be used to customize the user data returned

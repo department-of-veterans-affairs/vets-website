@@ -56,11 +56,14 @@ const ProfileInformationView = props => {
   }
 
   if (phoneNumbers.includes(fieldName)) {
-    const number = `${data.areaCode}${data.phoneNumber}`;
+    const number = data.isInternational
+      ? data.phoneNumber
+      : `${data.areaCode}${data.phoneNumber}`;
     return (
       <div>
         <va-telephone
           data-testid="phoneNumber"
+          country-code={data.isInternational ? data.countryCode : null}
           contact={number}
           extension={data.extension}
           not-clickable

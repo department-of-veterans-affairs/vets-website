@@ -48,9 +48,6 @@ const App = ({ children }) => {
   const scheduledDowntimes = useSelector(
     state => state.scheduledDowntime?.serviceMap || [],
   );
-  const globalDowntime = useSelector(
-    state => state.scheduledDowntime?.globalDowntime,
-  );
 
   const mhvMockSessionFlag = useSelector(
     state => state.featureToggles['mhv-mock-session'],
@@ -69,17 +66,20 @@ const App = ({ children }) => {
 
   const mhvMrDown = useMemo(
     () => {
-      if (scheduledDowntimes.size > 0) {
+      if (Object.keys(scheduledDowntimes).length > 0) {
         return (
-          scheduledDowntimes?.get(externalServices.mhvMr)?.status ||
-          scheduledDowntimes?.get(externalServices.mhvPlatform)?.status ||
-          scheduledDowntimes?.get(externalServices.global)?.status ||
-          globalDowntime
+          scheduledDowntimes &&
+          ((scheduledDowntimes[externalServices.mhvMr] &&
+            scheduledDowntimes[externalServices.mhvMr].status) ||
+            (scheduledDowntimes[externalServices.mhvPlatform] &&
+              scheduledDowntimes[externalServices.mhvPlatform].status) ||
+            (scheduledDowntimes[externalServices.global] &&
+              scheduledDowntimes[externalServices.global].status))
         );
       }
       return 'downtime status: ok';
     },
-    [scheduledDowntimes, globalDowntime],
+    [scheduledDowntimes],
   );
 
   useEffect(
@@ -141,7 +141,10 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView user={user}>
+    <RequiredLoginView
+      user={user}
+      serviceRequired={backendServices.USER_PROFILE}
+    >
       <MhvServiceRequiredGuard
         user={user}
         serviceRequired={[backendServices.MEDICAL_RECORDS]}

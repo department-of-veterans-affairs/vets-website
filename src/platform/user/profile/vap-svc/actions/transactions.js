@@ -434,6 +434,8 @@ export const validateAddress = (
     }
     const errorCode = error?.errors?.[0]?.code || 'apiRequest-error';
     const errorStatus = error?.errors?.[0]?.status || 'unknown';
+    const firstErrorCode =
+      error?.errors?.[0]?.detail?.messages?.[0]?.code || 'unknown';
 
     recordEvent({
       event: 'profile-edit-failure',
@@ -449,6 +451,7 @@ export const validateAddress = (
     return dispatch({
       type: ADDRESS_VALIDATION_ERROR,
       addressValidationError: true,
+      addressValidationErrorCode: firstErrorCode,
       addressFromUser: { ...inputAddress },
       fieldName,
       error,

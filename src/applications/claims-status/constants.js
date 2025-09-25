@@ -189,3 +189,32 @@ export const standard5103Item = {
     </>
   ),
 };
+
+// File upload form text constants
+export const LABEL_TEXT = 'Upload additional evidence';
+export const HINT_TEXT =
+  'You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 99 MB (PDF only).';
+export const VALIDATION_ERROR = 'Please select a file first';
+export const PASSWORD_ERROR = 'Please provide a password to decrypt this file';
+export const DOC_TYPE_ERROR = 'Please provide a document type';
+export const SUBMIT_TEXT = 'Submit documents for review';
+
+// Contact and submission information constants
+export const MAILING_ADDRESS = {
+  organization: 'Department of Veterans Affairs',
+  department: 'Evidence Intake Center',
+  poBox: 'PO Box 4444',
+  city: 'Janesville',
+  state: 'WI',
+  zip: '53547-4444',
+};
+
+export const CONTACT_INFO = {
+  phone: '800-827-1000',
+  tty: '711',
+  hours: 'Monday through Friday, 8:00 a.m. to 9:00 p.m. ET',
+};
+
+export const LINKS = {
+  findVaLocations: '/find-locations',
+};

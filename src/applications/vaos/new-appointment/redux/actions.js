@@ -317,7 +317,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
 
     // Retrieves flipper state for mental health history filtering
     // Only used in NON-Cerner checks
-    const usePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
+    const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
 
@@ -369,7 +369,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           location,
           typeOfCare,
           directSchedulingEnabled,
-          usePastVisitMHFilter,
+          featurePastVisitMHFilter,
         });
 
         if (showModal) {
@@ -860,7 +860,7 @@ export function submitAppointmentOrRequest(history) {
       }
     } else {
       const isCommunityCare =
-        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+        newAppointment.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       const today = new Date();
@@ -1033,7 +1033,7 @@ export function routeToPageInFlow(callback, history, current, action, data) {
       }
     };
 
-    if (action === 'next') {
+    if (action === 'next' || action === 'requestAppointment') {
       const nextAction = flow[current][action];
       if (typeof nextAction === 'string') {
         nextPage = flow[nextAction];
@@ -1058,7 +1058,9 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         !nextPage.url.endsWith('/') &&
         (previousPage !== 'typeOfFacility' &&
           previousPage !== 'audiologyCareType' &&
-          previousPage !== 'vaFacilityV2')
+          previousPage !== 'vaFacilityV2' &&
+          previousPage !== 'selectProvider' &&
+          previousPage !== 'selectDateTime')
       ) {
         history.push(nextPage.url);
       } else if (
@@ -1100,5 +1102,13 @@ export function routeToPreviousAppointmentPage(history, current, data) {
     current,
     'previous',
     data,
+  );
+}
+export function routeToRequestAppointmentPage(history, current) {
+  return routeToPageInFlow(
+    getNewAppointmentFlow,
+    history,
+    current,
+    'requestAppointment',
   );
 }

@@ -6,6 +6,7 @@ import {
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
@@ -41,6 +42,19 @@ export default function App({ location, children }) {
       '#dateHint {display: none}',
     );
   });
+
+  // ... inside App function ...
+  const TOGGLE_KEY = 'champvaForm1010d2027';
+
+  const { useFormFeatureToggleSync } = useFeatureToggle();
+  useFormFeatureToggleSync([
+    // Feature toggle name & form data key will be the same
+    'champvaForm1010d2027',
+    {
+      toggleName: TOGGLE_KEY, // feature toggle name
+      formKey: 'champvaForm1010d2027', // form data name
+    },
+  ]);
 
   // Add Datadog RUM to the app
   useBrowserMonitoring();

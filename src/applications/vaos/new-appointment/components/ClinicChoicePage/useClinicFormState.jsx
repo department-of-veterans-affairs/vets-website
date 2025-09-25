@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import useFormState from '../../../hooks/useFormState';
-import { getSiteIdFromFacilityId } from '../../../services/location';
 import { getClinicId } from '../../../services/healthcare-service';
+import { getSiteIdFromFacilityId } from '../../../services/location';
 
+import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import {
   getClinicsForChosenFacility,
   getFormData,
@@ -11,8 +12,7 @@ import {
   selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
-import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
+import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
 
 const initialSchema = {
   type: 'object',
@@ -34,7 +34,7 @@ export default function useClinicFormState(pageTitle) {
   const pastAppointments = useSelector(selectPastAppointments);
 
   // Retrieves flipper state for mental health history filtering
-  const usePastVisitMHFilter = useSelector(
+  const featurePastVisitMHFilter = useSelector(
     selectFeatureMentalHealthHistoryFiltering,
   );
 
@@ -48,9 +48,9 @@ export default function useClinicFormState(pageTitle) {
   // primary care and mental health are exempt
   // NOTE: Same check is in ../services/patient/index.js:fetchFlowEligibilityAndClinics
   const isCheckTypeOfCare =
-    (initialData.typeOfCareId !== TYPE_OF_CARE_IDS.MENTAL_HEALTH ||
-      usePastVisitMHFilter) &&
-    initialData.typeOfCareId !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+      featurePastVisitMHFilter) &&
+    selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
       ?.patientHistoryRequired === true;
   if (isCheckTypeOfCare) {
@@ -80,12 +80,10 @@ export default function useClinicFormState(pageTitle) {
 
   const uiSchema = {
     clinicId: {
-      'ui:widget': 'radio', // Required
-      'ui:webComponentField': VaRadioField,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
-        showFieldLabel: false,
-        ...(filteredClinics.length > 1 && { labelHeaderLevel: '1' }),
+        hideLabelText: filteredClinics.length > 1,
       },
     },
   };

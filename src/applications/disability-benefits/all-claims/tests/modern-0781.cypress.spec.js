@@ -1,5 +1,4 @@
 import path from 'path';
-
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
@@ -43,7 +42,9 @@ const optionalEventPages = {
         cy.get('button.usa-button')
           .contains('Add an event')
           .should('exist');
+
         cy.get('va-card').should('have.length', 1);
+
         cy.findByText(/continue/i, { selector: 'button' }).click();
       } else {
         throw new Error(`Unexpected nextState: ${nextState}`);

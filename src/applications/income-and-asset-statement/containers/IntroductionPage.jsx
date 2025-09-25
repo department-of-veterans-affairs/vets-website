@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -12,28 +11,31 @@ export const IntroductionPage = ({ route }) => {
   const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const renderIfVeteranContent = authenticated => {
+    const prefix = authenticated ? 'You’ll' : 'If you’re the Veteran, you’ll';
+    const body = 'need to report income and assets for these individuals:';
+    // Combining prefix and body here for screen reader clarity
+    const text = `${prefix} ${body}`;
 
-  const renderIfVeteranContent = () => (
-    <>
-      <p>You’ll need to report income and assets for these individuals:</p>
-      <ul>
-        <li>
-          Yourself, <strong>and</strong>
-        </li>
-        <li>
-          Your spouse (unless you live apart, and you are estranged, and you do
-          not contribute to your spouse’s support), <strong>and</strong>
-        </li>
-        <li>
-          Your child or children (unless you do not have custody or contribute
-          to your child’s or children’s support)
-        </li>
-      </ul>
-    </>
-  );
+    return (
+      <>
+        <p>{text}</p>
+        <ul>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Your spouse (unless you live apart, and you are estranged, and you
+            do not contribute to your spouse’s support), <strong>and</strong>
+          </li>
+          <li>
+            Your child or children (unless you do not have custody or contribute
+            to your child’s or children’s support)
+          </li>
+        </ul>
+      </>
+    );
+  };
 
   const renderAccordionContent = () => (
     <va-accordion>
@@ -41,7 +43,10 @@ export const IntroductionPage = ({ route }) => {
         {renderIfVeteranContent()}
       </va-accordion-item>
       <va-accordion-item header="If you’re the surviving spouse" level="3">
-        <p>You’ll need to report income and assets for these individuals:</p>
+        <p>
+          If you’re the surviving spouse, you’ll need to report income and
+          assets for these individuals:
+        </p>
         <ul>
           <li>
             Yourself, <strong>and</strong>
@@ -56,7 +61,10 @@ export const IntroductionPage = ({ route }) => {
         header="If you’re the surviving child or custodian of a surviving child"
         level="3"
       >
-        <p>You’ll need to report income and assets for these individuals:</p>
+        <p>
+          If you’re the surviving child or custodian of a surviving child,
+          you’ll need to report income and assets for these individuals:
+        </p>
         <ul>
           <li>
             Yourself and/or the surviving child, <strong>and</strong>
@@ -69,7 +77,10 @@ export const IntroductionPage = ({ route }) => {
         </ul>
       </va-accordion-item>
       <va-accordion-item header="If you’re the parent" level="3">
-        <p>You’ll need to report income and assets for these individuals:</p>
+        <p>
+          If you’re the parent, you’ll need to report income and assets for
+          these individuals:
+        </p>
         <ul>
           <li>
             Yourself, <strong>and</strong>

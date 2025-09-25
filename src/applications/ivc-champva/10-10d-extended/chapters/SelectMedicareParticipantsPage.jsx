@@ -6,7 +6,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   radioSchema,
   radioUI,
-  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { CustomPageNavButtons } from '../../shared/components/CustomPageNavButtons';
 import { nameWording, toHash } from '../../shared/utilities';
@@ -71,8 +70,8 @@ export const selectMedicareParticipantPage = {
     medicareParticipant: {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
-        hint:
-          'If you have more applicants with Medicare plans you can add them later in this form.',
+        description:
+          'If you have more applicants with Medicare plans, you can add them later in this form.',
         required: () => true,
         labels: {
           na: 'NA',
@@ -116,7 +115,6 @@ export const selectMedicareParticipantPage = {
     type: 'object',
     required: ['medicareParticipant'],
     properties: {
-      titleSchema,
       medicareParticipant: radioSchema(['na']),
     },
   },
@@ -147,6 +145,7 @@ export function SelectMedicareParticipantPage(props) {
     <SchemaForm
       name={props.name}
       title={props.title}
+      hint={props.hint}
       data={props.data}
       appStateData={props.appStateData}
       schema={props.schema}
@@ -185,9 +184,10 @@ SelectMedicareParticipantPage.propTypes = {
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   setFormData: PropTypes.func,
   title: PropTypes.string,
+  hint: PropTypes.string,
   trackingPrefix: PropTypes.string,
   updatePage: PropTypes.func,
 };

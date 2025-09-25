@@ -15,6 +15,7 @@ import {
   ADDRESS_PROPS,
   FIELD_NAMES,
 } from '../constants';
+import { ADDRESS_VALIDATION_SERVICE_FAILURE_CODES } from './transactions';
 
 /**
  * An address validation object based on data from the address validation api response
@@ -36,6 +37,7 @@ export const getValidationMessageKey = ({
   addressValidationError,
   confirmedSuggestions = [],
   validationKey,
+  addressValidationErrorCode,
   isNoValidationKeyAlertEnabled, // remove when profileShowNoValidationKeyAddressAlert flag is retired
 }) => {
   const singleSuggestion = suggestedAddresses?.length === 1;
@@ -53,6 +55,16 @@ export const getValidationMessageKey = ({
         MISSING_UNIT_NUMBER,
     ).length > 0;
 
+  if (addressValidationError) {
+    if (
+      ADDRESS_VALIDATION_SERVICE_FAILURE_CODES.has(addressValidationErrorCode)
+    ) {
+      return ADDRESS_VALIDATION_TYPES.SYSTEM_ERROR;
+    }
+
+    return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
+  }
+
   if (isNoValidationKeyAlertEnabled) {
     if (!validationKey && confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.SHOW_SUGGESTIONS_NO_OVERRIDE;
@@ -61,10 +73,6 @@ export const getValidationMessageKey = ({
     if (!validationKey && !confirmedSuggestions.length) {
       return ADDRESS_VALIDATION_TYPES.NO_SUGGESTIONS_NO_OVERRIDE;
     }
-  }
-
-  if (addressValidationError) {
-    return ADDRESS_VALIDATION_TYPES.VALIDATION_ERROR;
   }
 
   if (singleSuggestion && containsBadUnitNumber) {

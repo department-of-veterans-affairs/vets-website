@@ -14,7 +14,9 @@ describe('ADDRESS_VALIDATION_MESSAGES object', () => {
       const messageData = ADDRESS_VALIDATION_MESSAGES[type];
       const editSpy = sinon.spy();
       expect(typeof messageData).to.equal('object');
-      expect(typeof messageData.headline).to.equal('string');
+      if (!messageData.slim) {
+        expect(typeof messageData.headline).to.equal('string');
+      }
       const modalTextComponent = mount(
         <messageData.ModalText editFunction={editSpy} />,
       );

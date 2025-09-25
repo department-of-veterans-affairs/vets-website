@@ -66,34 +66,31 @@ const testConfig = createTestConfig(
       // once we land here, change `certifierReceivedPacket` to `true`
       // and click '<< Back' so that we can proceed past the screener
       [ALL_PAGES.page1a2.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             if (data.certifierReceivedPacket === false) {
               // eslint-disable-next-line no-param-reassign
               data.certifierReceivedPacket = true;
               // This targets the '<< Back' button
-              cy.get('va-button').click();
+              cy.get('[data-testid="btn-back"]').click();
             }
           });
         });
       },
       [ALL_PAGES.page1b.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
               'certifierAddress',
               data.certifierAddress,
             );
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
@@ -104,23 +101,21 @@ const testConfig = createTestConfig(
               'applicantNewAddress',
               data.applicantNewAddress,
             );
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page2c.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
             cy.get('select').select(1);
-            cy.axeCheck();
+            cy.injectAxeThenAxeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -129,12 +124,11 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page8.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -143,13 +137,12 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       // Resubmission pharmacy upload path
       [ALL_PAGES.page1k.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -158,12 +151,11 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('input[type="file"]')
             .upload(
@@ -172,7 +164,7 @@ const testConfig = createTestConfig(
             )
             .get('.schemaform-file-uploading')
             .should('not.exist');
-          cy.axeCheck();
+          cy.injectAxeThenAxeCheck();
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },

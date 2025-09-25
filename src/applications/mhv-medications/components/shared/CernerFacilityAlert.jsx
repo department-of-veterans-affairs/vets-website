@@ -4,16 +4,16 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { getCernerURL } from 'platform/utilities/cerner';
 import { selectCernerFacilities } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import PropTypes from 'prop-types';
+import { selectUserFacility } from '../../selectors/selectUser';
+import { selectPrescriptionApiError } from '../../selectors/selectPrescription';
 
 const CernerFacilityAlert = ({ className = '' }) => {
   const ehrDataByVhaId = useSelector(
     state => state.drupalStaticData?.vamcEhrData?.data?.ehrDataByVhaId,
   );
-  const userFacilities = useSelector(state => state?.user?.profile?.facilities);
+  const userFacilities = useSelector(selectUserFacility);
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
-  const prescriptionsApiError = useSelector(
-    state => state.rx.prescriptions?.apiError,
-  );
+  const prescriptionsApiError = useSelector(selectPrescriptionApiError);
   const cernerFacilities = useMemo(
     () => {
       return userFacilities?.filter(facility =>
@@ -90,7 +90,7 @@ const CernerFacilityAlert = ({ className = '' }) => {
           className="vads-c-action-link--blue"
           href={getCernerURL('/pages/medications/current', true)}
         >
-          Go to My VA Health (opens in new tab)
+          Go to My VA Health
         </a>
         <p className="vads-u-margin-bottom--0">
           <strong>Note:</strong> Having trouble opening up My VA Health? Try

@@ -4,7 +4,7 @@ const useSetPageTitle = title => {
   useEffect(
     () => {
       if (title) {
-        document.title = `${title} | Veterans Affairs`;
+        document.title = `${title} - Travel Pay | Veterans Affairs`;
       }
     },
     [title],

@@ -7,7 +7,10 @@ export { default as MHVDowntime } from './downtime/containers/MHVDowntime';
 export {
   default as MhvSecondaryNav,
 } from './secondary-nav/containers/MhvSecondaryNav';
-export { default as MhvPageNotFound } from './components/MhvPageNotFound';
+export {
+  default as MhvPageNotFound,
+  MhvPageNotFoundContent,
+} from './components/MhvPageNotFound';
 export { default as MhvUnauthorized } from './components/MhvUnauthorized';
 export { renderMHVDowntime } from './downtime';
 export {
@@ -42,3 +45,7 @@ export { generateSEIPdf } from './self-entered/generate-sei-pdf';
 export {
   default as MissingRecordsError,
 } from './self-entered/MissingRecordsError';
+export {
+  logUniqueUserMetricsEvents,
+  EVENT_REGISTRY,
+} from './unique_user_metrics';

@@ -1,8 +1,67 @@
 import React from 'react';
-import { parse, isValid, differenceInYears, format } from 'date-fns';
+import {
+  parse,
+  isValid,
+  differenceInYears,
+  differenceInMonths,
+  differenceInDays,
+  format,
+} from 'date-fns';
 
-export const hasSession = () => {
-  return localStorage.getItem('hasSession') === 'true';
+export const hasSession = () => localStorage.getItem('hasSession') === 'true';
+
+export const calculateAge = dob => {
+  if (!dob) {
+    return {
+      age: 0,
+      dobStr: '',
+      labeledAge: '',
+    };
+  }
+
+  const dobObj = parse(dob, 'MM/dd/yyyy', new Date());
+  const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
+  const invalid = {
+    age: 0,
+    dobStr,
+    labeledAge: '',
+  };
+
+  if (!dobStr) {
+    return invalid;
+  }
+
+  const ageInYears = differenceInYears(new Date(), dobObj);
+  if (ageInYears > 0) {
+    return {
+      age: ageInYears,
+      dobStr,
+      labeledAge: `${ageInYears} year${ageInYears > 1 ? 's' : ''} old`,
+    };
+  }
+
+  const ageInMonths =
+    ageInYears > 0 ? 0 : differenceInMonths(new Date(), dobObj);
+  if (ageInMonths > 0) {
+    return {
+      age: 0,
+      dobStr,
+      labeledAge: `${ageInMonths} month${ageInMonths > 1 ? 's' : ''} old`,
+    };
+  }
+
+  // If less than a month old, show days
+  const ageInDays = ageInMonths > 0 ? 0 : differenceInDays(new Date(), dobObj);
+  return ageInDays >= 0
+    ? {
+        age: 0,
+        dobStr,
+        labeledAge:
+          ageInDays === 0
+            ? 'Newborn'
+            : `${ageInDays} day${ageInDays > 1 ? 's' : ''} old`,
+      }
+    : invalid;
 };
 
 /**
@@ -45,19 +104,17 @@ export const processDependents = (persons = []) => {
       .filter(person => person.awardIndicator === 'Y')
       .map(person => {
         // Format the date of birth and calculate age
-        const dobObj = parse(person.dateOfBirth, 'MM/dd/yyyy', new Date());
-        const dobStr = isValid(dobObj) ? format(dobObj, 'MMMM d, yyyy') : '';
+        const { dobStr, age } = calculateAge(person.dateOfBirth);
         const removalDate = person.upcomingRemoval
           ? parse(person.upcomingRemoval, 'MM/dd/yyyy', new Date())
           : '';
-        const ageInYears = dobStr ? differenceInYears(new Date(), dobObj) : '';
 
         return {
           ...person,
           dob: dobStr || '',
           ssn: (person.ssn || '').toString().slice(-4),
           fullName: `${person.firstName || ''} ${person.lastName || ''}`.trim(),
-          age: ageInYears || '',
+          age,
           removalDate: removalDate ? format(removalDate, 'MMMM d, yyyy') : '',
         };
       });

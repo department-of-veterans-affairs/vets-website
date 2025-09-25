@@ -130,6 +130,22 @@ describe('VA prescription Config', () => {
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.include('Refill history\n');
   });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'NewOrder';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
+
+  it('should NOT display "Last filled on" if rx prescription source is PD and the disp status is Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.prescriptionSource = 'PD';
+    rxDetails.dispStatus = 'Renew';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.not.include('Last filled on:');
+  });
 });
 
 describe('Non VA prescription Config', () => {
@@ -140,11 +156,23 @@ describe('Non VA prescription Config', () => {
     providerFirstName: null,
   };
 
-  it('should contain prescription name', () => {
-    const txt = buildNonVAPrescriptionTXT(nonVaRx);
-    const name = `${nonVaRx.prescriptionName ||
-      (nonVaRx.dispStatus === 'Active: Non-VA' ? nonVaRx.orderableItem : '')}`;
-    expect(txt).to.include(name);
+  it('should list the prescription name', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: 'YOUR PRESCRIPTION NAME HERE',
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR PRESCRIPTION NAME HERE');
+    expect(txt).to.not.include('YOUR ITEM NAME HERE');
+  });
+
+  it('should list the orderableItem property when prescriptionName is not provided', () => {
+    const txt = buildNonVAPrescriptionTXT({
+      ...nonVaRx,
+      prescriptionName: null,
+      orderableItem: 'YOUR ITEM NAME HERE',
+    });
+    expect(txt).to.include('YOUR ITEM NAME HERE');
   });
 
   it('should contain facility name', () => {

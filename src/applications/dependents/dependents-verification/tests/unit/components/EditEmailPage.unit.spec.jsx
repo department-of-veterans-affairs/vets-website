@@ -111,6 +111,9 @@ describe('EditEmailPage', () => {
     await waitFor(() => {
       expect(goToPathSpy.called).to.be.true;
       expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'email,cancel',
+      );
     });
   });
 
@@ -173,6 +176,9 @@ describe('EditEmailPage', () => {
 
       const lastCallArg = setFormDataSpy.lastCall.args[0];
       expect(lastCallArg.email).to.equal('nope@nope.com');
+      expect(sessionStorage.getItem('editContactInformation')).to.eq(
+        'email,update',
+      );
     });
   });
 
