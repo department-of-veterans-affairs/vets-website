@@ -459,17 +459,11 @@ const Prescriptions = () => {
             buildPrescriptionsTXT(prescriptionsFullList),
             buildAllergiesTXT(allergies),
           );
-        } else if (
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT ||
-          pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT_FULL_LIST
-        ) {
+        } else if (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT) {
           if (!isLoading && loadingMessage === '') {
-            let listForPrint;
-            if (pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT_FULL_LIST) {
-              listForPrint = filteredList;
-            } else {
-              listForPrint = prescriptionsFullList;
-            }
+            const listForPrint = prescriptionsFullList?.length
+              ? prescriptionsFullList
+              : filteredList;
             setPrintedList(listForPrint);
             setPdfTxtGenerateStatus({
               status: PDF_TXT_GENERATE_STATUS.NotStarted,
@@ -517,6 +511,14 @@ const Prescriptions = () => {
     [shouldPrint, printRxList],
   );
 
+  // Reset prescription list if new filter or sort order is applied
+  useEffect(
+    () => {
+      setPrescriptionsFullList([]);
+    },
+    [selectedFilterOption, selectedSortOption],
+  );
+
   const handleFullListDownload = async format => {
     setHasFullListDownloadError(false);
     const isTxtOrPdf =
@@ -528,8 +530,7 @@ const Prescriptions = () => {
     if (
       (isTxtOrPdf ||
         !allergies ||
-        (format === PRINT_FORMAT.PRINT_FULL_LIST &&
-          !prescriptionsFullList.length)) &&
+        (format === PRINT_FORMAT.PRINT && !prescriptionsFullList.length)) &&
       !prescriptionsFullList.length
     ) {
       setIsRetrievingFullList(true);
@@ -537,6 +538,7 @@ const Prescriptions = () => {
         getPrescriptionSortedList.initiate(
           {
             sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
+            filterOption: filterOptions[selectedFilterOption]?.url || '',
             includeImage: false,
           },
           {
