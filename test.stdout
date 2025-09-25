@@ -1,0 +1,17 @@
+yarn run v1.19.1
+$ node ./script/run-unit-tests-local.js --app-folder mhv-landing-page --log-level trace
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+
+Exception during run: TypeError [ERR_UNKNOWN_FILE_EXTENSION]: Unknown file extension ".jsx" for /home/rd/va/vets-website/src/applications/mhv-landing-page/tests/components/alerts/AlertUnregistered.unit.spec.jsx
+    at Loader.defaultGetFormat [as _getFormat] (internal/modules/esm/get_format.js:65:15)
+    at Loader.getFormat (internal/modules/esm/loader.js:101:42)
+    at Loader.getModuleJob (internal/modules/esm/loader.js:230:31)
+    at Loader.import (internal/modules/esm/loader.js:164:17)
+    at formattedImport (/home/rd/va/vets-website/node_modules/mocha/lib/nodejs/esm-utils.js:9:14)
+    at Object.exports.requireOrImport (/home/rd/va/vets-website/node_modules/mocha/lib/nodejs/esm-utils.js:42:28)
+    at Object.exports.loadFilesAsync (/home/rd/va/vets-website/node_modules/mocha/lib/nodejs/esm-utils.js:100:20)
+    at singleRun (/home/rd/va/vets-website/node_modules/mocha/lib/cli/run-helpers.js:162:3)
+    at Object.exports.handler (/home/rd/va/vets-website/node_modules/mocha/lib/cli/run.js:375:5) {
+  code: 'ERR_UNKNOWN_FILE_EXTENSION'
+}
+error Command failed with exit code 1.
