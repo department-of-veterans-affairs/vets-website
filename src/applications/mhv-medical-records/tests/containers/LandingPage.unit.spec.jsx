@@ -303,7 +303,7 @@ describe('Landing Page', () => {
       });
     });
 
-    it.skip('should log medical records accessed event when landing page loads', () => {
+    it('should log medical records accessed event when landing page loads', () => {
       expect(
         logUniqueUserMetricsEventsStub.calledWith(
           uniqueUserMetrics.EVENT_REGISTRY.MEDICAL_RECORDS_ACCESSED,
