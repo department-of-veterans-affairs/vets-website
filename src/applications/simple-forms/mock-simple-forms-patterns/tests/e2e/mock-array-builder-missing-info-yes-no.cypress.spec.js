@@ -30,23 +30,28 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
+        // Patch console.log BEFORE anything else runs
+        const storedLogs = [];
+        cy.window().then(win => {
+          if (!win.__CONSOLE_LOG_PATCHED__) {
+            // eslint-disable-next-line no-param-reassign
+            win.__CONSOLE_LOG_PATCHED__ = true;
+            const originalLog = win.console.log;
+            // eslint-disable-next-line no-param-reassign
+            win.console.log = (...args) => {
+              const message = args.join(' ');
+              storedLogs.push(message);
+              originalLog.apply(win.console, args);
+            };
+
+            // Store reference on window for debugging
+            // eslint-disable-next-line no-param-reassign
+            win.__STORED_LOGS__ = storedLogs;
+          }
+        });
+
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
-          // eslint-disable-next-line prefer-const
-          let storedLogs = [];
-          cy.window().then(win => {
-            if (!win.__CONSOLE_LOG_PATCHED__) {
-              // eslint-disable-next-line no-param-reassign
-              win.__CONSOLE_LOG_PATCHED__ = true;
-              const originalLog = win.console.log;
-              // eslint-disable-next-line no-param-reassign
-              win.console.log = (...args) => {
-                const message = args.join(' ');
-                storedLogs.push(message);
-                originalLog.apply(win.console, args);
-              };
-            }
-          });
           cy.get('@testData').then(() => {
             const expectInitialLayout = () => {
               cy.get('va-card').should('have.length', 2);
@@ -93,15 +98,6 @@ const testConfig = createTestConfig(
             tryContinueAndShouldBeStoppedByError();
             deleteCard();
             continueNoError();
-
-            // Flush stored console logs to CI output
-            cy.then(() => {
-              storedLogs.forEach(msg => {
-                cy.task('log', `[CONSOLE] ${msg}`).catch(() => {
-                  // Ignore task failures when running locally
-                });
-              });
-            });
           });
         });
       },
@@ -128,3 +124,39 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
+
+// Global afterEach hook to flush console logs to CI
+afterEach(() => {
+  cy.window()
+    .then(win => {
+      const logs = win.__STORED_LOGS__ || [];
+      if (logs.length > 0) {
+        cy.task(
+          'log',
+          `=== FLUSHING ${logs.length} CONSOLE LOGS TO CI ===`,
+        ).catch(() => {});
+
+        logs.forEach((msg, index) => {
+          cy.task('log', `[CONSOLE-${index}] ${msg}`).catch(() => {});
+        });
+
+        cy.task('log', `=== END CONSOLE LOGS ===`).catch(() => {});
+
+        // Clear logs after flushing
+        // eslint-disable-next-line no-param-reassign
+        win.__STORED_LOGS__ = [];
+      } else {
+        cy.task(
+          'log',
+          'WARNING: No console logs were captured in this test!',
+        ).catch(() => {});
+      }
+    })
+    .catch(() => {
+      // Window might not be available in some test contexts
+      cy.task(
+        'log',
+        'WARNING: Could not access window to flush console logs',
+      ).catch(() => {});
+    });
+});
