@@ -5,7 +5,6 @@ import { SC_NEW_FORM_DATA, HAS_REDIRECTED } from '../constants';
 // has been fully released
 
 export const showScNewForm = formData => formData[SC_NEW_FORM_DATA];
-// export const showScNewForm = () => false;
 
 export const UpdatedPagesAlert = () =>
   sessionStorage.getItem(HAS_REDIRECTED) === 'true' ? (
