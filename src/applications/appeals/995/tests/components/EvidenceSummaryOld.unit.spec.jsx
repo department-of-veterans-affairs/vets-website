@@ -13,8 +13,8 @@ import {
   EVIDENCE_OTHER,
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_UPLOAD_PATH,
+  LIMITED_CONSENT_PROMPT_PATH,
 } from '../../constants';
 
 const providerFacilityAddress = {
@@ -185,13 +185,13 @@ describe('<EvidenceSummary>', () => {
       `${EVIDENCE_VA_PATH}?index=1`,
     );
     expect(links[2].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=0`,
+      LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[3].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=1`,
+      `${EVIDENCE_PRIVATE_PATH}?index=0`,
     );
     expect(links[4].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH,
+      `${EVIDENCE_PRIVATE_PATH}?index=1`,
     );
     expect(links[5].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
     expect(links[6].getAttribute('data-link')).to.contain(EVIDENCE_UPLOAD_PATH);
@@ -352,46 +352,6 @@ describe('<EvidenceSummary>', () => {
     });
   });
 
-  it('should remove private limitations when remove is clicked', async () => {
-    const setFormData = sinon.spy();
-    const { container } = setupSummary({
-      setFormData,
-      limit: 'Pizza addiction',
-    });
-    // remove limitation
-    await fireEvent.click(
-      $('va-button[label="Remove limitations"]', container),
-    );
-
-    const modal = await $('va-modal', container);
-    await modal.__events.primaryButtonClick(); // Remove entry
-
-    await waitFor(() => {
-      expect(setFormData.called).to.be.true;
-      expect(setFormData.args[0][0].limitedConsent).to.deep.equal('');
-    });
-  });
-
-  it('should not remove limitations when "No" is selected in the modal', async () => {
-    const setFormData = sinon.spy();
-    const { container } = setupSummary({
-      setFormData,
-      limit: 'Pizza addiction',
-    });
-
-    // remove second VA entry
-    await fireEvent.click(
-      $('va-button[label="Remove limitations"]', container),
-    );
-
-    const secondaryButton = $('va-button[secondary]', container);
-    fireEvent.click(secondaryButton);
-
-    await waitFor(() => {
-      expect(setFormData.called).to.be.false;
-    });
-  });
-
   it('should remove second upload entry when remove is clicked', async () => {
     const setFormData = sinon.spy();
     const { container } = setupSummary({ setFormData });
@@ -433,7 +393,7 @@ describe('<EvidenceSummary>', () => {
     // now includes limited consent
     expect(
       $$('.private-facility, .private-limitation', container).length,
-    ).to.eq(3);
+    ).to.eq(2);
     expect($$('.form-nav-buttons button', container).length).to.eq(0);
     expect(
       $('.form-nav-buttons va-button', container).getAttribute('text'),
