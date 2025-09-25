@@ -93,8 +93,7 @@ function getAlertMessage({
             at {formatInTimeZone(earliestDate, timezone, 'h:mm aaaa')}{' '}
             {getFormattedTimezoneAbbr(earliestDate, timezone)}
           </span>
-          . If this date date doesn’t work, you can pick a new one from the
-          calendar.
+          . If this date doesn’t work, you can pick a new one from the calendar.
         </div>
         <div className="vads-u-margin-bottom--2">
           If the date you want isn’t available, you can call your local VA
