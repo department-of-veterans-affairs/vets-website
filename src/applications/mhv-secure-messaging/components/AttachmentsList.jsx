@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -50,6 +56,14 @@ const AttachmentsList = props => {
     },
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, isOhTriageGroup],
   );
+
+  const focusAttachFileButton = useCallback(() => {
+    const attachButton = document.querySelector('.attach-file-button');
+    const button = attachButton
+      ? attachButton.shadowRoot?.querySelector('button')
+      : null;
+    if (button !== null) setFocusedElement(button);
+  }, []);
 
   useEffect(
     () => {
@@ -128,29 +142,14 @@ const AttachmentsList = props => {
       setRecentlyRemovedFile(true);
     }
 
-    setTimeout(
-      () =>
-        setFocusedElement(
-          document
-            .querySelector('.attach-file-button')
-            ?.shadowRoot?.querySelector('button'),
-        ),
-      400,
-    );
+    setTimeout(() => focusAttachFileButton(), 400);
   };
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
     dispatch(closeAlert()).then(() => {
-      setTimeout(
-        () =>
-          setFocusedElement(
-            document
-              .querySelector('.attach-file-button')
-              ?.shadowRoot?.querySelector('button'),
-          ),
-        400,
-      );
+      setTimeout(() => focusAttachFileButton(), 400);
+
       setAttachFileError(null);
     });
   };
@@ -163,11 +162,7 @@ const AttachmentsList = props => {
           .lastChild,
       );
     } else {
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot?.querySelector('button'),
-      );
+      focusAttachFileButton();
     }
   };
 
