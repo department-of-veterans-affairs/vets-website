@@ -74,9 +74,10 @@ export function parseStringOrDate(date) {
 
 /**
  * Formats a date object, ISO 8601 date string, or Unix timestamp as January 1, 2020
+ * Note: This is a FORMATTING function that returns a string, not a Date object
  *
  * @param {Date|string|number} date
- * @returns string
+ * @returns {string} Formatted date string
  */
 export function formatDateLong(date) {
   const parsedDate = parseStringOrDate(date);
@@ -94,9 +95,10 @@ export function formatDateParsedZoneLong(date) {
 
 /**
  * Formats a date object, ISO 8601 date string, or Unix timestamp as 01/01/2020
+ * Note: This is a FORMATTING function that returns a string, not a Date object
  *
  * @param {Date|string|number} date
- * @returns string
+ * @returns {string} Formatted date string
  */
 export function formatDateShort(date) {
   const parsedDate = parseStringOrDate(date);
@@ -155,12 +157,18 @@ export function timeFromNow(date, userFromDate = null) {
 /**
  * Checks if the passed-in arg is a valid date string, meaning it can be parsed
  * by Date.parse()
+ * Note: This function properly uses Date.parse() and returns a boolean
  *
  * @param {string} dateString The string to validate
  * @returns {boolean} If the string is a valid date string
  */
 export function isValidDateString(dateString) {
-  return !Number.isNaN(Date.parse(dateString));
+  if (!dateString || typeof dateString !== 'string') {
+    return false;
+  }
+  
+  const timestamp = Date.parse(dateString);
+  return !Number.isNaN(timestamp);
 }
 
 const monthIndices = {
