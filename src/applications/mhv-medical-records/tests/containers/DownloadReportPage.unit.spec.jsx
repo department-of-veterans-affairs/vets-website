@@ -296,3 +296,72 @@ describe('DownloadRecordsPage with extended file types flag OFF', () => {
     expect(screen.queryByTestId('generateCcdButtonHtml')).to.be.null;
   });
 });
+
+describe('DownloadRecordsPage for Cerner users', () => {
+  const cernerUserState = {
+    user: {
+      profile: {
+        userFullName: {
+          first: 'Andrew- Cerner',
+          middle: 'J',
+          last: 'Morkel',
+        },
+        facilities: [
+          {
+            facilityId: '668',
+            isCerner: true,
+          },
+        ],
+      },
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        data: {
+          ehrDataByVhaId: {
+            '668': {
+              vhaId: '668',
+              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+          },
+          cernerFacilities: [
+            {
+              vhaId: '668',
+              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcSystemName: 'VA Spokane health care',
+              ehr: 'cerner',
+            },
+          ],
+        },
+        loading: false,
+      },
+    },
+    mr: {
+      downloads: {
+        generatingCCD: false,
+        ccdError: false,
+        bbDownloadSuccess: false,
+      },
+      blueButton: {
+        failedDomains: [],
+      },
+    },
+    featureToggles: {
+      [FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes]: true,
+      loading: false,
+    },
+  };
+
+  it('displays Cerner facility alert for Cerner users', () => {
+    const screen = renderWithStoreAndRouter(<DownloadReportPage />, {
+      initialState: cernerUserState,
+      reducers: reducer,
+      path: '/download-all',
+    });
+
+    expect(screen).to.exist;
+    expect(screen.getByText('Download your medical records reports')).to.exist;
+    expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
+  });
+});
