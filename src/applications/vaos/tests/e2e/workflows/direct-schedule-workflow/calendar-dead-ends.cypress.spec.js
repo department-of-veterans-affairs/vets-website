@@ -198,13 +198,10 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
-          .assertWarningAlert({
-            text: /We couldn.t find an appointment for your selected date/i,
-          })
           .assertErrorAlert({
-            text: /We.ve run into a problem trying to find an appointment time/i,
+            text: /This tool isn’t working right now/i,
           })
-          .assertRequestLink();
+          .assertRequestLink({ status: 'error' });
 
         // Assert
         cy.axeCheckBestPractice();
@@ -371,13 +368,10 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
-          .assertWarningAlert({
-            text: /We couldn.t find an appointment for your selected date/i,
-          })
           .assertErrorAlert({
-            text: /We.ve run into a problem trying to find an appointment time/i,
+            text: /This tool isn’t working right now/i,
           })
-          .assertRequestLink({ exist: false });
+          .assertRequestLink({ status: 'error', exist: false });
 
         // Assert
         cy.axeCheckBestPractice();

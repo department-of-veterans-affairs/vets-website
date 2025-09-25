@@ -93,6 +93,7 @@ const formConfig = {
           title: 'Acknowledgements of Yellow Ribbon Program terms',
           uiSchema: acknowledgements.uiSchema,
           schema: acknowledgements.schema,
+          pageClass: 'acknowledgements-page',
         },
       },
     },
