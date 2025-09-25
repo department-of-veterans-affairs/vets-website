@@ -434,7 +434,7 @@ export const validateIncompleteItems = ({
   const isValid = invalidIndex === null;
 
   // eslint-disable-next-line no-console
-  console.log('about to run the check', Math.random());
+  console.log('about to run the check...!isValid is...', !isValid, Date.now());
   if (!isValid && navigationState.getNavigationEventStatus()) {
     // The user clicked continue
     dispatchIncompleteItemError({

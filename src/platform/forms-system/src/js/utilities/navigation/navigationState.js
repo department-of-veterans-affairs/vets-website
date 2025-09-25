@@ -30,12 +30,13 @@ const navigationState = {
     // only return true if the navigation happened on the current page
     // eslint-disable-next-line no-console
     console.log(
-      'the status is',
+      'the status is\n',
       this._navigationEvent,
-      'and the current path is',
+      'and the current path is\n',
       this._currentPath,
-      'and the window.location.href is',
+      'and the window.location.href is\n',
       window.location.href,
+      '\n',
       Date.now(),
     );
     return this._navigationEvent && this._currentPath === window.location.href;
