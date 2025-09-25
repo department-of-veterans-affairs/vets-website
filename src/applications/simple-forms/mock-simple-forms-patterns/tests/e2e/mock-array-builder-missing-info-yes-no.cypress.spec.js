@@ -99,6 +99,22 @@ const testConfig = createTestConfig(
             deleteCard();
             continueNoError();
           });
+
+          // Flush console logs after test completes - outside of test chain
+          cy.window().then(win => {
+            const logs = win.__STORED_LOGS__ || [];
+            if (logs.length > 0) {
+              const combinedLogs = logs
+                .map((msg, index) => `[CONSOLE-${index}] ${msg}`)
+                .join('\n');
+              cy.task(
+                'log',
+                `=== CAPTURED CONSOLE LOGS ===\n${combinedLogs}\n=== END LOGS ===`,
+              );
+            } else {
+              cy.task('log', '[CONSOLE] WARNING: No logs were captured!');
+            }
+          });
         });
       },
     },
@@ -124,39 +140,3 @@ const testConfig = createTestConfig(
 );
 
 testForm(testConfig);
-
-// Global afterEach hook to flush console logs to CI
-afterEach(() => {
-  cy.window()
-    .then(win => {
-      const logs = win.__STORED_LOGS__ || [];
-      if (logs.length > 0) {
-        cy.task(
-          'log',
-          `=== FLUSHING ${logs.length} CONSOLE LOGS TO CI ===`,
-        ).catch(() => {});
-
-        logs.forEach((msg, index) => {
-          cy.task('log', `[CONSOLE-${index}] ${msg}`).catch(() => {});
-        });
-
-        cy.task('log', `=== END CONSOLE LOGS ===`).catch(() => {});
-
-        // Clear logs after flushing
-        // eslint-disable-next-line no-param-reassign
-        win.__STORED_LOGS__ = [];
-      } else {
-        cy.task(
-          'log',
-          'WARNING: No console logs were captured in this test!',
-        ).catch(() => {});
-      }
-    })
-    .catch(() => {
-      // Window might not be available in some test contexts
-      cy.task(
-        'log',
-        'WARNING: Could not access window to flush console logs',
-      ).catch(() => {});
-    });
-});
