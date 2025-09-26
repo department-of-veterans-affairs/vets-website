@@ -61,7 +61,7 @@ describe('Interstitial page header', () => {
       props: { type: 'draft', acknowledge: acknowledgeSpy },
     });
     const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton.textContent).to.contain('Continue to draft');
+    expect(continueButton.getAttribute('text')).to.contain('Continue to draft');
   });
 
   it('renders "Continue to reply" on type reply', () => {
@@ -70,10 +70,10 @@ describe('Interstitial page header', () => {
       props: { type: 'reply', acknowledge: acknowledgeSpy },
     });
     const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton.textContent).to.contain('Continue to reply');
+    expect(continueButton.getAttribute('text')).to.contain('Continue to reply');
   });
 
-  it('"Continue to start message" button responds on Enter key', async () => {
+  it('"Start a new message" link responds on Enter key', async () => {
     let updateAcknowledgeSpy = sinon.spy();
     updateAcknowledgeSpy = sinon.spy(
       threadDetailsActions,
@@ -90,7 +90,7 @@ describe('Interstitial page header', () => {
     updateAcknowledgeSpy.restore();
   });
 
-  it('"Continue to start message" button responds on Space key', async () => {
+  it('"Start a new message" link responds on Space key', async () => {
     let updateAcknowledgeSpy = sinon.spy();
     updateAcknowledgeSpy = sinon.spy(
       threadDetailsActions,
@@ -107,7 +107,7 @@ describe('Interstitial page header', () => {
     updateAcknowledgeSpy.restore();
   });
 
-  it('"Continue to start message" button does respond on Tab key', async () => {
+  it('"Start a new message" link does respond on Tab key', async () => {
     const acknowledgeSpy = sinon.spy();
     const screen = setup({
       props: { acknowledge: acknowledgeSpy },
