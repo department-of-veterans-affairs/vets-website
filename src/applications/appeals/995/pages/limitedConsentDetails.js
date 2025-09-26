@@ -1,6 +1,5 @@
 import { textareaUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { content } from '../content/evidencePrivateLimitation';
+import { content } from '../content/limitedConsent';
 
 export default {
   uiSchema: {
