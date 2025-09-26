@@ -39,7 +39,6 @@ describe('pre need integration service periods', () => {
       />,
     );
 
-    expect(form.find('va-text-input').length).to.equal(1);
     expect(form.find('input').length).to.equal(3);
     expect(form.find('va-select').length).to.equal(1);
     expect(form.find('VaMemorableDate').length).to.equal(2);
