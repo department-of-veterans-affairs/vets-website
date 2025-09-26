@@ -196,7 +196,7 @@ describe('<ResultCard>', () => {
     );
     expect(screen.getByText('10 - 100 hours')).to.exist;
   });
-  it('shows the accreditationType when accredited AND accreditationType is present', () => {
+  it('shows "Yes" when accredited AND accreditationType is present', () => {
     const inst = {
       ...INSTITUTION,
       accredited: true,
@@ -208,7 +208,7 @@ describe('<ResultCard>', () => {
       <ResultCard institution={inst} version={null} />,
       { initialState: { constants: mockConstants() } },
     );
-    expect(getByText(/regional/)).to.exist;
+    expect(getByText(/^Yes$/)).to.exist;
   });
 
   it('shows "Yes" when accredited is true but accreditationType is null', () => {
