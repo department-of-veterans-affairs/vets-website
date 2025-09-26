@@ -78,7 +78,7 @@ describe('Compose container', () => {
     expect(headingText).to.exist;
   });
 
-  it('displays compose fields if path is /new-message', async () => {
+  it('displays compose fields after clicking through interstitial page', async () => {
     const state = {
       sm: {
         triageTeams: { triageTeams },
@@ -101,7 +101,7 @@ describe('Compose container', () => {
 
     const screen = setup({ state });
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('continue-button'));
+      fireEvent.click(screen.getByTestId('start-message-link'));
     });
     const recipient = screen.getByTestId('compose-recipient-select');
     const categoryDropdown = screen.getByTestId('compose-message-categories');
@@ -137,7 +137,7 @@ describe('Compose container', () => {
   it('does not display recipients with preferredTeam:false attribute', async () => {
     const screen = setup({});
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('continue-button'));
+      fireEvent.click(screen.getByTestId('start-message-link'));
     });
     const recipient = screen.getByTestId('compose-recipient-select');
 
@@ -162,7 +162,7 @@ describe('Compose container', () => {
   it('responds to sending a message with attachment', async () => {
     const screen = setup({});
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('continue-button'));
+      fireEvent.click(screen.getByTestId('start-message-link'));
     });
     await waitFor(() => {
       screen.getByTestId('compose-recipient-select');
@@ -289,7 +289,7 @@ describe('Compose container', () => {
       state: customState,
     });
     await waitFor(() => {
-      fireEvent.click(getByTestId('continue-button'));
+      fireEvent.click(getByTestId('start-message-link'));
     });
 
     await waitFor(() => {
