@@ -51,7 +51,7 @@ describe('getDisplayCards', () => {
       );
 
       expect(container.innerHTML).to.contain(
-        '<h3 class="vads-u-margin-top--0">Higher-Level Review</h3>',
+        '<h4 class="vads-u-margin-top--0">Higher-Level Review</h4>',
       );
       expect(container.innerHTML).to.contain(
         `<p data-testid="ngf-content-0">${c.CARD_NGF_YES_LAW_POLICY}`,

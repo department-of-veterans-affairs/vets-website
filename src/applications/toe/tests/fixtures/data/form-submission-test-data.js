@@ -72,7 +72,7 @@ export const submissionForm = {
   formErrors: {},
   data: {
     bankAccount: {
-      accountType: 'Checking',
+      accountType: 'checking',
       routingNumber: '124003116',
       accountNumber: '333333',
     },

@@ -20,6 +20,7 @@ import {
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import MedicationsListSort from '../components/MedicationsList/MedicationsListSort';
+import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
   generateTextFile,
@@ -62,7 +63,11 @@ import {
   setFilterOption,
   setPageNumber,
 } from '../redux/preferencesSlice';
-import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
+import {
+  selectUserDob,
+  selectUserFullName,
+  selectHasMedsByMailFacility,
+} from '../selectors/selectUser';
 import { selectPrescriptionId } from '../selectors/selectPrescription';
 import {
   selectSortOption,
@@ -80,6 +85,7 @@ const Prescriptions = () => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
+  const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
   const isCerner = useSelector(selectIsCernerPatient);
   const { isAcceleratingAllergies } = useAcceleratedData();
 
@@ -678,32 +684,40 @@ const Prescriptions = () => {
     );
   };
 
-  const renderHeader = () => (
-    <>
-      <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
-        Medications
-      </h1>
-      <p
-        className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-        data-testid="Title-Notes"
-      >
-        <>
-          Bring your medications list to each appointment. And tell your
-          provider about any new allergies or reactions. If you use Meds by
-          Mail, you can also call your servicing center and ask them to update
-          your records.
-        </>
-      </p>
-      <a
-        href="/my-health/medical-records/allergies"
-        rel="noreferrer"
-        className="vads-u-display--block vads-u-margin-bottom--3"
-        data-testid="allergies-link"
-      >
-        Go to your allergies and reactions
-      </a>
-    </>
-  );
+  const renderHeader = () => {
+    let titleNotesMessage =
+      'Bring your medications list to each appointment. And tell your provider about any new allergies or reactions.';
+
+    if (!hasMedsByMailFacility) {
+      titleNotesMessage +=
+        ' If you use Meds by Mail, you can also call your servicing center and ask them to update your records.';
+    }
+
+    const titleNotesBottomMarginUnit = hasMedsByMailFacility ? 3 : 4;
+
+    return (
+      <>
+        <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+          Medications
+        </h1>
+        <p
+          className={`vads-u-margin-top--0 vads-u-margin-bottom--${titleNotesBottomMarginUnit}`}
+          data-testid="Title-Notes"
+        >
+          {titleNotesMessage}
+        </p>
+        <a
+          href="/my-health/medical-records/allergies"
+          rel="noreferrer"
+          className="vads-u-display--block vads-u-margin-bottom--3"
+          data-testid="allergies-link"
+        >
+          Go to your allergies and reactions
+        </a>
+        {hasMedsByMailFacility && <MedsByMailContent />}
+      </>
+    );
+  };
 
   const renderMedicationsContent = () => {
     // No medications exist
