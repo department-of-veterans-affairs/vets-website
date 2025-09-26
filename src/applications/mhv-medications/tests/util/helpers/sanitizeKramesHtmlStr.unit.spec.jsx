@@ -80,22 +80,19 @@ describe('sanitizeKramesHtmlStr function', () => {
     );
   });
 
-  it('should remove all pilcrows (¶) from the HTML string', () => {
-    const inputHtml = `<div>
-                      <strong>
-                      <p>¶This branded product is no longer on the market.</p>
-                      </strong>
-                      <ul>
-                      <li>¶BrandName1</li>
-                      <li>¶BrandName2</li>
-                      </ul>
-                      </div>`;
+  it('should replace pilcrow characters with asterisks', () => {
+    const inputHtml = '<p>Glucophage®¶</p>';
     const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<p>Glucophage®*</p>');
     expect(outputHtml).to.not.include('¶');
-    expect(outputHtml).to.include(
-      'This branded product is no longer on the market.',
-    );
-    expect(outputHtml).to.include('BrandName1');
-    expect(outputHtml).to.include('BrandName2');
+  });
+
+  it('should remove strong tags outside of headings', () => {
+    const inputHtml =
+      '<p><strong>Brand Name(s):</strong></p><div><strong>Another strong text</strong></div>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('<strong>');
+    expect(outputHtml).to.include('<p>Brand Name(s):</p>');
+    expect(outputHtml).to.include('<div>Another strong text</div>');
   });
 });
