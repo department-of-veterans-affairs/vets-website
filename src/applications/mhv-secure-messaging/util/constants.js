@@ -105,6 +105,8 @@ export const ErrorMessages = {
       FILE_DUPLICATE: 'You have already attached this file.',
       FILE_TOO_LARGE:
         'Your file is too large. Try attaching a file smaller than 6MB.',
+      FILE_TOO_LARGE_LARGE_UPLOAD:
+        'Your file is too large. Try attaching a file smaller than 25MB.',
       TOTAL_MAX_FILE_SIZE_EXCEEDED:
         'Your files are too large. The total size of all files must be smaller than 10MB.',
       TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE:

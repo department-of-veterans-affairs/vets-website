@@ -15,14 +15,17 @@ class PatientComposePage {
   messageBodyText = 'testBody';
 
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
-    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    cy.intercept('POST', `${Paths.SM_API_EXTENDED}*`, mockResponse).as(
+      'message',
+    );
     // Note that we don't need specific event names in the response
     cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
-    cy.wait('@message')
-      .its('request.body')
+    return cy
+      .wait('@message')
+      .its('request')
       .then(request => {
         if (mockRequest) {
           expect(request.body).to.contain(mockRequest.body);
@@ -30,6 +33,7 @@ class PatientComposePage {
           expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
+        return request;
       });
   };
 
@@ -271,11 +275,53 @@ class PatientComposePage {
       .click({ force: true });
   };
 
+  attachFileButton = () => {
+    return cy.findByTestId(Locators.BUTTONS.ATTACH_FILE);
+  };
+
   attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
     });
+  };
+
+  attachFakeFile = (fileConfig, { verify = false } = {}) => {
+    const content = 'x'.repeat(fileConfig.size);
+
+    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
+      {
+        contents: Cypress.Buffer.from(content),
+        fileName: fileConfig.fileName,
+        mimeType: fileConfig.mimeType,
+      },
+      { force: true },
+    );
+
+    // Wait for file processing
+    if (verify) cy.findByText(fileConfig.fileName).should('exist');
+  };
+
+  attachFakeFilesByCount = (numberOfFiles, { verify = false } = {}) => {
+    for (let i = 0; i < numberOfFiles; i += 1) {
+      // const fileConfig = Data[`FAKE_FILE_${i + 1}KB`];
+      const content = 'x'.repeat(100 * 1024);
+
+      cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
+        {
+          contents: Cypress.Buffer.from(content),
+          fileName: `FAKE_FILE_${i + 1}.pdf`,
+          mimeType: 'application/pdf',
+        },
+        { force: true },
+      );
+    }
+
+    // Wait for file processing
+    if (verify)
+      for (let i = 0; i < numberOfFiles; i += 1) {
+        cy.findByText(`FAKE_FILE_${i + 1}.pdf`).should('exist');
+      }
   };
 
   attachFewFiles = list => {
@@ -286,12 +332,12 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      cy.get(Locators.BUTTONS.ATTACH_FILE)
+      PatientComposePage.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
-      cy.get(Locators.BUTTONS.ATTACH_FILE)
+      PatientComposePage.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_ADDITIONAL_FILE);
@@ -310,7 +356,7 @@ class PatientComposePage {
   };
 
   verifyAttachButtonHasFocus = () => {
-    cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
+    PatientComposePage.attachFileButton().should(`be.focused`);
   };
 
   clickDeleteDraftModalButton = () => {
