@@ -1,4 +1,5 @@
 import PageObject from './PageObject';
+import featureFlags from '../../../services/mocks/featureFlags';
 
 class TypeOfCarePageObject extends PageObject {
   assertAddressAlert({ exist = true } = {}) {
@@ -17,6 +18,16 @@ class TypeOfCarePageObject extends PageObject {
   }
 
   assertUrl() {
+    const featureImmediateCareAlert = featureFlags.filter(
+      feature => feature.name === 'vaOnlineSchedulingImmediateCareAlert',
+    );
+
+    if (featureImmediateCareAlert) {
+      cy.url().should('include', '/type-of-care');
+      this.assertLink({ name: 'Back', useShadowDOM: true });
+      return this;
+    }
+
     return super.assertUrl(
       {
         url: '/type-of-care',
