@@ -100,7 +100,11 @@ const MedicalClaimsDescription = ({ formData }) => {
       </p>
 
       <p>
-        <a target="_blank" href="/resources/how-to-file-a-champva-claim/">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="/resources/how-to-file-a-champva-claim/"
+        >
           Learn more about itemized bills (opens in a new tab)
         </a>
       </p>

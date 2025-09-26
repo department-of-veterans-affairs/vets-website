@@ -158,7 +158,7 @@ export const eobUploadSchema = isPrimary => {
       ...titleUI(({ formData }) => {
         // If `isPrimary`, show first health insurance co. name. Else, show 2nd.
         return privWrapper(
-          `Upload explanation of benefits for this claim ${
+          `Upload explanation of benefits for this claim from ${
             formData?.policies?.[isPrimary ? 0 : 1]?.name
           }`,
         );

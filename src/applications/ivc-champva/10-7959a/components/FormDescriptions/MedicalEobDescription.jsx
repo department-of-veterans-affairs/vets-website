@@ -16,7 +16,11 @@ const MedicalEobDescription = ({ formData }) => {
         specific claim.
       </p>
       <p>
-        <a target="_blank" href="/resources/how-to-file-a-champva-claim/">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="/resources/how-to-file-a-champva-claim/"
+        >
           Learn more about what an explanation of benefits is (opens in a new
           tab)
         </a>
