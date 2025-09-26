@@ -145,7 +145,7 @@ const TravelReview = props => {
       bodyText={bodyText}
       pageType="travel-review"
       router={router}
-      yesButtonText={t('file-claim')}
+      yesButtonText={t('submit-claim')}
       yesFunction={validation}
       noButtonText={t('start-over')}
       noFunction={startOverAction}

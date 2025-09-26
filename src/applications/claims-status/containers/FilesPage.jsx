@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
+import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -81,8 +83,15 @@ class FilesPage extends React.Component {
     return (
       <div className="claim-files">
         <ClaimFileHeader isOpen={isOpen} />
-        <AdditionalEvidencePage />
-        <DocumentsFiled claim={claim} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
+          <Toggler.Enabled>
+            <OtherWaysToSendYourDocuments />
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <AdditionalEvidencePage />
+            <DocumentsFiled claim={claim} />
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
   }

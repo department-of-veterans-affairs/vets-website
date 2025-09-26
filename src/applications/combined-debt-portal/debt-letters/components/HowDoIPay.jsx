@@ -15,7 +15,7 @@ const HowDoIPay = ({ userData }) => {
   const { deductionCode } = userData;
 
   return (
-    <article className="vads-u-padding-x--0">
+    <section>
       <h2
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
@@ -25,7 +25,7 @@ const HowDoIPay = ({ userData }) => {
 
       <h3>Pay online</h3>
       <p>
-        You can pay directly from your bank account or by debit or credit card
+        You can pay directly from your bank account. Or by debit or credit card
         on the secure{' '}
         <a
           aria-label="Pay.gov - Opens in new window"
@@ -70,31 +70,37 @@ const HowDoIPay = ({ userData }) => {
         </ul>
       )}
 
-      <va-additional-info trigger="Here's what the above terms mean:">
-        <ul>
-          <li>
-            <strong>File Number</strong> is your VA claim number. This field
-            must be 8 or 9 characters long.
-          </li>
-          <li>
-            <strong>Payee Number</strong> tells us whether the debtor is a
-            veteran or service member, a child, a spouse, a vendee or parent of
-            the veteran.
-          </li>
-          <li>
-            <strong>Person Entitled</strong> is the first initial, middle
-            initial (if there is one) and first four letters of the debtor’s
-            last name. If the entry on the collection letter after Person
-            Entitled does not have a middle initial, a blank will appear where
-            the middle initial would be. Please leave the same space blank on
-            this form.
-          </li>
-          <li>
-            <strong>Deduction Code</strong> is a number that tells us what type
-            of benefit the debtor received when the debt was established.
-          </li>
-        </ul>
-      </va-additional-info>
+      <va-accordion open-single>
+        <va-accordion-item
+          header="Review what these terms mean:"
+          id="first"
+          bordered
+        >
+          <ul>
+            <li>
+              <strong>File Number</strong> is your VA claim number. This field
+              must be 8 or 9 characters long.
+            </li>
+            <li>
+              <strong>Payee Number</strong> tells us whether the debtor is a
+              veteran or service member, a child, a spouse, a vendee, or parent
+              of the veteran.
+            </li>
+            <li>
+              <strong>Person Entitled</strong> is the first initial, middle
+              initial (if there is one), and first four letters of the debtor’s
+              last name. If the entry on the collection letter after Person
+              Entitled does not have a middle initial, a blank will appear where
+              the middle initial would be. Please leave the same space blank on
+              this form.
+            </li>
+            <li>
+              <strong>Deduction Code</strong> is a number that tells us what
+              type of benefit the debtor received when the debt was established.
+            </li>
+          </ul>
+        </va-accordion-item>
+      </va-accordion>
 
       <va-link-action
         href="https://www.pay.va.gov/"
@@ -133,7 +139,7 @@ const HowDoIPay = ({ userData }) => {
         <br />
         USA
       </p>
-    </article>
+    </section>
   );
 };
 

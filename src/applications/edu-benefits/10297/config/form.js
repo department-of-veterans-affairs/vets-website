@@ -56,22 +56,29 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10297,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10297) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10297) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your form (22-10297) is in progress.',
+      expired:
+        'Your saved form (22-10297) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  customText: {
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    finishAppLaterMessage: 'Finish this form later',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+  },
   defaultDefinitions: {},
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
@@ -85,6 +92,7 @@ const formConfig = {
     },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
     identificationChapter: {
       title: 'Your information',

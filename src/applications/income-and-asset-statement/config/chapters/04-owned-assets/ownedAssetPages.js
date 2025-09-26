@@ -1,6 +1,6 @@
 import React from 'react';
 import { lowercase } from 'lodash';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -13,6 +13,10 @@ import {
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
+  yesNoUI,
+  yesNoSchema,
+  fileInputUI,
+  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
@@ -27,8 +31,27 @@ import {
   resolveRecipientFullName,
   showUpdatedContent,
 } from '../../../helpers';
-import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
-import SupplementaryFormsAlert from '../../../components/FormAlerts/SupplementaryFormsAlert';
+
+import SupplementaryFormsAlert, {
+  SupplementaryFormsAlertUpdated,
+} from '../../../components/FormAlerts/SupplementaryFormsAlert';
+import {
+  relationshipLabels,
+  relationshipLabelDescriptions,
+  spouseRelationshipLabels,
+  spouseRelationshipLabelDescriptions,
+  custodianRelationshipLabels,
+  custodianRelationshipLabelDescriptions,
+  parentRelationshipLabels,
+  parentRelationshipLabelDescriptions,
+  ownedAssetTypeLabels,
+} from '../../../labels';
+import {
+  DocumentMailingAddressDescription,
+  AdditionalFormNeededDescription,
+  DocumentUploadGuidelinesDescription,
+  SummaryDescription,
+} from '../../../components/OwnedAssetsDescriptions';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -40,9 +63,46 @@ export const options = {
     isRecipientInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.ownedPortionValue) ||
-    !isDefined(item.assetType), // include all required fields here
+    !isDefined(item.assetType) ||
+    (showUpdatedContent() &&
+      (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') &&
+      item?.['view:addFormQuestion'] === true &&
+      (!isDefined(item?.uploadedDocuments) || !item.uploadedDocuments.name)), // include all required fields here
   text: {
-    summaryDescription: SupplementaryFormsAlert,
+    summaryDescription: form => {
+      if (!showUpdatedContent()) {
+        return <SupplementaryFormsAlert formData={form.formData} />;
+      }
+
+      const shouldShowDeclinedAlert = form?.formData?.ownedAssets?.some(
+        item => {
+          const isFarmOrBusiness =
+            item?.assetType === 'FARM' || item?.assetType === 'BUSINESS';
+          const declinedUpload = item?.['view:addFormQuestion'] === false;
+          const saidYesButEmptyArray =
+            item?.['view:addFormQuestion'] === true &&
+            (!item?.uploadedDocuments || !item.uploadedDocuments.name);
+
+          return isFarmOrBusiness && (declinedUpload || saidYesButEmptyArray);
+        },
+      );
+
+      if (shouldShowDeclinedAlert) {
+        return <SupplementaryFormsAlertUpdated formData={form.formData} />;
+      }
+
+      return null;
+    },
+    summaryTitle: props => {
+      if (showUpdatedContent()) {
+        return 'Review property and business assets';
+      }
+      return `Review your ${props.nounPlural}`;
+    },
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? SummaryDescription
+      : null,
+
     getItemName: (item, index, formData) => {
       if (
         !isDefined(item?.recipientRelationship) ||
@@ -56,25 +116,54 @@ export const options = {
         ownedAssetTypeLabels[item.assetType],
       )}`;
     },
-    cardDescription: item =>
-      isDefined(item?.grossMonthlyIncome) &&
-      isDefined(item?.ownedPortionValue) && (
-        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Gross monthly income:{' '}
+    cardDescription: item => {
+      const mvpContent = [
+        <li key="income">
+          Gross monthly income:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.grossMonthlyIncome)}
+          </span>
+        </li>,
+        <li key="value">
+          Owned portion value:{' '}
+          <span className="vads-u-font-weight--bold">
+            {formatCurrency(item.ownedPortionValue)}
+          </span>
+        </li>,
+      ];
+
+      const updatedContent =
+        showUpdatedContent() &&
+        (item?.assetType === 'FARM' || item?.assetType === 'BUSINESS') ? (
+          <li key="upload">
+            Form uploaded:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.grossMonthlyIncome)}
+              {item?.['view:addFormQuestion'] === true &&
+              isDefined(item?.uploadedDocuments) &&
+              item.uploadedDocuments.name
+                ? item.uploadedDocuments.name
+                : 'No'}
             </span>
           </li>
-          <li>
-            Owned portion value:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.ownedPortionValue)}
-            </span>
-          </li>
-        </ul>
-      ),
-    reviewAddButtonText: 'Add another owned asset',
+        ) : null;
+
+      const content = [...mvpContent, updatedContent].filter(Boolean);
+
+      return (
+        isDefined(item?.grossMonthlyIncome) &&
+        isDefined(item?.ownedPortionValue) && (
+          <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+            {content}
+          </ul>
+        )
+      );
+    },
+    reviewAddButtonText: props => {
+      if (showUpdatedContent()) {
+        return 'Add more property or business assets';
+      }
+      return `Add another ${props.nounSingular}`;
+    },
     alertItemUpdated: 'Your owned asset information has been updated',
     alertItemDeleted: 'Your owned asset information has been deleted',
     cancelAddTitle: 'Cancel adding this owned asset',
@@ -92,6 +181,28 @@ export const options = {
   },
 };
 
+const summaryPageTitle = 'Income and net worth associated with owned assets';
+
+const genericTitle =
+  'Are you or your dependents receiving or expecting to receive any income in the next 12 months generated by owned property or other physical assets?';
+const genericHint =
+  'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.';
+
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income from an owned asset to report',
+  N: 'No, I don’t have income from an owned asset to report',
+};
+
+const sharedYesNoOptionsBase = {
+  labelHeaderLevel: '2',
+  labelHeaderLevelStyle: '3',
+};
+
+const yesNoOptionsMore = {
+  title: 'Do you have more income from property or business assets to report?',
+  ...sharedYesNoOptionsBase,
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -102,8 +213,7 @@ const summaryPage = {
     'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
       options,
       {
-        title:
-          'Are you or your dependents receiving or expecting to receive any income in the next 12 months generated by owned property or other physical assets?',
+        title: genericTitle,
         hint: 'If yes, you’ll need to report at least one owned asset',
         labels: {
           Y: 'Yes',
@@ -111,7 +221,9 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more owned assets to report?',
+        title: showUpdatedContent()
+          ? 'Do you have more income from property or business assets to report?'
+          : 'Do you have more owned assets to report?',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -129,6 +241,71 @@ const summaryPage = {
       'view:isAddingOwnedAssets': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingOwnedAssets'],
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint: genericHint,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedSpouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint: 'Your dependents include children who you financially support. ',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedChildSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Are you receiving or expecting to receive any income in the next 12 months generated by owned property or other physical assets?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedCustodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint: genericHint,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
   },
 };
 
@@ -169,6 +346,275 @@ const ownedAssetRecipientPage = {
 };
 
 /** @returns {PageSchema} */
+const ownedAssetRecipientUpdatedPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Property and business relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      title: 'Who receives the income?',
+      hint: 'You’ll be able to add individual incomes separately',
+      labels: relationshipLabels,
+      descriptions: relationshipLabelDescriptions,
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
+    }),
+    otherRecipientRelationshipType: {
+      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'recipientRelationship',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+      },
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (
+          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
+        ) {
+          return { ...formSchema, required: ['recipientRelationship'] };
+        }
+        return {
+          ...formSchema,
+          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const ownedAssetRecipientUpdatedSpousePage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Property and business relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      title: 'Who receives the income?',
+      hint: 'You’ll be able to add individual incomes separately',
+      labels: spouseRelationshipLabels,
+      descriptions: spouseRelationshipLabelDescriptions,
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
+    }),
+    otherRecipientRelationshipType: {
+      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'recipientRelationship',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+      },
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'ownedAssets',
+        ),
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (
+          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
+        ) {
+          return { ...formSchema, required: ['recipientRelationship'] };
+        }
+        return {
+          ...formSchema,
+          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+const ownedAssetRecipientUpdatedChildPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Property and business relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      title: 'Who receives the income?',
+      hint: 'You’ll be able to add individual incomes separately',
+      labels: relationshipLabels,
+      descriptions: relationshipLabelDescriptions,
+      labelHeaderLevel: '2',
+      labelHeaderLevelStyle: '3',
+    }),
+    otherRecipientRelationshipType: {
+      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'recipientRelationship',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+      },
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'ownedAssets',
+        ),
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (
+          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
+        ) {
+          return { ...formSchema, required: ['recipientRelationship'] };
+        }
+        return {
+          ...formSchema,
+          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const ownedAssetRecipientUpdatedCustodianPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Property and business relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: {
+      ...radioUI({
+        title: 'Who receives the income?',
+        hint: 'You’ll be able to add individual incomes separately',
+        labels: custodianRelationshipLabels,
+        descriptions: custodianRelationshipLabelDescriptions,
+        labelHeaderLevel: '2',
+        labelHeaderLevelStyle: '3',
+      }),
+    },
+    otherRecipientRelationshipType: {
+      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'recipientRelationship',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+      },
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'ownedAssets',
+        ),
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (
+          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
+        ) {
+          return { ...formSchema, required: ['recipientRelationship'] };
+        }
+        return {
+          ...formSchema,
+          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const ownedAssetRecipientUpdatedParentPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Property and business relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: {
+      ...radioUI({
+        title: 'Who receives the income?',
+        hint: 'You’ll be able to add individual incomes separately',
+        labels: parentRelationshipLabels,
+        descriptions: parentRelationshipLabelDescriptions,
+        labelHeaderLevel: '2',
+        labelHeaderLevelStyle: '3',
+      }),
+    },
+    otherRecipientRelationshipType: {
+      'ui:title': 'Describe their relationship to the Veteran',
+      'ui:webComponentField': VaTextInputField,
+      'ui:options': {
+        expandUnder: 'recipientRelationship',
+        expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
+      },
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'ownedAssets',
+        ),
+    },
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        if (
+          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
+        ) {
+          return { ...formSchema, required: ['recipientRelationship'] };
+        }
+        return {
+          ...formSchema,
+          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
+        };
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -191,13 +637,31 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const ownedAssetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Asset information'),
     assetType: radioUI({
-      title: 'What is the type of the owned asset?',
+      title: showUpdatedContent()
+        ? 'What type of asset is it?'
+        : 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    ownedPortionValue: currencyUI('Value of your portion of the property'),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What’s the gross monthly income generated from this asset?',
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    ownedPortionValue: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What is the value of your share of the asset?',
+            hint:
+              'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
+          }
+        : 'Value of your portion of the property',
+    ),
   },
   schema: {
     type: 'object',
@@ -210,16 +674,204 @@ const ownedAssetTypePage = {
   },
 };
 
+/** @returns {PageSchema} */
+const ownedAssetAdditionalFormNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Additional form needed'),
+    'view:addFormDescription': {
+      'ui:description': AdditionalFormNeededDescription,
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the completed form now?',
+    }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.ownedAssets?.[index] || formData;
+
+        if (itemData?.['view:addFormQuestion'] === false) {
+          itemData.uploadedDocuments = [];
+        }
+
+        return schema;
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+const MAX_FILE_SIZE_MB = 20;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
+
+/** @returns {PageSchema} */
+const ownedAssetDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    'view:uploadedDocumentsDescription': {
+      'ui:description': DocumentUploadGuidelinesDescription,
+    },
+    uploadedDocuments: {
+      ...fileInputUI({
+        title: 'Upload supporting form',
+        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        accept: '.pdf,.jpeg,.png',
+        required: () => true,
+        errorMessages: { required: 'Upload a supporting document' },
+        maxFileSize: MAX_FILE_SIZE_BYTES,
+        formNumber: '21P-0969',
+        skipUpload: environment.isLocalhost(),
+        // server response triggers required validation.
+        // skipUpload needed to bypass in local environment
+      }),
+      'ui:validations': [
+        // Taken from the arrayBuilderPatterns
+        // needed for validation to work correctly in arrays
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4837
+        (errors, fieldData) => {
+          if (fieldData?.isEncrypted && !fieldData?.confirmationCode) {
+            return;
+          }
+
+          if (!fieldData || !fieldData.name) {
+            errors.addError('Upload a supporting document');
+          }
+        },
+      ],
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['uploadedDocuments'],
+    properties: {
+      'view:uploadedDocumentsDescription': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedDocuments: fileInputSchema(),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const documentMailingAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Submit additional form by mail'),
+    'view:documentMailingAddress': {
+      'ui:description': DocumentMailingAddressDescription,
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:documentMailingAddress': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
+  ownedAssetPagesUpdatedSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-updated',
+    depends: formData =>
+      showUpdatedContent() &&
+      formData.claimantType !== 'SPOUSE' &&
+      formData.claimantType !== 'CHILD' &&
+      formData.claimantType !== 'CUSTODIAN',
+    uiSchema: updatedSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: updatedSpouseSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedChildSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: updatedChildSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: updatedCustodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
   ownedAssetPagesSummary: pageBuilder.summaryPage({
-    title: 'Income and net worth associated with owned assets',
+    title: summaryPageTitle,
     path: 'property-and-business-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
+  ownedAssetRecipientUpdatedPage: pageBuilder.itemPage({
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient-updated',
+    depends: formData =>
+      showUpdatedContent() &&
+      formData.claimantType !== 'SPOUSE' &&
+      formData.claimantType !== 'CHILD' &&
+      formData.claimantType !== 'CUSTODIAN' &&
+      formData.claimantType !== 'PARENT',
+    uiSchema: ownedAssetRecipientUpdatedPage.uiSchema,
+    schema: ownedAssetRecipientPage.schema,
+  }),
+  ownedAssetRecipientUpdatedSpousePage: pageBuilder.itemPage({
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: ownedAssetRecipientUpdatedSpousePage.uiSchema,
+    schema: ownedAssetRecipientUpdatedSpousePage.schema,
+  }),
+  ownedAssetRecipientUpdatedChildPage: pageBuilder.itemPage({
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: ownedAssetRecipientUpdatedChildPage.uiSchema,
+    schema: ownedAssetRecipientUpdatedChildPage.schema,
+  }),
+  ownedAssetRecipientUpdatedCustodianPage: pageBuilder.itemPage({
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: ownedAssetRecipientUpdatedCustodianPage.uiSchema,
+    schema: ownedAssetRecipientUpdatedCustodianPage.schema,
+  }),
+  ownedAssetRecipientUpdatedParentPage: pageBuilder.itemPage({
+    title: 'Property and business recipient',
+    path: 'property-and-business/:index/income-recipient-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: ownedAssetRecipientUpdatedParentPage.uiSchema,
+    schema: ownedAssetRecipientUpdatedParentPage.schema,
+  }),
+  // Page 1 MVP
   ownedAssetRecipientPage: pageBuilder.itemPage({
     title: 'Person who receives this income',
     path: 'property-and-business/:index/income-recipient',
+    depends: () => !showUpdatedContent(),
     uiSchema: ownedAssetRecipientPage.uiSchema,
     schema: ownedAssetRecipientPage.schema,
   }),
@@ -234,7 +886,41 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
   ownedAssetTypePage: pageBuilder.itemPage({
     title: 'Property and business type',
     path: 'property-and-business/:index/income-type',
+
     uiSchema: ownedAssetTypePage.uiSchema,
     schema: ownedAssetTypePage.schema,
+  }),
+  ownedAssetAdditionalFormNeededPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/additional-form-needed',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS'),
+
+    uiSchema: ownedAssetAdditionalFormNeeded.uiSchema,
+    schema: ownedAssetAdditionalFormNeeded.schema,
+  }),
+  ownedAssetDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === true,
+    uiSchema: ownedAssetDocumentUpload.uiSchema,
+    schema: ownedAssetDocumentUpload.schema,
+  }),
+  ownedAssetDocumentMailingAddressPage: pageBuilder.itemPage({
+    title: 'Additional form needed',
+    path: 'property-and-business/:index/document-mailing-address',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      (formData?.ownedAssets[index]?.assetType === 'FARM' ||
+        formData?.ownedAssets[index]?.assetType === 'BUSINESS') &&
+      formData?.ownedAssets[index]?.['view:addFormQuestion'] === false,
+    uiSchema: documentMailingAddressPage.uiSchema,
+    schema: documentMailingAddressPage.schema,
   }),
 }));
