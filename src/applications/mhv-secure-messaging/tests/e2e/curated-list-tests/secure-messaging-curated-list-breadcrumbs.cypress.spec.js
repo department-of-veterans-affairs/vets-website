@@ -65,15 +65,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       GeneralFunctionsPage.verifyPageHeader(
         'Only use messages for non-urgent needs',
       );
-      cy.findByRole('button', { name: /Continue to start message/i }).click();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
-    });
 
-    it('can navigate to Care team help and back via breadcrumb', () => {
-      // Start at Select care team page
-      PilotEnvPage.navigateToSelectCareTeamPage();
+      cy.findByTestId('start-message-link').click();
       GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should(
+        'include',
+        `${Paths.COMPOSE.replace(/\/$/, '')}${Paths.SELECT_CARE_TEAM}`,
+      );
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
       // Navigate to Care team help page via link

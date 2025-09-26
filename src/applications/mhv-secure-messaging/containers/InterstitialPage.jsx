@@ -84,7 +84,7 @@ const InterstitialPage = props => {
           message-aria-describedby={continueButtonText}
           text={continueButtonText}
           type="primary"
-          data-testid="continue-button"
+          data-testid="start-message-link"
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
         />
 
