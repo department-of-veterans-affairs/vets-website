@@ -218,4 +218,21 @@ describe('Accelerated Cerner Facility Alert', () => {
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
   });
+
+  it('hides correctly when isAcceleratingConditions is true', () => {
+    const screen = setup(
+      {
+        ...initialState,
+        featureToggles: createFeatureToggles({
+          isAccelerating: true,
+          isAcceleratingConditions: true,
+        }),
+        user: { profile: { facilities: [] } },
+      },
+      { facilities: [] },
+      CernerAlertContent.HEALTH_CONDITIONS,
+    );
+
+    expect(screen.queryByTestId('cerner-facilities-alert')).to.not.exist;
+  });
 });

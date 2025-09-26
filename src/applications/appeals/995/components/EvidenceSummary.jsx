@@ -17,7 +17,11 @@ import { EvidencePrivateContent } from './EvidencePrivateContent';
 import { EvidenceUploadContent } from './EvidenceUploadContent';
 import { EvidenceVaContent } from './EvidenceVaContent';
 
-import { EVIDENCE_LIMIT, LIMITATION_KEY, SC_NEW_FORM_DATA } from '../constants';
+import {
+  LIMITED_CONSENT_RESPONSE,
+  LIMITATION_KEY,
+  SC_NEW_FORM_DATA,
+} from '../constants';
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
 
@@ -42,7 +46,6 @@ const EvidenceSummary = ({
   const vaEvidence = getVAEvidence(data);
   const privateEvidence = getPrivateEvidence(data);
   const otherEvidence = getOtherEvidence(data);
-  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -221,7 +224,7 @@ const EvidenceSummary = ({
         <EvidenceVaContent list={vaEvidence} {...props} />
         <EvidencePrivateContent
           list={privateEvidence}
-          showLimitedConsentYN={showLimitedConsentYN}
+          limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
           limitedConsent={limitedConsent}
           privacyAgreementAccepted={privacyAgreementAccepted}
           {...props}
