@@ -204,7 +204,7 @@ class PilotEnvPage {
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
       force: true,
     });
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
   };
 
   verifySelectCareTeamPageInterface = () => {
