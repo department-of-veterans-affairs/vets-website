@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { fromUnixTime, endOfDay, isPast, isValid } from 'date-fns';
+import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
@@ -31,7 +33,29 @@ const breadcrumbList = [
   },
 ];
 
+// util to check if an in-progress form is expired
+export const isExpired = expiresAt => {
+  const ex = fromUnixTime(Number(expiresAt));
+  return !isValid(ex) || isPast(endOfDay(ex));
+};
+
 export default function App({ location, children }) {
+  const {
+    isLoadingFeatureFlags,
+    isLoadingProfile,
+    isMergedFormEnabled,
+    savedForms,
+  } = useSelector(state => ({
+    isLoadingFeatureFlags: state?.featureToggles?.loading,
+    isMergedFormEnabled: state.featureToggles.form1010dExtended,
+    isLoadingProfile: state.user?.profile?.loading,
+    savedForms: state.user?.profile?.savedForms ?? [],
+  }));
+  const isAppLoading = useMemo(
+    () => isLoadingFeatureFlags || isLoadingProfile,
+    [isLoadingFeatureFlags, isLoadingProfile],
+  );
+
   document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
@@ -43,23 +67,31 @@ export default function App({ location, children }) {
     );
   });
 
-  // ... inside App function ...
-  const TOGGLE_KEY = 'champvaForm1010d2027';
-
-  const { useFormFeatureToggleSync } = useFeatureToggle();
-  useFormFeatureToggleSync([
-    // Feature toggle name & form data key will be the same
-    'champvaForm1010d2027',
-    {
-      toggleName: TOGGLE_KEY, // feature toggle name
-      formKey: 'champvaForm1010d2027', // form data name
+  // redirect to merged form if feature is active & user doesn't have an in-progress form
+  useEffect(
+    () => {
+      if (isAppLoading) return;
+      const hasSavedForm = savedForms.some(
+        ({ form, metaData }) =>
+          form === formConfig.formId && !isExpired(metaData?.expiresAt),
+      );
+      if (isMergedFormEnabled && !hasSavedForm) {
+        window.location(getAppUrl('10-10d-extended'));
+      }
     },
-  ]);
+    [isAppLoading, isMergedFormEnabled, savedForms],
+  );
 
   // Add Datadog RUM to the app
   useBrowserMonitoring();
 
-  return (
+  return isAppLoading ? (
+    <va-loading-indicator
+      message="Loading application..."
+      class="vads-u-margin-y--4"
+      set-focus
+    />
+  ) : (
     <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <VaBreadcrumbs wrapping breadcrumbList={breadcrumbList} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
