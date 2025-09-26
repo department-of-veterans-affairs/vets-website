@@ -14,7 +14,6 @@ import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
 
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
-import { ProgressButton } from '../../../exportsFile';
 
 import FormNavButtons, {
   FormNavButtonContinue,
@@ -333,13 +332,6 @@ class FormPage extends React.Component {
               collapsible={route.formConfig?.dev?.collapsibleNavLinks}
             />
           )}
-          <a
-            className="usa-button-primary"
-            role="button"
-            href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information"
-          >
-            Pear
-          </a>
           <route.pageConfig.CustomPage
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
@@ -378,13 +370,6 @@ class FormPage extends React.Component {
             collapsible={route.formConfig?.dev?.collapsibleNavLinks}
           />
         )}
-        <a
-          className="usa-button-primary"
-          role="button"
-          href="/supporting-forms-for-claims/submit-statement-form-21-4138/personal-information"
-        >
-          Pear
-        </a>
         <SchemaForm
           name={route.pageConfig.pageKey}
           title={route.pageConfig.title}
