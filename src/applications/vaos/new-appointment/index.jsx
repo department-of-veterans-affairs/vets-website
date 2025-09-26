@@ -174,7 +174,7 @@ export function NewAppointment() {
             <Route path={`${match.url}/type-of-care`}>
               <TypeOfCarePage />
             </Route>
-            <Route path={match.url}>
+            <Route exact path={match.url}>
               <UrgentCareInformationPage />
             </Route>
           </>

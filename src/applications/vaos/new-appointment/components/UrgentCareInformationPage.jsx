@@ -58,12 +58,13 @@ export default function UrgentCareInformationPage() {
       </h2>
       <ul>
         <li>
-          If you're in crisis or having thoughts of suicide, connect with our
-          Veterans Crisis Line. We offer confidential support anytime, day or
-          night.
+          <strong>If you're in crisis or having thoughts of suicide</strong>,
+          connect with our Veterans Crisis Line. We offer confidential support
+          anytime, day or night.
         </li>
       </ul>
       <va-button
+        class="vads-u-margin-left--3"
         text="Connect with the Veterans Crisis Line"
         secondary
         uswds
@@ -74,12 +75,12 @@ export default function UrgentCareInformationPage() {
       />
       <ul>
         <li>
-          If you think your life or health is in danger, call{' '}
+          <strong>If you think your life or health is in danger</strong>, call{' '}
           <va-telephone contact="911" /> or go to the nearest emergency room.
         </li>
         <li>
-          If you have a minor illness or injury, you may be able to get care
-          faster at an{' '}
+          <strong>If you have a minor illness or injury</strong>, you may be
+          able to get care faster at an{' '}
           <a href="https://www.va.gov/find-locations/?facilityType=urgent_care">
             urgent care facility
           </a>
