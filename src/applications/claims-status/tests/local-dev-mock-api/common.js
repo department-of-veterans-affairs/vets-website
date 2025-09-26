@@ -59,9 +59,11 @@ const createClaim = (
     issues = [],
     evidence = [],
     supportingDocuments = [],
+    evidenceSubmissions = [],
     contentions = [],
     previousPhases = {},
   },
+  withTrackedItems = true,
 ) => ({
   data: {
     id,
@@ -86,6 +88,7 @@ const createClaim = (
       status,
       hasFailedUploads,
       supportingDocuments,
+      evidenceSubmissions,
       contentions,
       events: [
         createEvent(claimDate, 'CLAIM_RECEIVED'),
@@ -95,22 +98,24 @@ const createClaim = (
       ],
       issues,
       evidence,
-      trackedItems: [
-        {
-          id: 1,
-          displayName: '21-4142/21-4142a',
-          status: 'NEEDED_FROM_YOU',
-          suspenseDate: '2024-12-01',
-          type: 'other',
-        },
-        {
-          id: 2,
-          displayName: 'Private medical records',
-          status: 'NEEDED_FROM_OTHERS',
-          suspenseDate: '2024-12-10',
-          type: 'other',
-        },
-      ],
+      trackedItems: withTrackedItems
+        ? [
+            {
+              id: 1,
+              displayName: '21-4142/21-4142a',
+              status: 'NEEDED_FROM_YOU',
+              suspenseDate: '2024-12-01',
+              type: 'other',
+            },
+            {
+              id: 2,
+              displayName: 'Private medical records',
+              status: 'NEEDED_FROM_OTHERS',
+              suspenseDate: '2024-12-10',
+              type: 'other',
+            },
+          ]
+        : [],
     },
   },
 });
@@ -376,6 +381,108 @@ const baseClaims = [
       },
     ],
   }),
+  // Claim with no tracked items, no supporting documents, and no evidence submissions
+  createClaim(
+    '5',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-09',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [],
+      supportingDocuments: [],
+      contentions: [
+        {
+          name: 'Service connection for tinnitus',
+        },
+      ],
+    },
+    false,
+  ),
+  // Claim with no tracked items, no supporting documents, and 1 IN_PROGRESS evidence submission queued for lighthouse upload
+  createClaim(
+    '6',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-09',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [
+        {
+          acknowledgementDate: null,
+          claimId: 6,
+          createdAt: '2025-07-16T20:15:54.461Z',
+          deleteDate: '2025-09-14T21:00:00.847Z',
+          documentType: 'Birth Certificate',
+          failedDate: null,
+          fileName: 'Birth Certificate.pdf',
+          id: 189,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+      ],
+      supportingDocuments: [],
+      contentions: [
+        {
+          name: 'Service connection for tinnitus',
+        },
+      ],
+    },
+    false,
+  ),
+  // Claim with no tracked items, 1 successfully uploaded supporting document, and no in progress evidence submissions
+  createClaim(
+    '7',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-09',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [],
+      supportingDocuments: [
+        createSupportingDocument(
+          '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+          'Photographs',
+          'Not tracked item photos.pdf',
+          null,
+          '2024-10-15',
+        ),
+      ],
+      contentions: [
+        {
+          name: 'Service connection for tinnitus',
+        },
+      ],
+    },
+    false,
+  ),
 ];
 
 function getClaimDataById(id) {
@@ -561,6 +668,9 @@ const responses = {
   'GET /v0/benefits_claims/2': getClaimDataById('2'),
   'GET /v0/benefits_claims/3': getClaimDataById('3'),
   'GET /v0/benefits_claims/4': getClaimDataById('4'),
+  'GET /v0/benefits_claims/5': getClaimDataById('5'),
+  'GET /v0/benefits_claims/6': getClaimDataById('6'),
+  'GET /v0/benefits_claims/7': getClaimDataById('7'),
 
   'GET /v0/appeals': {
     data: [appealData1],
