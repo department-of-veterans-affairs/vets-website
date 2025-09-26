@@ -33,7 +33,7 @@ describe('Prefill pattern - Yellow Task', () => {
               deliveryPointValidation: 'CONFIRMED',
               residentialDeliveryIndicator: 'RESIDENTIAL',
             },
-            validationKey: -1565212962,
+            overrideValidationKey: -1565212962,
           },
         ],
       },

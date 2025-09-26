@@ -91,7 +91,7 @@ describe('<Dashboard />', () => {
               stateCode: 'NY',
               transactionId: '3ea3ecf8-3ddf-46d9-8a4b-b5554385b3fb',
               updatedAt: '2022-03-23T19:15:01.000Z',
-              validationKey: null,
+              overrideValidationKey: null,
               vet360Id: '1273766',
               zipCode: '97063',
               zipCodeSuffix: null,

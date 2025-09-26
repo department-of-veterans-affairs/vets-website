@@ -11,7 +11,7 @@ const mailingAddressUpdateReceived = {
       stateCode: 'NY',
       zipCode: '97064',
       addressPou: 'CORRESPONDENCE',
-      validationKey: 1564180368,
+      overrideValidationKey: 1564180368,
     },
   },
   response: {
@@ -112,7 +112,7 @@ const addressValidationMissingZip = {
       },
     },
   ],
-  validationKey: -981994727,
+  overrideValidationKey: -981994727,
 };
 
 const addressValidation = {
@@ -134,7 +134,7 @@ const addressValidation = {
       },
     },
   ],
-  validationKey: -981994727,
+  overrideValidationKey: -981994727,
 };
 
 const addressValidationMatch = (req, res) => {
@@ -150,7 +150,7 @@ const addressValidationMatch = (req, res) => {
         },
       },
     ],
-    validationKey: -1565212962,
+    overrideValidationKey: -1565212962,
   });
 };
 
