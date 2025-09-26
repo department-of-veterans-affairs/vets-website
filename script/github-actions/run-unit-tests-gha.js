@@ -170,7 +170,7 @@ function buildGroupCommand(groupName, testPaths) {
       : '--reporter=json-summary mocha --no-color --retries 5';
     runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
   } else {
-    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter json --no-color --retries 5 ${baseMocha}`;
+    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter mocha-multi-reporters --no-color --retries 5 ${baseMocha}`;
   }
 
   return `STEP=unit-tests LOG_LEVEL=${options[
