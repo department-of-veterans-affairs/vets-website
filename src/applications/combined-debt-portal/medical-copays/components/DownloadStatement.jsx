@@ -32,7 +32,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
   };
   return (
     <p
-      className="vads-u-margin-top--2 vads-u-padding--0"
+      className="vads-u-margin-top--0 vads-u-padding--0"
       data-testid="download-statement-section"
     >
       <va-link

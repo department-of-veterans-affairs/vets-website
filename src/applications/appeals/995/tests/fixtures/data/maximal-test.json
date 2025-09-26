@@ -150,6 +150,7 @@
     },
     "view:hasVaEvidence": true,
     "view:hasPrivateEvidence": true,
+    "view:hasPrivateLimitation": true,
     "view:hasOtherEvidence": true,
     "additionalDocuments": [
       {

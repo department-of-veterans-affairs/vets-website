@@ -1,9 +1,12 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import submitForm from './submitForm';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 import {
   authorizedOfficial,
@@ -11,14 +14,14 @@ import {
   acknowledgements,
   institutionDetailsFacility,
 } from '../pages';
+import transform from './transform';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-0839-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -33,6 +36,14 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body: PrivacyPolicy,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'authorizedOfficial.fullName',
+    },
+  },
   savedFormMessages: {
     notFound: 'Please start over.',
     noAuth: 'Please sign in again to continue your form.',
@@ -47,6 +58,7 @@ const formConfig = {
     finishAppLaterMessage: 'Finish this form later',
     startNewAppButtonText: 'Start a new form',
   },
+  transformForSubmit: transform,
   chapters: {
     personalInformationChapter: {
       title: 'Personal details of authorized official',

@@ -31,7 +31,7 @@ export const Balances = ({ statements, showVHAPaymentHistory = false }) => {
             getMedicalCenterNameByID(balance.station.facilitYNum);
 
           return (
-            <li key={idx}>
+            <li key={idx} className="vads-u-max-width--none">
               <BalanceCard
                 id={balance.id}
                 amount={balance.pHAmtDue}

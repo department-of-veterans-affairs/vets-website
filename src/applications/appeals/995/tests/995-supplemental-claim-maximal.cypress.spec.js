@@ -19,12 +19,7 @@ const testConfig = createTestConfig(
     },
     pageHooks,
     setupPerTest: data => {
-      const toggles = [
-        {
-          name: 'decision_reviews_4142_banner',
-          value: true,
-        },
-      ];
+      const toggles = [];
       setupPerTest(data, toggles);
     },
   },
