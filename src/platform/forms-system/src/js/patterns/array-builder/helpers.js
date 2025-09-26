@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useMemo } from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
@@ -438,30 +439,50 @@ export const validateIncompleteItems = ({
   errors,
   arrayPath,
 }) => {
-  const invalidIndex = getFirstInvalidArrayDataIndex(
-    arrayData,
-    isItemIncomplete,
-  );
-  // invalidIndex = null, 0, 1, 2, 3...
-  const isValid = invalidIndex === null;
+  try {
+    console.log('navigationState:', typeof navigationState);
+    console.log('navigationState is undefined:', navigationState === undefined);
 
-  if (!isValid && navigationState.getNavigationEventStatus()) {
-    // The user clicked continue
-    dispatchIncompleteItemError({
-      index: invalidIndex,
-      arrayPath,
-    });
+    const invalidIndex = getFirstInvalidArrayDataIndex(
+      arrayData,
+      isItemIncomplete,
+    );
+    // invalidIndex = null, 0, 1, 2, 3...
+    const isValid = invalidIndex === null;
 
-    // If provided, this is what will block continuing in
-    // a normal uiSchema/schema flow, visible or not.
-    if (errors && errors.addError) {
-      errors.addError(
-        `You haven’t completed all of the required fields for at least one ${nounSingular}. Edit or delete the ${nounSingular} marked "incomplete" before continuing.`,
-      );
+    const proceed = !isValid;
+    // eslint-disable-next-line no-console
+    console.log('about to run the check...proceed is...', proceed, Date.now());
+
+    // eslint-disable-next-line sonarjs/no-collapsible-if
+    if (proceed) {
+      console.log('we made it past the !isValid check....');
+      console.log('navstate object: ', JSON.stringify(navigationState));
+      const navstat = navigationState.getNavigationEventStatus();
+      console.log('nav stat is...', navstat);
+      if (navstat) {
+        console.log('we made it past the navigation status check...');
+        // The user clicked continue
+        dispatchIncompleteItemError({
+          index: invalidIndex,
+          arrayPath,
+        });
+
+        // If provided, this is what will block continuing in
+        // a normal uiSchema/schema flow, visible or not.
+        if (errors && errors.addError) {
+          errors.addError(
+            `You haven’t completed all of the required fields for at least one ${nounSingular}. Edit or delete the ${nounSingular} marked "incomplete" before continuing.`,
+          );
+        }
+      }
     }
-  }
 
-  return isValid;
+    return isValid;
+  } catch (error) {
+    console.log('ERROR!!!!', error);
+    return true;
+  }
 };
 
 /**

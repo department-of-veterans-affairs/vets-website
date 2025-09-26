@@ -30,6 +30,26 @@ const testConfig = createTestConfig(
         });
       },
       [pagePaths.arrayMultiPageBuilderSummary]: ({ afterHook }) => {
+        // Patch console.log BEFORE anything else runs
+        const storedLogs = [];
+        cy.window().then(win => {
+          if (!win.__CONSOLE_LOG_PATCHED__) {
+            // eslint-disable-next-line no-param-reassign
+            win.__CONSOLE_LOG_PATCHED__ = true;
+            const originalLog = win.console.log;
+            // eslint-disable-next-line no-param-reassign
+            win.console.log = (...args) => {
+              const message = args.join(' ');
+              storedLogs.push(message);
+              originalLog.apply(win.console, args);
+            };
+
+            // Store reference on window for debugging
+            // eslint-disable-next-line no-param-reassign
+            win.__STORED_LOGS__ = storedLogs;
+          }
+        });
+
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(() => {
@@ -78,6 +98,22 @@ const testConfig = createTestConfig(
             tryContinueAndShouldBeStoppedByError();
             deleteCard();
             continueNoError();
+          });
+
+          // Flush console logs after test completes - outside of test chain
+          cy.window().then(win => {
+            const logs = win.__STORED_LOGS__ || [];
+            if (logs.length > 0) {
+              const combinedLogs = logs
+                .map((msg, index) => `[CONSOLE-${index}] ${msg}`)
+                .join('\n');
+              cy.task(
+                'log',
+                `=== CAPTURED CONSOLE LOGS ===\n${combinedLogs}\n=== END LOGS ===`,
+              );
+            } else {
+              cy.task('log', '[CONSOLE] WARNING: No logs were captured!');
+            }
           });
         });
       },
