@@ -17,7 +17,7 @@ describe('Get allergies action with parameter-based logic', () => {
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false, false, true); // isCurrent=false, isAccelerating=false, isCerner=true
+      const thunk = getAllergiesList(false, true); // isCurrent=false, isCerner=true
 
       await thunk(dispatch);
 
@@ -36,7 +36,7 @@ describe('Get allergies action with parameter-based logic', () => {
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergiesList(false, false, false); // isCurrent=false, isAccelerating=false, isCerner=false
+      const thunk = getAllergiesList(false, false); // isCurrent=false, isCerner=false
 
       await thunk(dispatch);
 
@@ -57,7 +57,7 @@ describe('Get allergies action with parameter-based logic', () => {
       const allergyList = [mockData]; // Item exists in list
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, true, false); // id, allergyList, isAccelerating=true, isCerner=false
+      const thunk = getAllergyDetails('123', allergyList, false); // id, allergyList, isCerner=false
 
       await thunk(dispatch);
 
@@ -77,7 +77,7 @@ describe('Get allergies action with parameter-based logic', () => {
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, false, true); // id, allergyList, isAccelerating=false, isCerner=true
+      const thunk = getAllergyDetails('123', allergyList, true); // id, allergyList, isCerner=true
 
       await thunk(dispatch);
 
@@ -96,7 +96,7 @@ describe('Get allergies action with parameter-based logic', () => {
       mockApiRequest(mockData);
 
       const dispatch = sinon.spy();
-      const thunk = getAllergyDetails('123', allergyList, false, false); // id, allergyList, isAccelerating=false, isCerner=false
+      const thunk = getAllergyDetails('123', allergyList, false); // id, allergyList, isCerner=false
 
       await thunk(dispatch);
 
