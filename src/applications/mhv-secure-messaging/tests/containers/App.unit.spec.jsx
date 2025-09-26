@@ -324,9 +324,7 @@ describe('App', () => {
     });
 
     // Accept interstitial (sets acceptInterstitial internally)
-    const continueButton = await screen.findByRole('button', {
-      name: /Continue to start message/i,
-    });
+    const continueButton = await screen.findByTestId('continue-button');
     continueButton.click();
 
     // Navigate to Care Team Help route
