@@ -108,6 +108,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10275: '22-10275',
   FORM_40_4962: '40-4962',
   FORM_21_2680: '21-2680',
+  FORM_21_4192: '21-4192',
+  FORM_21_0779: '21-0779',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -206,6 +208,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
     [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
+    [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
+    [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
   };
 };
 
@@ -774,6 +778,22 @@ export const MY_VA_SIP_FORMS = [
       'Application for Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
     description: 'benefits',
     trackingPrefix: '21-2680-house-bound-status-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4192,
+    benefit: 'employment information',
+    title:
+      'Application for Employment Information in Connection with Claim for Disability Benefits (21-4192)',
+    description: 'employment information application (21-4192)',
+    trackingPrefix: '21-4192-employment-information-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0779,
+    benefit: 'benefits',
+    title:
+      'Application for Nursing Home Information in Connection with Claim for Aid and Attendance',
+    description: 'benefits',
+    trackingPrefix: '21-0779-nursing-home-information-',
   },
 ];
 
