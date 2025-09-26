@@ -46,6 +46,10 @@ const ResolvePage = ({ match }) => {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
             label: `${title}`,
           },
+          {
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/resolve`,
+            label: 'Resolve your bill',
+          },
         ]}
         label="Breadcrumb"
         wrapping
@@ -55,7 +59,7 @@ const ResolvePage = ({ match }) => {
           data-testid="resolve-page-title"
           className="vads-u-margin-bottom--2"
         >
-          {title}
+          Resolve your copay bill for {selectedCopay?.station.facilityName}
         </h1>
         <p className="va-introtext">
           You can pay your balance, request financial help, or dispute this
