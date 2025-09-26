@@ -12,6 +12,11 @@ export const uiSchema = index => ({
   'ui:description': (
     <UploadDescription uploadTitle="Upload supporting documents" />
   ),
+  // TODO: confirm and update this confirmationField label copy, can be multiple files
+  'ui:confirmationField': ({ formData }) => ({
+    data: formData?.map(item => item.name || item.fileName),
+    label: 'Uploaded file(s)',
+  }),
   [`secondaryUploadSources${index}`]: ancillaryFormUploadUi(
     '',
     'PTSD 781a form supporting documents',
