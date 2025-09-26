@@ -26,4 +26,10 @@
       list-style-type: disc;
     }
   }
+
+  @media screen and (max-width: 479px) {
+    .print-button {
+      width: 100%;
+    }
+  }
 }
