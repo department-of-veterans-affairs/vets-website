@@ -83,11 +83,11 @@ const AttachmentsList = props => {
   );
 
   const getSize = num => {
-    if (num > 999999) {
-      return `${(num / 1000000).toFixed(1)} MB`;
+    if (num >= 1024 * 1024) {
+      return `${(num / 1024 / 1024).toFixed(1)} MB`;
     }
-    if (num > 999) {
-      return `${Math.floor(num / 1000)} KB`;
+    if (num >= 1024) {
+      return `${(num / 1024).toFixed(1)} KB`;
     }
     return `${num} B`;
   };

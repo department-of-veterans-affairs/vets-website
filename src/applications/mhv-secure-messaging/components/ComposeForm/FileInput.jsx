@@ -39,6 +39,7 @@ const FileInput = props => {
 
   const {
     maxFileSize,
+    maxFileSizeError,
     totalMaxFileSize,
     totalMaxFileSizeError,
     totalMaxFileCount,
@@ -49,6 +50,9 @@ const FileInput = props => {
         maxFileSize: useLargeAttachments
           ? Attachments.MAX_FILE_SIZE_LARGE
           : Attachments.MAX_FILE_SIZE,
+        maxFileSizeError: useLargeAttachments
+          ? ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE_LARGE_UPLOAD
+          : ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
         totalMaxFileSize: useLargeAttachments
           ? Attachments.TOTAL_MAX_FILE_SIZE_LARGE
           : Attachments.TOTAL_MAX_FILE_SIZE,
@@ -124,7 +128,7 @@ const FileInput = props => {
 
     if (selectedFile.size > maxFileSize) {
       setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
+        message: maxFileSizeError,
       });
       fileInputRef.current.value = null;
       return;
@@ -180,7 +184,7 @@ const FileInput = props => {
       }
       return 'Attach file';
     },
-    [attachments.length],
+    [attachments?.length],
   );
 
   return (
