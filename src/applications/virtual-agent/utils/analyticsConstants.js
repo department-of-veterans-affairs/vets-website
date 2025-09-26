@@ -12,7 +12,9 @@ export const ACTIVITY_EVENT_NAMES = {
 export const API_CALL_NAMES = {
   SKILL_ENTRY: 'Chatbot Skill Entry',
   SKILL_EXIT: 'Chatbot Skill Exit',
+  RAG_AGENT_ENTRY: 'Chatbot RAG Agent Entry',
+  RAG_AGENT_EXIT: 'Chatbot RAG Agent Exit',
   RAG_AGENT_RESPONSE: 'Chatbot RAG Agent Response',
-  SIGNIN_RESPONSE: 'Chatbot Sign-In Response',
   SEMANTIC_SEARCH_AGENT: 'Chatbot Semantic Search (Agent)',
 };
+// RAG Agent allowlist removed; entry/exit tracking is generic via session markers

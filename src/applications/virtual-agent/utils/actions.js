@@ -13,9 +13,12 @@ import {
   getInAuthExp,
   getIsTrackingUtterances,
   getRecentUtterances,
+  getEventSkillValue,
   setEventSkillValue,
   setIsTrackingUtterances,
   setRecentUtterances,
+  addRagAgentSkillUsed,
+  isRagAgentSkillUsed,
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
 import submitForm from './submitForm';
@@ -65,7 +68,6 @@ function handleSkillEntryEvent(action) {
     recordEvent({
       event: EVENT_API_CALL,
       'api-name': apiName,
-      topic: eventValue,
       'api-status': 'successful',
     });
   }
@@ -81,6 +83,14 @@ function handleSkillExitEvent(action) {
       'api-name': apiName,
       'api-status': 'successful',
     });
+    // If this skill used the RAG Agent during the session, emit explicit RAG Agent Exit
+    if (isRagAgentSkillUsed(eventValue)) {
+      recordEvent({
+        event: EVENT_API_CALL,
+        'api-name': `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`,
+        'api-status': 'successful',
+      });
+    }
   }
 }
 
@@ -90,69 +100,39 @@ function handleRagAgentLLMEvent(action) {
 
   if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE) {
     const intent = eventValue.intent || 'Unknown';
-    const response = eventValue.parsed || {};
-    const hasLinks = response.message
-      ? /\[([^\]]*)\]\(([^)]+)\)/g.test(response.message)
-      : false;
-    const linkCount = hasLinks
-      ? (response.message.match(/\[([^\]]*)\]\(([^)]+)\)/g) || []).length
-      : 0;
-
     recordEvent({
       event: EVENT_API_CALL,
-      'api-name': API_CALL_NAMES.RAG_AGENT_RESPONSE,
+      'api-name': `${API_CALL_NAMES.RAG_AGENT_RESPONSE} - ${intent}`,
       'api-status': 'successful',
-      'api-request-id': eventValue.utteranceId || undefined,
-      // Optional analytics fields (non-PII)
-      'skill-name': intent,
-      'response-type': hasLinks ? 'with_links' : 'plain_text',
-      'link-count': linkCount,
-      answerable: response.answerable || false,
-      complete: response.complete || false,
+      'api-request-id': eventValue?.utteranceId,
     });
+
+    // Emit RAG Agent Entry once per skill, on first agent response
+    const skillName = getEventSkillValue();
+    if (skillName && !isRagAgentSkillUsed(skillName)) {
+      recordEvent({
+        event: EVENT_API_CALL,
+        'api-name': `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`,
+        'api-status': 'successful',
+      });
+      addRagAgentSkillUsed(skillName);
+    }
   }
 }
-
-function handleSignInLLMEvents(action) {
-  const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
-
-  // Track Sign-In Support specific LLM interactions (Agent only)
-  if (
-    actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE &&
-    (eventValue.intent === 'Sign-In Support' ||
-      eventValue.parsed?.items?.some(item => item.topic === 'Sign-In Support'))
-  ) {
-    recordEvent({
-      event: EVENT_API_CALL,
-      'api-name': API_CALL_NAMES.SIGNIN_RESPONSE,
-      'api-status': 'successful',
-      'api-request-id': eventValue.utteranceId || undefined,
-      'skill-name': 'Sign-In Support',
-    });
-  }
-}
-
 function handleSemanticSearchEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
   if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_SEMANTIC_SEARCH_RESPONSE) {
-    const intent = eventValue.intent || 'Router';
-    const resultCount = eventValue.parsed?.length || 0;
-
+    const intent = eventValue.intent || 'Unknown';
     recordEvent({
       event: EVENT_API_CALL,
-      'api-name': API_CALL_NAMES.SEMANTIC_SEARCH_AGENT,
+      'api-name': `${API_CALL_NAMES.SEMANTIC_SEARCH_AGENT} - ${intent}`,
       'api-status': 'successful',
-      'api-request-id': eventValue.utteranceId || undefined,
-      // Optional analytics fields (non-PII)
-      'skill-name': intent,
-      'result-count': resultCount,
+      'api-request-id': eventValue?.utteranceId,
     });
   }
 }
-
 function createSendMessageActivity(newUtterance) {
   return {
     type: 'WEB_CHAT/SEND_MESSAGE',
@@ -239,7 +219,6 @@ export const processIncomingActivity = ({
   handleSkillEntryEvent(action);
   handleSkillExitEvent(action);
   handleRagAgentLLMEvent(action);
-  handleSignInLLMEvents(action);
   handleSemanticSearchEvent(action);
 };
 
