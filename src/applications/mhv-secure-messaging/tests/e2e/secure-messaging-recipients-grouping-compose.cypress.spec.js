@@ -29,7 +29,7 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   it('verify groups quantity', () => {
     cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
-      .should(`have.length`, 4);
+      .should(`have.length`, 5);
 
     cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
@@ -48,7 +48,7 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
     PatientComposePage.verifyRecipientsQuantityInGroup(0, 3);
     PatientComposePage.verifyRecipientsQuantityInGroup(1, 3);
     PatientComposePage.verifyRecipientsQuantityInGroup(2, 1);
-    PatientComposePage.verifyRecipientsQuantityInGroup(3, 2);
+    PatientComposePage.verifyRecipientsQuantityInGroup(3, 1);
 
     PatientComposePage.verifyRecipientsGroupName(
       0,
@@ -64,11 +64,10 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
 
     PatientComposePage.verifyRecipientsGroupName(
       3,
-      'VA Puget Sound health care',
+      'VA Northern Arizona health care',
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('verify recipient is in a correct group', () => {
@@ -87,7 +86,6 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
       'VA Puget Sound health care',
     );
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

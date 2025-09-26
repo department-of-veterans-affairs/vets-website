@@ -1,4 +1,5 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
@@ -23,6 +24,9 @@ import {
   sponsorAddressCleanValidation,
   validateSponsorSsnIsUnique,
 } from '../../shared/validations';
+
+const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
+fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const sponsorIntroSchema = {
   uiSchema: {
@@ -60,14 +64,23 @@ export const sponsorNameDobSchema = {
         return CustomPrefillMessage(formData, 'sponsor');
       },
     ),
-    sponsorName: fullNameUI(),
+    sponsorName: fullNameMiddleInitialUI,
     sponsorDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     required: ['sponsorName', 'sponsorDob'],
     properties: {
-      sponsorName: fullNameSchema,
+      sponsorName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
       sponsorDob: dateOfBirthSchema,
     },
   },
