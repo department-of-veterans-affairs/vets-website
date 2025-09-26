@@ -1,4 +1,4 @@
-import { NOT_ANSWERED } from '../constants';
+import { NOT_ANSWERED } from '../../995/constants';
 
 export const convertBoolResponseToYesNo = response => {
   if (typeof response !== 'boolean') {
