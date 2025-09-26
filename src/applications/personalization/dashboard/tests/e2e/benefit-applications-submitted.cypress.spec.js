@@ -35,6 +35,8 @@ describe('The My VA Dashboard', () => {
   ];
 
   beforeEach(() => {
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
+
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -120,7 +122,7 @@ describe('The My VA Dashboard', () => {
     });
 
     it('should render error alert', () => {
-      cy.findByRole('heading', {
+      cy.findAllByRole('heading', {
         name: /benefit applications and forms/i,
       }).should('exist');
       cy.findAllByTestId('benefit-application-error').should('have.length', 1);
