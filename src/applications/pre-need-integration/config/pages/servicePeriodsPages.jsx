@@ -4,10 +4,10 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   titleUI,
+  currentOrPastDateRangeUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import AutosuggestField from '../../components/AutosuggestFieldV3';
 import { serviceLabels } from '../../utils/labels';
