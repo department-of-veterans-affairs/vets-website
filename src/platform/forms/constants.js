@@ -112,6 +112,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0779: '21-0779',
   FORM_21P_530A: '21P-530A',
   FORM_21P_0537: '21P-0537',
+  FORM_21P_601: '21P-601',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -215,6 +216,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
     [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
+    [VA_FORM_IDS.FORM_21P_601]: `${tryGetAppUrl('21P-601')}/`,
   };
 };
 
@@ -828,6 +830,15 @@ export const MY_VA_SIP_FORMS = [
     description:
       'marital status questionnaire for DIC recipients application (21P-0537)',
     trackingPrefix: '21p-0537-dic-marital-status-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_601,
+    benefit: 'accrued benefits',
+    title:
+      'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
+    description:
+      'Application for Accrued Amounts Due a Deceased Beneficiary (21P-601)',
+    trackingPrefix: '21p601',
   },
 ];
 

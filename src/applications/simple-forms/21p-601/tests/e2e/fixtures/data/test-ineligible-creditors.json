@@ -1,0 +1,10 @@
+{
+  "hasAlreadyFiled": false,
+  "needsWitnessSignature": true,
+  "hasUnpaidCreditors": true,
+  "veteranFullName": {
+    "first": "Test",
+    "last": "Creditor"
+  },
+  "veteranSsn": "345678901"
+}
