@@ -45,7 +45,7 @@ describe('Notice5103Description', () => {
   it('should render new form content', () => {
     const { container, getAllByRole } = render(
       // eslint-disable-next-line camelcase
-      <Provider store={mockStore({ featureToggles: { sc_new_form: true } })}>
+      <Provider store={mockStore({})}>
         <Notice5103Description />
       </Provider>,
     );

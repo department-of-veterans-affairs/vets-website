@@ -105,7 +105,7 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
-import { showScNewForm, clearRedirect } from '../utils/toggle';
+import { clearRedirect } from '../utils/toggle';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -269,7 +269,6 @@ const formConfig = {
           path: 'facility-types',
           uiSchema: facilityTypes.uiSchema,
           schema: facilityTypes.schema,
-          depends: showScNewForm,
           scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {

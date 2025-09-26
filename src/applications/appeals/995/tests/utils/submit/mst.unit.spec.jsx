@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { optionForMstChoices } from '../../content/optionIndicator';
-import { getMstData } from '../../utils/submit/mst';
+import { optionForMstChoices } from '../../../content/optionIndicator';
+import { getMstData } from '../../../utils/submit/mst';
 
-import { SC_NEW_FORM_DATA, MST_OPTION } from '../../constants';
+import { SC_NEW_FORM_DATA, MST_OPTION } from '../../../constants';
 
 describe('getMstData', () => {
   const setup = ({ toggle = true, option = true, choice = '' } = {}) =>
