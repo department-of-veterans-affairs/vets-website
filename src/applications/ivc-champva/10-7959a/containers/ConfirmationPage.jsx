@@ -16,9 +16,7 @@ const ConfirmationPage = () => {
   }));
   const submitDate = new Date(timestamp);
 
-  useEffect(() => {
-    focusElement('h2');
-  }, []);
+  useEffect(() => focusElement('h2'), []);
 
   return (
     <div>
@@ -60,7 +58,7 @@ const ConfirmationPage = () => {
             <span>{format(submitDate, 'MMMM d, yyyy')}</span>
           </p>
         )}
-        <p>You can print this confirmation for page for your records.</p>
+        <p>You can print this confirmation page for your records.</p>
         <va-button
           uswds
           className="usa-button screen-only"
@@ -70,7 +68,7 @@ const ConfirmationPage = () => {
       </div>
 
       <h2>What to expect next</h2>
-      <p>It takees about 90 days to process your claim.</p>
+      <p>It takes about 90 days to process your claim.</p>
       <p>
         If we have any questions or need additional information, we’ll contact
         you.
