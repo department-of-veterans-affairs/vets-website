@@ -275,7 +275,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // *** MST page
       h.verifyUrl(h.MST_PATH);
       cy.tabToElement(h.MST_RADIO); // No radio
-      cy.chooseRadio('N');
+      cy.chooseRadio('Y');
+      cy.tabToSubmitForm();
+
+      // *** Add indicator page
+      h.verifyUrl(h.MST_OPTION_PATH);
+      cy.tabToElement(h.MST_OPTION_RADIO);
+      cy.chooseRadio('yes');
       cy.tabToSubmitForm();
 
       // *** Review & submit page

@@ -7,7 +7,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ConfirmationPage from '../../components/ConfirmationPage';
-import fullTest from '../fixtures/data/full-test.json';
+import fullTest from '../fixtures/data/comprehensive-test.json';
 
 describe('ConfirmationPage', () => {
   const makeStore = () => ({
@@ -69,7 +69,7 @@ describe('ConfirmationPage', () => {
 
     // Check facility types
     const facilityTypes = $$(
-      '[data-testid="confirmation-facility-types"',
+      '[data-testid="confirmation-facility-types"]',
       container,
     )?.[0];
 
@@ -79,7 +79,7 @@ describe('ConfirmationPage', () => {
 
     // Evidence is present, validate that "no evidence" header is not there
     const noEvidenceHeader = $$(
-      '[data-testid="confirmation-no-evidence-header"',
+      '[data-testid="confirmation-no-evidence-header"]',
     );
 
     expect(noEvidenceHeader.length).to.equal(0);

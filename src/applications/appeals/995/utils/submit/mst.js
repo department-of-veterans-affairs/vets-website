@@ -1,5 +1,5 @@
-import { MST_OPTION } from '../../constants';
 import { optionForMstChoices } from '../../content/optionIndicator';
+import { hasMstOption } from '../form-data-retrieval';
 
 /*
 
@@ -17,7 +17,7 @@ import { optionForMstChoices } from '../../content/optionIndicator';
 export const getMstData = formData => {
   const result = {};
 
-  if (formData[MST_OPTION]) {
+  if (hasMstOption(formData)) {
     const value = optionForMstChoices?.[formData.optionIndicator] || '';
 
     if (value) {
