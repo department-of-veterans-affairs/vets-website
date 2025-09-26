@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { nameWording, privWrapper } from '../../../shared/utilities';
 
 const MedicalEobDescription = ({ formData }) => {
-  const name = privWrapper(nameWording(formData, true, false, true));
+  const name = nameWording(formData, true, false, true);
   const yourOrTheir = name.toLowerCase() === 'your' ? name : 'their';
+  const ddSafeName = privWrapper(name);
   return (
     <>
       <p>
-        You’ll need to submit a copy of the explanation of benefits from {name}{' '}
-        insurance provider. This is not the same as the summary of benefits for
-        the health insurance policy. The explanation of benefits lists what{' '}
-        {yourOrTheir} other health insurance already paid for this specific
-        claim.
+        You’ll need to submit a copy of the explanation of benefits from{' '}
+        {ddSafeName} insurance provider. This is not the same as the summary of
+        benefits for the health insurance policy. The explanation of benefits
+        lists what {yourOrTheir} other health insurance already paid for this
+        specific claim.
       </p>
       <p>
         <a target="_blank" href="/resources/how-to-file-a-champva-claim/">
@@ -51,7 +52,7 @@ const MedicalEobDescription = ({ formData }) => {
       </ul>
       <p>
         <strong>Note:</strong> An explanation of benefits is usually sent by
-        mail or email. Contact {name} insurance provider if you have more
+        mail or email. Contact {ddSafeName} insurance provider if you have more
         questions about where to find this document.
       </p>
       <p>
