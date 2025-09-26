@@ -193,7 +193,7 @@
     {
       "rootFolder": "mhv-medications",
       "slackGroup": "@mhv-vagov-dev",
-      "slackChannel": "C04PRFEJQTY"
+      "slackChannel": "C059Q28DV99"
     },
     {
       "rootFolder": "mhv-secure-messaging",
@@ -370,6 +370,18 @@
     },
     {
       "rootFolder": "21-4192-employment-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-0779-nursing-home-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21p-530a-interment-allowance",
       "slackGroup": "@benefits-optimization-aquia",
       "slackChannel": "C09FWT9U1JP",
       "continuousDeployment": false

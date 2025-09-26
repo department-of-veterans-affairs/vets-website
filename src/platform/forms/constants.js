@@ -109,6 +109,8 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_40_4962: '40-4962',
   FORM_21_2680: '21-2680',
   FORM_21_4192: '21-4192',
+  FORM_21_0779: '21-0779',
+  FORM_21P_530A: '21P-530A',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -208,6 +210,8 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
     [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
     [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
+    [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
+    [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
   };
 };
 
@@ -750,9 +754,12 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_0839,
-    benefit: 'education benefits',
-    title: '0839',
-    description: 'education benefits',
+    benefit:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code)',
+    title:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code) (22-0839)',
+    description:
+      'Yellow Ribbon Program Agreement (Under Chapter 33 of title 38, United States Code) (22-0839)',
     trackingPrefix: '0839-edu-benefits',
   },
   {
@@ -784,6 +791,21 @@ export const MY_VA_SIP_FORMS = [
       'Application for Employment Information in Connection with Claim for Disability Benefits (21-4192)',
     description: 'employment information application (21-4192)',
     trackingPrefix: '21-4192-employment-information-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_0779,
+    benefit: 'benefits',
+    title:
+      'Application for Nursing Home Information in Connection with Claim for Aid and Attendance',
+    description: 'benefits',
+    trackingPrefix: '21-0779-nursing-home-information-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_530A,
+    benefit: 'benefits',
+    title: 'Application for Interment Allowance',
+    description: 'benefits',
+    trackingPrefix: '21p-530a-interment-allowance-',
   },
 ];
 
