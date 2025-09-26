@@ -34,6 +34,7 @@ const LabsAndTestsListItem = props => {
           className="vads-u-margin-bottom--0p5"
           data-dd-privacy="mask"
           data-dd-action-name="[lab and tests - date - list]"
+          data-testid="labs-and-tests-date"
         >
           {record.date}
         </div>

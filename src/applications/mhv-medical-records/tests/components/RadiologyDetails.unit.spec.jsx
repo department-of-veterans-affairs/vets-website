@@ -61,13 +61,11 @@ describe('RadiologyDetails component', () => {
       expect(header).to.exist;
     });
 
-    // This test will give different results when run in different time zones.
+    // This test will give different results when run in different time zones. This is why we only look for 'mm dd, yyyy'
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('April 4, 2024 9:03 p.m.', {
-        exact: true,
-        selector: 'span',
-      });
-      expect(formattedDate).to.exist;
+      const formattedDateSpan = screen.getByTestId('header-time');
+      expect(formattedDateSpan).to.exist;
+      expect(formattedDateSpan).to.contain.text('April 4, 2024');
     });
 
     it('should display the reason for the test', () => {
@@ -269,13 +267,11 @@ describe('RadiologyDetails component', () => {
       expect(header).to.exist;
     });
 
-    // This test will give different results when run in different time zones.
+    // This test will give different results when run in different time zones. This is why we only look for 'mm dd, yyyy'
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('January 6, 2004 7:27 p.m.', {
-        exact: true,
-        selector: 'span',
-      });
+      const formattedDate = screen.getByTestId('header-time');
       expect(formattedDate).to.exist;
+      expect(formattedDate).to.contain.text('January 6, 2004');
     });
 
     it('should display the reason for the test', () => {

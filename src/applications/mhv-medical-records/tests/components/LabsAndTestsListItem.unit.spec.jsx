@@ -253,13 +253,11 @@ describe('LabsAndTestsListItem component with radiology record', () => {
     expect(recordName).to.exist;
   });
 
-  // This test will give different results when run in different time zones.
+  // This test will give different results when run in different time zones. This is why we only look for 'mm dd, yyyy'
   it('should display the date of the record', () => {
-    const date = screen.getByText('January 6, 2004 7:27 p.m.', {
-      selector: 'div',
-      exact: true,
-    });
-    expect(date).to.exist;
+    const formattedDateDiv = screen.getByTestId('labs-and-tests-date');
+    expect(formattedDateDiv).to.exist;
+    expect(formattedDateDiv).to.contain.text('January 6, 2004');
   });
 
   it('should display who ordered the lab or test', () => {
