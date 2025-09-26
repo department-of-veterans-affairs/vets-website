@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { fromUnixTime, endOfDay, isPast, isValid } from 'date-fns';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 import {
   DowntimeNotification,
@@ -11,7 +10,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
-import { addStyleToShadowDomOnPages } from '../../shared/utilities';
+import { addStyleToShadowDomOnPages, isExpired } from '../../shared/utilities';
 
 const breadcrumbList = [
   { href: '/', label: 'Home' },
@@ -32,12 +31,6 @@ const breadcrumbList = [
     label: `Apply for CHAMPVA benefits`,
   },
 ];
-
-// util to check if an in-progress form is expired
-export const isExpired = expiresAt => {
-  const ex = fromUnixTime(Number(expiresAt));
-  return !isValid(ex) || isPast(endOfDay(ex));
-};
 
 export default function App({ location, children }) {
   const {
