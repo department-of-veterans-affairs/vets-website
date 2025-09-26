@@ -1,0 +1,42 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Davis"
+    },
+    "veteranIdentification": {
+      "ssn": "434353345",
+      "vaFileNumber": "111222333"
+    },
+    "recipientName": {
+      "first": "Patricia",
+      "middle": "Lynn",
+      "last": "Davis"
+    },
+    "recipient": {
+      "phone": {
+        "daytime": "571-555-7890",
+        "evening": "571-555-4321"
+      },
+      "email": "patricia.davis@example.com"
+    },
+    "hasRemarried": true,
+    "remarriage": {
+      "dateOfMarriage": "2022-12-01",
+      "spouseName": {
+        "first": "Michael",
+        "middle": "",
+        "last": "Davis"
+      },
+      "spouseDateOfBirth": "1958-11-22",
+      "ageAtMarriage": "62",
+      "spouseIsVeteran": true,
+      "spouseVeteranId": {
+        "ssn": "777888999"
+      },
+      "hasTerminated": false
+    },
+    "signature": "Patricia Lynn Davis"
+  }
+}
