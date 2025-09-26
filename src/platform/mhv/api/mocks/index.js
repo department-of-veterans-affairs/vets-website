@@ -34,6 +34,7 @@ const healthConditions = require('./medical-records/health-conditions');
 const acceleratedHealthConditions = require('./medical-records/health-conditions/accelerated');
 const allergies = require('./medical-records/allergies');
 const acceleratedAllergies = require('./medical-records/allergies/accelerated');
+const allergiesOH = require('./medical-records/allergies/full-example');
 const vaccines = require('./medical-records/vaccines');
 const acceleratedVaccines = require('./medical-records/vaccines/accelerated');
 const vitals = require('./medical-records/vitals');
@@ -186,14 +187,14 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return res.json(allergies.all);
+      return res.json(allergiesOH.all);
     }
     return res.json(allergies.all);
   },
   'GET /my_health/v1/medical_records/allergies/:id': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return allergies.single(req, res);
+      return allergiesOH.single(req, res);
     }
     return allergies.single(req, res);
   },
