@@ -1,5 +1,3 @@
-// medical-records-view-notes-progress.cypress.spec.js
-
 import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import NotesDetailsPage from './pages/NotesDetailsPage';
