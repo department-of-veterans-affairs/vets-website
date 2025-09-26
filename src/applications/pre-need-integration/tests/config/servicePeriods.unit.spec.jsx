@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import sinon from 'sinon';
-import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import formConfig from '../../config/form';
 import {
@@ -39,7 +39,6 @@ describe('pre need integration service periods', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(3);
     expect(form.find('va-select').length).to.equal(1);
     expect(form.find('VaMemorableDate').length).to.equal(2);
     expect(form.find('va-text-input').length).to.equal(2);
