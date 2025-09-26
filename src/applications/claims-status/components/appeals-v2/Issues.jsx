@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toTitleCase } from '~/applications/gi/utils/helpers';
 
-const Issues = ({ issues, isAppeal }) => {
+const Issues = ({ issues, appealType }) => {
   const open = issues.filter(i => i.status === 'open');
   const remand = issues.filter(i => i.status === 'remand');
   const granted = issues.filter(i => i.status === 'granted');
@@ -16,6 +17,7 @@ const Issues = ({ issues, isAppeal }) => {
   const grantedNoDescription = granted.filter(i => i.description === null);
   const deniedNoDescription = denied.filter(i => i.description === null);
   const withdrawnNoDescription = withdrawn.filter(i => i.description === null);
+  const isAppeal = appealType === 'appeal' || appealType === 'legacy appeal';
 
   const getListItems = (item, i) => {
     if (item.description === null) {
@@ -40,7 +42,9 @@ const Issues = ({ issues, isAppeal }) => {
       data-dd-privacy="mask"
       data-dd-action-name="missing description items"
     >
-      {`We're unable to show ${count} issue${count > 1 ? 's' : ''} on appeal`}
+      {`We're unable to show ${count} issue${count > 1 ? 's' : ''} on ${
+        isAppeal ? 'appeal' : `your ${toTitleCase(appealType)}`
+      }`}
     </li>
   );
 
@@ -173,7 +177,7 @@ const Issues = ({ issues, isAppeal }) => {
 };
 
 Issues.propTypes = {
-  isAppeal: PropTypes.bool.isRequired,
+  appealType: PropTypes.string.isRequired,
   issues: PropTypes.arrayOf(
     PropTypes.shape({
       status: PropTypes.oneOf([

@@ -79,6 +79,97 @@ const createAppealsSuccess = (updatedDaysAgo = 10) => {
           evidence: [],
         },
       },
+      {
+        id: 'HLR4196',
+        type: 'higherLevelReview',
+        attributes: {
+          appealIds: ['HLR4196'],
+          updated: '2025-09-26T10:48:46-04:00',
+          incompleteHistory: false,
+          active: true,
+          description: '1 medical issue',
+          location: 'aoj',
+          aoj: 'vha',
+          programArea: 'medical',
+          status: {
+            type: 'hlr_received',
+            details: {},
+          },
+          alerts: [],
+          issues: [
+            {
+              active: true,
+              lastAction: null,
+              date: null,
+              description: 'Beneficiary Travel - This is a test',
+              diagnosticCode: null,
+            },
+            {
+              active: true,
+              lastAction: null,
+              date: null,
+              description: null,
+              diagnosticCode: null,
+            },
+            {
+              active: true,
+              lastAction: null,
+              date: null,
+              description: null,
+              diagnosticCode: null,
+            },
+          ],
+          events: [
+            {
+              type: 'hlr_request',
+              date: '2023-01-11',
+            },
+          ],
+          evidence: [],
+        },
+      },
+      {
+        id: 'SC3239',
+        type: 'supplementalClaim',
+        attributes: {
+          appealIds: ['SC3239'],
+          updated: '2025-09-26T10:48:46-04:00',
+          incompleteHistory: false,
+          active: true,
+          description: '1 medical issue',
+          location: 'aoj',
+          aoj: 'vha',
+          programArea: 'medical',
+          status: {
+            type: 'sc_recieved',
+            details: {},
+          },
+          alerts: [],
+          issues: [
+            {
+              active: true,
+              lastAction: null,
+              date: null,
+              description: 'Beneficiary Travel - This is a test',
+              diagnosticCode: null,
+            },
+            {
+              active: true,
+              lastAction: null,
+              date: null,
+              description: null,
+              diagnosticCode: null,
+            },
+          ],
+          events: [
+            {
+              type: 'sc_request',
+              date: '2023-01-11',
+            },
+          ],
+          evidence: [],
+        },
+      },
     ],
   };
 };
