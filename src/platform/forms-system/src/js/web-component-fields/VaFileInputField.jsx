@@ -260,7 +260,6 @@ const VaFileInputField = props => {
         _id,
       });
       setLastUpload({ file: fileWithPassword, password: pendingPassword });
-      handleUpload(fileWithPassword, handleFileProcessing, pendingPassword);
       // eslint-disable-next-line no-unused-expressions
       uiOptions.skipUpload
         ? simulateUploadSingle(
