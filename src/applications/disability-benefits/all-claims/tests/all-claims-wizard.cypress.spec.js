@@ -1,4 +1,5 @@
 import { getToday } from './utils/dates/dateHelper';
+import { DATE_TEMPLATE } from '../utils/dates/formatting';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import {
@@ -11,8 +12,8 @@ import {
 
 // Date saved to window.sessionStorage includes leading zeros
 const mockDate = getToday()
-  .add(120)
-  .format();
+  .add(120, 'days')
+  .format(DATE_TEMPLATE);
 
 const checkOpt = {
   waitForAnimations: true,
