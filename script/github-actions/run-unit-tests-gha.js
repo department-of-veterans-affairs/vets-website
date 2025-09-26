@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const core = require('@actions/core');
 const { runCommand } = require('../utils');
-// For usage instructions see https://github.com/department-of-veterans-affairs/vets-website#unit-tests
 
 // Configuration
 const DEFAULT_SPEC_PATTERN = '{src,script}/**/*.unit.spec.js?(x)';
@@ -83,43 +82,125 @@ function getTestPaths() {
   return [...new Set([...appTests, ...platformTests, ...staticPagesTests])];
 }
 
+function getTestGroups() {
+  const staticPages = glob.sync(STATIC_PAGES_PATTERN);
+
+  // If --full-suite: derive from the full glob, else from changed paths
+  const baseTests = options['full-suite']
+    ? glob.sync(DEFAULT_SPEC_PATTERN)
+    : getTestPaths();
+
+  // If getTestPaths() returned static-only when nothing changed, still group it.
+  if (baseTests.length === 0) {
+    return staticPages.length
+      ? [{ name: 'platform-static-pages', tests: staticPages }]
+      : [];
+  }
+
+  const groups = {};
+  for (const file of baseTests) {
+    if (file.startsWith('src/applications/')) {
+      const app = file.split('/')[2];
+      const key = `app-${app}`;
+      (groups[key] = groups[key] || []).push(file);
+    } else if (file.startsWith('src/platform/')) {
+      const area = file.split('/')[2] || 'root';
+      const key = `platform-${area}`;
+      (groups[key] = groups[key] || []).push(file);
+    } else {
+      (groups.misc = groups.misc || []).push(file);
+    }
+  }
+
+  if (staticPages.length) {
+    groups['platform-static-pages'] = groups['platform-static-pages'] || [];
+    groups['platform-static-pages'].push(...staticPages);
+  }
+  return Object.entries(groups).map(([name, tests]) => ({
+    name,
+    tests: [...new Set(tests)],
+  }));
+}
+
 // Helper function to build test command
-function buildTestCommand(testPaths) {
+// function buildTestCommand(testPaths) {
+//   const coverageInclude = options['app-folder']
+//     ? `--include 'src/applications/${options['app-folder']}/**'`
+//     : '';
+
+//   const reporterOption = options.reporter
+//     ? `--reporter ${options.reporter}`
+//     : '';
+//   const coverageReporter = options['coverage-html']
+//     ? '--reporter=html mocha --retries 5'
+//     : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+
+//   const testRunner = options.coverage
+//     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
+//     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+
+//   return `STEP=unit-tests LOG_LEVEL=${options[
+//     'log-level'
+//   ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
+//     options.config
+//   } ${testPaths.join(' ')}`;
+// }
+
+function ensureDir(p) {
+  fs.mkdirSync(p, { recursive: true });
+}
+
+// Replacement logic for buildTestCommand that organizes mocha runs by app
+function buildGroupCommand(groupName, testPaths) {
+  ensureDir('reports/unit');
+
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
+  const jsonOut = `reports/unit/${groupName}.json`;
 
-  const reporterOption = options.reporter
-    ? `--reporter ${options.reporter}`
-    : '';
-  const coverageReporter = options['coverage-html']
-    ? '--reporter=html mocha --retries 5'
-    : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+  const baseMocha = `--max-old-space-size=${MAX_MEMORY} --config ${
+    options.config
+  } ${testPaths.join(' ')}`;
+  let runner;
 
-  const testRunner = options.coverage
-    ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
-    : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+  if (options.coverage) {
+    const coverageReporter = options['coverage-html']
+      ? '--reporter=html mocha --retries 5'
+      : '--reporter=json-summary mocha --no-color --retries 5';
+    runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
+  } else {
+    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter json --no-color --retries 5 ${baseMocha}`;
+  }
 
   return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
-    options.config
-  } ${testPaths.join(' ')}`;
+  ].toLowerCase()} ${runner} > ${jsonOut}`;
 }
 
 // Main execution
 async function main() {
   try {
-    const testPaths = getTestPaths();
+    const groups = getTestGroups().filter(g => g.tests.length > 0);
 
-    if (testPaths.length === 0) {
+    if (groups.length === 0) {
       console.log('No tests to run');
       core.exportVariable('tests_ran', 'false');
       return;
     }
 
-    const command = buildTestCommand(testPaths);
-    await runCommand(command);
+    console.log(`Discovered ${groups.length} unit test group(s).`);
+
+    for (const { name, tests } of groups) {
+      console.log(
+        `\n==> Running group: ${name} (${tests.length} spec${
+          tests.length === 1 ? '' : 's'
+        })`,
+      );
+      const command = buildGroupCommand(name, tests);
+      runCommand(command);
+    }
+
     core.exportVariable('tests_ran', 'true');
   } catch (error) {
     console.error('Error running tests:', error);
