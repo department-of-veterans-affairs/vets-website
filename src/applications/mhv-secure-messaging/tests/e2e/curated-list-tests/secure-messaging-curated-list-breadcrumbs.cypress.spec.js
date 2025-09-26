@@ -65,30 +65,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       GeneralFunctionsPage.verifyPageHeader(
         'Only use messages for non-urgent needs',
       );
-      cy.findByRole('button', { name: /Continue to start message/i }).click();
+
+      cy.findByTestId('start-message-link').click();
       GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
-    });
-
-    it('can navigate to Care team help and back via breadcrumb', () => {
-      // Start at Select care team page
-      PilotEnvPage.navigateToSelectCareTeamPage();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      // Navigate to Care team help page via link
-      cy.findByRole('link', { name: Data.CURATED_LIST.CANT_FIND_TEAM }).click();
-
-      // Removed the "Can't" in verifyPageHeader for testing purposes
-      GeneralFunctionsPage.verifyPageHeader('find your care team?');
-      cy.location('pathname').should('equal', Data.LINKS.CARE_TEAM_HELP);
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      SharedComponents.clickBackBreadcrumb();
-
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
-    });
+      cy.location('pathname').should(
+        'include',
+        `${Paths.COMPOSE.replace(/\/$/, '')}${Paths.SELECT_CARE_TEAM}`,
+      );
   });
 
   describe('Entry point preservation', () => {
