@@ -56,6 +56,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasPrivateLimitation,
+  hasMstOption,
 } from '../utils/form-data-retrieval';
 import { onFormLoaded } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
@@ -71,7 +72,6 @@ import {
   LIMITED_CONSENT_PROMPT_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  MST_OPTION,
   SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
@@ -387,7 +387,7 @@ const formConfig = {
           path: 'option-indicator',
           uiSchema: optionIndicator.uiSchema,
           schema: optionIndicator.schema,
-          depends: formData => formData?.[MST_OPTION],
+          depends: hasMstOption,
         },
       },
     },
