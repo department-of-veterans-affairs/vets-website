@@ -24,6 +24,7 @@ import {
   refreshExtractTypes,
   CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -65,13 +66,12 @@ const Allergies = props => {
   );
 
   const user = useSelector(state => state.user.profile);
-  const { isAcceleratingAllergies } = useAcceleratedData();
-
+  const { isCerner, isAcceleratingAllergies } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+    return getAllergiesList(isCurrent, isAcceleratingAllergies, isCerner);
   };
 
   useListRefresh({
@@ -105,6 +105,9 @@ const Allergies = props => {
     [dispatch],
   );
 
+  const isLoadingAcceleratedData =
+    isAcceleratingAllergies && listState === loadStates.FETCHING;
+
   usePrintTitle(
     pageTitles.ALLERGIES_PAGE_TITLE,
     user.userFullName,
@@ -127,7 +130,10 @@ const Allergies = props => {
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+      ...generateAllergiesContent(
+        allergies,
+        isAcceleratingAllergies || isCerner,
+      ),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
@@ -219,8 +225,18 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             }}
           />
         )}
-
-        {allergies?.length ? (
+        {isLoadingAcceleratedData && (
+          <>
+            <div className="vads-u-margin-y--8">
+              <va-loading-indicator
+                message="We're loading your records."
+                setFocus
+                data-testid="loading-indicator"
+              />
+            </div>
+          </>
+        )}
+        {!isLoadingAcceleratedData && allergies?.length ? (
           <>
             <PrintDownload
               description="Allergies - List"
@@ -233,16 +249,12 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               allowTxtDownloads={allowTxtDownloads}
               description="Allergies"
             />
-            <RecordList
-              records={allergies?.map(allergy => ({
-                ...allergy,
-                isOracleHealthData: isAcceleratingAllergies,
-              }))}
-              type={recordType.ALLERGIES}
-            />
+            <RecordList records={allergies} type={recordType.ALLERGIES} />
           </>
         ) : (
-          <NoRecordsMessage type={recordType.ALLERGIES} />
+          !isLoadingAcceleratedData && (
+            <NoRecordsMessage type={recordType.ALLERGIES} />
+          )
         )}
       </RecordListSection>
     </div>
