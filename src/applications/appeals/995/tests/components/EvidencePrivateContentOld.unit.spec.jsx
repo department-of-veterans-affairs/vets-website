@@ -5,8 +5,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
-  LIMITATION_KEY,
+  LIMITED_CONSENT_PROMPT_PATH,
 } from '../../constants';
 import { content } from '../../content/evidenceSummary';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
@@ -28,10 +27,9 @@ describe('buildPrivateContent', () => {
     );
     expect($$('ul', container).length).to.eq(1);
     expect($$('li', container).length).to.eq(3);
-    expect($$('.private-limitation', container).length).to.eq(1);
     expect($$('.private-facility', container).length).to.eq(2);
     expect($$('.edit-item', container).length).to.eq(3);
-    expect($$('.remove-item', container).length).to.eq(3);
+    expect($$('.remove-item', container).length).to.eq(2);
     // check Datadog classes
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
@@ -48,20 +46,6 @@ describe('buildPrivateContent', () => {
     expect(container.innerHTML).to.eq('<div></div>');
   });
 
-  it('should not render limited consent section remove button', () => {
-    const privateEvidence = records().providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent=""
-        testing
-      />,
-    );
-    expect($$('.private-facility', container).length).to.eq(2);
-    expect($$('.private-limitation', container).length).to.eq(1);
-    expect($$('.edit-item', container).length).to.eq(3);
-    expect($$('.remove-item', container).length).to.eq(2);
-  });
   it('should render review-only private content', () => {
     const privateEvidence = records().providerFacility;
     const { container } = render(
@@ -78,7 +62,6 @@ describe('buildPrivateContent', () => {
     );
     expect($$('ul', container).length).to.eq(1);
     expect($$('li', container).length).to.eq(3);
-    expect($$('.private-limitation', container).length).to.eq(1);
     expect($$('.private-facility', container).length).to.eq(2);
     expect($$('.edit-item', container).length).to.eq(0);
     expect($$('.remove-item', container).length).to.eq(0);
@@ -105,8 +88,11 @@ describe('buildPrivateContent', () => {
     );
 
     const li = $$('li', container);
-    expect(li[0].textContent).to.contain('Missing condition');
-    expect(li[1].textContent).to.contain('Test 1, Test 2, and Tinnitus');
+    expect(li[0].textContent).to.contain(
+      'Do you want to limit the information we can request?No',
+    );
+    expect(li[1].textContent).to.contain('Missing condition');
+    expect(li[2].textContent).to.contain('Test 1, Test 2, and Tinnitus');
   });
   it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
     const privateEvidence = records().providerFacility;
@@ -116,13 +102,13 @@ describe('buildPrivateContent', () => {
 
     const links = $$('.edit-item', container);
     expect(links[0].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=0`,
+      LIMITED_CONSENT_PROMPT_PATH,
     );
     expect(links[1].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=1`,
+      `${EVIDENCE_PRIVATE_PATH}?index=0`,
     );
     expect(links[2].getAttribute('data-link')).to.contain(
-      EVIDENCE_LIMITATION_PATH,
+      `${EVIDENCE_PRIVATE_PATH}?index=1`,
     );
   });
   it('should execute callback when removing an entry', () => {
@@ -149,26 +135,6 @@ describe('buildPrivateContent', () => {
     expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
     expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq(
       'private',
-    );
-  });
-  it('should execute callback when removing the limitation', () => {
-    const removeSpy = sinon.spy();
-    const privateEvidence = records().providerFacility;
-    const handlers = { showModal: removeSpy };
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent="test"
-        handlers={handlers}
-        testing
-      />,
-    );
-
-    const buttons = $$('.remove-item', container);
-    fireEvent.click(buttons[2]);
-    expect(removeSpy.called).to.be.true;
-    expect(removeSpy.args[0][0].target.getAttribute('data-type')).to.eq(
-      LIMITATION_KEY,
     );
   });
 });
