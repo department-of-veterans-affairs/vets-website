@@ -16,6 +16,7 @@ import { closeAlert } from '../actions/alerts';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
 import { Alerts } from '../util/constants';
+import { getSize } from '../util/helpers';
 
 const AttachmentsList = props => {
   const {
@@ -81,16 +82,6 @@ const AttachmentsList = props => {
     },
     [attachmentScanError, attachments.length],
   );
-
-  const getSize = num => {
-    if (num >= 1024 * 1024) {
-      return `${(num / 1024 / 1024).toFixed(1)} MB`;
-    }
-    if (num >= 1024) {
-      return `${(num / 1024).toFixed(1)} KB`;
-    }
-    return `${num} B`;
-  };
 
   const attachmentNameId = id =>
     forPrint ? `has-attachment-for-print-${id}` : `has-attachment-${id}`;

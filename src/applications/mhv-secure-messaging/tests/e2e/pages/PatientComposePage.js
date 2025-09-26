@@ -26,14 +26,15 @@ class PatientComposePage {
     return cy
       .wait('@message')
       .its('request')
-      .then(request => {
+      .then(req => {
+        const request = req.body;
         if (mockRequest) {
           expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
-        return request;
+        return req;
       });
   };
 
@@ -332,12 +333,12 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      PatientComposePage.attachFileButton()
+      this.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
-      PatientComposePage.attachFileButton()
+      this.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_ADDITIONAL_FILE);
@@ -356,7 +357,7 @@ class PatientComposePage {
   };
 
   verifyAttachButtonHasFocus = () => {
-    PatientComposePage.attachFileButton().should(`be.focused`);
+    this.attachFileButton().should(`be.focused`);
   };
 
   clickDeleteDraftModalButton = () => {
