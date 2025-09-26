@@ -186,14 +186,14 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return res.json(acceleratedAllergies.all);
+      return res.json(allergies.all);
     }
     return res.json(allergies.all);
   },
   'GET /my_health/v1/medical_records/allergies/:id': (req, res) => {
     const { use_oh_data_path } = req.query;
     if (use_oh_data_path === '1') {
-      return acceleratedAllergies.single(req, res);
+      return allergies.single(req, res);
     }
     return allergies.single(req, res);
   },
