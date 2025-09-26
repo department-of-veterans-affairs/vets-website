@@ -53,7 +53,7 @@ export default function UrgentCareInformationPage() {
       >
         Start scheduling
       </a>
-      <h2 className="vads-u-margin--0">
+      <h2 className="vads-u-margin--0 vaos__dynamic-font-size--h2">
         If you need help sooner, use one of these urgent communications options:
       </h2>
       <ul>
