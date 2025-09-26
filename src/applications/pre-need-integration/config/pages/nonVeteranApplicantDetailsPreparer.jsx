@@ -44,8 +44,9 @@ export const schema = {
           required: ['name', 'ssn', 'dateOfBirth'],
           properties: merge(
             {},
-            pick(claimant.properties, ['name', 'dateOfBirth']),
+            pick(claimant.properties, ['name']),
             { ssn: ssnOrVaFileNumberNoHintSchema },
+            pick(claimant.properties, ['dateOfBirth']),
           ),
         },
       },
