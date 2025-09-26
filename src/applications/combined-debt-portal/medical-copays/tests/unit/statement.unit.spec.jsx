@@ -250,20 +250,19 @@ describe('mcp statement view', () => {
     it('should render PDF link with proper spacing', () => {
       const { container } = render(<DownloadStatement {...mockProps} />);
 
-      // Check that there's a space before (PDF)
-      const pdfAbbr = container.querySelector(
-        'abbr[title="Portable Document Format"]',
-      );
-      expect(pdfAbbr).to.exist;
-      expect(pdfAbbr.textContent).to.equal(' (PDF)');
+      // Check that va-link has the correct filetype attribute
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
     });
 
     it('should render download link with correct attributes', () => {
       const { container } = render(<DownloadStatement {...mockProps} />);
 
-      const downloadLink = container.querySelector('a[download]');
-      expect(downloadLink).to.exist;
-      expect(downloadLink.getAttribute('type')).to.equal('application/pdf');
+      const vaLink = container.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink.hasAttribute('download')).to.be.true;
+      expect(vaLink.getAttribute('filetype')).to.equal('PDF');
     });
   });
 });

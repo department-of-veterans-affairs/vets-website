@@ -21,21 +21,26 @@ export const defaultBreadcrumbs = [
   },
   {
     href: manifest.rootUrl,
-    label: 'Explore decision reviews for your disability claim',
+    label: 'Explore disability claim decision review options',
   },
 ];
 
 export const makeBreadcrumbs = (h1ForRoute, resultPage, route) => {
   const breadcrumbs = [...defaultBreadcrumbs];
+  const resultsRoutes = [ROUTES.RESULTS_NON_DR, ROUTES.RESULTS_DR];
 
-  if (route !== ROUTES.INTRODUCTION && route !== ROUTES.RESULTS && h1ForRoute) {
+  if (
+    route !== ROUTES.INTRODUCTION &&
+    !resultsRoutes.includes(route) &&
+    h1ForRoute
+  ) {
     breadcrumbs.push({
       href: '#',
       label: h1ForRoute,
     });
   }
 
-  if (route === ROUTES.RESULTS && resultPage) {
+  if (resultsRoutes.includes(route) && resultPage) {
     const isNonDrResults = isNonDR.includes(resultPage);
 
     breadcrumbs.push({

@@ -24,6 +24,7 @@ import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 import {
   checkReturnUrl,
+  emailNeedsConfirmation,
   generateSentryAuthError,
   handleTokenRequest,
 } from '../helpers';
@@ -53,6 +54,9 @@ export default function AuthApp({ location }) {
   );
   const isInterstitialEnabled = useSelector(
     store => store?.featureToggles?.dslogonInterstitialRedirect,
+  );
+  const isEmailInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.confirmContactEmailInterstitialEnabled,
   );
 
   const handleAuthError = (error, codeOverride) => {
@@ -158,13 +162,23 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    const { userProfile } = authMetrics;
     if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
+    const { userAttributes, userProfile } = authMetrics;
     authMetrics.run();
     if (!skipToRedirect) {
       setupProfileSession(userProfile);
+    }
+    if (
+      emailNeedsConfirmation({
+        isEmailInterstitialEnabled,
+        loginType,
+        userAttributes,
+      })
+    ) {
+      window.location.replace('/sign-in-confirm-contact-email');
+      return;
     }
     redirect();
   };

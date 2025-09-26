@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -7,10 +8,8 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-
-import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import AutosuggestField from '../../components/AutosuggestFieldV3';
 import { serviceLabels } from '../../utils/labels';
 import {
   isVeteran,
@@ -224,36 +223,76 @@ export function servicePeriodInformationPage(isVet, isPrep) {
       'ui:options': {
         useAllFormData: true,
       },
-      serviceBranch: autosuggest.uiSchema(
-        handleTitle(
+      serviceBranch: {
+        'ui:field': AutosuggestField,
+        'ui:title': handleTitle(
           isVet,
           isPrep,
           'Branch of service',
           'Sponsor’s branch of service',
           'Applicant’s branch of service',
         ),
-        null,
-        {
-          'ui:options': {
-            labels: serviceLabels,
+        'ui:options': {
+          getOptions: inputValue => {
+            if (!inputValue) return [];
+
+            const searchTerm = inputValue.toLowerCase();
+
+            // If inputValue looks like a key (short, uppercase-ish), try exact key match first
+            if (inputValue.length <= 3 && /^[A-Z0-9]+$/i.test(inputValue)) {
+              const exactMatch = Object.entries(serviceLabels).find(
+                ([key]) => key.toLowerCase() === searchTerm,
+              );
+              if (exactMatch) {
+                return [
+                  {
+                    id: exactMatch[0],
+                    label: exactMatch[1],
+                    value: exactMatch[0],
+                  },
+                ];
+              }
+            }
+
+            // If no exact key match or input is longer, do label search
+            if (inputValue.length < 2) return [];
+
+            return Object.entries(serviceLabels)
+              .filter(
+                ([key, label]) =>
+                  label.toLowerCase().includes(searchTerm) ||
+                  key.toLowerCase().includes(searchTerm),
+              )
+              .map(([key, label]) => ({
+                id: key,
+                label,
+                value: key,
+              }))
+              .slice(0, 10); // Limit to 10 results
           },
         },
-      ),
-      dateRange: dateRangeUI(
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service start date',
-          'Sponsor’s service start date',
-          'Applicant’s service start date',
-        ),
-        handleTitle(
-          isVet,
-          isPrep,
-          'Service end date',
-          'Sponsor’s service end date',
-          'Applicant’s service end date',
-        ),
+      },
+      dateRange: currentOrPastDateRangeUI(
+        {
+          title: handleTitle(
+            isVet,
+            isPrep,
+            'Service start date',
+            'Sponsor’s service start date',
+            'Applicant’s service start date',
+          ),
+          required: () => false,
+        },
+        {
+          title: handleTitle(
+            isVet,
+            isPrep,
+            'Service end date',
+            'Sponsor’s service end date',
+            'Applicant’s service end date',
+          ),
+          required: () => false,
+        },
         'The service end date must be after the service start date.', // Range error message
       ),
       dischargeType: {
@@ -278,14 +317,33 @@ export function servicePeriodInformationPage(isVet, isPrep) {
           classNames: 'selectNonImposter',
         },
       },
-      highestRank: autosuggest.uiSchema('Highest rank attained', null, {
-        'ui:webComponentField': VaTextInputField,
+      highestRank: {
+        'ui:field': AutosuggestField,
+        'ui:title': 'Highest rank attained',
         'ui:options': {
-          labels: rankLabels,
-          hint:
-            'This field may clear if the branch of service or service start and end dates are updated.',
+          getOptions: inputValue => {
+            if (!inputValue || inputValue.length < 2) return [];
+            const searchTerm = inputValue.toLowerCase();
+            return (
+              Object.entries(rankLabels)
+                // key is not read, but it is needed to get the labels populated
+                .filter(([key, label]) =>
+                  label.toLowerCase().includes(searchTerm),
+                )
+                .map(([key, label]) => ({
+                  id: key,
+                  label,
+                  value: key,
+                }))
+                .slice(0, 10)
+            );
+          },
+          inputProps: {
+            hint:
+              'This field may clear if the branch of service or service start and end dates are updated.',
+          },
         },
-      }),
+      },
       nationalGuardState: {
         'ui:title': 'State (for National Guard Service only)',
         'ui:webComponentField': VaSelectField,
@@ -308,19 +366,6 @@ export function servicePeriodInformationPage(isVet, isPrep) {
     schema: {
       type: 'object',
       properties: {
-        dateRange: {
-          type: 'object',
-          properties: {
-            from: {
-              type: 'string',
-              format: 'date',
-            },
-            to: {
-              type: 'string',
-              format: 'date',
-            },
-          },
-        },
         serviceBranch: {
           type: 'string',
           enum: [
@@ -424,13 +469,26 @@ export function servicePeriodInformationPage(isVet, isPrep) {
             'UT',
           ],
         },
-        dischargeType: {
-          type: 'string',
-          enum: ['1', '2', '3', '4', '5', '6', '7'],
+        dateRange: {
+          type: 'object',
+          properties: {
+            from: {
+              type: 'string',
+              format: 'date',
+            },
+            to: {
+              type: 'string',
+              format: 'date',
+            },
+          },
         },
         highestRank: {
           type: 'string',
           enum: rankEnums,
+        },
+        dischargeType: {
+          type: 'string',
+          enum: ['1', '2', '3', '4', '5', '6', '7'],
         },
         nationalGuardState: {
           type: 'string',
