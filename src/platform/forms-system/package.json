@@ -83,7 +83,8 @@
     "@testing-library/user-event": "*",
     "sinon": "*",
     "react-dom": "*",
-    "chai-as-promised": "*"
+    "chai-as-promised": "*",
+    "pdfjs-dist": "*"
   },
   "license": "MIT",
   "private": true
