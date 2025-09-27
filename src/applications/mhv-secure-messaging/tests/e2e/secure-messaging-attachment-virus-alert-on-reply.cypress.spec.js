@@ -17,14 +17,14 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
     PatientReplyPage.getMessageBodyField()
       .focus()
       .clear()
       .type(`Test body`);
   });
 
-  describe('Verify single attachment with virus alert', () => {
+  describe('Verify single attachment with virus alert on reply', () => {
     beforeEach(() => {
       PatientComposePage.attachMessageFromFile(Data.SAMPLE_IMG);
       cy.intercept(

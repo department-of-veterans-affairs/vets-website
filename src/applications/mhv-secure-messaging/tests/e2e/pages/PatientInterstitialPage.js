@@ -31,7 +31,7 @@ class PatientInterstitialPage {
     cy.intercept(`POST`, Paths.INTERCEPT.SENT_SEARCH, searchMockResponse).as(
       'recentRecipients',
     );
-    this.getContinueButton().click();
+    this.getStartMessageLink().click();
     cy.wait('@recentRecipients');
   };
 
