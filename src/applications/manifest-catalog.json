@@ -766,6 +766,12 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
+      "appName": "534EZ Survivors benefits",
+      "entryName": "survivors-benefits",
+      "rootUrl": "/supporting-forms-for-claims/apply-form-21p-534ez"
+    },
+    {
       "directoryPath": "src/applications/terms-of-use",
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
