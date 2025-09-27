@@ -26,7 +26,7 @@ const InterstitialPage = props => {
         case 'draft':
           return 'Continue to draft';
         default:
-          return 'Continue to start message';
+          return 'Start a new message';
       }
     },
     [type],
@@ -54,15 +54,18 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <button
-          className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
-          data-testid="continue-button"
+        <va-link-action
+          // TODO: need to handle the href url properly for semantics and testing
+          // SM KEYBOARD NAVIGATION TO COMPOSE doesn't currently recognize the link without semantic href url
+          href={handleContinueButton}
           onClick={handleContinueButton}
+          label={continueButtonText}
+          message-aria-describedby={continueButtonText}
+          text={continueButtonText}
+          type="primary"
+          data-testid="start-message-link"
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        >
-          {continueButtonText}
-          <span className="sr-only">. Page content will change.</span>
-        </button>
+        />
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications
