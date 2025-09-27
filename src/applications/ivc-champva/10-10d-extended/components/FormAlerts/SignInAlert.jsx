@@ -18,7 +18,6 @@ const SignInAlert = () => {
           <button
             type="button"
             className="va-button-link"
-            data-testid="1010d-login-button"
             onClick={() => dispatch(toggleLoginModal(true))}
           >
             Sign in to start your application.

@@ -38,7 +38,7 @@ describe('1010d <SignInAlert>', () => {
       </Provider>,
     );
     const selectors = () => ({
-      loginBtn: container.querySelector('[data-testid="1010d-login-button"]'),
+      loginBtn: container.querySelector('.va-button-link'),
       vaAlert: container.querySelector('va-alert'),
     });
     return { selectors };
