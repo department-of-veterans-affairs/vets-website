@@ -18,7 +18,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
 
     PatientReplyPage.getMessageBodyField().click({ force: true });
 

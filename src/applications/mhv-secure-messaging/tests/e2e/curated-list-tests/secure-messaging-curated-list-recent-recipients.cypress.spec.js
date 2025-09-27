@@ -6,7 +6,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import searchSentFolderResponse from '../fixtures/searchResponses/search-sent-folder-response.json';
 
-describe('SM CURATED LIST MAIN FLOW', () => {
+describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
