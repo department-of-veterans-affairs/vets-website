@@ -333,7 +333,7 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
+    PatientInterstitialPage.getStartMessageLink().click();
   };
 
   clickCreateNewMessage = () => {
@@ -358,7 +358,7 @@ class PatientInboxPage {
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
   };
 
   navigateToComposePageCuratedFlow = () => {

@@ -78,6 +78,8 @@ const InterstitialPage = props => {
         </p>
 
         <va-link-action
+          // TODO: need to handle the href url properly for semantics and testing
+          // SM KEYBOARD NAVIGATION TO COMPOSE doesn't currently recognize the link without semantic href url
           href={handleContinueButton}
           onClick={handleContinueButton}
           label={continueButtonText}

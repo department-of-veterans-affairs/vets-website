@@ -29,7 +29,7 @@ describe('SM NO ASSOCIATION WITH PARTICULAR TG', () => {
       waitForAnimations: true,
     });
 
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click({
+    cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE).click({
       waitForAnimations: true,
     });
 

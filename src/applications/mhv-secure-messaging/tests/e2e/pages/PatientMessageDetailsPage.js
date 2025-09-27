@@ -374,7 +374,7 @@ class PatientMessageDetailsPage {
     ).as('replyThread');
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
   };
 
   verifyMessageAttachment = (messageDetails, messageIndex = 0) => {

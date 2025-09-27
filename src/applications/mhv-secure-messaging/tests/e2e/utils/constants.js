@@ -181,6 +181,7 @@ export const Locators = {
     OLD_VERSION: `.welcome-message > p > a`,
     EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
     REPLY: `reply-to-message-link`,
+    START_NEW_MESSAGE: 'start-message-link',
   },
   ALERTS: {
     HEADER: `[data-testid="error-folder-not-empty"]`,
