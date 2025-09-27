@@ -9,6 +9,7 @@ import ContactInformation from '@@profile/components/contact-information/Contact
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import { getVaButtonByText } from 'applications/personalization/common/unitHelpers';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -36,9 +37,9 @@ function deleteEmailAddress() {
   // delete
   getEmailVaButton('Remove').click();
 
-  const confirmDeleteButton = $(
-    'button[aria-label="Yes, remove my information"]',
-    view.container,
+  const confirmDeleteButton = getVaButtonByText(
+    'Yes, remove my information',
+    view,
   );
   const cancelDeleteButton = $(
     'va-button[label="No, cancel this change"]',
