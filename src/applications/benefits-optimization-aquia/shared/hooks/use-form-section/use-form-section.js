@@ -113,14 +113,27 @@ export const useFormSection = ({
       let updatedData;
       if (fieldPath.includes('.')) {
         const parts = fieldPath.split('.');
+        // Prevent prototype pollution via dangerous property names
+        const dangerousKeys = Object.freeze([
+          '__proto__',
+          'constructor',
+          'prototype',
+        ]);
         updatedData = { ...localData };
 
         let current = updatedData;
         for (let i = 0; i < parts.length - 1; i++) {
+          if (dangerousKeys.includes(parts[i])) {
+            // Abort assignment if dangerous key found
+            return;
+          }
           if (!current[parts[i]]) {
             current[parts[i]] = {};
           }
           current = current[parts[i]];
+        }
+        if (dangerousKeys.includes(parts[parts.length - 1])) {
+          return;
         }
         current[parts[parts.length - 1]] = processedValue;
       } else {
