@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { showValueOrNotSelected } from '../utils/confirmation';
 import { chapterHeaderClass } from './ConfirmationSummary';
 import { ConfirmationVeteranID } from './ConfirmationVeteranID';
 import { ConfirmationVeteranContact } from './ConfirmationVeteranContact';
+import { convertBoolResponseToYesNo } from '../utils/form-data-display';
 
 const ConfirmationPersonalInfo = data => {
   const {
     dob = '',
-    homeless,
-    userFullName = {},
-    veteran = {},
+    homeless = null,
     hasHomeAndMobilePhone = false,
     livingSituation = null,
+    userFullName = {},
+    veteran = {},
   } = data;
   const { vaFileLastFour = '' } = veteran;
 
@@ -28,7 +28,6 @@ const ConfirmationPersonalInfo = data => {
           userFullName={userFullName}
           vaFileLastFour={vaFileLastFour}
         />
-
         {livingSituation || (
           <li>
             <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
@@ -38,11 +37,10 @@ const ConfirmationPersonalInfo = data => {
               className="vads-u-margin-bottom--2 dd-privacy-hidden"
               data-dd-action-name="homeless"
             >
-              {showValueOrNotSelected(homeless)}
+              {convertBoolResponseToYesNo(homeless)}
             </div>
           </li>
         )}
-
         <ConfirmationVeteranContact
           veteran={veteran}
           hasHomeAndMobilePhone={hasHomeAndMobilePhone}

@@ -1,12 +1,9 @@
 import { expect } from 'chai';
 import { livingSituationSubmissionChoices } from '../../content/livingSituation';
-
 import { getHomeless } from '../../utils/submit/homeless';
-import { SC_NEW_FORM_DATA } from '../../constants';
 
 describe('getHomeless', () => {
   const setup = ({
-    toggle = true,
     homeless = true,
     situation = [],
     other = '',
@@ -14,7 +11,6 @@ describe('getHomeless', () => {
     phone = '',
   } = {}) =>
     getHomeless({
-      [SC_NEW_FORM_DATA]: toggle,
       housingRisk: homeless,
       livingSituation: {
         notRegular: situation[0],
@@ -29,17 +25,9 @@ describe('getHomeless', () => {
       pointOfContactPhone: phone,
     });
 
-  it('should return an empty object if not in new form flow', () => {
-    expect(getHomeless({})).to.eql({});
-    expect(getHomeless({ livingSituation: {} })).to.eql({});
-    expect(setup({ toggle: false })).to.eql({});
-    expect(setup({ toggle: false, homeless: true })).to.eql({});
-  });
-
   it('should return an only homeless value', () => {
     expect(
       getHomeless({
-        [SC_NEW_FORM_DATA]: true,
         housingRisk: true,
       }),
     ).to.eql({ homeless: true });
