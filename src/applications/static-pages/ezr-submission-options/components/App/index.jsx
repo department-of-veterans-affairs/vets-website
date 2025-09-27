@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const MERGED_URL =
@@ -12,14 +12,11 @@ export const App = () => {
   );
   const appUrl = isMergedFormEnabled ? MERGED_URL : STANDALONE_URL;
 
-  const downloadLink = useMemo(
-    () => (
-      <va-link
-        href="/find-forms/about-form-10-10d"
-        text="Get VA Form 10-10d to download"
-      />
-    ),
-    [],
+  const downloadLink = (
+    <va-link
+      href="/find-forms/about-form-10-10d"
+      text="Get VA Form 10-10d to download"
+    />
   );
 
   return (
