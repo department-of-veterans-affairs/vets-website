@@ -30,7 +30,7 @@ describe('SM SINGLE MESSAGE', () => {
     PatientMessageDetailsPage.verifyMoveToButtonModal();
 
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
 
     PatientReplyPage.getMessageBodyField().should('be.visible');
     GeneralFunctionsPage.verifyUrl(`reply`);

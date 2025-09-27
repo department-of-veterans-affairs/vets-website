@@ -13,7 +13,7 @@ describe('recipients dropdown box', () => {
     PatientInboxPage.loadInboxMessages();
 
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.ALERTS.REPT_SELECT).should('exist');
@@ -41,7 +41,7 @@ describe('recipients dropdown box', () => {
     // add assertion to check blocked group does not exist in the dd list
 
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
     cy.wait('@recipients').then(() => {
       cy.get(Locators.ALERTS.REPT_SELECT)
         .find('select')
