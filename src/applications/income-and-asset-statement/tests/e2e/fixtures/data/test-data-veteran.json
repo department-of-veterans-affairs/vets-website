@@ -1,0 +1,163 @@
+{
+  "data": {
+    "view:incomeReceiptWaiversMissingInformation": {},
+    "view:isAddingIncomeReceiptWaivers": true,
+    "view:annuitiesMissingInformation": {},
+    "view:isAddingAnnuities": true,
+    "view:royaltiesAndOtherPropertiesMissingInformation": {},
+    "view:isAddingRoyalties": true,
+    "view:uploadMessage": {},
+    "view:discontinuedIncomesMissingInformation": {},
+    "view:isAddingDiscontinuedIncomes": true,
+    "view:unreportedAssetsMissingInformation": {},
+    "view:isAddingUnreportedAssets": true,
+    "view:trustsMissingInformation": {},
+    "view:trustSupplementaryFormsAlert": {},
+    "view:isAddingTrusts": true,
+    "view:assetTransfersMissingInformation": {},
+    "view:isAddingAssetTransfers": true,
+    "view:ownedAssetsMissingInformation": {},
+    "view:supplementaryFormsAlert": {},
+    "view:isAddingOwnedAssets": true,
+    "view:associatedIncomesMissingInformation": {},
+    "view:isAddingAssociatedIncomes": true,
+    "view:unassociatedIncomesMissingInformation": {},
+    "view:isAddingUnassociatedIncomes": true,
+    "incomeNetWorthDateRange": {
+      "from": "2023-02-01",
+      "to": "2024-02-01"
+    },
+    "dateReceivedByVa": false,
+    "claimantType": "VETERAN",
+    "claimantFullName": {},
+    "email": "john.veteran@gmail.com",
+    "claimantPhone": "2023336688",
+    "otherVeteranFullName": {},
+    "unassociatedIncomes": [
+      {
+        "incomeType": "SOCIAL_SECURITY",
+        "grossMonthlyIncome": 4000,
+        "payer": "Some entity",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "associatedIncomes": [
+      {
+        "incomeType": "INTEREST",
+        "grossMonthlyIncome": 2700,
+        "accountValue": 894876,
+        "payer": "Some entity",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "ownedAssets": [
+      {
+        "assetType": "BUSINESS",
+        "grossMonthlyIncome": 4000,
+        "ownedPortionValue": 3500,
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "royaltiesAndOtherProperties": [
+      {
+        "incomeGenerationMethod": "INTELLECTUAL_PROPERTY",
+        "view:propertyOrBusinessFormRequestAlert": {},
+        "grossMonthlyIncome": 4000,
+        "fairMarketValue": 500000,
+        "canBeSold": true,
+        "mitigatingCircumstances": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "assetTransfers": [
+      {
+        "transferMethod": "SOLD",
+        "assetType": "vehicle",
+        "fairMarketValue": 500000,
+        "saleValue": 30000,
+        "capitalGainValue": 0,
+        "assetTransferredUnderFairMarketValue": true,
+        "transferDate": "2025-04-14",
+        "newOwnerName": {
+          "first": "John",
+          "last": "Doe"
+        },
+        "newOwnerRelationship": "Friend",
+        "saleReportedToIrs": true,
+        "originalOwnerRelationship": "VETERAN"
+      }
+    ],
+    "trusts": [
+      {
+        "addedFundsDate": "2022-02-04",
+        "addedFundsAmount": 100000,
+        "addedFundsAfterEstablishment": true,
+        "haveAuthorityOrControlOfTrust": true,
+        "trustEstablishedForVeteransChild": true,
+        "trustUsedForMedicalExpenses": true,
+        "monthlyMedicalReimbursementAmount": 300,
+        "receivingIncomeFromTrust": true,
+        "annualReceivedIncome": 5000,
+        "trustType": "IRREVOCABLE",
+        "establishedDate": "2005-01-17",
+        "marketValueAtEstablishment": 122000
+      }
+    ],
+    "annuities": [
+      {
+        "addedFundsDate": "2022-01-04",
+        "addedFundsAmount": 100000,
+        "addedFundsAfterEstablishment": true,
+        "canBeLiquidated": true,
+        "surrenderValue": 150000,
+        "receivingIncomeFromAnnuity": true,
+        "annualReceivedIncome": 5000,
+        "revocable": true,
+        "establishedDate": "2021-01-17",
+        "marketValueAtEstablishment": 122000
+      }
+    ],
+    "unreportedAssets": [
+      {
+        "assetOwnerRelationship": "VETERAN",
+        "assetType": "vehicle",
+        "ownedPortionValue": 12000,
+        "assetLocation": "123 Fakesville, NV"
+      }
+    ],
+    "discontinuedIncomes": [
+      {
+        "grossAnnualAmount": 12000,
+        "incomeLastReceivedDate": "2025-02-12",
+        "incomeFrequency": "RECURRING",
+        "incomeType": "interest",
+        "payer": "Some institution",
+        "recipientRelationship": "VETERAN"
+      }
+    ],
+    "incomeReceiptWaivers": [
+      {
+        "recipientRelationship": "VETERAN",
+        "expectedIncome": 4500,
+        "paymentResumeDate": "2026-06-15",
+        "view:paymentsWillResume": true,
+        "waivedGrossMonthlyIncome": 4500,
+        "payer": "Some entity",
+        "recipientName": {
+          "first": "John",
+          "last": "Doe"
+        }
+      }
+    ],
+    "isLoggedIn": true,
+    "veteranSocialSecurityNumber": "111111111",
+    "veteranSsnLastFour": "1111",
+    "vaFileNumber": "111111111",
+    "vaFileNumberLastFour": "1111",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    }
+  }
+}
