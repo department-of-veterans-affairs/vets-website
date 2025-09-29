@@ -67,8 +67,4 @@ export const officialInfoAndSignatureSchema = z.object({
   officialPhone: officialPhoneSchema,
   officialSignature: officialSignatureSchema,
   signatureDate: signatureDateSchema,
-  certificationAgreement: z.boolean().refine(val => val === true, {
-    message:
-      'You must certify that the information provided is true and correct',
-  }),
 });
