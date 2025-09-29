@@ -42,7 +42,7 @@ export default function UrgentCareInformationPage() {
 
   return (
     <div>
-      <h1>{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
       <p>
         You can schedule or request non-urgent appointments for future dates.
       </p>
@@ -53,7 +53,7 @@ export default function UrgentCareInformationPage() {
       >
         Start scheduling
       </a>
-      <h2 className="vads-u-margin--0 vaos__dynamic-font-size--h2">
+      <h2 className="vads-u-font-size--h3 vads-u-margin--0">
         If you need help sooner, use one of these urgent communications options:
       </h2>
       <ul>
