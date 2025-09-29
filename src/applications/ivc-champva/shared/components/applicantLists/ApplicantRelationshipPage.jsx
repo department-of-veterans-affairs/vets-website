@@ -218,26 +218,26 @@ export default function ApplicantRelationshipPage(props) {
   };
 
   const handlers = {
-    validate() {
+    validate: (nextValue = checkValue) => {
       let isValid = true;
 
       // clear any existing errors
-      setCheckError(null);
-      setInputError(null);
+      setCheckError(undefined);
+      setInputError(undefined);
 
       // primary field validation
-      if (!checkValue[primary]) {
+      if (!nextValue[primary]) {
         setCheckError('This field is required');
         isValid = false;
       }
 
       // secondary field validation (for "other" option)
-      if (checkValue[primary] === 'other') {
-        if (!checkValue[secondary]) {
+      if (nextValue[primary] === 'other') {
+        if (!nextValue[secondary]) {
           setInputError('This field is required');
           isValid = false;
         } else {
-          const errMsg = validateText(checkValue[secondary]);
+          const errMsg = validateText(nextValue[secondary]);
           if (errMsg) {
             setInputError(errMsg);
             isValid = false;
@@ -246,7 +246,7 @@ export default function ApplicantRelationshipPage(props) {
       }
 
       // spouse validation - only one spouse allowed
-      if (checkValue[primary] === 'spouse') {
+      if (nextValue[primary] === 'spouse') {
         const hasExistingSpouse = fullOrItemData.applicants?.some(
           (item, idx) =>
             item?.applicantRelationshipToSponsor?.relationshipToVeteran ===
@@ -275,14 +275,13 @@ export default function ApplicantRelationshipPage(props) {
           : { [primary]: detail.value };
       setDirty(true);
       setCheckValue(val);
-      handlers.validate();
+      handlers.validate(val);
     },
     inputUpdate: ({ target }) => {
-      const val = checkValue;
-      val[secondary] = target.value;
+      const val = { ...checkValue, [secondary]: target.value };
       setDirty(true);
       setCheckValue(val);
-      handlers.validate();
+      handlers.validate(val);
     },
     onGoForward: event => {
       event.preventDefault();
@@ -297,10 +296,10 @@ export default function ApplicantRelationshipPage(props) {
 
   useEffect(
     () => {
-      if (dirty) handlers.validate();
+      if (dirty) handlers.validate(checkValue);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, checkValue],
+    [checkValue],
   );
   return (
     <>
@@ -325,7 +324,7 @@ export default function ApplicantRelationshipPage(props) {
           }
           hint={customHint || ADDITIONAL_FILES_HINT}
           required
-          error={checkError}
+          error={checkError ?? undefined}
           onVaValueChange={handlers.radioUpdate}
           name={`root_${keyname}`}
           ref={radioRef}
