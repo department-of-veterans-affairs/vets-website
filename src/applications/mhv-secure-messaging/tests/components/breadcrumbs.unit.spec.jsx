@@ -60,7 +60,10 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    expect(breadcrumb).to.have.attribute('href', '/inbox/');
+    expect(breadcrumb).to.have.attribute(
+      'href',
+      '/my-health/secure-messages/inbox/',
+    );
   });
 
   it('on Compose renders as back link only', async () => {
@@ -81,7 +84,10 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    expect(breadcrumb).to.have.attribute('href', '/new-message/');
+    expect(breadcrumb).to.have.attribute(
+      'href',
+      '/my-health/secure-messages/new-message/',
+    );
   });
 
   it('on Drafts Folder renders without errors', async () => {
