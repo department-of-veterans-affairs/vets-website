@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { z } from 'zod';
 import {
   FormField,
   MemorableDateField,
@@ -8,11 +9,13 @@ import {
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
-import {
-  admissionDateSchema,
-  medicaidNumberSchema,
-  nursingHomeDetailsSchema,
-} from '../schemas';
+import { admissionDateSchema, nursingHomeDetailsSchema } from '../schemas';
+
+// Schema for nursing home name field
+const nursingHomeNameSchema = z
+  .string()
+  .min(1, 'Nursing home name is required')
+  .max(100, 'Nursing home name must be less than 100 characters');
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -40,7 +43,7 @@ export const NursingHomeDetailsPage = ({
 
   return (
     <PageTemplate
-      title="Nursing Home Information"
+      title="Nursing home facility details"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -57,14 +60,14 @@ export const NursingHomeDetailsPage = ({
           postalCode: '',
         },
         admissionDate: '',
-        medicaidNumber: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <FormField
             name="nursingHomeName"
-            label="Name of Nursing Home"
+            label="Name of nursing home"
+            schema={nursingHomeNameSchema}
             value={localData.nursingHomeName}
             onChange={handleFieldChange}
             required
@@ -72,45 +75,38 @@ export const NursingHomeDetailsPage = ({
             forceShowError={formSubmitted}
           />
 
-          <fieldset>
-            <legend className="vads-u-font-weight--normal vads-u-font-size--base">
-              Complete Mailing Address of Nursing Home
-            </legend>
-            <AddressField
-              value={localData.nursingHomeAddress}
-              onChange={value => handleFieldChange('nursingHomeAddress', value)}
-              errors={
-                errors.nursingHomeAddress &&
-                typeof errors.nursingHomeAddress === 'object'
-                  ? errors.nursingHomeAddress
-                  : {}
-              }
-              required
-              forceShowError={formSubmitted}
-              hideCountry
-            />
-          </fieldset>
+          <AddressField
+            name="nursingHomeAddress"
+            label="Complete mailing address of nursing home"
+            description=""
+            value={localData.nursingHomeAddress}
+            onChange={(fieldName, addressValue) =>
+              handleFieldChange('nursingHomeAddress', addressValue)
+            }
+            errors={
+              errors.nursingHomeAddress &&
+              typeof errors.nursingHomeAddress === 'object'
+                ? errors.nursingHomeAddress
+                : {}
+            }
+            touched={
+              formSubmitted
+                ? { street: true, city: true, state: true, postalCode: true }
+                : {}
+            }
+            allowMilitary={false}
+            omitStreet3
+          />
 
           <MemorableDateField
             name="admissionDate"
-            label="Date of Admission"
+            label="Date of admission"
             schema={admissionDateSchema}
             value={localData.admissionDate}
             onChange={handleFieldChange}
             required
-            hint="Enter the date you were admitted to this nursing home"
+            hint="Enter the date the patient was admitted to this nursing home"
             error={errors.admissionDate}
-            forceShowError={formSubmitted}
-          />
-
-          <FormField
-            name="medicaidNumber"
-            label="Medicaid Number (if applicable)"
-            schema={medicaidNumberSchema}
-            value={localData.medicaidNumber}
-            onChange={handleFieldChange}
-            hint="Enter your Medicaid number if you have one"
-            error={errors.medicaidNumber}
             forceShowError={formSubmitted}
           />
         </>

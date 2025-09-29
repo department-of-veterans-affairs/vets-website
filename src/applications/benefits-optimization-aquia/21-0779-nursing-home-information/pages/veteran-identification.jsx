@@ -12,7 +12,7 @@ import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   dateOfBirthSchema,
-  personalInfoSchema,
+  veteranIdentificationSchema,
   ssnSchema,
   vaFileNumberSchema,
 } from '../schemas';
@@ -25,14 +25,14 @@ const ensureDateStrings = formData => {
 };
 
 /**
- * Personal Information page component for the nursing home information form
+ * Veteran Identification page component for the nursing home information form
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
- * @returns {JSX.Element} Personal information form page
+ * @returns {JSX.Element} Veteran identification form page
  */
-export const PersonalInformationPage = ({
+export const VeteranIdentificationPage = ({
   data,
   setFormData,
   goForward,
@@ -43,13 +43,13 @@ export const PersonalInformationPage = ({
 
   return (
     <PageTemplate
-      title="Personal Information"
+      title="Veteran identification"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={personalInfoSchema}
-      sectionName="personalInfo"
+      schema={veteranIdentificationSchema}
+      sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
       defaultData={{
         fullName: { first: '', middle: '', last: '' },
@@ -114,7 +114,7 @@ export const PersonalInformationPage = ({
   );
 };
 
-PersonalInformationPage.propTypes = {
+VeteranIdentificationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,

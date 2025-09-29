@@ -1,19 +1,20 @@
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { useFieldValidation } from '../../../hooks/use-field-validation';
-import { createVAComponentProps } from '../../../utils/component-props';
 
 /**
- * Radio button group field component using VA web components
- * Provides a group of radio buttons for single-choice selection with validation
- * Uses VA adapter pattern for consistent error handling
+ * Radio button group field component - thin integration layer for VA React bindings
  *
  * @component
  * @see [VA Radio Button](https://design.va.gov/components/form/radio-button)
  * @param {Object} props - Component props
  * @param {string} props.name - Field name for form identification
- * @param {string} props.label - Label/legend text displayed above the radio group
+ * @param {string} props.label - Label text displayed above the radio group
  * @param {import('zod').ZodSchema} props.schema - Zod schema for validation
  * @param {string} props.value - Currently selected option value
  * @param {Function} props.onChange - Change handler function (name, value) => void
@@ -34,46 +35,62 @@ export const RadioField = ({
   required = false,
   hint,
   error: externalError,
+  forceShowError = false,
   ...props
 }) => {
   const {
     validateField,
     touchField,
     error: validationError,
-    isValidating,
     touched,
   } = useFieldValidation(schema);
 
-  const displayError = externalError || validationError;
-  const vaProps = createVAComponentProps(
-    'va-radio',
-    displayError,
-    touched,
-    props.forceShowError,
+  // Use external error if provided, otherwise use validation error
+  const errorToDisplay = externalError || validationError;
+  // Show error if forceShowError (form submitted) OR field was touched
+  const showError = forceShowError || touched;
+  const finalError =
+    showError && errorToDisplay ? String(errorToDisplay) : undefined;
+
+  /**
+   * Handle value change events from the VA Radio component
+   * @param {Event} event - The value change event from va-radio
+   */
+  const handleValueChange = React.useCallback(
+    event => {
+      const newValue = event?.detail?.value;
+      if (newValue !== undefined) {
+        onChange(name, newValue);
+        validateField(newValue);
+      }
+    },
+    [name, onChange, validateField],
   );
 
-  const handleChange = selectedValue => {
-    onChange(name, selectedValue);
-  };
-
-  const handleBlur = () => {
-    touchField();
-    validateField(value, true);
-  };
+  /**
+   * Handle blur events to mark field as touched and trigger validation
+   */
+  const handleBlur = React.useCallback(
+    () => {
+      touchField();
+      validateField(value, true);
+    },
+    [touchField, validateField, value],
+  );
 
   return (
-    <va-radio
-      {...props}
-      {...vaProps}
+    <VaRadio
       label={label}
       required={required}
       hint={hint}
+      value={value || ''}
+      error={finalError}
       onBlur={handleBlur}
-      onVaValueChange={e => handleChange(e.detail.value)}
-      aria-describedby={isValidating ? `${name}-validating` : undefined}
+      onVaValueChange={handleValueChange}
+      {...props}
     >
       {options.map(option => (
-        <va-radio-option
+        <VaRadioOption
           key={option.value}
           label={option.label}
           value={option.value}
@@ -81,7 +98,7 @@ export const RadioField = ({
           description={option.description}
         />
       ))}
-    </va-radio>
+    </VaRadio>
   );
 };
 

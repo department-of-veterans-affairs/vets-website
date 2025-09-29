@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { useFormValidation } from '../use-form-validation';
 
@@ -89,42 +89,17 @@ export const useFormSection = ({
     return dataProcessor ? dataProcessor(initialData) : initialData;
   });
 
-  // Sync with parent data when it changes (for prefilled data that arrives after initial render)
-  useEffect(
-    () => {
-      if (data?.[namespace]) {
-        const updatedData = {
-          ...defaultData,
-          ...data[namespace],
-        };
-        const processedData = dataProcessor
-          ? dataProcessor(updatedData)
-          : updatedData;
-
-        // Only update if data has actually changed to avoid infinite loops
-        const hasChanged =
-          JSON.stringify(processedData) !== JSON.stringify(localData);
-        if (hasChanged) {
-          setLocalData(processedData);
-        }
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, namespace, defaultData, dataProcessor],
-  ); // Re-run when data dependencies change - localData excluded to prevent loops
+  // NO parent data sync after mount - causes infinite loops with radio buttons
+  // Data flows: parent -> initial state (on mount), then local changes -> parent
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const [hasInitialized, setHasInitialized] = useState(false);
-  useEffect(
-    () => {
-      if (hasInitialized) {
-        validate(localData);
-      } else {
-        setHasInitialized(true);
-      }
+  // Memoize the validate function to prevent it from changing on every render
+  const memoizedValidate = useCallback(
+    validationData => {
+      return validate(validationData);
     },
-    [localData, validate, hasInitialized],
+    [validate],
   );
 
   /**
@@ -192,14 +167,17 @@ export const useFormSection = ({
           ...data,
           [namespace]: updatedData,
         };
+
         setFormData(namespacedData);
       }
 
-      if (Array.isArray(processedValue)) {
-        validate(updatedData);
+      // Validate after data changes to clear errors in real-time
+      // This allows errors to clear as soon as the user fixes them
+      if (formSubmitted) {
+        memoizedValidate(updatedData);
       }
     },
-    [localData, data, namespace, setFormData, validate],
+    [localData, data, namespace, setFormData, memoizedValidate, formSubmitted],
   );
 
   /**
@@ -209,27 +187,36 @@ export const useFormSection = ({
     goForward => {
       setFormSubmitted(true);
 
-      const isValidForm = validate(localData);
+      const isValidForm = memoizedValidate(localData);
 
       if (isValidForm && goForward) {
+        // Pass the complete form data to goForward
         const namespacedData = {
           ...data,
           [namespace]: localData,
         };
-
         goForward(namespacedData);
       }
     },
-    [localData, data, namespace, validate],
+    [localData, data, namespace, memoizedValidate],
+  );
+
+  // Validate on field blur (called by individual fields)
+  const handleFieldBlur = useCallback(
+    () => {
+      memoizedValidate(localData);
+    },
+    [localData, memoizedValidate],
   );
 
   return {
     localData,
     setLocalData,
     handleFieldChange,
+    handleFieldBlur,
     handleContinue,
     errors,
-    validate,
+    validate: memoizedValidate,
     validateField,
     clearErrors,
     formSubmitted,
