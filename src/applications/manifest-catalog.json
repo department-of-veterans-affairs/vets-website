@@ -106,6 +106,12 @@
       "rootUrl": "/21-0779-nursing-home-information"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2008-burial-flags",
+      "appName": "Burial flags 21-2008",
+      "entryName": "21-2008-burial-flags",
+      "rootUrl": "/21-2008-burial-flags"
+    },
+    {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
       "appName": "21-2680 Examination for Housebound Status or Aid & Attendance",
       "entryName": "21-2680-house-bound-status",
