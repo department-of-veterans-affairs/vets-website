@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
 import { TextareaField } from '@bio-aquia/shared/components/atoms/textarea-field';
 import { SelectField } from '@bio-aquia/shared/components/atoms/select-field';
-import { LOCOMOTION_AIDS } from '../constants';
+import { LOCOMOTION_AIDS } from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /**
  * Narrative Assessment Page

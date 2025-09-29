@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
-import { BENEFIT_TYPES } from '../constants';
-import { benefitTypePageSchema } from '../schemas';
+import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
+import { benefitTypePageSchema } from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Benefit Type Page

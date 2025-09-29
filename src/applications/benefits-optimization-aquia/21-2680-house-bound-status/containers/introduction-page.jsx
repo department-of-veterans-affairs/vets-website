@@ -11,7 +11,10 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
-import { TITLE, SUBTITLE } from '../constants';
+import {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes */
 const OMB_RES_BURDEN = 30;

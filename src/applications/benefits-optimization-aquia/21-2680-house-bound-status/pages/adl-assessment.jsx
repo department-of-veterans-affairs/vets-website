@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
-import { ADL_OPTIONS } from '../constants';
+import { ADL_OPTIONS } from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /**
  * ADL Assessment Page

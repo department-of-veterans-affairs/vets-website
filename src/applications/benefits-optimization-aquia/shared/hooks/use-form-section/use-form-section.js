@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { useFormValidation } from '../use-form-validation';
+import { useFormValidation } from '@bio-aquia/shared/hooks/use-form-validation';
 
 /**
  * Custom hook for managing form sections with automatic namespacing.

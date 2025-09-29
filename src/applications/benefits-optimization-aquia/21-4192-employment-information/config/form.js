@@ -11,11 +11,14 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 //   createPageValidator,
 //   createValidationErrorHandler,
 // } from '@bio-aquia/shared/utils';
-import { TITLE, SUBTITLE } from '../constants';
-import ConfirmationPage from '../containers/confirmation-page';
-import IntroductionPage from '../containers/introduction-page';
-import manifest from '../manifest.json';
-import GetHelpFooter from '../components/get-help';
+import {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-4192-employment-information/constants';
+import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
+import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
+import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
 
 // Import page components
 import {
@@ -27,7 +30,7 @@ import {
   ReserveGuardQuestionPage,
   ReserveGuardStatusPage,
   CertificationPage,
-} from '../pages';
+} from '@bio-aquia/21-4192-employment-information/pages';
 
 const defaultSchema = {
   type: 'object',

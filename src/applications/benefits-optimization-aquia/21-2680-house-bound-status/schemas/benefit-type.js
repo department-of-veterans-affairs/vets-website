@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BENEFIT_TYPES } from '../constants';
+import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /**
  * Schema for benefit type selection

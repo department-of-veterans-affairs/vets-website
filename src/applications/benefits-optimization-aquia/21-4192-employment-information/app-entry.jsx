@@ -9,9 +9,9 @@ import './sass/21-4192-employment-information.scss';
 
 import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import routes from './routes';
-import reducer from './reducers';
-import manifest from './manifest.json';
+import routes from '@bio-aquia/21-4192-employment-information/routes';
+import reducer from '@bio-aquia/21-4192-employment-information/reducers';
+import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
 
 /**
  * Initialize and start the application

@@ -12,7 +12,7 @@ import {
   examinerPhoneSchema,
   facilityPracticeNameSchema,
   examinerIdentificationSchema,
-} from '../schemas';
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Examiner Identification Page

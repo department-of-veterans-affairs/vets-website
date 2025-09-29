@@ -12,21 +12,22 @@ import {
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import manifest from '../manifest.json';
-import prefillTransformer from './prefill-transformer';
+import GetHelp from '@bio-aquia/21-2680-house-bound-status/components/get-help';
+import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import prefillTransformer from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 
 // Import all page components
-import BenefitTypePage from '../pages/benefit-type';
-import VeteranIdentityPage from '../pages/veteran-identity';
-import ClaimantIdentityPage from '../pages/claimant-identity';
-import HospitalizationPage from '../pages/hospitalization';
-import ClaimantSignaturePage from '../pages/claimant-signature';
-import ExaminerIdentificationPage from '../pages/examiner-identification';
-import MedicalDiagnosisPage from '../pages/medical-diagnosis';
-import ADLAssessmentPage from '../pages/adl-assessment';
-import FunctionalLimitationsPage from '../pages/functional-limitations';
-import NarrativeAssessmentPage from '../pages/narrative-assessment';
-import ExaminerSignaturePage from '../pages/examiner-signature';
+import BenefitTypePage from '@bio-aquia/21-2680-house-bound-status/pages/benefit-type';
+import VeteranIdentityPage from '@bio-aquia/21-2680-house-bound-status/pages/veteran-identity';
+import ClaimantIdentityPage from '@bio-aquia/21-2680-house-bound-status/pages/claimant-identity';
+import HospitalizationPage from '@bio-aquia/21-2680-house-bound-status/pages/hospitalization';
+import ClaimantSignaturePage from '@bio-aquia/21-2680-house-bound-status/pages/claimant-signature';
+import ExaminerIdentificationPage from '@bio-aquia/21-2680-house-bound-status/pages/examiner-identification';
+import MedicalDiagnosisPage from '@bio-aquia/21-2680-house-bound-status/pages/medical-diagnosis';
+import ADLAssessmentPage from '@bio-aquia/21-2680-house-bound-status/pages/adl-assessment';
+import FunctionalLimitationsPage from '@bio-aquia/21-2680-house-bound-status/pages/functional-limitations';
+import NarrativeAssessmentPage from '@bio-aquia/21-2680-house-bound-status/pages/narrative-assessment';
+import ExaminerSignaturePage from '@bio-aquia/21-2680-house-bound-status/pages/examiner-signature';
 
 /**
  * @typedef {Object} FormConfig
@@ -226,7 +227,7 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
+  getHelp: GetHelp,
   footerContent,
 };
 

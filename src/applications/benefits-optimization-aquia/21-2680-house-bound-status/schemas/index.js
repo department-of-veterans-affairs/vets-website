@@ -5,7 +5,10 @@
  */
 
 // Benefit type schemas
-export { benefitTypeSchema, benefitTypePageSchema } from './benefit-type';
+export {
+  benefitTypeSchema,
+  benefitTypePageSchema,
+} from '@bio-aquia/21-2680-house-bound-status/schemas/benefit-type';
 
 // Veteran identification schemas
 export {

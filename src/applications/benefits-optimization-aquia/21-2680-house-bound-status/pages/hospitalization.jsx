@@ -8,7 +8,7 @@ import {
   admissionDateSchema,
   facilityNameSchema,
   hospitalizationSchema,
-} from '../schemas';
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Hospitalization Page

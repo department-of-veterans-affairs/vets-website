@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import { certificationLevelOfCareSchema } from '../schemas';
+import { certificationLevelOfCareSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 // Schema for level of care radio field - used for real-time field validation
 // This properly validates the required field

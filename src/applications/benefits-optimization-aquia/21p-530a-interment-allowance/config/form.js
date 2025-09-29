@@ -15,21 +15,21 @@ import {
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
 
-import prefillTransformer from './prefill-transformer';
-import GetHelpFooter from '../components/get-help';
-import PreSubmitInfo from '../components/pre-submit-info';
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
+import GetHelpFooter from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import {
   CemeteryInformationPage,
   OfficialSignaturePage,
   VeteranIdentificationPage,
   VeteranServicePage,
-} from '../pages';
+} from '@bio-aquia/21p-530a-interment-allowance/pages';
 import {
   cemeteryInformationSchema,
   officialSignatureSchema,
   veteranIdentificationSchema,
   veteranServiceSchema,
-} from '../schemas';
+} from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 const defaultSchema = {
   type: 'object',

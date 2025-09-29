@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { useFormSection } from '../../../hooks';
+import { useFormSection } from '@bio-aquia/shared/hooks';
 
 /**
  * Internal component that uses the form section hook.

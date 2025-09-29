@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
-import { TIME_LOST_UNITS } from '../constants';
+import { TIME_LOST_UNITS } from '@bio-aquia/21-4192-employment-information/constants';
 
 /**
  * Employment Details Page

@@ -11,7 +11,7 @@ import {
   veteranServiceNumberSchema,
   veteranDOBSchema,
   veteranIdentificationSchema,
-} from '../schemas';
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Veteran Identity Page

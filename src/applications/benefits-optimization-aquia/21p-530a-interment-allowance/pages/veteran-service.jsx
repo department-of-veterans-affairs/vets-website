@@ -11,13 +11,13 @@ import {
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import { BRANCH_OF_SERVICE } from '../constants';
+import { BRANCH_OF_SERVICE } from '@bio-aquia/21p-530a-interment-allowance/constants';
 import {
   branchOfServiceSchema,
   dateEnteredServiceSchema,
   dateSeparatedSchema,
   veteranServiceSchema,
-} from '../schemas';
+} from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings

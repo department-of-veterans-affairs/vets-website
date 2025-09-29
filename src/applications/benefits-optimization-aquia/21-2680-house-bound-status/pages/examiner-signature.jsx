@@ -8,7 +8,7 @@ import {
   examinerSignatureSchema,
   examinerSignatureDateSchema,
   examinerSignaturePageSchema,
-} from '../schemas';
+} from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
  * Examiner Signature Page
