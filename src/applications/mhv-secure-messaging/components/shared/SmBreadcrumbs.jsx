@@ -5,6 +5,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import manifest from '../../manifest.json';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -44,27 +45,14 @@ const SmBreadcrumbs = () => {
     [crumbsList],
   );
 
-  const pathsWithShortBreadcrumb = [
+  const pathsUsingBackLink = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
     `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
     `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
-
-  const pathsWithBackBreadcrumb = [
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
+    `${Constants.Paths.RECENT_CARE_TEAMS}/`,
     Constants.Paths.CONTACT_LIST,
     `${Constants.Paths.CARE_TEAM_HELP}/`,
     Constants.Paths.DRAFTS,
@@ -77,8 +65,7 @@ const SmBreadcrumbs = () => {
   const crumbPath = `/${locationBasePath}/${
     locationChildPath ? `${locationChildPath}/` : ''
   }`;
-  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
-  const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
+  const shortenBreadcrumb = pathsUsingBackLink.includes(crumbPath);
 
   const navigateBack = useCallback(
     () => {
@@ -252,28 +239,17 @@ const SmBreadcrumbs = () => {
           aria-label="Breadcrumb"
           className="breadcrumbs vads-u-padding-y--4"
         >
-          <span className="sm-breadcrumb-list-item">
-            {backBreadcrumb ? (
-              <va-link
-                back
-                text="Back"
-                href={previousUrl}
-                onClick={e => {
-                  e.preventDefault();
-                  navigateBack();
-                }}
-                data-testid="sm-breadcrumbs-back"
-                data-dd-action-name="Breadcrumb - Back"
-              />
-            ) : (
-              <va-link
-                text={`Back to ${crumb.label}`}
-                href={crumb.href}
-                data-dd-privacy="mask"
-                data-dd-action-name="Breadcrumb - Back to"
-              />
-            )}
-          </span>
+          <va-link
+            back
+            text="Back"
+            href={`${manifest.rootUrl}${previousUrl}`}
+            onClick={e => {
+              e.preventDefault();
+              navigateBack();
+            }}
+            data-testid="sm-breadcrumbs-back"
+            data-dd-action-name="Breadcrumb - Back"
+          />
         </nav>
       ) : (
         <VaBreadcrumbs
