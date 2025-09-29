@@ -19,6 +19,8 @@ import {
   spouseEvidence,
   childEvidence,
   showDupeModalIfEnabled,
+  showV3Picklist,
+  hasAwardedDependents,
 } from './data';
 
 export {
@@ -42,4 +44,6 @@ export {
   spouseEvidence,
   childEvidence,
   showDupeModalIfEnabled,
+  showV3Picklist,
+  hasAwardedDependents,
 };

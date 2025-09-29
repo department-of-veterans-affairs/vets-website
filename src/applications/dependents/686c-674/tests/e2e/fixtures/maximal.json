@@ -105,7 +105,7 @@
             "first": "SPOUSY",
             "last": "FOSTER"
           },
-          "dateOfBirth": "1970-07-07",
+          "dateOfBirth": "1980-07-07",
           "ssn": "702023332",
           "relationshipToVeteran": "Spouse",
           "awardIndicator": "Y"
@@ -118,6 +118,26 @@
           "dateOfBirth": "2014-08-08",
           "ssn": "793473479",
           "relationshipToVeteran": "Child",
+          "awardIndicator": "Y"
+        },
+        {
+          "fullName": {
+            "first": "STACY",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "2018-06-10",
+          "ssn": "798703232",
+          "relationshipToVeteran": "Child",
+          "awardIndicator": "Y"
+        },
+        {
+          "fullName": {
+            "first": "PETER",
+            "last": "FOSTER"
+          },
+          "dateOfBirth": "1950-03-01",
+          "ssn": "997010104",
+          "relationshipToVeteran": "Parent",
           "awardIndicator": "Y"
         }
       ],

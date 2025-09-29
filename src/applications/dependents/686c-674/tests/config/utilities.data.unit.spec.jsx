@@ -6,6 +6,8 @@ import {
   childEvidence,
   buildSubmissionData,
   showDupeModalIfEnabled,
+  showV3Picklist,
+  hasAwardedDependents,
 } from '../../config/utilities/data';
 
 describe('Utilities', () => {
@@ -451,5 +453,44 @@ describe('showDupeModalIfEnabled', () => {
   it('should return true if feature flag is on', () => {
     expect(showDupeModalIfEnabled({ vaDependentsDuplicateModals: true })).to.be
       .true;
+  });
+});
+
+describe('showV3Picklist', () => {
+  it('should return false if feature flag is off', () => {
+    expect(showV3Picklist({})).to.be.false;
+    expect(showV3Picklist({ vaDependentsV3: false })).to.be.false;
+  });
+
+  it('should return true if feature flag is on', () => {
+    expect(showV3Picklist({ vaDependentsV3: true })).to.be.true;
+  });
+});
+
+describe('hasAwardedDependents', () => {
+  it('should return false if feature flag is off', () => {
+    expect(hasAwardedDependents({})).to.be.false;
+    expect(hasAwardedDependents({ vaDependentsV3: false })).to.be.false;
+  });
+
+  it('should return false if feature flag is on but no dependents', () => {
+    expect(hasAwardedDependents({ vaDependentsV3: true })).to.be.false;
+    expect(hasAwardedDependents({ vaDependentsV3: true, dependents: {} })).to.be
+      .false;
+    expect(
+      hasAwardedDependents({
+        vaDependentsV3: true,
+        dependents: { awarded: [] },
+      }),
+    ).to.be.false;
+  });
+
+  it('should return true if feature flag is on and has dependents', () => {
+    expect(
+      hasAwardedDependents({
+        vaDependentsV3: true,
+        dependents: { awarded: [{ name: 'Test Dependent' }] },
+      }),
+    ).to.be.true;
   });
 });

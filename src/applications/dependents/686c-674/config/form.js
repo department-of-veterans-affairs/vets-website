@@ -11,6 +11,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
 import CurrentSpouse from '../components/CurrentSpouse';
+import RemoveDependentPicklist from '../components/RemoveDependentsPicklist';
 
 // Chapter imports
 import {
@@ -63,6 +64,7 @@ import {
 import {
   addDependentOptions,
   removeDependentOptions,
+  removeDependentPicklist,
   addOrRemoveDependents,
 } from './chapters/taskWizard';
 import {
@@ -137,6 +139,8 @@ import {
   showPensionRelatedQuestions,
   showPensionBackupPath,
   shouldShowStudentIncomeQuestions,
+  showV3Picklist,
+  hasAwardedDependents,
 } from './utilities';
 import migrations from './migrations';
 
@@ -198,7 +202,10 @@ export const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: 'Add or remove dependents',
+      title: ({ formData }) =>
+        showV3Picklist(formData)
+          ? 'Manage dependents'
+          : 'Add or remove dependents',
       pages: {
         addOrRemoveDependents: {
           title: 'What would you like to do?',
@@ -223,7 +230,20 @@ export const formConfig = {
           path: 'options-selection/remove-dependents',
           uiSchema: removeDependentOptions.uiSchema,
           schema: removeDependentOptions.schema,
-          depends: form => form?.['view:addOrRemoveDependents']?.remove,
+          depends: formData =>
+            !showV3Picklist(formData) &&
+            formData?.['view:addOrRemoveDependents']?.remove,
+        },
+        removeDependentsPicklist: {
+          title: 'Manage dependents',
+          path: 'options-selection/remove-active-dependents',
+          uiSchema: removeDependentPicklist.uiSchema,
+          schema: removeDependentPicklist.schema,
+          CustomPage: RemoveDependentPicklist,
+          CustomPageReview: null,
+          depends: formData =>
+            hasAwardedDependents(formData) &&
+            formData?.['view:addOrRemoveDependents']?.remove,
         },
         checkVeteranPension: {
           depends: formData => showPensionBackupPath(formData),

@@ -284,3 +284,10 @@ export const childEvidence = (formData = {}) => {
 
 export const showDupeModalIfEnabled = (formData = {}) =>
   !!formData.vaDependentsDuplicateModals;
+
+export const showV3Picklist = (formData = {}) => !!formData.vaDependentsV3;
+
+export const hasAwardedDependents = (formData = {}) =>
+  showV3Picklist(formData) &&
+  Array.isArray(formData?.dependents?.awarded) &&
+  formData.dependents.awarded.length > 0;

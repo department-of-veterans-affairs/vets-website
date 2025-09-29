@@ -51,6 +51,7 @@ function App({
   useFormFeatureToggleSync([
     'vaDependentsNetWorthAndPension',
     'vaDependentsDuplicateModals',
+    'vaDependentsV3',
   ]);
   const dependentsModuleEnabled = useToggleValue(
     TOGGLE_NAMES.dependentsModuleEnabled,
@@ -61,12 +62,12 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  const flipperV2 = featureToggles.vaDependentsV2;
+  // const flipperV2 = featureToggles.vaDependentsV2;
 
-  if (!getShouldUseV2(flipperV2, savedForms)) {
-    window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
-    return <></>;
-  }
+  // if (!getShouldUseV2(flipperV2, savedForms)) {
+  //   window.location.href = `/${manifest.rootUrl}/add-remove-form-21-686c/`;
+  //   return <></>;
+  // }
 
   const breadcrumbs = [
     { href: '/', label: 'Home' },
