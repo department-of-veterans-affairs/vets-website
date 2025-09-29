@@ -1,9 +1,7 @@
 // @ts-check
 import {
-  ssnUI,
-  ssnSchema,
-  vaFileNumberUI,
-  vaFileNumberSchema,
+  ssnOrVaFileNumberNoHintUI,
+  ssnOrVaFileNumberNoHintSchema,
   serviceNumberUI,
   serviceNumberSchema,
   titleUI,
@@ -12,18 +10,19 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your identification information'),
-    ssn: ssnUI(),
-    vaFileNumber: vaFileNumberUI(),
+    ...titleUI({
+      title: 'Your identification information',
+      description:
+        'You must enter either a Social Security number or VA file number',
+    }),
+    idNumber: ssnOrVaFileNumberNoHintUI(),
     serviceNumber: serviceNumberUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      ssn: ssnSchema,
-      vaFileNumber: vaFileNumberSchema,
+      idNumber: ssnOrVaFileNumberNoHintSchema,
       serviceNumber: serviceNumberSchema,
     },
-    required: ['ssn'],
   },
 };

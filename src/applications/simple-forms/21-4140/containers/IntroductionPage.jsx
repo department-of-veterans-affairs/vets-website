@@ -15,7 +15,7 @@ const IntroContent = () => {
   return (
     <>
       <p>
-        Use VA Form 21-4140 if we asked you to verify your income and employment
+        Use this form if we asked you to verify your income and employment
         status for your Individual Unemployment (IU) benefits.
       </p>
 
@@ -31,7 +31,7 @@ const IntroContent = () => {
         </li>
         <li>You’ll need your Social Security number or your VA file number</li>
         <li>
-          After you submit this form we’ll review it and advise you of your
+          After you submit this form, we’ll review it and advise you of your
           decision and your options
         </li>
       </ul>

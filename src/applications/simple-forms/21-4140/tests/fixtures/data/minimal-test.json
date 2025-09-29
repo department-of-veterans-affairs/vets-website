@@ -5,7 +5,9 @@
       "last": "Doe"
     },
     "dateOfBirth": "1980-01-01",
-    "ssn": "987654321",
+    "idNumber" : {
+      "ssn": "987654321"
+    },
     "address": {
       "country": "USA",
       "street": "123 Main St",

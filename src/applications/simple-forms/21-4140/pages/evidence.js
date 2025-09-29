@@ -14,11 +14,12 @@ export default {
       description: (
         <div>
           <p>
-            If you have documents you would like to submit that explain your
-            income, upload them here.
+            If you want to submit documents that explain your income, upload
+            them here.
           </p>
           <p>
-            Depending on your income source, you need to provide the following:
+            Depending on your income source, you can upload these types of
+            documents:
           </p>
           <ul>
             <li>
@@ -29,17 +30,17 @@ export default {
               wage and tax statement
             </li>
             <li>
-              <strong>If you're no longer employed</strong>, evidence of when
-              you stopped working, such as a statement from your former employer
-              with the last day you worked
+              <strong>If you're no longer employed</strong>, upload evidence of
+              when you stopped working, such as a statement from your former
+              employer with the last day you worked
             </li>
             <li>
               <strong>
                 If you're currently employed but haven't worked for a continuous
                 year
               </strong>
-              , evidence of your employment status, such as a statement from
-              your employer with the dates you worked
+              , upload evidence of your employment status, such as a statement
+              from your employer with the dates you worked
             </li>
           </ul>
           <p>
@@ -51,9 +52,17 @@ export default {
           <VaAdditionalInfo trigger="Document upload instructions">
             <ul>
               <li>You can upload a .pdf, .jpeg, or .png file</li>
-              <li>Your file should be no larger than 25MB</li>
+              <li>Maximum file size: 25MB</li>
             </ul>
           </VaAdditionalInfo>
+
+          <p>
+            <em>
+              A 1MB file equals about 500 pages of text. A photo is usually
+              about 6MB. Large files can take longer to upload with a slow
+              internet connection.
+            </em>
+          </p>
         </div>
       ),
     }),

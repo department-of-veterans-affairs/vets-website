@@ -62,8 +62,8 @@ const summaryPage = {
       },
       {
         labels: {
-          Y: 'Yes, I have another employment to report',
-          N: "No, I don't have another employment to report",
+          Y: 'Yes, I have another employer to report',
+          N: "No, I don't have another employer to report",
         },
       },
     ),
@@ -81,7 +81,7 @@ const summaryPage = {
 const employerNameAndAddressPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Employer name and address',
+      title: 'Employer’s name and address',
       nounSingular: options.nounSingular,
     }),
     employerName: {
