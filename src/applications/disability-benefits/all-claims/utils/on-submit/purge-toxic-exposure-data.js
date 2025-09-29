@@ -92,6 +92,12 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
     delete result[detailsKey];
   }
 
+  // Remove orphaned otherKey when parent exposure doesn't exist
+  const hasOrphanedOtherKey = otherKey && result[otherKey] && !hasExposure;
+  if (hasOrphanedOtherKey) {
+    delete result[otherKey];
+  }
+
   // Remove entire exposure section when user deselected all options
   const shouldRemoveSection = hasExposure && !hasValidSelections;
   if (shouldRemoveSection) {

@@ -288,6 +288,49 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
+      it('should remove orphaned otherHerbicideLocations when parent herbicide object is missing (hasOrphanedOtherKey check)', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { asthma: true },
+            // No herbicide parent object
+            [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
+              vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+            },
+            otherHerbicideLocations: {
+              description: 'Thailand base camps',
+              startDate: '1973-06-01',
+              endDate: '1974-12-31',
+            },
+            // Similar test for otherExposures
+            [EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey]: {
+              asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+            },
+            specifyOtherExposures: {
+              description: 'Lead exposure',
+              startDate: '1980-01-01',
+              endDate: '1985-01-01',
+            },
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // Both details and otherKey fields should be removed when parent is missing
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.herbicide.detailsKey,
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          'otherHerbicideLocations',
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          EXPOSURE_TYPE_MAPPING.otherExposures.detailsKey,
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          'specifyOtherExposures',
+        );
+      });
+
       it('should remove details object when all details are filtered out (hasNoRetainedDetails check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
