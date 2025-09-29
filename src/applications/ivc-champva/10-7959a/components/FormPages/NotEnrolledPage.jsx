@@ -83,7 +83,7 @@ const NotEnrolledPage = ({ goBack }) => (
     <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
       <div className="small-6 medium-5 columns">
         <ProgressButton
-          buttonClass="hca-button-progress usa-button-secondary"
+          buttonClass="usa-button-secondary"
           onButtonClick={goBack}
           buttonText="Back"
           beforeText="«"
