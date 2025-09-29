@@ -15,18 +15,20 @@ import {
 import prefillTransformer from './prefill-transformer';
 import GetHelpFooter from '../components/get-help';
 import {
-  ContactInformationPage,
-  MailingAddressPage,
-  NursingCareInformationPage,
+  CertificationLevelOfCarePage,
+  ClaimantIdentificationPage,
+  MedicaidAndCostPage,
   NursingHomeDetailsPage,
-  PersonalInformationPage,
+  OfficialInfoAndSignaturePage,
+  VeteranIdentificationPage,
 } from '../pages';
 import {
-  contactInfoSchema,
-  mailingAddressSchema,
-  nursingCareInfoSchema,
+  certificationLevelOfCareSchema,
+  claimantIdentificationSchema,
+  medicaidAndCostSchema,
   nursingHomeDetailsSchema,
-  personalInfoSchema,
+  officialInfoAndSignatureSchema,
+  veteranIdentificationSchema,
 } from '../schemas';
 
 const defaultSchema = {
@@ -75,51 +77,34 @@ const formConfig = {
     veteranInformationChapter: {
       title: 'Veteran information',
       pages: {
-        personalInformation: {
-          path: 'personal-information',
-          title: 'Personal information',
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: 'Veteran identification',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: PersonalInformationPage,
+          CustomPage: VeteranIdentificationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(personalInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('personalInfo'),
+            createPageValidator(veteranIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranIdentification'),
         },
       },
     },
     claimantInformationChapter: {
       title: 'Claimant information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
+        claimantIdentification: {
+          path: 'claimant-identification',
+          title: 'Claimant identification',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: MailingAddressPage,
+          CustomPage: ClaimantIdentificationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(mailingAddressSchema)(values),
-          onErrorChange: createValidationErrorHandler('mailingAddress'),
-        },
-      },
-    },
-    contactInformationChapter: {
-      title: 'Contact information',
-      pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ContactInformationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(contactInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('contactInfo'),
+            createPageValidator(claimantIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('claimantIdentification'),
         },
       },
     },
@@ -128,7 +113,7 @@ const formConfig = {
       pages: {
         nursingHomeDetails: {
           path: 'nursing-home-details',
-          title: 'Nursing home details',
+          title: 'Nursing home facility details',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: NursingHomeDetailsPage,
@@ -138,17 +123,50 @@ const formConfig = {
             createPageValidator(nursingHomeDetailsSchema)(values),
           onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
         },
-        nursingCareInformation: {
-          path: 'nursing-care-information',
-          title: 'Care and payment information',
+        medicaidAndCost: {
+          path: 'medicaid-and-cost',
+          title: 'Medicaid and cost information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: NursingCareInformationPage,
+          CustomPage: MedicaidAndCostPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(nursingCareInfoSchema)(values),
-          onErrorChange: createValidationErrorHandler('nursingCareInfo'),
+            createPageValidator(medicaidAndCostSchema)(values),
+          onErrorChange: createValidationErrorHandler('medicaidAndCost'),
+        },
+      },
+    },
+    certificationChapter: {
+      title: 'Certification',
+      pages: {
+        certificationLevelOfCare: {
+          path: 'certification-level-of-care',
+          title: 'Level of care certification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CertificationLevelOfCarePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(certificationLevelOfCareSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'certificationLevelOfCare',
+          ),
+        },
+        officialInfoAndSignature: {
+          path: 'official-info-and-signature',
+          title: "Official's information and signature",
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: OfficialInfoAndSignaturePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(officialInfoAndSignatureSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'officialInfoAndSignature',
+          ),
         },
       },
     },
