@@ -11,11 +11,9 @@ This app exists to quickly demo and manually test VA Design System web component
 
 ## va-file-input-multiple (File uploads)
 
-The `va-file-input-multiple` example in this app demonstrates the multiple-file upload component if the component was used outside of the forms-system.
+The `va-file-input-multiple` component in this app provides an example of using the component outside of the forms-system. The example is a recommendation and not a required approach. Implementation of the file input component is flexible and can be adapted to specific needs.
 
-The example is a recommendation and not a required approach. Implementation of the file input component is flexible and can be adapted to your specific needs.
-
-### Other References
+### Other File Input References
 
 - [Component Architecture Overview](https://github.com/department-of-veterans-affairs/component-library/tree/main/packages/web-components/src/components/va-file-input-multiple) - Technical documentation for the va-file-input-multiple web component including props, events, and implementation details.
 
