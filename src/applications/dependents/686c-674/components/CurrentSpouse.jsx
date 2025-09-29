@@ -6,6 +6,7 @@ import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { dataDogLogger } from 'platform/monitoring/Datadog';
 
 import { modalContent } from '../config/chapters/report-add-a-spouse/spouse-information/spouseInformation';
 import { showDupeModalIfEnabled } from '../config/utilities';
@@ -26,6 +27,11 @@ const CurrentSpouseInformation = ({
   onReviewPage,
 }) => {
   const [showSpouseModal, setShowSpouseModal] = useState(false);
+  const log = ({ state, buttonUsed }) =>
+    dataDogLogger({
+      message: 'Duplicate modal',
+      attributes: { state, buttonUsed },
+    });
 
   useEffect(() => {
     scrollToTop();
@@ -42,17 +48,20 @@ const CurrentSpouseInformation = ({
   const handlers = {
     onModalClose: () => {
       setShowSpouseModal(false);
+      log({ state: 'hidden', buttonUsed: 'close' });
       setTimeout(() => {
         focusElement('.usa-button-primary');
       }, 100);
     },
     onModalCancel: () => {
       setShowSpouseModal(false);
+      log({ state: 'hidden', buttonUsed: 'cancel' });
       // Canceling redirects back to the add dependents options page
       goToPath('/options-selection/add-dependents');
     },
     onModalAdd: () => {
       setShowSpouseModal(false);
+      log({ state: 'hidden', buttonUsed: 'accept' });
       goForward(data);
     },
 
@@ -65,6 +74,7 @@ const CurrentSpouseInformation = ({
         currentSpouse.dateOfBirth === data.spouseInformation.birthDate
       ) {
         setShowSpouseModal(true);
+        log({ state: 'shown', buttonUsed: null });
       } else {
         goForward(data);
       }
