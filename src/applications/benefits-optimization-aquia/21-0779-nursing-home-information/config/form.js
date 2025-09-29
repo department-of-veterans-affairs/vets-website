@@ -12,9 +12,9 @@ import {
   createPageValidator,
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
-import prefillTransformer from './prefill-transformer';
-import GetHelpFooter from '../components/get-help';
-import PreSubmitInfo from '../components/PreSubmitInfo';
+import prefillTransformer from '@bio-aquia/21-0779-nursing-home-information/config/prefill-transformer';
+import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
 import {
   CertificationLevelOfCarePage,
   ClaimantIdentificationPage,
@@ -22,7 +22,7 @@ import {
   NursingHomeDetailsPage,
   OfficialInfoAndSignaturePage,
   VeteranIdentificationPage,
-} from '../pages';
+} from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
   claimantIdentificationSchema,
