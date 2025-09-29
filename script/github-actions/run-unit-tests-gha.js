@@ -166,11 +166,11 @@ function buildGroupCommand(groupName, testPaths) {
 
   if (options.coverage) {
     const coverageReporter = options['coverage-html']
-      ? '--reporter=mocha-multi-reporters mocha --retries 5'
-      : '--reporter=mocha-multi-reporters mocha --no-color --retries 5';
+      ? '--reporter=mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js mocha --retries 5'
+      : '--reporter=mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js mocha --no-color --retries 5';
     runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
   } else {
-    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter mocha-multi-reporters --no-color --retries 5 ${baseMocha}`;
+    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5 ${baseMocha}`;
   }
 
   return `STEP=unit-tests LOG_LEVEL=${options[
