@@ -120,7 +120,7 @@ export const EvidencePrivateContent = ({
               showListOnly,
             )}`}
           >
-            {limitedConsentContent.title}
+            {limitedConsentContent.promptQuestion}
           </SubHeader>
           <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
           {!reviewMode && (
@@ -130,7 +130,9 @@ export const EvidencePrivateContent = ({
                 id="edit-limitation-y-n"
                 className="edit-item"
                 path={`/${LIMITED_CONSENT_PROMPT_PATH}`}
-                aria-label={`${content.edit} ${limitedConsentContent.title} `}
+                aria-label={`${content.edit} ${
+                  limitedConsentContent.promptQuestion
+                } `}
                 data-link={testing ? LIMITED_CONSENT_PROMPT_PATH : null}
                 text={content.edit}
               />
@@ -144,7 +146,7 @@ export const EvidencePrivateContent = ({
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
             >
-              {limitedConsentContent.textAreaTitle}
+              {limitedConsentContent.detailsQuestion}
             </SubHeader>
             <p>{limitedConsent}</p>
             {!reviewMode && (
@@ -155,7 +157,7 @@ export const EvidencePrivateContent = ({
                   className="edit-item"
                   path={`/${LIMITED_CONSENT_DETAILS_PATH}`}
                   aria-label={`${content.edit} ${
-                    limitedConsentContent.textAreaTitle
+                    limitedConsentContent.detailsQuestion
                   }`}
                   data-link={testing ? LIMITED_CONSENT_DETAILS_PATH : null}
                   text={content.edit}

@@ -173,13 +173,11 @@ const IntroductionPage = props => {
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-
       <ShowAlertOrSip
         basename={location.basename}
         sipOptions={sipOptions}
         bottom
       />
-
       <OmbInfo />
       <OtherBenefits />
     </div>
