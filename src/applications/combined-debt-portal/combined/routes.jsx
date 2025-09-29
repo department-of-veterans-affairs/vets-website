@@ -31,7 +31,11 @@ const Routes = () => (
         path="/copay-balances/:id/detail/statement"
         component={HTMLStatementPage}
       />
-      <Route exact path="/copay-balances/:id/resolve" component={ResolvePage} />
+      <Route
+        exact
+        path="/copay-balances/:id/detail/resolve"
+        component={ResolvePage}
+      />
       <Route exact path="/debt-balances" component={DebtLettersSummary} />
       <Route
         exact
