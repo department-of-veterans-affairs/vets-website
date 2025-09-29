@@ -24,6 +24,10 @@ const StemDeniedDetails = ({
   return (
     <>
       <h1>Your Edith Nourse Rogers STEM Scholarship application</h1>
+      <div className="alert-demo-text">
+        STEM Denied Details (Alert-styled) <br />
+        Triggered by: User is viewing a STEM scholarship claim status page
+      </div>
       <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--2 vads-u-margin-bottom--3">
         <h2 className="claims-alert-header vads-u-font-size--h4">
           Your application was denied on {date}

@@ -41,10 +41,6 @@ class StemClaimStatusPage extends React.Component {
 
       content = (
         <>
-          <div className="alert-demo-text">
-            STEM Denied Details (Alert-styled) <br />
-            Triggered by: User is viewing a STEM scholarship claim status page
-          </div>
           <StemDeniedDetails
             deniedAt={deniedAt}
             isEnrolledStem={isEnrolledStem}
