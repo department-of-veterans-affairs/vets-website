@@ -1,18 +1,24 @@
 /**
  * @module pages/index
- * @description Barrel export file for form page configurations
+ * @description Barrel export file for all form page components
  */
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
+// Section I - Identification
+export { default as EmployerInformationPage } from './employer-information';
+export { default as VeteranInformationPage } from './veteran-information';
+
+// Section II - Employment Information
+export { default as EmploymentDetailsPage } from './employment-details';
 export {
-  default as identificationInformation,
-} from './identification-information';
+  default as TerminationInformationPage,
+} from './termination-information';
 
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { default as mailingAddress } from './mailing-address';
+// Section III - Reserve or National Guard
+export { default as ReserveGuardQuestionPage } from './reserve-guard-question';
+export { default as ReserveGuardStatusPage } from './reserve-guard-status';
 
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
+// Section IV - Benefits Information
+export { default as BenefitsInformationPage } from './benefits-information';
 
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
+// Certification
+export { default as CertificationPage } from './certification';
