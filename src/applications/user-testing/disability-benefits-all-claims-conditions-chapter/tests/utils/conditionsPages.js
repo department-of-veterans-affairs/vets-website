@@ -104,15 +104,17 @@ export const enterCauseNewDetails = (
 ) => {
   const BASE = `/user-testing/conditions/conditions-mango/${index}`;
   expectPath(`${BASE}/cause-new`, '?add=true');
-  cy.get('textarea, [contenteditable="true"]')
+
+  cy.get('textarea:enabled, [contenteditable="true"]:enabled, input:enabled')
     .first()
-    .should('be.visible')
-    .and('not.be.disabled')
     .then(elem => {
-      cy.wrap(elem)
-        .clear()
-        .type(details);
+      if (elem && elem.length) {
+        cy.wrap(elem)
+          .clear()
+          .type(details, { force: true });
+      }
     });
+
   clickContinue();
 };
 

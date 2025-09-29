@@ -4,6 +4,7 @@ import {
   clickContinue,
   expectPath,
 } from './utils/cypressHelpers';
+
 import {
   addCondition,
   chooseConditionType,
