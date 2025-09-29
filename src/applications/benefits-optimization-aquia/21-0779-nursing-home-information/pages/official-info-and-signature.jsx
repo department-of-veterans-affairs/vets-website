@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { z } from 'zod';
 
 import {
+  CheckboxField,
   FormField,
   MemorableDateField,
   PhoneField,
@@ -15,7 +17,12 @@ import {
   officialPhoneSchema,
   officialSignatureSchema,
   signatureDateSchema,
-} from '@bio-aquia/21-0779-nursing-home-information/schemas';
+} from '../schemas';
+
+// Individual field schema for CheckboxField
+const certificationAgreementSchema = z.boolean().refine(val => val === true, {
+  message: 'You must certify that the information provided is true and correct',
+});
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -58,6 +65,7 @@ export const OfficialInfoAndSignaturePage = ({
         officialPhone: '',
         officialSignature: '',
         signatureDate: '',
+        certificationAgreement: false,
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -100,15 +108,26 @@ export const OfficialInfoAndSignaturePage = ({
           />
 
           <va-alert status="warning" show-icon class="vads-u-margin-y--2">
-            <h3 slot="headline">Certification</h3>
+            <h3 slot="headline">Penalty statement</h3>
             <p>
-              By signing below, I certify and declare under penalty of perjury
-              under the laws of the United States of America that the
-              information I have provided is true and correct. I understand that
-              providing false or fraudulent information may result in criminal
-              prosecution under 18 U.S.C. §§ 287, 1001.
+              I certify and declare under penalty of perjury under the laws of
+              the United States of America that the information I have provided
+              is true and correct. I understand that providing false or
+              fraudulent information may result in criminal prosecution under 18
+              U.S.C. §§ 287, 1001.
             </p>
           </va-alert>
+
+          <CheckboxField
+            name="certificationAgreement"
+            label="I certify that the information provided is true and correct"
+            schema={certificationAgreementSchema}
+            value={localData.certificationAgreement}
+            onChange={handleFieldChange}
+            required
+            error={errors.certificationAgreement}
+            forceShowError={formSubmitted}
+          />
 
           <SignatureField
             name="officialSignature"

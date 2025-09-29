@@ -11,7 +11,7 @@ import {
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
 
-import { medicaidAndCostSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
+import { medicaidAndCostSchema } from '../schemas';
 
 // Individual field schemas for RadioField components - used for real-time field validation
 // This properly validates yes/no fields
