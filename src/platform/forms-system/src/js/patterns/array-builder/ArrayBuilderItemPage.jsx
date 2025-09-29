@@ -22,6 +22,7 @@ import {
   getItemDuplicateDismissedName,
   defaultDuplicateResult,
   checkForDuplicatesInItemPages,
+  duplicateLogger,
 } from './helpers';
 
 /**
@@ -148,12 +149,14 @@ export default function ArrayBuilderItemPage({
           check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
         ) {
           setShowDuplicateModal(newProps);
+          duplicateLogger({ state: 'shown', buttonUsed: null });
           return;
         }
         onSubmit(newProps);
       },
       onDuplicateModalClose: () => {
         setShowDuplicateModal(false);
+        duplicateLogger({ state: 'hidden', buttonUsed: 'close' });
       },
       onDuplicateModalPrimaryClick: () => {
         // Primary button is "No, cancel adding/editing"
@@ -181,6 +184,7 @@ export default function ArrayBuilderItemPage({
         });
 
         setShowDuplicateModal(false);
+        duplicateLogger({ state: 'hidden', buttonUsed: 'cancel' });
 
         if (isReview) {
           path = reviewRoute;
@@ -213,6 +217,7 @@ export default function ArrayBuilderItemPage({
         props.setFormData(newFullData);
         // showDuplicateModal contains newest item page formData
         onSubmit(showDuplicateModal); // Navigate to next page
+        duplicateLogger({ state: 'hidden', buttonUsed: 'accept' });
         setShowDuplicateModal(false);
       },
     };

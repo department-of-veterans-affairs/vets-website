@@ -18,6 +18,7 @@ import {
   getItemDuplicateDismissedName,
   META_DATA_KEY,
   slugifyText,
+  duplicateLogger,
 } from './helpers';
 import {
   useArrayBuilderEvent,
@@ -77,13 +78,20 @@ const IncompleteLabel = () => (
   </div>
 );
 
-const DuplicateInformationAlert = ({ status = 'warning', children }) => (
-  <div className="vads-u-margin-top--2">
-    <va-alert status={status} class="array-builder-duplicate-alert">
-      {children}
-    </va-alert>
-  </div>
-);
+const DuplicateInformationAlert = ({ status = 'warning', children }) => {
+  duplicateLogger({
+    message: 'Duplicate alert',
+    state: 'shown',
+    buttonUsed: null, // being consistent with log in ArrayBuilderItemPage
+  });
+  return (
+    <div className="vads-u-margin-top--2">
+      <va-alert status={status} class="array-builder-duplicate-alert">
+        {children}
+      </va-alert>
+    </div>
+  );
+};
 
 DuplicateInformationAlert.propTypes = {
   children: PropTypes.any.isRequired,

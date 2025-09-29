@@ -547,3 +547,21 @@ describe('validateIncompleteItems', () => {
     unsubscribe();
   });
 });
+
+describe('duplicateLogger', () => {
+  it('should log message, attributes, status and error', () => {
+    const logger = { log: sinon.spy() };
+    helpers.duplicateLogger({
+      state: 'hidden',
+      buttonUsed: 'cancel',
+      logger,
+    });
+    expect(logger.log.calledOnce).to.be.true;
+    expect(logger.log.args[0]).to.deep.equal([
+      'Duplicate modal',
+      { state: 'hidden', buttonUsed: 'cancel' },
+      'info',
+      undefined, // duplicateLogger does not pass an error
+    ]);
+  });
+});
