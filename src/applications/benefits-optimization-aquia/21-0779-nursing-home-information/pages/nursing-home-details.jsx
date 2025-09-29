@@ -9,7 +9,10 @@ import {
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
-import { admissionDateSchema, nursingHomeDetailsSchema } from '../schemas';
+import {
+  admissionDateSchema,
+  nursingHomeDetailsSchema,
+} from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 // Schema for nursing home name field
 const nursingHomeNameSchema = z
