@@ -8,9 +8,7 @@ class AllergiesListPage extends BaseListPage {
       '/my_health/v1/medical_records/allergies*',
       allergies,
     ).as('allergiesList');
-    cy.findByRole('link', {
-      name: 'Go to your allergies and reactions',
-    }).click();
+    cy.findByTestId('allergies-landing-page-link').click();
     cy.wait('@allergiesList');
   };
 
