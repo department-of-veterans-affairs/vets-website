@@ -339,7 +339,7 @@ export default function VaFileInputMultiplePage() {
   // Debounced text input processing to prevent focus loss on every keystroke
   const debounceTextInput = useMemo(
     () =>
-      debounce((value, index) => {
+      debounce((value, index, fieldName) => {
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
           if (newFiles[index]) {
@@ -347,7 +347,7 @@ export default function VaFileInputMultiplePage() {
               ...newFiles[index],
               additionalData: {
                 ...newFiles[index].additionalData,
-                documentName: value,
+                [fieldName]: value,
               },
             };
           }
@@ -483,11 +483,24 @@ export default function VaFileInputMultiplePage() {
     // Get the file index
     const fileIndex = getFileInputInstanceIndex(event);
 
-    if (fileIndex >= 0 && files[fileIndex]) {
+    // Get the field name from the event target - try multiple approaches
+    let fieldName = event.target.name;
+
+    // If name is not available on target, try getting it from the composed path
+    if (!fieldName) {
+      const vaTextInput = event
+        .composedPath()
+        .find(el => el.tagName === 'VA-TEXT-INPUT');
+      fieldName = vaTextInput?.name;
+    }
+
+    if (fileIndex >= 0 && files[fileIndex] && fieldName) {
       // Use debounced update to prevent focus loss
-      debounceTextInput(value, fileIndex);
+      debounceTextInput(value, fileIndex, fieldName);
     } else {
-      console.warn(`Could not find file at index ${fileIndex}`);
+      console.warn(
+        `Could not find file at index ${fileIndex} or field name ${fieldName}`,
+      );
     }
   };
 
@@ -633,7 +646,11 @@ export default function VaFileInputMultiplePage() {
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </VaSelect>
-              <VaTextInput required label="Document name" />
+              <VaTextInput label="Document name" name="documentName" />
+              <VaTextInput
+                label="Document description"
+                name="documentDescription"
+              />
             </div>
           </VaFileInputMultiple>
         </div>
