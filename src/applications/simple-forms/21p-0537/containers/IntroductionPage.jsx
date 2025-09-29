@@ -70,8 +70,8 @@ function IntroductionPage({ route }) {
         formConfig={formConfig}
       />
 
-      <h3>Need help?</h3>
-      <p>If you have questions or need assistance:</p>
+      <h2>Have questions about this form?</h2>
+      <p>Contact us if you need assistance:</p>
       <ul>
         <li>
           <strong>Call us:</strong> 1-877-294-6380 (TTY: 711)
