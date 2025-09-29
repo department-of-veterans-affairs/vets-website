@@ -83,7 +83,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
     expect(alert).to.contain.text(
-      "Online scheduling isn't available for this referral right now. Call your community care provider or your facility's community care office to schedule an appointment.",
+      'Online scheduling isn’t available for this referral right now. Call your community care provider or your facility’s community care office to schedule an appointment.',
     );
     expect(
       screen.queryAllByTestId('referral-community-care-office'),

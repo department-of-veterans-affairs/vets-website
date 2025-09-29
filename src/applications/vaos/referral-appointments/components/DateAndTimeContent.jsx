@@ -221,7 +221,6 @@ export const DateAndTimeContent = props => {
                 additionalOptions={{
                   required: true,
                 }}
-                // disabled={loadingSlots}
                 disabledMessage={disabledMessage}
                 onChange={onChange}
                 onNextMonth={null}
