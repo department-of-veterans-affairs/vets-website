@@ -12,24 +12,21 @@ import {
   createPageValidator,
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
-import prefillTransformer from '@bio-aquia/21-0779-nursing-home-information/config/prefill-transformer';
-import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/components/get-help';
-import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
+import prefillTransformer from './prefill-transformer';
+import GetHelpFooter from '../components/get-help';
 import {
-  CertificationLevelOfCarePage,
-  ClaimantIdentificationPage,
-  MedicaidAndCostPage,
+  ContactInformationPage,
+  MailingAddressPage,
+  NursingCareInformationPage,
   NursingHomeDetailsPage,
-  OfficialInfoAndSignaturePage,
-  VeteranIdentificationPage,
-} from '@bio-aquia/21-0779-nursing-home-information/pages';
+  PersonalInformationPage,
+} from '../pages';
 import {
-  certificationLevelOfCareSchema,
-  claimantIdentificationSchema,
-  medicaidAndCostSchema,
+  contactInfoSchema,
+  mailingAddressSchema,
+  nursingCareInfoSchema,
   nursingHomeDetailsSchema,
-  officialInfoAndSignatureSchema,
-  veteranIdentificationSchema,
+  personalInfoSchema,
 } from '../schemas';
 
 const defaultSchema = {
@@ -50,7 +47,6 @@ const formConfig = {
   confirmation: ConfirmationPage,
   footerContent,
   getHelp: GetHelpFooter,
-  preSubmitInfo: PreSubmitInfo,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -79,34 +75,51 @@ const formConfig = {
     veteranInformationChapter: {
       title: 'Veteran information',
       pages: {
-        veteranIdentification: {
-          path: 'veteran-identification',
-          title: 'Veteran identification',
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranIdentificationPage,
+          CustomPage: PersonalInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(veteranIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranIdentification'),
+            createPageValidator(personalInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('personalInfo'),
         },
       },
     },
     claimantInformationChapter: {
       title: 'Claimant information',
       pages: {
-        claimantIdentification: {
-          path: 'claimant-identification',
-          title: 'Claimant identification',
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: ClaimantIdentificationPage,
+          CustomPage: MailingAddressPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(claimantIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('claimantIdentification'),
+            createPageValidator(mailingAddressSchema)(values),
+          onErrorChange: createValidationErrorHandler('mailingAddress'),
+        },
+      },
+    },
+    contactInformationChapter: {
+      title: 'Contact information',
+      pages: {
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ContactInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(contactInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('contactInfo'),
         },
       },
     },
@@ -115,7 +128,7 @@ const formConfig = {
       pages: {
         nursingHomeDetails: {
           path: 'nursing-home-details',
-          title: 'Nursing home facility details',
+          title: 'Nursing home details',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: NursingHomeDetailsPage,
@@ -125,17 +138,17 @@ const formConfig = {
             createPageValidator(nursingHomeDetailsSchema)(values),
           onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
         },
-        medicaidAndCost: {
-          path: 'medicaid-and-cost',
-          title: 'Medicaid and cost information',
+        nursingCareInformation: {
+          path: 'nursing-care-information',
+          title: 'Care and payment information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: MedicaidAndCostPage,
+          CustomPage: NursingCareInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(medicaidAndCostSchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidAndCost'),
+            createPageValidator(nursingCareInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('nursingCareInfo'),
         },
       },
     },
