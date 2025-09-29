@@ -1101,10 +1101,10 @@ describe('Compose form component', () => {
     });
   });
 
-  it.skip('displays modal on attempt to manual save with electronic signature populated', async () => {
+  it('displays modal on attempt to manual save with electronic signature populated', async () => {
     const customProps = {
       ...draftMessage,
-      recipientId: 2710522, // This recipient requires signature
+      recipientId: 2710523, // This recipient requires signature
       messageValid: true,
     };
     const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
@@ -1118,29 +1118,23 @@ describe('Compose form component', () => {
     ).id;
 
     selectVaSelect(screen.container, val);
-    await waitFor(
-      () => {
-        const electronicSignature = screen.queryByText(
-          ElectronicSignatureBox.TITLE,
-          { selector: 'h2' },
-        );
-        expect(electronicSignature).to.exist;
-      },
-      { timeout: 3000 },
-    );
+    await waitFor(() => {
+      const electronicSignature = screen.getByText(
+        ElectronicSignatureBox.TITLE,
+        { selector: 'h2' },
+      );
+      expect(electronicSignature).to.exist;
+    });
 
     const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
 
     // Wait for the signature text field to be available
-    await waitFor(
-      () => {
-        const signatureField = screen.container.querySelector(
-          signatureTextFieldSelector,
-        );
-        expect(signatureField).to.exist;
-      },
-      { timeout: 3000 },
-    );
+    await waitFor(() => {
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(signatureField).to.exist;
+    });
 
     // Input signature value and wait for it to be processed
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
@@ -1155,17 +1149,14 @@ describe('Compose form component', () => {
     });
 
     fireEvent.click(screen.getByTestId('save-draft-button'));
-    await waitFor(
-      () => {
-        const modal = screen.queryByTestId('navigation-warning-modal');
-        expect(modal).to.exist;
-        expect(modal).to.have.attribute(
-          'modal-title',
-          "We can't save your signature in a draft message",
-        );
-      },
-      { timeout: 3000 },
-    );
+    await waitFor(() => {
+      const modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+      expect(modal).to.have.attribute(
+        'modal-title',
+        "We can't save your signature in a draft message",
+      );
+    });
   });
 
   it('should display electronic signature box when Oracle Health ROI recipient is selected', async () => {
