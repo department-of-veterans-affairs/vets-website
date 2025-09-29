@@ -46,18 +46,27 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasEmployers': arrayBuilderYesNoUI(options, {
-      title:
-        'Were you employed or self-employed at any time in the past 12 months?',
-      labels: {
-        Y: 'Yes, I have employment to report',
-        N: "No, I don't have any employment to report",
+    'view:hasEmployers': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Were you employed or self-employed at any time in the past 12 months?',
+        labels: {
+          Y: 'Yes, I have employment to report',
+          N: "No, I don't have any employment to report",
+        },
+        hint: 'You’ll need to add at least 1 employer. You can add up to 4.',
+        errorMessages: {
+          required: 'Select if you have employment to report.',
+        },
       },
-      hint: 'You’ll need to add at least 1 employer. You can add up to 4.',
-      errorMessages: {
-        required: 'Select if you have employment to report.',
+      {
+        labels: {
+          Y: 'Yes, I have another employment to report',
+          N: "No, I don't have another employment to report",
+        },
       },
-    }),
+    ),
   },
   schema: {
     type: 'object',
