@@ -108,10 +108,10 @@ export const useFormSection = ({
           setLocalData(processedData);
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, namespace, defaultData, dataProcessor],
-  ); // Re-run when data dependencies change
+  ); // Re-run when data dependencies change - localData excluded to prevent loops
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -143,24 +143,44 @@ export const useFormSection = ({
           'constructor',
           'prototype',
         ]);
+
+        // Check all parts for dangerous keys before processing
+        if (parts.some(part => dangerousKeys.includes(part))) {
+          // Silently block dangerous field paths to prevent prototype pollution
+          return;
+        }
+
         updatedData = { ...localData };
 
         let current = updatedData;
         for (let i = 0; i < parts.length - 1; i++) {
-          if (dangerousKeys.includes(parts[i])) {
-            // Abort assignment if dangerous key found
-            return;
+          const key = parts[i];
+          // Additional safety: only create plain objects
+          if (
+            !current[key] ||
+            typeof current[key] !== 'object' ||
+            Array.isArray(current[key])
+          ) {
+            current[key] = Object.create(null);
           }
-          if (!current[parts[i]]) {
-            current[parts[i]] = {};
-          }
-          current = current[parts[i]];
+          current = current[key];
         }
-        if (dangerousKeys.includes(parts[parts.length - 1])) {
+
+        const finalKey = parts[parts.length - 1];
+        // Use Object.defineProperty for safer property assignment
+        Object.defineProperty(current, finalKey, {
+          value: processedValue,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+      } else {
+        // Also check for dangerous keys in simple paths
+        const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+        if (dangerousKeys.includes(fieldPath)) {
+          // Silently block dangerous fields to prevent prototype pollution
           return;
         }
-        current[parts[parts.length - 1]] = processedValue;
-      } else {
         updatedData = { ...localData, [fieldPath]: processedValue };
       }
 
