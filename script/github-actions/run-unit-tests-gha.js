@@ -157,7 +157,6 @@ function buildGroupCommand(groupName, testPaths) {
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
-  const jsonOut = `reports/unit/${groupName}.json`;
 
   const baseMocha = `--max-old-space-size=${MAX_MEMORY} --config ${
     options.config
@@ -165,17 +164,20 @@ function buildGroupCommand(groupName, testPaths) {
   let runner;
 
   if (options.coverage) {
-    const coverageReporter = options['coverage-html']
-      ? '--reporter=mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js mocha --retries 5'
-      : '--reporter=mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js mocha --no-color --retries 5';
+    const coverageReporter =
+      '--reporter=mocha-multi-reporters ' +
+      '--reporter-options configFile=config/mocha-multi-reporter.js mocha --retries 5';
     runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
   } else {
-    runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5 ${baseMocha}`;
+    runner =
+      'BABEL_ENV=test NODE_ENV=test ' +
+      'mocha --reporter mocha-multi-reporters ' +
+      '--reporter-options configFile=config/mocha-multi-reporter.js ' +
+      `--retries 5 ${baseMocha}`;
   }
-
-  return `STEP=unit-tests LOG_LEVEL=${options[
+  return `FORCE_COLOR=1 MOCHA_COLORS=1 STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${runner} > ${jsonOut}`;
+  ].toLowerCase()} ${runner}`;
 }
 
 // Main execution
