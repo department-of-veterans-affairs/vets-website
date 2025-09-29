@@ -1,6 +1,11 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
+
 // Helper functions
 export const expectPath = (pathname, search = '') => {
-  cy.location('pathname', { timeout: 10000 }).should('eq', pathname);
+  cy.location('pathname', { timeout: Timeouts.verySlow }).should(
+    'eq',
+    pathname,
+  );
   cy.location('search').should('eq', search);
 };
 
@@ -150,7 +155,7 @@ export const fillNewConditionDate = input => {
 };
 
 export const waitForOneOfPaths = (choices, search) => {
-  cy.location('pathname', { timeout: 10000 }).should(p => {
+  cy.location('pathname', { timeout: Timeouts.verySlow }).should(p => {
     expect(choices, `one of ${choices.join(', ')}`).to.include(p);
   });
   if (typeof search === 'string') cy.location('search').should('eq', search);
@@ -244,7 +249,7 @@ export const assertDeleteModalOpen = () => {
   cy.get('va-modal')
     .should('exist')
     .shadow()
-    .find('.usa-modal', { timeout: 10000 })
+    .find('.usa-modal', { timeout: Timeouts.verySlow })
     .should('exist');
 };
 
