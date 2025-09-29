@@ -46,8 +46,8 @@ export const prescriptionsApi = createApi({
   tagTypes: ['Prescription'],
   endpoints: builder => ({
     getPrescriptionSortedList: builder.query({
-      query: ({ sortEndpoint, filterOption = '', includeImage = false }) => ({
-        path: `${apiBasePath}/prescriptions?${sortEndpoint}${filterOption}${
+      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
+        path: `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
         }`,
       }),
