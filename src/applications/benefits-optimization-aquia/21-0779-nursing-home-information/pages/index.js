@@ -4,8 +4,9 @@
  * Exports all page components for easy importing
  */
 
-export { ContactInformationPage } from './contact-information';
-export { MailingAddressPage } from './mailing-address';
-export { NursingCareInformationPage } from './nursing-care-information';
+export { VeteranIdentificationPage } from './veteran-identification';
+export { ClaimantIdentificationPage } from './claimant-identification';
 export { NursingHomeDetailsPage } from './nursing-home-details';
-export { PersonalInformationPage } from './personal-information';
+export { MedicaidAndCostPage } from './medicaid-and-cost';
+export { CertificationLevelOfCarePage } from './certification-level-of-care';
+export { OfficialInfoAndSignaturePage } from './official-info-and-signature';
