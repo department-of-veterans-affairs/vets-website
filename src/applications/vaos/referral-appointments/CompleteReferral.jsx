@@ -119,10 +119,10 @@ export const CompleteReferral = props => {
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
               ? `Try refreshing this page. If it still doesn’t work, call your community care provider at  ${
-                  currentReferral.referringFacility.phone
+                  currentReferral.provider.phone
                 } or your facility’s community care office to schedule an appointment.`
               : `We’re sorry. Call your community care provider at ${
-                  currentReferral.referringFacility.phone
+                  currentReferral.provider.phone
                 } or your facility’s community care office to schedule an appointment.`}
           </p>
           <FindCommunityCareOfficeLink />
