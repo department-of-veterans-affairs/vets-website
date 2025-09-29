@@ -70,7 +70,7 @@ export const selectMedicareParticipantPage = {
     medicareParticipant: {
       ...radioUI({
         title: 'Which applicant would you like to add Medicare insurance for?',
-        hint:
+        description:
           'If you have more applicants with Medicare plans, you can add them later in this form.',
         required: () => true,
         labels: {
@@ -145,6 +145,7 @@ export function SelectMedicareParticipantPage(props) {
     <SchemaForm
       name={props.name}
       title={props.title}
+      hint={props.hint}
       data={props.data}
       appStateData={props.appStateData}
       schema={props.schema}
@@ -183,9 +184,10 @@ SelectMedicareParticipantPage.propTypes = {
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
+  pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   setFormData: PropTypes.func,
   title: PropTypes.string,
+  hint: PropTypes.string,
   trackingPrefix: PropTypes.string,
   updatePage: PropTypes.func,
 };

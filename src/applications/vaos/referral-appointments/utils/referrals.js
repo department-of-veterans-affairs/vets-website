@@ -145,6 +145,8 @@ const createReferrals = (
   );
   const referrals = [];
 
+  const categoriesOfCare = ['OPTOMETRY', 'CHIROPRACTIC'];
+
   for (let i = 0; i < numberOfReferrals; i++) {
     const isExpired = i < numberOfExpiringReferrals;
     const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
@@ -157,10 +159,13 @@ const createReferrals = (
     );
     const mydFormat = 'yyyy-MM-dd';
     const expirationDate = format(modifiedDate, mydFormat);
+    const categoryOfCare =
+      i % 2 === 0 ? categoriesOfCare[1] : categoriesOfCare[0];
     referrals.push(
       createReferralListItem(
         expirationDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
+        categoryOfCare,
       ),
     );
   }
@@ -195,14 +200,24 @@ const getReferralSlotKey = id => {
  * @param {Array} referrals The referrals to filter
  * @returns {Array} The filtered referrals
  */
-const filterReferrals = referrals => {
+const filterReferrals = (
+  referrals,
+  featureCCDirectSchedulingChiropractic = false,
+) => {
   if (!referrals?.length) {
     return [];
   }
 
-  return referrals.filter(
-    referral =>
-      referral.attributes.categoryOfCare?.toLowerCase() === 'optometry',
+  const scheduleableCategories = ['optometry'];
+
+  if (featureCCDirectSchedulingChiropractic) {
+    scheduleableCategories.push('chiropractic');
+  }
+
+  return referrals.filter(referral =>
+    scheduleableCategories.includes(
+      referral.attributes.categoryOfCare?.toLowerCase(),
+    ),
   );
 };
 

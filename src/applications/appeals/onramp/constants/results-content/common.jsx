@@ -16,7 +16,7 @@ export const PRINT_RESULTS = (
       that may apply to you.
     </p>
     <va-button
-      class="vads-u-width--full"
+      class="print-button"
       onClick={window.print}
       text="Print this page"
     />
@@ -28,7 +28,7 @@ export const RESTART_GUIDE = (
     <h2 className="vads-u-margin-y--0">Want to explore other pathways?</h2>
     <p className="vads-u-margin-bottom--3">
       We showed decision review options based on your responses. If your
-      situation changes—or you want to see other options for a different
+      situation changes—or you want to review other options for a different
       reason—you can restart the guide.
     </p>
     <va-link-action href={manifest.rootUrl} text="Restart the guide" />
@@ -52,7 +52,6 @@ export const DIVIDED_BENES = (
       Some contested claims—like apportionments—may follow a different process.
     </p>
     <va-link
-      external
       href="/find-forms/about-form-21-0788"
       text="Learn how to apply to receive an Apportionment of Beneficiary's Award"
     />
@@ -65,8 +64,8 @@ export const COURT_OF_APPEALS = (
       US Court of Appeals for Veterans Claims
     </h3>
     <p>
-      This is a legal appeal outside of the VA and may be a good fit for an
-      appeal of a Board decision.
+      This is a legal appeal outside of VA and may be a good fit for an appeal
+      of a Board decision.
     </p>
     <p>
       <strong>Note:</strong> This option is available only if it has been fewer
@@ -130,7 +129,7 @@ export const CLAIM_FOR_INCREASE_CARD = (nested = false) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="onramp-list-none" role="list">
         <li>
-          <va-card>
+          <va-card data-testid="claim-for-increase-card">
             {header}
             <p>
               This may be a good fit because your condition has worsened since
@@ -144,11 +143,11 @@ export const CLAIM_FOR_INCREASE_CARD = (nested = false) => {
             <va-link
               external
               class="vads-u-display--block vads-u-margin-bottom--2"
-              href="/disability/how-to-file-claim/evidence-needed/#what-should-the-evidence-show-"
+              href="/disability/how-to-file-claim/evidence-needed/#type-of-claim-youre-filing"
               text="Learn more about evidence needed for a claim for increase"
             />
             <va-link-action
-              href="/disability/file-disability-claim-form-21-526ez/introduction"
+              href="/disability/file-disability-claim-form-21-526ez"
               text="Start disability compensation application"
             />
           </va-card>
@@ -160,7 +159,7 @@ export const CLAIM_FOR_INCREASE_CARD = (nested = false) => {
 
 export const CONDITION_HAS_WORSENED_INFO = (
   <>
-    <h2 className="vads-u-margin-y--3">Condition has worsened</h2>
+    <h2 className="vads-u-margin-y--3">Your condition has worsened</h2>
     <p>
       Since your condition has gotten worse, this option may be a good fit for
       you.
