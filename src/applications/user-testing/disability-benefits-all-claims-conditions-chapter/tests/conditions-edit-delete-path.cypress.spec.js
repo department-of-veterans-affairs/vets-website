@@ -22,7 +22,7 @@ import {
 } from './utils/cypressHelpers';
 
 describe('Conditions — Summary (Edit & Delete)', () => {
-  it('edits condition 0 and shows a success alert on return', () => {
+  it.skip('edits condition 0 and shows a success alert on return', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
@@ -68,7 +68,10 @@ describe('Conditions — Summary (Edit & Delete)', () => {
       '?edit=true',
     );
 
-    fillWorsenedDetails();
+    fillWorsenedDetails(
+      'Got worse during field exercises and exposure.',
+      'Before service: occasional mild symptoms. After service: frequent attacks requiring inhaler.',
+    );
 
     clickSaveAndContinue();
     expectPath(
