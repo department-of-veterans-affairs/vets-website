@@ -59,7 +59,9 @@ describe('evidenceSummaryList', () => {
 
       const li = $$('li', container);
       expect(li[0].textContent).to.contain('Missing condition');
-      expect(li[1].textContent).to.contain('Test 1 and Test 2');
+      expect(li[1].textContent).to.contain(
+        'Midwest Alabama VA FacilityHypertension and Gluten IntoleranceMissing treatment dates',
+      );
     });
     it('should show missing location name & treatment dates', () => {
       const vaEvidence = [

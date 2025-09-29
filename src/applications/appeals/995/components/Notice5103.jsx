@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import {
-  Notice5103Description,
-  Notice5103Details,
-  content,
-} from '../content/notice5103';
+import { Notice5103Details, content } from '../content/notice5103';
 import { customPageProps995 } from '../../shared/props';
 import { focusFirstError } from '../../shared/utils/focus';
 
@@ -21,6 +17,7 @@ const Notice5103 = ({
   updatePage,
 }) => {
   const [hasError, setHasError] = useState(false);
+  const Header = onReviewPage ? 'h4' : 'h3';
 
   const handlers = {
     onGoForward: () => {
@@ -47,7 +44,7 @@ const Notice5103 = ({
 
   return (
     <>
-      <Notice5103Description onReviewPage={onReviewPage} />
+      <Header id="header">{content.header}</Header>
       <VaCheckbox
         label={content.label}
         name="5103"

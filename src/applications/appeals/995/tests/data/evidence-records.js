@@ -1,16 +1,24 @@
 export const records = ({ emptyIssue = false } = {}) => ({
   locations: [
     {
-      locationAndName: 'VAMC Location 1',
-      issues: emptyIssue ? [] : ['Test 1'],
-      treatmentDate: '2011-01',
+      locationAndName: 'South Texas VA Facility',
+      issues: emptyIssue ? [] : ['Hypertension'],
+      treatmentDate: '2000-02',
       noDate: false,
+      evidenceDates: {
+        from: '',
+        to: '',
+      },
     },
     {
-      locationAndName: 'VAMC Location 2',
-      issues: ['Test 1', 'Test 2'],
+      locationAndName: 'Midwest Alabama VA Facility',
+      issues: ['Hypertension', 'Gluten Intolerance'],
       treatmentDate: '',
       noDate: true,
+      evidenceDates: {
+        from: '',
+        to: '',
+      },
     },
   ],
   providerFacility: [

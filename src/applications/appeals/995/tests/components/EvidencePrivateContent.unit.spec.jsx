@@ -186,7 +186,6 @@ describe('EvidencePrivateContent', () => {
         />,
       );
 
-      // console.log('container: ', container.innerHTML);
       verifyEvidenceHeader();
 
       const listItems = $$('li', container);
