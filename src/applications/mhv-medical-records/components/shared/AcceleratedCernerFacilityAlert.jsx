@@ -15,6 +15,13 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAcceleratingConditions,
   } = useAcceleratedData();
 
+  const isAccelerating =
+    isAcceleratingCareNotes ||
+    isAcceleratingVitals ||
+    isAcceleratingVaccines ||
+    isAcceleratingLabsAndTests ||
+    isAcceleratingConditions;
+
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
     isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
@@ -31,7 +38,7 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
       : null,
   ].filter(Boolean);
 
-  if (hideOnPage.includes(pageName) && isCerner) {
+  if (hideOnPage.includes(pageName) && (isCerner || isAccelerating)) {
     return <></>;
   }
   return <CernerFacilityAlert {...{ linkPath, pageName }} />;
