@@ -26,7 +26,7 @@ Before generating the command, gather the following information:
 - **ombNumber**: OMB control number if applicable (default: none)
 - **expirationDate**: Form expiration date in MM/DD/YYYY format (default: future date)
 - **usesVetsJsonSchema**: Whether form uses vets-json-schema (default: false)
-- **usesMinimalHeader**: Whether to use minimal header layout (default: false)
+- **usesMinimalHeader**: Whether to use minimal header layout (default: true)
 - **templateType**: Form template type (valid values: "WITH_1_PAGE", "WITH_4_PAGES") (default: "WITH_1_PAGE")
 
 ## Command Generation
@@ -73,7 +73,7 @@ yo @department-of-veterans-affairs/vets-website \
   --expirationDate="12/31/2026" \
   --benefitDescription="burial benefits" \
   --usesVetsJsonSchema=false \
-  --usesMinimalHeader=false \
+  --usesMinimalHeader=true \
   --templateType="WITH_1_PAGE"
 ```
 
