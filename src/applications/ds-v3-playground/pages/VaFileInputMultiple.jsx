@@ -622,9 +622,6 @@ export default function VaFileInputMultiplePage() {
     <div className="vads-grid-container">
       <div className="vads-grid-row">
         <div className="vads-grid-col-12 desktop:vads-grid-col-6">
-          {/* <h2 className="vads-grid-col font-ui-md">
-            File Input Multiple Component
-          </h2> */}
           <VaFileInputMultiple
             ref={componentRef}
             accept=".pdf,.jpeg,.png"

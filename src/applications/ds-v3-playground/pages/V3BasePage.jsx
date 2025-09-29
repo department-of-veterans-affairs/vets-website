@@ -131,7 +131,7 @@ export default function V3BasePage() {
         <div className="vads-grid-row">
           <h1>VA Design System Component Demos</h1>
         </div>
-        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+        <div className="border-bottom vads-u-padding-bottom--2">
           <h2 id="vaFileInputMultipl" className="vads-grid-col font-ui-md">
             File Input Multiple
           </h2>
