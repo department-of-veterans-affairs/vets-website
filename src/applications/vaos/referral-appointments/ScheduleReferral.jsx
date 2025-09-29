@@ -51,7 +51,7 @@ export default function ScheduleReferral(props) {
           >
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
               Online scheduling isn’t available for this referral right now.
-              Call your community care provider or your facility's community
+              Call your community care provider or your facility’s community
               care office to schedule an appointment.
             </p>
             <FindCommunityCareOfficeLink />
