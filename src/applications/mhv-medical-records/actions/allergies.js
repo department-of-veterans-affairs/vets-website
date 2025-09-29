@@ -12,25 +12,15 @@ import { getListWithRetry } from './common';
 
 export const getAllergiesList = (
   isCurrent = false,
-  isCerner,
+  isCerner = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    let getData;
-    let actionType;
-
-    if (isCerner) {
-      // Path 1: v1 OH endpoint (Cerner patients)
-      getData = getAllergiesWithOHData;
-      actionType = Actions.Allergies.GET_LIST;
-    } else {
-      // Path 2: v1 regular endpoint (VistA patients)
-      getData = getAllergies;
-      actionType = Actions.Allergies.GET_LIST;
-    }
+    const getData = isCerner ? getAllergiesWithOHData : getAllergies;
+    const actionType = Actions.Allergies.GET_LIST;
 
     const response = await getListWithRetry(dispatch, getData);
     dispatch({
@@ -47,21 +37,11 @@ export const getAllergiesList = (
 export const getAllergyDetails = (
   id,
   allergyList,
-  isCerner,
+  isCerner = false,
 ) => async dispatch => {
   try {
-    let getDetailsFunc;
-    let actionType;
-
-    if (isCerner) {
-      // Path 1: v1 OH endpoint (Cerner patients)
-      getDetailsFunc = getAllergyWithOHData;
-      actionType = Actions.Allergies.GET;
-    } else {
-      // Path 2: v1 regular endpoint (VistA patients)
-      getDetailsFunc = getAllergy;
-      actionType = Actions.Allergies.GET;
-    }
+    const getDetailsFunc = isCerner ? getAllergyWithOHData : getAllergy;
+    const actionType = Actions.Allergies.GET;
 
     await dispatchDetails(
       id,
