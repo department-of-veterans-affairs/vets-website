@@ -3,11 +3,12 @@ import React, { useState, useMemo, useCallback, useRef } from 'react';
 import {
   VaFileInputMultiple,
   VaSelect,
+  VaTextInput,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { standardFileChecks } from 'platform/forms-system/src/js/utilities/file';
 import { debounce } from 'lodash';
 
-// Debounce wait time for password input
+// Debounce wait time for text inputs
 const DEBOUNCE_WAIT = 1000;
 
 export default function VaFileInputMultiplePage() {
@@ -319,6 +320,27 @@ export default function VaFileInputMultiplePage() {
     [handleEncryptedFileUpload],
   );
 
+  // Debounced text input processing to prevent focus loss on every keystroke
+  const debounceTextInput = useMemo(
+    () =>
+      debounce((value, index) => {
+        setFiles(prevFiles => {
+          const newFiles = [...prevFiles];
+          if (newFiles[index]) {
+            newFiles[index] = {
+              ...newFiles[index],
+              additionalData: {
+                ...newFiles[index].additionalData,
+                documentName: value,
+              },
+            };
+          }
+          return newFiles;
+        });
+      }, DEBOUNCE_WAIT),
+    [],
+  );
+
   // Handle file removal
   const handleFileRemoved = removedFile => {
     // Add null/undefined checks
@@ -438,8 +460,23 @@ export default function VaFileInputMultiplePage() {
     }
   };
 
+  const handleSlotInput = event => {
+    const { detail } = event;
+    const { value } = detail;
+
+    // Use the forms library approach to get the correct file index
+    const fileIndex = getFileInputInstanceIndex(event);
+
+    if (fileIndex >= 0 && files[fileIndex]) {
+      // Use debounced update to prevent focus loss
+      debounceTextInput(value, fileIndex);
+    } else {
+      console.warn(`Could not find file at index ${fileIndex}`);
+    }
+  };
+
   // Handle additional input (document status selection)
-  const handleAdditionalInput = event => {
+  const handleSlotSelect = event => {
     const { detail } = event;
     const { value } = detail;
 
@@ -471,6 +508,7 @@ export default function VaFileInputMultiplePage() {
         newFiles[fileIndex] = {
           ...newFiles[fileIndex],
           additionalData: {
+            ...newFiles[fileIndex].additionalData,
             documentStatus: value,
           },
         };
@@ -568,7 +606,8 @@ export default function VaFileInputMultiplePage() {
             resetVisualState={fileErrors.map(error => (error ? true : null))}
             onVaMultipleChange={handleMultipleChange}
             onVaFileInputError={handleComponentError}
-            onVaSelect={handleAdditionalInput}
+            onVaSelect={handleSlotSelect}
+            onVaInput={handleSlotInput}
             hint="Upload PDF, JPEG, or PNG files. Encrypted PDFs will require a password."
             label="Select files to upload"
           >
@@ -578,6 +617,7 @@ export default function VaFileInputMultiplePage() {
                 <option value="public">Public</option>
                 <option value="private">Private</option>
               </VaSelect>
+              <VaTextInput required label="Document name" />
             </div>
           </VaFileInputMultiple>
         </div>
