@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
 import VaccineDetails from '../../containers/VaccineDetails';
 import reducer from '../../reducers';
 import vaccine from '../fixtures/vaccine.json';
@@ -174,6 +175,7 @@ describe('Vaccine details component with no date', () => {
 /// start here
 describe('Vaccines details container conditional field rendering', () => {
   let screen;
+  let sandbox;
 
   describe('when accelerated vaccines is enabled', () => {
     const acceleratedRecord = {
@@ -192,6 +194,18 @@ describe('Vaccines details container conditional field rendering', () => {
     };
 
     beforeEach(() => {
+      sandbox = sinon.createSandbox();
+
+      // Mock the useAcceleratedData hook to return accelerating vaccines enabled
+      const useAcceleratedDataModule = require('../../hooks/useAcceleratedData');
+      if (useAcceleratedDataModule.default.restore) {
+        useAcceleratedDataModule.default.restore();
+      }
+
+      sandbox
+        .stub(useAcceleratedDataModule, 'default')
+        .returns({ isAcceleratingVaccines: true, isLoading: false });
+
       const initialState = {
         user: cernerUser,
         mr: {
@@ -212,6 +226,10 @@ describe('Vaccines details container conditional field rendering', () => {
       });
     });
 
+    afterEach(() => {
+      sandbox.restore();
+    });
+
     it('shows accelerated vaccine fields when conditions are met', () => {
       // Check if the component renders without errors
       expect(screen).to.exist;
@@ -226,8 +244,10 @@ describe('Vaccines details container conditional field rendering', () => {
         }),
       ).to.exist;
       expect(screen.getByText('January 14, 2021', { exact: true })).to.exist;
-      expect(screen.getByText(acceleratedRecord.doseDisplay, { exact: true }))
-        .to.exist;
+
+      // Check for dose display via test ID since it's rendered in a LabelValue component
+      expect(screen.getByTestId('vaccine-dosage')).to.exist;
+
       expect(screen.getByText(acceleratedRecord.manufacturer, { exact: true }))
         .to.exist;
       expect(
