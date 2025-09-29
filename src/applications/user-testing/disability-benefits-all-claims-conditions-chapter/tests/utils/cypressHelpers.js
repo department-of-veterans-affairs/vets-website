@@ -4,6 +4,23 @@ export const expectPath = (pathname, search = '') => {
   cy.location('search').should('eq', search);
 };
 
+export const waitHydrated = selector =>
+  cy.get(selector).should('have.class', 'hydrated');
+
+export const getVaInnerInput = selector =>
+  waitHydrated(selector)
+    .shadow()
+    .find('#inputField')
+    .should('be.visible')
+    .and('not.be.disabled');
+
+export const getVaInnerTextarea = selector =>
+  waitHydrated(selector)
+    .shadow()
+    .find('textarea#input-type-textarea')
+    .should('be.visible')
+    .and('not.be.disabled');
+
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
     // 1) Schemaform pattern: any button whose id ends with "-continueButton" and whose text is "Continue"
@@ -74,19 +91,12 @@ export const chooseFirstRadioIfUnknown = () => {
 };
 
 export const fillNewConditionAutocomplete = text => {
-  const input = () =>
-    cy
-      .get('va-text-input#root_newCondition')
-      .should('exist')
-      .shadow()
-      .find('#inputField');
+  const input = () => getVaInnerInput('va-text-input#root_newCondition');
 
   input()
     .clear()
     .type(text, { delay: 10 });
-
   input().type('{downarrow}{enter}');
-
   input()
     .invoke('val')
     .should('not.be.empty');
@@ -126,24 +136,19 @@ export const fillNewConditionDate = input => {
     throw new Error(`fillNewConditionDate: bad day "${day}"`);
 
   cy.get('.usa-memorable-date').within(() => {
-    cy.get('va-select')
-      .should('exist')
+    // Month select (va-select)
+    waitHydrated('va-select')
       .shadow()
       .find('select')
       .should('be.visible')
       .select(String(mNum));
 
-    cy.get('.usa-form-group--day va-text-input')
-      .should('exist')
-      .shadow()
-      .find('#inputField')
+    // After selecting month, day/year inputs become enabled—assert that before typing
+    getVaInnerInput('.usa-form-group--day va-text-input')
       .clear()
       .type(String(dNum));
 
-    cy.get('.usa-form-group--year va-text-input')
-      .should('exist')
-      .shadow()
-      .find('#inputField')
+    getVaInnerInput('.usa-form-group--year va-text-input')
       .clear()
       .type(yStr);
   });
@@ -319,19 +324,11 @@ export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
 };
 
 export const fillWorsenedDetails = (desc, effects) => {
-  // Short text input field
-  cy.get('va-text-input[name="root_worsenedDescription"]')
-    .should('exist')
-    .shadow()
-    .find('input#inputField')
+  getVaInnerInput('va-text-input[name="root_worsenedDescription"]')
     .clear()
     .type(desc, { delay: 0 });
 
-  // Longer textarea box
-  cy.get('va-textarea[name="root_worsenedEffects"]')
-    .should('exist')
-    .shadow()
-    .find('textarea#input-type-textarea')
+  getVaInnerTextarea('va-textarea[name="root_worsenedEffects"]')
     .clear()
     .type(effects, { delay: 0 });
 };
