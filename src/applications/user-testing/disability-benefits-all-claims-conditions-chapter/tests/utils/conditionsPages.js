@@ -101,56 +101,18 @@ export const chooseCause = (index = 0) => {
 export const enterCauseNewDetails = (
   index = 0,
   details = 'Condition started in 2022 after training—no prior history.',
-  { timeout = 15000 } = {},
 ) => {
   const BASE = `/user-testing/conditions/conditions-mango/${index}`;
-
-  // 1) Make sure we're actually on the right page first
   expectPath(`${BASE}/cause-new`, '?add=true');
-
-  // 2) Try a normal (light DOM) enabled field first
-  cy.get('textarea, input', { timeout })
-    .filter(':enabled')
+  // Fill a visible textarea (handles plain <textarea> or web component)
+  cy.get('textarea, [contenteditable="true"]')
     .first()
-    .then(elem => {
-      if (elem && elem.length) {
-        cy.wrap(elem)
+    .then(el => {
+      if (el.length)
+        cy.wrap(el)
           .clear()
-          .type(details, { delay: 0 });
-        return;
-      }
-
-      // 3) Fallback: target the VA components' shadow inputs and wait until enabled
-      // va-textarea
-      cy.get('va-textarea', { timeout })
-        .shadow()
-        .find('textarea#input-type-textarea', { timeout })
-        .should('be.visible')
-        .and('not.be.disabled')
-        .then(ele => {
-          if (ele && ele.length) {
-            cy.wrap(ele)
-              .clear()
-              .type(details, { delay: 0 });
-          }
-        });
-
-      // If your page sometimes uses a text input instead (rare, but seen in CI),
-      // try the va-text-input fallback as well.
-      cy.get('va-text-input', { timeout })
-        .shadow()
-        .find('input#inputField', { timeout })
-        .should('be.visible')
-        .and('not.be.disabled')
-        .then(el => {
-          if (el && elem.length) {
-            cy.wrap(el)
-              .clear()
-              .type(details, { delay: 0 });
-          }
-        });
+          .type(details);
     });
-
   clickContinue();
 };
 

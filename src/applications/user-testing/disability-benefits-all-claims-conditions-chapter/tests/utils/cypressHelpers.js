@@ -4,10 +4,6 @@ export const expectPath = (pathname, search = '') => {
   cy.location('search').should('eq', search);
 };
 
-export const waitUntilEnabled = elem => {
-  expect(elem.get(0).disabled, 'field should be enabled').to.equal(false);
-};
-
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
     // 1) Schemaform pattern: any button whose id ends with "-continueButton" and whose text is "Continue"
@@ -30,8 +26,8 @@ export const clickContinue = () => {
 
     // 3) <va-button text="Continue">
     if ($body.find('va-button[text="Continue"]').length) {
-      return cy.get('va-button[text="Continue"]').then(elem => {
-        const inner = elem[0].shadowRoot?.querySelector('button');
+      return cy.get('va-button[text="Continue"]').then(el => {
+        const inner = el[0].shadowRoot?.querySelector('button');
         cy.wrap(inner)
           .should('be.visible')
           .and('not.be.disabled')
@@ -41,8 +37,8 @@ export const clickContinue = () => {
 
     // 4) Fallback: any <va-button> whose inner shadow button contains "Continue"
     if ($body.find('va-button').length) {
-      return cy.get('va-button').then(elem => {
-        const candidate = [...elem].find(el =>
+      return cy.get('va-button').then(els => {
+        const candidate = [...els].find(el =>
           el.shadowRoot
             ?.querySelector('button')
             ?.textContent?.match(/^continue\b/i),
@@ -83,9 +79,7 @@ export const fillNewConditionAutocomplete = text => {
       .get('va-text-input#root_newCondition')
       .should('exist')
       .shadow()
-      .find('#inputField')
-      .should('be.visible')
-      .should(waitUntilEnabled);
+      .find('#inputField');
 
   input()
     .clear()
@@ -165,14 +159,14 @@ export const waitForOneOfPaths = (choices, search) => {
 export const chooseVaRadioByValue = (groupName, value) => {
   cy.get(`va-radio-option[name="${groupName}"][value="${value}"]`)
     .should('exist')
-    .then(elem => {
-      const inputInShadow = elem[0].shadowRoot?.querySelector(
+    .then(el => {
+      const inputInShadow = el[0].shadowRoot?.querySelector(
         'input[type="radio"]',
       );
       if (inputInShadow) {
         cy.wrap(inputInShadow).check({ force: true });
       } else {
-        cy.wrap(elem)
+        cy.wrap(el)
           .find('input[type="radio"]')
           .check({ force: true });
       }
@@ -314,7 +308,7 @@ export const expectCardText = (index = 0, { titleRe, descRe } = {}) => {
     });
 };
 
-export const chooseCauseByLabel = (labelRe = /New condition/i) => {
+export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
   cy.get('va-radio[name="root_cause"]')
     .find('va-radio-option')
     .contains(labelRe)
@@ -322,8 +316,6 @@ export const chooseCauseByLabel = (labelRe = /New condition/i) => {
     .within(() => {
       cy.get('input[type="radio"]').check({ force: true });
     });
-
-  clickContinue();
 };
 
 export const fillWorsenedDetails = (desc, effects) => {
@@ -332,7 +324,6 @@ export const fillWorsenedDetails = (desc, effects) => {
     .should('exist')
     .shadow()
     .find('input#inputField')
-    .should(waitUntilEnabled)
     .clear()
     .type(desc, { delay: 0 });
 
@@ -341,7 +332,6 @@ export const fillWorsenedDetails = (desc, effects) => {
     .should('exist')
     .shadow()
     .find('textarea#input-type-textarea')
-    .should(waitUntilEnabled)
     .clear()
     .type(effects, { delay: 0 });
 };

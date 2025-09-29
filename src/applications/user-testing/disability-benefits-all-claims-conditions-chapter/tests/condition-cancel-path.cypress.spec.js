@@ -1,5 +1,4 @@
 import {
-  chooseCauseByLabel,
   chooseConditionTypeRadioBtn,
   clickContinue,
   expectPath,
@@ -7,6 +6,7 @@ import {
 
 import {
   addCondition,
+  chooseCause,
   chooseConditionType,
   conditionsInfo,
   enterCauseNewDetails,
@@ -130,11 +130,8 @@ describe('Conditions — Page 2: Add a condition', () => {
     chooseConditionType(0);
     enterNewCondition(0, 'asthma');
     sideOfBodyThenDate(0, '2022-06-15');
-    chooseCauseByLabel(/New condition|caused by an injury/i);
-    enterCauseNewDetails(
-      0,
-      'Condition started in 2022 after training—no prior history.',
-    );
+    chooseCause(0);
+    enterCauseNewDetails(0, 'Initial details');
 
     expectPath('/user-testing/conditions/conditions-mango-summary', '');
     cy.contains('button', /^Continue$/i).click();
