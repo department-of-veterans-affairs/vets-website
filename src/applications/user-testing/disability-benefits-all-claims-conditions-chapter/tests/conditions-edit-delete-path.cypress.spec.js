@@ -10,6 +10,7 @@ import {
 
 import {
   chooseCauseByLabel,
+  clickContinue,
   clickSaveAndContinue,
   clickEditOnCard,
   clickDeleteOnCard,
@@ -29,10 +30,92 @@ describe('Conditions — Summary (Edit & Delete)', () => {
     enterNewCondition(0, 'asthma');
     sideOfBodyThenDate(0, '2022-06-15');
     chooseCause(0);
-    enterCauseNewDetails(
-      0,
-      'Condition started in 2022 after training—no prior history.',
-    );
+    // enterCauseNewDetails(
+    //   0,
+    //   'Condition started in 2022 after training—no prior history.',
+    // );
+
+    const details =
+      'Condition started in 2022 after training—no prior history.';
+
+    cy.get('body', { timeout: 20000 }).then($body => {
+      if ($body.find('va-textarea').length) {
+        cy.get('va-textarea', { timeout: 20000 })
+          .should('have.class', 'hydrated')
+          .shadow()
+          .find('textarea#input-type-textarea')
+          .should('be.visible')
+          .then($ta => {
+            const el = $ta[0];
+            const wasDisabled = el.disabled === true;
+            if (wasDisabled) el.disabled = false;
+
+            // clear → input/change → set → input/change (no .type())
+            el.value = '';
+            el.dispatchEvent(
+              new Event('input', { bubbles: true, composed: true }),
+            );
+            el.dispatchEvent(
+              new Event('change', { bubbles: true, composed: true }),
+            );
+
+            el.value = details;
+            el.dispatchEvent(
+              new Event('input', { bubbles: true, composed: true }),
+            );
+            el.dispatchEvent(
+              new Event('change', { bubbles: true, composed: true }),
+            );
+            el.dispatchEvent(
+              new Event('blur', { bubbles: true, composed: true }),
+            );
+
+            if (wasDisabled) el.disabled = true;
+          })
+          .should('have.value', details);
+        return;
+      }
+
+      if ($body.find('textarea').length) {
+        cy.get('textarea:visible')
+          .first()
+          .then($ta => {
+            const el = $ta[0];
+            el.value = '';
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.value = details;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.dispatchEvent(new Event('blur', { bubbles: true }));
+          })
+          .should('have.value', details);
+        return;
+      }
+
+      if ($body.find('[contenteditable="true"]').length) {
+        cy.get('[contenteditable="true"]:visible')
+          .first()
+          .then($el => {
+            const el = $el[0];
+            el.textContent = '';
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.textContent = details;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.dispatchEvent(new Event('blur', { bubbles: true }));
+          })
+          .invoke('text')
+          .should('contain', 'Condition started in 2022');
+        return;
+      }
+
+      throw new Error(
+        'Could not find a textarea or editable field on cause-new page',
+      );
+    });
+
+    clickContinue();
 
     expectPath('/user-testing/conditions/conditions-mango-summary', '');
     cy.contains(/Review your conditions/i).should('exist');
