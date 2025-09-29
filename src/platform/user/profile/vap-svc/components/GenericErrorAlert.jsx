@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { DEFAULT_ERROR_MESSAGE } from '../constants';
 
-const GenericErrorAlert = ({ title }) => {
-  const id = `${title?.toLowerCase().replace(/\s+/g, '-')}-error-alert`;
+const GenericErrorAlert = ({ fieldName }) => {
+  const id = `${fieldName}-error-alert`;
 
   return (
     <>
@@ -30,7 +30,7 @@ const GenericErrorAlert = ({ title }) => {
 };
 
 GenericErrorAlert.propTypes = {
-  title: PropTypes.string.isRequired,
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default GenericErrorAlert;

@@ -1,24 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
 
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const id = `${fieldName}-alert`;
-
-  useEffect(
-    () => {
-      if (fieldName) {
-        // Focus on the va-alert element itself
-        waitForRenderThenFocus(
-          `[data-field-name=${fieldName}] va-alert`,
-          document,
-          50,
-        );
-      }
-    },
-    [fieldName],
-  );
 
   return (
     <>
@@ -33,6 +17,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         slim
         uswds
         role="alert"
+        tabindex="-1"
       >
         <p className="vads-u-margin-y--0" id={id}>
           Update saved.
