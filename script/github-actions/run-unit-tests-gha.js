@@ -200,7 +200,8 @@ async function main() {
         })`,
       );
       const command = buildGroupCommand(name, tests);
-      runCommand(command);
+      // eslint-disable-next-line no-await-in-loop
+      await runCommand(command);
     }
 
     core.exportVariable('tests_ran', 'true');
