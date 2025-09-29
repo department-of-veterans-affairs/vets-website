@@ -5,21 +5,35 @@ export const expectPath = (pathname, search = '') => {
 };
 
 export const waitHydrated = selector =>
-  cy.get(selector).should('have.class', 'hydrated');
+  cy.get(selector, { timeout: 15000 }).should('have.class', 'hydrated');
 
 export const getVaInnerInput = selector =>
   waitHydrated(selector)
     .shadow()
-    .find('#inputField')
+    .find('#inputField:not([disabled])', { timeout: 15000 })
     .should('be.visible')
-    .and('not.be.disabled');
+    .and('be.enabled');
 
 export const getVaInnerTextarea = selector =>
   waitHydrated(selector)
     .shadow()
-    .find('textarea#input-type-textarea')
+    .find('textarea#input-type-textarea:not([disabled])', { timeout: 15000 })
     .should('be.visible')
-    .and('not.be.disabled');
+    .and('be.enabled');
+
+const typeIntoVaInput = (selector, text) =>
+  getVaInnerInput(selector).then(() =>
+    getVaInnerInput(selector)
+      .clear()
+      .type(text, { delay: 0 }),
+  );
+
+const typeIntoVaTextarea = (selector, text) =>
+  getVaInnerTextarea(selector).then(() =>
+    getVaInnerTextarea(selector)
+      .clear()
+      .type(text, { delay: 0 }),
+  );
 
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
@@ -324,13 +338,8 @@ export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
 };
 
 export const fillWorsenedDetails = (desc, effects) => {
-  getVaInnerInput('va-text-input[name="root_worsenedDescription"]')
-    .clear()
-    .type(desc, { delay: 0 });
-
-  getVaInnerTextarea('va-textarea[name="root_worsenedEffects"]')
-    .clear()
-    .type(effects, { delay: 0 });
+  typeIntoVaInput('va-text-input[name="root_worsenedDescription"]', desc);
+  typeIntoVaTextarea('va-textarea[name="root_worsenedEffects"]', effects);
 };
 
 export const clickSaveAndContinue = () => {
