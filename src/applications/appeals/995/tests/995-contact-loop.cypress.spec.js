@@ -49,9 +49,7 @@ describe('995 contact info loop', () => {
     h.clickContinue();
 
     h.verifyUrl(h.HOMELESSNESS_PATH);
-    cy.tabToElement('[name="root_housingRisk"]');
-    cy.chooseRadio('N');
-    cy.tabToContinueForm();
+    h.clickContinue();
   };
 
   it('should go to intro page when back button is selected on intent to file message', () => {
