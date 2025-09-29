@@ -21,6 +21,7 @@ export {
 export { default as usePrintTitle } from './hooks/usePrintTitle';
 export {
   formatName,
+  formatBirthDate,
   generatePdfScaffold,
   updatePageTitle,
   openCrisisModal,

@@ -1,0 +1,48 @@
+{
+  "formData": {
+    "veteranFullName": {
+      "first": "John",
+      "middle": "Robert",
+      "last": "Deceased"
+    },
+    "veteranIdentification": {
+      "ssn": "123456789"
+    },
+    "hasRemarried": true,
+    "remarriage": {
+      "dateOfMarriage": "2020-05-15",
+      "spouseName": {
+        "first": "Robert",
+        "middle": "James",
+        "last": "Smith"
+      },
+      "spouseDateOfBirth": "1980-08-20",
+      "ageAtMarriage": 35,
+      "spouseIsVeteran": true,
+      "spouseVeteranId": {
+        "vaFileNumber": "123456789"
+      },
+      "hasTerminated": false
+    },
+    "recipient": {
+      "phone": {
+        "daytime": "555-123-4567",
+        "evening": "555-987-6543"
+      },
+      "email": "jane.spouse@example.com",
+      "ssnOrVaFileNumber": {
+        "ssn": "987654321"
+      }
+    },
+    "recipientName": {
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/screening/remarriage-status"
+  }
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
 import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 
@@ -455,13 +454,3 @@ export default function RenderErrorContainer({
     </div>
   );
 }
-
-RenderErrorContainer.propTypes = {
-  auth: PropTypes.oneOf(Object.values(AUTH_LEVEL)),
-  code: PropTypes.oneOf(
-    Object.values(AUTH_ERRORS).map(({ errorCode }) => errorCode),
-  ),
-  openLoginModal: PropTypes.func,
-  recordEvent: PropTypes.func,
-  requestId: PropTypes.string,
-};
