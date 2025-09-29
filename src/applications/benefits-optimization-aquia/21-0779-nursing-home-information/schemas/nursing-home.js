@@ -4,7 +4,6 @@ import {
   POSTAL_PATTERNS,
   VALIDATION_MESSAGES,
 } from '@bio-aquia/shared/schemas/regex-patterns';
-import { MEDICAID_PATTERNS, MEDICAID_MESSAGES } from './constants';
 
 /**
  * Nursing home information schemas for 21-0779 form
@@ -43,65 +42,12 @@ export const admissionDateSchema = z
   }, 'Admission date cannot be in the future');
 
 /**
- * Schema for Medicaid number validation
- * Validates format according to Medicaid number patterns
- * @type {import('zod').ZodSchema}
- */
-export const medicaidNumberSchema = z
-  .string()
-  .regex(MEDICAID_PATTERNS.MEDICAID_NUMBER, MEDICAID_MESSAGES.MEDICAID_NUMBER)
-  .optional();
-
-/**
  * Complete schema for nursing home details section
- * Combines facility name, address, admission date, and optional Medicaid number
+ * Includes facility name, address, and admission date
  * @type {import('zod').ZodSchema}
  */
 export const nursingHomeDetailsSchema = z.object({
   nursingHomeName: z.string().min(1, 'Nursing home name is required'),
   nursingHomeAddress: nursingHomeAddressSchema,
   admissionDate: admissionDateSchema,
-  medicaidNumber: medicaidNumberSchema,
-});
-
-/**
- * Schema for type of care being provided
- * Enum of available care types in nursing facilities
- * @type {import('zod').ZodSchema}
- */
-export const careTypeSchema = z.enum([
-  'skilled',
-  'intermediate',
-  'domiciliary',
-  'adult-day-health',
-  'other',
-]);
-
-/**
- * Schema for payment and coverage information
- * Includes Medicaid coverage, monthly payments, and hospital transfer details
- * @type {import('zod').ZodSchema}
- */
-export const paymentInfoSchema = z.object({
-  medicaidCoverage: z.boolean(),
-  medicaidNumber: medicaidNumberSchema,
-  monthlyPayment: z
-    .number()
-    .min(0)
-    .optional(),
-  admissionFromHospital: z.boolean(),
-  hospitalName: z.string().optional(),
-  hospitalAdmissionDate: z.string().optional(),
-});
-
-/**
- * Schema for nursing care information section
- * Combines care type, nursing requirements, and payment details
- * @type {import('zod').ZodSchema}
- */
-export const nursingCareInfoSchema = z.object({
-  careType: careTypeSchema,
-  requiresNursingCare: z.boolean(),
-  nursingCareDetails: z.string().optional(),
-  paymentInfo: paymentInfoSchema,
 });

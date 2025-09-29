@@ -14,6 +14,7 @@ import {
 } from '@bio-aquia/shared/utils';
 import prefillTransformer from './prefill-transformer';
 import GetHelpFooter from '../components/get-help';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 import {
   CertificationLevelOfCarePage,
   ClaimantIdentificationPage,
@@ -49,6 +50,7 @@ const formConfig = {
   confirmation: ConfirmationPage,
   footerContent,
   getHelp: GetHelpFooter,
+  preSubmitInfo: PreSubmitInfo,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
