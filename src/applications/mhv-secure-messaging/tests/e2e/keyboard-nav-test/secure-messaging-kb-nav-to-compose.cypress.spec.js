@@ -13,10 +13,8 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    // Wait for element to be available (may not be necessary), then tab to it and press Enter
     cy.findByTestId('start-message-link').should('be.visible');
     cy.tabToElement('[data-testid="start-message-link"]');
-    // this isn't working because the href url isn't valid
     cy.realPress(['Enter']);
     cy.get(Locators.ALERTS.PAGE_TITLE)
       .should('be.focused')
