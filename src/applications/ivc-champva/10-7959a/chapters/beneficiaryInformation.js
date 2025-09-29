@@ -63,25 +63,22 @@ export const applicantMemberNumberSchema = {
       ),
     ),
     applicantMemberNumber: textUI({
-      updateUiSchema: formData => {
-        return {
-          'ui:title': 'CHAMPVA member number',
-          'ui:errorMessages': {
-            required: 'Please enter your CHAMPVA member number',
-            pattern: 'Must be numbers only',
-          },
-          'ui:options': {
-            classNames: ['dd-privacy-hidden'],
-            uswds: true,
-            hint: `This number is usually the same as ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} Social Security number.`,
-          },
-        };
+      title: 'CHAMPVA member number',
+      errorMessages: {
+        required: 'Please enter your CHAMPVA member number',
+        pattern: 'Must be numbers only',
       },
+      classNames: ['dd-privacy-hidden'],
+      updateUiSchema: formData => ({
+        'ui:options': {
+          hint: `This number is usually the same as ${nameWording(
+            formData,
+            true,
+            false,
+            true,
+          )} Social Security number.`,
+        },
+      }),
     }),
     'ui:options': {
       itemAriaLabel: () => 'identification information',
@@ -119,30 +116,23 @@ export const applicantAddressSchema = {
     }),
     applicantNewAddress: {
       ...radioUI({
-        type: 'radio',
-        updateUiSchema: formData => {
-          const labels = {
-            yes: 'Yes',
-            no: 'No',
-            unknown: 'I’m not sure',
-          };
-
-          return {
-            'ui:title': `Has ${nameWording(
-              formData,
-              true,
-              false,
-              true,
-            )} mailing address changed since ${
-              formData.certifierRole === 'applicant' ? 'your' : 'their'
-            } last CHAMPVA claim or benefits application submission?`,
-            'ui:options': {
-              classNames: ['dd-privacy-hidden'],
-              labels,
-              hint: `If the mailing address changed, we'll update our records with the new address.`,
-            },
-          };
+        labels: {
+          yes: 'Yes',
+          no: 'No',
+          unknown: 'I’m not sure',
         },
+        classNames: ['dd-privacy-hidden'],
+        hint: `If the mailing address changed, we'll update our records with the new address.`,
+        updateUiSchema: formData => ({
+          'ui:title': `Has ${nameWording(
+            formData,
+            true,
+            false,
+            true,
+          )} mailing address changed since ${
+            formData.certifierRole === 'applicant' ? 'your' : 'their'
+          } last CHAMPVA claim or benefits application submission?`,
+        }),
       }),
     },
     'ui:options': {
