@@ -165,15 +165,9 @@ describe('Health conditions with accelerated data', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
 
-    // Mock the useAcceleratedData hook - check if already stubbed
-    const useAcceleratedDataModule = require('../../hooks/useAcceleratedData');
-    if (useAcceleratedDataModule.default.restore) {
-      useAcceleratedDataModule.default.restore();
-    }
-
     sandbox
-      .stub(useAcceleratedDataModule, 'default')
-      .returns({ isAcceleratingConditions: false });
+      .stub(require('../../hooks/useAcceleratedData'), 'default')
+      .callsFake(() => ({ isAcceleratingConditions: false }));
   });
 
   afterEach(() => {

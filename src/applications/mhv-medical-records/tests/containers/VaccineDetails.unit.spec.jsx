@@ -196,15 +196,9 @@ describe('Vaccines details container conditional field rendering', () => {
     beforeEach(() => {
       sandbox = sinon.createSandbox();
 
-      // Mock the useAcceleratedData hook to return accelerating vaccines enabled
-      const useAcceleratedDataModule = require('../../hooks/useAcceleratedData');
-      if (useAcceleratedDataModule.default.restore) {
-        useAcceleratedDataModule.default.restore();
-      }
-
       sandbox
-        .stub(useAcceleratedDataModule, 'default')
-        .returns({ isAcceleratingVaccines: true, isLoading: false });
+        .stub(require('../../hooks/useAcceleratedData'), 'default')
+        .callsFake(() => ({ isAcceleratingVaccines: true, isLoading: false }));
 
       const initialState = {
         user: cernerUser,
