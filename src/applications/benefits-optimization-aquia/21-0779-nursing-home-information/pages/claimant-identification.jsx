@@ -17,7 +17,7 @@ import {
   dateOfBirthSchema,
   ssnSchema,
   vaFileNumberSchema,
-} from '../schemas';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 // Schema for isVeteran radio field - used for real-time field validation
 // This allows empty strings and valid values

@@ -15,7 +15,7 @@ import {
   officialPhoneSchema,
   officialSignatureSchema,
   signatureDateSchema,
-} from '../schemas';
+} from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings
