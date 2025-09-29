@@ -1,16 +1,38 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
-import manifest from '../manifest.json';
-import { IntroductionPage } from '../containers/introduction-page';
-import { ConfirmationPage } from '../containers/confirmation-page';
 
-import { nameAndDateOfBirth } from '../pages/name-and-date-of-birth';
-import { identificationInformation } from '../pages/identification-information';
-import { mailingAddress } from '../pages/mailing-address';
-import { phoneAndEmailAddress } from '../pages/phone-and-email-address';
-import { nursingHomeDetails } from '../pages/nursing-home-details';
-import { nursingCareInformation } from '../pages/nursing-care-information';
+import {
+  SUBTITLE,
+  TITLE,
+} from '@bio-aquia/21-0779-nursing-home-information/constants';
+import ConfirmationPage from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
+import IntroductionPage from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
+import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
+import {
+  createPageValidator,
+  createValidationErrorHandler,
+} from '@bio-aquia/shared/utils';
+import prefillTransformer from './prefill-transformer';
+import GetHelpFooter from '../components/get-help';
+import {
+  ContactInformationPage,
+  MailingAddressPage,
+  NursingCareInformationPage,
+  NursingHomeDetailsPage,
+  PersonalInformationPage,
+} from '../pages';
+import {
+  contactInfoSchema,
+  mailingAddressSchema,
+  nursingCareInfoSchema,
+  nursingHomeDetailsSchema,
+  personalInfoSchema,
+} from '../schemas';
+
+const defaultSchema = {
+  type: 'object',
+  properties: {},
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -20,25 +42,31 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-0779-nursing-home-information-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelpFooter,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-0779) is in progress.',
-    //   expired: 'Your saved benefits application (21-0779) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your nursing home information request (21-0779) is in progress.',
+      expired:
+        'Your saved nursing home information request (21-0779) has expired. If you want to submit your information, please start a new request.',
+      saved: 'Your nursing home information request has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to submit your nursing home information.',
+    noAuth: 'Please sign in again to continue your request.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
@@ -47,17 +75,17 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Personal information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: PersonalInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(personalInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('personalInfo'),
         },
       },
     },
@@ -67,19 +95,31 @@ const formConfig = {
         mailingAddress: {
           path: 'mailing-address',
           title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MailingAddressPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(mailingAddressSchema)(values),
+          onErrorChange: createValidationErrorHandler('mailingAddress'),
         },
       },
     },
     contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Contact information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ContactInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(contactInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('contactInfo'),
         },
       },
     },
@@ -89,20 +129,30 @@ const formConfig = {
         nursingHomeDetails: {
           path: 'nursing-home-details',
           title: 'Nursing home details',
-          uiSchema: nursingHomeDetails.uiSchema,
-          schema: nursingHomeDetails.schema,
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: NursingHomeDetailsPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(nursingHomeDetailsSchema)(values),
+          onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
         },
         nursingCareInformation: {
           path: 'nursing-care-information',
           title: 'Care and payment information',
-          uiSchema: nursingCareInformation.uiSchema,
-          schema: nursingCareInformation.schema,
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: NursingCareInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(nursingCareInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('nursingCareInfo'),
         },
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;

@@ -19,6 +19,7 @@ import {
   phoneAndEmailAddress,
 } from '@bio-aquia/21-4192-employment-information/pages';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 /**
  * @typedef {Object} FormConfig
@@ -69,6 +70,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',

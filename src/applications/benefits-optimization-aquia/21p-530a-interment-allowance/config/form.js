@@ -17,6 +17,7 @@ import { nameAndDateOfBirth } from '@bio-aquia/21p-530a-interment-allowance/page
 import { identificationInformation } from '@bio-aquia/21p-530a-interment-allowance/pages/identification-information';
 import { mailingAddress } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address';
 import { phoneAndEmailAddress } from '@bio-aquia/21p-530a-interment-allowance/pages/phone-and-email-address';
+import prefillTransformer from './prefill-transformer';
 
 /**
  * Main form configuration object
@@ -45,6 +46,7 @@ export const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',

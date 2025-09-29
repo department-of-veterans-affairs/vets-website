@@ -1,0 +1,7 @@
+{
+  "name": "@bio-aquia/shared",
+  "version": "0.1.0",
+  "description": "Shared utilities for Benefits Intake Optimization Aquia",
+  "main": "index.js",
+  "private": true
+}
