@@ -406,7 +406,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     expect(screen.history.location.pathname).to.equal('/covid-vaccine/');
   });
 
-  it('should show error when facility availability check failsss', async () => {
+  it('should show error when facility availability check fails', async () => {
     // Arrange
     const store = createTestStore({
       ...initialState,
@@ -431,7 +431,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '984',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'primaryCare',
+              typeOfCareId: 'primaryCaresssss',
               requestEnabled: true,
             }),
           ],
