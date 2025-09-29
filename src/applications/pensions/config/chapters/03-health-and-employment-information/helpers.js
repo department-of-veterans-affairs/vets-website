@@ -39,6 +39,10 @@ export function isUnder65(formData, currentDate) {
   );
 }
 
+export function requiresEmploymentHistory(formData) {
+  return isUnder65(formData) && hasNoSocialSecurityDisability(formData);
+}
+
 export function isEmployedUnder65(formData) {
   return formData.currentEmployment === true && isUnder65(formData);
 }
