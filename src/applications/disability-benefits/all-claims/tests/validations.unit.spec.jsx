@@ -3,7 +3,14 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
-import { parseDate } from '../utils/dates';
+import {
+  parseDate,
+  isTreatmentBeforeService,
+  findEarliestServiceDate,
+  isMonthOnly,
+  isYearOnly,
+  isYearMonth,
+} from '../utils/dates';
 
 import {
   isValidYear,
@@ -24,11 +31,6 @@ import {
   validateZIP,
   limitNewDisabilities,
   requireSeparationLocation,
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
-  isTreatmentBeforeService,
-  findEarliestServiceDate,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';

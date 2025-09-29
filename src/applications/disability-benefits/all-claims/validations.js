@@ -6,7 +6,6 @@ import {
   isTreatmentBeforeService,
   findEarliestServiceDate,
   isMonthOnly,
-  isYearOnly,
   isYearMonth,
 } from './utils/dates';
 
@@ -703,13 +702,4 @@ export const validateTitle10StartDate = (
       'Your activation date must be after your earliest service start date for the Reserve or the National Guard',
     );
   }
-};
-
-// Re-export helper functions for tests
-export {
-  isTreatmentBeforeService,
-  findEarliestServiceDate,
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
 };
