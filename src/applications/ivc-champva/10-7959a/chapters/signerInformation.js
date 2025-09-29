@@ -36,7 +36,7 @@ export const certifierRoleSchema = {
         applicant:
           'I’m the spouse, dependent, or survivor of a Veteran submitting a claim for myself',
         sponsor:
-          'I’m a Veteran submitting a claim for  for my spouse, dependents, or both',
+          'I’m a Veteran submitting a claim for my spouse, dependents, or both',
         other: ' I’m submitting a claim on behalf of someone else',
       },
     }),
