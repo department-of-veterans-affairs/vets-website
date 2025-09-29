@@ -323,7 +323,9 @@ export default function V3BasePage() {
         </div>
 
         <div className="border-bottom vads-u-padding-bottom--2">
-          <h2 className="vads-grid-col font-ui-md">Segmented Button</h2>
+          <h2 id="vaButtonSegmented" className="vads-grid-col font-ui-md">
+            Segmented Button
+          </h2>
           <VaButtonSegmented
             buttons={[
               { label: 'Option 1', value: 'option-1' },
