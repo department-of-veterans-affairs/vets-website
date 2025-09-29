@@ -300,7 +300,25 @@ const updatedCustodianSummaryPage = {
       options,
       {
         title: genericTitle,
-        hint: genericHint,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedParentSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -637,13 +655,31 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const ownedAssetTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Property and business type'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Asset information'),
     assetType: radioUI({
-      title: 'What is the type of the owned asset?',
+      title: showUpdatedContent()
+        ? 'What type of asset is it?'
+        : 'What is the type of the owned asset?',
       labels: ownedAssetTypeLabels,
     }),
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    ownedPortionValue: currencyUI('Value of your portion of the property'),
+    grossMonthlyIncome: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What’s the gross monthly income generated from this asset?',
+            hint:
+              'Gross income is income before taxes and any other deductions.',
+          }
+        : 'Gross monthly income',
+    ),
+    ownedPortionValue: currencyUI(
+      showUpdatedContent()
+        ? {
+            title: 'What is the value of your share of the asset?',
+            hint:
+              'If you’re the sole owner, enter the full value. If you own part of it, enter the value of the share you own.',
+          }
+        : 'Value of your portion of the property',
+    ),
   },
   schema: {
     type: 'object',
@@ -769,7 +805,8 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
       showUpdatedContent() &&
       formData.claimantType !== 'SPOUSE' &&
       formData.claimantType !== 'CHILD' &&
-      formData.claimantType !== 'CUSTODIAN',
+      formData.claimantType !== 'CUSTODIAN' &&
+      formData.claimantType !== 'PARENT',
     uiSchema: updatedSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -795,6 +832,14 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     depends: formData =>
       showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
     uiSchema: updatedCustodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: updatedParentSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages

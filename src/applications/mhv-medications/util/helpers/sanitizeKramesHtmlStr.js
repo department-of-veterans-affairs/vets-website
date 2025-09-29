@@ -144,5 +144,31 @@ export const sanitizeKramesHtmlStr = htmlString => {
     table.setAttribute('role', 'presentation');
   });
 
+  // this section is to address strong tags
+  tempDiv.querySelectorAll('strong').forEach(strong => {
+    const parent = strong.parentNode;
+    while (strong.firstChild) {
+      parent.insertBefore(strong.firstChild, strong);
+    }
+    strong.remove();
+  });
+
+  // This section to address the pilcrow characters and replace with asterisks
+  const removePilcrowRecursive = node => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const parent = node.parentNode;
+      if (parent) {
+        const newNode = document.createTextNode(
+          node.textContent.replace(/¶/g, '*').trimStart(),
+        );
+        parent.replaceChild(newNode, node);
+      }
+    } else {
+      node.childNodes.forEach(child => removePilcrowRecursive(child));
+    }
+  };
+
+  removePilcrowRecursive(tempDiv);
+
   return tempDiv.innerHTML;
 };

@@ -16,9 +16,11 @@ import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
 import ArrayBuilderSummaryNoSchemaFormPage from './ArrayBuilderSummaryNoSchemaFormPage';
 import {
   arrayBuilderContextObject,
+  checkIfArrayHasDuplicateData,
   createArrayBuilderItemAddPath,
   getUpdatedItemFromPath,
   isDeepEmpty,
+  // META_DATA_KEY,
   maxItemsFn,
   slugifyText,
   useHeadingLevels,
@@ -113,6 +115,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
+    duplicateChecks = {},
   } = arrayBuilderOptions;
 
   // use closure variable rather than useRef to
@@ -152,6 +155,12 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
+
+    const duplicateCheckResult = checkIfArrayHasDuplicateData({
+      arrayPath,
+      duplicateChecks,
+      fullData: props.fullData,
+    });
 
     const setDataFromRef = data => {
       const dataToSet = { ...(dataRef.current || {}), ...data };
@@ -385,6 +394,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       ) : null;
     };
 
+    Title.propTypes = {
+      textType: PropTypes.string.isRequired,
+    };
+
     const UpdatedAlert = ({ show }) => {
       return (
         <div ref={updatedAlertRef}>
@@ -405,6 +418,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
+    UpdatedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
+    };
+
     const RemovedAlert = ({ show }) => {
       return (
         <div ref={removedAlertRef}>
@@ -418,6 +435,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    RemovedAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const ReviewErrorAlert = ({ show }) => {
@@ -438,6 +459,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           ) : null}
         </div>
       );
+    };
+
+    ReviewErrorAlert.propTypes = {
+      show: PropTypes.bool.isRequired,
     };
 
     const Alerts = () => {
@@ -491,6 +516,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
         onRemove={onRemoveItem}
         isReview={isReviewPage}
         titleHeaderLevel={headingLevel}
+        fullData={props.fullData}
+        duplicateChecks={duplicateChecks}
+        duplicateCheckResult={duplicateCheckResult}
       />
     );
 
@@ -640,7 +668,16 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       });
 
       if (isValid) {
+        // NOTE: Blocking submission using duplicateChecks.allowDuplicates is
+        // not enabled in MVP because we need to consider UX of the modal first
+        // if (
+        //   duplicateChecks?.allowDuplicates === false &&
+        //   duplicateCheckResult.hasDuplicate
+        // ) {
+        //   scrollAndFocus('va-card:has(.array-builder-duplicate-alert)');
+        // } else {
         props.onSubmit(...args);
+        // }
       }
     };
 
@@ -678,13 +715,14 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
   CustomPage.propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.object,
-    uiSchema: PropTypes.object,
+    uiSchema: PropTypes.object.isRequired,
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
     formOptions: PropTypes.object,
+    fullData: PropTypes.object,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
     onChange: PropTypes.func,

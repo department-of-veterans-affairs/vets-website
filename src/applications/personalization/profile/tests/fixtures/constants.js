@@ -12,7 +12,7 @@ export const Locators = {
     ALERTS: {
       SUCCESS: `#messagingSignature-alert`,
       FIELD_ERROR: '[role="alert"]',
-      CROSS_BTN: `.first-focusable-child`,
+      CROSS_BTN: `.va-modal-close`,
       CONFIRM_CANCEL_MODAL: `[data-testid="confirm-cancel-modal"]`,
       REMOVE_TITLE: `#heading`,
       REMOVE_TEXT: `[modal-title="Remove signature?"] > p`,

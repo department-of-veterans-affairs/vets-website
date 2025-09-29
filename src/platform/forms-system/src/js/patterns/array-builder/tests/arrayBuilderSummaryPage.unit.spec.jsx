@@ -129,11 +129,13 @@ describe('ArrayBuilderSummaryPage', () => {
     useButtonInsteadOfYesNo,
     useLinkInsteadOfYesNo,
     useWebComponent = false,
+    fullData,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
     const onContinue = sinon.spy();
     const onChange = sinon.spy();
+    const onSubmit = sinon.spy();
     let getText = helpers.initGetText({
       getItemName: item => item?.name,
       nounPlural: 'employers',
@@ -145,6 +147,7 @@ describe('ArrayBuilderSummaryPage', () => {
     const data = {
       employers: arrayData,
       applicants: [{}, {}],
+      ...(fullData || {}),
     };
     if (radioData) {
       // Added separately so the removed item tests doesn't need to include
@@ -220,7 +223,7 @@ describe('ArrayBuilderSummaryPage', () => {
           data={processedData}
           onChange={onChange}
           onContinue={onContinue}
-          onSubmit={() => {}}
+          onSubmit={onSubmit}
           onReviewPage={false}
           goToPath={goToPath}
           name={title}
@@ -228,6 +231,7 @@ describe('ArrayBuilderSummaryPage', () => {
           appStateData={{}}
           formContext={{}}
           formOptions={{ useWebComponentForNavigation: useWebComponent }}
+          fullData={data}
         />
       </Provider>,
     );
@@ -242,6 +246,7 @@ describe('ArrayBuilderSummaryPage', () => {
       getByText,
       onContinue,
       onChange,
+      onSubmit,
     };
   }
 
@@ -352,7 +357,7 @@ describe('ArrayBuilderSummaryPage', () => {
     );
   });
 
-  it('should show an add button on the review page', () => {
+  it('should show an add button on the  review page', () => {
     const { container, goToPath } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
@@ -412,6 +417,61 @@ describe('ArrayBuilderSummaryPage', () => {
       'va-alert[name="employersReviewError"]',
     );
     expect($errorAlert).to.not.exist;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, {}] },
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onSubmit.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, {}],
+      radioData: 'N',
+      urlParams: '',
+      schema: {
+        type: 'object',
+        properties: {
+          'view:hasOption': arrayBuilderYesNoSchema,
+        },
+      },
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, {}] },
+    });
+    const $errorAlert = container.querySelector('va-alert');
+    expect($errorAlert).to.include.text(
+      'This employer is missing information.',
+    );
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+
+    await expect(onSubmit.called).to.be.false;
+  });
+
+  it('should show an error alert on the summary page and prevent navigation even if schema is set as required', async () => {
+    const { container, onSubmit } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      radioData: 'N',
+      urlParams: '',
+      useWebComponent: true,
+      fullData: { employers: [{ name: 'Test' }, { name: 'Test 2' }] },
+    });
+
+    expect(container.querySelector('va-alert')).to.not.exist;
+
+    fireEvent.click(container.querySelector('va-button[continue]'));
+    await expect(onSubmit.called).to.be.false;
   });
 
   it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
