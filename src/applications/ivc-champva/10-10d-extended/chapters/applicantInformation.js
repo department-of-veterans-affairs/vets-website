@@ -147,13 +147,22 @@ const applicantIntroPage = {
         );
       },
     ),
-    applicantName: fullNameUI(),
+    applicantName: fullNameMiddleInitialUI,
     applicantDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      applicantName: fullNameSchema,
+      applicantName: {
+        ...fullNameSchema,
+        properties: {
+          ...fullNameSchema.properties,
+          middle: {
+            type: 'string',
+            maxLength: 1,
+          },
+        },
+      },
       applicantDob: dateOfBirthSchema,
     },
     required: ['applicantName', 'applicantDob'],

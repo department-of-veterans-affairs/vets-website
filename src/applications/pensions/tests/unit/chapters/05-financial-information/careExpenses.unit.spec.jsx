@@ -73,7 +73,7 @@ describe('Unreimbursed care expenses pension page', () => {
       'va-memorable-date': 2,
       'va-checkbox': 1,
       'va-radio': 3,
-      'va-radio-option': 9, // includes 4 care type options
+      'va-radio-option': 7,
     },
     pageTitle,
   );

@@ -13,6 +13,7 @@ class TrackClaimsPageV2 {
     mock = null,
     submitForm = false,
     cstClaimPhasesToggleEnabled = false,
+    customFeatureToggles = null,
   ) {
     if (submitForm) {
       cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
@@ -26,7 +27,10 @@ class TrackClaimsPageV2 {
       );
     }
 
-    if (cstClaimPhasesToggleEnabled) {
+    if (customFeatureToggles) {
+      // Use custom feature toggles when provided
+      cy.intercept('GET', '/v0/feature_toggles?*', customFeatureToggles);
+    } else if (cstClaimPhasesToggleEnabled) {
       // When cst_use_claim_details_v2 and cst_claim_phases are enabled
       cy.intercept(
         'GET',
