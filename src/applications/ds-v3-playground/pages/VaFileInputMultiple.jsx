@@ -218,6 +218,7 @@ export default function VaFileInputMultiplePage() {
         // Set file status to pending password
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
           newFiles[index] = {
             name: file.name,
             size: file.size,
@@ -225,6 +226,7 @@ export default function VaFileInputMultiplePage() {
             status: 'pending_password',
             encrypted: true,
             _originalFile: file,
+            additionalData: existingAdditionalData,
           };
           return newFiles;
         });
@@ -235,14 +237,21 @@ export default function VaFileInputMultiplePage() {
         // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile || {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            status: 'error',
-            encrypted: false,
-            _originalFile: file,
-          };
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
+          newFiles[index] = processedFile
+            ? {
+                ...processedFile,
+                additionalData: existingAdditionalData,
+              }
+            : {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                status: 'error',
+                encrypted: false,
+                _originalFile: file,
+                additionalData: existingAdditionalData,
+              };
           return newFiles;
         });
       }
@@ -264,14 +273,21 @@ export default function VaFileInputMultiplePage() {
         // Always set a file object to maintain array consistency
         setFiles(prevFiles => {
           const newFiles = [...prevFiles];
-          newFiles[index] = processedFile || {
-            name: fileDetails.file.name,
-            size: fileDetails.file.size,
-            type: fileDetails.file.type,
-            status: 'error',
-            encrypted: true,
-            _originalFile: fileDetails.file,
-          };
+          const existingAdditionalData = newFiles[index]?.additionalData || {};
+          newFiles[index] = processedFile
+            ? {
+                ...processedFile,
+                additionalData: existingAdditionalData,
+              }
+            : {
+                name: fileDetails.file.name,
+                size: fileDetails.file.size,
+                type: fileDetails.file.type,
+                status: 'error',
+                encrypted: true,
+                _originalFile: fileDetails.file,
+                additionalData: existingAdditionalData,
+              };
           return newFiles;
         });
       } catch (error) {
