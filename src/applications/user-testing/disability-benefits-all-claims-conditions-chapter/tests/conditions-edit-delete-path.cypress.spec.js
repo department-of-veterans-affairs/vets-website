@@ -128,8 +128,11 @@ describe('Conditions — Summary (Edit & Delete)', () => {
     chooseConditionType(0);
     enterNewCondition(0, 'asthma');
     sideOfBodyThenDate(0, '2022-06-15');
-    chooseCause(0);
-    enterCauseNewDetails(0, 'Initial details');
+    chooseCauseByLabel(/New condition|caused by an injury/i);
+    enterCauseNewDetails(
+      0,
+      'Condition started in 2022 after training—no prior history.',
+    );
 
     expectPath('/user-testing/conditions/conditions-mango-summary', '');
     expectCardText(0, { titleRe: /asthma/i });

@@ -30,8 +30,8 @@ export const clickContinue = () => {
 
     // 3) <va-button text="Continue">
     if ($body.find('va-button[text="Continue"]').length) {
-      return cy.get('va-button[text="Continue"]').then($el => {
-        const inner = $el[0].shadowRoot?.querySelector('button');
+      return cy.get('va-button[text="Continue"]').then(elem => {
+        const inner = elem[0].shadowRoot?.querySelector('button');
         cy.wrap(inner)
           .should('be.visible')
           .and('not.be.disabled')
@@ -41,8 +41,8 @@ export const clickContinue = () => {
 
     // 4) Fallback: any <va-button> whose inner shadow button contains "Continue"
     if ($body.find('va-button').length) {
-      return cy.get('va-button').then($els => {
-        const candidate = [...$els].find(el =>
+      return cy.get('va-button').then(elem => {
+        const candidate = [...elem].find(el =>
           el.shadowRoot
             ?.querySelector('button')
             ?.textContent?.match(/^continue\b/i),
@@ -62,11 +62,11 @@ export const clickContinue = () => {
 export const chooseRadioByValue = (groupName, value) => {
   cy.get(`va-radio-option[name="${groupName}"][value="${value}"]`)
     .should('exist')
-    .then($opt => {
+    .then(opt => {
       // Click the input inside the web component’s shadow root
       const input =
-        $opt[0]?.shadowRoot?.querySelector('input[type="radio"]') ||
-        $opt.find('input[type="radio"]')[0];
+        opt[0]?.shadowRoot?.querySelector('input[type="radio"]') ||
+        opt.find('input[type="radio"]')[0];
       cy.wrap(input).check({ force: true });
     });
 };
@@ -165,14 +165,14 @@ export const waitForOneOfPaths = (choices, search) => {
 export const chooseVaRadioByValue = (groupName, value) => {
   cy.get(`va-radio-option[name="${groupName}"][value="${value}"]`)
     .should('exist')
-    .then($el => {
-      const inputInShadow = $el[0].shadowRoot?.querySelector(
+    .then(elem => {
+      const inputInShadow = elem[0].shadowRoot?.querySelector(
         'input[type="radio"]',
       );
       if (inputInShadow) {
         cy.wrap(inputInShadow).check({ force: true });
       } else {
-        cy.wrap($el)
+        cy.wrap(elem)
           .find('input[type="radio"]')
           .check({ force: true });
       }
@@ -186,10 +186,10 @@ export const expandAccordion = (index = 0) => {
       cy.get('.usa-accordion__button')
         .first()
         .should('be.visible')
-        .then($btn => {
-          const expanded = $btn.attr('aria-expanded');
+        .then(btn => {
+          const expanded = btn.attr('aria-expanded');
           if (expanded === 'false' || expanded == null) {
-            cy.wrap($btn).click();
+            cy.wrap(btn).click();
           }
         });
     });
@@ -198,12 +198,12 @@ export const expandAccordion = (index = 0) => {
 export const pickNthRadioOption = (n = 0) => {
   cy.get('va-radio-option')
     .eq(n)
-    .then($opt => {
-      const input = $opt[0].shadowRoot?.querySelector('input[type="radio"]');
+    .then(opt => {
+      const input = opt[0].shadowRoot?.querySelector('input[type="radio"]');
       if (input) {
         cy.wrap(input).check({ force: true });
       } else {
-        cy.wrap($opt)
+        cy.wrap(opt)
           .find('input[type="radio"]')
           .check({ force: true });
       }
@@ -314,7 +314,7 @@ export const expectCardText = (index = 0, { titleRe, descRe } = {}) => {
     });
 };
 
-export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
+export const chooseCauseByLabel = (labelRe = /New condition/i) => {
   cy.get('va-radio[name="root_cause"]')
     .find('va-radio-option')
     .contains(labelRe)
@@ -322,6 +322,8 @@ export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
     .within(() => {
       cy.get('input[type="radio"]').check({ force: true });
     });
+
+  clickContinue();
 };
 
 export const fillWorsenedDetails = (desc, effects) => {
