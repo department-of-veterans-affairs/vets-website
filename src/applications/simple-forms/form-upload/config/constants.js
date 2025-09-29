@@ -190,6 +190,6 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
 );
 export const FILE_UPLOAD_URL = `${
   environment.API_URL
-}/simple_forms_api/v1/scanned_form_upload`;
+}/simple_forms_api/v1/supporting_documents_upload`;
 
 export const MAX_FILE_SIZE = 25000000;
