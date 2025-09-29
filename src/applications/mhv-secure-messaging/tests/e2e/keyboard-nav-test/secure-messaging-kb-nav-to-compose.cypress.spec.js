@@ -8,7 +8,7 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
-  it.skip('validate user can navigate to compose page', () => {
+  it('validate user can navigate to compose page', () => {
     cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.injectAxe();
