@@ -16,4 +16,5 @@ export const App = ({ location, children }) => (
 App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
+  router: PropTypes.object,
 };
