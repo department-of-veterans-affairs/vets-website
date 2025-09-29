@@ -431,7 +431,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           facilityId: '984',
           services: [
             new MockServiceConfiguration({
-              typeOfCareId: 'primaryCaresssss',
+              typeOfCareId: 'primaryCare',
               requestEnabled: true,
             }),
           ],
@@ -462,7 +462,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /We’re sorry. We’ve run into a problem/,
+        name: /We’re sorry. We’ve run into a problemsssss/,
       }),
     ).to.exist;
   });
