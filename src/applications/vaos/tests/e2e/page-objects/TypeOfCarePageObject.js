@@ -1,5 +1,4 @@
 import PageObject from './PageObject';
-import featureFlags from '../../../services/mocks/featureFlags';
 
 class TypeOfCarePageObject extends PageObject {
   assertAddressAlert({ exist = true } = {}) {
@@ -18,23 +17,31 @@ class TypeOfCarePageObject extends PageObject {
   }
 
   assertUrl() {
-    const featureImmediateCareAlert = featureFlags.filter(
-      feature => feature.name === 'vaOnlineSchedulingImmediateCareAlert',
-    );
+    cy.wait('@v0:get:feature_toggles').then((req, _resp) => {
+      const toggles = req.response.body.data.features;
+      const featureImmediateCareAlert = toggles.find(
+        toggle =>
+          (toggle.name === 'vaOnlineSchedulingImmediateCareAlert') === true,
+      );
 
-    if (featureImmediateCareAlert) {
-      cy.url().should('include', '/type-of-care');
-      this.assertLink({ name: 'Back', useShadowDOM: true });
-      return this;
-    }
+      if (
+        featureImmediateCareAlert &&
+        featureImmediateCareAlert.value === true
+      ) {
+        cy.url().should('include', '/type-of-care');
+        this.assertLink({ name: 'Back', useShadowDOM: true });
+      } else {
+        super.assertUrl(
+          {
+            url: '/type-of-care',
+            breadcrumb: 'What type of care do you need?',
+          },
+          { timeout: 10000 },
+        );
+      }
+    });
 
-    return super.assertUrl(
-      {
-        url: '/type-of-care',
-        breadcrumb: 'What type of care do you need?',
-      },
-      { timeout: 10000 },
-    );
+    return this;
   }
 
   selectTypeOfCare(label) {
