@@ -545,38 +545,40 @@ describe('owned asset list and loop pages', () => {
           { loggedIn: true },
         );
       });
-    });
 
-    describe('parent summary page', () => {
-      const {
-        schema,
-        uiSchema,
-      } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
-      const formData = { ...testData.data, claimantType: 'PARENT' };
+      describe('parent summary page', () => {
+        const {
+          schema,
+          uiSchema,
+        } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
+        const formData = { ...testData.data, claimantType: 'PARENT' };
 
-      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
-        const { depends } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
-        expect(depends(formData)).to.be.true;
-      });
+        it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+          const {
+            depends,
+          } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
+          expect(depends(formData)).to.be.true;
+        });
 
-      it('should have modified hint text for parent', () => {
-        expect(
-          uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
-            'ui:options'
-          ].hint,
-        ).to.include(
-          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        it('should have modified hint text for parent', () => {
+          expect(
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ].hint,
+          ).to.include(
+            'Your dependents include your spouse, including a same-sex and common-law partner.',
+          );
+        });
+
+        testSubmitsWithoutErrors(
+          formConfig,
+          schema,
+          uiSchema,
+          'parent summary page',
+          formData,
+          { loggedIn: true },
         );
       });
-
-      testSubmitsWithoutErrors(
-        formConfig,
-        schema,
-        uiSchema,
-        'parent summary page',
-        formData,
-        { loggedIn: true },
-      );
     });
   });
 
