@@ -56,7 +56,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementDateOutput;
     }
-    return '---';
+    return 'Empty';
   };
 
   const getReference = charge => {
@@ -64,7 +64,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementVal;
     }
-    return '---';
+    return 'Empty';
   };
 
   return (
@@ -88,9 +88,9 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
           <span>Amount</span>
         </va-table-row>
         <va-table-row>
-          <span>---</span>
+          <span>Empty</span>
           <span>Previous Balance</span>
-          <span>---</span>
+          <span>Empty</span>
           <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
         </va-table-row>
         {charges
@@ -104,11 +104,11 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             </va-table-row>
           ))}
         <va-table-row>
-          <span>---</span>
+          <span>Empty</span>
           <span>
             <strong>Current Balance</strong>
           </span>
-          <span>---</span>
+          <span>Empty</span>
           <span>
             <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
           </span>
