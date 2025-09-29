@@ -151,6 +151,14 @@ const formConfig = {
           uiSchema: terminationDetails.uiSchema,
           schema: terminationDetails.schema,
         },
+        marriageRecognition: {
+          path: 'marital/marriage-recognition',
+          title: 'Important information about marriage recognition',
+          depends: formData => formData.hasRemarried === true,
+          hideOnReview: true,
+          uiSchema: marriageRecognition.uiSchema,
+          schema: marriageRecognition.schema,
+        },
       },
     },
     contactInfoChapter: {
@@ -161,20 +169,6 @@ const formConfig = {
           title: 'How can we reach you?',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
-        },
-      },
-    },
-    certificationChapter: {
-      title: 'Additional information',
-      CustomPageReview: null,
-      pages: {
-        marriageRecognition: {
-          path: 'additional-info/marriage-recognition',
-          title: 'Important information about marriage recognition',
-          depends: formData => formData.hasRemarried === true,
-          hideOnReview: true,
-          uiSchema: marriageRecognition.uiSchema,
-          schema: marriageRecognition.schema,
         },
       },
     },
