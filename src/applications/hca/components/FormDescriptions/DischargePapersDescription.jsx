@@ -24,8 +24,8 @@ const DischargePapersDescription = ({ formContext }) => {
 
       <ul>
         <li>
-          Upload documents as one of these file types: .jpg, .png, .pdf, .doc,
-          .rtf
+          Upload documents as one of these file types: .jpg, .png, .heic, .pdf,
+          .doc, .rtf
         </li>
         <li>
           Upload one or more files that add up to no more than 10 MB total.
