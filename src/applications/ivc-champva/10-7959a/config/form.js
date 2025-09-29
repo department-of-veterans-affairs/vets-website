@@ -231,22 +231,22 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Veteran information',
       pages: {
         page2: {
           path: 'sponsor-info',
-          title: 'Name',
+          title: 'Veteran full name',
           ...sponsorNameSchema,
         },
         page2a1: {
           path: 'sponsor-mailing-address',
-          title: 'Your mailing address',
+          title: 'Veteran mailing address',
           depends: formData => get('certifierRole', formData) === 'sponsor',
           ...sponsorAddressSchema,
         },
         page2a2: {
           path: 'sponsor-contact-info',
-          title: 'Your contact information',
+          title: 'Veteran contact information',
           depends: formData => get('certifierRole', formData) === 'sponsor',
           ...sponsorContactSchema,
         },
@@ -279,7 +279,7 @@ const formConfig = {
               ...props,
               customTitle: privWrapper(`${fnp(props.data)} address`),
               customDescription:
-                'We’ll send any important information about this form to this address.',
+                'We’ll send any important information about this claim to this address.',
               customSelectText: `Does ${nameWording(
                 props.data,
                 false,

@@ -1,0 +1,23 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "veteranIdentification": {
+      "vaFileNumber": "123456789"
+    },
+    "recipientName": {
+      "first": "Jane",
+      "last": "Doe"
+    },
+    "recipient": {
+      "phone": {
+        "daytime": "555-000-0000"
+      },
+      "email": "jane@example.com"
+    },
+    "hasRemarried": false,
+    "signature": "Jane Doe"
+  }
+}

@@ -1,11 +1,20 @@
-import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import PostFormFieldContent from '../../../components/PostFormFieldContent';
-import NewTabAnchor from '../../../components/NewTabAnchor';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import InfoAlert from '../../../components/InfoAlert';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import PostFormFieldContent from '../../../components/PostFormFieldContent';
+import { selectFeatureImmediateCareAlert } from '../../../redux/selectors';
 
 export default function TypeOfCareAlert() {
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
+  const content = featureImmediateCareAlert
+    ? 'You’ll need to call your local VA health care facility to schedule an appointment.'
+    : 'You’ll need to call your VA health facility to schedule an appointment.';
   const headline = 'Is the type of care you need not listed here?';
+
   return (
     <PostFormFieldContent>
       <InfoAlert
@@ -15,8 +24,7 @@ export default function TypeOfCareAlert() {
         className="vads-u-margin-top--3 vads-u-margin-bottom--7"
       >
         <p>
-          You’ll need to call your VA health facility to schedule an
-          appointment. <br />
+          {content} <br />
           <NewTabAnchor
             href="/find-locations"
             onClick={() =>
@@ -30,7 +38,9 @@ export default function TypeOfCareAlert() {
               })
             }
           >
-            Find a VA location
+            {featureImmediateCareAlert
+              ? 'Find your local VA health care facility'
+              : 'Find a VA location'}
           </NewTabAnchor>
         </p>
       </InfoAlert>
