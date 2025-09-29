@@ -61,23 +61,48 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
 
 export const UPLOAD_TITLE = 'Your file';
 
-export const UPLOAD_DESCRIPTION = Object.freeze(
+export const SUPPORTING_DOCUMENTS =
+  'We may need additional documents to support your claim or application. Submitting them now will help us process your form faster. If you’re not ready to submit your supporting documents, you can send them to us later. But that means it may take us longer to make a decision.';
+
+export const UPLOAD_FORM_DESCRIPTION = Object.freeze(
+  <p>
+    <span className="vads-u-font-weight--bold">Note:</span> To save your files,
+    you must submit this form in the same session. If you leave without
+    submitting, you will need to upload your files again.
+  </p>,
+);
+
+export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
   <>
-    <span className="vads-u-font-weight--bold">Note:</span> After you upload
-    your file, you’ll need to continue to the end of the form to submit it. If
-    you leave before you submit it, you’ll need to upload it again.
+    <p>
+      Upload your supporting documents from the same device you’re using to
+      submit your form.{' '}
+    </p>
+    <p>
+      <span className="vads-u-font-weight--bold">Note:</span> To submit your
+      documents here, upload them when you’re ready to submit your form. We
+      can’t save documents for later. If you need more time to gather your
+      documents, follow the instructions on your form for how to submit them.
+    </p>
+    <va-additional-info trigger="How to determine what supporting documents to upload">
+      <p>
+        {' '}
+        To figure out which documents to upload, review the guidance we’ve given
+        you. This may be in:
+      </p>
+      <ul>
+        <li>Instructions on the paper form you filled out</li>
+        <li>Development letters we’ve sent you</li>
+        <li>Other guidance provided by VA</li>
+      </ul>
+    </va-additional-info>
   </>,
 );
 
 export const UPLOAD_SUPPORTING_DOCUMENTS = 'Upload Supporting Documents';
 
-export const UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION = Object.freeze(
-  <>
-    <span className="vads-u-font-weight--bold">Note:</span> To save your files,
-    you must submit this form in the same session. If you leave without
-    submitting, you will need to upload your files again.
-  </>,
-);
+export const getTitleByForm = formNumber =>
+  `Supporting Documents for VA Form ${formNumber}`;
 
 export const SAVE_IN_PROGRESS_CONFIG = {
   messages: {

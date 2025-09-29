@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-  titleUI,
+  descriptionUI,
   fileInputUI,
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PropTypes from 'prop-types';
 import {
-  UPLOAD_TITLE,
-  UPLOAD_DESCRIPTION,
+  UPLOAD_FORM_DESCRIPTION,
   FILE_UPLOAD_URL,
   MAX_FILE_SIZE,
 } from '../config/constants';
@@ -20,7 +19,7 @@ const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
-    ...titleUI(UPLOAD_TITLE, UPLOAD_DESCRIPTION),
+    ...descriptionUI(UPLOAD_FORM_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
