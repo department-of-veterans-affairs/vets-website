@@ -483,6 +483,56 @@ const baseClaims = [
     },
     false,
   ),
+  // Claim with no tracked items, 1 successfully uploaded supporting document, and 1 in progress evidence submission
+  createClaim(
+    '8',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-09',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [
+        {
+          acknowledgementDate: null,
+          claimId: 6,
+          createdAt: '2025-07-16T20:15:54.461Z',
+          deleteDate: '2025-09-14T21:00:00.847Z',
+          documentType: 'Birth Certificate',
+          failedDate: null,
+          fileName: 'Birth Certificate.pdf',
+          id: 189,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+      ],
+      supportingDocuments: [
+        createSupportingDocument(
+          '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+          'Photographs',
+          'Not tracked item photos.pdf',
+          null,
+          '2024-10-15',
+        ),
+      ],
+      contentions: [
+        {
+          name: 'Service connection for tinnitus',
+        },
+      ],
+    },
+    false,
+  ),
 ];
 
 function getClaimDataById(id) {
@@ -671,6 +721,7 @@ const responses = {
   'GET /v0/benefits_claims/5': getClaimDataById('5'),
   'GET /v0/benefits_claims/6': getClaimDataById('6'),
   'GET /v0/benefits_claims/7': getClaimDataById('7'),
+  'GET /v0/benefits_claims/8': getClaimDataById('8'),
 
   'GET /v0/appeals': {
     data: [appealData1],
