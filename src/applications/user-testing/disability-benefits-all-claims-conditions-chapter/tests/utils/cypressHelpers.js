@@ -4,6 +4,10 @@ export const expectPath = (pathname, search = '') => {
   cy.location('search').should('eq', search);
 };
 
+export const waitUntilEnabled = elem => {
+  expect(elem.get(0).disabled, 'field should be enabled').to.equal(false);
+};
+
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
     // 1) Schemaform pattern: any button whose id ends with "-continueButton" and whose text is "Continue"
@@ -79,7 +83,9 @@ export const fillNewConditionAutocomplete = text => {
       .get('va-text-input#root_newCondition')
       .should('exist')
       .shadow()
-      .find('#inputField');
+      .find('#inputField')
+      .should('be.visible')
+      .should(waitUntilEnabled);
 
   input()
     .clear()
@@ -324,6 +330,7 @@ export const fillWorsenedDetails = (desc, effects) => {
     .should('exist')
     .shadow()
     .find('input#inputField')
+    .should(waitUntilEnabled)
     .clear()
     .type(desc, { delay: 0 });
 
@@ -332,6 +339,7 @@ export const fillWorsenedDetails = (desc, effects) => {
     .should('exist')
     .shadow()
     .find('textarea#input-type-textarea')
+    .should(waitUntilEnabled)
     .clear()
     .type(effects, { delay: 0 });
 };
