@@ -143,20 +143,6 @@ const Prescriptions = () => {
   const { prescriptions: filteredList } = prescriptionsData || [];
   const { filterCount } = meta || {};
 
-  // Extract active refills for the RefillAlert component
-  const activeRefills = useMemo(
-    () => {
-      if (!filteredList?.length) return [];
-
-      return filteredList.filter(
-        prescription =>
-          prescription.dispStatus === 'Active: Refill in Process' ||
-          prescription.dispStatus === 'Active: Submitted',
-      );
-    },
-    [filteredList],
-  );
-
   const prescriptionId = useSelector(selectPrescriptionId);
   const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
@@ -658,7 +644,6 @@ const Prescriptions = () => {
         dataDogActionName={
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
-        activeRefills={activeRefills}
         refillAlertList={refillAlertList}
       />
     );
