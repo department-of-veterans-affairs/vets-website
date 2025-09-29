@@ -167,7 +167,7 @@ function buildGroupCommand(groupName, testPaths) {
   if (options.coverage) {
     const coverageReporter = options['coverage-html']
       ? '--reporter=mocha-multi-reporters mocha --retries 5'
-      : '--reporter=json-summary mocha --no-color --retries 5';
+      : '--reporter=mocha-multi-reporters mocha --no-color --retries 5';
     runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
   } else {
     runner = `BABEL_ENV=test NODE_ENV=test mocha --reporter mocha-multi-reporters --no-color --retries 5 ${baseMocha}`;
