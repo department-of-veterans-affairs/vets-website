@@ -480,7 +480,7 @@ export default function VaFileInputMultiplePage() {
     const { detail } = event;
     const { value } = detail;
 
-    // Use the forms library approach to get the correct file index
+    // Get the file index
     const fileIndex = getFileInputInstanceIndex(event);
 
     if (fileIndex >= 0 && files[fileIndex]) {
@@ -496,7 +496,7 @@ export default function VaFileInputMultiplePage() {
     const { detail } = event;
     const { value } = detail;
 
-    // Use the forms library approach to get the correct file index
+    // Get the file index
     const fileIndex = getFileInputInstanceIndex(event);
 
     if (fileIndex >= 0 && files[fileIndex]) {
@@ -648,7 +648,7 @@ export default function VaFileInputMultiplePage() {
           </span>
 
           <div>
-            <h3>Files State</h3>
+            <h3>Files State Preview</h3>
             <pre
               className="vads-u-background-color--gray-lightest vads-u-padding--1p5 vads-u-border-radius--md vads-u-font-family--mono"
               style={{
@@ -662,8 +662,9 @@ export default function VaFileInputMultiplePage() {
           </div>
         </div>
       </div>
+      {/* 
       <div className="vads-grid-row">
-        {/* Error Testing Instructions */}
+        Error Testing Instructions
         <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
           <h3>Error Testing & Visual State Reset:</h3>
           <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
@@ -717,6 +718,7 @@ export default function VaFileInputMultiplePage() {
           </p>
         </div>
       </div>
+*/}
     </div>
   );
 }
