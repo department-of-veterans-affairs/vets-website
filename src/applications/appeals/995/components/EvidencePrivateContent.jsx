@@ -41,12 +41,12 @@ export const EvidencePrivateContent = ({
   privacyAgreementAccepted,
   testing,
   showListOnly = false,
-  showScNewForm = false,
   limitedConsentResponse,
 }) => {
   if (!list?.length) {
     return null;
   }
+
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -77,43 +77,39 @@ export const EvidencePrivateContent = ({
       </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
-        {showScNewForm && (
-          <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
-                showListOnly,
-              )}`}
-            >
-              {title4142WithId}
-            </SubHeader>
-            <div>
-              {privacyAgreementAccepted ? (
-                AUTHORIZATION_LABEL
-              ) : (
-                // including non-empty error attribute for focus management
-                <span className="usa-input-error-message" error="error">
-                  You must give us authorization for us to get your non-VA
-                  medical records
-                </span>
-              )}
-            </div>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-private-authorization"
-                  className="edit-item"
-                  aria-label={`edit ${title4142WithId}`}
-                  data-link={
-                    testing ? EVIDENCE_PRIVATE_AUTHORIZATION_PATH : null
-                  }
-                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`}
-                  text={content.edit}
-                />
-              </div>
+        <li className={listClassNames(!showListOnly)}>
+          <SubHeader
+            className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {title4142WithId}
+          </SubHeader>
+          <div>
+            {privacyAgreementAccepted ? (
+              AUTHORIZATION_LABEL
+            ) : (
+              // including non-empty error attribute for focus management
+              <span className="usa-input-error-message" error="error">
+                You must give us authorization for us to get your non-VA medical
+                records
+              </span>
             )}
-          </li>
-        )}
+          </div>
+          {!reviewMode && (
+            <div className="vads-u-margin-top--1p5">
+              <BasicLink
+                disableAnalytics
+                id="edit-private-authorization"
+                className="edit-item"
+                aria-label={`edit ${title4142WithId}`}
+                data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_PATH : null}
+                path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`}
+                text={content.edit}
+              />
+            </div>
+          )}
+        </li>
         <li className={listClassNames(!showListOnly)}>
           <SubHeader
             className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
@@ -192,6 +188,7 @@ export const EvidencePrivateContent = ({
             to: toDate ? '' : content.missing.to,
             dates: !fromDate && !toDate ? content.missing.dates : '',
           };
+
           const hasErrors = Object.values(errors).join('');
 
           return (
@@ -270,6 +267,5 @@ EvidencePrivateContent.propTypes = {
   privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
-  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };
