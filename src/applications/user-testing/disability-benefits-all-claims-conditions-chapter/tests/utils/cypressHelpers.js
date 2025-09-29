@@ -68,7 +68,6 @@ export const setVaTextareaValue = (hostSelector, value) =>
 
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
-    // 1) Schemaform pattern: any button whose id ends with "-continueButton" and whose text is "Continue"
     if ($body.find('button[id$="-continueButton"]').length) {
       return cy
         .contains('button[id$="-continueButton"]', /^Continue\b/i)
@@ -135,16 +134,56 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
-export const fillNewConditionAutocomplete = text => {
-  const input = () => getVaInnerInput('va-text-input#root_newCondition');
+// export const fillNewConditionAutocomplete = text => {
+//   const input = () => getVaInnerInput('va-text-input#root_newCondition');
 
-  input()
-    .clear()
-    .type(text, { delay: 10 });
-  input().type('{downarrow}{enter}');
-  input()
-    .invoke('val')
-    .should('not.be.empty');
+//   input()
+//     .clear()
+//     .type(text, { delay: 10 });
+//   input().type('{downarrow}{enter}');
+//   input()
+//     .invoke('val')
+//     .should('not.be.empty');
+// };
+
+export const fillNewConditionAutocomplete = text => {
+  const hostSel = 'va-text-input#root_newCondition';
+
+  // 1) Set the value and fire input/change so suggestions logic triggers
+  setVaInputValue(hostSel, text);
+
+  // 2) Hint the component to open the list via a key event (ArrowDown)
+  waitHydrated(hostSel)
+    .shadow()
+    .find('#inputField', { timeout: 15000 })
+    .then(inp => {
+      const el = inp[0];
+      el.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'ArrowDown',
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
+
+  // 3) Wait for suggestions and select the first option (no typing)
+  waitHydrated(hostSel)
+    .shadow()
+    .find('[role="listbox"] [role="option"], [role="listbox"] li', {
+      timeout: 8000,
+    })
+    .should('exist')
+    .first()
+    .click({ force: true });
+
+  // 4) Sanity check: non-empty input after selection
+  waitHydrated(hostSel)
+    .shadow()
+    .find('#inputField')
+    .should(el => {
+      expect(el[0].value).to.not.equal('');
+    });
 };
 
 export const selectSideOfBody = side => {

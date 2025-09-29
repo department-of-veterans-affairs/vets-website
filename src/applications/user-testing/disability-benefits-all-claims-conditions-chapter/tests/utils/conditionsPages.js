@@ -7,6 +7,7 @@ import {
   fillNewConditionAutocomplete,
   fillNewConditionDate,
   selectSideOfBody,
+  setVaTextareaValue,
   waitForOneOfPaths,
 } from './cypressHelpers';
 
@@ -104,15 +105,52 @@ export const enterCauseNewDetails = (
 ) => {
   const BASE = `/user-testing/conditions/conditions-mango/${index}`;
   expectPath(`${BASE}/cause-new`, '?add=true');
-  // Fill a visible textarea (handles plain <textarea> or web component)
-  cy.get('textarea, [contenteditable="true"]')
-    .first()
-    .then(el => {
-      if (el.length)
-        cy.wrap(el)
-          .clear()
-          .type(details);
-    });
+
+  cy.get('body', { timeout: 20000 }).then($body => {
+    if ($body.find('va-textarea[name="root_causeNewDetails"]').length) {
+      return setVaTextareaValue(
+        'va-textarea[name="root_causeNewDetails"]',
+        details,
+      );
+    }
+
+    if ($body.find('textarea').length) {
+      return cy
+        .get('textarea:visible', { timeout: 20000 })
+        .first()
+        .then(txtarea => {
+          const textElem = txtarea[0];
+          textElem.value = '';
+          textElem.dispatchEvent(new Event('input', { bubbles: true }));
+          textElem.dispatchEvent(new Event('change', { bubbles: true }));
+          textElem.value = details;
+          textElem.dispatchEvent(new Event('input', { bubbles: true }));
+          textElem.dispatchEvent(new Event('change', { bubbles: true }));
+          textElem.dispatchEvent(new Event('blur', { bubbles: true }));
+          return cy.wrap(textElem).should('have.prop', 'value', details);
+        });
+    }
+
+    if ($body.find('[contenteditable="true"]').length) {
+      return cy
+        .get('[contenteditable="true"]:visible', { timeout: 20000 })
+        .first()
+        .then(editElem => {
+          const elem = editElem[0];
+          elem.textContent = '';
+          elem.dispatchEvent(new Event('input', { bubbles: true }));
+          elem.textContent = details;
+          elem.dispatchEvent(new Event('input', { bubbles: true }));
+          elem.dispatchEvent(new Event('change', { bubbles: true }));
+          elem.dispatchEvent(new Event('blur', { bubbles: true }));
+        })
+        .invoke('text')
+        .should('contain', 'Condition started in 2022');
+    }
+
+    throw new Error('No editable field found on cause-new page');
+  });
+
   clickContinue();
 };
 
