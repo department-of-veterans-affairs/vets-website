@@ -5,7 +5,7 @@ class AllergiesListPage extends BaseListPage {
   clickGotoAllergiesLink = (allergies = defaultAllergies) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/allergies',
+      '/my_health/v1/medical_records/allergies*',
       allergies,
     ).as('allergiesList');
     cy.findByRole('link', {
