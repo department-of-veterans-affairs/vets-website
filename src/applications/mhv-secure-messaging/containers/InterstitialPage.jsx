@@ -56,7 +56,8 @@ const InterstitialPage = props => {
   );
 
   const handleContinueButton = useCallback(
-    () => {
+    event => {
+      event.preventDefault();
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
         history.push(`${Paths.RECENT_CARE_TEAMS}`);
@@ -78,9 +79,8 @@ const InterstitialPage = props => {
         </p>
 
         <va-link-action
-          // TODO: need to handle the href url properly for semantics and testing
-          // SM KEYBOARD NAVIGATION TO COMPOSE doesn't currently recognize the link without semantic href url
-          href={handleContinueButton}
+          // href required for semantics and accessiblity
+          href={`${Paths.RECENT_CARE_TEAMS}`}
           onClick={handleContinueButton}
           label={continueButtonText}
           message-aria-describedby={continueButtonText}
