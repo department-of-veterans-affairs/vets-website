@@ -3,16 +3,31 @@
  * @description Barrel export file for form page configurations
  */
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
+// Benefit Selection
+export { default as BenefitTypePage } from './benefit-type';
+
+// Section I - Veteran Information
+export { default as VeteranIdentityPage } from './veteran-identity';
+
+// Section II - Claimant Information
+export { default as ClaimantIdentityPage } from './claimant-identity';
+
+// Section IV - Hospitalization
+export { default as HospitalizationPage } from './hospitalization';
+
+// Section V - Claimant Signature
+export { default as ClaimantSignaturePage } from './claimant-signature';
+
+// Section VI - Medical Examiner
 export {
-  default as identificationInformation,
-} from './identification-information';
+  default as ExaminerIdentificationPage,
+} from './examiner-identification';
+export { default as MedicalDiagnosisPage } from './medical-diagnosis';
 
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { default as mailingAddress } from './mailing-address';
+// Section VII - Functional Assessment
+export { default as ADLAssessmentPage } from './adl-assessment';
+export { default as FunctionalLimitationsPage } from './functional-limitations';
 
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
-
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
+// Section VIII - Narrative Assessment
+export { default as NarrativeAssessmentPage } from './narrative-assessment';
+export { default as ExaminerSignaturePage } from './examiner-signature';

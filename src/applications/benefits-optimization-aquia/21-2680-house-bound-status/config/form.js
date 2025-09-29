@@ -12,14 +12,21 @@ import {
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
-import {
-  nameAndDateOfBirth,
-  identificationInformation,
-  mailingAddress,
-  phoneAndEmailAddress,
-} from '@bio-aquia/21-2680-house-bound-status/pages';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
+
+// Import all page components
+import BenefitTypePage from '../pages/benefit-type';
+import VeteranIdentityPage from '../pages/veteran-identity';
+import ClaimantIdentityPage from '../pages/claimant-identity';
+import HospitalizationPage from '../pages/hospitalization';
+import ClaimantSignaturePage from '../pages/claimant-signature';
+import ExaminerIdentificationPage from '../pages/examiner-identification';
+import MedicalDiagnosisPage from '../pages/medical-diagnosis';
+import ADLAssessmentPage from '../pages/adl-assessment';
+import FunctionalLimitationsPage from '../pages/functional-limitations';
+import NarrativeAssessmentPage from '../pages/narrative-assessment';
+import ExaminerSignaturePage from '../pages/examiner-signature';
 
 /**
  * @typedef {Object} FormConfig
@@ -79,42 +86,142 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    // Part 1: Benefit Selection
+    benefitSelectionChapter: {
+      title: 'Benefit selection',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        benefitType: {
+          path: 'benefit-type',
+          title: 'Choose your benefit type',
+          CustomPage: BenefitTypePage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
+
+    // Part 2: Claimant Information (Sections I-V)
+    veteranInformationChapter: {
+      title: 'Section I - Veteran information',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        veteranIdentity: {
+          path: 'veteran-identity',
+          title: 'Veteran identification',
+          CustomPage: VeteranIdentityPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
+
+    claimantInformationChapter: {
+      title: 'Section II - Claimant information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        claimantIdentity: {
+          path: 'claimant-identity',
+          title: 'Claimant identification',
+          CustomPage: ClaimantIdentityPage,
+          CustomPageReview: null,
+          depends: formData => formData?.isVeteranClaimant === 'no',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    hospitalizationChapter: {
+      title: 'Section IV - Hospitalization',
+      pages: {
+        hospitalization: {
+          path: 'hospitalization',
+          title: 'Current hospitalization',
+          CustomPage: HospitalizationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    claimantSignatureChapter: {
+      title: 'Section V - Claimant certification',
+      pages: {
+        claimantSignature: {
+          path: 'claimant-signature',
+          title: 'Certification and signature',
+          CustomPage: ClaimantSignaturePage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    // Part 3: Medical Examination (Sections VI-VIII)
+    examinerInformationChapter: {
+      title: 'Section VI - Medical examiner information',
+      pages: {
+        examinerIdentification: {
+          path: 'examiner-identification',
+          title: 'Examiner identification',
+          CustomPage: ExaminerIdentificationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        medicalDiagnosis: {
+          path: 'medical-diagnosis',
+          title: 'Medical diagnoses',
+          CustomPage: MedicalDiagnosisPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    functionalAssessmentChapter: {
+      title: 'Section VII - Functional assessment',
+      pages: {
+        adlAssessment: {
+          path: 'adl-assessment',
+          title: 'Activities of Daily Living',
+          CustomPage: ADLAssessmentPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        functionalLimitations: {
+          path: 'functional-limitations',
+          title: 'Functional limitations',
+          CustomPage: FunctionalLimitationsPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    narrativeAssessmentChapter: {
+      title: 'Section VIII - Clinical narrative',
+      pages: {
+        narrativeAssessment: {
+          path: 'narrative-assessment',
+          title: 'Narrative and locomotion',
+          CustomPage: NarrativeAssessmentPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        examinerSignature: {
+          path: 'examiner-signature',
+          title: 'Examiner certification',
+          CustomPage: ExaminerSignaturePage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
