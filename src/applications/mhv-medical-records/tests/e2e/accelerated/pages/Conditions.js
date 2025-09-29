@@ -1,4 +1,5 @@
 import sessionStatus from '../fixtures/session/default.json';
+import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Conditions {
   setIntercepts = ({ conditionsData }) => {
@@ -12,6 +13,7 @@ class Conditions {
     cy.intercept('GET', '/my_health/v2/medical_records/conditions*', req => {
       req.reply(conditionsData);
     }).as('conditions-list');
+    MedicalRecordsLandingPage.uumIntercept();
   };
 
   goToConditionsPage = () => {
@@ -20,6 +22,7 @@ class Conditions {
     );
     cy.get('@conditions-link').should('be.visible');
     cy.get('@conditions-link').click();
+    cy.wait('@conditions-list');
   };
 
   verifyConditionsPageTitle = () => {
@@ -28,7 +31,8 @@ class Conditions {
   };
 
   clickConditionDetailsLink = (conditionIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findByText(/Showing \d{1,2} to \d{1,2} of \d{1,2} records from/);
+    cy.findAllByTestId('record-list-item')
       .eq(conditionIndex)
       .find('a')
       .click();

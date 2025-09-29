@@ -1,4 +1,5 @@
 import sessionStatus from '../fixtures/session/default.json';
+import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
 
 class Allergies {
   setIntercepts = ({ allergiesData, useOhData = true } = {}) => {
@@ -20,12 +21,11 @@ class Allergies {
       }
       req.reply(allergiesData);
     }).as('allergies-list');
+    MedicalRecordsLandingPage.uumIntercept();
   };
 
   goToAllergiesPage = () => {
-    cy.get('[data-testid="allergies-landing-page-link"]')
-      .should('be.visible')
-      .click();
+    cy.findByTestId('allergies-landing-page-link').click();
   };
 }
 

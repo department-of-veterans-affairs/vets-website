@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -11,10 +10,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 export const IntroductionPage = ({ route }) => {
   const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
-
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
 
   const renderIfVeteranContent = authenticated => {
     const prefix = authenticated ? 'You’ll' : 'If you’re the Veteran, you’ll';

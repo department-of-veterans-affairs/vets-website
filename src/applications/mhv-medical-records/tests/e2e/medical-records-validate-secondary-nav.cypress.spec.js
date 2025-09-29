@@ -8,7 +8,8 @@ describe('Medical Records validate secondary nav', () => {
   it('visits list pages and details pages, validates secondary nav', () => {
     const site = new MedicalRecordsSite();
     site.login();
-    cy.visit('my-health/medical-records');
+    site.loadPage();
+
     AllergiesListPage.clickGotoAllergiesLink(allergies);
     AllergiesListPage.verifySecondaryNav();
     AllergiesListPage.loadVAPaginationNextAllergies();

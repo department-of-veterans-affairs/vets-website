@@ -16,7 +16,7 @@ export const PRINT_RESULTS = (
       that may apply to you.
     </p>
     <va-button
-      class="vads-u-width--full"
+      class="print-button"
       onClick={window.print}
       text="Print this page"
     />
@@ -129,7 +129,7 @@ export const CLAIM_FOR_INCREASE_CARD = (nested = false) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="onramp-list-none" role="list">
         <li>
-          <va-card>
+          <va-card data-testid="claim-for-increase-card">
             {header}
             <p>
               This may be a good fit because your condition has worsened since

@@ -100,13 +100,13 @@ describe('card utilities', () => {
   describe('getLearnMoreLink', () => {
     it('returns a va-link element for Supplemental Claims', () => {
       const link = getLearnMoreLink('CARD_SC');
-      expect(link.props.href).to.equal('/decision-reviews/supplemental-claim/');
+      expect(link.props.href).to.equal('/decision-reviews/supplemental-claim');
       expect(link.props.text).to.equal('Learn more about Supplemental Claims');
     });
 
     it('returns a va-link element for Board Evidence', () => {
       const link = getLearnMoreLink('CARD_BOARD_EVIDENCE');
-      expect(link.props.href).to.equal('/decision-reviews/board-appeal/');
+      expect(link.props.href).to.equal('/decision-reviews/board-appeal');
       expect(link.props.text).to.equal('Learn more about Board Appeals');
     });
 
@@ -163,7 +163,9 @@ describe('card utilities', () => {
 
   describe('getDecisionTimeline', () => {
     it('returns timeline string for SC', () => {
-      expect(getDecisionTimeline('CARD_SC')).to.equal('86.4 days');
+      expect(getDecisionTimeline('CARD_SC')).to.equal(
+        '79.3 days (roughly 3 months)',
+      );
     });
 
     it('returns empty string for unknown', () => {

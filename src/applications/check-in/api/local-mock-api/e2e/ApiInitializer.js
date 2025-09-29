@@ -483,9 +483,15 @@ class ApiInitializer {
       cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
         req.reply(202, btsss.post.createMockSuccessResponse());
       }).as('btsssPostSuccess');
+      cy.intercept(`/check_in/v1/travel_claims/`, { times }, req => {
+        req.reply(202, btsss.post.createMockSuccessResponse());
+      }).as('btsssPostSuccess');
     },
     withFailure: (times = 1) => {
       cy.intercept(`/check_in/v0/travel_claims/`, { times }, req => {
+        req.reply(500, btsss.post.createMockFailedResponse());
+      }).as('btsssPostFailure');
+      cy.intercept(`/check_in/v1/travel_claims/`, { times }, req => {
         req.reply(500, btsss.post.createMockFailedResponse());
       }).as('btsssPostFailure');
     },
