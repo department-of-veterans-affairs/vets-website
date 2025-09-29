@@ -152,7 +152,15 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.rejects(new Error('nope'));
 
-      await submitMileageOnlyClaim('2024-05-26T16:40:45.781Z')(mockDispatch);
+      const mockApptData = {
+        appointmentDateTime: '2024-05-26T16:40:45.781Z',
+        facilityStationNumber: '983',
+        facilityName: 'Cheyenne VA Medical Center',
+        appointmentType: 'Other',
+        isComplete: false,
+      };
+
+      await submitMileageOnlyClaim(mockApptData)(mockDispatch);
 
       expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
         .be.true;
@@ -164,7 +172,15 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.resolves({ claimId: '1234' });
 
-      await submitMileageOnlyClaim('2024-05-26T16:40:45.781Z')(mockDispatch);
+      const mockApptData = {
+        appointmentDateTime: '2024-05-26T16:40:45.781Z',
+        facilityStationNumber: '983',
+        facilityName: 'Cheyenne VA Medical Center',
+        appointmentType: 'Other',
+        isComplete: false,
+      };
+
+      await submitMileageOnlyClaim(mockApptData)(mockDispatch);
 
       expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
         .be.true;
