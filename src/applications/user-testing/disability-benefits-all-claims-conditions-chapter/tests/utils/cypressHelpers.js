@@ -7,33 +7,64 @@ export const expectPath = (pathname, search = '') => {
 export const waitHydrated = selector =>
   cy.get(selector, { timeout: 15000 }).should('have.class', 'hydrated');
 
+// Always select a NON-disabled inner input and re-query before actions
 export const getVaInnerInput = selector =>
   waitHydrated(selector)
     .shadow()
+    // only grab enabled one(s)
     .find('#inputField:not([disabled])', { timeout: 15000 })
     .should('be.visible')
     .and('be.enabled');
 
-export const getVaInnerTextarea = selector =>
-  waitHydrated(selector)
+export const setVaInputValue = (hostSelector, value) =>
+  waitHydrated(hostSelector)
     .shadow()
-    .find('textarea#input-type-textarea:not([disabled])', { timeout: 15000 })
+    .find('#inputField', { timeout: 15000 })
     .should('be.visible')
-    .and('be.enabled');
+    .then(input => {
+      const el = input[0];
+      const wasDisabled = el.disabled === true;
+      if (wasDisabled) el.disabled = false;
 
-const typeIntoVaInput = (selector, text) =>
-  getVaInnerInput(selector).then(() =>
-    getVaInnerInput(selector)
-      .clear()
-      .type(text, { delay: 0 }),
-  );
+      el.value = '';
+      el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
 
-const typeIntoVaTextarea = (selector, text) =>
-  getVaInnerTextarea(selector).then(() =>
-    getVaInnerTextarea(selector)
-      .clear()
-      .type(text, { delay: 0 }),
-  );
+      el.value = value;
+      el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+
+      if (wasDisabled) el.disabled = true;
+
+      return cy
+        .wrap(el, { timeout: 15000 })
+        .should('have.prop', 'value', value);
+    });
+
+export const setVaTextareaValue = (hostSelector, value) =>
+  waitHydrated(hostSelector)
+    .shadow()
+    .find('textarea#input-type-textarea', { timeout: 15000 })
+    .should('be.visible')
+    .then(text => {
+      const el = text[0];
+      const wasDisabled = el.disabled === true;
+      if (wasDisabled) el.disabled = false;
+
+      el.value = '';
+      el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+
+      el.value = value;
+      el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+
+      if (wasDisabled) el.disabled = true;
+
+      return cy
+        .wrap(el, { timeout: 15000 })
+        .should('have.prop', 'value', value);
+    });
 
 export const clickContinue = () => {
   cy.get('body', { log: false }).then($body => {
@@ -122,49 +153,49 @@ export const selectSideOfBody = side => {
   });
 };
 
-export const fillNewConditionDate = input => {
-  let year;
-  let month;
-  let day;
+const parseDateInput = input => {
   if (typeof input === 'string') {
     const m = input.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
     if (!m)
       throw new Error(`fillNewConditionDate: invalid date string "${input}"`);
-    year = m[1];
-    month = m[2];
-    day = m[3];
-  } else if (input && typeof input === 'object') {
-    ({ year, month, day } = input);
-  } else {
-    throw new Error(
-      'fillNewConditionDate: expected string "YYYY-MM-DD" or {year, month, day}',
-    );
+    const [, year, month, day] = m;
+    return { year, month, day };
   }
+
+  if (input && typeof input === 'object') {
+    const { year, month, day } = input;
+    return { year: String(year), month: String(month), day: String(day) };
+  }
+
+  throw new Error(
+    'fillNewConditionDate: expected string "YYYY-MM-DD" or {year, month, day}',
+  );
+};
+
+export const fillNewConditionDate = input => {
+  const { year, month, day } = parseDateInput(input);
 
   const mNum = Number(month);
   const dNum = Number(day);
   const yStr = String(year);
+
+  if (!/^\d{4}$/.test(yStr))
+    throw new Error(`fillNewConditionDate: bad year "${year}"`);
   if (!mNum || mNum < 1 || mNum > 12)
     throw new Error(`fillNewConditionDate: bad month "${month}"`);
   if (!dNum || dNum < 1 || dNum > 31)
     throw new Error(`fillNewConditionDate: bad day "${day}"`);
 
   cy.get('.usa-memorable-date').within(() => {
-    // Month select (va-select)
+    // month still uses the native <select>
     waitHydrated('va-select')
       .shadow()
       .find('select')
       .should('be.visible')
       .select(String(mNum));
 
-    // After selecting month, day/year inputs become enabled—assert that before typing
-    getVaInnerInput('.usa-form-group--day va-text-input')
-      .clear()
-      .type(String(dNum));
-
-    getVaInnerInput('.usa-form-group--year va-text-input')
-      .clear()
-      .type(yStr);
+    setVaInputValue('.usa-form-group--day va-text-input', String(dNum));
+    setVaInputValue('.usa-form-group--year va-text-input', yStr);
   });
 };
 
@@ -338,8 +369,8 @@ export const chooseCauseByLabel = (labelRe = /Worsened/i) => {
 };
 
 export const fillWorsenedDetails = (desc, effects) => {
-  typeIntoVaInput('va-text-input[name="root_worsenedDescription"]', desc);
-  typeIntoVaTextarea('va-textarea[name="root_worsenedEffects"]', effects);
+  setVaInputValue('va-text-input[name="root_worsenedDescription"]', desc);
+  setVaTextareaValue('va-textarea[name="root_worsenedEffects"]', effects);
 };
 
 export const clickSaveAndContinue = () => {
