@@ -1,11 +1,11 @@
 import {
+  chooseCauseByLabel,
   chooseConditionTypeRadioBtn,
   clickContinue,
   expectPath,
 } from './utils/cypressHelpers';
 import {
   addCondition,
-  chooseCauseByLabel,
   chooseConditionType,
   conditionsInfo,
   enterCauseNewDetails,
