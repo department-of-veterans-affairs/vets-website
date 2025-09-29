@@ -169,11 +169,7 @@ function buildGroupCommand(groupName, testPaths) {
       '--reporter-options configFile=config/mocha-multi-reporter.js mocha --retries 5';
     runner = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} ${baseMocha}`;
   } else {
-    runner =
-      'BABEL_ENV=test NODE_ENV=test ' +
-      'mocha --reporter mocha-multi-reporters ' +
-      '--reporter-options configFile=config/mocha-multi-reporter.js ' +
-      `--retries 5 ${baseMocha}`;
+    runner = `BABEL_ENV=test NODE_ENV=test --retries 5 ${baseMocha}`;
   }
   return `FORCE_COLOR=1 MOCHA_COLORS=1 STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
