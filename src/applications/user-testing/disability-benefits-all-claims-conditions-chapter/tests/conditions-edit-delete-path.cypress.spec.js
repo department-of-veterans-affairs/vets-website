@@ -17,12 +17,12 @@ import {
   cancelDelete,
   expectCardText,
   expectPath,
-  fillWorsenedDetails,
+  //   fillWorsenedDetails,
   openDeleteModalFromCard,
 } from './utils/cypressHelpers';
 
 describe('Conditions — Summary (Edit & Delete)', () => {
-  it.skip('edits condition 0 and shows a success alert on return', () => {
+  it('edits condition 0 and shows a success alert on return', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
@@ -68,12 +68,71 @@ describe('Conditions — Summary (Edit & Delete)', () => {
       '?edit=true',
     );
 
-    fillWorsenedDetails(
-      'Got worse during field exercises and exposure.',
-      'Before service: occasional mild symptoms. After service: frequent attacks requiring inhaler.',
-    );
+    // fillWorsenedDetails(
+    //   'Got worse during field exercises and exposure.',
+    //   'Before service: occasional mild symptoms. After service: frequent attacks requiring inhaler.',
+    // );
+
+    const desc = 'Got worse during field exercises and exposure.';
+    const effects =
+      'Before service: occasional mild symptoms. After service: frequent attacks requiring inhaler.';
+
+    // description: <va-text-input name="root_worsenedDescription">
+    cy.get('va-text-input[name="root_worsenedDescription"]', { timeout: 20000 })
+      .should('have.class', 'hydrated')
+      .shadow()
+      .find('#inputField')
+      .should('be.visible')
+      .then($inp => {
+        const el = $inp[0];
+        const wasDisabled = el.disabled === true;
+        if (wasDisabled) el.disabled = false;
+
+        el.value = '';
+        el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+        el.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
+
+        el.value = desc;
+        el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+        el.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
+
+        if (wasDisabled) el.disabled = true;
+      })
+      .should('have.prop', 'value', desc);
+
+    // effects: <va-textarea name="root_worsenedEffects">
+    cy.get('va-textarea[name="root_worsenedEffects"]', { timeout: 20000 })
+      .should('have.class', 'hydrated')
+      .shadow()
+      .find('textarea#input-type-textarea')
+      .should('be.visible')
+      .then($ta => {
+        const el = $ta[0];
+        const wasDisabled = el.disabled === true;
+        if (wasDisabled) el.disabled = false;
+
+        el.value = '';
+        el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+        el.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
+
+        el.value = effects;
+        el.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+        el.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
+
+        if (wasDisabled) el.disabled = true;
+      })
+      .should('have.value', effects);
 
     clickSaveAndContinue();
+
     expectPath(
       '/user-testing/conditions/conditions-mango-summary',
       '?updated=condition-0',
