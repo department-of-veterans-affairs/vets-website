@@ -478,7 +478,7 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
- * @property {DuplicateChecks} duplicateChecks
+ * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
  * duplicateChecks: {
@@ -510,7 +510,7 @@
  * @typedef {Object} DuplicateChecks
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
- * @property {String} comparisonType - set as 'all', 'internal', or 'external'.
+ * @property {String} [comparisonType] - set as 'all', 'internal', or 'external'.
  *   - 'all' compares both internal and external data (default)
  *   - 'internal' compares only within the array data
  *   - 'external' compares unique internal data with external data (internal
