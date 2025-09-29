@@ -279,7 +279,7 @@ const formConfig = {
               ...props,
               customTitle: privWrapper(`${fnp(props.data)} address`),
               customDescription:
-                'We’ll send any important information about this form to this address.',
+                'We’ll send any important information about this claim to this address.',
               customSelectText: `Does ${nameWording(
                 props.data,
                 false,
