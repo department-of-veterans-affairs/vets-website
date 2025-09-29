@@ -134,3 +134,5 @@ IntroductionPage.propTypes = {
     basename: PropTypes.string,
   }),
 };
+
+export default IntroductionPage;

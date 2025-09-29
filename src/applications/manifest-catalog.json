@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 144,
+  "totalApplications": 141,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -104,6 +104,12 @@
       "appName": "21-0779 Nursing Home Information",
       "entryName": "21-0779-nursing-home-information",
       "rootUrl": "/21-0779-nursing-home-information"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2008-burial-flags",
+      "appName": "Burial flags 21-2008",
+      "entryName": "21-2008-burial-flags",
+      "rootUrl": "/21-2008-burial-flags"
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",

@@ -201,6 +201,11 @@ describe('useFormSection - Form section state management', () => {
         }),
       );
 
+      // Simulate form submission attempt to enable validation
+      act(() => {
+        result.current.setFormSubmitted(true);
+      });
+
       // Initially, hasInitialized is false, so no validation yet
       // But after first render effect, it validates
       act(() => {
@@ -225,6 +230,11 @@ describe('useFormSection - Form section state management', () => {
           defaultData,
         }),
       );
+
+      // Simulate form submission attempt to enable validation
+      act(() => {
+        result.current.setFormSubmitted(true);
+      });
 
       // Create an error
       act(() => {
