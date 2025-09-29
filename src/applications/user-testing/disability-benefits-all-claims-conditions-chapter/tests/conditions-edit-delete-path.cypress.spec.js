@@ -68,10 +68,7 @@ describe('Conditions — Summary (Edit & Delete)', () => {
       '?edit=true',
     );
 
-    fillWorsenedDetails(
-      'Got worse during field exercises and exposure.',
-      'Before service: occasional mild symptoms. After service: frequent attacks requiring inhaler.',
-    );
+    fillWorsenedDetails();
 
     clickSaveAndContinue();
     expectPath(
