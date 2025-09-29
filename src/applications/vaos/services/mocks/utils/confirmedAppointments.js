@@ -276,6 +276,36 @@ const serviceTypes = {
 
 // Appointment type templates
 const appointmentTemplates = {
+  cc: {
+    getTemplate: (_, startDate) => {
+      const appointmentId = generateRandomId();
+      return {
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          id: appointmentId,
+          status: 'booked',
+          patientIcn: null,
+          created: formatAppointmentDate(new Date()),
+          locationId: 'sandbox-network-5vuTac8v',
+          clinic: '9L5WE4aN',
+          start: formatAppointmentDate(startDate),
+          referralId: 'VA0000007254',
+          referral: {
+            referralNumber: 'VA0000007254',
+          },
+          providerServiceId: '9L5WE4aN',
+          providerName: 'A&D HEALTH CARE PROFESSIONALS, INC.',
+          location: 'Error fetching facility details',
+          kind: 'cc',
+          type: 'COMMUNITY_CARE_APPOINTMENT',
+          pending: false,
+          past: startDate < new Date(),
+          future: startDate > new Date(),
+        },
+      };
+    },
+  },
   clinic: {
     getTemplate: (serviceType, startDate, locationId = '983') => {
       const serviceConfig = serviceTypes[serviceType];
@@ -640,7 +670,7 @@ const getMockConfirmedAppointments = (options = {}) => {
     futureMonths = 6,
     pastMonths = 3,
     appointmentsPerMonth = 2,
-    appointmentTypes = ['clinic', 'phone', 'telehealth'],
+    appointmentTypes = ['clinic', 'phone', 'telehealth', 'cc'],
     serviceTypes: requestedServiceTypes = [
       'primaryCare',
       'outpatientMentalHealth',

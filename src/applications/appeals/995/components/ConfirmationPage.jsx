@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { selectProfile } from 'platform/user/selectors';
 
 // Content
@@ -38,8 +38,10 @@ import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { LivingSituation } from './LivingSituation';
+import { convertBoolResponseToYesNo } from '../utils/form-data-display';
 
-export const ConfirmationPageV2 = () => {
+export const ConfirmationPage = () => {
+  resetStoredSubTask();
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
 
@@ -54,11 +56,6 @@ export const ConfirmationPageV2 = () => {
   const noEvidence =
     vaEvidence.length + privateEvidence.length + otherEvidence.length === 0;
   const showScNewForm = data[SC_NEW_FORM_DATA];
-
-  let mstOptionText = '';
-  if (showScNewForm && typeof data.mstOption === 'boolean') {
-    mstOptionText = data.mstOption ? 'Yes' : 'No';
-  }
 
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
@@ -161,6 +158,7 @@ export const ConfirmationPageV2 = () => {
           </div>
           <div
             className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-testid="confirmation-form-5103"
             data-dd-action-name="notice 5103 reviewed"
           >
             {data.form5103Acknowledged
@@ -176,6 +174,7 @@ export const ConfirmationPageV2 = () => {
             </div>
             <div
               className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-testid="confirmation-facility-types"
               data-dd-action-name="facility types selected"
             >
               {facilityTypeList(data.facilityTypes) || 'None selected'}
@@ -186,7 +185,12 @@ export const ConfirmationPageV2 = () => {
 
       {noEvidence && (
         <>
-          <h3 className={chapterHeaderClass}>{evidenceContent.summaryTitle}</h3>
+          <h3
+            data-testid="confirmation-no-evidence-header"
+            className={chapterHeaderClass}
+          >
+            {evidenceContent.summaryTitle}
+          </h3>
           <div className="no-evidence">
             {evidenceContent.missingEvidenceReviewText}
           </div>
@@ -223,54 +227,42 @@ export const ConfirmationPageV2 = () => {
         />
       ) : null}
 
-      {showScNewForm && (
-        <>
-          <h3 className={chapterHeaderClass}>VHA indicator</h3>
-
-          {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
+      <h3 className={chapterHeaderClass}>VHA indicator</h3>
+      {/* Adding a `role="list"` to `ul` with `list-style: none` to work around
               a problem with Safari not treating the `ul` as a list. */}
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
-            <li>
-              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                {optionForMstTitle}
-              </div>
-              <div
-                className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                data-dd-action-name="option for MST"
-              >
-                {mstOptionText}
-              </div>
-            </li>
-            {data.mstOption && (
-              <li>
-                <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                  {optionIndicatorLabel}
-                </div>
-                <div
-                  className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                  data-dd-action-name="MST option indicator"
-                >
-                  {optionIndicatorChoices[data.optionIndicator] ??
-                    'None selected'}
-                </div>
-              </li>
-            )}
-          </ul>
-        </>
-      )}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="remove-bullets vads-u-margin-bottom--4" role="list">
+        <li className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {optionForMstTitle}
+          </p>
+          <p
+            className="vads-u-margin-top--0 vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-testid="confirmation-mst-response"
+            data-dd-action-name="option for MST"
+          >
+            {convertBoolResponseToYesNo(data.mstOption)}
+          </p>
+        </li>
+        {data.mstOption && (
+          <li>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              {optionIndicatorLabel}
+            </p>
+            <p
+              className="vads-u-margin-top--0 vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-testid="confirmation-mst-option-indicator"
+              data-dd-action-name="MST option indicator"
+            >
+              {optionIndicatorChoices[data.optionIndicator] ?? 'None selected'}
+            </p>
+          </li>
+        )}
+      </ul>
 
       <ConfirmationReturnLink />
     </>
   );
 };
 
-ConfirmationPageV2.propTypes = {
-  children: PropTypes.element,
-  form: PropTypes.shape({
-    data: PropTypes.shape({}),
-    formId: PropTypes.string,
-  }),
-};
-
-export default ConfirmationPageV2;
+export default ConfirmationPage;
