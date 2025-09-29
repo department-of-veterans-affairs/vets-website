@@ -7,8 +7,6 @@ import {
 const hasRemarriedUI = yesNoUI();
 hasRemarriedUI['ui:title'] =
   'Have you remarried since the death of the veteran?';
-hasRemarriedUI['ui:description'] =
-  'If you answer "No", you can skip to the certification section';
 
 export default {
   uiSchema: {
