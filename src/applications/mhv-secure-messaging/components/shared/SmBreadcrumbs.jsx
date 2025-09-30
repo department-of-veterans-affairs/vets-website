@@ -74,12 +74,73 @@ const SmBreadcrumbs = () => {
     [pathsUsingBackLink, crumbPath],
   );
 
+  // Track the entry point into the compose flow to avoid loops
+  // If previousUrl is within the compose wizard (not interstitial), find the real exit point
+  const composeFlowExitPoint = useMemo(
+    () => {
+      // Safety: if previousUrl is undefined or contact list, default to inbox
+      // ** When Contact list is clicked from select-care-team, it is routed away from the compose flow /new-message/
+      if (!previousUrl || previousUrl === Constants.Paths.CONTACT_LIST) {
+        return Constants.Paths.INBOX;
+      }
+
+      const composeFlowWizardPages = [
+        // Note: Paths.COMPOSE (interstitial) is NOT included - we want to navigate back to it
+        Constants.Paths.RECENT_CARE_TEAMS,
+        `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`,
+        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`,
+        Constants.Paths.CARE_TEAM_HELP,
+      ];
+
+      // If previousUrl is a compose flow wizard page, default to inbox
+      const isComposeFlowWizardPage = composeFlowWizardPages.some(page =>
+        previousUrl.startsWith(page),
+      );
+
+      return isComposeFlowWizardPage ? Constants.Paths.INBOX : previousUrl;
+    },
+    [previousUrl],
+  );
+
+  // Compose flow navigation map - defines explicit back button destinations
+  const composeFlowMap = useMemo(
+    () => ({
+      // Care team help always goes back to select care team
+      [Constants.Paths.CARE_TEAM_HELP]: `${Constants.Paths.COMPOSE}${
+        Constants.Paths.SELECT_CARE_TEAM
+      }`,
+      // Start message goes back to select care team
+      [`${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`]: `${
+        Constants.Paths.COMPOSE
+      }${Constants.Paths.SELECT_CARE_TEAM}`,
+      // Select care team goes back to recent care teams
+      [`${Constants.Paths.COMPOSE}${
+        Constants.Paths.SELECT_CARE_TEAM
+      }`]: Constants.Paths.RECENT_CARE_TEAMS,
+      // Recent care teams goes back to interstitial
+      [Constants.Paths.RECENT_CARE_TEAMS]: Constants.Paths.COMPOSE,
+      // Interstitial exits the flow - goes to where user was before entering
+      [Constants.Paths.COMPOSE]: composeFlowExitPoint,
+    }),
+    [composeFlowExitPoint],
+  );
+
   const navigateBack = useCallback(
     () => {
       const { pathname } = location;
+
+      // Check if current page is in the compose flow
+      const composeFlowDestination = composeFlowMap[pathname];
+
+      if (composeFlowDestination) {
+        // We're in the compose flow - use the mapped destination
+        history.push(composeFlowDestination);
+        return;
+      }
+
+      // Handle non-compose-flow pages
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
-
       const isCompose = previousUrl === Constants.Paths.COMPOSE;
       const isSentFolder =
         crumb?.href ===
@@ -88,17 +149,9 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      const isSelectCareTeam = pathname.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
       const wasSelectCareTeam = previousUrl.includes(
         Constants.Paths.SELECT_CARE_TEAM,
       );
-      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
-      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
-      const wasStartMessage =
-        pathname ===
-        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -108,21 +161,10 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-      } else if (wasCareTeamHelp) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (!isDraft && wasStartMessage) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
       } else if (wasSelectCareTeam) {
         history.push(Constants.Paths.INBOX);
-      } else if (isSelectCareTeam) {
-        // Navigate to previous URL only if it's part of the compose flow (recent care teams)
-        // Otherwise go to the interstitial compose page
-        if (previousUrl === Constants.Paths.RECENT_CARE_TEAMS) {
-          history.push(previousUrl);
-        } else {
-          history.push(Constants.Paths.COMPOSE);
-        }
       } else {
+        // Default: go to previousUrl, but skip contact list (redirect to inbox instead)
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
             ? previousUrl
@@ -132,6 +174,7 @@ const SmBreadcrumbs = () => {
     },
     [
       activeDraftId,
+      composeFlowMap,
       crumb?.href,
       history,
       locationBasePath,
