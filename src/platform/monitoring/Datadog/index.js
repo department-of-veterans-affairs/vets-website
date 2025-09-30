@@ -187,7 +187,9 @@ const dataDogLogger = ({
    */
   logger = window.DD_LOGS?.logger || (() => {}),
 }) => {
-  if (!logger) return;
+  if (!logger || !logger?.log) {
+    return;
+  }
   logger.log(message, attributes || {}, status, error);
 };
 
