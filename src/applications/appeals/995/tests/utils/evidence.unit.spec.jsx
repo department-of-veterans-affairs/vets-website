@@ -4,10 +4,6 @@ import {
   getVAEvidence,
   getPrivateEvidence,
   getOtherEvidence,
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasPrivateLimitation,
-  hasOtherEvidence,
   getIndex,
   evidenceNeedsUpdating,
   removeNonSelectedIssuesFromEvidence,
@@ -16,7 +12,6 @@ import {
 import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
-  LIMITED_CONSENT_RESPONSE,
   EVIDENCE_OTHER,
   SC_NEW_FORM_DATA,
   HAS_REDIRECTED,
@@ -100,45 +95,6 @@ describe('getOtherEvidence', () => {
     expect(
       getOtherEvidence({ [EVIDENCE_OTHER]: false, additionalDocuments: [{}] }),
     ).to.deep.equal([]);
-  });
-});
-
-describe('hasVAEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasVAEvidence({ [EVIDENCE_VA]: undefined })).to.be.undefined;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: true })).to.be.true;
-    expect(hasVAEvidence({ [EVIDENCE_VA]: false })).to.be.false;
-  });
-});
-
-describe('hasPrivateEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: undefined })).to.be.false;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: true })).to.be.true;
-    expect(hasPrivateEvidence({ [EVIDENCE_PRIVATE]: false })).to.be.false;
-  });
-});
-
-describe('hasPrivateLimitation', () => {
-  it('should return expected value', () => {
-    const getData = limit => ({
-      [EVIDENCE_PRIVATE]: true,
-      [LIMITED_CONSENT_RESPONSE]: limit,
-    });
-
-    expect(hasPrivateLimitation(getData(false))).to.be.false;
-    expect(hasPrivateLimitation(getData())).to.be.false;
-    expect(hasPrivateLimitation(getData(''))).to.be.false;
-    expect(hasPrivateLimitation(getData('test'))).to.be.true;
-    expect(hasPrivateLimitation(getData(true))).to.be.true;
-  });
-});
-
-describe('hasOtherEvidence', () => {
-  it('should return expected value', () => {
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: undefined })).to.be.undefined;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: true })).to.be.true;
-    expect(hasOtherEvidence({ [EVIDENCE_OTHER]: false })).to.be.false;
   });
 });
 

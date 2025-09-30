@@ -47,12 +47,14 @@ export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
   chapters.evidence.pages.evidenceVaRecords.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
+export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
 
 export const VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_vamc"]';
 export const NON_VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_nonVa"]';
 export const ADDTL_EVIDENCE_RADIO = '[name="root_view:hasOtherEvidence"]';
 export const MST_RADIO = '[name="root_mstOption"]';
+export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
 
 // VA location inputs
 export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
