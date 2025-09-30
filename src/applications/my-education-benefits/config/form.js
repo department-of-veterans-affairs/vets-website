@@ -81,7 +81,7 @@ const formConfig = {
   getHelp: () => <GetFormHelp />, // Wrapping in a function to skirt failing platform unit test
   preSubmitInfo: {
     CustomComponent: CustomPreSubmitInfo,
-    required: false,
+    required: true,
     field: 'privacyAgreementAccepted',
   },
   chapters: {
