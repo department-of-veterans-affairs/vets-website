@@ -175,7 +175,13 @@ export const RouteLeavingGuard = ({
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation, dispatch, lastLocation?.pathname, navigate],
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
   );
 
   useEffect(

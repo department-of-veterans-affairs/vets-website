@@ -7,6 +7,7 @@ import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import { Breadcrumbs, Paths } from '../../util/constants';
+import manifest from '../../manifest.json';
 
 let initialState;
 describe('Breadcrumbs', () => {
@@ -60,10 +61,11 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    expect(breadcrumb).to.have.attribute(
-      'href',
-      '/my-health/secure-messages/inbox/',
-    );
+    const expectedHref = `${manifest.rootUrl}${
+      customState.sm.breadcrumbs.previousUrl
+    }`;
+    expect(breadcrumb).to.have.attribute('href', expectedHref);
+    expect(breadcrumb).to.have.attribute('text', 'Back');
   });
 
   it('on Compose renders as back link only', async () => {
@@ -84,10 +86,11 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    expect(breadcrumb).to.have.attribute(
-      'href',
-      '/my-health/secure-messages/new-message/',
-    );
+    const expectedHref = `${manifest.rootUrl}${
+      initialStateWithPreviousUrl.sm.breadcrumbs.previousUrl
+    }`;
+    expect(breadcrumb).to.have.attribute('href', expectedHref);
+    expect(breadcrumb).to.have.attribute('text', 'Back');
   });
 
   it('on Drafts Folder renders without errors', async () => {
@@ -271,6 +274,32 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(previous);
+    });
+  });
+
+  it('navigates back to recent care teams from select care team', async () => {
+    const previous = Paths.RECENT_CARE_TEAMS;
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: previous,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+    });
+
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
+
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(previous);
     });
   });
 });
