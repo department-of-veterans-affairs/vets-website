@@ -55,7 +55,7 @@ import InProductionEducationFiltering from '../components/MedicationsList/InProd
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import {
   useGetPrescriptionsListQuery,
-  getPrescriptionSortedList,
+  getPrescriptionsExportList,
 } from '../api/prescriptionsApi';
 import {
   setSortOption,
@@ -158,13 +158,12 @@ const Prescriptions = () => {
   );
 
   const prescriptionId = useSelector(selectPrescriptionId);
-  const [prescriptionsFullList, setPrescriptionsFullList] = useState([]);
+  const [prescriptionsExportList, setPrescriptionsExportList] = useState([]);
   const [shouldPrint, setShouldPrint] = useState(false);
   const [printedList, setPrintedList] = useState([]);
-  const [hasFullListDownloadError, setHasFullListDownloadError] = useState(
+  const [hasExportListDownloadError, setHasExportListDownloadError] = useState(
     false,
   );
-  const [isRetrievingFullList, setIsRetrievingFullList] = useState(false);
   const isAlertVisible = useMemo(() => false, []);
   const [isLoading, setLoading] = useState();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
@@ -394,13 +393,13 @@ const Prescriptions = () => {
         `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
         `Medications list\n\n` +
         `Showing ${
-          prescriptionsFullList?.length
+          prescriptionsExportList?.length
         } records, ${rxListSortingOptions[
           selectedSortOption
         ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, prescriptionsFullList],
+    [userName, dob, selectedSortOption, prescriptionsExportList],
   );
 
   const generatePDF = useCallback(
@@ -437,7 +436,7 @@ const Prescriptions = () => {
       const { format } = pdfTxtGenerateStatus;
       const isInProgress =
         pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress;
-      const exportListReady = !!prescriptionsFullList?.length;
+      const exportListReady = !!prescriptionsExportList?.length;
       const allergiesReady = !!allergies && !allergiesError;
 
       // Only proceed when we're actively exporting AND all required data is present
@@ -445,16 +444,16 @@ const Prescriptions = () => {
 
       if (format === DOWNLOAD_FORMAT.PDF) {
         generatePDF(
-          buildPrescriptionsPDFList(prescriptionsFullList),
+          buildPrescriptionsPDFList(prescriptionsExportList),
           buildAllergiesPDFList(allergies),
         );
       } else if (format === DOWNLOAD_FORMAT.TXT) {
         generateTXT(
-          buildPrescriptionsTXT(prescriptionsFullList),
+          buildPrescriptionsTXT(prescriptionsExportList),
           buildAllergiesTXT(allergies),
         );
       } else if (format === PRINT_FORMAT.PRINT) {
-        setPrintedList(prescriptionsFullList);
+        setPrintedList(prescriptionsExportList);
         setPdfTxtGenerateStatus({
           status: PDF_TXT_GENERATE_STATUS.NotStarted,
         });
@@ -466,14 +465,10 @@ const Prescriptions = () => {
     [
       allergies,
       allergiesError,
-      prescriptionsFullList,
+      prescriptionsExportList,
       pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
-      isRetrievingFullList,
-      filteredList,
-      paginatedPrescriptionsList,
-      printRxList,
     ],
   );
 
@@ -490,13 +485,13 @@ const Prescriptions = () => {
   // Reset prescription list if new filter or sort order is applied
   useEffect(
     () => {
-      setPrescriptionsFullList([]);
+      setPrescriptionsExportList([]);
     },
     [selectedFilterOption, selectedSortOption],
   );
 
-  const handleFullListDownload = async format => {
-    setHasFullListDownloadError(false);
+  const handleExportListDownload = async format => {
+    setHasExportListDownloadError(false);
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     setPdfTxtGenerateStatus({
@@ -506,12 +501,11 @@ const Prescriptions = () => {
     if (
       (isTxtOrPdf ||
         !allergies ||
-        (format === PRINT_FORMAT.PRINT && !prescriptionsFullList.length)) &&
-      !prescriptionsFullList.length
+        (format === PRINT_FORMAT.PRINT && !prescriptionsExportList.length)) &&
+      !prescriptionsExportList.length
     ) {
-      setIsRetrievingFullList(true);
       const { data, isError } = await dispatch(
-        getPrescriptionSortedList.initiate(
+        getPrescriptionsExportList.initiate(
           {
             sortEndpoint: rxListSortingOptions[selectedSortOption].API_ENDPOINT,
             filterOption: filterOptions[selectedFilterOption]?.url || '',
@@ -524,18 +518,17 @@ const Prescriptions = () => {
       );
 
       if (isError) {
-        setHasFullListDownloadError(true);
+        setHasExportListDownloadError(true);
       } else {
-        setPrescriptionsFullList(data.prescriptions);
+        setPrescriptionsExportList(data.prescriptions);
       }
-      setIsRetrievingFullList(false);
     }
   };
 
   const isShowingErrorNotification = Boolean(
     (pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress &&
       allergiesError) ||
-      hasFullListDownloadError,
+      hasExportListDownloadError,
   );
 
   let contentMarginTop;
@@ -743,7 +736,7 @@ const Prescriptions = () => {
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
               <PrintDownload
-                onDownload={handleFullListDownload}
+                onDownload={handleExportListDownload}
                 isSuccess={
                   pdfTxtGenerateStatus.status ===
                   PDF_TXT_GENERATE_STATUS.Success
@@ -790,8 +783,10 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
-        isFullList={printedList.length === prescriptionsFullList.length}
+        hasError={
+          hasExportListDownloadError || isAlertVisible || allergiesError
+        }
+        isFullList={printedList.length === prescriptionsExportList.length}
       />
     </div>
   );

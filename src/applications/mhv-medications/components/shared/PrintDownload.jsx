@@ -1,4 +1,3 @@
-/* eslint-disable @department-of-veterans-affairs/prefer-button-component */
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -186,8 +185,8 @@ const PrintDownload = props => {
         <ul className={menuOptionsClasses} data-testid="print-download-list">
           <li>
             <button
-              data-dd-action-name={`${dataDogActionNames.shared.PRINT_THIS}${
-                list ? 'Page Of The List' : 'Page'
+              data-dd-action-name={`${dataDogActionNames.shared.PRINT}${
+                list ? 'List' : 'This Page'
               } Option - ${list ? pageType.LIST : pageType.DETAILS}`}
               className="vads-u-padding-x--2 print-download-btn-min-height"
               id="printButton-0"
@@ -241,11 +240,11 @@ const PrintDownload = props => {
 export default PrintDownload;
 
 PrintDownload.propTypes = {
+  isFiltered: PropTypes.bool,
+  isLoading: PropTypes.bool,
   isSuccess: PropTypes.bool,
   list: PropTypes.any,
   onDownload: PropTypes.any,
   onPrint: PropTypes.func,
   onText: PropTypes.func,
-  isLoading: PropTypes.bool,
-  isFiltered: PropTypes.bool,
 };
