@@ -462,7 +462,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /We’re sorry. We’ve run into a problem/,
+        name: /We’re sorry. We’ve run into a problemsssss/,
       }),
     ).to.exist;
   });
