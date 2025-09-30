@@ -6,30 +6,22 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from '~/platform/user/selectors';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { useFormFeatureToggleSync } from 'platform/utilities/feature-toggles';
-
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
-
 import formConfig from '../config/form';
 import {
   removeNonSelectedIssuesFromEvidence,
   evidenceNeedsUpdating,
 } from '../utils/evidence';
-
 import ITFWrapper from './ITFWrapper';
 import {
   DATA_DOG_ID,
   DATA_DOG_TOKEN,
   DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
-  SC_NEW_FORM_KEY,
-  SC_NEW_FORM_DATA,
 } from '../constants';
-
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
@@ -39,7 +31,6 @@ import {
   processContestableIssues,
 } from '../../shared/utils/issues';
 import { isOutsideForm } from '../../shared/utils/helpers';
-
 import { data995 } from '../../shared/props';
 
 export const App = ({
@@ -125,13 +116,6 @@ export const App = ({
       subTaskBenefitType,
     ],
   );
-
-  useFormFeatureToggleSync([
-    {
-      toggleName: SC_NEW_FORM_KEY,
-      formKey: SC_NEW_FORM_DATA,
-    },
-  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

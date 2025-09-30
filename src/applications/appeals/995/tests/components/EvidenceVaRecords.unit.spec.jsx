@@ -285,13 +285,10 @@ describe('<EvidenceVaRecords>', () => {
       });
     });
 
-    /* New SC form content */
-    const showScNewForm = true;
     it('should navigate forward to VA private request page with YYYY-MM date & valid data', async () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew],
       };
@@ -313,7 +310,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew2],
       };
@@ -335,7 +331,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew],
       };
@@ -362,7 +357,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew, {}, mockLocationNew2],
       };
@@ -391,7 +385,6 @@ describe('<EvidenceVaRecords>', () => {
       const locations = [mockLocationNew, mockLocationNew2, {}];
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations,
       };
@@ -866,7 +859,6 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
-        showScNewForm: true,
         [EVIDENCE_VA]: true,
         locations: [mockLocation, {}, mockLocation2],
       };

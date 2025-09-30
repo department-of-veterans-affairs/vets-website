@@ -5,7 +5,6 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
   LIMITED_CONSENT_RESPONSE,
-  SC_NEW_FORM_DATA,
 } from '../../../constants';
 import {
   getEvidence,
@@ -16,97 +15,60 @@ import {
 } from '../../../utils/submit';
 
 describe('getTreatmentDate', () => {
-  describe('showNewFormContent is false', () => {
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        evidenceDates: {
-          from: '',
-        },
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1-01',
+    };
 
-      expect(getTreatmentDate('to', false, location)).to.eq('');
-      expect(getTreatmentDate('from', false, location)).to.eq('');
-      expect(getTreatmentDate('', false, location)).to.eq('');
-      expect(getTreatmentDate('to', false, {})).to.eq('');
-      expect(getTreatmentDate('to', null, {})).to.eq('');
-    });
-
-    it('should return a properly formatted date when the proper data is given', () => {
-      const location = {
-        evidenceDates: {
-          from: '2020-03-04',
-          to: '2020-03-04',
-        },
-      };
-
-      expect(getTreatmentDate('to', false, location)).to.eq('2020-03-04');
-      expect(getTreatmentDate('from', false, location)).to.eq('2020-03-04');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
   });
 
-  describe('showNewFormContent is true', () => {
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1-01',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '01-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '01-01',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '1923',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '1923',
-      };
+  it('should return empty when the proper data is not given', () => {
+    const location = {
+      treatmentDate: '101-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('');
+  });
 
-    it('should return empty when the proper data is not given', () => {
-      const location = {
-        treatmentDate: '101-01',
-      };
+  it('should return the date when a proper data is given', () => {
+    const location = {
+      treatmentDate: '1926-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('');
-      expect(getTreatmentDate('from', true, location)).to.eq('');
-    });
+    expect(getTreatmentDate(location)).to.eq('1926-01-01');
+  });
 
-    it('should return the date when a proper data is given', () => {
-      const location = {
-        treatmentDate: '1926-01',
-      };
+  it('should return the date when a proper data is given', () => {
+    const location = {
+      treatmentDate: '2001-01',
+    };
 
-      expect(getTreatmentDate('to', true, location)).to.eq('1926-01-01');
-      expect(getTreatmentDate('from', true, location)).to.eq('1926-01-01');
-    });
-
-    it('should return the date when a proper data is given', () => {
-      const location = {
-        treatmentDate: '2001-01',
-      };
-
-      expect(getTreatmentDate('to', true, location)).to.eq('2001-01-01');
-      expect(getTreatmentDate('from', true, location)).to.eq('2001-01-01');
-    });
+    expect(getTreatmentDate(location)).to.eq('2001-01-01');
   });
 });
 
@@ -192,11 +154,10 @@ describe('hasDuplicateLocation', () => {
 });
 
 describe('getEvidence', () => {
-  const getData = ({ hasVa = true, showScNewForm = false } = {}) => ({
+  const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
-      showScNewForm,
-      form5103Acknowledged: true,
+      form5103Acknowåledged: true,
       locations: [
         {
           locationAndName: 'test 1',
@@ -221,70 +182,40 @@ describe('getEvidence', () => {
         },
       ],
     },
-    result: (newForm = false) => ({
+    result: () => ({
       form5103Acknowledged: true,
       evidenceSubmission: {
         evidenceType: ['retrieval'],
         retrieveFrom: [
           {
             type: 'retrievalEvidence',
-            attributes: newForm
-              ? {
-                  locationAndName: 'test 1',
-                  evidenceDates: [
-                    {
-                      startDate: '2002-05-01',
-                      endDate: '2002-05-01',
-                    },
-                  ],
-                  noTreatmentDates: false,
-                }
-              : {
-                  locationAndName: 'test 1',
-                  evidenceDates: [
-                    {
-                      startDate: '2022-01-05',
-                      endDate: '2022-02-02',
-                    },
-                  ],
+            attributes: {
+              locationAndName: 'test 1',
+              evidenceDates: [
+                {
+                  startDate: '2002-05-01',
+                  endDate: '2002-05-01',
                 },
+              ],
+              noTreatmentDates: false,
+            },
           },
           {
             type: 'retrievalEvidence',
-            attributes: newForm
-              ? {
-                  locationAndName: 'test 2',
-                  evidenceDates: [
-                    {
-                      startDate: '2002-07-01',
-                      endDate: '2002-07-01',
-                    },
-                  ],
-                  noTreatmentDates: false,
-                }
-              : {
-                  locationAndName: 'test 2',
-                  evidenceDates: [
-                    {
-                      startDate: '2022-03-03',
-                      endDate: '2022-04-04',
-                    },
-                  ],
+            attributes: {
+              locationAndName: 'test 2',
+              evidenceDates: [
+                {
+                  startDate: '2002-07-01',
+                  endDate: '2002-07-01',
                 },
+              ],
+              noTreatmentDates: false,
+            },
           },
           {
             type: 'retrievalEvidence',
-            attributes: newForm
-              ? { locationAndName: 'test 3', noTreatmentDates: true }
-              : {
-                  locationAndName: 'test 3',
-                  evidenceDates: [
-                    {
-                      startDate: '2022-05-05',
-                      endDate: '2022-06-06',
-                    },
-                  ],
-                },
+            attributes: { locationAndName: 'test 3', noTreatmentDates: true },
           },
         ],
       },
@@ -335,45 +266,42 @@ describe('getEvidence', () => {
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
 
-  describe('when showScNewForm is true', () => {
-    // TODO: Replace this test once Lighthouse provides an endpoint for the new
-    // form data
-    it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
-      const evidence = getData({ showScNewForm: true });
-      expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
-    });
+  // TODO: Replace this test once Lighthouse provides an endpoint for the new
+  // form data
+  it('should temporarily process VA evidence treatment dates into an evidence date range', () => {
+    const evidence = getData();
+    expect(getEvidence(evidence.data)).to.deep.equal(evidence.result(true));
+  });
 
-    it('should send noTreatmentDates as true when no date is provided', () => {
-      const evidence = {
-        [EVIDENCE_VA]: true,
-        showScNewForm: true,
-        form5103Acknowledged: true,
-        locations: [
+  it('should send noTreatmentDates as true when no date is provided', () => {
+    const evidence = {
+      [EVIDENCE_VA]: true,
+      form5103Acknowledged: true,
+      locations: [
+        {
+          locationAndName: 'test 1',
+          issues: ['1', '2'],
+          evidenceDates: { from: '', to: '' },
+          treatmentDate: '',
+          noDate: false,
+        },
+      ],
+    };
+
+    expect(getEvidence(evidence)).to.deep.equal({
+      evidenceSubmission: {
+        evidenceType: ['retrieval'],
+        retrieveFrom: [
           {
-            locationAndName: 'test 1',
-            issues: ['1', '2'],
-            evidenceDates: { from: '', to: '' },
-            treatmentDate: '',
-            noDate: false,
+            attributes: {
+              locationAndName: 'test 1',
+              noTreatmentDates: true,
+            },
+            type: 'retrievalEvidence',
           },
         ],
-      };
-
-      expect(getEvidence(evidence)).to.deep.equal({
-        evidenceSubmission: {
-          evidenceType: ['retrieval'],
-          retrieveFrom: [
-            {
-              attributes: {
-                locationAndName: 'test 1',
-                noTreatmentDates: true,
-              },
-              type: 'retrievalEvidence',
-            },
-          ],
-        },
-        form5103Acknowledged: true,
-      });
+      },
+      form5103Acknowledged: true,
     });
   });
 });
@@ -499,7 +427,6 @@ describe('getForm4142', () => {
 
   it('should return with limited consent when y/n is set to yes', () => {
     const data = {
-      [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
       [LIMITED_CONSENT_RESPONSE]: true,
       ...getData(),
@@ -510,7 +437,6 @@ describe('getForm4142', () => {
 
   it('should return with empty limited consent when y/n is set to no', () => {
     const data = {
-      [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
       [LIMITED_CONSENT_RESPONSE]: false,
       ...getData(),
@@ -527,7 +453,6 @@ describe('getForm4142', () => {
 
   it('should return with empty limited consent when y/n is not set at all', () => {
     const data = {
-      [SC_NEW_FORM_DATA]: true,
       [EVIDENCE_PRIVATE]: true,
       ...getData(),
       privacyAgreementAccepted: undefined,

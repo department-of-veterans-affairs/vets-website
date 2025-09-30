@@ -31,11 +31,6 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, h.fetchItf());
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ name: 'sc_new_form', value: true }],
-      },
-    });
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {

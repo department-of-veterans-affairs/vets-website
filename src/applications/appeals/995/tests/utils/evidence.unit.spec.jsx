@@ -13,7 +13,6 @@ import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
   EVIDENCE_OTHER,
-  SC_NEW_FORM_DATA,
   HAS_REDIRECTED,
 } from '../../constants';
 
@@ -223,12 +222,7 @@ describe('onFormLoaded', () => {
     treatmentDate,
     noDate: !treatmentDate,
   });
-  const getData = ({
-    toggle = false,
-    locations = [],
-    redirected = true,
-  } = {}) => ({
-    [SC_NEW_FORM_DATA]: toggle,
+  const getData = ({ locations = [], redirected = true } = {}) => ({
     [HAS_REDIRECTED]: redirected,
     locations,
   });
@@ -244,9 +238,9 @@ describe('onFormLoaded', () => {
 
   it('should do nothing when locations is an empty array when feature toggle is set', () => {
     const router = [];
-    const formData = getData({ toggle: true });
+    const formData = getData();
     onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData({ toggle: true }));
+    expect(formData).to.deep.equal(getData());
     expect(router[0]).to.eq(returnUrl);
   });
 
@@ -264,7 +258,7 @@ describe('onFormLoaded', () => {
     const router = [];
     const from = '2010-03-04';
     const locations = [getLocation({ from })];
-    const props = { toggle: true, locations };
+    const props = { locations };
     const formData = getData(props);
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal({
@@ -278,7 +272,7 @@ describe('onFormLoaded', () => {
     const router = [];
     const from = '2010-03-04';
     const locations = [getLocation({ from, treatmentDate: '2020-04' })];
-    const props = { toggle: true, locations };
+    const props = { locations };
     const formData = getData(props);
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal({
@@ -290,7 +284,7 @@ describe('onFormLoaded', () => {
 
   it('should set no date when evidence date and treatment date are undefined & feature toggle is set', () => {
     const router = [];
-    const props = { toggle: true, locations: [{}] };
+    const props = { locations: [{}] };
     const formData = getData(props);
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal({
@@ -303,7 +297,7 @@ describe('onFormLoaded', () => {
   it('should redirect when redirect flag is not set & feature toggle is set', () => {
     sessionStorage.setItem(HAS_REDIRECTED, 'true');
     const router = [];
-    const props = { toggle: true, locations: [{}], redirected: false };
+    const props = { locations: [{}], redirected: false };
     const formData = getData(props);
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal({

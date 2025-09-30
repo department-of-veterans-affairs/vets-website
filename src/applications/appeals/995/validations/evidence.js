@@ -1,8 +1,6 @@
 import { isValidUSZipCode } from 'platform/forms/address';
-
-import { errorMessages, SC_NEW_FORM_DATA } from '../constants';
+import { errorMessages } from '../constants';
 import { validateDate, validateYMDate } from './date';
-
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/replace';
 import {
@@ -50,41 +48,14 @@ export const validateVaIssues = (
 
 // Overloading fullDate parameter with evidence date type to control error
 // messaging
-/* errors, fieldData, formData, schema, uiSchema, index, appStateData */
-export const validateVaFromDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+/* errors, fieldData, schema, uiSchema, index */
+export const validateVaFromDate = (errors, data, _schema, _uiSchema, _index) =>
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
-export const validateVaToDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+export const validateVaToDate = (errors, data, _schema, _uiSchema, _index) =>
   validateToDate(errors, data, 'evidenceDates');
 
-export const validateVaDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  (appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+export const validateVaDate = (errors, data, _schema, _uiSchema, _index) =>
   validateYMDate(errors, data.treatmentDate);
 
 export const buildVaLocationString = ({
@@ -140,7 +111,6 @@ export const validateVaUnique = (
       data,
       joiner: ',',
       includeIssues: true,
-      newForm: fullData?.[SC_NEW_FORM_DATA],
     }).toLowerCase(),
   );
 
