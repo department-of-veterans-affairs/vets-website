@@ -5,13 +5,13 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   UPLOAD_SUPPORTING_DOCUMENTS,
   UPLOAD_SUPPORTING_DOCUMENTS_DESCRIPTION,
   SUPPORTING_DOCUMENTS,
   getTitleByForm,
-  FILE_UPLOAD_URL,
   MAX_FILE_SIZE,
 } from '../config/constants';
 import { getFormContent } from '../helpers';
@@ -46,7 +46,9 @@ export const uploadSupportingDocuments = {
       ...fileInputMultipleUI({
         errorMessages: { required: 'Upload supporting documents' },
         name: 'form-upload-file-input-multiple',
-        fileUploadUrl: FILE_UPLOAD_URL,
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/supporting_documents_upload`,
         title: 'Upload supporting documents',
         hint:
           'You can upload .pdf, .jpeg, or .png files. Your file should be no larger than 25MB.',

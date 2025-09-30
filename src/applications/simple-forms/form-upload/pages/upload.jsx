@@ -4,12 +4,10 @@ import {
   fileInputUI,
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 import PropTypes from 'prop-types';
-import {
-  UPLOAD_FORM_DESCRIPTION,
-  FILE_UPLOAD_URL,
-  MAX_FILE_SIZE,
-} from '../config/constants';
+import { UPLOAD_FORM_DESCRIPTION, MAX_FILE_SIZE } from '../config/constants';
 import { getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
@@ -24,7 +22,9 @@ export const uploadPage = {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
         name: 'form-upload-file-input',
-        fileUploadUrl: FILE_UPLOAD_URL,
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/scanned_form_upload`,
         title,
         hint:
           'You can upload a .pdf, .jpeg, or .png file. Your file should be no larger than 25MB',

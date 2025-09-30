@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const PrimaryActionLink = ({ href, children, onClick }) => (
   <div className="action-bar-arrow">
@@ -188,8 +187,5 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     File upload must be complete to continue.
   </VaAlert>
 );
-export const FILE_UPLOAD_URL = `${
-  environment.API_URL
-}/simple_forms_api/v1/supporting_documents_upload`;
 
 export const MAX_FILE_SIZE = 25000000;
