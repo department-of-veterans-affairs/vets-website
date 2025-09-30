@@ -385,7 +385,7 @@ const VaPrescription = prescription => {
                     dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
                   }
                 >
-                  Learn more about this medication
+                  Learn more about this medication TEST
                 </Link>
               )}
             </div>
