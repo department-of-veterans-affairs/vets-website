@@ -38,7 +38,7 @@ export default function BetaTesting() {
       <p className="vads-u-margin-bottom--0">
         To connect with a Veterans Crisis Line responder anytime day or night:
       </p>
-      <ul className="vads-u-margin-top--0">
+      <ul className="vads-u-margin-top--0p5">
         <li>
           Dialing <va-telephone contact="988" /> and press 1.
         </li>
