@@ -5,7 +5,7 @@ import { datadogLogs } from '@datadog/browser-logs';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import { isBot, canInitDatadog } from './utilities';
+import { isBot, canInitDatadog, dataDogLogger } from './utilities';
 
 /**
  * @typedef {Object} CustomRumSettings https://docs.datadoghq.com/real_user_monitoring/browser/setup/client/?tab=rum#initialization-parameters
@@ -163,34 +163,6 @@ const useBrowserMonitoring = ({
   );
 
   return null;
-};
-
-/**
- * Datadog generic logger function
- * https://docs.datadoghq.com/logs/log_collection/javascript/#generic-logger-function
- * @param {String} message - The log message
- * @param {Object} attributes - All attributes attached to message (valid JSON)
- * @param {String} status - Log status (debug, info, warn, or error)
- * @param {Error} [error] - Instance of JS error object
- */
-const dataDogLogger = ({
-  message,
-  attributes,
-  status = 'info',
-  error,
-
-  /**
-   * Using CDN async pattern: If you use the module import, it breaks Cypress
-   * tests, because nearly all of us check if the env is localhost and abort the
-   * initialization. So the whole thing just errors out doing it that way.. so
-   * window.DD_LOGS?.logger is the correct way to go.
-   */
-  logger = window.DD_LOGS?.logger || (() => {}),
-}) => {
-  if (!logger || !logger?.log) {
-    return;
-  }
-  logger.log(message, attributes || {}, status, error);
 };
 
 export {

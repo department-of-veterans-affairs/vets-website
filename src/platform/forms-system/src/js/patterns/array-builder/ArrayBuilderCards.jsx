@@ -8,17 +8,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { withRouter } from 'react-router';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
   getItemDuplicateDismissedName,
   META_DATA_KEY,
   slugifyText,
-  duplicateLogger,
 } from './helpers';
 import {
   useArrayBuilderEvent,
@@ -79,10 +80,10 @@ const IncompleteLabel = () => (
 );
 
 const DuplicateInformationAlert = ({ status = 'warning', children }) => {
-  duplicateLogger({
+  dataDogLogger({
     message: 'Duplicate alert',
-    state: 'shown',
-    buttonUsed: null, // being consistent with log in ArrayBuilderItemPage
+    // being consistent with log in ArrayBuilderItemPage
+    attributes: { state: 'shown', buttonUsed: null },
   });
   return (
     <div className="vads-u-margin-top--2">

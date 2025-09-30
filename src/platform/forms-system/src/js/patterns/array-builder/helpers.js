@@ -7,7 +7,6 @@ import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import environment from 'platform/utilities/environment';
-import { dataDogLogger } from 'platform/monitoring/Datadog';
 import {
   dispatchIncompleteItemError,
   dispatchDuplicateItemError,
@@ -720,26 +719,3 @@ export const checkForDuplicatesInItemPages = ({
     index,
   });
 };
-
-/**
- * Add Datadog logging to duplicate modal actions
- * window.DD_LOGS.logger.log('Duplicate modal', {
- *   state: 'shown|hidden',
- *   buttonUsed: 'cancel|accept|close'
- * });
- * @param {String} message - Datadog log message
- * @param {String} state - 'shown' or 'hidden'
- * @param {String|null} buttonUsed - 'cancel', 'accept', 'close', or null
- * @param {Object} [logger] - window.DD_LOGS.logger or used for testing
- */
-export const duplicateLogger = ({
-  message = 'Duplicate modal',
-  state,
-  buttonUsed,
-  logger,
-}) =>
-  dataDogLogger({
-    message,
-    attributes: { state, buttonUsed },
-    logger,
-  });

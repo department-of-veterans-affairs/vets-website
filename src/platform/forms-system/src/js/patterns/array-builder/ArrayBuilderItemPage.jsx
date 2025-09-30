@@ -11,6 +11,7 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 
 import { useEditOrAddForm } from './useEditOrAddForm';
 import ArrayBuilderCancelButton, {
@@ -22,7 +23,6 @@ import {
   getItemDuplicateDismissedName,
   defaultDuplicateResult,
   checkForDuplicatesInItemPages,
-  duplicateLogger,
 } from './helpers';
 
 /**
@@ -149,14 +149,20 @@ export default function ArrayBuilderItemPage({
           check.duplicates.includes(check.arrayData[props.pagePerItemIndex])
         ) {
           setShowDuplicateModal(newProps);
-          duplicateLogger({ state: 'shown', buttonUsed: null });
+          dataDogLogger({
+            message: 'Duplicate modal',
+            attributes: { state: 'shown', buttonUsed: null },
+          });
           return;
         }
         onSubmit(newProps);
       },
       onDuplicateModalClose: () => {
         setShowDuplicateModal(false);
-        duplicateLogger({ state: 'hidden', buttonUsed: 'close' });
+        dataDogLogger({
+          message: 'Duplicate modal',
+          attributes: { state: 'hidden', buttonUsed: 'close' },
+        });
       },
       onDuplicateModalPrimaryClick: () => {
         // Primary button is "No, cancel adding/editing"
@@ -184,7 +190,10 @@ export default function ArrayBuilderItemPage({
         });
 
         setShowDuplicateModal(false);
-        duplicateLogger({ state: 'hidden', buttonUsed: 'cancel' });
+        dataDogLogger({
+          message: 'Duplicate modal',
+          attributes: { state: 'hidden', buttonUsed: 'cancel' },
+        });
 
         if (isReview) {
           path = reviewRoute;
@@ -217,7 +226,10 @@ export default function ArrayBuilderItemPage({
         props.setFormData(newFullData);
         // showDuplicateModal contains newest item page formData
         onSubmit(showDuplicateModal); // Navigate to next page
-        duplicateLogger({ state: 'hidden', buttonUsed: 'accept' });
+        dataDogLogger({
+          message: 'Duplicate modal',
+          attributes: { state: 'hidden', buttonUsed: 'accept' },
+        });
         setShowDuplicateModal(false);
       },
     };
