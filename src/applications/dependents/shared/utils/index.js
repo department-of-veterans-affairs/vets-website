@@ -2,6 +2,10 @@ import { parse, isValid, format } from 'date-fns';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { calculateAge } from './dates';
+
+export { calculateAge };
+
 /**
  * Return formatted full name from name object
  * @param {Object} name - An object containing first, middle, and last names
