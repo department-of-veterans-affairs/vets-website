@@ -227,6 +227,7 @@
     "node-fetch": "^2.6.12",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
+    "openapi-typescript": "4.5.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
@@ -342,10 +343,11 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#88e190f22a5c314872513dd5bce3f9c65231860e",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^4.2.4",
+    "zod": "^4.1.11"
   },
   "resolutions": {
-    "**/cheerio":"1.0.0-rc.12",
+    "**/cheerio": "1.0.0-rc.12",
     "**/lodash": "4.17.21",
     "**/nanoid": "^3.1.31",
     "**/js-yaml": "^3.13.1",
