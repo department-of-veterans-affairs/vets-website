@@ -79,4 +79,20 @@ describe('sanitizeKramesHtmlStr function', () => {
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
   });
+
+  it('should replace pilcrow characters with asterisks', () => {
+    const inputHtml = '<p>Glucophage®¶</p>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.include('<p>Glucophage®*</p>');
+    expect(outputHtml).to.not.include('¶');
+  });
+
+  it('should remove strong tags outside of headings', () => {
+    const inputHtml =
+      '<p><strong>Brand Name(s):</strong></p><div><strong>Another strong text</strong></div>';
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('<strong>');
+    expect(outputHtml).to.include('<p>Brand Name(s):</p>');
+    expect(outputHtml).to.include('<div>Another strong text</div>');
+  });
 });

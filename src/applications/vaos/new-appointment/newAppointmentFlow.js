@@ -265,6 +265,10 @@ export default function getNewAppointmentFlow(state) {
       url: 'date-time',
       label: 'What date and time do you want for this appointment?',
       next: 'reasonForAppointment',
+      requestAppointment(state, dispatch) {
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
+      },
     },
     selectProvider: {
       url: 'provider',
@@ -374,6 +378,11 @@ export default function getNewAppointmentFlow(state) {
         ? 'Your appointment location'
         : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
+    },
+    urgentCareInformation: {
+      url: '/schedule',
+      label: 'Only schedule appointments for non-urgent needs',
+      next: 'typeOfCare',
     },
     vaccineFlow: {
       url:

@@ -82,6 +82,7 @@ const SelectCareTeam = () => {
             updateDraftInProgress({
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
+              ohTriageGroup: recipient.ohTriageGroup,
             }),
           );
           if (
@@ -107,6 +108,7 @@ const SelectCareTeam = () => {
             updateDraftInProgress({
               recipientId: null,
               recipientName: null,
+              ohTriageGroup: null,
             }),
           );
           setSelectedCareTeamId(null);
@@ -138,6 +140,7 @@ const SelectCareTeam = () => {
             careSystemName: careSystem?.vamcSystemName,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -161,6 +164,7 @@ const SelectCareTeam = () => {
             careSystemName: null,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setRecipientsSelectKey(prevKey => prevKey + 1);
@@ -174,6 +178,7 @@ const SelectCareTeam = () => {
           updateDraftInProgress({
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);

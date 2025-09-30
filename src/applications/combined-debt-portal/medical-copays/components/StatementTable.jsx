@@ -56,7 +56,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementDateOutput;
     }
-    return '---';
+    return 'Empty';
   };
 
   const getReference = charge => {
@@ -64,48 +64,57 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
     if (charge.pDTransDesc?.toLowerCase().includes('interest/adm')) {
       return selectedCopay?.pSStatementVal;
     }
-    return '---';
+    return 'Empty';
   };
 
   return (
-    <va-table
-      data-testid="payment-history-statement-table"
-      table-type="bordered"
-      table-title={getStatementDateRange()}
-    >
-      <va-table-row slot="headers">
-        <span>Date</span>
-        <span>Description</span>
-        <span>Billing Reference</span>
-        <span>Amount</span>
-      </va-table-row>
-      <va-table-row>
-        <span>---</span>
-        <span>Previous Balance</span>
-        <span>---</span>
-        <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
-      </va-table-row>
-      {charges
-        ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
-        .map((charge, index) => (
-          <va-table-row key={`${charge.pDRefNo || index}`}>
-            <span>{getDate(charge)}</span>
-            <span>{renderDescription(charge)}</span>
-            <span>{getReference(charge)}</span>
-            <span>{formatCurrency(charge.pDTransAmt)}</span>
-          </va-table-row>
-        ))}
-      <va-table-row>
-        <span>---</span>
-        <span>
-          <strong>Current Balance</strong>
-        </span>
-        <span>---</span>
-        <span>
-          <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
-        </span>
-      </va-table-row>
-    </va-table>
+    <>
+      <h2
+        data-testid="statement-charges-head"
+        id="statement-charges"
+        className="vads-u-margin-bottom--0"
+      >
+        Most recent statement charges
+      </h2>
+      <va-table
+        data-testid="payment-history-statement-table"
+        table-type="bordered"
+        table-title={getStatementDateRange()}
+      >
+        <va-table-row slot="headers">
+          <span>Date</span>
+          <span>Description</span>
+          <span>Billing Reference</span>
+          <span>Amount</span>
+        </va-table-row>
+        <va-table-row>
+          <span>Empty</span>
+          <span>Previous Balance</span>
+          <span>Empty</span>
+          <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
+        </va-table-row>
+        {charges
+          ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
+          .map((charge, index) => (
+            <va-table-row key={`${charge.pDRefNo || index}`}>
+              <span>{getDate(charge)}</span>
+              <span>{renderDescription(charge)}</span>
+              <span>{getReference(charge)}</span>
+              <span>{formatCurrency(charge.pDTransAmt)}</span>
+            </va-table-row>
+          ))}
+        <va-table-row>
+          <span>Empty</span>
+          <span>
+            <strong>Current Balance</strong>
+          </span>
+          <span>Empty</span>
+          <span>
+            <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
+          </span>
+        </va-table-row>
+      </va-table>
+    </>
   );
 };
 

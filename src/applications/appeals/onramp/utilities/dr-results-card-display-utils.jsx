@@ -90,6 +90,7 @@ export const getCardProps = formResponses => {
       <>
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
+        {HORIZ_RULE}
         {PRINT_RESULTS}
         {isCFI && (
           <>
