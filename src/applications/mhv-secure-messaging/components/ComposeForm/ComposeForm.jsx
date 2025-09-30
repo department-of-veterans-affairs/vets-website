@@ -88,12 +88,32 @@ const ComposeForm = props => {
   const [attachFileError, setAttachFileError] = useState(null);
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [isAutoSave, setIsAutoSave] = useState(true);
 
   const recipientExists = useCallback(
     recipientId => {
       return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
     },
     [recipientsList],
+  );
+
+  const ohTriageGroup = useCallback(
+    recipientId => {
+      return (
+        recipients?.allowedRecipients.find(r => +r.id === +recipientId)
+          ?.ohTriageGroup || false
+      );
+    },
+    [recipients?.allowedRecipients],
+  );
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && ohTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
   );
 
   useEffect(
@@ -126,6 +146,7 @@ const ComposeForm = props => {
                 draftInProgress?.recipientName ||
                 draft.suggestedNameDisplay ||
                 draft.recipientName,
+              ohTriageGroup: ohTriageGroup(draft.recipientId),
               category: draftInProgress?.category || draft.category,
               subject: draftInProgress?.subject || draft.subject,
               body: draftInProgress?.body || draft.body,
@@ -154,6 +175,9 @@ const ComposeForm = props => {
       ehrDataByVhaId,
       recipients?.allowedRecipients,
       recipientExists,
+      ohTriageGroup,
+      draftInProgress,
+      sendMessageFlag,
     ],
   );
 
@@ -351,7 +375,14 @@ const ComposeForm = props => {
           }
 
           try {
-            await dispatch(sendMessage(sendData, attachments.length > 0));
+            setIsAutoSave(false);
+            await dispatch(
+              sendMessage(
+                sendData,
+                attachments.length > 0,
+                draftInProgress.ohTriageGroup,
+              ),
+            );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
               navigateToFolderByFolderId(
@@ -363,6 +394,7 @@ const ComposeForm = props => {
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
+            setIsAutoSave(true);
           }
         }
       };
@@ -769,6 +801,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
+        isAutoSave === true &&
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
@@ -787,6 +820,7 @@ const ComposeForm = props => {
       saveDraftHandler,
       navigationErrorModalVisible,
       setUnsavedNavigationError,
+      isAutoSave,
     ],
   );
 
@@ -848,7 +882,7 @@ const ComposeForm = props => {
     return (
       <va-loading-indicator
         message={
-          largeAttachmentsEnabled
+          useLargeAttachments
             ? 'Do not refresh the page. Sending message...'
             : 'Sending message...'
         }
@@ -1008,6 +1042,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
 
                   <FileInput
@@ -1017,7 +1052,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={cernerPilotSmFeatureFlag}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
                 </section>
               ))}
