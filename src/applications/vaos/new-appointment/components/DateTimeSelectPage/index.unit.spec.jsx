@@ -700,7 +700,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     // And the info about later slots is displayed
     expect(
       await screen.findByText(
-        /If this date date doesn’t work, you can pick a new one from the calendar./i,
+        /If this date doesn’t work, you can pick a new one from the calendar./i,
       ),
     ).to.exist;
 
