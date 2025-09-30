@@ -74,13 +74,13 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <p>
           If more than a month has passed since you gave us your application and
           you haven’t heard back, please don’t apply again. Contact us through{' '}
-          <a
+          <va-link
             href="https://ask.va.gov"
             target="_blank"
             rel="noopener noreferrer"
           >
             Ask VA
-          </a>
+          </va-link>
           .
         </p>
       </va-card>
@@ -102,25 +102,40 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <ul>
           <li>
             If you need to submit documentation to VA, such as service records,
-            please send this through <a href="https://ask.va.gov/">Ask VA</a>.
+            please send this through{' '}
+            <va-link
+              href="https://ask.va.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask VA
+            </va-link>
+            .
           </li>
           <li>
             Review and/or update your direct deposit information on{' '}
-            <a href="/change-direct-deposit/">your VA.gov profile</a>.
+            <va-link href="/change-direct-deposit/">
+              your VA.gov profile
+            </va-link>
+            .
           </li>
           <li>
             Use our{' '}
-            <a href="/education/gi-bill-comparison-tool/">
+            <va-link href="/education/gi-bill-comparison-tool/">
               GI Bill Comparison Tool
-            </a>{' '}
+            </va-link>{' '}
             to help you decide which education program and school is best for
             you.
           </li>
           <li>
             Learn more about VA benefits and programs through the{' '}
-            <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+            <va-link
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Building Your Future with the GI Bill Series
-            </a>
+            </va-link>
             .
           </li>
         </ul>

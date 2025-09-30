@@ -48,17 +48,18 @@ const ConfirmationApproved = ({
           of Eligibility is now available. A physical copy will also be mailed
           to your mailing address.{' '}
         </p>
+        <va-link download href={LETTER_URL} class="vads-u-padding-bottom--2">
+          Download your Certificate of Eligibility
+        </va-link>
+        <br />
+        <br />
         <va-link
-          download
-          href={LETTER_URL}
-          text="Download your Certificate of Eligibility"
-          class="vads-u-padding-bottom--2"
-        />
-        <br />
-        <br />
-        <a href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/">
+          href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           View a statement of your benefits
-        </a>
+        </va-link>
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
@@ -98,8 +99,7 @@ const ConfirmationApproved = ({
             Confirmation for your records
           </h4>
           <p className="vads-u-margin--0">
-            You can print this confirmation page for your records. You can also
-            download your completed application as a PDF.
+            You can print this confirmation page for your records.
           </p>
         </div>
 
@@ -110,34 +110,21 @@ const ConfirmationApproved = ({
             onClick={printPage}
           />
         </div>
-
-        <div>
-          <va-icon
-            aria-hidden="true"
-            role="presentation"
-            icon="file_download"
-            size={3}
-            className="vads-u-margin-right--1"
-          />
-          <a href={LETTER_URL} download className="vads-u-font-weight--bold">
-            Download your completed application (PDF)
-          </a>
-        </div>
       </va-summary-box>
 
       <h2>What happens next?</h2>
       <ul>
         <li>
           Download a copy of your{' '}
-          <a href={LETTER_URL} download>
+          <va-link href={LETTER_URL} download>
             Certificate of Eligibility
-          </a>
+          </va-link>
         </li>
         <li>
           Use our{' '}
-          <a href="/education/gi-bill-comparison-tool/">
+          <va-link href="/education/gi-bill-comparison-tool/">
             GI Bill Comparison Tool
-          </a>{' '}
+          </va-link>{' '}
           to help you decide which education program and school is best for you.
         </li>
         <li>
@@ -147,17 +134,17 @@ const ConfirmationApproved = ({
         </li>
         <li>
           Review and/or update your direct deposit information on your{' '}
-          <a href="/change-direct-deposit/">VA.gov profile</a>.
+          <va-link href="/change-direct-deposit/">VA.gov profile</va-link>.
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}
-          <a
+          <va-link
             href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Building Your Future with the GI Bill Series
-          </a>
+          </va-link>
           .
         </li>
       </ul>
@@ -169,18 +156,18 @@ const ConfirmationApproved = ({
           status. You may provide this official document to your educational
           institution to prove your eligibility status.
         </p>
-        <a
+        <va-link
           href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
           target="_blank"
           rel="noopener noreferrer"
         >
           Understanding your Certificate of Eligibility
-        </a>
+        </va-link>
       </va-additional-info>
 
-      <a className="vads-c-action-link--green" href="/my-va/">
+      <va-link class="vads-c-action-link--green" href="/my-va/">
         Go to your My VA dashboard
-      </a>
+      </va-link>
 
       <FormFooter />
     </div>

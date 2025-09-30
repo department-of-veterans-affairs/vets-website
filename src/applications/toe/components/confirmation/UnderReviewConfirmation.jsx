@@ -101,13 +101,13 @@ const UnderReviewConfirmation = ({
         <p>
           If more than a month has passed since you gave us your application and
           you haven’t heard back, please don’t apply again. Contact us through{' '}
-          <a
+          <va-link
             href="https://ask.va.gov"
             target="_blank"
             rel="noopener noreferrer"
           >
             Ask VA
-          </a>
+          </va-link>
           .
         </p>
       </va-card>
@@ -131,46 +131,46 @@ const UnderReviewConfirmation = ({
           <li>
             If you need to submit documentation to VA, such as service records,
             please send this through our{' '}
-            <a
+            <va-link
               href="https://ask.va.gov/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Ask VA feature
-            </a>
+            </va-link>
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/profile/direct-deposit"
               target="_blank"
               rel="noopener noreferrer"
             >
               Review and/or update your direct deposit information on your
               VA.gov profile
-            </a>
+            </va-link>
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/education/gi-bill-comparison-tool/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Use our GI Bill Comparison Tool to help you decide which schools
               are best for you
-            </a>
+            </va-link>
             .
           </li>
           <li>
-            <a
-              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+            Learn more about VA benefits and programs through the{' '}
+            <va-link
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
-            </a>
+              Building Your Future with the GI Bill Series
+            </va-link>
             .
           </li>
         </ul>

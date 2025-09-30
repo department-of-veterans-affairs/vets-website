@@ -60,10 +60,10 @@ const DeniedConfirmation = ({
             </p>
           </div>
           <div>
-            <a
-              className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
+            <va-link
               download
               href={LETTER_ENDPOINT}
+              class="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
             >
               <span className="vads-u-display--inline-block vads-u-margin-right--1">
                 <va-icon
@@ -74,7 +74,7 @@ const DeniedConfirmation = ({
                 />
               </span>
               Download your decision letter (PDF)
-            </a>
+            </va-link>
             .
           </div>
         </va-alert>
@@ -130,7 +130,14 @@ const DeniedConfirmation = ({
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a href={LETTER_URL}>Download your VA education letters</a>.
+            <va-link
+              href={LETTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download your VA education letters
+            </va-link>
+            .
           </li>
           <li>
             We’ll notify you if you’re eligible for other VA education benefits.

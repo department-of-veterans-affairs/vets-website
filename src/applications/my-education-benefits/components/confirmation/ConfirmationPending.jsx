@@ -121,39 +121,56 @@ const ConfirmationPending = ({
       <ul>
         <li>
           If you need to submit documentation to VA, such as service records,
-          please send this through <a href="https://ask.va.gov/">Ask VA</a>.
+          please send this through{' '}
+          <va-link
+            href="https://ask.va.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ask VA
+          </va-link>
+          .
         </li>
         <li>
           Review and/or update your direct deposit information on{' '}
-          <a href="/change-direct-deposit/">your VA.gov profile</a>.
+          <va-link href="/change-direct-deposit/">your VA.gov profile</va-link>.
         </li>
         <li>
           Use our{' '}
-          <a href="/education/gi-bill-comparison-tool/">
+          <va-link href="/education/gi-bill-comparison-tool/">
             GI Bill Comparison Tool
-          </a>{' '}
+          </va-link>{' '}
+          to help you decide which education program and school is best for you.
           to help you decide which education program and school is best for you.
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}
-          <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+          <va-link
+            href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Building Your Future with the GI Bill Series
-          </a>
+          </va-link>
           .
         </li>
         <li>
           Measure your interests and skill levels and help figure out your
           career path with{' '}
-          <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
+          <va-link
+            href="https://www.benefits.va.gov/gibill/careerscope.asp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             CareerScope®
-          </a>
+          </va-link>
           .
         </li>
       </ul>
 
-      <a className="vads-c-action-link--green" href="/my-va/">
+      <va-link class="vads-c-action-link--green" href="/my-va/">
         Go to your My VA dashboard
-      </a>
+      </va-link>
 
       <FormFooter />
     </div>

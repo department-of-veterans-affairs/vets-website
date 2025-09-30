@@ -54,10 +54,10 @@ const ApprovedConfirmation = ({
             address.{' '}
           </div>
           <div>
-            <a
-              className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
+            <va-link
               download
               href={LETTER_ENDPOINT}
+              class="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
             >
               <span className="vads-u-display--inline-block vads-u-margin-right--1">
                 <va-icon
@@ -68,7 +68,7 @@ const ApprovedConfirmation = ({
                 />
               </span>
               Download your decision letter (PDF).
-            </a>
+            </va-link>
           </div>
         </va-alert>
       </div>
@@ -127,13 +127,13 @@ const ApprovedConfirmation = ({
             size={3}
             className="vads-u-margin-right--1"
           />
-          <a
+          <va-link
             href={encodeURI(LETTER_ENDPOINT)}
             download
-            className="vads-u-font-weight--bold"
+            class="vads-u-font-weight--bold"
           >
             Download your completed application (PDF)
-          </a>
+          </va-link>
         </div>
       </va-summary-box>
       <div className="vads-u-margin-bottom--4">
@@ -141,20 +141,24 @@ const ApprovedConfirmation = ({
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a href={LETTER_URL} target="_blank" rel="noopener noreferrer">
+            <va-link
+              href={LETTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Download VA education letter
-            </a>
+            </va-link>
             .
           </li>
           <li>
-            <a
+            <va-link
               href="/education/gi-bill-comparison-tool/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Use our GI Bill Comparison Tool to help you decide which schools
               are best for you
-            </a>
+            </va-link>
             .
           </li>
           <li>
@@ -163,25 +167,25 @@ const ApprovedConfirmation = ({
             of eligibility.
           </li>
           <li>
-            <a
+            <va-link
               href="/profile/direct-deposit"
               target="_blank"
               rel="noopener noreferrer"
             >
               Review and/or update your direct deposit information on your
               VA.gov profile
-            </a>
+            </va-link>
             .
           </li>
           <li>
-            <a
+            <va-link
               href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
               Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
-            </a>
+            </va-link>
             .
           </li>
         </ul>

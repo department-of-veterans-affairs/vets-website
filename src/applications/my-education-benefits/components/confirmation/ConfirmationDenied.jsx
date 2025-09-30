@@ -52,14 +52,9 @@ const ConfirmationDenied = ({
           available. A physical copy will also be mailed to your mailing
           address.{' '}
         </p>
-        <a
-          type="button"
-          className="usa-button meb-print"
-          href={LETTER_URL}
-          download
-        >
+        <va-link download href={LETTER_URL} class="usa-button meb-print">
           Download your letter
-        </a>
+        </va-link>
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
@@ -99,8 +94,7 @@ const ConfirmationDenied = ({
             Confirmation for your records
           </h4>
           <p className="vads-u-margin--0">
-            You can print this confirmation page for your records. You can also
-            download your completed application as a PDF.
+            You can print this confirmation page for your records.
           </p>
         </div>
 
@@ -111,32 +105,15 @@ const ConfirmationDenied = ({
             onClick={printPage}
           />
         </div>
-
-        <div>
-          <va-icon
-            aria-hidden="true"
-            role="presentation"
-            icon="file_download"
-            size={3}
-            className="vads-u-margin-right--1"
-          />
-          <a
-            href={encodeURI(LETTER_URL)}
-            download
-            className="vads-u-font-weight--bold"
-          >
-            Download your completed application (PDF)
-          </a>
-        </div>
       </va-summary-box>
 
       <h2>What happens next?</h2>
       <ul>
         <li>
           Download a copy of your{' '}
-          <a href={LETTER_URL} download>
+          <va-link href={LETTER_URL} download>
             Denial Letter
-          </a>
+          </va-link>
         </li>
         <li>
           We will review your eligibility for other VA education benefit
@@ -149,9 +126,9 @@ const ConfirmationDenied = ({
         <li>There is no further action required by you at this time.</li>
       </ul>
 
-      <a className="vads-c-action-link--green" href="/my-va/">
+      <va-link class="vads-c-action-link--green" href="/my-va/">
         Go to your My VA dashboard
-      </a>
+      </va-link>
 
       <FormFooter />
     </div>
