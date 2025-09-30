@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaModal,
@@ -34,7 +34,7 @@ const SipsDevModal = props => {
   const [sipsData, setSipsData] = useState(data);
   const [availablePaths, setAvailablePaths] = useState(null);
   const [sipsUrl, setSipsUrl] = useState(null);
-  const [errorMessage, setError] = useState('');
+  const errorMessage = useRef('');
 
   // Only show SipsDevModal when url hash includes "#dev-(on|off)"
   checkHash();
@@ -64,18 +64,27 @@ const SipsDevModal = props => {
       toggleModal(false);
     },
     onChange: value => {
+      // Don't show an error when the text area is empty,
+      // but do reset the data and then short-circuit
+      if (value === '') {
+        errorMessage.current = '';
+        setTextData(value);
+        return;
+      }
+
       let parsedData = null;
+
       try {
         parsedData = JSON.parse(value);
-        setError('');
+        errorMessage.current = '';
       } catch (err) {
-        setError(err?.message || err?.name);
+        errorMessage.current = err?.message || err?.name;
       }
       setTextData(value);
 
       // only update sipsData when valid. This will dynamically update the
       // return url options
-      if (parsedData && !errorMessage) {
+      if (parsedData && !errorMessage.current) {
         // maximal-data.json is wrapped in `{ "data": {...} }
         // lets extract that out to make it easier for users
         const keys = Object.keys(parsedData);
@@ -86,12 +95,12 @@ const SipsDevModal = props => {
         setSipsData(newData);
       }
     },
-    saveData: (event, type) => {
+    saveData: event => {
       event.preventDefault();
-      setError('');
+      errorMessage.current = '';
       props.saveAndRedirectToReturnUrl(
         formId,
-        type === 'merge' ? { ...data, ...sipsData } : sipsData,
+        sipsData,
         version,
         sipsUrl,
         submission,
@@ -112,7 +121,7 @@ const SipsDevModal = props => {
         >
           <>
             <va-textarea
-              error={errorMessage}
+              error={errorMessage.current}
               label="Form data"
               name="sips_data"
               class="resize-y"
@@ -138,19 +147,10 @@ const SipsDevModal = props => {
             <div className="vads-u-display--flex">
               <va-button
                 class="vads-u-margin-right--1"
-                disabled={!!errorMessage}
-                text="Replace"
-                label="Replace all save-in-progress data"
-                onClick={e => handlers.saveData(e, 'replace')}
-                full-width
-              />
-
-              <va-button
-                disabled={!!errorMessage}
-                secondary
-                label="Merge new data into existing save-in-progress data"
-                text="Merge"
-                onClick={e => handlers.saveData(e, 'merge')}
+                disabled={!!errorMessage.current || !textData}
+                text="Update"
+                label="Update save-in-progress data"
+                onClick={e => handlers.saveData(e)}
                 full-width
               />
             </div>
