@@ -74,6 +74,7 @@ const SubmitFlowWrapper = () => {
     const apptData = {
       appointmentDateTime: stripTZOffset(appointmentData.localStartTime),
       facilityStationNumber: appointmentData.location.id,
+      facilityName: appointmentData.location.attributes.name,
       appointmentType: appointmentData.isCompAndPen
         ? 'CompensationAndPensionExamination'
         : 'Other',
