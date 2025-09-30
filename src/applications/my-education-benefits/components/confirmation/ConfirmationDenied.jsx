@@ -53,6 +53,14 @@ const ConfirmationDenied = ({
           address.{' '}
         </p>
         <va-link download href={LETTER_URL} class="usa-button meb-print">
+          <span className="vads-u-display--inline-block vads-u-margin-right--1">
+            <va-icon
+              aria-hidden="true"
+              role="presentation"
+              icon="file_download"
+              size={3}
+            />
+          </span>
           Download your letter
         </va-link>
       </va-alert>
@@ -112,6 +120,14 @@ const ConfirmationDenied = ({
         <li>
           Download a copy of your{' '}
           <va-link href={LETTER_URL} download>
+            <span className="vads-u-display--inline-block vads-u-margin-right--1">
+              <va-icon
+                aria-hidden="true"
+                role="presentation"
+                icon="file_download"
+                size={3}
+              />
+            </span>
             Denial Letter
           </va-link>
         </li>

@@ -49,6 +49,14 @@ const ConfirmationApproved = ({
           to your mailing address.{' '}
         </p>
         <va-link download href={LETTER_URL} class="vads-u-padding-bottom--2">
+          <span className="vads-u-display--inline-block vads-u-margin-right--1">
+            <va-icon
+              aria-hidden="true"
+              role="presentation"
+              icon="file_download"
+              size={3}
+            />
+          </span>
           Download your Certificate of Eligibility
         </va-link>
         <br />
@@ -117,6 +125,14 @@ const ConfirmationApproved = ({
         <li>
           Download a copy of your{' '}
           <va-link href={LETTER_URL} download>
+            <span className="vads-u-display--inline-block vads-u-margin-right--1">
+              <va-icon
+                aria-hidden="true"
+                role="presentation"
+                icon="file_download"
+                size={3}
+              />
+            </span>
             Certificate of Eligibility
           </va-link>
         </li>
