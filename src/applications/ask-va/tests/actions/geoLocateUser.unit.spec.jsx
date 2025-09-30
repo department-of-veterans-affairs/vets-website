@@ -14,14 +14,28 @@ const mockStore = configureMockStore(middlewares);
 
 describe('geoLocateUser Action Creator', () => {
   let store;
+  let originalNavigator;
 
   beforeEach(() => {
     store = mockStore({});
-    global.navigator = {
-      geolocation: {
-        getCurrentPosition: sinon.stub(),
+    originalNavigator = global.navigator;
+    Object.defineProperty(global, 'navigator', {
+      value: {
+        geolocation: {
+          getCurrentPosition: sinon.stub(),
+        },
       },
-    };
+      configurable: true,
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    Object.defineProperty(global, 'navigator', {
+      value: originalNavigator,
+      configurable: true,
+      writable: true,
+    });
   });
 
   it('should dispatch GEOLOCATE_USER and GEOCODE_COMPLETE on successful geolocation', async () => {
