@@ -13,12 +13,9 @@ import {
   getInAuthExp,
   getIsTrackingUtterances,
   getRecentUtterances,
-  getEventSkillValue,
   setEventSkillValue,
   setIsTrackingUtterances,
   setRecentUtterances,
-  addRagAgentSkillUsed,
-  isRagAgentSkillUsed,
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
 import submitForm from './submitForm';
@@ -86,37 +83,34 @@ function handleSkillExitEvent(action) {
   }
 }
 
-// Track RAG Agent Entry once per skill when the agent returns a completed response
+// Track RAG Agent Entry based on root bot SKILL_ENTRY event
 function handleRagAgentEntryEvent(action) {
   const actionEventName = getEventName(action);
-  const eventValue = getEventValue(action);
-  const isComplete = eventValue?.parsed?.complete === true;
-  const skillName = getEventSkillValue();
+  const skillName = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`;
 
   if (
-    actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE &&
-    isComplete &&
+    actionEventName === ACTIVITY_EVENT_NAMES.SKILL_ENTRY &&
     skillName &&
-    !isRagAgentSkillUsed(skillName)
+    skillName !== 'RootBot'
   ) {
     recordEvent({
       event: EVENT_API_CALL,
       'api-name': apiName,
       'api-status': 'successful',
     });
-    addRagAgentSkillUsed(skillName);
   }
 }
 
-// Emit a RAG Agent Exit when the current skill had a completed agent response
+// Emit a RAG Agent Exit based on root bot SKILL_EXIT event
 function handleRagAgentExitEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`;
   if (
     actionEventName === ACTIVITY_EVENT_NAMES.SKILL_EXIT &&
-    isRagAgentSkillUsed(eventValue)
+    eventValue &&
+    eventValue !== 'RootBot'
   ) {
     recordEvent({
       event: EVENT_API_CALL,

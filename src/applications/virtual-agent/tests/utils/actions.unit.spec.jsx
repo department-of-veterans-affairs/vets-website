@@ -291,7 +291,7 @@ describe('actions', () => {
         ),
       ).to.be.true;
     });
-    it('should set event skill value and call recordEvent for Skill_Entry action', () => {
+    it('should set event skill value and record Skill Entry for Skill_Entry action', () => {
       const action = {
         payload: {
           activity: {
@@ -322,7 +322,6 @@ describe('actions', () => {
       expect(setEventSkillValueStub.calledOnce).to.be.true;
       expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
         .true;
-      expect(recordEventStub.calledOnce).to.be.true;
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
@@ -494,36 +493,28 @@ describe('actions', () => {
       expect(processCSATStub.notCalled).to.be.true;
     });
 
-    it('should emit RAG Agent Entry when AgentLLMResponse is complete and skill is set', () => {
+    it('should emit RAG Agent Entry on SKILL_ENTRY for non-RootBot skill', () => {
       const action = {
         payload: {
           activity: {
             type: 'event',
-            name: 'AgentLLMResponse',
-            value: {
-              parsed: { complete: true },
-              intent: 'FAQ',
-              utteranceId: 'id-123',
-            },
+            name: 'Skill_Entry',
+            value: { value: 'some_skill_value' },
           },
         },
       };
-
-      sandbox
-        .stub(SessionStorageModule, 'getEventSkillValue')
-        .returns('some_skill_value');
-      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(false);
-      const addRagAgentSkillUsedStub = sandbox.stub(
-        SessionStorageModule,
-        'addRagAgentSkillUsed',
-      );
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
       processIncomingActivity({ action, dispatch: sandbox.spy() })();
 
-      expect(addRagAgentSkillUsedStub.calledOnce).to.be.true;
-      expect(addRagAgentSkillUsedStub.calledWithExactly('some_skill_value')).to
-        .be.true;
+      // Skill Entry
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot Skill Entry - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
@@ -533,43 +524,38 @@ describe('actions', () => {
       ).to.be.true;
     });
 
-    it('should not emit RAG Agent Entry when AgentLLMResponse is incomplete', () => {
+    it('should not emit RAG Agent Entry for RootBot SKILL_ENTRY', () => {
       const action = {
         payload: {
           activity: {
             type: 'event',
-            name: 'AgentLLMResponse',
-            value: {
-              parsed: { complete: false },
-              intent: 'FAQ',
-              utteranceId: 'id-123',
-            },
+            name: 'Skill_Entry',
+            value: { value: 'RootBot' },
           },
         },
       };
-
-      sandbox
-        .stub(SessionStorageModule, 'getEventSkillValue')
-        .returns('some_skill_value');
-      const addRagAgentSkillUsedStub = sandbox.stub(
-        SessionStorageModule,
-        'addRagAgentSkillUsed',
-      );
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
       processIncomingActivity({ action, dispatch: sandbox.spy() })();
 
-      expect(addRagAgentSkillUsedStub.notCalled).to.be.true;
+      // Skill Entry still logged for RootBot
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
-          'api-name': 'Chatbot RAG Agent Entry - some_skill_value',
+          'api-name': 'Chatbot Skill Entry - RootBot',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Entry - RootBot',
           'api-status': 'successful',
         }),
       ).to.be.false;
     });
 
-    it('should emit RAG Agent Exit on Skill_Exit when skill had completed agent response', () => {
+    it('should emit RAG Agent Exit on SKILL_EXIT for non-RootBot skill', () => {
       const action = {
         payload: {
           activity: {
@@ -579,8 +565,6 @@ describe('actions', () => {
           },
         },
       };
-
-      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(true);
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
       processIncomingActivity({ action, dispatch: sandbox.spy() })();
@@ -604,18 +588,16 @@ describe('actions', () => {
       ).to.be.true;
     });
 
-    it('should not emit RAG Agent Exit on Skill_Exit when skill did not have completed agent response', () => {
+    it('should not emit RAG Agent Exit on SKILL_EXIT for RootBot', () => {
       const action = {
         payload: {
           activity: {
             type: 'event',
             name: 'Skill_Exit',
-            value: 'some_skill_value',
+            value: 'RootBot',
           },
         },
       };
-
-      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(false);
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
       processIncomingActivity({ action, dispatch: sandbox.spy() })();
@@ -624,14 +606,14 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
-          'api-name': 'Chatbot Skill Exit - some_skill_value',
+          'api-name': 'Chatbot Skill Exit - RootBot',
           'api-status': 'successful',
         }),
       ).to.be.true;
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
-          'api-name': 'Chatbot RAG Agent Exit - some_skill_value',
+          'api-name': 'Chatbot RAG Agent Exit - RootBot',
           'api-status': 'successful',
         }),
       ).to.be.false;

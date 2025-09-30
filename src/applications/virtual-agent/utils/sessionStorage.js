@@ -6,7 +6,6 @@ const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
-const RAG_AGENT_SKILLS_USED = `${BOT_SESSION_PREFIX}ragAgentSkillsUsed`;
 
 function setStorageItem(key, value, json = false) {
   if (json) {
@@ -29,25 +28,6 @@ export function getEventSkillValue() {
 
 export function setEventSkillValue(value) {
   setStorageItem(SKILL_EVENT_VALUE, value);
-}
-
-// Skills with completed RAG response this session (gates RAG Agent Exit).
-export function getRagAgentSkillsUsed() {
-  const arr = getStorageItem(RAG_AGENT_SKILLS_USED, true);
-  return Array.isArray(arr) ? arr : [];
-}
-
-// Mark skill after completed AgentLLMResponse (parsed.complete === true); de-duped.
-export function addRagAgentSkillUsed(value) {
-  const arr = getRagAgentSkillsUsed();
-  if (!arr.includes(value)) {
-    setStorageItem(RAG_AGENT_SKILLS_USED, [...arr, value], true);
-  }
-}
-
-// True if skill previously marked complete (controls RAG Agent Exit on Skill_Exit).
-export function isRagAgentSkillUsed(value) {
-  return getRagAgentSkillsUsed().includes(value);
 }
 
 export function getLoggedInFlow() {
