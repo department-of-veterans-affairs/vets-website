@@ -240,13 +240,9 @@ const Prescriptions = () => {
     navigate(`/?page=${newPage}`, { replace: true });
   };
 
-  const printRxList = useCallback(
-    () => {
-      window.print();
-      setPrintedList(filteredList);
-    },
-    [filteredList],
-  );
+  const printRxList = useCallback(() => {
+    window.print();
+  }, []);
 
   const goToPrevious = () => {
     scrollLocation?.current?.scrollIntoView();
@@ -369,15 +365,6 @@ const Prescriptions = () => {
     [page, navigate, currentPage, dispatch],
   );
 
-  useEffect(
-    () => {
-      if (filteredList?.length) {
-        setPrintedList(filteredList);
-      }
-    },
-    [filteredList],
-  );
-
   const baseTitle = 'Medications | Veterans Affairs';
   usePrintTitle(baseTitle, userName, dob, updatePageTitle);
 
@@ -444,49 +431,35 @@ const Prescriptions = () => {
     [userName, txtData, setPdfTxtGenerateStatus],
   );
 
+  // Generate PRINT, PDF, and TXT exports
   useEffect(
     () => {
-      if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT &&
-            filteredList?.length)) &&
-        allergies &&
-        !allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
-        if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.PDF) {
-          generatePDF(
-            buildPrescriptionsPDFList(prescriptionsFullList),
-            buildAllergiesPDFList(allergies),
-          );
-        } else if (pdfTxtGenerateStatus.format === DOWNLOAD_FORMAT.TXT) {
-          generateTXT(
-            buildPrescriptionsTXT(prescriptionsFullList),
-            buildAllergiesTXT(allergies),
-          );
-        } else if (pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT) {
-          if (!isLoading && loadingMessage === '') {
-            const listForPrint = prescriptionsFullList?.length
-              ? prescriptionsFullList
-              : filteredList;
-            setPrintedList(listForPrint);
-            setPdfTxtGenerateStatus({
-              status: PDF_TXT_GENERATE_STATUS.NotStarted,
-            });
-            // Set the print trigger instead of using setTimeout
-            setShouldPrint(true);
-          }
-          updateLoadingStatus(false, '');
-        }
-      } else if (
-        ((prescriptionsFullList?.length &&
-          pdfTxtGenerateStatus.format !== PRINT_FORMAT.PRINT) ||
-          (paginatedPrescriptionsList?.length &&
-            pdfTxtGenerateStatus.format === PRINT_FORMAT.PRINT)) &&
-        allergiesError &&
-        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress
-      ) {
+      const { format } = pdfTxtGenerateStatus;
+      const isInProgress =
+        pdfTxtGenerateStatus.status === PDF_TXT_GENERATE_STATUS.InProgress;
+      const exportListReady = !!prescriptionsFullList?.length;
+      const allergiesReady = !!allergies && !allergiesError;
+
+      // Only proceed when we're actively exporting AND all required data is present
+      if (!isInProgress || !exportListReady || !allergiesReady) return;
+
+      if (format === DOWNLOAD_FORMAT.PDF) {
+        generatePDF(
+          buildPrescriptionsPDFList(prescriptionsFullList),
+          buildAllergiesPDFList(allergies),
+        );
+      } else if (format === DOWNLOAD_FORMAT.TXT) {
+        generateTXT(
+          buildPrescriptionsTXT(prescriptionsFullList),
+          buildAllergiesTXT(allergies),
+        );
+      } else if (format === PRINT_FORMAT.PRINT) {
+        setPrintedList(prescriptionsFullList);
+        setPdfTxtGenerateStatus({
+          status: PDF_TXT_GENERATE_STATUS.NotStarted,
+        });
+        // Set the print trigger instead of using setTimeout
+        setShouldPrint(true);
         updateLoadingStatus(false, '');
       }
     },
@@ -494,10 +467,7 @@ const Prescriptions = () => {
       allergies,
       allergiesError,
       prescriptionsFullList,
-      pdfTxtGenerateStatus.status,
-      pdfTxtGenerateStatus.format,
-      isLoading,
-      loadingMessage,
+      pdfTxtGenerateStatus,
       generatePDF,
       generateTXT,
       isRetrievingFullList,

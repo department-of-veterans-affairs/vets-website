@@ -17,6 +17,7 @@ describe('Medications List Page Print List', () => {
       cy.stub(win, 'print').as('print');
     });
     cy.get('[data-testid="download-print-button"]').click();
+    cy.wait('@exportList');
     cy.get('@print').should('have.been.called');
   });
 });
