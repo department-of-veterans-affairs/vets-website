@@ -37,7 +37,7 @@ const initialState = {
   },
 };
 
-describe('VAOS vaccine flow: NewBookingSection', () => {
+describe('VAOS vaccine flow: NewBookingSections', () => {
   beforeEach(() => {
     mockFetch();
   });
@@ -462,7 +462,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /We’re sorry. We’ve run into a problemsssss/,
+        name: /We’re sorry. We’ve run into a problem/,
       }),
     ).to.exist;
   });
