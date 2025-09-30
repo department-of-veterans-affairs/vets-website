@@ -206,6 +206,7 @@ async function main() {
     }
 
     if (options.coverage) {
+      ensureDir('.nyc_output');
       const reporters = options['coverage-html']
         ? '--reporter=json-summary --reporter=lcov --reporter=html'
         : '--reporter=json-summary --reporter=lcov';
