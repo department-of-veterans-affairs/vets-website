@@ -41,8 +41,8 @@ import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
-import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
-import evidenceVaRecords from '../pages/evidenceVaRecords';
+import evidenceVaPrompt from '../pages/evidenceVaPrompt';
+import evidenceVaDetails from '../pages/evidenceVaDetails';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
@@ -66,15 +66,14 @@ import { hasHomeAndMobilePhone } from '../../shared/utils/contactInfo';
 import manifest from '../manifest.json';
 import {
   ADD_ISSUE_PATH,
-  EVIDENCE_VA_REQUEST_PATH,
-  EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_VA_PROMPT_PATH,
+  EVIDENCE_VA_DETAILS_PATH,
+  EVIDENCE_PRIVATE_PROMPT_PATH,
+  EVIDENCE_PRIVATE_DETAILS_PATH,
   LIMITED_CONSENT_DETAILS_PATH,
   LIMITED_CONSENT_PROMPT_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
@@ -104,8 +103,6 @@ import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../shared/utils/issues';
-
-import { clearRedirect } from '../utils/toggle';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -171,7 +168,6 @@ const formConfig = {
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
           scrollAndFocusTarget: focusAlertOrRadio,
-          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',
@@ -271,30 +267,27 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecordsRequest: {
-          title: 'Request VA medical records',
-          path: EVIDENCE_VA_REQUEST_PATH,
-          uiSchema: evidenceVaRecordsRequest.uiSchema,
-          schema: evidenceVaRecordsRequest.schema,
+        evidenceVaPrompt: {
+          title: 'VA medical records prompt',
+          path: EVIDENCE_VA_PROMPT_PATH,
+          uiSchema: evidenceVaPrompt.uiSchema,
+          schema: evidenceVaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecords: {
-          title: 'VA medical records',
-          path: EVIDENCE_VA_PATH,
+        evidenceVaDetails: {
+          title: 'VA medical records details',
+          path: EVIDENCE_VA_DETAILS_PATH,
           depends: hasVAEvidence,
-          appStateSelector: state => ({
-            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
-          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: evidenceVaRecords.uiSchema,
-          schema: evidenceVaRecords.schema,
+          uiSchema: evidenceVaDetails.uiSchema,
+          schema: evidenceVaDetails.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
         evidencePrivateRecordsRequest: {
           title: 'Request non-VA medical records',
-          path: EVIDENCE_PRIVATE_REQUEST_PATH,
+          path: EVIDENCE_PRIVATE_PROMPT_PATH,
           CustomPage: EvidencePrivateRequest,
           CustomPageReview: null,
           uiSchema: evidencePrivateRequest.uiSchema,
@@ -328,7 +321,7 @@ const formConfig = {
         },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
-          path: EVIDENCE_PRIVATE_PATH,
+          path: EVIDENCE_PRIVATE_DETAILS_PATH,
           depends: hasPrivateEvidence,
           CustomPage: EvidencePrivateRecords,
           CustomPageReview: null,

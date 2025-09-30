@@ -6,7 +6,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   AUTHORIZATION_LABEL,
   EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_DETAILS_PATH,
   LIMITED_CONSENT_DETAILS_PATH,
   LIMITED_CONSENT_PROMPT_PATH,
 } from '../../constants';
@@ -93,7 +93,7 @@ const verifyProvider = (
   if (!reviewMode) {
     verifyLink(
       `#edit-private-${providerIndex}`,
-      `/${EVIDENCE_PRIVATE_PATH}?index=${providerIndex}`,
+      `/${EVIDENCE_PRIVATE_DETAILS_PATH}?index=${providerIndex}`,
     );
   }
 };

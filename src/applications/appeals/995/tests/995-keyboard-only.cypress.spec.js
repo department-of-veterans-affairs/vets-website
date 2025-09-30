@@ -8,9 +8,9 @@ import {
   CONTACT_INFO_PATH,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_VA_REQUEST_PATH,
+  EVIDENCE_PRIVATE_DETAILS_PATH,
+  EVIDENCE_PRIVATE_PROMPT_PATH,
+  EVIDENCE_VA_PROMPT_PATH,
   LIMITED_CONSENT_DETAILS_PATH,
   LIMITED_CONSENT_PROMPT_PATH,
 } from '../constants';
@@ -31,11 +31,6 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, h.fetchItf());
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ name: 'sc_new_form', value: true }],
-      },
-    });
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -165,7 +160,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** VA evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_VA_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_VA_PROMPT_PATH);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
@@ -189,7 +184,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Private evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_PRIVATE_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_PATH);
       cy.tabToElement('[name="private"]'); // Yes radio
       cy.chooseRadio('y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
@@ -237,7 +232,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Private evidence facility page
-      h.verifyUrl(EVIDENCE_PRIVATE_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_PATH);
 
       const facilityData = data.providerFacility[0];
       // eslint-disable-next-line cypress/no-unnecessary-waiting

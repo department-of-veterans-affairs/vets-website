@@ -7,7 +7,7 @@ import { content } from '../content/evidenceSummary';
 import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_DETAILS_PATH,
   EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
   LIMITED_CONSENT_PROMPT_PATH,
   LIMITED_CONSENT_DETAILS_PATH,
@@ -169,7 +169,7 @@ export const EvidencePrivateContent = ({
             providerFacilityAddress = {},
             treatmentDateRange = {},
           } = facility || {};
-          const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+          const path = `/${EVIDENCE_PRIVATE_DETAILS_PATH}?index=${index}`;
 
           const fromDate = formatDate(treatmentDateRange.from);
           const toDate = formatDate(treatmentDateRange.to);

@@ -9,7 +9,7 @@ import { content } from '../../content/evidenceSummary';
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
-  EVIDENCE_VA_REQUEST_PATH,
+  EVIDENCE_VA_PROMPT_PATH,
   EVIDENCE_OTHER,
   LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
@@ -42,7 +42,6 @@ const setupSummary = ({
   other = true,
   limit,
   privacy = true,
-  toggle = true,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
@@ -61,7 +60,6 @@ const setupSummary = ({
           privacyAgreementAccepted: privacy,
           [LIMITED_CONSENT_RESPONSE]: limit?.length > 0,
           limitedConsent: limit,
-          showScNewForm: toggle,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -88,7 +86,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
@@ -118,7 +115,7 @@ describe('EvidenceSummary', () => {
 
       verifyLink(
         '[data-testid="add-more-evidence-link"]',
-        `/${EVIDENCE_VA_REQUEST_PATH}`,
+        `/${EVIDENCE_VA_PROMPT_PATH}`,
       );
 
       expect(
@@ -218,7 +215,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
@@ -248,7 +244,7 @@ describe('EvidenceSummary', () => {
 
       verifyLink(
         '[data-testid="add-more-evidence-link"]',
-        `/${EVIDENCE_VA_REQUEST_PATH}`,
+        `/${EVIDENCE_VA_PROMPT_PATH}`,
       );
 
       expect($('va-button[label="Update evidence page"]', container)).to.exist;

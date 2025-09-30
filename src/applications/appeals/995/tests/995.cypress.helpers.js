@@ -11,9 +11,9 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   PRIMARY_PHONE,
   BASE_URL,
-  EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_VA_DETAILS_PATH,
+  EVIDENCE_PRIVATE_PROMPT_PATH,
+  EVIDENCE_PRIVATE_DETAILS_PATH,
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
@@ -50,7 +50,7 @@ export const EVIDENCE_SUMMARY_PATH =
   chapters.evidence.pages.evidenceSummary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.evidenceVaRecords.path;
+  chapters.evidence.pages.evidenceVaDetails.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -310,10 +310,10 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_VA_PATH]: ({ afterHook }) => {
+  [EVIDENCE_VA_DETAILS_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('@testData').then(({ locations = [], showScNewForm }) => {
+      cy.get('@testData').then(({ locations = [] }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
@@ -326,17 +326,8 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            if (showScNewForm) {
-              cy.fillVaDate('txdate', location.treatmentDate, true);
-              cy.selectVaCheckbox('nodate', location.noDate);
-            } else {
-              cy.fillVaMemorableDate(
-                'from',
-                location.evidenceDates?.from,
-                false,
-              );
-              cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
-            }
+            cy.fillVaDate('txdate', location.treatmentDate, true);
+            cy.selectVaCheckbox('nodate', location.noDate);
             cy.axeCheck();
 
             // Add another
@@ -345,12 +336,13 @@ export const pageHooks = {
             }
           }
         });
+
         clickContinue();
       });
     });
   },
 
-  [EVIDENCE_PRIVATE_REQUEST_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_PROMPT_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
@@ -378,7 +370,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_DETAILS_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ providerFacility = [] }) => {

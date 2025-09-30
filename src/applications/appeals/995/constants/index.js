@@ -7,10 +7,6 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
-export const SC_NEW_FORM_KEY = 'scNewForm';
-export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
-export const SC_NEW_FORM_DATA = 'showScNewForm';
-
 // *** URLS ***
 export const DECISION_REVIEWS_URL = '/decision-reviews';
 export const SC_INFO_URL = `${DECISION_REVIEWS_URL}/supplemental-claim`;
@@ -168,19 +164,21 @@ export const ATTACHMENTS_OTHER = {
 
 export const CONTACT_INFO_PATH = 'contact-information';
 export const ADD_ISSUE_PATH = 'add-issue';
-export const EVIDENCE_VA_REQUEST_PATH =
+
+export const EVIDENCE_VA_PROMPT_PATH =
   'supporting-evidence/request-va-medical-records';
-export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
-export const EVIDENCE_PRIVATE_REQUEST_PATH =
+export const EVIDENCE_VA_DETAILS_PATH =
+  'supporting-evidence/va-medical-records';
+export const EVIDENCE_PRIVATE_PROMPT_PATH =
   'supporting-evidence/request-private-medical-records';
 export const EVIDENCE_PRIVATE_AUTHORIZATION_PATH =
   'supporting-evidence/private-medical-records-authorization';
-export const EVIDENCE_PRIVATE_PATH =
+export const EVIDENCE_PRIVATE_DETAILS_PATH =
   'supporting-evidence/private-medical-records';
+  
 export const LIMITED_CONSENT_PROMPT_PATH = 'supporting-evidence/add-limitation';
 export const LIMITED_CONSENT_DETAILS_PATH = 'supporting-evidence/limitation';
 
-// TODO: Update this path
 export const EVIDENCE_ADDITIONAL_PATH =
   'supporting-evidence/will-add-supporting-evidence';
 export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
