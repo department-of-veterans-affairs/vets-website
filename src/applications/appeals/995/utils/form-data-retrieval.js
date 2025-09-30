@@ -12,3 +12,6 @@ export const hasPrivateLimitation = formData =>
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 export const hasMstOption = formData => formData?.[MST_OPTION];
+export const hasHousingRisk = formData => formData?.housingRisk;
+export const hasOtherHousingRisk = formData =>
+  !!(hasHousingRisk(formData) && formData?.livingSituation?.other);
