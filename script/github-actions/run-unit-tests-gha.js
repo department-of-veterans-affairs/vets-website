@@ -154,9 +154,9 @@ function ensureDir(p) {
 function buildGroupCommand(groupName, testPaths) {
   ensureDir('reports/unit');
 
-  const coverageInclude = options['app-folder']
-    ? `--include 'src/applications/${options['app-folder']}/**'`
-    : '';
+  // const coverageInclude = options['app-folder']
+  //   ? `--include 'src/applications/${options['app-folder']}/**'`
+  //   : '';
 
   const reporterOption = options.reporter
     ? `--reporter ${options.reporter}`
@@ -173,7 +173,7 @@ function buildGroupCommand(groupName, testPaths) {
 
   // Same envs/shape as the original command; only change is `--` after nyc so Mocha gets its flags
   const runner = options.coverage
-    ? `NODE_ENV=test nyc --all ${coverageInclude} mocha -- ${coverageReporter} ${commonMochaTail}`
+    ? `NODE_ENV=test nyc --all mocha -- ${coverageReporter} ${commonMochaTail}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption} ${commonMochaTail}`;
 
   return `STEP=unit-tests LOG_LEVEL=${options[
