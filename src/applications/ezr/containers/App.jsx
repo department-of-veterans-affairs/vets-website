@@ -81,9 +81,13 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isAppLoading,
+      veteranGender,
+      veteranDateOfBirth,
       canSubmitFinancialInfo,
+      isEmergencyContactsEnabled,
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
+      isDownloadPdfEnabled,
     ],
   );
 
