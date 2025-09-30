@@ -7,13 +7,20 @@ import { scrollToTop } from 'platform/utilities/scroll';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
+import {
+  NOTIFICATION_GROUPS,
+  PROFILE_PATH_NAMES,
+  PROFILE_PATHS,
+} from '@@profile/constants';
 import {
   fetchCommunicationPreferenceGroups,
   selectGroups,
 } from '@@profile/ducks/communicationPreferences';
 import { selectCommunicationPreferences } from '@@profile/reducers';
-import { useNotificationSettingsUtils } from '@@profile/hooks';
+import {
+  useContactInfoDeepLink,
+  useNotificationSettingsUtils,
+} from '@@profile/hooks';
 
 import {
   hasVAPServiceConnectionError,
@@ -26,6 +33,7 @@ import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import { FIELD_NAMES, USA } from '@@vap-svc/constants';
 import { LOADING_STATES } from '../../../common/constants';
 
 import LoadFail from '../alerts/LoadFail';
@@ -45,6 +53,13 @@ const NotificationSettings = ({
   shouldShowLoadingIndicator,
 }) => {
   const location = useLocation();
+
+  const { generateContactInfoLink } = useContactInfoDeepLink();
+
+  const updateMobileNumberHref = generateContactInfoLink({
+    fieldName: FIELD_NAMES.MOBILE_PHONE,
+    returnPath: encodeURIComponent(PROFILE_PATHS.NOTIFICATION_SETTINGS),
+  });
 
   const {
     showEmail,
@@ -124,6 +139,11 @@ const NotificationSettings = ({
     ],
   );
 
+  const isInternationalMobile =
+    mobilePhoneNumber &&
+    mobilePhoneNumber.isInternational &&
+    String(mobilePhoneNumber.countryCode) !== USA.COUNTRY_CODE;
+
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
@@ -156,9 +176,55 @@ const NotificationSettings = ({
               mobilePhoneNumber={mobilePhoneNumber}
               showEmailNotificationSettings={showEmail}
             />
+            {isInternationalMobile && (
+              <va-alert-expandable
+                status="info"
+                trigger="You won’t receive text notifications"
+                class="vads-u-margin-top--3"
+                data-testid="international-mobile-number-info-alert"
+              >
+                <p className="vads-u-padding-bottom--2">
+                  You have an international phone number, update to a US based
+                  mobile phone number to have access to these text notifications
+                  settings:
+                </p>
+                <ul className="vads-u-padding-bottom--2">
+                  <li>Health appointment reminders</li>
+                  <li>Prescription shipping notifications</li>
+                  <li>Appeal status updates</li>
+                  <li>Appeal hearing reminders</li>
+                  <li>Disability and pension deposit notifications</li>
+                </ul>
+                <p>
+                  <va-link
+                    href={updateMobileNumberHref}
+                    text="Update your mobile phone number"
+                  />
+                </p>
+              </va-alert-expandable>
+            )}
             <MissingContactInfoExpandable
               showEmailNotificationSettings={showEmail}
             />
+            <va-additional-info
+              data-testid="data-encryption-notice"
+              trigger="By setting up notifications, you agree to receive unsecure emails and texts"
+              class="vads-u-margin-top--3"
+            >
+              <p>
+                Data encryption is a way of making data hard to read by people
+                other than the intended recipient. SMS text messaging and email
+                aren’t encrypted. This means they’re not secure. Other people
+                could read your appointment information if they get access to
+                the messages when sent, received, or on your phone or computer.
+              </p>
+              <p className="vads-u-padding-top--2">
+                <va-link
+                  href="/privacy-policy/digital-notifications-terms-and-conditions/"
+                  text="Read more about privacy and security for digital notifications"
+                />
+              </p>
+            </va-additional-info>
             <hr aria-hidden="true" />
             {availableGroups.map(({ id }) => {
               // we handle the health care group a little differently
