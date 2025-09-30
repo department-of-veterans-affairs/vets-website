@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import {
+  VaCheckbox,
+  VaDate,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EVIDENCE_VA_DETAILS_URL } from '../constants';
-import { content, contentOld } from '../content/evidenceVaDetails';
+import { content } from '../content/evidenceVaDetails';
 import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
-import { showScNewForm as newFormToggle } from '../utils/toggle';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate, // YYYY-MM-DD
-  validateVaToDate, // YYYY-MM-DD
   validateVaDate, // YYYY-MM
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
-
 import { focusEvidence } from '../../shared/utils/focus';
 import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
-import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
+import EvidenceIssues from './evidence/EvidenceIssues';
 import { EvidencePageNavigation } from './EvidencePageNavigation';
-
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 import { customPageProps995 } from '../../shared/props';
@@ -54,7 +52,6 @@ const EvidenceVaRecords = ({
   contentAfterButtons,
 }) => {
   const locations = getVAEvidence(data || {});
-  const showScNewForm = newFormToggle(data);
 
   // *** state ***
   // currentIndex is zero-based
@@ -70,12 +67,10 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const getPageType = entry =>
-    isEmptyVaEntry(entry, showScNewForm) ? 'add' : 'edit';
+  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
   const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
   const availableIssues = getSelected(data).map(getIssueName);
-  const setContent = showScNewForm ? content : contentOld;
 
   // *** validations ***
   const errors = {
@@ -92,17 +87,9 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: showScNewForm
+    treatmentDate: currentData.noDate
       ? null
-      : checkValidations([validateVaFromDate], currentData, data),
-    to: showScNewForm
-      ? null
-      : checkValidations([validateVaToDate], currentData, data),
-    treatmentDate:
-      showScNewForm &&
-      (currentData.noDate
-        ? null
-        : checkValidations([validateVaDate], currentData, data)),
+      : checkValidations([validateVaDate], currentData, data),
   };
 
   useEffect(
@@ -167,7 +154,7 @@ const EvidenceVaRecords = ({
 
   const addAndGoToPageIndex = index => {
     const newLocations = [...locations];
-    if (!isEmptyVaEntry(locations[index], showScNewForm)) {
+    if (!isEmptyVaEntry(locations[index])) {
       // only insert a new entry if the existing entry isn't empty
       newLocations.splice(index, 0, defaultData);
     }
@@ -190,7 +177,7 @@ const EvidenceVaRecords = ({
       const fieldName = target.name;
       // target.value from va-text-input, va-memorable-date, & va-date
       const value =
-        showScNewForm && fieldName === 'nodate'
+        fieldName === 'nodate'
           ? target.checked // I don't have a date checkbox
           : target.value || '';
       updateCurrentLocation({ [fieldName]: value });
@@ -250,7 +237,7 @@ const EvidenceVaRecords = ({
     onGoBack: () => {
       // show modal if there are errors; don't show _immediately after_ adding
       // a new empty entry
-      if (isEmptyVaEntry(currentData, showScNewForm)) {
+      if (isEmptyVaEntry(currentData)) {
         updateCurrentLocation({ remove: true });
       } else if (hasErrors(errors)) {
         updateState({ submitted: true, showModal: true });
@@ -306,11 +293,6 @@ const EvidenceVaRecords = ({
       (Array.isArray(errors[name]) ? errors[name][0] : errors[name])) ||
     null;
 
-  const isInvalid = (name, part) => {
-    const message = errors[name]?.[1] || '';
-    return message.includes(part) || message.includes('other');
-  };
-
   return (
     <form onSubmit={handlers.onGoForward}>
       <fieldset>
@@ -319,16 +301,15 @@ const EvidenceVaRecords = ({
           currentState={currentState}
           currentIndex={currentIndex}
           addOrEdit={addOrEdit}
-          content={setContent}
+          content={content}
           handlers={handlers}
         />
-
         <VaTextInput
           id="add-location-name"
           name="name"
           type="text"
-          label={setContent.locationAndName}
-          hint={setContent?.locationAndNameHint || ''}
+          label={content.locationAndName}
+          hint={content?.locationAndNameHint || ''}
           required
           value={currentData.locationAndName}
           onInput={handlers.onChange}
@@ -337,21 +318,35 @@ const EvidenceVaRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-facility name"
         />
-
-        <EvidenceIssueAndDates
-          currentData={currentData}
+        <EvidenceIssues
           availableIssues={availableIssues}
-          content={setContent}
+          content={content}
+          currentData={currentData}
           handlers={handlers}
           showError={showError}
-          isInvalid={isInvalid}
-          dateRangeKey={showScNewForm ? 'treatmentDate' : 'evidenceDates'}
         />
-
+        <VaDate
+          id="txdate"
+          name="txdate"
+          monthYearOnly
+          error={showError('treatmentDate')}
+          label={content.treatmentDate}
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData.treatmentDate}
+        />
+        <VaCheckbox
+          id="nodate"
+          name="nodate"
+          class="vads-u-margin-bottom--4"
+          label={content.noDate}
+          onVaChange={handlers.onChange}
+          checked={currentData.noDate}
+        />
         <EvidencePageNavigation
           path={`${VA_PATH}?index=${currentIndex + 1}`}
           content={{
-            ...setContent,
+            ...content,
             contentBeforeButtons,
             contentAfterButtons,
           }}

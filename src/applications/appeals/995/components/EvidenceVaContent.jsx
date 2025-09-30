@@ -30,7 +30,6 @@ export const EvidenceVaContent = ({
   reviewMode = false,
   handlers = {},
   testing,
-  showScNewForm,
   showListOnly = false,
 }) => {
   if (!list?.length) {
@@ -47,34 +46,22 @@ export const EvidenceVaContent = ({
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
-          const {
-            locationAndName,
-            issues = [],
-            evidenceDates = {},
-            treatmentDate = '',
-            noDate,
-          } = location || {};
+          const { locationAndName, issues = [], treatmentDate = '', noDate } =
+            location || {};
           const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
-          const fromDate = formatDate(evidenceDates.from);
-          const toDate = formatDate(evidenceDates.to);
+
           // treatment date only includes YYYY-MM; include '-01' to fit parser
           const formattedTreatmentDate =
             !noDate &&
             formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
+
           const errors = {
             name: locationAndName ? '' : content.missing.location,
             issues: issues.length ? '' : content.missing.condition,
-            from: showScNewForm || fromDate ? '' : content.missing.from,
-            to: showScNewForm || toDate ? '' : content.missing.to,
-            dates:
-              !showScNewForm && !fromDate && !toDate
-                ? content.missing.dates
-                : '',
             treatmentDate:
-              (showScNewForm &&
-                (noDate || treatmentDate ? '' : content.missing.date)) ||
-              '',
+              (noDate || treatmentDate ? '' : content.missing.date) || '',
           };
+
           const hasErrors = Object.values(errors).join('');
 
           return (
@@ -99,18 +86,8 @@ export const EvidenceVaContent = ({
                 >
                   {errors.issues || readableList(issues)}
                 </div>
-                {!showScNewForm &&
-                  (errors.dates || (
-                    <div
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="VA location date range"
-                    >
-                      {errors.from || fromDate} – {errors.to || toDate}
-                    </div>
-                  ))}
-                {showScNewForm && noDate && vaContent.noDate}
-                {showScNewForm &&
-                  !noDate &&
+                {noDate && vaContent.noDate}
+                {!noDate &&
                   (errors.treatmentDate || (
                     <div
                       className="dd-privacy-hidden"
@@ -157,6 +134,5 @@ EvidenceVaContent.propTypes = {
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
-  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };

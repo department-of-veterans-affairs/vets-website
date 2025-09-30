@@ -8,27 +8,16 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import {
-  EVIDENCE_VA,
-  SC_NEW_FORM_TOGGLE,
-  SC_NEW_FORM_DATA,
-} from '../../constants';
+import { EVIDENCE_VA } from '../../constants';
 import {
   requestVaRecordsTitle,
-  requestVaRecordsTitleOld,
   requestVaRecordsHint,
 } from '../../content/evidenceVaPrompt';
 import errorMessages from '../../../shared/content/errorMessages';
 
-const mockStore = ({ toggle = false } = {}) => ({
+const mockStore = () => ({
   getState: () => ({
-    form: { data: { [SC_NEW_FORM_DATA]: toggle } },
-    featureToggles: {
-      loading: false,
-      // eslint-disable-next-line camelcase
-      [SC_NEW_FORM_TOGGLE]: toggle,
-      scNewForm: toggle,
-    },
+    form: { data: {} },
   }),
   subscribe: () => {},
   dispatch: () => {},
@@ -54,7 +43,7 @@ describe('Supplemental Claims VA evidence request page', () => {
     );
 
     const radio = $('va-radio', container);
-    expect(radio.getAttribute('label')).to.eq(requestVaRecordsTitleOld);
+    expect(radio.getAttribute('label')).to.eq(requestVaRecordsTitle);
     expect(radio.getAttribute('hint')).to.eq('');
     expect($$('va-radio-option', container).length).to.eq(2);
     expect($('va-additional-info', container)).to.exist;
@@ -108,7 +97,7 @@ describe('Supplemental Claims VA evidence request page', () => {
 
   // *** New content ***
   it('should render new content', () => {
-    const store = mockStore({ toggle: true });
+    const store = mockStore();
     const { data } = store.getState().form;
     const { container } = render(
       <Provider store={store}>

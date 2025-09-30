@@ -9,7 +9,6 @@ import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 import { title995 } from '../../content/title';
-import { SC_NEW_FORM_TOGGLE } from '../../constants';
 
 const getData = ({
   loggedIn = true,
@@ -54,10 +53,6 @@ const getData = ({
           metadata: {},
         },
         data: {},
-      },
-      featureToggles: {
-        loading: false,
-        [SC_NEW_FORM_TOGGLE]: toggle,
       },
       scheduledDowntime: {
         globalDowntime: null,

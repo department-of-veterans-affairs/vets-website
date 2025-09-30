@@ -45,55 +45,11 @@ export const EvidenceIssueAndDates = ({
 
     {dateRangeKey === 'treatmentDate' ? (
       <>
-        <VaDate
-          id="txdate"
-          name="txdate"
-          monthYearOnly
-          error={showError('treatmentDate')}
-          label={content.treatmentDate}
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData.treatmentDate}
-        />
-        <VaCheckbox
-          id="nodate"
-          name="nodate"
-          class="vads-u-margin-bottom--4"
-          label={content.noDate}
-          onVaChange={handlers.onChange}
-          checked={currentData.noDate}
-        />
+        
       </>
     ) : (
       <>
-        <VaMemorableDate
-          id="from-date"
-          name="from"
-          label={content.dateStart}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData[dateRangeKey]?.from}
-          error={showError('from')}
-          invalidMonth={isInvalid('from', 'month')}
-          invalidDay={isInvalid('from', 'day')}
-          invalidYear={isInvalid('from', 'year')}
-          month-select={false}
-        />
-        <VaMemorableDate
-          id="to-date"
-          name="to"
-          label={content.dateEnd}
-          required
-          onDateChange={handlers.onChange}
-          onDateBlur={handlers.onBlur}
-          value={currentData[dateRangeKey]?.to}
-          error={showError('to')}
-          invalidMonth={isInvalid('to', 'month')}
-          invalidDay={isInvalid('to', 'day')}
-          invalidYear={isInvalid('to', 'year')}
-          month-select={false}
-        />
+        
       </>
     )}
   </>

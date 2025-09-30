@@ -74,7 +74,6 @@ const setupSummary = ({
   privateMR = true,
   other = true,
   limit,
-  showScNewForm = false,
   list = records(),
   editPage = () => {},
 } = {}) =>
@@ -85,8 +84,6 @@ const setupSummary = ({
           [EVIDENCE_VA]: vaMR,
           [EVIDENCE_PRIVATE]: privateMR,
           [EVIDENCE_OTHER]: other,
-          showScNewForm,
-
           ...list,
           limitedConsent: limit,
         }}
@@ -150,7 +147,6 @@ describe('<EvidenceSummaryReview>', () => {
       privateMR: false,
       other: false,
       limit: 'Pizza addiction',
-      showScNewForm: true,
     });
 
     expect($$('h4', container).length).to.eq(1);

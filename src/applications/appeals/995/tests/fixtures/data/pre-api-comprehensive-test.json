@@ -29,6 +29,28 @@
     },
     "benefitType": "compensation",
     "view:primaryPhone": "home",
+    "housingRisk": true,
+    "livingSituation": {
+      "notRegular": true,
+      "shelter": true,
+      "friendOrFamily": true,
+      "facility30Days": true,
+      "home30Days": true,
+      "other": true,
+      "none": false
+    },
+    "otherHousingRisks": "Lorem ipsum",
+    "pointOfContactName": "John Doe",
+    "pointOfContactPhone": "8005551212",
+    "facilityTypes": {
+      "vetCenter": true,
+      "ccp": true,
+      "vamc": true,
+      "cboc": true,
+      "mtf": true,
+      "nonVa": true,
+      "other": "Lorem ipsum"
+    },
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -81,6 +103,8 @@
         "view:selected": true
       }
     ],
+    "mstOption": true,
+    "optionIndicator": "revoke",
     "socOptIn": true,
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
@@ -91,6 +115,7 @@
           "Test",
           "Test 2"
         ],
+        "treatmentDate": "2001-01",
         "evidenceDates": {
           "from": "2001-1-1",
           "to": "2011-1-1"
@@ -101,6 +126,8 @@
         "issues": [
           "Test 2"
         ],
+        "treatmentDate": "2002-02",
+        "noDate": true,
         "evidenceDates": {
           "from": "2002-2-2",
           "to": "2012-2-2"
@@ -144,13 +171,13 @@
         }
       }
     ],
+    "view:hasPrivateLimitation": true,
     "limitedConsent": "Pizza addiction",
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
     "view:hasVaEvidence": true,
     "view:hasPrivateEvidence": true,
-    "view:hasPrivateLimitation": true,
     "view:hasOtherEvidence": true,
     "additionalDocuments": [
       {

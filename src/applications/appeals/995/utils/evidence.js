@@ -1,5 +1,4 @@
 import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { showScNewForm, checkRedirect } from './toggle';
 import {
   FORMAT_COMPACT_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
@@ -86,35 +85,29 @@ export const removeNonSelectedIssuesFromEvidence = data => {
  * @param {Object} router - React router
  */
 export const onFormLoaded = props => {
-  let { returnUrl } = props;
+  const { returnUrl } = props;
   const { formData, router } = props;
   const { locations = [] } = formData;
 
-  // New SC form data flow
-  if (showScNewForm(formData)) {
-    // Redirect Veteran to housing-risk page (second page in the flow), if
-    // needed
-    returnUrl = checkRedirect(formData, returnUrl);
-
-    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
-    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
-    // "from" date is undefined
-    if (locations.length) {
-      formData.locations = locations.map(location => {
-        if (!location.treatmentDate) {
-          const from = location.evidenceDates?.from || '';
-          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
-          const noDate = treatmentDate === '';
-          return {
-            ...location,
-            treatmentDate,
-            noDate,
-          };
-        }
-        return location;
-      });
-    }
+  // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
+  // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
+  // "from" date is undefined
+  if (locations.length) {
+    formData.locations = locations.map(location => {
+      if (!location.treatmentDate) {
+        const from = location.evidenceDates?.from || '';
+        const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
+        const noDate = treatmentDate === '';
+        return {
+          ...location,
+          treatmentDate,
+          noDate,
+        };
+      }
+      return location;
+    });
   }
+
   router?.push(returnUrl);
 };
 

@@ -313,7 +313,7 @@ export const pageHooks = {
   [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('@testData').then(({ locations = [], showScNewForm }) => {
+      cy.get('@testData').then(({ locations = [] }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
@@ -326,17 +326,8 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            if (showScNewForm) {
-              cy.fillVaDate('txdate', location.treatmentDate, true);
-              cy.selectVaCheckbox('nodate', location.noDate);
-            } else {
-              cy.fillVaMemorableDate(
-                'from',
-                location.evidenceDates?.from,
-                false,
-              );
-              cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
-            }
+            cy.fillVaDate('txdate', location.treatmentDate, true);
+            cy.selectVaCheckbox('nodate', location.noDate);
             cy.axeCheck();
 
             // Add another
@@ -345,6 +336,7 @@ export const pageHooks = {
             }
           }
         });
+
         clickContinue();
       });
     });

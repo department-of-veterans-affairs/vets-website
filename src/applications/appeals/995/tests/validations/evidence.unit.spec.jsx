@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { errorMessages, SC_NEW_FORM_DATA } from '../../constants';
-
+import { errorMessages } from '../../constants';
 import {
   validateVaLocation,
   validateVaIssues,
@@ -25,7 +23,6 @@ import {
   isEmptyPrivateEntry,
   validatePrivateUnique,
 } from '../../validations/evidence';
-
 import {
   MAX_LENGTH,
   MAX_YEARS_PAST,
@@ -98,11 +95,9 @@ describe('VA evidence', () => {
 
     it('should return false if feature toggle is enabled', () => {
       const errors = { addError: sinon.spy() };
-      const result = validateVaFromDate(
-        errors,
-        { evidenceDates: { from: '', to: '' } },
-        { [SC_NEW_FORM_DATA]: true },
-      );
+      const result = validateVaFromDate(errors, {
+        evidenceDates: { from: '', to: '' },
+      });
       expect(errors.addError.notCalled).to.be.true;
       expect(result).to.be.false;
     });
@@ -148,18 +143,16 @@ describe('VA evidence', () => {
 
     it('should return false if feature toggle is enabled', () => {
       const errors = { addError: sinon.spy() };
-      const result = validateVaToDate(
-        errors,
-        { evidenceDates: { from: '', to: '' } },
-        { [SC_NEW_FORM_DATA]: true },
-      );
+      const result = validateVaToDate(errors, {
+        evidenceDates: { from: '', to: '' },
+      });
       expect(errors.addError.notCalled).to.be.true;
       expect(result).to.be.false;
     });
   });
 
   describe('validateVaDate', () => {
-    const fullData = { [SC_NEW_FORM_DATA]: true };
+    const fullData = {};
     it('should not show an error for a valid treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
@@ -316,7 +309,6 @@ describe('VA evidence', () => {
           data: data || getLocation({ name, issues, date, noDate }),
           joiner,
           includeIssues,
-          newForm: true,
           wrapped,
         });
       it('should add different joiners', () => {
@@ -364,7 +356,6 @@ describe('VA evidence', () => {
             data: { ...getLocation(), noTreatmentDates: true },
             joiner: ',',
             wrapped: true,
-            newForm: true,
           }),
         ).to.eq('name,1,2,,true');
       });
@@ -405,12 +396,8 @@ describe('VA evidence', () => {
         }),
       ).to.be.true;
 
-      expect(
-        isEmptyVaEntry(
-          { treatmentDate: null, noDate: null, newForm: true },
-          true,
-        ),
-      ).to.be.true;
+      expect(isEmptyVaEntry({ treatmentDate: null, noDate: null }, true)).to.be
+        .true;
       expect(isEmptyVaEntry({ treatmentDate: null }, true)).to.be.true;
 
       // unknown keys are ignored
@@ -430,12 +417,8 @@ describe('VA evidence', () => {
           evidenceDates: { from: '2020-01-01', to: '2020-02-02' },
         }),
       ).to.be.false;
-      expect(
-        isEmptyVaEntry(
-          { treatmentDate: null, noDate: true, newForm: true },
-          true,
-        ),
-      ).to.be.false;
+      expect(isEmptyVaEntry({ treatmentDate: null, noDate: true }, true)).to.be
+        .false;
     });
   });
 

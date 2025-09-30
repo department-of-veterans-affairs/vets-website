@@ -127,11 +127,6 @@ const userData = () => {
 
 const responses = {
   'GET /v0/user': userData(),
-  'GET /v0/feature_toggles': {
-    data: {
-      features: [{ name: 'sc_new_form', value: true }],
-    },
-  },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /data/cms/vamc-ehr.json': {},
