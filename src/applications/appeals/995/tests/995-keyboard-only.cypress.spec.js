@@ -74,10 +74,30 @@ describe('Supplemental Claim keyboard only navigation', () => {
           // *** Homelessness page
           h.verifyUrl(h.HOMELESSNESS_PATH);
           cy.tabToElement('[name="root_housingRisk"]');
-          cy.chooseRadio('N');
+          cy.chooseRadio('Y');
           cy.tabToContinueForm();
         }
       });
+
+      // *** Living situation page
+      h.verifyUrl(h.LIVING_SITUATION_PATH);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
+      cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
+
+      // ** Other Housing Risk page
+      h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
+      cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
+      cy.realType('Testing content');
+      cy.tabToContinueForm();
+
+      // ** Point of contact page
+      h.verifyUrl(h.HOUSING_CONTACT_PATH);
+      cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
+      cy.realType('Ted Mosby');
+      cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
+      cy.realType('2105550123');
+      cy.tabToContinueForm();
 
       // *** Contact info page
       h.verifyUrl(CONTACT_INFO_PATH);
