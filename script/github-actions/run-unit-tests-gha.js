@@ -164,7 +164,15 @@ function buildGroupCommand(groupName, testPaths) {
   let runner;
 
   if (options.coverage) {
-    runner = `NODE_ENV=test nyc --all ${coverageInclude} mocha --retries 5 ${baseMocha}`;
+    const nycFlags = [
+      '--all',
+      '--silent',
+      '--no-check-coverage',
+      '--no-clean',
+      '--temp-dir',
+      '.nyc_output',
+    ].join(' ');
+    runner = `NODE_ENV=test nyc ${nycFlags} --all ${coverageInclude} mocha --retries ${baseMocha}`;
   } else {
     runner = `BABEL_ENV=test NODE_ENV=test mocha --retries 5 ${baseMocha}`;
   }
@@ -195,6 +203,15 @@ async function main() {
       const command = buildGroupCommand(name, tests);
       // eslint-disable-next-line no-await-in-loop
       await runCommand(command);
+    }
+
+    if (options.coverage) {
+      const reporters = options['coverage-html']
+        ? '--reporter=json-summary --reporter=lcov --reporter=html'
+        : '--reporter=json-summary --reporter=lcov';
+
+      // eslint-disable-next-line no-await-in-loop
+      await runCommand(`NODE_ENV=test nyc report --silent ${reporters}`);
     }
 
     core.exportVariable('tests_ran', 'true');
