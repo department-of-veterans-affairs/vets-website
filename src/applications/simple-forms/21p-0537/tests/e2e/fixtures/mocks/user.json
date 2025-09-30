@@ -1,0 +1,57 @@
+{
+  "data": {
+    "attributes": {
+      "profile": {
+        "sign_in": {
+          "service_name": "idme"
+        },
+        "email": "jane.spouse@example.com",
+        "loa": { "current": 3 },
+        "first_name": "Jane",
+        "middle_name": "M",
+        "last_name": "Spouse",
+        "gender": "F",
+        "birth_date": "1985-03-15",
+        "verified": true
+      },
+      "veteran_status": {
+        "status": "OK",
+        "is_veteran": false,
+        "served_in_military": false
+      },
+      "in_progress_forms": [
+        {
+          "form": "21P-0537",
+          "metadata": {
+            "savedAt": 1681760746439,
+            "submission": {
+              "status": false,
+              "errorMessage": false,
+              "id": false,
+              "timestamp": 1681760746426,
+              "hasAttemptedSubmit": false
+            },
+            "expiresAt": 9999999999,
+            "lastUpdated": 1681760746,
+            "inProgressFormId": 19440
+          },
+          "lastUpdated": 1681760746
+        }
+      ],
+      "prefills_available": ["21P-0537"],
+      "services": [
+        "user-profile"
+      ],
+      "va_profile": {
+        "status": "OK",
+        "birth_date": "19850315",
+        "family_name": "Spouse",
+        "gender": "F",
+        "given_names": ["Jane", "M"],
+        "active_status": "active",
+        "facilities": []
+      }
+    }
+  },
+  "meta": { "errors": null }
+}
