@@ -41,7 +41,7 @@ const ProcessDescription = ({ resBurden }) => (
         </p>
         <ul>
           <li>Health insurance cards</li>
-          <li>Medicare cards or notice of disallowance if age 65 and over</li>
+          <li>Medicare cards or notice of disallowance if age 65 or older</li>
           <li>Proof of school enrollment</li>
           <li>Proof of marriage or legal union</li>
           <li>Proof of adoption</li>

@@ -3,20 +3,21 @@ import { CONTACTS } from '../../imports';
 
 const GetFormHelp = (
   <>
-    <p>
+    <p className="help-talk">
       <strong> If you have trouble using this online form,</strong> call us at{' '}
       <va-telephone contact={CONTACTS.HELP_DESK} /> (
       <va-telephone contact={CONTACTS['711']} tty />
       ). We’re here 24/7.
     </p>
-    <p>
+    <p className="help-talk">
       <strong>
-        If you need help gathering your information or filling out this form,
+        If you need help gathering your information or filling out your form,
       </strong>{' '}
-      contact a local Veterans Service Organization (VSO).
-    </p>
-    <p className="vads-u-margin-bottom--4">
-      <va-link href="/vso/" text="Find a local Veterans Service Organization" />
+      you can appoint a VA accredited representative.{' '}
+      <va-link
+        href="/get-help-from-accredited-representative/"
+        text="Get help filling out a form"
+      />
     </p>
 
     <h2 className="vads-u-font-size--h3">Get more information</h2>
