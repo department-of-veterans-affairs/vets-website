@@ -51,6 +51,39 @@ const ProcessList = () => {
           <li>The amount you paid for each expense</li>
           <li>The name of the provider</li>
         </ul>
+        <va-additional-info trigger="Additional documents we may ask for">
+          <p>
+            Based on your answers, you may need to submit other documents with
+            your application. These documents may include VA forms or evidence
+            for answers to specific questions.
+          </p>
+          <p>
+            If you are claiming in-home care, nursing home, or other care
+            facility expenses, you may need to submit proof for these claimed
+            expenses and other documents with your application. You only need to
+            submit proof for these three expense types. For all other types, you
+            only need to fill out the relevant fields in the form.
+          </p>
+          <p>
+            In addition, if you are claiming any of these expense types, you may
+            need to attach one or more of these VA forms that have been signed
+            by a provider:
+          </p>
+          <ul>
+            <li>
+              Residential Care, Adult Daycare, or a Similar Facility worksheet
+            </li>
+            <li>In-Home Attendant Expenses worksheet</li>
+            <li>
+              Request for Nursing Home Information in Connection with Claim for
+              Aid and Attendance (VA Form 21-0779)
+            </li>
+            <li>
+              Examination for Housebound Status or Permanent Need for Regular
+              Aid and Attendance form (VA Form 21-2680)
+            </li>
+          </ul>
+        </va-additional-info>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
@@ -60,6 +93,18 @@ const ProcessList = () => {
           supporting documents are required for you as you fill out the
           application.
         </p>
+        <va-additional-info trigger="What happens after you apply">
+          <p>
+            We’ll process your application and send you a letter in the mail
+            with our decision.
+          </p>
+          <p>
+            We may request more information from you to make a decision about
+            your medical expense reimbursement. If we request more information,
+            you’ll need to respond within 30 days. If you don’t, we may decide
+            your expenses with the evidence that’s available to us.
+          </p>
+        </va-additional-info>
       </va-process-list-item>
     </va-process-list>
   );

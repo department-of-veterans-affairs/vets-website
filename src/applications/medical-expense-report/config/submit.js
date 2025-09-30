@@ -29,7 +29,7 @@ export function replacer(key, value) {
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
-    pensionClaim: {
+    medicalExpenseReportsClaim: {
       form: formData,
     },
     // can’t use toISOString because we need the offset

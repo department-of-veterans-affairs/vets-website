@@ -17,6 +17,7 @@ import { recipientTypeLabels } from '../../../utils/labels';
 import { doesHaveCareExpenses } from './helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
 import { showMultiplePageResponse } from '../../../utils/helpers';
+// import CareExpenseDescription from '../../../components/CareExpenseDescription';
 
 const {
   childName,

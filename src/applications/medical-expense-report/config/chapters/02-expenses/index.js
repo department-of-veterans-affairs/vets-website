@@ -7,8 +7,8 @@ import mileage from './mileage';
 export default {
   title: 'Expenses',
   pages: {
-    selectExpenseTypes,
     reportingPeriod,
+    selectExpenseTypes,
     careExpenses,
     medicalExpenses,
     mileage,

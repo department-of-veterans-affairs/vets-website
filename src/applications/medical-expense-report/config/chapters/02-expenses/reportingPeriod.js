@@ -3,6 +3,7 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import ReportingPeriodDescription from '../../../components/ReportingPeriodDescription';
 
 /** @type {PageSchema} */
 export default {
@@ -10,7 +11,17 @@ export default {
   path: 'applicant/expenses/reporting-period',
   uiSchema: {
     ...titleUI('Reporting Period'),
-    reportingPeriod: currentOrPastDateRangeUI('Start date', 'End date'),
+    'ui:description': ReportingPeriodDescription,
+    reportingPeriod: currentOrPastDateRangeUI(
+      {
+        title: 'Start date',
+        monthSelect: false,
+      },
+      {
+        title: 'End date',
+        monthSelect: false,
+      },
+    ),
   },
   schema: {
     type: 'object',
