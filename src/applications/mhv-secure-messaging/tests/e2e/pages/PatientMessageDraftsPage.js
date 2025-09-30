@@ -371,7 +371,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyAttachFileBtn = () => {
-    cy.get(Locators.BUTTONS.ATTACH_FILE)
+    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE)
       .shadow()
       .find(`button`)
       .should(`be.visible`)

@@ -30,12 +30,11 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       </li>
     </ul>
     <p>
-      <a
-        className="vads-c-action-link--blue"
+      <va-link-action
         href="/manage-va-debt/request-debt-help-form-5655/"
-      >
-        Request help with your debt
-      </a>
+        text="Request help with your debt"
+        secondary
+      />
     </p>
     <h3>Request help for your future health care</h3>
     <p>
@@ -45,12 +44,11 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       calendar year.
     </p>
     <p>
-      <a
-        href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
-        className="vads-c-action-link--blue"
-      >
-        Learn more about requesting a hardship determination
-      </a>
+      <va-link-action
+        href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship"
+        text="Learn more about requesting a hardship determination"
+        secondary
+      />
     </p>
   </article>
 );

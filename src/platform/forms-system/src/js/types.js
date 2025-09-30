@@ -427,7 +427,7 @@
  *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (itemData: any, index: number, fullData: any) => string | React.ReactNode,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any, index: number, fullData: any) => string,
@@ -436,11 +436,18 @@
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
  *   deleteTitle?: (props: ArrayBuilderTextProps) => string,
  *   deleteYes?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalDescription?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalPrimaryButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalSecondaryButtonText?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateModalTitle?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardInfoAlert?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardLabel?: (props: ArrayBuilderTextProps) => string,
+ *   duplicateSummaryCardWarningOrErrorAlert?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
  *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
  *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
@@ -471,6 +478,87 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ * @property {DuplicateChecks} [duplicateChecks]
+ * ```
+ * // Example simple:
+ * duplicateChecks: {
+ *   comparisons: ['name', 'dateRange.from', 'dateRange.to'],
+ * }
+ *
+ * // Example complex:
+ * duplicateChecks: {
+ *   comparisonType: 'all', // default, can be 'all', 'internal', or 'external'
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   },
+ *   itemPathModalChecks: {
+ *     // path in config would be 'this-array/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         // return array of array strings to be used for duplicate comparisons
+ *         return [];
+ *       }
+ *    },
+ * ```
+ */
+
+/**
+ * Duplicate checks object
+ * @typedef {Object} DuplicateChecks
+ * @property {Array<String>} comparisons - The array paths to compare for
+ * duplicates
+ * @property {String} [comparisonType] - set as 'all', 'internal', or 'external'.
+ *   - 'all' compares both internal and external data (default)
+ *   - 'internal' compares only within the array data
+ *   - 'external' compares unique internal data with external data (internal
+ *     duplicates are ignored)
+ * @property {ExternalComparisonFunction} [externalComparisonData] - A function to
+ * collect and return external data for comparison
+ * @property {Object} [itemPathModalChecks]
+ *  - Optional object to override the comparisons for specific item pages
+ *  - The key is the last part of the path after the index in the form config,
+ *    e.g. 'dependent-children/:index/birth-date' would be 'birth-date'
+ *  - The value is an object with the same structure as duplicateChecks. Changes
+ *    within this object will only affect the specific item page.
+ *  - If comparisons are made that are not part of the page, it may cause
+ *    confusion for the Veteran.
+ *  - A duplicate modal will appear after attempting to continue past this
+ *    internal page if a duplicate is found.
+ * @example
+ * {
+ *   comparisonType: 'all', // default
+ *   comparisons: ['fullName.first', 'fullName.last', 'birthDate', 'ssn'],
+ *   externalComparisonData: ({ formData, arrayData }) => {
+ *     // Use arrayData to troubleshoot data obtained via comparisons
+ *     // return array of array strings to be used for duplicate comparisons
+ *     return [];
+ *   },
+ *   itemPathModalChecks: {
+ *     // path in form config would be 'dependent-children/:index/birth-date'
+ *     'birth-date': {
+ *       comparisons: ['fullName.first', 'birthDate'],
+ *       externalComparisonData: ({ formData, arrayData }) => {
+ *         const dependents = formData?.dependentsFromApi || [];
+ *         if (!dependents?.length) {
+ *           return [];
+ *         }
+ *        // return array of array strings to be used for duplicate comparisons
+ *         return dependents
+ *           .filter(
+ *             dependent =>
+ *               dependent.relationshipToVeteran.toLowerCase() === 'child',
+ *           )
+ *           .map(child => [
+ *             child.fullName?.first || '',
+ *             child.dateOfBirth || '',
+ *           ]);
+ *       }
+ *     },
+ *   },
+ * }
  */
 
 /**
@@ -484,4 +572,17 @@
  * @property {boolean} filterInactiveNestedPageData - utilize filter method for removing inactive page data that filters ArrayBuilder page data
  * @property {boolean} useWebComponentForNavigation - utilize VADS button web components for page nav
  * @property {boolean} focusOnAlertRole - apply focus to va-alert on submission error
+ */
+
+/**
+ * @typedef ExternalComparisonFunction
+ * @type {Function}
+ * @property {Object} fullData - The full form data
+ * @property {Array<String>} arrayData - The array data being checked
+ * @returns {Array} - An array of arrrays with external comparison data
+ * @example (first name, last name, birth date, ssn)
+ * [
+ *   ['John', 'Doe', '1990-01-01', '123-45-6789'],
+ *   ['Jane', 'Smith', '1992-02-02', '987-65-4321']
+ * ]
  */
