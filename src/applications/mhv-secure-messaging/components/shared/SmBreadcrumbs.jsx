@@ -45,27 +45,34 @@ const SmBreadcrumbs = () => {
     [crumbsList],
   );
 
-  const pathsUsingBackLink = [
-    Constants.Paths.MESSAGE_THREAD,
-    Constants.Paths.REPLY,
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    `${Constants.Paths.RECENT_CARE_TEAMS}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
+  const pathsUsingBackLink = useMemo(
+    () => [
+      Constants.Paths.MESSAGE_THREAD,
+      Constants.Paths.REPLY,
+      Constants.Paths.COMPOSE,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
+      `${Constants.Paths.RECENT_CARE_TEAMS}/`,
+      Constants.Paths.CONTACT_LIST,
+      `${Constants.Paths.CARE_TEAM_HELP}/`,
+      Constants.Paths.DRAFTS,
+      Constants.Paths.DELETED,
+      `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+      `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+      `${Constants.Paths.REPLY}${locationChildPath}/`,
+    ],
+    [locationChildPath],
+  );
 
   const crumbPath = `/${locationBasePath}/${
     locationChildPath ? `${locationChildPath}/` : ''
   }`;
-  const shortenBreadcrumb = pathsUsingBackLink.includes(crumbPath);
+
+  const shortenBreadcrumb = useMemo(
+    () => pathsUsingBackLink.includes(crumbPath),
+    [pathsUsingBackLink, crumbPath],
+  );
 
   const navigateBack = useCallback(
     () => {
@@ -108,7 +115,7 @@ const SmBreadcrumbs = () => {
       } else if (wasSelectCareTeam) {
         history.push(Constants.Paths.INBOX);
       } else if (isSelectCareTeam) {
-        history.push(Constants.Paths.COMPOSE);
+        history.push(previousUrl || Constants.Paths.COMPOSE);
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
