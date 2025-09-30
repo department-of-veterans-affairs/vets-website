@@ -1,6 +1,9 @@
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
-import { allKeysAreEmpty } from './vaFileInputFieldHelpers';
+import {
+  allKeysAreEmpty,
+  makePlaceholderFile,
+} from './vaFileInputFieldHelpers';
 
 const DEFAULT_ACCEPT_TYPES = '.pdf,.jpeg,.png';
 
@@ -19,11 +22,7 @@ const vaFileInputFieldMapping = props => {
   if (Array.isArray(childrenProps.formData)) {
     uploadedFiles = [];
     for (const _u of childrenProps.formData) {
-      const buffer = new ArrayBuffer(_u?.size || 1024);
-      const blob = new Blob([buffer], { type: 'image/png' });
-      const file = new File([blob], _u?.name || 'placeholder', {
-        type: 'image/png',
-      });
+      const file = makePlaceholderFile(_u);
       uploadedFiles.push(file);
     }
   }
