@@ -62,7 +62,7 @@ const createMockAddressValidationSuccessResponse = _data => {
             deliveryPointValidation: 'CONFIRMED',
             residentialDeliveryIndicator: 'RESIDENTIAL',
             nonPostalInputData: ['string'],
-            validationKey: 0,
+            overrideValidationKey: 0,
           },
         },
       ],

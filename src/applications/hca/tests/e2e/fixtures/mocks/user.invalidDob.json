@@ -76,7 +76,7 @@
           "stateCode": "MA",
           "transactionId": "0edf4400-9de7-442c-ae65-abf192702cef",
           "updatedAt": "2021-01-20T02:31:06.000+00:00",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1273500",
           "zipCode": "01060",
           "zipCodeSuffix": "2100"

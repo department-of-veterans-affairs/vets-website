@@ -43,6 +43,7 @@ const getStore = (lettersPageNewDesign = true) => {
         },
         addressValidationError: false,
         validationKey: null,
+        overrideValidationKey: null,
         selectedAddress: {},
         selectedAddressId: null,
       },

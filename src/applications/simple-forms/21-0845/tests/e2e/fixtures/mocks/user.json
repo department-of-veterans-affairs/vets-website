@@ -104,7 +104,7 @@
           "stateCode": "AL",
           "transactionId": "d7b2ce6f-019e-4e1e-9e6f-8371a8b28575",
           "updatedAt": "2023-06-05T18:37:49.000+00:00",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1234567",
           "zipCode": "54321",
           "zipCodeSuffix": "6676",

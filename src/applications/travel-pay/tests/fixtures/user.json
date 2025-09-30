@@ -120,7 +120,7 @@
           "stateCode": "CA",
           "transactionId": "c5adb989-3b87-47b6-afe3-dc18800cedc3",
           "updatedAt": "2022-03-23T19:11:52.000Z",
-          "validationKey": null,
+          "overrideValidationKey": null,
           "vet360Id": "1273766",
           "zipCode": "94118",
           "zipCodeSuffix": null,
