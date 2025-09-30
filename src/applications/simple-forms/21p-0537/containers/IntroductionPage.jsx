@@ -28,7 +28,7 @@ function IntroductionPage({ route }) {
         <h3 slot="headline">Time-sensitive response required</h3>
         <p>
           You must complete and submit this form within 60 days to avoid
-          potential termination of your DIC benefits.
+          potential loss of your DIC benefits.
         </p>
       </va-alert>
 
@@ -41,7 +41,7 @@ function IntroductionPage({ route }) {
       </p>
       <ul>
         <li>The marriage began after age 57, or</li>
-        <li>The remarriage has been terminated</li>
+        <li>The remarriage has ended</li>
       </ul>
 
       <h3>What happens after you submit this form</h3>

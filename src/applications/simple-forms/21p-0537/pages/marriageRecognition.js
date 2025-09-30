@@ -24,7 +24,7 @@ const MarriageRecognitionInfo = () => (
 
 export default {
   uiSchema: {
-    'ui:title': 'Important information about marriage recognition',
+    hideFormTitle: true,
     'ui:description': MarriageRecognitionInfo,
   },
   schema: {

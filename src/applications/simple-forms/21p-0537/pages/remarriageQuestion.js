@@ -1,5 +1,4 @@
 import {
-  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -10,7 +9,7 @@ hasRemarriedUI['ui:title'] =
 
 export default {
   uiSchema: {
-    ...titleUI('Have you remarried?'),
+    hideFormTitle: true,
     hasRemarried: hasRemarriedUI,
   },
   schema: {
