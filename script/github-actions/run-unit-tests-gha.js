@@ -173,7 +173,7 @@ function buildGroupCommand(groupName, testPaths) {
 
   // Same envs/shape as the original command; only change is `--` after nyc so Mocha gets its flags
   const runner = options.coverage
-    ? `NODE_ENV=test nyc --all mocha -- ${coverageReporter} ${commonMochaTail}`
+    ? `NODE_ENV=test nyc --silent --all mocha -- ${coverageReporter} ${commonMochaTail}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption} ${commonMochaTail}`;
 
   return `STEP=unit-tests LOG_LEVEL=${options[
