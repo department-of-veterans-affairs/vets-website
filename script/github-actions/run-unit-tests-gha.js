@@ -158,25 +158,25 @@ function buildGroupCommand(groupName, testPaths) {
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
 
-  const baseMocha = `--max-old-space-size=${MAX_MEMORY} --config ${
+  const reporterOption = options.reporter
+    ? `--reporter ${options.reporter}`
+    : '';
+
+  // Match the original reporter set
+  const coverageReporter = options['coverage-html']
+    ? '--reporter=html'
+    : '--reporter=json-summary --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color';
+
+  const commonMochaTail = `--retries 5 --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
   } ${testPaths.join(' ')}`;
-  let runner;
 
-  if (options.coverage) {
-    const nycFlags = [
-      '--all',
-      '--silent',
-      '--no-check-coverage',
-      '--no-clean',
-      '--temp-dir',
-      '.nyc_output',
-    ].join(' ');
-    runner = `NODE_ENV=test nyc ${nycFlags} --all ${coverageInclude} mocha --retries ${baseMocha}`;
-  } else {
-    runner = `BABEL_ENV=test NODE_ENV=test mocha --retries 5 ${baseMocha}`;
-  }
-  return `FORCE_COLOR=1 MOCHA_COLORS=1 STEP=unit-tests LOG_LEVEL=${options[
+  // Same envs/shape as the original command; only change is `--` after nyc so Mocha gets its flags
+  const runner = options.coverage
+    ? `NODE_ENV=test nyc --all ${coverageInclude} mocha -- ${coverageReporter} ${commonMochaTail}`
+    : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption} ${commonMochaTail}`;
+
+  return `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()} ${runner}`;
 }
