@@ -676,63 +676,63 @@ export default function VaFileInputMultiplePage() {
           </div>
         </div>
       </div>
-      {/* 
-      <div className="vads-grid-row">
-        Error Testing Instructions
-        <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
-          <h3>Error Testing & Visual State Reset:</h3>
-          <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
-            <li>
-              <strong>Network Error:</strong> Upload file with "error" in
-              filename
-              <br />
-              <em>→ Watch progress bar reset when error occurs</em>
-            </li>
-            <li>
-              <strong>Server Error:</strong> Upload file with "server" in
-              filename
-              <br />
-              <em>→ Visual state clears on error for clean retry</em>
-            </li>
-            <li>
-              <strong>Rate Limit:</strong> Upload file with "limit" in filename
-              <br />
-              <em>→ Component resets to initial appearance</em>
-            </li>
-            <li>
-              <strong>File Size:</strong> Upload file larger than 1MB
-              <br />
-              <em>→ resetVisualState triggers immediately</em>
-            </li>
-            <li>
-              <strong>Password Error:</strong> Use password shorter than 8
-              characters
-              <br />
-              <em>→ Password field visual state resets</em>
-            </li>
-            <li>
-              <strong>Additional Input Error:</strong> Upload any file, then try
-              to select "Select status" option
-              <br />
-              <em>
-                → Document status field shows validation error (no visual state
-                reset)
-              </em>
-            </li>
-          </ul>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
-            <strong>resetVisualState</strong> automatically triggers when errors
-            occur, providing visual feedback for error recovery.
-          </p>
-          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
-            <strong>Additional Input:</strong> Each uploaded file requires a
-            document status selection. Selecting "Select status" shows a
-            validation error. Valid selections are stored in{' '}
-            <code>file.additionalData.documentStatus</code>.
-          </p>
-        </div>
+      <div className="vads-grid-row vads-u-margin-top--2">
+        <va-additional-info trigger="Trigger mock error scenarios">
+          <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
+            <h3>Error Testing & Visual State Reset:</h3>
+            <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
+              <li>
+                <strong>Network Error:</strong> Upload file with 'error' in
+                filename
+                <br />
+                <em>→ Watch progress bar reset when error occurs</em>
+              </li>
+              <li>
+                <strong>Server Error:</strong> Upload file with 'server' in
+                filename
+                <br />
+                <em>→ Visual state clears on error for clean retry</em>
+              </li>
+              <li>
+                <strong>Rate Limit:</strong> Upload file with 'limit' in
+                filename
+                <br />
+                <em>→ Component resets to initial appearance</em>
+              </li>
+              <li>
+                <strong>File Size:</strong> Upload file larger than 1MB
+                <br />
+                <em>→ resetVisualState triggers immediately</em>
+              </li>
+              <li>
+                <strong>Password Error:</strong> Use password shorter than 8
+                characters
+                <br />
+                <em>→ Password field visual state resets</em>
+              </li>
+              <li>
+                <strong>Additional Input Error:</strong> Upload any file, then
+                try to select 'Select status' option
+                <br />
+                <em>
+                  → Document status field shows validation error (no visual
+                  state reset)
+                </em>
+              </li>
+            </ul>
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-font-style--italic">
+              <strong>resetVisualState</strong> automatically triggers when
+              errors occur, providing visual feedback for error recovery.
+            </p>
+            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0 vads-u-font-size--xs vads-u-color--primary">
+              <strong>Additional Input:</strong> Each uploaded file requires a
+              document status selection. Selecting 'Select status' shows a
+              validation error. Valid selections are stored in{' '}
+              <code>file.additionalData.documentStatus</code>.
+            </p>
+          </div>
+        </va-additional-info>
       </div>
-*/}
     </div>
   );
 }
