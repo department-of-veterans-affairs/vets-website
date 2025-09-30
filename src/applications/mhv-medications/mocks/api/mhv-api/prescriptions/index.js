@@ -303,7 +303,7 @@ function generateMockPrescriptions(req, n = 20) {
     }),
   ];
 
-  // Retreive statuses from filter
+  // Retrieve statuses from filter
   const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"
   const selectedStatuses = filterKey
     ? String(filterKey)
