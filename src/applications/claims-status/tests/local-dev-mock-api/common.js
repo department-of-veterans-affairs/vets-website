@@ -149,6 +149,13 @@ const appealData1 = {
         description: 'Post traumatic stress disorder (PTSD) is granted.',
         diagnosticCode: '9411',
       },
+      {
+        active: true,
+        lastAction: null,
+        date: '2024-10-25',
+        description: null,
+        diagnosticCode: '9411',
+      },
     ],
     events: [
       {
@@ -162,7 +169,7 @@ const appealData1 = {
 
 const appealData = {
   data: [
-    ...appealData1,
+    appealData1,
     {
       id: '2765759',
       type: 'legacyAppeal',
@@ -243,7 +250,7 @@ const appealData = {
         updated: '2025-09-26T10:48:46-04:00',
         incompleteHistory: false,
         active: true,
-        description: '1 medical issue',
+        description: '1 medical issue and 1 non-rated issue',
         location: 'aoj',
         aoj: 'vha',
         programArea: 'medical',
@@ -689,16 +696,8 @@ const responses = {
   'GET /v0/benefits_claims/3': getClaimDataById('3'),
   'GET /v0/benefits_claims/4': getClaimDataById('4'),
 
-  'GET /v0/appeals': {
-    appealData,
-    meta: {
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalPages: 1,
-        totalEntries: 1,
-      },
-    },
+  'GET /v0/appeals': (_req, res) => {
+    return res.status(200).json(appealData);
   },
 
   'GET /v0/appeals/1': {
