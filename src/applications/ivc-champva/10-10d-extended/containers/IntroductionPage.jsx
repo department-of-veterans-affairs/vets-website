@@ -42,7 +42,7 @@ export const IntroductionPage = ({ route }) => {
         Department of Veterans Affairs (CHAMPVA).
       </p>
 
-      {AlreadyAppliedAlert}
+      <AlreadyAppliedAlert />
 
       <ProcessDescription resBurden={totalResBurden} />
 
@@ -76,12 +76,12 @@ export const IntroductionPage = ({ route }) => {
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      customText: PropTypes.object,
-      formId: PropTypes.string,
-      prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.object,
-    }),
-    pageList: PropTypes.arrayOf(PropTypes.object),
+      customText: PropTypes.object.isRequired,
+      formId: PropTypes.string.isRequired,
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
 

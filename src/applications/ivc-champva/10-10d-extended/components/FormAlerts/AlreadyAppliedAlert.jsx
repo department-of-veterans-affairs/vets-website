@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AlreadyAppliedAlert = (
+const AlreadyAppliedAlert = () => (
   <va-alert status="info" class="vads-u-margin-y--4">
     <h2 slot="headline">Have you already applied for CHAMPVA benefits?</h2>
     <p>
