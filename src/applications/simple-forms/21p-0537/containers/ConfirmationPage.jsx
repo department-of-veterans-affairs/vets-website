@@ -54,7 +54,7 @@ function ConfirmationPage({ form }) {
           </p>
           <ul>
             <li>Your age at the time of remarriage</li>
-            <li>Whether the remarriage has been terminated</li>
+            <li>Whether the remarriage has ended</li>
           </ul>
           <p>
             We'll send you a letter with our determination. If we determine that

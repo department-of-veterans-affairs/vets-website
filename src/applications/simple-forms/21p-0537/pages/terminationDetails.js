@@ -7,16 +7,17 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const terminationDateUI = currentOrPastDateUI();
-terminationDateUI['ui:title'] = 'Date of termination';
+terminationDateUI['ui:title'] = 'Date marriage ended';
 terminationDateUI['ui:required'] = () => true;
 
 export default {
   uiSchema: {
-    ...titleUI('Termination details'),
+    ...titleUI('End of marriage details'),
+    hideFormTitle: true,
     remarriage: {
       terminationDate: terminationDateUI,
       terminationReason: textUI({
-        title: 'Reason for termination (i.e., death, divorce)',
+        title: 'Reason marriage ended (i.e., death, divorce)',
         required: () => true,
       }),
     },

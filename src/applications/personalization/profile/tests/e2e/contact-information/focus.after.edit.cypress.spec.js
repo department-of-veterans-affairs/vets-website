@@ -48,7 +48,7 @@ describe('focus after editing fields', () => {
       cy.get('[data-testid="confirm-address-button"]').click({
         waitForAnimations: true,
       });
-      cy.get('#edit-mailing-address').should('be.focused');
+      cy.get('va-alert[status="success"]').should('be.focused');
     });
   });
   describe('Phone number fields with SCHEMA form system', () => {
@@ -85,7 +85,7 @@ describe('focus after editing fields', () => {
         waitForAnimations: true,
       });
       cy.get('[data-testid="update-success-alert"]').should('exist');
-      cy.get('#edit-home-phone-number').should('be.focused');
+      cy.get('va-alert[status="success"]').should('be.focused');
     });
   });
 });
