@@ -180,6 +180,7 @@ const RecipientsSelect = ({
     e => {
       const { value } = e.detail;
       if (!+value) {
+        onValueChange(null);
         return;
       }
 
