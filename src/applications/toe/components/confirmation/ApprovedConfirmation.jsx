@@ -105,8 +105,7 @@ const ApprovedConfirmation = ({
             Confirmation for your records
           </h4>
           <p className="vads-u-margin--0">
-            You can print this confirmation page for your records. You can also
-            download your completed application as a PDF.
+            You can print this confirmation page for your records.
           </p>
         </div>
 
@@ -117,23 +116,6 @@ const ApprovedConfirmation = ({
             text="Print this page"
             onClick={printPage}
           />
-        </div>
-
-        <div>
-          <va-icon
-            aria-hidden="true"
-            role="presentation"
-            icon="file_download"
-            size={3}
-            className="vads-u-margin-right--1"
-          />
-          <va-link
-            href={encodeURI(LETTER_ENDPOINT)}
-            download
-            class="vads-u-font-weight--bold"
-          >
-            Download your completed application (PDF)
-          </va-link>
         </div>
       </va-summary-box>
       <div className="vads-u-margin-bottom--4">
@@ -178,12 +160,12 @@ const ApprovedConfirmation = ({
             .
           </li>
           <li>
+            Learn more about VA benefits and programs through the Building
             <va-link
-              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+              href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
             </va-link>
             .

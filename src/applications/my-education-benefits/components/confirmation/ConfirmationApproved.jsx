@@ -139,7 +139,7 @@ const ConfirmationApproved = ({
         <li>
           Learn more about VA benefits and programs through the{' '}
           <va-link
-            href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/"
+            href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >

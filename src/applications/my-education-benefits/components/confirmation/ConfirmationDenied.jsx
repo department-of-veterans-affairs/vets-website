@@ -124,6 +124,17 @@ const ConfirmationDenied = ({
           benefits.
         </li>
         <li>There is no further action required by you at this time.</li>
+        <li>
+          Learn more about VA benefits and programs through the{' '}
+          <va-link
+            href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Building Your Future with the GI Bill Series
+          </va-link>
+          .
+        </li>
       </ul>
 
       <va-link class="vads-c-action-link--green" href="/my-va/">
