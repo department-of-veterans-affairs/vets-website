@@ -1,0 +1,55 @@
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+
+import { ConditionsIntroDescription } from '../../content/conditions';
+import {
+  arrayOptions,
+  hasRatedDisabilities,
+  isEditFromContext,
+} from './shared/utils';
+import summaryPage from './shared/summary';
+import { remainingSharedPages } from './shared';
+import conditionPage from './condition';
+
+const ratedIntroPage = {
+  uiSchema: {
+    ...titleUI(
+      'Add your disabilities and conditions',
+      ConditionsIntroDescription,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
+
+export const disabilityConditionsWorkflow = arrayBuilderPages(
+  arrayOptions,
+  (pageBuilder, helpers) => ({
+    Intro: pageBuilder.introPage({
+      title: 'Add your disabilities and conditions',
+      path: 'conditions-mango-intro',
+      uiSchema: ratedIntroPage.uiSchema,
+      schema: ratedIntroPage.schema,
+    }),
+
+    Summary: pageBuilder.summaryPage({
+      title: 'Review your conditions',
+      path: `conditions-mango-summary`,
+      uiSchema: summaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+
+    Condition: pageBuilder.itemPage({
+      title: 'Type of condition',
+      path: `conditions-mango/:index/condition`,
+      depends: (formData, _index, ctx) =>
+        !isEditFromContext(ctx) && hasRatedDisabilities(formData),
+      uiSchema: conditionPage.uiSchema,
+      schema: conditionPage.schema,
+    }),
+
+    ...remainingSharedPages(pageBuilder, helpers),
+  }),
+);
