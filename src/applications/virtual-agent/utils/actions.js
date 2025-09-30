@@ -89,11 +89,7 @@ function handleRagAgentEntryEvent(action) {
   const skillName = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`;
 
-  if (
-    actionEventName === ACTIVITY_EVENT_NAMES.RAG_ENTRY &&
-    skillName &&
-    skillName !== 'RootBot'
-  ) {
+  if (actionEventName === ACTIVITY_EVENT_NAMES.RAG_ENTRY) {
     recordEvent({
       event: EVENT_API_CALL,
       'api-name': apiName,
@@ -107,11 +103,7 @@ function handleRagAgentExitEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`;
-  if (
-    actionEventName === ACTIVITY_EVENT_NAMES.RAG_EXIT &&
-    eventValue &&
-    eventValue !== 'RootBot'
-  ) {
+  if (actionEventName === ACTIVITY_EVENT_NAMES.RAG_EXIT) {
     recordEvent({
       event: EVENT_API_CALL,
       'api-name': apiName,

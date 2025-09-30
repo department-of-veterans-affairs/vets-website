@@ -516,7 +516,7 @@ describe('actions', () => {
       ).to.be.true;
     });
 
-    it('should not emit RAG Agent Entry for RootBot RAG_ENTRY', () => {
+    it('should emit RAG Agent Entry for RootBot RAG_ENTRY', () => {
       const action = {
         payload: {
           activity: {
@@ -536,7 +536,7 @@ describe('actions', () => {
           'api-name': 'Chatbot RAG Agent Entry - RootBot',
           'api-status': 'successful',
         }),
-      ).to.be.false;
+      ).to.be.true;
     });
 
     it('should emit RAG Agent Exit on RAG_EXIT for non-RootBot skill', () => {
@@ -563,7 +563,7 @@ describe('actions', () => {
       ).to.be.true;
     });
 
-    it('should not emit RAG Agent Exit on RAG_EXIT for RootBot', () => {
+    it('should emit RAG Agent Exit on RAG_EXIT for RootBot', () => {
       const action = {
         payload: {
           activity: {
@@ -583,7 +583,7 @@ describe('actions', () => {
           'api-name': 'Chatbot RAG Agent Exit - RootBot',
           'api-status': 'successful',
         }),
-      ).to.be.false;
+      ).to.be.true;
     });
   });
 
