@@ -9,6 +9,7 @@ import {
   VaAlert,
   VaButton,
   VaButtonPair,
+  VaButtonSegmented,
   VaCheckbox,
   VaCheckboxGroup,
   VaMemorableDate,
@@ -319,6 +320,17 @@ export default function V3BasePage() {
             />
             <ValueDisplay label="V3 button" id="v3ButtonValue" />
           </div>
+        </div>
+
+        <div className="border-bottom vads-u-padding-bottom--2">
+          <h2 className="vads-grid-col font-ui-md">Segmented Button</h2>
+          <VaButtonSegmented
+            buttons={[
+              { label: 'Option 1', value: 'option-1' },
+              { label: 'Option 2', value: 'option-2' },
+              { label: 'Option 3', value: 'option-3' },
+            ]}
+          />
         </div>
 
         {/* Modal */}
