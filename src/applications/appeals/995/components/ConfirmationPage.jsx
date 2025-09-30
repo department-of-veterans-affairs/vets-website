@@ -24,7 +24,7 @@ import {
   getPrivateEvidence,
   getOtherEvidence,
 } from '../utils/evidence';
-import { SC_NEW_FORM_DATA, LIMITED_CONSENT_RESPONSE } from '../constants';
+import { LIMITED_CONSENT_RESPONSE } from '../constants';
 import { getReadableDate } from '../../shared/utils/dates';
 
 // Components
@@ -55,7 +55,6 @@ export const ConfirmationPage = () => {
   const otherEvidence = getOtherEvidence(data);
   const noEvidence =
     vaEvidence.length + privateEvidence.length + otherEvidence.length === 0;
-  const showScNewForm = data[SC_NEW_FORM_DATA];
 
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
@@ -162,21 +161,18 @@ export const ConfirmationPage = () => {
               : 'No, I didn’t certify'}
           </div>
         </li>
-
-        {showScNewForm && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {facilityTypeTitle}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-testid="confirmation-facility-types"
-              data-dd-action-name="facility types selected"
-            >
-              {facilityTypeList(data.facilityTypes) || 'None selected'}
-            </div>
-          </li>
-        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {facilityTypeTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-testid="confirmation-facility-types"
+            data-dd-action-name="facility types selected"
+          >
+            {facilityTypeList(data.facilityTypes) || 'None selected'}
+          </div>
+        </li>
       </ul>
 
       {noEvidence && (
@@ -194,12 +190,7 @@ export const ConfirmationPage = () => {
       )}
 
       {vaEvidence.length ? (
-        <EvidenceVaContent
-          list={vaEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly />
       ) : null}
 
       {privateEvidence.length ? (
@@ -209,18 +200,12 @@ export const ConfirmationPage = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          showScNewForm={showScNewForm}
           limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
         />
       ) : null}
 
       {otherEvidence.length ? (
-        <EvidenceUploadContent
-          list={otherEvidence}
-          reviewMode
-          showListOnly
-          showScNewForm={showScNewForm}
-        />
+        <EvidenceUploadContent list={otherEvidence} reviewMode showListOnly />
       ) : null}
 
       <h3 className={chapterHeaderClass}>VHA indicator</h3>

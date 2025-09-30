@@ -9,7 +9,6 @@ import formConfig from '../../config/form';
 import IntroductionPage from '../../containers/IntroductionPage';
 
 import { title995 } from '../../content/title';
-import { SC_NEW_FORM_TOGGLE } from '../../constants';
 
 const getData = ({
   loggedIn = true,
@@ -55,10 +54,6 @@ const getData = ({
         },
         data: {},
       },
-      featureToggles: {
-        loading: false,
-        [SC_NEW_FORM_TOGGLE]: toggle,
-      },
       scheduledDowntime: {
         globalDowntime: null,
         isReady: true,
@@ -85,8 +80,7 @@ describe('IntroductionPage', () => {
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
     expect($('.sip-wrapper', container)).to.exist;
-    expect(queryByText(/Other VA health care benefits and services/)).to.not
-      .exist;
+    expect(queryByText(/Other VA health care benefits and services/)).to.exist;
   });
 
   it('should render MST section when feature toggle is enabled', () => {

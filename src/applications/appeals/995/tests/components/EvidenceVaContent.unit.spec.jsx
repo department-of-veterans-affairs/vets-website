@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_VA_PATH } from '../../constants';
+import { EVIDENCE_VA_DETAILS_PATH } from '../../constants';
 import { content } from '../../content/evidenceSummary';
-import { content as vaContent } from '../../content/evidenceVaRecords';
+import { content as vaContent } from '../../content/evidenceVaDetails';
 import { EvidenceVaContent } from '../../components/EvidenceVaContent';
 import { records } from '../data/evidence-records';
 
@@ -14,7 +14,7 @@ describe('evidenceSummaryList', () => {
     it('should render editable VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -42,12 +42,7 @@ describe('evidenceSummaryList', () => {
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          showScNewForm
-          reviewMode
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} reviewMode testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -61,13 +56,7 @@ describe('evidenceSummaryList', () => {
     it('should render list only for confirmation page content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          showScNewForm
-          reviewMode
-          showListOnly
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} reviewMode showListOnly testing />,
       );
 
       expect($('.va-title', container).textContent).to.contain(content.vaTitle);
@@ -82,12 +71,14 @@ describe('evidenceSummaryList', () => {
     it('should show missing issues message', () => {
       const vaEvidence = records({ emptyIssue: true }).locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $$('li', container);
       expect(li[0].textContent).to.contain('Missing condition');
-      expect(li[1].textContent).to.contain('Test 1 and Test 2');
+      expect(li[1].textContent).to.contain(
+        'Midwest Alabama VA FacilityHypertension and Gluten IntoleranceI don’t have the date',
+      );
     });
     it('should show missing location name & treatment dates', () => {
       const vaEvidence = [
@@ -99,27 +90,29 @@ describe('evidenceSummaryList', () => {
         },
       ];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
       expect(li.textContent).to.contain('Missing treatment date');
     });
+
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
-          <EvidenceVaContent list={['']} showScNewForm testing />
+          <EvidenceVaContent list={['']} testing />
         </div>,
       );
 
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
     });
+
     it('should show missing treatment date', () => {
       const vaEvidence = [{ treatmentDate: '' }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
@@ -129,7 +122,7 @@ describe('evidenceSummaryList', () => {
     it('should not show missing treatment date when no date checkbox is selected', () => {
       const vaEvidence = [{ treatmentDate: '', noDate: true }];
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const li = $('li', container);
@@ -140,15 +133,15 @@ describe('evidenceSummaryList', () => {
     it('should have edit links pointing to the appropriate VA indexed page', () => {
       const vaEvidence = records().locations;
       const { container } = render(
-        <EvidenceVaContent list={vaEvidence} showScNewForm testing />,
+        <EvidenceVaContent list={vaEvidence} testing />,
       );
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=0`,
+        `${EVIDENCE_VA_DETAILS_PATH}?index=0`,
       );
       expect(links[1].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=1`,
+        `${EVIDENCE_VA_DETAILS_PATH}?index=1`,
       );
     });
     it('should execute callback when removing an entry', () => {
@@ -156,12 +149,7 @@ describe('evidenceSummaryList', () => {
       const vaEvidence = records().locations;
       const handlers = { showModal: removeSpy };
       const { container } = render(
-        <EvidenceVaContent
-          list={vaEvidence}
-          handlers={handlers}
-          showScNewForm
-          testing
-        />,
+        <EvidenceVaContent list={vaEvidence} handlers={handlers} testing />,
       );
 
       const buttons = $$('.remove-item', container);

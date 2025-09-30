@@ -2,15 +2,12 @@ import {
   buildPrivateString,
   buildVaLocationString,
 } from '../../validations/evidence';
-
-import { showScNewForm } from '../toggle';
 import {
   getVAEvidence,
   getOtherEvidence,
   getPrivateEvidence,
 } from '../evidence';
 import { getFacilityType } from './facilities';
-
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
 import { LIMITED_CONSENT_RESPONSE } from '../../constants';
@@ -34,21 +31,16 @@ import { LIMITED_CONSENT_RESPONSE } from '../../constants';
  * @param {VALocation} location
  * @returns {String} YYYY-MM-DD (including day for date comparisons)
  */
-export const getTreatmentDate = (type, showNewFormContent, location) => {
-  const { treatmentDate = '', evidenceDates = {}, noDate } = location;
+export const getTreatmentDate = location => {
+  const { treatmentDate = '', noDate } = location;
   const yearRegex = /^(19[2-9][6-9]|20[0-1][0-9]|202[0-5])$/;
-  const isValidYear = showNewFormContent && yearRegex.test(treatmentDate);
+  const isValidYear = yearRegex.test(treatmentDate);
 
-  if (
-    (showNewFormContent && noDate) ||
-    (showNewFormContent && treatmentDate.length < 7 && !isValidYear)
-  ) {
+  if (noDate || (treatmentDate.length < 7 && !isValidYear)) {
     return '';
   }
 
-  const date = showNewFormContent
-    ? `${treatmentDate}-01`
-    : evidenceDates[type] || '';
+  const date = `${treatmentDate}-01`;
 
   return fixDateFormat(date, treatmentDate.length === 4);
 };
@@ -62,8 +54,8 @@ export const hasDuplicateLocation = (
     data: {
       ...currentLocation,
       evidenceDates: {
-        from: getTreatmentDate('from', newForm, currentLocation),
-        to: getTreatmentDate('to', newForm, currentLocation),
+        from: getTreatmentDate(currentLocation),
+        to: getTreatmentDate(currentLocation),
       },
     },
     joiner: ',',
@@ -82,8 +74,8 @@ export const hasDuplicateLocation = (
       data: {
         ...data,
         evidenceDates: {
-          from: getTreatmentDate('startDate', newForm, data),
-          to: getTreatmentDate('endDate', newForm, data),
+          from: getTreatmentDate(data),
+          to: getTreatmentDate(data),
         },
       },
       joiner: ',',
@@ -154,27 +146,26 @@ export const getEvidence = formData => {
   const evidenceSubmission = {
     evidenceType: [],
   };
-  const showNewFormContent = showScNewForm(formData);
-  // Add VA evidence data
 
-  if (showNewFormContent) {
-    const types = getFacilityType(formData);
-    if (Object.keys(types).length) {
-      evidenceSubmission.treatmentLocations = types.treatmentLocations;
-      evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
-    }
+  const types = getFacilityType(formData);
+
+  if (Object.keys(types).length) {
+    evidenceSubmission.treatmentLocations = types.treatmentLocations;
+    evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
   }
 
   const locations = getVAEvidence(formData);
+
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
+
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {
-        if (!hasDuplicateLocation(list, location, showNewFormContent)) {
+        if (!hasDuplicateLocation(list, location)) {
           // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
           // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
-          const from = getTreatmentDate('from', showNewFormContent, location);
-          const to = getTreatmentDate('to', showNewFormContent, location);
+          const from = getTreatmentDate(location);
+          const to = getTreatmentDate(location);
 
           const entry = {
             type: 'retrievalEvidence',
@@ -190,18 +181,16 @@ export const getEvidence = formData => {
 
           // Because of Lighthouse's schema, don't include `evidenceDates` if no
           // date is provided
-          if (showNewFormContent) {
-            // Only startDate (from) is required, remove evidenceDates if
-            // undefined
-            const noTreatmentDates = location.noDate || !from;
+          // Only startDate (from) is required, remove evidenceDates if
+          // undefined
+          const noTreatmentDates = location.noDate || !from;
 
-            if (noTreatmentDates) {
-              delete entry.attributes.evidenceDates;
-            }
-
-            // noDate can be undefined; so fallback to false due to LH schema
-            entry.attributes.noTreatmentDates = noTreatmentDates || false;
+          if (noTreatmentDates) {
+            delete entry.attributes.evidenceDates;
           }
+
+          // noDate can be undefined; so fallback to false due to LH schema
+          entry.attributes.noTreatmentDates = noTreatmentDates || false;
           list.push(entry);
         }
         return list;
@@ -209,15 +198,18 @@ export const getEvidence = formData => {
       [],
     );
   }
+
   // additionalDocuments added in submit-transformer
   if (getOtherEvidence(formData).length) {
     evidenceSubmission.evidenceType.push('upload');
   }
+
   // Lighthouse wants us pass an evidence type of "none" if we're not submitting
   // evidence
   if (evidenceSubmission.evidenceType.length === 0) {
     evidenceSubmission.evidenceType.push('none');
   }
+
   return {
     form5103Acknowledged: formData.form5103Acknowledged,
     evidenceSubmission,

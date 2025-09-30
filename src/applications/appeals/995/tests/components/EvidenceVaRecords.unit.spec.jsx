@@ -15,7 +15,7 @@ import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
   EVIDENCE_VA,
-  EVIDENCE_VA_PATH,
+  EVIDENCE_VA_DETAILS_PATH,
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
@@ -255,8 +255,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
@@ -278,18 +279,16 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
-    /* New SC form content */
-    const showScNewForm = true;
     it('should navigate forward to VA private request page with YYYY-MM date & valid data', async () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew],
       };
@@ -311,7 +310,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew2],
       };
@@ -333,7 +331,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew],
       };
@@ -360,7 +357,6 @@ describe('<EvidenceVaRecords>', () => {
       const goSpy = sinon.spy();
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations: [mockLocationNew, {}, mockLocationNew2],
       };
@@ -377,8 +373,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
@@ -388,7 +385,6 @@ describe('<EvidenceVaRecords>', () => {
       const locations = [mockLocationNew, mockLocationNew2, {}];
       const data = {
         ...mockData,
-        showScNewForm,
         [EVIDENCE_VA]: true,
         locations,
       };
@@ -405,8 +401,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
   });
@@ -631,8 +628,9 @@ describe('<EvidenceVaRecords>', () => {
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].locations.length).to.eq(2);
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index - 1}`),
+        ).to.be.true;
       });
     });
 
@@ -664,8 +662,9 @@ describe('<EvidenceVaRecords>', () => {
       testAndCloseModal(container, 'primaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_PATH}?index=${index - 1}`),
+        ).to.be.true;
       });
     });
 
@@ -860,7 +859,6 @@ describe('<EvidenceVaRecords>', () => {
       const index = 1;
       const data = {
         ...mockData,
-        showScNewForm: true,
         [EVIDENCE_VA]: true,
         locations: [mockLocation, {}, mockLocation2],
       };
