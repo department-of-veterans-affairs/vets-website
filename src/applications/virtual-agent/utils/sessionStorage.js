@@ -31,11 +31,13 @@ export function setEventSkillValue(value) {
   setStorageItem(SKILL_EVENT_VALUE, value);
 }
 
+// Skills with completed RAG response this session (gates RAG Agent Exit).
 export function getRagAgentSkillsUsed() {
   const arr = getStorageItem(RAG_AGENT_SKILLS_USED, true);
   return Array.isArray(arr) ? arr : [];
 }
 
+// Mark skill after completed AgentLLMResponse (parsed.complete === true); de-duped.
 export function addRagAgentSkillUsed(value) {
   const arr = getRagAgentSkillsUsed();
   if (!arr.includes(value)) {
@@ -43,6 +45,7 @@ export function addRagAgentSkillUsed(value) {
   }
 }
 
+// True if skill previously marked complete (controls RAG Agent Exit on Skill_Exit).
 export function isRagAgentSkillUsed(value) {
   return getRagAgentSkillsUsed().includes(value);
 }

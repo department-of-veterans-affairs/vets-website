@@ -327,7 +327,6 @@ describe('actions', () => {
         recordEventStub.calledWithExactly({
           event: 'api_call',
           'api-name': 'Chatbot Skill Entry - some_skill_value',
-          topic: 'some_skill_value',
           'api-status': 'successful',
         }),
       ).to.be.true;
@@ -493,6 +492,149 @@ describe('actions', () => {
       })();
 
       expect(processCSATStub.notCalled).to.be.true;
+    });
+
+    it('should emit RAG Agent Entry when AgentLLMResponse is complete and skill is set', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'AgentLLMResponse',
+            value: {
+              parsed: { complete: true },
+              intent: 'FAQ',
+              utteranceId: 'id-123',
+            },
+          },
+        },
+      };
+
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('some_skill_value');
+      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(false);
+      const addRagAgentSkillUsedStub = sandbox.stub(
+        SessionStorageModule,
+        'addRagAgentSkillUsed',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      expect(addRagAgentSkillUsedStub.calledOnce).to.be.true;
+      expect(addRagAgentSkillUsedStub.calledWithExactly('some_skill_value')).to
+        .be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Entry - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+
+    it('should not emit RAG Agent Entry when AgentLLMResponse is incomplete', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'AgentLLMResponse',
+            value: {
+              parsed: { complete: false },
+              intent: 'FAQ',
+              utteranceId: 'id-123',
+            },
+          },
+        },
+      };
+
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('some_skill_value');
+      const addRagAgentSkillUsedStub = sandbox.stub(
+        SessionStorageModule,
+        'addRagAgentSkillUsed',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      expect(addRagAgentSkillUsedStub.notCalled).to.be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Entry - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.false;
+    });
+
+    it('should emit RAG Agent Exit on Skill_Exit when skill had completed agent response', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Skill_Exit',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(true);
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      // Should record normal Skill Exit
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot Skill Exit - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+
+      // And explicit RAG Agent Exit
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Exit - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+
+    it('should not emit RAG Agent Exit on Skill_Exit when skill did not have completed agent response', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            name: 'Skill_Exit',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      sandbox.stub(SessionStorageModule, 'isRagAgentSkillUsed').returns(false);
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch: sandbox.spy() })();
+
+      // Only normal Skill Exit should be recorded
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot Skill Exit - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Chatbot RAG Agent Exit - some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.false;
     });
   });
 

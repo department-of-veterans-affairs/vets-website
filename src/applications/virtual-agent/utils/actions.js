@@ -83,56 +83,49 @@ function handleSkillExitEvent(action) {
       'api-name': apiName,
       'api-status': 'successful',
     });
-    // If this skill used the RAG Agent during the session, emit explicit RAG Agent Exit
-    if (isRagAgentSkillUsed(eventValue)) {
-      recordEvent({
-        event: EVENT_API_CALL,
-        'api-name': `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`,
-        'api-status': 'successful',
-      });
-    }
   }
 }
 
-function handleRagAgentLLMEvent(action) {
+// Track RAG Agent Entry once per skill when the agent returns a completed response
+function handleRagAgentEntryEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
+  const isComplete = eventValue?.parsed?.complete === true;
+  const skillName = getEventSkillValue();
+  const apiName = `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`;
 
-  if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE) {
-    const intent = eventValue.intent || 'Unknown';
+  if (
+    actionEventName === ACTIVITY_EVENT_NAMES.AGENT_LLM_RESPONSE &&
+    isComplete &&
+    skillName &&
+    !isRagAgentSkillUsed(skillName)
+  ) {
     recordEvent({
       event: EVENT_API_CALL,
-      'api-name': `${API_CALL_NAMES.RAG_AGENT_RESPONSE} - ${intent}`,
+      'api-name': apiName,
       'api-status': 'successful',
-      'api-request-id': eventValue?.utteranceId,
     });
-
-    // Emit RAG Agent Entry once per skill, on first agent response
-    const skillName = getEventSkillValue();
-    if (skillName && !isRagAgentSkillUsed(skillName)) {
-      recordEvent({
-        event: EVENT_API_CALL,
-        'api-name': `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`,
-        'api-status': 'successful',
-      });
-      addRagAgentSkillUsed(skillName);
-    }
+    addRagAgentSkillUsed(skillName);
   }
 }
-function handleSemanticSearchEvent(action) {
+
+// Emit a RAG Agent Exit when the current skill had a completed agent response
+function handleRagAgentExitEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
-
-  if (actionEventName === ACTIVITY_EVENT_NAMES.AGENT_SEMANTIC_SEARCH_RESPONSE) {
-    const intent = eventValue.intent || 'Unknown';
+  const apiName = `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`;
+  if (
+    actionEventName === ACTIVITY_EVENT_NAMES.SKILL_EXIT &&
+    isRagAgentSkillUsed(eventValue)
+  ) {
     recordEvent({
       event: EVENT_API_CALL,
-      'api-name': `${API_CALL_NAMES.SEMANTIC_SEARCH_AGENT} - ${intent}`,
+      'api-name': apiName,
       'api-status': 'successful',
-      'api-request-id': eventValue?.utteranceId,
     });
   }
 }
+
 function createSendMessageActivity(newUtterance) {
   return {
     type: 'WEB_CHAT/SEND_MESSAGE',
@@ -218,8 +211,8 @@ export const processIncomingActivity = ({
 
   handleSkillEntryEvent(action);
   handleSkillExitEvent(action);
-  handleRagAgentLLMEvent(action);
-  handleSemanticSearchEvent(action);
+  handleRagAgentEntryEvent(action);
+  handleRagAgentExitEvent(action);
 };
 
 export function addActivityData(action, { isMobile }) {
