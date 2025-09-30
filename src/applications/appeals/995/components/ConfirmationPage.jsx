@@ -38,7 +38,7 @@ import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { LivingSituation } from './LivingSituation';
-import { convertBoolResponseToYesNo } from '../utils/form-data-display';
+import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 
 export const ConfirmationPage = () => {
   resetStoredSubTask();
@@ -60,10 +60,6 @@ export const ConfirmationPage = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
-
-  const livingSituation = showScNewForm ? (
-    <LivingSituation data={data} />
-  ) : null;
 
   return (
     <>
@@ -138,11 +134,11 @@ export const ConfirmationPage = () => {
 
       <ConfirmationPersonalInfo
         dob={profile.dob}
+        formData={data}
+        hasHomeAndMobilePhone
+        livingSituation={<LivingSituation data={data} />}
         userFullName={profile.userFullName}
         veteran={data.veteran}
-        hasHomeAndMobilePhone
-        livingSituation={showScNewForm ? livingSituation : null}
-        formData={data}
       />
 
       <ConfirmationIssues data={data} />
