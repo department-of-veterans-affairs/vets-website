@@ -12,7 +12,7 @@ describe('Medical Records View Allergies', () => {
       isAcceleratingEnabled: false, // Disable acceleration to test OH path
       isAcceleratingAllergies: false,
     });
-    Allergies.setIntercepts({ allergiesData });
+    Allergies.setIntercepts({ allergiesData, useOhData: true });
   });
 
   it('Visits Medical Records View Allergies List', () => {

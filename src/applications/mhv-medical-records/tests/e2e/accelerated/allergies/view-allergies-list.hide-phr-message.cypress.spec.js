@@ -14,7 +14,8 @@ describe('Medical Records View Allergies', () => {
     });
 
     // set up intercepts
-    Allergies.setIntercepts({ allergiesData: allergies });
+    // When acceleration is enabled, it uses v2 endpoint (not useOhData)
+    Allergies.setIntercepts({ allergiesData: allergies, useOhData: false });
   });
 
   it.skip('Hide all PHR messages', () => {
