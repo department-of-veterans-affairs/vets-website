@@ -677,7 +677,7 @@ export default function VaFileInputMultiplePage() {
         </div>
       </div>
       <div className="vads-grid-row vads-u-margin-top--2">
-        <va-additional-info trigger="Trigger mock error scenarios">
+        <va-additional-info trigger="Mock error scenarios">
           <div className="vads-u-margin-top--2 vads-u-padding--1p5 vads-u-background-color--primary-alt-lightest vads-u-border-radius--md vads-u-font-size--sm">
             <h3>Error Testing & Visual State Reset:</h3>
             <ul className="vads-u-margin-y--1 vads-u-padding-left--2p5">
