@@ -96,7 +96,7 @@ export const getLearnMoreLink = card => {
 
   if (!linkInfo) return null;
 
-  return <va-link href={linkInfo.url} text={linkInfo.text} />;
+  return <va-link external href={linkInfo.url} text={linkInfo.text} />;
 };
 
 /**
