@@ -98,7 +98,7 @@ function createInitialState(
           countryCodeIso3: '',
         },
         addressValidationError: false,
-        validationKey: null,
+        overrideValidationKey: null,
         selectedAddress: {},
         selectedAddressId: null,
       },
