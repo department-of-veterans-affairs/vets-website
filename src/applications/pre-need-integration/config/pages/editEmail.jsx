@@ -1,89 +1,82 @@
-import React, { useState } from 'react';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-const EditEmail = ({
-  data,
-  setFormData,
-  goToPath,
-  contentBeforeButtons,
-  contentAfterButtons,
-}) => {
-  const initialEmail = data?.application?.claimant?.email || '';
-  const [email, setEmail] = useState(initialEmail);
-  const [error, setError] = useState('');
+import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
+import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
-  const validateEmail = () => {
-    if (!email || email.trim() === '') {
-      setError('Email address is required');
-      return false;
-    }
+import { focusElement } from 'platform/utilities/ui/focus';
+import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
+import { usePrevious } from 'platform/utilities/react-hooks';
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address');
-      return false;
-    }
+const EditEmail = ({ goToPath, contentBeforeButtons, contentAfterButtons }) => {
+  const headerRef = useRef(null);
+  const modalState = useSelector(state => state?.vapService.modal);
+  const prevModalState = usePrevious(modalState);
 
-    setError('');
-    return true;
-  };
+  useEffect(
+    () => {
+      if (headerRef?.current) {
+        focusElement(headerRef?.current);
+      }
+    },
+    [headerRef],
+  );
 
-  const handleSave = () => {
-    if (!validateEmail()) {
-      return;
-    }
+  useEffect(
+    () => {
+      const shouldFocusOnHeaderRef =
+        prevModalState === 'addressValidation' && modalState === 'email';
 
-    const updatedData = {
-      ...data,
-      application: {
-        ...data.application,
-        claimant: {
-          ...data.application.claimant,
-          email: email.trim(),
-        },
-      },
-    };
-    setFormData(updatedData);
-    goToPath('applicant-contact-details-logged-in', { force: true });
-  };
+      if (shouldFocusOnHeaderRef) {
+        setTimeout(() => {
+          focusElement(headerRef?.current);
+        }, 250);
+      }
+    },
+    [modalState, prevModalState],
+  );
 
-  const handleCancel = () => {
-    goToPath('applicant-contact-details-logged-in', { force: true });
+  const handlers = {
+    onSubmit: event => {
+      event.stopPropagation();
+    },
+    cancel: () => {
+      setReturnState('email', 'canceled');
+      goToPath('applicant-contact-details-logged-in', { force: true });
+    },
+    success: () => {
+      setReturnState('email', 'updated');
+      goToPath('applicant-contact-details-logged-in', { force: true });
+    },
   };
 
   return (
     <div>
+      <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+        <InitializeVAPServiceID>
+          <va-alert status="info" visible slim>
+            <p className="vads-u-margin--0">
+              Any changes you make will also be reflected on your VA.gov
+              profile.
+            </p>
+          </va-alert>
+          <h3 ref={headerRef} className="vads-u-font-size--h3">
+            Edit your contact information
+          </h3>
+          <p>We may contact you at the email address you provide here.</p>
+          <ProfileInformationFieldController
+            forceEditView
+            fieldName={FIELD_NAMES.EMAIL}
+            isDeleteDisabled
+            cancelCallback={handlers.cancel}
+            successCallback={handlers.success}
+            saveButtonText="Update"
+            title="Email address"
+          />
+        </InitializeVAPServiceID>
+      </div>
       {contentBeforeButtons}
-      <h3>Edit email address</h3>
-      <p>Please update your email address.</p>
-
-      <div className="vads-u-margin-bottom--3">
-        <VaTextInput
-          label="Email address"
-          name="email"
-          type="email"
-          value={email}
-          onInput={e => {
-            setEmail(e.target.value);
-            if (error) {
-              setError('');
-            }
-          }}
-          error={error}
-          required
-        />
-      </div>
-
-      <div className="vads-u-margin-bottom--3">
-        <va-button onClick={handleSave} text="Save" />
-        <va-button
-          secondary
-          onClick={handleCancel}
-          text="Cancel"
-          className="vads-u-margin-left--1"
-        />
-      </div>
-
       {contentAfterButtons}
     </div>
   );

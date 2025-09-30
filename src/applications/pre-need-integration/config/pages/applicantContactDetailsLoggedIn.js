@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import {
+  getReturnState,
+  clearReturnState,
+} from 'platform/forms-system/src/js/utilities/data/profile';
+import { scrollTo } from 'platform/utilities/scroll';
+import { focusElement } from 'platform/utilities/ui/focus';
 import ApplicantContactInfoCard from '../../components/ApplicantContactInfoCard';
 
 const ApplicantContactDetailsLoggedIn = ({
@@ -11,6 +17,44 @@ const ApplicantContactDetailsLoggedIn = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
+  const editState = getReturnState();
+
+  useEffect(
+    () => {
+      if (editState) {
+        const [lastEdited, returnState] = editState.split(',');
+        if (returnState === 'updated') {
+          setTimeout(() => {
+            const target = `#updated-${lastEdited}`;
+            scrollTo('topContentElement');
+            focusElement(target);
+          }, 100);
+        }
+        // Clear the return state after showing the alert
+        clearReturnState();
+      }
+    },
+    [editState],
+  );
+
+  const showSuccessAlert = (id, text) => {
+    if (!editState) return null;
+    const [lastEdited, returnState] = editState.split(',');
+    return (
+      <va-alert
+        id={`updated-${id}`}
+        visible={lastEdited === id && returnState === 'updated'}
+        class="vads-u-margin-y--1"
+        status="success"
+      >
+        <h2 slot="headline">We’ve updated your {text}</h2>
+        <p className="vads-u-margin-y--0">
+          We’ve made these changes to this form and your VA.gov profile.
+        </p>
+      </va-alert>
+    );
+  };
+
   const handleEdit = field => {
     if (field === 'phone') {
       goToPath('applicant-contact-details-logged-in/edit-phone', {
@@ -27,7 +71,19 @@ const ApplicantContactDetailsLoggedIn = ({
     const { email, phoneNumber } = data?.application?.claimant || {};
     const formatPhone = phone => {
       if (!phone) return 'Not provided';
-      // Phone is now a string, just return it as is
+
+      // Remove all non-digit characters
+      const digitsOnly = phone.replace(/\D/g, '');
+
+      // Format as xxx-xxx-xxxx if we have exactly 10 digits
+      if (digitsOnly.length === 10) {
+        return `${digitsOnly.slice(0, 3)}-${digitsOnly.slice(
+          3,
+          6,
+        )}-${digitsOnly.slice(6)}`;
+      }
+
+      // If not 10 digits, return as-is (fallback)
       return phone;
     };
 
@@ -47,12 +103,14 @@ const ApplicantContactDetailsLoggedIn = ({
 
   return (
     <div>
-      {contentBeforeButtons}
+      {showSuccessAlert('phone', 'phone number')}
+      {showSuccessAlert('email', 'email address')}
       <ApplicantContactInfoCard
         formData={data}
         onEdit={handleEdit}
-        content="We have your contact information on file. Please review and update as needed."
+        content="We may contact you at the email address or phone number you provide here."
       />
+      {contentBeforeButtons}
       <NavButtons goBack={goBack} goForward={goForward} />
       {contentAfterButtons}
     </div>
