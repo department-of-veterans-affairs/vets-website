@@ -57,6 +57,8 @@ const VaPrescription = prescription => {
     Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
+  // TEST
+
   useEffect(
     () => {
       const userLanded = async () => {
@@ -385,7 +387,7 @@ const VaPrescription = prescription => {
                     dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
                   }
                 >
-                  Learn more about this medication TEST
+                  Learn more about this medication
                 </Link>
               )}
             </div>
