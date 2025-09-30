@@ -32,7 +32,7 @@ describe('Decision Reviews Onramp', () => {
       h.navigateToResults(path);
 
       // RESULTS
-      h.verifyUrl(ROUTES.RESULTS);
+      h.verifyUrl(ROUTES.RESULTS_DR);
       h.verifyDrResultsHeader(RESULTS_2_IS_1C);
       h.checkOverviewPanel([
         c.TITLE_HLR,

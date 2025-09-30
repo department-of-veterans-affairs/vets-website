@@ -11,7 +11,8 @@ export default class AuthMetrics {
     this.payload = payload;
     this.requestId = requestId;
     this.errorCode = errorCode;
-    this.userProfile = get('data.attributes.profile', payload, {});
+    this.userAttributes = get('data.attributes', payload, {});
+    this.userProfile = get('profile', this.userAttributes, {});
     this.loaCurrent = get('loa.current', this.userProfile, null);
     this.serviceName = get('signIn.serviceName', this.userProfile, null);
   }

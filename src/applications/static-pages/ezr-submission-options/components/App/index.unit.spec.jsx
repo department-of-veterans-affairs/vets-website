@@ -1,28 +1,34 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { App } from '.';
+import { App, MERGED_URL, STANDALONE_URL } from '.';
 
 describe('ezr submission options', () => {
-  it('should not render link to the online form when feature toggle is false', () => {
-    const wrapper = shallow(<App isEzrEnabled={false} />);
-    const selectors = {
-      headings: wrapper.find('h3'),
-      link: wrapper.find('.vads-c-action-link--green'),
+  const subject = ({ enabled = false } = {}) => {
+    const mockStore = {
+      getState: () => ({
+        featureToggles: { form1010dExtended: enabled },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
     };
-    expect(selectors.headings).to.have.lengthOf(3);
-    expect(selectors.link).to.have.lengthOf(0);
-    wrapper.unmount();
+    return render(
+      <Provider store={mockStore}>
+        <App />
+      </Provider>,
+    );
+  };
+
+  it('should render correct application link when the feature toggle is `false`', () => {
+    const { container } = subject();
+    const vaActionLink = container.querySelector('va-link-action');
+    expect(vaActionLink).to.have.attr('href', STANDALONE_URL);
   });
 
-  it('renders link to the online form when feature toggle is true', () => {
-    const wrapper = shallow(<App isEzrEnabled />);
-    const selectors = {
-      headings: wrapper.find('h3'),
-      link: wrapper.find('.vads-c-action-link--green'),
-    };
-    expect(selectors.headings).to.have.lengthOf(4);
-    expect(selectors.link).to.have.lengthOf(1);
-    wrapper.unmount();
+  it('should render correct application link when the feature toggle is `true`', () => {
+    const { container } = subject({ enabled: true });
+    const vaActionLink = container.querySelector('va-link-action');
+    expect(vaActionLink).to.have.attr('href', MERGED_URL);
   });
 });

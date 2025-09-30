@@ -16,6 +16,11 @@ import {
   stringifyUrlParams,
   getUrlPathIndex,
   convertUrlPathToPageConfigPath,
+  getPageProperties,
+  getActivePageProperties,
+  deleteNestedProperty,
+  filterInactiveNestedPageData,
+  createFormPageList,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -483,7 +488,6 @@ describe('Schemaform helpers:', () => {
         anotherField: 'testing3',
       });
     });
-
     it('should remove empty addresses', () => {
       const formConfig = {
         chapters: {
@@ -506,7 +510,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address).to.be.undefined;
     });
-
     it('should not remove empty addresses if allowPartialAddress is true', () => {
       const formConfig = {
         chapters: {
@@ -533,7 +536,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output.address.country).to.eql('testing');
     });
-
     it('should remove empty objects, null fields, and undefined fields', () => {
       const formConfig = {
         chapters: {
@@ -560,7 +562,6 @@ describe('Schemaform helpers:', () => {
 
       expect(output).to.deep.equal({});
     });
-
     it('should remove nested empty objects, null fields, and undefined fields', () => {
       const formConfig = {
         chapters: {
@@ -637,7 +638,6 @@ describe('Schemaform helpers:', () => {
         },
       });
     });
-
     it('should remove empty objects, null fields, and undefined fields within an array', () => {
       const formConfig = {
         chapters: {
@@ -785,6 +785,75 @@ describe('Schemaform helpers:', () => {
       const output = JSON.parse(transformForSubmit(formConfig, formData));
 
       expect(output.testArray).to.be.undefined;
+    });
+    it('should serialize without `null` array entries after inactive pruning', () => {
+      // Minimal form config with one active array page & one inactive array page
+      const formConfig = {
+        urlPrefix: '/test/',
+        chapters: {
+          c1: {
+            pages: {
+              employers: {
+                path: 'employers/:index',
+                showPagePerItem: true,
+                arrayPath: 'currentEmployers',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    currentEmployers: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          name: { type: 'string' },
+                          phone: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+                depends: () => true, // active
+              },
+              centers: {
+                path: 'centers/:index',
+                showPagePerItem: true,
+                arrayPath: 'vaMedicalCenters',
+                schema: {
+                  type: 'object',
+                  properties: {
+                    vaMedicalCenters: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          facility: { type: 'string' },
+                          city: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+                depends: () => false, // inactive
+              },
+            },
+          },
+        },
+      };
+
+      const form = {
+        data: {
+          currentEmployers: [{ name: 'Acme', phone: '555-1234' }],
+          vaMedicalCenters: [{ facility: 'ABC', city: 'X' }],
+        },
+      };
+
+      // Build page list to ensure expandArrayPages behaves
+      const pageList = createFormPageList(formConfig);
+      expect(pageList).to.have.length(2); // sanity
+
+      const json = transformForSubmit(formConfig, form);
+      expect(json).to.be.a('string');
+      expect(json).to.not.include('[null]');
     });
   });
   describe('setArrayRecordTouched', () => {
@@ -1444,6 +1513,628 @@ describe('Schemaform helpers:', () => {
           {},
         ),
       ).to.eql(false);
+    });
+  });
+
+  describe('getPageProperties', () => {
+    it('should return deeply-nested array item properties', () => {
+      const page = {
+        arrayPath: 'dependents',
+        index: 0,
+        schema: {
+          properties: {
+            dependents: {
+              items: {
+                properties: {
+                  dob: { type: 'string' },
+                  ssn: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      };
+      expect(getPageProperties(page)).to.eql([
+        'dependents.0.dob',
+        'dependents.0.ssn',
+      ]);
+    });
+    it('should return shallow properties when not an array page', () => {
+      const page = {
+        schema: {
+          properties: {
+            dob: { type: 'string' },
+            ssn: { type: 'string' },
+            providers: {
+              type: 'array',
+              items: { properties: { name: {}, code: {} } },
+            },
+          },
+        },
+      };
+      expect(getPageProperties(page)).to.eql(['dob', 'ssn', 'providers']);
+    });
+    it('should return empty array if no schema', () => {
+      expect(getPageProperties({})).to.eql([]);
+    });
+    it('should return indexed child keys for an array page', () => {
+      const page = {
+        schema: {
+          properties: {
+            previousNames: {
+              items: {
+                properties: { first: {}, last: {} },
+              },
+            },
+          },
+        },
+        arrayPath: 'previousNames',
+        index: 0,
+      };
+      const props = getPageProperties(page);
+      expect(props).to.have.members([
+        'previousNames.0.first',
+        'previousNames.0.last',
+      ]);
+    });
+  });
+  describe('getActivePageProperties', () => {
+    it('should return unique flattened props across pages', () => {
+      const pages = [
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' },
+              ssn: { type: 'string' },
+              providers: {
+                type: 'array',
+                items: { properties: { name: {}, code: {} } },
+              },
+            },
+          },
+        },
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' }, // duplicate
+              email: { type: 'string' },
+            },
+          },
+        },
+      ];
+      expect(getActivePageProperties(pages)).to.eql([
+        'dob',
+        'ssn',
+        'providers',
+        'email',
+      ]);
+    });
+    it('should fall back to parent when arrayPath items have no inline properties ($ref case)', () => {
+      const pages = [
+        {
+          arrayPath: 'events',
+          index: 0,
+          schema: {
+            properties: {
+              events: {
+                // simulating items defined by $ref without inline .properties
+                items: { $ref: '#/definitions/EventItem' },
+              },
+            },
+          },
+        },
+      ];
+      expect(getActivePageProperties(pages)).to.eql(['events']);
+    });
+  });
+  describe('deleteNestedProperties', () => {
+    it('should delete a nested property', () => {
+      const obj = { a: { b: { c: 123 } } };
+      deleteNestedProperty(obj, 'a.b.c');
+      expect(obj).to.eql({ a: { b: {} } });
+    });
+    it('should do nothing if path is invalid', () => {
+      const obj = { a: { b: 123 } };
+      deleteNestedProperty(obj, 'a.b.c'); // b is not an object
+      expect(obj).to.eql({ a: { b: 123 } });
+    });
+    it('should not crash on non-object path', () => {
+      const obj = {};
+      deleteNestedProperty(obj, 'x.y.z');
+      expect(obj).to.eql({});
+    });
+    it('should remove an array child path', () => {
+      const obj = { dependents: [{ ssn: '411111111', dob: '2000-01-01' }] };
+      deleteNestedProperty(obj, 'dependents.0.ssn');
+      expect(obj).to.eql({ dependents: [{ dob: '2000-01-01' }] });
+    });
+    it('should ignore paths containing `__proto__` and not pollute `prototypes`', () => {
+      const obj = { a: { b: { c: 123 } } };
+      deleteNestedProperty(obj, '__proto__.polluted');
+      expect(obj).to.eql({ a: { b: { c: 123 } } });
+      expect(Object.prototype).to.not.have.property('polluted');
+    });
+    it('should ignore paths containing `constructor`', () => {
+      const obj = { a: { constructor: { b: 1 }, safe: true } };
+      deleteNestedProperty(obj, 'a.constructor.b');
+      expect(obj).to.eql({ a: { constructor: { b: 1 }, safe: true } });
+    });
+    it('should ignore final segment if it is `prototype`', () => {
+      const obj = { a: { b: { prototype: 1, c: 2 } } };
+      deleteNestedProperty(obj, 'a.b.prototype');
+      expect(obj).to.eql({ a: { b: { prototype: 1, c: 2 } } });
+    });
+    it('should guard against prototype pollution anywhere in the path', () => {
+      const obj = {};
+      deleteNestedProperty(obj, '__proto__.polluted');
+      expect(Object.prototype).to.not.have.property('polluted');
+    });
+    it('should remove an array element without creating a sparse array', () => {
+      const obj = { arr: [{ a: 1 }, { b: 2 }, { c: 3 }] };
+      deleteNestedProperty(obj, 'arr.1');
+      expect(obj.arr).to.deep.equal([{ a: 1 }, { c: 3 }]);
+      expect(JSON.stringify(obj.arr)).to.equal('[{"a":1},{"c":3}]');
+    });
+    it('should delete a nested property inside an array item and keeps the item', () => {
+      const obj = { arr: [{ a: 1, keep: true }] };
+      deleteNestedProperty(obj, 'arr.0.a');
+      expect(obj.arr).to.deep.equal([{ keep: true }]);
+      expect(JSON.stringify(obj.arr)).to.equal('[{"keep":true}]');
+    });
+  });
+  describe('filterInactiveNestedPageData', () => {
+    it('should delete root-level inactive props from form data', () => {
+      const form = {
+        data: {
+          dob: '1990-01-01',
+          ssn: '211111111',
+          email: 'email@domain.com',
+        },
+      };
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              dob: { type: 'string' },
+              ssn: { type: 'string' },
+            },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              email: { type: 'string' },
+            },
+          },
+        },
+      ];
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+      expect(result).to.eql({
+        dob: '1990-01-01',
+        ssn: '211111111',
+      });
+    });
+    it('should handle array-based pages and remove inactive fields by index', () => {
+      const form = {
+        data: {
+          dependents: [
+            { ssn: '411111111', dob: '2000-01-01' },
+            { ssn: '511111111', dob: '2002-01-01' },
+          ],
+        },
+      };
+      const activePages = [
+        {
+          arrayPath: 'dependents',
+          index: 0,
+          schema: {
+            properties: {
+              dependents: {
+                items: {
+                  properties: {
+                    ssn: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          arrayPath: 'dependents',
+          index: 0,
+          schema: {
+            properties: {
+              dependents: {
+                items: {
+                  properties: {
+                    dob: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+      expect(result).to.eql({
+        dependents: [
+          { ssn: '411111111' },
+          { ssn: '511111111', dob: '2002-01-01' }, // untouched, only index 0 was affected
+        ],
+      });
+    });
+    it('should keep child props when a non-arrayPath array page is active', () => {
+      const formConfig = {
+        urlPrefix: '/test',
+        title: 'Test',
+        chapters: {
+          info: {
+            title: 'Info',
+            pages: {
+              dependentsSummary: {
+                path: 'dependents-summary',
+                depends: () => true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    dependents: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          ssn: { type: 'string' },
+                          dob: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              dependentInfo: {
+                path: 'dependents/:index/info',
+                showPagePerItem: true,
+                arrayPath: 'dependents',
+                depends: () => false,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    dependents: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: { ssn: { type: 'string' } },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const form = {
+        data: {
+          dependents: [
+            { ssn: '411111111', dob: '2000-01-01' },
+            { ssn: '511111111', dob: '2002-01-01' },
+          ],
+        },
+      };
+
+      const snapshot = JSON.parse(JSON.stringify(form.data));
+      const json = transformForSubmit(formConfig, form);
+      const result = JSON.parse(json);
+
+      // Output equals original and original was not mutated
+      expect(result).to.eql(snapshot);
+      expect(form.data).to.eql(snapshot);
+    });
+    it('should keep inactive siblings for an array item when multiple nested fields are active for that item', () => {
+      const form = {
+        data: {
+          events: [{ details: 'd', location: 'l', agency: 'x' }],
+        },
+      };
+      const activePages = [
+        {
+          arrayPath: 'events',
+          index: 0,
+          schema: {
+            properties: { events: { items: { properties: { details: {} } } } },
+          },
+        },
+        {
+          arrayPath: 'events',
+          index: 0,
+          schema: {
+            properties: { events: { items: { properties: { location: {} } } } },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          arrayPath: 'events',
+          index: 0,
+          schema: {
+            properties: { events: { items: { properties: { agency: {} } } } },
+          },
+        },
+      ];
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+      expect(result).to.eql(form.data); // 'agency' preserved because count >= 2
+    });
+    it('should delete inactive sibling fields when only nested descendants are active', () => {
+      const form = {
+        data: {
+          veteran: {
+            fullName: { first: 'John', last: 'Smith' },
+            dob: '1980-01-01',
+            ssn: '311111111',
+          },
+          spouse: { ssn: '211111111' },
+        },
+      };
+
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              'veteran.fullName.first': { type: 'string' },
+              'veteran.fullName.last': { type: 'string' },
+              'veteran.dob': { type: 'string' },
+            },
+          },
+        },
+      ];
+
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              'veteran.ssn': { type: 'string' },
+              'spouse.ssn': { type: 'string' },
+            },
+          },
+        },
+      ];
+
+      const result = filterInactiveNestedPageData(inactivePages, activePages, {
+        data: form.data,
+      });
+      expect(result).to.eql({
+        veteran: {
+          fullName: { first: 'John', last: 'Smith' },
+          dob: '1980-01-01',
+        },
+        spouse: {},
+      });
+    });
+    it('should delete the entire array when the non-arrayPath page is inactive', () => {
+      const form = {
+        data: { dependents: [{ ssn: '411111111', dob: '2000-01-01' }] },
+      };
+
+      const activePages = [
+        {
+          schema: { properties: { unrelated: { type: 'string' } } },
+        },
+      ];
+
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              dependents: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    ssn: { type: 'string' },
+                    dob: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      const result = filterInactiveNestedPageData(inactivePages, activePages, {
+        data: form.data,
+      });
+      expect(result).to.eql({});
+    });
+    it('should not delete the array when children fields are active', () => {
+      const form = {
+        data: {
+          providers: [
+            {
+              insuranceName: 'Big Insurance Co',
+              insurancePolicyHolderName: 'Jim Doe',
+              insurancePolicyNumber: '2342344',
+              insuranceGroupCode: '2324234434',
+            },
+          ],
+        },
+      };
+
+      // Active page defines child fields under providers.0
+      const activePages = [
+        {
+          arrayPath: 'providers',
+          index: 0,
+          schema: {
+            properties: {
+              providers: {
+                items: {
+                  properties: {
+                    insuranceName: { type: 'string' },
+                    insurancePolicyHolderName: { type: 'string' },
+                    insurancePolicyNumber: { type: 'string' },
+                    insuranceGroupCode: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      ];
+
+      // Inactive page lists the parent key "providers"
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              providers: { type: 'array' },
+            },
+          },
+        },
+      ];
+
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+
+      expect(result).to.eql({
+        providers: [
+          {
+            insuranceName: 'Big Insurance Co',
+            insurancePolicyHolderName: 'Jim Doe',
+            insurancePolicyNumber: '2342344',
+            insuranceGroupCode: '2324234434',
+          },
+        ],
+      });
+    });
+    it('should not delete fields for a different array index (index scoping)', () => {
+      const form = {
+        data: {
+          dependents: [
+            { ssn: '411111111', dob: '2000-01-01' },
+            { ssn: '511111111', dob: '2002-01-01' },
+          ],
+        },
+      };
+      const activePages = [
+        {
+          arrayPath: 'dependents',
+          index: 0,
+          schema: {
+            properties: { dependents: { items: { properties: { ssn: {} } } } },
+          },
+        },
+      ];
+      const inactivePages = [
+        {
+          arrayPath: 'dependents',
+          index: 1,
+          schema: {
+            properties: { dependents: { items: { properties: { dob: {} } } } },
+          },
+        },
+      ];
+      const result = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+      expect(result).to.eql({
+        dependents: [
+          { ssn: '411111111', dob: '2000-01-01' }, // unchanged (index 0)
+          { ssn: '511111111' }, // dob removed (index 1)
+        ],
+      });
+    });
+    it('should not mutate the original form data object', () => {
+      const form = {
+        data: {
+          dependents: [{ ssn: '1', dob: '2000-01-01' }],
+          email: 'email@domain.com',
+        },
+      };
+      const before = JSON.parse(JSON.stringify(form.data));
+
+      const activePages = [
+        { schema: { properties: { dependents: { type: 'array' } } } },
+      ];
+      const inactivePages = [
+        { schema: { properties: { email: { type: 'string' } } } },
+      ];
+
+      filterInactiveNestedPageData(inactivePages, activePages, form);
+      expect(form.data).to.eql(before); // original untouched
+    });
+    it('should prune inactive array children without leaving null entries', () => {
+      const form = {
+        data: {
+          currentEmployers: [{ name: 'Acme', phone: '555-1234' }],
+          vaMedicalCenters: [{ facility: 'ABC', city: 'X' }],
+        },
+      };
+
+      // Inactive page points to vaMedicalCenters children (to be removed)
+      const inactivePages = [
+        {
+          schema: {
+            properties: {
+              vaMedicalCenters: {
+                items: { properties: { facility: {}, city: {} } },
+              },
+            },
+          },
+          arrayPath: 'vaMedicalCenters',
+          index: 0,
+        },
+      ];
+
+      // Active page keeps only currentEmployers
+      const activePages = [
+        {
+          schema: {
+            properties: {
+              currentEmployers: {
+                items: { properties: { name: {}, phone: {} } },
+              },
+            },
+          },
+          arrayPath: 'currentEmployers',
+          index: 0,
+        },
+      ];
+
+      const filtered = filterInactiveNestedPageData(
+        inactivePages,
+        activePages,
+        form,
+      );
+
+      // Array remains an array, but must not serialize with [null]
+      expect(Array.isArray(filtered.vaMedicalCenters)).to.equal(true);
+      expect(JSON.stringify(filtered.vaMedicalCenters)).to.not.include('null');
+
+      // Active array untouched
+      expect(filtered.currentEmployers).to.deep.equal([
+        { name: 'Acme', phone: '555-1234' },
+      ]);
     });
   });
 });

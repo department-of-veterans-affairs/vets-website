@@ -34,7 +34,8 @@ const routes = {
     { path: ROUTES.Q_2_H_2_NEW_EVIDENCE, component: QuestionTemplate },
     { path: ROUTES.Q_2_H_2A_JUDGE_HEARING, component: QuestionTemplate },
     { path: ROUTES.Q_2_H_2B_JUDGE_HEARING, component: QuestionTemplate },
-    { path: ROUTES.RESULTS, component: ResultsTemplate },
+    { path: ROUTES.RESULTS_NON_DR, component: ResultsTemplate },
+    { path: ROUTES.RESULTS_DR, component: ResultsTemplate },
   ],
 };
 

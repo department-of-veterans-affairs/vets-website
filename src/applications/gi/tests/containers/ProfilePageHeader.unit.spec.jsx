@@ -568,7 +568,7 @@ describe('<ProfilePageHeader>', () => {
       expect(accYes).to.exist;
     });
   });
-  it('should render "<Type> Accreditation" when accreditationType is set', async () => {
+  it('should render "Accredited" when accreditationType is set', async () => {
     const inst = {
       ...TEST_INSTITUTION,
       accredited: true,
@@ -583,7 +583,7 @@ describe('<ProfilePageHeader>', () => {
       },
     );
     await waitFor(() => {
-      expect(screen.getByText(/Hybrid Accreditation/i)).to.exist;
+      expect(screen.getByText(/Accredited/i)).to.exist;
     });
   });
 
@@ -761,18 +761,6 @@ describe('<ProfilePageHeader>', () => {
       await waitFor(() => {
         expect(document.body.textContent).to.match(/Flight Institution/);
       });
-    });
-  });
-
-  it('renders Hybrid Accreditation LearnMoreLabel when accreditationType is set', async () => {
-    const inst = { ...TEST_INSTITUTION, accreditationType: 'Hybrid' };
-    renderWithStoreAndRouter(<ProfilePageHeader institution={inst} />, {
-      initialState: {
-        constants: mockConstants(),
-      },
-    });
-    await waitFor(() => {
-      expect(document.body.textContent).to.match(/Hybrid Accreditation/);
     });
   });
   it('renders preferred provider LearnMoreLabel when preferredProvider is true', async () => {

@@ -9,28 +9,43 @@ import { renderSingleOrList } from '../../utilities';
 import * as c from '../../constants/results-content/dr-screens/card-content';
 
 // Separated out for unit testing
-export const HEADING_DR_ONLY = `Decision review options based on your answers`;
-export const HEADING_DR_WITH_CFI = `Available options`;
-export const ELIGIBLE_TEXT_DR_ONLY = `You may be eligible for these decision review options:`;
-export const ELIGIBLE_TEXT_DR_WITH_CFI = `You may be eligible for these decision review options because you disagree with a decision:`;
+export const HEADING_DR_WITH_CFI = 'Available options';
 
 const OverviewPanel = ({ formResponses }) => {
   const availableOptions = c.OVERVIEW.filter(option => {
     const displayConditionsForOption = DISPLAY_CONDITIONS?.[option] || {};
-
     return displayConditionsMet(formResponses, displayConditionsForOption);
   });
 
   const isCFI = isCFIVariant(formResponses);
-  const heading = isCFI ? HEADING_DR_WITH_CFI : HEADING_DR_ONLY;
-  const eligibleText = isCFI
-    ? ELIGIBLE_TEXT_DR_WITH_CFI
-    : ELIGIBLE_TEXT_DR_ONLY;
+  const isSingular = availableOptions.length === 1;
+
+  // Dynamic heading - only affects DR_ONLY variant
+  const getHeading = () => {
+    if (isCFI) {
+      return HEADING_DR_WITH_CFI;
+    }
+
+    const optionWord = isSingular ? 'option' : 'options';
+    return `Decision review ${optionWord} based on your answers`;
+  };
+
+  // Dynamic eligible text based on number of available options
+  const getEligibleText = () => {
+    const optionWord = isSingular ? 'option' : 'options';
+    const thisThese = isSingular ? 'this' : 'these';
+    const baseText = `You may be eligible for ${thisThese} decision review ${optionWord}`;
+    const suffix = isCFI ? ' because you disagree with a decision:' : ':';
+
+    return `${baseText}${suffix}`;
+  };
 
   return (
     <div className="onramp-options-overview vads-u-padding--3">
-      <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">{heading}</h2>
-      <p>{eligibleText}</p>
+      <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
+        {getHeading()}
+      </h2>
+      <p>{getEligibleText()}</p>
       {renderSingleOrList(
         availableOptions,
         false,

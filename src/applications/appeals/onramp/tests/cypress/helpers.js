@@ -14,7 +14,16 @@ export const clickStart = () =>
     .should('be.visible')
     .click();
 
-export const verifyUrl = link => cy.url().should('contain', `${ROOT}/${link}`);
+export const verifyUrl = link => {
+  if (link === ' ') {
+    // For introduction with space, just verify we're at the root path
+    // The space doesn't actually appear in the URL for the root route
+    cy.url().should('contain', ROOT);
+  } else {
+    // Handle normal routes
+    cy.url().should('contain', `${ROOT}/${link}`);
+  }
+};
 
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');

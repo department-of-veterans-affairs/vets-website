@@ -17,9 +17,11 @@ const DisputeCharges = ({ showOneThingPerPage = false }) => (
     </p>
     {showOneThingPerPage ? null : (
       <p>
-        <a className="vads-c-action-link--blue" href="/find-locations">
-          Find your nearest VA medical center
-        </a>
+        <va-link-action
+          href="/find-locations/"
+          text="Find your nearest VA medical center"
+          type="secondary"
+        />
       </p>
     )}
     <p>

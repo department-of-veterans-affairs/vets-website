@@ -13,8 +13,7 @@ const LearnMoreAccreditedContent = ({ onCloseEvent, visible }) => {
       <p>
         The goal of accreditation is to ensure that the education provided by
         the institutions of higher education meets acceptable levels of quality.
-        Accreditation types are either regional or national. Accreditation may
-        not be necessary for every program you wish to pursue.
+        Accreditation may not be necessary for every program you wish to pursue.
       </p>
       <p>
         Accreditation matters if you plan to start school at one institution and
@@ -23,13 +22,12 @@ const LearnMoreAccreditedContent = ({ onCloseEvent, visible }) => {
         policy.
       </p>
       <p>
-        CAUTION: Not every program approved for GI Bill benefits is accredited
-        by the regional or national accreditor. Prior to enrolling, it’s
-        important to determine whether or not your field of study requires
-        accreditation for employment and/or licensing.
+        CAUTION: Not every program approved for GI Bill benefits is accredited.
+        Prior to enrolling, it’s important to determine whether or not your
+        field of study requires accreditation for employment and/or licensing.
       </p>
       <p>
-        To learn more about accreditation types, visit the{' '}
+        To learn more about accreditation, visit the{' '}
         <a
           href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
           target="_blank"

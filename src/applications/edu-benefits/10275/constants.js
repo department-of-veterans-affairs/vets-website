@@ -1,2 +1,4 @@
-export const TITLE = '10275';
-export const SUBTITLE = 'education benefits (VA Form 22-10275)';
+export const TITLE =
+  'Commit to the Principles of Excellence for educational institutions';
+export const SUBTITLE =
+  'Principles of Excellence for educational institutions (VA Form 22-10275)';

@@ -10,6 +10,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
 let logUniqueUserMetricsEventsStub;
@@ -220,5 +221,48 @@ describe('Medications Prescriptions container', () => {
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+
+  it('displays Meds by Mail content for Meds by Mail users', async () => {
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: '2000-01-01',
+          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
+        },
+      },
+    });
+
+    expect(
+      screen.queryByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).not.to.exist;
+
+    expect(screen.getByTestId('meds-by-mail-header')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-top-level-text')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-additional-info')).to.exist;
+  });
+
+  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
+    const screen = setup();
+
+    expect(
+      screen.getByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).to.exist;
+
+    expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
   });
 });

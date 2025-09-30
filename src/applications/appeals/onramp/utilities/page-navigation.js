@@ -2,6 +2,7 @@ import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { displayConditionsMet } from './display-conditions';
 import { ROUTES } from '../constants';
 import { printErrorMessage } from '.';
+import { isNonDR } from '../constants/results-data-map';
 
 /** ================================================================
  * Move to given route or error if route not found
@@ -28,7 +29,12 @@ const determineResultsPage = (
 
     if (displayConditionsMet(formResponses, displayConditionsForResultPage)) {
       updateResultsPage(resultPage);
-      pushToRoute('RESULTS', router);
+
+      if (isNonDR.includes(resultPage)) {
+        pushToRoute('RESULTS_NON_DR', router);
+      } else {
+        pushToRoute('RESULTS_DR', router);
+      }
       return;
     }
   }

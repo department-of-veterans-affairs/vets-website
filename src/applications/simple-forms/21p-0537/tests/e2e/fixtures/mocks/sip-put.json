@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "21p0537-1234",
+    "type": "in_progress_forms",
+    "attributes": {
+      "formId": "21P-0537",
+      "createdAt": "2020-06-30T00:00:00.000Z",
+      "updatedAt": "2020-06-30T00:00:00.000Z",
+      "metadata": {
+        "version": 0,
+        "returnUrl": "/screening/remarriage-status",
+        "savedAt": 1593500000000,
+        "lastUpdated": 1593500000000,
+        "expiresAt": 99999999999,
+        "submission": {
+          "status": false,
+          "errorMessage": false,
+          "id": false,
+          "timestamp": false,
+          "hasAttemptedSubmit": false
+        },
+        "inProgressFormId": 19440
+      }
+    }
+  }
+}

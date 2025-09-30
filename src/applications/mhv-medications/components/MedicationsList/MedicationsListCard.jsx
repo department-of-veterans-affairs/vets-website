@@ -49,7 +49,7 @@ const MedicationsListCard = ({ rx }) => {
         {rx && <LastFilledInfo {...rx} />}
         {latestTrackingStatus && (
           <p
-            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray"
             data-testid="rx-card-details--shipped-on"
             data-dd-privacy="mask"
           >

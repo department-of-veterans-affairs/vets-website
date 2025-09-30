@@ -20,7 +20,7 @@ import {
   certifierRelationshipSchema,
   certifierClaimStatusSchema,
 } from '../chapters/signerInformation';
-import { NotEnrolledChampvaPage } from '../chapters/NotEnrolledChampvaPage';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -68,8 +68,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   transformForSubmit,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   footerContent: GetFormHelp,
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
@@ -78,17 +76,16 @@ const formConfig = {
   formId: '10-7959A',
   saveInProgress: {
     messages: {
-      inProgress:
-        'Your CHAMPVA claim form application (10-7959A) is in progress.',
+      inProgress: 'Your CHAMPVA claim (10-7959A) is in progress.',
       expired:
-        'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
-      saved: 'Your CHAMPVA claim form application has been saved.',
+        'Your saved CHAMPVA claim (10-7959A) has expired. If you want to file a CHAMPVA claim, please start a new form.',
+      saved: 'Your CHAMPVA claim has been saved.',
     },
   },
   customText: {
-    appType: 'form',
-    continueAppButtonText: 'Continue your form',
-    startNewAppButtonText: 'Start a new form',
+    appType: 'claim',
+    continueAppButtonText: 'Continue your claim',
+    startNewAppButtonText: 'Start a new claim',
   },
   downtime: {
     dependencies: [externalServices.pega, externalServices.form107959a],
@@ -113,16 +110,15 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound: 'Please start over to apply for CHAMPVA claim form.',
-    noAuth:
-      'Please sign in again to continue your application for CHAMPVA claim form.',
+    notFound: 'Please start over to file a CHAMPVA claim.',
+    noAuth: 'Please sign in again to continue your CHAMPVA claim.',
   },
   title: 'File a CHAMPVA claim',
   subTitle: 'CHAMPVA Claim Form (VA Form 10-7959a)',
   defaultDefinitions: {},
   chapters: {
     signerInformation: {
-      title: 'Signer information',
+      title: 'Your information',
       pages: {
         page1: {
           path: 'signer-type',
@@ -140,7 +136,7 @@ const formConfig = {
           path: 'not-enrolled-champva',
           title: 'Wait until you receive CHAMPVA packet',
           depends: formData => !get('certifierReceivedPacket', formData),
-          CustomPage: NotEnrolledChampvaPage,
+          CustomPage: NotEnrolledPage,
           CustomPageReview: null,
           ...certifierNotEnrolledChampvaSchema,
         },
@@ -231,22 +227,22 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor information',
+      title: 'Veteran information',
       pages: {
         page2: {
           path: 'sponsor-info',
-          title: 'Name',
+          title: 'Veteran full name',
           ...sponsorNameSchema,
         },
         page2a1: {
           path: 'sponsor-mailing-address',
-          title: 'Your mailing address',
+          title: 'Veteran mailing address',
           depends: formData => get('certifierRole', formData) === 'sponsor',
           ...sponsorAddressSchema,
         },
         page2a2: {
           path: 'sponsor-contact-info',
-          title: 'Your contact information',
+          title: 'Veteran contact information',
           depends: formData => get('certifierRole', formData) === 'sponsor',
           ...sponsorContactSchema,
         },
@@ -279,7 +275,7 @@ const formConfig = {
               ...props,
               customTitle: privWrapper(`${fnp(props.data)} address`),
               customDescription:
-                'We’ll send any important information about this form to this address.',
+                'We’ll send any important information about this claim to this address.',
               customSelectText: `Does ${nameWording(
                 props.data,
                 false,

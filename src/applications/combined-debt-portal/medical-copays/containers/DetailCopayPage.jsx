@@ -186,10 +186,6 @@ const DetailCopayPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <p>
-          <strong>Note:</strong> If your address has changed, call{' '}
-          <va-telephone contact="8662602614" />.
-        </p>
 
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />

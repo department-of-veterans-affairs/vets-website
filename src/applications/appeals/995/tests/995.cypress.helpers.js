@@ -1,8 +1,8 @@
 import path from 'path';
 import { add, formatISO } from 'date-fns';
-
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
+import manifest from '../manifest.json';
+import formConfig from '../config/form';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -12,9 +12,8 @@ import {
   PRIMARY_PHONE,
   BASE_URL,
   EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST,
+  EVIDENCE_PRIVATE_REQUEST_PATH,
   EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_LIMITATION_PATH,
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
@@ -32,6 +31,52 @@ import {
   getRandomDate,
 } from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
+
+const { chapters } = formConfig;
+
+export const VETERAN_INFO_PATH = chapters.infoPages.pages.veteranInfo.path;
+export const HOMELESSNESS_PATH = chapters.infoPages.pages.housingRisk.path;
+export const PRIMARY_PHONE_PATH =
+  chapters.infoPages.pages.choosePrimaryPhone.path;
+export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
+export const OPT_IN_PATH = chapters.issues.pages.optIn.path;
+export const NOTICE_5103_PATH = chapters.evidence.pages.notice5103.path;
+export const EVIDENCE_SUMMARY_PATH =
+  chapters.evidence.pages.evidenceSummary.path;
+export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
+export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
+  chapters.evidence.pages.evidenceVaRecords.path;
+export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
+export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
+export const REVIEW_PATH = '/review-and-submit';
+
+export const VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_vamc"]';
+export const NON_VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_nonVa"]';
+export const ADDTL_EVIDENCE_RADIO = '[name="root_view:hasOtherEvidence"]';
+export const MST_RADIO = '[name="root_mstOption"]';
+export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
+
+// VA location inputs
+export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
+export const VA_EVIDENCE_ISSUES_CHECKBOXES = '[name="issues"]';
+export const VA_EVIDENCE_TREATMENT_YEAR = '[name="txdateYear"]';
+
+// Non-VA location auth & inputs
+export const PRIVACY_MODAL_TRIGGER_1_ID = 'privacy-modal-button-1';
+export const PRIVACY_MODAL_TRIGGER_1_BUTTON = `[id="${PRIVACY_MODAL_TRIGGER_1_ID}"]`;
+export const PRIVACY_MODAL_TITLE =
+  'va-modal[modal-title="Privacy Act Statement"]';
+export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
+export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
+export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
+
+export const verifyUrl = link =>
+  cy.url().should('contain', `${manifest.rootUrl}/${link}`);
+
+export const selectDropdownWithKeyboard = (fieldName, value) => {
+  cy.tabToElement(`[name="${fieldName}"]`);
+  cy.chooseSelectOptionUsingValue(value);
+};
 
 export const fetchItf = (
   offset = { months: 3 },
@@ -281,7 +326,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_REQUEST]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_REQUEST_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
@@ -375,18 +420,6 @@ export const pageHooks = {
             }
           }
         });
-        cy.findByText('Continue', { selector: 'button' }).click();
-      });
-    });
-  },
-
-  [EVIDENCE_LIMITATION_PATH]: ({ afterHook }) => {
-    afterHook(() => {
-      cy.get('@testData').then(data => {
-        cy.injectAxeThenAxeCheck();
-        if (data.limitedConsent) {
-          cy.fillVaTextarea('limitation', data.limitedConsent);
-        }
         cy.findByText('Continue', { selector: 'button' }).click();
       });
     });

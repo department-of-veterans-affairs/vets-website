@@ -127,12 +127,11 @@ export const fileInputUI = options => {
           typeof required === 'function' ? required(formData) : !!required;
 
         const { additionalData, _id } = data;
-        const checkFilePresence = !uiOptions.skipUpload && isRequired;
         const hasCompleteFile = filePresenceValidation(data);
 
         // if file is encrypted skip this check
         // validation will not pass for an encrypted file unless password present, which will ensure file existence
-        if (checkFilePresence && !hasCompleteFile && !data.isEncrypted) {
+        if (isRequired && !hasCompleteFile && !data.isEncrypted) {
           errors.addError(uiErrorMessages.required);
           return;
         }

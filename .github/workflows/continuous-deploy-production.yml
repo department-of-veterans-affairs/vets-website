@@ -3,33 +3,13 @@ name: Continuous Deploy Production
 on:
   repository_dispatch:
     types: [cd-production-deploy]
-  workflow_dispatch:
-    inputs:
-      github_sha:
-        description: Commit SHA to use for deployment context
-        required: true
-      entry_app:
-        description: Optional app entry name for single-app deploy context
-        required: false
-      slack_channel:
-        description: Optional Slack channel ID for notifications
-        required: false
-        default: C06JM7UUHE3
-      dry_run_cd:
-        description: If true, do not execute the deploy step (safe testing)
-        required: false
-        default: 'true'
-      force_fail:
-        description: If true with dry_run, force a job failure for testing
-        required: false
-        default: 'false'
 
-run-name: "Triggered by: ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} commit: ${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}"
+run-name: "Triggered by: ${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}"
 
 jobs:
   notify-pending-deployment:
     name: Notify of Pending Deployment
-    if: ${{ (github.event_name == 'repository_dispatch' && github.event.client_payload.github_ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     env: 
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
@@ -48,28 +28,25 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "A deployment for ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} commit: ${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
+                        "text": "A deployment for ${{ github.event.client_payload.entry_app }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.event.client_payload.entry_app }} commit: ${{ github.event.client_payload.github_sha }}>\n\nFor help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/continuous-deployment|documentation> on deployments."
                       }
                     }
                   ]
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   deploy:
     name: Deploy
-    if: ${{ (github.event_name == 'repository_dispatch' && github.event.client_payload.github_ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     needs: [notify-pending-deployment]
     runs-on: ubuntu-latest
     environment: production-cd
     outputs:
       started: ${{ steps.start_check.outputs.started }}
-    env:
-      DRY_RUN_CD: ${{ github.event.inputs.dry_run_cd }}
-      FORCE_FAIL: ${{ github.event.inputs.force_fail }}
 
     steps:
       - name: Mark job started
@@ -124,24 +101,13 @@ jobs:
           session_name: vsp-frontendteam-githubaction
         
       - name: Deploy
-        if: steps.check-deployability.outputs.is_deployable == 'true' && env.DRY_RUN_CD != 'true'
+        if: steps.check-deployability.outputs.is_deployable == 'true'
         run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
 
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}/vagovprod.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/vagovprod.tar.bz2
           DEST: s3://www.va.gov
           ASSET_DEST: s3://prod-va-gov-assets
-
-      - name: Dry run (no deploy executed)
-        if: steps.check-deployability.outputs.is_deployable == 'true' && env.DRY_RUN_CD == 'true'
-        run: |
-          echo "DRY_RUN_CD=true — skipping deploy step."
-          sleep 5
-      - name: Force failure (test-only)
-        if: steps.check-deployability.outputs.is_deployable == 'true' && env.DRY_RUN_CD == 'true' && env.FORCE_FAIL == 'true'
-        run: |
-          echo "force_fail requested; exiting with status 1"
-          exit 1
 
   notify-success:
     name: Notify Success
@@ -172,14 +138,14 @@ jobs:
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ always() && (failure() || cancelled()) }}
+    if: ${{ always() && github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
     needs: [deploy]
     env:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
@@ -200,14 +166,14 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} to production was *rejected*.\n*Commit:* `${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app }} to production was *rejected*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
                       }
                     }
                   ]
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -226,14 +192,14 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ":warning: Deployment for ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} *expired without approval* (or was cancelled before approval).\n*Commit:* `${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                        "text": ":warning: Deployment for ${{ github.event.client_payload.entry_app }} *expired without approval* (or was cancelled before approval).\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
                       }
                     }
                   ]
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -252,14 +218,14 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ":stop_sign: Deployment for ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} was *cancelled during execution*.\n*Commit:* `${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                        "text": ":stop_sign: Deployment for ${{ github.event.client_payload.entry_app }} was *cancelled during execution*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
                       }
                     }
                   ]
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -278,13 +244,13 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app != '' && github.event.client_payload.entry_app || github.event.inputs.entry_app }} *failed due to a code or system error*.\n*Commit:* `${{ github.event.client_payload.github_sha != '' && github.event.client_payload.github_sha || github.event.inputs.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
+                        "text": ":x: Deployment for ${{ github.event.client_payload.entry_app }} *failed due to a code or system error*.\n*Commit:* `${{ github.event.client_payload.github_sha }}` – <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|run details>"
                       }
                     }
                   ]
                 }
               ]
             }
-          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || (github.event.inputs.slack_channel != '' && github.event.inputs.slack_channel) || env.VETS_WEBSITE_CHANNEL_ID }}
+          channel_id: ${{ github.event.client_payload.slack_channel != '' && github.event.client_payload.slack_channel || env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

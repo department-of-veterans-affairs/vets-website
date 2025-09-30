@@ -42,7 +42,7 @@ export const TREATMENT_FACILITY_OTHER_MAX = 115;
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
 export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
-export const EVIDENCE_LIMIT = 'view:hasPrivateLimitation';
+export const LIMITED_CONSENT_RESPONSE = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 
 export const HAS_REDIRECTED = 'hasRedirected';
@@ -168,19 +168,17 @@ export const ATTACHMENTS_OTHER = {
 
 export const CONTACT_INFO_PATH = 'contact-information';
 export const ADD_ISSUE_PATH = 'add-issue';
-export const EVIDENCE_VA_REQUEST =
+export const EVIDENCE_VA_REQUEST_PATH =
   'supporting-evidence/request-va-medical-records';
 export const EVIDENCE_VA_PATH = 'supporting-evidence/va-medical-records';
-export const EVIDENCE_PRIVATE_REQUEST =
+export const EVIDENCE_PRIVATE_REQUEST_PATH =
   'supporting-evidence/request-private-medical-records';
-export const EVIDENCE_PRIVATE_AUTHORIZATION =
+export const EVIDENCE_PRIVATE_AUTHORIZATION_PATH =
   'supporting-evidence/private-medical-records-authorization';
 export const EVIDENCE_PRIVATE_PATH =
   'supporting-evidence/private-medical-records';
-export const EVIDENCE_LIMITATION_PATH =
-  'supporting-evidence/add-private-record-limitations';
-export const EVIDENCE_LIMITATION_PATH1 = 'supporting-evidence/add-limitation';
-export const EVIDENCE_LIMITATION_PATH2 = 'supporting-evidence/limitation';
+export const LIMITED_CONSENT_PROMPT_PATH = 'supporting-evidence/add-limitation';
+export const LIMITED_CONSENT_DETAILS_PATH = 'supporting-evidence/limitation';
 
 // TODO: Update this path
 export const EVIDENCE_ADDITIONAL_PATH =
@@ -189,3 +187,5 @@ export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
 
 export const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
+
+export const NOT_ANSWERED = 'Not answered';

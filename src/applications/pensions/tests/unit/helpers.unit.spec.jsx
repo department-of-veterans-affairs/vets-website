@@ -9,7 +9,7 @@ import { formatCurrency, isHomeAcreageMoreThanTwo } from '../../helpers';
 import * as helpers from '../../helpers';
 import {
   getMarriageTitleWithCurrent,
-  isMarried,
+  hasMarriageHistory,
 } from '../../config/chapters/04-household-information/helpers';
 import { replacer, submit } from '../../config/submit';
 
@@ -138,8 +138,30 @@ describe('Pensions helpers', () => {
       };
       expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Current marriage');
     });
+    it('should return current marriage title', () => {
+      const form = {
+        maritalStatus: 'SEPARATED',
+        marriages: [{}, {}],
+      };
+      expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Current marriage');
+    });
+    it('should NOT return current marriage title', () => {
+      const form = {
+        maritalStatus: 'WIDOWED',
+        marriages: [{}, {}],
+      };
+      expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Second marriage');
+    });
+    it('should NOT return current marriage title', () => {
+      const form = {
+        maritalStatus: 'DIVORCED',
+        marriages: [{}, {}],
+      };
+      expect(getMarriageTitleWithCurrent(form, 1)).to.equal('Second marriage');
+    });
   });
-  describe('isMarried', () => {
+
+  describe('hasMarriageHistory', () => {
     let showPdfFormAlignmentStub;
 
     beforeEach(() => {
@@ -157,22 +179,23 @@ describe('Pensions helpers', () => {
         showPdfFormAlignmentStub.returns(false);
       });
       it('should return false for no data', () => {
-        expect(isMarried()).to.be.false;
+        expect(hasMarriageHistory()).to.be.false;
       });
       it('should return true when maritalStatus is MARRIED', () => {
-        expect(isMarried({ maritalStatus: 'MARRIED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'MARRIED' })).to.be.true;
       });
       it('should return false when maritalStatus is WIDOWED', () => {
-        expect(isMarried({ maritalStatus: 'WIDOWED' })).to.be.false;
+        expect(hasMarriageHistory({ maritalStatus: 'WIDOWED' })).to.be.false;
       });
       it('should return false when maritalStatus is DIVORCED', () => {
-        expect(isMarried({ maritalStatus: 'DIVORCED' })).to.be.false;
+        expect(hasMarriageHistory({ maritalStatus: 'DIVORCED' })).to.be.false;
       });
       it('should return true when maritalStatus is SEPARATED', () => {
-        expect(isMarried({ maritalStatus: 'SEPARATED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'SEPARATED' })).to.be.true;
       });
       it('should return false when maritalStatus is NEVER_MARRIED', () => {
-        expect(isMarried({ maritalStatus: 'NEVER_MARRIED' })).to.be.false;
+        expect(hasMarriageHistory({ maritalStatus: 'NEVER_MARRIED' })).to.be
+          .false;
       });
     });
 
@@ -181,22 +204,23 @@ describe('Pensions helpers', () => {
         showPdfFormAlignmentStub.returns(true);
       });
       it('should return false for no data', () => {
-        expect(isMarried()).to.be.false;
+        expect(hasMarriageHistory()).to.be.false;
       });
       it('should return true when maritalStatus is MARRIED', () => {
-        expect(isMarried({ maritalStatus: 'MARRIED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'MARRIED' })).to.be.true;
       });
       it('should return true when maritalStatus is WIDOWED', () => {
-        expect(isMarried({ maritalStatus: 'WIDOWED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'WIDOWED' })).to.be.true;
       });
       it('should return true when maritalStatus is DIVORCED', () => {
-        expect(isMarried({ maritalStatus: 'DIVORCED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'DIVORCED' })).to.be.true;
       });
       it('should return true when maritalStatus is SEPARATED', () => {
-        expect(isMarried({ maritalStatus: 'SEPARATED' })).to.be.true;
+        expect(hasMarriageHistory({ maritalStatus: 'SEPARATED' })).to.be.true;
       });
       it('should return false when maritalStatus is NEVER_MARRIED', () => {
-        expect(isMarried({ maritalStatus: 'NEVER_MARRIED' })).to.be.false;
+        expect(hasMarriageHistory({ maritalStatus: 'NEVER_MARRIED' })).to.be
+          .false;
       });
     });
   });

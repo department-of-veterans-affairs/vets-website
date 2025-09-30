@@ -1,25 +1,16 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { Element, scrollTo } from 'platform/utilities/scroll';
+import { useSelector } from 'react-redux';
 
-import { HelpTextManage } from './HelpText';
 import Breadcrumbs from './Breadcrumbs';
-import ClaimDetailsContent from './ClaimDetailsContent';
-import { getClaimDetails } from '../redux/actions';
-import { REIMBURSEMENT_URL } from '../constants';
 import DowntimeWindowAlert from '../containers/DownTimeWindowAlert';
+import TravelClaimDetailsContent from './TravelClaimDetailsContent';
 
 export default function TravelClaimDetails() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-
-  const { isLoading, data, error } = useSelector(
-    state => state.travelPay.claimDetails,
-  );
+  const { isLoading } = useSelector(state => state.travelPay.claimDetails);
 
   useEffect(() => {
     focusElement('h1');
@@ -40,15 +31,6 @@ export default function TravelClaimDetails() {
   );
 
   const featureFlagIsLoading = useToggleLoadingValue();
-
-  useEffect(
-    () => {
-      if (id && !data[id] && !error) {
-        dispatch(getClaimDetails(id));
-      }
-    },
-    [dispatch, data, error, id],
-  );
 
   if (isLoading || featureFlagIsLoading) {
     return (
@@ -78,32 +60,9 @@ export default function TravelClaimDetails() {
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
-        {error && <h1>There was an error loading the claim details.</h1>}
-        <DowntimeWindowAlert appTitle="Travel Pay" />
-
-        {data[id] && <ClaimDetailsContent {...data[id]} />}
-        <hr />
-
-        <div className="vads-u-margin-bottom--4">
-          <p>
-            If you’re eligible for reimbursement, we’ll deposit your
-            reimbursement in your bank account.
-          </p>
-          <va-link
-            href={REIMBURSEMENT_URL}
-            text="Learn how to set up direct deposit for travel pay reimbursement"
-          />
-          <p>
-            <strong>Note:</strong> Even if you already set up direct deposit for
-            your VA benefits, you’ll need to set up another direct deposit for
-            VA travel pay reimbursements.
-          </p>
-        </div>
-        <va-need-help>
-          <div slot="content">
-            <HelpTextManage />
-          </div>
-        </va-need-help>
+        <DowntimeWindowAlert appTitle="Travel Pay">
+          <TravelClaimDetailsContent />
+        </DowntimeWindowAlert>
       </article>
     </Element>
   );

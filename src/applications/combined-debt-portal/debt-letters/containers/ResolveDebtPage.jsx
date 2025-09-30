@@ -10,6 +10,7 @@ import { setPageFocus } from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import { getCurrentDebt } from '../utils/page';
 import { deductionCodes } from '../const/deduction-codes';
+import HowDoIGetHelp from '../components/HowDoIGetHelp';
 
 const ResolveDebtPage = ({ match }) => {
   const { selectedDebt, debts } = useSelector(
@@ -41,14 +42,14 @@ const ResolveDebtPage = ({ match }) => {
   }, []);
 
   return (
-    <>
+    <article>
       <VaBreadcrumbs
         breadcrumbList={[
           { href: '/', label: 'VA.gov Home' },
           { href: '/manage-va-debt/summary', label: 'Your VA debt and bills' },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current debts',
+            label: 'Current overpayment balances',
           },
           {
             href: `/manage-va-debt/summary/debt-balances/details/${selectedId}`,
@@ -72,9 +73,10 @@ const ResolveDebtPage = ({ match }) => {
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowDoIPay userData={howToUserData} />
-        <NeedHelp showVHAPaymentHistory={showVHAPaymentHistory} />
+        <HowDoIGetHelp showVHAPaymentHistory={showVHAPaymentHistory} />
+        <NeedHelp />
       </div>
-    </>
+    </article>
   );
 };
 

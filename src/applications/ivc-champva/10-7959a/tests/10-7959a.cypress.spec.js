@@ -54,10 +54,7 @@ const testConfig = createTestConfig(
               data,
               formConfig.preSubmitInfo.statementOfTruth.fullNamePath(data),
             );
-            reviewAndSubmitPageFlow(
-              sig,
-              `Submit ${formConfig.customText.appType}`,
-            );
+            reviewAndSubmitPageFlow(sig);
           });
         });
       },
@@ -73,7 +70,7 @@ const testConfig = createTestConfig(
               // eslint-disable-next-line no-param-reassign
               data.certifierReceivedPacket = true;
               // This targets the '<< Back' button
-              cy.get('[data-testid="btn-back"]').click();
+              cy.get('.usa-button-secondary').click();
             }
           });
         });

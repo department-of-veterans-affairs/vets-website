@@ -1,11 +1,25 @@
-import { generateEmployersSchemas, isUnemployedUnder65 } from './helpers';
-import { showMultiplePageResponse } from '../../../helpers';
+import {
+  generateEmployersSchemas,
+  isUnemployedUnder65,
+  requiresEmploymentHistory,
+} from './helpers';
+import {
+  showMultiplePageResponse,
+  showPdfFormAlignment,
+} from '../../../helpers';
 
 export default {
   title: 'List of previous employment',
   path: 'employment/previous/history',
-  depends: formData =>
-    !showMultiplePageResponse() && isUnemployedUnder65(formData),
+  depends: formData => {
+    if (!showMultiplePageResponse()) {
+      return showPdfFormAlignment()
+        ? formData.currentEmployment === false &&
+            requiresEmploymentHistory(formData)
+        : isUnemployedUnder65(formData);
+    }
+    return false;
+  },
   ...generateEmployersSchemas({
     employersKey: 'previousEmployers',
     employersTitle: 'List of previous employment',

@@ -90,11 +90,12 @@ export const getCardProps = formResponses => {
       <>
         {INTRO}
         <OverviewPanel formResponses={formResponses} />
+        {HORIZ_RULE}
         {PRINT_RESULTS}
         {isCFI && (
           <>
             {HORIZ_RULE}
-            <h2 className="vads-u-margin-y--3">Disagree with a decision</h2>
+            <h2 className="vads-u-margin-y--3">You disagree with a decision</h2>
             <p>
               Since you disagree with part of our decision, these options may be
               a good fit for you.

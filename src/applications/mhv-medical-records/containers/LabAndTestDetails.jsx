@@ -72,7 +72,8 @@ const LabAndTestDetails = () => {
       dispatch,
       isAcceleratingLabsAndTests,
       isLoading,
-      labAndTestDetails,
+      labAndTestDetails?.id,
+      labAndTestDetails?.notFound,
       history,
     ],
   );
