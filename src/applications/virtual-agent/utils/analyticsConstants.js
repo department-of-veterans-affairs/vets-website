@@ -5,6 +5,8 @@ export const ACTIVITY_EVENT_NAMES = {
   SKILL_ENTRY: 'Skill_Entry',
   SKILL_EXIT: 'Skill_Exit',
   AGENT_LLM_RESPONSE: 'AgentLLMResponse',
+  RAG_ENTRY: 'Rag_Entry',
+  RAG_EXIT: 'Rag_Exit',
 };
 
 // Canonical api_call "api-name" labels used for GA

@@ -83,14 +83,14 @@ function handleSkillExitEvent(action) {
   }
 }
 
-// Track RAG Agent Entry based on root bot SKILL_ENTRY event
+// Track RAG Agent Entry based on bot RAG_ENTRY event
 function handleRagAgentEntryEvent(action) {
   const actionEventName = getEventName(action);
   const skillName = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`;
 
   if (
-    actionEventName === ACTIVITY_EVENT_NAMES.SKILL_ENTRY &&
+    actionEventName === ACTIVITY_EVENT_NAMES.RAG_ENTRY &&
     skillName &&
     skillName !== 'RootBot'
   ) {
@@ -102,13 +102,13 @@ function handleRagAgentEntryEvent(action) {
   }
 }
 
-// Emit a RAG Agent Exit based on root bot SKILL_EXIT event
+// Emit a RAG Agent Exit based on bot RAG_EXIT event
 function handleRagAgentExitEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
   const apiName = `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`;
   if (
-    actionEventName === ACTIVITY_EVENT_NAMES.SKILL_EXIT &&
+    actionEventName === ACTIVITY_EVENT_NAMES.RAG_EXIT &&
     eventValue &&
     eventValue !== 'RootBot'
   ) {
