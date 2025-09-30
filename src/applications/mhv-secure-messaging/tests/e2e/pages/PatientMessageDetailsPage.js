@@ -51,6 +51,7 @@ class PatientMessageDetailsPage {
       .should('be.visible')
       .shadow()
       .find('button')
+      .first()
       .click({ force: true });
   };
 
