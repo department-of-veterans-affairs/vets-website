@@ -115,7 +115,13 @@ const SmBreadcrumbs = () => {
       } else if (wasSelectCareTeam) {
         history.push(Constants.Paths.INBOX);
       } else if (isSelectCareTeam) {
-        history.push(previousUrl || Constants.Paths.COMPOSE);
+        // Navigate to previous URL only if it's part of the compose flow (recent care teams)
+        // Otherwise go to the interstitial compose page
+        if (previousUrl === Constants.Paths.RECENT_CARE_TEAMS) {
+          history.push(previousUrl);
+        } else {
+          history.push(Constants.Paths.COMPOSE);
+        }
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
