@@ -13,14 +13,14 @@ const ProcessDescription = ({ resBurden }) => (
         />
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
-        <p>
-          <strong>
-            You’ll need to provide personal information for these people:
-          </strong>
-        </p>
+        <p>You’ll need to provide personal information for these people:</p>
         <ul>
-          <li>Yourself, and</li>
-          <li>Anyone you’re applying for, and</li>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Anyone you’re applying for, <strong>and</strong>
+          </li>
           <li>
             Your sponsor (the Veteran or service member you’re connected to)
           </li>
