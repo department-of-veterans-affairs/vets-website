@@ -50,8 +50,15 @@ class PatientMessageDetailsPage {
     cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
       .should('be.visible')
       .shadow()
-      .find('button')
-      .first()
+      .findByText('Expand all')
+      .click({ force: true });
+  };
+
+  collapseAllThreadMessages = () => {
+    cy.findByTestId(Locators.ALERTS.THREAD_EXPAND)
+      .should('be.visible')
+      .shadow()
+      .findByText('Collapse all')
       .click({ force: true });
   };
 
