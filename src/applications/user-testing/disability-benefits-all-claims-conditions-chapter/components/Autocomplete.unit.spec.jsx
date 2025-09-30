@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import Autocomplete from './Autocomplete';
@@ -15,23 +15,22 @@ const freeTextLabel = val => `Enter your condition as "${val}"`;
 
 // <VaTextInput> is a React binding to a web component, direct value
 // assignment + synthetic events are needed to simulate typing
-export const simulateInputChange = (element, value) => {
+export const simulateInputChange = async (element, value) => {
   const el = element;
-  el.value = value;
 
-  const evt = new Event('input', { bubbles: true, composed: true });
-  const customEvt = new CustomEvent('input', {
-    detail: { value },
-    bubbles: true,
-    composed: true,
+  await act(async () => {
+    el.value = value;
+
+    const evt = new Event('input', { bubbles: true, composed: true });
+    const customEvt = new CustomEvent('input', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    });
+
+    el.dispatchEvent(evt);
+    el.dispatchEvent(customEvt);
   });
-
-  el.dispatchEvent(evt);
-  el.dispatchEvent(customEvt);
-
-  if (el.onInput) {
-    el.onInput({ target: { value } });
-  }
 };
 
 // Create props for each test
@@ -109,21 +108,30 @@ describe('Autocomplete controlled value sync', () => {
 describe('Autocomplete typing & results', () => {
   it('typing updates value, calls onChange, and shows free-text + suggestions', async () => {
     const props = getProps();
-    const { input, findAllByRole } = renderWithInput(props);
+    const { input, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
+    await simulateInputChange(input, 'mig');
     expect(input.value).to.equal('mig');
 
     await waitFor(() => {
       expect(props.onChange.calledWith('mig')).to.be.true;
     });
 
-    const options = await findAllByRole('option');
+    // Wait for options to appear after debounced search
+    const options = await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(1);
+        return opts;
+      },
+      { timeout: 1500 },
+    );
+
     expect(options[0].textContent).to.equal(freeTextLabel('mig'));
     expect(options.length).to.be.greaterThan(1); // should include suggestions
 
     // At least one suggestion came from provided results
-    const anySuggestion = options
+    const anySuggestion = Array.from(options)
       .slice(1)
       .some(li => allResults.includes(li.textContent));
     expect(anySuggestion).to.be.true;
@@ -134,11 +142,20 @@ describe('Autocomplete typing & results', () => {
 describe('Autocomplete mouse interactions', () => {
   it('clicking a suggestion selects it, calls onChange, closes list', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig'); // expect "Migraine" to match in dataset
+    await simulateInputChange(input, 'mig'); // expect "Migraine" to match in dataset
 
-    const options = await findAllByRole('option');
+    // Wait for options to appear after debounced search
+    const options = await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(1);
+        return Array.from(opts);
+      },
+      { timeout: 1500 },
+    );
+
     // Choose a non‑free‑text option (first suggestion after index 0)
     const suggestion = options.find(
       li => li.textContent !== options[0].textContent,
@@ -156,11 +173,20 @@ describe('Autocomplete mouse interactions', () => {
 
   it('clicking free-text option selects raw typed string and closes list', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'xyz'); // unlikely to match suggestions
+    await simulateInputChange(input, 'xyz'); // unlikely to match suggestions
 
-    const options = await findAllByRole('option');
+    // Wait for options to appear after debounced search
+    const options = await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+        return Array.from(opts);
+      },
+      { timeout: 1500 },
+    );
+
     const freeTextOpt = options[0];
     expect(freeTextOpt.textContent).to.equal(freeTextLabel('xyz'));
 
@@ -175,11 +201,18 @@ describe('Autocomplete mouse interactions', () => {
 
   it('clicking outside closes list but preserves current value', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    const options = await findAllByRole('option');
-    expect(options.length).to.be.greaterThan(0);
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+      },
+      { timeout: 1500 },
+    );
 
     // Click outside (document)
     fireEvent.mouseDown(document);
@@ -192,10 +225,19 @@ describe('Autocomplete mouse interactions', () => {
 
   it('hovering another item updates active highlight', async () => {
     const props = getProps();
-    const { input, findAllByRole } = renderWithInput(props);
+    const { input, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    const options = await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    const options = await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(1);
+        return Array.from(opts);
+      },
+      { timeout: 1500 },
+    );
 
     // ActiveIndex starts at 0 (free text)
     expect(options[0]).to.have.attribute('aria-selected', 'true');
@@ -245,10 +287,18 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('ArrowUp from first option returns focus to input', async () => {
     const props = getProps();
-    const { input, findAllByRole } = renderWithInput(props);
+    const { input, container } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+      },
+      { timeout: 1500 },
+    );
 
     // Move to second option, then ArrowUp twice to get back
     fireEvent.keyDown(input, { key: 'ArrowDown' }); // to index1
@@ -261,10 +311,19 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('Enter selects currently active item and closes list', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    const options = await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    const options = await waitFor(
+      async () => {
+        const opts = document.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(1);
+        return opts;
+      },
+      { timeout: 1500 },
+    );
 
     // Move to a suggestion (index1)
     fireEvent.keyDown(input, { key: 'ArrowDown' });
@@ -281,10 +340,18 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('Escape closes list (value preserved)', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    await waitFor(
+      () => {
+        const opts = document.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+      },
+      { timeout: 1500 },
+    );
 
     fireEvent.keyDown(input, { key: 'Escape' });
 
@@ -296,10 +363,18 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('Tab closes list (value preserved)', async () => {
     const props = getProps();
-    const { input, findAllByRole, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId } = renderWithInput(props);
 
-    simulateInputChange(input, 'mig');
-    await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    await waitFor(
+      () => {
+        const opts = document.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+      },
+      { timeout: 1500 },
+    );
 
     fireEvent.keyDown(input, { key: 'Tab' });
 
@@ -331,11 +406,20 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
 
   it('aria-live announces results, selection, and empty input', async () => {
     const props = getProps();
-    const { input, container, findAllByRole } = renderWithInput(props);
+    const { input, container } = renderWithInput(props);
 
     // Type -> results
-    simulateInputChange(input, 'mig');
-    await findAllByRole('option');
+    await simulateInputChange(input, 'mig');
+
+    // Wait for options to appear after debounced search
+    await waitFor(
+      () => {
+        const opts = container.querySelectorAll('li[role="option"]');
+        expect(opts.length).to.be.greaterThan(0);
+      },
+      { timeout: 1500 },
+    );
+
     await waitFor(
       () => {
         const live = container.querySelector('[aria-live="polite"]');
@@ -355,7 +439,7 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
     });
 
     // Clear input -> empty message
-    simulateInputChange(input, '');
+    await simulateInputChange(input, '');
     await waitFor(() => {
       const live = container.querySelector('[aria-live="polite"]');
       expect(live.textContent).to.contain('Input is empty');
