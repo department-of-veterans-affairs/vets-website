@@ -40,7 +40,7 @@ import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
-import PreSubmitInfo from '../components/PreSubmitInfo';
+import CustomPreSubmitInfo from '../components/CustomPreSubmitInfo';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import {
@@ -129,7 +129,7 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetHelp,
   preSubmitInfo: {
-    CustomComponent: PreSubmitInfo,
+    CustomComponent: CustomPreSubmitInfo,
     required: true,
     field: 'privacyAgreementAccepted',
   },
