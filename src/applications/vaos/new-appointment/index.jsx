@@ -61,11 +61,17 @@ export function NewAppointment() {
     shouldRedirect: () =>
       !isNewAppointmentStarted &&
       !location.pathname.endsWith('confirmation') &&
-      !location.pathname.endsWith('type-of-care'),
+      (featureImmediateCareAlert
+        ? !location.pathname.endsWith('schedule')
+        : !location.pathname.endsWith('type-of-care')),
   });
 
   if (shouldRedirectToStart) {
-    return <Redirect to="/" />;
+    return (
+      <Redirect
+        to={featureImmediateCareAlert ? '/schedule' : '/schedule/type-of-care'}
+      />
+    );
   }
 
   return (

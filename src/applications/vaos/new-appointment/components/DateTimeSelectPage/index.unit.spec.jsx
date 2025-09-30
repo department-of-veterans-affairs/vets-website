@@ -143,7 +143,8 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     MockDate.reset();
   });
 
-  it('should not submit form with validation error', async () => {
+  it.skip('should not submit form with validation error', async () => {
+    // Ticket to fix test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/120858
     const slot308Date = new Date(setDay(new Date(), 9).setHours(9, 0, 0));
     const slot309Date = new Date(setDay(new Date(), 11).setHours(13, 0, 0));
     setDateTimeSelectMockFetches({

@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import {
   VaTelephone,
   VaFileInput,
+  VaFileInputMultiple,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { makePlaceholderFile } from 'platform/forms-system/src/js/web-component-fields';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getFormNumber, mask, formattedPhoneNumber } from '../helpers';
 import EditLink from './EditLink';
 
@@ -16,6 +19,7 @@ const CustomReviewTopContent = () => {
     fullName,
     phoneNumber,
     email,
+    supportingDocuments,
   } = formData;
 
   const renderPersonalInfo = () => (
@@ -61,6 +65,10 @@ const CustomReviewTopContent = () => {
     type: '',
   };
 
+  const filesForSupportingDocuments = Array.isArray(supportingDocuments)
+    ? supportingDocuments.map(document => makePlaceholderFile(document))
+    : null;
+
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
@@ -90,7 +98,21 @@ const CustomReviewTopContent = () => {
         <h3>Uploaded file</h3>
         <EditLink href={`/${formNumber}/upload`} label="Edit Uploaded file" />
       </div>
-      {uploadedFile && <VaFileInput value={filePayload} readOnly uswds />}
+      {uploadedFile && <VaFileInput uploadedFile={filePayload} readOnly />}
+      {!environment.isProduction() && (
+        <>
+          <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+            <h3>Uploaded supporting documents</h3>
+            <EditLink href={`/${formNumber}/upload-supporting-documents`} />
+          </div>
+          {filesForSupportingDocuments && (
+            <VaFileInputMultiple
+              value={filesForSupportingDocuments}
+              read-only
+            />
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -19,6 +19,7 @@ import {
   generateDeleteDescription,
   isDefined,
   otherAssetOwnerRelationshipExplanationRequired,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
 
@@ -123,9 +124,13 @@ const relationshipPage = {
       'ui:options': {
         expandUnder: 'assetOwnerRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherAssetOwnerRelationshipExplanationRequired(formData, index),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherAssetOwnerRelationshipType'),
     },
   },
   schema: {

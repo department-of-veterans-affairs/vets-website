@@ -4,16 +4,12 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import PropTypes from 'prop-types';
 
 const RefillAlert = props => {
-  const { dataDogActionName, refillStatus, refillAlertList } = props;
-
-  // Don't display the alert when refills are in progress or completed
-  const hideAlert =
-    refillStatus === 'inProgress' || refillStatus === 'finished';
+  const { dataDogActionName, refillAlertList } = props;
 
   return (
     <VaAlert
       status="warning"
-      visible={!!refillAlertList?.length && !hideAlert}
+      visible={!!refillAlertList?.length}
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"
@@ -59,7 +55,6 @@ RefillAlert.propTypes = {
       prescriptionName: PropTypes.string.isRequired,
     }),
   ),
-  refillStatus: PropTypes.string,
 };
 
 export default RefillAlert;
