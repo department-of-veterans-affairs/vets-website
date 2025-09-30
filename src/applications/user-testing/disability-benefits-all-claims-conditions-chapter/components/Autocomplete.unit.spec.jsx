@@ -21,15 +21,14 @@ export const simulateInputChange = async (element, value) => {
   await act(async () => {
     el.value = value;
 
+    // For Node 22, we need to ensure the event has a proper target
     const evt = new Event('input', { bubbles: true, composed: true });
-    const customEvt = new CustomEvent('input', {
-      detail: { value },
-      bubbles: true,
-      composed: true,
+    Object.defineProperty(evt, 'target', {
+      writable: false,
+      value: { value },
     });
 
     el.dispatchEvent(evt);
-    el.dispatchEvent(customEvt);
   });
 };
 
@@ -254,35 +253,33 @@ describe('Autocomplete mouse interactions', () => {
 
 // Keyboard navigation tests
 describe('Autocomplete keyboard navigation', () => {
-  it('ArrowDown from input moves active to first option (free-text)', async () => {
-    it('ArrowDown from input moves active from free-text (index 0) to first suggestion (index 1)', async () => {
-      const props = getProps();
-      const { input, findAllByRole, container } = renderWithInput(props);
+  it('ArrowDown from input moves active from free-text (index 0) to first suggestion (index 1)', async () => {
+    const props = getProps();
+    const { input, findAllByRole, container } = renderWithInput(props);
 
-      // Type to trigger results
-      simulateInputChange(input, 'mig');
+    // Type to trigger results
+    await simulateInputChange(input, 'mig');
 
-      // Wait for options to render
-      let options = await findAllByRole('option');
-      expect(options.length).to.be.greaterThan(1);
+    // Wait for options to render
+    let options = await findAllByRole('option');
+    expect(options.length).to.be.greaterThan(1);
 
-      // Initial state: activeIndex=0 (free-text)
-      expect(options[0]).to.have.attribute('aria-selected', 'true');
-      expect(options[1]).to.have.attribute('aria-selected', 'false');
+    // Initial state: activeIndex=0 (free-text)
+    expect(options[0]).to.have.attribute('aria-selected', 'true');
+    expect(options[1]).to.have.attribute('aria-selected', 'false');
 
-      // Send ArrowDown
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
+    // Send ArrowDown
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
 
-      // Re-query (attributes update asynchronously)
-      await waitFor(() => {
-        options = container.querySelectorAll('li[role="option"]');
-        expect(options[1].getAttribute('aria-selected')).to.equal('true');
-      });
-
-      // Assert listbox aria-activedescendant reflects option-1
-      const listbox = container.querySelector('[role="listbox"]');
-      expect(listbox).to.have.attribute('aria-activedescendant', 'option-1');
+    // Re-query (attributes update asynchronously)
+    await waitFor(() => {
+      options = container.querySelectorAll('li[role="option"]');
+      expect(options[1].getAttribute('aria-selected')).to.equal('true');
     });
+
+    // Assert listbox aria-activedescendant reflects option-1
+    const listbox = container.querySelector('[role="listbox"]');
+    expect(listbox).to.have.attribute('aria-activedescendant', 'option-1');
   });
 
   it('ArrowUp from first option returns focus to input', async () => {
