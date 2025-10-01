@@ -10,7 +10,7 @@ import { medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, user = mockUser) => {
     this.mockFeatureToggles();
     this.mockVamcEhr();
 
@@ -26,7 +26,7 @@ class MedicationsSite {
       // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
       // window.localStorage.setItem('isLoggedIn', true);
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.login(mockUser);
+      cy.login(user);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);

@@ -1061,7 +1061,8 @@ export function routeToPageInFlow(callback, history, current, action, data) {
         (previousPage !== 'typeOfFacility' &&
           previousPage !== 'audiologyCareType' &&
           previousPage !== 'vaFacilityV2' &&
-          previousPage !== 'selectProvider')
+          previousPage !== 'selectProvider' &&
+          previousPage !== 'selectDateTime')
       ) {
         history.push(nextPage.url);
       } else if (

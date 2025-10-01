@@ -1,0 +1,58 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Doe",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1980-01-01",
+    "ssn": "987654321",
+    "vaFileNumber": "12345678",
+    "serviceNumber": "09876543",
+    "address": {
+      "country": "USA",
+      "street": "123 Main St",
+      "street2": "Apt 4B",
+      "city": "Anytown",
+      "state": "CA",
+      "postalCode": "12345"
+    },
+    "phoneNumber": "555-123-4567",
+    "mobilePhoneNumber": "555-987-6543",
+    "emailAddress": "john.doe@example.com",
+    "view:hasEmployers": true,
+    "employers": [
+      {
+        "employerName": "Test Company",
+        "employerAddress": {
+          "country": "USA",
+          "street": "456 Business Ave",
+          "city": "Corporate City",
+          "state": "NY",
+          "postalCode": "54321"
+        },
+        "employmentStartDate": "2023-01-01",
+        "employmentEndDate": "2024-01-01",
+        "typeOfWork": "Software Engineer",
+        "hoursPerWeek": 40,
+        "lostTimeFromIllness": 8,
+        "highestGrossIncomePerMonth": 5000
+      }
+    ],
+    "supportingEvidence": [
+      {
+        "name": "test-document.pdf",
+        "size": 1024,
+        "type": "application/pdf",
+        "confirmationCode": "test-123"
+      },
+      {
+        "name": "employment-letter.pdf",
+        "size": 2048,
+        "type": "application/pdf",
+        "confirmationCode": "test-456"
+      }
+    ]
+  }
+}
