@@ -65,7 +65,7 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
 
         {(dslogonEnabled || dslogonRetired) && (
           <>
-            <h2>Other sign-in options</h2>
+            <h2>Other sign-in option</h2>
 
             {dslogonEnabled && (
               <>
@@ -81,6 +81,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 <p>
                   You’ll still be able to use your <strong>DS Logon</strong>{' '}
                   account on Defense Department websites after this date.
+                </p>
+                <p>
+                  <strong>Note:</strong> In the event of a government shutdown,
+                  we'll remove this option when the government reopens.
                 </p>
                 <LoginButton
                   csp="dslogon"

@@ -16,7 +16,13 @@
  * since in this case there are no other content on screen.
  */
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -51,16 +57,31 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const SrOnlyTag = 'span';
 
-  const lastPathName = formatPathName(location.pathname, 'Messages');
-
   // these props check if the current page is the folder view page or thread view page
-  const foldersViewPage = /folders\/\d+/.test(location.pathname);
-  const threadViewPage = /thread\/\d+/.test(location.pathname);
-  const replyViewPage = /reply\/\d+/.test(location.pathname);
-  const contactListPage = /contact-list/.test(location.pathname);
+
+  const {
+    startNewMessagePage,
+    foldersViewPage,
+    threadViewPage,
+    replyViewPage,
+    contactListPage,
+  } = useMemo(
+    () => {
+      return {
+        startNewMessagePage: /new-message|draft/.test(location.pathname),
+        foldersViewPage: /folders\/\d+/.test(location.pathname),
+        threadViewPage: /thread\/\d+/.test(location.pathname),
+        replyViewPage: /reply\/\d+/.test(location.pathname),
+        contactListPage: /contact-list/.test(location.pathname),
+      };
+    },
+    [location.pathname],
+  );
 
   useEffect(
     () => {
+      const lastPathName = formatPathName(location.pathname, 'Messages');
+
       if (alertList?.length) {
         if (foldersViewPage && !folder?.name) return;
         if (
@@ -113,7 +134,7 @@ const AlertBackgroundBox = props => {
       alertList,
       folder,
       foldersViewPage,
-      lastPathName,
+      location.pathname,
       replyViewPage,
       threadMessages,
       threadViewPage,
@@ -139,7 +160,7 @@ const AlertBackgroundBox = props => {
       let content = activeAlert?.content;
 
       if (
-        lastPathName !== 'Messages' &&
+        !startNewMessagePage &&
         !foldersViewPage &&
         !threadViewPage &&
         !contactListPage &&
@@ -155,8 +176,7 @@ const AlertBackgroundBox = props => {
       activeAlert,
       contactListPage,
       foldersViewPage,
-      lastPathName,
-      location.pathname,
+      startNewMessagePage,
       threadViewPage,
     ],
   );

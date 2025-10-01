@@ -20,7 +20,8 @@ export const DATE_FORMAT = 'LL'; // e.g., "January 1, 2021"
 export const DATE_FORMAT_SHORT = 'MM/DD/YYYY';
 export const DATE_FORMAT_LONG = 'MMMM D, YYYY';
 export const PARTIAL_DATE_FORMAT = 'YYYY-MM';
-const DATE_TEMPLATE = 'YYYY-MM-DD';
+// Public template for full ISO-like date strings used across the all-claims app
+export const DATE_TEMPLATE = 'YYYY-MM-DD';
 
 // Year validation constants
 export const MIN_VALID_YEAR = 1900;

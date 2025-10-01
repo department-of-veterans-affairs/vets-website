@@ -90,6 +90,7 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
     <span className="usa-input-error-message">{message}</span>
   );
   const isUSA = address.country === 'USA';
+  const phoneSource = data['view:phoneSource'] || 'Mobile';
 
   return (
     <div className="form-review-panel-page">
@@ -206,23 +207,23 @@ const VeteranContactInformationReviewPage = ({ data, goToPath }) => {
 
       <div className="form-review-panel-page-header-row vads-u-margin-top--4">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
-          {`${data['view:phoneSource']} phone number`}
+          {`${phoneSource} phone number`}
         </h4>
         <va-button
           secondary
           class="edit-page float-right"
           onClick={handlers.editPhone}
-          label={`Edit ${data['view:phoneSource']} phone number`}
+          label={`Edit ${phoneSource} phone number`}
           text="Edit"
           ref={phoneRef}
         />
       </div>
       <dl className="review">
         <div className="review-row">
-          <dt>{`${data['view:phoneSource']} phone number`}</dt>
+          <dt>{`${phoneSource} phone number`}</dt>
           <dd
             className="dd-privacy-hidden"
-            data-dd-action-name={`${data['view:phoneSource']} phone number`}
+            data-dd-action-name={`${phoneSource} phone number`}
           >
             <strong>
               {phone ? (

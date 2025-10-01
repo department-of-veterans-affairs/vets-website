@@ -45,22 +45,17 @@ export const Nav = () => {
           />
         </a>
         <div className="heading-right">
-          <Toggler
-            toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
+          <a
+            href="/representative/get-help"
+            className={`usa-button-secondary heading-help-link ${
+              profile ? 'logged-in' : ''
+            }`}
+            data-testid="heading-help-link"
+            data-eventname="nav-link-click"
           >
-            <Toggler.Enabled>
-              <a
-                href="/representative/get-help"
-                className={`usa-button-secondary heading-help-link ${
-                  profile ? 'logged-in' : ''
-                }`}
-                data-testid="heading-help-link"
-                data-eventname="nav-link-click"
-              >
-                Help
-              </a>
-            </Toggler.Enabled>
-          </Toggler>
+            Help
+          </a>
+
           {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
         </div>
       </div>

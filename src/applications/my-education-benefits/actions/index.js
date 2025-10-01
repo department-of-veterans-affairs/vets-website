@@ -100,18 +100,25 @@ const poll = ({
   dispatch,
   timeoutResponse,
   successDispatchType,
-  failureDispatchType,
+  _failureDispatchType,
 }) => {
   // eslint-disable-next-line consistent-return
   const executePoll = async (resolve, reject) => {
-    const response = await apiRequest(endpoint);
-    if (validate(response)) {
-      return resolve(response.data);
+    try {
+      const response = await apiRequest(endpoint);
+      if (validate(response)) {
+        return resolve(response.data);
+      }
+      if (new Date() >= endTime) {
+        return resolve(timeoutResponse);
+      }
+      setTimeout(executePoll, interval, resolve, reject);
+    } catch (error) {
+      if (new Date() >= endTime) {
+        return resolve(timeoutResponse);
+      }
+      setTimeout(executePoll, interval, resolve, reject);
     }
-    if (new Date() >= endTime) {
-      return resolve(timeoutResponse);
-    }
-    setTimeout(executePoll, interval, resolve, reject);
   };
   return new Promise(executePoll)
     .then(response => {
@@ -120,10 +127,10 @@ const poll = ({
         response,
       });
     })
-    .catch(errors => {
+    .catch(_errors => {
       dispatch({
-        type: failureDispatchType,
-        errors,
+        type: successDispatchType,
+        response: timeoutResponse,
       });
     });
 };

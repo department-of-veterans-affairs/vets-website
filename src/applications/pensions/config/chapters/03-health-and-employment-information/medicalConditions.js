@@ -7,19 +7,13 @@ import {
   MedicalConditionDescription,
   hasNoSocialSecurityDisability,
 } from './helpers';
-import { showMedicalEvidenceClarification } from '../../../helpers';
-
-const path = showMedicalEvidenceClarification()
-  ? 'medical/history/condition'
-  : 'temporarily-hidden-conditions';
 
 const { medicalCondition } = fullSchemaPensions.properties;
 /** @type {PageSchema} */
 export default {
   title: 'Medical condition',
-  path,
-  depends: form =>
-    hasNoSocialSecurityDisability(form) && showMedicalEvidenceClarification(),
+  path: 'medical/history/condition',
+  depends: form => hasNoSocialSecurityDisability(form),
   uiSchema: {
     ...titleUI(
       'Tell us if you have a medical condition that prevents you from working',

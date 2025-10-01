@@ -110,4 +110,26 @@ export default {
     en: '/resources/verifying-your-identity-on-vagov/',
     es: '/resources/verifying-your-identity-on-vagov-esp/',
   },
+  dentalCare: {
+    en: '/health-care/about-va-health-benefits/dental-care/',
+    es: '/health-care/about-va-health-benefits/dental-care-esp/',
+  },
+  survivorsPension: {
+    en:
+      '/family-and-caregiver-benefits/survivor-compensation/survivors-pension/',
+    es:
+      '/family-and-caregiver-benefits/survivor-compensation/survivors-pension-esp/',
+  },
+  vocationalRehabilitationHowToApply: {
+    en: '/careers-employment/vocational-rehabilitation/how-to-apply/',
+    es: '/careers-employment/vocational-rehabilitation/how-to-apply-esp/',
+  },
+  decisionReviewsBoardAppeal: {
+    en: '/decision-reviews/board-appeal/',
+    es: '/decision-reviews/board-appeal-esp/',
+  },
+  vocationalRehabilitation: {
+    en: '/careers-employment/vocational-rehabilitation/eligibility/',
+    es: '/careers-employment/vocational-rehabilitation/eligibility-esp/',
+  },
 };

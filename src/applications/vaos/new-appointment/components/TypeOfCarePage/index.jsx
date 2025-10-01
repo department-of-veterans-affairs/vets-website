@@ -23,7 +23,7 @@ import { TYPE_OF_CARE_IDS, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
-import SimpleRadioWidget from '../SimpleRadioWidget';
+import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
 
 const pageKey = 'typeOfCare';
 
@@ -95,7 +95,7 @@ export default function TypeOfCarePage() {
     uiSchema: {
       typeOfCareId: {
         'ui:title': pageTitle,
-        'ui:widget': SimpleRadioWidget,
+        'ui:widget': AppointmentsRadioWidget,
         'ui:options': {
           classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,

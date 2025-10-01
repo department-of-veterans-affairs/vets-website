@@ -264,4 +264,38 @@ describe('Compose container', () => {
       .to.have.attribute('href')
       .to.contain('/find-locations');
   });
+
+  it('displays AlertBackgroundBox component if there are any errors', async () => {
+    const customState = {
+      sm: {
+        ...initialState.sm,
+        alerts: {
+          alertVisible: true,
+          alertFocusOut: false,
+          alertList: [
+            {
+              datestamp: '2025-09-17T19:06:02.367Z',
+              isActive: true,
+              alertType: 'error',
+              header: 'Error',
+              content: 'We’re sorry. Something went wrong on our end.',
+            },
+          ],
+        },
+      },
+    };
+
+    const { container, getByTestId, getByText } = setup({
+      state: customState,
+    });
+    await waitFor(() => {
+      fireEvent.click(getByTestId('continue-button'));
+    });
+
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.exist;
+    });
+    expect(getByText('We’re sorry. Something went wrong on our end.')).to.exist;
+  });
 });

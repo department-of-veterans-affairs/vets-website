@@ -8,6 +8,11 @@ import LiText from '../../HubRail/shared/liText';
 const UploadFileToVa = () => {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const forms1516Toggle = useToggleValue(TOGGLE_NAMES.forms1516Links);
+  const form1919Toggle = useToggleValue(TOGGLE_NAMES.form1919Release);
+  const form8794Toggle = useToggleValue(TOGGLE_NAMES.form8794Release);
+
+  const isDigitizedForms = forms1516Toggle || form1919Toggle || form8794Toggle;
+  const isPdfForms = !form1919Toggle || !form8794Toggle;
 
   return (
     <div>
@@ -25,30 +30,54 @@ const UploadFileToVa = () => {
           header="Forms library and other accepted documents"
           subheader="Check out the forms and documents which you can submit to VA via the Education File upload portal."
         >
-          {forms1516Toggle ? (
+          {isDigitizedForms ? (
             <>
               <h4>Accepted forms for digital submission</h4>
               <ul className="vads-u-margin-left--neg2p5">
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10215: Statement of Assurance of Compliance with 85% Enrollment Ratios"
                   href="/school-administrators/85-15-rule-enrollment-ratio"
+                  testId="digital-10215-form"
                 />
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10216: 35% Exemption Request from 85/15 Reporting Requirement"
                   href="/school-administrators/35-percent-exemption"
+                  testId="digital-10216-form"
                 />
+                {form8794Toggle && (
+                  <LiSpanAndVaLink
+                    hrefText="VA Form 22-8794: Designation of Certifying Official(s)"
+                    href="/school-administrators/update-certifying-officials"
+                    testId="digital-8794-form"
+                  />
+                )}
+                {form1919Toggle && (
+                  <LiSpanAndVaLink
+                    hrefText="VA Form 22-1919: Conflicting Interests Certification for Proprietary Schools"
+                    href="/school-administrators/report-conflicting-interests"
+                    testId="digital-1919-form"
+                  />
+                )}
               </ul>
-              <h4>Accepted PDF forms for download</h4>
-              <ul className="vads-u-margin-left--neg2p5">
-                <LiSpanAndVaLink
-                  hrefText="Download VA form 22-8794: Designation of Certifying Official(s)"
-                  href="https://www.vba.va.gov/pubs/forms/VBA-22-8794-ARE.pdf"
-                />
-                <LiSpanAndVaLink
-                  hrefText="Download VA form 22-1919: Conflicting interests Certification for Proprietary Schools"
-                  href="https://www.vba.va.gov/pubs/forms/VBA-22-1919-ARE.pdf"
-                />
-              </ul>
+              {isPdfForms && (
+                <>
+                  <h4>Accepted PDF forms for download</h4>
+                  <ul className="vads-u-margin-left--neg2p5">
+                    {!form8794Toggle && (
+                      <LiSpanAndVaLink
+                        hrefText="Download VA form 22-8794: Designation of Certifying Official(s)"
+                        href="https://www.vba.va.gov/pubs/forms/VBA-22-8794-ARE.pdf"
+                      />
+                    )}
+                    {!form1919Toggle && (
+                      <LiSpanAndVaLink
+                        hrefText="Download VA form 22-1919: Conflicting interests Certification for Proprietary Schools"
+                        href="https://www.vba.va.gov/pubs/forms/VBA-22-1919-ARE.pdf"
+                      />
+                    )}
+                  </ul>
+                </>
+              )}
             </>
           ) : (
             <>

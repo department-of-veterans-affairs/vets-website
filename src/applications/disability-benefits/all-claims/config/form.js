@@ -444,10 +444,7 @@ const formConfig = {
             'ui:title': ptsd781NameTitle,
             'ui:description': ptsdFirstIncidentIntro,
           },
-          schema: {
-            type: 'object',
-            properties: {},
-          },
+          schema: { type: 'object', properties: {} },
         },
         // 781 - Pages 3 - 12 (Event Loop)
         ...createFormConfig781(PTSD_INCIDENT_ITERATION),

@@ -2,6 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import sessionStatus from './fixtures/session-status.json';
+import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 // import labsAndTests from '../fixtures/labsAndTests.json';
 // import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
@@ -19,11 +20,12 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       body: sessionStatus, // status response copied from staging
     }).as('status');
     // cy.visit('my-health/medical-records/labs-and-tests');
+    MedicalRecordsLandingPage.uumIntercept();
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('Understanding Your Results Radiology Detail Page', () => {
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
     // When I want to get "help to be able to understand results" of my MR data
     RadiologyDetailsPage.verifyExpandUnderstandResults();
     RadiologyDetailsPage.clickExpandUnderstandResults();

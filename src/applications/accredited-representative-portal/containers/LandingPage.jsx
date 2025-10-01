@@ -84,6 +84,12 @@ const LandingPage = title => {
                       />
                     </Toggler.Enabled>
                   </Toggler>
+                  <va-link
+                    class="arp__home__link--watch-video"
+                    href="https://youtu.be/DLY0DQld5Uw?si=OTN1JHRVHYXKnp0H"
+                    text="Watch a video of how the portal works (opens in new tab)"
+                    video
+                  />
                 </div>
 
                 <div className="hp__card vads-grid-col-12  tablet:vads-grid-col-4 desktop-lg:vads-grid-col-3">

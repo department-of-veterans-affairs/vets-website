@@ -13,7 +13,6 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectGroupingFlag } from '../../util/selectors';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectPrescriptionId } from '../../selectors/selectPrescription';
 import { selectFilterOption } from '../../selectors/selectPreferences';
@@ -34,9 +33,8 @@ const MedicationsList = props => {
   ]?.LABEL.toLowerCase();
   const totalMedications = pagination.totalEntries;
   const prescriptionId = useSelector(selectPrescriptionId);
-  const showGroupingFlag = useSelector(selectGroupingFlag);
 
-  const perPage = showGroupingFlag ? 10 : 20;
+  const perPage = 10;
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";

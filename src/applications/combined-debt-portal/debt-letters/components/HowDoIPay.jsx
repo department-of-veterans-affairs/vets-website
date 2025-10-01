@@ -15,7 +15,7 @@ const HowDoIPay = ({ userData }) => {
   const { deductionCode } = userData;
 
   return (
-    <article className="vads-u-padding-x--0">
+    <section>
       <h2
         id="howDoIPay"
         className="vads-u-margin-top--4 vads-u-margin-bottom-2"
@@ -71,7 +71,11 @@ const HowDoIPay = ({ userData }) => {
       )}
 
       <va-accordion open-single>
-        <va-accordion-item header="Review what these terms mean:" id="first">
+        <va-accordion-item
+          header="Review what these terms mean:"
+          id="first"
+          bordered
+        >
           <ul>
             <li>
               <strong>File Number</strong> is your VA claim number. This field
@@ -135,7 +139,7 @@ const HowDoIPay = ({ userData }) => {
         <br />
         USA
       </p>
-    </article>
+    </section>
   );
 };
 

@@ -79,10 +79,12 @@ export const resultsDCs = Object.freeze({
     Q_1_1_CLAIM_DECISION: YES,
     Q_1_2_CLAIM_DECISION: YES,
     Q_1_3_CLAIM_CONTESTED: NO,
-    Q_2_IS_1_SERVICE_CONNECTED: NO,
     Q_2_0_CLAIM_TYPE: [INIT, SC],
     Q_2_IS_1A_LAW_POLICY_CHANGE: NO,
     Q_2_IS_1B_NEW_EVIDENCE: NO,
+    NONE_OF: {
+      Q_2_IS_4_DISAGREE_DECISION: YES,
+    },
   },
   RESULTS_2_IS_1D: {
     Q_1_1_CLAIM_DECISION: YES,

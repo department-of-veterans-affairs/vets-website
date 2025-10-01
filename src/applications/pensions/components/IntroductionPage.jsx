@@ -35,7 +35,7 @@ const IntroductionPage = props => {
       </p>
       <va-link
         href="https://www.va.gov/resources/how-are-pension-benefits-and-disability-compensation-different/"
-        text="Learn about the different types of pensions"
+        text="Learn about the differences between pension benefits and disability compensation"
       />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started

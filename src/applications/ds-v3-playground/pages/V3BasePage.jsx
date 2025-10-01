@@ -9,6 +9,7 @@ import {
   VaAlert,
   VaButton,
   VaButtonPair,
+  VaButtonSegmented,
   VaCheckbox,
   VaCheckboxGroup,
   VaMemorableDate,
@@ -26,6 +27,8 @@ import {
   VaIcon,
   VaLanguageToggle,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
+
+import VaFileInputMultiple from './VaFileInputMultiple';
 
 export default function V3BasePage() {
   /** @param {import('react').FormEvent | import('@department-of-veterans-affairs/web-components/dist/types/components').VaSelectCustomEvent } evt */
@@ -126,19 +129,18 @@ export default function V3BasePage() {
     <>
       <div className="vads-grid-container vads-font-sans">
         <div className="vads-grid-row">
-          <h1>V3 Without Formation Demo</h1>
+          <h1>VA Design System Component Demos</h1>
         </div>
-        <div>
-          <VaPagination
-            onPageSelect={function noRefCheck() {}}
-            page={3}
-            pages={6}
-            showLastPage
-            uswds
-          />
+        <div className="border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaFileInputMultipl" className="vads-grid-col font-ui-md">
+            File Input Multiple
+          </h2>
+          <VaFileInputMultiple />
         </div>
-        <div>
-          <h2 className="vads-grid-col font-ui-md">VA-Icon Component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaIcon" className="vads-grid-col font-ui-md">
+            Icon Component
+          </h2>
           <VaIcon
             icon="alarm"
             size={4}
@@ -146,8 +148,24 @@ export default function V3BasePage() {
           />
         </div>
         {/* Text Input */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Text input component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaPagination" className="vads-grid-col font-ui-md">
+            Pagination component
+          </h2>
+          <div className="vads-grid-col">
+            <VaPagination
+              onPageSelect={function noRefCheck() {}}
+              page={3}
+              pages={6}
+              showLastPage
+            />
+          </div>
+        </div>
+        {/* Text Input */}
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaTextInput" className="vads-grid-col font-ui-md">
+            Text input component
+          </h2>
           <div className="vads-grid-col">
             <VaTextInput
               uswds
@@ -161,8 +179,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Select */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Select component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaSelect" className="vads-grid-col font-ui-md">
+            Select component
+          </h2>
           <div className="vads-grid-col">
             <VaSelect
               uswds
@@ -179,8 +199,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Radio */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Radio component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaRadio" className="vads-grid-col font-ui-md">
+            Radio component
+          </h2>
           <div className="vads-grid-col">
             <VaRadio
               uswds
@@ -212,8 +234,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Checkbox */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Checkbox component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaCheckbox" className="vads-grid-col font-ui-md">
+            Checkbox component
+          </h2>
           <div className="vads-grid-col">
             <VaCheckboxGroup
               uswds
@@ -229,8 +253,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Memorable Date */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Memorable date component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaMemorableDate" className="vads-grid-col font-ui-md">
+            Memorable date component
+          </h2>
           <div className="vads-grid-col">
             <VaMemorableDate
               name="v3MemorableDate"
@@ -245,8 +271,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Textarea */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Textarea component</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaTextarea" className="vads-grid-col font-ui-md">
+            Textarea component
+          </h2>
           <div className="vads-grid-col">
             <VaTextarea
               name="v3TextArea"
@@ -260,8 +288,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Button pair */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Button pair</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaButtonPair" className="vads-grid-col font-ui-md">
+            Button pair
+          </h2>
           <div className="vads-grid-col">
             <VaButtonPair
               continue
@@ -278,8 +308,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Button */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Button</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaButton" className="vads-grid-col font-ui-md">
+            Button
+          </h2>
           <div className="vads-grid-col">
             <VaButton
               onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
@@ -290,9 +322,24 @@ export default function V3BasePage() {
           </div>
         </div>
 
+        <div className="border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaButtonSegmented" className="vads-grid-col font-ui-md">
+            Segmented Button
+          </h2>
+          <VaButtonSegmented
+            buttons={[
+              { label: 'Option 1', value: 'option-1' },
+              { label: 'Option 2', value: 'option-2' },
+              { label: 'Option 3', value: 'option-3' },
+            ]}
+          />
+        </div>
+
         {/* Modal */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Modal</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaModal" className="vads-grid-col font-ui-md">
+            Modal
+          </h2>
           <div className="vads-grid-col padding-bottom-2">
             <VaButton
               onClick={openModalV3}
@@ -315,8 +362,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Privacy Agreement */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Privacy Agreement</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaPrivacyAgreement" className="vads-grid-col font-ui-md">
+            Privacy Agreement
+          </h2>
           <div className="vads-grid-col">
             <VaPrivacyAgreement
               id="v3PrivacyAgreement"
@@ -337,8 +386,10 @@ export default function V3BasePage() {
         </div>
 
         {/* Alert */}
-        <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Alert</h2>
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaAlert" className="vads-grid-col font-ui-md">
+            Alert
+          </h2>
           <div className="vads-grid-col">
             <h3>Statuses</h3>
             <VaAlert
@@ -406,14 +457,14 @@ export default function V3BasePage() {
               </div>
             </VaAlert>
             <br />
-            <h4>Not Closable</h4>
+            <h3>Not Closable</h3>
             <VaAlert status="continue" showIcon="true" uswds="true">
               <h2 slot="headline">Alert - Not Closable</h2>
               <div>
                 <p>This is an alert that cannot be closed</p>
               </div>
             </VaAlert>
-            <h4>Background Only with Icon</h4>
+            <h3>Background Only with Icon</h3>
             <VaAlert
               status="continue"
               showIcon="true"
@@ -426,7 +477,7 @@ export default function V3BasePage() {
               </div>
             </VaAlert>
             <br />
-            <h4>Slim Alerts</h4>
+            <h3>Slim Alerts</h3>
             <VaAlert status="info" slim="true" uswds="true">
               <p className="margin-y-0">This is a slim info alert</p>
             </VaAlert>
@@ -451,13 +502,15 @@ export default function V3BasePage() {
 
         {/* Progress bar - segmented */}
         <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Progress bar - segmented</h2>
+          <h2 id="vaProgressBarSegmented" className="vads-grid-col font-ui-md">
+            Progress bar - segmented
+          </h2>
           <div className="vads-grid-col">
+            <h3>V3 VA Benefits</h3>
             <VaSegmentedProgressBar
               centered-labels
               counters="small"
               current={2}
-              heading-text="V3 VA Benefits"
               label="Label is here"
               labels="Personal Information;Household Status;Supporting Documents;Signature;Review and Submit"
               total={5}
@@ -468,7 +521,9 @@ export default function V3BasePage() {
 
         {/* Additional Info */}
         <div className="vads-grid-row vads-flex-direction-column border-bottom">
-          <h2 className="vads-grid-col font-ui-md">Additional Info</h2>
+          <h2 id="vaAdditionalInfo" className="vads-grid-col font-ui-md">
+            Additional Info
+          </h2>
           <div className="vads-grid-col">
             <VaAdditionalInfo trigger="Expand Additional Information" uswds>
               <div>Here are some items</div>
@@ -484,7 +539,9 @@ export default function V3BasePage() {
 
         {/* Process List */}
         <div className="grid-row flex-column border-bottom">
-          <h2 className="grid-col font-ui-md">Process List</h2>
+          <h2 id="vaProcessList" className="grid-col font-ui-md">
+            Process List
+          </h2>
           <div className="grid-col">
             <VaProcessList uswds>
               <VaProcessListItem>

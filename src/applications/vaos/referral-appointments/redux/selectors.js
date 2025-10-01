@@ -13,10 +13,6 @@ export function getAppointmentCreateStatus(state) {
   return state.referral.appointmentCreateStatus;
 }
 
-export function getCachedDraftAppointmentInfo(state) {
-  return state.referral.draftAppointmentInfo;
-}
-
 export function getReferrals(state) {
   return {
     referrals: state.referral.referrals,

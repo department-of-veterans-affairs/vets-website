@@ -10,7 +10,7 @@ export default function NoAddressNote({ optionType }) {
       add your home address to your VA profile.
       <br />
       <NewTabAnchor href="/profile/contact-information">
-        Manage your contact information (opens in new tab)
+        Manage your contact information (opens in a new tab)
       </NewTabAnchor>
     </p>
   );

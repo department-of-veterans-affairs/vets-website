@@ -66,9 +66,8 @@ const VeteranContactInformationPage = ({
   );
   const profileHomePhoneString = convertPhoneObjectToString(profileHomePhone);
   const phoneSource =
-    data['view:phoneSource'] || phone || profileMobilePhoneString
-      ? 'Mobile'
-      : 'Home';
+    data['view:phoneSource'] ||
+    (phone || profileMobilePhoneString ? 'Mobile' : 'Home');
 
   // Get international phone from mobile or home, if it's international
   let profileInternationalPhone = null;
@@ -124,7 +123,7 @@ const VeteranContactInformationPage = ({
     }
 
     updateContactInfo({
-      'view:phoneSource': data['view:phoneSource'] || phoneSource,
+      'view:phoneSource': phoneSource,
       email: email || profileEmail?.emailAddress || '',
       phone: phone || profileMobilePhoneString || profileHomePhoneString || '',
       address: newAddress,
@@ -356,7 +355,7 @@ const VeteranContactInformationPage = ({
 
       <va-card class="vads-u-margin-top--3" data-field="phone">
         <h4 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          {`${data['view:phoneSource']} phone number`}
+          {`${phoneSource} phone number`}
         </h4>
         <div className="phone vads-u-margin-y--2">
           {phone ? (
@@ -373,7 +372,7 @@ const VeteranContactInformationPage = ({
         <EditCardLink
           value={phone}
           name="phone"
-          type={data['view:phoneSource']}
+          type={phoneSource}
           onClick={handlers.editClick}
         />
       </va-card>

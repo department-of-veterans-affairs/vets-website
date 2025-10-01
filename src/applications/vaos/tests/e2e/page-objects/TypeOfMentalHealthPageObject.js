@@ -16,7 +16,7 @@ class TypeOfMentalHealthPageObject extends PageObject {
   }
 
   selectTypeOfMentalHealth(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

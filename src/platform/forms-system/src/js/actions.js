@@ -14,6 +14,7 @@ export const SET_SUBMISSION = 'SET_SUBMISSION';
 export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
+export const TOGGLE_ALL_REVIEW_CHAPTERS = 'TOGGLE_ALL_REVIEW_CHAPTERS';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
 export const SET_ITF = 'SET_ITF';
 
@@ -29,6 +30,13 @@ export function openReviewChapter(openedChapter) {
   return {
     type: OPEN_REVIEW_CHAPTER,
     openedChapter,
+  };
+}
+
+export function toggleAllReviewChapters(chapters) {
+  return {
+    type: TOGGLE_ALL_REVIEW_CHAPTERS,
+    chapters,
   };
 }
 

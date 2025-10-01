@@ -64,7 +64,7 @@ describe('Medical Records View Vaccine Details', () => {
 
     // Verify we're back on the vaccines list page
     cy.url().should('include', '/vaccines');
-    cy.get('[data-testid="record-list-item"]').should('be.visible');
+    cy.findAllByTestId('record-list-item').should('be.visible');
 
     // Accessibility check
     cy.injectAxeThenAxeCheck();

@@ -8,7 +8,7 @@ export const relationshipLabels = {
   CHILD: 'Child/children',
   PARENT: 'Parent',
   CUSTODIAN: 'Custodian of child',
-  OTHER: 'Another dependent not listed here ',
+  OTHER: 'Another dependent not listed here',
 };
 
 export const parentRelationshipLabels = {
@@ -20,7 +20,7 @@ export const parentRelationshipLabels = {
 export const spouseRelationshipLabels = {
   SPOUSE: 'Surviving spouse',
   CHILD: 'Child/children',
-  OTHER: 'Another dependent not listed here ',
+  OTHER: 'Another dependent not listed here',
 };
 
 export const custodianRelationshipLabels = {
@@ -28,6 +28,16 @@ export const custodianRelationshipLabels = {
   SPOUSE: 'Custodian’s spouse',
   CHILD: 'Veteran’s surviving child',
   OTHER: 'Another dependent not listed here',
+};
+
+export const custodianRelationshipLabelDescriptions = {
+  CUSTODIAN: 'Unless the child’s custodian is an institution',
+  SPOUSE:
+    'Unless you’re estranged, live apart, and don’t contribute to their support',
+};
+
+export const spouseRelationshipLabelDescriptions = {
+  CHILD: 'Unless you don’t have custody and don’t provide financial support',
 };
 
 export const relationshipLabelDescriptions = {
@@ -50,11 +60,11 @@ export const transferMethodLabels = {
 };
 
 export const claimantTypeLabels = {
-  VETERAN: "I'm a Veteran submitting this form to support my own claim",
-  SPOUSE: "I'm the Veteran's surviving spouse",
-  CHILD: "I'm the Veteran's surviving child",
-  CUSTODIAN: "I'm the custodian of a Veteran's surviving child",
-  PARENT: "I'm the Veteran's surviving parent",
+  VETERAN: 'I’m a Veteran submitting this form to support my own claim',
+  SPOUSE: 'I’m the Veteran’s surviving spouse',
+  CHILD: 'I’m the Veteran’s surviving child',
+  CUSTODIAN: 'I’m the custodian of a Veteran’s surviving child',
+  PARENT: 'I’m the Veteran’s surviving parent',
 };
 
 export const incomeFrequencyLabels = {

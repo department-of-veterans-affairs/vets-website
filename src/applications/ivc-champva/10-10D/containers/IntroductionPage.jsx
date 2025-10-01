@@ -24,7 +24,7 @@ const IntroductionPage = props => {
       />
 
       <p>
-        If you’re the spouse, dependant, or survivor of a Veteran or service
+        If you’re the spouse, dependent, or survivor of a Veteran or service
         member who meets certain requirements, you may qualify for health
         insurance through the Civilian Health and Medical Program of the
         Department of Veterans Affairs (CHAMPVA).

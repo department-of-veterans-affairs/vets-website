@@ -4,8 +4,10 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import MockDate from 'mockdate';
+import { subDays, addDays, format } from 'date-fns';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import reducer from '../../redux/reducer';
@@ -188,6 +190,39 @@ describe('TravelPayStatusApp', () => {
 
     // Verify the title remains as the default since this component doesn't set a custom title
     expect(document.title).to.equal('Travel Pay | Veterans Affairs');
+  });
+
+  it('shows downtime alert during maintenance window', () => {
+    const serviceMap = createServiceMap([
+      {
+        attributes: {
+          externalService: 'travel_pay',
+          status: 'down',
+          startTime: format(subDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+          endTime: format(addDays(new Date(), 1), "yyyy-LL-dd'T'HH:mm:ss"),
+        },
+      },
+    ]);
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: {
+        ...getData({
+          areFeatureTogglesLoading: false,
+          hasFeatureFlag: true,
+        }),
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap,
+          dismissedDowntimeWarnings: [],
+        },
+      },
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    expect(screen.getByText(/is down for maintenance/i)).to.exist;
   });
 
   // TODO: Figure out why this is still rendering a loading spinner....

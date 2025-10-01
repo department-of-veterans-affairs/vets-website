@@ -10,6 +10,11 @@
   margin-top: 0;
 }
 
+.vaos-radio__label-description {
+    display: block;
+    margin-top: 0.5rem
+}
+
 .vaos-form__radio-field, .vaos-form__radio-field-descriptive {
   va-radio {
     max-width: none;

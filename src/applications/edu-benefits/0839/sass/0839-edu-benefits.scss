@@ -13,3 +13,29 @@
     padding-inline: 0;
   }
 }
+
+.acknowledgements-page {
+  va-text-input::part(label) {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: $small-screen) {
+  .form-22-0839-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-0839-container .schemaform-buttons,
+  .form-22-0839-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}

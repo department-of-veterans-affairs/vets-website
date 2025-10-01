@@ -84,9 +84,6 @@ export function transform(formConfig, form) {
     return {
       ...clonedData,
       isEmployed: clonedData.isEmployed ? clonedData.isEmployed : false,
-      highestLevelOfEducation: clonedData.highestLevelOfEducation
-        ? clonedData.highestLevelOfEducation
-        : 'NA',
     };
   };
 

@@ -1,0 +1,9 @@
+{
+  "data": {
+    "fullName": {
+      "first": "John",
+      "last": "Doe"
+    },
+    "dateOfBirth": "1980-01-01"
+  }
+}

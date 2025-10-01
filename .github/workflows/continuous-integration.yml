@@ -2124,7 +2124,12 @@ jobs:
           echo "continuous_deployment=${{ needs.build.outputs.continuous_deployment }}"
           echo "slack_channel=${{ steps.determine-channel.outputs.channel }}"
 
+      - name: Check if today is a holiday
+        id: holiday-check
+        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+
       - name: Dispatch Event to Next Workflow
+        if: steps.holiday-check.outputs.is_holiday == 'false'
         run: |
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
@@ -2135,6 +2140,10 @@ jobs:
           --arg entry "${{ needs.build.outputs.entry_names }}" \
           --arg slack_channel "${{ steps.determine-channel.outputs.channel }}" \
           '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, entry_app: $entry, slack_channel: $slack_channel}}')"
+
+      - name: Cancel CD dispatch due to holiday
+        if: steps.holiday-check.outputs.is_holiday == 'true'
+        run: echo "Skipping CD dispatch; holiday freeze is active."
                          
   notify-failure:
     name: Notify Failure

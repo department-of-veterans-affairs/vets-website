@@ -17,7 +17,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayDomains = true,
     mhvMedicalRecordsDisplaySidenav = true,
-    mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvMedicalRecordsMarch17Updates = true,
 
@@ -135,10 +134,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_display_sidenav',
           value: mhvMedicalRecordsDisplaySidenav,
-        },
-        {
-          name: 'mhv_medical_records_display_settings_page',
-          value: mhvMedicalRecordsDisplaySettingsPage,
         },
         {
           name: 'mhv_medical_records_to_va_gov_release',

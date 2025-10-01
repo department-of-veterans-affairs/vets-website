@@ -600,7 +600,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       await cleanup();
 
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPTOMETRY_ID);
+      await setTypeOfEyeCare(store, /Optometry/);
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1162,7 +1162,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPTOMETRY_ID);
+      await setTypeOfEyeCare(store, /Optometry/);
 
       // Act
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
@@ -1173,7 +1173,7 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
-      await setTypeOfEyeCare(store, TYPE_OF_CARE_IDS.OPHTHALMOLOGY_ID);
+      await setTypeOfEyeCare(store, /Ophthalmology/);
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });

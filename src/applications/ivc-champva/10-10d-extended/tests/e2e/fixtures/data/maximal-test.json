@@ -16,7 +16,6 @@
         "applicantAddress": {
           "street": "456 Circle St",
           "street2": "Apt 2",
-          "street3": "Floor 5",
           "city": "Applicant",
           "country": "USA",
           "state": "IN",
@@ -82,7 +81,6 @@
     "certifierAddress": {
       "street": "123 Certifier St",
       "street2": "Apt 5",
-      "street3": "Floor 2",
       "city": "Citytown",
       "country": "USA",
       "state": "AL",

@@ -4,7 +4,6 @@ import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 /** @type {PageSchema} */
 export default {
@@ -12,15 +11,11 @@ export default {
     wcv3FileInputMultiple: fileInputMultipleUI({
       title: 'Web component v3 file input',
       required: true,
-      fileUploadUrl: `${
-        environment.API_URL
-      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-      accept: '.png,.pdf,.txt',
       hint: 'Upload a file that is between 1KB and 5MB',
       headerSize: '3',
       formNumber: '31-4159',
       // disallowEncryptedPdfs: true,
-      // skipUpload: true, // mock-forms does not have a backend for upload
+      skipUpload: true, // mock-forms does not have a backend for upload
       maxFileSize: 1024 * 1024 * 5,
       minFileSize: 1,
       errorMessages: {

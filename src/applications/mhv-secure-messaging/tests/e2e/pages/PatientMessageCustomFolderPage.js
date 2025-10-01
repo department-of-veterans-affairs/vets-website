@@ -200,10 +200,9 @@ class PatientMessageCustomFolderPage {
       'updatedFoldersList',
     );
 
-    cy.get(Locators.FOLDERS.FOLDER_REMOVE)
-      .shadow()
-      .find('[type="button"]')
-      .click();
+    cy.findByTestId(Locators.FOLDERS.FOLDER_REMOVE_DATA_TEST_ID).click({
+      force: true,
+    });
   };
 
   deleteParticularCustomFolder = (folderId, updatedFoldersResponse) => {

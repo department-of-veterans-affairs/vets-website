@@ -2,36 +2,28 @@
 import BaseDetailsPage from './BaseDetailsPage';
 
 class NotesDetailsPage extends BaseDetailsPage {
-  /*
-    clickGotoNotesLink = (
-     /* Notes = defaultNotes,
-      waitForNotes = false,
-    ) => {
-      cy.intercept(
-        'GET',
-        '/my_health/v1/medical_records/notes',
-        Notes,
-      ).as('NotesList');
-      cy.get('[href="/my-health/medical-records/notes"]').click();
-      if (waitForNotes) {
-        cy.wait('@NotesList');
-      }
-    });
-  }
-  */
+  clickProgressNoteLink = (progressNoteHeading, index = 0) => {
+    const query = () =>
+      cy.findAllByTestId('note-name', { includeShadowDom: true });
 
-  clickProgressNoteLink = (ProgressNote = 0) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(ProgressNote)
-      .click();
+    // Wait until at least one match exists (retried)
+    query()
+      .filter(`:contains("${progressNoteHeading}")`)
+      .should('have.length.greaterThan', 0);
+
+    // Capture the specific target
+    query()
+      .filter(`:contains("${progressNoteHeading}")`)
+      .eq(index)
+      .as('noteToClick');
+
+    cy.get('@noteToClick').scrollIntoView();
+    cy.get('@noteToClick').should('be.visible');
+    cy.get('@noteToClick').click();
   };
 
-  clickDischargeSummaryLink = (DischargeSummary = 1) => {
-    cy.get('[data-testid="record-list-item"]')
-      .find('a')
-      .eq(DischargeSummary)
-      .click();
+  clickDischargeSummaryLink = (index = 0) => {
+    this.clickProgressNoteLink('Discharge Summary', index);
   };
 
   verifyProgressNoteTitle = expectedTitle => {

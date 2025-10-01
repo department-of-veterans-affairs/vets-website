@@ -2094,12 +2094,6 @@
 },
 {
   "domain": "www.benefits.va.gov",
-  "src": "/compensation/dbq_disabilityexams.asp",
-  "dest": "/disability/how-to-file-claim/evidence-needed/",
-  "catchAll": true
-},
-{
-  "domain": "www.benefits.va.gov",
   "src": "/compensation/claimexam.asp",
   "dest": "/resources/va-claim-exam/",
   "catchAll": true

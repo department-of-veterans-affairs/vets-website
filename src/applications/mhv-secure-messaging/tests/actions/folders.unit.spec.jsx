@@ -20,6 +20,22 @@ import {
   retrieveFolder,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
+import { edgeCaseBackendError, getFirstError } from '../../util/serverErrors';
+
+describe('generate folder edge case server exception', () => {
+  const badError = {
+    errors: {
+      title: 'Service unavailable',
+      detail: 'Backend Service Outage',
+      code: '503',
+      status: '503',
+    },
+  };
+  const expectedResult = edgeCaseBackendError(badError);
+  const result = getFirstError(badError);
+  expect(result.title).to.equal(expectedResult.title);
+  expect(result.detail).to.equal(expectedResult.detail);
+});
 
 describe('folders actions', () => {
   const middlewares = [thunk];

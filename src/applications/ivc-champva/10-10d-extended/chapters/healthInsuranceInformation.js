@@ -76,14 +76,12 @@ const yesNoOptions = {
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '5',
   hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+    'If so, you must report this information for us to process your application.',
 };
 const yesNoOptionsMore = {
   title: 'Do you have any other health insurance to report?',
-  labelHeaderLevel: '2',
-  labelHeaderLevelStyle: '5',
   hint:
-    'If so, you must report this information for us to process your application for CHAMPVA benefits.',
+    'If so, you must report this information for us to process your application.',
 };
 export const healthInsuranceOptions = {
   arrayPath: 'healthInsurance',
@@ -316,7 +314,7 @@ export const healthInsurancePages = arrayBuilderPages(
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
       path: 'review-your-health-insurance-plans',
-      title: 'Review your plans',
+      title: 'Report other health insurance',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),

@@ -15,7 +15,7 @@ import {
   selectCommunityCareSupportedSites,
   selectPageChangeInProgress,
 } from '../redux/selectors';
-import SimpleRadioWidget from './SimpleRadioWidget';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const pageKey = 'ccClosestCity';
 
@@ -25,7 +25,7 @@ export default function ClosestCityStatePage() {
   const uiSchema = {
     communityCareSystemId: {
       'ui:title': pageTitle,
-      'ui:widget': SimpleRadioWidget,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:errorMessages': {
         required: 'Select a city',
       },

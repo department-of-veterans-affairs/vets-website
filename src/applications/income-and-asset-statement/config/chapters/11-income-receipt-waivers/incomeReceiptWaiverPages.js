@@ -29,6 +29,7 @@ import {
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  requireExpandedArrayField,
   resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels } from '../../../labels';
@@ -138,6 +139,7 @@ const relationshipPage = {
       'ui:options': {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherRecipientRelationshipExplanationRequired(
@@ -145,6 +147,9 @@ const relationshipPage = {
           index,
           'incomeReceiptWaivers',
         ),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {

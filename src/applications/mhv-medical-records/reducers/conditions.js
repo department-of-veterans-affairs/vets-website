@@ -152,14 +152,6 @@ export const conditionReducer = (state = initialState, action) => {
         conditionDetails,
       };
     }
-    case Actions.Conditions.GET_UNIFIED_ITEM_FROM_LIST: {
-      return {
-        ...state,
-        conditionDetails: action.response.data.id
-          ? convertUnifiedCondition(action.response.data)
-          : { ...action.response.data },
-      };
-    }
     case Actions.Conditions.GET_FROM_LIST: {
       return {
         ...state,
@@ -188,6 +180,12 @@ export const conditionReducer = (state = initialState, action) => {
         listState: loadStates.FETCHED,
         conditionsList: typeof oldList === 'undefined' ? newList : oldList,
         updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Conditions.GET_UNIFIED_ITEM: {
+      return {
+        ...state,
+        conditionDetails: convertUnifiedCondition(action.response.data),
       };
     }
     case Actions.Conditions.GET_UNIFIED_LIST: {

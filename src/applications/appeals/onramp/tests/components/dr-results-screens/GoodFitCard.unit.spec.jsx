@@ -15,7 +15,7 @@ describe('GoodFitCard', () => {
     sandbox.stub(utils, 'getCardTitle').returns('Higher-Level Review');
     sandbox.stub(utils, 'getCardContent').returns(
       <ul>
-        <li>You have new or relevant evidence</li>
+        <li>You have new and relevant evidence</li>
       </ul>,
     );
 
@@ -48,7 +48,7 @@ describe('GoodFitCard', () => {
       <GoodFitCard card={card} formResponses={formResponses} />,
     );
 
-    expect(screen.getByText('You have new or relevant evidence')).to.exist;
+    expect(screen.getByText('You have new and relevant evidence')).to.exist;
   });
 
   it('renders the average decision timeline', () => {

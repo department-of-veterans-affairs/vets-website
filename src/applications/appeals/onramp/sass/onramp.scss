@@ -15,7 +15,6 @@
   .not-good-fit-card {
     margin-top: 1.5em;
     padding: 1em 1em 1.5em;
-    background-color: $vads-color-base-lightest;
   }
 
   va-radio::part(form-header) {
@@ -25,6 +24,12 @@
   va-card, .not-good-fit-card {
     ul {
       list-style-type: disc;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .print-button {
+      width: 100%;
     }
   }
 }

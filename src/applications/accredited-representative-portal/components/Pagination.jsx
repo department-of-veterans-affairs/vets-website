@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { focusElement } from 'platform/utilities/ui';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SEARCH_PARAMS } from '../utilities/poaRequests';
 
@@ -21,10 +22,16 @@ const Pagination = ({ meta, defaults }) => {
       navigate(
         `?status=${status}&sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${page}&pageSize=${pageSize}&as_selected_individual=${selectedIndividual}`,
       );
+      setTimeout(() => {
+        focusElement('.poa-request__meta');
+      }, 500);
     } else {
       navigate(
         `?sortOrder=${sort}&sortBy=${sortBy}&pageNumber=${page}&pageSize=${pageSize}`,
       );
+      setTimeout(() => {
+        focusElement('.poa-request__meta');
+      }, 500);
     }
   };
 

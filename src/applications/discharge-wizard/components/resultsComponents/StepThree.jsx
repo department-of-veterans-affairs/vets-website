@@ -51,7 +51,8 @@ const StepThree = ({ formResponses }) => {
 
   return (
     <va-process-list-item header={headerText} level="2">
-      {formResponses.SERVICE_BRANCH === RESPONSES.AIR_FORCE ? (
+      {formResponses.SERVICE_BRANCH === RESPONSES.AIR_FORCE ||
+      formResponses.SERVICE_BRANCH === RESPONSES.SPACE_FORCE ? (
         <p>
           Based on your answers, you need to complete an Application for
           Correction of Military Record (DD 149). You can download this form

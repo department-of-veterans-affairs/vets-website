@@ -16,8 +16,8 @@ import {
   emailUI,
   emailSchema,
   radioSchema,
-  phoneUI,
-  phoneSchema,
+  internationalPhoneUI,
+  internationalPhoneSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -67,6 +67,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  formOptions: {
+    filterInactiveNestedPageData: true,
+  },
   customText: {
     reviewPageTitle: 'Review and submit',
     submitButtonText: 'Submit',
@@ -254,22 +257,16 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'Enter a 10-digit U.S. phone number',
+              'Include a country code for foreign phone numbers',
             ),
-            messageAriaDescribedby: 'Enter a 10-digit U.S. phone number',
-            veteranPhoneNumber: merge({}, phoneUI(), {
-              'ui:errorMessages': {
-                required:
-                  'Please enter a 10-digit U.S. phone number (with or without dashes)',
-              },
-            }),
+            veteranPhoneNumber: internationalPhoneUI('Phone number'),
             veteranEmailAddress: emailUI(),
           },
           schema: {
             type: 'object',
             required: ['veteranPhoneNumber', 'veteranEmailAddress'],
             properties: {
-              veteranPhoneNumber: phoneSchema,
+              veteranPhoneNumber: internationalPhoneSchema({ required: true }),
               veteranEmailAddress: emailSchema,
             },
           },

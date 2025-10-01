@@ -30,6 +30,7 @@ const DropdownContainer = profile => {
           dataTestId="user-nav-user-name"
           isOpen={openDropdownId === 'profileMenu'}
           setOpenDropdownId={setOpenDropdownId}
+          dropdownClass="nav__profile-menu"
           className="nav__btn nav__btn--user vads-u-color--base arp-profile-dropdown"
           srText="toggle profile menu"
           firstName={profile.profile.firstName}

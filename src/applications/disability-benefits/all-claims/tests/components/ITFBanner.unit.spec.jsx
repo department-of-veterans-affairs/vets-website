@@ -14,7 +14,13 @@ describe('ITFBanner', () => {
   });
 
   it('should render an itf found message', () => {
-    const tree = mount(<ITFBanner status="itf-found" />);
+    const tree = mount(
+      <ITFBanner
+        status="itf-found"
+        title="Intent to File"
+        currentExpDate="2025-12-31T00:00:00.000+0000"
+      />,
+    );
     expect(tree.text()).to.contain(
       'Our records show that you already have an Intent to File',
     );
@@ -22,7 +28,15 @@ describe('ITFBanner', () => {
   });
 
   it('should render an itf created message', () => {
-    const tree = mount(<ITFBanner status="itf-created" />);
+    const tree = mount(
+      <ITFBanner
+        status="itf-created"
+        title="Intent to File"
+        currentExpDate="2025-12-31T00:00:00.000+0000"
+        previousExpDate="2024-12-31T00:00:00.000+0000"
+        previousITF
+      />,
+    );
     expect(tree.text()).to.contain(
       'Thank you for submitting your Intent to File request',
     );

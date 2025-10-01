@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import sinon from 'sinon-v20';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
@@ -556,6 +556,110 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       pathname: '/employers/pageB/0',
     });
     expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employer-0');
+  });
+});
+
+describe('arrayBuilderPages maxItems (function vs number)', () => {
+  let maxItemsFnStub;
+
+  afterEach(() => {
+    if (maxItemsFnStub) {
+      maxItemsFnStub.restore();
+      maxItemsFnStub = null;
+    }
+  });
+
+  it('should attach array-level updateSchema and omits static maxItems when `maxItems` is a function', () => {
+    const maxItemsFnInput = fd => (fd?.employers?.length ?? 0) + 1;
+    const options = {
+      ...validOptionsRequiredFlow,
+      maxItems: maxItemsFnInput,
+    };
+
+    // Stub helpers.maxItemsFn to ensure we control the return
+    maxItemsFnStub = sinon
+      .stub(helpers, 'maxItemsFn')
+      .callsFake((fn, formData) => {
+        expect(fn).to.equal(maxItemsFnInput);
+        expect(formData).to.deep.equal({
+          hasEmployment: true,
+          employers: [{}, {}],
+        });
+        return 5;
+      });
+
+    const pages = arrayBuilderPages(options, validPages);
+    const { pageA } = pages;
+
+    // Assert: schema omits static maxItems (because it’s a function)
+    const arraySchema = pageA.schema.properties.employers;
+    expect(arraySchema).to.exist;
+    expect(arraySchema.maxItems).to.equal(undefined);
+
+    // Assert: array-level updateSchema is attached
+    const update = pageA.uiSchema.employers['ui:options']?.updateSchema;
+    expect(update).to.be.a('function');
+
+    // Act: run the updater
+    const resultSchema = update(
+      { hasEmployment: true, employers: [{}, {}] },
+      pageA.schema,
+      pageA.uiSchema,
+    );
+
+    // Assert: updater writes numeric maxItems
+    const updatedArraySchema = resultSchema.properties.employers;
+    expect(updatedArraySchema.maxItems).to.equal(5);
+    sinon.assert.calledOnce(maxItemsFnStub);
+  });
+
+  it('should write static `maxItems` and omit array-level `updateSchema` when `maxItems` is a number', () => {
+    const options = {
+      ...validOptionsRequiredFlow,
+      maxItems: 7,
+    };
+
+    const pages = arrayBuilderPages(options, validPages);
+    const { pageA } = pages;
+
+    // Static schema includes maxItems
+    const arraySchema = pageA.schema.properties.employers;
+    expect(arraySchema.maxItems).to.equal(7);
+
+    // No array-level updater
+    const uiOpts = pageA.uiSchema.employers['ui:options'];
+    expect(uiOpts && uiOpts.updateSchema).to.equal(undefined);
+  });
+
+  it('should not set `maxItems` if `maxItemsFn` returns a non-finite value', () => {
+    const options = {
+      ...validOptionsRequiredFlow,
+      maxItems: () => NaN,
+    };
+
+    maxItemsFnStub = sinon.stub(helpers, 'maxItemsFn').returns(NaN);
+
+    const pages = arrayBuilderPages(options, validPages);
+    const { pageA } = pages;
+
+    // No static maxItems when function
+    const arraySchema = pageA.schema.properties.employers;
+    expect(arraySchema.maxItems).to.equal(undefined);
+
+    // Updater exists
+    const update = pageA.uiSchema.employers['ui:options']?.updateSchema;
+    expect(update).to.be.a('function');
+
+    // Run updater
+    const resultSchema = update(
+      { hasEmployment: true, employers: [{}] },
+      pageA.schema,
+      pageA.uiSchema,
+    );
+
+    // Since evaluated value is non-finite, updater should NOT write maxItems
+    const updatedArraySchema = resultSchema.properties.employers;
+    expect(updatedArraySchema.maxItems).to.equal(undefined);
   });
 });
 

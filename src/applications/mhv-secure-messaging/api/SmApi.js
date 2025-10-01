@@ -184,20 +184,30 @@ export const updateReplyDraft = (replyToId, draftMessageId, message) => {
  * @param {Boolean} attachmentFlag
  * @returns
  */
-export const createMessage = (sendData, attachmentFlag) => {
+export const createMessage = (sendData, attachmentFlag, ohTriageGroup) => {
   if (attachmentFlag === false) {
-    return apiRequest(`${apiBasePath}/messaging/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    return apiRequest(
+      `${apiBasePath}/messaging/messages${
+        ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: sendData,
       },
-      body: sendData,
-    });
+    );
   }
-  return apiRequest(`${apiBasePath}/messaging/messages`, {
-    method: 'POST',
-    body: sendData,
-  });
+  return apiRequest(
+    `${apiBasePath}/messaging/messages${
+      ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+    }`,
+    {
+      method: 'POST',
+      body: sendData,
+    },
+  );
 };
 
 /**
@@ -205,20 +215,35 @@ export const createMessage = (sendData, attachmentFlag) => {
  * @param {*} message
  * @returns
  */
-export const createReplyToMessage = (replyToId, sendData, attachmentFlag) => {
+export const createReplyToMessage = (
+  replyToId,
+  sendData,
+  attachmentFlag,
+  ohTriageGroup,
+) => {
   if (attachmentFlag === false) {
-    return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    return apiRequest(
+      `${apiBasePath}/messaging/messages/${replyToId}/reply${
+        ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: sendData,
       },
-      body: sendData,
-    });
+    );
   }
-  return apiRequest(`${apiBasePath}/messaging/messages/${replyToId}/reply`, {
-    method: 'POST',
-    body: sendData,
-  });
+  return apiRequest(
+    `${apiBasePath}/messaging/messages/${replyToId}/reply${
+      ohTriageGroup ? `?is_oh_triage_group=${ohTriageGroup}` : ''
+    }`,
+    {
+      method: 'POST',
+      body: sendData,
+    },
+  );
 };
 
 /**

@@ -79,7 +79,6 @@ describe('CustomReviewTopContent', () => {
 
       expect(fileInput).to.exist;
       expect(fileInput).to.have.attr('read-only', 'true');
-      expect(fileInput).to.have.attr('uswds', 'true');
     });
   });
 

@@ -396,6 +396,7 @@ class ReviewCollapsibleChapter extends React.Component {
             name={page.pageKey}
             title={page.title}
             data={props.form.data}
+            fullData={props.form.data}
             pagePerItemIndex={page.index}
             goToPath={this.goToPath}
             recalculateErrors={this.hasValidationError}

@@ -75,7 +75,7 @@ function Documents({ formData }) {
   const hasSpecialMonthlyPension = formData.specialMonthlyPension;
   const hasSocialSecurityDisability = formData.socialSecurityDisability;
   const livesInNursingHome = formData.nursingHome;
-  const assetsOverThreshold = formData.totalNetWorth; // over $25,000 in assets
+  const assetsOverThreshold = formData.totalNetWorth;
   const homeAcreageMoreThanTwo =
     formData.homeOwnership && formData.homeAcreageMoreThanTwo;
   const hasTransferredAssets = formData.transferredAssets;

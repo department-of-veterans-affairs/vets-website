@@ -10,13 +10,13 @@ class TypeOfSleepCarePageObject extends PageObject {
 
   assertTypeOfSleepCareValidationErrors() {
     this.clickNextButton();
-    this.assertValidationErrorShadow('You must provide a response');
+    this.assertValidationError('You must provide a response');
 
     return this;
   }
 
   selectTypeOfSleepCare(label) {
-    return super.selectRadioButtonShadow(label);
+    return super.selectRadioButton(label);
   }
 }
 

@@ -391,7 +391,7 @@ export const QUESTION_CONTENT = Object.freeze({
     hintText: null,
     questionText: `Did you receive your decision within the last 120 days?`,
     responses: [
-      { [YES]: `I received my decision within the last 120 days.` },
+      { [YES]: `I received my decision on or after ${get120DayDeadline()}.` },
       { [NO]: `I received a Board decision before ${get120DayDeadline()}.` },
     ],
   },
