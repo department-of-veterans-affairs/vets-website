@@ -1,7 +1,6 @@
 import introduction from './introduction';
 import eligibilityCheck from './eligibilityCheck';
 import hasAlreadyFiled from './hasAlreadyFiled';
-import needsWitnessSignature from './needsWitnessSignature';
 import hasUnpaidCreditors from './hasUnpaidCreditors';
 import eligibilitySummary from './eligibilitySummary';
 import veteranIdentification from './veteranIdentification';
@@ -28,7 +27,6 @@ export {
   introduction,
   eligibilityCheck,
   hasAlreadyFiled,
-  needsWitnessSignature,
   hasUnpaidCreditors,
   eligibilitySummary,
   veteranIdentification,

@@ -7,7 +7,6 @@ import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
 import {
   hasAlreadyFiled,
-  needsWitnessSignature,
   hasUnpaidCreditors,
   eligibilitySummary,
   veteranFullName,
@@ -69,19 +68,10 @@ const formConfig = {
           uiSchema: hasAlreadyFiled.uiSchema,
           schema: hasAlreadyFiled.schema,
         },
-        needsWitnessSignature: {
-          path: 'witness-signature',
-          title: 'Signature requirements',
-          depends: formData => formData.hasAlreadyFiled === false,
-          uiSchema: needsWitnessSignature.uiSchema,
-          schema: needsWitnessSignature.schema,
-        },
         hasUnpaidCreditors: {
           path: 'unpaid-creditors',
           title: 'Creditor information',
-          depends: formData =>
-            formData.hasAlreadyFiled === false &&
-            formData.needsWitnessSignature === true,
+          depends: formData => formData.hasAlreadyFiled === false,
           uiSchema: hasUnpaidCreditors.uiSchema,
           schema: hasUnpaidCreditors.schema,
         },
@@ -90,7 +80,6 @@ const formConfig = {
           title: 'Eligibility results',
           depends: formData =>
             formData.hasAlreadyFiled === true ||
-            formData.needsWitnessSignature === false ||
             formData.hasUnpaidCreditors === true,
           uiSchema: eligibilitySummary.uiSchema,
           schema: eligibilitySummary.schema,
@@ -104,7 +93,6 @@ const formConfig = {
       title: 'Veteran information',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.needsWitnessSignature === true &&
         formData.hasUnpaidCreditors === false,
       pages: {
         veteranFullName: {
@@ -125,7 +113,6 @@ const formConfig = {
       title: 'Information about the deceased',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.needsWitnessSignature === true &&
         formData.hasUnpaidCreditors === false,
       pages: {
         beneficiaryIsVeteran: {
@@ -153,7 +140,6 @@ const formConfig = {
       title: 'Your information',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.needsWitnessSignature === true &&
         formData.hasUnpaidCreditors === false,
       pages: {
         claimantIdentification: {
@@ -180,7 +166,6 @@ const formConfig = {
       title: 'Surviving relatives',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.needsWitnessSignature === true &&
         formData.hasUnpaidCreditors === false,
       pages: {
         relativesOverview: {
@@ -206,7 +191,6 @@ const formConfig = {
       title: 'Expenses and debts',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.needsWitnessSignature === true &&
         formData.hasUnpaidCreditors === false &&
         (formData.relationshipToDeceased === 'executor' ||
           formData.relationshipToDeceased === 'creditor' ||

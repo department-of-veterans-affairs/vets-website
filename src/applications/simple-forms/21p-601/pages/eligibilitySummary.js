@@ -10,10 +10,6 @@ function EligibilitySummary({ formData }) {
     reason = "You've already filed for survivor benefits";
     explanation =
       "Your accrued benefits claim is already included in your VA Form 21P-534EZ or 21P-535 application. You don't need to file this form separately.";
-  } else if (formData.needsWitnessSignature === false) {
-    reason = 'You need witness signatures';
-    explanation =
-      "Since you can't sign your full name, you'll need to sign with an X mark and have 2 witnesses also sign the form. This can't be done online.";
   } else if (formData.hasUnpaidCreditors === true) {
     reason = 'You have unpaid creditors';
     explanation =
@@ -23,7 +19,6 @@ function EligibilitySummary({ formData }) {
   // If they're eligible (shouldn't reach this page due to form config)
   if (
     formData.hasAlreadyFiled === false &&
-    formData.needsWitnessSignature === true &&
     formData.hasUnpaidCreditors === false
   ) {
     return (
@@ -64,9 +59,6 @@ function EligibilitySummary({ formData }) {
             <ol>
               <li>Download VA Form 21P-601</li>
               <li>Complete all required sections</li>
-              {formData.needsWitnessSignature === false && (
-                <li>Sign with your X mark and have 2 witnesses sign</li>
-              )}
               {formData.hasUnpaidCreditors === true && (
                 <li>Have your unpaid creditors complete and sign Section IV</li>
               )}
@@ -90,7 +82,6 @@ function EligibilitySummary({ formData }) {
 EligibilitySummary.propTypes = {
   formData: PropTypes.shape({
     hasAlreadyFiled: PropTypes.bool,
-    needsWitnessSignature: PropTypes.bool,
     hasUnpaidCreditors: PropTypes.bool,
   }).isRequired,
 };
