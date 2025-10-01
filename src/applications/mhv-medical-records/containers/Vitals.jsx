@@ -138,12 +138,9 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const PER_PAGE = useMemo(
-    () => {
-      return Object.keys(vitalTypes).length;
-    },
-    [],
-  );
+  const PER_PAGE = useMemo(() => {
+    return Object.keys(vitalTypes).length;
+  }, []);
 
   useEffect(
     () => {
