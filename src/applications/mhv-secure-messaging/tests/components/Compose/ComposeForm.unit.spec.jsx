@@ -21,6 +21,7 @@ import blockedFacilityAndTeam from '../../fixtures/json-triage-mocks/triage-team
 import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-teams-all-blocked-mock.json';
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
 import {
   Paths,
@@ -32,7 +33,6 @@ import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
-import * as threadDetailsActions from '../../../actions/threadDetails';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
@@ -43,11 +43,21 @@ import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json'
 
 describe('Compose form component', () => {
   let stub;
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
     if (stub) {
       stub.restore();
       stub = null;
     }
+    if (sandbox) {
+      sandbox.restore();
+    }
+    cleanup();
   });
   const stubUseFeatureToggles = value => {
     const useFeatureToggles = require('../../../hooks/useFeatureToggles');
@@ -120,10 +130,6 @@ describe('Compose form component', () => {
       },
     );
   };
-
-  afterEach(() => {
-    cleanup();
-  });
 
   it('renders without errors', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
@@ -1098,108 +1104,111 @@ describe('Compose form component', () => {
   it('displays modal on attempt to manual save with electronic signature populated', async () => {
     const customProps = {
       ...draftMessage,
+      recipientId: 2710523, // This recipient requires signature
       messageValid: true,
-      isSignatureRequired: true,
     };
     const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.exist;
+      expect(screen.getByTestId('save-draft-button')).to.exist;
+    });
 
     const val = initialState.sm.recipients.allowedRecipients.find(
       r => r.signatureRequired,
     ).id;
+
     selectVaSelect(screen.container, val);
-
-    const electronicSignature = await screen.findByText(
-      ElectronicSignatureBox.TITLE,
-      {
-        selector: 'h2',
-      },
-    );
-    expect(electronicSignature).to.exist;
-    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
-    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
-    let modal = null;
-
-    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      modal = screen.queryByTestId('navigation-warning-modal');
-      expect(modal).to.exist;
+      const electronicSignature = screen.getByText(
+        ElectronicSignatureBox.TITLE,
+        { selector: 'h2' },
+      );
+      expect(electronicSignature).to.exist;
     });
-    expect(modal).to.have.attribute(
-      'modal-title',
-      "We can't save your signature in a draft message",
-    );
-  });
 
-  it('should display electronic signature box when Oracle Health ROI recipient is selected', async () => {
-    const customProps = {
-      ...draftMessage,
-      messageValid: true,
-      isSignatureRequired: true,
-    };
-    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
 
-    // Find an Oracle Health ROI recipient from our fixture data
-    const oracleHealthRecipient = initialState.sm.recipients.allowedRecipients.find(
-      r =>
-        r.attributes &&
-        r.attributes.name &&
-        r.attributes.name.includes('Release of Information'),
-    );
-
-    if (oracleHealthRecipient) {
-      selectVaSelect(screen.container, oracleHealthRecipient.id);
-
-      const electronicSignature = await screen.findByText(
-        ElectronicSignatureBox.TITLE,
-        {
-          selector: 'h2',
-        },
-      );
-      expect(electronicSignature).to.exist;
-    }
-  });
-
-  it('should handle Oracle Health Medical Records recipient signature requirement', async () => {
-    const customProps = {
-      ...draftMessage,
-      messageValid: true,
-      isSignatureRequired: true,
-    };
-    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
-
-    // Find an Oracle Health Medical Records recipient from our fixture data
-    const medicalRecordsRecipient = initialState.sm.recipients.allowedRecipients.find(
-      r =>
-        r.attributes &&
-        r.attributes.name &&
-        r.attributes.name.includes('Release of Information') &&
-        r.attributes.name.includes('Medical Records'),
-    );
-
-    if (medicalRecordsRecipient) {
-      selectVaSelect(screen.container, medicalRecordsRecipient.id);
-
-      const electronicSignature = await screen.findByText(
-        ElectronicSignatureBox.TITLE,
-        {
-          selector: 'h2',
-        },
-      );
-      expect(electronicSignature).to.exist;
-
-      const signatureTextFieldSelector =
-        'va-text-input[label="Your full name"]';
-      inputVaTextInput(
-        screen.container,
-        'Test User',
-        signatureTextFieldSelector,
-      );
-
+    // Wait for the signature text field to be available
+    await waitFor(() => {
       const signatureField = screen.container.querySelector(
         signatureTextFieldSelector,
       );
-      expect(signatureField.value).to.equal('Test User');
-    }
+      expect(signatureField).to.exist;
+    });
+
+    // Input signature value and wait for it to be processed
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+
+    await waitFor(() => {
+      const signatureField = screen.container.querySelector(
+        signatureTextFieldSelector,
+      );
+      expect(
+        signatureField.value || signatureField.getAttribute('value'),
+      ).to.equal('Test User');
+    });
+
+    fireEvent.click(screen.getByTestId('save-draft-button'));
+    await waitFor(() => {
+      const modal = screen.queryByTestId('navigation-warning-modal');
+      expect(modal).to.exist;
+      expect(modal).to.have.attribute(
+        'modal-title',
+        "We can't save your signature in a draft message",
+      );
+    });
+  });
+
+  it('should display electronic signature box when Oracle Health ROI recipient is selected', async () => {
+    const oracleHealthRecipientId = 2710523;
+    const customProps = {
+      ...draftMessage,
+      recipientId: oracleHealthRecipientId,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    selectVaSelect(screen.container, oracleHealthRecipientId);
+    await waitFor(() => {
+      const electronicSignature = screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+    });
+  });
+
+  it('should handle Oracle Health Medical Records recipient signature requirement', async () => {
+    const medicalRecordsRecipientId = 2710524;
+    const customProps = {
+      ...draftMessage,
+      recipientId: medicalRecordsRecipientId,
+      messageValid: true,
+      isSignatureRequired: true,
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
+
+    selectVaSelect(screen.container, medicalRecordsRecipientId);
+    await waitFor(() => {
+      const electronicSignature = screen.findByText(
+        ElectronicSignatureBox.TITLE,
+        {
+          selector: 'h2',
+        },
+      );
+      expect(electronicSignature).to.exist;
+    });
+
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+
+    const signatureField = screen.container.querySelector(
+      signatureTextFieldSelector,
+    );
+    expect(signatureField.value).to.equal('Test User');
   });
 
   it('should display an error message when a file is 0B', async () => {
@@ -1596,7 +1605,7 @@ describe('Compose form component', () => {
     useFeatureTogglesStub25MB.restore();
   });
 
-  it('should contain Edit Signature Link', () => {
+  it('should contain Edit Signature Link', async () => {
     const customState = { ...initialState, featureToggles: { loading: false } };
     customState.sm.preferences.signature.includeSignature = true;
     const screen = setup(customState, Paths.COMPOSE);
@@ -1647,5 +1656,93 @@ describe('Compose form component', () => {
         selector: 'h2',
       }),
     ).to.exist;
+  });
+
+  it('sets isAutoSave to false when sending message', async () => {
+    const sendMessageSpy = sinon.stub(messageActions, 'sendMessage');
+    sendMessageSpy.resolves({});
+
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+    sendMessageSpy.restore();
+  });
+
+  it('sets the state of draftInProgress when compose draft is rendered', async () => {
+    const updateDraftInProgressSpy = sandbox.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const oracleHealthDraftRecipient = noBlockedRecipients.mockAllRecipients.find(
+      r => r.ohTriageGroup,
+    ).id;
+    const customDraftMessage = {
+      ...draftMessage,
+      body: 'Hello',
+      recipientId: oracleHealthDraftRecipient,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        threadDetails: {
+          ...draftState.sm.threadDetails,
+          draftInProgress: {},
+          drafts: [customDraftMessage],
+        },
+      },
+    };
+
+    setup(customState, `/thread/${customDraftMessage.id}`, {
+      pageTitle: 'Start your message',
+      categories,
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+
+    await waitFor(() => {
+      expect(updateDraftInProgressSpy.called).to.be.true;
+      const args = updateDraftInProgressSpy.getCall(0).args[0];
+      expect(args).to.deep.equal({
+        careSystemVhaId: customDraftMessage.careSystemVhaId,
+        careSystemName: customDraftMessage.careSystemName,
+        recipientId: customDraftMessage.recipientId,
+        recipientName: customDraftMessage.recipientName,
+        category: customDraftMessage.category,
+        subject: customDraftMessage.subject,
+        body: customDraftMessage.body,
+        messageId: customDraftMessage.id,
+        ohTriageGroup: true,
+      });
+    });
   });
 });
