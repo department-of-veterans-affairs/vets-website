@@ -19,6 +19,9 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
+  const recentRecipients = useSelector(
+    state => state.sm.recipients?.recentRecipients,
+  );
 
   const previousPath = useRef(null);
 
@@ -74,55 +77,69 @@ const SmBreadcrumbs = () => {
     [pathsUsingBackLink, crumbPath],
   );
 
-  // Track the entry point into the compose flow to avoid loops
-  // If previousUrl is within the compose wizard (not interstitial), find the real exit point
-  const composeFlowExitPoint = useMemo(
-    () => {
-      // Safety: if previousUrl is undefined or contact list, default to inbox
-      // ** When Contact list is clicked from select-care-team, it is routed away from the compose flow /new-message/
-      if (!previousUrl || previousUrl === Constants.Paths.CONTACT_LIST) {
-        return Constants.Paths.INBOX;
-      }
+  // Determine whether the Recent Care Teams step should be part of the compose flow
+  // Mirrors the conditional logic used in RecentCareTeams.jsx for when recent care teams are NOT available
+  const showRecentCareTeams = useMemo(
+    () =>
+      recentRecipients !== undefined &&
+      recentRecipients?.length > 0 &&
+      recentRecipients !== 'error' &&
+      recentRecipients !== null,
+    [recentRecipients],
+  );
 
-      const composeFlowWizardPages = [
-        // Note: Paths.COMPOSE (interstitial) is NOT included - we want to navigate back to it
-        Constants.Paths.RECENT_CARE_TEAMS,
-        `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`,
-        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`,
-        Constants.Paths.CARE_TEAM_HELP,
-      ];
-
-      // If previousUrl is a compose flow wizard page, default to inbox
-      const isComposeFlowWizardPage = composeFlowWizardPages.some(page =>
-        previousUrl.startsWith(page),
-      );
-
-      return isComposeFlowWizardPage ? Constants.Paths.INBOX : previousUrl;
-    },
-    [previousUrl],
+  // List of compose wizard pages that should not be valid back destinations from interstitial
+  const composeWizardPages = useMemo(
+    () => [
+      Constants.Paths.RECENT_CARE_TEAMS,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`,
+      Constants.Paths.CARE_TEAM_HELP,
+      Constants.Paths.CONTACT_LIST,
+    ],
+    [],
   );
 
   // Compose flow navigation map - defines explicit back button destinations
+  // Conditionally includes RECENT_CARE_TEAMS only when present
   const composeFlowMap = useMemo(
-    () => ({
-      // Care team help always goes back to select care team
-      [Constants.Paths.CARE_TEAM_HELP]: `${Constants.Paths.COMPOSE}${
-        Constants.Paths.SELECT_CARE_TEAM
-      }`,
-      // Start message goes back to select care team
-      [`${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`]: `${
-        Constants.Paths.COMPOSE
-      }${Constants.Paths.SELECT_CARE_TEAM}`,
-      // Select care team goes back to recent care teams
-      [`${Constants.Paths.COMPOSE}${
-        Constants.Paths.SELECT_CARE_TEAM
-      }`]: Constants.Paths.RECENT_CARE_TEAMS,
-      // Recent care teams goes back to interstitial
-      [Constants.Paths.RECENT_CARE_TEAMS]: Constants.Paths.COMPOSE,
-      // Interstitial exits the flow - goes to where user was before entering
-      [Constants.Paths.COMPOSE]: composeFlowExitPoint,
-    }),
-    [composeFlowExitPoint],
+    () => {
+      const map = {
+        // Care team help always goes back to select care team
+        [Constants.Paths.CARE_TEAM_HELP]: `${Constants.Paths.COMPOSE}${
+          Constants.Paths.SELECT_CARE_TEAM
+        }`,
+        // Start message goes back to select care team
+        [`${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`]: `${
+          Constants.Paths.COMPOSE
+        }${Constants.Paths.SELECT_CARE_TEAM}`,
+      };
+
+      if (showRecentCareTeams) {
+        // Select care team goes back to recent care teams
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.RECENT_CARE_TEAMS;
+        // Recent care teams goes back to interstitial
+        map[Constants.Paths.RECENT_CARE_TEAMS] = Constants.Paths.COMPOSE;
+      } else {
+        // Without recent care teams step, select care team goes back to interstitial
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.COMPOSE;
+      }
+
+      // Interstitial exits the flow - go to previousUrl, but skip compose wizard pages
+      const isComposeWizardPage = composeWizardPages.some(page =>
+        previousUrl?.startsWith(page),
+      );
+
+      map[Constants.Paths.COMPOSE] =
+        !previousUrl || isComposeWizardPage
+          ? Constants.Paths.INBOX
+          : previousUrl;
+
+      return map;
+    },
+    [showRecentCareTeams, previousUrl, composeWizardPages],
   );
 
   const navigateBack = useCallback(
@@ -288,6 +305,17 @@ const SmBreadcrumbs = () => {
     history.push(href);
   };
 
+  // Determine the correct back link href based on compose flow logic
+  const backLinkHref = useMemo(
+    () => {
+      const { pathname } = location;
+      const destination = composeFlowMap[pathname];
+      // Use the mapped destination if in compose flow, otherwise use previousUrl
+      return destination || previousUrl;
+    },
+    [location, composeFlowMap, previousUrl],
+  );
+
   return (
     <div>
       {shortenBreadcrumb ? (
@@ -298,7 +326,7 @@ const SmBreadcrumbs = () => {
           <va-link
             back
             text="Back"
-            href={`${manifest.rootUrl}${previousUrl}`}
+            href={`${manifest.rootUrl}${backLinkHref}`}
             onClick={e => {
               e.preventDefault();
               navigateBack();
