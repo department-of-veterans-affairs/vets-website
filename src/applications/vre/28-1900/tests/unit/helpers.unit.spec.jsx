@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { formatDate } from '../../helpers';
+import { formatDate, getStatus, extractMessages } from '../../helpers';
 
 describe('helpers', () => {
   describe('formatDate', () => {
@@ -31,8 +31,98 @@ describe('helpers', () => {
       const falsyInputs = [null, undefined, '', false, 0, NaN];
 
       falsyInputs.forEach(input => {
-        expect(formatDate(input)).to.equal('');
+        expect(formatDate(input)).to.equal('N/A');
       });
+    });
+  });
+  describe('extractMessages', () => {
+    it('returns code when present (priority: code > title > detail)', () => {
+      const resp = {
+        errors: [
+          {
+            code: 'RES_CH31_ELIGIBILITY_503',
+            title: 'Service Unavailable',
+            detail: 'Down',
+          },
+        ],
+      };
+      expect(extractMessages(resp)).to.deep.equal(['RES_CH31_ELIGIBILITY_503']);
+    });
+
+    it('falls back to title when code is missing', () => {
+      const resp = { errors: [{ title: 'Bad Request', detail: 'Invalid' }] };
+      expect(extractMessages(resp)).to.deep.equal(['Bad Request']);
+    });
+
+    it('falls back to detail when only detail is present', () => {
+      const resp = { errors: [{ detail: 'Not Authorized' }] };
+      expect(extractMessages(resp)).to.deep.equal(['Not Authorized']);
+    });
+
+    it('maps multiple errors using the same priority logic', () => {
+      const resp = {
+        errors: [
+          {
+            code: 'RES_CH31_ELIGIBILITY_400',
+            title: 'Bad Request',
+            detail: 'x',
+          },
+          { title: 'Forbidden', detail: 'Not Authorized' },
+          { detail: 'Service Unavailable' },
+        ],
+      };
+      expect(extractMessages(resp)).to.deep.equal([
+        'RES_CH31_ELIGIBILITY_400',
+        'Forbidden',
+        'Service Unavailable',
+      ]);
+    });
+
+    it('returns ["Unknown error"] when errors array is empty', () => {
+      const resp = { errors: [] };
+      expect(extractMessages(resp)).to.deep.equal(['Unknown error']);
+    });
+
+    it('returns ["Unknown error"] when errors is not an array', () => {
+      const resp = { errors: {} };
+      expect(extractMessages(resp)).to.deep.equal(['Unknown error']);
+    });
+
+    it('returns ["Unknown error"] when resp is null/undefined', () => {
+      expect(extractMessages(null)).to.deep.equal(['Unknown error']);
+      expect(extractMessages(undefined)).to.deep.equal(['Unknown error']);
+    });
+  });
+
+  describe('getStatus', () => {
+    it('coerces numeric string status to number', () => {
+      const resp = { errors: [{ status: '503' }] };
+      expect(getStatus(resp)).to.equal(503);
+    });
+
+    it('returns number when status is numeric', () => {
+      const resp = { errors: [{ status: 400 }] };
+      expect(getStatus(resp)).to.equal(400);
+    });
+
+    it('returns null when status is non-numeric', () => {
+      const resp = { errors: [{ status: 'abc' }] };
+      expect(getStatus(resp)).to.equal(null);
+    });
+
+    it('returns null when errors array is empty', () => {
+      const resp = { errors: [] };
+      expect(getStatus(resp)).to.equal(null);
+    });
+
+    it('returns null when errors is not an array', () => {
+      const resp = { errors: {} };
+      expect(getStatus(resp)).to.equal(null);
+    });
+
+    it('returns null when resp is null/undefined', () => {
+      expect(getStatus(null)).to.equal(null);
+      expect(getStatus(undefined)).to.equal(null);
     });
   });
 });
