@@ -7,7 +7,6 @@ import eligibilitySummary from './eligibilitySummary';
 import veteranIdentification from './veteranIdentification';
 import veteranFullName from './veteranFullName';
 import veteranIdentifiers from './veteranIdentifiers';
-import beneficiaryIdentification from './beneficiaryIdentification';
 import beneficiaryIsVeteran from './beneficiaryIsVeteran';
 import beneficiaryFullName from './beneficiaryFullName';
 import beneficiaryDateOfDeath from './beneficiaryDateOfDeath';
@@ -35,7 +34,6 @@ export {
   veteranIdentification,
   veteranFullName,
   veteranIdentifiers,
-  beneficiaryIdentification,
   beneficiaryIsVeteran,
   beneficiaryFullName,
   beneficiaryDateOfDeath,

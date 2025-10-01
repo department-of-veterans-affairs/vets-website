@@ -20,13 +20,21 @@ function EligibilitySummary({ formData }) {
       "Your unpaid creditors must sign waivers on the form. This requires their original signatures, which can't be done online.";
   }
 
-  // If they're eligible (shouldn't reach this page)
+  // If they're eligible (shouldn't reach this page due to form config)
   if (
     formData.hasAlreadyFiled === false &&
     formData.needsWitnessSignature === true &&
     formData.hasUnpaidCreditors === false
   ) {
-    return null;
+    return (
+      <va-alert status="error" uswds>
+        <h3 slot="headline">Something went wrong</h3>
+        <p>
+          There was an error with the eligibility check. Please return to the
+          start of the form and try again.
+        </p>
+      </va-alert>
+    );
   }
 
   return (
@@ -65,14 +73,13 @@ function EligibilitySummary({ formData }) {
               <li>Mail the completed form to your VA regional office</li>
             </ol>
 
-            <a
-              className="usa-button usa-button-primary"
+            <va-button
+              className=""
+              text="Download VA Form 21P-601 (PDF)"
               href="https://www.va.gov/find-forms/about-form-21p-601/"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Download VA Form 21P-601 (PDF)
-            </a>
+            />
           </>
         )}
       </div>
