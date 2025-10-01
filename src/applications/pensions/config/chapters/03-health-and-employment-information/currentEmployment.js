@@ -3,7 +3,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
-import { hasNoSocialSecurityDisability, isUnder65 } from './helpers';
+import { isUnder65, requiresEmploymentHistory } from './helpers';
 import {
   showMultiplePageResponse,
   showPdfFormAlignment,
@@ -17,10 +17,9 @@ export default {
   path: 'employment/current',
   depends: formData => {
     if (!showMultiplePageResponse()) {
-      if (showPdfFormAlignment()) {
-        return isUnder65(formData) || hasNoSocialSecurityDisability(formData);
-      }
-      return isUnder65(formData);
+      return showPdfFormAlignment()
+        ? requiresEmploymentHistory(formData)
+        : isUnder65(formData);
     }
     return false;
   },

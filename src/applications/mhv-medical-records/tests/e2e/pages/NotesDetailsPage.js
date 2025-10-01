@@ -3,12 +3,23 @@ import BaseDetailsPage from './BaseDetailsPage';
 
 class NotesDetailsPage extends BaseDetailsPage {
   clickProgressNoteLink = (progressNoteHeading, index = 0) => {
-    // First make sure the heading is visible
-    cy.contains(progressNoteHeading, { includeShadowDom: true });
-    cy.findAllByTestId('note-name')
+    const query = () =>
+      cy.findAllByTestId('note-name', { includeShadowDom: true });
+
+    // Wait until at least one match exists (retried)
+    query()
+      .filter(`:contains("${progressNoteHeading}")`)
+      .should('have.length.greaterThan', 0);
+
+    // Capture the specific target
+    query()
       .filter(`:contains("${progressNoteHeading}")`)
       .eq(index)
-      .click();
+      .as('noteToClick');
+
+    cy.get('@noteToClick').scrollIntoView();
+    cy.get('@noteToClick').should('be.visible');
+    cy.get('@noteToClick').click();
   };
 
   clickDischargeSummaryLink = (index = 0) => {

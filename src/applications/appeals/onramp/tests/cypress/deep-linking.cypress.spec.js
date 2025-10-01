@@ -14,7 +14,7 @@ describe('Decision Reviews Onramp', () => {
     });
 
     it('redirects to introduction when the results page is loaded without the right criteria', () => {
-      cy.visit(`${h.ROOT}/${ROUTES.RESULTS}`);
+      cy.visit(`${h.ROOT}/${ROUTES.RESULTS_DR}`);
 
       h.verifyUrl(ROUTES.INTRODUCTION);
 
