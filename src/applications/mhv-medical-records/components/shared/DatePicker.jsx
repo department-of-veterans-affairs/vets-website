@@ -17,7 +17,10 @@ const DatePicker = ({
     return (
       <div className="vads-u-display--flex vads-u-flex-direction--column">
         <div style={{ flex: 'inherit' }}>
-          <label htmlFor="vitals-year-picker" className="vads-u-font-weight--bold">
+          <label
+            htmlFor="vitals-year-picker"
+            className="vads-u-font-weight--bold"
+          >
             Choose a year
           </label>
           <va-text-input

@@ -20,7 +20,6 @@ import {
   statsdFrontEndActions,
   CernerAlertContent,
 } from '../util/constants';
-import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -49,8 +48,11 @@ const Vitals = () => {
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   // Change state to be year focused. Store full value as YYYY for selector but keep acceleratedVitalsDateMonthFormat as YYYY-MM (first month) for API compatibility
   const currentYear = format(new Date(), 'yyyy');
-  const initialYear = (urlVitalsDate && urlVitalsDate.split('-')[0]) || currentYear;
-  const [acceleratedVitalsYear, setAcceleratedVitalsYear] = useState(initialYear);
+  const initialYear =
+    (urlVitalsDate && urlVitalsDate.split('-')[0]) || currentYear;
+  const [acceleratedVitalsYear, setAcceleratedVitalsYear] = useState(
+    initialYear,
+  );
   // maintain legacy variable (first month of year) for existing downstream logic expecting YYYY-MM
   const acceleratedVitalsDate = `${acceleratedVitalsYear}-01`;
   const [displayYear, setDisplayYear] = useState(acceleratedVitalsYear);
@@ -90,9 +92,6 @@ const Vitals = () => {
   });
 
   useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
     () => {
       return () => {
         dispatch(reloadRecords());
@@ -111,7 +110,6 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      // Only update if there is no time frame. This is only for on initial page load.
       if (isAcceleratingVitals) {
         const timeFrame = new URLSearchParams(location.search).get('timeFrame');
         if (!timeFrame) {
@@ -144,13 +142,12 @@ const Vitals = () => {
     () => {
       return Object.keys(vitalTypes).length;
     },
-    [vitalTypes],
+    [],
   );
 
   useEffect(
     () => {
       if (vitals?.length) {
-        // create vital type cards based on the types of records present
         const firstOfEach = [];
         for (const [key, types] of Object.entries(vitalTypes)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
@@ -160,7 +157,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, vitalTypes],
+    [vitals],
   );
 
   const content = () => {
@@ -191,7 +188,14 @@ const Vitals = () => {
           <div className="vads-u-margin-top--2 ">
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
             <p className="vads-u-margin--0">
-              Showing vitals for <span className="vads-u-font-weight--bold" data-testid="current-date-display">{displayYear}</span>.
+              Showing vitals for{' '}
+              <span
+                className="vads-u-font-weight--bold"
+                data-testid="current-date-display"
+              >
+                {displayYear}
+              </span>
+              .
             </p>
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
           </div>
@@ -250,7 +254,10 @@ const Vitals = () => {
                   triggerApiUpdate: e => {
                     e.preventDefault();
                     const searchParams = new URLSearchParams(location.search);
-                    searchParams.set('timeFrame', `${acceleratedVitalsYear}-01`);
+                    searchParams.set(
+                      'timeFrame',
+                      `${acceleratedVitalsYear}-01`,
+                    );
                     history.push({
                       pathname: location.pathname,
                       search: searchParams.toString(),
