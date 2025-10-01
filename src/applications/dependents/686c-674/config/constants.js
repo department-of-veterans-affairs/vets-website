@@ -25,6 +25,9 @@ export const MARRIAGE_TYPES = {
   other: 'OTHER',
 };
 
+export const SERVER_ERROR_REGEX = /^5\d{2}$/;
+export const CLIENT_ERROR_REGEX = /^4\d{2}$/;
+
 export const NETWORTH_VALUE = '159,240';
 
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';

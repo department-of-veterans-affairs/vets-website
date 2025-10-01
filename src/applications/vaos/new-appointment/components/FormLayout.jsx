@@ -15,6 +15,7 @@ import { getFlowType, getFormData } from '../redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../utils/constants';
 import { routeToPreviousAppointmentPage } from '../redux/actions';
 import getNewAppointmentFlow from '../newAppointmentFlow';
+import { selectFeatureImmediateCareAlert } from '../../redux/selectors';
 
 function Title() {
   const flowType = useSelector(getFlowType);
@@ -31,18 +32,10 @@ function Title() {
   return 'New appointment';
 }
 
-function Nav({ pageTitle }) {
+function BackLink() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
   const pageKey = useSelector(state => state?.newAppointment?.currentPageKey);
-
-  if (location.pathname === '/schedule/type-of-care')
-    return (
-      <Breadcrumbs>
-        <a href="/my-health/appointments/schedule/type-of-care">{pageTitle}</a>
-      </Breadcrumbs>
-    );
 
   return (
     <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
@@ -60,6 +53,31 @@ function Nav({ pageTitle }) {
       </nav>
     </div>
   );
+}
+
+function Nav({ pageTitle }) {
+  const location = useLocation();
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
+
+  if (featureImmediateCareAlert && location.pathname === '/schedule')
+    return (
+      <Breadcrumbs>
+        <a href="/my-health/appointments/schedule">{pageTitle}</a>
+      </Breadcrumbs>
+    );
+
+  if (location.pathname === '/schedule/type-of-care') {
+    if (featureImmediateCareAlert) return <BackLink />;
+    return (
+      <Breadcrumbs>
+        <a href="/my-health/appointments/schedule/type-of-care">{pageTitle}</a>
+      </Breadcrumbs>
+    );
+  }
+
+  return <BackLink />;
 }
 Nav.propTypes = {
   pageTitle: PropTypes.string.isRequired,

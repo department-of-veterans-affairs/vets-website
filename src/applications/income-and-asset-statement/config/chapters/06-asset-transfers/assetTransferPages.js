@@ -30,6 +30,7 @@ import {
   isDefined,
   otherNewOwnerRelationshipExplanationRequired,
   otherTransferMethodExplanationRequired,
+  requireExpandedArrayField,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -159,9 +160,13 @@ const relationshipPage = {
       'ui:options': {
         expandUnder: 'originalOwnerRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherNewOwnerRelationshipExplanationRequired(formData, index),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherOriginalOwnerRelationshipType'),
     },
   },
   schema: {
@@ -188,6 +193,7 @@ const typePage = {
       'ui:options': {
         expandUnder: 'transferMethod',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherTransferMethodExplanationRequired(formData, index),
@@ -196,6 +202,9 @@ const typePage = {
       title: 'What asset was transferred?',
       hint: 'Real estate, Vehicle, etc.',
     }),
+    'ui:options': {
+      ...requireExpandedArrayField('otherTransferMethod'),
+    },
   },
   schema: {
     type: 'object',

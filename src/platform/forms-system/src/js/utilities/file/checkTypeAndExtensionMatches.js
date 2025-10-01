@@ -93,6 +93,20 @@ export const fileTypeSignatures = {
     sig: [0x42, 0x4d],
     mime: 'image/bmp',
   },
+  heic: {
+    sig: null,
+    sigs: {
+      heif: [0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63],
+    },
+    mime: 'image/heic',
+  },
+  heif: {
+    sig: null,
+    sigs: {
+      heif: [0x66, 0x74, 0x79, 0x70, 0x68, 0x65, 0x69, 0x63],
+    },
+    mime: 'image/heif',
+  },
 
   // compressed
   zip: {
