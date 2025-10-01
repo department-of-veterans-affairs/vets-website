@@ -1,5 +1,4 @@
 import introduction from './introduction';
-import eligibilityCheck from './eligibilityCheck';
 import hasAlreadyFiled from './hasAlreadyFiled';
 import hasUnpaidCreditors from './hasUnpaidCreditors';
 import eligibilitySummary from './eligibilitySummary';
@@ -14,17 +13,13 @@ import claimantRelationship from './claimantRelationship';
 import relativesOverview from './relativesOverview';
 import relativesDetails from './relativesDetails';
 import expensesClaim from './expensesClaim';
-import lastIllnessExpenses from './lastIllnessExpenses';
-import reimbursementStatus from './reimbursementStatus';
+import expensesList from './expensesList';
 import otherDebts from './otherDebts';
-import estateAdministration from './estateAdministration';
-import creditorWaivers from './creditorWaivers';
-import documentUpload from './documentUpload';
+import otherDebtsList from './otherDebtsList';
 import remarks from './remarks';
 
 export {
   introduction,
-  eligibilityCheck,
   hasAlreadyFiled,
   hasUnpaidCreditors,
   eligibilitySummary,
@@ -39,11 +34,8 @@ export {
   relativesOverview,
   relativesDetails,
   expensesClaim,
-  lastIllnessExpenses,
-  reimbursementStatus,
+  expensesList,
   otherDebts,
-  estateAdministration,
-  creditorWaivers,
-  documentUpload,
+  otherDebtsList,
   remarks,
 };

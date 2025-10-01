@@ -166,33 +166,26 @@ function transformForSubmit(formConfig, form) {
       })),
     },
     // Section 3: Expenses (Questions 15-18)
-    // Note: MVP only supports PAID expenses (no unpaid creditors/witness signatures)
+    // Note: MVP only supports PAID expenses. Users with unpaid creditors are stopped at eligibility check.
     expenses: {
-      lastIllnessExpenses: (transformedData.lastIllnessExpenses || []).map(
-        expense => ({
-          creditorName: expense.creditorName || '',
-          expenseType: expense.expenseType || '',
-          amount: expense.amount || '',
-          isPaid: expense.isPaid || false,
-          paidBy: expense.paidBy || '',
-        }),
-      ),
-      reimbursementAmount: transformedData.reimbursementAmount || '',
-      reimbursementSource: transformedData.reimbursementSource || '',
-      // Question 18: Other debts owed by the deceased
+      // Question 15: List of last illness and burial expenses (up to 4 line items)
+      // All expenses in online form are assumed PAID (Question 15.D is always "Yes")
+      expensesList: (transformedData.expenses || []).map(expense => ({
+        provider: expense.provider || '',
+        expenseType: expense.expenseType || '',
+        amount: expense.amount || '',
+        isPaid: true, // Always true for online submission
+        paidBy: expense.paidBy || '',
+      })),
+      // Question 18: Other debts (up to 4 line items)
       otherDebts: (transformedData.otherDebts || []).map(debt => ({
-        nature: debt.nature || '',
-        amount: debt.amount || '',
+        debtType: debt.debtType || '',
+        debtAmount: debt.debtAmount || '',
       })),
     },
     // Section 6: Remarks (Question 26)
     remarks: transformedData.remarks || '',
   };
-
-  // Note: The following sections are NOT included in MVP:
-  // - Question 19: Estate administration (requires document upload - disqualifying)
-  // - Section 4 (Questions 20-22): Unpaid creditor waivers (requires witness signatures)
-  // - Questions 24-25: Witness signatures (not supported in MVP)
 
   return JSON.stringify(result);
 }

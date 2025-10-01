@@ -21,12 +21,9 @@ import {
   relativesOverview,
   relativesDetails,
   expensesClaim,
-  lastIllnessExpenses,
-  reimbursementStatus,
+  expensesList,
   otherDebts,
-  estateAdministration,
-  creditorWaivers,
-  documentUpload,
+  otherDebtsList,
   remarks,
 } from '../pages';
 
@@ -208,10 +205,7 @@ const formConfig = {
       title: 'Expenses and debts',
       depends: formData =>
         formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false &&
-        (formData.relationshipToDeceased === 'executor' ||
-          formData.relationshipToDeceased === 'creditor' ||
-          formData.hasNone === true),
+        formData.hasUnpaidCreditors === false,
       pages: {
         expensesClaim: {
           path: 'reimbursement-claim',
@@ -220,63 +214,30 @@ const formConfig = {
           schema: expensesClaim.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
-        lastIllnessExpenses: {
-          path: 'last-illness-burial-expenses',
-          title: 'Last illness and burial expenses',
-          uiSchema: lastIllnessExpenses.uiSchema,
-          schema: lastIllnessExpenses.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
-        reimbursementStatus: {
-          path: 'previous-reimbursements',
-          title: 'Previous reimbursements',
-          uiSchema: reimbursementStatus.uiSchema,
-          schema: reimbursementStatus.schema,
+        expensesList: {
+          path: 'expenses-list',
+          title: 'List of expenses',
+          depends: formData => formData.claimingReimbursement === true,
+          uiSchema: expensesList.uiSchema,
+          schema: expensesList.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
         otherDebts: {
           path: 'other-debts',
-          title: 'Other debts of the deceased',
+          title: 'Other debts',
+          depends: formData => formData.claimingReimbursement === true,
           uiSchema: otherDebts.uiSchema,
           schema: otherDebts.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
-        estateAdministration: {
-          path: 'estate-administration',
-          title: 'Estate administration',
-          uiSchema: estateAdministration.uiSchema,
-          schema: estateAdministration.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
-      },
-    },
-    unpaidCreditorsChapter: {
-      title: 'Unpaid creditor waivers',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false &&
-        formData.claimingReimbursement === true,
-      pages: {
-        creditorWaivers: {
-          path: 'creditor-waivers',
-          title: 'Creditor waivers',
-          uiSchema: creditorWaivers.uiSchema,
-          schema: creditorWaivers.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
-      },
-    },
-    supportingDocumentsChapter: {
-      title: 'Supporting documents',
-      depends: formData =>
-        formData.hasAlreadyFiled === false &&
-        formData.hasUnpaidCreditors === false,
-      pages: {
-        documentUpload: {
-          path: 'documents/upload',
-          title: 'Upload supporting documents',
-          uiSchema: documentUpload.uiSchema,
-          schema: documentUpload.schema,
+        otherDebtsList: {
+          path: 'other-debts-list',
+          title: 'List of other debts',
+          depends: formData =>
+            formData.claimingReimbursement === true &&
+            formData.hasOtherDebts === true,
+          uiSchema: otherDebtsList.uiSchema,
+          schema: otherDebtsList.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
       },
