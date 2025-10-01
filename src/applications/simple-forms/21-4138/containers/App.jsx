@@ -25,7 +25,6 @@ function App({ location, children, showForm, isLoading }) {
   useEffect(() => {
     if (
       location.pathname !== '/statement-type' &&
-      location.pathname !== '/personal-information' &&
       location.pathname !== '/introduction' &&
       location.pathname !== '/confirmation'
     ) {
