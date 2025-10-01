@@ -12,7 +12,8 @@ import formConfig from '../../../config/form';
 describe('transformForSubmit', () => {
   it('should transform veteran json correctly', () => {
     const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname: 'representative/representative-form-upload/21-686c',
+      pathname:
+        'representative/representative-form-upload/submit-va-form-21-686c',
     }));
 
     const transformedResult = JSON.parse(transformForSubmit(formConfig, form));
@@ -23,7 +24,8 @@ describe('transformForSubmit', () => {
 
   it('should transform claimant json correctly', () => {
     const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname: 'representative/representative-form-upload/21-686c',
+      pathname:
+        'representative/representative-form-upload/submit-va-form-21-686c',
     }));
 
     const transformedResult = JSON.parse(
@@ -36,7 +38,8 @@ describe('transformForSubmit', () => {
 
   it('handles empty transformedData', () => {
     const windowLocationStub = sinon.stub(window, 'location').get(() => ({
-      pathname: 'representative/representative-form-upload/21-686c',
+      pathname:
+        'representative/representative-form-upload/submit-va-form-21-686c',
     }));
 
     const transformedResult = JSON.parse(
