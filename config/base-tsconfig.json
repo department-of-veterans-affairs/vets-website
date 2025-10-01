@@ -13,7 +13,11 @@
     "lib": ["es2020"],
     "target": "es2020",
     "strictNullChecks": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "./src",
+    "paths": {
+      "~/*": ["*"]
+    }
   },
   "exclude": ["node_modules"]
 }
