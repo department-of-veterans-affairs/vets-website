@@ -30,9 +30,15 @@ const DatePicker = ({
             maxlength="4"
             onInput={e => {
               const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
-              // fabricate target.value formatted as YYYY-01 for existing logic
-              const syntheticEvent = { target: { value: `${val || ''}-01` } };
-              updateDate(syntheticEvent);
+              // Only fabricate and send the synthetic event if we have a full 4-digit year
+              if (val.length === 4) {
+                const syntheticEvent = { target: { value: `${val}-01` } };
+                updateDate(syntheticEvent);
+              } else {
+                // Optionally, clear the date if input is incomplete
+                const syntheticEvent = { target: { value: '' } };
+                updateDate(syntheticEvent);
+              }
             }}
           />
         </div>
