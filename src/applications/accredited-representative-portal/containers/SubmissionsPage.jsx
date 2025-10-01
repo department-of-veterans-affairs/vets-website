@@ -87,7 +87,7 @@ const SubmissionsPage = title => {
             it.
           </p>
           <va-link-action
-            href="/representative/representative-form-upload/21-686c"
+            href="/representative/representative-form-upload/submit-va-form-21-686c"
             text="Upload and submit VA Form 21-686c"
           />
           <Toggler
@@ -108,7 +108,7 @@ const SubmissionsPage = title => {
                 submit it.
               </p>
               <va-link-action
-                href="/representative/representative-form-upload/21-526EZ"
+                href="/representative/representative-form-upload/submit-va-form-21-526EZ"
                 text="Upload and submit VA Form 21-526EZ"
               />
             </Toggler.Enabled>
