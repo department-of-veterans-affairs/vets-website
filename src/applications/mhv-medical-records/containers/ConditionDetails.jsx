@@ -16,7 +16,11 @@ import {
   makePdf,
   formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { generateTextFile, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  processList,
+  itemListWrapper,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -197,11 +201,12 @@ Provider Notes: ${processList(record.comments)}\n`;
                 testId="condition-location"
                 actionName="[condition details - location]"
               />
-              <LabelValue label="Provider notes">
-                <ItemList
-                  data-testid="condition-provider-notes"
-                  list={record.comments}
-                />
+              <LabelValue
+                label="Provider notes"
+                element={itemListWrapper(record?.comments)}
+                testid="condition-provider-notes"
+              >
+                <ItemList list={record.comments} />
               </LabelValue>
               {containsSctOrIcd(record.name) && (
                 <LabelValue
