@@ -469,6 +469,10 @@ export const CernerAlertContent = {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
   },
+  DOWNLOAD: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'medical records reports',
+  },
 };
 
 export const LABS_AND_TESTS_DISPLAY_LABELS = {
