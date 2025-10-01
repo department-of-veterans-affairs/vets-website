@@ -84,7 +84,7 @@ export const dataDogActionNames = {
     DOWNLOAD_A_TEXT_FILE_OF_THIS: 'Download A Text File Of This ',
     PHARMACY_PHONE_NUMBER_LINK: 'Pharmacy Phone Number Link - ',
     PRINT_OR_DOWNLOAD_BUTTON: 'Print Or Download Button - ',
-    PRINT_THIS: 'Print This ',
+    PRINT: 'Print ',
     WHAT_TO_KNOW_BEFORE_YOU_PRINT_OR_DOWNLOAD_BUTTON:
       'What To Know Before You Print Or Download Button - ',
   },
