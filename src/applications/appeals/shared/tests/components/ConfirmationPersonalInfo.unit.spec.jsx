@@ -121,6 +121,6 @@ describe('ConfirmationPersonalInfo', () => {
       items.map(
         (item, index) => item[index === 3 ? 'innerHTML' : 'textContent'],
       ),
-    ).to.deep.equal(['', 'Not selected', '', '', ',  ']);
+    ).to.deep.equal(['', 'Not answered', '', '', ',  ']);
   });
 });

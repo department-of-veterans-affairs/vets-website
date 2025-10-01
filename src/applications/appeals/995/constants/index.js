@@ -187,5 +187,3 @@ export const EVIDENCE_UPLOAD_PATH = 'supporting-evidence/upload-evidence';
 
 export const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
-
-export const NOT_ANSWERED = 'Not answered';
