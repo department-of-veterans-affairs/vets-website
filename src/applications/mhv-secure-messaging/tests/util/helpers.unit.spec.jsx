@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import {
   folderPathByFolderId,
   getLastSentMessage,
+  getSize,
   navigateToFolderByFolderId,
   navigateToFoldersPage,
   setCaretToPos,
@@ -143,5 +144,52 @@ describe('MHV Secure Messaging helpers', () => {
 
     const convertedArrDraft = updateDrafts(draft);
     expect(convertedArrDraft).to.eql([draft[0]]);
+  });
+
+  describe('getSize function', () => {
+    it('should return size in bytes for values less than 1024', () => {
+      expect(getSize(0)).to.equal('0 B');
+      expect(getSize(1)).to.equal('1 B');
+      expect(getSize(512)).to.equal('512 B');
+      expect(getSize(1023)).to.equal('1023 B');
+    });
+
+    it('should return size in KB for values between 1024 and 1048575', () => {
+      expect(getSize(1024)).to.equal('1.0 KB');
+      expect(getSize(1536)).to.equal('1.5 KB');
+      expect(getSize(524288)).to.equal('512.0 KB');
+      expect(getSize(1048575)).to.equal('1024.0 KB');
+    });
+
+    it('should return size in MB for values greater than or equal to 1048576', () => {
+      expect(getSize(1048576)).to.equal('1.0 MB');
+      expect(getSize(2097152)).to.equal('2.0 MB');
+      expect(getSize(3145728)).to.equal('3.0 MB');
+    });
+
+    it('should handle exact boundary values correctly (1024 bytes = 1.0 KB, 1048576 bytes = 1.0 MB)', () => {
+      expect(getSize(1024)).to.equal('1.0 KB');
+      expect(getSize(1048576)).to.equal('1.0 MB');
+    });
+
+    it('should round decimal values to one decimal place for KB and MB', () => {
+      expect(getSize(1536)).to.equal('1.5 KB'); // 1536 / 1024 = 1.5
+      expect(getSize(1572864)).to.equal('1.5 MB'); // 1572864 / 1048576 = 1.5
+      expect(getSize(2621440)).to.equal('2.5 MB'); // 2621440 / 1048576 = 2.5
+    });
+
+    it('should handle zero bytes correctly', () => {
+      expect(getSize(0)).to.equal('0 B');
+    });
+
+    it('should handle large values in MB without overflow', () => {
+      expect(getSize(1073741824)).to.equal('1024.0 MB'); // 1 GB in bytes
+      expect(getSize(2147483648)).to.equal('2048.0 MB'); // 2 GB in bytes
+    });
+
+    it('should handle negative values as bytes (fallback behavior)', () => {
+      expect(getSize(-1)).to.equal('-1 B');
+      expect(getSize(-1024)).to.equal('-1024 B');
+    });
   });
 });
