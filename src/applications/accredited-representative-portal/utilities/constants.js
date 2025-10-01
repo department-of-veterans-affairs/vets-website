@@ -32,7 +32,7 @@ export const getSignInUrl = ({ returnUrl } = {}) => {
     USIP_QUERY_PARAMS.to,
     useDashboardRedirect
       ? '/representative/dashboard'
-      : '/representative/poa-requests',
+      : '/representative/representation-requests',
   );
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
@@ -76,8 +76,8 @@ export const NAV_MENU_DROPDOWN = [
   },
   {
     LABEL: 'Representation Requests',
-    URL: '/poa-requests',
-    TEST_ID: 'user-nav-poa-requests-link',
+    URL: '/representation-requests',
+    TEST_ID: 'user-nav-representation-requests-link',
   },
   {
     LABEL: 'Submissions',

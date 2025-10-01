@@ -120,7 +120,7 @@ AuthCallbackHandler.loader = async () => {
   ];
   const fallback = dashboardEnabled
     ? '/representative/dashboard'
-    : '/representative/poa-requests';
+    : '/representative/representation-requests';
 
   // Sanitize untrusted redirect target to prevent open redirects
   const sanitizeReturnPath = (untrusted, defaultPath) => {
@@ -191,7 +191,7 @@ AuthCallbackHandler.loader = async () => {
         ];
         const newFallback = dashboardNow
           ? '/representative/dashboard'
-          : '/representative/poa-requests';
+          : '/representative/representation-requests';
         to = sanitizeReturnPath(toParam, newFallback);
       }
 

@@ -93,7 +93,7 @@ const POARequestSearchPage = title => {
         homeVeteransAffairs={false}
       />
       <h1
-        data-testid="poa-requests-heading"
+        data-testid="representation-requests-heading"
         className="poa-request__search-header"
       >
         Representation requests
@@ -143,7 +143,7 @@ const POARequestSearchPage = title => {
         </>
       )}
 
-      <div className="poa-requests-page-table-container">
+      <div className="representation-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
             tabStatus={STATUSES.PENDING}
@@ -177,7 +177,7 @@ const POARequestSearchPage = title => {
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Pending representation requests
@@ -209,7 +209,7 @@ const POARequestSearchPage = title => {
                   return (
                     <>
                       <h2
-                        data-testid="poa-requests-table-heading"
+                        data-testid="representation-requests-table-heading"
                         className="poa-request__tab-heading"
                       >
                         Processed representation requests
