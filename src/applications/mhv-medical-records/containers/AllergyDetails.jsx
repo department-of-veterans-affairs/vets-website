@@ -211,9 +211,12 @@ Provider notes: ${allergyData.notes} \n`;
               className="max-80 vads-u-margin-top--4"
               data-testid="allergy-reaction"
             >
-              <LabelValue label="Signs and symptoms">
-                <ItemList list={allergyData.reaction} />
-              </LabelValue>
+              <LabelValue
+                label="Signs and symptoms"
+                ifEmpty=""
+                testId="allergy-signs-symptoms"
+              />
+              <ItemList list={allergyData.reaction} />
               <LabelValue
                 label="Type of allergy"
                 value={allergyData.type}
@@ -240,7 +243,7 @@ Provider notes: ${allergyData.notes} \n`;
                 <LabelValue
                   label="Recorded by"
                   value={allergyData.provider}
-                  testId="allergy-observed"
+                  testId="allergy-recorded-by"
                   actionName="[allergy recorded by]"
                 />
               )}

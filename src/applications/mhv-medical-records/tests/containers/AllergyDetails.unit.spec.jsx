@@ -3,6 +3,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
 import AllergyDetails from '../../containers/AllergyDetails';
 import reducer from '../../reducers';
 import allergy from '../fixtures/allergy.json';
@@ -211,5 +212,86 @@ describe('Allergy details container with multiple categories/types', () => {
     await waitFor(() => {
       expect(screen.getByText('Food, medication, drug allergy')).to.exist;
     });
+  });
+});
+
+describe('when accelerated allergies is enabled', () => {
+  const acceleratedAllergy = {
+    id: 'acc-1',
+    name: 'Tree Pollen',
+    date: 'July 10, 2024',
+    type: 'environmental',
+    reaction: ['SNEEZING', 'WATERY EYES'],
+    location: 'Some Facility (should be hidden)',
+    observedOrReported: 'Observed',
+    notes: 'Seasonal flare up',
+    provider: 'Dr. May Flowers',
+  };
+
+  let screen;
+  let sandbox;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    const initialState = {
+      user,
+      mr: {
+        allergies: {
+          allergyDetails: acceleratedAllergy,
+        },
+        alerts: { alertList: [] },
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_enabled: true,
+        // eslint-disable-next-line camelcase
+        mhv_accelerated_delivery_allergies_enabled: true,
+      },
+    };
+
+    // Stub useAcceleratedData to mark allergies path accelerating (mirrors other accelerated tests pattern)
+    // We only need isAcceleratingAllergies true and isLoading false
+    // eslint-disable-next-line global-require
+    const accelModule = require('../../hooks/useAcceleratedData');
+    sandbox
+      .stub(accelModule, 'default')
+      .returns({ isAcceleratingAllergies: true, isLoading: false });
+
+    screen = renderWithStoreAndRouter(<AllergyDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/allergies/acc-1',
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('shows accelerated allergy fields when conditions are met', () => {
+    // Name should display
+    expect(screen.getByRole('heading', { level: 1 }).textContent).to.equal(
+      acceleratedAllergy.name,
+    );
+
+    // Date appears in header-time span
+    const dateNode = screen.getByTestId('header-time');
+    expect(dateNode.textContent).to.include(acceleratedAllergy.date);
+
+    // Reaction list items
+    acceleratedAllergy.reaction.forEach(r => {
+      expect(screen.getByText(r, { exact: false })).to.exist;
+    });
+
+    // Accelerated path hides Location & Observed or historical, shows Recorded by instead
+    expect(screen.queryByTestId('allergy-location')).to.not.exist;
+    expect(screen.queryByTestId('allergy-observed')).to.not.exist;
+    expect(screen.queryByTestId('allergy-recorded-by')).to.exist;
+    expect(screen.getByText(acceleratedAllergy.provider, { exact: false })).to
+      .exist;
+
+    // Notes
+    expect(screen.getByTestId('allergy-notes').textContent).to.include(
+      acceleratedAllergy.notes,
+    );
   });
 });
