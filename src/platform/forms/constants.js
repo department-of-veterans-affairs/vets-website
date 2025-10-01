@@ -838,7 +838,7 @@ export const MY_VA_SIP_FORMS = [
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-0601)',
     description:
       'Application for Accrued Amounts Due a Deceased Beneficiary (21P-0601)',
-    trackingPrefix: '21p0601',
+    trackingPrefix: '21p-0601-accrued-benefits-',
   },
 ];
 
