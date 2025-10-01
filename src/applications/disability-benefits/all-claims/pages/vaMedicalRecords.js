@@ -3,7 +3,7 @@ import dateUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthY
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { treatmentView } from '../content/vaMedicalRecords';
-import { hasVAEvidence } from '../utils';
+import { hasVAEvidence, formatDate } from '../utils';
 import { makeSchemaForAllDisabilities } from '../utils/schemas';
 import { isCompletingForm0781 } from '../utils/form0781';
 import { standardTitle } from '../content/form0781';
@@ -75,6 +75,13 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:confirmationField': value => {
+          return {
+            data: value.formData ? 'Yes' : 'No',
+            label:
+              'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+          };
+        },
       },
       treatmentDateRange: {
         from: {
@@ -82,6 +89,17 @@ export const uiSchema = {
           'ui:validations': dateUI()['ui:validations'].concat([
             startedAfterServicePeriod,
           ]),
+          'ui:confirmationField': value => {
+            // Replace XX with 01 so moment can create a valid date, then format as month/year only
+            const dateValue = value.formData?.replace?.('XX', '01');
+            const formattedDate = dateValue
+              ? formatDate(dateValue, 'MMMM YYYY')
+              : 'Unknown';
+            return {
+              data: formattedDate,
+              label: 'When did you first visit this facility?',
+            };
+          },
         },
       },
       treatmentCenterAddress: {
