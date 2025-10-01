@@ -26,10 +26,6 @@ const ProcessDescription = ({ resBurden }) => (
           </li>
         </ul>
         <p>
-          Personal information may include dates of birth, Social Security
-          numbers, and contact information.
-        </p>
-        <p>
           <strong>Note:</strong> In some cases, you may need to submit an
           additional form called the Other Health Insurance Certification (VA
           Form 10-7959c) to coordinate benefits with your Medicare or other

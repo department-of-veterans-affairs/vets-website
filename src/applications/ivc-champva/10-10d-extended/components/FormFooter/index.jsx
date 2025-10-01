@@ -24,14 +24,14 @@ const GetFormHelp = (
     <hr className="vads-u-margin-y--0 vads-u-border-bottom--2px vads-u-border-top--0px vads-u-border-color--primary" />
     <p>
       <va-link
-        href="/resources/getting-care-through-champva/#questions-about-champva-covera"
+        href="/resources/getting-care-through-champva/"
         text="Get answers to frequently asked questions about CHAMPVA"
       />
     </p>
     <p>
       <va-link
-        href="/resources/getting-care-through-champva/"
-        text="Find out if you can get care at a local VA medical center when you’re covered under CHAMPVA"
+        href="/find-locations/?facilityType=health"
+        text="Find a VA health facility participating in CITI"
       />
     </p>
   </>
