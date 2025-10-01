@@ -159,7 +159,6 @@ function mockPrescriptionArray(n = 20) {
 }
 
 function generateMockPrescriptions(req, n = 20) {
-  // Generate recently requested prescriptions to be used by refill alerts
   function edgeCasePrescription({
     prescriptionId,
     prescriptionName,
@@ -286,7 +285,6 @@ function generateMockPrescriptions(req, n = 20) {
     }),
   ];
 
-  // Generate a base array of prescriptions
   const generatedPrescriptions = [
     ...mockPrescriptionArray(n),
     mockPrescription(99, {
@@ -303,7 +301,6 @@ function generateMockPrescriptions(req, n = 20) {
     }),
   ];
 
-  // Retrieve statuses from filter
   const filterKey = req.query['filter[']?.disp_status?.eq || ''; // e.g., "filter[[disp_status][eq]]=Active,Expired"
   const selectedStatuses = filterKey
     ? String(filterKey)
@@ -312,7 +309,6 @@ function generateMockPrescriptions(req, n = 20) {
         .filter(Boolean)
     : null;
 
-  // Apply filter (if any)
   let filteredPrescriptions = !selectedStatuses
     ? generatedPrescriptions
     : generatedPrescriptions.filter(data => {
@@ -320,7 +316,6 @@ function generateMockPrescriptions(req, n = 20) {
         return selectedStatuses.includes(status);
       });
 
-  // Apply sort
   const sortKey = String(req.query.sort || ''); // e.g., "sort=alphabetical-status"
   if (sortKey === 'alphabetical-status') {
     filteredPrescriptions = filteredPrescriptions.slice().sort((a, b) => {
@@ -339,7 +334,6 @@ function generateMockPrescriptions(req, n = 20) {
   // Exports do not have page or perPage sent in the request
   const isExport = !req.query.page && !req.query.per_page;
 
-  // EXPORT MODE: return the FULL FILTERED SET (no pagination)
   if (isExport) {
     return {
       data: filteredPrescriptions,
@@ -351,7 +345,6 @@ function generateMockPrescriptions(req, n = 20) {
     };
   }
 
-  // UI MODE (paged response for the on-screen medications list)
   const currentPage = Number(req.query.page || 1);
   const perPage = Number(req.query.per_page || 10);
   const totalEntries = filteredPrescriptions.length;

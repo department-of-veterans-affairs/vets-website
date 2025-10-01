@@ -416,7 +416,6 @@ const Prescriptions = () => {
     [userName, txtData, setPdfTxtGenerateStatus],
   );
 
-  // Generate PRINT, PDF, and TXT exports
   useEffect(
     () => {
       const { format } = pdfTxtGenerateStatus;
@@ -425,7 +424,6 @@ const Prescriptions = () => {
       const exportListReady = !!prescriptionsExportList?.length;
       const allergiesReady = !!allergies && !allergiesError;
 
-      // Only proceed when we're actively exporting AND all required data is present
       if (!isInProgress || !exportListReady || !allergiesReady) return;
 
       if (format === DOWNLOAD_FORMAT.PDF) {
@@ -468,7 +466,6 @@ const Prescriptions = () => {
     [shouldPrint, printRxList],
   );
 
-  // Reset prescription list if new filter or sort order is applied
   useEffect(
     () => {
       setPrescriptionsExportList([]);
