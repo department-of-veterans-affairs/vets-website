@@ -42,7 +42,6 @@ function transformForSubmit(formConfig, form) {
   // Helper function to split phone number
   const splitPhone = phone => {
     if (!phone) return { areaCode: '', prefix: '', lineNumber: '' };
-    // Remove all non-digits
     const cleanPhone = phone.replace(/\D/g, '');
     return {
       areaCode: cleanPhone.substring(0, 3),
@@ -100,20 +99,28 @@ function transformForSubmit(formConfig, form) {
   ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const signatureDate = splitDate(todayFormatted);
 
+  // Determine in reply refer to ID - prefer SSN, fallback to VA file number
+  const inReplyReferTo = (() => {
+    const veteranId = transformedData.veteranIdentification || {};
+    if (veteranId.ssn) {
+      return veteranId.ssn;
+    }
+    if (veteranId.vaFileNumber) {
+      return veteranId.vaFileNumber;
+    }
+    return '';
+  })();
+
   // Build result object following 21P-0537 pattern
   const result = {
     formNumber: formConfig.formId,
+    // Section 1: Veteran Information (Questions 1-3)
     veteran: {
       fullName: formatName(transformedData.veteranFullName),
-      ssn: splitSSN(
-        transformedData.veteranIdentification?.ssn ||
-          transformedData.veteranSsn,
-      ),
-      vaFileNumber:
-        transformedData.veteranIdentification?.vaFileNumber ||
-        transformedData.veteranVaFileNumber ||
-        '',
+      ssn: splitSSN(transformedData.veteranIdentification?.ssn),
+      vaFileNumber: transformedData.veteranIdentification?.vaFileNumber || '',
     },
+    // Section 1: Beneficiary Information (Questions 4-5)
     beneficiary: {
       fullName: transformedData.beneficiaryIsVeteran
         ? formatName(transformedData.veteranFullName)
@@ -121,12 +128,11 @@ function transformForSubmit(formConfig, form) {
       dateOfDeath: splitDate(transformedData.beneficiaryDateOfDeath),
       isVeteran: transformedData.beneficiaryIsVeteran || false,
     },
+    // Section 1: Claimant Information (Questions 6-12)
     claimant: {
       fullName: formatName(transformedData.claimantFullName),
-      ssn: splitSSN(
-        transformedData.claimantIdentification?.ssn ||
-          transformedData.claimantSsn,
-      ),
+      ssn: splitSSN(transformedData.claimantIdentification?.ssn),
+      vaFileNumber: transformedData.claimantIdentification?.vaFileNumber || '',
       dateOfBirth: splitDate(transformedData.claimantDateOfBirth),
       relationshipToDeceased: transformedData.relationshipToDeceased || '',
       address: formatAddress(transformedData.claimantAddress),
@@ -135,18 +141,32 @@ function transformForSubmit(formConfig, form) {
       signature: transformedData.signature || '',
       signatureDate,
     },
+    // In reply refer to - used by backend to identify the claim
+    inReplyReferTo,
+    // Section 2: Surviving Relatives (Questions 13-14)
     survivingRelatives: {
       hasSpouse: transformedData.hasSpouse || false,
       hasChildren: transformedData.hasChildren || false,
       hasParents: transformedData.hasParents || false,
       hasNone: transformedData.hasNone || false,
+      wantsToWaiveSubstitution:
+        transformedData.wantsToWaiveSubstitution || false,
       relatives: (transformedData.survivingRelatives || []).map(relative => ({
         fullName: formatName(relative.fullName),
         relationship: relative.relationship || '',
         dateOfBirth: splitDate(relative.dateOfBirth),
-        address: formatAddress(relative.address),
+        address: {
+          street: relative.address?.street || '',
+          street2: relative.address?.street2 || '',
+          city: relative.address?.city || '',
+          state: relative.address?.state || '',
+          country: relative.address?.country || '',
+          zipCode: splitZipCode(relative.address?.postalCode),
+        },
       })),
     },
+    // Section 3: Expenses (Questions 15-18)
+    // Note: MVP only supports PAID expenses (no unpaid creditors/witness signatures)
     expenses: {
       lastIllnessExpenses: (transformedData.lastIllnessExpenses || []).map(
         expense => ({
@@ -159,38 +179,20 @@ function transformForSubmit(formConfig, form) {
       ),
       reimbursementAmount: transformedData.reimbursementAmount || '',
       reimbursementSource: transformedData.reimbursementSource || '',
-    },
-    estate: {
-      isBeingAdministered: transformedData.isEstateBeingAdministered || false,
+      // Question 18: Other debts owed by the deceased
       otherDebts: (transformedData.otherDebts || []).map(debt => ({
         nature: debt.nature || '',
         amount: debt.amount || '',
       })),
     },
-    creditors: {
-      hasUnpaidCreditors: transformedData.hasUnpaidCreditors || false,
-      wantsToWaiveSubstitution:
-        transformedData.wantsToWaiveSubstitution || false,
-      unpaidCreditors: (transformedData.unpaidCreditors || []).map(
-        creditor => ({
-          name: creditor.name || '',
-          address: formatAddress(creditor.address),
-          signature: creditor.signature || '',
-          title: creditor.title || '',
-          dateSigned: splitDate(creditor.dateSigned),
-        }),
-      ),
-    },
-    witnessSignature: {
-      needsWitnessSignature: transformedData.needsWitnessSignature || false,
-      witnesses: (transformedData.witnesses || []).map(witness => ({
-        signature: witness.signature || '',
-        fullName: formatName(witness.fullName),
-        address: formatAddress(witness.address),
-      })),
-    },
+    // Section 6: Remarks (Question 26)
     remarks: transformedData.remarks || '',
   };
+
+  // Note: The following sections are NOT included in MVP:
+  // - Question 19: Estate administration (requires document upload - disqualifying)
+  // - Section 4 (Questions 20-22): Unpaid creditor waivers (requires witness signatures)
+  // - Questions 24-25: Witness signatures (not supported in MVP)
 
   return JSON.stringify(result);
 }

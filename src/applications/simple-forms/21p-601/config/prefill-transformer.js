@@ -1,28 +1,38 @@
-export default function prefillTransformer(pages, formData, metadata) {
-  // Prefill claimant information from veteran data
-  const transformedData = {
-    ...formData,
+export default function prefillTransformer(pages, _formData, metadata, state) {
+  const profile = state?.user?.profile || {};
+
+  // Build the prefilled data following the same pattern as 21P-0537
+  const formData = {
+    // Claimant information from user profile
+    claimantFullName: profile.userFullName || {},
+    claimantIdentification: {
+      ssn: profile.ssn || '',
+      vaFileNumber: profile.vaFileNumber || '',
+    },
+    claimantDateOfBirth: profile.dob || '',
+    claimantAddress: {
+      street: profile.mailingAddress?.addressLine1 || '',
+      street2: profile.mailingAddress?.addressLine2 || '',
+      city: profile.mailingAddress?.city || '',
+      state: profile.mailingAddress?.stateCode || '',
+      country: profile.mailingAddress?.countryCodeIso3 || '',
+      postalCode: profile.mailingAddress?.zipCode || '',
+    },
+    claimantPhone: profile.homePhone || profile.mobilePhone || '',
+    claimantEmail: profile.email || '',
+
+    // Veteran information - can be prefilled from profile if claimant is veteran
+    // Otherwise user will enter manually
+    veteranFullName: {},
+    veteranIdentification: {
+      ssn: '',
+      vaFileNumber: '',
+    },
   };
-
-  // If we have veteran data, use it to prefill claimant fields
-  if (formData?.veteran) {
-    transformedData.claimantFullName = formData.veteran.fullName || {};
-    transformedData.claimantSsn = formData.veteran.ssn || '';
-    transformedData.claimantDateOfBirth = formData.veteran.dateOfBirth || '';
-    transformedData.claimantAddress = formData.veteran.address || {};
-    transformedData.claimantPhone =
-      formData.veteran.homePhone || formData.veteran.mobilePhone || '';
-    transformedData.claimantEmail = formData.veteran.email || '';
-
-    // Also prefill veteran fields for the deceased veteran section
-    // User can modify if the veteran is different from the claimant
-    transformedData.veteranFullName = formData.veteran.fullName || {};
-    transformedData.veteranSsn = formData.veteran.ssn || '';
-  }
 
   return {
     pages,
-    formData: transformedData,
+    formData,
     metadata,
   };
 }
