@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
-  const id = `${fieldName}-alert`;
+import { DEFAULT_ERROR_MESSAGE } from '../constants';
+
+const GenericErrorAlert = ({ fieldName }) => {
+  const id = `${fieldName}-error-alert`;
 
   return (
     <>
@@ -11,7 +13,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         class="vads-u-margin-y--1"
         close-btn-aria-label="Close notification"
         disable-analytics="false"
-        status="success"
+        status="error"
         visible="true"
         full-width
         slim
@@ -20,15 +22,15 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         tabindex="-1"
       >
         <p className="vads-u-margin-y--0" id={id}>
-          Update saved.
+          {DEFAULT_ERROR_MESSAGE}
         </p>
       </va-alert>
     </>
   );
 };
 
-ContactInformationUpdateSuccessAlert.propTypes = {
+GenericErrorAlert.propTypes = {
   fieldName: PropTypes.string.isRequired,
 };
 
-export default ContactInformationUpdateSuccessAlert;
+export default GenericErrorAlert;
