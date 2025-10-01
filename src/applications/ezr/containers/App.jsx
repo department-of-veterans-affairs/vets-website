@@ -81,9 +81,13 @@ const App = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isAppLoading,
+      veteranGender,
+      veteranDateOfBirth,
       canSubmitFinancialInfo,
+      isEmergencyContactsEnabled,
       veteranFullName,
       isProvidersAndDependentsPrefillEnabled,
+      isDownloadPdfEnabled,
     ],
   );
 
@@ -123,7 +127,7 @@ const mapStateToProps = state => ({
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
-      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+      state.featureToggles.ezrFormPrefillWithProvidersAndDependents,
     isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
