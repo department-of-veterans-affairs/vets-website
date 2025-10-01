@@ -127,7 +127,7 @@ const mapStateToProps = state => ({
     isEmergencyContactsEnabled:
       state.featureToggles.ezrEmergencyContactsEnabled,
     isProvidersAndDependentsPrefillEnabled:
-      state.featureToggles.ezrProvidersAndDependentsPrefillEnabled,
+      state.featureToggles.ezrFormPrefillWithProvidersAndDependents,
     isDownloadPdfEnabled: state.featureToggles.ezrDownloadPdfEnabled,
   },
   formData: state.form.data,
