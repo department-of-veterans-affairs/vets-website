@@ -83,7 +83,7 @@ describe('DatePicker', () => {
     );
 
     const input = screen.getByTestId('year-only-input');
-    fireEvent.input(input, { target: { value: '2024' } });
+    fireEvent.change(input, { target: { value: '2024' } });
 
     sinon.assert.calledOnce(mockUpdateDate);
     const arg = mockUpdateDate.firstCall.args[0];

@@ -31,7 +31,7 @@ const DatePicker = ({
             value={dateValue}
             inputmode="numeric"
             maxlength="4"
-            onInput={e => {
+            onChange={e => {
               const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
               // Only fabricate and send the synthetic event if we have a full 4-digit year
               if (val.length === 4) {
