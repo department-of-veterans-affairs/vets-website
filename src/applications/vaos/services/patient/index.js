@@ -417,5 +417,5 @@ export async function fetchFlowEligibilityAndClinics({
     eligibility,
     clinics: results.clinics,
     pastAppointments: results.pastAppointments,
-  }; // eligibility calcs, but we want to cache them for future use // it feels sort of hackish to return these along with our main
+  }; // clinics and past appointments are returned in addition to eligibilty to be cached for later user
 }

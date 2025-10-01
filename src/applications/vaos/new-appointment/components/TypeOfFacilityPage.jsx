@@ -51,7 +51,6 @@ export default function TypeOfFacilityPage() {
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
-
   const history = useHistory();
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));

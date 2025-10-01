@@ -196,6 +196,7 @@ class SchemaForm extends React.Component {
       name,
       addNameAttribute,
     } = this.props;
+
     const useReviewMode = reviewMode && !editModeOnReviewPage;
 
     return (
