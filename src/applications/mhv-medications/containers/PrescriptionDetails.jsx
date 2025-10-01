@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   updatePageTitle,
   reportGeneratedBy,
@@ -48,7 +48,6 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { usePrefetch } from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
 import {
@@ -84,8 +83,7 @@ const PrescriptionDetails = () => {
 
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
-  const isCerner = useSelector(selectIsCernerPatient);
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
 
   const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
     isAcceleratingAllergies,
@@ -107,6 +105,7 @@ const PrescriptionDetails = () => {
   const prefetchPrescriptionDocumentation = usePrefetch(
     'getPrescriptionDocumentation',
   );
+
   useEffect(
     () => {
       if (!isLoading && hasCmopNdcNumber(refillHistory)) {

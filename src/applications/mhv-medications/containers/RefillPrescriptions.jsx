@@ -13,12 +13,11 @@ import {
   EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
 } from '../api/prescriptionsApi';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 import { dateFormat } from '../util/helpers';
 import { selectRefillProgressFlag } from '../util/selectors';
@@ -90,8 +89,7 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
-  const isCerner = useSelector(selectIsCernerPatient);
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];

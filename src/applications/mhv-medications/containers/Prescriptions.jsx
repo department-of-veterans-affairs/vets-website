@@ -9,7 +9,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
 import {
   usePrintTitle,
@@ -76,7 +76,6 @@ import {
 } from '../selectors/selectPreferences';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -86,8 +85,7 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
-  const isCerner = useSelector(selectIsCernerPatient);
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);

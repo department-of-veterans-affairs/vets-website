@@ -2,8 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
-import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import useAcceleratedData from '../hooks/useAcceleratedData';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
 import PrintOnlyPage from './PrintOnlyPage';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
@@ -12,8 +11,7 @@ import { selectSortOption } from '../selectors/selectPreferences';
 
 const PrescriptionsPrintOnly = ({ list, isFullList, hasError = false }) => {
   const { search } = useLocation();
-  const isCerner = useSelector(selectIsCernerPatient);
-  const { isAcceleratingAllergies } = useAcceleratedData();
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
   const { data: allergies } = useGetAllergiesQuery({
     isAcceleratingAllergies,
     isCerner,
