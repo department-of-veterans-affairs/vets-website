@@ -27,6 +27,7 @@ import {
   otherGeneratedIncomeTypeExplanationRequired,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  requireExpandedArrayField,
   resolveRecipientFullName,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
@@ -148,6 +149,7 @@ const royaltyRecipientPage = {
       'ui:options': {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherRecipientRelationshipExplanationRequired(
@@ -155,6 +157,9 @@ const royaltyRecipientPage = {
           index,
           'royaltiesAndOtherProperties',
         ),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -195,6 +200,7 @@ const generatedIncomeTypePage = {
       'ui:options': {
         expandUnder: 'incomeGenerationMethod',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
@@ -206,6 +212,9 @@ const generatedIncomeTypePage = {
     mitigatingCircumstances: textareaUI(
       'Explain any mitigating circumstances that prevent the sale of this asset',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',

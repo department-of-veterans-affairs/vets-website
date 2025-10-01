@@ -99,14 +99,12 @@ const appointmentStatuses = {
   booked: {
     status: 'booked',
     weight: 0.85, // 85% of appointments are booked
-    cancellable: isPast => !isPast, // Future appointments can be cancelled
     vistaStatus: ['FUTURE'],
     cancelationReason: null,
   },
   cancelled: {
     status: 'cancelled',
     weight: 0.15, // 15% of appointments are cancelled
-    cancellable: false, // Cancelled appointments cannot be cancelled again
     vistaStatus: ['CANCELLED BY PATIENT', 'CANCELLED BY CLINIC'],
     cancelationReason: [
       {
@@ -133,28 +131,113 @@ const appointmentStatuses = {
 };
 
 /**
+ * Determines if the appointment is a CNP appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a CNP appointment.
+ */
+const isCNP = appointment => {
+  const serviceCategory = (appointment.serviceCategory || []).map(
+    category => category.text,
+  );
+  return serviceCategory.includes('Compensation & Pension');
+};
+
+/**
+ * Determines if the appointment is a COVID appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a COVID appointment.
+ */
+const isCovid = appointment => {
+  return appointment.serviceType === 'covid';
+};
+
+/**
+ * Determines if the appointment is a past appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a past appointment.
+ */
+const isPast = appointment => {
+  return appointment.past;
+};
+
+/**
+ * Determines if the appointment is a cancelled appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a cancelled appointment.
+ */
+const isCancelled = appointment => {
+  return appointment.status === 'cancelled';
+};
+
+/**
+ * Determines if the appointment is a booked CC appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a booked CC appointment.
+ */
+const isBookedCC = appointment => {
+  return appointment.kind === 'cc' && appointment.status === 'booked';
+};
+
+/**
+ * Determines if the appointment is a telehealth appointment.
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} Whether the appointment is a telehealth appointment.
+ */
+const isTelehealth = appointment => {
+  return appointment.kind === 'telehealth';
+};
+
+/**
+ * Determines appointment cancelable status.
+ * Appointments cannot be cancelled if they are:
+ * - CNP (Compensation & Pension)
+ * - Covid
+ * - Past
+ * - Cancelled
+ * - Telehealth
+ * - CC and booked
+ *
+ * @param {object} appointment - The appointment object.
+ * @returns {boolean} The cancelable status.
+ */
+const getCancellableStatus = appointment => {
+  return (
+    !isPast(appointment) &&
+    !isCancelled(appointment) &&
+    !isBookedCC(appointment) &&
+    !isTelehealth(appointment) &&
+    !isCNP(appointment) &&
+    !isCovid(appointment)
+  );
+};
+
+/**
  * Determines appointment status based on weighted probabilities.
  *
- * @param {boolean} isPast - Whether the appointment is in the past.
+ * @param {object} appointment - The appointment object.
+ * @param {boolean} isPastAppointment - Whether the appointment is in the past.
  * @returns {Object} Object containing status, cancellable flag, cancellation reason, and vista status.
  */
-const getAppointmentStatus = isPast => {
+const getAppointmentStatus = (appointment, isPastAppointment) => {
   const rand = Math.random();
   let cumulative = 0;
 
   for (const [statusKey, config] of Object.entries(appointmentStatuses)) {
     cumulative += config.weight;
     if (rand <= cumulative) {
-      const isCancelled = statusKey === 'cancelled';
-      const cancellable =
-        typeof config.cancellable === 'function'
-          ? config.cancellable(isPast)
-          : config.cancellable;
+      const isCancelledAppointment = statusKey === 'cancelled';
+      const cancellable = getCancellableStatus(appointment);
 
       let cancelationReason = null;
       let vistaStatus = config.vistaStatus[0]; // Default vista status
 
-      if (isCancelled) {
+      if (isCancelledAppointment) {
         // Random cancellation reason for cancelled appointments
         const reasons = config.cancelationReason;
         cancelationReason = reasons[Math.floor(Math.random() * reasons.length)];
@@ -170,7 +253,7 @@ const getAppointmentStatus = isPast => {
               Math.floor(Math.random() * config.vistaStatus.length)
             ];
         }
-      } else if (isPast) {
+      } else if (isPastAppointment) {
         vistaStatus = 'CHECKED OUT';
       }
 
@@ -186,9 +269,9 @@ const getAppointmentStatus = isPast => {
   // Fallback to booked status
   return {
     status: 'booked',
-    cancellable: !isPast,
+    cancellable: getCancellableStatus(appointment),
     cancelationReason: null,
-    vistaStatus: isPast ? ['CHECKED OUT'] : ['FUTURE'],
+    vistaStatus: isPastAppointment ? ['CHECKED OUT'] : ['FUTURE'],
   };
 };
 
@@ -302,6 +385,7 @@ const appointmentTemplates = {
           pending: false,
           past: startDate < new Date(),
           future: startDate > new Date(),
+          cancellable: false, // CC appointments that are booked are not cancellable
         },
       };
     },
@@ -319,10 +403,8 @@ const appointmentTemplates = {
       const practitioner =
         practitioners[Math.floor(Math.random() * practitioners.length)];
       const appointmentId = generateRandomId();
-      const isPast = startDate < new Date();
-      const statusInfo = getAppointmentStatus(isPast);
-
-      return {
+      const isPastAppointment = startDate < new Date();
+      const temporaryAppointment = {
         id: appointmentId,
         type: 'appointments',
         attributes: {
@@ -340,7 +422,6 @@ const appointmentTemplates = {
           kind: 'clinic',
           type: 'VA',
           modality: 'vaInPerson',
-          status: statusInfo.status,
           serviceType,
           serviceTypes: [
             {
@@ -390,7 +471,6 @@ const appointmentTemplates = {
             end: formatAppointmentDate(endDate),
           },
           created: formatAppointmentDate(new Date()),
-          cancellable: true,
           extension: {
             ccLocation: {
               address: {},
@@ -403,8 +483,27 @@ const appointmentTemplates = {
           avsPath: null,
           serviceName: serviceConfig.name.toUpperCase(),
           friendlyLocationName: 'Cheyenne VA Medical Center',
-          past: isPast,
+          past: isPastAppointment,
           pending: false,
+        },
+      };
+      const statusInfo = getAppointmentStatus(
+        temporaryAppointment.attributes,
+        isPastAppointment,
+      );
+
+      return {
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          ...temporaryAppointment.attributes,
+          status: statusInfo.status,
+          cancellable: statusInfo.cancellable,
+          cancelationReason: statusInfo.cancelationReason,
+          extension: {
+            ...temporaryAppointment.attributes.extension,
+            vistaStatus: statusInfo.vistaStatus,
+          },
         },
       };
     },
@@ -423,10 +522,8 @@ const appointmentTemplates = {
       const practitioner =
         practitioners[Math.floor(Math.random() * practitioners.length)];
       const appointmentId = generateRandomId();
-      const isPast = startDate < new Date();
-      const statusInfo = getAppointmentStatus(isPast);
-
-      return {
+      const isPastAppointment = startDate < new Date();
+      const temporaryAppointment = {
         id: appointmentId,
         type: 'appointments',
         attributes: {
@@ -443,7 +540,6 @@ const appointmentTemplates = {
           ],
           kind: 'phone',
           type: 'VA',
-          status: statusInfo.status,
           serviceType,
           serviceTypes: [
             {
@@ -493,16 +589,6 @@ const appointmentTemplates = {
             end: formatAppointmentDate(endDate),
           },
           created: formatAppointmentDate(new Date()),
-          cancellable: statusInfo.cancellable,
-          cancelationReason: statusInfo.cancelationReason,
-          extension: {
-            ccLocation: {
-              address: {},
-            },
-            vistaStatus: statusInfo.vistaStatus,
-            preCheckinAllowed: false,
-            eCheckinAllowed: false,
-          },
           localStartTime: formatLocalTime(startDate),
           serviceName: serviceConfig.name.toUpperCase(),
           friendlyLocationName: 'Cheyenne VA Medical Center',
@@ -515,8 +601,31 @@ const appointmentTemplates = {
             ],
           },
           modality: 'vaPhone',
-          past: isPast,
+          past: isPastAppointment,
           pending: false,
+        },
+      };
+      const statusInfo = getAppointmentStatus(
+        temporaryAppointment.attributes,
+        isPastAppointment,
+      );
+
+      return {
+        id: appointmentId,
+        type: 'appointments',
+        attributes: {
+          ...temporaryAppointment.attributes,
+          status: statusInfo.status,
+          cancellable: statusInfo.cancellable,
+          cancelationReason: statusInfo.cancelationReason,
+          extension: {
+            ccLocation: {
+              address: {},
+            },
+            vistaStatus: statusInfo.vistaStatus,
+            preCheckinAllowed: false,
+            eCheckinAllowed: false,
+          },
         },
       };
     },
@@ -535,8 +644,8 @@ const appointmentTemplates = {
       const practitioner =
         practitioners[Math.floor(Math.random() * practitioners.length)];
       const appointmentId = generateRandomId();
-      const isPast = startDate < new Date();
-      const statusInfo = getAppointmentStatus(isPast);
+      const isPastAppointment = startDate < new Date();
+      const statusInfo = getAppointmentStatus({}, isPastAppointment);
 
       const modalityOptions = [
         'vaVideoCareAtHome',
@@ -594,7 +703,7 @@ const appointmentTemplates = {
           start: formatAppointmentDate(startDate),
           status: statusInfo.status,
           created: formatAppointmentDate(new Date()),
-          cancellable: statusInfo.cancellable,
+          cancellable: false, // Telehealth appointments are not cancellable
           cancelationReason: statusInfo.cancelationReason,
           localStartTime: formatLocalTime(startDate),
           telehealth: {
@@ -644,7 +753,7 @@ const appointmentTemplates = {
             },
           },
           vistaStatus: statusInfo.vistaStatus,
-          past: isPast,
+          past: isPastAppointment,
           pending: false,
         },
       };

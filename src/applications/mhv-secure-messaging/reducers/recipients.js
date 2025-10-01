@@ -89,9 +89,8 @@ export const recipientsReducer = (state = initialState, action) => {
         state.allowedRecipients.map(r => [
           r.triageTeamId,
           {
+            ...r,
             name: r.suggestedNameDisplay || r.name,
-            healthCareSystemName: r.healthCareSystemName,
-            stationNumber: r.stationNumber,
           },
         ]),
       );
