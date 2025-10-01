@@ -1,17 +1,16 @@
 import {
   yesNoUI,
   yesNoSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const hasTerminatedUI = yesNoUI({
-  title: 'Has your remarriage been terminated?',
-  hint: 'If "Yes," please provide the date and reason for termination',
+  title: 'Has your remarriage ended?',
+  hint: 'If "Yes," please provide the date and reason',
 });
 
 export default {
   uiSchema: {
-    ...titleUI('Has your remarriage ended?'),
+    hideFormTitle: true,
     remarriage: {
       hasTerminated: hasTerminatedUI,
     },

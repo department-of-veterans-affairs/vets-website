@@ -157,3 +157,5 @@ export const NONE_SELECTED_ERROR =
 
 export const MAX_SELECTED_ERROR =
   'You’ve reached the maximum number of allowed selected issues';
+
+export const NOT_ANSWERED = 'Not answered';

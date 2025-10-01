@@ -57,13 +57,13 @@ describe('verify attach file button behaviour', () => {
   });
 
   it('verify attach file button label change', () => {
-    cy.get(Locators.BUTTONS.ATTACH_FILE)
+    PatientComposePage.attachFileButton()
       .shadow()
       .find('button')
       .should('have.text', 'Attach file');
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
 
-    cy.get(Locators.BUTTONS.ATTACH_FILE)
+    PatientComposePage.attachFileButton()
       .shadow()
       .find('button')
       .should('have.text', 'Attach additional file');
@@ -82,7 +82,7 @@ describe('verify attach file button behaviour', () => {
 
     PatientComposePage.attachFewFiles(fileList);
 
-    cy.get(Locators.BUTTONS.ATTACH_FILE).should('not.exist');
+    PatientComposePage.attachFileButton().should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

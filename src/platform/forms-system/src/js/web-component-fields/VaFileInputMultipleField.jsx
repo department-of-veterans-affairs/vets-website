@@ -148,7 +148,9 @@ const VaFileInputMultipleField = props => {
     () => {
       if (mappedProps.error === MISSING_FILE) {
         const _errors = [...errors];
-        _errors[0] = MISSING_FILE;
+        _errors[0] =
+          childrenProps?.uiSchema?.['ui:errorMessages']?.required ||
+          MISSING_FILE;
         setErrors(_errors);
       }
     },

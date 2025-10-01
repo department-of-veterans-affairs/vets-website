@@ -427,7 +427,7 @@
  *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cardDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cardDescription?: (itemData: any, index: number, fullData: any) => string | React.ReactNode,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any, index: number, fullData: any) => string,
@@ -444,10 +444,10 @@
  *   duplicateSummaryCardLabel?: (props: ArrayBuilderTextProps) => string,
  *   duplicateSummaryCardWarningOrErrorAlert?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
- *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
- *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitle?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string | React.ReactNode,
  *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
  *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
@@ -478,7 +478,7 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
- * @property {DuplicateChecks} duplicateChecks
+ * @property {DuplicateChecks} [duplicateChecks]
  * ```
  * // Example simple:
  * duplicateChecks: {
@@ -510,7 +510,7 @@
  * @typedef {Object} DuplicateChecks
  * @property {Array<String>} comparisons - The array paths to compare for
  * duplicates
- * @property {String} comparisonType - set as 'all', 'internal', or 'external'.
+ * @property {String} [comparisonType] - set as 'all', 'internal', or 'external'.
  *   - 'all' compares both internal and external data (default)
  *   - 'internal' compares only within the array data
  *   - 'external' compares unique internal data with external data (internal

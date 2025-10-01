@@ -1,7 +1,6 @@
 import {
   yesNoUI,
   yesNoSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 // Spouse Veteran status question
@@ -11,7 +10,7 @@ spouseVeteranUI['ui:required'] = () => true;
 
 export default {
   uiSchema: {
-    ...titleUI('Is your spouse a Veteran?'),
+    hideFormTitle: true,
     remarriage: {
       spouseIsVeteran: spouseVeteranUI,
     },

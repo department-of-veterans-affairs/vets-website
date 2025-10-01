@@ -170,6 +170,40 @@ export function otherRecipientRelationshipTypeUI(arrayKey) {
 }
 
 /**
+ * Returns a reusable updateSchema method to allow proper validation for expanded fields within arrays.
+ * Used at the top-level of the uiSchema
+ * uiSchema: {
+ * 'ui:options': {
+ *    ...existingUIoptions
+ *    ...requireExpandedArrayField('otherRecipientRelationshipType'),
+ *    }
+ * }
+ *
+ * @param {string} expandedFieldKey - The key the expanded field belongs to (e.g., 'otherRecipientRelationshipType').
+ */
+export const requireExpandedArrayField = expandedFieldKey => {
+  return {
+    updateSchema: (formData, formSchema) => {
+      const existingRequired = (formSchema.required || []).filter(
+        field => field !== expandedFieldKey,
+      );
+
+      if (formSchema.properties[expandedFieldKey]['ui:collapsed']) {
+        return {
+          ...formSchema,
+          required: existingRequired,
+        };
+      }
+
+      return {
+        ...formSchema,
+        required: [...existingRequired, expandedFieldKey],
+      };
+    },
+  };
+};
+
+/**
  * Generates the delete description text for an array item.
  *
  * @param {Object} props - Props passed to the deleteDescription text field.
