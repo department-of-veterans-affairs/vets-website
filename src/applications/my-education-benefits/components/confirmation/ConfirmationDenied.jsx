@@ -114,12 +114,11 @@ const ConfirmationDenied = ({
       <h2>What happens next?</h2>
       <ul>
         <li>
-          Download a copy of your{' '}
           <va-link
             href={LETTER_URL}
             download
             filetype="PDF"
-            text="Denial Letter"
+            text="Download a copy of your Denial Letter"
           />
         </li>
         <li>
@@ -132,15 +131,13 @@ const ConfirmationDenied = ({
         </li>
         <li>There is no further action required by you at this time.</li>
         <li>
-          Learn more about VA benefits and programs through the{' '}
           <va-link
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             target="_blank"
             rel="noopener noreferrer"
             filetype="PDF"
-            text="Building Your Future with the GI Bill Series"
+            text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
           />
-          .
         </li>
       </ul>
 

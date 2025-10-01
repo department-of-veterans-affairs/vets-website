@@ -135,7 +135,7 @@ const DeniedConfirmation = ({
           </li>
           <li>We don’t require further action by you at this time.</li>
           <li>
-            Learn more about VA benefits and programs through the Building
+            Learn more about VA benefits and programs through the Building{' '}
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"

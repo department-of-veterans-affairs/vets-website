@@ -147,7 +147,7 @@ const ApprovedConfirmation = ({
             .
           </li>
           <li>
-            Learn more about VA benefits and programs through the Building
+            Learn more about VA benefits and programs through the Building{' '}
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"

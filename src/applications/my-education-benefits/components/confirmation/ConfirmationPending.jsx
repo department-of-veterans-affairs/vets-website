@@ -131,17 +131,20 @@ const ConfirmationPending = ({
           .
         </li>
         <li>
-          Review and/or update your direct deposit information on{' '}
-          <va-link href="/change-direct-deposit/" text="your VA.gov profile" />
+          <va-link
+            href="/change-direct-deposit/"
+            target="_blank"
+            rel="noopener noreferrer"
+            text="Review and/or update your direct deposit information on your VA.gov profile"
+          />
         </li>
         <li>
-          Use our{' '}
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            text="GI Bill Comparison Tool"
+            target="_blank"
+            rel="noopener noreferrer"
+            text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
           />
-          to help you decide which education program and school is best for you.
-          to help you decide which education program and school is best for you.
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}
@@ -155,13 +158,11 @@ const ConfirmationPending = ({
           .
         </li>
         <li>
-          Measure your interests and skill levels and help figure out your
-          career path with{' '}
           <va-link
             href="https://www.benefits.va.gov/gibill/careerscope.asp"
             target="_blank"
             rel="noopener noreferrer"
-            text="CareerScope®"
+            text="Measure your interests and skill levels and help figure out your career path with CareerScope®"
           />
           .
         </li>

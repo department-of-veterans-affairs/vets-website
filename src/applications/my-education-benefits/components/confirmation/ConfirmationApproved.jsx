@@ -127,12 +127,12 @@ const ConfirmationApproved = ({
           />
         </li>
         <li>
-          Use our{' '}
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            text="GI Bill Comparison Tool"
+            target="_blank"
+            rel="noopener noreferrer"
+            text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
           />
-          to help you decide which education program and school is best for you.
         </li>
         <li>
           Once you’ve selected a school or program, you may bring your
@@ -140,8 +140,12 @@ const ConfirmationApproved = ({
           provide proof of eligibility.
         </li>
         <li>
-          Review and/or update your direct deposit information on your{' '}
-          <va-link href="/change-direct-deposit/" text="VA.gov profile" />
+          <va-link
+            href="/change-direct-deposit/"
+            target="_blank"
+            rel="noopener noreferrer"
+            text="Review and/or update your direct deposit information on your VA.gov profile"
+          />
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}

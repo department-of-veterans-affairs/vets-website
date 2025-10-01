@@ -112,21 +112,21 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
             .
           </li>
           <li>
-            Review and/or update your direct deposit information on{' '}
             <va-link
               href="/change-direct-deposit/"
-              text="your VA.gov profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              text="Review and/or update your direct deposit information on your VA.gov profile"
             />
             .
           </li>
           <li>
-            Use our{' '}
             <va-link
               href="/education/gi-bill-comparison-tool/"
-              text="GI Bill Comparison Tool"
+              target="_blank"
+              rel="noopener noreferrer"
+              text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
             />
-            to help you decide which education program and school is best for
-            you.
           </li>
           <li>
             Learn more about VA benefits and programs through the{' '}
