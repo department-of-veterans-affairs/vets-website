@@ -3,7 +3,6 @@ import eligibilityCheck from './eligibilityCheck';
 import hasAlreadyFiled from './hasAlreadyFiled';
 import hasUnpaidCreditors from './hasUnpaidCreditors';
 import eligibilitySummary from './eligibilitySummary';
-import veteranIdentification from './veteranIdentification';
 import veteranFullName from './veteranFullName';
 import veteranIdentifiers from './veteranIdentifiers';
 import beneficiaryIsVeteran from './beneficiaryIsVeteran';
@@ -29,7 +28,6 @@ export {
   hasAlreadyFiled,
   hasUnpaidCreditors,
   eligibilitySummary,
-  veteranIdentification,
   veteranFullName,
   veteranIdentifiers,
   beneficiaryIsVeteran,
