@@ -16,7 +16,17 @@ export default {
       buttonText: 'Upload a document',
       addAnotherLabel: 'Upload another document',
       fileUploadUrl: `${environment.API_URL}/v0/form1010_ezr_attachments`,
-      fileTypes: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'rtf'],
+      fileTypes: [
+        'doc',
+        'docx',
+        'heic',
+        'heif',
+        'jpeg',
+        'jpg',
+        'pdf',
+        'png',
+        'rtf',
+      ],
       maxSize: 1024 * 1024 * 10, // 10 MB max size
       hideLabelText: true,
       createPayload,
