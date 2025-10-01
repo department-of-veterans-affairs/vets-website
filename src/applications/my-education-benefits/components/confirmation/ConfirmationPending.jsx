@@ -126,20 +126,20 @@ const ConfirmationPending = ({
             href="https://ask.va.gov/"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Ask VA
-          </va-link>
+            text="Ask VA"
+          />
           .
         </li>
         <li>
           Review and/or update your direct deposit information on{' '}
-          <va-link href="/change-direct-deposit/">your VA.gov profile</va-link>.
+          <va-link href="/change-direct-deposit/" text="your VA.gov profile" />
         </li>
         <li>
           Use our{' '}
-          <va-link href="/education/gi-bill-comparison-tool/">
-            GI Bill Comparison Tool
-          </va-link>{' '}
+          <va-link
+            href="/education/gi-bill-comparison-tool/"
+            text="GI Bill Comparison Tool"
+          />
           to help you decide which education program and school is best for you.
           to help you decide which education program and school is best for you.
         </li>
@@ -149,9 +149,9 @@ const ConfirmationPending = ({
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Building Your Future with the GI Bill Series
-          </va-link>
+            filetype="PDF"
+            text="Building Your Future with the GI Bill Series"
+          />
           .
         </li>
         <li>
@@ -161,16 +161,17 @@ const ConfirmationPending = ({
             href="https://www.benefits.va.gov/gibill/careerscope.asp"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            CareerScope®
-          </va-link>
+            text="CareerScope®"
+          />
           .
         </li>
       </ul>
 
-      <va-link class="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </va-link>
+      <va-link
+        class="vads-c-action-link--green"
+        href="/my-va/"
+        text="Go to your My VA dashboard"
+      />
 
       <FormFooter />
     </div>

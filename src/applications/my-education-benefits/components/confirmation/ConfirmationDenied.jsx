@@ -52,17 +52,13 @@ const ConfirmationDenied = ({
           available. A physical copy will also be mailed to your mailing
           address.{' '}
         </p>
-        <va-link download href={LETTER_URL} class="usa-button meb-print">
-          <span className="vads-u-display--inline-block vads-u-margin-right--1">
-            <va-icon
-              aria-hidden="true"
-              role="presentation"
-              icon="file_download"
-              size={3}
-            />
-          </span>
-          Download your letter
-        </va-link>
+        <va-link
+          download
+          href={LETTER_URL}
+          filetype="PDF"
+          text="Download your letter"
+          class="usa-button meb-print"
+        />
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
@@ -119,17 +115,12 @@ const ConfirmationDenied = ({
       <ul>
         <li>
           Download a copy of your{' '}
-          <va-link href={LETTER_URL} download>
-            <span className="vads-u-display--inline-block vads-u-margin-right--1">
-              <va-icon
-                aria-hidden="true"
-                role="presentation"
-                icon="file_download"
-                size={3}
-              />
-            </span>
-            Denial Letter
-          </va-link>
+          <va-link
+            href={LETTER_URL}
+            download
+            filetype="PDF"
+            text="Denial Letter"
+          />
         </li>
         <li>
           We will review your eligibility for other VA education benefit
@@ -146,16 +137,18 @@ const ConfirmationDenied = ({
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Building Your Future with the GI Bill Series
-          </va-link>
+            filetype="PDF"
+            text="Building Your Future with the GI Bill Series"
+          />
           .
         </li>
       </ul>
 
-      <va-link class="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </va-link>
+      <va-link
+        class="vads-c-action-link--green"
+        href="/my-va/"
+        text="Go to your My VA dashboard"
+      />
 
       <FormFooter />
     </div>

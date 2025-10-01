@@ -105,9 +105,8 @@ const UnderReviewConfirmation = ({
             href="https://ask.va.gov"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Ask VA
-          </va-link>
+            text="Ask VA"
+          />
           .
         </p>
       </va-card>
@@ -135,9 +134,8 @@ const UnderReviewConfirmation = ({
               href="https://ask.va.gov/"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Ask VA feature
-            </va-link>
+              text="Ask VA feature"
+            />
             .
           </li>
           <li>
@@ -145,10 +143,8 @@ const UnderReviewConfirmation = ({
               href="/profile/direct-deposit"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Review and/or update your direct deposit information on your
-              VA.gov profile
-            </va-link>
+              text="Review and/or update your direct deposit information on your VA.gov profile"
+            />
             .
           </li>
           <li>
@@ -156,10 +152,8 @@ const UnderReviewConfirmation = ({
               href="/education/gi-bill-comparison-tool/"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Use our GI Bill Comparison Tool to help you decide which schools
-              are best for you
-            </va-link>
+              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you"
+            />
             .
           </li>
           <li>
@@ -168,9 +162,9 @@ const UnderReviewConfirmation = ({
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Building Your Future with the GI Bill Series
-            </va-link>
+              filetype="PDF"
+              text="Building Your Future with the GI Bill Series"
+            />
             .
           </li>
         </ul>

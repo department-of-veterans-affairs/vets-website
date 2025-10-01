@@ -48,26 +48,21 @@ const ConfirmationApproved = ({
           of Eligibility is now available. A physical copy will also be mailed
           to your mailing address.{' '}
         </p>
-        <va-link download href={LETTER_URL} class="vads-u-padding-bottom--2">
-          <span className="vads-u-display--inline-block vads-u-margin-right--1">
-            <va-icon
-              aria-hidden="true"
-              role="presentation"
-              icon="file_download"
-              size={3}
-            />
-          </span>
-          Download your Certificate of Eligibility
-        </va-link>
+        <va-link
+          download
+          href={LETTER_URL}
+          filetype="PDF"
+          text="Download your Certificate of Eligibility"
+          class="vads-u-padding-bottom--2"
+        />
         <br />
         <br />
         <va-link
           href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          View a statement of your benefits
-        </va-link>
+          text="View a statement of your benefits"
+        />
       </va-alert>
 
       <va-summary-box class="vads-u-margin-y--3">
@@ -124,23 +119,19 @@ const ConfirmationApproved = ({
       <ul>
         <li>
           Download a copy of your{' '}
-          <va-link href={LETTER_URL} download>
-            <span className="vads-u-display--inline-block vads-u-margin-right--1">
-              <va-icon
-                aria-hidden="true"
-                role="presentation"
-                icon="file_download"
-                size={3}
-              />
-            </span>
-            Certificate of Eligibility
-          </va-link>
+          <va-link
+            href={LETTER_URL}
+            download
+            filetype="PDF"
+            text="Certificate of Eligibility"
+          />
         </li>
         <li>
           Use our{' '}
-          <va-link href="/education/gi-bill-comparison-tool/">
-            GI Bill Comparison Tool
-          </va-link>{' '}
+          <va-link
+            href="/education/gi-bill-comparison-tool/"
+            text="GI Bill Comparison Tool"
+          />
           to help you decide which education program and school is best for you.
         </li>
         <li>
@@ -150,7 +141,7 @@ const ConfirmationApproved = ({
         </li>
         <li>
           Review and/or update your direct deposit information on your{' '}
-          <va-link href="/change-direct-deposit/">VA.gov profile</va-link>.
+          <va-link href="/change-direct-deposit/" text="VA.gov profile" />
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}
@@ -158,9 +149,9 @@ const ConfirmationApproved = ({
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             target="_blank"
             rel="noopener noreferrer"
-          >
-            Building Your Future with the GI Bill Series
-          </va-link>
+            filetype="PDF"
+            text="Building Your Future with the GI Bill Series"
+          />
           .
         </li>
       </ul>
@@ -176,14 +167,15 @@ const ConfirmationApproved = ({
           href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Understanding your Certificate of Eligibility
-        </va-link>
+          text="Understanding your Certificate of Eligibility"
+        />
       </va-additional-info>
 
-      <va-link class="vads-c-action-link--green" href="/my-va/">
-        Go to your My VA dashboard
-      </va-link>
+      <va-link
+        class="vads-c-action-link--green"
+        href="/my-va/"
+        text="Go to your My VA dashboard"
+      />
 
       <FormFooter />
     </div>

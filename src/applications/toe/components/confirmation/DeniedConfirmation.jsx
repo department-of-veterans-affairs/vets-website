@@ -63,18 +63,10 @@ const DeniedConfirmation = ({
             <va-link
               download
               href={LETTER_ENDPOINT}
-              class="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
-            >
-              <span className="vads-u-display--inline-block vads-u-margin-right--1">
-                <va-icon
-                  aria-hidden="true"
-                  role="presentation"
-                  icon="file_download"
-                  size={3}
-                />
-              </span>
-              Download your decision letter (PDF)
-            </va-link>
+              filetype="PDF"
+              text="Download your decision letter (PDF)"
+              class="vads-u-margin-bottom--6"
+            />
             .
           </div>
         </va-alert>
@@ -134,9 +126,8 @@ const DeniedConfirmation = ({
               href={LETTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Download your VA education letters
-            </va-link>
+              text="Download your VA education letters"
+            />
             .
           </li>
           <li>
@@ -149,9 +140,9 @@ const DeniedConfirmation = ({
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
-            >
-              Your Future with the GI Bill Series
-            </va-link>
+              filetype="PDF"
+              text="Your Future with the GI Bill Series"
+            />
             .
           </li>
         </ul>
