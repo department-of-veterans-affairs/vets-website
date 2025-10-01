@@ -245,10 +245,7 @@ describe('Prescription details container', () => {
     });
   });
 
-  // TODO: when prefetch is enabled it causes an infinite reloading loop so it is commented out for now
-  // re-enable these tests when that is fixed, or remove if prefetch is not going to be used
-
-  it.skip('should prefetch the prescription documentation when there is an NDC number', async () => {
+  it('should prefetch the prescription documentation when there is an NDC number', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: null, error: true });
@@ -265,7 +262,7 @@ describe('Prescription details container', () => {
     });
   });
 
-  it.skip('should not prefetch the prescription documentation when there is not an NDC number', async () => {
+  it('should not prefetch the prescription documentation when there is not an NDC number', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox });
     stubPrescriptionsApiCache({ sandbox, data: null, error: true });
