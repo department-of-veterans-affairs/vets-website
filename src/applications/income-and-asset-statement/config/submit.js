@@ -10,7 +10,8 @@ const disallowedFields = [
   'otherVeteranFullName',
   'otherVeteranSocialSecurityNumber',
   'otherVaFileNumber',
-  '_metadata',
+  '_metadata', // old arrayBuilder metadata key
+  'metadata', // arrayBuilder metadata key
   'isLoggedIn',
 ];
 

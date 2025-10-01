@@ -400,7 +400,7 @@ describe('owned asset list and loop pages', () => {
         } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
         const formData = { ...testData.data, claimantType: 'VETERAN' };
 
-        it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN', () => {
+        it('should display when showUpdatedContent is true and claimantType is not SPOUSE/CHILD/CUSTODIAN/PARENT', () => {
           const { depends } = ownedAssetPages.ownedAssetPagesUpdatedSummary;
           expect(depends(formData)).to.be.true;
         });
@@ -526,11 +526,55 @@ describe('owned asset list and loop pages', () => {
           expect(depends(formData)).to.be.true;
         });
 
+        it('should have modified hint text for custodian', () => {
+          expect(
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ].hint,
+          ).to.include(
+            'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+          );
+        });
+
         testSubmitsWithoutErrors(
           formConfig,
           schema,
           uiSchema,
           'custodian summary page',
+          formData,
+          { loggedIn: true },
+        );
+      });
+
+      describe('parent summary page', () => {
+        const {
+          schema,
+          uiSchema,
+        } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
+        const formData = { ...testData.data, claimantType: 'PARENT' };
+
+        it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+          const {
+            depends,
+          } = ownedAssetPages.ownedAssetPagesUpdatedParentSummary;
+          expect(depends(formData)).to.be.true;
+        });
+
+        it('should have modified hint text for parent', () => {
+          expect(
+            uiSchema['view:isAddingOwnedAssets']['ui:options'].updateUiSchema()[
+              'ui:options'
+            ].hint,
+          ).to.include(
+            'Your dependents include your spouse, including a same-sex and common-law partner.',
+          );
+        });
+
+        testSubmitsWithoutErrors(
+          formConfig,
+          schema,
+          uiSchema,
+          'parent summary page',
           formData,
           { loggedIn: true },
         );
