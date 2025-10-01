@@ -39,6 +39,8 @@ import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCern
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
+import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
+import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -321,63 +323,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </>
         )}
       <va-accordion bordered>
-        <va-accordion-item bordered data-testid="ccdAccordionItem">
-          <h3 slot="headline">
-            Continuity of Care Document (VA Health Summary)
-          </h3>
-          <p className="vads-u-margin--0">
-            This Continuity of Care Document (CCD) is a summary of your VA
-            medical records that you can share with non-VA providers in your
-            community. It includes your allergies, medications, recent lab
-            results, and more.
-          </p>
-          <p>
-            You can download this report in .xml format, a standard file format
-            that works with other providers’ medical records systems.
-          </p>
-          {generatingCCD ? (
-            <div id="generating-ccd-indicator">
-              <TrackedSpinner
-                id="download-ccd-spinner"
-                label="Loading"
-                message="Preparing your download..."
-              />
-            </div>
-          ) : (
-            <div className="vads-u-display--flex vads-u-flex-direction--column">
-              <va-link
-                download
-                href="#"
-                onClick={e => handleDownloadCCD(e, 'xml')}
-                text="Download XML (best for sharing with your provider)"
-                data-testid="generateCcdButtonXml"
-                data-dd-action-name="Download CCD XML"
-              />
-              {ccdExtendedFileTypeFlag && (
-                <>
-                  <va-link
-                    download
-                    href="#"
-                    onClick={e => handleDownloadCCD(e, 'pdf')}
-                    text="Download PDF (best for printing)"
-                    data-testid="generateCcdButtonPdf"
-                    data-dd-action-name="Download CCD PDF"
-                    class="vads-u-margin-top--1"
-                  />
-                  <va-link
-                    download
-                    href="#"
-                    onClick={e => handleDownloadCCD(e, 'html')}
-                    text="Download HTML (best for screen readers, enlargers, and refreshable Braille displays)"
-                    data-testid="generateCcdButtonHtml"
-                    data-dd-action-name="Download CCD HTML"
-                    class="vads-u-margin-top--1"
-                  />
-                </>
-              )}
-            </div>
-          )}
-        </va-accordion-item>
+        {ccdExtendedFileTypeFlag ? (
+          <CCDAccordionItemV2
+            generatingCCD={generatingCCD}
+            handleDownloadCCD={handleDownloadCCD}
+          />
+        ) : (
+          <CCDAccordionItemV1
+            generatingCCD={generatingCCD}
+            handleDownloadCCD={handleDownloadCCD}
+          />
+        )}
         <va-accordion-item
           bordered
           data-testid="selfEnteredAccordionItem"

@@ -30,6 +30,7 @@ import {
   recipientNameRequired,
   resolveRecipientFullName,
   showUpdatedContent,
+  requireExpandedArrayField,
 } from '../../../helpers';
 
 import SupplementaryFormsAlert, {
@@ -300,7 +301,25 @@ const updatedCustodianSummaryPage = {
       options,
       {
         title: genericTitle,
-        hint: genericHint,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      yesNoOptionsMore,
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const updatedParentSummaryPage = {
+  uiSchema: {
+    'view:isAddingOwnedAssets': arrayBuilderYesNoUI(
+      options,
+      {
+        title: genericTitle,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -326,6 +345,7 @@ const ownedAssetRecipientPage = {
       'ui:options': {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherRecipientRelationshipExplanationRequired(
@@ -333,6 +353,9 @@ const ownedAssetRecipientPage = {
           index,
           'ownedAssets',
         ),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -370,17 +393,7 @@ const ownedAssetRecipientUpdatedPage = {
       },
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (
-          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
-        ) {
-          return { ...formSchema, required: ['recipientRelationship'] };
-        }
-        return {
-          ...formSchema,
-          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
-        };
-      },
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -424,17 +437,7 @@ const ownedAssetRecipientUpdatedSpousePage = {
         ),
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (
-          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
-        ) {
-          return { ...formSchema, required: ['recipientRelationship'] };
-        }
-        return {
-          ...formSchema,
-          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
-        };
-      },
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -477,17 +480,7 @@ const ownedAssetRecipientUpdatedChildPage = {
         ),
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (
-          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
-        ) {
-          return { ...formSchema, required: ['recipientRelationship'] };
-        }
-        return {
-          ...formSchema,
-          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
-        };
-      },
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -533,17 +526,7 @@ const ownedAssetRecipientUpdatedCustodianPage = {
         ),
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (
-          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
-        ) {
-          return { ...formSchema, required: ['recipientRelationship'] };
-        }
-        return {
-          ...formSchema,
-          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
-        };
-      },
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -591,17 +574,7 @@ const ownedAssetRecipientUpdatedParentPage = {
         ),
     },
     'ui:options': {
-      updateSchema: (formData, formSchema) => {
-        if (
-          formSchema.properties.otherRecipientRelationshipType['ui:collapsed']
-        ) {
-          return { ...formSchema, required: ['recipientRelationship'] };
-        }
-        return {
-          ...formSchema,
-          required: ['recipientRelationship', 'otherRecipientRelationshipType'],
-        };
-      },
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
@@ -787,7 +760,8 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
       showUpdatedContent() &&
       formData.claimantType !== 'SPOUSE' &&
       formData.claimantType !== 'CHILD' &&
-      formData.claimantType !== 'CUSTODIAN',
+      formData.claimantType !== 'CUSTODIAN' &&
+      formData.claimantType !== 'PARENT',
     uiSchema: updatedSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -813,6 +787,14 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     depends: formData =>
       showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
     uiSchema: updatedCustodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  ownedAssetPagesUpdatedParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'property-and-business-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: updatedParentSummaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages

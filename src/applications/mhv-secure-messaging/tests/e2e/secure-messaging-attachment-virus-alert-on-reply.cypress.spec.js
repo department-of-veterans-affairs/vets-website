@@ -68,8 +68,8 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
           });
         });
 
-      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
-      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
+      PatientComposePage.attachFileButton().should(`exist`);
+      PatientComposePage.attachFileButton().should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
@@ -117,8 +117,8 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
           });
         });
 
-      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`exist`);
-      cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
+      PatientComposePage.attachFileButton().should(`exist`);
+      PatientComposePage.attachFileButton().should(`be.focused`);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
