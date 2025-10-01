@@ -7,6 +7,7 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import manifest from '../manifest.json';
 
 const InterstitialPage = props => {
   const { type } = props;
@@ -26,14 +27,15 @@ const InterstitialPage = props => {
         case 'draft':
           return 'Continue to draft';
         default:
-          return 'Continue to start message';
+          return 'Start a new message';
       }
     },
     [type],
   );
 
   const handleContinueButton = useCallback(
-    () => {
+    event => {
+      event.preventDefault();
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
         history.push(`${Paths.RECENT_CARE_TEAMS}`);
@@ -54,15 +56,16 @@ const InterstitialPage = props => {
           reply.
         </p>
 
-        <button
-          className="continue-button vads-u-padding-y--1p5 vads-u-padding-x--2p5 vads-u-margin-top--0 vads-u-margin-bottom--3"
-          data-testid="continue-button"
+        <va-link-action
+          href={`${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`}
           onClick={handleContinueButton}
+          label={continueButtonText}
+          message-aria-describedby={continueButtonText}
+          text={continueButtonText}
+          type="primary"
+          data-testid="start-message-link"
           data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        >
-          {continueButtonText}
-          <span className="sr-only">. Page content will change.</span>
-        </button>
+        />
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications
