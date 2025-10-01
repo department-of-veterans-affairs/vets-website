@@ -21,8 +21,8 @@ function App({ location, children }) {
 }
 
 App.propTypes = {
-  location: PropTypes.object.isRequired,
   children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default App;

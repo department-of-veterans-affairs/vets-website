@@ -35,7 +35,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
-  trackingPrefix: '21p601',
+  trackingPrefix: '21p-0601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
   dev: {
