@@ -4,6 +4,8 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
+import { DEFAULT_ERROR_MESSAGE } from '@@vap-svc/constants';
+
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
@@ -12,7 +14,6 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -79,36 +80,7 @@ describe('Deleting email address', () => {
     server.use(...mocks.transactionPending);
     deleteEmailAddress();
 
-    await wait(100);
-
-    // check that the "we're saving your..." message appears
-    const deletingMessage = await view.findByText(
-      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
-    );
-    expect(deletingMessage).to.exist;
-
     server.use(...mocks.transactionSucceeded);
-
-    await waitForElementToBeRemoved(deletingMessage);
-
-    // the edit email button should still exist
-    expect(getEmailVaButton('Edit')).to.exist;
-    // and the email address should not exist
-    expect(view.queryByText(userNameRegex)).not.to.exist;
-  });
-  it('should handle a deletion succeeds after some time', async () => {
-    server.use(...mocks.transactionPending);
-    deleteEmailAddress();
-
-    // check that the "we're saving your..." message appears
-    const deletingMessage = await view.findByText(
-      /We’re in the process of deleting your contact email address. We’ll remove this information soon./i,
-    );
-    expect(deletingMessage).to.exist;
-
-    server.use(...mocks.transactionSucceeded);
-
-    await wait(100);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -118,32 +90,52 @@ describe('Deleting email address', () => {
     // and the email address should not exist
     expect(view.queryByText(userNameRegex)).not.to.exist;
   });
+
+  it('should handle a deletion succeeds after some time', async () => {
+    server.use(...mocks.transactionPending);
+    const { confirmDeleteButton } = deleteEmailAddress();
+
+    // wait for the confirm removal modal to close
+    await waitForElementToBeRemoved(confirmDeleteButton);
+
+    // assert the va-loading-indicator is shown
+    const loadingIndicator = view.container.querySelector(
+      'va-loading-indicator',
+    );
+    expect(loadingIndicator).to.exist;
+    expect(loadingIndicator).to.have.attribute(
+      'message',
+      'Updating your information...',
+    );
+
+    server.use(...mocks.transactionSucceeded);
+
+    // update saved alert should appear
+    await view.findByText('Update saved.');
+
+    // the edit email button should still exist
+    expect(getEmailVaButton('Edit')).to.exist;
+    // and the email address should not exist
+    expect(view.queryByText(userNameRegex)).not.to.exist;
+  });
+
   it('should show an error if the transaction cannot be created', async () => {
     server.use(...mocks.createTransactionFailure);
-
     deleteEmailAddress();
 
-    // expect an error to be shown
-    await view.findByText(
-      /We couldn’t save your recent contact email address update. Please try again later./i,
-      { exact: false },
-    );
-    expect(alert).to.exist;
+    // assert the error alert appears
+    const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+    expect(error).to.exist;
   });
+
   it('should show an error if the deletion fails quickly', async () => {
     server.use(...mocks.transactionPending);
-
     deleteEmailAddress();
 
     server.use(...mocks.transactionFailed);
 
-    await wait(1500);
-
-    // expect an error to be shown
-    await view.findByText(
-      /We couldn’t save your recent contact email address update. Please try again later./i,
-      { exact: false },
-    );
-    expect(alert).to.exist;
+    // assert the error alert appears
+    const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+    expect(error).to.exist;
   });
 });

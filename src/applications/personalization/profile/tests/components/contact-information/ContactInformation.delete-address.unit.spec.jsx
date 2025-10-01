@@ -1,9 +1,15 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { waitForElementToBeRemoved } from '@testing-library/react';
+
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
-import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
+import {
+  FIELD_TITLES,
+  FIELD_NAMES,
+  DEFAULT_ERROR_MESSAGE,
+} from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
@@ -11,7 +17,6 @@ import ContactInformation from '@@profile/components/contact-information/Contact
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -38,9 +43,7 @@ function deleteAddress(addressName) {
 
   confirmDeleteButton.click();
 
-  return {
-    confirmDeleteButton,
-  };
+  return { confirmDeleteButton };
 }
 
 // When the update happens but not until after the delete modal has exited and the
@@ -48,20 +51,20 @@ function deleteAddress(addressName) {
 async function testSlowSuccess(addressName) {
   server.use(...mocks.transactionPending);
 
-  deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
-      'i',
-    ),
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmDeleteButton);
+
+  // assert the va-loading-indicator is shown
+  const loadingIndicator = view.container.querySelector('va-loading-indicator');
+  expect(loadingIndicator).to.exist;
+  expect(loadingIndicator).to.have.attribute(
+    'message',
+    'Updating your information...',
   );
-  expect(deletingMessage).to.exist;
 
   server.use(...mocks.transactionSucceeded);
-
-  await wait(100);
 
   // update saved alert should appear
   await view.findByText('Update saved.');
@@ -73,14 +76,11 @@ async function testSlowSuccess(addressName) {
 // When the initial transaction creation request fails
 async function testTransactionCreationFails(addressName) {
   server.use(...mocks.createTransactionFailure);
-
   deleteAddress(addressName);
 
-  // expect an error to be shown
-  await view.findByText(
-    /We couldn’t save your recent home address update. Please try again later./i,
-    { exact: false },
-  );
+  // assert the error alert appears
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+  expect(error).to.exist;
 
   expect(getVaButton('Edit', addressName)).to.exist;
 }
@@ -90,27 +90,24 @@ async function testTransactionCreationFails(addressName) {
 async function testSlowFailure(addressName) {
   server.use(...mocks.transactionPending);
 
-  deleteAddress(addressName);
+  const { confirmDeleteButton } = deleteAddress(addressName);
 
-  // check that the "we're deleting your..." message appears
-  const deletingMessage = await view.findByText(
-    new RegExp(
-      `We’re in the process of deleting your ${addressName}. We’ll remove this information soon.`,
-      'i',
-    ),
+  // wait for the confirm removal modal to close
+  await waitForElementToBeRemoved(confirmDeleteButton);
+
+  // assert the va-loading-indicator is shown
+  const loadingIndicator = view.container.querySelector('va-loading-indicator');
+  expect(loadingIndicator).to.exist;
+  expect(loadingIndicator).to.have.attribute(
+    'message',
+    'Updating your information...',
   );
-  expect(deletingMessage).to.exist;
 
   server.use(...mocks.transactionFailed);
 
-  await wait(1500);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* update. Please try again later/i,
-    ),
-  ).to.exist;
+  // assert the error alert appears
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+  expect(error).to.exist;
 
   // and the edit button should be back
   expect(getVaButton('Edit', addressName)).to.exist;

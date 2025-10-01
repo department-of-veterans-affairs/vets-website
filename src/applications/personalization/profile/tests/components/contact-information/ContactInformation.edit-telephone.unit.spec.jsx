@@ -101,18 +101,25 @@ async function testSlowSuccess(numberName) {
 
   const { phoneNumberInput } = editPhoneNumber(numberName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(phoneNumberInput);
 
-  // check that the "we're saving your..." message appears
-  const savingMessage = await view.findByText(
-    /We’re working on saving your new.*/i,
+  // assert the va-loading-indicator is shown
+  const loadingIndicator = view.container.querySelector('va-loading-indicator');
+  expect(loadingIndicator).to.exist;
+  expect(loadingIndicator).to.have.attribute(
+    'message',
+    'Updating your information...',
   );
-  expect(savingMessage).to.exist;
 
   server.use(...mocks.transactionSucceeded);
 
-  await waitForElementToBeRemoved(savingMessage);
+  // update saved alert should appear
+  await view.findByText('Update saved.');
 
   // the edit button should exist
   expect(getEditVaButton(numberName)).to.exist;
@@ -163,25 +170,26 @@ async function testSlowFailure(numberName) {
 
   const { phoneNumberInput } = editPhoneNumber(numberName);
 
+  // assert the save va-button is in a loading state
+  const saveButton = view.getByTestId('save-edit-button');
+  expect(saveButton).to.have.attribute('loading', 'true');
+
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(phoneNumberInput);
 
-  // check that the "we're saving your..." message appears
-  const savingMessage = await view.findByText(
-    /We’re working on saving your new.*/i,
+  // assert the va-loading-indicator is shown
+  const loadingIndicator = view.container.querySelector('va-loading-indicator');
+  expect(loadingIndicator).to.exist;
+  expect(loadingIndicator).to.have.attribute(
+    'message',
+    'Updating your information...',
   );
-  expect(savingMessage).to.exist;
 
   server.use(...mocks.transactionFailed);
 
-  await waitForElementToBeRemoved(savingMessage);
-
-  // make sure the error message appears
-  expect(
-    view.getByText(
-      /We couldn’t save your recent .* number update. Please try again later/i,
-    ),
-  ).to.exist;
+  // assert the error alert appears
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+  expect(error).to.exist;
 
   // and the edit button should be back
   expect(getEditVaButton(numberName)).to.exist;

@@ -218,7 +218,7 @@ class VAPServiceProfileField extends React.Component {
     const shouldShowFields = isEditing || showValidationModal;
 
     return (
-      <div className="vet360-profile-field" data-field-name={fieldName}>
+      <div data-field-name={fieldName}>
         <VAPServiceProfileFieldHeading
           onEditClick={this.isEditLinkVisible() ? this.onEdit : null}
           fieldName={fieldName}
