@@ -14,7 +14,6 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
-  wait,
 } from '../../unit-test-helpers';
 
 const ui = (
@@ -82,7 +81,6 @@ describe('Deleting email address', () => {
     deleteEmailAddress();
 
     server.use(...mocks.transactionSucceeded);
-    await wait(100);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -99,7 +97,6 @@ describe('Deleting email address', () => {
 
     // wait for the confirm removal modal to close
     await waitForElementToBeRemoved(confirmDeleteButton);
-    await wait(100);
 
     // assert the va-loading-indicator is shown
     const loadingIndicator = view.container.querySelector(
@@ -112,7 +109,6 @@ describe('Deleting email address', () => {
     );
 
     server.use(...mocks.transactionSucceeded);
-    await wait(100);
 
     // update saved alert should appear
     await view.findByText('Update saved.');
@@ -128,7 +124,6 @@ describe('Deleting email address', () => {
     deleteEmailAddress();
 
     // assert the error alert appears
-    await wait(100);
     const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
     expect(error).to.exist;
   });
@@ -140,7 +135,6 @@ describe('Deleting email address', () => {
     server.use(...mocks.transactionFailed);
 
     // assert the error alert appears
-    await wait(100);
     const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
     expect(error).to.exist;
   });

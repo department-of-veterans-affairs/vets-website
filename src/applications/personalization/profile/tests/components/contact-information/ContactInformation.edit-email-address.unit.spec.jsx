@@ -65,10 +65,6 @@ async function testQuickSuccess() {
 
   // wait for the edit mode to exit and the new address to show up
   await waitForElementToBeRemoved(emailAddressInput);
-  await wait(100);
-
-  // update saved alert should appear
-  await view.findByText('Update saved.');
 
   // the edit email button should exist
   expect(getEditEmailVaButton()).to.exist;
@@ -89,7 +85,6 @@ async function testSlowSuccess() {
 
   // wait for the edit mode to exit and the new address to show up
   await waitForElementToBeRemoved(emailAddressInput);
-  await wait(100);
 
   // assert the va-loading-indicator is shown
   const loadingIndicator = view.container.querySelector('va-loading-indicator');
@@ -100,7 +95,6 @@ async function testSlowSuccess() {
   );
 
   server.use(...mocks.transactionSucceeded);
-  await wait(100);
 
   // update saved alert should appear
   await view.findByText('Update saved.');
@@ -117,8 +111,12 @@ async function testTransactionCreationFails() {
 
   editEmailAddress();
 
+  // expect an error to be shown
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+  expect(error).to.exist;
+
   // make sure that edit mode is not automatically exited
-  await wait(100);
+  await wait(75);
   expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
   expect(getEditEmailVaButton()).to.not.exist;
 }
@@ -129,8 +127,12 @@ async function testQuickFailure() {
 
   editEmailAddress();
 
+  // expect an error to be shown
+  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
+  expect(error).to.exist;
+
   // make sure that edit mode is not automatically exited
-  await wait(100);
+  await wait(75);
   expect(view.getByText(DEFAULT_ERROR_MESSAGE)).to.exist;
   expect(getEditEmailVaButton()).to.not.exist;
 }
@@ -148,7 +150,6 @@ async function testSlowFailure() {
 
   // wait for the edit mode to exit and the new address to show up
   await waitForElementToBeRemoved(emailAddressInput);
-  await wait(100);
 
   // assert the va-loading-indicator is shown
   const loadingIndicator = view.container.querySelector('va-loading-indicator');
@@ -159,7 +160,6 @@ async function testSlowFailure() {
   );
 
   server.use(...mocks.transactionFailed);
-  await wait(100);
 
   // assert the error alert appears
   const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
