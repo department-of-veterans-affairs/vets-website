@@ -65,7 +65,9 @@ class LabsAndTests {
   selectMonthAndYear = ({ month, year, submit = true }) => {
     cy.get('body').then($body => {
       if ($body.find('input[name="vitals-year-picker"]').length) {
-        cy.get('input[name="vitals-year-picker"]').clear().type(year);
+        cy.get('input[name="vitals-year-picker"]')
+          .clear()
+          .type(year);
         if (submit) {
           cy.get('[data-testid="update-time-frame-button"]').click({
             waitForAnimations: true,
@@ -93,9 +95,11 @@ class LabsAndTests {
                   november: '11',
                   december: '12',
                 };
-                const normalized = monthMap[monthValue.toString().toLowerCase()] || monthValue;
+                const normalized =
+                  monthMap[monthValue.toString().toLowerCase()] || monthValue;
                 cy.get('select[name="month"]').then($m => {
-                  if ($m.length) cy.get('select[name="month"]').select(normalized);
+                  if ($m.length)
+                    cy.get('select[name="month"]').select(normalized);
                 });
                 cy.get('select[name="year"]').select(year.toString());
               });
