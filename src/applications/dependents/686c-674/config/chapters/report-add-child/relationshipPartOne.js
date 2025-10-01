@@ -16,6 +16,23 @@ export const relationshipPartOne = {
         required: 'Select Yes or No.',
       },
     }),
+    'ui:options': {
+      // Leaving all params as working example
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.dependents?.[index] || formData;
+
+        if (itemData?.isBiologicalChild === false) {
+          itemData.relationshipToChild = undefined;
+          itemData.biologicalParentDob = undefined;
+          itemData.biologicalParentName = undefined;
+          itemData.biologicalParentSsn = undefined;
+          itemData.isBiologicalChildOfSpouse = undefined;
+          itemData.dateEnteredHousehold = undefined;
+        }
+
+        return schema;
+      },
+    },
   },
   schema: {
     type: 'object',
