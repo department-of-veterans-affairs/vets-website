@@ -69,7 +69,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]')
+    cy.get('[data-testid="ordered-date"]')
       .first()
       .should('have.text', 'April 14, 2023');
   };
@@ -687,6 +687,10 @@ class MedicationsDetailsPage {
 
   verifyReasonForUseOnDetailsPage = text => {
     cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyPrescriptionQuantityOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
   };
 
   verifyInstructionsOnDetailsPage = text => {
