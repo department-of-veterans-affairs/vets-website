@@ -122,7 +122,7 @@ export const allergiesApi = createApi({
         if (isAcceleratingAllergies) {
           path = `${API_BASE_PATH_V2}/medical_records/allergies`;
         } else if (isCerner) {
-          path = `${apiBasePath}/medical_records/allergies&use_oh_data=1`;
+          path = `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`;
         } else {
           path = `${apiBasePath}/medical_records/allergies`;
         }
@@ -158,7 +158,7 @@ export const allergiesApi = createApi({
         if (isAcceleratingAllergies) {
           path = `${API_BASE_PATH_V2}/medical_records/allergies/${id}`;
         } else if (isCerner) {
-          path = `${apiBasePath}/medical_records/allergies/${id}&use_oh_data=1`;
+          path = `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`;
         } else {
           path = `${apiBasePath}/medical_records/allergies/${id}`;
         }

@@ -42,7 +42,8 @@ const responses = {
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
   // MHV Medications endpoints below
   'GET /my_health/v1/medical_records/allergies': allergies.all,
-  'GET /my_health/v1/medical_records/allergies&use_oh_data=1': OHAllergies.all,
+  'GET /my_health/v1/medical_records/allergies?use_oh_data_path=1':
+    OHAllergies.all,
   'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
