@@ -59,8 +59,7 @@ const ConfirmationApproved = ({
         <br />
         <va-link
           href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
-          target="_blank"
-          rel="noopener noreferrer"
+          external
           text="View a statement of your benefits"
         />
       </va-alert>
@@ -128,8 +127,7 @@ const ConfirmationApproved = ({
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
           />
         </li>
@@ -141,16 +139,14 @@ const ConfirmationApproved = ({
         <li>
           <va-link
             href="/change-direct-deposit/"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             text="Review and/or update your direct deposit information on your VA.gov profile"
           />
         </li>
         <li>
           <va-link
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             filetype="PDF"
             text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
           />
@@ -166,8 +162,7 @@ const ConfirmationApproved = ({
         </p>
         <va-link
           href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
-          target="_blank"
-          rel="noopener noreferrer"
+          external
           text="Understanding your Certificate of Eligibility"
         />
       </va-additional-info>

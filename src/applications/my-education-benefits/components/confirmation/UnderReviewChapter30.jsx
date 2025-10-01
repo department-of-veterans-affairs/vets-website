@@ -96,27 +96,19 @@ const UnderReviewChapter30 = ({
         <li>
           If you need to submit documentation to VA, such as service records,
           please send this through{' '}
-          <va-link
-            href="https://ask.va.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-            text="Ask VA"
-          />
-          .
+          <va-link href="https://ask.va.gov/" external text="Ask VA" />.
         </li>
         <li>
           <va-link
             href="/change-direct-deposit/"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             text="Review and/or update your direct deposit information on your VA.gov profile"
           />
         </li>
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
           />
         </li>
@@ -124,8 +116,7 @@ const UnderReviewChapter30 = ({
           Learn more about VA benefits and programs through the{' '}
           <va-link
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             filetype="PDF"
             text="Building Your Future with the GI Bill Series"
           />

@@ -103,8 +103,7 @@ const UnderReviewConfirmation = ({
           you haven’t heard back, please don’t apply again.{' '}
           <va-link
             href="https://ask.va.gov"
-            target="_blank"
-            rel="noopener noreferrer"
+            external
             text="Contact us through Ask VA."
           />
         </p>
@@ -129,32 +128,28 @@ const UnderReviewConfirmation = ({
           <li>
             <va-link
               href="https://ask.va.gov/"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
               text="If you need to submit documentation to VA, such as service records, please send this through our Ask VA feature."
             />
           </li>
           <li>
             <va-link
               href="/profile/direct-deposit"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
               text="Review and/or update your direct deposit information on your VA.gov profile."
             />
           </li>
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
               text="Use our GI Bill Comparison Tool to help you decide which schools are best for you."
             />
           </li>
           <li>
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              external
               filetype="PDF"
               text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
             />
