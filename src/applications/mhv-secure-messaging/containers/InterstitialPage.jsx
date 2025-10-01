@@ -7,6 +7,7 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import manifest from '../manifest.json';
 import {
   clearPrescription,
   getPrescriptionById,
@@ -79,8 +80,7 @@ const InterstitialPage = props => {
         </p>
 
         <va-link-action
-          // href required for semantics and accessiblity
-          href={`${Paths.RECENT_CARE_TEAMS}`}
+          href={`${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`}
           onClick={handleContinueButton}
           label={continueButtonText}
           message-aria-describedby={continueButtonText}
