@@ -6,8 +6,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const flagsLoadedAndMhvEnabled = state => {
   return {
     featureTogglesLoading: state.featureToggles.loading,
-    appEnabled:
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease],
   };
 };
 
@@ -18,8 +16,6 @@ export const flagsLoadedAndMhvEnabled = state => {
 export const selectBypassDowntime = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];
 
-export const selectMhvMrEnabledFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease];
 export const selectSidenavFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySidenav];
 
