@@ -204,7 +204,7 @@ Provider Notes: ${processList(record.comments)}\n`;
               <LabelValue
                 label="Provider notes"
                 element={itemListWrapper(record?.comments)}
-                testid="condition-provider-notes"
+                testId="condition-provider-notes"
               >
                 <ItemList list={record.comments} />
               </LabelValue>

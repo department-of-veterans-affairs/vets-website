@@ -214,6 +214,7 @@ Provider notes: ${allergyData.notes} \n`;
               <LabelValue
                 label="Signs and symptoms"
                 element={itemListWrapper(allergyData?.reaction)}
+                testId="allergy-signs-symptoms"
               >
                 <ItemList list={allergyData.reaction} />
               </LabelValue>
@@ -243,7 +244,7 @@ Provider notes: ${allergyData.notes} \n`;
                 <LabelValue
                   label="Recorded by"
                   value={allergyData.provider}
-                  testId="allergy-observed"
+                  testId="allergy-recorded-by"
                   actionName="[allergy recorded by]"
                 />
               )}
