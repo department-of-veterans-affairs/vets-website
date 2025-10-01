@@ -60,7 +60,7 @@ const ConfirmationApproved = ({
         <va-link
           href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
           external
-          text="View a statement of your benefits"
+          text="View a statement of your benefits on VA.gov (opens in a new tab)"
         />
       </va-alert>
 
@@ -127,7 +127,6 @@ const ConfirmationApproved = ({
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            external
             text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
           />
         </li>
@@ -162,7 +161,7 @@ const ConfirmationApproved = ({
         <va-link
           href="https://benefits.va.gov/gibill/understandingyourcoe.asp"
           external
-          text="Understanding your Certificate of Eligibility"
+          text="Understanding your Certificate of Eligibility on VA.gov (opens in a new tab)"
         />
       </va-additional-info>
 

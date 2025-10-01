@@ -124,7 +124,6 @@ const ApprovedConfirmation = ({
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
-              external
               text="Use our GI Bill Comparison Tool to help you decide which schools are best for you."
             />
           </li>

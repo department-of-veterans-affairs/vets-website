@@ -123,7 +123,7 @@ const ConfirmationPending = ({
           <va-link
             href="https://ask.va.gov/"
             external
-            text="If you need to submit documentation to VA, such as service records, please send this through Ask VA."
+            text="If you need to submit documentation to VA, such as service records, please send this through Ask VA (opens in a new tab)."
           />
         </li>
         <li>
@@ -150,7 +150,7 @@ const ConfirmationPending = ({
           <va-link
             href="https://www.benefits.va.gov/gibill/careerscope.asp"
             external
-            text="Measure your interests and skill levels and help figure out your career path with CareerScope®."
+            text="Measure your interests and skill levels and help figure out your career path with CareerScope® on VA.gov (opens in a new tab)."
           />
         </li>
       </ul>

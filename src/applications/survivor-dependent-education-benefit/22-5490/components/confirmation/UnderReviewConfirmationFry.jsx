@@ -77,7 +77,7 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
           <va-link
             href="https://ask.va.gov"
             external
-            text="Contact us through Ask VA."
+            text="Contact us through Ask VA (opens in a new tab)."
           />
         </p>
       </va-card>
@@ -101,7 +101,7 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
             <va-link
               href="https://ask.va.gov/"
               external
-              text="If you need to submit documentation to VA, such as service records, please send this through Ask VA."
+              text="If you need to submit documentation to VA, such as service records, please send this through Ask VA (opens in a new tab)."
             />
           </li>
           <li>
