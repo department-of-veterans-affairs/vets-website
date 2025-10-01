@@ -171,7 +171,7 @@ export function getAvailableV2Slots({
   const end = endDate.toISOString();
 
   if (typeOfCare) queryParams.push(`&clinical_service=${typeOfCare}`);
-  if (provider) queryParams.push(`&provider=${provider}`);
+  if (provider) queryParams.push(`&provider=${encodeURIComponent(provider)}`);
 
   let baseUrl = `/vaos/v2/locations/${facilityId}`;
   if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
