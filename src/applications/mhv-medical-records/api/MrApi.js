@@ -177,6 +177,7 @@ export const getVitalsList = async () => {
 };
 
 export const getAcceleratedVitals = async vitalsDate => {
+  // vitalsDate expected format: YYYY-MM (we use first month of selected year for a year-based filter UI)
   const from = `&from=${vitalsDate}`;
   const to = `&to=${vitalsDate}`;
   return apiRequest(

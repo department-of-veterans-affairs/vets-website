@@ -20,7 +20,6 @@ import {
   statsdFrontEndActions,
   CernerAlertContent,
 } from '../util/constants';
-import { getMonthFromSelectedDate } from '../util/helpers';
 import { Actions } from '../util/actionTypes';
 import useAlerts from '../hooks/use-alerts';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -47,10 +46,16 @@ const Vitals = () => {
 
   const [cards, setCards] = useState(null);
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
-  const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
-    urlVitalsDate || format(new Date(), 'yyyy-MM'),
+  // Change state to be year focused. Store full value as YYYY for selector but keep acceleratedVitalsDateMonthFormat as YYYY-MM (first month) for API compatibility
+  const currentYear = format(new Date(), 'yyyy');
+  const initialYear =
+    (urlVitalsDate && urlVitalsDate.split('-')[0]) || currentYear;
+  const [acceleratedVitalsYear, setAcceleratedVitalsYear] = useState(
+    initialYear,
   );
-  const [displayDate, setDisplayDate] = useState(acceleratedVitalsDate);
+  // maintain legacy variable (first month of year) for existing downstream logic expecting YYYY-MM
+  const acceleratedVitalsDate = `${acceleratedVitalsYear}-01`;
+  const [displayYear, setDisplayYear] = useState(acceleratedVitalsYear);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -87,9 +92,6 @@ const Vitals = () => {
   });
 
   useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
     () => {
       return () => {
         dispatch(reloadRecords());
@@ -108,7 +110,6 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      // Only update if there is no time frame. This is only for on initial page load.
       if (isAcceleratingVitals) {
         const timeFrame = new URLSearchParams(location.search).get('timeFrame');
         if (!timeFrame) {
@@ -137,17 +138,13 @@ const Vitals = () => {
     updatePageTitle,
   );
 
-  const PER_PAGE = useMemo(
-    () => {
-      return Object.keys(vitalTypes).length;
-    },
-    [vitalTypes],
-  );
+  const PER_PAGE = useMemo(() => {
+    return Object.keys(vitalTypes).length;
+  }, []);
 
   useEffect(
     () => {
       if (vitals?.length) {
-        // create vital type cards based on the types of records present
         const firstOfEach = [];
         for (const [key, types] of Object.entries(vitalTypes)) {
           const firstOfType = vitals.find(item => types.includes(item.type));
@@ -157,7 +154,7 @@ const Vitals = () => {
         setCards(firstOfEach);
       }
     },
-    [vitals, vitalTypes],
+    [vitals],
   );
 
   const content = () => {
@@ -188,12 +185,12 @@ const Vitals = () => {
           <div className="vads-u-margin-top--2 ">
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
             <p className="vads-u-margin--0">
-              Showing most recent vitals from{' '}
+              Showing vitals for{' '}
               <span
                 className="vads-u-font-weight--bold"
                 data-testid="current-date-display"
               >
-                {getMonthFromSelectedDate({ date: displayDate })}
+                {displayYear}
               </span>
               .
             </p>
@@ -216,29 +213,6 @@ const Vitals = () => {
         )}
       </RecordListSection>
     );
-  };
-
-  const updateDate = event => {
-    const [year, month] = event.target.value.split('-');
-    // Ignore transient date changes.
-    if (year?.length === 4 && month?.length === 2) {
-      setAcceleratedVitalsDate(`${year}-${month}`);
-    }
-  };
-
-  const triggerApiUpdate = e => {
-    e.preventDefault();
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('timeFrame', acceleratedVitalsDate);
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-    setDisplayDate(acceleratedVitalsDate);
-    dispatch({
-      type: Actions.Vitals.UPDATE_LIST_STATE,
-      payload: loadStates.PRE_FETCH,
-    });
   };
 
   return (
@@ -270,10 +244,30 @@ const Vitals = () => {
             <>
               <DatePicker
                 {...{
-                  updateDate,
-                  triggerApiUpdate,
+                  updateDate: e => {
+                    const [year] = e.target.value.split('-');
+                    setAcceleratedVitalsYear(year);
+                  },
+                  triggerApiUpdate: e => {
+                    e.preventDefault();
+                    const searchParams = new URLSearchParams(location.search);
+                    searchParams.set(
+                      'timeFrame',
+                      `${acceleratedVitalsYear}-01`,
+                    );
+                    history.push({
+                      pathname: location.pathname,
+                      search: searchParams.toString(),
+                    });
+                    setDisplayYear(acceleratedVitalsYear);
+                    dispatch({
+                      type: Actions.Vitals.UPDATE_LIST_STATE,
+                      payload: loadStates.PRE_FETCH,
+                    });
+                  },
                   isLoadingAcceleratedData,
-                  dateValue: acceleratedVitalsDate,
+                  dateValue: acceleratedVitalsYear,
+                  yearOnly: true,
                 }}
               />
             </>
