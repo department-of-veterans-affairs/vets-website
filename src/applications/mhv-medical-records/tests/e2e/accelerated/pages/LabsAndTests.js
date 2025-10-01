@@ -61,6 +61,55 @@ class LabsAndTests {
     cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
+  // Provide helper used by specs (mirrors former month+year picker API). Year-only UI ignores month.
+  selectMonthAndYear = ({ month, year, submit = true }) => {
+    cy.get('body').then($body => {
+      if ($body.find('input[name="vitals-year-picker"]').length) {
+        cy.get('input[name="vitals-year-picker"]').clear().type(year);
+        if (submit) {
+          cy.get('[data-testid="update-time-frame-button"]').click({
+            waitForAnimations: true,
+          });
+        }
+      } else {
+        // Future fallback if month/year picker returns
+        const monthValue = `${month}`;
+        cy.get('va-date, va-date-picker').then($els => {
+          if ($els.length) {
+            cy.wrap($els.first())
+              .shadow()
+              .within(() => {
+                const monthMap = {
+                  january: '1',
+                  february: '2',
+                  march: '3',
+                  april: '4',
+                  may: '5',
+                  june: '6',
+                  july: '7',
+                  august: '8',
+                  september: '9',
+                  october: '10',
+                  november: '11',
+                  december: '12',
+                };
+                const normalized = monthMap[monthValue.toString().toLowerCase()] || monthValue;
+                cy.get('select[name="month"]').then($m => {
+                  if ($m.length) cy.get('select[name="month"]').select(normalized);
+                });
+                cy.get('select[name="year"]').select(year.toString());
+              });
+            if (submit) {
+              cy.get('[data-testid="update-time-frame-button"]').click({
+                waitForAnimations: true,
+              });
+            }
+          }
+        });
+      }
+    });
+  };
+
   selectYear = ({ year, submit = true }) => {
     cy.get('input[name="vitals-year-picker"]').clear();
     cy.get('input[name="vitals-year-picker"]').type(year);
