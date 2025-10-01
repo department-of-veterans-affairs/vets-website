@@ -39,7 +39,9 @@ class Vitals {
     // If the year-only input exists, just enter the year and submit.
     cy.get('body').then($body => {
       if ($body.find('input[name="vitals-year-picker"]').length) {
-        cy.get('input[name="vitals-year-picker"]').clear().type(year);
+        cy.get('input[name="vitals-year-picker"]')
+          .clear()
+          .type(year);
         if (submit) {
           cy.get('[data-testid="update-time-frame-button"]').click({
             waitForAnimations: true,
@@ -72,7 +74,9 @@ class Vitals {
                       november: '11',
                       december: '12',
                     };
-                    const normalized = monthMap[monthValue.toString().toLowerCase()] || monthValue;
+                    const normalized =
+                      monthMap[monthValue.toString().toLowerCase()] ||
+                      monthValue;
                     cy.get('select[name="month"]').select(normalized);
                   }
                 });
