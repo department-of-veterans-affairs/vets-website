@@ -15,6 +15,7 @@ import GetHelpPage from './containers/GetHelpPage';
 import LoginContainer from './containers/LoginContainer';
 import AuthCallbackHandler from './containers/AuthCallbackHandler';
 import DashboardPage from './containers/DashboardPage';
+import SinglePageForm526EZContainer from './containers/SinglePageForm526EZContainer';
 
 import { userPromise } from './utilities/auth';
 import { getSignInUrl } from './utilities/constants';
@@ -110,6 +111,11 @@ const routes = [
                   <SubmissionsPage title="Form Submissions | Veterans Affairs" />
                 ),
                 loader: SubmissionsPage.loader,
+              },
+              {
+                path: 'complete-form/21-526EZ',
+                element: <SinglePageForm526EZContainer />,
+                // In future: add loader for representative-specific prefill or authorization
               },
               {
                 path: 'claimant-search',
