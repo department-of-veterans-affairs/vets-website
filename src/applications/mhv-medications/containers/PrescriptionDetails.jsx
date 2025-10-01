@@ -109,7 +109,9 @@ const PrescriptionDetails = () => {
   useEffect(
     () => {
       if (!isLoading && hasCmopNdcNumber(refillHistory)) {
-        prefetchPrescriptionDocumentation(prescriptionId);
+        // TODO: for some reason this is interacting with the useAcceleratedData hook
+        // causing infinite reloading; need to investigate further
+        // prefetchPrescriptionDocumentation(prescriptionId);
       }
     },
     [
