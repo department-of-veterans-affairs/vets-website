@@ -34,11 +34,15 @@ class LabsAndTestsListPage extends BaseListPage {
     cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
     // cy.get('[href="/my-health/medical-records/labs-and-tests"]').click();
     cy.visit('my-health/medical-records/labs-and-tests');
-    cy.wait('@LabsAndTestsList');
-    cy.wait('@RadiologyRecordsMhv');
-    cy.wait('@CvixRadiologyRecordsMhvImagingStatus');
-    cy.wait('@CvixRadiologyRecordsMhvImaging');
-    cy.wait('@vamcEhr');
+    cy.wait([
+      '@LabsAndTestsList',
+      '@RadiologyRecordsMhv',
+      '@CvixRadiologyRecordsMhvImagingStatus',
+      '@CvixRadiologyRecordsMhvImaging',
+      '@vamcEhr',
+      '@mockUser',
+      '@featureToggles',
+    ]);
   };
 
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
@@ -55,12 +59,18 @@ class LabsAndTestsListPage extends BaseListPage {
 
   // "Radiology has no details call so we always use the list call for everything"
   // - Mike Moyer 08/01/2024
-  clickRadiologyDetailsLink = (labsAndTestsItemIndex = 0) => {
-    cy.findAllByTestId('record-list-item')
-      .find('a')
-      .eq(labsAndTestsItemIndex)
-      .click();
-    cy.wait('@BbmiNotificationStatus');
+  clickRadiologyDetailsLink = (heading, index = 0) => {
+    // Ensure the text exists in a link somewhere (retries)
+    cy.contains('a', heading, { includeShadowDom: true, timeout: 10000 });
+
+    // If duplicates are possible, pick the indexed one
+    cy.contains('a', heading, { includeShadowDom: true })
+      .eq(index)
+      .as('radLink');
+
+    cy.get('@radLink').scrollIntoView();
+    cy.get('@radLink').should('be.visible');
+    cy.get('@radLink').click();
   };
 
   loadVAPaginationNext = () => {

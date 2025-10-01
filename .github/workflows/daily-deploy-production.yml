@@ -71,6 +71,9 @@ jobs:
       if: ${{ false }}
       run: echo "Freeze enforcement handled by freeze-enforcer.yml."
 
+    - name: Checkout
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
     - name: Configure AWS credentials for secret injection
       if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
       uses: ./.github/workflows/configure-aws-credentials
@@ -95,7 +98,7 @@ jobs:
           local key=$(echo "$repo" | tr '-' '_')
           local response=$(curl -s -L \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
             "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
 
           local state=$(echo "$response" | jq -r '.state')
@@ -118,7 +121,25 @@ jobs:
           echo "Enabling content-build daily deploy workflow."
           http_code=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
             -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
-            -H "Accept: application/vnd.github.v3+json" \  # Freeze Enabled Slack is sent early by freeze-enforcer.yml
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable)
+
+          if [[ "$http_code" != "200" && "$http_code" != "204" ]]; then
+            echo "Failed to enable content-build workflow. HTTP $http_code"
+            exit 1
+          fi
+
+          verify=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml | jq -r '.state')
+
+          if [[ "$verify" == "active" ]]; then
+            echo "reenabled=true" >> $GITHUB_OUTPUT
+          else
+            echo "Workflow state after enable attempt: $verify"
+            exit 1
+          fi
 
   notify-freeze-ends:
     name: Notify Freeze Ended
@@ -182,8 +203,13 @@ jobs:
   notify-code-freeze-failure:
     name: Notify Code Freeze Failure
     runs-on: ubuntu-latest
-    needs: main-deployment
-    if: failure() || cancelled()
+    needs: [holiday-checker, main-deployment]
+    if: ${{
+          always() && github.event.inputs.bypass_freeze != 'true' && (
+            (needs.holiday-checker.outputs.is_holiday == 'true' && cancelled()) ||
+            (needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.result == 'failure')
+          )
+        }}
     steps:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017

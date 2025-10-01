@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { isEmpty } from 'lodash';
-import { uploadFile } from 'platform/forms-system/src/js/actions';
+import { uploadFile as _uploadFile } from 'platform/forms-system/src/js/actions';
 import {
   standardFileChecks,
   FILE_TYPE_MISMATCH_ERROR,
@@ -20,7 +20,7 @@ const createPayload = (file, formId) => {
   return payload;
 };
 
-export const uploadScannedForm = (
+export const uploadFile = (
   fileUploadUrl,
   formNumber,
   fileToUpload,
@@ -38,7 +38,7 @@ export const uploadScannedForm = (
   };
 
   return dispatch => {
-    const uploadRequest = uploadFile(
+    const uploadRequest = _uploadFile(
       fileToUpload,
       uiOptions,
       onProgress,
@@ -88,7 +88,7 @@ export const useFileUpload = (fileUploadUrl, accept, formNumber, dispatch) => {
     };
 
     dispatch(
-      uploadScannedForm(
+      uploadFile(
         fileUploadUrl,
         formNumber,
         file,
@@ -124,6 +124,18 @@ export async function getFileError(file, uiOptions) {
   }
 
   return { fileError, encryptedCheck: !!checks.checkIsEncryptedPdf };
+}
+
+/**
+ * @param {Object} file representation of a file
+ * @returns { File } dummy file that will force component to render default file icon
+ */
+export function makePlaceholderFile(file = {}) {
+  const buffer = new ArrayBuffer(file?.size || 1024);
+  const blob = new Blob([buffer], { type: 'image/png' });
+  return new File([blob], file?.name || 'placeholder', {
+    type: 'image/png',
+  });
 }
 
 export const DEBOUNCE_WAIT = 500;

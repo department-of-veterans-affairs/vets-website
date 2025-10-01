@@ -25,14 +25,15 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  updatedRecipientNameRequired,
-  resolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -51,7 +52,7 @@ export const options = {
   nounPlural: 'financial accounts',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
@@ -68,7 +69,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -165,7 +166,7 @@ const summaryPage = {
   },
 };
 
-const updatedSummaryPage = {
+const veteranSummaryPage = {
   uiSchema: {
     'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
       options,
@@ -228,7 +229,7 @@ const parentSummaryPage = {
       {
         title: updatedTitleNoItems,
         hint:
-          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
         ...sharedYesNoOptionsBase,
         labels: yesNoOptionLabels,
       },
@@ -393,6 +394,9 @@ const incomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -446,6 +450,7 @@ const incomeTypePage = {
       'ui:options': {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherIncomeTypeExplanationRequired(
@@ -473,13 +478,16 @@ const incomeTypePage = {
       showUpdatedContent()
         ? {
             title: 'Who pays the income?',
-            hint: 'Name of business, financial institution, or program',
+            hint: 'Name of business, agency, or program',
           }
         : {
             title: 'Income payer name',
             hint: 'Name of business, financial institution, or program, etc.',
           },
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',
@@ -497,12 +505,12 @@ const incomeTypePage = {
 export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    associatedIncomePagesUpdatedSummary: pageBuilder.summaryPage({
+    associatedIncomePagesVeteranSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
-      path: 'financial-accounts-summary-updated',
+      path: 'financial-accounts-summary-veteran',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
-      uiSchema: updatedSummaryPage.uiSchema,
+      uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomePagesSpouseSummary: pageBuilder.summaryPage({
@@ -526,7 +534,7 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'financial-accounts-summary-custodian',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
-      uiSchema: parentSummaryPage.uiSchema,
+      uiSchema: custodianSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomePagesParentSummary: pageBuilder.summaryPage({
@@ -534,7 +542,7 @@ export const associatedIncomePages = arrayBuilderPages(
       path: 'financial-accounts-summary-parent',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'PARENT',
-      uiSchema: custodianSummaryPage.uiSchema,
+      uiSchema: parentSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages

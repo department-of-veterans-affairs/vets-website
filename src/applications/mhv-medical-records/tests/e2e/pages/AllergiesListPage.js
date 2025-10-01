@@ -8,12 +8,7 @@ class AllergiesListPage extends BaseListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergiesList');
-    cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
-    cy.get('[data-testid="allergies-landing-page-link"]')
-      .should('be.visible')
-      .then(() => {
-        cy.get('[data-testid="allergies-landing-page-link"]').click();
-      });
+    cy.findByTestId('allergies-landing-page-link').click();
     cy.wait('@allergiesList');
   };
 
