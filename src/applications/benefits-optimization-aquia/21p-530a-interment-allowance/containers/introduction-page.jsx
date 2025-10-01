@@ -80,10 +80,9 @@ const ProcessList = () => {
  * @param {Object} props.location - Location object from react-router
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = props => {
+export const IntroductionPage = ({ route }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
   const { formConfig, pageList } = route;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
@@ -135,3 +134,5 @@ IntroductionPage.propTypes = {
     basename: PropTypes.string,
   }),
 };
+
+export default IntroductionPage;
