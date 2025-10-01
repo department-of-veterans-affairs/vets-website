@@ -4,5 +4,7 @@
     "first": "Test",
     "last": "User"
   },
-  "veteranSsn": "123456789"
+  "veteranIdentification": {
+    "ssn": "123456789"
+  }
 }

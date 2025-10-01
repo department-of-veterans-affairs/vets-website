@@ -1,14 +1,11 @@
 {
   "hasAlreadyFiled": false,
-  "needsWitnessSignature": true,
   "hasUnpaidCreditors": false,
   "veteranFullName": {
     "first": "John",
     "middle": "A",
     "last": "Smith"
   },
-  "veteranSsn": "123456789",
-  "veteranVaFileNumber": "12345678",
   "beneficiaryIsVeteran": false,
   "beneficiaryFullName": {
     "first": "Mary",
@@ -21,7 +18,6 @@
     "middle": "L",
     "last": "Johnson"
   },
-  "claimantSsn": "987654321",
   "claimantDateOfBirth": "1960-05-10",
   "claimantAddress": {
     "street": "123 Main Street",
@@ -74,5 +70,12 @@
     }
   ],
   "claimingReimbursement": false,
-  "remarks": "Filing for accrued benefits as the surviving spouse. The deceased had a pending claim for increased disability compensation at the time of death."
+  "remarks": "Filing for accrued benefits as the surviving spouse. The deceased had a pending claim for increased disability compensation at the time of death.",
+  "veteranIdentification": {
+    "ssn": "123456789",
+    "vaFileNumber": "12345678"
+  },
+  "claimantIdentification": {
+    "ssn": "987654321"
+  }
 }

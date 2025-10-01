@@ -1,6 +1,5 @@
 {
   "hasAlreadyFiled": false,
-  "needsWitnessSignature": true,
   "hasUnpaidCreditors": false,
   "understandsTimeLimit": true,
   "veteranFullName": {
@@ -8,8 +7,6 @@
     "middle": "P",
     "last": "Anderson"
   },
-  "veteranSsn": "456789012",
-  "veteranVaFileNumber": "98765432",
   "beneficiaryIsVeteran": false,
   "beneficiaryFullName": {
     "first": "Linda",
@@ -22,7 +19,6 @@
     "middle": "R",
     "last": "Anderson"
   },
-  "claimantSsn": "654321098",
   "claimantDateOfBirth": "1985-04-15",
   "claimantAddress": {
     "street": "321 College Avenue",
@@ -75,5 +71,12 @@
     }
   ],
   "claimingReimbursement": false,
-  "remarks": "Filing as the eldest child. Mother (surviving spouse) passed away with pending DIC claim. All siblings listed are in agreement with this application."
+  "remarks": "Filing as the eldest child. Mother (surviving spouse) passed away with pending DIC claim. All siblings listed are in agreement with this application.",
+  "veteranIdentification": {
+    "ssn": "456789012",
+    "vaFileNumber": "98765432"
+  },
+  "claimantIdentification": {
+    "ssn": "654321098"
+  }
 }

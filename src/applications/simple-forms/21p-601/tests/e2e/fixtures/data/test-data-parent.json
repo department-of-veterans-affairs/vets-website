@@ -1,14 +1,11 @@
 {
   "hasAlreadyFiled": false,
-  "needsWitnessSignature": true,
   "hasUnpaidCreditors": false,
   "veteranFullName": {
     "first": "James",
     "middle": "T",
     "last": "Wilson"
   },
-  "veteranSsn": "444556666",
-  "veteranVaFileNumber": "",
   "beneficiaryIsVeteran": true,
   "beneficiaryDateOfDeath": "2024-03-10",
   "claimantFullName": {
@@ -16,7 +13,6 @@
     "middle": "A",
     "last": "Wilson"
   },
-  "claimantSsn": "333445555",
   "claimantDateOfBirth": "1945-08-20",
   "claimantAddress": {
     "street": "456 Elder Care Lane",
@@ -52,5 +48,11 @@
     }
   ],
   "claimingReimbursement": false,
-  "remarks": "Mother filing for accrued benefits. Father (Robert) is also surviving but letting me handle the claim."
+  "remarks": "Mother filing for accrued benefits. Father (Robert) is also surviving but letting me handle the claim.",
+  "veteranIdentification": {
+    "ssn": "444556666"
+  },
+  "claimantIdentification": {
+    "ssn": "333445555"
+  }
 }
