@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
 
 import { buildDateFormatter } from '../../utils/helpers';
 
@@ -56,7 +55,7 @@ const getSortedItems = itemsFiled => {
   const items = generateDocsFiled(itemsFiled);
 
   return items.sort((item1, item2) => {
-    return moment(item2.date) - moment(item1.date);
+    return new Date(item2.date) - new Date(item1.date);
   });
 };
 
