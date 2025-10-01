@@ -34,10 +34,9 @@ class Vitals {
     cy.url().should('include', `?timeFrame=${timeFrame}`);
   };
 
-  selectMonthAndYear = ({ month, year, submit = true }) => {
-    cy.get('select[name="vitals-date-pickerMonth"]').select(month);
-    cy.get('input[name="vitals-date-pickerYear"]').clear();
-    cy.get('input[name="vitals-date-pickerYear"]').type(year);
+  selectYear = ({ year, submit = true }) => {
+    cy.get('input[name="vitals-year-picker"]').clear();
+    cy.get('input[name="vitals-year-picker"]').type(year);
     if (submit) {
       cy.get('[data-testid="update-time-frame-button"]').click({
         waitForAnimations: true,
