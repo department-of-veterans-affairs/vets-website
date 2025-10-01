@@ -11,7 +11,10 @@ import FilesWeCouldntReceive from '../../components/FilesWeCouldntReceive';
 
 describe('<FilesWeCouldntReceive>', () => {
   // Helper function to create a mock store with failed uploads data
-  const createMockStore = (failedUploadsData = null) => {
+  const createMockStore = (
+    failedUploadsData = null,
+    featureFlagEnabled = true,
+  ) => {
     return createStore(
       () => ({
         disability: {
@@ -22,6 +25,10 @@ describe('<FilesWeCouldntReceive>', () => {
               error: null,
             },
           },
+        },
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          cst_show_document_upload_status: featureFlagEnabled,
         },
       }),
       applyMiddleware(thunk),
@@ -112,6 +119,17 @@ describe('<FilesWeCouldntReceive>', () => {
 
       // Test NeedHelp component is rendered
       expect(document.querySelector('va-need-help')).to.exist;
+    });
+  });
+
+  describe('Feature Flag', () => {
+    it('should redirect when feature flag is disabled', () => {
+      const store = createMockStore(null, false); // Feature flag disabled
+      const { container } = renderComponent(store);
+
+      // When feature flag is disabled, the main content should not be rendered
+      expect(container.querySelector('h1')).to.not.exist; // Main heading should not be there
+      expect(container.textContent).to.not.include('Files we couldn'); // Main content should not be there
     });
   });
 
