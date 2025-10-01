@@ -117,7 +117,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     });
   });
 
-  it('renders correctly when isAccelerating is false -- always should the modal when accelerating is false', () => {
+  it('renders correctly for non-Cerner patients -- should show alert when not hiding', () => {
     const screen = setup(
       {
         ...initialState,
@@ -128,7 +128,7 @@ describe('Accelerated Cerner Facility Alert', () => {
       {
         facilities: userProfileFacilities,
       },
-      CernerAlertContent.MR_LANDING_PAGE,
+      CernerAlertContent.VACCINES, // Use a page that's not in the hide list for Cerner patients
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;

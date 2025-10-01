@@ -8,7 +8,7 @@ describe('Medical Records View Allergies', () => {
     site.login();
     site.loadPage();
 
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', allergies);
 
     AllergiesListPage.clickGotoAllergiesLink(allergies);
 

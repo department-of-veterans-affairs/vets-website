@@ -1,5 +1,6 @@
 import sessionStatus from '../fixtures/session/default.json';
 import MedicalRecordsLandingPage from '../../pages/MedicalRecordsLandingPage';
+import vamc from '../../fixtures/facilities/vamc-ehr.json';
 
 class Allergies {
   setIntercepts = ({ allergiesData, useOhData = true } = {}) => {
@@ -12,8 +13,9 @@ class Allergies {
       req.reply(sessionStatus);
     });
 
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', vamc).as('vamcEhr');
+
     cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
-      // check the correct param was used
       if (useOhData) {
         expect(req.url).to.contain('use_oh_data_path=1');
       } else {
@@ -21,6 +23,11 @@ class Allergies {
       }
       req.reply(allergiesData);
     }).as('allergies-list');
+
+    cy.intercept('GET', '/my_health/v2/medical_records/allergies*', req => {
+      req.reply(allergiesData);
+    }).as('allergies-list');
+
     MedicalRecordsLandingPage.uumIntercept();
   };
 
