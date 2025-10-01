@@ -48,7 +48,10 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
-import { usePrefetch } from '../api/prescriptionsApi';
+import {
+  usePrefetch,
+  useGetPrescriptionDocumentationQuery,
+} from '../api/prescriptionsApi';
 import { selectUserDob, selectUserFullName } from '../selectors/selectUser';
 import {
   selectSortOption,
@@ -106,16 +109,30 @@ const PrescriptionDetails = () => {
     'getPrescriptionDocumentation',
   );
 
+  // But we also need to check whether or not it's already been fetched
+  const {
+    data: documentationData,
+    isLoading: isDocumentationLoading,
+    error: documentationError,
+  } = useGetPrescriptionDocumentationQuery(prescriptionId);
+
   useEffect(
     () => {
-      if (!isLoading && hasCmopNdcNumber(refillHistory)) {
-        // TODO: for some reason this is interacting with the useAcceleratedData hook
-        // causing infinite reloading; need to investigate further
-        // prefetchPrescriptionDocumentation(prescriptionId);
+      if (
+        !isLoading &&
+        !isDocumentationLoading &&
+        !documentationData &&
+        !documentationError &&
+        hasCmopNdcNumber(refillHistory)
+      ) {
+        prefetchPrescriptionDocumentation(prescriptionId);
       }
     },
     [
       isLoading,
+      isDocumentationLoading,
+      documentationData,
+      documentationError,
       prefetchPrescriptionDocumentation,
       prescriptionId,
       refillHistory,
