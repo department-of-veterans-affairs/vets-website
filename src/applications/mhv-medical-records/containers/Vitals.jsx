@@ -245,9 +245,7 @@ const Vitals = () => {
                 {...{
                   updateDate: e => {
                     const [year] = e.target.value.split('-');
-                    if (year?.length === 4) {
-                      setAcceleratedVitalsYear(year);
-                    }
+                    setAcceleratedVitalsYear(year);
                   },
                   triggerApiUpdate: e => {
                     e.preventDefault();
