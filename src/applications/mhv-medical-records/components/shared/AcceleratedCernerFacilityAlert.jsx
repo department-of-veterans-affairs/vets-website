@@ -8,21 +8,13 @@ import useAcceleratedData from '../../hooks/useAcceleratedData';
 const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
   const {
     isCerner,
+    isAccelerating,
     isAcceleratingCareNotes,
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
   } = useAcceleratedData();
-
-  // Check if ANY domain is using accelerated delivery
-  // This is needed for the conditional check below (line 41)
-  const isAccelerating =
-    isAcceleratingCareNotes ||
-    isAcceleratingVitals ||
-    isAcceleratingVaccines ||
-    isAcceleratingLabsAndTests ||
-    isAcceleratingConditions;
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
