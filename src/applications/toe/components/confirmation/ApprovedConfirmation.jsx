@@ -58,7 +58,7 @@ const ApprovedConfirmation = ({
               download
               href={LETTER_ENDPOINT}
               filetype="PDF"
-              text="Download your decision letter (PDF)"
+              text="Download your decision letter"
               class="vads-u-margin-bottom--6"
             />
           </div>
@@ -114,23 +114,20 @@ const ApprovedConfirmation = ({
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found at{' '}
             <va-link
               href={LETTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              text="Download VA education letter"
+              text="Download a copy of your decision letter. This can also be found at Download VA education letter."
             />
-            .
           </li>
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
               target="_blank"
               rel="noopener noreferrer"
-              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you"
+              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you."
             />
-            .
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -142,20 +139,17 @@ const ApprovedConfirmation = ({
               href="/profile/direct-deposit"
               target="_blank"
               rel="noopener noreferrer"
-              text="Review and/or update your direct deposit information on your VA.gov profile"
+              text="Review and/or update your direct deposit information on your VA.gov profile."
             />
-            .
           </li>
           <li>
-            Learn more about VA benefits and programs through the Building{' '}
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
               filetype="PDF"
-              text="Your Future with the GI Bill Series"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
             />
-            .
           </li>
         </ul>
       </div>

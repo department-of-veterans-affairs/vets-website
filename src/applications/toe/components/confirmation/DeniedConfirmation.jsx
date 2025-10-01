@@ -52,7 +52,7 @@ const DeniedConfirmation = ({
               Department of Defense records, we have determined you’re not
               eligible for the Transfer of Entitlement for Post-9/11 GI Bill®
               (Chapter 33) benefit at this time.
-            </p>{' '}
+            </p>
             <p>
               You can now download your decision letter, which explains why
               you’re not eligible. We’ll also mail a physical copy to your
@@ -64,10 +64,9 @@ const DeniedConfirmation = ({
               download
               href={LETTER_ENDPOINT}
               filetype="PDF"
-              text="Download your decision letter (PDF)"
+              text="Download your decision letter"
               class="vads-u-margin-bottom--6"
             />
-            .
           </div>
         </va-alert>
       </div>
@@ -121,29 +120,25 @@ const DeniedConfirmation = ({
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found at{' '}
             <va-link
               href={LETTER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              text="Download your VA education letters"
+              text="Download a copy of your decision letter. This can also be found at Download your VA education letters."
             />
-            .
           </li>
           <li>
             We’ll notify you if you’re eligible for other VA education benefits.
           </li>
           <li>We don’t require further action by you at this time.</li>
           <li>
-            Learn more about VA benefits and programs through the Building{' '}
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
               filetype="PDF"
-              text="Your Future with the GI Bill Series"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
             />
-            .
           </li>
         </ul>
       </div>

@@ -73,14 +73,13 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <hr className="meb-hr" />
         <p>
           If more than a month has passed since you gave us your application and
-          you haven’t heard back, please don’t apply again. Contact us through{' '}
+          you haven’t heard back, please don’t apply again.{' '}
           <va-link
             href="https://ask.va.gov"
             target="_blank"
             rel="noopener noreferrer"
-            text="Ask VA"
+            text="Contact us through Ask VA."
           />
-          .
         </p>
       </va-card>
       <div className="vads-u-margin-bottom--4">
@@ -101,24 +100,20 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
         <h2>What can I do while I wait?</h2>
         <ul>
           <li>
-            If you need to submit documentation to VA, such as service records,
-            please send this through{' '}
             <va-link
               href="https://ask.va.gov/"
               target="_blank"
               rel="noopener noreferrer"
-              text="Ask VA"
+              text="If you need to submit documentation to VA, such as service records, please send this through Ask VA."
             />
-            .
           </li>
           <li>
             <va-link
               href="/change-direct-deposit/"
               target="_blank"
               rel="noopener noreferrer"
-              text="Review and/or update your direct deposit information on your VA.gov profile"
+              text="Review and/or update your direct deposit information on your VA.gov profile."
             />
-            .
           </li>
           <li>
             <va-link
@@ -129,15 +124,13 @@ const UnderReviewConfirmation = ({ user, printPage, dateReceived }) => {
             />
           </li>
           <li>
-            Learn more about VA benefits and programs through the{' '}
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               target="_blank"
               rel="noopener noreferrer"
               filetype="PDF"
-              text="Building Your Future with the GI Bill Series"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
             />
-            .
           </li>
         </ul>
       </div>

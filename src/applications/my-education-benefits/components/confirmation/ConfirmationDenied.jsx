@@ -50,14 +50,14 @@ const ConfirmationDenied = ({
         <p>
           Your denial letter, which explains why you are ineligible, is now
           available. A physical copy will also be mailed to your mailing
-          address.{' '}
+          address.
         </p>
         <va-link
           download
           href={LETTER_URL}
           filetype="PDF"
-          text="Download your letter"
-          class="usa-button meb-print"
+          text="Download your denial letter"
+          class="vads-u-padding-bottom--2"
         />
       </va-alert>
 
@@ -118,7 +118,7 @@ const ConfirmationDenied = ({
             href={LETTER_URL}
             download
             filetype="PDF"
-            text="Download a copy of your Denial Letter"
+            text="Download a copy of your denial letter for your records."
           />
         </li>
         <li>
