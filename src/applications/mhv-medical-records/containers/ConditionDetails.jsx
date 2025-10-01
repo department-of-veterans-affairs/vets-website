@@ -197,12 +197,12 @@ Provider Notes: ${processList(record.comments)}\n`;
                 testId="condition-location"
                 actionName="[condition details - location]"
               />
-              <LabelValue label="Provider notes">
-                <ItemList
-                  data-testid="condition-provider-notes"
-                  list={record.comments}
-                />
-              </LabelValue>
+              <LabelValue
+                label="Provider notes"
+                ifEmpty=""
+                testId="condition-provider-notes"
+              />
+              <ItemList list={record.comments} />
               {containsSctOrIcd(record.name) && (
                 <LabelValue
                   label="About the code in this condition name"
