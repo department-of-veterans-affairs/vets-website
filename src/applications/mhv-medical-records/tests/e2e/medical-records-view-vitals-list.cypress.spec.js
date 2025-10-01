@@ -9,11 +9,11 @@ describe('Medical Records View Vitals', () => {
 
   beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records');
   });
 
   it('Visits View Vitals List', () => {
     VitalsListPage.goToVitals();
+    cy.url().should('not.include', `timeFrame`);
 
     VitalsListPage.verifyVitalOnListPage(
       0,

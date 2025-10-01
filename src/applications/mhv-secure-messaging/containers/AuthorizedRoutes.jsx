@@ -16,8 +16,10 @@ import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
 import SelectCareTeam from './SelectCareTeam';
+import CareTeamHelp from './CareTeamHelp';
 import { clearDraftInProgress } from '../actions/threadDetails';
 import featureToggles from '../hooks/useFeatureToggles';
+import RecentCareTeams from './RecentCareTeams';
 
 // Prepend SmBreadcrumbs to each route, except for PageNotFound
 const AppRoute = ({ children, ...rest }) => {
@@ -48,7 +50,7 @@ const AuthorizedRoutes = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
-  const { cernerPilotSmFeatureFlag } = featureToggles();
+  const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
   useEffect(
     () => {
@@ -58,11 +60,11 @@ const AuthorizedRoutes = () => {
             ? path.test(location.pathname)
             : location.pathname.startsWith(path),
       );
-      if (!isDraftSafe && draftInProgress.recipientId) {
+      if (!isDraftSafe && draftInProgress?.recipientId) {
         dispatch(clearDraftInProgress());
       }
     },
-    [location.pathname, draftInProgress.recipientId, dispatch],
+    [location.pathname, draftInProgress?.recipientId, dispatch],
   );
 
   if (location.pathname === `/`) {
@@ -116,7 +118,7 @@ const AuthorizedRoutes = () => {
           <EditContactList />
         </AppRoute>
 
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.START_MESSAGE}`}
@@ -125,7 +127,12 @@ const AuthorizedRoutes = () => {
             <Compose />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.RECENT_CARE_TEAMS} key="RecentCareTeams">
+            <RecentCareTeams />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute
             exact
             path={`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`}
@@ -134,14 +141,19 @@ const AuthorizedRoutes = () => {
             <SelectCareTeam />
           </AppRoute>
         )}
-        {cernerPilotSmFeatureFlag && (
+        {mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="InterstitialPage">
             <InterstitialPage />
           </AppRoute>
         )}
-        {!cernerPilotSmFeatureFlag && (
+        {!mhvSecureMessagingCuratedListFlow && (
           <AppRoute exact path={Paths.COMPOSE} key="Compose">
             <Compose />
+          </AppRoute>
+        )}
+        {mhvSecureMessagingCuratedListFlow && (
+          <AppRoute exact path={Paths.CARE_TEAM_HELP} key="CareTeamHelp">
+            <CareTeamHelp />
           </AppRoute>
         )}
         <Route>

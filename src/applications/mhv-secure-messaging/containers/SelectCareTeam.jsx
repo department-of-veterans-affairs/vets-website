@@ -48,7 +48,9 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (!acceptInterstitial && !validDraft) history.push(Paths.COMPOSE);
+      if (!acceptInterstitial && !validDraft) {
+        history.push(Paths.COMPOSE);
+      }
     },
     [acceptInterstitial, validDraft, history],
   );
@@ -80,6 +82,7 @@ const SelectCareTeam = () => {
             updateDraftInProgress({
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
+              ohTriageGroup: recipient.ohTriageGroup,
             }),
           );
           if (
@@ -105,6 +108,7 @@ const SelectCareTeam = () => {
             updateDraftInProgress({
               recipientId: null,
               recipientName: null,
+              ohTriageGroup: null,
             }),
           );
           setSelectedCareTeamId(null);
@@ -136,6 +140,7 @@ const SelectCareTeam = () => {
             careSystemName: careSystem?.vamcSystemName,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -159,6 +164,7 @@ const SelectCareTeam = () => {
             careSystemName: null,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setRecipientsSelectKey(prevKey => prevKey + 1);
@@ -172,6 +178,7 @@ const SelectCareTeam = () => {
           updateDraftInProgress({
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -247,6 +254,10 @@ const SelectCareTeam = () => {
       if (!selectedCareTeamId || !draftInProgress.recipientId) {
         setCareTeamError('Select a care team');
         selectionsValid = false;
+        const recipientSelect = document
+          .querySelector('[data-testid="compose-recipient-combobox"]')
+          ?.shadowRoot?.querySelector('input');
+        focusElement(recipientSelect);
       }
       return selectionsValid;
     },
@@ -321,6 +332,8 @@ const SelectCareTeam = () => {
           label="Select a VA health care system"
           name="va-health-care-system"
           onVaValueChange={onRadioChangeHandler}
+          data-dd-privacy="mask"
+          data-dd-action-name="Care System Radio button"
         >
           {allFacilities.map(facility => (
             <>
@@ -369,7 +382,11 @@ const SelectCareTeam = () => {
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
-      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
+      <RouteLeavingGuard
+        saveDraftHandler={saveDraftHandler}
+        type="compose"
+        persistDraftPaths={[Paths.CONTACT_LIST, Paths.CARE_TEAM_HELP]}
+      />
       <div>
         {renderCareSystems()}
 
@@ -392,7 +409,9 @@ const SelectCareTeam = () => {
         </div>
         <div className="vads-u-margin-top--2">
           <p className="vads-u-margin-bottom--1">
-            <Link to="/">What to do if you can’t find your care team</Link>
+            <Link to={Paths.CARE_TEAM_HELP}>
+              What to do if you can’t find your care team
+            </Link>
           </p>
         </div>
         {showContactListLink && (

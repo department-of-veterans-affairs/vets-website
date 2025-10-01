@@ -42,11 +42,7 @@ describe('Pre-need ConfirmationPage component', () => {
         <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
-    expect(
-      screen.getByText(
-        'Your pre-need determination request has been submitted',
-      ),
-    ).to.exist;
+    expect(screen.getByText('You’ve submitted your application')).to.exist;
   });
 
   it('it should show response dependent text', () => {

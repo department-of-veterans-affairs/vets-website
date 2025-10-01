@@ -445,7 +445,7 @@ describe('<Modals>', () => {
     it('should render', () => {
       const wrapper = shallow(<Modals {...props} />);
       expect(wrapper.html()).to.contain(
-        'The goal of accreditation is to ensure the education provided',
+        'The goal of accreditation is to ensure that the education',
       );
       wrapper.unmount();
     });
@@ -973,6 +973,20 @@ describe('<Modals>', () => {
       const wrapper = shallow(<Modals {...props} />);
       expect(wrapper.html()).to.contain(
         'Caution flags indicate that VA or other federal agencies like the',
+      );
+      wrapper.unmount();
+    });
+  });
+  describe('About all campuses modal', () => {
+    const props = {
+      ...defaultProps,
+      modals: { displaying: 'aboutAllCampuses' },
+    };
+
+    it('should render', () => {
+      const wrapper = shallow(<Modals {...props} />);
+      expect(wrapper.html()).to.contain(
+        'The number of closed, Principles of Excellence-related, complaints for schools',
       );
       wrapper.unmount();
     });

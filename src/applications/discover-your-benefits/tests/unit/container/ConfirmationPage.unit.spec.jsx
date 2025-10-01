@@ -8,18 +8,17 @@ import ConfirmationPage from '../../../containers/ConfirmationPage';
 import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
 
-// Mock benefit data
 const mockBenefits = [
   {
     id: '1',
-    name: 'Education',
+    name: 'GI Bill benefits',
     category: 'Education',
     isTimeSensitive: false,
   },
   {
     id: '2',
     name: 'Careers and Employment',
-    category: 'Careers',
+    category: 'Employment',
     isTimeSensitive: false,
   },
   {
@@ -27,6 +26,48 @@ const mockBenefits = [
     name: 'More Support',
     category: 'Support',
     isTimeSensitive: false,
+  },
+  {
+    id: '4',
+    name: 'Disability Compensation',
+    category: 'Disability',
+    isTimeSensitive: true,
+  },
+  {
+    id: '5',
+    name: 'Foreign Medical Program',
+    category: 'Health Care',
+    isTimeSensitive: true,
+  },
+  {
+    id: '6',
+    name: 'Veterans Pension',
+    category: 'Pension',
+    isTimeSensitive: false,
+  },
+  {
+    id: '7',
+    name: 'VA national cemetery burial',
+    category: 'Burials',
+    isTimeSensitive: false,
+  },
+  {
+    id: '8',
+    name: 'Veterans Affairs Life Insurance',
+    category: 'Life Insurance',
+    isTimeSensitive: false,
+  },
+  {
+    id: '9',
+    name: 'Disability housing grant',
+    category: 'Housing',
+    isTimeSensitive: false,
+  },
+  {
+    id: '10',
+    name: 'Quick Access Benefit',
+    category: 'Support',
+    isTimeSensitive: true,
   },
 ];
 
@@ -97,108 +138,296 @@ const subject = ({ mockStore, props }) =>
   );
 
 describe('<ConfirmationPage>', () => {
-  sinon.stub(Date, 'getTime');
+  describe('initial render and state', () => {
+    it('renders additional info for transitioning service members', () => {
+      const { mockStore, props } = getData([], form2);
+      const { container } = subject({ mockStore, props });
 
-  it('should render results page when query string is provided', () => {
-    const { mockStore, props } = getData();
-    props.location.query.benefits = 'SVC,FHV';
-    const { container } = subject({ mockStore, props });
+      const additionalInfo = container.querySelector('va-additional-info');
+      expect(additionalInfo).to.exist;
+      expect(additionalInfo).to.have.attribute(
+        'trigger',
+        'Benefits for transitioning service members',
+      );
 
-    expect(container.querySelector('#results-container')).to.exist;
-  });
+      const vaLink = additionalInfo.querySelector('va-link');
+      expect(vaLink).to.exist;
+      expect(vaLink).to.have.attribute(
+        'href',
+        'https://www.va.gov/service-member-benefits/',
+      );
+      expect(vaLink).to.have.attribute(
+        'label',
+        'Learn more about VA benefits for service members',
+      );
+    });
 
-  it('should handle back link', async () => {
-    sinon.stub(window, 'history').value({ length: 10 });
+    it('renders results container when query string is provided', () => {
+      const { mockStore, props } = getData();
+      props.location.query.benefits = 'SVC,FHV';
+      const { container } = subject({ mockStore, props });
 
-    const { mockStore, props } = getData();
-    const { container } = subject({ mockStore, props });
+      expect(container.querySelector('#results-container')).to.exist;
+    });
 
-    const backLink = container.querySelector('[data-testid="back-link"]');
-    fireEvent.click(backLink);
+    it('shows loading indicator when results are loading', () => {
+      const { mockStore, props } = getData([], form2);
+      const { rerender } = subject({ mockStore, props });
 
-    await waitFor(() => {
-      expect(props.router.goBack.called).to.be.true;
+      const loadingStore = {
+        ...mockStore,
+        getState: () => ({
+          ...mockStore.getState(),
+          results: {
+            data: null,
+            error: null,
+            isError: false,
+            isLoading: true,
+          },
+        }),
+      };
+
+      rerender(
+        <Provider store={loadingStore}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+
+      const loadingIndicator = document.querySelector('va-loading-indicator');
+      expect(loadingIndicator).to.exist;
+    });
+
+    it('renders new results when results data updates', () => {
+      const { mockStore, props } = getData([], form2);
+      const { rerender, queryByText, getByText } = subject({
+        mockStore,
+        props,
+      });
+
+      mockBenefits.forEach(({ name }) => {
+        expect(queryByText(name)).to.not.exist;
+      });
+
+      const updatedResults = {
+        ...mockStore,
+        getState: () => ({
+          ...mockStore.getState(),
+          results: {
+            data: mockBenefits,
+            error: null,
+            isError: false,
+            isLoading: false,
+          },
+        }),
+      };
+
+      rerender(
+        <Provider store={updatedResults}>
+          <ConfirmationPage {...props} />
+        </Provider>,
+      );
+
+      mockBenefits.forEach(({ name }) => {
+        expect(getByText(name)).to.exist;
+      });
+    });
+
+    it('shows all benefits when no results are found but allBenefits=true is in the query', async () => {
+      const sortedBenefits = [...BENEFITS_LIST].sort((a, b) =>
+        a.name.localeCompare(b.name),
+      );
+
+      const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
+
+      const updatedStore = {
+        ...mockStore,
+        getState: () => ({
+          ...mockStore.getState(),
+          results: {
+            data: null,
+            error: null,
+            isError: false,
+            isLoading: false,
+          },
+        }),
+      };
+
+      const { container, getAllByRole } = render(
+        <Provider store={updatedStore}>
+          <ConfirmationPage
+            {...props}
+            location={{
+              ...props.location,
+              query: { allBenefits: 'true' },
+            }}
+          />
+        </Provider>,
+      );
+
+      const seenBenefitNames = new Set();
+      const pageSize = 10;
+      const totalPages = Math.ceil(BENEFITS_LIST.length / pageSize);
+      const pagination = container.querySelector('va-pagination');
+
+      // Page 1 is already rendered
+      await waitFor(() => {
+        const items = getAllByRole('listitem');
+        expect(items.length).to.be.greaterThan(0);
+        items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
+      });
+
+      // Dispatch page changes synchronously (skip page 1, it renders initially)
+      for (let page = 2; page <= totalPages; page++) {
+        pagination.dispatchEvent(
+          new CustomEvent('pageSelect', {
+            detail: { page },
+            bubbles: true,
+          }),
+        );
+
+        // eslint-disable-next-line no-await-in-loop
+        await waitFor(() => {
+          const items = getAllByRole('listitem');
+          expect(items.length).to.be.greaterThan(0);
+          items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
+        });
+      }
+
+      const allNamesSeen = sortedBenefits.every(b =>
+        Array.from(seenBenefitNames).some(name => name.includes(b.name)),
+      );
+
+      expect(allNamesSeen).to.be.true;
+    });
+
+    it('renders banner when results not found', () => {
+      const { mockStore, props } = getData([], form2);
+      const { container } = subject({ mockStore, props });
+
+      const banner = container.querySelector('va-banner');
+      expect(banner).to.exist;
+      expect(banner).to.have.attribute('headline', 'No Results Found');
+      expect(banner).to.have.attribute('type', 'warning');
     });
   });
 
-  it('calls handleResultsData on componentDidUpdate when new results appear', () => {
-    const { mockStore, props } = getData([], form2);
-    const { rerender } = subject({ mockStore, props });
+  describe('navigation', () => {
+    it('handles back link', async () => {
+      sinon.stub(window, 'history').value({ length: 10 });
 
-    const updatedResults = {
-      ...mockStore,
-      getState: () => ({
-        ...mockStore.getState(),
-        results: {
-          data: mockBenefits,
-          error: null,
-          isError: false,
-          isLoading: false,
-        },
-      }),
-    };
+      const { mockStore, props } = getData();
+      const { container } = subject({ mockStore, props });
 
-    rerender(
-      <Provider store={updatedResults}>
-        <ConfirmationPage {...props} />
-      </Provider>,
-    );
-    expect(document.querySelectorAll('va-link').length).to.be.above(0);
-  });
+      const backLink = container.querySelector('[data-testid="back-link"]');
+      fireEvent.click(backLink);
 
-  it('renders an error alert when results has an error', () => {
-    const errorStore = {
-      getState: () => ({
-        form: form2,
-        results: {
-          data: [],
-          error: 'Something went wrong',
-          isError: true,
-          isLoading: false,
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const { container } = subject({
-      mockStore: errorStore,
-      props: getData().props,
+      await waitFor(() => {
+        expect(props.router.goBack.called).to.be.true;
+      });
     });
-
-    const alert = container.querySelector('va-alert');
-    expect(alert).to.exist;
-    expect(alert).to.have.attribute('status', 'info');
-  });
-
-  it('should show a loading indicator when results are loading', () => {
-    const loadingStore = {
-      getState: () => ({
-        form: form2,
-        results: {
-          data: [],
-          error: null,
-          isError: false,
-          isLoading: true,
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
-
-    const { container } = subject({
-      mockStore: loadingStore,
-      props: getData().props,
-    });
-
-    const loadingIndicator = container.querySelector('va-loading-indicator');
-    expect(loadingIndicator).to.exist;
   });
 });
 
-describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
-  sinon.stub(Date, 'getTime');
+describe('sortBenefits', () => {
+  it('sorts benefits alphabetically', async () => {
+    const { mockStore, props } = getData(mockBenefits, form2);
 
+    const screen = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+
+    const sortSelect = screen.getByLabelText(/Sort Benefits/i);
+
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'alphabetical' },
+        bubbles: true,
+      }),
+    );
+
+    const listItems = await screen.findAllByRole('listitem');
+    const benefitNames = listItems.map(li => li.textContent);
+
+    expect(benefitNames[0]).to.include('Careers and Employment');
+    expect(benefitNames[1]).to.include('Disability Compensation');
+    expect(benefitNames[2]).to.include('Disability housing grant');
+    expect(benefitNames[3]).to.include('Foreign Medical Program');
+    expect(benefitNames[4]).to.include('GI Bill benefits');
+    expect(benefitNames[5]).to.include('More Support');
+    expect(benefitNames[6]).to.include('Quick Access Benefit');
+    expect(benefitNames[7]).to.include('VA national cemetery burial');
+    expect(benefitNames[8]).to.include('Veterans Affairs Life Insurance');
+    expect(benefitNames[9]).to.include('Veterans Pension');
+  });
+
+  it('sorts benefits by type', async () => {
+    const { mockStore, props } = getData(mockBenefits);
+
+    const screen = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+
+    const sortSelect = screen.getByLabelText(/Sort Benefits/i);
+
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'category' },
+        bubbles: true,
+      }),
+    );
+
+    const listItems = await screen.findAllByRole('listitem');
+    const benefitNames = listItems.map(li => li.textContent);
+
+    expect(benefitNames[0]).to.include('VA national cemetery burial');
+    expect(benefitNames[1]).to.include('Disability Compensation');
+    expect(benefitNames[2]).to.include('GI Bill benefits');
+    expect(benefitNames[3]).to.include('Careers and Employment');
+    expect(benefitNames[4]).to.include('Foreign Medical Program');
+    expect(benefitNames[5]).to.include('Disability housing grant');
+    expect(benefitNames[6]).to.include('Veterans Affairs Life Insurance');
+    expect(benefitNames[7]).to.include('Veterans Pension');
+    expect(benefitNames[8]).to.include('More Support');
+    expect(benefitNames[9]).to.include('Quick Access Benefit');
+  });
+
+  it('sorts benefits by time sensitivity', async () => {
+    const { mockStore, props } = getData(mockBenefits);
+
+    const screen = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+
+    const sortSelect = screen.getByTestId('sort-select');
+
+    fireEvent(
+      sortSelect,
+      new CustomEvent('vaSelect', {
+        detail: { value: 'isTimeSensitive' },
+        bubbles: true,
+      }),
+    );
+
+    const listItems = await screen.findAllByRole('listitem');
+    const benefitNames = listItems.map(li => li.textContent);
+    const topBenefits = benefitNames.slice(0, 3);
+
+    // Time-sensitive benefits should appear first
+    expect(topBenefits.join(' ')).to.include('Disability Compensation');
+    expect(topBenefits.join(' ')).to.include('Foreign Medical Program');
+    expect(topBenefits.join(' ')).to.include('Quick Access Benefit');
+  });
+});
+
+describe('filterBenefits', () => {
   const dispatchFilterApply = (filterComponent, filters) => {
     filterComponent.dispatchEvent(
       new CustomEvent('vaFilterApply', {
@@ -208,48 +437,7 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     );
   };
 
-  it('should sort benefits by goal', () => {
-    const { mockStore, props } = getData(mockBenefits);
-    const wrapper = subject({ mockStore, props });
-    const { container } = wrapper;
-
-    const sortSelect = container.querySelector('va-search-filter');
-    sortSelect.dispatchEvent(
-      new CustomEvent('vaFilterApply', {
-        detail: [
-          {
-            label: 'Sort',
-            category: [{ id: 'goal', label: 'Goal' }],
-          },
-        ],
-        bubbles: true,
-      }),
-    );
-
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-
-    expect(benefitNames[0]).to.contain('Education');
-  });
-
-  it('should sort benefits alphabetically', () => {
-    const { mockStore, props } = getData(mockBenefits, form2);
-    const wrapper = subject({ mockStore, props });
-    const { container } = wrapper;
-
-    const sortSelect = container.querySelector('[name="sort-benefits"]');
-    sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
-
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-
-    expect(benefitNames[0]).to.contain('Careers');
-    expect(benefitNames[1]).to.contain('Education');
-  });
-
-  it('should filter benefits by category', () => {
+  it('filters benefits by selected category', async () => {
     const { mockStore, props } = getData(mockBenefits, form2);
     const wrapper = subject({ mockStore, props });
     const { container } = wrapper;
@@ -259,164 +447,52 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
     dispatchFilterApply(filterComponent, [
       {
         label: 'Benefit type',
-        category: [{ id: 'Careers', label: 'Careers and employment' }],
+        category: [{ id: 'Employment', label: 'Careers and employment' }],
       },
     ]);
 
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-
-    expect(benefitNames).to.have.lengthOf(1);
-    expect(benefitNames[0]).to.contain('Careers');
+    await waitFor(() => {
+      const listItems = wrapper.getAllByRole('listitem');
+      expect(listItems.length).to.equal(1);
+      expect(listItems[0].textContent).to.include('Careers');
+    });
   });
 
-  it('should show all benefits when "All" filter is selected', () => {
+  it('clears filters when "Clear all filters" is clicked', async () => {
     const { mockStore, props } = getData(mockBenefits, form2);
     const wrapper = subject({ mockStore, props });
-    const { container } = wrapper;
+    const { container, getAllByRole } = wrapper;
 
     const filterComponent = container.querySelector('va-search-filter');
 
     dispatchFilterApply(filterComponent, [
       {
-        label: 'Benefit Type',
-        category: [{ id: 'All', label: 'All' }],
+        label: 'Benefit type',
+        category: [{ id: 'Employment', label: 'Careers and employment' }],
       },
     ]);
 
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-
-    expect(benefitNames).to.have.lengthOf(3);
-    expect(benefitNames[0]).to.contain('Careers');
-    expect(benefitNames[1]).to.contain('Education');
-  });
-
-  it('shows all benefits when no results are found but allBenefits=true is in the query', async () => {
-    const sortedBenefits = [...BENEFITS_LIST].sort((a, b) =>
-      a.name.localeCompare(b.name),
-    );
-
-    const { mockStore, props } = getData([], form2, { allBenefits: 'true' });
-
-    const updatedStore = {
-      ...mockStore,
-      getState: () => ({
-        ...mockStore.getState(),
-        results: {
-          data: [],
-          error: null,
-          isError: false,
-          isLoading: false,
-        },
-      }),
-    };
-
-    const { container, getAllByRole } = subject({
-      mockStore: updatedStore,
-      props: {
-        ...props,
-        location: {
-          ...props.location,
-          query: { allBenefits: 'true' },
-        },
-      },
-    });
-
-    const seenBenefitNames = new Set();
-    const pageSize = 10;
-    const totalPages = Math.ceil(BENEFITS_LIST.length / pageSize);
-    const pagination = container.querySelector('va-pagination');
-
-    // Page 1 is already rendered
     await waitFor(() => {
       const items = getAllByRole('listitem');
-      expect(items.length).to.be.greaterThan(0);
-      items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
+      expect(items.length).to.equal(1);
+      expect(items[0].textContent).to.include('Careers');
     });
 
-    // Dispatch page changes synchronously (skip page 1, it renders initially)
-    for (let page = 2; page <= totalPages; page++) {
-      pagination.dispatchEvent(
-        new CustomEvent('pageSelect', {
-          detail: { page },
-          bubbles: true,
-        }),
-      );
-
-      // eslint-disable-next-line no-await-in-loop
-      await waitFor(() => {
-        const items = getAllByRole('listitem');
-        expect(items.length).to.be.greaterThan(0);
-        items.forEach(item => seenBenefitNames.add(item.textContent.trim()));
-      });
-    }
-
-    const allNamesSeen = sortedBenefits.every(b =>
-      Array.from(seenBenefitNames).some(name => name.includes(b.name)),
+    filterComponent.dispatchEvent(
+      new CustomEvent('vaFilterClearAll', {
+        bubbles: true,
+      }),
     );
 
-    expect(allNamesSeen).to.be.true;
-  });
-
-  it('should sort benefits by time sensitivity', () => {
-    const timeSensitiveBenefits = [
-      { id: '1', name: 'Benefit A', isTimeSensitive: false, category: [] },
-      { id: '2', name: 'Benefit B', isTimeSensitive: true, category: [] },
-      { id: '3', name: 'Benefit C', isTimeSensitive: false, category: [] },
-    ];
-
-    const { mockStore, props } = getData(timeSensitiveBenefits, form2);
-    const wrapper = subject({ mockStore, props });
-    const { container } = wrapper;
-
-    const filterComponent = container.querySelector('va-search-filter');
-
-    dispatchFilterApply(filterComponent, [
-      {
-        label: 'Sort',
-        category: [{ id: 'isTimeSensitive', label: 'Time-sensitive' }],
-      },
-    ]);
-
-    const benefitNames = wrapper
-      .getAllByRole('listitem')
-      .map(li => li.textContent);
-
-    expect(benefitNames[0]).to.contain('Benefit B');
+    await waitFor(() => {
+      const items = getAllByRole('listitem');
+      expect(items.length).to.equal(mockBenefits.length);
+    });
   });
 });
 
-describe('<ConfirmationPage> with <va-banner />', () => {
-  sinon.stub(Date, 'getTime');
-
-  it('should render a <va-banner /> when results not found', () => {
-    const { mockStore, props } = getData([], form2);
-    const { container } = subject({ mockStore, props });
-
-    const banner = container.querySelector('va-banner');
-    expect(banner).to.exist;
-    expect(banner).to.have.attribute('headline', 'No Results Found');
-    expect(banner).to.have.attribute('type', 'warning');
-  });
-
-  it('should handle "Go back" link', async () => {
-    sinon.stub(window, 'history').value({ length: 10 });
-
-    const { mockStore, props } = getData([], form2);
-    const { container } = subject({ mockStore, props });
-
-    const backLink = container.querySelector('[data-testid="back-link"]');
-    fireEvent.click(backLink);
-
-    await waitFor(() => {
-      expect(props.router.goBack.called).to.be.true;
-    });
-  });
-
-  it('displays the correct benefits when navigating between pagination pages', async () => {
+describe('pagination', () => {
+  it('displays the correct benefits when navigating between pages', async () => {
     const benefits = Array.from({ length: 23 }, (_, i) => ({
       id: String(i + 1),
       name: `Benefit ${i + 1}`,

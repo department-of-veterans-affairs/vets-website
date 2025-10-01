@@ -108,7 +108,7 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
-            profileShowPaperlessDelivery: true,
+            profileShowPaperlessDelivery: false,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
@@ -216,12 +216,9 @@ const responses = {
     const secondsOfDelay = 1;
     delaySingleResponse(
       // () => res.status(500).json(error500),
-      // () => res.status(200).json(mockDisabilityCompensations.updates.success),
-      () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
-      // () =>
-      //   res
-      //     .status(422)
-      //     .json(directDeposits.updates.errors.paymentRestrictionsPresent),
+      () => res.status(200).json(directDeposits.updates.success),
+      // () => res.status(400).json(directDeposits.updates.errors.invalidDayPhone),
+      // () => res.status(422).json(directDeposits.updates.errors.missingPaymentAddress),
       secondsOfDelay,
     );
   },

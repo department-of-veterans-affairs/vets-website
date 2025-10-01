@@ -48,7 +48,7 @@ import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ViewOnlyDraftSection from './ViewOnlyDraftSection';
-import { RadioCategories } from '../../util/inputContants';
+import { Categories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
@@ -74,9 +74,9 @@ const ComposeForm = props => {
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
-    isComboBoxEnabled,
     largeAttachmentsEnabled,
     cernerPilotSmFeatureFlag,
+    mhvSecureMessagingCuratedListFlow,
   } = useFeatureToggles();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
@@ -88,12 +88,32 @@ const ComposeForm = props => {
   const [attachFileError, setAttachFileError] = useState(null);
   const [formPopulated, setFormPopulated] = useState(false);
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
+  const [isAutoSave, setIsAutoSave] = useState(true);
 
   const recipientExists = useCallback(
     recipientId => {
       return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
     },
     [recipientsList],
+  );
+
+  const ohTriageGroup = useCallback(
+    recipientId => {
+      return (
+        recipients?.allowedRecipients.find(r => +r.id === +recipientId)
+          ?.ohTriageGroup || false
+      );
+    },
+    [recipients?.allowedRecipients],
+  );
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && ohTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
   );
 
   useEffect(
@@ -126,6 +146,7 @@ const ComposeForm = props => {
                 draftInProgress?.recipientName ||
                 draft.suggestedNameDisplay ||
                 draft.recipientName,
+              ohTriageGroup: ohTriageGroup(draft.recipientId),
               category: draftInProgress?.category || draft.category,
               subject: draftInProgress?.subject || draft.subject,
               body: draftInProgress?.body || draft.body,
@@ -154,6 +175,9 @@ const ComposeForm = props => {
       ehrDataByVhaId,
       recipients?.allowedRecipients,
       recipientExists,
+      ohTriageGroup,
+      draftInProgress,
+      sendMessageFlag,
     ],
   );
 
@@ -351,7 +375,14 @@ const ComposeForm = props => {
           }
 
           try {
-            await dispatch(sendMessage(sendData, attachments.length > 0));
+            setIsAutoSave(false);
+            await dispatch(
+              sendMessage(
+                sendData,
+                attachments.length > 0,
+                draftInProgress.ohTriageGroup,
+              ),
+            );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
               navigateToFolderByFolderId(
@@ -363,6 +394,7 @@ const ComposeForm = props => {
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
+            setIsAutoSave(true);
           }
         }
       };
@@ -459,7 +491,7 @@ const ComposeForm = props => {
         selectedRecipientId === '' ||
         !selectedRecipientId
       ) {
-        if (!cernerPilotSmFeatureFlag && isComboBoxEnabled) {
+        if (mhvSecureMessagingCuratedListFlow) {
           if (comboBoxInputValue === '') {
             setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
           } else {
@@ -513,9 +545,8 @@ const ComposeForm = props => {
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
-      isComboBoxEnabled,
-      cernerPilotSmFeatureFlag,
       comboBoxInputValue,
+      mhvSecureMessagingCuratedListFlow,
     ],
   );
 
@@ -770,6 +801,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
+        isAutoSave === true &&
         debouncedRecipient &&
         debouncedCategory &&
         debouncedSubject &&
@@ -788,6 +820,7 @@ const ComposeForm = props => {
       saveDraftHandler,
       navigationErrorModalVisible,
       setUnsavedNavigationError,
+      isAutoSave,
     ],
   );
 
@@ -849,7 +882,7 @@ const ComposeForm = props => {
     return (
       <va-loading-indicator
         message={
-          largeAttachmentsEnabled
+          useLargeAttachments
             ? 'Do not refresh the page. Sending message...'
             : 'Sending message...'
         }
@@ -884,7 +917,7 @@ const ComposeForm = props => {
       <form className="compose-form" id="sm-compose-form">
         <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
         <div>
-          {!cernerPilotSmFeatureFlag &&
+          {!mhvSecureMessagingCuratedListFlow &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <div
@@ -901,7 +934,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-          {!cernerPilotSmFeatureFlag &&
+          {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
@@ -917,15 +950,15 @@ const ComposeForm = props => {
                 currentRecipient={currentRecipient}
               />
             )}
-          {cernerPilotSmFeatureFlag && (
+          {mhvSecureMessagingCuratedListFlow && (
             <SelectedRecipientTitle draftInProgress={draftInProgress} />
           )}
-          <div className="compose-form-div">
+          <div className="compose-form-div vads-u-margin-y--3">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
                 title={FormLabels.CATEGORY}
-                body={`${RadioCategories[(draft?.category)].label}: ${
-                  RadioCategories[(draft?.category)].description
+                body={`${Categories[(draft?.category)].label}: ${
+                  Categories[(draft?.category)].description
                 }`}
               />
             ) : (
@@ -1009,6 +1042,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
 
                   <FileInput
@@ -1018,7 +1052,7 @@ const ComposeForm = props => {
                     attachmentScanError={attachmentScanError}
                     attachFileError={attachFileError}
                     setAttachFileError={setAttachFileError}
-                    isPilot={cernerPilotSmFeatureFlag}
+                    isOhTriageGroup={draftInProgress?.ohTriageGroup}
                   />
                 </section>
               ))}

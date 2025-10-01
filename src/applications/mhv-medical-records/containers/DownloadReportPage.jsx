@@ -37,6 +37,8 @@ import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
+import CCDAccordionItemV1 from './ccdAccordionItem/ccdAccordionItemV1';
+import CCDAccordionItemV2 from './ccdAccordionItem/ccdAccordionItemV2';
 
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
@@ -61,6 +63,13 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const selectMilestoneTwoFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
+  );
+
+  const ccdExtendedFileTypeFlag = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
+      ],
   );
 
   const useUnifiedSelfEnteredAPI = useSelector(
@@ -176,16 +185,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
-  const handleDownloadCCD = e => {
+  const handleDownloadCCD = (e, fileType) => {
     e.preventDefault();
     dispatch(
       genAndDownloadCCD(
         userProfile?.userFullName?.first,
         userProfile?.userFullName?.last,
+        fileType, // 'xml' | 'html' | 'pdf'
       ),
     );
     postRecordDatadogAction(statsdFrontEndActions.DOWNLOAD_CCD);
-    sendDataDogAction('Download Continuity of Care Document xml Link');
+    sendDataDogAction(`Download Continuity of Care Document ${fileType} link`);
   };
 
   const handleDownloadSelfEnteredPdf = e => {
@@ -308,38 +318,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </>
         )}
       <va-accordion bordered>
-        <va-accordion-item bordered data-testid="ccdAccordionItem">
-          <h3 slot="headline">
-            Continuity of Care Document (VA Health Summary)
-          </h3>
-          <p className="vads-u-margin--0">
-            This Continuity of Care Document (CCD) is a summary of your VA
-            medical records that you can share with non-VA providers in your
-            community. It includes your allergies, medications, recent lab
-            results, and more.
-          </p>
-          <p>
-            You can download this report in .xml format, a standard file format
-            that works with other providers’ medical records systems.
-          </p>
-          {generatingCCD ? (
-            <div id="generating-ccd-indicator">
-              <TrackedSpinner
-                id="download-ccd-spinner"
-                label="Loading"
-                message="Preparing your download..."
-              />
-            </div>
-          ) : (
-            <va-link
-              download
-              href="#"
-              onClick={handleDownloadCCD}
-              text="Download Continuity of Care Document (XML)"
-              data-testid="generateCcdButton"
-            />
-          )}
-        </va-accordion-item>
+        {ccdExtendedFileTypeFlag ? (
+          <CCDAccordionItemV2
+            generatingCCD={generatingCCD}
+            handleDownloadCCD={handleDownloadCCD}
+          />
+        ) : (
+          <CCDAccordionItemV1
+            generatingCCD={generatingCCD}
+            handleDownloadCCD={handleDownloadCCD}
+          />
+        )}
         <va-accordion-item
           bordered
           data-testid="selfEnteredAccordionItem"

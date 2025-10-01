@@ -2,17 +2,15 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
 import ArrayBuilderCards from '../ArrayBuilderCards';
-import { initGetText } from '../helpers';
+import { initGetText, META_DATA_KEY } from '../helpers';
 
 const mockRedux = ({
   review = false,
   submitted = false,
   formData = {},
   onChange = () => {},
-  setFormData = () => {},
 } = {}) => {
   return {
     props: {
@@ -23,7 +21,6 @@ const mockRedux = ({
         submitted,
       },
       formData,
-      setFormData,
     },
     mockStore: {
       getState: () => ({
@@ -36,12 +33,7 @@ const mockRedux = ({
         },
       }),
       subscribe: () => {},
-      dispatch: action => {
-        if (action.type === SET_DATA) {
-          return setFormData(action.data);
-        }
-        return null;
-      },
+      dispatch: () => {},
     },
   };
 };
@@ -51,8 +43,11 @@ describe('ArrayBuilderCards', () => {
     arrayData = [],
     cardDescription = 'cardDescription',
     getItemName = (item, index) => `getItemName ${index + 1}`,
+    isIncomplete = () => false,
+    fullData = {},
+    duplicateChecks = {},
+    duplicateCheckResult = {},
   }) {
-    const setFormData = sinon.spy();
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
     const onRemove = sinon.spy();
@@ -68,7 +63,6 @@ describe('ArrayBuilderCards', () => {
         employers: arrayData,
         otherData: 'test',
       },
-      setFormData,
     });
 
     const { container, getByText } = render(
@@ -83,15 +77,18 @@ describe('ArrayBuilderCards', () => {
           getText={getText}
           required={() => false}
           isReview={false}
-          forceRerender={() => null}
+          isIncomplete={isIncomplete}
+          fullData={fullData}
+          duplicateChecks={duplicateChecks}
+          duplicateCheckResult={duplicateCheckResult}
         />
       </Provider>,
     );
 
     return {
-      setFormData,
       goToPath,
       getText,
+      onRemove,
       onRemoveAll,
       container,
       getByText,
@@ -110,7 +107,7 @@ describe('ArrayBuilderCards', () => {
   });
 
   it('should handle remove flow correctly', () => {
-    const { container, setFormData, onRemoveAll } = setupArrayBuilderCards({
+    const { container, onRemove, onRemoveAll } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
     });
 
@@ -120,12 +117,12 @@ describe('ArrayBuilderCards', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    expect(setFormData.called).to.be.true;
-    expect(onRemoveAll.called).to.be.false;
+    sinon.assert.called(onRemove);
+    sinon.assert.notCalled(onRemoveAll);
   });
 
   it('should call remove all if there are no items', () => {
-    const { container, setFormData, onRemoveAll } = setupArrayBuilderCards({
+    const { container, onRemoveAll } = setupArrayBuilderCards({
       arrayData: [{ name: 'Test' }],
     });
 
@@ -135,10 +132,7 @@ describe('ArrayBuilderCards', () => {
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
-    expect(setFormData.called).to.be.true;
-    expect(setFormData.args[0][0].employers).to.be.undefined;
-    expect(setFormData.args[0][0]).to.contains({ otherData: 'test' });
-    expect(onRemoveAll.called).to.be.true;
+    sinon.assert.called(onRemoveAll);
   });
 
   it('should pass full data into cardDescription', () => {
@@ -160,5 +154,77 @@ describe('ArrayBuilderCards', () => {
     ];
     expect(cardDescriptionSpy.args[0]).to.be.deep.equal(functionArgs);
     expect(getItemNameSpy.args[0]).to.be.deep.equal(functionArgs);
+  });
+
+  it('should render incomplete label & alert', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      isIncomplete: () => true,
+    });
+
+    expect(getText.calledWith('cardItemMissingInformation')).to.be.true;
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'INCOMPLETE',
+    );
+  });
+
+  it('should render duplicate label & warning alert for possible duplicate entries', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayPath: 'path',
+      arrayData: [{ name: 'Test' }],
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+    });
+
+    expect(getText.calledWith('duplicateSummaryCardWarningOrErrorAlert')).to.be
+      .true;
+    expect(container.querySelector('va-alert[status="warning"]')).to.exist;
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'POSSIBLE DUPLICATE',
+    );
+  });
+
+  it('should render duplicate info alert with no label for possible duplicate entries', () => {
+    const arrayData = [{ name: 'Test' }, { name: 'Test2' }, { name: 'Test' }];
+    const { container, getText } = setupArrayBuilderCards({
+      arrayPath: 'employers',
+      arrayData,
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+      fullData: {
+        employers: arrayData,
+        [META_DATA_KEY]: {
+          // Duplicate modal was dismissed
+          'employers;test;allowDuplicate': true,
+        },
+      },
+    });
+
+    expect(getText.calledWith('duplicateSummaryCardInfoAlert')).to.be.true;
+    expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(container.querySelector('.usa-label')).to.not.exist;
+  });
+
+  it('should render incomplete label & alert over duplicate label & alert', () => {
+    const { container, getText } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      isIncomplete: () => true,
+      arrayPath: 'path',
+      duplicateCheckResult: {
+        duplicates: ['test'],
+        arrayData: ['test'],
+      },
+    });
+
+    expect(getText.calledWith('cardItemMissingInformation')).to.be.true;
+    expect(container.querySelectorAll('va-alert').length).to.eq(1);
+    expect(container.querySelector('.usa-label').textContent).to.eq(
+      'INCOMPLETE',
+    );
   });
 });

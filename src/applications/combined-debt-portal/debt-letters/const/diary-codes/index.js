@@ -12,8 +12,8 @@ export const renderLetterHistory = diaryCode => {
             <strong>First demand letter</strong>
           </p>
           <p className="vads-u-margin--0 vads-u-font-size-md vads-u-color--gray-dark">
-            A letter was sent to notify you of your debt and provide information
-            on how to resolve it.
+            We sent this letter to notify you of your debt and provide
+            information on how to resolve it.
           </p>
         </>
       );

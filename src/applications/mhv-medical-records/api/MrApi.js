@@ -143,10 +143,25 @@ export const getMhvRadiologyDetails = async id => {
   return findMatchingPhrAndCvixStudies(id, phrResponse, cvixResponse);
 };
 
+export const getAcceleratedNotes = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/clinical_notes`, {
+    headers,
+  });
+};
+
 export const getNotes = async () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,
   });
+};
+
+export const getAcceleratedNote = async id => {
+  return apiRequest(
+    `${API_BASE_PATH_V2}/medical_records/clinical_notes/${id}`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getNote = id => {
@@ -180,6 +195,18 @@ export const getConditions = async () => {
 
 export const getCondition = id => {
   return apiRequest(`${apiBasePath}/medical_records/conditions/${id}`, {
+    headers,
+  });
+};
+
+export const getAcceleratedConditions = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions`, {
+    headers,
+  });
+};
+
+export const getAcceleratedCondition = async id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions/${id}`, {
     headers,
   });
 };
@@ -357,12 +384,12 @@ export const generateCCD = () => {
   return apiRequest(`${apiBasePath}/medical_records/ccd/generate`, { headers });
 };
 
-export const downloadCCD = timestamp => {
+export const downloadCCD = (timestamp, format = 'html') => {
+  const lowerFormat = format.toLowerCase();
   return apiRequest(
-    `${apiBasePath}/medical_records/ccd/download?date=${timestamp}`,
-    {
-      'Content-Type': 'application/xml',
-    },
+    `${apiBasePath}/medical_records/ccd/download.${lowerFormat}?date=${encodeURIComponent(
+      timestamp,
+    )}`,
   );
 };
 

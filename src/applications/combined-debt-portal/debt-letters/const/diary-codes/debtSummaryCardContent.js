@@ -168,8 +168,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Contact the U.S. Department of the Treasury’s Debt Management Services
-          at <va-telephone contact={CONTACTS.DMC} />, 8:30 a.m. to 6:30 p.m. ET.
-          to pay this debt.
+          at <va-telephone contact={CONTACTS.TREASURY_DMS} />, 8:30 a.m. to 6:30
+          p.m. ET. to pay this debt.
         </DebtSummaryMessage>
       );
     // case '081': TODO: No Definition in mockup
@@ -262,3 +262,59 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
       );
   }
 };
+
+export const resolveLinkDiaryCodes = [
+  '109',
+  '117',
+  '123',
+  '815',
+  '061',
+  '065',
+  '070',
+  '440',
+  '442',
+  '448',
+  '453',
+  '811',
+  '081',
+  '500',
+  '510',
+  '503',
+  '100',
+  '102',
+  '130',
+  '140',
+  '430',
+  '431',
+  '450',
+  '101',
+  '602',
+  '607',
+  '608',
+  '610',
+  '611',
+  '614',
+  '615',
+  '617',
+  '449',
+  '439',
+  '459',
+  '600',
+  '601',
+  '603',
+  '613',
+  '655',
+  '817',
+  '680',
+  '681',
+  '682',
+  '801',
+  '802',
+  '803',
+  '804',
+  '809',
+  '820',
+  '822',
+  '825',
+  '821',
+];

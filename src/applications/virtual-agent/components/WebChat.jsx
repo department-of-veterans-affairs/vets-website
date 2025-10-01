@@ -49,6 +49,7 @@ const styleOptions = {
   suggestedActionTextColor: 'white',
   suggestedActionBorderRadius: 5,
   suggestedActionBorderWidth: 0,
+  autoScrollSnapOnPage: true,
 };
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -82,7 +83,7 @@ const WebChat = ({ token, code, webChatFramework }) => {
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  signOutEventListener(isLoggedIn);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 

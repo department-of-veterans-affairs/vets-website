@@ -97,7 +97,7 @@ describe('VA Facility Code Page (yes/no)', () => {
     const result = updateFormData(oldData, newData);
 
     expect(result).to.not.equal(newData);
-    expect(result.institutionDetails.institutionName).to.equal('');
+    expect(result.institutionDetails.institutionName).to.be.null;
     expect(result.institutionDetails.institutionAddress).to.deep.equal({});
   });
 });

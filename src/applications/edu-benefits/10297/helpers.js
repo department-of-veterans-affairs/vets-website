@@ -3,6 +3,22 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
+  <>
+    <p>Your submission is in progress.</p>
+    <p>
+      It can take up to 30 days for us to review your application and make a
+      decision.
+      {confirmationNumber &&
+        ` Your confirmation number is ${confirmationNumber}.`}
+    </p>
+  </>
+);
+
+ConfirmationSubmissionAlert.propTypes = {
+  confirmationNumber: PropTypes.string,
+};
+
 export const ConfirmationWhatsNextProcessList = () => (
   <>
     <h2>What to expect next</h2>
@@ -51,48 +67,9 @@ export const ConfirmationGoBackLink = () => (
   </div>
 );
 
-export const EligibleIcon = ({ isEligible }) => {
-  const icon = isEligible ? 'check' : 'close';
-  const classes = classNames('icon-li', {
-    'vads-u-color--green': isEligible,
-    'vads-u-color--gray-medium': !isEligible,
-  });
-
-  return (
-    <span className={classes}>
-      <va-icon icon={icon} size={3} />
-    </span>
-  );
-};
-
-EligibleIcon.propTypes = {
-  isEligible: PropTypes.bool,
-};
-
 // Expects a birthDate as a string in YYYY-MM-DD format
 export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
-
-export const getEligibilityStatus = formData => {
-  const validDutyRequirements = ['atLeast3Years', 'byDischarge'];
-
-  const isDutyEligible = validDutyRequirements.includes(
-    formData?.dutyRequirement,
-  );
-  const isDobEligible = !!(
-    formData?.dateOfBirth && getAgeInYears(formData?.dateOfBirth) < 62
-  );
-  const isDischargeEligible = formData?.otherThanDishonorableDischarge === true;
-  const isFullyEligible =
-    isDutyEligible && isDobEligible && isDischargeEligible;
-
-  return {
-    isDutyEligible,
-    isDobEligible,
-    isDischargeEligible,
-    isFullyEligible,
-  };
-};
 
 export const getCardDescription = item => {
   return item ? (
@@ -144,33 +121,14 @@ export const trainingProviderArrayOptions = {
   },
 };
 
-const MS_IN_DAY = 86_400_000;
-const MAX_FUTURE_DAYS = 180;
-
-export const validateWithin180Days = (errors, dateString) => {
-  if (!dateString) return;
-  const picked = new Date(`${dateString}T00:00:00`);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  if (picked < today) errors.addError('Date can’t be in the past.');
-
-  if (picked - today > MAX_FUTURE_DAYS * MS_IN_DAY)
-    errors.addError(
-      'This date is more than 180 days away. You must be within 180 days of discharge to be eligible for the program.',
-    );
-};
-
 export const validateTrainingProviderStartDate = (errors, dateString) => {
   if (!dateString) return;
   const picked = new Date(`${dateString}T00:00:00`);
   const startDate = new Date('2025-01-02T00:00:00');
 
-  if (picked < startDate)
-    errors.addError(
-      'Training must start on or after 1/2/2025 to qualify for VET TEC 2.0',
-    );
+  if (picked < startDate) errors.addError('Enter a date after 1/2/2025');
 };
+
 export const dateSigned = () => {
   const date = new Date();
   date.setDate(date.getDate() + 365);
@@ -188,4 +146,14 @@ export const viewifyFields = formData => {
         : formData[key];
   });
   return newFormData;
+};
+export const maskBankInformation = (string, unmaskedLength) => {
+  if (!string) {
+    return '';
+  }
+  const repeatCount =
+    string.length > unmaskedLength ? string.length - unmaskedLength : 0;
+  const maskedPart = '●'.repeat(repeatCount);
+  const unmaskedPart = string.slice(-unmaskedLength);
+  return `${maskedPart}${unmaskedPart}`;
 };

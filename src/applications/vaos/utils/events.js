@@ -1,4 +1,5 @@
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 import { GA_PREFIX } from './constants';
 
 export function recordVaosError(errorKey) {
@@ -91,5 +92,45 @@ export function recordAppointmentDetailsNullStates(attributes, nullStates) {
     ...attributes,
     'fields-load-success': presentFields.join(','),
     'fields-load-fail': missingFields.join(','),
+  });
+}
+
+export function captureMissingModalityLogs(appointment) {
+  Sentry.withScope(scope => {
+    try {
+      scope.setExtra(
+        'metadata',
+        JSON.stringify({
+          // Raw API fields
+          start: appointment.vaos.apiData.start,
+          created: appointment.vaos.apiData.created,
+          status: appointment.vaos.apiData.status,
+          past: appointment.vaos.apiData.past,
+          pending: appointment.vaos.apiData.pending,
+          future: appointment.vaos.apiData.future,
+          serviceType: appointment.vaos.apiData.serviceType,
+          serviceCategory: appointment.vaos.apiData.serviceCategory,
+          kind: appointment.vaos.apiData.kind,
+          vvsKind: appointment.vaos.apiData.telehealth?.vvsKind,
+          hasAtlas: !!appointment.vaos.apiData.telehealth?.atlas,
+          vvsVideoAppt: appointment.vaos.apiData.extension?.vvsVistaVideoAppt,
+          apiModality: appointment.vaos.apiData.modality,
+          hasProviderName: !!appointment.vaos.apiData.providerName,
+          providerServiceId: appointment.vaos.apiData.providerServiceId,
+          hasReferral: !!appointment.vaos.apiData.referral,
+          referralId: appointment.vaos.apiData.referralId,
+          // Derived fields
+          type: appointment.type,
+          modality: appointment.modality,
+          isCerner: appointment.vaos.isCerner,
+        }),
+      );
+    } catch (error) {
+      scope.setExtra('metadataError', error);
+    }
+
+    Sentry.captureMessage(
+      `VAOS appointment with missing modality: ${appointment.modality}.`,
+    );
   });
 }

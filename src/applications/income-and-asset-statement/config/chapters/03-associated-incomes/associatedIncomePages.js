@@ -16,6 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { SummaryDescription } from '../../../components/AssociatedIncomeSummaryDescription';
 import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
@@ -24,17 +25,23 @@ import {
   generateDeleteDescription,
   isDefined,
   isIncomeTypeInfoIncomplete,
-  isRecipientInfoIncomplete,
   otherIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  recipientNameRequired,
-  resolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
+  sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import {
+  custodianRelationshipLabels,
+  parentRelationshipLabels,
+  parentRelationshipLabelDescriptions,
   relationshipLabels,
   relationshipLabelDescriptions,
+  spouseRelationshipLabels,
   incomeTypeEarnedLabels,
 } from '../../../labels';
 
@@ -45,17 +52,24 @@ export const options = {
   nounPlural: 'financial accounts',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     isIncomeTypeInfoIncomplete(item) ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.accountValue) ||
     !isDefined(item.payer), // include all required fields here
   text: {
+    summaryTitle: 'Review financial account income',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Income from financial accounts'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? SummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${item.payer}`;
     },
@@ -103,6 +117,22 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Are you or your dependents receiving or expecting to receive any income in the next 12 months from financial accounts?';
+const updatedTitleWithItems = 'Do you have more financial accounts to report?';
+const summaryPageTitle =
+  'Income and net worth associated with financial accounts';
+const incomeRecipientPageTitle = 'Financial account recipient';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income to report',
+  N: 'No, I don’t have any income to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -122,11 +152,8 @@ const summaryPage = {
         },
       },
       {
-        title: 'Do you have more financial accounts to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -136,6 +163,100 @@ const summaryPage = {
       'view:isAddingAssociatedIncomes': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingAssociatedIncomes'],
+  },
+};
+
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Are you receiving or expecting to receive any income in the next 12 months from financial accounts?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingAssociatedIncomes': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -177,22 +298,12 @@ const veteranIncomeRecipientPage = {
 const spouseIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Recurring income relationship',
+      title: 'Financial account relationship',
       nounSingular: options.nounSingular,
     }),
     recipientRelationship: radioUI({
       ...sharedRecipientRelationshipBase,
-      labels: Object.fromEntries(
-        Object.entries(relationshipLabels)
-          .filter(
-            ([key]) =>
-              key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
-          )
-          .map(([key, value]) => [
-            key,
-            key === 'SPOUSE' ? 'Surviving spouse' : value,
-          ]),
-      ),
+      labels: spouseRelationshipLabels,
       descriptions: Object.fromEntries(
         Object.entries(relationshipLabelDescriptions).filter(
           ([key]) => key === 'CHILD',
@@ -206,10 +317,37 @@ const spouseIncomeRecipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipientRelationship: radioSchema(
-        Object.keys(relationshipLabels).filter(
-          key => key !== 'VETERAN' && key !== 'PARENT' && key !== 'CUSTODIAN',
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+const custodianIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Financial account relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
         ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'associatedIncomes',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
       ),
       otherRecipientRelationshipType: { type: 'string' },
     },
@@ -217,8 +355,33 @@ const spouseIncomeRecipientPage = {
   },
 };
 
+const parentIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Financial account relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: parentRelationshipLabels,
+      descriptions: parentRelationshipLabelDescriptions,
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'associatedIncomes',
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
 /** @returns {PageSchema} */
-const nonVeteranIncomeRecipientPage = {
+const incomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Financial account relationship',
@@ -231,6 +394,9 @@ const nonVeteranIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -265,7 +431,11 @@ const recipientNamePage = {
 /** @returns {PageSchema} */
 const incomeTypePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Financial account type'),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Financial account information'
+        : 'Financial account type',
+    ),
     incomeType: radioUI({
       title: showUpdatedContent()
         ? 'What type of income is generated by this financial account?'
@@ -280,6 +450,7 @@ const incomeTypePage = {
       'ui:options': {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherIncomeTypeExplanationRequired(
@@ -291,7 +462,8 @@ const incomeTypePage = {
     grossMonthlyIncome: currencyUI(
       showUpdatedContent()
         ? {
-            title: `What's the gross monthly income from this financial account?`,
+            title:
+              'What’s the gross monthly income from this financial account?',
             hint:
               'Gross income is income before taxes and any other deductions.',
           }
@@ -299,20 +471,23 @@ const incomeTypePage = {
     ),
     accountValue: currencyUI(
       showUpdatedContent()
-        ? 'What is the value of the account?'
+        ? 'What’s the current value of the account?'
         : 'Value of account',
     ),
     payer: textUI(
       showUpdatedContent()
         ? {
             title: 'Who pays the income?',
-            hint: 'Name of business, financial institution, or program',
+            hint: 'Name of business, agency, or program',
           }
         : {
             title: 'Income payer name',
             hint: 'Name of business, financial institution, or program, etc.',
           },
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',
@@ -330,17 +505,59 @@ const incomeTypePage = {
 export const associatedIncomePages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    associatedIncomePagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'financial-accounts-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    associatedIncomePagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'financial-accounts-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    associatedIncomePagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'financial-accounts-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    associatedIncomePagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'financial-accounts-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    associatedIncomePagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'financial-accounts-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     associatedIncomePagesSummary: pageBuilder.summaryPage({
-      title: 'Income and net worth associated with financial accounts',
+      title: summaryPageTitle,
       path: 'financial-accounts-summary',
+      depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     associatedIncomeVeteranRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="VETERAN" />
       ) : null,
-      title: 'Financial account recipient',
+      title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/veteran-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'VETERAN',
@@ -349,31 +566,74 @@ export const associatedIncomePages = arrayBuilderPages(
     }),
     associatedIncomeSpouseRecipientPage: pageBuilder.itemPage({
       ContentBeforeButtons: showUpdatedContent() ? (
-        <DependentDescription />
+        <DependentDescription claimantType="SPOUSE" />
       ) : null,
-      title: 'Financial account recipient',
+      title: incomeRecipientPageTitle,
       path: 'financial-accounts/:index/spouse-income-recipient',
       depends: formData =>
         showUpdatedContent() && formData.claimantType === 'SPOUSE',
       uiSchema: spouseIncomeRecipientPage.uiSchema,
       schema: spouseIncomeRecipientPage.schema,
     }),
-    associatedIncomeRecipientPage: pageBuilder.itemPage({
-      title: 'Financial account recipient',
-      path: 'financial-accounts/:index/income-recipient',
+    associatedIncomeCustodianRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="CUSTODIAN" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'financial-accounts/:index/custodian-income-recipient',
       depends: formData =>
-        !showUpdatedContent() ||
-        (showUpdatedContent() &&
-          formData.claimantType !== 'VETERAN' &&
-          formData.claimantType !== 'SPOUSE'),
-      uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
-      schema: nonVeteranIncomeRecipientPage.schema,
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianIncomeRecipientPage.uiSchema,
+      schema: custodianIncomeRecipientPage.schema,
+    }),
+    associatedIncomeParentRecipientPage: pageBuilder.itemPage({
+      ContentBeforeButtons: showUpdatedContent() ? (
+        <DependentDescription claimantType="PARENT" />
+      ) : null,
+      title: incomeRecipientPageTitle,
+      path: 'financial-accounts/:index/parent-income-recipient',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentIncomeRecipientPage.uiSchema,
+      schema: parentIncomeRecipientPage.schema,
+    }),
+    associatedIncomeRecipientPage: pageBuilder.itemPage({
+      title: incomeRecipientPageTitle,
+      path: 'financial-accounts/:index/income-recipient',
+      depends: () => !showUpdatedContent(),
+      uiSchema: incomeRecipientPage.uiSchema,
+      schema: incomeRecipientPage.schema,
+    }),
+    // When claimantType is 'CHILD' we skip showing the recipient page entirely
+    // To preserve required data, we auto-set recipientRelationship to 'CHILD'
+    associatedIncomeChildRecipientNamePage: pageBuilder.itemPage({
+      title: incomeRecipientPageTitle,
+      path: 'financial-accounts/:index/recipient-name-updated',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: {
+        ...recipientNamePage.uiSchema,
+        'ui:options': {
+          updateSchema: (formData, formSchema, _uiSchema, index) => {
+            const arrayData = formData?.associatedIncomes || [];
+            const item = arrayData[index];
+            if (formData.claimantType === 'CHILD' && item) {
+              item.recipientRelationship = 'CHILD';
+            }
+            return {
+              ...formSchema,
+            };
+          },
+        },
+      },
+      schema: recipientNamePage.schema,
     }),
     associatedIncomeRecipientNamePage: pageBuilder.itemPage({
       title: 'Financial account recipient name',
       path: 'financial-accounts/:index/recipient-name',
       depends: (formData, index) =>
-        recipientNameRequired(formData, index, 'associatedIncomes'),
+        (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
+        updatedRecipientNameRequired(formData, index, 'associatedIncomes'),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

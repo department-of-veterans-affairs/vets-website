@@ -13,11 +13,9 @@ import { transform } from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from '../components/PreSubmitInfo';
-import EligibilitySummary from '../components/EligibilitySummary';
 
 // Pages
 import {
-  eligibilityQuestions,
   applicantFullname,
   mailingAddress,
   phoneAndEmail,
@@ -30,6 +28,7 @@ import {
   trainingProviderSummary,
   trainingProviderDetails,
   trainingProviderStartDate,
+  atLeast3Years,
 } from '../pages';
 
 import { trainingProviderArrayOptions } from '../helpers';
@@ -57,57 +56,58 @@ const formConfig = {
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_10297,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10297) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10297) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your form (22-10297) is in progress.',
+      expired:
+        'Your saved form (22-10297) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for education benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  customText: {
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+    finishAppLaterMessage: 'Finish this form later',
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+  },
   defaultDefinitions: {},
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
     required: true,
+    field: 'privacyAgreementAccepted',
+    statementOfTruth: {
+      // heading: 'Certification statement',
+      // // body: PreSubmitInfo,
+      messageAriaDescribedby: 'I have read and accept the privacy policy.',
+      fullNamePath: 'applicantFullName',
+    },
   },
   transformForSubmit: transform,
+  useCustomScrollAndFocus: true,
   chapters: {
-    eligibilityChapter: {
-      title: 'Check eligibility',
-      pages: {
-        eligibilityQuestions: {
-          path: 'eligibility-questions',
-          title: 'Eligibility questions',
-          uiSchema: eligibilityQuestions.uiSchema,
-          schema: eligibilityQuestions.schema,
-        },
-        eligibilitySummary: {
-          path: 'eligibility-summary',
-          title: 'Eligibility summary',
-          CustomPage: EligibilitySummary,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-          hideOnReview: true,
-        },
-      },
-    },
     identificationChapter: {
       title: 'Your information',
       pages: {
         applicantFullName: {
           path: 'applicant-fullname',
-          title: 'Enter your full name',
+          title: 'Name and date of birth',
           uiSchema: applicantFullname.uiSchema,
           schema: applicantFullname.schema,
+        },
+        identificationInformation: {
+          path: 'identification-information',
+          title: 'Identification information',
+          uiSchema: identificationInformation.uiSchema,
+          schema: identificationInformation.schema,
         },
         mailingAddress: {
           path: 'mailing-address',
@@ -121,22 +121,22 @@ const formConfig = {
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        veteranStatus: {
+          path: 'at-least-3-years',
+          title: 'Your Veteran status',
+          uiSchema: atLeast3Years.uiSchema,
+          schema: atLeast3Years.schema,
         },
         dateReleasedFromActiveDuty: {
           path: 'date-released-from-active-duty',
           title: 'Date released from active duty',
           uiSchema: dateReleasedFromActiveDuty.uiSchema,
           schema: dateReleasedFromActiveDuty.schema,
-          depends: formData => formData?.dutyRequirement !== 'atLeast3Years',
+          depends: formData => formData?.dutyRequirement !== 'veteranStatus',
         },
         activeDutyStatus: {
           path: 'active-duty-status',
-          title: 'Active duty status',
+          title: 'Active duty status during program',
           uiSchema: activeDutyStatus.uiSchema,
           schema: activeDutyStatus.schema,
         },

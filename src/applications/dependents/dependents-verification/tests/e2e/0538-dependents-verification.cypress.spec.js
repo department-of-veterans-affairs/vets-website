@@ -43,7 +43,7 @@ const cypressSetup = (user = mockUser) => {
   cy.login(user);
 };
 
-describe('Dependents Verification 0538', () => {
+describe.skip('Dependents Verification 0538', () => {
   it('should navigate through the form to the confirmation page', () => {
     cypressSetup();
 

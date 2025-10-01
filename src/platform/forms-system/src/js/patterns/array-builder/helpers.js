@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
@@ -6,8 +7,25 @@ import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import environment from 'platform/utilities/environment';
-import { dispatchIncompleteItemError } from './ArrayBuilderEvents';
+import {
+  dispatchIncompleteItemError,
+  dispatchDuplicateItemError,
+} from './ArrayBuilderEvents';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
+
+// Previously set to '_metadata', but upon saving, the Ruby gem 'olivebranch'
+// converts this to 'Metadata', then upon returning to the form, this key is
+// converted to 'metadata'. To avoid confusion, we're using 'metadata'; and this
+// may need to be filtered out of submission data.
+export const META_DATA_KEY = 'metadata';
+
+/**
+ * @param {string} [search] e.g. `?add=true`
+ * @returns {URLSearchParams}
+ */
+export function getArrayUrlSearchParams(search = window?.location?.search) {
+  return new URLSearchParams(search);
+}
 
 /**
  * Initializes the getText function for the ArrayBuilder
@@ -33,10 +51,13 @@ export function initGetText({
     ...textOverrides,
   };
 
+  const searchParams = getArrayUrlSearchParams();
   const getTextProps = {
     getItemName,
     nounPlural,
     nounSingular,
+    isEdit: !!searchParams.get('edit'),
+    isAdd: !!searchParams.get('add'),
   };
 
   /**
@@ -218,14 +239,6 @@ export function isDeepEmpty(obj) {
           value === '',
       )
     : true;
-}
-
-/**
- * @param {string} [search] e.g. `?add=true`
- * @returns {URLSearchParams}
- */
-export function getArrayUrlSearchParams(search = window?.location?.search) {
-  return new URLSearchParams(search);
 }
 
 // Used as a helper so that we can stub this for tests
@@ -449,4 +462,260 @@ export const validateIncompleteItems = ({
   }
 
   return isValid;
+};
+
+/**
+ * Determines the appropriate heading level and style based on user input,
+ * review page state, and whether the current path uses a minimal header layout.
+ *
+ * @param {string|undefined} userHeaderLevel - An optional custom heading level to use (e.g., '1', '2', '3').
+ * @param {boolean} isReviewPage - Whether the current page is a review page.
+ * @returns {{ headingLevel: string, headingStyle: Object }}
+ * An object containing:
+ *  - `headingLevel`: The resolved heading level as a string.
+ *  - `headingStyle`: A style object for applying conditional font size classes.
+ */
+export const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
+  const isMinimalHeader = useMemo(() => isMinimalHeaderPath(), []);
+  let defaultLevel;
+
+  if (isMinimalHeader) {
+    defaultLevel = isReviewPage ? '3' : '1';
+  } else {
+    defaultLevel = isReviewPage ? '4' : '3';
+  }
+
+  const headingLevel = userHeaderLevel ?? defaultLevel;
+  const headingStyle = {
+    'vads-u-font-size--h2': isMinimalHeader && !isReviewPage,
+  };
+
+  return { headingLevel, headingStyle };
+};
+
+/**
+ * Resolves `maxItems` to a numeric value.
+ *
+ * - If `maxItems` is a function, it is called with `formData` and the returned
+ *   value is validated as a number.
+ * - If `maxItems` is a number, it is validated as finite and returned.
+ * - If `maxItems` is a string, it is trimmed, parsed into a number, and validated.
+ *
+ * @param {number | string | ((formData: object) => number | string)} maxItems
+ *   A static limit, string value, or resolver function.
+ * @param {object} formData
+ *   Data passed to the resolver when `maxItems` is a function.
+ * @returns {number | undefined}
+ *   The resolved maximum item count, or `undefined` if invalid or an error occurs.
+ */
+export const maxItemsFn = (maxItems, formData = {}) => {
+  try {
+    const raw = typeof maxItems === 'function' ? maxItems(formData) : maxItems;
+    const value = typeof raw === 'string' ? Number(raw.trim()) : raw;
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+/*
+ * Process array data for duplicate comparison
+ * @param {Array<String>} array - array of processed form data for comparison
+ * @returns {String} - Combined processed form data
+ */
+export const processArrayData = array => {
+  if (!Array.isArray(array)) {
+    throw new Error('Processing array data requires an array', array);
+  }
+  // Make sure we're not slugifying strings with only spaces
+  return slugifyText(
+    array.map(item => (item || '').toString().trim()).join(';'),
+  );
+};
+
+/**
+ * Get item data from the array based on duplicate check settings
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Object} fullData - The full form data
+ * @param {Number} itemIndex - The index of the item in the array
+ * @returns {String} - A string representing item data for duplicate checking
+ */
+export const getItemDataFromPath = ({
+  arrayPath,
+  duplicateChecks = {},
+  itemIndex,
+  fullData,
+}) =>
+  processArrayData(
+    (duplicateChecks.comparisons || []).map(path =>
+      get([arrayPath, itemIndex, ...path.split('.')], fullData),
+    ),
+  );
+
+/**
+ * Metadata key for duplicate item tracking
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Number} itemIndex - The index of the item in the array
+ * @param {Array<String>} [itemArray] - array of item data for used in summary
+ * cards
+ * @param {Object} formData - The full form data
+ * @returns {String} - The metadata key for the item
+ */
+export const getItemDuplicateDismissedName = ({
+  arrayPath,
+  duplicateChecks,
+  itemIndex,
+  itemString = '',
+  fullData = {},
+}) => {
+  const data =
+    itemString ||
+    getItemDataFromPath({
+      arrayPath,
+      duplicateChecks,
+      itemIndex,
+      fullData,
+    }) ||
+    '';
+
+  return data ? [arrayPath, data, 'allowDuplicate'].join(';') : '';
+};
+
+/**
+ * Get array data using duplicate checks comparisons
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} duplicateChecks - The duplicate checks object
+ * @param {Object} formData - The full form data
+ * @returns
+ */
+export const getArrayDataFromDuplicateChecks = ({
+  arrayPath,
+  duplicateChecks,
+  fullData,
+}) => {
+  const arrayLength = get(arrayPath, fullData)?.length || 0;
+
+  // Build an array of data values from provided paths
+  return new Array(arrayLength).fill([]).map((_, itemIndex) =>
+    getItemDataFromPath({
+      arrayPath,
+      duplicateChecks,
+      itemIndex,
+      fullData,
+    }),
+  );
+};
+
+/**
+ * @typedef {Object} DuplicateCheckResult
+ * @property {Array<String>} arrayData - The array data being checked for duplicates
+ * @property {Array<String>} duplicates - The list of duplicate items found
+ * @property {boolean} hasDuplicate - Indicates if any duplicates were found
+ * @property {Array<String>} externalComparisonData - The external comparison data
+ */
+/**
+ * Utility function to check for duplicates in an array based on object keys
+ * @param {string} arrayPath - The path to the array in the form data
+ * @param {DuplicateChecks} checks - An object containing array paths of data
+ * that needs to be checked for duplicates
+ * @param {Object} fullData - Full form data to check for duplicates
+ * @returns {DuplicateCheckResult}
+ */
+export const checkIfArrayHasDuplicateData = ({
+  arrayPath,
+  duplicateChecks = {},
+  fullData,
+}) => {
+  const arrayData = getArrayDataFromDuplicateChecks({
+    arrayPath,
+    duplicateChecks,
+    fullData,
+  });
+
+  let externalComparisonData = [];
+  // Get external comparison data; fallback to include both internal & external
+  // if comparisonType is not set to exclusively check internal data
+  if (
+    duplicateChecks.comparisonType !== 'internal' &&
+    typeof duplicateChecks.externalComparisonData === 'function'
+  ) {
+    externalComparisonData = duplicateChecks.externalComparisonData({
+      formData: fullData,
+      arrayData,
+    });
+  }
+
+  // Join all data & strip out empty strings & arrays of empty strings
+  const internalComparisonData =
+    duplicateChecks.comparisonType === 'external'
+      ? new Set(arrayData) // ignore internal duplicates
+      : arrayData;
+  const allItems = [
+    ...internalComparisonData,
+    ...externalComparisonData.map(processArrayData),
+  ].filter(item => item.replace(/;/g, '').length > 0);
+  const duplicates = allItems.filter(
+    (item, itemIndex) => allItems.indexOf(item) !== itemIndex,
+  );
+  const hasDuplicate = new Set(allItems).size !== allItems.length;
+
+  if (hasDuplicate) {
+    dispatchDuplicateItemError({
+      index: arrayData.indexOf(duplicates[0]),
+      arrayPath,
+    });
+  }
+
+  return {
+    arrayData,
+    duplicates,
+    externalComparisonData,
+    hasDuplicate,
+  };
+};
+
+export const defaultDuplicateResult = {
+  arrayData: [],
+  hasDuplicate: false,
+  duplicates: [],
+  externalComparisonData: [],
+};
+
+export const checkForDuplicatesInItemPages = ({
+  arrayPath,
+  duplicateChecks,
+  fullData,
+  index,
+  itemData,
+}) => {
+  const itemDuplicateDismissedName = getItemDuplicateDismissedName({
+    arrayPath,
+    duplicateChecks,
+    fullData,
+    itemIndex: index || 0,
+  });
+
+  const newData = { ...fullData, [arrayPath]: fullData[arrayPath] };
+  newData[arrayPath][index] = itemData;
+
+  if (
+    !duplicateChecks ||
+    newData[META_DATA_KEY]?.[itemDuplicateDismissedName] ||
+    !(
+      duplicateChecks.externalComparisonData ||
+      duplicateChecks.comparisons?.length > 0
+    )
+  ) {
+    return defaultDuplicateResult;
+  }
+  return checkIfArrayHasDuplicateData({
+    arrayPath,
+    duplicateChecks,
+    fullData: newData,
+    index,
+  });
 };

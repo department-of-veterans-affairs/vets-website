@@ -10,12 +10,39 @@ const {
   isWithinInterval,
   differenceInMinutes,
 } = require('date-fns');
+const {
+  getMockConfirmedAppointments,
+  findNextBusinessDay,
+} = require('./utils/confirmedAppointments');
+const { getMockSlots } = require('./utils/slots');
+
+// v2
 const ccProviders = require('./v2/cc_providers.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
-const appointmentSlotsV2 = require('./v2/slots.json');
-const clinicsV2 = require('./v2/clinics.json');
+// Generate dynamic slots with conflicts based on confirmed appointments
+const confirmedAppointmentsv3 = getMockConfirmedAppointments();
+// Find appointments scheduled for the next business day to force conflicts
+const nextBusinessDay = findNextBusinessDay();
+const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
+
+const nextBusinessDayAppointments = confirmedAppointmentsv3.data.filter(
+  appointment => {
+    const appointmentDate = appointment.attributes.start.split('T')[0];
+    return appointmentDate === nextBusinessDayString;
+  },
+);
+const appointmentSlotsV2 = getMockSlots({
+  existingAppointments: confirmedAppointmentsv3.data,
+  futureMonths: 6,
+  pastMonths: 1,
+  slotsPerDay: 10,
+  conflictRate: 0.4, // 40% of days with appointments will have conflicts
+  forceConflictWithAppointments: nextBusinessDayAppointments,
+});
+const clinics983V2 = require('./v2/clinics_983.json');
+const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
@@ -23,7 +50,7 @@ const vamcEhr = require('./v2/vamc_ehr.json');
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
 // confirmed_null_states.json
-const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed.json');
 // const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // To locally test appointment details null state behavior, comment out
@@ -47,6 +74,8 @@ const features = require('./featureFlags');
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
+
+const referrals = referralUtils.createReferrals(4, null, null, true, true);
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -81,7 +110,7 @@ const responses = {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
       kind,
     } = req.body;
-    const selectedClinic = clinicsV2.data.filter(
+    const selectedClinic = clinics983V2.data.filter(
       clinic => clinic.id === req.body.clinic,
     );
     const providerNpi = practitioners[0]?.identifier[0].value;
@@ -159,7 +188,7 @@ const responses = {
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
     const appointments = requestsV2.data
-      .concat(confirmedV2.data)
+      .concat(confirmedAppointmentsv3.data)
       .concat(mockAppts);
 
     const appt = appointments.find(item => item.id === req.params.id);
@@ -187,9 +216,16 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
-    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+
+    const appointments = confirmedAppointmentsv3.data.concat(
+      requestsV2.data,
+      mockAppts,
+    );
     for (const appointment of appointments) {
-      if (appointment.attributes.start) {
+      if (
+        appointment.attributes.start &&
+        !appointment.attributes.referral?.referralNumber
+      ) {
         appointment.attributes.future = isAfter(
           new Date(appointment.attributes.start),
           new Date(),
@@ -259,13 +295,15 @@ const responses = {
 
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
-      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+      data: requestsV2.data
+        .concat(confirmedAppointmentsv3.data)
+        .concat(mockAppts),
     };
     const appointment = appointments.data.find(
       appt => appt.id === req.params.id,
     );
 
-    if (appointment?.start) {
+    if (appointment?.start && !appointment.referral?.referralNumber) {
       appointment.future = isAfter(new Date(appointment.start), new Date());
     }
     return res.json({
@@ -396,14 +434,18 @@ const responses = {
   'GET /vaos/v2/locations/:id/clinics': (req, res) => {
     if (req.query.clinic_ids) {
       return res.json({
-        data: clinicsV2.data.filter(clinic =>
+        data: clinics983V2.data.filter(clinic =>
           req.query.clinic_ids.includes(clinic.id),
         ),
       });
     }
 
     if (req.params.id === '983') {
-      return res.json(clinicsV2);
+      return res.json(clinics983V2);
+    }
+
+    if (req.params.id === '984') {
+      return res.json(clinics984V2);
     }
 
     return res.json({
@@ -415,7 +457,7 @@ const responses = {
   },
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json({
-      data: referralUtils.createReferrals(4, null, null, true, true),
+      data: referrals,
     });
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
@@ -457,10 +499,14 @@ const responses = {
         data: expiredReferral,
       });
     }
-
+    const originalReferral = referrals.find(
+      ref => ref.id === req.params.referralId,
+    );
     const referral = referralUtils.createReferralById(
       '2024-12-02',
       req.params.referralId,
+      null,
+      originalReferral.attributes.categoryOfCare || 'OPTOMETRY',
     );
 
     return res.json({
@@ -475,9 +521,20 @@ const responses = {
     }
 
     const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      3,
       referralNumber,
     );
+
+    if (referralNumber !== 'draft-no-slots-error') {
+      draftAppointment.attributes.slots = getMockSlots({
+        existingAppointments: confirmedAppointmentsv3.data,
+        futureMonths: 2,
+        pastMonths: 0,
+        slotsPerDay: 3,
+        conflictRate: 0,
+        forceConflictWithAppointments: nextBusinessDayAppointments,
+        communityCareSlots: true,
+      }).data;
+    }
 
     return res.json({
       data: draftAppointment,

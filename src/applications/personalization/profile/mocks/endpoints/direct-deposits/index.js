@@ -83,14 +83,19 @@ const unspecifiedError = {
     {
       title: 'Bad Request',
       detail: 'Unspecified Error Detail',
-      code: 'cnp.payment.unspecified.error',
+      code: 'direct.deposit.unspecified.error',
       status: 400,
       source: 'Lighthouse Direct Deposit',
     },
   ],
 };
 
-const createError = ({ code = '', detail = '' } = {}) => {
+const createError = ({
+  code = '',
+  detail = '',
+  title = '',
+  status = '',
+} = {}) => {
   const errorBase = _.cloneDeep(unspecifiedError);
   if (code) {
     _.set(errorBase, 'errors[0].code', code);
@@ -98,49 +103,61 @@ const createError = ({ code = '', detail = '' } = {}) => {
   if (detail) {
     _.set(errorBase, 'errors[0].detail', detail);
   }
+  if (title) {
+    _.set(errorBase, 'errors[0].title', title);
+  }
+  if (status) {
+    _.set(errorBase, 'errors[0].status', status);
+  }
   return errorBase;
 };
 
 const errors = {
   unspecified: unspecifiedError,
   generic: createError({
-    code: 'cnp.payment.generic.error',
+    code: 'direct.deposit.generic.error',
   }),
   accountNumberFlagged: createError({
-    code: 'cnp.payment.account.number.fraud',
+    code: 'direct.deposit.account.number.fraud',
   }),
   routingNumberFlagged: createError({
-    code: 'cnp.payment.routing.number.fraud',
+    code: 'direct.deposit.routing.number.fraud',
   }),
   invalidRoutingNumber: createError({
-    code: 'cnp.payment.routing.number.invalid',
+    code: 'direct.deposit.routing.number.invalid',
   }),
   invalidChecksumRoutingNumber: createError({
-    code: 'cnp.payment.routing.number.invalid.checksum',
+    code: 'direct.deposit.routing.number.invalid.checksum',
   }),
   invalidRoutingNumberUnspecified: createError({
     detail: 'No changes were made: Invalid Routing Number',
   }),
   invalidAccountNumber: createError({
-    code: 'cnp.payment.account.number.invalid',
+    code: 'direct.deposit.account.number.invalid',
   }),
   paymentRestrictionsPresent: createError({
-    code: 'cnp.payment.restriction.indicators.present',
+    code: 'direct.deposit.restriction.indicators.present',
   }),
   invalidDayPhone: createError({
-    code: 'cnp.payment.day.phone.number.invalid',
+    code: 'direct.deposit.day.phone.number.invalid',
   }),
   invalidDayPhoneArea: createError({
-    code: 'cnp.payment.day.area.number.invalid',
+    code: 'direct.deposit.day.area.number.invalid',
   }),
   invalidNightPhone: createError({
-    code: 'cnp.payment.night.phone.number.invalid',
+    code: 'direct.deposit.night.phone.number.invalid',
   }),
   invalidNightPhoneArea: createError({
-    code: 'cnp.payment.night.area.number.invalid',
+    code: 'direct.deposit.night.area.number.invalid',
   }),
   invalidMailingAddress: createError({
-    code: 'cnp.payment.mailing.address.invalid',
+    code: 'direct.deposit.mailing.address.invalid',
+  }),
+  missingPaymentAddress: createError({
+    title: 'Missing Required Data',
+    detail: 'Payment Address Data Not Found',
+    code: 'direct.deposit.payment.address.missing',
+    status: 422,
   }),
 };
 

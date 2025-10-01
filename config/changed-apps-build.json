@@ -46,7 +46,7 @@
     },
     {
       "rootFolder": "caregivers",
-      "slackGroup": "@1010-fe-dev",
+      "slackGroup": "@health-apps-fe-dev",
       "slackChannel": "C05Q6411HPF"
     },
     {
@@ -114,7 +114,7 @@
     },
     {
       "rootFolder": "ezr",
-      "slackGroup": "@1010-fe-dev",
+      "slackGroup": "@health-apps-fe-dev",
       "slackChannel": "C05Q6411HPF"
     },
     {
@@ -135,7 +135,7 @@
     },
     {
       "rootFolder": "hca",
-      "slackGroup": "@1010-fe-dev",
+      "slackGroup": "@health-apps-fe-dev",
       "slackChannel": "C05Q6411HPF"
     },
     {
@@ -150,8 +150,8 @@
     },
     {
       "rootFolder": "ivc-champva",
-      "slackGroup": "<@U074HNVJ7TQ> <@U066MEYGKDX> <@U02R5NVRJEP> <@U063V879TEX>",
-      "slackChannel": "C068Y3ZFKNJ"
+      "slackGroup": "@health-apps-fe-dev",
+      "slackChannel": "C05Q6411HPF"
     },
     {
       "rootFolder": "letters",
@@ -184,7 +184,7 @@
     {
       "rootFolder": "mhv-landing-page",
       "slackGroup": "@mhv-vagov-dev",
-      "slackChannel": "C0581MN69TJ"
+      "slackChannel": "C096YQLRWHK"
     },
     {
       "rootFolder": "mhv-medical-records",
@@ -192,8 +192,8 @@
     },
     {
       "rootFolder": "mhv-medications",
-      "slackGroup": "<@U05J06WJNUE> <@U03R3CJ3N3D> <@U063FU5526B>",
-      "slackChannel": "C08VD854EF5"
+      "slackGroup": "@mhv-vagov-dev",
+      "slackChannel": "C059Q28DV99"
     },
     {
       "rootFolder": "mhv-secure-messaging",
@@ -361,6 +361,30 @@
     {
       "rootFolder": "yellow-ribbon",
       "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "21-2680-house-bound-status",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-4192-employment-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21-0779-nursing-home-information",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "21p-530a-interment-allowance",
+      "slackGroup": "@benefits-optimization-aquia",
+      "slackChannel": "C09FWT9U1JP",
+      "continuousDeployment": false
     }
   ]
 }

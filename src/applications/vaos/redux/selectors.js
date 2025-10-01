@@ -70,6 +70,9 @@ export const selectFeatureBookingExclusion = state =>
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
+export const selectFeatureCCDirectSchedulingChiropractic = state =>
+  toggleValues(state).vaOnlineSchedulingCCDirectSchedulingChiropractic;
+
 export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
 export const selectFeatureRecentLocationsFilter = state =>
@@ -110,3 +113,18 @@ export function getRequestedAppointmentListInfo(state) {
 
 export const selectFeatureMentalHealthHistoryFiltering = state =>
   toggleValues(state).vaOnlineSchedulingMentalHealthHistoryFiltering;
+
+export const selectFeatureSubstanceUseDisorder = state =>
+  toggleValues(state).vaOnlineSchedulingAddSubstanceUseDisorder;
+
+export const selectFeatureListViewClinicInfo = state =>
+  toggleValues(state).vaOnlineSchedulingListViewClinicInfo;
+
+export const selectFeatureAddOhAvs = state =>
+  toggleValues(state).vaOnlineSchedulingAddOhAvs;
+
+export const selectFeatureImmediateCareAlert = state =>
+  toggleValues(state).vaOnlineSchedulingImmediateCareAlert;
+
+export const selectFeatureRemoveFacilityConfigCheck = state =>
+  toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;
