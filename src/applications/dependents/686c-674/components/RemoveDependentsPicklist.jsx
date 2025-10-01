@@ -5,18 +5,14 @@ import {
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { SchemaForm } from 'platform/forms-system/exportsFile';
 import { scrollToTop } from 'platform/utilities/scroll';
-import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-// import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { scrollToFirstError } from '~/platform/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import { getFullName, calculateAge } from '../../shared/utils';
 
 const RemoveDependentsPicklist = ({
-  name,
-  title,
   data = {},
   goBack,
   goForward,
@@ -24,10 +20,9 @@ const RemoveDependentsPicklist = ({
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
-  uiSchema,
-  updatePage,
-  onReviewPage,
 }) => {
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showCheckboxError, setShowCheckboxError] = useState(false);
   useEffect(() => {
     scrollToTop();
   }, []);
@@ -35,69 +30,92 @@ const RemoveDependentsPicklist = ({
   // Get current spouse from dependents list from API (added via prefill)
   const dependents =
     (data?.dependents?.hasDependents && data.dependents?.awarded) || [];
-  const picklistChoices = data['view:removeDependentPickList'] || {};
+  const keys = dependents.map(dependent =>
+    slugifyText(`${dependent.fullName.first}-${dependent.ssn.slice(-4)}`),
+  );
 
-  const [showCheckboxError, setShowCheckboxError] = useState(false);
+  // picklistChoices is an array so we can use the followup page pattern (using
+  // arrayPath, showPagePerItem & itemFilter)
+  const picklistChoices = dependents.reduce((acc, dependent, index) => {
+    const key = keys[index];
+    // Set initial value to false if not set
+    // This ensures the checkbox is unchecked on initial render
+    acc[index] = { ...dependent, key, selected: acc[index]?.selected || false };
+    return acc;
+  }, data['view:removeDependentPickList'] || []);
+  const atLeastOneChecked = (list = picklistChoices) =>
+    list.some(v => v.selected);
 
   const handlers = {
-    onChange: (event, a, b, c, d) => {
-      console.log({ event, a, b, c, d });
+    onChange: event => {
       const isChecked = event.detail.checked;
       const key = event.target.getAttribute('data-key');
+      const newList = picklistChoices.map(
+        item => (item.key === key ? { ...item, selected: isChecked } : item),
+      );
 
-      console.log({ isChecked, key, event });
-
-      // setFormData(newData);
+      setFormData({
+        ...data,
+        'view:removeDependentPickList': newList,
+      });
+      setShowCheckboxError(formSubmitted && !atLeastOneChecked(newList));
     },
-    onSubmit: () => {
-      if (dependents.length > 0) {
-        // ???
+    onSubmit: event => {
+      event.preventDefault();
+      setFormSubmitted(true);
+      if (atLeastOneChecked()) {
+        const newData = {
+          ...data,
+          'view:removeDependentPickList': picklistChoices.filter(
+            item => item.selected,
+          ),
+        };
+
+        setFormData(newData);
+        goForward(newData);
       } else {
-        goForward(data);
+        setShowCheckboxError(true);
+        setTimeout(scrollToFirstError);
       }
     },
   };
 
   return (
-    <>
+    <form onSubmit={handlers.onSubmit}>
       <VaCheckboxGroup
         class="vads-u-margin-bottom--2"
         error={showCheckboxError ? 'Select at least one option' : null}
-        label="Which dependents would you like to remove?"
         label-header-level="3"
+        label="Which dependents would you like to remove?"
+        hint="Select all dependents you would like to remove"
         onVaChange={handlers.onChange}
+        required
       >
-        {dependents.map(dependent => {
-          const dependentFullName = getFullName(dependent.fullName);
-          const key = slugifyText(
-            `${dependent.fullName.first}-${dependent.ssn.slice(-4)}`,
-          );
-          const age = calculateAge(dependent.dateOfBirth, {
+        {picklistChoices.map(item => {
+          const dependentFullName = getFullName(item.fullName);
+          const age = calculateAge(item.dateOfBirth, {
             dateInFormat: 'yyyy-MM-dd',
           }).labeledAge;
-          const description = `${dependent.relationshipToVeteran} | ${age}`;
-          const parentNote =
-            dependent.relationshipToVeteran === 'Parent' ? (
-              <div slot="internal-description">
-                <p className="vads-u-margin-bottom--0">
-                  <strong>Note:</strong> A parent dependent can only be removed
-                  if they have died
-                </p>
-              </div>
-            ) : null;
-
           return (
             <VaCheckbox
-              key={key}
-              data-key={key}
+              key={item.key}
+              data-key={item.key}
               name="view:removeDependentPickList"
               label={dependentFullName}
-              checkbox-description={description}
-              option-label="Remove"
-              value={picklistChoices[key] || false}
+              checked={item.selected || false}
               tile
             >
-              {parentNote}
+              <div slot="internal-description" className="vads-u-margin-y--1">
+                {`${item.relationshipToVeteran}, ${age}`}
+              </div>
+              {item.relationshipToVeteran === 'Parent' ? (
+                <div slot="internal-description">
+                  <p className="vads-u-margin-bottom--0">
+                    <strong>Note:</strong> A parent dependent can only be
+                    removed if they have died
+                  </p>
+                </div>
+              ) : null}
             </VaCheckbox>
           );
         })}
@@ -105,7 +123,7 @@ const RemoveDependentsPicklist = ({
 
       <va-additional-info
         class="vads-u-margin-bottom--4"
-        trigger="Why can I only remove a parent dependent"
+        trigger="Why can I only remove a parent dependent if they have died?"
       >
         The only removal option for a parent allowed in this form is due to
         death. If your parent is still living and you need to make changes to
@@ -117,7 +135,7 @@ const RemoveDependentsPicklist = ({
       {contentBeforeButtons}
       <FormNavButtons goBack={goBack} submitToContinue />
       {contentAfterButtons}
-    </>
+    </form>
   );
 
   /* schema

@@ -291,3 +291,15 @@ export const hasAwardedDependents = (formData = {}) =>
   showV3Picklist(formData) &&
   Array.isArray(formData?.dependents?.awarded) &&
   formData.dependents.awarded.length > 0;
+
+export const isVisiblePicklistPage = (formData, relationship) => {
+  const pickList = formData?.['view:removeDependentPickList'] || [];
+  return (
+    (showV3Picklist(formData) &&
+      formData?.['view:addOrRemoveDependents']?.remove &&
+      pickList.some(
+        item => item.selected && item.relationshipToVeteran === relationship,
+      )) ||
+    false
+  );
+};

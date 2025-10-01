@@ -10,7 +10,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
-import { getShouldUseV2 } from '../utils/redirect';
+// import { getShouldUseV2 } from '../utils/redirect';
 import { getRootParentUrl } from '../../shared/utils';
 
 function App({
@@ -19,8 +19,8 @@ function App({
   isLoggedIn,
   isLoading,
   vaFileNumber,
-  featureToggles,
-  savedForms,
+  // featureToggles,
+  // savedForms,
 }) {
   // Must match the H1
   document.title = DOC_TITLE;

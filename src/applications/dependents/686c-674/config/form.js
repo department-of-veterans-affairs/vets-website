@@ -126,6 +126,7 @@ import {
   veteranSupportsChildPage,
 } from './chapters/stepchild-no-longer-part-of-household/removeChildHouseholdArrayPages';
 import { householdIncome } from './chapters/household-income';
+import { removeChildFollowup } from './chapters/remove-child/removeChildFollowup';
 
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
@@ -141,6 +142,7 @@ import {
   shouldShowStudentIncomeQuestions,
   showV3Picklist,
   hasAwardedDependents,
+  isVisiblePicklistPage,
 } from './utilities';
 import migrations from './migrations';
 
@@ -245,6 +247,21 @@ export const formConfig = {
             hasAwardedDependents(formData) &&
             formData?.['view:addOrRemoveDependents']?.remove,
         },
+
+        removeChildFollowup: {
+          title: 'Remove a child',
+          path: 'remove-child-followup/:index',
+          depends: formData =>
+            hasAwardedDependents(formData) &&
+            isVisiblePicklistPage(formData, 'Child'),
+          showPagePerItem: true,
+          itemFilter: item =>
+            item.selected && item.relationshipToVeteran === 'Child',
+          arrayPath: 'view:removeDependentPickList',
+          uiSchema: removeChildFollowup.uiSchema,
+          schema: removeChildFollowup.schema,
+        },
+
         checkVeteranPension: {
           depends: formData => showPensionBackupPath(formData),
           path: 'check-veteran-pension',

@@ -21,6 +21,7 @@ import {
   showDupeModalIfEnabled,
   showV3Picklist,
   hasAwardedDependents,
+  isVisiblePicklistPage,
 } from './data';
 
 export {
@@ -46,4 +47,5 @@ export {
   showDupeModalIfEnabled,
   showV3Picklist,
   hasAwardedDependents,
+  isVisiblePicklistPage,
 };
