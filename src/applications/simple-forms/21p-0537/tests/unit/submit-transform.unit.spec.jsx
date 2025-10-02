@@ -47,8 +47,8 @@ describe('21P-0537 submit transformer', () => {
         prefix: '123',
         lineNumber: '4567',
       });
-      expect(result.recipient.email).to.equal('jennifer.doe@example.com');
-      expect(result.recipient.signature).to.equal('Jennifer Marie Doe');
+      expect(result.recipient.email).to.equal('jane.spouse@example.com');
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
 
       // Should prioritize SSN for inReplyReferTo
       expect(result.inReplyReferTo).to.equal('434353347');
