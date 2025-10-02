@@ -787,7 +787,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .check({ force: true });
-          cy.clickFormContinue;
+          cy.clickFormContinue();
         });
       },
     },
