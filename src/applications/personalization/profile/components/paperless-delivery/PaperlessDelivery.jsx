@@ -38,6 +38,11 @@ export const PaperlessDelivery = () => {
   const hasAPIError = hasVAPServiceError || hasLoadingError;
   const showContent = !hasAPIError && !isLoading;
 
+  useEffect(() => {
+    document.title = `Paperless Delivery | Veterans Affairs`;
+    focusElement('[data-focus-target]');
+  }, []);
+
   useEffect(
     () => {
       if (!hasAPIError) {
@@ -51,11 +56,6 @@ export const PaperlessDelivery = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, hasAPIError],
   );
-
-  useEffect(() => {
-    document.title = `Paperless Delivery | Veterans Affairs`;
-    focusElement('[data-focus-target]');
-  }, []);
 
   return (
     <>
