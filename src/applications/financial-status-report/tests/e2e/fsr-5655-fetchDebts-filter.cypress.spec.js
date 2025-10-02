@@ -104,17 +104,13 @@ describe(`Fetch Debts Successfully`, () => {
   });
 
   it('Successful API Response', () => {
-    cy.get('a.vads-c-action-link--green')
-      .first()
-      .click({ waitForAnimations: true });
+    cy.clickStartForm();
 
     cy.location('pathname').should(
       'eq',
       `/manage-va-debt/request-debt-help-form-5655/veteran-information`,
     );
-    cy.findAllByText(/continue/i, { selector: 'button' })
-      .first()
-      .click({ waitForAnimations: true });
+    cy.clickFormContinue();
 
     cy.get('[data-testid="debt-selection-checkbox"]').should('have.length', 2);
 
