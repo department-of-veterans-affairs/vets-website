@@ -10,10 +10,11 @@ export const LoadingButton = () => {
       if (inner) {
         inner.focus();
       } else {
-        setTimeout(focusButton, 50);
+        requestAnimationFrame(focusButton);
       }
     };
-    focusButton();
+
+    requestAnimationFrame(focusButton);
   }, []);
 
   return <VaButton loading text="Loading..." ref={ref} />;
