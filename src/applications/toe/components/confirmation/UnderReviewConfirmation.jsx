@@ -104,7 +104,7 @@ const UnderReviewConfirmation = ({
           <va-link
             href="https://ask.va.gov"
             external
-            text="Contact us through Ask VA (opens in a new tab)"
+            text="Contact us through Ask VA"
           />
         </p>
       </va-card>
@@ -129,7 +129,7 @@ const UnderReviewConfirmation = ({
             <va-link
               href="https://ask.va.gov/"
               external
-              text="If you need to submit documentation to VA, such as service records, please send this through our Ask VA feature (opens in a new tab)"
+              text="If you need to submit documentation to VA, such as service records, please send this through our Ask VA feature"
             />
           </li>
           <li>
@@ -141,7 +141,7 @@ const UnderReviewConfirmation = ({
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
-              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you"
+              text="Use our GI Bill Comparison Tool on VA.gov to help you decide which schools are best for you"
             />
           </li>
           <li>
@@ -149,7 +149,7 @@ const UnderReviewConfirmation = ({
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
               external
               filetype="PDF"
-              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series (opens in a new tab)"
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
             />
           </li>
         </ul>

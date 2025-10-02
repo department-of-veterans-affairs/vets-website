@@ -123,7 +123,7 @@ const ConfirmationPending = ({
           <va-link
             href="https://ask.va.gov/"
             external
-            text="If you need to submit documentation to VA, such as service records, please send this through Ask VA (opens in a new tab)"
+            text="If you need to submit documentation to VA, such as service records, please send this through Ask VA"
           />
         </li>
         <li>
@@ -135,7 +135,7 @@ const ConfirmationPending = ({
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            text="Use our GI Bill Comparison Tool to help you decide which education program and school is best for you"
+            text="Use our GI Bill Comparison Tool on VA.gov to help you decide which education program and school is best for you"
           />
         </li>
         <li>
@@ -143,14 +143,14 @@ const ConfirmationPending = ({
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             external
             filetype="PDF"
-            text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series (opens in a new tab)"
+            text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
           />
         </li>
         <li>
           <va-link
             href="https://www.benefits.va.gov/gibill/careerscope.asp"
             external
-            text="Measure your interests and skill levels and help figure out your career path with CareerScope® on VA.gov (opens in a new tab)"
+            text="Measure your interests and skill levels and help figure out your career path with CareerScope® on VA.gov"
           />
         </li>
       </ul>

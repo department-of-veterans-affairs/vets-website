@@ -96,12 +96,7 @@ const UnderReviewChapter1606 = ({
         <li>
           If you need to submit documentation to VA, such as service records,
           please send this through{' '}
-          <va-link
-            href="https://ask.va.gov/"
-            external
-            text="Ask VA (opens in a new tab)"
-          />
-          .
+          <va-link href="https://ask.va.gov/" external text="Ask VA" />.
         </li>
         <li>
           <va-link
@@ -112,7 +107,7 @@ const UnderReviewChapter1606 = ({
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
-            text="Use our GI Bill Comparison Tool to help you decide which school is best for you"
+            text="Use our GI Bill Comparison Tool on VA.gov to help you decide which school is best for you"
           />
         </li>
         <li>
@@ -121,7 +116,7 @@ const UnderReviewChapter1606 = ({
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
             external
             filetype="PDF"
-            text="Building Your Future with the GI Bill Series (opens in a new tab)"
+            text="Building Your Future with the GI Bill Series"
           />
           .
         </li>
