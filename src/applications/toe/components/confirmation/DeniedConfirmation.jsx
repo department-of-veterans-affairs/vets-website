@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
 import LoadingIndicator from '../LoadingIndicator';
+import FormFooter from '../FormFooter';
 
 const DeniedConfirmation = ({
   user,
@@ -144,6 +145,7 @@ const DeniedConfirmation = ({
           </li>
         </ul>
       </div>
+      <FormFooter />
     </>
   );
 };

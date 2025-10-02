@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import LoadingIndicator from '../LoadingIndicator';
+import FormFooter from '../FormFooter';
 
 const UnderReviewConfirmation = ({
   user,
@@ -159,6 +160,7 @@ const UnderReviewConfirmation = ({
           </li>
         </ul>
       </div>
+      <FormFooter />
     </>
   );
 };
