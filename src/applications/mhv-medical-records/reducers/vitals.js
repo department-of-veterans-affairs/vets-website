@@ -15,6 +15,40 @@ import {
   dateFormatWithoutTimezone,
 } from '../util/helpers';
 
+// Normalization map for noisy or source-specific vital type variants.
+// Extend this map as new variants are discovered so the rest of the app can
+// rely on canonical keys (matching keys used in vitalTypes & display maps).
+const VITAL_TYPE_NORMALIZATION_MAP = {
+  HEART_RATE: 'PULSE', // normalize HEART_RATE to PULSE (UI groups them together)
+  RESPIRATORY_RATE: 'RESPIRATION',
+  OXYGEN_SATURATION_IN_ARTERIAL_BLOOD: 'PULSE_OXIMETRY',
+  BODY_TEMPERATURE: 'TEMPERATURE',
+  BODY_WEIGHT: 'WEIGHT',
+  BODY_HEIGHT: 'HEIGHT',
+  // Common SPO2 textual variants (after macroCase) mapped to PULSE_OXIMETRY
+  SP_O2: 'PULSE_OXIMETRY',
+  SP_O_2: 'PULSE_OXIMETRY',
+  SP0_2: 'PULSE_OXIMETRY',
+  SPO2: 'PULSE_OXIMETRY',
+  SPO_2: 'PULSE_OXIMETRY',
+  // Weight measured variant
+  WEIGHT_MEASURED: 'WEIGHT',
+};
+
+// Pattern normalization for any unforeseen SpO2 style variants produced by macroCase.
+const isSpo2Like = type =>
+  /^SP[O0]_?O?\d$/i.test(type) || /^SPO?0?2$/i.test(type);
+
+const normalizeVitalType = rawType => {
+  if (!rawType) return rawType;
+  if (VITAL_TYPE_NORMALIZATION_MAP[rawType]) {
+    return VITAL_TYPE_NORMALIZATION_MAP[rawType];
+  }
+  // Flexible catch for SpO2 like strings not explicitly mapped
+  if (isSpo2Like(rawType)) return 'PULSE_OXIMETRY';
+  return rawType;
+};
+
 const initialState = {
   /**
    * The last time that the list was fetched and known to be up-to-date
@@ -101,7 +135,8 @@ export const extractLocation = vital => {
 };
 
 export const convertVital = record => {
-  const type = macroCase(record.code?.text);
+  const rawType = macroCase(record.code?.text);
+  const type = normalizeVitalType(rawType);
   return {
     name:
       record.code?.text ||

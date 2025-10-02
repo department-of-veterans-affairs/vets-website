@@ -3,6 +3,7 @@ import {
   extractLocation,
   vitalReducer,
   getMeasurement,
+  convertVital,
 } from '../../reducers/vitals';
 import { EMPTY_FIELD } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
@@ -239,5 +240,40 @@ describe('getMeasurement', () => {
     const type = 'HEART_RATE';
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
+  });
+});
+
+describe('convertVital normalization', () => {
+  const baseRecord = {
+    id: '1',
+    code: { text: 'Heart Rate' },
+    effectiveDateTime: '2024-01-01T10:00:00Z',
+    valueQuantity: { value: 70, code: '/min' },
+  };
+
+  it('normalizes HEART_RATE to PULSE', () => {
+    const converted = convertVital(baseRecord);
+    expect(converted.type).to.equal('PULSE');
+  });
+
+  it('normalizes BODY WEIGHT variants to WEIGHT', () => {
+    const record = { ...baseRecord, code: { text: 'Body Weight' } };
+    const converted = convertVital(record);
+    expect(converted.type).to.equal('WEIGHT');
+  });
+
+  it('normalizes SpO2 variants to PULSE_OXIMETRY', () => {
+    const record = { ...baseRecord, code: { text: 'Sp O2' } };
+    const converted = convertVital(record);
+    expect(converted.type).to.equal('PULSE_OXIMETRY');
+  });
+
+  it('normalizes OXYGEN_SATURATION_IN_ARTERIAL_BLOOD to PULSE_OXIMETRY', () => {
+    const record = {
+      ...baseRecord,
+      code: { text: 'Oxygen Saturation in Arterial Blood' },
+    };
+    const converted = convertVital(record);
+    expect(converted.type).to.equal('PULSE_OXIMETRY');
   });
 });
