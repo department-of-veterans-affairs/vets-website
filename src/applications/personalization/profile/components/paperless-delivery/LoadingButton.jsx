@@ -13,7 +13,6 @@ export const LoadingButton = () => {
         requestAnimationFrame(focusButton);
       }
     };
-
     requestAnimationFrame(focusButton);
   }, []);
 
