@@ -28,7 +28,7 @@ describe('Medical Records View Vitals', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    const CARDS_PER_PAGE = 14; // 7 per page * 2 for printing
+    const CARDS_PER_PAGE = 16; // 8 types (including OTHER) * 2 for printing
     cy.get('va-card').should('have.length', CARDS_PER_PAGE);
     cy.get('va-card').should('not.contain', 'Pain severity');
 

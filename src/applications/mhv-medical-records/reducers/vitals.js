@@ -49,6 +49,19 @@ const normalizeVitalType = rawType => {
   return rawType;
 };
 
+// Helper to flag whether a normalized type is one of the canonical vitals we explicitly surface
+const isKnownCanonicalVital = type => {
+  return [
+    'BLOOD_PRESSURE',
+    'PULSE',
+    'RESPIRATION',
+    'PULSE_OXIMETRY',
+    'TEMPERATURE',
+    'WEIGHT',
+    'HEIGHT',
+  ].includes(type);
+};
+
 const initialState = {
   /**
    * The last time that the list was fetched and known to be up-to-date
@@ -142,6 +155,7 @@ export const convertVital = record => {
       record.code?.text ||
       (isArrayAndHasItems(record.code?.coding) &&
         record.code?.coding[0]?.display),
+    originalType: rawType,
     type,
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
@@ -178,12 +192,42 @@ export const vitalReducer = (state = initialState, action) => {
             return convertVital(vital.resource);
           }) || [];
 
+      // Partition into known canonical vs unknown
+      const knownCanonicals = [];
+      const unknownVitals = [];
+      newList.forEach(item => {
+        // Treat items whose normalized type is canonical AND whose name maps cleanly to a known display name (excluding OTHER) as known
+        if (isKnownCanonicalVital(item.type) && item.type !== 'OTHER')
+          knownCanonicals.push(item);
+        else unknownVitals.push(item);
+      });
+
+      let finalList = knownCanonicals;
+      if (unknownVitals.length) {
+        // Determine most recent unknown vital for measurement/date display
+        const mostRecent = unknownVitals.reduce((acc, cur) => {
+          if (!acc) return cur;
+          return new Date(cur.effectiveDateTime) >
+            new Date(acc.effectiveDateTime)
+            ? cur
+            : acc;
+        }, null);
+        finalList = [
+          ...knownCanonicals,
+          {
+            ...mostRecent,
+            type: 'OTHER',
+            _otherItems: unknownVitals,
+          },
+        ];
+      }
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vitalsList: typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        vitalsList: typeof oldList === 'undefined' ? finalList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? finalList : undefined,
       };
     }
     case Actions.Vitals.COPY_UPDATED_LIST: {

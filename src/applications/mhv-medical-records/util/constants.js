@@ -170,6 +170,7 @@ export const vitalTypes = {
   TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
+  OTHER: ['OTHER'], // aggregated unknown vitals
 };
 
 export const vitalTypeDisplayNames = {
@@ -188,6 +189,8 @@ export const vitalTypeDisplayNames = {
   HEIGHT: 'Height',
   PAIN_SEVERITY_0_10_VERBAL_NUMERIC_RATING_SCORE_REPORTED: 'Pain severity',
   PAIN_SEVERITY: 'Pain severity',
+  // Display name for aggregated unknown/variant vitals not yet mapped to a canonical type
+  OTHER: 'Other records',
 };
 
 export const vitalUnitCodes = {

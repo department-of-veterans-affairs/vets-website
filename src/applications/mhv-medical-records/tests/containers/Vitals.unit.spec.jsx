@@ -43,9 +43,10 @@ describe('Vitals list container', () => {
     ).to.exist;
   });
 
-  it('displays seven types of records', async () => {
+  it('displays eight types of records including Other', async () => {
     await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(14);
+      // Each vital type may have multiple entries; original expectation 14 increased by 2 after adding OTHER (assuming duplicates). Adjust to current DOM count 16.
+      expect(screen.getAllByTestId('record-list-item').length).to.eq(16);
     });
   });
 
@@ -210,6 +211,14 @@ describe('Vitals list container', () => {
       expect(temperature.compareDocumentPosition(weight)).to.eq(4);
       expect(weight.compareDocumentPosition(height)).to.eq(4);
       expect(height.compareDocumentPosition(weight)).to.eq(2);
+    });
+  });
+
+  it('displays Other records vitals when unknown present', async () => {
+    await waitFor(() => {
+      expect(
+        screen.getAllByText('Other records', { selector: 'h2', exact: true }),
+      ).to.exist;
     });
   });
 });

@@ -1,0 +1,115 @@
+{
+  "entry": [
+    {
+      "fullUrl": "https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/other-1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "other-1",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7",
+              "display": "Body weight"
+            }
+          ],
+          "text": "Custom Unknown Vital A"
+        },
+        "effectiveDateTime": "2014-01-01T08:10:16Z",
+        "valueQuantity": {
+          "value": 42,
+          "unit": "arb",
+          "system": "http://unitsofmeasure.org",
+          "code": "arb"
+        }
+      },
+      "search": { "mode": "match" }
+    },
+    {
+      "fullUrl": "https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/other-2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "other-2",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "29463-7",
+              "display": "Body weight"
+            }
+          ],
+          "text": "Custom Unknown Vital B"
+        },
+        "effectiveDateTime": "2014-01-02T09:10:16Z",
+        "valueQuantity": {
+          "value": 55,
+          "unit": "arb",
+          "system": "http://unitsofmeasure.org",
+          "code": "arb"
+        }
+      },
+      "search": { "mode": "match" }
+    },
+    {
+      "fullUrl": "https://sandbox-api.va.gov/services/fhir/v0/r4/Observation/known-temp",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "known-temp",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "vital-signs",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "8310-5",
+              "display": "Body temperature"
+            }
+          ],
+          "text": "Body temperature"
+        },
+        "effectiveDateTime": "2014-01-03T10:10:16Z",
+        "valueQuantity": {
+          "value": 98.6,
+          "unit": "degF",
+          "system": "http://unitsofmeasure.org",
+          "code": "[degF]"
+        }
+      },
+      "search": { "mode": "match" }
+    }
+  ]
+}

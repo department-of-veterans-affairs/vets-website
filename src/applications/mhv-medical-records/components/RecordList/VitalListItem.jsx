@@ -24,6 +24,18 @@ const VitalListItem = props => {
     [displayName],
   );
 
+  // For OTHER aggregate records, we will display a list of underlying unknown vital names.
+  const otherUnderlyingNames = useMemo(
+    () => {
+      if (record.type !== 'OTHER' || !Array.isArray(record._otherItems))
+        return [];
+      // Unique names
+      const names = record._otherItems.map(item => item.name).filter(n => !!n);
+      return [...new Set(names)];
+    },
+    [record],
+  );
+
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
@@ -78,6 +90,15 @@ const VitalListItem = props => {
         {displayName}
       </h2>
 
+      {record.type === 'OTHER' &&
+        otherUnderlyingNames.length > 0 && (
+          <ul className="vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-left--3">
+            {otherUnderlyingNames.map(name => (
+              <li key={name}>{name}</li>
+            ))}
+          </ul>
+        )}
+
       {record.noRecords && (
         <p
           className="vads-u-margin--0"
@@ -120,29 +141,31 @@ const VitalListItem = props => {
             </span>
           </div>
 
-          <Link
-            to={url}
-            className="vads-u-line-height--4"
-            data-testid={dataTestIds.reviewLink}
-            onClick={() => {
-              sendDataDogAction(ddLabelName);
-            }}
-          >
-            <strong>
-              Review your{' '}
-              {displayName === 'Blood oxygen level (pulse oximetry)'
-                ? displayName
-                    .toLowerCase()
-                    .split(' ')
-                    .slice(0, 3)
-                    .join(' ')
-                : displayName.toLowerCase()}{' '}
-              over time
-            </strong>
-            <span aria-hidden="true">
-              <va-icon icon="navigate_next" size={1} />
-            </span>
-          </Link>
+          {record.type !== 'OTHER' && (
+            <Link
+              to={url}
+              className="vads-u-line-height--4"
+              data-testid={dataTestIds.reviewLink}
+              onClick={() => {
+                sendDataDogAction(ddLabelName);
+              }}
+            >
+              <strong>
+                Review your{' '}
+                {displayName === 'Blood oxygen level (pulse oximetry)'
+                  ? displayName
+                      .toLowerCase()
+                      .split(' ')
+                      .slice(0, 3)
+                      .join(' ')
+                  : displayName.toLowerCase()}{' '}
+                over time
+              </strong>
+              <span aria-hidden="true">
+                <va-icon icon="navigate_next" size={1} />
+              </span>
+            </Link>
+          )}
         </>
       )}
     </va-card>

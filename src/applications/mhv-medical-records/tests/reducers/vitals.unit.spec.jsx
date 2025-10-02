@@ -116,9 +116,24 @@ describe('vitalReducer', () => {
   it('creates a list', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
+        {
+          resource: {
+            id: 1,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
+        {
+          resource: {
+            id: 2,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
+        {
+          resource: {
+            id: 3,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
       ],
       resourceType: 'Observation',
     };
@@ -133,9 +148,24 @@ describe('vitalReducer', () => {
   it('puts updated records in updatedList', () => {
     const response = {
       entry: [
-        { resource: { id: 1, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 2, code: { coding: [{ code: '8310-5' }] } } },
-        { resource: { id: 3, code: { coding: [{ code: '8310-5' }] } } },
+        {
+          resource: {
+            id: 1,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
+        {
+          resource: {
+            id: 2,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
+        {
+          resource: {
+            id: 3,
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+          },
+        },
       ],
       resourceType: 'Observation',
     };
@@ -275,5 +305,56 @@ describe('convertVital normalization', () => {
     };
     const converted = convertVital(record);
     expect(converted.type).to.equal('PULSE_OXIMETRY');
+  });
+});
+
+describe('vitalReducer OTHER aggregation', () => {
+  it('aggregates truly unknown vital codes into OTHER', () => {
+    const response = {
+      entry: [
+        {
+          resource: {
+            id: 'u1',
+            code: {
+              coding: [{ code: '8310-5' }],
+              text: 'Not A Standard Vital 1',
+            },
+            effectiveDateTime: '2024-01-01T10:00:00Z',
+            valueQuantity: { value: 10, code: '%' },
+          },
+        },
+        {
+          resource: {
+            id: 'u2',
+            code: {
+              coding: [{ code: '8310-5' }],
+              text: 'Not A Standard Vital 2',
+            },
+            effectiveDateTime: '2024-02-01T10:00:00Z',
+            valueQuantity: { value: 20, code: '%' },
+          },
+        },
+        {
+          resource: {
+            id: 't1',
+            code: { coding: [{ code: '8310-5' }], text: 'Body temperature' },
+            effectiveDateTime: '2024-03-01T10:00:00Z',
+            valueQuantity: { value: 98, code: '[degF]' },
+          },
+        },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    const other = newState.vitalsList.find(v => v.type === 'OTHER');
+    const temps = newState.vitalsList.filter(v => v.type === 'TEMPERATURE');
+    expect(temps.length).to.equal(1); // only the canonical temperature record
+    expect(other).to.exist; // aggregated unknown vitals
+    expect(other._otherItems.length).to.equal(2); // both unknown items captured
+    expect(other.effectiveDateTime).to.equal('2024-02-01T10:00:00Z'); // most recent unknown
+    expect(other.measurement).to.equal('20 %'); // measurement from most recent unknown
   });
 });
