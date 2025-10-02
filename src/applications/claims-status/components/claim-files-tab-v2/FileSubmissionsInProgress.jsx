@@ -1,8 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  VaCard,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import { buildDateFormatter } from '../../utils/helpers';
+import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+
+const formatDate = buildDateFormatter();
 
 const generateInProgressDocs = evidenceSubmissions => {
-  return evidenceSubmissions || []; // TODO: add logic to filter out unnecessary fields
+  return (evidenceSubmissions || [])
+    .filter(es => es.uploadStatus !== 'FAILED' && es.uploadStatus !== 'SUCCESS')
+    .map(es => ({
+      ...es,
+      uploadStatus: 'SUBMISSION IN PROGRESS',
+    }));
 };
 
 const getSortedInProgressItems = evidenceSubmissions => {
@@ -17,7 +31,15 @@ const FileSubmissionsInProgress = ({ claim }) => {
   const { evidenceSubmissions, supportingDocuments } = claim.attributes;
 
   const numSupportingDocuments = supportingDocuments.length;
-  const currentPageItems = getSortedInProgressItems(evidenceSubmissions);
+  const allItems = getSortedInProgressItems(evidenceSubmissions);
+
+  const {
+    currentPageItems,
+    shouldShowButton,
+    nextBatchSize,
+    onShowMoreClicked,
+    headingRefs,
+  } = useIncrementalReveal(allItems);
 
   return (
     <div
@@ -42,7 +64,70 @@ const FileSubmissionsInProgress = ({ claim }) => {
             )}
           </div>
         ) : (
-          <p>Placeholder for {currentPageItems.length} in progress items</p>
+          <>
+            <ul className="usa-card-group vads-u-padding-x--0 usa-unstyled-list">
+              {currentPageItems.map((item, itemIndex) => {
+                const statusBadgeText = item.uploadStatus;
+                const requestTypeText = item.trackedItemDisplayName
+                  ? `Request type: ${item.trackedItemDisplayName}`
+                  : 'You submitted this file as additional evidence.';
+
+                return (
+                  <li key={item.id || itemIndex}>
+                    <VaCard
+                      className="vads-u-margin-y--3"
+                      data-testid={`file-in-progress-card-${itemIndex}`}
+                    >
+                      {statusBadgeText && (
+                        <div className="file-status-badge vads-u-margin-bottom--2">
+                          <span className="vads-u-visibility--screen-reader">
+                            Status
+                          </span>
+                          <span className="usa-label vads-u-padding-x--1">
+                            {statusBadgeText}
+                          </span>
+                        </div>
+                      )}
+                      <h4
+                        className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
+                        data-dd-privacy="mask"
+                        data-dd-action-name="document filename"
+                        ref={el => {
+                          headingRefs.current[itemIndex] = el;
+                        }}
+                        tabIndex="-1"
+                      >
+                        {item.fileName || 'File name unknown'}
+                      </h4>
+                      <div className="vads-u-margin-bottom--2">
+                        {item.documentType && (
+                          <p className="vads-u-margin-y--0">
+                            {`Document type: ${item.documentType}`}
+                          </p>
+                        )}
+                        <p className="vads-u-margin-y--0">{requestTypeText}</p>
+                      </div>
+                      {item.createdAt && (
+                        <p className="file-submitted-date vads-u-margin-y--0">
+                          {`Submitted on ${formatDate(item.createdAt)}`}
+                        </p>
+                      )}
+                    </VaCard>
+                  </li>
+                );
+              })}
+            </ul>
+            {shouldShowButton && (
+              <div className="vads-u-margin-top--2">
+                <VaButton
+                  secondary
+                  onClick={onShowMoreClicked}
+                  text={`Show more in progress (${nextBatchSize})`}
+                  data-testid="show-more-in-progress-button"
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

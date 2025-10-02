@@ -7,6 +7,7 @@ import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/m
 import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
+import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -162,6 +163,45 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
       trackClaimsPage.clickShowMoreFilesReceived();
       trackClaimsPage.verifyFilesReceived(8);
       trackClaimsPage.verifyShowMoreFilesReceivedButtonNotExists();
+      cy.axeCheck();
+    });
+  });
+
+  context('Files In Progress - more than 5 in progress items', () => {
+    it('shows the user a show more button', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManyEvidenceSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.verifyFileSubmissionsInProgress(5);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonText(
+        'Show more in progress (3)',
+      );
+      cy.axeCheck();
+    });
+
+    it('after clicking show more, the user sees all evidence submissions', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManyEvidenceSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.verifyFileSubmissionsInProgress(5);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonText(
+        'Show more in progress (3)',
+      );
+      trackClaimsPage.clickShowMoreFilesInProgress();
+      trackClaimsPage.verifyFileSubmissionsInProgress(8);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonNotExists();
       cy.axeCheck();
     });
   });
