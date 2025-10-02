@@ -61,6 +61,7 @@ export const uiSchema = {
       },
       treatmentLocation0781Related: {
         ...yesNoUI({
+          // TODO: medical record attachments still need a fix
           title:
             'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
         }),
