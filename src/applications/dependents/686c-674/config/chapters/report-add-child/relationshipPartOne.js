@@ -17,17 +17,20 @@ export const relationshipPartOne = {
       },
     }),
     'ui:options': {
-      // Leaving all params as working example
       updateSchema: (formData, schema, _uiSchema, index) => {
-        const itemData = formData?.dependents?.[index] || formData;
+        const itemData = formData?.childrenToAdd?.[index] || formData;
 
-        if (itemData?.isBiologicalChild === false) {
-          itemData.relationshipToChild = undefined;
-          itemData.biologicalParentDob = undefined;
-          itemData.biologicalParentName = undefined;
-          itemData.biologicalParentSsn = undefined;
-          itemData.isBiologicalChildOfSpouse = undefined;
-          itemData.dateEnteredHousehold = undefined;
+        if (itemData?.isBiologicalChild === true) {
+          [
+            'relationshipToChild',
+            'biologicalParentDob',
+            'biologicalParentName',
+            'biologicalParentSsn',
+            'isBiologicalChildOfSpouse',
+            'dateEnteredHousehold',
+          ].forEach(field => {
+            itemData[field] = undefined;
+          });
         }
 
         return schema;
