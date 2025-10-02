@@ -48,7 +48,9 @@ describe('21P-0537 submit transformer', () => {
         lineNumber: '4567',
       });
       expect(result.recipient.email).to.equal('jane.spouse@example.com');
-      expect(result.recipient.signature).to.equal('Jane M Spouse');
+      expect(result.recipient.statementOfTruthSignature).to.equal(
+        'Jane M Spouse',
+      );
 
       // Should prioritize SSN for inReplyReferTo
       expect(result.inReplyReferTo).to.equal('434353347');
@@ -206,7 +208,7 @@ describe('21P-0537 submit transformer', () => {
       });
 
       // Test recipient signature
-      expect(result.recipient.signature).to.equal('Jane Doe');
+      expect(result.recipient.statementOfTruthSignature).to.equal('Jane Doe');
     });
   });
 
