@@ -60,7 +60,7 @@ const ConfirmationApproved = ({
         <va-link
           href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
           external
-          text="View a statement of your benefits on VA.gov (opens in a new tab)"
+          text="View a statement of your benefits on VA.gov"
         />
       </va-alert>
 
