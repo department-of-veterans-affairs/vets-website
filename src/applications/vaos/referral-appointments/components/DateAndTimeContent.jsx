@@ -12,10 +12,7 @@ import {
 } from '../redux/selectors';
 import { getSlotByDate } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
-import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../../utils/timezone';
+import { getTimezoneDescByTimeZoneString } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
@@ -32,9 +29,9 @@ export const DateAndTimeContent = props => {
   const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
-  );
+
+  const providerTimeZone =
+    draftAppointmentInfo.attributes.provider.location.timezone;
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
@@ -168,10 +165,7 @@ export const DateAndTimeContent = props => {
           <p>
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
-            {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacility.code,
-            )}`}
-            .
+            {`${getTimezoneDescByTimeZoneString(providerTimeZone)}`}.
           </p>
         )}
       </div>
@@ -196,11 +190,10 @@ export const DateAndTimeContent = props => {
               availableSlots={draftAppointmentInfo.attributes.slots}
               value={[selectedSlotStartTime || '']}
               id="dateTime"
-              timezone={facilityTimeZone}
+              timezone={providerTimeZone}
               additionalOptions={{
                 required: true,
               }}
-              // disabled={loadingSlots}
               disabledMessage={disabledMessage}
               onChange={onChange}
               onNextMonth={null}
