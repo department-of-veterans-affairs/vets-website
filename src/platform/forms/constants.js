@@ -209,6 +209,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
+    [VA_FORM_IDS.FORM_21_4140]: `${tryGetAppUrl('21-4140')}/`,
     [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
     [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
@@ -781,6 +782,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Apply for burial in a VA national cemetery"',
     description: 'burial benefits',
     trackingPrefix: '40-4962-ToN-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4140,
+    benefit: 'Employment Questionnaire (VA Form 21-4140)',
+    title: 'Income Verification for Disability Benefits',
+    description: 'Employment Questionnaire (VA Form 21-4140)',
+    trackingPrefix: '21-4140-income-verification-',
   },
   {
     id: VA_FORM_IDS.FORM_21_2680,

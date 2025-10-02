@@ -23,6 +23,7 @@
         "email": "test@user.com"
       },
       "form5103Acknowledged": true,
+      "homeless": false,
       "socOptIn": true,
       "evidenceSubmission": {
         "evidenceType": [

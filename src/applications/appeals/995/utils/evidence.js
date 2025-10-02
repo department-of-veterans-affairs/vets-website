@@ -1,10 +1,3 @@
-import {
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  LIMITED_CONSENT_RESPONSE,
-  EVIDENCE_OTHER,
-} from '../constants';
-
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { showScNewForm, checkRedirect } from './toggle';
 import {
@@ -12,12 +5,11 @@ import {
   FORMAT_YMD_DATE_FNS,
 } from '../../shared/constants';
 import { parseDate } from '../../shared/utils/dates';
-
-export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
-export const hasPrivateEvidence = formData => !!formData?.[EVIDENCE_PRIVATE];
-export const hasPrivateLimitation = formData =>
-  hasPrivateEvidence(formData) && !!formData?.[LIMITED_CONSENT_RESPONSE];
-export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+import {
+  hasOtherEvidence,
+  hasPrivateEvidence,
+  hasVAEvidence,
+} from './form-data-retrieval';
 
 export const getVAEvidence = formData =>
   (hasVAEvidence(formData) && formData?.locations) || [];

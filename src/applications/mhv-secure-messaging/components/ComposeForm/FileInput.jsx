@@ -10,29 +10,75 @@ import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const FileInput = props => {
   const {
-    attachments,
-    setAttachments,
-    setAttachFileSuccess,
-    draftSequence,
-    attachmentScanError,
     attachFileError,
+    attachments,
+    attachmentScanError,
+    draftSequence,
+    isOhTriageGroup,
     setAttachFileError,
-    isPilot,
+    setAttachFileSuccess,
+    setAttachments,
   } = props;
 
   const fileInputRef = useRef();
   const errorRef = useRef(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
-  const { largeAttachmentsEnabled } = useFeatureToggles();
+  const {
+    largeAttachmentsEnabled,
+    cernerPilotSmFeatureFlag,
+  } = useFeatureToggles();
+
+  const useLargeAttachments = useMemo(
+    () => {
+      return (
+        largeAttachmentsEnabled || (cernerPilotSmFeatureFlag && isOhTriageGroup)
+      );
+    },
+    [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, isOhTriageGroup],
+  );
+
+  const {
+    maxFileSize,
+    maxFileSizeError,
+    totalMaxFileSize,
+    totalMaxFileSizeError,
+    totalMaxFileCount,
+    invalidFileTypeError,
+  } = useMemo(
+    () => {
+      return {
+        maxFileSize: useLargeAttachments
+          ? Attachments.MAX_FILE_SIZE_LARGE
+          : Attachments.MAX_FILE_SIZE,
+        maxFileSizeError: useLargeAttachments
+          ? ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE_LARGE_UPLOAD
+          : ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
+        totalMaxFileSize: useLargeAttachments
+          ? Attachments.TOTAL_MAX_FILE_SIZE_LARGE
+          : Attachments.TOTAL_MAX_FILE_SIZE,
+        totalMaxFileSizeError: useLargeAttachments
+          ? ErrorMessages.ComposeForm.ATTACHMENTS
+              .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE
+          : ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
+        totalMaxFileCount: useLargeAttachments
+          ? Attachments.MAX_FILE_COUNT_LARGE
+          : Attachments.MAX_FILE_COUNT,
+        invalidFileTypeError: useLargeAttachments
+          ? ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE_EXTENDED
+          : ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
+      };
+    },
+    [useLargeAttachments],
+  );
 
   const acceptedFileTypesToUse = useMemo(
     () => {
-      if (largeAttachmentsEnabled) {
+      if (useLargeAttachments) {
         return acceptedFileTypesExtended;
       }
       return acceptedFileTypes;
     },
-    [largeAttachmentsEnabled],
+    [useLargeAttachments],
   );
 
   // Validation for files
@@ -66,9 +112,7 @@ const FileInput = props => {
       !acceptedFileTypesToUse[fileExtension.toLowerCase()]
     ) {
       setAttachFileError({
-        message: largeAttachmentsEnabled
-          ? ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE_EXTENDED
-          : ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
+        message: invalidFileTypeError,
       });
       fileInputRef.current.value = null;
       return;
@@ -82,27 +126,17 @@ const FileInput = props => {
       return;
     }
 
-    if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
+    if (selectedFile.size > maxFileSize) {
       setAttachFileError({
-        message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
+        message: maxFileSizeError,
       });
       fileInputRef.current.value = null;
       return;
     }
 
-    if (
-      currentTotalSize + selectedFile.size >
-      (largeAttachmentsEnabled && isPilot
-        ? Attachments.TOTAL_MAX_FILE_SIZE_LARGE
-        : Attachments.TOTAL_MAX_FILE_SIZE)
-    ) {
+    if (currentTotalSize + selectedFile.size > totalMaxFileSize) {
       setAttachFileError({
-        message:
-          largeAttachmentsEnabled && isPilot
-            ? ErrorMessages.ComposeForm.ATTACHMENTS
-                .TOTAL_MAX_FILE_SIZE_EXCEEDED_LARGE
-            : ErrorMessages.ComposeForm.ATTACHMENTS
-                .TOTAL_MAX_FILE_SIZE_EXCEEDED,
+        message: totalMaxFileSizeError,
       });
       fileInputRef.current.value = null;
       return;
@@ -150,7 +184,7 @@ const FileInput = props => {
       }
       return 'Attach file';
     },
-    [attachments.length],
+    [attachments?.length],
   );
 
   return (
@@ -179,10 +213,7 @@ const FileInput = props => {
         </label>
       )}
 
-      {attachments?.length <
-        (largeAttachmentsEnabled
-          ? Attachments.MAX_FILE_COUNT_LARGE
-          : Attachments.MAX_FILE_COUNT) &&
+      {attachments?.length < totalMaxFileCount &&
         !attachmentScanError && (
           <>
             {/* Wave plugin addressed this as an issue, label required */}
@@ -228,7 +259,7 @@ FileInput.propTypes = {
   attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   draftSequence: PropTypes.number,
-  isPilot: PropTypes.bool,
+  isOhTriageGroup: PropTypes.bool,
   setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
