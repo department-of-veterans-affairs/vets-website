@@ -55,25 +55,28 @@ const IncorrectFormModal = props => {
           dependent, your application will be denied. Your dependent will need
           to complete the application from their own Login.gov or ID.me account.
         </li>
-        <li>
-          If you believe you’re an eligible dependent receiving benefits through{' '}
-          <a
-            href="https://milconnect.dmdc.osd.mil/milconnect/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            milConnect
-          </a>{' '}
-          and need more info, contact VA at{' '}
-          <a
-            href="https://ask.va.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ask.VA.gov
-          </a>
-          .
-        </li>
+        {relationshipToMember === 'child' && (
+          <li>
+            If you believe you’re an eligible dependent receiving benefits
+            through{' '}
+            <a
+              href="https://milconnect.dmdc.osd.mil/milconnect/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              milConnect
+            </a>{' '}
+            and need more info, contact VA at{' '}
+            <a
+              href="https://ask.va.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask.VA.gov
+            </a>
+            .
+          </li>
+        )}
         <li>
           If you are a Veteran or service member applying for a benefit based on
           your own service,{' '}
