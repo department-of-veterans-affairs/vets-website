@@ -118,7 +118,7 @@ const ApprovedConfirmation = ({
               href={LETTER_URL}
               download
               filetype="PDF"
-              text="Download a copy of your decision letter. This can also be found at Download VA education letter"
+              text="Download a copy of your decision letter"
             />
           </li>
           <li>
