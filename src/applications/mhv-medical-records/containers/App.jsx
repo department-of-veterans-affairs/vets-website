@@ -30,6 +30,9 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
+  const featureTogglesLoading = useSelector(
+    state => state?.featureToggles?.loading,
+  );
   const bypassDowntime = useSelector(selectBypassDowntime);
 
   const dispatch = useDispatch();
@@ -117,7 +120,7 @@ const App = ({ children }) => {
     [user],
   );
 
-  if (user.profile.loading) {
+  if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
         <MhvSecondaryNav />
