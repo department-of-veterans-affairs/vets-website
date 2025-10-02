@@ -66,9 +66,6 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // viewMhvLink will be true if toggle is on
-  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
-
   const shouldShowOnOneColumn =
     !isVAPatient || !hasUpcomingAppointment || isLOA1;
 
@@ -148,7 +145,6 @@ const HealthCareContent = ({
           <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
             <Toggler.Disabled>
               <HealthCareCTA
-                viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
                 authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
@@ -166,7 +162,6 @@ const HealthCareContent = ({
           <Toggler.Disabled>
             <DashboardWidgetWrapper>
               <HealthCareCTA
-                viewMhvLink={viewMhvLink}
                 hasInboxError={hasInboxError}
                 authenticatedWithSSOe={authenticatedWithSSOe}
                 hasUpcomingAppointment={hasUpcomingAppointment}
