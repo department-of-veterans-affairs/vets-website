@@ -32,9 +32,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       };
       const store = mockStore(initialState);
 
-      const { schema, uiSchema } =
-        formConfig.chapters.applicantInformationChapter.pages
-          .applicantInformation;
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
       const form = mount(
         <Provider store={store}>
           <DefinitionTester
@@ -75,9 +76,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       };
       const store = mockStore(initialState);
 
-      const { schema, uiSchema } =
-        formConfig.chapters.applicantInformationChapter.pages
-          .applicantInformation;
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
         <Provider store={store}>
@@ -135,9 +137,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       };
       const store = mockStore(initialState);
 
-      const { schema, uiSchema } =
-        formConfig.chapters.applicantInformationChapter.pages
-          .applicantInformation;
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
         <Provider store={store}>
@@ -215,9 +218,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       };
       const store = mockStore(initialState);
 
-      const { schema, uiSchema } =
-        formConfig.chapters.applicantInformationChapter.pages
-          .applicantInformation;
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
         <Provider store={store}>
@@ -283,9 +287,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       };
       const store = mockStore(initialState);
 
-      const { schema, uiSchema } =
-        formConfig.chapters.applicantInformationChapter.pages
-          .applicantInformation;
+      const {
+        schema,
+        uiSchema,
+      } = formConfig.chapters.applicantInformationChapter.pages.applicantInformation;
 
       const form = mount(
         <Provider store={store}>
@@ -349,8 +354,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   });
 
   it('should fill out the benefit selection fields', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.benefitSelectionChapter.pages.benefitSelection;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.benefitSelectionChapter.pages.benefitSelection;
 
     const form = mount(
       <DefinitionTester
@@ -386,9 +393,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     };
     const mockStore = configureStore();
     const store = mockStore(initialState);
-    const { schema, uiSchema } =
-      formConfig.chapters.yourInformationChapter.pages
-        .reviewPersonalInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.yourInformationChapter.pages.reviewPersonalInformation;
 
     const form = mount(
       <Provider store={store}>
@@ -411,9 +419,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     const baseData = {
       relationshipToMember: 'spouse',
     };
-    const { schema, uiSchema } =
-      formConfig.chapters.additionalConsiderationsChapter.pages
-        .marriageInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.additionalConsiderationsChapter.pages.marriageInformation;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -432,9 +441,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   });
 
   it('should fill out the remarriage information fields', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.additionalConsiderationsChapter.pages
-        .remarriageInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.additionalConsiderationsChapter.pages.remarriageInformation;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -456,9 +466,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
   it('should fill out the outstanding felony fields', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.additionalConsiderationsChapter.pages
-        .outstandingFelony;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.additionalConsiderationsChapter.pages.outstandingFelony;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -503,8 +514,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     const middlewares = [thunk];
     const mockStore = configureStore(middlewares);
     const store = mockStore(initialState);
-    const { schema, uiSchema } =
-      formConfig.chapters.contactInformationChapter.pages.contactInformation;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.contactInformation;
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -531,8 +544,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
   it('should fill out the mailing address fields', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.contactInformationChapter.pages.mailingAddress;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.mailingAddress;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -581,8 +596,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   });
 
   it('should properly render and validate mailing address form structure', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.contactInformationChapter.pages.mailingAddress;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.mailingAddress;
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -682,8 +699,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     };
     const mockStore = configureStore();
     const store = mockStore(initialState);
-    const { schema, uiSchema } =
-      formConfig.chapters.contactInformationChapter.pages.chooseContactMethod;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.contactInformationChapter.pages.chooseContactMethod;
     const form = mount(
       <Provider store={store}>
         <DefinitionTester
@@ -720,8 +739,10 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
   it('should fill out the direct deposit fields', () => {
-    const { schema, uiSchema } =
-      formConfig.chapters.directDepositChapter.pages.directDeposit;
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.directDepositChapter.pages.directDeposit;
     const form = mount(
       <DefinitionTester
         schema={schema}
