@@ -81,7 +81,6 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
             <a
               className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
               href={getCernerURL(linkPath, true)}
-              rel="noopener noreferrer"
             >
               Go to My VA Health
             </a>
