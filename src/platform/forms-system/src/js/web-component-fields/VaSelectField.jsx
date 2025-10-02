@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import vaSelectFieldMapping from './vaSelectFieldMapping';
+import vaSelectAndComboBoxFieldMapping from './vaSelectAndComboBoxFieldMapping';
 
 function optionsList(schema) {
   return schema.enum.map((value, i) => {
@@ -37,7 +37,7 @@ function optionsList(schema) {
  * @param {WebComponentFieldProps} props */
 export default function VaSelectField(props) {
   let addDefaultEntry = false;
-  const mappedProps = vaSelectFieldMapping(props);
+  const mappedProps = vaSelectAndComboBoxFieldMapping(props);
   const enumOptions =
     (Array.isArray(props.childrenProps.schema.enum) &&
       optionsList(props.childrenProps.schema)) ||

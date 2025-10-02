@@ -8,7 +8,7 @@ import navigationState from 'platform/forms-system/src/js/utilities/navigation/n
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input';
+  'va-text-input, va-file-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date, va-telephone-input, va-combo-box';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
