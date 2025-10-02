@@ -41,4 +41,5 @@ export default {
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepTwo.path,
   multiPageBuilderOptional:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderOptional.path,
+  serviceBranch: formChapters.serviceBranch.pages.serviceBranch.path,
 };
