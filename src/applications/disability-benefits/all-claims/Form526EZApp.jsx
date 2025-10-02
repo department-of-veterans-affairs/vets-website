@@ -44,6 +44,7 @@ import {
   MissingId,
   MissingServices,
 } from './containers/MissingServices';
+import ClaimFormSideNavWC from './components/ClaimFormSideNavWC';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -87,6 +88,7 @@ export const Form526Entry = ({
   children,
   inProgressFormId,
   isBDDForm,
+  form,
   location,
   loggedIn,
   mvi,
@@ -100,8 +102,9 @@ export const Form526Entry = ({
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
 
   const hasSavedForm = savedForms.some(
-    form =>
-      form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
+    savedForm =>
+      savedForm.form === formConfig.formId &&
+      !isExpired(savedForm.metaData?.expiresAt),
   );
 
   const title = `${getPageTitle(isBDDForm)}${
@@ -244,21 +247,52 @@ export const Form526Entry = ({
     }
   }
 
-  return wrapWithBreadcrumb(
-    title,
-    <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
-      <RequiredLoginView serviceRequired={serviceRequired} user={user} verify>
-        <ITFWrapper location={location} title={title}>
-          {content}
-        </ITFWrapper>
-      </RequiredLoginView>
-    </article>,
+  // Side nav fun
+  const hideNavPaths = [
+    '/confirmation',
+    '/form-saved',
+    '/introduction',
+    '/start',
+  ];
+  const pathname = location?.pathname?.replace(/\/+$/, '') || '';
+  const shouldHideNav = hideNavPaths.some(p => pathname.endsWith(p));
+
+  return (
+    <article
+      className="vads-grid-container"
+      id="form-526"
+      data-location={`${location?.pathname?.slice(1)}`}
+    >
+      {wrapWithBreadcrumb(
+        title,
+        <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">
+          <div className="vads-u-margin-right--5">
+            <ClaimFormSideNavWC
+              formData={form?.data}
+              pathname={pathname}
+              router={router}
+              shouldHide={shouldHideNav}
+            />
+          </div>
+          <RequiredLoginView
+            serviceRequired={serviceRequired}
+            user={user}
+            verify
+          >
+            <ITFWrapper location={location} title={title}>
+              {content}
+            </ITFWrapper>
+          </RequiredLoginView>
+        </div>,
+      )}
+    </article>
   );
 };
 
 Form526Entry.propTypes = {
   accountUuid: PropTypes.string,
   children: PropTypes.any,
+  form: PropTypes.object,
   inProgressFormId: PropTypes.number,
   isBDDForm: PropTypes.bool,
   isStartingOver: PropTypes.bool,
@@ -282,6 +316,7 @@ Form526Entry.propTypes = {
 
 const mapStateToProps = state => ({
   accountUuid: state?.user?.profile?.accountUuid,
+  form: state?.form,
   inProgressFormId: state?.form?.loadedData?.metadata?.inProgressFormId,
   isBDDForm: isBDD(state?.form?.data),
   isStartingOver: state.form?.isStartingOver,
