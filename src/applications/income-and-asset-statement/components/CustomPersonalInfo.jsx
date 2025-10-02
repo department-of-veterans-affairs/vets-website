@@ -5,6 +5,7 @@ import { connect, useSelector } from 'react-redux';
 import {
   PersonalInformation,
   PersonalInformationHeader,
+  PersonalInformationCardHeader,
 } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import { selectProfile } from '~/platform/user/selectors';
 
@@ -53,6 +54,9 @@ const CustomPersonalInfo = props => {
           Confirm the personal information we have on file for you
         </h1>
       </PersonalInformationHeader>
+      <PersonalInformationCardHeader>
+        <h2 className="vads-u-font-size--h3">Personal information</h2>
+      </PersonalInformationCardHeader>
     </PersonalInformation>
   );
 };

@@ -21,6 +21,7 @@ import {
   isDefined,
   surrenderValueRequired,
   showUpdatedContent,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import { DependentDescription } from '../../../components/DependentDescription';
 
@@ -179,6 +180,9 @@ const incomePage = {
       }),
       'ui:required': annualReceivedIncomeFromAnnuityRequired,
     },
+    'ui:options': {
+      ...requireExpandedArrayField('annualReceivedIncome'),
+    },
   },
   schema: {
     type: 'object',
@@ -202,6 +206,9 @@ const liquidationPage = {
         expandUnderCondition: true,
       }),
       'ui:required': surrenderValueRequired,
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('surrenderValue'),
     },
   },
   schema: {

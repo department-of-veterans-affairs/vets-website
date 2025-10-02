@@ -78,6 +78,13 @@ const analyticsEvents = {
       prefix: 'button-pair',
     },
   ],
+  'va-button-segmented': [
+    {
+      action: 'click',
+      event: 'int-button-segmented-click',
+      prefix: 'button-segmented',
+    },
+  ],
   'va-checkbox': [
     {
       action: 'change',
