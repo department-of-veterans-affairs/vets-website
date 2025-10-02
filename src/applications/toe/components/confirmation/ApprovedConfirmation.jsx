@@ -118,13 +118,13 @@ const ApprovedConfirmation = ({
               href={LETTER_URL}
               download
               filetype="PDF"
-              text="Download a copy of your decision letter. This can also be found at Download VA education letter."
+              text="Download a copy of your decision letter. This can also be found at Download VA education letter"
             />
           </li>
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
-              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you."
+              text="Use our GI Bill Comparison Tool to help you decide which schools are best for you"
             />
           </li>
           <li>
@@ -135,15 +135,15 @@ const ApprovedConfirmation = ({
           <li>
             <va-link
               href="/profile/direct-deposit"
-              text="Review and/or update your direct deposit information on your VA.gov profile."
+              text="Review and/or update your direct deposit information on your VA.gov profile"
             />
           </li>
           <li>
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-              download
+              external
               filetype="PDF"
-              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series (opens in a new tab)"
             />
           </li>
         </ul>

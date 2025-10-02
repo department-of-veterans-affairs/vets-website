@@ -124,7 +124,7 @@ const DeniedConfirmation = ({
               href={LETTER_URL}
               download
               filetype="PDF"
-              text="Download a copy of your decision letter. This can also be found at Download your VA education letters."
+              text="Download a copy of your decision letter"
             />
           </li>
           <li>
@@ -134,9 +134,9 @@ const DeniedConfirmation = ({
           <li>
             <va-link
               href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-              download
+              external
               filetype="PDF"
-              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series."
+              text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series (opens in a new tab)"
             />
           </li>
         </ul>

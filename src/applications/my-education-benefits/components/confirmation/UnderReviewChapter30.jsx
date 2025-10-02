@@ -119,9 +119,9 @@ const UnderReviewChapter30 = ({
           Learn more about VA benefits and programs through the{' '}
           <va-link
             href="https://benefits.va.gov/gibill/docs/gibguideseries/chooseyoureducationbenefits.pdf"
-            download
+            external
             filetype="PDF"
-            text="Building Your Future with the GI Bill Series"
+            text="Building Your Future with the GI Bill Series (opens in a new tab)"
           />
           .
         </li>
