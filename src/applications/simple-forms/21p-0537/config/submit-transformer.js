@@ -94,7 +94,10 @@ function transformForSubmit(formConfig, form) {
         evening: eveningPhone,
       },
       email: transformedData.recipient?.email || '',
-      signature: transformedData.statementOfTruthSignature || '',
+      signature:
+        transformedData.signature ||
+        transformedData.statementOfTruthSignature ||
+        '',
       signatureDate,
     },
     inReplyReferTo: (() => {
