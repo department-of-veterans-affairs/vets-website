@@ -627,6 +627,7 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
+    const typeOfCare = getTypeOfCare(getFormData(state))?.idV2;
     const { data } = newAppointment;
 
     let startDate = start;
@@ -675,6 +676,8 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          typeOfCare,
+          provider: data.selectedProvider,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
