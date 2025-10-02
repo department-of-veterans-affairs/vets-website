@@ -24,22 +24,22 @@ describe('Medical Records View Temperature', () => {
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
-    // check for latest id
-    cy.get('[data-testid="vital-body-temperature-measurement"]').should(
+    // check for latest id (normalized to temperature)
+    cy.get('[data-testid="vital-temperature-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-body-temperature-measurement"]').contains(
+    cy.get('[data-testid="vital-temperature-measurement"]').contains(
       '39.134 Cel',
     );
 
-    cy.get('[data-testid="vital-body-temperature-date-timestamp"]').should(
+    cy.get('[data-testid="vital-temperature-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-body-temperature-date-timestamp"]').contains(
+    cy.get('[data-testid="vital-temperature-date-timestamp"]').contains(
       'December 29, 2004',
     );
 
-    cy.get('[data-testid="vital-body-temperature-review-over-time"]').should(
+    cy.get('[data-testid="vital-temperature-review-over-time"]').should(
       'be.visible',
     );
 

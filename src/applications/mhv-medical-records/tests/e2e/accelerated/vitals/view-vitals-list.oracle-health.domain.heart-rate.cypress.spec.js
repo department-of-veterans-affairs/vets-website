@@ -24,7 +24,7 @@ describe('Medical Records View Heart Rate', () => {
     // switch to march 2024
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
-    // check for latest id
+    // check for latest id (normalized to heart-rate)
     cy.get('[data-testid="vital-heart-rate-measurement"]').should('be.visible');
     cy.get('[data-testid="vital-heart-rate-measurement"]').contains(
       '98 beats per minute',
