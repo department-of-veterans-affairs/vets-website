@@ -33,6 +33,7 @@ import {
   updatedIsRecipientInfoIncomplete,
   updatedRecipientNameRequired,
   updatedResolveRecipientFullName,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -393,6 +394,9 @@ const incomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -446,6 +450,7 @@ const incomeTypePage = {
       'ui:options': {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherIncomeTypeExplanationRequired(
@@ -480,6 +485,9 @@ const incomeTypePage = {
             hint: 'Name of business, financial institution, or program, etc.',
           },
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',
