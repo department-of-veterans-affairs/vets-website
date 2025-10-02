@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import NextStepsSection from '../components/NextStepsSection';
 
 let mockData;
 if (!environment.isProduction() && !environment.isStaging()) {
@@ -51,6 +52,7 @@ export const ConfirmationPage = props => {
       <h2>Save a copy of your form</h2>
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
+      <NextStepsSection loggedIn={loggedIn} />
       <ConfirmationView.WhatsNextProcessList
         item1Content={
           loggedIn ? (
