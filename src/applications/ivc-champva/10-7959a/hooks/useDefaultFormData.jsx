@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 // declare list of feature toggles for this app
@@ -9,29 +9,35 @@ const FEATURE_TOGGLES = [
 ];
 
 export const useDefaultFormData = () => {
-  const toggles = useSelector(state => state.featureToggles);
-  const formData = useSelector(state => state.form.data);
   const dispatch = useDispatch();
 
+  const toggles = useSelector(state => state.featureToggles, shallowEqual);
+  const formData = useSelector(state => state.form.data, shallowEqual);
+  const loading = !!toggles?.loading;
+
   const toggleViewFields = useMemo(
-    () =>
-      Object.fromEntries(
+    () => {
+      if (loading) return {};
+      return Object.fromEntries(
         FEATURE_TOGGLES.map(key => [`view:${key}`, !!toggles[key]]),
-      ),
-    [toggles],
+      );
+    },
+    [loading, toggles],
   );
 
   useEffect(
     () => {
-      const toAdd = Object.entries(toggleViewFields).reduce((acc, [k, v]) => {
-        if (formData[k] === undefined) acc[k] = v;
+      if (loading) return;
+
+      const updates = Object.entries(toggleViewFields).reduce((acc, [k, v]) => {
+        if (formData[k] !== v) acc[k] = v;
         return acc;
       }, {});
 
-      if (Object.keys(toAdd).length > 0) {
-        dispatch(setData({ ...formData, ...toAdd }));
+      if (Object.keys(updates).length > 0) {
+        dispatch(setData({ ...formData, ...updates }));
       }
     },
-    [dispatch, formData, toggleViewFields],
+    [dispatch, formData, loading, toggleViewFields],
   );
 };
