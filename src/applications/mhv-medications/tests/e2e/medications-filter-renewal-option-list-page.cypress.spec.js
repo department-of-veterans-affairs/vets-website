@@ -28,5 +28,8 @@ describe('Medications List Page Renewal Filter Option', () => {
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
       Data.PAGINATION_RENEW,
     );
+    listPage.verifyFilterAriaRegionText(
+      'Filter applied: Renewal needed before refill.',
+    );
   });
 });
