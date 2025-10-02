@@ -6,11 +6,10 @@ import { SAVED_SEPARATION_DATE } from '../../constants';
 import { UpdateMilitaryHistory } from '../../components/UpdateMilitaryHistory';
 
 import { daysFromToday } from '../utils/dates/dateHelper';
-import { formatDateLong } from '../../utils/dates/formatting';
 
-const inRangeBddDate = formatDateLong(daysFromToday(120));
+const inRangeBddDate = daysFromToday(120);
 
-const inRangeBddDate2 = formatDateLong(daysFromToday(100));
+const inRangeBddDate2 = daysFromToday(100);
 
 describe('UpdateMilitaryHistory', () => {
   let wrapper;
