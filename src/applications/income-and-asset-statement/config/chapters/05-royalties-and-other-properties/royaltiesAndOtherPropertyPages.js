@@ -18,6 +18,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { RoyaltiesSummaryDescription } from '../../../components/SummaryDescriptions';
 import {
   formatCurrency,
   formatPossessiveString,
@@ -29,6 +30,8 @@ import {
   recipientNameRequired,
   requireExpandedArrayField,
   resolveRecipientFullName,
+  showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -45,6 +48,13 @@ export const options = {
     !isDefined(item.fairMarketValue) ||
     !isDefined(item.incomeGenerationMethod), // include all required fields here
   text: {
+    summaryTitle: 'Review income from royalties or other assets',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Income and net worth from royalties and other assets'
+      : null,
+    summaryDescriptionWithoutItems: showUpdatedContent()
+      ? RoyaltiesSummaryDescription
+      : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship)) {
         return undefined;
@@ -95,6 +105,22 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems =
+  'Do you or your dependents receive or expect to receive any income from royalties or other assets?';
+const updatedTitleWithItems =
+  'Do you have more income from royalties or other assets to report?';
+const summaryPageTitle =
+  'Income and net worth from royalties and other properties';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have income from an owned asset to report',
+  N: 'No, I don’t have income from an owned asset to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -116,10 +142,7 @@ const summaryPage = {
       {
         title:
           'Do you have more income from royalties and other properties to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -129,6 +152,100 @@ const summaryPage = {
       'view:isAddingRoyalties': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingRoyalties'],
+  },
+};
+
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title:
+          'Do you receive or expect to receive any income from royalties or other assets?',
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingRoyalties': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -244,10 +361,51 @@ const generatedIncomeTypePage = {
 export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
   options,
   pageBuilder => ({
+    royaltyPagesVeteranSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-veteran',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'VETERAN',
+      uiSchema: veteranSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltiesPagesSpouseSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-spouse',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'SPOUSE',
+      uiSchema: spouseSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltiesPagesChildSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-child',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CHILD',
+      uiSchema: childSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltiesPagesCustodianSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-custodian',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+      uiSchema: custodianSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    royaltiesPagesParentSummary: pageBuilder.summaryPage({
+      title: summaryPageTitle,
+      path: 'royalties-summary-parent',
+      depends: formData =>
+        showUpdatedContent() && formData.claimantType === 'PARENT',
+      uiSchema: parentSummaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
     royaltyPagesSummary: pageBuilder.summaryPage({
-      title:
-        'Income and net worth associated with royalties and other properties',
+      title: summaryPageTitle,
       path: 'royalties-summary',
+      depends: () => !showUpdatedContent(),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
