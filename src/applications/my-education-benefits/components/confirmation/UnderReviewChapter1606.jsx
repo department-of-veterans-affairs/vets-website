@@ -103,12 +103,14 @@ const UnderReviewChapter1606 = ({
             href="/change-direct-deposit/"
             text="Review and/or update your direct deposit information on your VA.gov profile"
           />
+          .
         </li>
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
             text="Use our GI Bill Comparison Tool on VA.gov to help you decide which school is best for you"
           />
+          .
         </li>
         <li>
           Learn more about VA benefits and programs through the{' '}

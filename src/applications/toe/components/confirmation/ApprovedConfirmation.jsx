@@ -61,6 +61,7 @@ const ApprovedConfirmation = ({
               text="Download your decision letter"
               class="vads-u-margin-bottom--6"
             />
+            .
           </div>
         </va-alert>
       </div>
@@ -120,12 +121,14 @@ const ApprovedConfirmation = ({
               filetype="PDF"
               text="Download a copy of your decision letter"
             />
+            .
           </li>
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
               text="Use our GI Bill Comparison Tool on VA.gov to help you decide which schools are best for you"
             />
+            .
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -137,6 +140,7 @@ const ApprovedConfirmation = ({
               href="/profile/direct-deposit"
               text="Review and/or update your direct deposit information on your VA.gov profile"
             />
+            .
           </li>
           <li>
             <va-link
@@ -145,6 +149,7 @@ const ApprovedConfirmation = ({
               filetype="PDF"
               text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
             />
+            .
           </li>
         </ul>
       </div>

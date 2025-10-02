@@ -106,6 +106,7 @@ const UnderReviewConfirmation = ({
             external
             text="Contact us through Ask VA"
           />
+          .
         </p>
       </va-card>
       <div className="vads-u-margin-bottom--4">
@@ -131,18 +132,21 @@ const UnderReviewConfirmation = ({
               external
               text="If you need to submit documentation to VA, such as service records, please send this through our Ask VA feature"
             />
+            .
           </li>
           <li>
             <va-link
               href="/profile/direct-deposit"
               text="Review and/or update your direct deposit information on your VA.gov profile"
             />
+            .
           </li>
           <li>
             <va-link
               href="/education/gi-bill-comparison-tool/"
               text="Use our GI Bill Comparison Tool on VA.gov to help you decide which schools are best for you"
             />
+            .
           </li>
           <li>
             <va-link
@@ -151,6 +155,7 @@ const UnderReviewConfirmation = ({
               filetype="PDF"
               text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
             />
+            .
           </li>
         </ul>
       </div>

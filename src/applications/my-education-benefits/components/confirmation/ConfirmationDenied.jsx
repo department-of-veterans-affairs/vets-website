@@ -59,8 +59,8 @@ const ConfirmationDenied = ({
           text="Download your denial letter"
           class="vads-u-padding-bottom--2"
         />
+        .
       </va-alert>
-
       <va-summary-box class="vads-u-margin-y--3">
         <h3
           slot="headline"
@@ -110,7 +110,6 @@ const ConfirmationDenied = ({
           />
         </div>
       </va-summary-box>
-
       <h2>What happens next?</h2>
       <ul>
         <li>
@@ -120,6 +119,7 @@ const ConfirmationDenied = ({
             filetype="PDF"
             text="Download a copy of your denial letter for your records"
           />
+          .
         </li>
         <li>
           We will review your eligibility for other VA education benefit
@@ -137,16 +137,15 @@ const ConfirmationDenied = ({
             filetype="PDF"
             text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
           />
+          .
         </li>
       </ul>
-
       <va-link
         class="vads-c-action-link--green"
         href="/my-va/"
         text="Go to your My VA dashboard"
       />
-
-      <FormFooter />
+      .<FormFooter />
     </div>
   );
 };

@@ -55,15 +55,15 @@ const ConfirmationApproved = ({
           text="Download your Certificate of Eligibility"
           class="vads-u-padding-bottom--2"
         />
-        <br />
+        .<br />
         <br />
         <va-link
           href="https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/"
           external
           text="View a statement of your benefits on VA.gov"
         />
+        .
       </va-alert>
-
       <va-summary-box class="vads-u-margin-y--3">
         <h3
           slot="headline"
@@ -113,7 +113,6 @@ const ConfirmationApproved = ({
           />
         </div>
       </va-summary-box>
-
       <h2>What happens next?</h2>
       <ul>
         <li>
@@ -123,12 +122,14 @@ const ConfirmationApproved = ({
             filetype="PDF"
             text="Download a copy of your Certificate of Eligibility for your records"
           />
+          .
         </li>
         <li>
           <va-link
             href="/education/gi-bill-comparison-tool/"
             text="Use our GI Bill Comparison Tool on VA.gov to help you decide which education program and school is best for you"
           />
+          .
         </li>
         <li>
           Once you’ve selected a school or program, you may bring your
@@ -140,6 +141,7 @@ const ConfirmationApproved = ({
             href="/change-direct-deposit/"
             text="Review and/or update your direct deposit information on your VA.gov profile"
           />
+          .
         </li>
         <li>
           <va-link
@@ -148,9 +150,9 @@ const ConfirmationApproved = ({
             filetype="PDF"
             text="Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series"
           />
+          .
         </li>
       </ul>
-
       <va-additional-info trigger="What is a Certificate of Eligibility?">
         <p>
           A Certificate of Eligibility is an official document from the U.S.
@@ -163,15 +165,14 @@ const ConfirmationApproved = ({
           external
           text="Understanding your Certificate of Eligibility on VA.gov"
         />
+        .
       </va-additional-info>
-
       <va-link
         class="vads-c-action-link--green"
         href="/my-va/"
         text="Go to your My VA dashboard"
       />
-
-      <FormFooter />
+      .<FormFooter />
     </div>
   );
 };
