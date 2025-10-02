@@ -267,4 +267,34 @@ describe('21P-0537 submit transformer', () => {
       expect(result.recipient.signatureDate.year).to.match(/^\d{4}$/);
     });
   });
+
+  describe('signature field', () => {
+    it('should use signature field when present', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      testData.data.signature = 'John Doe';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('John Doe');
+    });
+
+    it('should fallback to statementOfTruthSignature when signature is missing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      delete testData.data.signature;
+      testData.data.statementOfTruthSignature = 'Jane Smith';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('Jane Smith');
+    });
+
+    it('should use empty string when both signature fields are missing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      delete testData.data.signature;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('');
+    });
+  });
 });
