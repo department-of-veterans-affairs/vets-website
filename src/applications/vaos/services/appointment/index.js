@@ -710,7 +710,7 @@ export function getLink({ appointment }) {
   const { isPastAppointment } = appointment.vaos;
   const ccEps = appointment.modality === 'communityCareEps';
 
-  return `${isPastAppointment ? 'past' : ''}/${appointment.id}${
+  return `${isPastAppointment && !ccEps ? 'past' : ''}/${appointment.id}${
     ccEps ? '?eps=true' : ''
   }`;
 }
