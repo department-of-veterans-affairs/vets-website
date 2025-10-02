@@ -10,7 +10,7 @@ import {
 } from '../constants';
 
 // Date saved to window.sessionStorage includes leading zeros
-const mockDate = daysFromToday(120).format();
+const mockDate = daysFromToday(120);
 
 const checkOpt = {
   waitForAnimations: true,
