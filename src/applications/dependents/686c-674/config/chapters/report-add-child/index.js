@@ -156,7 +156,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
   };
 });
 
-export const chapter = {
+export default {
   title: 'Add one or more children',
   pages: {
     ...chapterPages,
