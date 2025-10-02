@@ -95,12 +95,10 @@ export const options = {
 
       return null;
     },
-    summaryTitle: props => {
-      if (showUpdatedContent()) {
-        return 'Review property and business assets';
-      }
-      return `Review your ${props.nounPlural}`;
-    },
+    summaryTitle: 'Review property and business assets',
+    summaryTitleWithoutItems: showUpdatedContent()
+      ? 'Income and net worth from owned assets'
+      : null,
     summaryDescriptionWithoutItems: showUpdatedContent()
       ? SummaryDescription
       : null,

@@ -240,21 +240,10 @@ describe('owned asset list and loop pages', () => {
     });
 
     describe('summaryTitle function', () => {
-      it('should show updated content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(true);
-        expect(
-          options.text.summaryTitle({
-            nounPlural: 'custom',
-          }),
-        ).to.eql('Review property and business assets');
-      });
-      it('should show normal content', () => {
-        sandbox.stub(helpers, 'showUpdatedContent').returns(false);
-        expect(
-          options.text.summaryTitle({
-            nounPlural: 'custom assets',
-          }),
-        ).to.eql('Review your custom assets');
+      it('should show content', () => {
+        expect(options.text.summaryTitle).to.eql(
+          'Review property and business assets',
+        );
       });
     });
 
