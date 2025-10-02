@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toTitleCase } from '~/applications/gi/utils/helpers';
+import { pluralize } from '~/platform/utilities/ui';
 
 const Issues = ({ issues, appealType }) => {
   const open = issues.filter(i => i.status === 'open');
@@ -42,7 +43,7 @@ const Issues = ({ issues, appealType }) => {
       data-dd-privacy="mask"
       data-dd-action-name="missing description items"
     >
-      {`We're unable to show ${count} issue${count > 1 ? 's' : ''} on ${
+      {`We're unable to show ${count} ${pluralize(count, 'issue')} on ${
         isAppeal ? 'appeal' : `your ${toTitleCase(appealType)}`
       }`}
     </li>
