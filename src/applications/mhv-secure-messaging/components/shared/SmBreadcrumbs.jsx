@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -23,15 +23,18 @@ const SmBreadcrumbs = () => {
     state => state.sm.recipients?.recentRecipients,
   );
 
-  const wasInComposeFlow = useRef(false);
+  // Use state + sessionStorage to persist entry URL and trigger re-renders
+  const [composeEntryUrl, setComposeEntryUrlState] = useState(() =>
+    sessionStorage.getItem('sm_composeEntryUrl'),
+  );
 
-  // Use sessionStorage to persist entry URL across component mounts
-  const getComposeEntryUrl = () => sessionStorage.getItem('sm_composeEntryUrl');
   const setComposeEntryUrl = url => {
     if (url) {
       sessionStorage.setItem('sm_composeEntryUrl', url);
+      setComposeEntryUrlState(url); // Trigger re-render
     } else {
       sessionStorage.removeItem('sm_composeEntryUrl');
+      setComposeEntryUrlState(null); // Trigger re-render
     }
   };
 
@@ -107,13 +110,11 @@ const SmBreadcrumbs = () => {
     );
   };
 
-  // Helper function to build compose flow navigation map
   const getComposeFlowMap = useCallback(
     () => {
       // Determine where the interstitial page should go back to
-      const entryUrl = getComposeEntryUrl();
-      const interstitialBackDestination = isValidFolderRoute(entryUrl)
-        ? entryUrl
+      const interstitialBackDestination = isValidFolderRoute(composeEntryUrl)
+        ? composeEntryUrl
         : Constants.Paths.INBOX;
 
       const map = {
@@ -142,7 +143,7 @@ const SmBreadcrumbs = () => {
 
       return map;
     },
-    [showRecentCareTeams],
+    [showRecentCareTeams, composeEntryUrl],
   );
 
   const navigateBack = useCallback(
@@ -172,9 +173,6 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      // const wasSelectCareTeam = previousUrl.includes(
-      // Constants.Paths.SELECT_CARE_TEAM,
-      // );
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -184,10 +182,7 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-        // } else if (wasSelectCareTeam) {
-        // history.push(Constants.Paths.INBOX);
       } else {
-        // Default: go to previousUrl, but skip contact list (redirect to inbox instead)
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
             ? previousUrl
@@ -304,7 +299,8 @@ const SmBreadcrumbs = () => {
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
   );
 
-  // Detect when we ENTER the compose flow and capture where we came from
+  // Track compose flow entry point
+  // When in compose flow and coming from a valid folder, capture that as entry point
   useEffect(
     () => {
       // All compose flow routes start with /new-message/
@@ -312,19 +308,16 @@ const SmBreadcrumbs = () => {
         Constants.Paths.COMPOSE,
       );
 
-      // Detect transition: entering compose flow (was outside, now inside)
+      // If in compose flow and previousUrl is a valid folder, set as entry point
+      // The folder validation prevents overwriting when navigating within compose flow
       if (
         isInComposeFlow &&
-        !wasInComposeFlow.current &&
         (previousUrl === Constants.Paths.INBOX ||
           previousUrl === Constants.Paths.SENT ||
           previousUrl?.startsWith(Constants.Paths.FOLDERS))
       ) {
-        // Just entered compose flow - capture / overwritewhere we came from using previousUrl
         setComposeEntryUrl(previousUrl);
       }
-
-      wasInComposeFlow.current = isInComposeFlow;
     },
     [location.pathname, previousUrl],
   );
@@ -335,18 +328,11 @@ const SmBreadcrumbs = () => {
   };
 
   // Determine the correct back link href based on compose flow logic
-  const backLinkHref = useMemo(
-    () => {
-      const currentPath = `/${locationBasePath}/${
-        locationChildPath ? `${locationChildPath}` : ''
-      }`;
-      const composeFlowMap = getComposeFlowMap();
-      const destination = composeFlowMap[currentPath];
-
-      return destination || previousUrl;
-    },
-    [locationBasePath, locationChildPath, getComposeFlowMap, previousUrl],
-  );
+  const currentPath = `/${locationBasePath}/${
+    locationChildPath ? `${locationChildPath}` : ''
+  }`;
+  const composeFlowMap = getComposeFlowMap();
+  const backLinkHref = composeFlowMap[currentPath] || previousUrl;
 
   return (
     <div>
