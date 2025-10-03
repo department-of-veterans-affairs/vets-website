@@ -9,7 +9,6 @@ const PTSD_781A_ATTACHMENT_ID = 'L229';
 export const uiSchema = {
   'ui:title': ptsd781aNameTitle,
   'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-0781a" />,
-  // TODO: confirm and update this confirmationField label copy, can be multiple files
   'ui:confirmationField': ({ formData }) => ({
     data: formData?.map(item => item.name || item.fileName),
     label: 'Uploaded file(s)',

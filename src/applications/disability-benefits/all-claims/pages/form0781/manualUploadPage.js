@@ -33,7 +33,6 @@ export const uiSchema = {
       },
     ),
     'ui:description': manualUploadRequirementsText,
-    // TODO: confirm and update this confirmationField label copy, can be multiple files
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
       label: 'Uploaded file(s)',
