@@ -14,7 +14,7 @@ export default {
 
         if (
           witnessRelationshipToClaimant &&
-          !witnessRelationshipToClaimant.includes(OTHER_RELATIONSHIP)
+          !witnessRelationshipToClaimant[OTHER_RELATIONSHIP]
         ) {
           // Clear witnessOtherRelationshipToClaimant if User returns
           // to previous page & deselects OTHER_RELATIONSHIP.

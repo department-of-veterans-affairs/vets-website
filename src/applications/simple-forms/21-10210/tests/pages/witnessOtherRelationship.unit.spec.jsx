@@ -17,7 +17,9 @@ const pageTitle = 'Witness other relationship';
 // Test data for when field should be visible (other relationship selected)
 const mockDataWithOtherRelationship = {
   claimantType: CLAIMANT_TYPES.VETERAN,
-  witnessRelationshipToClaimant: [OTHER_RELATIONSHIP],
+  witnessRelationshipToClaimant: {
+    [OTHER_RELATIONSHIP]: true,
+  },
   witnessOtherRelationshipToClaimant: 'Met at a bar.',
 };
 
@@ -42,7 +44,9 @@ testNumberOfErrorsOnSubmitForWebComponents(
   pageTitle,
   {
     claimantType: CLAIMANT_TYPES.VETERAN,
-    witnessRelationshipToClaimant: [OTHER_RELATIONSHIP],
+    witnessRelationshipToClaimant: {
+      [OTHER_RELATIONSHIP]: true,
+    },
     // witnessOtherRelationshipToClaimant is missing - should cause validation error
   },
 );
