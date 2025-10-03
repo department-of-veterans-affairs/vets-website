@@ -21,6 +21,7 @@ export const recipientTypeLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Veteran’s spouse',
   DEPENDENT: 'Veteran’s child',
+  OTHER: 'Other',
 };
 
 export const travelerTypeLabels = {
