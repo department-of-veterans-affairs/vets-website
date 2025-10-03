@@ -148,4 +148,32 @@ describe('526 All Claims Private medical records', () => {
     });
     form.unmount();
   });
+
+  describe('ui:confirmationField', () => {
+    it('should correctly display file names and label for confirmation field', () => {
+      const testData = [
+        {
+          name: 'Test document.pdf',
+          attachmentId: 'L107',
+          confirmationCode: '123345asdf',
+        },
+        {
+          name: 'Test document 2.pdf',
+          confirmationCode: 'L108',
+          attachmentId: '1543221asdf',
+        },
+      ];
+
+      const result = uiSchema.privateMedicalRecordAttachments[
+        'ui:confirmationField'
+      ]({
+        formData: testData,
+      });
+
+      expect(result).to.deep.equal({
+        data: ['Test document.pdf', 'Test document 2.pdf'],
+        label: 'Uploaded file(s)',
+      });
+    });
+  });
 });
