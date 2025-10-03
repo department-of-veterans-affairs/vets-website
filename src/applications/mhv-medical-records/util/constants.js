@@ -162,6 +162,7 @@ export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
+// would need to add here
 export const vitalTypes = {
   BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
   PULSE: ['PULSE', 'HEART_RATE'],
@@ -171,6 +172,30 @@ export const vitalTypes = {
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
 };
+
+// Grouped LOINC codes for each canonical vital type. This is the single source of truth.
+// Any additions (new LOINC variants) only need to be appended here and will automatically
+// be reflected in loincToVitalType and allowedVitalLoincs.
+export const vitalLoincGroups = {
+  BLOOD_PRESSURE: [loincCodes.BLOOD_PRESSURE],
+  PULSE: [loincCodes.HEART_RATE],
+  RESPIRATION: [loincCodes.BREATHING_RATE],
+  PULSE_OXIMETRY: [loincCodes.PULSE_OXIMETRY_1, loincCodes.PULSE_OXIMETRY_2],
+  TEMPERATURE: [loincCodes.TEMPERATURE],
+  WEIGHT: [loincCodes.WEIGHT, '3141-9'], // include common alternate weight LOINC 3141-9
+  HEIGHT: [loincCodes.HEIGHT],
+};
+
+// Canonical vital type mapping driven directly by grouped LOINC codes.
+export const loincToVitalType = Object.entries(vitalLoincGroups).reduce(
+  (acc, [type, codes]) => {
+    codes.forEach(code => {
+      acc[code] = type; // map each LOINC variant to its canonical vital type
+    });
+    return acc;
+  },
+  {},
+);
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
@@ -536,14 +561,8 @@ export const radiologyErrors = {
 };
 
 export const allowedVitalLoincs = [
-  loincCodes.BLOOD_PRESSURE,
-  loincCodes.BREATHING_RATE,
-  loincCodes.HEART_RATE,
-  loincCodes.WEIGHT,
-  loincCodes.HEIGHT,
-  loincCodes.TEMPERATURE,
-  loincCodes.PULSE_OXIMETRY_1,
-  loincCodes.PULSE_OXIMETRY_2,
+  // ...existing code removed in favor of dynamic generation below...
+  ...new Set(Object.values(vitalLoincGroups).flat()),
 ];
 
 export const statsdFrontEndActions = {

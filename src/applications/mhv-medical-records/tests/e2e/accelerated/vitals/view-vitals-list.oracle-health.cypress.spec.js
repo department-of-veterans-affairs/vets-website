@@ -7,6 +7,10 @@ describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
 
   beforeEach(() => {
+    // Freeze time to stabilize timeframe-dependent URL assertions (UTC to local differences on CI)
+    // Use a fixed date in October 2025 to align with CI expectation logic
+    const fixedDate = new Date('2025-10-15T12:00:00Z');
+    cy.clock(fixedDate.getTime(), ['Date']);
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
@@ -20,6 +24,7 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.goToVitalPage();
 
+    // Use the frozen clock date for timeframe calculation
     const today = new Date();
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
       .toString()
