@@ -282,6 +282,6 @@ describe('getMeasurement', () => {
     };
     const type = 'PULSE_OXIMETRY';
     const measurement = getMeasurement(record, type);
-    expect(measurement).to.equal('84 %');
+    expect(measurement).to.equal('84%');
   });
 });

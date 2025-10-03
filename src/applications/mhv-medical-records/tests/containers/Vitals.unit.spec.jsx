@@ -136,9 +136,8 @@ describe('Vitals list container', () => {
 
   it('displays the proper units for Blood oxygen level (pulse oximetry)', async () => {
     await waitFor(() => {
-      expect(
-        screen.getAllByText('98 %', { selector: 'span', exact: true }), // legacy formatting includes space before %
-      ).to.exist;
+      expect(screen.getAllByText('98%', { selector: 'span', exact: true })).to
+        .exist;
     });
   });
 

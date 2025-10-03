@@ -72,16 +72,8 @@ export const getMeasurement = (record, type) => {
 
   if (record.valueQuantity) {
     const unit = getUnit(type, record.valueQuantity?.code);
-    let measurement = `${record.valueQuantity?.value}${unit}`;
-    // Legacy formatting: include a space before % for pulse oximetry domain tests
-    if (
-      type === 'PULSE_OXIMETRY' &&
-      /%$/.test(measurement) &&
-      !/ %$/.test(measurement)
-    ) {
-      measurement = measurement.replace(/%$/, ' %');
-    }
-    return measurement;
+    // Removed legacy formatting that inserted a space before % for pulse oximetry
+    return `${record.valueQuantity?.value}${unit}`;
   }
 
   return record.valueString || EMPTY_FIELD;
