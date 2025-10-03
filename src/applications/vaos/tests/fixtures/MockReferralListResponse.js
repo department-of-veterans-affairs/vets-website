@@ -1,4 +1,4 @@
-import { format, addMonths } from 'date-fns';
+const { format, addMonths } = require('date-fns');
 
 /**
  * Class to create mock referral list responses for Cypress tests
@@ -30,12 +30,13 @@ class MockReferralListResponse {
     categoryOfCare = 'OPTOMETRY',
     referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
+    stationId = '659',
   } = {}) {
     return {
       id,
       type: 'referrals',
       attributes: {
-        stationId: '659BY',
+        stationId,
         categoryOfCare,
         referralNumber,
         uuid: id,
@@ -71,6 +72,55 @@ class MockReferralListResponse {
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'out-of-pilot-station',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+        stationId: '123',
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'appointment-submit-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'appointment-submit-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-retry-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-retry-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'draft-no-slots-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'draft-no-slots-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'referral-without-provider-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'eps-error-appointment-id',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'eps-error-appointment-id',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'expired-uuid',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
       }),
     ];
   }
@@ -163,4 +213,5 @@ class MockReferralListResponse {
   }
 }
 
-export default MockReferralListResponse;
+// export default MockReferralListResponse;
+module.exports = MockReferralListResponse;
