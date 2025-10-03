@@ -47,21 +47,23 @@ describe('royalties list and loop pages', () => {
     it('should return "John Doe’s income" if recipient is Veteran', () => {
       const item = {
         recipientRelationship: 'VETERAN',
+        incomeGenerationMethod: 'INTELLECTUAL_PROPERTY',
       };
       expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s income',
+        'John Doe’s income from benefits from intellectual property',
       );
     });
     it('should return "Alex Smith’s income" if recipient is Veteran and not logged in', () => {
       const item = {
         recipientRelationship: 'VETERAN',
+        incomeGenerationMethod: 'USE_OF_LAND',
       };
       expect(
         options.text.getItemName(item, 0, {
           ...mockFormData,
           isLoggedIn: false,
         }),
-      ).to.equal('Alex Smith’s income');
+      ).to.equal('Alex Smith’s income from use of land');
     });
     it('should return "Jane Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
@@ -145,10 +147,10 @@ describe('royalties list and loop pages', () => {
 
   describe('recipient page', () => {
     const schema =
-      royaltiesAndOtherPropertyPages.royaltyRecipientPage.schema.properties
-        .royaltiesAndOtherProperties.items;
+      royaltiesAndOtherPropertyPages.royaltyNonVeteranRecipientPage.schema
+        .properties.royaltiesAndOtherProperties.items;
     const uiSchema =
-      royaltiesAndOtherPropertyPages.royaltyRecipientPage.uiSchema
+      royaltiesAndOtherPropertyPages.royaltyNonVeteranRecipientPage.uiSchema
         .royaltiesAndOtherProperties.items;
 
     testNumberOfFieldsByType(
