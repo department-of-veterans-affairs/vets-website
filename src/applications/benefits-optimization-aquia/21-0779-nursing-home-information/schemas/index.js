@@ -6,13 +6,21 @@
  */
 
 import { z } from 'zod';
-import { veteranIdentificationSchema } from './veteran-identification';
-import { claimantIdentificationSchema } from './claimant-identification';
 import { nursingHomeDetailsSchema } from './nursing-home';
 import { medicaidAndCostSchema } from './medicaid-and-cost';
 import { certificationLevelOfCareSchema } from './certification-level-of-care';
 import { officialInfoAndSignatureSchema } from './official-info-and-signature';
 import { nursingOfficialInformationSchema } from './nursing-official-information';
+import { claimantQuestionSchema } from './claimant-question';
+import {
+  claimantPersonalInfoSchema,
+  claimantIdentificationInfoSchema,
+} from './claimant-identification';
+
+import {
+  veteranPersonalInfoSchema,
+  veteranIdentificationInfoSchema,
+} from './veteran-identification';
 
 /**
  * Veteran identification schemas
@@ -28,14 +36,26 @@ export {
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,
+  veteranPersonalInfoSchema,
+  veteranIdentificationInfoSchema,
 } from './veteran-identification';
 
 /**
- * Claimant identification schema
+ * Claimant question schema
+ * @description Schema for validating who is the patient in the nursing home facility
+ */
+export { claimantQuestionSchema, patientTypeSchema } from './claimant-question';
+
+/**
+ * Claimant identification schemas
  * @description Schema for validating claimant information when the claimant
  * is a spouse or dependent (not the veteran themselves)
  */
-export { claimantIdentificationSchema } from './claimant-identification';
+export {
+  claimantIdentificationSchema,
+  claimantPersonalInfoSchema,
+  claimantIdentificationInfoSchema,
+} from './claimant-identification';
 
 /**
  * Nursing home facility schemas
@@ -125,11 +145,21 @@ export {
  * @property {Object} officialInfoAndSignature - Nursing home official's certification and signature
  */
 export const nursingHomeFormSchema = z.object({
-  nursingOfficialInformation: nursingOfficialInformationSchema,
-  veteranIdentification: veteranIdentificationSchema,
-  claimantIdentification: claimantIdentificationSchema,
+  // Patient and claimant information
+  claimantQuestion: claimantQuestionSchema,
+  claimantPersonalInfo: claimantPersonalInfoSchema.optional(),
+  claimantIdentificationInfo: claimantIdentificationInfoSchema.optional(),
+
+  // Veteran information
+  veteranPersonalInfo: veteranPersonalInfoSchema,
+  veteranIdentificationInfo: veteranIdentificationInfoSchema,
+
+  // Nursing home information
   nursingHomeDetails: nursingHomeDetailsSchema,
   medicaidAndCost: medicaidAndCostSchema,
+
+  // Certification and official information
   certificationLevelOfCare: certificationLevelOfCareSchema,
   officialInfoAndSignature: officialInfoAndSignatureSchema,
+  nursingOfficialInformation: nursingOfficialInformationSchema,
 });

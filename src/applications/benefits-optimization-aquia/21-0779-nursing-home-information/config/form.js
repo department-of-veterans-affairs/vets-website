@@ -17,20 +17,26 @@ import GetHelpFooter from '@bio-aquia/21-0779-nursing-home-information/component
 import PreSubmitInfo from '@bio-aquia/21-0779-nursing-home-information/components/pre-submit-info';
 import {
   CertificationLevelOfCarePage,
-  ClaimantIdentificationPage,
+  ClaimantQuestionPage,
+  ClaimantPersonalInfoPage,
+  ClaimantIdentificationInfoPage,
   MedicaidAndCostPage,
   NursingHomeDetailsPage,
   OfficialInfoAndSignaturePage,
-  VeteranIdentificationPage,
+  VeteranPersonalInfoPage,
+  VeteranIdentificationInfoPage,
   NursingOfficialInformationPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
-  claimantIdentificationSchema,
+  claimantQuestionSchema,
+  claimantPersonalInfoSchema,
+  claimantIdentificationInfoSchema,
   medicaidAndCostSchema,
   nursingHomeDetailsSchema,
   officialInfoAndSignatureSchema,
-  veteranIdentificationSchema,
+  veteranPersonalInfoSchema,
+  veteranIdentificationInfoSchema,
   nursingOfficialInformationSchema,
 } from '../schemas';
 
@@ -117,37 +123,74 @@ const formConfig = {
     },
     patientInformationChapter: {
       title: 'Patient information',
-      // veteran or claimant question
-      // -- OPTIONAL --
-      // claimant name & dob
-      // claimant ssn & file number
-      // ---------------
-      // veteran name & dob
-      // veteran ssn & file number
       pages: {
-        claimantIdentification: {
-          path: 'claimant-identification',
+        claimantQuestion: {
+          path: 'claimant-question',
+          title: 'Patient information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ClaimantQuestionPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(claimantQuestionSchema)(values),
+          onErrorChange: createValidationErrorHandler('claimantQuestion'),
+        },
+        claimantPersonalInfo: {
+          path: 'claimant-personal-info',
+          title: 'Claimant personal information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ClaimantPersonalInfoPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          verifyItemValues: values =>
+            createPageValidator(claimantPersonalInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('claimantPersonalInfo'),
+        },
+        claimantIdentificationInfo: {
+          path: 'claimant-identification-info',
           title: 'Claimant identification',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: ClaimantIdentificationPage,
+          CustomPage: ClaimantIdentificationInfoPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.claimantQuestion?.patientType === 'spouseOrParent',
+          verifyItemValues: values =>
+            createPageValidator(claimantIdentificationInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'claimantIdentificationInfo',
+          ),
+        },
+        veteranPersonalInfo: {
+          path: 'veteran-personal-info',
+          title: 'Veteran personal information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranPersonalInfoPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(claimantIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('claimantIdentification'),
+            createPageValidator(veteranPersonalInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranPersonalInfo'),
         },
-        veteranIdentification: {
-          path: 'veteran-identification',
+        veteranIdentificationInfo: {
+          path: 'veteran-identification-info',
           title: 'Veteran identification',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranIdentificationPage,
+          CustomPage: VeteranIdentificationInfoPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
-            createPageValidator(veteranIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranIdentification'),
+            createPageValidator(veteranIdentificationInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'veteranIdentificationInfo',
+          ),
         },
       },
     },
