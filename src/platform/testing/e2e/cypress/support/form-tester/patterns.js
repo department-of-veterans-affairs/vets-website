@@ -23,6 +23,8 @@ export function extractBaseNameFromFirstField($patternElement) {
     return null;
   }
 
+  // Remove the last segment after the final underscore
+  // e.g. root_address_city -> root_address
   return fieldName.replace(/_[^_]+$/, '');
 }
 
@@ -31,7 +33,8 @@ export function extractBaseNameFromFirstField($patternElement) {
  */
 function arrayBuilderSummaryPattern() {
   return cy.arrayBuilderSummaryContinue().then(result => {
-    // If pattern clicked "Add another", signal to abort further processing
+    // we might want to abort processing if pattern clicked "Add another"
+    // (routes to new page)
     const abortProcessing = result?.abortProcessing === true;
     return cy.wrap({ abortProcessing }, { log: false });
   });
@@ -55,18 +58,24 @@ function addressPattern($element, arrayItemPath) {
 }
 
 /**
- * @param {jQuery} $fieldGroup
+ * @param {jQuery} $pattern
  * @param {Set} touchedFields
  */
-export const markPatternFieldsAsProcessed = ($fieldGroup, touchedFields) => {
-  const patternFields = $fieldGroup.find('.vads-web-component-pattern-field');
+export const markPatternFieldsAsProcessed = ($pattern, touchedFields) => {
+  const patternFields = $pattern.find('.vads-web-component-pattern-field');
   patternFields.each((index, field) => {
     const fieldKey = field.getAttribute('name') || field.getAttribute('id');
     if (fieldKey) {
       touchedFields.add(fieldKey);
     }
   });
-  $fieldGroup.data('pattern-processed', true);
+
+  const elementFieldKey = $pattern.attr('name') || $pattern.attr('id');
+  if (elementFieldKey) {
+    touchedFields.add(elementFieldKey);
+  }
+
+  $pattern.data('pattern-processed', true);
 };
 
 /**
@@ -113,36 +122,11 @@ export const fillPatterns = ($form, arrayItemPath, touchedFields) => {
           abortProcessing = true;
         }
 
-        // Automatically mark as processed after pattern handler completes
-        // Check if this is a single-field pattern vs a container pattern
-        // Container patterns have child elements with .vads-web-component-pattern-field class
-        const hasChildFields =
-          $element.find('.vads-web-component-pattern-field').length > 0;
-
-        if (hasChildFields && $element.hasClass('vads-web-component-pattern')) {
-          // For container patterns, mark all child fields as processed
-          markPatternFieldsAsProcessed($element, touchedFields);
-        } else {
-          // For single-field patterns, mark the field itself as processed
-          const fieldKey = $element.attr('name') || $element.attr('id');
-          if (fieldKey) {
-            touchedFields.add(fieldKey);
-          }
-          $element.data('pattern-processed', true);
-        }
+        markPatternFieldsAsProcessed($element, touchedFields);
       });
     }
 
-    // No pattern handler found, just mark as processed
-    if ($element.hasClass('vads-web-component-pattern')) {
-      markPatternFieldsAsProcessed($element, touchedFields);
-    } else {
-      const fieldKey = $element.attr('name') || $element.attr('id');
-      if (fieldKey) {
-        touchedFields.add(fieldKey);
-      }
-      $element.data('pattern-processed', true);
-    }
+    markPatternFieldsAsProcessed($element, touchedFields);
     return cy.wrap(null, { log: false });
   };
 
