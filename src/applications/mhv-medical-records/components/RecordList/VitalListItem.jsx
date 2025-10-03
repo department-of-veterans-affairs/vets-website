@@ -24,6 +24,7 @@ const VitalListItem = props => {
     [displayName],
   );
 
+  // would need to add here
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
@@ -39,15 +40,23 @@ const VitalListItem = props => {
   const dataTestIds = useMemo(
     () => {
       if (isAccelerating) {
+        // Legacy slug mapping to preserve existing accelerated Cypress selectors
+        const legacySlugMap = {
+          WEIGHT: 'body-weight',
+          HEIGHT: 'body-height',
+          TEMPERATURE: 'body-temperature',
+          RESPIRATION: 'respiratory-rate',
+          PULSE_OXIMETRY: 'oxygen-saturation-in-arterial-blood',
+        };
+        const baseSlug =
+          legacySlugMap[record.type] || kebabCase(updatedRecordType);
         return {
-          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${kebabCase(
-            updatedRecordType,
-          )}-no-record-message`,
-          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
-          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
+          displayName: `vital-${baseSlug}-display-name`,
+          noRecordMessage: `vital-${baseSlug}-no-record-message`,
+          measurement: `vital-${baseSlug}-measurement`,
+          date: `vital-${baseSlug}-date`,
+          dateTimestamp: `vital-${baseSlug}-date-timestamp`,
+          reviewLink: `vital-${baseSlug}-review-over-time`,
         };
       }
       return {
@@ -59,7 +68,7 @@ const VitalListItem = props => {
         reviewLink: 'vital-li-review-over-time',
       };
     },
-    [updatedRecordType, isAccelerating],
+    [updatedRecordType, isAccelerating, record.type],
   );
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history${
