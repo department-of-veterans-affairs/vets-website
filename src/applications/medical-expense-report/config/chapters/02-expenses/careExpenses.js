@@ -1,8 +1,23 @@
+import React from 'react';
 import {
   titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CareExpenseDescription } from '../../../components/MedicalExpenseDescriptions';
+
+export function CareExpenseDescription() {
+  return (
+    <div>
+      <p className="vads-u-margin-top--0">
+        We want to know about your unreimbursed care expenses.
+      </p>
+      <p>
+        Examples of unreimbursed care expenses include payments to in-home care
+        providers, nursing homes, or other care facilities that insurance won’t
+        cover.
+      </p>
+    </div>
+  );
+}
 
 /** @type {PageSchema} */
 export default {
@@ -14,21 +29,11 @@ export default {
     hasCareExpenses: yesNoUI({
       title:
         'Do you, your spouse, or your dependents pay recurring care expenses that aren’t reimbursed',
-      // classNames: 'vads-u-margin-bottom--2',
       labels: {
         Y: 'Yes',
         N: 'No',
       },
     }),
-    // expenseTypes: checkboxGroupUI({
-    //   title: 'Select which types of expenses you would like to report',
-    //   required: true,
-    //   labels: {
-    //     hasCareExpenses: 'In-home care and facility',
-    //     hasMedicalExpenses: 'Other medical expenses',
-    //     hasMileage: 'Mileage',
-    //   },
-    // }),
   },
   schema: {
     type: 'object',
@@ -37,11 +42,6 @@ export default {
       hasCareExpenses: {
         type: 'boolean',
       },
-      // expenseTypes: checkboxGroupSchema([
-      //   'hasCareExpenses',
-      //   'hasMedicalExpenses',
-      //   'hasMileage',
-      // ]),
     },
   },
 };

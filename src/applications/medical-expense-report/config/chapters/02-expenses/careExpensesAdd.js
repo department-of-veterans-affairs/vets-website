@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from 'platform/utilities/data/get';
 import {
   currencyUI,
   currencySchema,
@@ -11,18 +10,13 @@ import {
   numberSchema,
   checkboxSchema,
   numberUI,
+  textUI,
+  textSchema,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import { recipientTypeLabels } from '../../../utils/labels';
-
-const {
-  childName,
-  provider,
-} = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -61,25 +55,22 @@ export default {
           title: 'Who is the expense for?',
           labels: recipientTypeLabels,
         }),
-        // TODO: Change to recipient when schema is updated.
-        childName: {
-          'ui:title': 'Full name of the person who received care',
-          'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            expandUnder: 'recipients',
-            expandUnderCondition: 'DEPENDENT',
-          },
-          'ui:required': (form, index) =>
-            get(['careExpenses', index, 'recipients'], form) === 'DEPENDENT',
-        },
-        provider: {
-          'ui:title': 'What’s the name of the care provider?',
-          'ui:webComponentField': VaTextInputField,
-        },
-        hoursPerWeek: numberUI(
-          'How many hours per week does the care provider work?',
-        ),
-        paymentDate: currentOrPastDateRangeUI(
+        childName: textUI({
+          title: 'Enter the child’s name',
+          expandUnder: 'recipients',
+          expandUnderCondition: field =>
+            field === 'DEPENDENT' || field === 'OTHER',
+          hideIf: (formData, index) =>
+            !['DEPENDENT', 'OTHER'].includes(
+              formData?.careExpenses?.[index]?.recipients,
+            ),
+          required: (formData, index) =>
+            ['DEPENDENT', 'OTHER'].includes(
+              formData?.careExpenses?.[index]?.recipients,
+            ),
+        }),
+        provider: textUI('What’s the name of the care provider?'),
+        careDate: currentOrPastDateRangeUI(
           {
             title: 'Care start date',
             monthSelect: false,
@@ -90,14 +81,18 @@ export default {
           },
         ),
         noEndDate: checkboxUI('No end date'),
-        paymentPeriod: radioUI({
-          title: 'How often are the payments?',
+        monthlyPayment: currencyUI('How much is each monthly payment?'),
+        typeOfCare: radioUI({
+          title: 'Select the type of care.',
           labels: {
-            monthly: 'Once a month',
-            yearly: 'Once a year',
+            residential: 'Residential care facility',
+            inHome: 'In-home care attendant',
           },
         }),
-        paymentAmount: currencyUI('How much is each payment?'),
+        hourlyRate: currencyUI('What is the provider’s rate per hour?'),
+        hoursPerWeek: numberUI(
+          'How many hours per week does the care provider work?',
+        ),
       },
     },
   },
@@ -111,24 +106,26 @@ export default {
           type: 'object',
           required: [
             'recipients',
-            'childName',
             'provider',
-            'paymentDate',
-            'paymentPeriod',
-            'paymentAmount',
+            'careDate',
+            'monthlyPayment',
+            'typeOfCare',
+            'hourlyRate',
+            'hoursPerWeek',
           ],
           properties: {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName,
-            provider,
-            hoursPerWeek: numberSchema,
-            paymentDate: {
+            childName: textSchema,
+            provider: textSchema,
+            careDate: {
               ...currentOrPastDateRangeSchema,
               required: ['from'],
             },
             noEndDate: checkboxSchema,
-            paymentPeriod: radioSchema(['monthly', 'yearly']),
-            paymentAmount: currencySchema,
+            monthlyPayment: currencySchema,
+            typeOfCare: radioSchema(['residential', 'inHome']),
+            hourlyRate: currencySchema,
+            hoursPerWeek: numberSchema,
           },
         },
       },

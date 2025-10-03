@@ -249,7 +249,6 @@ function supportingDocumentsDescription() {
 export default {
   title: 'Supporting documents',
   path: 'expenses/additional-information/supporting-documents',
-  depends: formData => formData.hasCareExpenses === true,
   uiSchema: {
     ...titleUI('Supporting documents'),
     'ui:description': supportingDocumentsDescription,

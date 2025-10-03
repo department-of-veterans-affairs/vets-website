@@ -1,11 +1,11 @@
 import reportingPeriod from './reportingPeriod';
 import careExpenses from './careExpenses';
-import careExpensesDetails from './careExpensesDetails';
+import careExpensesAdd from './careExpensesAdd';
 import supportingDocumentsInfo from './supportingDocumentsInfo';
 import medicalExpenses from './medicalExpenses';
-import medicalExpensesDetails from './medicalExpensesDetails';
+import medicalExpensesAdd from './medicalExpensesAdd';
 import milageExpenses from './milageExpenses';
-import milageExpensesDetails from './milageExpensesDetails';
+import milageExpensesAdd from './milageExpensesAdd';
 
 export default {
   title: 'Expenses',
@@ -13,10 +13,10 @@ export default {
     reportingPeriod,
     careExpenses,
     supportingDocumentsInfo,
-    careExpensesDetails,
+    careExpensesAdd,
     medicalExpenses,
-    medicalExpensesDetails,
+    medicalExpensesAdd,
     milageExpenses,
-    milageExpensesDetails,
+    milageExpensesAdd,
   },
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import get from 'platform/utilities/data/get';
 import {
   currencyUI,
   currencySchema,
@@ -9,28 +8,41 @@ import {
   radioUI,
   radioSchema,
   titleUI,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
 import {
   careFrequencyLabels,
   recipientTypeLabels,
 } from '../../../utils/labels';
-import { MedicalExpenseDetailsDescription } from '../../../components/MedicalExpenseDescriptions';
-// import { doesHaveMedicalExpenses } from './helpers';
-// import ArrayDescription from '../../../components/ArrayDescription';
-// import { showMultiplePageResponse } from '../../../utils/helpers';
-
-const {
-  childName,
-  provider,
-  purpose,
-} = fullSchemaPensions.definitions.medicalExpenses.items.properties;
 
 const MedicalExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
 );
+
+function MedicalExpenseDetailsDescription() {
+  return (
+    <div className="vads-u-margin-bottom--2">
+      <p className="vads-u-margin-top--0">
+        We want to know if you, your spouse, or your dependents pay medical or
+        certain other expenses that aren’t reimbursed.
+      </p>
+      <va-additional-info trigger="How to report monthly recurring expenses">
+        <p>
+          For recurring monthly expenses, report them as a single expense.
+          Include the start date and the monthly or annual cost.
+        </p>
+        <p>
+          If a recurring expense has ended, treat the expense as non-recurring.
+          Non-recurring expenses must be reported individually as separate
+          expenses.
+        </p>
+        <p>Prescription medications are generally not considered recurring.</p>
+      </va-additional-info>
+    </div>
+  );
+}
 
 MedicalExpenseView.propTypes = {
   formData: PropTypes.shape({
@@ -64,27 +76,23 @@ export default {
         recipients: radioUI({
           title: 'Who is the expense for?',
           labels: recipientTypeLabels,
-          classNames: 'vads-u-margin-bottom--2',
         }),
-        childName: {
-          'ui:title': 'Full name of the person who received care',
-          'ui:webComponentField': VaTextInputField,
-          'ui:options': {
-            classNames: 'vads-u-margin-bottom--2',
-            expandUnder: 'recipients',
-            expandUnderCondition: 'DEPENDENT',
-          },
-          'ui:required': (form, index) =>
-            get(['medicalExpenses', index, 'recipients'], form) === 'DEPENDENT',
-        },
-        provider: {
-          'ui:title': 'Who receives the payment?',
-          'ui:webComponentField': VaTextInputField,
-        },
-        purpose: {
-          'ui:title': 'What’s the payment for?',
-          'ui:webComponentField': VaTextInputField,
-        },
+        childName: textUI({
+          title: 'Enter the child’s name',
+          expandUnder: 'recipients',
+          expandUnderCondition: field =>
+            field === 'DEPENDENT' || field === 'OTHER',
+          hideIf: (formData, index) =>
+            !['DEPENDENT', 'OTHER'].includes(
+              formData?.medicalExpenses?.[index]?.recipients,
+            ),
+          required: (formData, index) =>
+            ['DEPENDENT', 'OTHER'].includes(
+              formData?.medicalExpenses?.[index]?.recipients,
+            ),
+        }),
+        provider: textUI('Who receives the payment?'),
+        purpose: textUI('What is the payment for?'),
         paymentDate: currentOrPastDateUI({
           title: 'What’s the date of the payment?',
           monthSelect: false,
@@ -108,7 +116,6 @@ export default {
           type: 'object',
           required: [
             'recipients',
-            'childName',
             'provider',
             'purpose',
             'paymentDate',
@@ -117,9 +124,9 @@ export default {
           ],
           properties: {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
-            childName,
-            provider,
-            purpose,
+            childName: textSchema,
+            provider: textSchema,
+            purpose: textSchema,
             paymentDate: currentOrPastDateSchema,
             paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
             paymentAmount: currencySchema,

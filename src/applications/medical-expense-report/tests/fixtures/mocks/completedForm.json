@@ -41,11 +41,74 @@
             "provider": "Dr. Smith",
             "hoursPerWeek": "10",
             "paymentDate": {
-                "from": "2023-01-15",
+                "from": "2023-01-14",
                 "to": "2023-01-15"
             },
             "paymentPeriod": "monthly",
             "paymentAmount": 25
+        },
+        {
+            "recipients": "SPOUSE",
+            "provider": "Dr. Smith",
+            "hoursPerWeek": "50",
+            "paymentDate": {
+                "from": "2023-02-01",
+                "to": "2023-03-15"
+            },
+            "paymentPeriod": "monthly",
+            "paymentAmount": 25
+        }
+    ],
+    "medicalExpenses": [
+        {
+          "recipient": "VETERAN",
+          "recipientName": "5A (1)",
+          "provider": "5A (5)",
+          "purpose": "5A (6)",
+          "paymentDate": "2001-01-01",
+          "paymentFrequency": "ONCE_MONTH",
+          "paymentAmount": 123456.78
+        },
+        {
+          "recipient": "SPOUSE",
+          "recipientName": "5B (1)",
+          "provider": "5B (5)",
+          "purpose": "5B (6)",
+          "paymentDate": "2002-02-02",
+          "paymentFrequency": "ONCE_YEAR",
+          "paymentAmount": 876543.21
+        }
+    ],
+    "mileage": [
+        {
+          "traveler": "VETERAN",
+          "travelerName": "6A (1)",
+          "travelLocation": "6A (2)",
+          "travelMilesTraveled": "1",
+          "travelDate": "2001-01-10",
+          "travelReimbursementAmount": 123456.78
+        },
+        {
+          "traveler": "SPOUSE",
+          "travelerName": "6B (1)",
+          "travelLocation": "6B (2)",
+          "travelMilesTraveled": "10",
+          "travelDate": "2002-02-20",
+          "travelReimbursementAmount": 876543.21
+        }
+    ],
+    "files": [
+        {
+            "name": "test-upload.pdf",
+            "size": 15306,
+            "confirmationCode": "10c55013-b881-453f-bc10-fbc29e3bc517",
+            "isEncrypted": false
+        },
+        {
+            "name": "test-png.png",
+            "size": 999,
+            "confirmationCode": "10c55013-b881-453f-bc10-1234567890ab",
+            "isEncrypted": false
         }
     ]
 }

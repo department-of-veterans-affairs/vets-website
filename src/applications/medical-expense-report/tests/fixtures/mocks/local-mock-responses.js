@@ -54,6 +54,8 @@ const responses = {
     return res.json({
       data: {
         attributes: {
+          name: 'test-upload.pdf',
+          size: 15306,
           confirmationCode: '5',
         },
       },
