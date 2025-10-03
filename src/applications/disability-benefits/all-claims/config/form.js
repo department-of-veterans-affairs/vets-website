@@ -366,7 +366,8 @@ const formConfig = {
             typeof formData.condition === 'string'
               ? capitalizeEachWord(formData.condition)
               : NULL_CONDITION_STRING,
-          depends: claimingNew,
+          depends:
+            !window.location.href.includes('confirmation') && claimingNew,
           path: 'new-disabilities/follow-up/:index',
           showPagePerItem: true,
           itemFilter: (item, formData) => {

@@ -8,6 +8,7 @@ import {
 
 import { increaseOnly, claimingRated } from '../utils';
 import { requireRatedDisability } from '../validations';
+import ConfirmationConditions from '../components/ConfirmationConditions';
 
 const { ratedDisabilities } = fullSchema.properties;
 
@@ -39,6 +40,7 @@ export const uiSchema = {
       hideIf: formData => !increaseOnly(formData) || claimingRated(formData),
     },
   },
+  'ui:confirmationField': ConfirmationConditions,
 };
 
 export const schema = {
