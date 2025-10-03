@@ -15,9 +15,9 @@ import {
  * 2. "None" condition handling - keeps only conditions.none when selected alone
  * 3. Orphaned data removal - removes details without corresponding selections
  * 4. Detail retention - preserves details only for locations marked as true
- * 5. Specify field cleanup - removes otherHerbicideLocations and specifyOtherExposures when invalid
+ * 5. "Other" field cleanup - removes otherHerbicideLocations when herbicide.other !== true, removes specifyOtherExposures when otherExposures.other !== true
  * 6. False value preservation - maintains false selections while removing their details
- * 7. Cleanup of "other" fields when invalid or orphaned
+ * 7. Null/invalid field cleanup - removes null fields and validates "other" selection requirement
  */
 describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
@@ -494,7 +494,7 @@ describe('purgeToxicExposureData', () => {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            herbicide: { vietnam: true },
+            herbicide: { vietnam: true, other: true },
             otherHerbicideLocations: 'Thailand base camps',
           },
         };
@@ -508,7 +508,7 @@ describe('purgeToxicExposureData', () => {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            otherExposures: { chemical: true },
+            otherExposures: { chemical: true, other: true },
             specifyOtherExposures: {
               description: 'Lead exposure from paint',
               startDate: '1980-01-01',
@@ -532,7 +532,7 @@ describe('purgeToxicExposureData', () => {
           toxicExposure: {
             conditions: { asthma: true },
             herbicide: { laos: true },
-            otherExposures: { asbestos: true },
+            otherExposures: { asbestos: true, other: true },
             otherHerbicideLocations: null,
             specifyOtherExposures: {
               description: 'Asbestos exposure',
@@ -828,7 +828,7 @@ describe('purgeToxicExposureData', () => {
               cambodia: { startDate: '1969-01-01' }, // Orphaned (parent false)
               laos: { startDate: '1970-01-01' }, // Orphaned (no parent)
             },
-            otherExposures: { asbestos: true },
+            otherExposures: { asbestos: true, other: true },
             otherHerbicideLocations: null, // Priority 3e: Null other field
             specifyOtherExposures: { description: 'Valid' }, // Valid
           },
@@ -838,7 +838,10 @@ describe('purgeToxicExposureData', () => {
 
         // Verify priority order was followed
         expect(result.toxicExposure).to.exist; // Flag was true
-        expect(result.toxicExposure.conditions).to.deep.equal({ asthma: true }); // False values removed
+        expect(result.toxicExposure.conditions).to.deep.equal({
+          asthma: true,
+          cancer: false,
+        }); // False values kept
         expect(result.toxicExposure).to.not.have.property('gulfWar1990'); // Null removed
         expect(result.toxicExposure).to.not.have.property('gulfWar2001'); // All false removed
         expect(result.toxicExposure.herbicide).to.deep.equal({
@@ -986,6 +989,8 @@ describe('purgeToxicExposureData', () => {
 
         expect(result.toxicExposure.conditions).to.deep.equal({
           asthma: true,
+          bronchitis: false,
+          none: false,
         });
 
         expect(result.toxicExposure.gulfWar1990).to.deep.equal({
@@ -1019,10 +1024,12 @@ describe('purgeToxicExposureData', () => {
           asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
         });
 
-        expect(result.toxicExposure).to.have.property(
+        // otherHerbicideLocations and specifyOtherExposures should be removed
+        // because herbicide.other and otherExposures.other are not true
+        expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.otherKey,
         );
-        expect(result.toxicExposure).to.have.property(
+        expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.otherExposures.otherKey,
         );
       });
@@ -1113,6 +1120,7 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
           cambodia: false,
           laos: true,
           thailand: true,
+          other: true,
         },
         herbicideDetails: {
           vietnam: {
@@ -1192,7 +1200,11 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
     expect(result.toxicExposure.conditions).to.deep.equal({
       asthma: true,
       chronicBronchitis: true,
+      sinusitis: false,
+      rhinitis: false,
       sleepApnea: true,
+      cancer: false,
+      none: false,
     });
 
     expect(result.toxicExposure).to.have.property('gulfWar1990');
