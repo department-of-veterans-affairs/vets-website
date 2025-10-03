@@ -35,6 +35,7 @@
   "cernerNonEligibleSisEnabled": "cerner_non_eligible_sis_enabled",
   "champvaEnableClaimResubmitQuestion": "champva_enable_claim_resubmit_question",
   "champvaClaimsLlmValidation": "champva_claims_llm_validation",
+  "champvaEnabledResubmitUploads": "champva_enable_resubmit_uploads",
   "checkInExperienceBrowserMonitoring": "check_in_experience_browser_monitoring",
   "checkInExperienceDayOfDemographicsFlagsEnabled": "check_in_experience_day_of_demographics_flags_enabled",
   "checkInExperienceEnabled": "check_in_experience_enabled",
