@@ -10,7 +10,7 @@ describe('Medical Records Care Summary Page', () => {
   beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
-    NotesListPage.clickGotoNotesLink(notes, false);
+    NotesListPage.gotoNotesList(notes, false);
   });
 
   it('Discharge Summary Details, contains admitted date', () => {

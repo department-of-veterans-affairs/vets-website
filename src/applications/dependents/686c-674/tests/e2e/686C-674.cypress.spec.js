@@ -24,6 +24,10 @@ const testConfig = createTestConfig(
               name: 'vaDependentsV2',
               value: true,
             },
+            {
+              name: 'vaDependentsNetWorthAndPension',
+              value: false,
+            },
           ],
         },
       });
@@ -78,6 +82,7 @@ const testConfig = createTestConfig(
           cy.clickFormContinue();
         });
       },
+
       'veteran-address': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -243,7 +248,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
 
   manifest,

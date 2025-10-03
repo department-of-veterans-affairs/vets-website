@@ -4,6 +4,7 @@
 
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import featureFlags from '../../services/mocks/featureFlags';
+import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 
 /**
  * Function to mock feature toggle endpoint.
@@ -17,6 +18,8 @@ export function mockFeatureToggles(
   toggles = {
     vaOnlineSchedulingRecentLocationsFilter: false,
     vaOnlineSchedulingCCDirectScheduling: false,
+    vaOnlineSchedulingCCDirectSchedulingChiropractic: false,
+    vaOnlineSchedulingImmediateCareAlert: false,
   },
 ) {
   cy.intercept(
@@ -211,6 +214,9 @@ export function mockAppointmentsGetApi({ response: data, responseCode = 200 }) {
       }
     },
   ).as('v2:get:appointments');
+  cy.intercept('POST', '/my_health/v1/unique_user_metrics', mockUumResponse).as(
+    'uum',
+  );
 }
 
 /**

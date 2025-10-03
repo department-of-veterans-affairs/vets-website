@@ -44,7 +44,7 @@
   width: 100%;
 
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto 20px;
   }
 
@@ -52,9 +52,12 @@
   h2 {
     margin: 0 0 16px 0;
   }
-
+  .usa-grid-full {
+    max-width: 984px;
+  }
   .va-footer-links-bottom {
     padding: 0;
+    max-width: 984px;
     ul {
       max-width: 720px;
       padding-bottom: 20px;
@@ -87,13 +90,14 @@
     text-decoration: none;
     font-weight: 700;
     display: block;
+    text-align: center;
 
     &:hover {
       background-color: $vads-color-primary-dark;
     }
   }
   &__container {
-    max-width: 960px;
+    max-width: 984px;
     margin: 0 auto;
 
     &--portal {
@@ -134,7 +138,7 @@
     background-position: center;
 
     &-container {
-      max-width: 960px;
+      max-width: 984px;
       margin: 0 auto;
       color: $vads-color-base-lightest;
       padding: 30px 16px;
@@ -181,7 +185,6 @@
         margin-top: 24px;
 
         @media (min-width: $medium-screen) {
-          max-width: 312px;
           margin-top: 0;
         }
       }
@@ -446,7 +449,8 @@
       }
     }
     &--get-started {
-      margin-bottom: 60px !important;
+      margin-bottom: 48px !important;
+      align-items: center;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 72px !important;
       }
@@ -469,10 +473,13 @@
     }
 
     &--improve {
+      align-items: center;
       @media (max-width: $tablet) {
         flex-direction: column-reverse;
       }
-
+      @media (min-width: $tablet) {
+        align-items: center;
+      }
       div:nth-child(2) {
         @media (min-width: $small-desktop-screen) {
           margin-left: auto;
@@ -583,13 +590,25 @@
   &__card {
     margin-bottom: 20px;
     display: flex;
+    h3 {
+      margin-top: 0;
+    }
+    &:last-child {
+      @media (min-width: $tablet) {
+        padding-right: 0;
+      }
+    }
 
-    @media (min-width: $tablet) {
-      padding: 0 0 0 20px;
-      margin-bottom: 0;
+    h3 {
+      margin-top: 0;
     }
 
     @media (min-width: $tablet) {
+      padding-right: 20px;
+      margin-bottom: 0;
+    }
+
+    @media (min-width: $small-desktop-screen) {
       padding: 0 0 0 24px;
     }
 
@@ -603,7 +622,7 @@
 }
 .is--sm-padding {
   @media (min-width: $small-desktop-screen) {
-    padding: 40px;
+    padding: 40px 16px;
   }
 }
 .arp-full-width-alert {
@@ -712,6 +731,11 @@ h2.claimant-name {
 }
 
 .arp__home__link--learn-more {
+  margin-bottom: 24px;
+  display: block;
+}
+
+.arp__home__link--watch-video {
   margin-bottom: 24px;
   display: block;
 }

@@ -1,10 +1,11 @@
 import React, { useEffect, useContext } from 'react';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { addStyleToShadowDomOnPages } from '../utilities/poaRequests';
+import { ProfileContext } from '../context/ProfileContext';
 import { getSignInUrl } from '../utilities/constants';
-import { profileUser } from '../components/Header/Nav';
 
 const LandingPage = title => {
+  const user = useContext(ProfileContext);
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
@@ -21,7 +22,7 @@ const LandingPage = title => {
     },
     [title],
   );
-  const user = useContext(profileUser);
+
   return (
     <section className="home">
       <Toggler
@@ -83,6 +84,12 @@ const LandingPage = title => {
                       />
                     </Toggler.Enabled>
                   </Toggler>
+                  <va-link
+                    class="arp__home__link--watch-video"
+                    href="https://youtu.be/DLY0DQld5Uw?si=OTN1JHRVHYXKnp0H"
+                    text="Watch a video of how the portal works (opens in new tab)"
+                    video
+                  />
                 </div>
 
                 <div className="hp__card vads-grid-col-12  tablet:vads-grid-col-4 desktop-lg:vads-grid-col-3">

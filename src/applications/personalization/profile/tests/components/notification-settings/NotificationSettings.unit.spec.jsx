@@ -70,6 +70,8 @@ describe('<NotificationSettings />', () => {
       .exist;
     // even when toggle is turned on, QuickSubmit will always be hidden
     expect(await view.queryByText('QuickSubmit')).to.not.exist;
+
+    expect(await view.findByTestId('data-encryption-notice')).to.exist;
   });
 
   it('renders loading indicator and hides main section of content', async () => {
@@ -155,6 +157,45 @@ describe('<NotificationSettings />', () => {
     );
 
     expect(view.queryByTestId('add-email-address-link')).to.not.exist;
+  });
+
+  it('renders the international mobile phone info alert', async () => {
+    const view = renderWithProfileReducersAndRouter(<NotificationSettings />, {
+      initialState: {
+        featureToggles: {
+          loading: false,
+          [featureFlagNames.profileInternationalPhoneNumbers]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
+        },
+        user: {
+          profile: {
+            vapContactInfo: {
+              mobilePhone: {
+                areaCode: null,
+                countryCode: '93',
+                isInternational: true,
+                phoneNumber: '201234567',
+              },
+              email: {
+                emailAddress: 'test@test.com',
+              },
+            },
+          },
+        },
+        scheduledDowntime: {
+          globalDowntime: null,
+          isReady: true,
+          isPending: false,
+          serviceMap: { get() {} },
+          dismissedDowntimeWarnings: [],
+        },
+      },
+      path: '/profile/notifications',
+    });
+
+    expect(await view.findByTestId('mobile-phone-number-on-file')).to.exist;
+    expect(await view.findByTestId('international-mobile-number-info-alert')).to
+      .exist;
   });
 
   it('when profileShowEmailNotificationSettings toggle is true, show alert to add email and mobile phone info', async () => {

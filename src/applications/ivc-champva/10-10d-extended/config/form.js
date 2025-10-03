@@ -9,8 +9,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
 import GetFormHelp from '../../shared/components/GetFormHelp';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
-import { sponsorWording } from '../../10-10D/helpers/utilities';
 
 import {
   certifierRoleSchema,
@@ -36,10 +34,11 @@ import {
 import { applicantPages } from '../chapters/applicantInformation';
 import {
   medicarePages,
-  missingMedicarePage,
-  proofOfIneligibilityUploadPage,
+  medicareStatusPage,
+  medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -69,6 +68,9 @@ const formConfig = {
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
+  },
+  formOptions: {
+    filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
@@ -118,29 +120,29 @@ const formConfig = {
       pages: {
         page1: {
           // initialData: mockData.data,
-          path: 'your-information/who-is-applying',
+          path: 'who-is-applying',
           title: 'Which of these best describes you?',
           ...certifierRoleSchema,
         },
         page2: {
-          path: 'your-information/name',
+          path: 'your-name',
           title: 'Your name',
           ...certifierNameSchema,
         },
         page3: {
-          path: 'your-information/mailing-address',
+          path: 'your-mailing-address',
           title: 'Your mailing address',
           ...certifierAddressSchema,
         },
         page4: {
-          path: 'your-information/contact-information',
+          path: 'your-contact-information',
           title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
-          path: 'your-information/relationship-to-applicant',
+          path: 'your-relationship-to-applicant',
           title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           ...certifierRelationshipSchema,
@@ -151,28 +153,28 @@ const formConfig = {
       title: 'Veteran information',
       pages: {
         page5a: {
-          path: 'veteran-information/overview',
+          path: 'veteran-information-overview',
           title: 'Veteran information',
           ...sponsorIntroSchema,
         },
         page6: {
-          path: 'veteran-information/name-and-date-of-birth',
+          path: 'veteran-name-and-date-of-birth',
           title: 'Veteran’s name and date of birth',
           ...sponsorNameDobSchema,
         },
         page7: {
-          path: 'veteran-information/social-security-number',
+          path: 'veteran-social-security-number',
           title: `Veteran’s identification information`,
           ...sponsorIdentificationSchema,
         },
         page8: {
-          path: 'veteran-information/life-status',
+          path: 'veteran-life-status',
           title: 'Veteran’s status',
           depends: formData => get('certifierRole', formData) !== 'sponsor',
           ...sponsorStatus,
         },
         page9: {
-          path: 'veteran-information/death-information',
+          path: 'veteran-death-information',
           title: 'Veteran’s status details',
           depends: formData =>
             get('certifierRole', formData) !== 'sponsor' &&
@@ -180,42 +182,28 @@ const formConfig = {
           ...sponsorStatusDetails,
         },
         page10b0: {
-          path: 'veteran-information/address',
-          title: formData => `${sponsorWording(formData)} address selection`,
-          // Only show if we have addresses to pull from:
+          path: 'veteran-address',
+          title: 'Veteran’s address selection',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
             get('street', formData?.certifierAddress),
           CustomPage: props => {
-            const extraProps = {
-              ...props,
-              customAddressKey: 'sponsorAddress',
-              customTitle: `${sponsorWording(props.data)} address selection`,
-              customDescription:
-                'We\u2019ll send any important information about this form to this address.',
-              customSelectText: `Does ${sponsorWording(
-                props.data,
-                false,
-                false,
-              )} live at a previously entered address?`,
-              positivePrefix: 'Yes, their address is',
-              negativePrefix: 'No, they have a different address',
-            };
-            return ApplicantAddressCopyPage(extraProps);
+            const opts = { ...props, dataKey: 'sponsorAddress' };
+            return AddressSelectionPage(opts);
           },
           CustomPageReview: null,
           uiSchema: {},
           schema: blankSchema,
         },
         page10: {
-          path: 'veteran-information/mailing-address',
+          path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorAddress,
         },
         page11: {
-          path: 'veteran-information/contact-information',
+          path: 'veteran-contact-information',
           title: 'Veteran’s contact information',
           depends: formData => !get('sponsorIsDeceased', formData),
           ...sponsorContactInfo,
@@ -230,8 +218,8 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         ...medicarePages,
-        page22: missingMedicarePage,
-        page23: proofOfIneligibilityUploadPage,
+        page22: medicareStatusPage,
+        page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {

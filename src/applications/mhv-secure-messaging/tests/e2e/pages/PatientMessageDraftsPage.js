@@ -371,7 +371,7 @@ class PatientMessageDraftsPage {
   };
 
   verifyAttachFileBtn = () => {
-    cy.get(Locators.BUTTONS.ATTACH_FILE)
+    cy.findByTestId(Locators.BUTTONS.ATTACH_FILE)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
@@ -403,24 +403,18 @@ class PatientMessageDraftsPage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`[status="warning"]`)
+    cy.get(`va-modal[status="warning"]`)
       .find(`h2`)
       .should('be.visible')
       .and(`contain.text`, alertText);
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${firstBtnText}']`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`contain.text`, firstBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${firstBtnText}']`)
+      .should('be.visible');
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${secondBtnText}']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .should('be.visible')
-      .and(`contain.text`, secondBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${secondBtnText}']`)
+      .should('be.visible');
   };
 
   clickDeleteChangesButton = () => {

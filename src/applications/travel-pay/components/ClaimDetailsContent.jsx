@@ -6,7 +6,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 import { STATUSES, FORM_100998_LINK } from '../constants';
-import { toPascalCase } from '../util/string-helpers';
+import { toPascalCase, currency } from '../util/string-helpers';
 import DocumentDownload from './DocumentDownload';
 import DecisionReason from './DecisionReason';
 
@@ -134,11 +134,11 @@ export default function ClaimDetailsContent({
                 Amount
               </p>
               <p className="vads-u-margin--0">
-                Submitted amount of ${totalCostRequested}
+                Submitted amount of {currency(totalCostRequested)}
               </p>
               {reimbursementAmount > 0 && (
                 <p className="vads-u-margin--0">
-                  Reimbursement amount of ${reimbursementAmount}
+                  Reimbursement amount of {currency(reimbursementAmount)}
                 </p>
               )}
             </div>

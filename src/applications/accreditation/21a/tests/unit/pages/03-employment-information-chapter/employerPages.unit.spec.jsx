@@ -203,9 +203,7 @@ describe('Employers Pages', () => {
         expect($('va-text-input[label="Apartment or unit number"]', container))
           .to.exist;
         expect($('va-radio[label="Military post office"]', container)).to.exist;
-        expect(
-          $('va-radio[label=\'Overseas "state" abbreviation\']', container),
-        ).to.exist;
+        expect($('va-radio[label*="state"]', container)).to.exist;
         expect($('va-text-input[label="Postal code"]', container)).to.exist;
       });
       it('verifies values from the form data are populating the page', () => {
@@ -249,10 +247,7 @@ describe('Employers Pages', () => {
           ),
         ).to.eq(isMilitaryAddress.city);
         expect(
-          $(
-            'va-radio[label=\'Overseas "state" abbreviation\']',
-            container,
-          ).getAttribute('value'),
+          $('va-radio[label*="state"]', container).getAttribute('value'),
         ).to.eq(isMilitaryAddress.state);
         expect(
           $('va-text-input[label="Postal code"]', container).getAttribute(

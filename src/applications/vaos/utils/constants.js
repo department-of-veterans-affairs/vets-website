@@ -97,7 +97,7 @@ export const TYPE_OF_CARE_IDS = {
   PODIATRY_ID: 'tbd-podiatry',
   MENTAL_HEALTH_ID: 'MENTAL_HEALTH',
   MENTAL_HEALTH_SERVICES_ID: '502',
-  MENTAL_HEALTH_SUBSTANCE_USE_ID: '534',
+  MENTAL_HEALTH_SUBSTANCE_USE_ID: '513',
 };
 
 export const TYPES_OF_CARE = [
@@ -250,8 +250,14 @@ export const AUDIOLOGY_TYPES_OF_CARE = [
 ];
 
 export const FACILITY_TYPES = {
-  VAMC: 'vamc',
-  COMMUNITY_CARE: 'communityCare',
+  VAMC: {
+    id: 'vamc',
+    name: 'VA medical center or clinic',
+  },
+  COMMUNITY_CARE: {
+    id: 'communityCare',
+    name: 'Community care facility',
+  },
 };
 
 export const FACILITY_SORT_METHODS = {

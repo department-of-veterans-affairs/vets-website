@@ -45,7 +45,6 @@ import PrescriptionPrintOnly from '../components/PrescriptionDetails/Prescriptio
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import { pageType } from '../util/dataDogConstants';
-import { selectGroupingFlag } from '../util/selectors';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
 import { usePrescriptionData } from '../hooks/usePrescriptionData';
 import { usePrefetch } from '../api/prescriptionsApi';
@@ -64,10 +63,9 @@ const PrescriptionDetails = () => {
   const selectedFilterOption = useSelector(selectFilterOption);
   const currentPage = useSelector(selectPageNumber);
   // Consolidate query parameters into a single state object to avoid multiple re-renders
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const [queryParams] = useState({
     page: currentPage || 1,
-    perPage: showGroupingContent ? 10 : 20,
+    perPage: 10,
     sortEndpoint:
       rxListSortingOptions[selectedSortOption]?.API_ENDPOINT ||
       rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
@@ -431,10 +429,8 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:${
-                    showGroupingContent
-                      ? 'vads-u-margin-bottom--3 vads-u-margin-bottom--2'
-                      : 'vads-u-margin-bottom--4 vads-u-margin-bottom--3'
+                  className={`title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen: vads-u-margin-bottom--2 ${
+                    nonVaPrescription ? 'vads-u-margin-bottom--2' : ''
                   }`}
                   data-testid="rx-last-filled-date"
                 >
@@ -457,31 +453,20 @@ const PrescriptionDetails = () => {
                     </p>
                   </ApiErrorNotification>
                 )}
-                {/* TODO: clean after grouping flag is gone */}
-                {showGroupingContent && (
-                  <>
-                    {nonVaPrescription ? (
-                      <NonVaPrescription {...prescription} />
-                    ) : (
-                      <VaPrescription {...prescription} />
-                    )}
-                  </>
-                )}
-                {/* TODO: clean after grouping flag is gone */}
-                <div
-                  className={`no-print${
-                    showGroupingContent
-                      ? ' vads-u-margin-top--3 vads-u-margin-bottom--5'
-                      : ''
-                  }`}
-                >
-                  {/* TODO: clean after grouping flag is gone */}
-                  {showGroupingContent && (
-                    <>
-                      <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3 medium-screen:vads-u-margin-y--4" />
-                      <BeforeYouDownloadDropdown page={pageType.DETAILS} />
-                    </>
+                <>
+                  {nonVaPrescription ? (
+                    <NonVaPrescription {...prescription} />
+                  ) : (
+                    <VaPrescription {...prescription} />
                   )}
+                </>
+
+                <div className="no-print vads-u-margin-top--3 vads-u-margin-bottom--5">
+                  <>
+                    <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3 medium-screen:vads-u-margin-y--4" />
+                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
+                  </>
+
                   <PrintDownload
                     onDownload={handleFileDownload}
                     isSuccess={
@@ -494,21 +479,7 @@ const PrescriptionDetails = () => {
                         PDF_TXT_GENERATE_STATUS.InProgress
                     }
                   />
-                  {/* TODO: clean after grouping flag is gone */}
-                  {!showGroupingContent && (
-                    <BeforeYouDownloadDropdown page={pageType.DETAILS} />
-                  )}
                 </div>
-                {/* TODO: clean after grouping flag is gone */}
-                {!showGroupingContent && (
-                  <>
-                    {nonVaPrescription ? (
-                      <NonVaPrescription {...prescription} />
-                    ) : (
-                      <VaPrescription {...prescription} />
-                    )}
-                  </>
-                )}
               </>
             )}
           </div>

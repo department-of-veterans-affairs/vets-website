@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 135,
+  "totalApplications": 144,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -100,6 +100,30 @@
       "rootUrl": "/my-health/medical-records/summaries-and-notes/visit-summary"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
+      "appName": "21-0779 Nursing Home Information",
+      "entryName": "21-0779-nursing-home-information",
+      "rootUrl": "/21-0779-nursing-home-information"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "appName": "21-2680 House Bound Status",
+      "entryName": "21-2680-house-bound-status",
+      "rootUrl": "/21-2680-house-bound-status"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "appName": "21-4192 Employment Information",
+      "entryName": "21-4192-employment-information",
+      "rootUrl": "/21-4192-employment-information"
+    },
+    {
+      "directoryPath": "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance",
+      "appName": "21P-530a Interment Allowance",
+      "entryName": "21p-530a-interment-allowance",
+      "rootUrl": "/21p-530a-interment-allowance"
+    },
+    {
       "directoryPath": "src/applications/burials-ez",
       "appName": "21P-530EZ Burials benefits form",
       "entryName": "burials-ez",
@@ -136,12 +160,6 @@
       "rootUrl": "/track-claims"
     },
     {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
-    },
-    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -157,25 +175,25 @@
       "directoryPath": "src/applications/dependents/686c-674",
       "appName": "686C-674-v2",
       "entryName": "686C-674-v2",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c-674"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c-674"
     },
     {
       "directoryPath": "src/applications/dependents/686c-674-old",
       "appName": "686C-674",
       "entryName": "686C-674",
-      "rootUrl": "/view-change-dependents/add-remove-form-21-686c"
+      "rootUrl": "/manage-dependents/add-remove-form-21-686c"
     },
     {
       "directoryPath": "src/applications/dependents/dependents-verification",
       "appName": "21-0538 Dependents verification",
       "entryName": "0538-dependents-verification",
-      "rootUrl": "/view-change-dependents/verify-dependents-form-21-0538"
+      "rootUrl": "/manage-dependents/verify-dependents-form-21-0538"
     },
     {
       "directoryPath": "src/applications/dependents/view-dependents",
       "appName": "View Dependents",
       "entryName": "dependents-view-dependents",
-      "rootUrl": "/view-change-dependents/view"
+      "rootUrl": "/manage-dependents/view"
     },
     {
       "directoryPath": "src/applications/dhp-connected-devices",
@@ -373,13 +391,13 @@
       "directoryPath": "src/applications/ivc-champva/10-10d-extended",
       "appName": "10-10d Extended",
       "entryName": "10-10d-extended",
-      "rootUrl": "/ivc-champva/10-10d-extended"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/apply-champva-form-10-10d"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959a",
       "appName": "File a CHAMPVA claim",
       "entryName": "10-7959a",
-      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/file-champva-claim-10-7959a"
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/file-champva-claim-10-7959a"
     },
     {
       "directoryPath": "src/applications/ivc-champva/10-7959C",
@@ -682,10 +700,22 @@
       "rootUrl": "/supporting-forms-for-claims/submit-statement-form-21-4138"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21-4140",
+      "appName": "Income Verification for Disability Benefits",
+      "entryName": "21-4140-income-verification",
+      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/21-4142",
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/21p-0537",
+      "appName": "Marital Status Questionnaire (21P-0537)",
+      "entryName": "21p-0537",
+      "rootUrl": "/supporting-forms-for-claims/marital-status-questionnaire-21p-0537"
     },
     {
       "directoryPath": "src/applications/simple-forms/21P-0847",
@@ -746,6 +776,12 @@
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
       "rootUrl": "/terms-of-use"
+    },
+    {
+      "directoryPath": "src/applications/time-of-need",
+      "appName": "Apply for burial in a VA national cemetery",
+      "entryName": "40-xxxx-ton",
+      "rootUrl": "/burials-and-memorials/time-of-need"
     },
     {
       "directoryPath": "src/applications/toe",

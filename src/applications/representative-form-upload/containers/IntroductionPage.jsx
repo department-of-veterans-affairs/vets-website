@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
 import {
@@ -45,7 +46,9 @@ const IntroductionPage = ({ route, router }) => {
     },
     [route.pageList, router],
   );
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <article className="schemaform-intro representative-form">
       <VaAlert

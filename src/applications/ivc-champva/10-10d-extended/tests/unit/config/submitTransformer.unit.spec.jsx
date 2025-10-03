@@ -352,7 +352,6 @@ describe('10-10d-extended transform for submit', () => {
           sponsorAddress: {
             street: '123 Main Street',
             street2: 'Apartment 4B',
-            street3: 'Building C',
             city: 'Anytown',
             state: 'CA',
             postalCode: '12345',
@@ -370,14 +369,10 @@ describe('10-10d-extended transform for submit', () => {
       expect(transformed.veteran.address.streetCombined).to.contain(
         'Apartment 4B',
       );
-      expect(transformed.veteran.address.streetCombined).to.contain(
-        'Building C',
-      );
 
       // Original fields should be preserved
       expect(transformed.veteran.address.street).to.equal('123 Main Street');
       expect(transformed.veteran.address.street2).to.equal('Apartment 4B');
-      expect(transformed.veteran.address.street3).to.equal('Building C');
       expect(transformed.veteran.address.city).to.equal('Anytown');
       expect(transformed.veteran.address.state).to.equal('CA');
       expect(transformed.veteran.address.postalCode).to.equal('12345');

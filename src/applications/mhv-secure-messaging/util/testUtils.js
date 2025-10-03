@@ -57,10 +57,11 @@ export const selectVaDate = (container, value, selector = 'va-date') => {
 };
 
 export const selectVaRadio = (container, value, selector = 'va-radio') => {
-  const changeEvent = new CustomEvent('selected', {
+  const vaRadio = $(selector, container);
+  const changeEvent = new CustomEvent('vaValueChange', {
     detail: { value },
   });
-  $(selector, container).__events.vaValueChange(changeEvent);
+  vaRadio.dispatchEvent(changeEvent);
 };
 
 export const checkVaCheckbox = (checkboxGroup, bool) => {

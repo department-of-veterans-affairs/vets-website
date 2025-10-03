@@ -43,7 +43,7 @@ const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
   return (
-    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE &&
+    getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE.id &&
     getFormData(state).typeOfCareId === TYPE_OF_CARE_IDS.AUDIOLOGY_ID
   );
 }
@@ -56,7 +56,7 @@ function isCommunityCare(state) {
 }
 
 function isCCFacility(state) {
-  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  return getFormData(state).facilityType === FACILITY_TYPES.COMMUNITY_CARE.id;
 }
 
 function isSleepCare(state) {
@@ -265,12 +265,19 @@ export default function getNewAppointmentFlow(state) {
       url: 'date-time',
       label: 'What date and time do you want for this appointment?',
       next: 'reasonForAppointment',
+      requestAppointment(state, dispatch) {
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
+      },
     },
     selectProvider: {
       url: 'provider',
       label: 'Which provider do you want to schedule with?',
       next: 'preferredDate',
-      requestAppointment: 'requestDateTime',
+      requestAppointment(state, dispatch) {
+        dispatch(startRequestAppointmentFlow());
+        return 'requestDateTime';
+      },
     },
     typeOfCare: {
       url: '/schedule/type-of-care',
@@ -284,7 +291,7 @@ export default function getNewAppointmentFlow(state) {
           return 'vaccineFlow';
         }
         if (isSleepCare(state)) {
-          dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+          dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
           return 'typeOfSleepCare';
         }
         if (isEyeCare(state)) {
@@ -302,7 +309,7 @@ export default function getNewAppointmentFlow(state) {
 
           if (isEligible && isPodiatry(state)) {
             // If CC enabled systems and toc is podiatry, skip typeOfFacility
-            dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
+            dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE.id));
             dispatch(startRequestAppointmentFlow(true));
             return 'ccRequestDateTime';
           }
@@ -316,7 +323,7 @@ export default function getNewAppointmentFlow(state) {
           }
         }
 
-        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
         return VA_FACILITY_V2_KEY;
       },
     },
@@ -335,7 +342,7 @@ export default function getNewAppointmentFlow(state) {
           }
         }
 
-        dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
+        dispatch(updateFacilityType(FACILITY_TYPES.VAMC.id));
         return VA_FACILITY_V2_KEY;
       },
     },
@@ -371,6 +378,11 @@ export default function getNewAppointmentFlow(state) {
         ? 'Your appointment location'
         : 'Which VA facility would you like to go to?',
       next: vaFacilityNext,
+    },
+    urgentCareInformation: {
+      url: '/schedule',
+      label: 'Only schedule appointments for non-urgent needs',
+      next: 'typeOfCare',
     },
     vaccineFlow: {
       url:
