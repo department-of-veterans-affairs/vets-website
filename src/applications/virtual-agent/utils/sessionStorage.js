@@ -5,6 +5,7 @@ const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
 const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
+const FIRST_CONNECTION = `${BOT_SESSION_PREFIX}firstConnection`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
 function setStorageItem(key, value, json = false) {
@@ -78,12 +79,24 @@ export function setTokenKey(value) {
   setStorageItem(TOKEN_KEY, value);
 }
 
+// First-connection flag helpers.
+// NOTE: store values as strings, e.g., 'false' or 'true' (not booleans).
+export function getFirstConnection() {
+  return getStorageItem(FIRST_CONNECTION);
+}
+
+export function setFirstConnection(value) {
+  setStorageItem(FIRST_CONNECTION, value);
+}
+
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = getLoggedInFlow();
   const inAuthExp = getInAuthExp();
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
-  const excludeClear = [];
+  // Ensure critical keys persist across page lifecycle clears.
+  // Keep first-connection flag, conversationId, and token.
+  const excludeClear = [FIRST_CONNECTION, CONVERSATION_ID_KEY, TOKEN_KEY];
 
   // capture the canceled login scenarios [issue #479]
   if (!forceClear && loggedInFlow === 'true' && inAuthExp !== 'true') {
@@ -95,7 +108,11 @@ export function clearBotSessionStorage(forceClear) {
     excludeClear.push(TOKEN_KEY);
   }
 
-  if (forceClear || expectToClear || !!excludeClear.length) {
+  // Do not trigger a clear solely because of the default base excludes
+  // [FIRST_CONNECTION, CONVERSATION_ID_KEY, TOKEN_KEY] (length 3).
+  // Only clear when forced, expected, or additional excludes were added
+  // (e.g., canceled login scenario).
+  if (forceClear || expectToClear || excludeClear.length > 3) {
     botSessionKeys.forEach(sessionKey => {
       if (
         sessionKey.includes(BOT_SESSION_PREFIX) &&
