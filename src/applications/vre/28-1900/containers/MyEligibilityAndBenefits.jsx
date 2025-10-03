@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import NeedHelp from '../components/NeedHelp';
-import { formatDate } from '../helpers';
 import { fetchCh31Eligibility } from '../actions/ch31-my-eligibility-and-benefits';
+import EligibilityCriteria from '../components/EligibilityCriteria';
+import BenefitsSummary from '../components/BenefitsSummary';
 
 const MyEligibilityAndBenefits = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -87,7 +88,18 @@ const MyEligibilityAndBenefits = () => {
   // No data yet (unlikely if not loading/error, but safe)
   if (!attrs) return null;
 
-  const { veteranProfile, disabilityRating, entitlementDetails } = attrs;
+  const {
+    veteranProfile,
+    disabilityRating,
+    irndDate,
+    eligibilityTerminationDate,
+    qualifyingMilitaryServiceStatus,
+    characterOfDischargeStatus,
+    disabilityRatingStatus,
+    irndStatus,
+    eligibilityTerminationDateStatus,
+    entitlementDetails,
+  } = attrs;
   // Normalize recommendation
   const recommendation = String(attrs?.resEligibilityRecommendation ?? '')
     .trim()
@@ -216,161 +228,22 @@ const MyEligibilityAndBenefits = () => {
             />
           </va-alert>
         )}
-
-        <h2 className="vads-u-margin-top--4">Eligibility Criteria</h2>
-        <ul className="vads-u-margin-top--0 vads-u-padding-left--0 vads-u-padding-bottom--4">
-          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
-            <va-icon
-              icon="check"
-              size={3}
-              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
-            />
-            <div>
-              <strong>Qualifying Military Service:</strong>
-              <p className="vads-u-margin-y--0">
-                Applicant has{' '}
-                {Array.isArray(veteranProfile?.servicePeriod)
-                  ? veteranProfile.servicePeriod.length
-                  : 0}{' '}
-                period(s) of qualifying military service after September 16,
-                1940:
-              </p>
-              <ul className="vads-u-margin-top--0">
-                {(veteranProfile?.servicePeriod || []).map((sp, index) => (
-                  <div key={index}>
-                    <li>
-                      Entered Active Duty (EOD):{' '}
-                      {formatDate(sp?.serviceBeganDate)};
-                    </li>
-                    <li>Released: {formatDate(sp?.serviceEndDate)};</li>
-                  </div>
-                ))}
-              </ul>
-            </div>
-          </li>
-
-          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
-            <va-icon
-              icon="check"
-              size={3}
-              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
-            />
-            <div>
-              <strong>
-                Character of discharge:{' '}
-                {veteranProfile?.characterOfDischarge || '—'}
-              </strong>
-            </div>
-          </li>
-
-          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
-            <va-icon
-              icon="check"
-              size={3}
-              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
-            />
-            <div>
-              <strong>
-                Disability Rating: {disabilityRating?.combinedScd ?? '—'}%
-              </strong>
-              {Array.isArray(disabilityRating?.scdDetails) &&
-                disabilityRating.scdDetails.length > 0 && (
-                  <>
-                    <p className="vads-u-margin-y--0">SCD Details:</p>
-                    <ul className="vads-u-margin-top--0">
-                      {disabilityRating.scdDetails.map(detail => (
-                        <li key={detail?.code}>
-                          {detail?.code} - {detail?.name} - {detail?.percentage}
-                          %
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-            </div>
-          </li>
-
-          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
-            <va-icon
-              icon="check"
-              size={3}
-              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
-            />
-            <div>
-              <strong>
-                Initial rating Notification Date: {formatDate(attrs?.irndDate)}
-              </strong>
-            </div>
-          </li>
-          <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
-            <va-icon
-              icon="check"
-              size={3}
-              class="vads-u-color--green vads-u-margin-right--1 vads-u-margin-top--0p5"
-            />
-            <div>
-              <strong>
-                Eligibility Termination Date:{' '}
-                {formatDate(attrs?.eligibilityTerminationDate)}
-              </strong>
-            </div>
-          </li>
-        </ul>
+        <EligibilityCriteria
+          veteranProfile={veteranProfile}
+          disabilityRating={disabilityRating}
+          irndDate={irndDate}
+          eligibilityTerminationDate={eligibilityTerminationDate}
+          qualifyingMilitaryServiceStatus={qualifyingMilitaryServiceStatus}
+          characterOfDischargeStatus={characterOfDischargeStatus}
+          disabilityRatingStatus={disabilityRatingStatus}
+          irndStatus={irndStatus}
+          eligibilityTerminationDateStatus={eligibilityTerminationDateStatus}
+        />
         {hasResCaseId && (
-          <>
-            <h2 className="vads-u-margin-top--0">Your Benefits</h2>
-            <div className="vads-u-margin-bottom--3">
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-                <span
-                  className="vads-u-font-weight--bold"
-                  style={{ minWidth: '18rem' }}
-                >
-                  Result
-                </span>
-                <span>{attrs?.resEligibilityRecommendation || '—'}</span>
-              </div>
-
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-                <span
-                  className="vads-u-font-weight--bold"
-                  style={{ minWidth: '18rem' }}
-                >
-                  Total months you received:
-                </span>
-                <span>
-                  {entitlementDetails?.maxCh31Entitlement?.month ?? 0} months,{' '}
-                  {entitlementDetails?.maxCh31Entitlement?.days ?? 0} days
-                </span>
-              </div>
-
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-                <span
-                  className="vads-u-font-weight--bold"
-                  style={{ minWidth: '18rem' }}
-                >
-                  Months you used:
-                </span>
-                <span>
-                  {entitlementDetails?.entitlementUsed?.month ?? 0} months,{' '}
-                  {entitlementDetails?.entitlementUsed?.days ?? 0} days
-                </span>
-              </div>
-
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-                <span
-                  className="vads-u-font-weight--bold"
-                  style={{ minWidth: '18rem' }}
-                >
-                  Months you have left to use:
-                </span>
-                <span>
-                  {entitlementDetails?.ch31EntitlementRemaining?.month ?? 0}{' '}
-                  months,{' '}
-                  {entitlementDetails?.ch31EntitlementRemaining?.days ?? 0} days
-                </span>
-              </div>
-            </div>
-          </>
+          <BenefitsSummary
+            result={attrs?.resEligibilityRecommendation}
+            entitlementDetails={entitlementDetails}
+          />
         )}
 
         <NeedHelp />

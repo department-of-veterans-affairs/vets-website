@@ -1,5 +1,10 @@
 import { expect } from 'chai';
-import { formatDate, getStatus, extractMessages } from '../../helpers';
+import {
+  formatDate,
+  getStatus,
+  extractMessages,
+  pickStatusStyle,
+} from '../../helpers';
 
 describe('helpers', () => {
   describe('formatDate', () => {
@@ -123,6 +128,37 @@ describe('helpers', () => {
     it('returns null when resp is null/undefined', () => {
       expect(getStatus(null)).to.equal(null);
       expect(getStatus(undefined)).to.equal(null);
+    });
+  });
+  describe('pickStatusStyle', () => {
+    it('returns check/green for "Eligible"', () => {
+      expect(pickStatusStyle('Eligible')).to.deep.equal({
+        icon: 'check',
+        cls: 'vads-u-color--green',
+      });
+    });
+
+    it('is case-insensitive and trims whitespace', () => {
+      expect(pickStatusStyle('  eLiGiBlE  ')).to.deep.equal({
+        icon: 'check',
+        cls: 'vads-u-color--green',
+      });
+    });
+
+    it('returns close/secondary-dark for "Ineligible"', () => {
+      expect(pickStatusStyle('Ineligible')).to.deep.equal({
+        icon: 'close',
+        cls: 'vads-u-color--secondary-dark',
+      });
+    });
+
+    it('treats unknown or falsy values as ineligible (fallback)', () => {
+      for (const v of [undefined, null, '', '  ', 'unknown', 0]) {
+        expect(pickStatusStyle(v)).to.deep.equal({
+          icon: 'close',
+          cls: 'vads-u-color--secondary-dark',
+        });
+      }
     });
   });
 });

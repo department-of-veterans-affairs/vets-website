@@ -16,3 +16,12 @@ export const getStatus = resp => {
   const n = Number(resp?.errors?.[0]?.status);
   return Number.isFinite(n) ? n : null;
 };
+
+export const pickStatusStyle = status => {
+  const s = String(status)
+    .trim()
+    .toLowerCase();
+  return s === 'eligible'
+    ? { icon: 'check', cls: 'vads-u-color--green' }
+    : { icon: 'close', cls: 'vads-u-color--secondary-dark' };
+};
