@@ -95,6 +95,7 @@ export const RouteLeavingGuard = ({
       let allowedPaths = [];
       if (type === 'compose') {
         allowedPaths = [
+          `${Paths.RECENT_CARE_TEAMS}`,
           `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
           `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
           `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
@@ -174,7 +175,13 @@ export const RouteLeavingGuard = ({
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation, dispatch, lastLocation?.pathname, navigate],
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
   );
 
   useEffect(

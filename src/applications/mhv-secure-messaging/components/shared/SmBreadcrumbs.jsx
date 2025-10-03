@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import manifest from '../../manifest.json';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -18,8 +19,24 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
+  const recentRecipients = useSelector(
+    state => state.sm.recipients?.recentRecipients,
+  );
 
-  const previousPath = useRef(null);
+  // Use state + sessionStorage to persist entry URL and trigger re-renders
+  const [composeEntryUrl, setComposeEntryUrlState] = useState(() =>
+    sessionStorage.getItem('sm_composeEntryUrl'),
+  );
+
+  const setComposeEntryUrl = url => {
+    if (url) {
+      sessionStorage.setItem('sm_composeEntryUrl', url);
+      setComposeEntryUrlState(url); // Trigger re-render
+    } else {
+      sessionStorage.removeItem('sm_composeEntryUrl');
+      setComposeEntryUrlState(null); // Trigger re-render
+    }
+  };
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -44,48 +61,110 @@ const SmBreadcrumbs = () => {
     [crumbsList],
   );
 
-  const pathsWithShortBreadcrumb = [
-    Constants.Paths.MESSAGE_THREAD,
-    Constants.Paths.REPLY,
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
-
-  const pathsWithBackBreadcrumb = [
-    Constants.Paths.COMPOSE,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-    `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-    Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.CARE_TEAM_HELP}/`,
-    Constants.Paths.DRAFTS,
-    Constants.Paths.DELETED,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
-  ];
+  const pathsUsingBackLink = useMemo(
+    () => [
+      Constants.Paths.MESSAGE_THREAD,
+      Constants.Paths.REPLY,
+      Constants.Paths.COMPOSE,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
+      `${Constants.Paths.RECENT_CARE_TEAMS}/`,
+      Constants.Paths.CONTACT_LIST,
+      `${Constants.Paths.CARE_TEAM_HELP}/`,
+      Constants.Paths.DRAFTS,
+      Constants.Paths.DELETED,
+      `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+      `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+      `${Constants.Paths.REPLY}${locationChildPath}/`,
+    ],
+    [locationChildPath],
+  );
 
   const crumbPath = `/${locationBasePath}/${
     locationChildPath ? `${locationChildPath}/` : ''
   }`;
-  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
-  const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
+
+  const shortenBreadcrumb = useMemo(
+    () => pathsUsingBackLink.includes(crumbPath),
+    [pathsUsingBackLink, crumbPath],
+  );
+
+  // Determine whether the Recent Care Teams step should be part of the compose flow
+  const showRecentCareTeams = useMemo(
+    () =>
+      recentRecipients !== undefined &&
+      recentRecipients?.length > 0 &&
+      recentRecipients !== 'error' &&
+      recentRecipients !== null,
+    [recentRecipients],
+  );
+
+  // Validate if a path is a valid folder route - add future folder routes here
+  const isValidFolderRoute = path => {
+    if (!path) return false;
+    return (
+      path === Constants.Paths.INBOX ||
+      path === Constants.Paths.SENT ||
+      path.startsWith(Constants.Paths.FOLDERS)
+    );
+  };
+
+  const getComposeFlowMap = useCallback(
+    () => {
+      // Determine where the interstitial page should go back to
+      const interstitialBackDestination = isValidFolderRoute(composeEntryUrl)
+        ? composeEntryUrl
+        : Constants.Paths.INBOX;
+
+      const map = {
+        [Constants.Paths.COMPOSE]: interstitialBackDestination,
+        // Care team help always goes back to select care team
+        [Constants.Paths.CARE_TEAM_HELP]: `${Constants.Paths.COMPOSE}${
+          Constants.Paths.SELECT_CARE_TEAM
+        }`,
+        // Start message goes back to select care team
+        [`${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`]: `${
+          Constants.Paths.COMPOSE
+        }${Constants.Paths.SELECT_CARE_TEAM}`,
+      };
+
+      if (showRecentCareTeams) {
+        // Select care team goes back to recent care teams
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.RECENT_CARE_TEAMS;
+        // Recent care teams goes back to interstitial
+        map[Constants.Paths.RECENT_CARE_TEAMS] = Constants.Paths.COMPOSE;
+      } else {
+        // Without recent care teams step, select care team goes back to interstitial
+        map[`${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`] =
+          Constants.Paths.COMPOSE;
+      }
+
+      return map;
+    },
+    [showRecentCareTeams, composeEntryUrl],
+  );
 
   const navigateBack = useCallback(
     () => {
-      const { pathname } = location;
+      // Build current path including child path if present
+      const currentPath = `/${locationBasePath}/${
+        locationChildPath ? `${locationChildPath}` : ''
+      }`;
+
+      // Check if current page is in the compose flow
+      const composeFlowMap = getComposeFlowMap();
+      const composeFlowDestination = composeFlowMap[currentPath];
+
+      if (composeFlowDestination) {
+        history.push(composeFlowDestination);
+        return;
+      }
+
+      // Handle non-compose-flow pages
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
-
       const isCompose = previousUrl === Constants.Paths.COMPOSE;
       const isSentFolder =
         crumb?.href ===
@@ -94,17 +173,6 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      const isSelectCareTeam = pathname.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
-      const wasSelectCareTeam = previousUrl.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
-      const isDraft = previousUrl.includes(Constants.Paths.DRAFTS);
-      const wasCareTeamHelp = pathname === Constants.Paths.CARE_TEAM_HELP;
-      const wasStartMessage =
-        pathname ===
-        `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`;
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -114,14 +182,6 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-      } else if (wasCareTeamHelp) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (!isDraft && wasStartMessage) {
-        history.push(Constants.Paths.SELECT_CARE_TEAM);
-      } else if (wasSelectCareTeam) {
-        history.push(Constants.Paths.INBOX);
-      } else if (isSelectCareTeam) {
-        history.push(Constants.Paths.COMPOSE);
       } else {
         history.push(
           previousUrl !== Constants.Paths.CONTACT_LIST
@@ -132,11 +192,12 @@ const SmBreadcrumbs = () => {
     },
     [
       activeDraftId,
+      getComposeFlowMap,
       crumb?.href,
       history,
       locationBasePath,
+      locationChildPath,
       previousUrl,
-      location,
     ],
   );
 
@@ -234,16 +295,44 @@ const SmBreadcrumbs = () => {
       } else {
         dispatch(setBreadcrumbs([]));
       }
-
-      previousPath.current = path;
     },
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
+  );
+
+  // Track compose flow entry point
+  // When in compose flow and coming from a valid folder, capture that as entry point
+  useEffect(
+    () => {
+      // All compose flow routes start with /new-message/
+      const isInComposeFlow = location.pathname.startsWith(
+        Constants.Paths.COMPOSE,
+      );
+
+      // If in compose flow and previousUrl is a valid folder, set as entry point
+      // The folder validation prevents overwriting when navigating within compose flow
+      if (
+        isInComposeFlow &&
+        (previousUrl === Constants.Paths.INBOX ||
+          previousUrl === Constants.Paths.SENT ||
+          previousUrl?.startsWith(Constants.Paths.FOLDERS))
+      ) {
+        setComposeEntryUrl(previousUrl);
+      }
+    },
+    [location.pathname, previousUrl],
   );
 
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
   };
+
+  // Determine the correct back link href based on compose flow logic
+  const currentPath = `/${locationBasePath}/${
+    locationChildPath ? `${locationChildPath}` : ''
+  }`;
+  const composeFlowMap = getComposeFlowMap();
+  const backLinkHref = composeFlowMap[currentPath] || previousUrl;
 
   return (
     <div>
@@ -252,28 +341,17 @@ const SmBreadcrumbs = () => {
           aria-label="Breadcrumb"
           className="breadcrumbs vads-u-padding-y--4"
         >
-          <span className="sm-breadcrumb-list-item">
-            {backBreadcrumb ? (
-              <va-link
-                back
-                text="Back"
-                href={previousUrl}
-                onClick={e => {
-                  e.preventDefault();
-                  navigateBack();
-                }}
-                data-testid="sm-breadcrumbs-back"
-                data-dd-action-name="Breadcrumb - Back"
-              />
-            ) : (
-              <va-link
-                text={`Back to ${crumb.label}`}
-                href={crumb.href}
-                data-dd-privacy="mask"
-                data-dd-action-name="Breadcrumb - Back to"
-              />
-            )}
-          </span>
+          <va-link
+            back
+            text="Back"
+            href={`${manifest.rootUrl}${backLinkHref}`}
+            onClick={e => {
+              e.preventDefault();
+              navigateBack();
+            }}
+            data-testid="sm-breadcrumbs-back"
+            data-dd-action-name="Breadcrumb - Back"
+          />
         </nav>
       ) : (
         <VaBreadcrumbs

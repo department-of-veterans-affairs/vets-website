@@ -69,12 +69,15 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(history.location.pathname).to.equal(
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      );
     });
   });
 
-  it('Select care team page Back navigates to interstitial compose page (override previousUrl)', async () => {
-    const previousUrl = Paths.DRAFTS;
+  it('Select care team page Back navigates to interstitial compose page when previousUrl is not recent care teams', async () => {
+    // User navigated from interstitial page to select care team
+    const previousUrl = Paths.COMPOSE;
     const { container, history } = renderAt(
       `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       {
@@ -93,7 +96,32 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.COMPOSE}`);
+      expect(history.location.pathname).to.equal(`${Paths.RECENT_CARE_TEAMS}`);
+    });
+  });
+
+  it('Select care team page Back navigates to recent care teams when previousUrl is recent care teams', async () => {
+    // User selected "Other" from recent care teams list
+    const previousUrl = Paths.RECENT_CARE_TEAMS;
+    const { container, history } = renderAt(
+      `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      {
+        sm: {
+          breadcrumbs: { previousUrl },
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(Paths.RECENT_CARE_TEAMS);
     });
   });
 
