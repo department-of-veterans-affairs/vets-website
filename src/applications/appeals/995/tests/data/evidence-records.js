@@ -5,20 +5,12 @@ export const records = ({ emptyIssue = false } = {}) => ({
       issues: emptyIssue ? [] : ['Hypertension'],
       treatmentDate: '2000-02',
       noDate: false,
-      evidenceDates: {
-        from: '',
-        to: '',
-      },
     },
     {
       locationAndName: 'Midwest Alabama VA Facility',
       issues: ['Hypertension', 'Gluten Intolerance'],
       treatmentDate: '',
       noDate: true,
-      evidenceDates: {
-        from: '',
-        to: '',
-      },
     },
   ],
   providerFacility: [
