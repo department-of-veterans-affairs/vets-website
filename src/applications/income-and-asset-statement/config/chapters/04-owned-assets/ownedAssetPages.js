@@ -327,7 +327,7 @@ const parentSummaryPage = {
 };
 
 /** @returns {PageSchema} */
-const incomeRecipientPage = {
+const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Property and business relationship',
@@ -723,12 +723,12 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     schema: parentIncomeRecipientPage.schema,
   }),
   // Page 1 MVP
-  ownedAssetIncomeRecipientPage: pageBuilder.itemPage({
+  ownedAssetNonVeteranRecipientPage: pageBuilder.itemPage({
     title: incomeRecipientPageTitle,
     path: 'property-and-business/:index/income-recipient',
     depends: () => !showUpdatedContent(),
-    uiSchema: incomeRecipientPage.uiSchema,
-    schema: incomeRecipientPage.schema,
+    uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+    schema: nonVeteranIncomeRecipientPage.schema,
   }),
   // When claimantType is 'CHILD' we skip showing the recipient page entirely
   // To preserve required data, we auto-set recipientRelationship to 'CHILD'

@@ -570,10 +570,10 @@ describe('owned asset list and loop pages', () => {
       });
 
       const schema =
-        ownedAssetPages.ownedAssetIncomeRecipientPage.schema.properties
+        ownedAssetPages.ownedAssetNonVeteranRecipientPage.schema.properties
           .ownedAssets.items;
       const uiSchema =
-        ownedAssetPages.ownedAssetIncomeRecipientPage.uiSchema.ownedAssets
+        ownedAssetPages.ownedAssetNonVeteranRecipientPage.uiSchema.ownedAssets
           .items;
 
       testNumberOfFieldsByType(
@@ -617,10 +617,10 @@ describe('owned asset list and loop pages', () => {
 
       describe('default updated recipient page', () => {
         const schema =
-          ownedAssetPages.ownedAssetIncomeRecipientPage.schema.properties
+          ownedAssetPages.ownedAssetNonVeteranRecipientPage.schema.properties
             .ownedAssets.items;
         const uiSchema =
-          ownedAssetPages.ownedAssetIncomeRecipientPage.uiSchema.ownedAssets
+          ownedAssetPages.ownedAssetNonVeteranRecipientPage.uiSchema.ownedAssets
             .items;
         const formData = {
           ...testData.data.ownedAssets[0],
