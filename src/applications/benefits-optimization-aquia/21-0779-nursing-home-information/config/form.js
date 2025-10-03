@@ -78,8 +78,8 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    veteranInformationChapter: {
-      title: 'Veteran information',
+    nursingOfficialPersonalChapter: {
+      title: 'Your personal information',
       pages: {
         nursingOfficialInformation: {
           path: 'nursing-official-information',
@@ -94,35 +94,6 @@ const formConfig = {
           onErrorChange: createValidationErrorHandler(
             'nursingOfficialInformation',
           ),
-        },
-        veteranIdentification: {
-          path: 'veteran-identification',
-          title: 'Veteran identification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranIdentificationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranIdentification'),
-        },
-      },
-    },
-    claimantInformationChapter: {
-      title: 'Claimant information',
-      pages: {
-        claimantIdentification: {
-          path: 'claimant-identification',
-          title: 'Claimant identification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ClaimantIdentificationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(claimantIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('claimantIdentification'),
         },
       },
     },
@@ -141,6 +112,92 @@ const formConfig = {
             createPageValidator(nursingHomeDetailsSchema)(values),
           onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
         },
+      },
+    },
+    patientInformationChapter: {
+      title: 'Patient information',
+      pages: {
+        claimantIdentification: {
+          path: 'claimant-identification',
+          title: 'Claimant identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ClaimantIdentificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(claimantIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('claimantIdentification'),
+        },
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: 'Veteran identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranIdentificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranIdentification'),
+        },
+      },
+    },
+    levelOfCareChapter: {
+      title: 'Certification',
+      pages: {
+        certificationLevelOfCare: {
+          path: 'certification-level-of-care',
+          title: 'Level of care certification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CertificationLevelOfCarePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(certificationLevelOfCareSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'certificationLevelOfCare',
+          ),
+        },
+      },
+    },
+    medicaidChapter: {
+      title: 'Medicaid',
+      pages: {
+        certificationLevelOfCare: {
+          path: 'certification-level-of-care',
+          title: 'Level of care certification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CertificationLevelOfCarePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(certificationLevelOfCareSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'certificationLevelOfCare',
+          ),
+        },
+        officialInfoAndSignature: {
+          path: 'official-info-and-signature',
+          title: "Official's information and signature",
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: OfficialInfoAndSignaturePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(officialInfoAndSignatureSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'officialInfoAndSignature',
+          ),
+        },
+      },
+    },
+    costsChapter: {
+      title: 'Nursing home information',
+      pages: {
         medicaidAndCost: {
           path: 'medicaid-and-cost',
           title: 'Medicaid and cost information',
@@ -152,72 +209,6 @@ const formConfig = {
           verifyItemValues: values =>
             createPageValidator(medicaidAndCostSchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidAndCost'),
-        },
-      },
-    },
-    certificationChapter: {
-      title: 'Certification',
-      pages: {
-        certificationLevelOfCare: {
-          path: 'certification-level-of-care',
-          title: 'Level of care certification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: CertificationLevelOfCarePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(certificationLevelOfCareSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'certificationLevelOfCare',
-          ),
-        },
-        officialInfoAndSignature: {
-          path: 'official-info-and-signature',
-          title: "Official's information and signature",
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: OfficialInfoAndSignaturePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(officialInfoAndSignatureSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'officialInfoAndSignature',
-          ),
-        },
-      },
-    },
-    certificationChapter: {
-      title: 'Certification',
-      pages: {
-        certificationLevelOfCare: {
-          path: 'certification-level-of-care',
-          title: 'Level of care certification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: CertificationLevelOfCarePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(certificationLevelOfCareSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'certificationLevelOfCare',
-          ),
-        },
-        officialInfoAndSignature: {
-          path: 'official-info-and-signature',
-          title: "Official's information and signature",
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: OfficialInfoAndSignaturePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(officialInfoAndSignatureSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'officialInfoAndSignature',
-          ),
         },
       },
     },
