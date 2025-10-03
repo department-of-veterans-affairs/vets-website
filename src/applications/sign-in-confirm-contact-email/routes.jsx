@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
-import App from './containers/App';
+import EmailConfirmationInterstitial from './containers/EmailConfirmationInterstitial';
 
-const routes = <Route path="/" component={App} />;
+const routes = <Route path="/" component={EmailConfirmationInterstitial} />;
 
 export default routes;
