@@ -50,8 +50,6 @@ import {
   showPtsdNonCombat,
   showSeparationLocation,
   showToxicExposureDestructionModal,
-  showToxicExposureOptOutDataPurge,
-  showToxicExposureOptOutDataPurgeByUser,
   skip781,
   truncateDescriptions,
   validateConditions,
@@ -1091,48 +1089,6 @@ describe('526 v2 depends functions', () => {
     it('should get wizard feature flag value of false', () => {
       expect(show526Wizard({ featureToggles: { show526Wizard: false } })).to.be
         .false;
-    });
-  });
-
-  describe('showToxicExposureOptOutDataPurge', () => {
-    it('should get toxic exposure opt out data purge feature flag value of true', () => {
-      expect(
-        showToxicExposureOptOutDataPurge({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurge: true,
-          },
-        }),
-      ).to.be.true;
-    });
-    it('should get toxic exposure opt out data purge feature flag value of false', () => {
-      expect(
-        showToxicExposureOptOutDataPurge({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurge: false,
-          },
-        }),
-      ).to.be.false;
-    });
-  });
-
-  describe('showToxicExposureOptOutDataPurgeByUser', () => {
-    it('should get toxic exposure opt out data purge by user feature flag value of true', () => {
-      expect(
-        showToxicExposureOptOutDataPurgeByUser({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurgeByUser: true,
-          },
-        }),
-      ).to.be.true;
-    });
-    it('should get toxic exposure opt out data purge by user feature flag value of false', () => {
-      expect(
-        showToxicExposureOptOutDataPurgeByUser({
-          featureToggles: {
-            disability526ToxicExposureOptOutDataPurgeByUser: false,
-          },
-        }),
-      ).to.be.false;
     });
   });
 

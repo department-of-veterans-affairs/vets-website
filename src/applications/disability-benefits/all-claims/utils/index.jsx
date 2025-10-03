@@ -692,26 +692,6 @@ export const showSubform8940And4192 = state =>
 export const showToxicExposureDestructionModal = state =>
   toggleValues(state).disabilityCompensationToxicExposureDestructionModal;
 
-/**
- * Selector to check if the toxic exposure opt-out data purge feature flag is enabled.
- * This flag is for percentage-based rollouts to the general audience.
- * @param {Object} state - Redux state object
- * @returns {boolean} True if the feature flag is enabled, false otherwise
- */
-export const showToxicExposureOptOutDataPurge = state =>
-  toggleValues(state).disability526ToxicExposureOptOutDataPurge;
-
-/**
- * Selector to check if the toxic exposure opt-out data purge by user feature flag is enabled.
- * This flag is for targeting directly affected users (user-specific targeting),
- * whereas disability_526_toxic_exposure_opt_out_data_purge is for percentage-based rollouts
- * to the general audience.
- * @param {Object} state - Redux state object
- * @returns {boolean} True if the feature flag is enabled, false otherwise
- */
-export const showToxicExposureOptOutDataPurgeByUser = state =>
-  toggleValues(state).disability526ToxicExposureOptOutDataPurgeByUser;
-
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <div className="row vads-u-padding-x--1p5">
