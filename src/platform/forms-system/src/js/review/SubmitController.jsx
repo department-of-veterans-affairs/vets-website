@@ -96,7 +96,37 @@ class SubmitController extends Component {
             '[error]:not([error=""])',
           ].join(','),
         );
-        if (
+        // Special handling for VaStatementOfTruth to focus on the specific input field
+        if (error?.tagName === 'VA-STATEMENT-OF-TRUTH') {
+          // If there's an input error, focus on the text input
+          if (
+            error.hasAttribute('input-error') &&
+            error.getAttribute('input-error')
+          ) {
+            const textInput = $('va-text-input', error.shadowRoot);
+            if (textInput) {
+              focusElement(textInput);
+            } else {
+              // Fallback to focusing the component itself
+              focusElement(error);
+            }
+          }
+          // If there's only a checkbox error, focus on the checkbox
+          else if (
+            error.hasAttribute('checkbox-error') &&
+            error.getAttribute('checkbox-error')
+          ) {
+            const checkbox = $('va-checkbox', error.shadowRoot);
+            if (checkbox) {
+              focusElement(checkbox);
+            } else {
+              // Fallback to focusing the component itself
+              focusElement(error);
+            }
+          } else {
+            focusElement(error);
+          }
+        } else if (
           error?.tagName.startsWith('VA-') &&
           formConfig?.formOptions?.focusOnAlertRole
         ) {

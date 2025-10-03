@@ -551,3 +551,110 @@ Cypress.Commands.add(
     });
   },
 );
+
+/**
+ * Test focus behavior for Statement of Truth validation errors
+ * This command helps verify that focus goes to the correct field when there are validation errors
+ */
+Cypress.Commands.add(
+  'testVaStatementOfTruthFocus',
+  (field, { correctName, incorrectName } = {}) => {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-statement-of-truth[name="${field}"]`)
+        : cy.wrap(field);
+
+    // Test input error focus
+    if (incorrectName && correctName) {
+      cy.log('Testing input field focus on validation error');
+
+      // Fill in incorrect name and check the checkbox to trigger validation
+      element.shadow().within(() => {
+        cy.get('va-text-input').then($textInput => {
+          cy.fillVaTextInput($textInput, incorrectName);
+        });
+        cy.get('va-checkbox').then($checkbox => {
+          cy.selectVaCheckbox($checkbox, true);
+        });
+      });
+
+      // Try to submit (this should trigger validation and focus behavior)
+      cy.findByText(/submit/i, { selector: 'button' }).click();
+
+      // Check that the statement of truth component has input-error attribute
+      element.should('have.attr', 'input-error');
+
+      // Verify that focus goes to the text input field within the component
+      element.shadow().within(() => {
+        cy.get('va-text-input')
+          .shadow()
+          .find('input')
+          .should('be.focused');
+      });
+
+      // Fix the error by entering correct name
+      element.shadow().within(() => {
+        cy.get('va-text-input').then($textInput => {
+          cy.fillVaTextInput($textInput, correctName);
+        });
+      });
+    }
+
+    // Test checkbox error focus
+    cy.log('Testing checkbox focus on validation error');
+
+    // Fill in correct name but uncheck the checkbox
+    if (correctName) {
+      element.shadow().within(() => {
+        cy.get('va-text-input').then($textInput => {
+          cy.fillVaTextInput($textInput, correctName);
+        });
+        cy.get('va-checkbox').then($checkbox => {
+          cy.selectVaCheckbox($checkbox, false);
+        });
+      });
+
+      // Try to submit (this should trigger checkbox validation and focus)
+      cy.findByText(/submit/i, { selector: 'button' }).click();
+
+      // Check that the statement of truth component has checkbox-error attribute
+      element.should('have.attr', 'checkbox-error');
+
+      // Verify that focus goes to the checkbox field within the component
+      element.shadow().within(() => {
+        cy.get('va-checkbox')
+          .shadow()
+          .find('input')
+          .should('be.focused');
+      });
+
+      // Fix the error by checking the checkbox
+      element.shadow().within(() => {
+        cy.get('va-checkbox').then($checkbox => {
+          cy.selectVaCheckbox($checkbox, true);
+        });
+      });
+    }
+  },
+);
+
+/**
+ * Simple command to verify that focus is on the correct Statement of Truth field after validation
+ */
+Cypress.Commands.add('verifyStatementOfTruthFocus', expectedFocusField => {
+  cy.get('va-statement-of-truth')
+    .shadow()
+    .within(() => {
+      if (expectedFocusField === 'input') {
+        cy.get('va-text-input')
+          .shadow()
+          .find('input')
+          .should('be.focused');
+      } else if (expectedFocusField === 'checkbox') {
+        cy.get('va-checkbox')
+          .shadow()
+          .find('input')
+          .should('be.focused');
+      }
+    });
+});
