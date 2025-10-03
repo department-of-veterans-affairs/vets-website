@@ -15,7 +15,6 @@ const getData = ({
   isVerified = true,
   dob = '2000-01-01',
   canAppeal = true,
-  toggle = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -80,16 +79,6 @@ describe('IntroductionPage', () => {
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
     expect($('.sip-wrapper', container)).to.exist;
-    expect(queryByText(/Other VA health care benefits and services/)).to.exist;
-  });
-
-  it('should render MST section when feature toggle is enabled', () => {
-    const { props, mockStore } = getData({ toggle: true });
-    const { queryByText } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
     expect(queryByText(/Other VA health care benefits and services/)).to.exist;
   });
 

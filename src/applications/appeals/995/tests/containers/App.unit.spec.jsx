@@ -30,7 +30,6 @@ const getData = ({
   pathname = '/introduction',
   push = () => {},
   status = '',
-  toggle = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {

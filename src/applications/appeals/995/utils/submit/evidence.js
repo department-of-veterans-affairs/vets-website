@@ -17,11 +17,8 @@ import { LIMITED_CONSENT_RESPONSE } from '../../constants';
  * @type {Object}
  * @property {String} locationAndName - VA or private medical records name
  * @property {Array<String>} issues - list of selected issues
- * @property {String} treatmentDate - YYYY-MM (new form)
- * @property {Boolean} noDate - no date provided (new form)
- * @property {Object} evidenceDates - date range (current form)
- * @property {String} evidenceDates.from - YYYY-MM-DD
- * @property {String} evidenceDates.to - YYYY-MM-DD
+ * @property {String} treatmentDate - YYYY-MM
+ * @property {Boolean} noDate - no date provided
  */
 /**
  * Get treatment date and noData boolean, then return a full date (YYYY-MM-DD)
@@ -45,11 +42,7 @@ export const getTreatmentDate = location => {
   return fixDateFormat(date, treatmentDate.length === 4);
 };
 
-export const hasDuplicateLocation = (
-  list,
-  currentLocation,
-  newForm = false,
-) => {
+export const hasDuplicateLocation = (list, currentLocation) => {
   const currentString = buildVaLocationString({
     data: {
       ...currentLocation,
@@ -60,7 +53,6 @@ export const hasDuplicateLocation = (
     },
     joiner: ',',
     includeIssues: false,
-    newForm,
   });
 
   return list.some(location => {
@@ -81,7 +73,6 @@ export const hasDuplicateLocation = (
       joiner: ',',
       includeIssues: false,
       wrapped: true,
-      newForm,
     });
 
     return locationString === currentString;
