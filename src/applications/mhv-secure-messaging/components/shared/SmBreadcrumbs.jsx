@@ -172,9 +172,9 @@ const SmBreadcrumbs = () => {
         crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
-      const wasSelectCareTeam = previousUrl.includes(
-        Constants.Paths.SELECT_CARE_TEAM,
-      );
+      // const wasSelectCareTeam = previousUrl.includes(
+      // Constants.Paths.SELECT_CARE_TEAM,
+      // );
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
@@ -184,8 +184,8 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.SENT);
       } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
-      } else if (wasSelectCareTeam) {
-        history.push(Constants.Paths.INBOX);
+        // } else if (wasSelectCareTeam) {
+        // history.push(Constants.Paths.INBOX);
       } else {
         // Default: go to previousUrl, but skip contact list (redirect to inbox instead)
         history.push(
