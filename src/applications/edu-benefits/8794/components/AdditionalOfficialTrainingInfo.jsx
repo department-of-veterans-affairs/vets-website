@@ -14,9 +14,15 @@ const AdditionalOfficialTrainingInfo = ({ formContext }) => {
     <>
       <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
         {official?.fullName?.first && official?.fullName?.last
-          ? `${official.fullName.first} ${
-              official.fullName.last
-            }'s Section 305 training`
+          ? `${official.fullName.first
+              .charAt(0)
+              .toUpperCase()}${official.fullName.first.slice(
+              1,
+            )} ${official.fullName.last
+              .charAt(0)
+              .toUpperCase()}${official.fullName.last.slice(
+              1,
+            )}'s Section 305 training`
           : 'Section 305 Training'}
       </h3>
       {certifyingOfficialTrainingInfo}
