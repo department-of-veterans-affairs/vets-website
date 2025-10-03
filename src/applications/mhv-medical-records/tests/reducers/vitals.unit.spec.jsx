@@ -272,4 +272,16 @@ describe('getMeasurement', () => {
     const measurement = getMeasurement(record, type);
     expect(measurement).to.eq(EMPTY_FIELD);
   });
+
+  it('formats pulse oximetry with a space before % for legacy compatibility', () => {
+    const record = {
+      valueQuantity: {
+        value: 84,
+        code: '%',
+      },
+    };
+    const type = 'PULSE_OXIMETRY';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('84 %');
+  });
 });
