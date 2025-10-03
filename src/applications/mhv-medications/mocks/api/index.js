@@ -27,7 +27,7 @@ const delaySingleResponse = (cb, delayInMs = 1000) => {
 const responses = {
   ...commonResponses,
   'GET /v0/user': (_req, res) => {
-    delaySingleResponse(() => res.json(user.cernerUser), 750);
+    delaySingleResponse(() => res.json(user.defaultUser), 750);
   },
   'GET /v0/feature_toggles': (_req, res) => {
     const toggles = featureToggles.generateFeatureToggles({});
