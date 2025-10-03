@@ -95,8 +95,7 @@ describe('Supplemental Claims VA evidence request page', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  // *** New content ***
-  it('should render new content', () => {
+  it('should render the proper content', () => {
     const store = mockStore();
     const { data } = store.getState().form;
     const { container } = render(
@@ -114,7 +113,6 @@ describe('Supplemental Claims VA evidence request page', () => {
     const radio = $('va-radio', container);
     expect(radio.getAttribute('label')).to.eq(requestVaRecordsTitle);
     expect(radio.getAttribute('hint')).to.eq(requestVaRecordsHint);
-    // Removed in new content - render controlled by <Toggler>
-    expect($('va-additional-info', container)).to.not.exist;
+    expect($('va-additional-info', container)).to.exist;
   });
 });

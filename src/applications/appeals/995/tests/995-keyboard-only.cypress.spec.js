@@ -62,17 +62,11 @@ describe('Supplemental Claim keyboard only navigation', () => {
       h.verifyUrl(h.VETERAN_INFO_PATH);
       cy.tabToContinueForm();
 
-      // Feature toggles are flaky in the Cypress env for some reason
-      // Adding this here until we completely remove the SC new toggle (as this page depends on it)
-      cy.url().then(url => {
-        if (url.includes(h.HOMELESSNESS_PATH)) {
-          // *** Homelessness page
-          h.verifyUrl(h.HOMELESSNESS_PATH);
-          cy.tabToElement('[name="root_housingRisk"]');
-          cy.chooseRadio('Y');
-          cy.tabToContinueForm();
-        }
-      });
+      // *** Homelessness page
+      h.verifyUrl(h.HOMELESSNESS_PATH);
+      cy.tabToElement('[name="root_housingRisk"]');
+      cy.chooseRadio('Y');
+      cy.tabToContinueForm();
 
       // *** Living situation page
       h.verifyUrl(h.LIVING_SITUATION_PATH);
