@@ -84,6 +84,7 @@ const nameAndAddressPage = {
         required:
           'Enter the name of the private provider or hospital where you received treatment',
       },
+      hint: '(Max. 60 characters)',
     }),
     [providerFacilityFields.providerFacilityAddress]: addressNoMilitaryUI({
       omit: ['street3'],

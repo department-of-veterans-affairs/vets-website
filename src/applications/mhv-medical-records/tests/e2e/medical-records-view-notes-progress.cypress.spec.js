@@ -7,7 +7,7 @@ import notes from './fixtures/notes/notes.json';
 describe('Medical Records Care Summary Page ', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
     NotesListPage.gotoNotesList();
@@ -32,10 +32,7 @@ describe('Medical Records Care Summary Page ', () => {
       }`,
     );
     // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy(
-      // notes.entry[0].resource.contained[2].name[0].text, // "text": "AHMED,MARUF"
-      'AHMED MARUF',
-    );
+    NotesDetailsPage.verifyProgressNoteSignedBy('AHMED MARUF');
     // Verify Progress Note Details Signed Date
     NotesDetailsPage.verifyProgressNoteSignedDate(
       moment(
