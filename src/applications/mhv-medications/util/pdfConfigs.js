@@ -10,10 +10,10 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
+  medStatusDisplayTypes,
   FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
 } from './constants';
@@ -131,8 +131,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
     const isPending = pendingMed || pendingRenewal;
-    const pdfStatusDefinition =
-      pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
+    // const pdfStatusDefinition =
+    //   pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
     const mostRecentRxRefillLine = () => {
       const newest = getMostRecentRxRefill(rx);
 
@@ -172,17 +172,18 @@ export const buildPrescriptionsPDFList = prescriptions => {
               : []),
             {
               title: 'Status',
-              value: `${validateField(rx.dispStatus)} - ${
-                pdfStatusDefinition?.[0]?.value
-              }`,
+              value: validateField(
+                prescriptionMedAndRenewalStatus(
+                  rx,
+                  medStatusDisplayTypes.PRINT,
+                ),
+              ),
               inline: true,
             },
             {
               isRich: true,
-              value:
-                pdfStatusDefinition?.length > 1
-                  ? pdfStatusDefinition.slice(1)
-                  : [],
+              value: validateField(rx.dispStatus),
+              indent: 32,
             },
             {
               title: 'Refills left',
@@ -382,14 +383,13 @@ export const buildVAPrescriptionPDFList = prescription => {
               : []),
             {
               title: 'Status',
-              value: prescription.dispStatus || 'Unknown',
+              value: validateField(
+                prescriptionMedAndRenewalStatus(
+                  prescription,
+                  medStatusDisplayTypes.PRINT,
+                ),
+              ),
               inline: true,
-            },
-            {
-              isRich: true,
-              value:
-                pdfStatusDefinitions[prescription.refillStatus] ||
-                pdfDefaultStatusDefinition,
             },
             {
               title: 'Refills left',
