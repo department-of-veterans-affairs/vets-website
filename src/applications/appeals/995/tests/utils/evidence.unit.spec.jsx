@@ -45,15 +45,22 @@ describe('getVAEvidence', () => {
     expect(
       getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
     ).to.deep.equal([]);
+
     expect(
       getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
     ).to.deep.equal([{}]);
+
     expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
       [],
     );
+
     expect(
       getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
     ).to.deep.equal([]);
+
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{ test: 'test' }] }),
+    ).to.eq(true);
   });
 });
 
@@ -236,14 +243,6 @@ describe('onFormLoaded', () => {
     expect(router[0]).to.eq(returnUrl);
   });
 
-  it('should do nothing when locations is an empty array when feature toggle is set', () => {
-    const router = [];
-    const formData = getData();
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData());
-    expect(router[0]).to.eq(returnUrl);
-  });
-
   it('should do nothing when feature toggle is not set', () => {
     const router = [];
     const locations = [getLocation({ from: '2010-03-04' })];
@@ -308,3 +307,249 @@ describe('onFormLoaded', () => {
     expect(sessionStorage.getItem(HAS_REDIRECTED)).to.eq('true');
   });
 });
+
+
+{
+    "data": {
+        "type": "supplementalClaim",
+        "attributes": {
+            "benefitType": "compensation",
+            "claimantType": "veteran",
+            "homeless": true,
+            "homelessLivingSituation": [
+                "I LIVE OR SLEEP IN A PLACE THAT IS NOT MEANT FOR REGULAR SLEEPING",
+                "I LIVE IN A SHELTER",
+                "I AM STAYING WITH A FRIEND OR FAMILY MEMBER, BECAUSE I AM UNABLE TO OWN A HOME RIGHT NOW",
+                "IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER",
+                "IN THE NEXT 30 DAYS, I WILL LOSE MY HOME",
+                "OTHER"
+            ],
+            "homelessLivingSituationOther": "Another housing risk",
+            "homelessPointOfContact": "Ted Mosby",
+            "homelessPointOfContactPhone": {
+                "areaCode": "210",
+                "phoneNumber": "5550123"
+            },
+            "mstUpcomingEventDisclosure": "I REVOKE PRIOR CONSENT",
+            "veteran": {
+                "timezone": "America/Chicago",
+                "address": {
+                    "addressLine1": "Street",
+                    "addressLine2": "812 Harrow Road",
+                    "city": "London",
+                    "countryCodeISO2": "GB",
+                    "zipCode5": "00000",
+                    "internationalPostalCode": "W2 1JP"
+                },
+                "phone": {
+                    "countryCode": "1",
+                    "areaCode": "210",
+                    "phoneNumber": "5551234"
+                },
+                "email": "vaeventbusdemo@adhocteam.us"
+            },
+            "form5103Acknowledged": true,
+            "evidenceSubmission": {
+                "evidenceType": [
+                    "retrieval",
+                    "upload"
+                ],
+                "treatmentLocations": [
+                    "VA MEDICAL CENTERS (VAMC) AND COMMUNITY-BASED OUTPATIENT CLINICS (CBOC)",
+                    "DEPARTMENT OF DEFENSE (DOD) MILITARY TREATMENT FACILITY(IES) (MTF)",
+                    "COMMUNITY CARE",
+                    "VA VET CENTER",
+                    "PRIVATE HEALTH CARE PROVIDER",
+                    "OTHER"
+                ],
+                "treatmentLocationOther": "Some other type of provider",
+                "retrieveFrom": [
+                    {
+                        "type": "retrievalEvidence",
+                        "attributes": {
+                            "locationAndName": "South Texas VA Facility",
+                            "evidenceDates": [
+                                {
+                                    "startDate": "2000-01-01",
+                                    "endDate": "2000-01-01"
+                                }
+                            ],
+                            "noTreatmentDates": false
+                        }
+                    },
+                    {
+                        "type": "retrievalEvidence",
+                        "attributes": {
+                            "locationAndName": "Central California VA Facility",
+                            "noTreatmentDates": true
+                        }
+                    },
+                    {
+                        "type": "retrievalEvidence",
+                        "attributes": {
+                            "locationAndName": "Mountaintop Washington VA Facility",
+                            "evidenceDates": [
+                                {
+                                    "startDate": "2020-03-01",
+                                    "endDate": "2020-03-01"
+                                }
+                            ],
+                            "noTreatmentDates": false
+                        }
+                    },
+                    {
+                        "type": "retrievalEvidence",
+                        "attributes": {
+                            "locationAndName": "South Texas VA Facility",
+                            "evidenceDates": [
+                                {
+                                    "startDate": "2000-07-01",
+                                    "endDate": "2000-07-01"
+                                }
+                            ],
+                            "noTreatmentDates": false
+                        }
+                    }
+                ]
+            },
+            "socOptIn": true
+        }
+    },
+    "included": [
+        {
+            "type": "contestableIssue",
+            "attributes": {
+                "issue": "Hypertension",
+                "decisionDate": "2023-01-10"
+            }
+        },
+        {
+            "type": "contestableIssue",
+            "attributes": {
+                "issue": "Tinnitus",
+                "decisionDate": "2020-08-08"
+            }
+        },
+        {
+            "type": "contestableIssue",
+            "attributes": {
+                "issue": "Right Knee Injury",
+                "decisionDate": "2018-05-15"
+            }
+        },
+        {
+            "type": "contestableIssue",
+            "attributes": {
+                "issue": "Migraines",
+                "decisionDate": "1999-03-29"
+            }
+        }
+    ],
+    "form4142": {
+        "privacyAgreementAccepted": true,
+        "limitedConsent": "Limited consent details",
+        "providerFacility": [
+            {
+                "providerFacilityName": "Provider One",
+                "providerFacilityAddress": {
+                    "country": "USA",
+                    "street": "123 Main Street",
+                    "street2": "Street address 2",
+                    "city": "San Antonio",
+                    "state": "TX",
+                    "postalCode": "78258"
+                },
+                "issues": [
+                    "Hypertension",
+                    "Migraines"
+                ],
+                "treatmentDateRange": [
+                    {
+                        "from": "2020-10-10",
+                        "to": "2020-11-10"
+                    }
+                ]
+            },
+            {
+                "providerFacilityName": "Provider Two",
+                "providerFacilityAddress": {
+                    "country": "USA",
+                    "street": "456 Elm Street",
+                    "street2": "",
+                    "city": "Madison",
+                    "state": "WI",
+                    "postalCode": "47676"
+                },
+                "issues": [
+                    "Tinnitus",
+                    "Migraines"
+                ],
+                "treatmentDateRange": [
+                    {
+                        "from": "2017-06-06",
+                        "to": "2017-10-06"
+                    }
+                ]
+            },
+            {
+                "providerFacilityName": "Provider Three",
+                "providerFacilityAddress": {
+                    "country": "USA",
+                    "street": "789 Maple Avenue",
+                    "street2": "",
+                    "city": "Montgomery",
+                    "state": "AL",
+                    "postalCode": "94737"
+                },
+                "issues": [
+                    "Tinnitus",
+                    "Right Knee Injury"
+                ],
+                "treatmentDateRange": [
+                    {
+                        "from": "2018-02-20",
+                        "to": "2018-02-21"
+                    }
+                ]
+            },
+            {
+                "providerFacilityName": "Provider Three",
+                "providerFacilityAddress": {
+                    "country": "USA",
+                    "street": "909 Sycamore Blvd",
+                    "street2": "Line 2",
+                    "city": "Sacramento",
+                    "state": "CA",
+                    "postalCode": "47367"
+                },
+                "issues": [
+                    "Tinnitus",
+                    "Right Knee Injury",
+                    "Migraines"
+                ],
+                "treatmentDateRange": [
+                    {
+                        "from": "1999-06-10",
+                        "to": "1999-06-11"
+                    }
+                ]
+            }
+        ]
+    },
+    "additionalDocuments": [
+        {
+            "name": "2018-4142-Form.pdf",
+            "size": 742917,
+            "confirmationCode": "0bdbc758-a74b-47ef-8598-5fa9e4d904ab",
+            "attachmentId": "L023",
+            "isEncrypted": false
+        },
+        {
+            "name": "2021-4142-Form.pdf",
+            "size": 1028976,
+            "confirmationCode": "22a53c79-d944-492e-9ecc-1fd5257d9f99",
+            "attachmentId": "L048",
+            "isEncrypted": false
+        }
+    ]
+}

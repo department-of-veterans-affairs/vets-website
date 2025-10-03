@@ -27,9 +27,9 @@ const VA_PATH = `/${EVIDENCE_VA_DETAILS_URL}`;
 const defaultData = {
   locationAndName: '',
   issues: [],
-  evidenceDates: { from: '', to: '' },
   treatmentDate: '',
 };
+
 const defaultState = {
   dirty: {
     name: false,
@@ -110,8 +110,6 @@ const EvidenceVaRecords = ({
   const updateCurrentLocation = ({
     name = currentData.locationAndName,
     issues = currentData.issues,
-    from = currentData.evidenceDates?.from,
-    to = currentData.evidenceDates?.to,
     txdate = currentData.treatmentDate,
     nodate = currentData.noDate,
     remove = false,
@@ -119,20 +117,18 @@ const EvidenceVaRecords = ({
     const newData = {
       locationAndName: name,
       issues,
-      evidenceDates: {
-        from,
-        to,
-      },
       treatmentDate: txdate,
       noDate: nodate,
     };
 
     const newLocations = [...locations];
+
     if (remove) {
       newLocations.splice(currentIndex, 1);
     } else {
       newLocations[currentIndex] = newData;
     }
+
     setCurrentData(newData);
     setFormData({ ...data, locations: newLocations });
     return newLocations;
