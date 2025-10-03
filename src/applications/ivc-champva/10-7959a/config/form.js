@@ -48,7 +48,9 @@ import {
 } from '../chapters/sponsorInformation';
 
 import {
-  claimIdentifyingNumber,
+  claimIdentificationNumber,
+  resubmissionLetterUpload,
+  resubmissionDocsUpload,
   claimType,
   medicalClaimDetails,
   medicalUploadSupportingDocs,
@@ -174,18 +176,40 @@ const formConfig = {
       },
     },
     resubmissionInformation: {
-      title: 'Claim information',
+      title: 'Resubmission information',
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
           depends: formData => get('claimStatus', formData) === 'resubmission',
-          ...claimIdentifyingNumber,
+          ...claimIdentificationNumber,
+        },
+        page1e2: {
+          path: 'resubmission-letter-upload',
+          title: 'Upload CHAMPVA resubmission letter',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            formData['view:champvaEnabledResubmitUploads'],
+          CustomPage: FileFieldCustomSimple,
+          CustomPageReview: null,
+          ...resubmissionLetterUpload,
+        },
+        page1e3: {
+          path: 'resubmission-supporting-docs-upload',
+          title: 'Upload supporting documents for your claim',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            formData['view:champvaEnabledResubmitUploads'],
+          CustomPage: FileFieldCustomSimple,
+          CustomPageReview: null,
+          ...resubmissionDocsUpload,
         },
         page1f: {
           path: 'resubmission-claim-type',
           title: 'Claim type',
-          depends: formData => get('claimStatus', formData) === 'resubmission',
+          depends: formData =>
+            get('claimStatus', formData) === 'resubmission' &&
+            !formData['view:champvaEnabledResubmitUploads'],
           ...claimType,
         },
         page1g: {
@@ -193,7 +217,8 @@ const formConfig = {
           title: 'Claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
+            get('claimType', formData) === 'medical' &&
+            !formData['view:champvaEnabledResubmitUploads'],
           ...medicalClaimDetails,
         },
         page1h: {
@@ -201,7 +226,8 @@ const formConfig = {
           title: 'claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
+            get('claimType', formData) === 'medical' &&
+            !formData['view:champvaEnabledResubmitUploads'],
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...medicalUploadSupportingDocs,
@@ -211,7 +237,8 @@ const formConfig = {
           title: 'claim details',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
+            get('claimType', formData) === 'pharmacy' &&
+            !formData['view:champvaEnabledResubmitUploads'],
           ...pharmacyClaimDetails,
         },
         page1k: {
@@ -219,7 +246,8 @@ const formConfig = {
           title: 'Upload support documents for your pharmacy claim',
           depends: formData =>
             get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
+            get('claimType', formData) === 'pharmacy' &&
+            !formData['view:champvaEnabledResubmitUploads'],
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...pharmacyClaimUploadDocs,
