@@ -32,6 +32,7 @@ const UploadMessage = (
 export default {
   title: 'Upload documents',
   path: 'expenses/additional-information/upload-documents',
+  depends: formData => formData.hasCareExpenses === true,
   uiSchema: {
     ...titleUI('Submit your supporting documents'),
     'ui:description': Description,

@@ -9,20 +9,17 @@ export default {
   title: 'Claimant information',
   path: 'applicant/claimant',
   uiSchema: {
-    ...titleUI(
-      'Your identity',
-      `We’ll save your application on every change. Your in-progress ID number is ${'[insert number here]'}.`,
-    ),
+    ...titleUI('Your identity'),
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
     claimantNotVeteran: yesNoUI({
       title: 'Which of these best describes you?',
-      classNames: 'vads-u-margin-bottom--2',
+      yesNoReverse: true,
       labels: {
-        N: 'I’m a Veteran, and I want to report unreimbursed medical expenses',
-        Y:
-          'I’m a spouse, child or dependent of a Veteran, and I want to report unreimbursed medical expenses',
+        Y: 'I’m a Veteran, and I want to report unreimbursed medical expenses',
+        N:
+          'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
       },
     }),
   },

@@ -211,15 +211,48 @@ Documents.propTypes = {
   }).isRequired,
 };
 
+function supportingDocumentsDescription() {
+  return (
+    <div>
+      <p>
+        On the next screen, we’ll ask you to submit supporting documents and
+        additional evidence for your expenses. If you upload all of this
+        information online now, you may be able to get a faster decision for
+        your claim.
+      </p>
+      <p>You’ll need to submit one of these supporting documents:</p>
+      <ul>
+        <li>
+          Residential Care, Adult Daycare, or a Similar Facility worksheet
+          (opens in a new tab)
+        </li>
+        <li>In-Home Attendant Expenses worksheet (opens in a new tab)</li>
+      </ul>
+      <p>
+        If you have nursing home expenses, you may need to submit one of these
+        supporting documents:
+      </p>
+      <ul>
+        <li>
+          Request for Nursing Home Information in Connection with Claim for Aid
+          and Attendance (VA Form 21-0779 (opens in a new tab))
+        </li>
+        <li>
+          Examination for Housebound Status or Permanent Need for Regular Aid
+          and Attendance form (VA Form 21-2680 (opens in a new tab))
+        </li>
+      </ul>
+    </div>
+  );
+}
+
 export default {
   title: 'Supporting documents',
   path: 'expenses/additional-information/supporting-documents',
+  depends: formData => formData.hasCareExpenses === true,
   uiSchema: {
-    ...titleUI(
-      'Supporting documents',
-      'On the next screen, we’ll ask you to submit supporting documents and additional evidence for your pension claim. If you upload all this information online now, you may be able to get a faster decision on your claim.',
-    ),
-    'ui:description': Documents,
+    ...titleUI('Supporting documents'),
+    'ui:description': supportingDocumentsDescription,
   },
   schema: {
     type: 'object',

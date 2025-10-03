@@ -121,7 +121,6 @@ export const IntroductionPage = props => {
     scrollToTop();
     focusElement('h1');
   }, []);
-
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />

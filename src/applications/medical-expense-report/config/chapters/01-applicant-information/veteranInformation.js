@@ -58,7 +58,7 @@ export default {
           : 'Veteran information',
     ),
     veteranFullName: {
-      ...prefixedFullNameUI({ label: 'Veteran' }),
+      ...prefixedFullNameUI({ label: 'Veteran’s' }),
       'ui:options': {
         hideIf: formData => formData.claimantNotVeteran === false,
       },
@@ -70,7 +70,7 @@ export default {
     //   classNames: 'vads-u-margin-bottom--2',
     // }),
     vaFileNumber: {
-      ...vaFileNumberUI(),
+      ...vaFileNumberUI('Veteran’s VA file number'),
       'ui:options': {
         hint: 'Enter your VA file number if it doesn’t match your SSN',
       },

@@ -1,0 +1,51 @@
+{
+    "claimantNotVeteran": true,
+    "claimantFullName": {
+        "first": "Jane",
+        "middle": "A.",
+        "last": "Doe",
+        "suffix": "Jr."
+    },
+    "claimantAddress": {
+        "country": "USA",
+        "street": "123 Main St",
+        "street2": "Apt 4B",
+        "city": "Anytown",
+        "state": "VA",
+        "postalCode": "12345"
+    },
+    "email": "jane.doe@example.com",
+    "primaryPhone": {
+        "callingCode": "1",
+        "countryCode": "US",
+        "contact": "5551234567"
+    },
+    "veteranFullName": {
+        "first": "John",
+        "middle": "B.",
+        "last": "Doe",
+        "suffix": "Sr."
+    },
+    "veteranSocialSecurityNumber": "123111234",
+    "veteranDateOfBirth": "1970-01-01",
+    "vaFileNumber": "987654321",
+    "isOver65": true,
+    "reportingPeriod": {
+        "from": "2023-01-01",
+        "to": "2023-12-31"
+    },
+    "hasCareExpenses": true,
+    "careExpenses": [
+        {
+            "recipients": "SPOUSE",
+            "provider": "Dr. Smith",
+            "hoursPerWeek": "10",
+            "paymentDate": {
+                "from": "2023-01-15",
+                "to": "2023-01-15"
+            },
+            "paymentPeriod": "monthly",
+            "paymentAmount": 25
+        }
+    ]
+}
