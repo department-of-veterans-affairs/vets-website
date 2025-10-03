@@ -37,6 +37,7 @@ export const content = {
         <Header className="sr-only">Are you missing evidence?</Header>
         <p>
           <ActionLink
+            data-testid="add-more-evidence-link"
             path={`/${EVIDENCE_VA_REQUEST_PATH}`}
             primary
             text="Add more evidence"

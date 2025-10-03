@@ -300,6 +300,15 @@ export const pageHooks = {
       });
     });
   },
+  'facility-types': ({ afterHook }) => {
+    afterHook(() => {
+      cy.injectAxeThenAxeCheck();
+
+      cy.selectVaCheckbox('root_facilityTypes_vamc', true);
+      cy.selectVaCheckbox('root_facilityTypes_nonVa', true);
+      clickContinue();
+    });
+  },
 
   [EVIDENCE_VA_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
