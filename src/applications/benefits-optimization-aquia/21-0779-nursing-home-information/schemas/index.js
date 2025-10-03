@@ -12,6 +12,7 @@ import { nursingHomeDetailsSchema } from './nursing-home';
 import { medicaidAndCostSchema } from './medicaid-and-cost';
 import { certificationLevelOfCareSchema } from './certification-level-of-care';
 import { officialInfoAndSignatureSchema } from './official-info-and-signature';
+import { nursingOfficialInformationSchema } from './nursing-official-information';
 
 /**
  * Veteran identification schemas
@@ -80,6 +81,19 @@ export {
 } from './official-info-and-signature';
 
 /**
+ * Nursing official information schemas
+ * @description Schemas for validating nursing home official's personal information
+ * for form completion authorization
+ */
+export {
+  nursingOfficialInformationSchema,
+  nursingOfficialFirstNameSchema,
+  nursingOfficialLastNameSchema,
+  nursingOfficialJobTitleSchema,
+  nursingOfficialPhoneNumberSchema,
+} from './nursing-official-information';
+
+/**
  * Shared validation patterns and messages
  * @description Re-exported regex patterns and validation messages used across
  * the form for consistent validation of common data types like names, dates,
@@ -111,6 +125,7 @@ export {
  * @property {Object} officialInfoAndSignature - Nursing home official's certification and signature
  */
 export const nursingHomeFormSchema = z.object({
+  nursingOfficialInformation: nursingOfficialInformationSchema,
   veteranIdentification: veteranIdentificationSchema,
   claimantIdentification: claimantIdentificationSchema,
   nursingHomeDetails: nursingHomeDetailsSchema,
