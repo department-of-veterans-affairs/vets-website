@@ -22,7 +22,6 @@ export const hasErrors = errors =>
     .length;
 
 export const getIndex = (data, testingIndex, testSearch) => {
-  console.log('getIndex stuff: ', data, testingIndex, testSearch);
   // get index from url '/{path}?index={index}' or testingIndex
   const searchIndex = new URLSearchParams(testSearch || window.location.search);
   let index = parseInt(searchIndex.get('index') || testingIndex || '0', 10);
@@ -36,7 +35,6 @@ export const getIndex = (data, testingIndex, testSearch) => {
 
 // Update evidence issues if they change
 export const evidenceNeedsUpdating = formData => {
-  console.log('evidenceNeedsUpdating formData: ', formData);
   let needsUpdate = false;
   const selectedIssues = getSelected(formData).map(getIssueName);
   const iterator = ({ issues }) =>
@@ -61,7 +59,6 @@ export const evidenceNeedsUpdating = formData => {
  * @returns {Object} - cleaned up data
  */
 export const removeNonSelectedIssuesFromEvidence = data => {
-  console.log('removeNonSelectedIssuesFromEvidence data: ', data);
   const formData = data || {};
   const selectedIssues = getSelected(formData).map(getIssueName);
   const mapper = obj => ({

@@ -14,11 +14,43 @@ import {
 } from '../utils/evidence-classnames';
 import { formatDate } from '../utils/evidence';
 
+// treatment date only includes YYYY-MM; include '-01' to fit parser
+export const getFormattedTreatmentDate = (noDate, treatmentDate) => {
+  if (!noDate) {
+    return formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
+  }
+
+  return null;
+};
+
+export const getLocationErrors = (
+  issues,
+  locationAndName,
+  noDate,
+  treatmentDate,
+) => {
+  const errors = {
+    name: locationAndName ? '' : content.missing.location,
+    issues: issues.length ? '' : content.missing.condition,
+    treatmentDate: (noDate || treatmentDate ? '' : content.missing.date) || '',
+  };
+
+  const hasErrors = Object.values(errors).join('');
+
+  return {
+    errors,
+    hasErrors,
+  };
+};
 /**
  * Build VA evidence list
+ * This component appears on:
+ *   /supporting-evidence/summary (Evidence Review page)
+ *   /review-and-submit (App Review page)
+ *   /confirmation (App Confirmation page)
  * @param {Object[]} list - VA evidence array
- * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
+ * @param {Boolean} reviewMode - When true, hide editing links & buttons. Is true on app review & confirmation pages
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page. Is true on app review page only
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -35,6 +67,7 @@ export const EvidenceVaContent = ({
   if (!list?.length) {
     return null;
   }
+
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -50,19 +83,19 @@ export const EvidenceVaContent = ({
             location || {};
           const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
 
-          // treatment date only includes YYYY-MM; include '-01' to fit parser
-          const formattedTreatmentDate =
-            !noDate &&
-            formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
+          const formattedTreatmentDate = getFormattedTreatmentDate(
+            noDate,
+            treatmentDate,
+          );
 
-          const errors = {
-            name: locationAndName ? '' : content.missing.location,
-            issues: issues.length ? '' : content.missing.condition,
-            treatmentDate:
-              (noDate || treatmentDate ? '' : content.missing.date) || '',
-          };
+          const { errors, hasErrors } = getLocationErrors(
+            issues,
+            locationAndName,
+            noDate,
+            treatmentDate,
+          );
 
-          const hasErrors = Object.values(errors).join('');
+          const treatmentDateError = !noDate && errors.treatmentDate;
 
           return (
             <li
@@ -87,15 +120,16 @@ export const EvidenceVaContent = ({
                   {errors.issues || readableList(issues)}
                 </div>
                 {noDate && vaContent.noDate}
-                {!noDate &&
-                  (errors.treatmentDate || (
-                    <div
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="VA location treatment date"
-                    >
-                      {formattedTreatmentDate}
-                    </div>
-                  ))}
+                {treatmentDateError ? (
+                  errors.treatmentDate
+                ) : (
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="VA location treatment date"
+                  >
+                    {formattedTreatmentDate}
+                  </div>
+                )}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <BasicLink
