@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import formConfig from '../../../../config/form';
 import {
   royaltiesAndOtherPropertyPages,
@@ -9,7 +10,7 @@ import {
   generatedIncomeTypeLabels,
   relationshipLabels,
 } from '../../../../labels';
-
+import * as helpers from '../../../../helpers';
 import testData from '../../../e2e/fixtures/data/test-data.json';
 import testDataZeroes from '../../../e2e/fixtures/data/test-data-all-zeroes.json';
 
@@ -26,7 +27,28 @@ import {
 } from '../pageTests.spec';
 
 describe('royalties list and loop pages', () => {
-  const { royaltyPagesSummary } = royaltiesAndOtherPropertyPages;
+  let showUpdatedContentStub;
+
+  beforeEach(() => {
+    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
+  });
+
+  afterEach(() => {
+    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
+      showUpdatedContentStub.restore();
+    }
+  });
+
+  const {
+    royaltyPagesSummary,
+    royaltyNonVeteranRecipientPage,
+    royaltyVeteranRecipientPage,
+    royaltySpouseRecipientPage,
+    royaltyCustodianRecipientPage,
+    royaltyParentRecipientPage,
+    royaltyChildRecipientNamePage,
+    royaltyRecipientNamePage,
+  } = royaltiesAndOtherPropertyPages;
 
   describe('isItemIncomplete function', () => {
     const baseItem = testData.data.royaltiesAndOtherProperties[0];
@@ -117,7 +139,7 @@ describe('royalties list and loop pages', () => {
     );
   });
 
-  describe('summary page', () => {
+  describe('MVP summary page', () => {
     const { schema, uiSchema } = royaltyPagesSummary;
     testNumberOfFieldsByType(
       formConfig,
@@ -145,7 +167,7 @@ describe('royalties list and loop pages', () => {
     );
   });
 
-  describe('recipient page', () => {
+  describe('MVP income recipient page', () => {
     const schema =
       royaltiesAndOtherPropertyPages.royaltyNonVeteranRecipientPage.schema
         .properties.royaltiesAndOtherProperties.items;
@@ -184,7 +206,64 @@ describe('royalties list and loop pages', () => {
     );
   });
 
+  describe('Updated recipient pages', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    describe('Veteran recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'VETERAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is VETERAN', () => {
+        const { depends } = royaltyVeteranRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Spouse recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+
+      it('should display when showUpdatedContent is true and claimantType is SPOUSE', () => {
+        const { depends } = royaltySpouseRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Custodian recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'CUSTODIAN' };
+
+      it('should display when showUpdatedContent is true and claimantType is CUSTODIAN', () => {
+        const { depends } = royaltyCustodianRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Parent recipient page', () => {
+      const formData = { ...testData.data, claimantType: 'PARENT' };
+
+      it('should display when showUpdatedContent is true and claimantType is PARENT', () => {
+        const { depends } = royaltyParentRecipientPage;
+        expect(depends(formData)).to.be.true;
+      });
+    });
+
+    describe('Income recipient pages', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+
+      it('should NOT display any recipient pages when claimantType is CHILD', () => {
+        expect(royaltyNonVeteranRecipientPage.depends(formData)).to.be.false;
+        expect(royaltyVeteranRecipientPage.depends(formData)).to.be.false;
+        expect(royaltySpouseRecipientPage.depends(formData)).to.be.false;
+        expect(royaltyCustodianRecipientPage.depends(formData)).to.be.false;
+        expect(royaltyParentRecipientPage.depends(formData)).to.be.false;
+      });
+    });
+  });
+
   describe('recipient name page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(false);
+    });
     const schema =
       royaltiesAndOtherPropertyPages.royaltyRecipientNamePage.schema.properties
         .royaltiesAndOtherProperties.items;
@@ -217,6 +296,65 @@ describe('royalties list and loop pages', () => {
       testData.data.royaltiesAndOtherProperties[0],
       { loggedIn: true },
     );
+
+    it('should show recipient name page when claimantType is not CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+      expect(royaltyRecipientNamePage.depends(formData)).to.be.true;
+    });
+
+    it('should not show recipient name page when claimantType is CHILD', () => {
+      showUpdatedContentStub.returns(true);
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+      expect(royaltyRecipientNamePage.depends(formData)).to.be.false;
+    });
+  });
+
+  describe('child recipient name page', () => {
+    beforeEach(() => {
+      showUpdatedContentStub.returns(true);
+    });
+
+    const schema =
+      royaltyChildRecipientNamePage.schema.properties
+        .royaltiesAndOtherProperties.items;
+    const uiSchema =
+      royaltyChildRecipientNamePage.uiSchema.royaltiesAndOtherProperties.items;
+
+    testNumberOfFieldsByType(
+      formConfig,
+      schema,
+      uiSchema,
+      { 'va-text-input': 3 },
+      'child recipient',
+    );
+    testComponentFieldsMarkedAsRequired(
+      formConfig,
+      schema,
+      uiSchema,
+      [
+        'va-text-input[label="Income recipient’s first name"]',
+        'va-text-input[label="Income recipient’s last name"]',
+      ],
+      'child recipient',
+    );
+    testSubmitsWithoutErrors(
+      formConfig,
+      schema,
+      uiSchema,
+      'child recipient',
+      testData.data.royaltiesAndOtherProperties[0],
+      { loggedIn: true },
+    );
+
+    it('should show child recipient name page when claimantType is CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'CHILD' };
+      expect(royaltyChildRecipientNamePage.depends(formData)).to.be.true;
+    });
+
+    it('should not show child recipient name page when claimantType is not CHILD', () => {
+      const formData = { ...testData.data, claimantType: 'SPOUSE' };
+      expect(royaltyChildRecipientNamePage.depends(formData)).to.be.false;
+    });
   });
 
   describe('income type page', () => {
