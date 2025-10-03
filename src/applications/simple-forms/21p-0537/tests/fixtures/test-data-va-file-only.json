@@ -9,7 +9,8 @@
     },
     "recipientName": {
       "first": "Jane",
-      "last": "Doe"
+      "middle": "M",
+      "last": "Spouse"
     },
     "recipient": {
       "phone": {
@@ -18,6 +19,6 @@
       "email": "jane@example.com"
     },
     "hasRemarried": false,
-    "signature": "Jane Doe"
+    "signature": "Jane M Spouse"
   }
 }
