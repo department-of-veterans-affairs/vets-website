@@ -28,11 +28,11 @@
       },
       {
         "name": "mhv_accelerated_delivery_enabled",
-        "value": false
+        "value": true
       },
       {
         "name": "mhv_accelerated_delivery_allergies_enabled",
-        "value": false
+        "value": true
       }
     ]
   }

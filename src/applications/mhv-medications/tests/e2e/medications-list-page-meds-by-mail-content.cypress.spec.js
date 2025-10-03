@@ -19,7 +19,7 @@ describe('Medications List Page Meds by Mail content', () => {
   it('shows correct content for Meds by Mail users', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    site.login(true, mockUserMedsByMail);
+    site.login(true, false, mockUserMedsByMail);
     listPage.visitMedicationsListPageURL(rxList);
     cy.get('[data-testid="meds-by-mail-header"]').should('exist');
     cy.get('[data-testid="meds-by-mail-top-level-text"]').should('exist');

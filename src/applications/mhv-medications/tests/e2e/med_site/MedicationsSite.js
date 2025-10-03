@@ -2,6 +2,7 @@ import mockUser from '../fixtures/user.json';
 import mockVamcEhr from '../fixtures/vamc-ehr.json';
 import mockUnauthenticatedUser from '../fixtures/non-rx-user.json';
 import mockToggles from '../fixtures/toggles-response.json';
+import mockTogglesAccelerated from '../fixtures/toggles-accelerated-delivery.json';
 import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import { Paths } from '../utils/constants';
@@ -10,8 +11,12 @@ import { medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true, user = mockUser) => {
-    this.mockFeatureToggles();
+  login = (
+    isMedicationsUser = true,
+    isAcceleratingAllergies = false,
+    user = mockUser,
+  ) => {
+    this.mockFeatureToggles(isAcceleratingAllergies);
     this.mockVamcEhr();
 
     if (isMedicationsUser) {
@@ -187,10 +192,12 @@ class MedicationsSite {
     });
   };
 
-  mockFeatureToggles = () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockToggles).as(
-      'featureToggles',
-    );
+  mockFeatureToggles = (isAcceleratingAllergies = false) => {
+    cy.intercept(
+      'GET',
+      '/v0/feature_toggles?*',
+      isAcceleratingAllergies ? mockTogglesAccelerated : mockToggles,
+    ).as('featureToggles');
   };
 
   mockVamcEhr = () => {
