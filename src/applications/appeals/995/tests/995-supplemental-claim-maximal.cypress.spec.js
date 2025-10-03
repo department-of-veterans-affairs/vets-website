@@ -9,7 +9,7 @@ const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
     dataPrefix: 'data',
-    dataSets: ['maximal-testå'],
+    dataSets: ['maximal-test'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
