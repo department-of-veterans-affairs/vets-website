@@ -266,6 +266,29 @@ maritalStatus: selectUI({
 education: selectUI('Education level'),
 // Schema: selectSchema(['High school', 'Some college', 'Bachelor degree'])
 
+// selectUI with grouped options - nested labels
+branchOfService: selectUI({
+  title: 'Branch of Service',
+  hint: 'Select your branch of service',
+  labels: {
+    'Branches of Service': {
+      navy: 'Navy',
+      army: 'Army',
+      marines: 'Marines',
+      airForce: 'Air Force',
+      coastguard: 'Coast Guard'
+    },
+    'Other': {
+      other: 'Other',
+      notApplicable: 'Not Applicable'
+    }
+  },
+  errorMessages: {
+    required: 'Please select your branch of service'
+  }
+}),
+// Schema: selectSchema(['navy', 'army', 'marines', 'airForce', 'coastguard', 'other', 'notApplicable'])
+
 // radioUI with complex configuration
 disability: radioUI({
   title: 'Do you receive VA disability compensation?',

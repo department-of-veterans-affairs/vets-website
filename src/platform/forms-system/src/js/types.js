@@ -385,7 +385,7 @@
  * @typedef {Object} WebComponentFieldProps
  * @property {string | JSX.Element | Function} description
  * @property {string} textDescription
- * @property {string | JSX.Element} label
+ * @property {string} label
  * @property {boolean} required
  * @property {string} error
  * @property {UIOptions} uiOptions

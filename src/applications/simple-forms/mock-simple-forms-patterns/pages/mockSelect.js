@@ -58,6 +58,26 @@ export default {
         option2: 'Option 2',
       },
     }),
+    wcv3SelectGrouped: selectUI({
+      title: 'Select web component with grouped options (optgroups)',
+      hint: 'This demonstrates nested labels creating optgroups',
+      labels: {
+        'Branches of Service': {
+          navy: 'Navy',
+          army: 'Army',
+          marines: 'Marines',
+          airForce: 'Air Force',
+          coastguard: 'Coast Guard',
+        },
+        Other: {
+          other: 'Other',
+          notApplicable: 'Not Applicable',
+        },
+      },
+      errorMessages: {
+        required: 'Please select an option',
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -74,6 +94,15 @@ export default {
       wcv3SelectSimple: selectSchema(['Option 1', 'Option 2']),
       wcv3SelectValues: selectSchema(['Option 1', 'Option 2']),
       wcv3SelectKeyValues: selectSchema(['option1', 'option2']),
+      wcv3SelectGrouped: selectSchema([
+        'navy',
+        'army',
+        'marines',
+        'airForce',
+        'coastguard',
+        'other',
+        'notApplicable',
+      ]),
     },
     required: ['selectDefault', 'wcv3SelectSimple'],
   },
