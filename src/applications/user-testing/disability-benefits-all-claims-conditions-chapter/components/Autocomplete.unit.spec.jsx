@@ -1,41 +1,30 @@
-import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
 import sinon from 'sinon';
-import Autocomplete from './Autocomplete';
 import { conditionObjects } from '../content/conditionOptions';
+import Autocomplete from './Autocomplete';
 
-// Extract the raw string options from conditionObjects
 const allResults = conditionObjects
   .map(obj => obj.option)
   .filter(opt => typeof opt === 'string');
 
-// Helper to build free‑text label
 const freeTextLabel = val => `Enter your condition as "${val}"`;
 
-// <VaTextInput> is a React binding to a web component, direct value
-// assignment + synthetic events are needed to simulate typing
-export const simulateInputChange = async (element, value) => {
-  const el = element;
+export const simulateInputChange = async (container, value) => {
+  await act(async () => {
+    inputVaTextInput(container, value, 'va-text-input');
+  });
 
   await act(async () => {
-    el.value = value;
-
-    // For Node 22, we need to ensure the event has a proper target
-    const evt = new Event('input', { bubbles: true, composed: true });
-    Object.defineProperty(evt, 'target', {
-      writable: false,
-      value: { value },
-    });
-
-    el.dispatchEvent(evt);
+    await new Promise(resolve => setTimeout(resolve, 100));
   });
 };
 
-// Create props for each test
 const getProps = overrides => ({
   availableResults: allResults,
-  debounceDelay: 0, // instant for tests
+  debounceDelay: 0,
   formData: '',
   id: 'test-id',
   label: 'Test label',
@@ -44,21 +33,18 @@ const getProps = overrides => ({
   ...overrides,
 });
 
-// Render function that returns the input element
 const renderWithInput = rawProps => {
   const utils = render(<Autocomplete {...rawProps} />);
   const input = utils.getByTestId('autocomplete-input');
   return { ...utils, input };
 };
 
-// Silence errors as JSDOM doesn’t implement scrollIntoView
 beforeEach(() => {
   // eslint-disable-next-line no-undef
   Element.prototype.scrollIntoView =
     Element.prototype.scrollIntoView || (() => {});
 });
 
-// Rendering tests
 describe('Autocomplete render', () => {
   it('renders base props (label, required, hint) with empty value and no list', () => {
     const props = getProps();
@@ -72,18 +58,14 @@ describe('Autocomplete render', () => {
   });
 });
 
-// Controlled value / prop sync tests
 describe('Autocomplete controlled value sync', () => {
   it('renders initial formData value and opens list on focus when value present', async () => {
     const props = getProps({ formData: 'mig' });
     const { input, findAllByRole, queryByRole } = renderWithInput(props);
 
-    // Value reflected
     expect(input.value).to.equal('mig');
-    // No list until focus
     expect(queryByRole('listbox')).to.not.exist;
 
-    // Focus should trigger search (handleFocus)
     fireEvent.focus(input);
 
     const options = await findAllByRole('option');
@@ -97,26 +79,24 @@ describe('Autocomplete controlled value sync', () => {
 
     expect(input.value).to.equal('');
 
-    const newVal = 'dia'; // e.g., Diabetes
+    const newVal = 'dia';
     rerender(<Autocomplete {...getProps({ formData: newVal })} />);
     expect(input.value).to.equal(newVal);
   });
 });
 
-// Typing & results tests
 describe('Autocomplete typing & results', () => {
   it('typing updates value, calls onChange, and shows free-text + suggestions', async () => {
     const props = getProps();
     const { input, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
     expect(input.value).to.equal('mig');
 
     await waitFor(() => {
       expect(props.onChange.calledWith('mig')).to.be.true;
     });
 
-    // Wait for options to appear after debounced search
     const options = await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -127,9 +107,8 @@ describe('Autocomplete typing & results', () => {
     );
 
     expect(options[0].textContent).to.equal(freeTextLabel('mig'));
-    expect(options.length).to.be.greaterThan(1); // should include suggestions
+    expect(options.length).to.be.greaterThan(1);
 
-    // At least one suggestion came from provided results
     const anySuggestion = Array.from(options)
       .slice(1)
       .some(li => allResults.includes(li.textContent));
@@ -137,15 +116,13 @@ describe('Autocomplete typing & results', () => {
   });
 });
 
-// Mouse selection behavior tests
 describe('Autocomplete mouse interactions', () => {
   it('clicking a suggestion selects it, calls onChange, closes list', async () => {
     const props = getProps();
     const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig'); // expect "Migraine" to match in dataset
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     const options = await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -155,7 +132,6 @@ describe('Autocomplete mouse interactions', () => {
       { timeout: 1500 },
     );
 
-    // Choose a non‑free‑text option (first suggestion after index 0)
     const suggestion = options.find(
       li => li.textContent !== options[0].textContent,
     );
@@ -165,7 +141,7 @@ describe('Autocomplete mouse interactions', () => {
       expect(props.onChange.called).to.be.true;
     });
     const lastArg = props.onChange.lastCall.args[0];
-    expect(lastArg).to.equal(suggestion.textContent); // selected suggestion
+    expect(lastArg).to.equal(suggestion.textContent);
     expect(input.value).to.equal(suggestion.textContent);
     expect(queryByTestId('autocomplete-list')).to.not.exist;
   });
@@ -174,9 +150,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'xyz'); // unlikely to match suggestions
+    await simulateInputChange(container, 'xyz');
 
-    // Wait for options to appear after debounced search
     const options = await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -202,9 +177,8 @@ describe('Autocomplete mouse interactions', () => {
     const props = getProps();
     const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -213,22 +187,19 @@ describe('Autocomplete mouse interactions', () => {
       { timeout: 1500 },
     );
 
-    // Click outside (document)
     fireEvent.mouseDown(document);
     await waitFor(() => {
       expect(queryByTestId('autocomplete-list')).to.not.exist;
     });
-    // Value unchanged
     expect(input.value).to.equal('mig');
   });
 
   it('hovering another item updates active highlight', async () => {
     const props = getProps();
-    const { input, container } = renderWithInput(props);
+    const { container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     const options = await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -238,46 +209,36 @@ describe('Autocomplete mouse interactions', () => {
       { timeout: 1500 },
     );
 
-    // ActiveIndex starts at 0 (free text)
     expect(options[0]).to.have.attribute('aria-selected', 'true');
 
-    // mouseMove over second item
     fireEvent.mouseMove(options[1]);
 
-    // Should now mark second as active
     await waitFor(() => {
       expect(options[1]).to.have.attribute('aria-selected', 'true');
     });
   });
 });
 
-// Keyboard navigation tests
 describe('Autocomplete keyboard navigation', () => {
   it('ArrowDown from input moves active from free-text (index 0) to first suggestion (index 1)', async () => {
     const props = getProps();
     const { input, findAllByRole, container } = renderWithInput(props);
 
-    // Type to trigger results
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to render
     let options = await findAllByRole('option');
     expect(options.length).to.be.greaterThan(1);
 
-    // Initial state: activeIndex=0 (free-text)
     expect(options[0]).to.have.attribute('aria-selected', 'true');
     expect(options[1]).to.have.attribute('aria-selected', 'false');
 
-    // Send ArrowDown
     fireEvent.keyDown(input, { key: 'ArrowDown' });
 
-    // Re-query (attributes update asynchronously)
     await waitFor(() => {
       options = container.querySelectorAll('li[role="option"]');
       expect(options[1].getAttribute('aria-selected')).to.equal('true');
     });
 
-    // Assert listbox aria-activedescendant reflects option-1
     const listbox = container.querySelector('[role="listbox"]');
     expect(listbox).to.have.attribute('aria-activedescendant', 'option-1');
   });
@@ -286,9 +247,8 @@ describe('Autocomplete keyboard navigation', () => {
     const props = getProps();
     const { input, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -297,22 +257,19 @@ describe('Autocomplete keyboard navigation', () => {
       { timeout: 1500 },
     );
 
-    // Move to second option, then ArrowUp twice to get back
-    fireEvent.keyDown(input, { key: 'ArrowDown' }); // to index1
-    fireEvent.keyDown(input, { key: 'ArrowUp' }); // back to index0 (free text)
-    fireEvent.keyDown(input, { key: 'ArrowUp' }); // should return focus to input
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
 
-    // We can't reliably test focus of shadowRoot input; assert list still open + input value unchanged
     expect(input.value).to.equal('mig');
   });
 
   it('Enter selects currently active item and closes list', async () => {
     const props = getProps();
-    const { input, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     const options = await waitFor(
       async () => {
         const opts = document.querySelectorAll('li[role="option"]');
@@ -322,7 +279,6 @@ describe('Autocomplete keyboard navigation', () => {
       { timeout: 1500 },
     );
 
-    // Move to a suggestion (index1)
     fireEvent.keyDown(input, { key: 'ArrowDown' });
     fireEvent.keyDown(input, { key: 'Enter' });
 
@@ -337,11 +293,10 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('Escape closes list (value preserved)', async () => {
     const props = getProps();
-    const { input, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     await waitFor(
       () => {
         const opts = document.querySelectorAll('li[role="option"]');
@@ -360,11 +315,10 @@ describe('Autocomplete keyboard navigation', () => {
 
   it('Tab closes list (value preserved)', async () => {
     const props = getProps();
-    const { input, queryByTestId } = renderWithInput(props);
+    const { input, queryByTestId, container } = renderWithInput(props);
 
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     await waitFor(
       () => {
         const opts = document.querySelectorAll('li[role="option"]');
@@ -382,7 +336,6 @@ describe('Autocomplete keyboard navigation', () => {
   });
 });
 
-// Accessibility tests
 describe('Autocomplete accessibility attributes & aria-live', () => {
   it('includes instructions (message-aria-describedby) when input is empty', () => {
     const props = getProps({ formData: '' });
@@ -403,12 +356,10 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
 
   it('aria-live announces results, selection, and empty input', async () => {
     const props = getProps();
-    const { input, container } = renderWithInput(props);
+    const { container } = renderWithInput(props);
 
-    // Type -> results
-    await simulateInputChange(input, 'mig');
+    await simulateInputChange(container, 'mig');
 
-    // Wait for options to appear after debounced search
     await waitFor(
       () => {
         const opts = container.querySelectorAll('li[role="option"]');
@@ -427,7 +378,6 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
       { timeout: 1500 },
     );
 
-    // Select free-text -> selection message
     const options = container.querySelectorAll('li[role="option"]');
     fireEvent.click(options[0]);
     await waitFor(() => {
@@ -435,8 +385,7 @@ describe('Autocomplete accessibility attributes & aria-live', () => {
       expect(live.textContent).to.match(/is selected$/);
     });
 
-    // Clear input -> empty message
-    await simulateInputChange(input, '');
+    await simulateInputChange(container, '');
     await waitFor(() => {
       const live = container.querySelector('[aria-live="polite"]');
       expect(live.textContent).to.contain('Input is empty');
