@@ -99,6 +99,7 @@ const formConfig = {
     },
     nursingHomeChapter: {
       title: 'Nursing home information',
+      // nursing home name and address
       pages: {
         nursingHomeDetails: {
           path: 'nursing-home-details',
@@ -116,6 +117,13 @@ const formConfig = {
     },
     patientInformationChapter: {
       title: 'Patient information',
+      // veteran or claimant question
+      // -- OPTIONAL --
+      // claimant name & dob
+      // claimant ssn & file number
+      // ---------------
+      // veteran name & dob
+      // veteran ssn & file number
       pages: {
         claimantIdentification: {
           path: 'claimant-identification',
@@ -146,6 +154,8 @@ const formConfig = {
     levelOfCareChapter: {
       title: 'Certification',
       pages: {
+        // certification level of care question
+        // date of admission to nursing home
         certificationLevelOfCare: {
           path: 'certification-level-of-care',
           title: 'Level of care certification',
@@ -164,6 +174,9 @@ const formConfig = {
     },
     medicaidChapter: {
       title: 'Medicaid',
+      // is nursing home medicaid approved
+      // has the patient applied for medicaid
+      // date medicaid coverage started
       pages: {
         certificationLevelOfCare: {
           path: 'certification-level-of-care',
@@ -197,6 +210,7 @@ const formConfig = {
     },
     costsChapter: {
       title: 'Nursing home information',
+      // monthly out of pocket costs
       pages: {
         medicaidAndCost: {
           path: 'medicaid-and-cost',
