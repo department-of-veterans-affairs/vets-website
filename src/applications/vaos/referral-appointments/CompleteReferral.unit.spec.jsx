@@ -99,6 +99,7 @@ describe('CompleteReferral', () => {
     );
     expect(requestStub.calledOnce).to.be.true;
     expect(getByTestId('error-alert')).to.exist;
+    expect(getByTestId('referral-community-care-office')).to.exist;
   });
 
   it('should render warning alert when appointment info has timed out', async () => {
@@ -117,6 +118,7 @@ describe('CompleteReferral', () => {
       { timeout: 3000, interval: 1000 },
     );
     expect(getByTestId('warning-alert')).to.exist;
+    expect(getByTestId('referral-community-care-office')).to.exist;
   });
 
   it('should render appointment details correctly', async () => {

@@ -7,6 +7,7 @@ import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
 import { useIsInPilotReferralStation } from '../hooks/useIsInPilotReferralStation';
+import FindCommunityCareOfficeLink from './FindCCFacilityLink';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
@@ -41,16 +42,12 @@ const PendingReferralCard = ({ referral, index }) => {
                   visible
                   data-testid="referral-not-available-alert"
                 >
-                  <span className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--1 vads-u-display--block">
-                    Online scheduling is not available for this referral at this
-                    this time. Please call your provider directly for help
-                    scheduling an appointment.
+                  <span className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-display--block">
+                    Online scheduling isn’t available for this referral right
+                    now. Call your community care provider or your facility’s
+                    community care office to schedule an appointment.
                   </span>
-                  <va-link
-                    href="/find-locations"
-                    text="Find your community care provider’s phone number"
-                    data-testid="referral-not-available-phone-link"
-                  />
+                  <FindCommunityCareOfficeLink />
                 </va-alert>
               </div>
             </AppointmentColumn>

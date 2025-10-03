@@ -499,6 +499,22 @@ const responses = {
         data: expiredReferral,
       });
     }
+
+    // Ensure the out of pilot station returns a station id that is not in the pilot
+    if (req.params.referralId === 'out-of-pilot-station') {
+      const referral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        null,
+        'OPTOMETRY',
+        true,
+        '123',
+      );
+      return res.json({
+        data: referral,
+      });
+    }
+
     const originalReferral = referrals.find(
       ref => ref.id === req.params.referralId,
     );
