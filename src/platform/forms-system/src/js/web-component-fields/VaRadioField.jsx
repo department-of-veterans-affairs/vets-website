@@ -31,9 +31,9 @@ function optionsList(schema) {
  * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
-  const enumOptions =
-    Array.isArray(props.childrenProps.schema.enum) &&
-    optionsList(props.childrenProps.schema);
+  const enumOptions = Array.isArray(props.childrenProps.schema.enum)
+    ? optionsList(props.childrenProps.schema)
+    : [];
   const labels = props.uiOptions?.labels || {};
   const descriptions = props.uiOptions.descriptions || {};
 
