@@ -489,7 +489,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'false');
+      .should('have.attr', 'aria-pressed', 'false');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
@@ -497,7 +497,7 @@ class MedicationsDetailsPage {
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
       .first()
-      .should('have.attr', 'aria-expanded', 'true');
+      .should('have.attr', 'aria-pressed', 'true');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {

@@ -9,6 +9,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import PropTypes from 'prop-types';
 import {
   usePrintTitle,
@@ -84,6 +85,7 @@ const Prescriptions = () => {
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
   const hasMedsByMailFacility = useSelector(selectHasMedsByMailFacility);
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
 
   // Get sort/filter selections from store.
   const selectedSortOption = useSelector(selectSortOption);
@@ -160,7 +162,10 @@ const Prescriptions = () => {
     format: undefined,
   });
   const scrollLocation = useRef();
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
+    isAcceleratingAllergies,
+    isCerner,
+  });
 
   const refillAlertList = prescriptionsData?.refillAlertList || [];
 
@@ -798,7 +803,9 @@ const Prescriptions = () => {
       {content()}
       <PrescriptionsPrintOnly
         list={printedList}
-        hasError={hasFullListDownloadError || isAlertVisible || allergiesError}
+        hasError={
+          hasFullListDownloadError || isAlertVisible || !!allergiesError
+        }
         isFullList={printedList.length === prescriptionsFullList.length}
       />
     </div>
