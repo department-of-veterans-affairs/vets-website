@@ -7,6 +7,7 @@ import {
   vitalUnitDisplayText,
   loadStates,
   allowedVitalLoincs,
+  loincToVitalType,
 } from '../util/constants';
 import {
   isArrayAndHasItems,
@@ -101,7 +102,21 @@ export const extractLocation = vital => {
 };
 
 export const convertVital = record => {
-  const type = macroCase(record.code?.text);
+  // Determine canonical vital type via any mapped LOINC present in code.coding
+  let type;
+  if (isArrayAndHasItems(record.code?.coding)) {
+    for (const coding of record.code.coding) {
+      if (loincToVitalType[coding.code]) {
+        type = loincToVitalType[coding.code];
+        break;
+      }
+    }
+  }
+  // Fallback: derive from text (legacy) else mark as OTHER
+  if (!type) {
+    const derived = macroCase(record.code?.text);
+    type = loincToVitalType[derived] || derived || 'OTHER';
+  }
   return {
     name:
       record.code?.text ||

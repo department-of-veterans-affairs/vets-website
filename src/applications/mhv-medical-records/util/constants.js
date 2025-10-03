@@ -162,6 +162,7 @@ export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
+// would need to add here
 export const vitalTypes = {
   BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
   PULSE: ['PULSE', 'HEART_RATE'],
@@ -170,6 +171,22 @@ export const vitalTypes = {
   TEMPERATURE: ['TEMPERATURE', 'BODY_TEMPERATURE'],
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
+};
+
+// Canonical vital type mapping driven directly by LOINC codes.
+// This replaces reliance on code.text vendor strings for classification.
+export const loincToVitalType = {
+  // Panels / primary codes
+  [loincCodes.BLOOD_PRESSURE]: 'BLOOD_PRESSURE',
+  [loincCodes.HEART_RATE]: 'PULSE',
+  [loincCodes.BREATHING_RATE]: 'RESPIRATION',
+  [loincCodes.PULSE_OXIMETRY_1]: 'PULSE_OXIMETRY',
+  [loincCodes.PULSE_OXIMETRY_2]: 'PULSE_OXIMETRY',
+  [loincCodes.TEMPERATURE]: 'TEMPERATURE',
+  [loincCodes.WEIGHT]: 'WEIGHT',
+  [loincCodes.HEIGHT]: 'HEIGHT',
+  // Common alternate weight LOINC (not declared in loincCodes list)
+  '3141-9': 'WEIGHT',
 };
 
 export const vitalTypeDisplayNames = {
@@ -540,6 +557,7 @@ export const allowedVitalLoincs = [
   loincCodes.BREATHING_RATE,
   loincCodes.HEART_RATE,
   loincCodes.WEIGHT,
+  '3141-9', // alternate weight code
   loincCodes.HEIGHT,
   loincCodes.TEMPERATURE,
   loincCodes.PULSE_OXIMETRY_1,

@@ -192,6 +192,38 @@ describe('vitalReducer', () => {
   });
 });
 
+describe('vitalReducer LOINC mapping', () => {
+  it('maps alternate weight LOINC 3141-9 to WEIGHT', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'w1', code: { coding: [{ code: '3141-9' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('WEIGHT');
+  });
+
+  it('maps pulse oximetry LOINCs to PULSE_OXIMETRY', () => {
+    const response = {
+      entry: [
+        { resource: { id: 'o1', code: { coding: [{ code: '59408-5' }] } } },
+        { resource: { id: 'o2', code: { coding: [{ code: '2708-6' }] } } },
+      ],
+      resourceType: 'Observation',
+    };
+    const newState = vitalReducer(
+      {},
+      { type: Actions.Vitals.GET_LIST, response },
+    );
+    expect(newState.vitalsList[0].type).to.equal('PULSE_OXIMETRY');
+    expect(newState.vitalsList[1].type).to.equal('PULSE_OXIMETRY');
+  });
+});
+
 describe('getMeasurement', () => {
   it('should return the correct measurement for a given type', () => {
     const record = {
