@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { EVIDENCE_PRIVATE_PATH } from '../constants';
+import { EVIDENCE_PRIVATE_DETAILS_URL } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
 
@@ -28,8 +28,7 @@ import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 import { customPageProps995 } from '../../shared/props';
 
-const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_PATH}`;
-// const REVIEW_AND_SUBMIT = '/review-and-submit';
+const PRIVATE_PATH = `/${EVIDENCE_PRIVATE_DETAILS_URL}`;
 
 const defaultData = {
   providerFacilityName: '',

@@ -5,10 +5,10 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   AUTHORIZATION_LABEL,
-  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  EVIDENCE_PRIVATE_PATH,
-  LIMITED_CONSENT_DETAILS_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
 } from '../../constants';
 import { content } from '../../content/evidenceSummary';
 import { content as limitedConsentContent } from '../../content/limitedConsent';
@@ -45,7 +45,7 @@ const verifyAuthorization = (headers, listItems, reviewMode = false) => {
   if (!reviewMode) {
     verifyLink(
       '#edit-private-authorization',
-      `/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`,
+      `/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`,
     );
   }
 };
@@ -55,7 +55,7 @@ const verifyLimitedConsentPrompt = (headers, listItems, reviewMode = false) => {
   verifyResponse(listItems, 1, 'Yes');
 
   if (!reviewMode) {
-    verifyLink('#edit-limitation-y-n', `/${LIMITED_CONSENT_PROMPT_PATH}`);
+    verifyLink('#edit-limitation-y-n', `/${LIMITED_CONSENT_PROMPT_URL}`);
   }
 };
 
@@ -68,7 +68,7 @@ const verifyLimitedConsentDetails = (
   verifyResponse(listItems, 2, limitedConsentDetails);
 
   if (!reviewMode) {
-    verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_PATH}`);
+    verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_URL}`);
   }
 };
 
@@ -93,7 +93,7 @@ const verifyProvider = (
   if (!reviewMode) {
     verifyLink(
       `#edit-private-${providerIndex}`,
-      `/${EVIDENCE_PRIVATE_PATH}?index=${providerIndex}`,
+      `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${providerIndex}`,
     );
   }
 };

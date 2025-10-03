@@ -7,10 +7,10 @@ import { content } from '../content/evidenceSummary';
 import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
-  LIMITED_CONSENT_DETAILS_PATH,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
 } from '../constants';
 import {
@@ -103,8 +103,8 @@ export const EvidencePrivateContent = ({
                 id="edit-private-authorization"
                 className="edit-item"
                 aria-label={`edit ${title4142WithId}`}
-                data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_PATH : null}
-                path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`}
+                data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_URL : null}
+                path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`}
                 text={content.edit}
               />
             </div>
@@ -125,11 +125,11 @@ export const EvidencePrivateContent = ({
                 disableAnalytics
                 id="edit-limitation-y-n"
                 className="edit-item"
-                path={`/${LIMITED_CONSENT_PROMPT_PATH}`}
+                path={`/${LIMITED_CONSENT_PROMPT_URL}`}
                 aria-label={`${content.edit} ${
                   limitedConsentContent.promptQuestion
                 } `}
-                data-link={testing ? LIMITED_CONSENT_PROMPT_PATH : null}
+                data-link={testing ? LIMITED_CONSENT_PROMPT_URL : null}
                 text={content.edit}
               />
             </div>
@@ -151,11 +151,11 @@ export const EvidencePrivateContent = ({
                   disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  path={`/${LIMITED_CONSENT_DETAILS_PATH}`}
+                  path={`/${LIMITED_CONSENT_DETAILS_URL}`}
                   aria-label={`${content.edit} ${
                     limitedConsentContent.detailsQuestion
                   }`}
-                  data-link={testing ? LIMITED_CONSENT_DETAILS_PATH : null}
+                  data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
                   text={content.edit}
                 />
               </div>
@@ -169,7 +169,7 @@ export const EvidencePrivateContent = ({
             providerFacilityAddress = {},
             treatmentDateRange = {},
           } = facility || {};
-          const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+          const path = `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`;
 
           const fromDate = formatDate(treatmentDateRange.from);
           const toDate = formatDate(treatmentDateRange.to);

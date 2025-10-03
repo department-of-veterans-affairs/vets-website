@@ -11,11 +11,11 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   PRIMARY_PHONE,
   BASE_URL,
-  EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_UPLOAD_URL,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -310,7 +310,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_VA_PATH]: ({ afterHook }) => {
+  [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ locations = [], showScNewForm }) => {
@@ -350,7 +350,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_REQUEST_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_PROMPT_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
@@ -378,7 +378,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ providerFacility = [] }) => {
@@ -449,7 +449,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_UPLOAD_PATH]: () => {
+  [EVIDENCE_UPLOAD_URL]: () => {
     cy.get('input[type="file"]').upload(
       path.join(__dirname, 'fixtures/data/example-upload.pdf'),
       'testing',
