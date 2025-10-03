@@ -124,6 +124,8 @@ const ApplicationsInProgress = ({
               let formIdLabel;
               if (formId === 'form526_form4142') {
                 formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+              } else if (formId === 'form0995_form4142') {
+                formIdLabel = '21-4142 submitted with VA Form 20-0995';
               } else {
                 formIdLabel = form.form.replace(/-V2$/i, '');
               }
