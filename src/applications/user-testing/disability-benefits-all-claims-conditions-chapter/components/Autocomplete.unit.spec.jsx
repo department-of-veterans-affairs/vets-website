@@ -1,10 +1,10 @@
-import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
-import Autocomplete from './Autocomplete';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import sinon from 'sinon';
 import { conditionObjects } from '../content/conditionOptions';
+import Autocomplete from './Autocomplete';
 
 const allResults = conditionObjects
   .map(obj => obj.option)

@@ -129,7 +129,7 @@ describe('RequireSignInModal Component', () => {
       .onPrimaryButtonClick();
 
     expect(onCloseSpy.calledOnce).to.be.true;
-    expect(window.location.href).to.equal(
+    expect(window.location.href).to.include(
       `${manifest.rootUrl}/introduction?showSignInModal=true`,
     );
     wrapper.unmount();

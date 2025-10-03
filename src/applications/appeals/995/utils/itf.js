@@ -9,6 +9,7 @@ import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
 export const isNotExpired = (expirationDate = '') => {
   const today = endOfToday();
   const expDate = parseDateToDateObj(expirationDate, FORMAT_YMD_DATE_FNS);
+  if (!expDate) return false;
   return isSameDay(today, expDate) || isBefore(today, expDate);
 };
 

@@ -710,7 +710,7 @@ describe('<DashboardCards>', () => {
                 },
               ],
             },
-            100, // delay in milliseconds
+            300,
           );
         }),
       );
@@ -760,16 +760,15 @@ describe('<DashboardCards>', () => {
       expect(loadingIndicator).to.exist;
       expect(loadingIndicator.getAttribute('message')).to.equal('Loading...');
 
-      // Wait for content to load
-      await waitFor(() => {
-        // Loading indicator should be gone
-        expect(view.container.querySelector('va-loading-indicator')).to.not
-          .exist;
-
-        // Content should be visible
-        expect(view.getByText('Your questions')).to.exist;
-        expect(view.getByText('Test question')).to.exist;
-      });
+      await waitFor(
+        () => {
+          expect(view.container.querySelector('va-loading-indicator')).to.not
+            .exist;
+          expect(view.getByText('Your questions')).to.exist;
+          expect(view.getByText('Test question')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 

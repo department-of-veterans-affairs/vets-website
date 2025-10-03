@@ -113,6 +113,10 @@ describe('VAOS Page: ProviderSelectPage', () => {
         store,
       });
 
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.not.exist;
+      });
+
       expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
     });
   });
@@ -211,6 +215,10 @@ describe('VAOS Page: ProviderSelectPage', () => {
         store,
       });
 
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.not.exist;
+      });
+
       expect(screen.getByText(/Your nutrition and food provider/i)).to.exist;
     });
   });
@@ -221,6 +229,10 @@ describe('VAOS Page: ProviderSelectPage', () => {
 
       const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
         store,
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.not.exist;
       });
 
       expect(screen.getByText(/Which provider do you want to schedule with?/i))
@@ -254,7 +266,11 @@ describe('VAOS Page: ProviderSelectPage', () => {
         store,
       });
 
-      const chooseDateTimeLink = await screen.queryByTestId('choose-date-time');
+      await waitFor(() => {
+        expect(screen.queryByTestId('loading-indicator')).to.not.exist;
+      });
+
+      const chooseDateTimeLink = screen.queryByTestId('choose-date-time');
 
       chooseDateTimeLink.click();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 
@@ -83,11 +83,10 @@ export const testNumberOfErrorsOnSubmit = (
 
       getByRole('button', { name: /submit/i }).click();
 
-      // Wait for the DOM to update after form validation
-      await new Promise(resolve => setTimeout(resolve, 0));
-
-      const errors = queryAllByRole('alert');
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      await waitFor(() => {
+        const errors = queryAllByRole('alert');
+        expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      });
     });
   });
 };
@@ -151,16 +150,16 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       navigationState.setNavigationEvent();
       getByRole('button', { name: /submit/i }).click();
 
-      // Wait for the DOM to update after form validation
-      await new Promise(resolve => setTimeout(resolve, 0));
-
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
-      );
-      const errors = nodes.filter(node => node.error);
-      expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      // Wait for web component validation errors to propagate to DOM
+      await waitFor(() => {
+        const nodes = Array.from(
+          container.querySelectorAll(
+            `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+          ),
+        );
+        const errors = nodes.filter(node => node.error);
+        expect(errors).to.have.lengthOf(expectedNumberOfErrors);
+      });
     });
   });
 };

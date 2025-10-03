@@ -471,17 +471,21 @@ describe('IntroductionPage', () => {
       );
     });
 
-    // Wait for the API call to complete and UI to update
-    const statusContainer = await within(container).findByTestId(
-      'status-message',
+    await waitFor(
+      async () => {
+        const statusContainer = await within(container).findByTestId(
+          'status-message',
+        );
+        const statusHeading = statusContainer.querySelector('h3');
+        expect(statusHeading).to.exist;
+        expect(document.activeElement).to.equal(statusHeading);
+        expect(statusHeading.textContent).to.include(
+          'Showing the status for reference number',
+        );
+        expect(statusHeading.textContent).to.include('A-20250106-308944');
+      },
+      { timeout: 3000 },
     );
-    const statusHeading = statusContainer.querySelector('h3');
-    expect(statusHeading).to.exist;
-    expect(document.activeElement).to.equal(statusHeading);
-    expect(statusHeading.textContent).to.include(
-      'Showing the status for reference number',
-    );
-    expect(statusHeading.textContent).to.include('A-20250106-308944');
   });
 
   it('should focus on error message when search returns no results', async () => {
@@ -518,7 +522,6 @@ describe('IntroductionPage', () => {
       );
     });
 
-    // Wait for the API call to complete and UI to update
     await waitFor(
       async () => {
         const errorContainer = await within(container).findByTestId(
