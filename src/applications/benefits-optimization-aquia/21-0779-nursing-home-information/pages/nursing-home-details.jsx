@@ -2,30 +2,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { z } from 'zod';
-import {
-  FormField,
-  MemorableDateField,
-} from '@bio-aquia/shared/components/atoms';
+import { FormField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { transformDates } from '@bio-aquia/shared/forms';
-import {
-  admissionDateSchema,
-  nursingHomeDetailsSchema,
-} from '@bio-aquia/21-0779-nursing-home-information/schemas';
+import { nursingHomeDetailsSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
 
 // Schema for nursing home name field
 const nursingHomeNameSchema = z
   .string()
   .min(1, 'Nursing home name is required')
   .max(100, 'Nursing home name must be less than 100 characters');
-
-/**
- * Data processor to ensure date values are properly formatted strings
- */
-const ensureDateStrings = formData => {
-  return transformDates(formData, ['admissionDate']);
-};
 
 /**
  * Nursing Home Details page component for the nursing home information form
@@ -53,7 +39,6 @@ export const NursingHomeDetailsPage = ({
       goBack={goBack}
       schema={nursingHomeDetailsSchema}
       sectionName="nursingHomeDetails"
-      dataProcessor={ensureDateStrings}
       defaultData={{
         nursingHomeName: '',
         nursingHomeAddress: {
@@ -62,7 +47,6 @@ export const NursingHomeDetailsPage = ({
           state: '',
           postalCode: '',
         },
-        admissionDate: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -99,18 +83,6 @@ export const NursingHomeDetailsPage = ({
             }
             allowMilitary={false}
             omitStreet3
-          />
-
-          <MemorableDateField
-            name="admissionDate"
-            label="Date of admission"
-            schema={admissionDateSchema}
-            value={localData.admissionDate}
-            onChange={handleFieldChange}
-            required
-            hint="Enter the date the patient was admitted to this nursing home"
-            error={errors.admissionDate}
-            forceShowError={formSubmitted}
           />
         </>
       )}
