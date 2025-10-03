@@ -9,19 +9,21 @@ export const PATTERN_CLASS_TO_FILL_ACTION = {
 /**
  * @param {jQuery} $patternElement
  */
-function extractBaseNameFromFirstField($patternElement) {
-  const $firstField = $patternElement.find('[name]').first();
-  if ($firstField.length === 0) return null;
+export function extractBaseNameFromFirstField($patternElement) {
+  const patternFields = $patternElement.find(
+    '.vads-web-component-pattern-field',
+  );
+  if (!patternFields.length) {
+    return null;
+  }
 
-  const fieldName = $firstField.attr('name');
-  if (!fieldName) return null;
+  const firstField = patternFields.first();
+  const fieldName = firstField.attr('name') || firstField.attr('id');
+  if (!fieldName) {
+    return null;
+  }
 
-  // Extract base name by removing the last part after underscore
-  // e.g., "root_view:hasTreatmentRecords_add_another" -> "root_view:hasTreatmentRecords"
-  const lastUnderscoreIndex = fieldName.lastIndexOf('_');
-  return lastUnderscoreIndex !== -1
-    ? fieldName.substring(0, lastUnderscoreIndex)
-    : fieldName;
+  return fieldName.replace(/_[^_]+$/, '');
 }
 
 /**
