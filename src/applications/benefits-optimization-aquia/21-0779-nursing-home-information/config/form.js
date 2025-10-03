@@ -22,6 +22,7 @@ import {
   NursingHomeDetailsPage,
   OfficialInfoAndSignaturePage,
   VeteranIdentificationPage,
+  NursingOfficialInformationPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
@@ -30,6 +31,7 @@ import {
   nursingHomeDetailsSchema,
   officialInfoAndSignatureSchema,
   veteranIdentificationSchema,
+  nursingOfficialInformationSchema,
 } from '../schemas';
 
 const defaultSchema = {
@@ -79,6 +81,20 @@ const formConfig = {
     veteranInformationChapter: {
       title: 'Veteran information',
       pages: {
+        nursingOfficialInformation: {
+          path: 'nursing-official-information',
+          title: 'Nursing home official personal information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: NursingOfficialInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(nursingOfficialInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler(
+            'nursingOfficialInformation',
+          ),
+        },
         veteranIdentification: {
           path: 'veteran-identification',
           title: 'Veteran identification',
