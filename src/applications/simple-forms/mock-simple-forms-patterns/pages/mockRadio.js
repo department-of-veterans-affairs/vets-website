@@ -113,7 +113,6 @@ export default {
       'wcv3VaCompensationType',
       'wcv3VaTileCompensationType',
       'wcv3IsCurrentlyActiveDuty',
-      'wcv3HasHealthInsurance',
     ],
   },
 };
