@@ -26,6 +26,7 @@ import {
   VeteranPersonalInfoPage,
   VeteranIdentificationInfoPage,
   NursingOfficialInformationPage,
+  AdmissionDatePage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
@@ -38,6 +39,7 @@ import {
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
   nursingOfficialInformationSchema,
+  admissionDateInfoSchema,
 } from '../schemas';
 
 const defaultSchema = {
@@ -213,6 +215,18 @@ const formConfig = {
             'certificationLevelOfCare',
           ),
         },
+        admissionDate: {
+          path: 'admission-date',
+          title: 'Date of admission',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: AdmissionDatePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(admissionDateInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('admissionDateInfo'),
+        },
       },
     },
     medicaidChapter: {
@@ -221,20 +235,6 @@ const formConfig = {
       // has the patient applied for medicaid
       // date medicaid coverage started
       pages: {
-        certificationLevelOfCare: {
-          path: 'certification-level-of-care',
-          title: 'Level of care certification',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: CertificationLevelOfCarePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(certificationLevelOfCareSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'certificationLevelOfCare',
-          ),
-        },
         officialInfoAndSignature: {
           path: 'official-info-and-signature',
           title: "Official's information and signature",

@@ -22,6 +22,8 @@ import {
   veteranIdentificationInfoSchema,
 } from './veteran-identification';
 
+import { admissionDateInfoSchema } from './admission-date';
+
 /**
  * Veteran identification schemas
  * @description Exports schemas for validating veteran personal information including
@@ -60,13 +62,18 @@ export {
 /**
  * Nursing home facility schemas
  * @description Schemas for validating nursing home facility information including
- * facility name, address, and admission date
+ * facility name and address
  */
 export {
-  admissionDateSchema,
   nursingHomeAddressSchema,
   nursingHomeDetailsSchema,
 } from './nursing-home';
+
+/**
+ * Admission date schemas
+ * @description Schemas for validating nursing home admission date
+ */
+export { admissionDateSchema, admissionDateInfoSchema } from './admission-date';
 
 /**
  * Medicaid and cost information schemas
@@ -160,6 +167,7 @@ export const nursingHomeFormSchema = z.object({
 
   // Certification and official information
   certificationLevelOfCare: certificationLevelOfCareSchema,
+  admissionDateInfo: admissionDateInfoSchema,
   officialInfoAndSignature: officialInfoAndSignatureSchema,
   nursingOfficialInformation: nursingOfficialInformationSchema,
 });
