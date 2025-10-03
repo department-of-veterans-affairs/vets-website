@@ -12,6 +12,7 @@ import {
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
+  // TODO: Should this be decoupled from isCerner as well?
   const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 

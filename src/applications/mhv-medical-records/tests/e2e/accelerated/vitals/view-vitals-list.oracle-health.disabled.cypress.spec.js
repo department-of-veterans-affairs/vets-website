@@ -6,6 +6,7 @@ import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
 
+  // TODO: these shouldn't be passing anymore?
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
