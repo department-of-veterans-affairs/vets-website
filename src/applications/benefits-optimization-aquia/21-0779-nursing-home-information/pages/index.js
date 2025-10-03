@@ -19,5 +19,6 @@ export { VeteranIdentificationInfoPage } from './veteran-identification-info';
 export { NursingHomeDetailsPage } from './nursing-home-details';
 export { MedicaidAndCostPage } from './medicaid-and-cost';
 export { CertificationLevelOfCarePage } from './certification-level-of-care';
+export { AdmissionDatePage } from './admission-date';
 export { OfficialInfoAndSignaturePage } from './official-info-and-signature';
 export { NursingOfficialInformationPage } from './nursing-official-information';
