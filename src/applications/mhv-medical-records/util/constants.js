@@ -173,21 +173,29 @@ export const vitalTypes = {
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
 };
 
-// Canonical vital type mapping driven directly by LOINC codes.
-// This replaces reliance on code.text vendor strings for classification.
-export const loincToVitalType = {
-  // Panels / primary codes
-  [loincCodes.BLOOD_PRESSURE]: 'BLOOD_PRESSURE',
-  [loincCodes.HEART_RATE]: 'PULSE',
-  [loincCodes.BREATHING_RATE]: 'RESPIRATION',
-  [loincCodes.PULSE_OXIMETRY_1]: 'PULSE_OXIMETRY',
-  [loincCodes.PULSE_OXIMETRY_2]: 'PULSE_OXIMETRY',
-  [loincCodes.TEMPERATURE]: 'TEMPERATURE',
-  [loincCodes.WEIGHT]: 'WEIGHT',
-  [loincCodes.HEIGHT]: 'HEIGHT',
-  // Common alternate weight LOINC (not declared in loincCodes list)
-  '3141-9': 'WEIGHT',
+// Grouped LOINC codes for each canonical vital type. This is the single source of truth.
+// Any additions (new LOINC variants) only need to be appended here and will automatically
+// be reflected in loincToVitalType and allowedVitalLoincs.
+export const vitalLoincGroups = {
+  BLOOD_PRESSURE: [loincCodes.BLOOD_PRESSURE],
+  PULSE: [loincCodes.HEART_RATE],
+  RESPIRATION: [loincCodes.BREATHING_RATE],
+  PULSE_OXIMETRY: [loincCodes.PULSE_OXIMETRY_1, loincCodes.PULSE_OXIMETRY_2],
+  TEMPERATURE: [loincCodes.TEMPERATURE],
+  WEIGHT: [loincCodes.WEIGHT, '3141-9'], // include common alternate weight LOINC 3141-9
+  HEIGHT: [loincCodes.HEIGHT],
 };
+
+// Canonical vital type mapping driven directly by grouped LOINC codes.
+export const loincToVitalType = Object.entries(vitalLoincGroups).reduce(
+  (acc, [type, codes]) => {
+    codes.forEach(code => {
+      acc[code] = type; // map each LOINC variant to its canonical vital type
+    });
+    return acc;
+  },
+  {},
+);
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
@@ -553,15 +561,8 @@ export const radiologyErrors = {
 };
 
 export const allowedVitalLoincs = [
-  loincCodes.BLOOD_PRESSURE,
-  loincCodes.BREATHING_RATE,
-  loincCodes.HEART_RATE,
-  loincCodes.WEIGHT,
-  '3141-9', // alternate weight code
-  loincCodes.HEIGHT,
-  loincCodes.TEMPERATURE,
-  loincCodes.PULSE_OXIMETRY_1,
-  loincCodes.PULSE_OXIMETRY_2,
+  // ...existing code removed in favor of dynamic generation below...
+  ...new Set(Object.values(vitalLoincGroups).flat()),
 ];
 
 export const statsdFrontEndActions = {
