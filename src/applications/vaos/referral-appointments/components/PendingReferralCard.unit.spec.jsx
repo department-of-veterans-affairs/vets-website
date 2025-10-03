@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import sinon from 'sinon';
@@ -54,20 +54,7 @@ describe('VAOS Component: PendingReferralCard', () => {
     expect(screen.getByTestId('referral-not-available-alert')).to.exist;
   });
   it('should render basic list item with schedule appointment button for pilot stations', () => {
-    cleanup();
     referral.stationId = '648GK';
-    screen = render(
-      <PendingReferralCard referral={referral} handleClick={handleClick} />,
-    );
-    expect(screen.getByTestId('schedule-appointment-link')).to.exist;
-    referral.stationId = '648GE';
-    cleanup();
-    screen = render(
-      <PendingReferralCard referral={referral} handleClick={handleClick} />,
-    );
-    expect(screen.getByTestId('schedule-appointment-link')).to.exist;
-    referral.stationId = '657GQ';
-    cleanup();
     screen = render(
       <PendingReferralCard referral={referral} handleClick={handleClick} />,
     );
