@@ -40,16 +40,8 @@ const VitalListItem = props => {
   const dataTestIds = useMemo(
     () => {
       if (isAccelerating) {
-        // Legacy slug mapping to preserve existing accelerated Cypress selectors
-        const legacySlugMap = {
-          WEIGHT: 'body-weight',
-          HEIGHT: 'body-height',
-          TEMPERATURE: 'body-temperature',
-          RESPIRATION: 'respiratory-rate',
-          PULSE_OXIMETRY: 'oxygen-saturation-in-arterial-blood',
-        };
-        const baseSlug =
-          legacySlugMap[record.type] || kebabCase(updatedRecordType);
+        // Use canonical kebab-case slugs for accelerated Cypress (legacySlugMap removed)
+        const baseSlug = kebabCase(updatedRecordType);
         return {
           displayName: `vital-${baseSlug}-display-name`,
           noRecordMessage: `vital-${baseSlug}-no-record-message`,
