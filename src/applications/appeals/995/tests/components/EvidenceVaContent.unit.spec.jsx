@@ -87,7 +87,9 @@ describe('evidenceSummaryList', () => {
 
       const li = $$('li', container);
       expect(li[0].textContent).to.contain('Missing condition');
-      expect(li[1].textContent).to.contain('Test 1 and Test 2');
+      expect(li[1].textContent).to.contain(
+        'Midwest Alabama VA FacilityHypertension and Gluten IntoleranceI don’t have the date',
+      );
     });
     it('should show missing location name & treatment dates', () => {
       const vaEvidence = [
@@ -106,6 +108,7 @@ describe('evidenceSummaryList', () => {
       expect(li.textContent).to.contain('Missing location name');
       expect(li.textContent).to.contain('Missing treatment date');
     });
+
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
@@ -116,6 +119,7 @@ describe('evidenceSummaryList', () => {
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
     });
+
     it('should show missing treatment date', () => {
       const vaEvidence = [{ treatmentDate: '' }];
       const { container } = render(
