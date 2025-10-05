@@ -3,6 +3,7 @@
  * @description Barrel export file for VA Form 21P-530a pages
  */
 
+export { PlaceholderPage } from './placeholder-page';
 export { VeteranIdentificationPage } from './veteran-identification';
 export { VeteranServicePage } from './veteran-service';
 export { CemeteryInformationPage } from './cemetery-information';

@@ -21,7 +21,11 @@
         "path": "/burials-memorials/"
       },
       {
-        "name": "Apply for a Veterans burial allowance for a state or tribal organization",
+        "name": "Burial allowance",
+        "path": "/burials-memorials/veterans-burial-allowance/"
+      },
+      {
+        "name": "Apply for burial benefits",
         "path": "/21p-530a-interment-allowance"
       }
     ]
