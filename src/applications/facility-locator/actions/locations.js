@@ -41,6 +41,25 @@ const returnAllCare = async params => {
     true,
   );
 
+  const combinedData = [...nonVaData.data, ...vaData.data]
+    .map(location => {
+      const distance =
+        center &&
+        distBetween(
+          center[0],
+          center[1],
+          location.attributes.lat,
+          location.attributes.long,
+        );
+      return {
+        ...location,
+        distance,
+      };
+    })
+    .sort((resultA, resultB) => resultA.distance - resultB.distance);
+
+  const dataMaxTwentyResults = combinedData.slice(0, 20);
+
   return {
     meta: {
       pagination: {
@@ -48,26 +67,11 @@ const returnAllCare = async params => {
         nextPage: null,
         prevPage: null,
         totalPages: 1,
+        totalEntries: dataMaxTwentyResults.length,
       },
     },
     links: {},
-    data: [...nonVaData.data, ...vaData.data]
-      .map(location => {
-        const distance =
-          center &&
-          distBetween(
-            center[0],
-            center[1],
-            location.attributes.lat,
-            location.attributes.long,
-          );
-        return {
-          ...location,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance)
-      .slice(0, 20),
+    data: dataMaxTwentyResults,
   };
 };
 
