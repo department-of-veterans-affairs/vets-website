@@ -15,9 +15,9 @@ import {
   createValidationErrorHandler,
 } from '@bio-aquia/shared/utils';
 
-import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
-import GetHelpFooter from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
+import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import {
   CemeteryInformationPage,
   OfficialSignaturePage,
