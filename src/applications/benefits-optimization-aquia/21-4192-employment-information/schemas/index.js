@@ -6,6 +6,11 @@
  */
 
 // Import individual schemas when created
+<<<<<<< HEAD
+=======
+// import { employerInformationSchema } from './employer-information';
+// import { veteranInformationSchema } from './veteran-information';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 // import { employmentDetailsSchema } from './employment-details';
 // import { terminationInformationSchema } from './termination-information';
 // import { benefitsInformationSchema } from './benefits-information';
@@ -16,6 +21,7 @@
  * Section I - Identification schemas
  * @description Schemas for validating employer and veteran identification
  */
+<<<<<<< HEAD
 export {
   dateOfBirthSchema,
   firstNameSchema,
@@ -32,11 +38,18 @@ export {
   employerNameSchema,
   phoneNumberSchema,
 } from './employer-information';
+=======
+// export {
+//   employerInformationSchema,
+//   veteranInformationSchema,
+// };
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Section II - Employment Information schemas
  * @description Schemas for validating employment history and termination details
  */
+<<<<<<< HEAD
 export {
   amountEarnedSchema,
   beginningDateSchema,
@@ -64,17 +77,30 @@ export {
   grossAmountPaidSchema,
   lumpSumPaymentSchema,
 } from './employment-last-payment';
+=======
+// export {
+//   employmentDetailsSchema,
+//   terminationInformationSchema,
+// };
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Section III - Reserve/Guard schemas
  * @description Schemas for validating Reserve or National Guard status
  */
+<<<<<<< HEAD
 export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
+=======
+// export {
+//   reserveGuardStatusSchema,
+// };
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Section IV - Benefits schemas
  * @description Schemas for validating employment-related benefits information
  */
+<<<<<<< HEAD
 export {
   benefitEntitlementSchema,
   benefitsInformationSchema,
@@ -85,6 +111,11 @@ export {
  * @description Schemas for validating additional remarks or comments
  */
 export { remarksFieldSchema, remarksSchema } from './remarks';
+=======
+// export {
+//   benefitsInformationSchema,
+// };
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Certification schemas

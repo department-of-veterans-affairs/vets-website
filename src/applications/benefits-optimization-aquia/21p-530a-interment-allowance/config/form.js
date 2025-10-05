@@ -7,6 +7,7 @@ import {
   TITLE,
   TRACKING_PREFIX,
 } from '@bio-aquia/21p-530a-interment-allowance/constants';
+<<<<<<< HEAD
 import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
 import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
@@ -37,6 +38,31 @@ import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-intermen
 import { VeteranIdentificationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-identification/veteran-identification-review';
 import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
 import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
+=======
+import ConfirmationPage from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
+import IntroductionPage from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
+import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
+import {
+  createPageValidator,
+  createValidationErrorHandler,
+} from '@bio-aquia/shared/utils';
+
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
+import GetHelpFooter from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
+import {
+  CemeteryInformationPage,
+  OfficialSignaturePage,
+  VeteranIdentificationPage,
+  VeteranServicePage,
+} from '@bio-aquia/21p-530a-interment-allowance/pages';
+import {
+  cemeteryInformationSchema,
+  officialSignatureSchema,
+  veteranIdentificationSchema,
+  veteranServiceSchema,
+} from '@bio-aquia/21p-530a-interment-allowance/schemas';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 const defaultSchema = {
   type: 'object',
@@ -45,6 +71,10 @@ const defaultSchema = {
 
 /**
  * Form configuration for VA Form 21P-530a - State or Tribal Organization Application for Interment Allowance
+<<<<<<< HEAD
+=======
+ * @type {FormConfig}
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -85,6 +115,7 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+<<<<<<< HEAD
     organizationInformationChapter: {
       title: "Your organization's information",
       pages: {
@@ -195,6 +226,68 @@ const formConfig = {
           CustomPage: AdditionalRemarksPage,
           CustomPageReview: AdditionalRemarksReviewPage,
           pagePerItemIndex: 0,
+=======
+    veteranInformationChapter: {
+      title: 'Deceased veteran information',
+      pages: {
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: 'Veteran identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranIdentificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranIdentification'),
+        },
+        veteranService: {
+          path: 'veteran-service',
+          title: 'Veteran service information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranServicePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranServiceSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranService'),
+        },
+      },
+    },
+    cemeteryChapter: {
+      title: 'Cemetery and organization',
+      pages: {
+        cemeteryInformation: {
+          path: 'cemetery-information',
+          title: 'Cemetery information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CemeteryInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(cemeteryInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('cemeteryInformation'),
+        },
+      },
+    },
+    certificationChapter: {
+      title: 'Certification',
+      pages: {
+        officialSignature: {
+          path: 'official-signature',
+          title: 'Official signature',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: OfficialSignaturePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(officialSignatureSchema)(values),
+          onErrorChange: createValidationErrorHandler('officialSignature'),
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
         },
       },
     },

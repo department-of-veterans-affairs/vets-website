@@ -18,7 +18,11 @@ import { format, parseISO } from 'date-fns';
  * @param {Object} props.route.formConfig - Form configuration object
  * @returns {React.ReactElement} Confirmation page view
  */
+<<<<<<< HEAD
 export const ConfirmationPage = () => {
+=======
+export const ConfirmationPage = ({ route }) => {
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp;
@@ -58,6 +62,7 @@ export const ConfirmationPage = () => {
     : '[Organization title]';
 
   return (
+<<<<<<< HEAD
     <>
       <va-alert status="success" uswds>
         <h2 slot="headline">
@@ -150,6 +155,26 @@ export const ConfirmationPage = () => {
       </h2>
       <p>[TBD]</p>
     </>
+=======
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   );
 };
 

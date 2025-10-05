@@ -56,6 +56,7 @@ src/applications/benefits-optimization-aquia/shared/
 │   │       ├── base-form-page.jsx
 │   │       ├── base-form-page.unit.spec.jsx
 │   │       └── index.js
+<<<<<<< HEAD
 │   ├── error-boundary/  # React error boundary wrapper
 │   │   ├── error-boundary.jsx
 │   │   ├── error-boundary.unit.spec.jsx
@@ -64,6 +65,9 @@ src/applications/benefits-optimization-aquia/shared/
 │   │   ├── save-in-progress.jsx
 │   │   ├── save-in-progress.unit.spec.jsx
 │   │   └── index.js
+=======
+│   ├── error-boundary.jsx # React error boundary wrapper
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 │   └── index.js         # Barrel exports
 ├── forms/               # Data processing utilities
 │   ├── data-processors/
@@ -309,7 +313,11 @@ Domain-specific components and schemas live in their respective applications:
 - Memorial medallion form integration
 - Veteran service information schemas
 - ✅ Enhanced error handling and boundaries (completed)
+<<<<<<< HEAD
 - ✅ Development-only logging system (completed)
+=======
+- ✅ Production logging system (completed)
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 ### Planned (Future Phases)
 
@@ -325,7 +333,11 @@ Domain-specific components and schemas live in their respective applications:
 ### Critical Issues
 
 - **Form ID Context** - ✅ Resolved with FormProvider context
+<<<<<<< HEAD
 - **Development Logging** - ✅ Implemented environment-aware logging (dev-only)
+=======
+- **Production Logging** - ✅ Implemented environment-aware logging
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 - **Error Boundaries** - ✅ Added FormErrorBoundary component
 
 ### Quality Improvements

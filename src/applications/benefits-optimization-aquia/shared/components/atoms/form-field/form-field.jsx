@@ -10,6 +10,7 @@ import { logger } from '../../../utils/logger';
  * Simplified to leverage native VA component validation with Zod schema support.
  * Uses native va-text-input v3 web component for consistent VA.gov styling.
  *
+<<<<<<< HEAD
  * @deprecated Use more specific field components instead for better semantics and validation:
  * - {@link SSNField} for Social Security numbers
  * - {@link PhoneField} for phone numbers
@@ -23,6 +24,8 @@ import { logger } from '../../../utils/logger';
  *
  * Only use FormField for generic text inputs that don't have a specialized component.
  *
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  * @component
  * @see [VA Text Input Component](https://design.va.gov/components/form/text-input)
  * @see [VA Input Messages](https://design.va.gov/components/form/input-message)
@@ -45,6 +48,7 @@ import { logger } from '../../../utils/logger';
  *
  * @example
  * ```jsx
+<<<<<<< HEAD
  * // ❌ Don't use for phone numbers
  * <FormField
  *   name="phone"
@@ -70,6 +74,15 @@ import { logger } from '../../../utils/logger';
  *   schema={organizationNameSchema}
  *   value={formData.organizationName}
  *   onChange={handleFieldChange}
+=======
+ * <FormField
+ *   name="firstName"
+ *   label="First Name"
+ *   schema={firstNameSchema}
+ *   value={formData.firstName}
+ *   onChange={handleFieldChange}
+ *   required
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  * />
  * ```
  */

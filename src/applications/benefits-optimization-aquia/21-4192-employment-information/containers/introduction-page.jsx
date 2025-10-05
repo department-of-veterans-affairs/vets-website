@@ -17,6 +17,79 @@ import {
   TITLE,
 } from '@bio-aquia/21-4192-employment-information/constants';
 
+<<<<<<< HEAD
+=======
+/** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes to complete form */
+const OMB_RES_BURDEN = 15;
+
+/** @constant {string} OMB_NUMBER - Office of Management and Budget control number */
+const OMB_NUMBER = '2900-0065';
+
+/** @constant {string} OMB_EXP_DATE - OMB approval expiration date */
+const OMB_EXP_DATE = '08/31/2027';
+
+/**
+ * Process list component showing the steps to complete the form
+ * @returns {React.ReactElement} Process list with application steps
+ */
+const ProcessList = () => {
+  return (
+    <va-process-list>
+      <va-process-list-item header="Prepare">
+        <h4>Information needed from the employer:</h4>
+        <ul>
+          <li>Veteran’s full name and Social Security number</li>
+          <li>Employment start and end dates</li>
+          <li>Job title and duties performed</li>
+          <li>Earnings and time lost due to disability</li>
+          <li>Any concessions made due to disability</li>
+          <li>Termination details (if applicable)</li>
+        </ul>
+        <p>
+          <strong>Note:</strong> This form must be completed by the employer or
+          an authorized representative of the organization.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Complete">
+        <p>
+          The employer should complete all applicable sections of this form,
+          including employment information, benefit details, and certification.
+        </p>
+        <p>
+          For Reserve or National Guard members, additional information about
+          duty status may be required.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Submit">
+        <p>
+          Once completed, this form should be submitted along with the Veteran’s
+          VA Form 21-8940 (Application for Increased Compensation Based on
+          Unemployability).
+        </p>
+        <p>Submit by mail to:</p>
+        <p className="va-address-block">
+          Department of Veterans Affairs
+          <br />
+          Evidence Intake Center
+          <br />
+          P.O. Box 4444
+          <br />
+          Janesville, WI 53547-4444
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Processing">
+        <p>
+          VA will review the employment information as part of the Veteran’s
+          Individual Unemployability claim. This information helps determine if
+          service-connected disabilities prevent substantially gainful
+          employment.
+        </p>
+      </va-process-list-item>
+    </va-process-list>
+  );
+};
+
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 /**
  * Introduction page component for VA Form 21-4192
  * @returns {React.ReactElement} Introduction page component

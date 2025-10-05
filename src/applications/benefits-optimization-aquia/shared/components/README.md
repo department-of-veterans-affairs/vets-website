@@ -26,6 +26,7 @@ components/
 │       ├── page-template.jsx
 │       ├── page-template.unit.spec.jsx
 │       └── index.js
+<<<<<<< HEAD
 ├── error-boundary/       # React error boundary wrapper
 │   ├── error-boundary.jsx
 │   ├── error-boundary.unit.spec.jsx
@@ -34,6 +35,9 @@ components/
 │   ├── save-in-progress.jsx
 │   ├── save-in-progress.unit.spec.jsx
 │   └── index.js
+=======
+├── error-boundary.jsx    # React error boundary for error handling
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 └── index.js              # Barrel exports
 ```
 
@@ -72,6 +76,7 @@ Field-level components that integrate VA web components with form validation. Ea
 - `ssn-field/` - Social Security Number input with masking
 - `textarea-field/` - Multi-line text input with character count
 
+<<<<<<< HEAD
 ### Review Components
 
 Field-level components for displaying data in review mode:
@@ -81,6 +86,8 @@ Field-level components for displaying data in review mode:
 - `review-date-field/` - Displays dates in long or short format
 - `review-address-field/` - Multi-line address display (US, international, military)
 
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 ## Molecules
 
 Composite components combining multiple atoms. Each molecule is organized in its own directory:
@@ -102,6 +109,7 @@ Page-level templates for consistent form structure:
   - Render props pattern for complex logic
   - Title and subtitle support
   - Responsive button layout with flexbox
+<<<<<<< HEAD
   - Review mode support with Save button
 
 - `ReviewPageTemplate` - Review page wrapper with:
@@ -116,6 +124,11 @@ Page-level templates for consistent form structure:
 
 **Edit Mode:**
 
+=======
+
+### PageTemplate Usage
+
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 ```javascript
 // Simple usage
 <PageTemplate
@@ -125,8 +138,11 @@ Page-level templates for consistent form structure:
   setFormData={setFormData}
   goForward={goForward}
   goBack={goBack}
+<<<<<<< HEAD
   onReviewPage={onReviewPage}
   updatePage={updatePage}
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   schema={validationSchema}
   sectionName="sectionName"
 >
@@ -141,8 +157,11 @@ Page-level templates for consistent form structure:
   setFormData={setFormData}
   goForward={goForward}
   goBack={goBack}
+<<<<<<< HEAD
   onReviewPage={onReviewPage}
   updatePage={updatePage}
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   schema={validationSchema}
   sectionName="complexSection"
 >
@@ -174,6 +193,7 @@ Page-level templates for consistent form structure:
 </PageTemplate>
 ```
 
+<<<<<<< HEAD
 ### ReviewPageTemplate Usage
 
 **Review Mode:**
@@ -236,6 +256,11 @@ export const AddressReviewPage = ({ data, editPage, title }) => (
   - Handles expired form detection
   - Shows loading states during data fetch
   - Preserves breadcrumbs during transitions
+=======
+## Error Boundary
+
+- `FormErrorBoundary` - React error boundary that catches JavaScript errors and displays user-friendly error messages
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 ## Usage
 

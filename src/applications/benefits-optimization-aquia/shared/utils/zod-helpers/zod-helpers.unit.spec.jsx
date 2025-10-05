@@ -127,12 +127,16 @@ describe('Zod Helpers - Form validation utilities', () => {
       expect(result.success).to.be.false;
 
       const errors = flattenZodError(result.error);
+<<<<<<< HEAD
       expect(errors).to.have.property('level1');
       expect(errors.level1).to.have.property('level2');
       expect(errors.level1.level2).to.have.property(
         'level3',
         'Deep field required',
       );
+=======
+      expect(errors.level1).to.have.property('level3', 'Deep field required');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
     });
   });
 
@@ -252,12 +256,17 @@ describe('Zod Helpers - Form validation utilities', () => {
       });
 
       expect(errors).to.have.property('user');
+<<<<<<< HEAD
       expect(errors.user).to.have.property('profile');
       expect(errors.user.profile).to.have.property('name', 'Name required');
       expect(errors.user.profile).to.have.property(
         'age',
         'Age must be positive',
       );
+=======
+      expect(errors.user).to.have.property('name', 'Name required');
+      expect(errors.user).to.have.property('age', 'Age must be positive');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
     });
   });
 
@@ -520,12 +529,17 @@ describe('Zod Helpers - Form validation utilities', () => {
       const errors = errorHandler(invalidData);
       expect(errors).to.have.property('applicant');
       expect(errors.applicant).to.have.property('name', 'Name required');
+<<<<<<< HEAD
       expect(errors.applicant).to.have.property('address');
       expect(errors.applicant.address).to.have.property(
         'city',
         'City required',
       );
       expect(errors.applicant.address).to.have.property('zip', 'Invalid ZIP');
+=======
+      expect(errors.applicant).to.have.property('city', 'City required');
+      expect(errors.applicant).to.have.property('zip', 'Invalid ZIP');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       expect(errors).to.have.property(
         'references',
         'At least one reference required',

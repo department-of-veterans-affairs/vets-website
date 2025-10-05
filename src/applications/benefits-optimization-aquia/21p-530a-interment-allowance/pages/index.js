@@ -1,6 +1,7 @@
 /**
  * @module pages/index
  * @description Barrel export file for VA Form 21P-530a pages
+<<<<<<< HEAD
  * Pages are organized by chapter for better code organization and maintainability.
  */
 
@@ -26,3 +27,11 @@ export { AdditionalRemarksPage } from './additional-remarks';
 
 // Not yet configured in form
 export { VeteranServicePage } from './veteran-service';
+=======
+ */
+
+export { VeteranIdentificationPage } from './veteran-identification';
+export { VeteranServicePage } from './veteran-service';
+export { CemeteryInformationPage } from './cemetery-information';
+export { OfficialSignaturePage } from './official-signature';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)

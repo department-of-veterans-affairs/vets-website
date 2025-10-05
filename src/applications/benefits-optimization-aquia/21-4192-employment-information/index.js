@@ -11,11 +11,27 @@ export {
 } from '@bio-aquia/21-4192-employment-information/constants';
 
 /** @exports Containers - React container components */
+<<<<<<< HEAD
 export {
   App,
   IntroductionPage,
   ConfirmationPage,
 } from '@bio-aquia/21-4192-employment-information/containers';
+=======
+export {
+  App,
+  IntroductionPage,
+  ConfirmationPage,
+} from '@bio-aquia/21-4192-employment-information/containers';
+
+/** @exports Pages - Form page configurations */
+export {
+  identificationInformation,
+  mailingAddress,
+  nameAndDateOfBirth,
+  phoneAndEmailAddress,
+} from '@bio-aquia/21-4192-employment-information/pages';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /** @exports Config - Form configuration object */
 export { formConfig } from '@bio-aquia/21-4192-employment-information/config';

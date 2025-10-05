@@ -18,7 +18,11 @@ import { SUBMISSION_ADDRESS } from '@bio-aquia/21p-530a-interment-allowance/cons
  * @param {Object} props.route.formConfig - Form configuration object
  * @returns {React.ReactElement} Confirmation page component
  */
+<<<<<<< HEAD
 export const ConfirmationPage = () => {
+=======
+export const ConfirmationPage = ({ route }) => {
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   const form = useSelector(state => state.form || {});
   const formData = form?.data || {};
   const submission = form?.submission || {};
@@ -63,6 +67,7 @@ export const ConfirmationPage = () => {
     : 'Deceased Veteran';
 
   return (
+<<<<<<< HEAD
     <div className="confirmation-page">
       <va-alert status="success" uswds>
         <h2 slot="headline">
@@ -151,3 +156,41 @@ export const ConfirmationPage = () => {
     </div>
   );
 };
+=======
+    <ConfirmationView
+      formConfig={route?.formConfig}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
+  );
+};
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.object,
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+    }),
+  }),
+  name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
+};
+
+export default ConfirmationPage;
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)

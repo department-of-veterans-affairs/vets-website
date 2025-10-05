@@ -17020,6 +17020,7 @@ open@^8.4.0, open@~8.4.0:
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
 
+<<<<<<< HEAD
 openapi-zod@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/openapi-zod/-/openapi-zod-0.2.7.tgz#5c114809fbfc78c47b0c29bfe94e379837e5b4d1"
@@ -17034,6 +17035,22 @@ openapi-zod@^0.2.7:
     undici "^5.12.0"
     yargs-parser "^21.1.1"
     zod "^3.19.1"
+=======
+openapi-typescript@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/openapi-typescript/-/openapi-typescript-4.5.0.tgz#e64ef8281ee9b7ffab87bda612f64c565158f230"
+  integrity sha512-++gWZLTKmbZP608JHMerllAs84HzULWfVjfH7otkWBLrKxUvzHMFqI6R4JSW1LoNDZnS4KKiRTZW66Fxyp6z4Q==
+  dependencies:
+    hosted-git-info "^3.0.8"
+    js-yaml "^4.1.0"
+    kleur "^4.1.4"
+    meow "^9.0.0"
+    mime "^3.0.0"
+    node-fetch "^2.6.6"
+    prettier "^2.5.1"
+    slash "^3.0.0"
+    tiny-glob "^0.2.9"
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 opener@^1.5.1, opener@^1.5.2:
   version "1.5.2"
@@ -23808,10 +23825,17 @@ yosay@^2.0.2:
     taketalk "^1.0.0"
     wrap-ansi "^2.0.0"
 
+<<<<<<< HEAD
 zod@^3.19.1, zod@^3.22.4:
   version "3.25.76"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
+=======
+zod@^4.1.11:
+  version "4.1.11"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-4.1.11.tgz#4aab62f76cfd45e6c6166519ba31b2ea019f75f5"
+  integrity sha512-WPsqwxITS2tzx1bzhIKsEs19ABD5vmCVa4xBo2tq/SrV4RNZtfws1EnCWQXM6yh8bD08a1idvkB5MZSBiZsjwg==
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 zwitch@^1.0.0:
   version "1.0.5"

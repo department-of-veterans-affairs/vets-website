@@ -115,6 +115,7 @@ describe('useFormValidation - Real-time validation hook', () => {
         result.current.validate(invalidData);
       });
 
+<<<<<<< HEAD
       expect(result.current.errors).to.have.property('user');
       expect(result.current.errors.user).to.have.property(
         'name',
@@ -123,6 +124,14 @@ describe('useFormValidation - Real-time validation hook', () => {
       expect(result.current.errors.user).to.have.property('profile');
       expect(result.current.errors.user.profile).to.have.property(
         'bio',
+=======
+      expect(result.current.errors).to.have.nested.property(
+        'user.name',
+        'Name required',
+      );
+      expect(result.current.errors).to.have.nested.property(
+        'user.bio',
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
         'Bio too short',
       );
     });

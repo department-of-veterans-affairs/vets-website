@@ -183,10 +183,15 @@ describe('AddressField', () => {
         allowMilitary: true,
       };
       const { container } = render(<AddressField {...props} />);
+<<<<<<< HEAD
       const stateRadio = Array.from(
         container.querySelectorAll('va-radio'),
       ).find(
         el => el.getAttribute('label') === 'Overseas "state" abbreviation',
+=======
+      const stateRadio = container.querySelector(
+        'va-radio[label="Overseas \\"state\\" abbreviation"]',
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       );
 
       expect(stateRadio).to.exist;

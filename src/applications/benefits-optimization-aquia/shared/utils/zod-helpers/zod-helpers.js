@@ -1,5 +1,6 @@
 /**
  * Utility functions for working with Zod validation
+<<<<<<< HEAD
  * @module utils/zod-helpers
  */
 
@@ -20,6 +21,14 @@
  * // For array field errors:
  * // Input: { path: ['servicePeriods', 0, 'branchOfService'], message: 'Required' }
  * // Output: { servicePeriods: [{ branchOfService: 'Required' }] }
+=======
+ */
+
+/**
+ * Flattens Zod error issues into a field errors object
+ * @param {import('zod').ZodError} zodError - The Zod error to flatten
+ * @returns {Object} Object with field names as keys and error message strings as values
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  */
 export const flattenZodError = zodError => {
   const fieldErrors = {};
@@ -33,6 +42,7 @@ export const flattenZodError = zodError => {
         fieldErrors[fieldName] = issue.message;
       }
     } else {
+<<<<<<< HEAD
       // Handle nested paths (objects and arrays)
       let current = fieldErrors;
 
@@ -55,6 +65,19 @@ export const flattenZodError = zodError => {
       const lastKey = issue.path[issue.path.length - 1];
       if (!current[lastKey]) {
         current[lastKey] = issue.message;
+=======
+      const topLevel = issue.path[0];
+
+      if (!fieldErrors[topLevel]) {
+        fieldErrors[topLevel] = {};
+      }
+
+      if (typeof fieldErrors[topLevel] === 'object') {
+        const lastKey = issue.path[issue.path.length - 1];
+        if (!fieldErrors[topLevel][lastKey]) {
+          fieldErrors[topLevel][lastKey] = issue.message;
+        }
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       }
     }
   });
@@ -63,6 +86,7 @@ export const flattenZodError = zodError => {
 };
 
 /**
+<<<<<<< HEAD
  * Creates a validation error handler for form pages with namespace support.
  * Returns a function that validates data against a schema and returns flattened field errors.
  * Useful for form pages that need to validate a specific section of form data.
@@ -75,6 +99,12 @@ export const flattenZodError = zodError => {
  * const validator = createValidationErrorHandler(veteranInfoSchema, 'veteranInfo');
  * const errors = validator({ veteranInfo: { firstName: '', lastName: 'Smith' } });
  * // Returns: { firstName: 'First name is required' }
+=======
+ * Creates a validation error handler for form pages with namespace support
+ * @param {import('zod').ZodSchema} schema - The Zod schema to validate against
+ * @param {string} [namespace] - Optional namespace for the data section
+ * @returns {Function} Function that validates data and returns field errors
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  */
 export const createValidationErrorHandler = (schema, namespace) => {
   return data => {
@@ -88,6 +118,7 @@ export const createValidationErrorHandler = (schema, namespace) => {
 };
 
 /**
+<<<<<<< HEAD
  * Creates a page validator for form pages with namespace support.
  * Returns a function that validates data against a schema and returns a boolean.
  * Useful for checking if a form page is valid before allowing navigation.
@@ -100,6 +131,12 @@ export const createValidationErrorHandler = (schema, namespace) => {
  * const isValid = createPageValidator(veteranInfoSchema, 'veteranInfo');
  * const canContinue = isValid({ veteranInfo: { firstName: 'John', lastName: 'Smith' } });
  * // Returns: true or false
+=======
+ * Creates a page validator for form pages with namespace support
+ * @param {import('zod').ZodSchema} schema - The Zod schema to validate against
+ * @param {string} [namespace] - Optional namespace for the data section
+ * @returns {Function} Function that returns boolean indicating if data is valid
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  */
 export const createPageValidator = (schema, namespace) => {
   return data => {

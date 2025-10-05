@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+<<<<<<< HEAD
 import { logger } from '../utils/logger';
+=======
+import { logger } from '@bio-aquia/shared/utils/logger';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Error boundary component that catches JavaScript errors in the component tree.

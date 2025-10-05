@@ -61,7 +61,11 @@ export const MemorableDateField = ({
       monthYearOnly={monthYearOnly}
       value={value || ''}
       required={required}
+<<<<<<< HEAD
       hint={hint || ''}
+=======
+      hint={hint}
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       error={shouldShowError ? externalError : null}
       onDateChange={handleDateChange}
       onDateBlur={handleBlur}

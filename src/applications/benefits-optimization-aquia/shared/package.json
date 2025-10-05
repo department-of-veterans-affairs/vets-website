@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Shared utilities for Benefits Intake Optimization Aquia",
   "main": "index.js",
+<<<<<<< HEAD
   "private": true,
   "devDependencies": {
     "openapi-zod": "^0.2.7"
@@ -10,4 +11,7 @@
   "dependencies": {
     "zod": "^3.22.4"
   }
+=======
+  "private": true
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 }

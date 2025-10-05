@@ -373,7 +373,11 @@ export const AddressField = ({
           onBlur={() => handleBlur('state')}
         >
           {MILITARY_STATES.map(state => (
+<<<<<<< HEAD
             <va-radio-option
+=======
+            <va-radioOption
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
               key={state.value}
               label={state.label}
               value={state.value}
@@ -526,7 +530,11 @@ export const AddressField = ({
           onBlur={() => handleBlur('city')}
         >
           {MILITARY_CITIES.map(city => (
+<<<<<<< HEAD
             <va-radio-option
+=======
+            <va-radioOption
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
               key={city.value}
               label={city.label}
               value={city.value}

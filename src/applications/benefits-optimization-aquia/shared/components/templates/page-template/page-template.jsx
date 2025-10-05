@@ -22,8 +22,11 @@ const PageTemplateWithHook = ({
   hideNavigation,
   navigationProps,
   className,
+<<<<<<< HEAD
   onReviewPage,
   updatePage,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 }) => {
   const formSectionProps = useFormSection({
     sectionName: sectionName || 'default',
@@ -46,8 +49,11 @@ const PageTemplateWithHook = ({
       className={className}
       formSectionProps={formSectionProps}
       shouldUseHook
+<<<<<<< HEAD
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
     >
       {children}
     </PageTemplateBase>
@@ -65,12 +71,18 @@ PageTemplateWithHook.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+<<<<<<< HEAD
   onReviewPage: PropTypes.bool,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   schema: PropTypes.object,
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+<<<<<<< HEAD
   updatePage: PropTypes.func,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 };
 
 /**
@@ -88,8 +100,11 @@ const PageTemplateBase = ({
   className,
   formSectionProps,
   shouldUseHook,
+<<<<<<< HEAD
   onReviewPage,
   updatePage,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 }) => {
   /**
    * Renders children with proper form context.
@@ -152,6 +167,7 @@ const PageTemplateBase = ({
 
         {!hideNavigation && (
           <div className="vads-u-margin-y--2 vads-u-display--flex vads-u-justify-content--space-between">
+<<<<<<< HEAD
             {onReviewPage ? (
               // Review page mode - show Save button (right-aligned)
               <div style={{ marginLeft: 'auto' }}>
@@ -193,6 +209,28 @@ const PageTemplateBase = ({
                 </div>
               </>
             )}
+=======
+            <div>
+              {goBack && (
+                <va-button
+                  secondary
+                  onClick={goBack}
+                  text="Back"
+                  {...navigationProps?.backButtonProps || {}}
+                />
+              )}
+            </div>
+            <div>
+              <va-button
+                onClick={e => {
+                  e.preventDefault();
+                  formSectionProps.handleContinue(goForward);
+                }}
+                text="Continue"
+                {...navigationProps?.continueButtonProps || {}}
+              />
+            </div>
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
           </div>
         )}
       </form>
@@ -209,10 +247,15 @@ PageTemplateBase.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+<<<<<<< HEAD
   onReviewPage: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
   updatePage: PropTypes.func,
+=======
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 };
 
 /**
@@ -238,8 +281,11 @@ PageTemplateBase.propTypes = {
  * @param {Object} [props.navigationProps] - Additional props for navigation buttons
  * @param {string} [props.className] - Additional CSS classes for the wrapper
  * @param {boolean} [props.useFormSectionHook=true] - Whether to use form section logic
+<<<<<<< HEAD
  * @param {boolean} [props.onReviewPage=false] - Whether page is in review mode (shows Update button instead of Continue)
  * @param {Function} [props.updatePage] - Function to call when Update button is clicked (for review page)
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  * @returns {JSX.Element} Form page with navigation
  */
 export const PageTemplate = ({
@@ -258,8 +304,11 @@ export const PageTemplate = ({
   navigationProps = {},
   className = '',
   useFormSectionHook = true,
+<<<<<<< HEAD
   onReviewPage = false,
   updatePage,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 }) => {
   const shouldUseHook = useFormSectionHook && schema && sectionName;
 
@@ -280,8 +329,11 @@ export const PageTemplate = ({
         hideNavigation={hideNavigation}
         navigationProps={navigationProps}
         className={className}
+<<<<<<< HEAD
         onReviewPage={onReviewPage}
         updatePage={updatePage}
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       >
         {children}
       </PageTemplateWithHook>
@@ -323,8 +375,11 @@ export const PageTemplate = ({
       className={className}
       formSectionProps={fallbackProps}
       shouldUseHook={false}
+<<<<<<< HEAD
       onReviewPage={onReviewPage}
       updatePage={updatePage}
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
     >
       {children}
     </PageTemplateBase>
@@ -342,11 +397,17 @@ PageTemplate.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+<<<<<<< HEAD
   onReviewPage: PropTypes.bool,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   schema: PropTypes.object,
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+<<<<<<< HEAD
   updatePage: PropTypes.func,
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   useFormSectionHook: PropTypes.bool,
 };

@@ -57,9 +57,14 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.firstCall.args[1]).to.equal('');
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.debug('Test message');
       expect(consoleLogStub.called).to.be.false;
     });
@@ -83,9 +88,14 @@ describe('Logger - Logging utility', () => {
       expect(consoleInfoStub.firstCall.args[1]).to.equal('');
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.info('Test message');
       expect(consoleInfoStub.called).to.be.false;
     });
@@ -109,9 +119,14 @@ describe('Logger - Logging utility', () => {
       expect(consoleWarnStub.firstCall.args[1]).to.equal('');
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.warn('Test message');
       expect(consoleWarnStub.called).to.be.false;
     });
@@ -142,9 +157,14 @@ describe('Logger - Logging utility', () => {
       );
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.error('Test message');
       expect(consoleErrorStub.called).to.be.false;
     });
@@ -166,9 +186,14 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.firstCall.args[1]).to.equal('');
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.timing('operation', 100);
       expect(consoleLogStub.called).to.be.false;
     });
@@ -198,9 +223,14 @@ describe('Logger - Logging utility', () => {
       });
     });
 
+<<<<<<< HEAD
     it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
+=======
+    it('not log in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.event('form', 'submit');
       expect(consoleLogStub.called).to.be.false;
     });
@@ -274,6 +304,7 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.called).to.be.false;
     });
 
+<<<<<<< HEAD
     it('not log errors in production', () => {
       process.env.NODE_ENV = 'production';
       logger.error('Production error');
@@ -284,6 +315,16 @@ describe('Logger - Logging utility', () => {
       process.env.NODE_ENV = 'test';
       delete process.env.ENABLE_TEST_LOGS;
 
+=======
+    it('log errors in production', () => {
+      process.env.NODE_ENV = 'production';
+      logger.error('Production error');
+      expect(consoleErrorStub.calledOnce).to.be.true;
+    });
+
+    it('not log anything in test environment', () => {
+      process.env.NODE_ENV = 'test';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
       logger.debug('Test debug');
       logger.info('Test info');
       logger.warn('Test warn');
@@ -296,6 +337,7 @@ describe('Logger - Logging utility', () => {
       expect(consoleWarnStub.called).to.be.false;
       expect(consoleErrorStub.called).to.be.false;
     });
+<<<<<<< HEAD
 
     it('log in test environment when ENABLE_TEST_LOGS=true', () => {
       process.env.NODE_ENV = 'test';
@@ -314,6 +356,8 @@ describe('Logger - Logging utility', () => {
       // Clean up
       delete process.env.ENABLE_TEST_LOGS;
     });
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   });
 
   describe('data handling', () => {

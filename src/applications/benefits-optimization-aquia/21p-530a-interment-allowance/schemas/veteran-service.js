@@ -1,5 +1,8 @@
 import { z } from 'zod';
+<<<<<<< HEAD
 import constants from 'vets-json-schema/dist/constants.json';
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Veteran service information schemas for 21P-530a form
@@ -8,6 +11,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * Schema for branch of service
+<<<<<<< HEAD
  * Matches constants.branchesServed from vets-json-schema
  */
 export const branchOfServiceSchema = z
@@ -34,6 +38,32 @@ export const branchOfServiceSchema = z
       message: 'Please select a branch of service',
     },
   );
+=======
+ */
+export const branchOfServiceSchema = z.enum(
+  [
+    'army',
+    'navy',
+    'marines',
+    'air_force',
+    'space_force',
+    'coast_guard',
+    'national_guard',
+    'reserves',
+  ],
+  {
+    errorMap: (issue, ctx) => {
+      if (
+        issue.code === 'invalid_enum_value' ||
+        issue.code === 'invalid_type'
+      ) {
+        return { message: 'Please select a branch of service' };
+      }
+      return { message: ctx.defaultError };
+    },
+  },
+);
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Schema for service entry date
@@ -51,9 +81,14 @@ export const dateEnteredServiceSchema = z
  */
 export const placeEnteredServiceSchema = z
   .string()
+<<<<<<< HEAD
   .max(100, 'Place must be less than 100 characters')
   .optional()
   .or(z.literal(''));
+=======
+  .min(1, 'Place entered service is required')
+  .max(100, 'Place must be less than 100 characters');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Schema for service separation date
@@ -71,15 +106,21 @@ export const dateSeparatedSchema = z
  */
 export const placeSeparatedSchema = z
   .string()
+<<<<<<< HEAD
   .max(100, 'Place must be less than 100 characters')
   .optional()
   .or(z.literal(''));
+=======
+  .min(1, 'Place separated from service is required')
+  .max(100, 'Place must be less than 100 characters');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Schema for rank at separation
  */
 export const rankSchema = z
   .string()
+<<<<<<< HEAD
   .max(50, 'Rank must be less than 50 characters')
   .optional()
   .or(z.literal(''));
@@ -148,6 +189,10 @@ export const formatPreviousNameSummary = name => {
   );
   return parts.join(' ');
 };
+=======
+  .min(1, 'Rank at separation is required')
+  .max(50, 'Rank must be less than 50 characters');
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 
 /**
  * Schema for alternate service name (optional)
@@ -186,6 +231,7 @@ export const alternateNameSchema = z
   );
 
 /**
+<<<<<<< HEAD
  * Schema for a single service period item
  */
 export const servicePeriodItemSchema = z
@@ -280,6 +326,8 @@ export const formatServicePeriodSummary = period => {
 };
 
 /**
+=======
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
  * Complete veteran service schema
  */
 export const veteranServiceSchema = z

@@ -1,7 +1,11 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
+<<<<<<< HEAD
   "totalApplications": 146,
+=======
+  "totalApplications": 142,
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",

@@ -4,7 +4,11 @@
  */
 
 export const TITLE =
+<<<<<<< HEAD
   'Apply for a Veterans burial allowance for a state or tribal organization';
+=======
+  'State or Tribal Organization Application for Interment Allowance';
+>>>>>>> 33c4dc25a0 (feat(bio-aquia): Setup page patterns for bio-aquia apps)
 export const SUBTITLE = 'VA Form 21P-530a';
 
 /**
