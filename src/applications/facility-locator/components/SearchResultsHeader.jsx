@@ -76,17 +76,15 @@ export const SearchResultsHeader = ({
 
   const handleNumberOfResults = () => {
     const { totalEntries, currentPage, totalPages } = pagination;
-    const resultsCount = noResultsFound ? 0 : results?.length;
 
     if (noResultsFound) {
       return 'No results found';
     }
-    if (resultsCount === 1) {
+    if (totalEntries === 1) {
       return 'Showing 1 result';
     }
-
-    if ((currentPage === 1 && resultsCount < 10) || totalEntries < 10) {
-      return `Showing 1 - ${resultsCount} results`;
+    if (totalEntries < 11) {
+      return `Showing 1 - ${totalEntries} results`;
     }
 
     if (totalEntries > 10) {
