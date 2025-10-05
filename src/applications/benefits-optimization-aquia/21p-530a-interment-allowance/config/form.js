@@ -7,8 +7,8 @@ import {
   TITLE,
   TRACKING_PREFIX,
 } from '@bio-aquia/21p-530a-interment-allowance/constants';
-import ConfirmationPage from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import {
   createPageValidator,
