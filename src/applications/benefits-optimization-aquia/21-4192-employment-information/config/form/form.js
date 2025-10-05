@@ -6,6 +6,11 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+// Commented out until schemas are implemented
+// import {
+//   createPageValidator,
+//   createValidationErrorHandler,
+// } from '@bio-aquia/shared/utils';
 import {
   createPageValidator,
   createValidationErrorHandler,
@@ -198,6 +203,16 @@ const formConfig = {
           verifyItemValues: values =>
             createPageValidator(dutyStatusSchema)(values),
           onErrorChange: createValidationErrorHandler('dutyStatus'),
+        },
+        reserveGuardStatus: {
+          path: 'reserve-guard-status',
+          title: 'Reserve or National Guard status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ReserveGuardStatusPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData => formData?.isReserveOrGuard === 'yes',
         },
       },
     },
