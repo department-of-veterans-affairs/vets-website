@@ -56,9 +56,8 @@ const returnAllCare = async params => {
         distance,
       };
     })
-    .sort((resultA, resultB) => resultA.distance - resultB.distance);
-
-  const dataMaxTwentyResults = combinedData.slice(0, 20);
+    .sort((resultA, resultB) => resultA.distance - resultB.distance)
+    .slice(0, 20);
 
   return {
     meta: {
@@ -67,11 +66,11 @@ const returnAllCare = async params => {
         nextPage: null,
         prevPage: null,
         totalPages: 1,
-        totalEntries: dataMaxTwentyResults.length,
+        totalEntries: combinedData.length,
       },
     },
     links: {},
-    data: dataMaxTwentyResults,
+    data: combinedData,
   };
 };
 
