@@ -10,26 +10,10 @@ import {
 import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
 import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
-import {
-  createPageValidator,
-  createValidationErrorHandler,
-} from '@bio-aquia/shared/utils';
-
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
-import {
-  CemeteryInformationPage,
-  OfficialSignaturePage,
-  VeteranIdentificationPage,
-  VeteranServicePage,
-} from '@bio-aquia/21p-530a-interment-allowance/pages';
-import {
-  cemeteryInformationSchema,
-  officialSignatureSchema,
-  veteranIdentificationSchema,
-  veteranServiceSchema,
-} from '@bio-aquia/21p-530a-interment-allowance/schemas';
+import { PlaceholderPage } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 const defaultSchema = {
   type: 'object',
@@ -79,66 +63,59 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    organizationInformationChapter: {
+      title: "Your organization's information",
+      pages: {
+        organizationInformation: {
+          path: 'organization-information',
+          title: "Your organization's information",
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: PlaceholderPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+      },
+    },
     veteranInformationChapter: {
-      title: 'Deceased veteran information',
+      title: 'Deceased Veteran information',
       pages: {
-        veteranIdentification: {
-          path: 'veteran-identification',
-          title: 'Veteran identification',
+        veteranInformation: {
+          path: 'veteran-information',
+          title: 'Deceased Veteran information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranIdentificationPage,
+          CustomPage: PlaceholderPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranIdentification'),
-        },
-        veteranService: {
-          path: 'veteran-service',
-          title: 'Veteran service information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: VeteranServicePage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranServiceSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranService'),
         },
       },
     },
-    cemeteryChapter: {
-      title: 'Cemetery and organization',
+    militaryHistoryChapter: {
+      title: 'Military history',
       pages: {
-        cemeteryInformation: {
-          path: 'cemetery-information',
-          title: 'Cemetery information',
+        militaryHistory: {
+          path: 'military-history',
+          title: 'Military history',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: CemeteryInformationPage,
+          CustomPage: PlaceholderPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(cemeteryInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler('cemeteryInformation'),
         },
       },
     },
-    certificationChapter: {
-      title: 'Certification',
+    additionalRemarksChapter: {
+      title: 'Additional remarks',
       pages: {
-        officialSignature: {
-          path: 'official-signature',
-          title: 'Official signature',
+        additionalRemarks: {
+          path: 'additional-remarks',
+          title: 'Additional remarks',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: OfficialSignaturePage,
+          CustomPage: PlaceholderPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(officialSignatureSchema)(values),
-          onErrorChange: createValidationErrorHandler('officialSignature'),
         },
       },
     },
