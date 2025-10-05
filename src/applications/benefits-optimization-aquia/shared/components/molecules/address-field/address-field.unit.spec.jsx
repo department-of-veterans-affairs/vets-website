@@ -651,7 +651,7 @@ describe('AddressField', () => {
       const countrySelect = container.querySelector(
         'va-select[label="Country"]',
       );
-      expect(countrySelect).to.have.attribute('value', '');
+      expect(countrySelect).to.have.attribute('value', 'USA');
     });
 
     it('handles null value prop', () => {
@@ -674,7 +674,7 @@ describe('AddressField', () => {
         'va-select[label="Country"]',
       );
       expect(countrySelect).to.exist;
-      expect(countrySelect.getAttribute('value')).to.equal('');
+      expect(countrySelect.getAttribute('value')).to.equal('USA');
     });
 
     it('handles missing onChange', () => {

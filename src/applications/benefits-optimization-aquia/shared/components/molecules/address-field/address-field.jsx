@@ -58,7 +58,7 @@ export const AddressField = ({
   name,
   label = 'Mailing address',
   description = "We'll send any important information about your application to this address.",
-  value = {},
+  value: initialValue = {},
   onChange,
   errors: externalErrors = {},
   touched: externalTouched = {},
@@ -68,6 +68,21 @@ export const AddressField = ({
   onUSPSVerify,
   onValidate,
 }) => {
+  // Ensure all value properties have defaults to prevent undefined errors
+  const value = {
+    street: '',
+    street2: '',
+    street3: '',
+    city: '',
+    state: '',
+    province: '',
+    country: 'USA',
+    postalCode: '',
+    internationalPostalCode: '',
+    isMilitary: false,
+    ...initialValue,
+  };
+
   const [internalErrors, setInternalErrors] = useState({});
   const [internalTouched, setInternalTouched] = useState({});
   const errors =
@@ -162,10 +177,10 @@ export const AddressField = ({
           updatedAddress.city = '';
           updatedAddress.state = '';
         } else {
-          if (['APO', 'FPO', 'DPO'].includes(value.city)) {
+          if (value.city && ['APO', 'FPO', 'DPO'].includes(value.city)) {
             updatedAddress.city = savedCityState.city;
           }
-          if (['AA', 'AE', 'AP'].includes(value.state)) {
+          if (value.state && ['AA', 'AE', 'AP'].includes(value.state)) {
             updatedAddress.state = savedCityState.state;
           }
         }
@@ -244,29 +259,57 @@ export const AddressField = ({
         return;
       }
 
-      if (Object.keys(touched).length > 0) {
+      const touchedFields = Object.keys(touched).filter(
+        field => touched[field],
+      );
+      if (touchedFields.length > 0) {
         const fieldErrors = {};
         let hasErrors = false;
 
-        Object.keys(touched).forEach(field => {
-          if (touched[field]) {
-            const error = validateField(field, value[field]);
-            if (error) {
-              fieldErrors[field] = error;
-              hasErrors = true;
-            }
+        touchedFields.forEach(field => {
+          const error = validateField(field, value[field]);
+          if (error) {
+            fieldErrors[field] = error;
+            hasErrors = true;
           }
         });
 
-        setInternalErrors(fieldErrors);
+        // Only update if errors actually changed
+        setInternalErrors(prevErrors => {
+          const errorKeys = Object.keys(fieldErrors)
+            .sort()
+            .join(',');
+          const prevErrorKeys = Object.keys(prevErrors)
+            .sort()
+            .join(',');
+          if (errorKeys !== prevErrorKeys) {
+            return fieldErrors;
+          }
+          return prevErrors;
+        });
+
         onValidate?.(!hasErrors, fieldErrors);
       }
     },
-    [value, touched, validateField, onValidate, externalErrors],
+    // Remove touched from dependencies to prevent infinite loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      value.street,
+      value.city,
+      value.state,
+      value.postalCode,
+      value.country,
+      value.isMilitary,
+      validateField,
+      onValidate,
+      externalErrors,
+    ],
   );
 
   const showStateDropdown = useMemo(
-    () => value.isMilitary || ['USA', 'CAN', 'MEX'].includes(value.country),
+    () =>
+      value.isMilitary ||
+      (value.country && ['USA', 'CAN', 'MEX'].includes(value.country)),
     [value.country, value.isMilitary],
   );
 
@@ -346,7 +389,9 @@ export const AddressField = ({
         name={`${name}.state`}
         value={value.state || ''}
         error={touched.state ? errors.state : null}
-        required={['USA', 'CAN', 'MEX'].includes(value.country)}
+        required={
+          value.country && ['USA', 'CAN', 'MEX'].includes(value.country)
+        }
         onVaSelect={e => handleFieldChange('state', e.detail.value)}
         onBlur={() => handleBlur('state')}
       >
