@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import { useFormValidation } from '../use-form-validation';
+import { useFormValidation } from '@bio-aquia/shared/hooks/use-form-validation';
 
 /**
  * Custom hook for managing form sections with automatic namespacing.
@@ -89,18 +89,17 @@ export const useFormSection = ({
     return dataProcessor ? dataProcessor(initialData) : initialData;
   });
 
+  // NO parent data sync after mount - causes infinite loops with radio buttons
+  // Data flows: parent -> initial state (on mount), then local changes -> parent
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const [hasInitialized, setHasInitialized] = useState(false);
-  useEffect(
-    () => {
-      if (hasInitialized) {
-        validate(localData);
-      } else {
-        setHasInitialized(true);
-      }
+  // Memoize the validate function to prevent it from changing on every render
+  const memoizedValidate = useCallback(
+    validationData => {
+      return validate(validationData);
     },
-    [localData, validate, hasInitialized],
+    [validate],
   );
 
   /**
@@ -119,24 +118,44 @@ export const useFormSection = ({
           'constructor',
           'prototype',
         ]);
+
+        // Check all parts for dangerous keys before processing
+        if (parts.some(part => dangerousKeys.includes(part))) {
+          // Silently block dangerous field paths to prevent prototype pollution
+          return;
+        }
+
         updatedData = { ...localData };
 
         let current = updatedData;
         for (let i = 0; i < parts.length - 1; i++) {
-          if (dangerousKeys.includes(parts[i])) {
-            // Abort assignment if dangerous key found
-            return;
+          const key = parts[i];
+          // Additional safety: only create plain objects
+          if (
+            !current[key] ||
+            typeof current[key] !== 'object' ||
+            Array.isArray(current[key])
+          ) {
+            current[key] = Object.create(null);
           }
-          if (!current[parts[i]]) {
-            current[parts[i]] = {};
-          }
-          current = current[parts[i]];
+          current = current[key];
         }
-        if (dangerousKeys.includes(parts[parts.length - 1])) {
+
+        const finalKey = parts[parts.length - 1];
+        // Use Object.defineProperty for safer property assignment
+        Object.defineProperty(current, finalKey, {
+          value: processedValue,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+      } else {
+        // Also check for dangerous keys in simple paths
+        const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+        if (dangerousKeys.includes(fieldPath)) {
+          // Silently block dangerous fields to prevent prototype pollution
           return;
         }
-        current[parts[parts.length - 1]] = processedValue;
-      } else {
         updatedData = { ...localData, [fieldPath]: processedValue };
       }
 
@@ -148,14 +167,17 @@ export const useFormSection = ({
           ...data,
           [namespace]: updatedData,
         };
+
         setFormData(namespacedData);
       }
 
-      if (Array.isArray(processedValue)) {
-        validate(updatedData);
+      // Validate after data changes to clear errors in real-time
+      // This allows errors to clear as soon as the user fixes them
+      if (formSubmitted) {
+        memoizedValidate(updatedData);
       }
     },
-    [localData, data, namespace, setFormData, validate],
+    [localData, data, namespace, setFormData, memoizedValidate, formSubmitted],
   );
 
   /**
@@ -165,27 +187,36 @@ export const useFormSection = ({
     goForward => {
       setFormSubmitted(true);
 
-      const isValidForm = validate(localData);
+      const isValidForm = memoizedValidate(localData);
 
       if (isValidForm && goForward) {
+        // Pass the complete form data to goForward
         const namespacedData = {
           ...data,
           [namespace]: localData,
         };
-
         goForward(namespacedData);
       }
     },
-    [localData, data, namespace, validate],
+    [localData, data, namespace, memoizedValidate],
+  );
+
+  // Validate on field blur (called by individual fields)
+  const handleFieldBlur = useCallback(
+    () => {
+      memoizedValidate(localData);
+    },
+    [localData, memoizedValidate],
   );
 
   return {
     localData,
     setLocalData,
     handleFieldChange,
+    handleFieldBlur,
     handleContinue,
     errors,
-    validate,
+    validate: memoizedValidate,
     validateField,
     clearErrors,
     formSubmitted,
