@@ -183,10 +183,8 @@ describe('AddressField', () => {
         allowMilitary: true,
       };
       const { container } = render(<AddressField {...props} />);
-      const stateRadio = Array.from(
-        container.querySelectorAll('va-radio'),
-      ).find(
-        el => el.getAttribute('label') === 'Overseas "state" abbreviation',
+      const stateRadio = container.querySelector(
+        'va-radio[label="Overseas \\"state\\" abbreviation"]',
       );
 
       expect(stateRadio).to.exist;
@@ -653,7 +651,7 @@ describe('AddressField', () => {
       const countrySelect = container.querySelector(
         'va-select[label="Country"]',
       );
-      expect(countrySelect).to.have.attribute('value', 'USA');
+      expect(countrySelect).to.have.attribute('value', '');
     });
 
     it('handles null value prop', () => {
@@ -676,7 +674,7 @@ describe('AddressField', () => {
         'va-select[label="Country"]',
       );
       expect(countrySelect).to.exist;
-      expect(countrySelect.getAttribute('value')).to.equal('USA');
+      expect(countrySelect.getAttribute('value')).to.equal('');
     });
 
     it('handles missing onChange', () => {

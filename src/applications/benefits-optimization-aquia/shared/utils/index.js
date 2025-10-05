@@ -4,21 +4,19 @@
  */
 
 /** Logging utilities */
-export { logger } from '@bio-aquia/shared/utils/logger';
+export { logger } from './logger';
 
 /** Error handling and collection */
-export * from '@bio-aquia/shared/utils/error-handling';
+export * from './error-handling';
 
 /** VA component error transformations */
-export {
-  ERROR_TRANSFORMATIONS,
-} from '@bio-aquia/shared/utils/error-transformations';
+export { ERROR_TRANSFORMATIONS } from './error-transformations';
 
 /** Zod validation helpers */
-export * from '@bio-aquia/shared/utils/zod-helpers';
+export * from './zod-helpers';
 
 /** Zod to VA error integration */
-export * from '@bio-aquia/shared/utils/zod-integration';
+export * from './zod-integration';
 
 /** VA web component prop formatting */
 export { createVAComponentProps } from './component-props';

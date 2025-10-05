@@ -17,7 +17,7 @@ The `@bio-aq/shared` module enhances VA.gov's robust form system with Zod valida
 
 ### Memorial Forms (`aq-memorials`)
 
-- **2008-burial-flags-21** - Burial flag request form
+- **burial-flags-21-2008** - Burial flag request form
 - **memorial-medallion-40-1330m** - Memorial medallion application
 
 ### Health Forms (`aq-health`)
@@ -56,14 +56,7 @@ src/applications/benefits-optimization-aquia/shared/
 │   │       ├── base-form-page.jsx
 │   │       ├── base-form-page.unit.spec.jsx
 │   │       └── index.js
-│   ├── error-boundary/  # React error boundary wrapper
-│   │   ├── error-boundary.jsx
-│   │   ├── error-boundary.unit.spec.jsx
-│   │   └── index.js
-│   ├── save-in-progress-wrapper/ # Save-in-progress resume controls
-│   │   ├── save-in-progress-wrapper.jsx
-│   │   ├── save-in-progress-wrapper.unit.spec.jsx
-│   │   └── index.js
+│   ├── error-boundary.jsx # React error boundary wrapper
 │   └── index.js         # Barrel exports
 ├── forms/               # Data processing utilities
 │   ├── data-processors/
@@ -309,7 +302,7 @@ Domain-specific components and schemas live in their respective applications:
 - Memorial medallion form integration
 - Veteran service information schemas
 - ✅ Enhanced error handling and boundaries (completed)
-- ✅ Development-only logging system (completed)
+- ✅ Production logging system (completed)
 
 ### Planned (Future Phases)
 
@@ -325,7 +318,7 @@ Domain-specific components and schemas live in their respective applications:
 ### Critical Issues
 
 - **Form ID Context** - ✅ Resolved with FormProvider context
-- **Development Logging** - ✅ Implemented environment-aware logging (dev-only)
+- **Production Logging** - ✅ Implemented environment-aware logging
 - **Error Boundaries** - ✅ Added FormErrorBoundary component
 
 ### Quality Improvements
@@ -350,7 +343,7 @@ yarn test:unit src/applications/benefits-optimization-aquia/shared/components/at
 
 ```bash
 # Run form integration tests
-yarn test:unit --app-folder 2008-burial-flags-21
+yarn test:unit --app-folder burial-flags-21-2008
 ```
 
 ### Accessibility Testing
@@ -414,13 +407,13 @@ yarn test:unit --coverage
 
 - Review existing documentation
 - Check the Known Issues & TODOs section above
-- Follow development patterns from 2008-burial-flags-21
+- Follow development patterns from burial-flags-21-2008
 
 ## Success Metrics
 
 ### Current Achievement (Baseline)
 
-- ✅ **100% component reuse** in 2008-burial-flags-21
+- ✅ **100% component reuse** in burial-flags-21-2008
 - ✅ **WCAG 2.1 AA compliance** across all components
 - ✅ **Zod validation** with user-friendly error messages
 - ✅ **VA web component** integration throughout
@@ -512,7 +505,7 @@ Thin integration layers that enhance VA's system:
 
 ## Form Patterns and Helpers
 
-This section outlines the patterns and helpers available in bio-aquia/shared, based on the proven patterns from 2008-burial-flags-21.
+This section outlines the patterns and helpers available in bio-aquia/shared, based on the proven patterns from burial-flags-21-2008.
 
 ### Core Pattern: CustomPage with useFormSection
 
@@ -806,7 +799,7 @@ PersonalInfoPage.propTypes = {
 ### Usage Example in Form Config
 
 ```javascript
-// In 2008-burial-flags-21/config/form.js
+// In burial-flags-21-2008/config/form.js
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { createPageValidator } from '@bio-aquia/shared/utils';
 
@@ -815,7 +808,7 @@ export default {
   formId: VA_FORM_IDS.FORM_21_2008,
   version: 0,
   rootUrl: manifest.rootUrl,
-  trackingPrefix: '2008-burial-flags-21-',
+  trackingPrefix: 'burial-flags-21-2008-',
 
   // VA handles save-in-progress, we just provide validation
   pages: {

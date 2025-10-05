@@ -28,10 +28,8 @@ import { FormField } from '../../atoms';
  * @param {Object} [props.errors={}] - Validation errors object
  * @param {boolean} [props.required=false] - Whether first and last name are required
  * @param {string} [props.legend='Your full name'] - Fieldset legend text
- * @param {string} [props.label] - Alternative label text (overrides legend if provided)
  * @param {boolean} [props.showSuffix=true] - Whether to show suffix field
  * @param {boolean} [props.forceShowError=false] - Force display of validation errors
- * @param {string} [props.fieldPrefix] - Prefix for the field name (e.g., 'claimant' for 'claimantFullName')
  * @returns {JSX.Element} Full name fieldset with individual name fields
  *
  * @example
@@ -51,22 +49,12 @@ export const FullnameField = ({
   errors = {},
   required = false,
   legend = 'Your full name',
-  label,
   showSuffix = true,
   forceShowError = false,
-  fieldPrefix,
 }) => {
   // Ensure value is always an object, even if null/undefined is passed
   const safeValue = value || {};
 
-  // Determine the base field name
-  const baseFieldName = fieldPrefix ? `${fieldPrefix}FullName` : 'fullName';
-
-  /**
-   * Handle individual name field changes and update the complete name object
-   * @param {string} fieldPath - The field path (e.g., "fullName.first")
-   * @param {string} fieldValue - The new value for the field
-   */
   const handleNameChange = (fieldPath, fieldValue) => {
     const namePart = fieldPath.split('.').pop();
 
@@ -75,13 +63,13 @@ export const FullnameField = ({
       [namePart]: fieldValue,
     };
 
-    onChange(baseFieldName, updatedFullName);
+    onChange('fullName', updatedFullName);
   };
 
   return (
     <fieldset className="vads-u-margin-bottom--2">
       <legend className="vads-u-font-weight--bold vads-u-margin-bottom--1">
-        {label || legend}
+        {legend}
       </legend>
 
       <FormField
@@ -140,9 +128,7 @@ FullnameField.propTypes = {
     middle: PropTypes.string,
     suffix: PropTypes.string,
   }),
-  fieldPrefix: PropTypes.string,
   forceShowError: PropTypes.bool,
-  label: PropTypes.string,
   legend: PropTypes.string,
   required: PropTypes.bool,
   showSuffix: PropTypes.bool,
