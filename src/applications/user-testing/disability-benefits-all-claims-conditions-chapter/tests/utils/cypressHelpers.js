@@ -74,23 +74,40 @@ export const chooseFirstRadioIfUnknown = () => {
 };
 
 export const fillNewConditionAutocomplete = text => {
+  // 1) Wait for the web component to hydrate
   cy.get('va-text-input', { includeShadowDom: true })
     .should('exist')
+    .and('be.visible')
+    .and('have.class', 'hydrated')
+    .as('condHost');
+
+  // 2) Grab the inner input once, keep Cypress retries, and ensure it's enabled
+  cy.get('@condHost')
     .shadow()
     .find('input')
     .should('be.visible')
+    .and(el => {
+      // Some libs toggle the 'disabled' attribute briefly during hydration
+      expect(el).not.to.have.attr('disabled');
+    })
     .and('be.enabled')
     .as('condInput');
 
+  // 3) Focus, clear, and type text slowly enough for the autocomplete to react
   cy.get('@condInput')
+    .focus()
     .clear()
     .type(text, { delay: 20 });
 
-  // Wait for the suggestion list to render before selecting
-  cy.get('[role="listbox"]', { includeShadowDom: true }).should('be.visible');
+  // 4) Wait for options to render before sending arrow/enter
+  // Adjust the selector to whatever your listbox/options use
+  cy.get('@condHost')
+    .shadow()
+    .find('[role="listbox"], [role="option"], .usa-combo-box__list')
+    .should('exist');
 
+  // 5) Choose the first suggestion and assert a value is present
   cy.get('@condInput').type('{downarrow}{enter}');
-
   cy.get('@condInput')
     .invoke('val')
     .should('not.be.empty');
