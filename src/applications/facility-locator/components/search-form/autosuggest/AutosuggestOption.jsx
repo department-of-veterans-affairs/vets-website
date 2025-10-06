@@ -12,7 +12,6 @@ function AutosuggestOption({
   getItemProps,
   itemToString,
 }) {
-  // Build props object conditionally to avoid ARIA violations
   const itemProps = {
     item,
     className: optionClasses(index === highlightedIndex),
