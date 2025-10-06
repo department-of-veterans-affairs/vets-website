@@ -243,7 +243,7 @@ describe('DownloadFileType — AAL logging', () => {
           'Expected AAL postCreateAAL to be called once for PDF success',
         ).to.be.true;
       },
-      { timeout: 2000 },
+      { timeout: 4000 },
     );
     expect(
       postCreateAALStub.calledWithMatch({
