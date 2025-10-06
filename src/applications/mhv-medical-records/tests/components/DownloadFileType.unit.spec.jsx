@@ -235,18 +235,16 @@ describe('DownloadFileType — AAL logging', () => {
   };
 
   it('logs AAL success when PDF download succeeds', async () => {
+    makePdfStub.callsFake(async () => Promise.resolve());
     const screen = renderWithFormat('pdf');
     await clickDownload(screen);
+    // wait an extra tick for generatePdf async chain to complete
+    await new Promise(r => setTimeout(r, 0));
 
-    await waitFor(
-      () => {
-        expect(
-          postCreateAALStub.calledOnce,
-          'Expected AAL postCreateAAL to be called once for PDF success',
-        ).to.be.true;
-      },
-      { timeout: 4000 },
-    );
+    expect(
+      postCreateAALStub.calledOnce,
+      'Expected AAL postCreateAAL to be called once for PDF success',
+    ).to.be.true;
     expect(
       postCreateAALStub.calledWithMatch({
         activityType: 'Download',
