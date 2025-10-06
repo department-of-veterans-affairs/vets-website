@@ -9,17 +9,15 @@ const ConfirmationNewDisabilities = ({ formData }) => {
     <div>
       {newDisabilities.map(dis => (
         <div key={dis.condition}>
-          <h4>{capitalizeEachWord(dis.condition)}</h4>
-          <div className="vads-u-color--gray">Description</div>
+          <h4>{capitalizeEachWord(dis.condition)} </h4>
+          <div className="vads-u-color--gray">Description </div>
           {dis.cause.toLowerCase()} condition; {dis.primaryDescription}
           {dis.cause === 'SECONDARY' &&
             dis?.['view:secondaryFollowUp']?.causedByDisability && (
               <>
                 {' '}
-                (secondary to{' '}
-                {dis['view:secondaryFollowUp']?.causedByDisability}
-                );{' '}
-                {dis['view:secondaryFollowUp']?.causedByDisabilityDescription}
+                secondary to {dis['view:secondaryFollowUp']?.causedByDisability}
+                ; {dis['view:secondaryFollowUp']?.causedByDisabilityDescription}
               </>
             )}
           {dis.cause === 'WORSENED' &&
