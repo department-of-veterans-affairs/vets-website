@@ -41,7 +41,8 @@ export const ReviewField = ({
   } else if (formatter) {
     displayValue = formatter(value);
   } else {
-    displayValue = value;
+    // Convert booleans and other non-string values to strings for display
+    displayValue = typeof value === 'boolean' ? String(value) : value;
   }
 
   return (

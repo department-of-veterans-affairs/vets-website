@@ -30,21 +30,20 @@ export const ReviewFullnameField = ({
       return '';
     }
 
-    const parts = [
-      nameObj.first,
-      nameObj.middle,
-      nameObj.last,
-      nameObj.suffix,
-    ].filter(Boolean);
+    const parts = [nameObj.first, nameObj.middle, nameObj.last, nameObj.suffix]
+      .map(part => (part ? part.trim() : ''))
+      .filter(Boolean);
 
     return parts.join(' ');
   };
 
+  // Format the name first to check if it's empty
+  const formattedName = formatFullName(value);
+
   return (
     <ReviewField
       label={label}
-      value={value}
-      formatter={formatFullName}
+      value={formattedName || null}
       emptyText={emptyText}
       hideWhenEmpty={hideWhenEmpty}
     />

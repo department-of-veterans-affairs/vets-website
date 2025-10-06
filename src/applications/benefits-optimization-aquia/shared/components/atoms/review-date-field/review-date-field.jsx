@@ -46,22 +46,25 @@ export const ReviewDateField = ({
       return day ? `${monthName} ${day}, ${year}` : `${monthName} ${year}`;
     }
 
-    // Handle ISO string format
+    // Handle ISO string format (YYYY-MM-DD)
     if (typeof dateValue === 'string') {
-      const dateObj = new Date(dateValue);
+      // Parse date components directly to avoid timezone issues
+      const [year, month, day] = dateValue.split('-').map(Number);
 
       if (format === 'short') {
-        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const day = String(dateObj.getDate()).padStart(2, '0');
-        const year = dateObj.getFullYear();
-        return `${month}/${day}/${year}`;
+        return `${String(month).padStart(2, '0')}/${String(day).padStart(
+          2,
+          '0',
+        )}/${year}`;
       }
 
-      return dateObj.toLocaleDateString('en-US', {
-        year: 'numeric',
+      // Create date object for month name (use UTC to avoid timezone shifts)
+      const dateObj = new Date(Date.UTC(year, month - 1, day));
+      const monthName = dateObj.toLocaleString('en-US', {
         month: 'long',
-        day: 'numeric',
+        timeZone: 'UTC',
       });
+      return `${monthName} ${day}, ${year}`;
     }
 
     return '';
