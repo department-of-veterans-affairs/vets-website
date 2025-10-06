@@ -107,8 +107,8 @@ export const enterCauseNewDetails = (
 
   // Wait for the specific textarea to be ready before typing
   cy.get('va-textarea', { includeShadowDom: true })
-    .find('textarea')
     .shadow()
+    .find('textarea')
     .clear()
     .type(details, { force: true });
 
