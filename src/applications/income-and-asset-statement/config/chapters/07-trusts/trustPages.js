@@ -25,6 +25,7 @@ import {
   generateDeleteDescription,
   isDefined,
   monthlyMedicalReimbursementAmountRequired,
+  requireExpandedArrayField,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -176,6 +177,9 @@ const incomePage = {
       }),
       'ui:required': annualReceivedIncomeFromTrustRequired,
     },
+    'ui:options': {
+      ...requireExpandedArrayField('annualReceivedIncome'),
+    },
   },
   schema: {
     type: 'object',
@@ -203,6 +207,9 @@ const medicalExpensePage = {
         expandUnderCondition: true,
       }),
       'ui:required': monthlyMedicalReimbursementAmountRequired,
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('monthlyMedicalReimbursementAmount'),
     },
   },
   schema: {
