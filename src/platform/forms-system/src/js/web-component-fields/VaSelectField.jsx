@@ -50,6 +50,12 @@ export default function VaSelectField(props) {
     addDefaultEntry = true;
   }
 
+  const hasGroups =
+    labels &&
+    Object.values(labels).some(
+      value => typeof value === 'object' && value !== null,
+    );
+
   return (
     <VaSelect
       {...mappedProps}
@@ -61,13 +67,23 @@ export default function VaSelectField(props) {
     >
       {addDefaultEntry &&
         !props.childrenProps.schema.default && <option value="" />}
-      {enumOptions.map((option, index) => {
-        return (
-          <option key={index} value={option.value}>
-            {labels[option.value] || option.label}
-          </option>
-        );
-      })}
+      {hasGroups
+        ? Object.entries(labels).map(([groupLabel, groupOptions]) => (
+            <optgroup key={groupLabel} label={groupLabel}>
+              {Object.entries(groupOptions).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </optgroup>
+          ))
+        : enumOptions.map((option, index) => {
+            return (
+              <option key={index} value={option.value}>
+                {labels[option.value] || option.label}
+              </option>
+            );
+          })}
     </VaSelect>
   );
 }
