@@ -184,6 +184,7 @@ describe('Facility VA search', () => {
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.intercept('GET', '/geocoding/**/*').as('geocoding');
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
@@ -196,6 +197,8 @@ describe('Facility VA search', () => {
     );
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
+    // Verify geocoding API was never called
+    cy.get('@geocoding.all').should('have.length', 0);
   });
 
   it('finds VA emergency care', () => {
