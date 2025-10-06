@@ -482,7 +482,7 @@ describe('Edit Contact List container', async () => {
             noAssociationsAtAll.associatedBlockedTriageGroupsQty,
           noAssociations: noAssociationsAtAll.noAssociations,
           allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
-          allFacilities: [...noAssociationsAtAll.mockVistaFacilities],
+          vistaFacilities: [...noAssociationsAtAll.mockVistaFacilities],
           blockedFacilities: [...noAssociationsAtAll.mockBlockedFacilities],
           allRecipients: [...noAssociationsAtAll.mockAllRecipients],
           error: true,
