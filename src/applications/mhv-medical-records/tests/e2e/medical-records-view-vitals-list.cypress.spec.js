@@ -49,7 +49,7 @@ describe('Medical Records View Vitals', () => {
     VitalsListPage.verifyVitalOnListPage(
       3,
       'Blood oxygen level',
-      `${defaultVitals.entry[6].resource.valueQuantity.value} %`,
+      `${defaultVitals.entry[6].resource.valueQuantity.value}%`,
       moment
         .parseZone(defaultVitals.entry[6].resource.effectiveDateTime)
         .format('MMMM D, YYYY'),
