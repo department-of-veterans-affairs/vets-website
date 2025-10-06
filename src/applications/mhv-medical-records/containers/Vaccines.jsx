@@ -20,8 +20,8 @@ import {
   makePdf,
   formatNameFirstLast,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 
 import RecordList from '../components/RecordList/RecordList';
 import RecordListNew from '../components/RecordList/RecordListNew';

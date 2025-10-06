@@ -8,6 +8,7 @@ import {
   openCrisisModal,
   logUniqueUserMetricsEvents,
   EVENT_REGISTRY,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -16,7 +17,6 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import environment from 'platform/utilities/environment';
 
 import {

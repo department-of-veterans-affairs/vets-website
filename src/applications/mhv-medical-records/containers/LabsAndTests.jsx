@@ -4,9 +4,11 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';

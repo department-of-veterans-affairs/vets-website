@@ -15,8 +15,8 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 
 import { generateTextFile } from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';

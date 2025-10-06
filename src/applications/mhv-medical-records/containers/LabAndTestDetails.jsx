@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
 
 import {
   clearLabsAndTestDetails,

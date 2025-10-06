@@ -5,9 +5,9 @@ import { format } from 'date-fns';
 import {
   updatePageTitle,
   usePrintTitle,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { useHistory, useLocation } from 'react-router-dom';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
 import {
