@@ -91,7 +91,6 @@ export const uiSchema = {
     },
   },
   'ui:confirmationField': ConfirmationNewDisabilities,
-  // 'ui:confirmationField': null,
 };
 
 export const schema = {
