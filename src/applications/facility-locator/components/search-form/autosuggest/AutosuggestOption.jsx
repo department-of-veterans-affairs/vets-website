@@ -12,7 +12,6 @@ function AutosuggestOption({
   getItemProps,
   itemToString,
 }) {
-  // Build props object conditionally to avoid ARIA violations
   const itemProps = {
     item,
     className: optionClasses(index === highlightedIndex),
@@ -20,7 +19,7 @@ function AutosuggestOption({
   };
 
   // Only add aria-selected if the item is not disabled/error
-  // This prevents aria-selected="false" on disabled items which can cause accessibility issues
+  // This prevents aria-selected="false" on disabled items which is an accessibility issue
   if (!item.disabled && !item.isError) {
     itemProps['aria-selected'] = index === highlightedIndex;
   }
