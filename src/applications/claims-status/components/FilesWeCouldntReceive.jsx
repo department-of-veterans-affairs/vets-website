@@ -82,7 +82,7 @@ const FilesWeCouldntReceive = () => {
         them by mail or in person.
       </p>
       <VaLink
-        class="vads-u-display--block"
+        className="vads-u-display--block"
         href="#other-ways-to-send-documents"
         text="Learn about other ways to send your documents."
         onClick={e => {
@@ -90,86 +90,95 @@ const FilesWeCouldntReceive = () => {
           scrollToOtherWays();
         }}
       />
-      <div
-        id="files-not-received-section"
-        className="files-not-received-section"
-        data-testid="files-not-received-section"
-      >
-        <h2>Files not received</h2>
-        <p>
-          This is a list of files you submitted using this tool that we couldn’t
-          receive. You’ll need to resubmit these documents by mail or in person.
-          We’re sorry about this.
-        </p>
-        <p>
-          <strong>Note:</strong> If you already resubmitted these files, you
-          don’t need to do anything else. Files submitted by mail or in person,
-          by you or by others, don’t appear in this tool.
-        </p>
+      {(() => {
+        if (error) {
+          return (
+            <div className="error vads-u-margin-y--3">
+              <p>
+                Sorry, we couldn’t load your failed uploads. Please try again
+                later.
+              </p>
+            </div>
+          );
+        }
 
-        {(() => {
-          if (error) {
-            return (
-              <div className="error vads-u-margin-y--3">
-                <p>
-                  Sorry, we couldn’t load your failed uploads. Please try again
-                  later.
-                </p>
-              </div>
-            );
-          }
+        const hasFailedFiles =
+          sortedFailedFiles && sortedFailedFiles.length > 0;
 
-          if (sortedFailedFiles && sortedFailedFiles.length > 0) {
-            return (
-              <>
-                {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-                <ul
-                  className="failed-files-list"
-                  data-testid="failed-files-list"
-                  role="list"
-                >
-                  {currentPageItems.map(file => (
-                    <li key={file.id}>
-                      <VaCard
-                        class="vads-u-margin-y--3"
-                        data-testid={`failed-file-${file.id}`}
-                      >
-                        <div className="vads-u-margin-bottom--2">
-                          <strong>
+        return (
+          <>
+            <div
+              id="files-not-received-section"
+              className="files-not-received-section"
+              data-testid="files-not-received-section"
+            >
+              <h2>Files not received</h2>
+
+              {hasFailedFiles ? (
+                <>
+                  <p>
+                    This is a list of files you submitted using this tool that
+                    we couldn’t receive. You’ll need to resubmit these documents
+                    by mail or in person. We’re sorry about this.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If you already resubmitted these
+                    files, you don’t need to do anything else. Files submitted
+                    by mail or in person, by you or by others, don’t appear in
+                    this tool.
+                  </p>
+
+                  {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+                  <ul
+                    className="failed-files-list"
+                    data-testid="failed-files-list"
+                    role="list"
+                  >
+                    {currentPageItems.map(file => (
+                      <li key={file.id}>
+                        <VaCard
+                          className="vads-u-margin-y--3"
+                          data-testid={`failed-file-${file.id}`}
+                        >
+                          <h4
+                            className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
+                            data-dd-privacy="mask"
+                            data-dd-action-name="document filename"
+                          >
                             File name:
                             {file.fileName}
-                          </strong>{' '}
-                        </div>
-                        <div>Request type: {file.trackedItemDisplayName}</div>
-                        <div>Date failed: {formatDate(file.failedDate)}</div>
-                        <div>File type: {file.documentType}</div>
-                        <VaLink
-                          href={`/track-claims/your-claims/${
-                            file.claimId
-                          }/status`}
-                          text="Go to claim this file was uploaded for >"
-                          class="vads-u-font-weight--bold"
-                        />
-                      </VaCard>
-                    </li>
-                  ))}
-                </ul>
-                {shouldPaginate && (
-                  <VaPagination
-                    page={currentPage}
-                    pages={numPages}
-                    onPageSelect={e => handlePageSelect(e.detail.page)}
-                  />
-                )}
-              </>
-            );
-          }
+                          </h4>
+                          <div>Request type: {file.trackedItemDisplayName}</div>
+                          <div>Date failed: {formatDate(file.failedDate)}</div>
+                          <div>File type: {file.documentType}</div>
+                          <VaLink
+                            active
+                            href={`/track-claims/your-claims/${
+                              file.claimId
+                            }/status`}
+                            text="Go to claim this file was uploaded for"
+                          />
+                        </VaCard>
+                      </li>
+                    ))}
+                  </ul>
+                  {shouldPaginate && (
+                    <VaPagination
+                      page={currentPage}
+                      pages={numPages}
+                      onPageSelect={e => handlePageSelect(e.detail.page)}
+                    />
+                  )}
+                </>
+              ) : (
+                <p>We’ve received all files you submitted online.</p>
+              )}
+            </div>
 
-          return null;
-        })()}
-      </div>
-
-      <OtherWaysToSendYourDocuments />
+            <OtherWaysToSendYourDocuments />
+          </>
+        );
+      })()}
     </>
   );
 

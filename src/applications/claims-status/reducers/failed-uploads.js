@@ -16,6 +16,7 @@ export default function failedUploadsReducer(state = initialState, action) {
       return {
         ...state,
         loading: true,
+        data: [],
         error: null,
       };
     }
@@ -31,6 +32,7 @@ export default function failedUploadsReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        data: [],
         error: action.error,
       };
     }

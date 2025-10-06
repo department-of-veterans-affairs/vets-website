@@ -1,13 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
-import { render } from '@testing-library/react';
 import sinon from 'sinon';
 
 import FilesWeCouldntReceive from '../../components/FilesWeCouldntReceive';
+import { renderWithCustomStore } from '../utils';
 
 describe('<FilesWeCouldntReceive>', () => {
   // Helper function to create a mock store with failed uploads data
@@ -35,19 +33,6 @@ describe('<FilesWeCouldntReceive>', () => {
     );
   };
 
-  // Helper function to render the component with store and router
-  const renderComponent = store => {
-    return render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Routes>
-            <Route path="/" element={<FilesWeCouldntReceive />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>,
-    );
-  };
-
   /**
    * Helper function to create mock failed files data for testing
    * @param {number} count - Number of mock failed files to create
@@ -71,37 +56,40 @@ describe('<FilesWeCouldntReceive>', () => {
   describe('Basic Rendering', () => {
     it('should render all static content', () => {
       const store = createMockStore();
-      const { getByText, getByRole } = renderComponent(store);
+      const { getByText, getByRole } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
-      // Test main heading
       expect(getByRole('heading', { name: 'Files we couldn\u2019t receive' }))
         .to.exist;
-
-      // Test main description
       expect(
         getByText(
           'If we couldn\u2019t receive files you submitted online, you\u2019ll need to submit them by mail or in person.',
         ),
       ).to.exist;
-
-      // Test "Learn about other ways" link
       expect(
         document.querySelector(
           'va-link[text="Learn about other ways to send your documents."]',
         ),
       ).to.exist;
-
-      // Test "Files not received" section heading
       expect(getByRole('heading', { name: 'Files not received' })).to.exist;
+      expect(getByText('We\u2019ve received all files you submitted online.'))
+        .exist;
+    });
 
-      // Test section description
+    it('should render detailed explanation when there are failed files', () => {
+      const store = createMockStore(createMockFailedFiles(5)); // 5 failed files
+      const { getByText } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
       expect(
         getByText(
           'This is a list of files you submitted using this tool that we couldn\u2019t receive. You\u2019ll need to resubmit these documents by mail or in person. We\u2019re sorry about this.',
         ),
       ).to.exist;
-
-      // Test note section
       expect(getByText('Note:')).to.exist;
       expect(
         getByText(
@@ -112,12 +100,12 @@ describe('<FilesWeCouldntReceive>', () => {
 
     it('should render imported components', () => {
       const store = createMockStore();
-      const { getByTestId } = renderComponent(store);
+      const { getByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
-      // Test OtherWaysToSendYourDocuments component is rendered
       expect(getByTestId('other-ways-to-send-documents')).to.exist;
-
-      // Test NeedHelp component is rendered
       expect(document.querySelector('va-need-help')).to.exist;
     });
   });
@@ -125,11 +113,54 @@ describe('<FilesWeCouldntReceive>', () => {
   describe('Feature Flag', () => {
     it('should redirect when feature flag is disabled', () => {
       const store = createMockStore(null, false); // Feature flag disabled
-      const { container } = renderComponent(store);
+      const { container } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
       // When feature flag is disabled, the main content should not be rendered
       expect(container.querySelector('h1')).to.not.exist; // Main heading should not be there
       expect(container.textContent).to.not.include('Files we couldn'); // Main content should not be there
+    });
+  });
+
+  describe('Empty State', () => {
+    it('should render empty state when no failed files exist (empty array)', () => {
+      const store = createMockStore([]); // Empty array of failed files
+      const {
+        getByText,
+        getByTestId,
+        queryByText,
+        queryByTestId,
+      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+
+      expect(getByText('Files not received')).to.exist;
+      expect(getByText('We\u2019ve received all files you submitted online.'))
+        .exist;
+      expect(
+        queryByText('This is a list of files you submitted using this tool'),
+      ).to.not.exist;
+      expect(queryByTestId('failed-files-list')).to.not.exist;
+      expect(getByTestId('other-ways-to-send-documents')).to.exist;
+    });
+
+    it('should render empty state when failed files is null', () => {
+      const store = createMockStore(null); // null failed files
+      const {
+        getByText,
+        getByTestId,
+        queryByText,
+        queryByTestId,
+      } = renderWithCustomStore(<FilesWeCouldntReceive />, store);
+
+      expect(getByText('Files not received')).to.exist;
+      expect(getByText('We\u2019ve received all files you submitted online.'))
+        .to.exist;
+      expect(
+        queryByText('This is a list of files you submitted using this tool'),
+      ).to.not.exist;
+      expect(queryByTestId('failed-files-list')).to.not.exist;
+      expect(getByTestId('other-ways-to-send-documents')).to.exist;
     });
   });
 
@@ -163,7 +194,10 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       const store = createMockStore(mockFailedFiles);
-      const { container, getAllByTestId } = renderComponent(store);
+      const { container, getAllByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
       // Test that the list has proper accessibility structure
       const failedFilesList = container.querySelector(
@@ -216,7 +250,10 @@ describe('<FilesWeCouldntReceive>', () => {
       // Create 15 mock failed files to trigger pagination
       const mockFailedFiles = createMockFailedFiles(15);
       const store = createMockStore(mockFailedFiles);
-      const { container, getAllByTestId } = renderComponent(store);
+      const { container, getAllByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
       // Test that pagination component is rendered
       const pagination = container.querySelector('va-pagination');
@@ -237,7 +274,10 @@ describe('<FilesWeCouldntReceive>', () => {
       // Create 5 mock failed files (less than ITEMS_PER_PAGE)
       const mockFailedFiles = createMockFailedFiles(5);
       const store = createMockStore(mockFailedFiles);
-      const { container, getAllByTestId } = renderComponent(store);
+      const { container, getAllByTestId } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
       // Test that pagination component is NOT rendered
       const pagination = container.querySelector('va-pagination');
@@ -252,7 +292,10 @@ describe('<FilesWeCouldntReceive>', () => {
       // Create 15 mock failed files to trigger pagination
       const mockFailedFiles = createMockFailedFiles(15);
       const store = createMockStore(mockFailedFiles);
-      const { container } = renderComponent(store);
+      const { container } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
 
       // Mock the scrollIntoView method
       const mockScrollIntoView = sinon.spy();
