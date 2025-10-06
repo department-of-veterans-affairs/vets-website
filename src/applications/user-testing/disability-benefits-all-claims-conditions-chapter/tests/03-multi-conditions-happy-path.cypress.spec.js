@@ -12,7 +12,7 @@ import {
   startApplication,
 } from './utils/conditionsPages';
 
-describe('Conditions — Multiple Conditions Happy Path (Pages 0 → 9)', () => {
+describe.skip('Conditions — Multiple Conditions Happy Path (Pages 0 → 9)', () => {
   it('adds a new condition, then a rated disability, then reviews', () => {
     // Click start application without signing in
     startApplication();

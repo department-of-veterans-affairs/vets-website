@@ -40,6 +40,9 @@ describe('Conditions — Page 2: Add a condition', () => {
       '/user-testing/conditions/conditions-mango/0/condition',
       '?add=true',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('opens Cancel modal and stays on page when choosing "No, continue..."', () => {
@@ -78,6 +81,9 @@ describe('Conditions — Page 2: Add a condition', () => {
       '/user-testing/conditions/conditions-mango/0/condition',
       '?add=true',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('opens Cancel modal and leaves page when choosing "Yes, cancel"', () => {
@@ -99,6 +105,9 @@ describe('Conditions — Page 2: Add a condition', () => {
       'not.eq',
       '/user-testing/conditions/conditions-mango/0/condition',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('Back navigates to the intro (Page 1)', () => {
@@ -109,6 +118,9 @@ describe('Conditions — Page 2: Add a condition', () => {
     cy.contains('h3', /Add your disabilities and conditions/i).should(
       'be.visible',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('selects a condition type and can continue', () => {
@@ -122,6 +134,9 @@ describe('Conditions — Page 2: Add a condition', () => {
       '/user-testing/conditions/conditions-mango/0/new-condition',
       '?add=true',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('requires Yes/No before continuing on summary', () => {
@@ -141,5 +156,8 @@ describe('Conditions — Page 2: Add a condition', () => {
       'aria-invalid',
       'true',
     );
+
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

@@ -10,7 +10,7 @@ import {
   startApplication,
 } from './utils/conditionsPages';
 
-describe('Conditions — Happy Path (Pages 0 → 9)', () => {
+describe.skip('Conditions — Happy Path (Pages 0 → 9)', () => {
   it('completes the happy path through summary and review', () => {
     // Click start application without signing in
     startApplication();

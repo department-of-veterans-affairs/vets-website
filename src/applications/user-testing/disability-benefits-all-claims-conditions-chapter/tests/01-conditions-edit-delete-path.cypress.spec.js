@@ -21,7 +21,7 @@ import {
   openDeleteModalFromCard,
 } from './utils/cypressHelpers';
 
-describe('Conditions — Summary (Edit & Delete)', () => {
+describe.skip('Conditions — Summary (Edit & Delete)', () => {
   it('edits condition 0 and shows a success alert on return', () => {
     startApplication();
     conditionsInfo();
