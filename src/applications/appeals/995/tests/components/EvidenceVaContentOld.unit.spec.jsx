@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_VA_PATH } from '../../constants';
+import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
 import { content } from '../../content/evidenceSummary';
 import { EvidenceVaContent } from '../../components/EvidenceVaContent';
 import { records } from '../data/evidence-records';
@@ -116,10 +116,10 @@ describe('evidenceSummaryList', () => {
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=0`,
+        `${EVIDENCE_VA_DETAILS_URL}?index=0`,
       );
       expect(links[1].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=1`,
+        `${EVIDENCE_VA_DETAILS_URL}?index=1`,
       );
     });
     it('should execute callback when removing an entry', () => {
