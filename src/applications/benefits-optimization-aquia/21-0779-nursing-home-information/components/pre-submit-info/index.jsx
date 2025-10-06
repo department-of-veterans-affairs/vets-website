@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
+import { useSelector } from 'react-redux';
 import StatementOfTruthItem from './statement-of-truth-item';
 
 /**
@@ -26,7 +25,6 @@ const DEFAULT_SIGNATURE_STATE = {
  */
 const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   const submission = useSelector(state => state.form.submission);
-  const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);
 
   // Initialize signatures state
@@ -37,24 +35,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
   // Get the official's name from form data
   const officialName =
     formData?.officialInfoAndSignature?.officialName || 'Official';
-
-  // Set form data with signature values, if submission has not occurred
-  useEffect(
-    () => {
-      if (hasSubmittedForm) return;
-
-      const officialSignature =
-        signatures['Nursing Home Official']?.value || '';
-      dispatch(
-        setData({
-          ...formData,
-          nursingHomeOfficialSignature: officialSignature,
-        }),
-      );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, signatures],
-  );
 
   // Validate signature text is valid and checkbox is checked
   useEffect(

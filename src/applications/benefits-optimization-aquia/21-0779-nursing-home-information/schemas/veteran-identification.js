@@ -101,13 +101,3 @@ export const veteranIdentificationInfoSchema = z.object({
   ssn: ssnSchema,
   vaFileNumber: vaFileNumberSchema,
 });
-
-/**
- * Complete veteran identification schema
- */
-export const veteranIdentificationSchema = z.object({
-  fullName: fullNameSchema,
-  dateOfBirth: dateOfBirthSchema,
-  ssn: ssnSchema,
-  vaFileNumber: vaFileNumberSchema,
-});
