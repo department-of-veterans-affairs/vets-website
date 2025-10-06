@@ -90,7 +90,7 @@ export const reviewEntry = (description, key, uiSchema, label, data) => {
 
   return (
     <li key={keyString} className={className}>
-      <div className="vads-u-color--gray">{label}</div>
+      <div className="vads-u-color--gray">{label || '** MISSING LABEL **'}</div>
       <div>{data}</div>
     </li>
   );
@@ -208,17 +208,39 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
       });
     }
 
+    // TODO - could try returning null here?
+
     // multi page array data
     addMarginIfNewIndex(key, index);
-    return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
-      return fieldEntries(
-        arrKey,
-        arrVal,
-        data[index][arrKey],
-        schemaPropertiesKey.items,
-        schemaFromState?.properties?.[key].items?.[index],
+    try {
+      return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
+        return fieldEntries(
+          arrKey,
+          arrVal,
+          data[index][arrKey],
+          schemaPropertiesKey.items,
+          schemaFromState?.properties?.[key].items?.[index],
+        );
+      });
+    } catch (e) {
+      return reviewEntry(
+        null,
+        key,
+        uiSchema,
+        `**ERROR - array ** displaying ${key}`,
+        `Unable to display details for item ${index + 1} in ${key}`,
       );
-    });
+    }
+  }
+
+  if (
+    refinedData === '' ||
+    refinedData === false ||
+    refinedData === null ||
+    refinedData === undefined
+  ) {
+    refinedData = `**ERROR - refinedData ** refinedData: ${refinedData}`;
+    // return null;
   }
 
   return reviewEntry(description, key, uiSchema, label, refinedData);
