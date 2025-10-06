@@ -114,6 +114,7 @@ export const convertVital = record => {
     }
   }
   // Fallback: derive from text (legacy) else mark as OTHER
+  // TODO: Add logging when things are coded as OTHER so we know what is regularly getting excluded and can track
   if (!type) {
     const derived = macroCase(record.code?.text);
     type = loincToVitalType[derived] || derived || 'OTHER';
