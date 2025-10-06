@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaRadioFieldMapping from './vaRadioFieldMapping';
 
@@ -35,7 +36,7 @@ export default function VaRadioField(props) {
     ? optionsList(props.childrenProps.schema)
     : [];
   const labels = props.uiOptions?.labels || {};
-  const descriptions = props.uiOptions.descriptions || {};
+  const descriptions = props.uiOptions?.descriptions || {};
 
   const selectedValue =
     props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;
@@ -66,3 +67,43 @@ export default function VaRadioField(props) {
     </VaRadio>
   );
 }
+
+VaRadioField.propTypes = {
+  childrenProps: PropTypes.shape({
+    schema: PropTypes.shape({
+      enum: PropTypes.array,
+      default: PropTypes.any,
+      enumNames: PropTypes.array,
+    }),
+    formData: PropTypes.any,
+    onChange: PropTypes.func,
+    idSchema: PropTypes.shape({
+      $id: PropTypes.string,
+    }),
+  }),
+  uiOptions: PropTypes.shape({
+    labels: PropTypes.object,
+    descriptions: PropTypes.object,
+    tile: PropTypes.bool,
+  }),
+};
+
+VaRadioField.defaultProps = {
+  childrenProps: {
+    schema: {
+      enum: [],
+      default: null,
+      enumNames: [],
+    },
+    formData: null,
+    onChange: () => {},
+    idSchema: {
+      $id: '',
+    },
+  },
+  uiOptions: {
+    labels: {},
+    descriptions: {},
+    tile: false,
+  },
+};
