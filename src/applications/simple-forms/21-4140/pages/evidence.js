@@ -67,7 +67,10 @@ export default {
       ),
     }),
     'ui:confirmationField': ({ formData }) => {
-      return formData.supportingEvidence.length === 0 ? (
+      return !formData ||
+        !formData.supportingEvidence ||
+        !Array.isArray(formData.supportingEvidence) ||
+        formData.supportingEvidence.length === 0 ? (
         <span>No evidence was uploaded</span>
       ) : (
         <>
