@@ -4,6 +4,9 @@
  */
 
 export { PlaceholderPage } from './placeholder-page';
+export { OrganizationInformationPage } from './organization-information';
+export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
+export { MailingAddressPage } from './mailing-address';
 export { VeteranIdentificationPage } from './veteran-identification';
 export { VeteranServicePage } from './veteran-service';
 export { CemeteryInformationPage } from './cemetery-information';
