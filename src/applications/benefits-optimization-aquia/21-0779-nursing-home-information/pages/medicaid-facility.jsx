@@ -59,21 +59,11 @@ export const MedicaidFacilityPage = ({
               { label: 'Yes', value: 'yes' },
               { label: 'No', value: 'no' },
             ]}
+            hint="Your state's Medicaid program may use a different name."
             required
             error={errors.isMedicaidApproved}
             forceShowError={formSubmitted}
           />
-
-          <va-additional-info
-            trigger="Note about state Medicaid programs"
-            class="vads-u-margin-y--2"
-          >
-            <p>
-              Your state’s Medicaid program may use another name. For example,
-              California calls it Medi-Cal, and Massachusetts calls it
-              MassHealth.
-            </p>
-          </va-additional-info>
         </>
       )}
     </PageTemplate>

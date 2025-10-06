@@ -36,9 +36,20 @@ export const VeteranPersonalInfoPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Conditionals for veteran information content display
+  // i.e. "Tell us about the Veteran who is connected to the patient"
+  //    vs "Tell us about the veteran in the nursing home"
+  const { claimantQuestion } = formDataToUse;
+  const veteranIsPatient = claimantQuestion === 'veteran';
+
   return (
     <PageTemplate
-      title="Veteran personal information"
+      title="Name and date of birth"
+      subtitle={
+        veteranIsPatient
+          ? 'Tell us about the veteran in the nursing home'
+          : 'Tell us about the Veteran who is connected to the patient'
+      }
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -64,6 +75,7 @@ export const VeteranPersonalInfoPage = ({
                 : {}
             }
             required
+            legend={null}
             showSuffix={false}
             forceShowError={formSubmitted}
           />

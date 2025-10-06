@@ -34,6 +34,24 @@ export const CertificationLevelOfCarePage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Dynamic label that uses the claimant name if the patient is not the veteran
+  // pitfall: claimantPersonalInfo will be undefined if veteran is the patient
+  const {
+    claimantQuestion,
+    claimantPersonalInfo,
+    veteranPersonalInfo,
+  } = formDataToUse;
+  const { fullName = {} } = veteranPersonalInfo;
+  const { claimantFullName = {} } = claimantPersonalInfo;
+
+  const veteranIsPatient = claimantQuestion === 'veteran';
+
+  const patientName = veteranIsPatient
+    ? `${fullName?.first || ''} ${fullName?.last || ''}`.trim()
+    : `${claimantFullName?.first || ''} ${claimantFullName?.last || ''}`.trim();
+
+  const dynamicRadioLabel = `I certify that the claimant ${patientName} is a patient in this facility because of a mental or physical disability and is receiving`;
+
   return (
     <PageTemplate
       title="Certification of level of care"
@@ -49,65 +67,26 @@ export const CertificationLevelOfCarePage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <va-alert status="info" show-icon class="vads-u-margin-bottom--2">
-            <h3 slot="headline">Certification by nursing home official</h3>
-            <p>
-              A nursing home official must certify that the patient is in the
-              facility due to a mental or physical disability and is receiving
-              the indicated level of care.
-            </p>
-          </va-alert>
-
-          <div key="levelOfCare-radio-wrapper">
-            <RadioField
-              name="levelOfCare"
-              label="Level of care being provided to the patient"
-              schema={levelOfCareFieldSchema}
-              value={localData.levelOfCare}
-              onChange={handleFieldChange}
-              options={[
-                {
-                  label: 'Skilled nursing care',
-                  value: 'skilled',
-                  description:
-                    'Care that requires the skills of qualified technical or professional personnel',
-                },
-                {
-                  label: 'Intermediate nursing care',
-                  value: 'intermediate',
-                  description:
-                    'Care provided on a regular basis for patients who do not require skilled nursing care',
-                },
-              ]}
-              required
-              error={errors.levelOfCare}
-              forceShowError={formSubmitted}
-            />
-          </div>
-
-          <va-additional-info
-            trigger="What qualifies as skilled vs intermediate care?"
-            class="vads-u-margin-y--2"
-          >
-            <p>
-              <strong>Skilled nursing care</strong> includes services that can
-              only be performed safely and correctly by a licensed nurse (either
-              a registered nurse or a licensed practical nurse). Examples
-              include intravenous injections, catheterization, and wound care.
-            </p>
-            <p>
-              <strong>Intermediate nursing care</strong> is for patients who
-              need more care than custodial care but less than skilled nursing
-              care. This includes help with activities of daily living and some
-              medical monitoring.
-            </p>
-          </va-additional-info>
-
-          <p className="vads-u-margin-top--3">
-            By selecting one of the above options, you certify that the patient
-            is in this nursing home facility due to mental or physical
-            disability and is receiving the indicated level of nursing care.
-          </p>
+          <RadioField
+            name="levelOfCare"
+            label={dynamicRadioLabel}
+            schema={levelOfCareFieldSchema}
+            value={localData.levelOfCare}
+            onChange={handleFieldChange}
+            options={[
+              {
+                label: 'Skilled nursing care',
+                value: 'skilled',
+              },
+              {
+                label: 'Intermediate nursing care',
+                value: 'intermediate',
+              },
+            ]}
+            required
+            error={errors.levelOfCare}
+            forceShowError={formSubmitted}
+          />
         </>
       )}
     </PageTemplate>

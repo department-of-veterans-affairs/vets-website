@@ -48,12 +48,11 @@ export const AdmissionDatePage = ({ data, setFormData, goForward, goBack }) => {
         <>
           <MemorableDateField
             name="admissionDate"
-            label="Date of admission"
+            label="When was the patient admitted to the nursing home?"
             schema={admissionDateSchema}
             value={localData.admissionDate}
             onChange={handleFieldChange}
             required
-            hint="Enter the date the patient was admitted to this nursing home"
             error={errors.admissionDate}
             forceShowError={formSubmitted}
           />
