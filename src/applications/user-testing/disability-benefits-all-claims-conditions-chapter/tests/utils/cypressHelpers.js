@@ -90,33 +90,29 @@ export const chooseFirstRadioIfUnknown = () => {
 //     .should('not.be.empty');
 // };
 
-const getReadyInput = () =>
+const getReadyACInput = () =>
   cy
     .get('va-text-input#root_newCondition', { timeout: 15000 })
-    .should('have.class', 'hydrated') // wait for web component
+    .scrollIntoView({ block: 'center' })
+    .should('have.class', 'hydrated')
     .shadow()
     .find('#inputField', { timeout: 15000 })
     .should('be.visible')
-    .should($el => {
-      expect($el.prop('disabled'), 'disabled prop').to.eq(false);
+    .should(el => {
+      const isDisabled = el.prop('disabled') === true;
+      const fsDisabled = !!el.closest('fieldset').prop('disabled');
+      expect(isDisabled || fsDisabled, 'input/fieldset disabled').to.eq(false);
     });
 
 export const fillNewConditionAutocomplete = text => {
-  getReadyInput()
-    .invoke('val')
-    .then(v => {
-      if ((v || '').toLowerCase() === text.toLowerCase()) return;
+  getReadyACInput()
+    .clear()
+    .type(text, { delay: 10 });
 
-      getReadyInput()
-        .clear()
-        .type(text, { delay: 10 });
+  cy.get('[role="listbox"]', { timeout: 15000 }).should('be.visible');
 
-      cy.get('[role="listbox"]', { timeout: 15000 }).should('be.visible');
-
-      getReadyInput().type('{downarrow}{enter}');
-    });
-
-  getReadyInput()
+  getReadyACInput().type('{downarrow}{enter}');
+  getReadyACInput()
     .invoke('val')
     .should('not.be.empty');
 };
