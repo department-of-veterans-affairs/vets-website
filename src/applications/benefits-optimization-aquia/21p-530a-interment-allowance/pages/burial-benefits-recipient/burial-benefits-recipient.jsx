@@ -5,7 +5,7 @@ import { FormField, PhoneField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { recipientNameSchema, recipientPhoneSchema } from '../schemas';
+import { recipientNameSchema, recipientPhoneSchema } from '../../schemas';
 
 /**
  * Schema for burial benefits recipient page

@@ -5,7 +5,7 @@ import { FormField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { organizationNameSchema } from '../schemas';
+import { organizationNameSchema } from '../../schemas';
 
 /**
  * Schema for organization information page
