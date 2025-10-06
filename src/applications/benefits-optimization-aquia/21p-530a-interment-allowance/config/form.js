@@ -27,6 +27,19 @@ import {
   VeteranServedUnderDifferentNamePage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
+// Import review pages
+import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
+import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
+import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
+import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
+import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
+import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
+import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
+import { VeteranIdentificationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-identification/veteran-identification-review';
+import { VeteranPersonalInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-personal-information/veteran-personal-information-review';
+import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
+import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
+
 const defaultSchema = {
   type: 'object',
   properties: {},
@@ -83,7 +96,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: OrganizationInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: OrganizationInformationReviewPage,
           pagePerItemIndex: 0,
         },
         burialBenefitsRecipient: {
@@ -92,7 +105,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: BurialBenefitsRecipientPage,
-          CustomPageReview: null,
+          CustomPageReview: BurialBenefitsRecipientReviewPage,
           pagePerItemIndex: 0,
         },
         mailingAddress: {
@@ -101,7 +114,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MailingAddressPage,
-          CustomPageReview: null,
+          CustomPageReview: MailingAddressReviewPage,
           pagePerItemIndex: 0,
         },
       },
@@ -115,7 +128,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranPersonalInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranPersonalInformationReviewPage,
           pagePerItemIndex: 0,
         },
         veteranIdentification: {
@@ -124,7 +137,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranIdentificationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranIdentificationReviewPage,
           pagePerItemIndex: 0,
         },
         veteranBirthInformation: {
@@ -133,7 +146,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranBirthInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranBirthInformationReviewPage,
           pagePerItemIndex: 0,
         },
         veteranBurialInformation: {
@@ -142,7 +155,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranBurialInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranBurialInformationReviewPage,
           pagePerItemIndex: 0,
         },
       },
@@ -156,7 +169,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: ServicePeriodsPage,
-          CustomPageReview: null,
+          CustomPageReview: ServicePeriodsReviewPage,
           pagePerItemIndex: 0,
         },
         veteranServedUnderDifferentName: {
@@ -165,7 +178,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranServedUnderDifferentNamePage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranServedUnderDifferentNameReviewPage,
           pagePerItemIndex: 0,
         },
         veteranPreviousNames: {
@@ -174,7 +187,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranPreviousNamesPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranPreviousNamesReviewPage,
           pagePerItemIndex: 0,
           depends: formData =>
             formData?.veteranServedUnderDifferentName
@@ -191,7 +204,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: AdditionalRemarksPage,
-          CustomPageReview: null,
+          CustomPageReview: AdditionalRemarksReviewPage,
           pagePerItemIndex: 0,
         },
       },

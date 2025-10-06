@@ -44,9 +44,10 @@ describe('ConfirmationPage', () => {
     const { container } = initConfirmationPage();
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
-    expect(alert.querySelector('h2')).to.contain.text(
-      'Form submission started',
+    const heading = alert.querySelector('h2');
+    expect(heading.textContent).to.include(
+      'submitted your application for a burial allowance',
     );
-    expect(alert).to.contain.text('Your confirmation number is 1234567890');
+    expect(container).to.contain.text('1234567890');
   });
 });

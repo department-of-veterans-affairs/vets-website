@@ -48,6 +48,8 @@ export const VeteranBirthInformationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -59,6 +61,8 @@ export const VeteranBirthInformationPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       schema={veteranBirthInformationSchema}
       sectionName="veteranBirthInformation"
       defaultData={{
@@ -114,7 +118,9 @@ export const VeteranBirthInformationPage = ({
 
 VeteranBirthInformationPage.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };

@@ -42,6 +42,8 @@ export const MailingAddressPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -53,6 +55,8 @@ export const MailingAddressPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       schema={mailingAddressSchema}
       sectionName="mailingAddress"
       defaultData={{
@@ -122,8 +126,10 @@ export const MailingAddressPage = ({
 };
 
 MailingAddressPage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
