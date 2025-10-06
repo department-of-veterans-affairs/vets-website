@@ -273,7 +273,7 @@ describe('getMeasurement', () => {
     expect(measurement).to.eq(EMPTY_FIELD);
   });
 
-  it('formats pulse oximetry with a space before % for legacy compatibility', () => {
+  it('formats pulse oximetry without a space before %', () => {
     const record = {
       valueQuantity: {
         value: 84,
