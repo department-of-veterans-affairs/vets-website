@@ -24,7 +24,6 @@ const VitalListItem = props => {
     [displayName],
   );
 
-  // would need to add here
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
