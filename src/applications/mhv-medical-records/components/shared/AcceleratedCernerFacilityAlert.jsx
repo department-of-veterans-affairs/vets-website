@@ -9,7 +9,6 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingCareNotes,
-    // isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
