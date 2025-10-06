@@ -18,7 +18,7 @@ import {
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,
-} from '../schemas';
+} from '../../schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings
