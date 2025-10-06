@@ -41,6 +41,8 @@ export const VeteranIdentificationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -52,6 +54,8 @@ export const VeteranIdentificationPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       schema={veteranIdentificationSchema}
       sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
@@ -179,5 +183,7 @@ VeteranIdentificationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };

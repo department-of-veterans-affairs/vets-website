@@ -43,6 +43,8 @@ export const BurialBenefitsRecipientPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -54,6 +56,8 @@ export const BurialBenefitsRecipientPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       schema={burialBenefitsRecipientSchema}
       sectionName="burialBenefitsRecipient"
       defaultData={{
@@ -95,8 +99,10 @@ export const BurialBenefitsRecipientPage = ({
 };
 
 BurialBenefitsRecipientPage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
