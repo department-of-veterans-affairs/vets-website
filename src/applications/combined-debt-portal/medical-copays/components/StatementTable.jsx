@@ -108,6 +108,12 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             <span key={`table-header-${index}`}>{col}</span>
           ))}
         </va-table-row>
+        <va-table-row>
+          <span>Empty</span>
+          <span>Previous Balance</span>
+          <span>Empty</span>
+          <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
+        </va-table-row>
 
         {currentData.map((charge, index) => (
           <va-table-row key={`${charge.pDRefNo || index}`}>
@@ -117,12 +123,59 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             <span>{formatCurrency(charge.pDTransAmt)}</span>
           </va-table-row>
         ))}
+
+        <va-table-row>
+          <span>Empty</span>
+          <span>
+            <strong>Current Balance</strong>
+          </span>
+          <span>Empty</span>
+          <span>
+            <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
+          </span>
+        </va-table-row>
       </va-table>
       <VaPagination
         onPageSelect={e => onPageChange(e.detail.page)}
         page={currentPage}
         pages={numPages}
       />
+      {/* <va-table
+        data-testid="payment-history-statement-table"
+        table-type="bordered"
+        table-title={getStatementDateRange()}
+      >
+        <va-table-row slot="headers">
+          <span>Date</span>
+          <span>Description</span>
+          <span>Billing Reference</span>
+          <span>Amount</span>
+        </va-table-row>
+        <va-table-row>
+          <span>Empty</span>
+          <span>Previous Balance</span>
+          <span>Empty</span>
+          <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
+        </va-table-row>
+        {generateTableRowsForCharges()}
+        <va-table-row>
+          <span>Empty</span>
+          <span>
+            <strong>Current Balance</strong>
+          </span>
+          <span>Empty</span>
+          <span>
+            <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
+          </span>
+        </va-table-row>
+      </va-table> */}
+      {/* <VaPagination
+          onPageSelect={e => onPageChange(e.detail.page)}
+          page={currentPage}
+          pages={pageCount}
+          showLastPage
+          uswds
+        /> */}
     </>
   );
 };
