@@ -230,6 +230,8 @@ describe('DownloadFileType — AAL logging', () => {
       expect(pdfChecked).to.exist;
     });
     fireEvent.click(btn);
+    // allow promise microtasks to flush
+    await Promise.resolve();
   };
 
   it('logs AAL success when PDF download succeeds', async () => {
