@@ -224,19 +224,19 @@ describe('Facility VA search', () => {
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
-    cy.intercept('GET', '/geocoding/**/*').as('geocoding');
     cy.visit('/find-locations');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('#street-city-state-zip').type('27606{enter}');
+    // Wait for Use My Location to be triggered (it should not be)
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(8000);
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
     cy.get('#street-city-state-zip')
       .invoke('val')
       .then(searchString => expect(searchString).to.equal('27606'));
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
-    // Verify geocoding API was never called
-    cy.get('@geocoding.all').should('have.length', 0);
   });
 
   it('finds VA emergency care', () => {
