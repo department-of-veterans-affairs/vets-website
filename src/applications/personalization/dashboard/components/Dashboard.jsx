@@ -350,6 +350,16 @@ const Dashboard = ({
                 user={props.user}
               />
 
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
+
               {showMPIConnectionError && (
                 <div className="vads-l-row">
                   <MPIConnectionError className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3 vads-u-margin-top--3" />
@@ -364,16 +374,6 @@ const Dashboard = ({
                   />
                 </div>
               )}
-
-              <Toggler
-                toggleName={
-                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
-                }
-              >
-                <Toggler.Enabled>
-                  <NewMyVaToggle />
-                </Toggler.Enabled>
-              </Toggler>
 
               {/* LOA1 user experience */}
               {isLOA1 && (
