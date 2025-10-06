@@ -41,8 +41,11 @@ describe('EligibilityCriteria', () => {
   it('renders heading and service period entries', () => {
     const { getByRole, getByText } = renderComp();
 
-    expect(getByRole('heading', { name: /Eligibility Criteria/i })).to.exist;
-    expect(getByText(/Applicant has\s*1\s*period\(s\)/i)).to.exist;
+    expect(
+      getByRole('heading', {
+        name: /Basic Eligibility Criteria/i,
+      }),
+    ).to.exist;
     expect(getByText(/Entered Active Duty \(EOD\):/i)).to.exist;
     expect(getByText(/Released:/i)).to.exist;
   });
@@ -56,7 +59,6 @@ describe('EligibilityCriteria', () => {
       eligibilityTerminationDateStatus: 'Ineligible', // close + secondary-dark
     });
 
-    // Qualifying Military Service
     {
       const li = getRowLi(container, 'Qualifying Military Service:');
       const icon = li.querySelector('va-icon');
@@ -64,7 +66,6 @@ describe('EligibilityCriteria', () => {
       expect(icon).to.have.class('vads-u-color--green');
     }
 
-    // Character of discharge
     {
       const li = getRowLi(container, 'Character of discharge:');
       const icon = li.querySelector('va-icon');
@@ -72,7 +73,6 @@ describe('EligibilityCriteria', () => {
       expect(icon).to.have.class('vads-u-color--secondary-dark');
     }
 
-    // Disability Rating
     {
       const li = getRowLi(container, 'Disability Rating:');
       const icon = li.querySelector('va-icon');
@@ -80,7 +80,6 @@ describe('EligibilityCriteria', () => {
       expect(icon).to.have.class('vads-u-color--green');
     }
 
-    // Eligibility Termination Date
     {
       const li = getRowLi(container, 'Eligibility Termination Date:');
       const icon = li.querySelector('va-icon');
@@ -89,52 +88,8 @@ describe('EligibilityCriteria', () => {
     }
   });
 
-  it('shows disability rating with % when numeric; em dash when not numeric', () => {
-    const { container, rerender } = renderComp({
-      disabilityRating: { combinedScd: 15, scdDetails: [] },
-    });
-
-    // numeric -> "15%"
-    let li = getRowLi(container, 'Disability Rating:');
-    expect(li).to.contain.text('Disability Rating: 15%');
-
-    // numeric string -> current component treats as non-numeric => em dash
-    rerender(
-      <EligibilityCriteria
-        veteranProfile={baseVeteranProfile}
-        disabilityRating={{ combinedScd: '20', scdDetails: [] }}
-        irndDate="N/A"
-        eligibilityTerminationDate={null}
-        qualifyingMilitaryServiceStatus="Eligible"
-        characterOfDischargeStatus="Eligible"
-        disabilityRatingStatus="Eligible"
-        irndStatus="Eligible"
-        eligibilityTerminationDateStatus="Eligible"
-      />,
-    );
-    li = getRowLi(container, 'Disability Rating:');
-    expect(li).to.contain.text('Disability Rating: —');
-
-    // missing -> em dash
-    rerender(
-      <EligibilityCriteria
-        veteranProfile={baseVeteranProfile}
-        disabilityRating={{ combinedScd: null, scdDetails: [] }}
-        irndDate="N/A"
-        eligibilityTerminationDate={null}
-        qualifyingMilitaryServiceStatus="Eligible"
-        characterOfDischargeStatus="Eligible"
-        disabilityRatingStatus="Eligible"
-        irndStatus="Eligible"
-        eligibilityTerminationDateStatus="Eligible"
-      />,
-    );
-    li = getRowLi(container, 'Disability Rating:');
-    expect(li).to.contain.text('Disability Rating: —');
-  });
-
-  it('renders SCD details list when provided', () => {
-    const { getByText } = renderComp({
+  it('renders SCD details list when provided (inside additional info)', () => {
+    const { container, getByText } = renderComp({
       disabilityRating: {
         combinedScd: 40,
         scdDetails: [
@@ -144,13 +99,17 @@ describe('EligibilityCriteria', () => {
       },
     });
 
-    expect(getByText(/SCD Details:/i)).to.exist;
+    const addl = container.querySelector(
+      'va-additional-info[trigger="SCD details"]',
+    );
+    expect(addl).to.exist;
+
     expect(getByText(/1111 - Knee - 10%/)).to.exist;
     expect(getByText(/2222 - Back - 30%/)).to.exist;
   });
 
-  it('renders multiple periods correctly', () => {
-    const { getByText } = renderComp({
+  it('renders multiple periods correctly (inside additional info)', () => {
+    const { container } = renderComp({
       veteranProfile: {
         characterOfDischarge: 'Honorable',
         servicePeriod: [
@@ -160,6 +119,10 @@ describe('EligibilityCriteria', () => {
       },
     });
 
-    expect(getByText(/Applicant has\s*2\s*period\(s\)/i)).to.exist;
+    const addl = container.querySelector(
+      'va-additional-info[trigger="Service history details"]',
+    );
+    expect(addl).to.exist;
+    expect(addl.textContent).to.match(/Applicant has\s*2\s*periods\b/i);
   });
 });

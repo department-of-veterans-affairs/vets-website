@@ -18,10 +18,33 @@ const EligibilityCriteria = ({
   const drStyle = pickStatusStyle(disabilityRatingStatus);
   const irndStyle = pickStatusStyle(irndStatus);
   const etdStyle = pickStatusStyle(eligibilityTerminationDateStatus);
+
+  const periods = veteranProfile?.servicePeriod || [];
+  const count = periods.length;
+  const label = count === 1 ? 'period' : 'periods';
+
   return (
     <>
-      <h2 className="vads-u-margin-top--4">Eligibility Criteria</h2>
-      <ul className="vads-u-margin-top--0 vads-u-padding-left--0 vads-u-padding-bottom--4">
+      <h2 className="vads-u-margin-top--4">Basic Eligibility Criteria</h2>
+      <p>
+        A Veteran must have a compensable service-connected disability (SCD)
+        rating of 10 percent or more and must have served on active military
+        duty on or after September 16, 1940, as defined in 38 C.F.R. § 3.7.
+        Additionally, the Veteran must have an Other Than Dishonorable Discharge
+        for at least one active period or qualifying service.
+      </p>
+
+      <va-additional-info trigger="VA Review Process for Hospitalized Service Members with SCD">
+        <p>
+          For Service members hospitalized or recently hospitalized with an SCD
+          while awaiting separation, the VA must determine that the condition is
+          likely compensable under 38 U.S.C. Chapter 11, which requires an SCD
+          rating, Integrated Disability Evaluation System (IDES) rating, or Memo
+          rating.
+        </p>
+      </va-additional-info>
+
+      <ul className="vads-u-margin-top--4 vads-u-padding-left--0 vads-u-padding-bottom--4">
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={svcStyle.icon}
@@ -32,24 +55,24 @@ const EligibilityCriteria = ({
           />
           <div>
             <strong>Qualifying Military Service:</strong>
-            <p className="vads-u-margin-y--0">
-              Applicant has{' '}
-              {Array.isArray(veteranProfile?.servicePeriod)
-                ? veteranProfile.servicePeriod.length
-                : 0}{' '}
-              period(s) of qualifying military service after September 16, 1940:
-            </p>
-            <ul className="vads-u-margin-top--0">
-              {(veteranProfile?.servicePeriod || []).map((sp, index) => (
-                <React.Fragment key={index}>
-                  <li>
-                    Entered Active Duty (EOD):{' '}
-                    {formatDate(sp?.serviceBeganDate)};
-                  </li>
-                  <li>Released: {formatDate(sp?.serviceEndDate)};</li>
-                </React.Fragment>
-              ))}
-            </ul>
+            <va-additional-info trigger="Service history details">
+              <p className="vads-u-padding-bottom--1">
+                Applicant has {count} {label} of qualifying military service
+                after September 16, 1940:
+              </p>
+
+              <ul style={{ listStyleType: 'disc' }}>
+                {periods.map((sp, i) => (
+                  <React.Fragment key={i}>
+                    <li>
+                      Entered Active Duty (EOD):{' '}
+                      {formatDate(sp?.serviceBeganDate)}
+                    </li>
+                    <li>Released: {formatDate(sp?.serviceEndDate)}</li>
+                  </React.Fragment>
+                ))}
+              </ul>
+            </va-additional-info>
           </div>
         </li>
 
@@ -80,23 +103,26 @@ const EligibilityCriteria = ({
           <div>
             <strong>
               Disability Rating:{' '}
-              {Number.isFinite(disabilityRating?.combinedScd)
+              {disabilityRating?.combinedScd != null
                 ? `${disabilityRating.combinedScd}%`
                 : '—'}
             </strong>
-            {Array.isArray(disabilityRating?.scdDetails) &&
-              disabilityRating.scdDetails.length > 0 && (
-                <>
-                  <p className="vads-u-margin-y--0">SCD Details:</p>
-                  <ul className="vads-u-margin-top--0">
-                    {disabilityRating.scdDetails.map(detail => (
-                      <li key={detail?.code}>
-                        {detail?.code} - {detail?.name} - {detail?.percentage}%
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
+
+            <va-additional-info trigger="SCD details">
+              {Array.isArray(disabilityRating?.scdDetails) &&
+                disabilityRating.scdDetails.length > 0 && (
+                  <>
+                    <ul style={{ listStyleType: 'disc' }}>
+                      {disabilityRating.scdDetails.map(detail => (
+                        <li key={detail?.code}>
+                          {detail?.code} - {detail?.name} - {detail?.percentage}
+                          %
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+            </va-additional-info>
           </div>
         </li>
 
@@ -138,14 +164,23 @@ const EligibilityCriteria = ({
 const StatusType = PropTypes.oneOf(['Eligible', 'Ineligible']);
 
 EligibilityCriteria.propTypes = {
-  veteranProfile: PropTypes.object,
+  veteranProfile: PropTypes.shape({
+    characterOfDischarge: PropTypes.string,
+    servicePeriod: PropTypes.arrayOf(
+      PropTypes.shape({
+        serviceBeganDate: PropTypes.string,
+        serviceEndDate: PropTypes.string,
+        characterOfDischarge: PropTypes.string,
+      }),
+    ),
+  }),
   disabilityRating: PropTypes.shape({
-    combinedScd: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    combinedScd: PropTypes.number,
     scdDetails: PropTypes.arrayOf(
       PropTypes.shape({
-        code: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        code: PropTypes.string,
         name: PropTypes.string,
-        percentage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        percentage: PropTypes.number,
       }),
     ),
   }),

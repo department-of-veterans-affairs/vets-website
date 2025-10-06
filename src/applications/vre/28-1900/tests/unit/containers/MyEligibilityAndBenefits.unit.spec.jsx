@@ -141,15 +141,22 @@ describe('<MyEligibilityAndBenefits> early-return branches', () => {
 describe('<MyEligibilityAndBenefits> recommendation branches', () => {
   it('renders success alert when recommendation is "eligible"', () => {
     const attrs = makeAttrs({ recommendation: 'eligible', resCaseId: 'OK' });
-    const { getByText, container } = renderPage(makeState({ attrs }));
+    const { getByRole, getByText, container } = renderPage(
+      makeState({ attrs }),
+    );
 
-    getByText('You meet the criteria for basic eligibility');
+    getByRole('heading', { name: /You meet the basic eligibility criteria/i });
     expect(container.querySelector('va-alert[status="success"]')).to.exist;
 
     getByText('Result');
-    getByText('Total months you received:');
-    getByText('Months you used:');
-    getByText('Months you have left to use:');
+    getByText(/Total months of entitlement/i);
+    getByText(/Months of entitlement you have used for education\/training/i);
+    getByText(
+      /Potential months of remaining entitlement toward Chapter 31 program/i,
+    );
+
+    const resultRow = getByText('Result').closest('div');
+    expect(resultRow && resultRow.textContent).to.match(/eligible to apply/i);
 
     const cta = container.querySelector('va-link-action');
     expect(cta).to.exist;
@@ -161,7 +168,7 @@ describe('<MyEligibilityAndBenefits> recommendation branches', () => {
     const { getByText, container } = renderPage(makeState({ attrs }));
 
     getByText(
-      'Our records indicate you do not meet the basic eligibility requirements',
+      /Our records indicate you do not meet the basic eligibility criteria/i,
     );
     expect(container.querySelector('va-alert[status="warning"]')).to.exist;
   });
@@ -205,14 +212,20 @@ describe('<MyEligibilityAndBenefits> content details', () => {
       eligibilityTerminationDate: '2035-12-31',
     });
 
-    const { getByText, container } = renderPage(makeState({ attrs }));
+    const { getByRole, getByText, container } = renderPage(
+      makeState({ attrs }),
+    );
 
-    getByText('Eligibility Criteria');
+    getByRole('heading', { name: /^Basic Eligibility Criteria$/i });
+
     getByText(/Character of discharge:\s+Honorable/);
     getByText(/1234 - Knee - 30%/);
     getByText(/5678 - Back - 60%/);
     getByText(/^Result$/);
-    getByText('eligible');
+
+    const resultRow = getByText('Result').closest('div');
+    expect(resultRow && resultRow.textContent).to.match(/eligible to apply/i);
+
     getByText(/^Initial rating Notification Date:/);
     getByText(/^Eligibility Termination Date:/);
 

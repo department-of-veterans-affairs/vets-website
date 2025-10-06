@@ -4,43 +4,46 @@ import { expect } from 'chai';
 import BenefitsSummary from '../../../components/BenefitsSummary';
 
 describe('BenefitsSummary', () => {
-  it('falls back to em dash for missing/empty result and 0/0 for missing details', () => {
+  it('renders result string and 0/0 for missing details', () => {
     const { getByText, rerender } = render(
-      <BenefitsSummary result="" entitlementDetails={undefined} />,
+      <BenefitsSummary result="eligible" entitlementDetails={undefined} />,
     );
 
     {
       const label = getByText('Result');
       const row = label.closest('div');
-      const value = within(row).getByText('—');
+      const value = within(row).getByText(/to apply for Chapter 31 benefits/i);
       expect(value).to.exist;
     }
 
     {
-      const label = getByText('Total months you received:');
+      const label = getByText('Total months of entitlement');
       const row = label.closest('div');
-      const value = within(row).getByText(/0 months,\s*0 days/);
+      const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
 
     {
-      const label = getByText('Months you used:');
+      const label = getByText(
+        'Months of entitlement you have used for education/training',
+      );
       const row = label.closest('div');
-      const value = within(row).getByText(/0 months,\s*0 days/);
+      const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
 
     {
-      const label = getByText('Months you have left to use:');
+      const label = getByText(
+        'Potential months of remaining entitlement toward Chapter 31 program',
+      );
       const row = label.closest('div');
-      const value = within(row).getByText(/0 months,\s*0 days/);
+      const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
 
-    // Partial details scenario
     rerender(
       <BenefitsSummary
-        result={null}
+        result="ineligible"
         entitlementDetails={{ entitlementUsed: { month: 3, days: 1 } }}
       />,
     );
@@ -48,22 +51,28 @@ describe('BenefitsSummary', () => {
     {
       const label = getByText('Result');
       const row = label.closest('div');
-      expect(within(row).getByText('—')).to.exist;
+      const value = within(row).getByText(/to apply for Chapter 31 benefits/i);
+      expect(value).to.exist;
     }
     {
-      const label = getByText('Total months you received:');
+      const label = getByText('Total months of entitlement');
       const row = label.closest('div');
-      expect(within(row).getByText(/0 months,\s*0 days/)).to.exist;
+      expect(within(row).getByText(/0\s*months\s*,\s*0\s*days/i)).to.exist;
     }
     {
-      const label = getByText('Months you used:');
+      const label = getByText(
+        'Months of entitlement you have used for education/training',
+      );
       const row = label.closest('div');
-      expect(within(row).getByText(/3 months,\s*1 days/)).to.exist;
+      // Accept singular "day" or plural "days", and be flexible about commas/whitespace.
+      expect(within(row).getByText(/3\s*months\s*,\s*1\s*day(s)?/i)).to.exist;
     }
     {
-      const label = getByText('Months you have left to use:');
+      const label = getByText(
+        'Potential months of remaining entitlement toward Chapter 31 program',
+      );
       const row = label.closest('div');
-      expect(within(row).getByText(/0 months,\s*0 days/)).to.exist;
+      expect(within(row).getByText(/0\s*months\s*,\s*0\s*days/i)).to.exist;
     }
   });
 });

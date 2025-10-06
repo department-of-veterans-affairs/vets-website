@@ -123,24 +123,12 @@ const MyEligibilityAndBenefits = () => {
     <div className="row ">
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
         <h1>My eligibility and benefits</h1>
-        {isEligible ? (
-          <p className="vads-u-font-size--lg">
-            Below you will find your Chapter 31 eligibility, which includes your
-            own military service, character of discharge, Service Connected
-            Disability (SCD) rating, remaining entitlement available, and
-            activity.
-          </p>
-        ) : (
-          <p className="vads-u-font-size--lg">
-            Below you will find your Chapter 31 eligibility, which includes your
-            own military service, character of discharge, Service Connected
-            Disability (SCD) rating, and remaining entitlement available. If you
-            recently transferred entitlement, it may not be reflected here. If
-            you believe any eligibility requirement is listed in error, please
-            follow the link in next steps to find out how you can update your
-            eligibility before you submit your application.
-          </p>
-        )}
+
+        <p className="vads-u-font-size--lg">
+          Below you will find your Chapter 31 eligibility, which includes your
+          own military service, character of discharge, Service Connected
+          Disability (SCD) rating, and remaining entitlement available.
+        </p>
 
         <p className="vads-u-font-size--lg">
           The Supreme Court’s decision in Rudisill v. McDonough may grant
@@ -161,10 +149,10 @@ const MyEligibilityAndBenefits = () => {
             visible
             class="vads-u-margin-y--6"
           >
-            <h2 slot="headline">You meet the criteria for basic eligibility</h2>
+            <h2 slot="headline">You meet the basic eligibility criteria </h2>
             <p className="vads-u-margin-y--2">
-              Since you meet the basic eligibility requirements, you may apply
-              for Chapter 31 services by completing VA Form 28-1900.
+              Since you meet the basic eligibility criteria, you may apply for
+              Chapter 31 services by completing VA Form 28-1900.
             </p>
             <va-link-action
               href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
@@ -182,11 +170,11 @@ const MyEligibilityAndBenefits = () => {
           >
             <h2 slot="headline">
               Our records indicate you do not meet the basic eligibility
-              requirements
+              criteria
             </h2>
             <p className="vads-u-margin-y--2">
-              You do not currently meet the basic eligibility requirements. If
-              you believe this is an error, please review the{' '}
+              You do not currently meet the basic eligibility criteria. If you
+              believe this is an error, please review the{' '}
               <va-link
                 text="Eligibility for Veteran Readiness and Employment"
                 href="https://www.va.gov/careers-employment/vocational-rehabilitation/eligibility/"

@@ -1,14 +1,13 @@
 import React from 'react';
-
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import App from './containers/App';
-import MyEligibilityAndBenefits from './containers/MyEligibilityAndBenefits';
-// import ProtectedEligibilityRoute from './containers/ProtectedEligibilityRoute';
+import ProtectedEligibilityRoute from './containers/ProtectedEligibilityRoute';
+
 const routes = [
   {
     path: '/my-eligibility-and-benefits',
-    component: () => <MyEligibilityAndBenefits />,
+    component: () => <ProtectedEligibilityRoute />,
   },
   {
     path: '/',
