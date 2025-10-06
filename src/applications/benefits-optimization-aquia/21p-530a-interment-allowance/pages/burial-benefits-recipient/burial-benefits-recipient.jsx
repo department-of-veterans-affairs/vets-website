@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField, PhoneField } from '@bio-aquia/shared/components/atoms';
+import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
@@ -67,7 +67,7 @@ export const BurialBenefitsRecipientPage = ({
             This is the organization who will be receiving compensation.
           </p>
 
-          <FormField
+          <TextInputField
             name="recipientOrganizationName"
             label="Full name"
             value={localData.recipientOrganizationName}

@@ -14,14 +14,17 @@ import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowanc
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import {
+  AdditionalRemarksPage,
   BurialBenefitsRecipientPage,
   MailingAddressPage,
   OrganizationInformationPage,
-  PlaceholderPage,
   ServicePeriodsPage,
   VeteranBirthInformationPage,
   VeteranBurialInformationPage,
+  VeteranIdentificationPage,
   VeteranPersonalInformationPage,
+  VeteranPreviousNamesPage,
+  VeteranServedUnderDifferentNamePage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 const defaultSchema = {
@@ -31,7 +34,6 @@ const defaultSchema = {
 
 /**
  * Form configuration for VA Form 21P-530a - State or Tribal Organization Application for Interment Allowance
- * @type {FormConfig}
  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -116,6 +118,15 @@ const formConfig = {
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },
+        veteranIdentification: {
+          path: 'identification',
+          title: 'Identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranIdentificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
         veteranBirthInformation: {
           path: 'birth-information',
           title: 'Birth information',
@@ -148,6 +159,27 @@ const formConfig = {
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },
+        veteranServedUnderDifferentName: {
+          path: 'served-under-different-name',
+          title: 'Previous names',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranServedUnderDifferentNamePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        veteranPreviousNames: {
+          path: 'previous-names',
+          title: 'Previous names',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranPreviousNamesPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.veteranServedUnderDifferentName
+              ?.veteranServedUnderDifferentName === 'yes',
+        },
       },
     },
     additionalRemarksChapter: {
@@ -158,7 +190,7 @@ const formConfig = {
           title: 'Additional remarks',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: PlaceholderPage,
+          CustomPage: AdditionalRemarksPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },

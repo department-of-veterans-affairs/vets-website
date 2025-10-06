@@ -5,12 +5,6 @@
  * to ensure data integrity and proper validation of organization and veteran information.
  */
 
-import { z } from 'zod';
-import { veteranIdentificationSchema } from './veteran-identification';
-import { veteranServiceSchema } from './veteran-service';
-import { cemeteryInformationSchema } from './cemetery-information';
-import { officialSignatureSchema } from './official-signature';
-
 /**
  * Veteran identification schemas
  * @description Exports schemas for validating veteran personal information including
@@ -40,10 +34,15 @@ export {
   branchOfServiceSchema,
   dateEnteredServiceSchema,
   dateSeparatedSchema,
+  formatPreviousNameSummary,
   formatServicePeriodSummary,
+  hasAlternateNamesSchema,
+  isPreviousNameEmpty,
   isServicePeriodEmpty,
   placeEnteredServiceSchema,
   placeSeparatedSchema,
+  previousNameItemSchema,
+  previousNamesSchema,
   rankSchema,
   servicePeriodItemSchema,
   servicePeriodsSchema,
@@ -51,33 +50,31 @@ export {
 } from './veteran-service';
 
 /**
- * Cemetery and organization schemas
- * @description Schemas for validating cemetery location, organization details,
- * burial date, and recipient payment information
+ * Organization information schemas
+ * @description Schemas for validating organization name, recipient name, phone, and address
  */
 export {
-  cemeteryInformationSchema,
-  cemeteryLocationSchema,
-  cemeteryNameSchema,
-  dateOfBurialSchema,
   organizationNameSchema,
   recipientAddressSchema,
   recipientNameSchema,
   recipientPhoneSchema,
-} from './cemetery-information';
+} from './organization-information';
 
 /**
- * Official signature and certification schemas
- * @description Schemas for validating state or tribal official's signature,
- * title, date, and optional remarks
+ * Burial information schemas
+ * @description Schemas for validating burial date and cemetery information
  */
 export {
-  officialSignatureSchema,
-  officialTitleSchema,
-  remarksSchema,
-  signatureDateSchema,
-  signatureSchema,
-} from './official-signature';
+  cemeteryLocationSchema,
+  cemeteryNameSchema,
+  dateOfBurialSchema,
+} from './burial-information';
+
+/**
+ * Remarks schemas
+ * @description Schemas for validating additional remarks text
+ */
+export { remarksSchema } from './remarks';
 
 /**
  * Shared validation patterns and messages
@@ -93,22 +90,3 @@ export {
   POSTAL_PATTERNS,
   VALIDATION_MESSAGES,
 } from '@bio-aquia/shared/schemas/regex-patterns';
-
-/**
- * Complete form schema for VA Form 21P-530a
- * @description Composite schema that validates the entire interment allowance application.
- * This schema combines all section schemas to ensure complete form validation
- * for state and tribal organization claims processing.
- *
- * @type {import('zod').ZodSchema}
- * @property {Object} veteranIdentification - Deceased veteran's personal identification information
- * @property {Object} veteranService - Veteran's military service history
- * @property {Object} cemeteryInformation - Cemetery location and organization payment details
- * @property {Object} officialSignature - State or tribal official's certification and signature
- */
-export const intermentAllowanceFormSchema = z.object({
-  veteranIdentification: veteranIdentificationSchema,
-  veteranService: veteranServiceSchema,
-  cemeteryInformation: cemeteryInformationSchema,
-  officialSignature: officialSignatureSchema,
-});

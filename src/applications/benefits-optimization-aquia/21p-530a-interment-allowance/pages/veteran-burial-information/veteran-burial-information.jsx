@@ -3,9 +3,9 @@ import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import {
-  FormField,
   MemorableDateField,
   SelectField,
+  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
@@ -14,7 +14,7 @@ import {
   cemeteryLocationSchema,
   cemeteryNameSchema,
   dateOfBurialSchema,
-} from '../../schemas/cemetery-information';
+} from '../../schemas/burial-information';
 import { dateOfDeathSchema } from '../../schemas/veteran-identification';
 
 /**
@@ -104,7 +104,7 @@ export const VeteranBurialInformationPage = ({
 
           <h3 className="vads-u-margin-top--4">Cemetery information</h3>
 
-          <FormField
+          <TextInputField
             name="cemeteryName"
             label="Name"
             value={localData.cemeteryName}
@@ -115,7 +115,7 @@ export const VeteranBurialInformationPage = ({
             schema={cemeteryNameSchema}
           />
 
-          <FormField
+          <TextInputField
             name="cemeteryLocation.city"
             label="City"
             value={localData.cemeteryLocation?.city}
