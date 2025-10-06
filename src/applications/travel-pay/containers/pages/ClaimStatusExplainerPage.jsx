@@ -21,7 +21,6 @@ const ClaimStatusExplainerPage = () => {
   } = useFeatureToggle();
 
   const toggleIsLoading = useToggleLoadingValue();
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const claimsMgmtToggle = useToggleValue(
     TOGGLE_NAMES.travelPayClaimsManagement,
   );
@@ -36,11 +35,6 @@ const ClaimStatusExplainerPage = () => {
         />
       </div>
     );
-  }
-
-  if (!appEnabled) {
-    window.location.replace('/');
-    return null;
   }
 
   // TODO: Once claimsMgmtToggle is on permanently, this page can be

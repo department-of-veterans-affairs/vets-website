@@ -15,7 +15,6 @@ describe('App', () => {
   const oldLocation = global.window.location;
   const getData = ({
     areFeatureTogglesLoading = false,
-    hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
     isLoggedIn = true,
     isLOA3 = true,
@@ -25,9 +24,7 @@ describe('App', () => {
       featureToggles: {
         loading: areFeatureTogglesLoading,
         /* eslint-disable camelcase */
-        travel_pay_power_switch: hasFeatureFlag,
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
-        /* eslint-enable camelcase */
       },
       user: {
         login: {
@@ -70,7 +67,6 @@ describe('App', () => {
     renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
         isLoggedIn: false,
       }),
       path: `/claims/`,
@@ -86,7 +82,6 @@ describe('App', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
         isLoggedIn: true,
       }),
       path: `/claims/`,
@@ -100,7 +95,6 @@ describe('App', () => {
     const screen = renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
         isLoggedIn: true,
         isLOA3: false,
       }),
@@ -115,7 +109,6 @@ describe('App', () => {
     renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
         isLoggedIn: true,
         isLOA3: false,
         signInServiceName: 'logingov',
@@ -130,7 +123,6 @@ describe('App', () => {
     renderWithStoreAndRouter(<App />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
         isLoggedIn: true,
         isLOA3: false,
         signInServiceName: 'idme',

@@ -9,7 +9,6 @@ const AuthContext = () => {
   } = useFeatureToggle();
 
   const toggleIsLoading = useToggleLoadingValue();
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const smocEnabled = useToggleValue(
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
@@ -73,17 +72,13 @@ const AuthContext = () => {
             href="https://dvagov-btsss.dynamics365portals.us/signin"
             text="Go to BTSSS to file a claim"
           />
-          {appEnabled && (
-            <>
-              <p>You can also check your travel claim status here on VA.gov</p>
-              <va-link-action
-                data-testid="vagov-travel-pay-link"
-                type="secondary"
-                href="/my-health/travel-pay/claims"
-                text="Check your travel claim status"
-              />
-            </>
-          )}
+          <p>You can also check your travel claim status here on VA.gov</p>
+          <va-link-action
+            data-testid="vagov-travel-pay-link"
+            type="secondary"
+            href="/my-health/travel-pay/claims"
+            text="Check your travel claim status"
+          />
         </>
       )}
     </>

@@ -132,7 +132,7 @@ const resolveLandingPageLinks = (
       ]
     : [
         HEALTH_TOOL_LINKS.PAYMENTS[0],
-        featureToggles[FEATURE_FLAG_NAMES.travelPayPowerSwitch] && {
+        {
           href: '/my-health/travel-pay/claims',
           text: 'Check travel reimbursement claim status',
         },
