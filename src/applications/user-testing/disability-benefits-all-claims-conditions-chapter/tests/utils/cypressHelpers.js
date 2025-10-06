@@ -73,46 +73,19 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
-// export const fillNewConditionAutocomplete = text => {
-//   cy.get('va-text-input#root_newCondition')
-//     .should('exist')
-//     .shadow()
-//     .find('#inputField')
-//     .as('condInput');
-
-//   cy.get('@condInput')
-//     .clear()
-//     .type(text, { delay: 10 });
-
-//   cy.get('@condInput').type('{downarrow}{enter}');
-//   cy.get('@condInput')
-//     .invoke('val')
-//     .should('not.be.empty');
-// };
-
-const getReadyACInput = () =>
-  cy
-    .get('va-text-input#root_newCondition', { timeout: 15000 })
-    .scrollIntoView({ block: 'center' })
-    .should('have.class', 'hydrated')
-    .shadow()
-    .find('#inputField', { timeout: 15000 })
-    .should('be.visible')
-    .should(el => {
-      const isDisabled = el.prop('disabled') === true;
-      const fsDisabled = !!el.closest('fieldset').prop('disabled');
-      expect(isDisabled || fsDisabled, 'input/fieldset disabled').to.eq(false);
-    });
-
 export const fillNewConditionAutocomplete = text => {
-  getReadyACInput()
+  cy.get('va-text-input#root_newCondition')
+    .should('exist')
+    .shadow()
+    .find('#inputField')
+    .as('condInput');
+
+  cy.get('@condInput')
     .clear()
     .type(text, { delay: 10 });
 
-  cy.get('[role="listbox"]', { timeout: 15000 }).should('be.visible');
-
-  getReadyACInput().type('{downarrow}{enter}');
-  getReadyACInput()
+  cy.get('@condInput').type('{downarrow}{enter}');
+  cy.get('@condInput')
     .invoke('val')
     .should('not.be.empty');
 };
