@@ -365,6 +365,16 @@ const Dashboard = ({
                 </div>
               )}
 
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
+
               {/* LOA1 user experience */}
               {isLOA1 && (
                 <LOA1Content
@@ -375,15 +385,6 @@ const Dashboard = ({
                   user={user}
                 />
               )}
-              <Toggler
-                toggleName={
-                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
-                }
-              >
-                <Toggler.Enabled>
-                  <NewMyVaToggle />
-                </Toggler.Enabled>
-              </Toggler>
 
               {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (
