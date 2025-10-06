@@ -73,44 +73,48 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
+// optional util if you want exact-text match
+const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export const fillNewConditionAutocomplete = text => {
-  // 1) Wait for the web component to hydrate
-  cy.get('va-text-input', { includeShadowDom: true })
+  // 1) Anchor on THIS autocomplete wrapper (prevents matching a different one)
+  cy.get('[data-testid="autocomplete-input"]', { includeShadowDom: true })
     .should('exist')
     .and('be.visible')
     .and('have.class', 'hydrated')
-    .as('condHost');
+    .then($host => {
+      cy.wrap($host[0].closest('.cc-autocomplete')).as('acWrap');
+    });
 
-  // 2) Grab the inner input once, keep Cypress retries, and ensure it's enabled
-  cy.get('@condHost')
+  // 2) Get the inner input inside the same host and ensure it's enabled
+  cy.get('#root_newCondition')
     .shadow()
-    .find('input')
+    .find('[part="input"], #inputField')
     .should('be.visible')
-    .and(el => {
-      // Some libs toggle the 'disabled' attribute briefly during hydration
-      expect(el).not.to.have.attr('disabled');
-    })
+    .and($el => expect($el).not.to.have.attr('disabled'))
     .and('be.enabled')
     .as('condInput');
 
-  // 3) Focus, clear, and type text slowly enough for the autocomplete to react
+  // 3) Type to trigger suggestions
   cy.get('@condInput')
-    .focus()
     .clear()
     .type(text, { delay: 20 });
 
-  // 4) Wait for options to render before sending arrow/enter
-  // Adjust the selector to whatever your listbox/options use
-  cy.get('@condHost')
-    .shadow()
-    .find('[role="listbox"], [role="option"], .usa-combo-box__list')
-    .should('exist');
+  // 4) Wait for *this* autocomplete's listbox & pick the exact match
+  cy.get('@acWrap')
+    .find('[role="listbox"]')
+    .should('be.visible');
 
-  // 5) Choose the first suggestion and assert a value is present
-  cy.get('@condInput').type('{downarrow}{enter}');
+  // Prefer clicking the exact option instead of keyboard nav (less flaky)
+  cy.get('@acWrap')
+    .find('[role="option"]')
+    .contains(new RegExp(`^${escapeRe(text)}$`, 'i'))
+    .click();
+
+  // 5) Assert the input now has a value
   cy.get('@condInput')
     .invoke('val')
-    .should('not.be.empty');
+    .should('match', new RegExp(escapeRe(text), 'i'));
 };
 
 export const selectSideOfBody = side => {
