@@ -111,7 +111,7 @@ export const enterCauseNewDetails = (
       if ($el.length)
         cy.wrap($el)
           .clear()
-          .type(details, { delay: 50 });
+          .type(details);
     });
   clickContinue();
 };
