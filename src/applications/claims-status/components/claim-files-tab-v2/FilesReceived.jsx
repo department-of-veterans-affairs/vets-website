@@ -121,7 +121,12 @@ const FilesReceived = ({ claim }) => {
           </div>
         ) : (
           <>
-            <ul className="usa-card-group vads-u-padding-x--0 usa-unstyled-list">
+            {/* add explicit role=list to expose the <ul> as a list for Safari/VoiceOver */}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              className="usa-card-group vads-u-padding-x--0 usa-unstyled-list"
+              role="list"
+            >
               {currentPageItems.map((item, itemIndex) => {
                 const statusBadgeText = getStatusBadgeText(item);
                 return (
