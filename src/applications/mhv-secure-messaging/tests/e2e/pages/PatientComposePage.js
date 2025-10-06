@@ -102,7 +102,8 @@ class PatientComposePage {
   selectComboBoxRecipient = text => {
     const comboBox = this.getComboBox();
     comboBox.clear();
-    comboBox.type(text, { waitForAnimations: true }).type('{enter}');
+    comboBox.type(text, { waitForAnimations: true });
+    comboBox.type('{enter}');
   };
 
   selectCategory = (category = 'OTHER') => {

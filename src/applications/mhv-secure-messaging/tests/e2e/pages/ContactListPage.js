@@ -22,13 +22,13 @@ class ContactListPage {
 
   checkBoxByName = name => {
     return cy
-      .get(`[label*="${name}"]`)
+      .get(`[label="${name}"]`)
       .shadow()
       .find(`input`);
   };
 
   verifySingleCheckBox = (team, value) => {
-    cy.get(`[label*="${team}"]`).should('have.prop', `checked`, value);
+    cy.get(`[label="${team}"]`).should('have.prop', `checked`, value);
   };
 
   verifyAllCheckboxes = value => {
@@ -58,7 +58,7 @@ class ContactListPage {
   };
 
   validateCheckBoxDoesNotExist = name => {
-    cy.get(`[label*="${name}"]`).should('not.exist');
+    cy.get(`[label="${name}"]`).should('not.exist');
   };
 
   verifyButtons = () => {
