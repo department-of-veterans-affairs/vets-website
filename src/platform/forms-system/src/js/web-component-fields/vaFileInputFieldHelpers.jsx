@@ -126,6 +126,18 @@ export async function getFileError(file, uiOptions) {
   return { fileError, encryptedCheck: !!checks.checkIsEncryptedPdf };
 }
 
+/**
+ * @param {Object} file representation of a file
+ * @returns { File } dummy file that will force component to render default file icon
+ */
+export function makePlaceholderFile(file = {}) {
+  const buffer = new ArrayBuffer(file?.size || 1024);
+  const blob = new Blob([buffer], { type: 'image/png' });
+  return new File([blob], file?.name || 'placeholder', {
+    type: 'image/png',
+  });
+}
+
 export const DEBOUNCE_WAIT = 500;
 
 // generate file data when no backend

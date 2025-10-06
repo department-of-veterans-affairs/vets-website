@@ -25,6 +25,7 @@
       },
       "socOptIn": true,
       "form5103Acknowledged": true,
+      "homeless": false,
       "evidenceSubmission": {
         "evidenceType": [
           "retrieval",
