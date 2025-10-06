@@ -32,7 +32,7 @@ export const NursingHomeDetailsPage = ({
 
   return (
     <PageTemplate
-      title="Nursing home facility details"
+      title="Nursing home name and address"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -53,7 +53,7 @@ export const NursingHomeDetailsPage = ({
         <>
           <FormField
             name="nursingHomeName"
-            label="Name of nursing home"
+            label="Name of nursing home where you work"
             schema={nursingHomeNameSchema}
             value={localData.nursingHomeName}
             onChange={handleFieldChange}
@@ -64,7 +64,7 @@ export const NursingHomeDetailsPage = ({
 
           <AddressField
             name="nursingHomeAddress"
-            label="Complete mailing address of nursing home"
+            label={null}
             description=""
             value={localData.nursingHomeAddress}
             onChange={(fieldName, addressValue) =>

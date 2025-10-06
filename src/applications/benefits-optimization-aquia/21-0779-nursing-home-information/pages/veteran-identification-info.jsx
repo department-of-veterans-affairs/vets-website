@@ -28,9 +28,20 @@ export const VeteranIdentificationInfoPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Conditionals for veteran information content display
+  // i.e. "Tell us about the Veteran who is connected to the patient"
+  //    vs "Tell us about the veteran in the nursing home"
+  const { claimantQuestion } = formDataToUse;
+  const veteranIsPatient = claimantQuestion === 'veteran';
+
   return (
     <PageTemplate
       title="Veteran identification"
+      subtitle={
+        veteranIsPatient
+          ? 'You must enter either a Social Security number or VA File number'
+          : 'You must enter either a Social Security number or VA File number for the Veteran who is connected to the patient'
+      }
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -61,7 +72,7 @@ export const VeteranIdentificationInfoPage = ({
             schema={vaFileNumberSchema}
             value={localData.vaFileNumber}
             onChange={handleFieldChange}
-            hint="Your VA file number may be the same as your SSN"
+            hint="VA file number may be the same as SSN"
             error={errors.vaFileNumber}
             forceShowError={formSubmitted}
           />
