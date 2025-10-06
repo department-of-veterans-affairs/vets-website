@@ -8,7 +8,6 @@
 import { z } from 'zod';
 import { nursingHomeDetailsSchema } from './nursing-home';
 import { certificationLevelOfCareSchema } from './certification-level-of-care';
-import { officialInfoAndSignatureSchema } from './official-info-and-signature';
 import { nursingOfficialInformationSchema } from './nursing-official-information';
 import { claimantQuestionSchema } from './claimant-question';
 import {
@@ -36,7 +35,6 @@ export {
   middleNameSchema,
   ssnSchema,
   vaFileNumberSchema,
-  veteranIdentificationSchema,
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
 } from './veteran-identification';
@@ -58,7 +56,6 @@ export { claimantQuestionSchema, patientTypeSchema } from './claimant-question';
  * is a spouse or dependent (not the veteran themselves)
  */
 export {
-  claimantIdentificationSchema,
   claimantPersonalInfoSchema,
   claimantIdentificationInfoSchema,
 } from './claimant-identification';
@@ -120,20 +117,6 @@ export { monthlyOutOfPocketSchema, monthlyCostsSchema } from './monthly-costs';
 export { certificationLevelOfCareSchema } from './certification-level-of-care';
 
 /**
- * Official information and signature schemas
- * @description Schemas for validating nursing home official's information,
- * including name, title, phone, signature, and certification agreement
- */
-export {
-  officialInfoAndSignatureSchema,
-  officialNameSchema,
-  officialPhoneSchema,
-  officialSignatureSchema,
-  officialTitleSchema,
-  signatureDateSchema,
-} from './official-info-and-signature';
-
-/**
  * Nursing official information schemas
  * @description Schemas for validating nursing home official's personal information
  * for form completion authorization
@@ -170,12 +153,19 @@ export {
  * for Aid & Attendance claims processing.
  *
  * @type {import('zod').ZodSchema}
- * @property {Object} veteranIdentification - Veteran's personal identification information
- * @property {Object} claimantIdentification - Claimant's information if different from veteran
- * @property {Object} nursingHomeDetails - Nursing facility name, address, and admission date
- * @property {Object} medicaidAndCost - Medicaid coverage and monthly cost information
+ * @property {Object} claimantQuestion - Patient type selection (veteran or spouse/parent)
+ * @property {Object} claimantPersonalInfo - Claimant's personal information if not veteran
+ * @property {Object} claimantIdentificationInfo - Claimant's identification if not veteran
+ * @property {Object} veteranPersonalInfo - Veteran's personal information
+ * @property {Object} veteranIdentificationInfo - Veteran's identification information
+ * @property {Object} nursingHomeDetails - Nursing facility name and address
+ * @property {Object} admissionDateInfo - Date of admission to nursing home
  * @property {Object} certificationLevelOfCare - Level of care certification (skilled/intermediate)
- * @property {Object} officialInfoAndSignature - Nursing home official's certification and signature
+ * @property {Object} medicaidFacility - Medicaid facility approval status
+ * @property {Object} medicaidApplication - Patient's Medicaid application status
+ * @property {Object} medicaidStartDateInfo - Medicaid coverage start date
+ * @property {Object} monthlyCosts - Monthly out-of-pocket costs
+ * @property {Object} nursingOfficialInformation - Nursing home official's information
  */
 export const nursingHomeFormSchema = z.object({
   // Patient and claimant information
@@ -203,6 +193,5 @@ export const nursingHomeFormSchema = z.object({
   monthlyCosts: monthlyCostsSchema,
 
   // Official information
-  officialInfoAndSignature: officialInfoAndSignatureSchema,
   nursingOfficialInformation: nursingOfficialInformationSchema,
 });
