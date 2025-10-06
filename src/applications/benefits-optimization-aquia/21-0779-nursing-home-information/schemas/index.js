@@ -7,7 +7,6 @@
 
 import { z } from 'zod';
 import { nursingHomeDetailsSchema } from './nursing-home';
-import { medicaidAndCostSchema } from './medicaid-and-cost';
 import { certificationLevelOfCareSchema } from './certification-level-of-care';
 import { officialInfoAndSignatureSchema } from './official-info-and-signature';
 import { nursingOfficialInformationSchema } from './nursing-official-information';
@@ -41,6 +40,11 @@ export {
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
 } from './veteran-identification';
+
+import { medicaidFacilitySchema } from './medicaid-facility';
+import { medicaidApplicationSchema } from './medicaid-application';
+import { medicaidStartDateInfoSchema } from './medicaid-start-date';
+import { monthlyCostsSchema } from './monthly-costs';
 
 /**
  * Claimant question schema
@@ -76,15 +80,37 @@ export {
 export { admissionDateSchema, admissionDateInfoSchema } from './admission-date';
 
 /**
- * Medicaid and cost information schemas
- * @description Schemas for validating Medicaid coverage information and
- * monthly out-of-pocket nursing home costs
+ * Medicaid facility schemas
+ * @description Schemas for validating Medicaid facility approval status
  */
 export {
-  medicaidAndCostSchema,
+  medicaidFacilitySchema,
+  medicaidFacilityStatusSchema,
+} from './medicaid-facility';
+
+/**
+ * Medicaid application schemas
+ * @description Schemas for validating Medicaid application status
+ */
+export {
+  medicaidApplicationSchema,
+  medicaidApplicationStatusSchema,
+} from './medicaid-application';
+
+/**
+ * Medicaid start date schemas
+ * @description Schemas for validating Medicaid coverage start date
+ */
+export {
   medicaidStartDateSchema,
-  monthlyOutOfPocketSchema,
-} from './medicaid-and-cost';
+  medicaidStartDateInfoSchema,
+} from './medicaid-start-date';
+
+/**
+ * Monthly costs schemas
+ * @description Schemas for validating monthly out-of-pocket nursing home costs
+ */
+export { monthlyOutOfPocketSchema, monthlyCostsSchema } from './monthly-costs';
 
 /**
  * Certification level of care schema
@@ -163,11 +189,20 @@ export const nursingHomeFormSchema = z.object({
 
   // Nursing home information
   nursingHomeDetails: nursingHomeDetailsSchema,
-  medicaidAndCost: medicaidAndCostSchema,
 
   // Certification and official information
   certificationLevelOfCare: certificationLevelOfCareSchema,
   admissionDateInfo: admissionDateInfoSchema,
+
+  // Medicaid information
+  medicaidFacility: medicaidFacilitySchema,
+  medicaidApplication: medicaidApplicationSchema,
+  medicaidStartDateInfo: medicaidStartDateInfoSchema.optional(),
+
+  // Cost information
+  monthlyCosts: monthlyCostsSchema,
+
+  // Official information
   officialInfoAndSignature: officialInfoAndSignatureSchema,
   nursingOfficialInformation: nursingOfficialInformationSchema,
 });

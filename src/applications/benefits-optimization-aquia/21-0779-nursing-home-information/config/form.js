@@ -20,26 +20,32 @@ import {
   ClaimantQuestionPage,
   ClaimantPersonalInfoPage,
   ClaimantIdentificationInfoPage,
-  MedicaidAndCostPage,
   NursingHomeDetailsPage,
   OfficialInfoAndSignaturePage,
   VeteranPersonalInfoPage,
   VeteranIdentificationInfoPage,
   NursingOfficialInformationPage,
   AdmissionDatePage,
+  MedicaidFacilityPage,
+  MedicaidApplicationPage,
+  MedicaidStartDatePage,
+  MonthlyCostsPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
 import {
   certificationLevelOfCareSchema,
   claimantQuestionSchema,
   claimantPersonalInfoSchema,
   claimantIdentificationInfoSchema,
-  medicaidAndCostSchema,
   nursingHomeDetailsSchema,
   officialInfoAndSignatureSchema,
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
   nursingOfficialInformationSchema,
   admissionDateInfoSchema,
+  medicaidFacilitySchema,
+  medicaidApplicationSchema,
+  medicaidStartDateInfoSchema,
+  monthlyCostsSchema,
 } from '../schemas';
 
 const defaultSchema = {
@@ -96,7 +102,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: NursingOfficialInformationPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(nursingOfficialInformationSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -107,7 +112,6 @@ const formConfig = {
     },
     nursingHomeChapter: {
       title: 'Nursing home information',
-      // nursing home name and address
       pages: {
         nursingHomeDetails: {
           path: 'nursing-home-details',
@@ -116,7 +120,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: NursingHomeDetailsPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(nursingHomeDetailsSchema)(values),
           onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
@@ -133,7 +136,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ClaimantQuestionPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(claimantQuestionSchema)(values),
           onErrorChange: createValidationErrorHandler('claimantQuestion'),
@@ -145,7 +147,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ClaimantPersonalInfoPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           depends: formData =>
             formData?.claimantQuestion?.patientType === 'spouseOrParent',
           verifyItemValues: values =>
@@ -159,7 +160,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: ClaimantIdentificationInfoPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           depends: formData =>
             formData?.claimantQuestion?.patientType === 'spouseOrParent',
           verifyItemValues: values =>
@@ -175,7 +175,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: VeteranPersonalInfoPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(veteranPersonalInfoSchema)(values),
           onErrorChange: createValidationErrorHandler('veteranPersonalInfo'),
@@ -187,7 +186,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: VeteranIdentificationInfoPage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(veteranIdentificationInfoSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -197,7 +195,7 @@ const formConfig = {
       },
     },
     levelOfCareChapter: {
-      title: 'Certification',
+      title: 'Level of care',
       pages: {
         // certification level of care question
         // date of admission to nursing home
@@ -208,7 +206,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: CertificationLevelOfCarePage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(certificationLevelOfCareSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -222,7 +219,6 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: AdmissionDatePage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(admissionDateInfoSchema)(values),
           onErrorChange: createValidationErrorHandler('admissionDateInfo'),
@@ -231,9 +227,62 @@ const formConfig = {
     },
     medicaidChapter: {
       title: 'Medicaid',
-      // is nursing home medicaid approved
-      // has the patient applied for medicaid
-      // date medicaid coverage started
+      pages: {
+        medicaidFacility: {
+          path: 'medicaid-facility',
+          title: 'Medicaid facility status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MedicaidFacilityPage,
+          CustomPageReview: null,
+          verifyItemValues: values =>
+            createPageValidator(medicaidFacilitySchema)(values),
+          onErrorChange: createValidationErrorHandler('medicaidFacility'),
+        },
+        medicaidApplication: {
+          path: 'medicaid-application',
+          title: 'Medicaid application status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MedicaidApplicationPage,
+          CustomPageReview: null,
+          verifyItemValues: values =>
+            createPageValidator(medicaidApplicationSchema)(values),
+          onErrorChange: createValidationErrorHandler('medicaidApplication'),
+        },
+        medicaidStartDate: {
+          path: 'medicaid-start-date',
+          title: 'Medicaid start date',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MedicaidStartDatePage,
+          CustomPageReview: null,
+          depends: formData =>
+            formData?.medicaidApplication?.hasAppliedForMedicaid === 'yes',
+          verifyItemValues: values =>
+            createPageValidator(medicaidStartDateInfoSchema)(values),
+          onErrorChange: createValidationErrorHandler('medicaidStartDateInfo'),
+        },
+      },
+    },
+    costsChapter: {
+      title: 'Cost information',
+      pages: {
+        monthlyCosts: {
+          path: 'monthly-costs',
+          title: 'Monthly costs',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MonthlyCostsPage,
+          CustomPageReview: null,
+          verifyItemValues: values =>
+            createPageValidator(monthlyCostsSchema)(values),
+          onErrorChange: createValidationErrorHandler('monthlyCosts'),
+        },
+      },
+    },
+    signaturesChapter: {
+      title: 'Signatures',
       pages: {
         officialInfoAndSignature: {
           path: 'official-info-and-signature',
@@ -242,30 +291,11 @@ const formConfig = {
           schema: defaultSchema,
           CustomPage: OfficialInfoAndSignaturePage,
           CustomPageReview: null,
-          pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(officialInfoAndSignatureSchema)(values),
           onErrorChange: createValidationErrorHandler(
             'officialInfoAndSignature',
           ),
-        },
-      },
-    },
-    costsChapter: {
-      title: 'Nursing home information',
-      // monthly out of pocket costs
-      pages: {
-        medicaidAndCost: {
-          path: 'medicaid-and-cost',
-          title: 'Medicaid and cost information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: MedicaidAndCostPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(medicaidAndCostSchema)(values),
-          onErrorChange: createValidationErrorHandler('medicaidAndCost'),
         },
       },
     },
