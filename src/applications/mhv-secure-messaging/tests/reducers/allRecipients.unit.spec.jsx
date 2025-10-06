@@ -28,6 +28,7 @@ describe('allRecipients reducers', () => {
           relationshipType: recipient.attributes.relationshipType,
           signatureRequired: false,
           healthCareSystemName: undefined,
+          ohTriageGroup: recipient.attributes.ohTriageGroup,
           type: 'Care Team',
           status: recipient.attributes.blockedStatus
             ? RecipientStatus.BLOCKED
