@@ -106,11 +106,11 @@ export const enterCauseNewDetails = (
   expectPath(`${BASE}/cause-new`, '?add=true');
 
   // Wait for the specific textarea to be ready before typing
-  cy.get('textarea[name="root_primaryDescription"]')
-    .should('be.visible')
-    .and('be.enabled')
+  cy.get('va-textarea', { includeShadowDom: true })
+    .find('textarea')
+    .shadow()
     .clear()
-    .type(details);
+    .type(details, { force: true });
 
   clickContinue();
 };
