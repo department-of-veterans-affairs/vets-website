@@ -80,7 +80,8 @@ export const loincCodes = {
   BREATHING_RATE: '9279-1',
   HEIGHT: '8302-2',
   TEMPERATURE: '8310-5',
-  WEIGHT: '29463-7',
+  WEIGHT_1: '29463-7',
+  WEIGHT_2: '3141-9', // common alternate weight LOINC
   SYSTOLIC: '8480-6',
   DIASTOLIC: '8462-4',
   HEART_RATE: '8867-4',
@@ -182,7 +183,7 @@ export const vitalLoincGroups = {
   RESPIRATION: [loincCodes.BREATHING_RATE],
   PULSE_OXIMETRY: [loincCodes.PULSE_OXIMETRY_1, loincCodes.PULSE_OXIMETRY_2],
   TEMPERATURE: [loincCodes.TEMPERATURE],
-  WEIGHT: [loincCodes.WEIGHT, '3141-9'], // include common alternate weight LOINC 3141-9
+  WEIGHT: [loincCodes.WEIGHT_1, loincCodes.WEIGHT_2], // include alternate weight LOINC
   HEIGHT: [loincCodes.HEIGHT],
 };
 
