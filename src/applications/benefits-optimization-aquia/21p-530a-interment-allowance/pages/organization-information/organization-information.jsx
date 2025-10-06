@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
@@ -61,7 +61,7 @@ export const OrganizationInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="organizationName"
             label="Organization name"
             value={localData.organizationName}

@@ -85,6 +85,71 @@ export const rankSchema = z
   .or(z.literal(''));
 
 /**
+ * Schema for yes/no question about alternate names
+ */
+export const hasAlternateNamesSchema = z.enum(['yes', 'no'], {
+  errorMap: (issue, ctx) => {
+    if (issue.code === 'invalid_enum_value' || issue.code === 'invalid_type') {
+      return {
+        message: 'Please select yes or no',
+      };
+    }
+    return { message: ctx.defaultError };
+  },
+});
+
+/**
+ * Schema for a single previous name item
+ */
+export const previousNameItemSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, 'First name is required')
+    .max(50, 'First name must be less than 50 characters'),
+  middleName: z
+    .string()
+    .max(50, 'Middle name must be less than 50 characters')
+    .optional()
+    .or(z.literal('')),
+  lastName: z
+    .string()
+    .min(1, 'Last name is required')
+    .max(50, 'Last name must be less than 50 characters'),
+});
+
+/**
+ * Schema for previous names array
+ */
+export const previousNamesSchema = z
+  .array(previousNameItemSchema)
+  .min(1, 'At least one previous name is required');
+
+/**
+ * Helper function to check if a previous name is empty
+ * @param {Object} name - Previous name object
+ * @returns {boolean} True if the name has no data
+ */
+export const isPreviousNameEmpty = name => {
+  return !name.firstName && !name.middleName && !name.lastName;
+};
+
+/**
+ * Helper function to format previous name summary for display
+ * @param {Object} name - Previous name object
+ * @returns {string} Formatted name or empty string if name is empty
+ */
+export const formatPreviousNameSummary = name => {
+  if (isPreviousNameEmpty(name)) {
+    return '';
+  }
+
+  const parts = [name.firstName, name.middleName, name.lastName].filter(
+    Boolean,
+  );
+  return parts.join(' ');
+};
+
+/**
  * Schema for alternate service name (optional)
  */
 export const alternateNameSchema = z
