@@ -38,7 +38,8 @@ export const ClaimantPersonalInfoPage = ({
 
   return (
     <PageTemplate
-      title="Claimant personal information"
+      title="Name and date of birth"
+      subtitle="Tell us about the patient in the nursing home"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -53,18 +54,8 @@ export const ClaimantPersonalInfoPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <va-additional-info
-            trigger="Why we ask for claimant information"
-            class="vads-u-margin-y--2"
-          >
-            <p>
-              If the person in the nursing home is a spouse or parent of a
-              Veteran, we need their information to process the Aid and
-              Attendance claim.
-            </p>
-          </va-additional-info>
-
           <FullnameField
+            className="vads-u-margin-top--neg2"
             value={localData.claimantFullName}
             onChange={handleFieldChange}
             errors={
@@ -77,13 +68,13 @@ export const ClaimantPersonalInfoPage = ({
             required
             showSuffix={false}
             forceShowError={formSubmitted}
-            label="Claimant's full name"
+            legend={null}
             fieldPrefix="claimant"
           />
 
           <MemorableDateField
             name="claimantDateOfBirth"
-            label="Claimant's date of birth"
+            label="Date of birth"
             schema={dateOfBirthSchema}
             value={localData.claimantDateOfBirth}
             onChange={handleFieldChange}

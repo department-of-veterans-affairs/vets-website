@@ -58,7 +58,6 @@ export const MedicaidStartDatePage = ({
             value={localData.medicaidStartDate}
             onChange={handleFieldChange}
             required
-            hint="Enter the date Medicaid coverage began"
             error={errors.medicaidStartDate}
             forceShowError={formSubmitted}
           />
