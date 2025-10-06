@@ -14,8 +14,8 @@ const ConfirmationRatedDisabilities = ({ formData }) => {
           <div className="vads-u-color--gray">Description</div>
           {dis.ratingPercentage && (
             <span>
-              {' '}
-              claiming an increase from current {dis.ratingPercentage}% rating
+              {'Claiming an increase from current '}
+              {dis.ratingPercentage}% rating
             </span>
           )}
         </div>
