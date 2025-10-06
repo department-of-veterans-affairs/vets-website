@@ -10,7 +10,7 @@ import {
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { dateOfBirthSchema, placeOfBirthSchema } from '../schemas';
+import { dateOfBirthSchema, placeOfBirthSchema } from '../../schemas';
 
 /**
  * Schema for veteran birth information page

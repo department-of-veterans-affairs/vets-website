@@ -14,8 +14,8 @@ import {
   cemeteryLocationSchema,
   cemeteryNameSchema,
   dateOfBurialSchema,
-} from '../schemas/cemetery-information';
-import { dateOfDeathSchema } from '../schemas/veteran-identification';
+} from '../../schemas/cemetery-information';
+import { dateOfDeathSchema } from '../../schemas/veteran-identification';
 
 /**
  * Schema for veteran burial information page

@@ -11,7 +11,7 @@ import {
   serviceNumberSchema,
   ssnSchema,
   vaFileNumberSchema,
-} from '../schemas';
+} from '../../schemas';
 
 /**
  * Schema for veteran personal information page
