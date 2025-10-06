@@ -6,7 +6,6 @@ import vitalsData from '../fixtures/vitals/sample-lighthouse.json';
 describe('Medical Records View Vitals', () => {
   const site = new MedicalRecordsSite();
 
-  // TODO: Verify if these tests should still pass now that the vitals logic has been decoupled from the main feature toggles.
   beforeEach(() => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
