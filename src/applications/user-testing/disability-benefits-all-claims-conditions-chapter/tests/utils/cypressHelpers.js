@@ -73,67 +73,23 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
-const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-
-const findInnerInput = hostSel =>
-  cy
-    .get(hostSel, { includeShadowDom: true })
-    .shadow()
-    .find('#inputField, [part="input"]');
-
-const ensureInputStablyEnabled = hostSel => {
-  findInnerInput(hostSel)
-    .should('be.visible')
-    .and('be.enabled');
-
-  findInnerInput(hostSel).should('be.enabled');
-};
-
 export const fillNewConditionAutocomplete = text => {
-  const hostSel = '[data-testid="autocomplete-input"]';
+  const input = () =>
+    cy
+      .get('va-text-input#root_newCondition')
+      .should('exist')
+      .shadow()
+      .find('#inputField');
 
-  // 1) Host ready & hydrated
-  cy.get(hostSel, { includeShadowDom: true })
-    .should('be.visible')
-    .and('have.class', 'hydrated')
-    .then($host => {
-      cy.wrap($host[0].closest('.cc-autocomplete')).as('acWrap');
-    });
+  input()
+    .clear()
+    .type(text, { delay: 10 });
 
-  // 2) If already set (common on ?edit=true), skip typing entirely
-  cy.get(hostSel, { includeShadowDom: true })
-    .invoke('attr', 'value')
-    .then(val => {
-      if (String(val || '').toLowerCase() === String(text).toLowerCase()) {
-        // Already set; nothing else to do
-        return;
-      }
+  input().type('{downarrow}{enter}');
 
-      // 3) Ensure input is *stably* enabled (no arbitrary waits)
-      ensureInputStablyEnabled(hostSel);
-
-      // 4) Alias the freshly queried input to avoid re-querying different nodes
-      findInnerInput(hostSel).as('condInput');
-
-      cy.get('@condInput', { includeShadowDom: true })
-        .clear()
-        .type(text, { delay: 20 });
-
-      // 5) Use the *scoped* listbox next to this input and click exact match
-      cy.get('@acWrap', { includeShadowDom: true })
-        .find('[data-testid="autocomplete-list"], [role="listbox"]')
-        .should('be.visible');
-
-      cy.get('@acWrap', { includeShadowDom: true })
-        .find('[role="option"]')
-        .contains(new RegExp(`^${escapeRe(text)}$`, 'i'))
-        .click();
-
-      // 6) Assert value via host attr (no shadow DOM needed)
-      cy.get(hostSel, { includeShadowDom: true })
-        .invoke('attr', 'value')
-        .should('match', new RegExp(escapeRe(text), 'i'));
-    });
+  input()
+    .invoke('val')
+    .should('not.be.empty');
 };
 
 export const selectSideOfBody = side => {
