@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+import { useAcceleratedData } from '@department-of-veterans-affairs/mhv/exports';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import { CernerAlertContent } from '../../util/constants';
 
