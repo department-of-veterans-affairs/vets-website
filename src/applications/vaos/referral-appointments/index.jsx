@@ -27,7 +27,13 @@ export default function ReferralAppointments() {
   });
 
   if (referral?.attributes?.hasAppointments) {
-    return <Redirect to="/referrals-requests" />;
+    return (
+      <Redirect
+        to={`${basePath.url}/${
+          referral.appointmentId
+        }?eps=true&hasAppointments=true`}
+      />
+    );
   }
 
   if (!isInPilotUserStations) {
