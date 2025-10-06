@@ -4,9 +4,6 @@
  * Pages are organized by chapter for better code organization and maintainability.
  */
 
-// Placeholder
-export { PlaceholderPage } from './placeholder';
-
 // Chapter 1: Your organization's information
 export { OrganizationInformationPage } from './organization-information';
 export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
@@ -14,14 +11,19 @@ export { MailingAddressPage } from './mailing-address';
 
 // Chapter 2: Deceased Veteran information
 export { VeteranPersonalInformationPage } from './veteran-personal-information';
+export { VeteranIdentificationPage } from './veteran-identification';
 export { VeteranBirthInformationPage } from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
-export { VeteranIdentificationPage } from './veteran-identification';
 
 // Chapter 3: Military history
 export { ServicePeriodsPage } from './service-periods';
-export { VeteranServicePage } from './veteran-service';
+export {
+  VeteranServedUnderDifferentNamePage,
+} from './veteran-served-under-different-name';
+export { VeteranPreviousNamesPage } from './veteran-previous-names';
 
 // Chapter 4: Additional remarks
-export { CemeteryInformationPage } from './cemetery-information';
-export { OfficialSignaturePage } from './official-signature';
+export { AdditionalRemarksPage } from './additional-remarks';
+
+// Not yet configured in form
+export { VeteranServicePage } from './veteran-service';

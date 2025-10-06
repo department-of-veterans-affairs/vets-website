@@ -3,10 +3,10 @@ import React from 'react';
 import { z } from 'zod';
 
 import {
-  FormField,
   MemorableDateField,
   RadioField,
   TextareaField,
+  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -97,7 +97,7 @@ export const VeteranServicePage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="placeEnteredService"
             label="Place entered active service"
             value={localData.placeEnteredService}
@@ -106,9 +106,10 @@ export const VeteranServicePage = ({
             hint="City and state or military installation"
             error={errors.placeEnteredService}
             forceShowError={formSubmitted}
+            schema={z.string()}
           />
 
-          <FormField
+          <TextInputField
             name="rankAtSeparation"
             label="Grade, rank or rating when separated from service"
             value={localData.rankAtSeparation}
@@ -117,6 +118,7 @@ export const VeteranServicePage = ({
             hint="For example: E-5, Sergeant, Petty Officer Second Class"
             error={errors.rankAtSeparation}
             forceShowError={formSubmitted}
+            schema={z.string()}
           />
 
           <MemorableDateField
@@ -130,7 +132,7 @@ export const VeteranServicePage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="placeSeparated"
             label="Place left active service"
             value={localData.placeSeparated}
@@ -139,6 +141,7 @@ export const VeteranServicePage = ({
             hint="City and state or military installation"
             error={errors.placeSeparated}
             forceShowError={formSubmitted}
+            schema={z.string()}
           />
 
           <va-fieldset className="vads-u-margin-top--3">
@@ -163,7 +166,7 @@ export const VeteranServicePage = ({
 
             {localData.alternateNameInfo?.hasAlternateName === 'yes' && (
               <>
-                <FormField
+                <TextInputField
                   name="alternateNameInfo.alternateName"
                   label="Name veteran served under"
                   value={localData.alternateNameInfo?.alternateName}
@@ -171,6 +174,7 @@ export const VeteranServicePage = ({
                   required
                   error={errors['alternateNameInfo.alternateName']}
                   forceShowError={formSubmitted}
+                  schema={z.string()}
                 />
 
                 <TextareaField
