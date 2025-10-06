@@ -151,6 +151,20 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByTestId('error-alert')).to.exist;
   });
 
+  it('should render info alert when the appointment has already been scheduled', async () => {
+    requestStub.resolves({ data: referralAppointmentInfo });
+    const { getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store: createTestStore(initialState),
+        path: `/${appointmentId}?eps=true&hasAppointments=true`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByTestId('has-appointments-alert')).to.exist;
+    });
+  });
+
   it('should render appointment details when appointment is loaded', async () => {
     const referralAppointmentFuture = {
       ...referralAppointmentInfo,
@@ -186,7 +200,8 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByText('When')).to.exist;
     expect(getByText('Provider')).to.exist;
     expect(getByText('Prepare for your appointment')).to.exist;
-    expect(getByText('Need to make changes?')).to.exist;
+    expect(getByText('Need to reschedule, cancel, or add an appointment?')).to
+      .exist;
 
     // Check specific content from appointment data
     const { attributes } = referralAppointmentInfo;
@@ -202,7 +217,9 @@ describe('EpsAppointmentDetailsPage', () => {
 
     // Check change appointment text
     expect(
-      getByText(/Contact this provider if you need to reschedule or cancel/),
+      getByText(
+        'Contact this provider if you need to reschedule or cancel your appointment. Or if you need to make another appointment for this referral.',
+      ),
     ).to.exist;
   });
 

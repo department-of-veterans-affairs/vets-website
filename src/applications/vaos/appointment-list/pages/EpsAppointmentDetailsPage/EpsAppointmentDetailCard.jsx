@@ -11,10 +11,11 @@ import AppointmentFacilityLocation from '../../../components/AppointmentFacility
 
 export default function EpsAppointmentDetailCard({
   appointment,
-  pageTitle,
-  isPastAppointment,
   featureCommunityCareCancellations,
+  hasAppointments,
+  isPastAppointment,
   onSetCancelAppointment,
+  pageTitle,
 }) {
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const facility = {
@@ -44,6 +45,24 @@ export default function EpsAppointmentDetailCard({
       <h1 className="vaos__dynamic-font-size--h2">
         <span data-dd-privacy="mask">{pageTitle}</span>
       </h1>
+      {hasAppointments && (
+        <va-alert
+          data-testid="has-appointments-alert"
+          class="vads-u-margin-top--2"
+          status="info"
+          background-only
+          show-icon
+        >
+          <p className="vads-u-margin-top--0">
+            You’ve already scheduled an appointment for this referral.
+          </p>
+          <p>
+            Contact this provider if you need to reschedule or cancel your
+            appointment. Or if you need to make another appointment for this
+            referral.
+          </p>
+        </va-alert>
+      )}
       <Section heading="When">
         <AppointmentDateTime
           start={appointment.start}
@@ -90,10 +109,11 @@ export default function EpsAppointmentDetailCard({
           />
         </p>
       </Section>
-      <Section heading="Need to make changes?">
+      <Section heading="Need to reschedule, cancel, or add an appointment?">
         <span>
           Contact this provider if you need to reschedule or cancel your
-          appointment.
+          appointment. Or if you need to make another appointment for this
+          referral.
         </span>
       </Section>
       <div className="vads-u-display--flex vads-u-margin-top--4 vads-u-row-gap--2 vaos-appts__block-label vaos-hide-for-print vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row vaos-form__button-container">
@@ -127,6 +147,7 @@ export default function EpsAppointmentDetailCard({
 EpsAppointmentDetailCard.propTypes = {
   appointment: PropTypes.object.isRequired,
   featureCommunityCareCancellations: PropTypes.bool.isRequired,
+  hasAppointments: PropTypes.bool.isRequired,
   isPastAppointment: PropTypes.bool.isRequired,
   pageTitle: PropTypes.string.isRequired,
   onSetCancelAppointment: PropTypes.func.isRequired,
