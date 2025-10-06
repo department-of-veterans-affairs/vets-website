@@ -134,8 +134,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
   });
 
-  // TODO: make these check for isCerner instead
-  it('hides correctly when isAcceleratingVitals is true', () => {
+  it('hides correctly when isCerner is true', () => {
     const screen = setup(
       {
         ...initialState,
@@ -143,9 +142,9 @@ describe('Accelerated Cerner Facility Alert', () => {
           isAccelerating: true,
           isAcceleratingVitals: false,
         }),
-        user: { profile: { facilities: [] } },
+        user: { profile: { facilities: userProfileFacilities } },
       },
-      { facilities: [] },
+      { facilities: userProfileFacilities },
       CernerAlertContent.VITALS,
     );
 
