@@ -222,15 +222,19 @@ describe('DownloadFileType — AAL logging', () => {
 
   const clickDownload = async screen => {
     const btn = await screen.findByTestId('download-report-button');
-    // Wait until the useEffect that syncs fileType from Redux has run and PDF is checked
     await waitFor(() => {
       const pdfChecked = screen.container.querySelector(
         'va-radio-option[value="pdf"][checked]',
       );
       expect(pdfChecked).to.exist;
     });
+    // Explicitly fire value change event to update component state before submit
+    const vaRadio = screen.container.querySelector('va-radio');
+    fireEvent(
+      vaRadio,
+      new CustomEvent('vaValueChange', { detail: { value: 'pdf' } }),
+    );
     fireEvent.click(btn);
-    // allow promise microtasks to flush
     await Promise.resolve();
   };
 
