@@ -17,6 +17,9 @@ export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
   // get the id from the url my-health/appointments/1234
   const [, appointmentId] = pathname.split('/');
+  // get the param hasAppointments from the url with useLocation
+  const params = new URLSearchParams(useLocation().search);
+  const hasAppointments = params.get('hasAppointments');
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -92,6 +95,24 @@ export default function EpsAppointmentDetailsPage() {
         <h1 className="vaos__dynamic-font-size--h2">
           <span data-dd-privacy="mask">Community Care Appointment</span>
         </h1>
+        {hasAppointments && (
+          <va-alert
+            data-testid="has-appointments-alert"
+            class="vads-u-margin-top--2"
+            status="info"
+            background-only
+            show-icon
+          >
+            <p className="vads-u-margin-top--0">
+              You’ve already scheduled an appointment for this referral.
+            </p>
+            <p>
+              Contact this provider if you need to reschedule or cancel your
+              appointment. Or if you need to make another appointment for this
+              referral.
+            </p>
+          </va-alert>
+        )}
         <Section heading="When">
           <AppointmentDate date={appointment.start} />
           <br />
@@ -127,10 +148,11 @@ export default function EpsAppointmentDetailsPage() {
             />
           </p>
         </Section>
-        <Section heading="Need to make changes?">
+        <Section heading="Need to reschedule, cancel, or add an appointment?">
           <span>
             Contact this provider if you need to reschedule or cancel your
-            appointment.
+            appointment. Or if you need to make another appointment for this
+            referral.
           </span>
         </Section>
       </va-card>
