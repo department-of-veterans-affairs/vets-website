@@ -18,7 +18,7 @@ const {
 const { createClaimsSuccess, createClaimsFailure } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
 const { createApplications } = require('./benefit-applications');
-const { allFoldersWithUnreadMessages } = require('./messaging');
+const { allFoldersWithUnreadMessages, allFolders } = require('./messaging');
 const {
   user81Copays,
   user81ErrorCopays,
@@ -50,7 +50,7 @@ const responses = {
     true,
   ),
   'GET /v0/user': (req, res) => {
-    const userType = 'loa3NoEmail'; // 'loa3', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
+    const userType = 'loa3'; // 'loa3', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
     switch (userType) {
       case 'loa3':
         return res.status(200).json(user.simpleUser); // This is an LOA3 user
@@ -138,7 +138,21 @@ const responses = {
     }
   },
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
-  'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
+  'GET /my_health/v1/messaging/folders': (_req, res) => {
+    const messagesStatus = 'hasUnread'; // 'hasUnread', 'allRead', or 'failure'
+    switch (messagesStatus) {
+      case 'hasUnread':
+        return res.status(200).json(allFoldersWithUnreadMessages);
+      case 'allRead':
+        return res.status(200).json(allFolders);
+      case 'failure':
+        return res
+          .status(500)
+          .json({ error: 'Failed to fetch message folders' });
+      default:
+        return res.status(200).json('');
+    }
+  },
   'GET /v0/my_va/submission_statuses': createApplications(),
   // 'GET /v0/my_va/submission_statuses': { data: [] },
   'POST /v0/my_va/submission_pdf_urls': (_req, res) => {

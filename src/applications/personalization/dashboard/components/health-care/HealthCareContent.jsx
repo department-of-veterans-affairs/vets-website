@@ -3,20 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
-import recordEvent from '~/platform/monitoring/record-event';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
-
-import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCard from './AppointmentsCard';
@@ -24,7 +17,6 @@ import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
-  authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   fetchUnreadMessages,
@@ -67,34 +59,49 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // viewMhvLink will be true if toggle is on
-  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
+  const NoUpcomingAppointmentsText = () => (
+    <va-card>
+      <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
+      <p>You don’t have any upcoming appointments.</p>
+      <CTALink
+        text="Manage health appointments"
+        href="/my-health/appointments"
+        showArrow
+      />
+    </va-card>
+  );
 
-  const shouldShowOnOneColumn =
-    !isVAPatient || !hasUpcomingAppointment || isLOA1;
+  const NoUnreadMessages = () => (
+    <va-card>
+      <h4 className="vads-u-margin-top--1">No unread messages</h4>
+      <CTALink
+        text="Go to inbox"
+        href="/my-health/secure-messages/inbox"
+        showArrow
+      />
+    </va-card>
+  );
 
-  const NoUpcomingAppointmentsText = () => {
-    return (
-      <va-card>
-        <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
-        <p>You don’t have any upcoming appointments.</p>
-        <CTALink
-          text="Manage health appointments"
-          href="/my-health/appointments"
-          showArrow
-        />
-      </va-card>
-    );
-  };
+  const UnreadMessages = () => (
+    <va-card>
+      <h4 className="vads-u-margin-top--1">
+        {unreadMessagesCount} unread message
+        {unreadMessagesCount !== 1 && 's'}
+      </h4>
+      <CTALink
+        text="Go to inbox"
+        href="/my-health/secure-messages/inbox"
+        showArrow
+      />
+    </va-card>
+  );
 
-  const NoHealthcareText = () => {
-    return (
-      <div data-testid="no-health-care-notice">
-        <p>We can’t find any VA health care for you.</p>
-        <CTALink text="Go to My HealtheVet" href="/my-health" />
-      </div>
-    );
-  };
+  const NoHealthcareText = () => (
+    <div data-testid="no-health-care-notice">
+      <p>We can’t find any VA health care for you.</p>
+      <CTALink text="Go to My HealtheVet" href="/my-health" />
+    </div>
+  );
 
   const HealthcareError = () => {
     // status will be 'warning' if toggle is on
@@ -105,26 +112,10 @@ const HealthCareContent = ({
     return (
       <div className="vads-u-margin-bottom--2p5">
         <va-alert status={status} show-icon data-testid="healthcare-error">
-          <h2 slot="headline">We can’t access your appointment information</h2>
-          <div>
-            We’re sorry. Something went wrong on our end and we can’t access
-            your appointment information. Please try again later or go to the
-            appointments tool:
-          </div>
-          <CTALink
-            text="Schedule and manage your appointments"
-            href="/my-health/appointments"
-            showArrow
-            className="vads-u-font-weight--bold"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Schedule and manage your appointments',
-                'links-list-section-header': 'Health care',
-              })
-            }
-            testId="view-manage-appointments-link-from-error"
-          />
+          <p>
+            We can’t show your health care information right now. Refresh this
+            page or try again later.
+          </p>
         </va-alert>
       </div>
     );
@@ -132,10 +123,21 @@ const HealthCareContent = ({
 
   const AppointmentsError = () => (
     <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="healthcare-error">
+      <va-alert status="warning" show-icon data-testid="appointments-error">
         <div>
           We can’t show your appointments right now. Refresh this page or try
           again later.
+        </div>
+      </va-alert>
+    </div>
+  );
+
+  const MessagesError = () => (
+    <div className="vads-u-margin-bottom--2p5">
+      <va-alert status="warning" show-icon data-testid="messages-error">
+        <div>
+          We can’t show your messages right now. Refresh this page or try again
+          later.
         </div>
       </va-alert>
     </div>
@@ -156,53 +158,32 @@ const HealthCareContent = ({
   }
 
   return (
-    <div className="vads-l-row">
-      <DashboardWidgetWrapper>
-        {isVAPatient && <h3 className="vads-u-margin-top--0">Appointments</h3>}
-        {hasAppointmentsError && <AppointmentsError />}
-        {hasUpcomingAppointment &&
-          !isLOA1 && <AppointmentsCard appointments={appointments} />}
-        {!isVAPatient && !isLOA1 && <NoHealthcareText />}
-        {isVAPatient &&
-          !hasUpcomingAppointment &&
-          !hasAppointmentsError &&
-          !isLOA1 &&
-          !isCernerPatient && <NoUpcomingAppointmentsText />}
-        {shouldShowOnOneColumn && (
-          <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-            <Toggler.Disabled>
-              <HealthCareCTA
-                viewMhvLink={viewMhvLink}
-                hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
-                hasUpcomingAppointment={hasUpcomingAppointment}
-                unreadMessagesCount={unreadMessagesCount}
-                isVAPatient={isVAPatient}
-                isLOA1={isLOA1}
-                hasAppointmentsError={hasAppointmentsError}
-              />
-            </Toggler.Disabled>
-          </Toggler>
-        )}
-      </DashboardWidgetWrapper>
-      {!shouldShowOnOneColumn && (
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
-          <Toggler.Disabled>
-            <DashboardWidgetWrapper>
-              <HealthCareCTA
-                viewMhvLink={viewMhvLink}
-                hasInboxError={hasInboxError}
-                authenticatedWithSSOe={authenticatedWithSSOe}
-                hasUpcomingAppointment={hasUpcomingAppointment}
-                unreadMessagesCount={unreadMessagesCount}
-                isVAPatient={isVAPatient}
-                hasAppointmentsError={hasAppointmentsError}
-              />
-            </DashboardWidgetWrapper>
-          </Toggler.Disabled>
-        </Toggler>
-      )}
-    </div>
+    <>
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          {isVAPatient && (
+            <h3 className="vads-u-margin-top--0">Appointments</h3>
+          )}
+          {hasAppointmentsError && <AppointmentsError />}
+          {hasUpcomingAppointment &&
+            !isLOA1 && <AppointmentsCard appointments={appointments} />}
+          {!isVAPatient && !isLOA1 && <NoHealthcareText />}
+          {isVAPatient &&
+            !hasUpcomingAppointment &&
+            !hasAppointmentsError &&
+            !isLOA1 &&
+            !isCernerPatient && <NoUpcomingAppointmentsText />}
+        </DashboardWidgetWrapper>
+      </div>
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          {isVAPatient && <h3 className="vads-u-margin-top--0">Messages</h3>}
+          {hasInboxError && <MessagesError />}
+          {!hasInboxError && unreadMessagesCount === 0 && <NoUnreadMessages />}
+          {!hasInboxError && unreadMessagesCount > 0 && <UnreadMessages />}
+        </DashboardWidgetWrapper>
+      </div>
+    </>
   );
 };
 
@@ -223,7 +204,6 @@ const mapStateToProps = state => {
 
   return {
     appointments: state.health?.appointments?.data,
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     hasHealthEnrollmentError,
@@ -260,7 +240,6 @@ HealthCareContent.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
-  authenticatedWithSSOe: PropTypes.bool,
   dataLoadingDisabled: PropTypes.bool,
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
