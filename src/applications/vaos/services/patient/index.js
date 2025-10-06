@@ -5,7 +5,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
-import { ELIGIBILITY_REASONS, TYPE_OF_CARE_IDS } from '../../utils/constants';
+import {
+  ELIGIBILITY_REASONS,
+  TYPE_OF_CARE_IDS,
+  ELIGIBILITY_CODES_VAOS,
+} from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
 import { getPatientEligibility, getPatientRelationships } from '../vaos';
@@ -28,9 +32,6 @@ function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
         return code === ineligibilityType;
       });
 }
-
-const VAOS_SERVICE_PATIENT_HISTORY = 'patient-history-insufficient';
-const VAOS_SERVICE_REQUEST_LIMIT = 'facility-request-limit-exceeded';
 
 /**
  * Returns patient based eligibility checks for specified request or direct types
@@ -71,7 +72,11 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
       eligible: results.direct.eligible,
       hasRequiredAppointmentHistory: checkEligibilityReason(
         results.direct.ineligibilityReasons,
-        VAOS_SERVICE_PATIENT_HISTORY,
+        ELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+      ),
+      disabled: !checkEligibilityReason(
+        results.direct.ineligibilityReasons,
+        ELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
       ),
     };
   }
@@ -79,16 +84,25 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   if (results.request instanceof Error) {
     output.request = new Error('Request eligibility check error');
   } else if (results.request) {
+    const disabled = !checkEligibilityReason(
+      results.request.ineligibilityReasons,
+      ELIGIBILITY_CODES_VAOS.REQUEST_SCHEDULING_DISABLED,
+    );
     output.request = {
+      disabled,
       eligible: results.request.eligible,
-      hasRequiredAppointmentHistory: checkEligibilityReason(
-        results.request.ineligibilityReasons,
-        VAOS_SERVICE_PATIENT_HISTORY,
-      ),
-      isEligibleForNewAppointmentRequest: checkEligibilityReason(
-        results.request.ineligibilityReasons,
-        VAOS_SERVICE_REQUEST_LIMIT,
-      ),
+      hasRequiredAppointmentHistory:
+        !disabled &&
+        checkEligibilityReason(
+          results.request.ineligibilityReasons,
+          ELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+        ),
+      isEligibleForNewAppointmentRequest:
+        !disabled &&
+        checkEligibilityReason(
+          results.request.ineligibilityReasons,
+          ELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
+        ),
     };
   }
 
@@ -316,20 +330,22 @@ export async function fetchFlowEligibilityAndClinics({
   if (
     typeOfCareRequiresPastHistory &&
     removeFacilityConfigCheck &&
-    results.patientEligibility.direct
+    results.patientEligibility.direct?.eligible
   ) {
     results.pastAppointments = await getLongTermAppointmentHistoryV2().catch(
       createErrorHandler('direct-no-matching-past-clinics-error'),
     );
   }
 
-  // When removeFacilityConfigCheck is removed, remove first if block
+  // When removeFacilityConfigCheck is removed, remove first condition in first if and remove
+  // removeFacilityConfigCheck from 2nd condition in first if condition
   // This is going through all of our request related checks and setting
   // to false if we fail any of them. Order is important here, because the UI
   // will only be able to show one reason, the first one
   if (
-    keepFacilityConfigCheck &&
-    !locationSupportsRequests(location, typeOfCare)
+    (keepFacilityConfigCheck &&
+      !locationSupportsRequests(location, typeOfCare)) ||
+    (removeFacilityConfigCheck && results.patientEligibility.request?.disabled)
   ) {
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
@@ -359,11 +375,13 @@ export async function fetchFlowEligibilityAndClinics({
     );
   }
 
-  // When removeFacilityConfigCheck removed, delete first if condition/block
+  // When removeFacilityConfigCheck removed, delete first if condition from first if condition
+  // Then remove removeFacilityConfigCheck from 2nd part of first if condition
   // Location does not support direct scheduling
   if (
-    keepFacilityConfigCheck &&
-    !locationSupportsDirectScheduling(location, typeOfCare)
+    (keepFacilityConfigCheck &&
+      !locationSupportsDirectScheduling(location, typeOfCare)) ||
+    (removeFacilityConfigCheck && results.patientEligibility.direct?.disabled)
   ) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);

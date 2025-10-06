@@ -64,6 +64,7 @@ export default function useClinicFormState(pageTitle) {
       ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
           ?.patientHistoryRequired === true
       : eligibility.direct);
+
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
     const siteId = getSiteIdFromFacilityId(initialData.vaFacility);

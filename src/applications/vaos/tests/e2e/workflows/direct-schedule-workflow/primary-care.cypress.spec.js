@@ -393,7 +393,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
-          isEligible: false,
+          isEligible: true,
         });
         const response = new MockAppointmentResponse({
           id: 'mock1',
@@ -626,7 +626,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         const mockEligibilityResponse = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
-          isEligible: false,
+          isEligible: true,
         });
 
         mockFacilitiesApi({
