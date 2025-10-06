@@ -222,6 +222,13 @@ describe('DownloadFileType — AAL logging', () => {
 
   const clickDownload = async screen => {
     const btn = await screen.findByTestId('download-report-button');
+    // Wait until the useEffect that syncs fileType from Redux has run and PDF is checked
+    await waitFor(() => {
+      const pdfChecked = screen.container.querySelector(
+        'va-radio-option[value="pdf"][checked]',
+      );
+      expect(pdfChecked).to.exist;
+    });
     fireEvent.click(btn);
   };
 
