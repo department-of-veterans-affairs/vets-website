@@ -21,14 +21,3 @@ export const claimantIdentificationInfoSchema = z.object({
   claimantSsn: ssnSchema,
   claimantVaFileNumber: vaFileNumberSchema.optional().or(z.literal('')),
 });
-
-/**
- * Complete claimant identification schema
- * Combines all claimant information fields
- */
-export const claimantIdentificationSchema = z.object({
-  claimantFullName: fullNameSchema,
-  claimantDateOfBirth: dateOfBirthSchema,
-  claimantSsn: ssnSchema,
-  claimantVaFileNumber: vaFileNumberSchema.optional().or(z.literal('')),
-});
