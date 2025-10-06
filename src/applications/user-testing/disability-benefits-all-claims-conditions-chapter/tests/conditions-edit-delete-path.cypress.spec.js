@@ -22,7 +22,7 @@ import {
 } from './utils/cypressHelpers';
 
 describe('Conditions — Summary (Edit & Delete)', () => {
-  it.skip('edits condition 0 and shows a success alert on return', () => {
+  it('edits condition 0 and shows a success alert on return', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
