@@ -74,20 +74,24 @@ export const chooseFirstRadioIfUnknown = () => {
 };
 
 export const fillNewConditionAutocomplete = text => {
-  const input = () =>
-    cy
-      .get('va-text-input#root_newCondition')
-      .should('exist')
-      .shadow()
-      .find('#inputField');
+  // 1) Wait for <va-text-input> to be ready
+  cy.get('va-text-input#root_newCondition', { timeout: 10000 })
+    .should('have.class', 'hydrated')
+    .shadow()
+    .find('#inputField')
+    .as('condInput');
 
-  input()
+  // 2) Only proceed once it's truly usable
+  cy.get('@condInput')
+    .should('be.visible')
+    .and('be.enabled')
     .clear()
     .type(text, { delay: 10 });
 
-  input().type('{downarrow}{enter}');
-
-  input()
+  // 3) Suggestions → select → assert
+  cy.get('[role="listbox"]').should('be.visible');
+  cy.get('@condInput').type('{downarrow}{enter}');
+  cy.get('@condInput')
     .invoke('val')
     .should('not.be.empty');
 };
