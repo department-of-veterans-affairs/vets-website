@@ -30,7 +30,7 @@ export const ClaimantIdentificationInfoPage = ({
 
   return (
     <PageTemplate
-      title="Claimant identification"
+      title="Patient's identification information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
@@ -46,7 +46,7 @@ export const ClaimantIdentificationInfoPage = ({
         <>
           <SSNField
             name="claimantSsn"
-            label="Claimant's Social Security number"
+            label="Social Security number"
             schema={ssnSchema}
             value={localData.claimantSsn}
             onChange={handleFieldChange}
@@ -57,11 +57,11 @@ export const ClaimantIdentificationInfoPage = ({
 
           <FormField
             name="claimantVaFileNumber"
-            label="Claimant's VA file number (if known)"
+            label="VA file number (if known)"
             schema={vaFileNumberSchema}
             value={localData.claimantVaFileNumber}
             onChange={handleFieldChange}
-            hint="The claimant's VA file number may be the same as their SSN"
+            hint="The VA file number may be the same as their SSN"
             error={errors.claimantVaFileNumber}
             forceShowError={formSubmitted}
           />

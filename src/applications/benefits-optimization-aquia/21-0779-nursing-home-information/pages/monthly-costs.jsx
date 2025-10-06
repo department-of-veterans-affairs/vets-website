@@ -39,13 +39,12 @@ export const MonthlyCostsPage = ({ data, setFormData, goForward, goBack }) => {
         <>
           <FormField
             name="monthlyOutOfPocket"
-            label="Monthly out-of-pocket amount paid to nursing home ($)"
+            label="What is the amount the patient needs to pay out of their own pocket every month?"
             schema={monthlyOutOfPocketSchema}
             value={localData.monthlyOutOfPocket}
             onChange={handleFieldChange}
             required
             inputMode="numeric"
-            hint="Enter the amount the patient pays out-of-pocket each month (enter 0 if nothing)"
             error={errors.monthlyOutOfPocket}
             forceShowError={formSubmitted}
           />
