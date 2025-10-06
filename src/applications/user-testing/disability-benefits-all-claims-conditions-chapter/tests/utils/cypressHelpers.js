@@ -73,48 +73,67 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
-// optional util if you want exact-text match
 const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+const findInnerInput = hostSel =>
+  cy
+    .get(hostSel, { includeShadowDom: true })
+    .shadow()
+    .find('#inputField, [part="input"]');
+
+const ensureInputStablyEnabled = hostSel => {
+  findInnerInput(hostSel)
+    .should('be.visible')
+    .and('be.enabled');
+
+  findInnerInput(hostSel).should('be.enabled');
+};
+
 export const fillNewConditionAutocomplete = text => {
-  // 1) Anchor on THIS autocomplete wrapper (prevents matching a different one)
-  cy.get('[data-testid="autocomplete-input"]', { includeShadowDom: true })
-    .should('exist')
-    .and('be.visible')
+  const hostSel = '[data-testid="autocomplete-input"]';
+
+  // 1) Host ready & hydrated
+  cy.get(hostSel, { includeShadowDom: true })
+    .should('be.visible')
     .and('have.class', 'hydrated')
     .then($host => {
       cy.wrap($host[0].closest('.cc-autocomplete')).as('acWrap');
     });
 
-  // 2) Get the inner input inside the same host and ensure it's enabled
-  cy.get('#root_newCondition')
-    .shadow()
-    .find('[part="input"], #inputField')
-    .should('be.visible')
-    .and($el => expect($el).not.to.have.attr('disabled'))
-    .and('be.enabled')
-    .as('condInput');
+  // 2) If already set (common on ?edit=true), skip typing entirely
+  cy.get(hostSel, { includeShadowDom: true })
+    .invoke('attr', 'value')
+    .then(val => {
+      if (String(val || '').toLowerCase() === String(text).toLowerCase()) {
+        // Already set; nothing else to do
+        return;
+      }
 
-  // 3) Type to trigger suggestions
-  cy.get('@condInput')
-    .clear()
-    .type(text, { delay: 20 });
+      // 3) Ensure input is *stably* enabled (no arbitrary waits)
+      ensureInputStablyEnabled(hostSel);
 
-  // 4) Wait for *this* autocomplete's listbox & pick the exact match
-  cy.get('@acWrap')
-    .find('[role="listbox"]')
-    .should('be.visible');
+      // 4) Alias the freshly queried input to avoid re-querying different nodes
+      findInnerInput(hostSel).as('condInput');
 
-  // Prefer clicking the exact option instead of keyboard nav (less flaky)
-  cy.get('@acWrap')
-    .find('[role="option"]')
-    .contains(new RegExp(`^${escapeRe(text)}$`, 'i'))
-    .click();
+      cy.get('@condInput', { includeShadowDom: true })
+        .clear()
+        .type(text, { delay: 20 });
 
-  // 5) Assert the input now has a value
-  cy.get('@condInput')
-    .invoke('val')
-    .should('match', new RegExp(escapeRe(text), 'i'));
+      // 5) Use the *scoped* listbox next to this input and click exact match
+      cy.get('@acWrap', { includeShadowDom: true })
+        .find('[data-testid="autocomplete-list"], [role="listbox"]')
+        .should('be.visible');
+
+      cy.get('@acWrap', { includeShadowDom: true })
+        .find('[role="option"]')
+        .contains(new RegExp(`^${escapeRe(text)}$`, 'i'))
+        .click();
+
+      // 6) Assert value via host attr (no shadow DOM needed)
+      cy.get(hostSel, { includeShadowDom: true })
+        .invoke('attr', 'value')
+        .should('match', new RegExp(escapeRe(text), 'i'));
+    });
 };
 
 export const selectSideOfBody = side => {
