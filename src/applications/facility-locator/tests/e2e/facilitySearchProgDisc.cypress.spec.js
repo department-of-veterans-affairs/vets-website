@@ -189,6 +189,8 @@ describe('Facility VA search', () => {
     // Wait for Use My Location to be triggered (it should not be)
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(8000);
+    cy.injectAxe();
+    cy.axeCheck();
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
     cy.get('#street-city-state-zip')
       .invoke('val')
