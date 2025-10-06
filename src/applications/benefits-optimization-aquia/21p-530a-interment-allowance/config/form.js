@@ -18,6 +18,9 @@ import {
   OrganizationInformationPage,
   BurialBenefitsRecipientPage,
   MailingAddressPage,
+  VeteranPersonalInformationPage,
+  VeteranBirthInformationPage,
+  VeteranBurialInformationPage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 const defaultSchema = {
@@ -103,12 +106,30 @@ const formConfig = {
     veteranInformationChapter: {
       title: 'Deceased Veteran information',
       pages: {
-        veteranInformation: {
-          path: 'veteran-information',
-          title: 'Deceased Veteran information',
+        veteranPersonalInformation: {
+          path: 'personal-information',
+          title: 'Personal information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: PlaceholderPage,
+          CustomPage: VeteranPersonalInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        veteranBirthInformation: {
+          path: 'birth-information',
+          title: 'Birth information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranBirthInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        veteranBurialInformation: {
+          path: 'burial-information',
+          title: 'Burial information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranBurialInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },
