@@ -80,7 +80,7 @@ export const fillNewConditionAutocomplete = text => {
     .find('#inputField')
     .as('condInput');
 
-  cy.get('@condInput')
+  cy.get('@condInput', { timeout: 10000 })
     .should('be.visible')
     .and('be.enabled')
     .clear()
