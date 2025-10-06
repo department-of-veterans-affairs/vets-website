@@ -16,6 +16,8 @@ import {
   makePdf,
   formatUserDob,
 } from '@department-of-veterans-affairs/mhv/exports';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
+
 import { generateTextFile, processList } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
@@ -39,7 +41,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;

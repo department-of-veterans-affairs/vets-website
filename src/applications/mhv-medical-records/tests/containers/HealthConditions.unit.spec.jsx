@@ -3,7 +3,6 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
-import sinon from 'sinon';
 import HealthConditions from '../../containers/HealthConditions';
 import conditions from '../fixtures/conditions.json';
 import reducer from '../../reducers';
@@ -160,24 +159,16 @@ describe('Health conditions container with errors', () => {
 });
 
 describe('Health conditions with accelerated data', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-
-    // Mock the useAcceleratedData hook
-    sandbox
-      .stub(require('../../hooks/useAcceleratedData'), 'default')
-      .returns({ isAcceleratingConditions: false });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('when isAcceleratingConditions is false', () => {
     it('should show NewRecordsIndicator and standard condition list', () => {
+      // TODO: this still doesn't seem quite right for accelerated data
       const initialState = {
+        featureToggles: {
+          /* eslint-disable camelcase */
+          mhv_accelerated_delivery_enabled: true,
+          mhv_accelerated_delivery_conditions_enabled: false,
+          /* eslint-enable camelcase */
+        },
         user,
         mr: {
           conditions: {
@@ -210,18 +201,14 @@ describe('Health conditions with accelerated data', () => {
   });
 
   describe('when isAcceleratingConditions is true', () => {
-    beforeEach(() => {
-      sandbox.restore();
-      sandbox = sinon.createSandbox();
-
-      // Mock isAcceleratingConditions as true
-      sandbox
-        .stub(require('../../hooks/useAcceleratedData'), 'default')
-        .returns({ isAcceleratingConditions: true });
-    });
-
     it('should not show NewRecordsIndicator when accelerating conditions', () => {
       const initialState = {
+        featureToggles: {
+          /* eslint-disable camelcase */
+          mhv_accelerated_delivery_enabled: true,
+          mhv_accelerated_delivery_conditions_enabled: true,
+          /* eslint-enable camelcase */
+        },
         user,
         mr: {
           conditions: {
@@ -255,6 +242,12 @@ describe('Health conditions with accelerated data', () => {
 
     it('should show accelerated loading indicator when fetching', () => {
       const initialState = {
+        featureToggles: {
+          /* eslint-disable camelcase */
+          mhv_accelerated_delivery_enabled: true,
+          mhv_accelerated_delivery_conditions_enabled: true,
+          /* eslint-enable camelcase */
+        },
         user,
         mr: {
           conditions: {
