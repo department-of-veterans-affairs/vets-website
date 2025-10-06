@@ -8,6 +8,7 @@ const initialState = {
    */
   allRecipients: [],
   allowedRecipients: [],
+  vistaRecipients: [],
   recentRecipients: undefined,
   blockedRecipients: [],
   blockedFacilities: [],
@@ -50,16 +51,19 @@ export const recipientsReducer = (state = initialState, action) => {
 
         allRecipients: recipients,
 
-        allowedRecipients: recipients
-          .filter(
-            recipient =>
-              recipient.blockedStatus === false &&
-              recipient.preferredTeam === true &&
-              (state.activeCareSystem?.vhaId === undefined ||
-                state.activeCareSystem?.vhaId === recipient.stationNumber),
-          )
+        allowedRecipients: recipients.filter(
+          recipient =>
+            recipient.blockedStatus === false &&
+            recipient.preferredTeam === true &&
+            (state.activeCareSystem?.vhaId === undefined ||
+              state.activeCareSystem?.vhaId === recipient.stationNumber),
+        ),
+
+        vistaRecipients: recipients
+          .filter(recipient => recipient.ohTriageGroup !== true)
           .map(recipient => formatRecipient(recipient)),
 
+        activeCareSystem: action.response.meta.activeCareSystem || null,
         blockedRecipients: recipients
           .filter(recipient => recipient.blockedStatus === true)
           .map(recipient => formatRecipient(recipient)),
@@ -67,6 +71,7 @@ export const recipientsReducer = (state = initialState, action) => {
         blockedFacilities: facilities.fullyBlockedFacilities,
 
         allFacilities: facilities.allFacilities,
+        vistaFacilities: facilities.vistaFacilities,
 
         noAssociations,
 
