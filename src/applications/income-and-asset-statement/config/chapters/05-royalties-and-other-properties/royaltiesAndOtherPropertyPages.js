@@ -24,6 +24,7 @@ import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
   formatPossessiveString,
+  fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
   isRecipientInfoIncomplete,
@@ -79,12 +80,6 @@ export const options = {
       isDefined(item?.grossMonthlyIncome) &&
       isDefined(item?.fairMarketValue) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
-          <li>
-            Income generation method:{' '}
-            <span className="vads-u-font-weight--bold">
-              {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
-            </span>
-          </li>
           <li>
             Gross monthly income:{' '}
             <span className="vads-u-font-weight--bold">
@@ -430,8 +425,14 @@ const nonVeteranIncomeRecipientPage = {
 /** @returns {PageSchema} */
 const recipientNamePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Royalty recipient'),
-    recipientName: fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      showUpdatedContent()
+        ? 'Person who receives this income'
+        : 'Financial account recipient',
+    ),
+    recipientName: showUpdatedContent()
+      ? fullNameUIHelper()
+      : fullNameNoSuffixUI(title => `Income recipient’s ${title}`),
   },
   schema: {
     type: 'object',
@@ -446,11 +447,11 @@ const generatedIncomeTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Royalty income information'),
     incomeGenerationMethod: radioUI({
-      title: 'How is the income generated from this asset?',
+      title: 'How is income generated from this asset?',
       labels: generatedIncomeTypeLabels,
     }),
     otherIncomeType: {
-      'ui:title': 'Tell us how the income is generated',
+      'ui:title': 'Describe how income is generated',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
         expandUnder: 'incomeGenerationMethod',
@@ -459,14 +460,26 @@ const generatedIncomeTypePage = {
       },
       'ui:required': otherGeneratedIncomeTypeExplanationRequired,
     },
-    grossMonthlyIncome: currencyUI('Gross monthly income'),
-    fairMarketValue: currencyUI('Fair market value of this asset'),
+    grossMonthlyIncome: currencyUI({
+      title: 'What’s the gross monthly income from this asset?',
+      hint: 'Gross income is income before taxes and any other deductions.',
+    }),
+    fairMarketValue: currencyUI({
+      title: 'What’s the fair market value of this asset?',
+      hint:
+        'The market value is the dollar amount that an asset may be sold at.',
+    }),
     canBeSold: yesNoUI({
       title: 'Can the asset be sold?',
     }),
-    mitigatingCircumstances: textareaUI(
-      'Explain any mitigating circumstances that prevent the sale of this asset',
-    ),
+    mitigatingCircumstances: {
+      ...textareaUI('Explain why this asset can’t be sold'),
+      'ui:options': {
+        expandUnder: 'canBeSold',
+        expandUnderCondition: false,
+        expandedContentFocus: true,
+      },
+    },
     'ui:options': {
       ...requireExpandedArrayField('otherIncomeType'),
     },
