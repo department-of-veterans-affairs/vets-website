@@ -43,8 +43,6 @@ describe('BTSSS Widget', () => {
         user: { login: { currentlyLoggedIn: true } },
         featureToggles: {
           loading: false,
-          /* eslint-disable-next-line camelcase */
-          travel_pay_submit_mileage_expense: true,
         },
       },
     });

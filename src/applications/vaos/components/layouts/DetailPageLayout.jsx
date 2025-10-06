@@ -9,10 +9,7 @@ import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
 import { selectIsPast } from '../../appointment-list/redux/selectors';
-import {
-  selectFeatureTravelPayViewClaimDetails,
-  selectFeatureTravelPaySubmitMileageExpense,
-} from '../../redux/selectors';
+import { selectFeatureTravelPayViewClaimDetails } from '../../redux/selectors';
 import StatusAlert from '../StatusAlert';
 import FacilityPhone from '../FacilityPhone';
 import TravelReimbursementSection from '../TravelReimbursementSection';
@@ -190,9 +187,6 @@ export default function DetailPageLayout({
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
-  const featureTravelPaySubmitMileageExpense = useSelector(state =>
-    selectFeatureTravelPaySubmitMileageExpense(state),
-  );
 
   if (!appointment) return null;
 
@@ -211,8 +205,7 @@ export default function DetailPageLayout({
           <ErrorAlert appointment={appointment} />
         )}
         <StatusAlert appointment={appointment} facility={facility} />
-        {featureTravelPaySubmitMileageExpense &&
-          featureTravelPayViewClaimDetails &&
+        {featureTravelPayViewClaimDetails &&
           isNotCanceledAppointment && (
             <AppointmentTasksSection appointment={appointment} />
           )}

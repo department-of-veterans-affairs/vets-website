@@ -10,7 +10,6 @@ describe('<HealthCareCTA />', () => {
   const initialState = {
     featureToggles: {
       [Toggler.TOGGLE_NAMES.myVaNotificationDotIndicator]: true,
-      [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: false,
     },
   };
 
@@ -84,7 +83,6 @@ describe('<HealthCareCTA />', () => {
           initialState: {
             featureToggles: {
               [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-              [Toggler.TOGGLE_NAMES.travelPaySubmitMileageExpense]: true,
             },
           },
         },
