@@ -85,7 +85,7 @@ export const fillNewConditionAutocomplete = text => {
     .clear()
     .type(text, { delay: 10 });
 
-  input().type('{downarrow}{enter}', { delay: 10 });
+  input().type('{downarrow}{enter}');
 
   input()
     .invoke('val')
@@ -138,14 +138,14 @@ export const fillNewConditionDate = input => {
       .shadow()
       .find('#inputField')
       .clear()
-      .type(String(dNum), { delay: 50 });
+      .type(String(dNum));
 
     cy.get('.usa-form-group--year va-text-input')
       .should('exist')
       .shadow()
       .find('#inputField')
       .clear()
-      .type(yStr, { delay: 50 });
+      .type(yStr);
   });
 };
 
@@ -325,7 +325,7 @@ export const fillWorsenedDetails = (desc, effects) => {
     .shadow()
     .find('input#inputField')
     .clear()
-    .type(desc, { delay: 50 });
+    .type(desc, { delay: 0 });
 
   // Longer textarea box
   cy.get('va-textarea[name="root_worsenedEffects"]')
@@ -333,7 +333,7 @@ export const fillWorsenedDetails = (desc, effects) => {
     .shadow()
     .find('textarea#input-type-textarea')
     .clear()
-    .type(effects, { delay: 50 });
+    .type(effects, { delay: 0 });
 };
 
 export const clickSaveAndContinue = () => {
