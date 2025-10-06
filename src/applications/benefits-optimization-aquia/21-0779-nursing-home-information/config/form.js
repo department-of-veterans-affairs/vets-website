@@ -21,7 +21,6 @@ import {
   ClaimantPersonalInfoPage,
   ClaimantIdentificationInfoPage,
   NursingHomeDetailsPage,
-  OfficialInfoAndSignaturePage,
   VeteranPersonalInfoPage,
   VeteranIdentificationInfoPage,
   NursingOfficialInformationPage,
@@ -37,7 +36,6 @@ import {
   claimantPersonalInfoSchema,
   claimantIdentificationInfoSchema,
   nursingHomeDetailsSchema,
-  officialInfoAndSignatureSchema,
   veteranPersonalInfoSchema,
   veteranIdentificationInfoSchema,
   nursingOfficialInformationSchema,
@@ -197,8 +195,6 @@ const formConfig = {
     levelOfCareChapter: {
       title: 'Level of care',
       pages: {
-        // certification level of care question
-        // date of admission to nursing home
         certificationLevelOfCare: {
           path: 'certification-level-of-care',
           title: 'Level of care certification',
@@ -278,24 +274,6 @@ const formConfig = {
           verifyItemValues: values =>
             createPageValidator(monthlyCostsSchema)(values),
           onErrorChange: createValidationErrorHandler('monthlyCosts'),
-        },
-      },
-    },
-    signaturesChapter: {
-      title: 'Signatures',
-      pages: {
-        officialInfoAndSignature: {
-          path: 'official-info-and-signature',
-          title: "Official's information and signature",
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: OfficialInfoAndSignaturePage,
-          CustomPageReview: null,
-          verifyItemValues: values =>
-            createPageValidator(officialInfoAndSignatureSchema)(values),
-          onErrorChange: createValidationErrorHandler(
-            'officialInfoAndSignature',
-          ),
         },
       },
     },
