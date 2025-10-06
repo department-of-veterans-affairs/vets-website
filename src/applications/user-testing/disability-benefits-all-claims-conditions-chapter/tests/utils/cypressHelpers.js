@@ -76,10 +76,9 @@ export const chooseFirstRadioIfUnknown = () => {
 export const fillNewConditionAutocomplete = text => {
   const input = () =>
     cy
-      .get('va-text-input#root_newCondition')
-      .should('exist')
+      .get('va-text-input', { includeShadowDom: true })
       .shadow()
-      .find('#inputField');
+      .find('input');
 
   input()
     .clear()
