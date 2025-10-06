@@ -19,7 +19,7 @@ import { selectAvailableServices } from '~/platform/user/selectors';
 import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import AppointmentsCard from './AppointmentsCard';
+import AppointmentsCardLegacy from './AppointmentsCardLegacy';
 import CTALink from '../CTALink';
 
 const HealthCareContent = ({
@@ -137,7 +137,7 @@ const HealthCareContent = ({
       <DashboardWidgetWrapper>
         {hasAppointmentsError && <HealthcareError />}
         {hasUpcomingAppointment &&
-          !isLOA1 && <AppointmentsCard appointments={appointments} />}
+          !isLOA1 && <AppointmentsCardLegacy appointments={appointments} />}
         {!isVAPatient && !isLOA1 && <NoHealthcareText />}
         {isVAPatient &&
           !hasUpcomingAppointment &&

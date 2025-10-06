@@ -74,23 +74,24 @@ const HealthCareContent = ({
 
   const NoUpcomingAppointmentsText = () => {
     return (
-      <p
-        className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-        data-testid="no-upcoming-appointments-text"
-      >
-        You have no upcoming appointments to show.
-      </p>
+      <va-card>
+        <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
+        <p>You don’t have any upcoming appointments.</p>
+        <CTALink
+          text="Manage health appointments"
+          href="/my-health/appointments"
+          showArrow
+        />
+      </va-card>
     );
   };
 
   const NoHealthcareText = () => {
     return (
-      <p
-        className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
-        data-testid="no-healthcare-text"
-      >
-        You have no health care information to show.
-      </p>
+      <div data-testid="no-health-care-notice">
+        <p>We can’t find any VA health care for you.</p>
+        <CTALink text="Go to My HealtheVet" href="/my-health" />
+      </div>
     );
   };
 

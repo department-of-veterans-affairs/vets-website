@@ -30,7 +30,7 @@ const HealthCare = ({
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
         <Toggler.Enabled>
           {isLOA1 && (
-            <div data-testid="dashboard-section-health-care">
+            <div data-testid="no-health-care-notice">
               <p>We can’t find any VA health care for you.</p>
               <CTALink text="Go to My HealtheVet" href="/my-health" />
             </div>
