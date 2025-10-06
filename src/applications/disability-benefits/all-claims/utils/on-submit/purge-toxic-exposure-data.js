@@ -57,7 +57,7 @@ const hasSelectedConditions = conditions => {
  * 2. Removes orphaned details when main selection is missing
  * 3. Removes entire section when all values are false/none or section is empty
  * 4. Removes details for items where selection is not true (keeps false selections, removes their details)
- * 5. Removes "other" fields when null, 'none' selected, no selections, or corresponding 'other' not true
+ * 5. Removes "other" fields (otherHerbicideLocations, specifyOtherExposures) when null, empty/whitespace (string or object.description), 'none' selected, or no selections
  *
  * @param {Object} toxicExposure - Toxic exposure data object
  * @param {Object.<string, boolean>} [toxicExposure[exposureType]] - Location/exposure selections as boolean values
@@ -125,20 +125,38 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
 
   // Remove other/specify fields when:
   // - Field is null (orphaned data)
+  // - Field is empty/whitespace (string format) or has no/empty description (object format)
   // - User selected 'none' or has no selections
-  // - The corresponding 'other' selection is not true (e.g., otherExposures.other !== true)
   const hasOtherField = otherKey && otherKey in result;
   if (hasOtherField) {
     const isOtherFieldNull = result[otherKey] === null;
+
+    // Handle both string and object formats
+    let hasEmptyDescription;
+    if (typeof result[otherKey] === 'string') {
+      // String format: check if empty or whitespace-only
+      hasEmptyDescription = result[otherKey].trim() === '';
+    } else if (
+      typeof result[otherKey] === 'object' &&
+      result[otherKey] !== null
+    ) {
+      // Object format: check if description property is missing or empty
+      hasEmptyDescription =
+        !result[otherKey].description ||
+        result[otherKey].description.trim() === '';
+    } else {
+      // Unknown format, treat as empty
+      hasEmptyDescription = true;
+    }
+
     const hasNoneSelected = result[exposureType]?.none;
     const hasNoSelections = !hasSelectedConditions(result[exposureType]);
-    const otherNotSelected = result[exposureType]?.other !== true;
 
     const shouldRemoveOtherField =
       isOtherFieldNull ||
+      hasEmptyDescription ||
       hasNoneSelected ||
-      hasNoSelections ||
-      otherNotSelected;
+      hasNoSelections;
     if (shouldRemoveOtherField) {
       delete result[otherKey];
     }
@@ -157,11 +175,11 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * - Have no conditions selected (empty/missing/all false - removes entire toxicExposure object)
  * - Remove all selections but leave partial data behind
  * - Have null exposure fields that need cleanup
- * - Have orphaned "other" fields (otherHerbicideLocations, specifyOtherExposures) when corresponding 'other' selection not true
+ * - Have orphaned "other" fields (otherHerbicideLocations, specifyOtherExposures) with null or empty descriptions
  *
  * Key behaviors:
  * - Preserves unknown/unrecognized fields (forward compatibility)
- * - Keeps false values in selection objects (conditions, exposures) for backend visibility
+ * - Keeps false values in selection objects (conditions, exposures) for backend visibility, except when 'none' is selected or no conditions are selected
  * - Removes orphaned detail objects for false/missing selections
  * - Only removes data matching known orphaned patterns
  * - Uses lodash's cloneDeep to prevent mutation
@@ -179,8 +197,8 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
  * @param {Object.<string, boolean>} [formData.toxicExposure.gulfWar2001] - Gulf War 2001 location selections (keeps all values including false)
  * @param {Object.<string, boolean>} [formData.toxicExposure.herbicide] - Herbicide exposure location selections (keeps all values including false)
  * @param {Object.<string, boolean>} [formData.toxicExposure.otherExposures] - Other exposure type selections (keeps all values including false)
- * @param {Object} [formData.toxicExposure.otherHerbicideLocations] - Other herbicide locations details (removed if herbicide.other !== true)
- * @param {Object} [formData.toxicExposure.specifyOtherExposures] - Other exposures details (removed if otherExposures.other !== true)
+ * @param {Object|string} [formData.toxicExposure.otherHerbicideLocations] - Other herbicide locations details (string or object with description; removed if null/empty/whitespace)
+ * @param {Object|string} [formData.toxicExposure.specifyOtherExposures] - Other exposures details (string or object with description; removed if null/empty/whitespace)
  * @returns {Object} Form data with orphaned/non-applicable toxic exposure data removed
  */
 export const purgeToxicExposureData = formData => {
