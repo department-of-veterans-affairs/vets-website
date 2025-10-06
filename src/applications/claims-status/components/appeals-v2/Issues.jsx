@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { titleCase } from '~/platform/utilities/data';
+import titleCase from 'platform/utilities/data/titleCase';
 import { pluralize } from '~/platform/utilities/ui';
 
 const Issues = ({ issues, appealType }) => {
