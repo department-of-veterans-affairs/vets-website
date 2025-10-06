@@ -104,15 +104,14 @@ export const enterCauseNewDetails = (
 ) => {
   const BASE = `/user-testing/conditions/conditions-mango/${index}`;
   expectPath(`${BASE}/cause-new`, '?add=true');
-  // Fill a visible textarea (handles plain <textarea> or web component)
-  cy.get('textarea, [contenteditable="true"]')
-    .first()
-    .then($el => {
-      if ($el.length)
-        cy.wrap($el)
-          .clear()
-          .type(details);
-    });
+
+  // Wait for the specific textarea to be ready before typing
+  cy.get('textarea[name="root_primaryDescription"]')
+    .should('be.visible')
+    .and('be.enabled')
+    .clear()
+    .type(details);
+
   clickContinue();
 };
 
