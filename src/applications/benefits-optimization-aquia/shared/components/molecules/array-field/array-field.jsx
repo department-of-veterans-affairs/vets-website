@@ -189,7 +189,7 @@ export const ArrayField = ({
         {items.map((item, index) => (
           <div
             key={index}
-            className="array-field-item vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+            className="array-field-item vads-u-border--1px vads-u-border-color--gray-lighter vads-u-padding--3 vads-u-margin-bottom--2"
           >
             <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--2">
               <h4 className="vads-u-margin--0">
