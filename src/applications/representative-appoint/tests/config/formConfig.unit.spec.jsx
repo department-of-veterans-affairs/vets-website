@@ -1,7 +1,23 @@
 import { expect } from 'chai';
-import formConfig from '../../config/form';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import formConfig, {
+  getBaseUrl,
+  setFindRepBaseUrlFromFlag,
+} from '../../config/form';
 import mockFormData2122a from '../fixtures/data/21-22a/form-data.json';
 import mockFormData2122 from '../fixtures/data/form-data.json';
+
+describe('form getBaseUrl setter', () => {
+  it('uses environment.API_URL when flag is ON', () => {
+    setFindRepBaseUrlFromFlag(true);
+    expect(getBaseUrl()).to.equal(environment.API_URL);
+  });
+
+  it('uses staging URL when flag is OFF', () => {
+    setFindRepBaseUrlFromFlag(false);
+    expect(getBaseUrl()).to.equal('https://staging-api.va.gov');
+  });
+});
 
 describe('FormConfig depends function', () => {
   const { chapters } = formConfig;

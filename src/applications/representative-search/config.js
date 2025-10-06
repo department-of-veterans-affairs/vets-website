@@ -32,12 +32,12 @@ export const endpointOptions = {
 /*
  * Toggle true for local development
  */
-export const useStagingDataLocally = true;
 
-const baseUrl =
-  useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-    ? `https://staging-api.va.gov`
-    : `${environment.API_URL}`;
+let baseUrl = `https://staging-api.va.gov`;
+
+export const setFindRepBaseUrlFromFlag = enabled => {
+  baseUrl = enabled ? environment.API_URL : 'https://staging-api.va.gov';
+};
 
 export const formatReportBody = newReport => {
   const reportRequestBody = {

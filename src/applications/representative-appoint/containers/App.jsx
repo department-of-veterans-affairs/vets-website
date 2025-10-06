@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { scrollTo } from 'platform/utilities/scroll';
 import { setData } from 'platform/forms-system/src/js/actions';
-
-import formConfig from '../config/form';
+import formConfig, { setFindRepBaseUrlFromFlag } from '../config/form';
 
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 
@@ -20,6 +20,12 @@ import { selectAuthStatus } from '../utilities/selectors/authStatus';
 import { selectFeatureToggles } from '../utilities/selectors/featureToggles';
 
 function App({ location, children, formData }) {
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
   const subTitle = getFormSubtitle(formData);
   const { isLoadingFeatureFlags } = useSelector(selectFeatureToggles);
   const { isLoadingProfile } = useSelector(selectAuthStatus);
@@ -30,6 +36,21 @@ function App({ location, children, formData }) {
 
   // Set default view fields within the form data
   useDefaultFormData();
+
+  const useLocalBaseURL = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeUseAccreditedModels,
+  );
+
+  const togglesLoading = useToggleLoadingValue();
+
+  useEffect(
+    () => {
+      if (!togglesLoading) {
+        setFindRepBaseUrlFromFlag(Boolean(useLocalBaseURL));
+      }
+    },
+    [togglesLoading, useLocalBaseURL],
+  );
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -6,6 +6,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { setFindRepBaseUrlFromFlag } from '../config';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 
 function App({ children }) {
@@ -22,7 +23,20 @@ function App({ children }) {
     TOGGLE_NAMES.findARepresentativeEnableFrontend,
   );
 
+  const useLocalBaseURL = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeUseAccreditedModels,
+  );
+
   const togglesLoading = useToggleLoadingValue();
+
+  useEffect(
+    () => {
+      if (!togglesLoading) {
+        setFindRepBaseUrlFromFlag(Boolean(useLocalBaseURL));
+      }
+    },
+    [togglesLoading, useLocalBaseURL],
+  );
 
   if (togglesLoading) {
     return (

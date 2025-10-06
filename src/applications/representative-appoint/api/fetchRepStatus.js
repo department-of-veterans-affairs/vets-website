@@ -1,13 +1,9 @@
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { REPRESENTATIVE_STATUS_API } from '../constants/api';
+import { getBaseUrl } from '../config/form';
 
 export const fetchRepStatus = async () => {
-  const requestUrl = `${
-    environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov`
-      : `${environment.API_URL}`
-  }${REPRESENTATIVE_STATUS_API}`;
+  const requestUrl = `${getBaseUrl()}${REPRESENTATIVE_STATUS_API}`;
   const apiSettings = {
     'Content-Type': 'application/json',
     mode: 'cors',

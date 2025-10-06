@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/browser';
 
-import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { NEXT_STEPS_EMAIL_API } from '../constants/api';
 import manifest from '../manifest.json';
+import { getBaseUrl } from '../config/form';
 
 export default async function sendNextStepsEmail(body) {
   const apiSettings = {
@@ -20,21 +20,16 @@ export default async function sendNextStepsEmail(body) {
     body: JSON.stringify(body),
   };
 
-  const apiUrl =
-    environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov`
-      : `${environment.API_URL}`;
-
   try {
     const response = await fetch(
-      `${apiUrl}${NEXT_STEPS_EMAIL_API}`,
+      `${getBaseUrl()}${NEXT_STEPS_EMAIL_API}`,
       apiSettings,
     );
 
     if (!response.ok) {
       const errorBody = await response.json();
 
-      const errorMessage = `Error on API request to ${apiUrl}${NEXT_STEPS_EMAIL_API}: ${
+      const errorMessage = `Error on API request to ${getBaseUrl()}${NEXT_STEPS_EMAIL_API}: ${
         response.statusText
       }. ${errorBody.error || 'Unknown error'}`;
       throw new Error(errorMessage);

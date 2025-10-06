@@ -1,7 +1,7 @@
-import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { REPRESENTATIVES_API } from '../constants/api';
 import manifest from '../manifest.json';
+import { getBaseUrl } from '../config/form';
 
 export const fetchRepresentatives = async ({ query }) => {
   const apiSettings = {
@@ -17,13 +17,8 @@ export const fetchRepresentatives = async ({ query }) => {
 
   const startTime = new Date().getTime();
 
-  const apiUrl =
-    environment.BASE_URL === 'http://localhost:3001'
-      ? `https://staging-api.va.gov`
-      : `${environment.API_URL}`;
-
   return new Promise((resolve, reject) => {
-    fetch(`${apiUrl}${REPRESENTATIVES_API}?query=${query}`, apiSettings)
+    fetch(`${getBaseUrl()}${REPRESENTATIVES_API}?query=${query}`, apiSettings)
       .then(res => {
         if (!res.ok) {
           throw Error(res.statusText);

@@ -1,5 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import GetFormHelp from '../components/GetFormHelp';
 import configService from '../utilities/configService';
@@ -49,6 +50,14 @@ import SubmissionError from '../components/SubmissionError';
 // const mockData = initialData;
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+let baseUrl = 'https://staging-api.va.gov';
+
+export const getBaseUrl = () => baseUrl;
+
+export const setFindRepBaseUrlFromFlag = enabled => {
+  baseUrl = enabled ? environment.API_URL : 'https://staging-api.va.gov';
+};
 
 const formConfigFromService = configService.getFormConfig();
 
