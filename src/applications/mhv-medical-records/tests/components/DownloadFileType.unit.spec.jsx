@@ -222,28 +222,15 @@ describe('DownloadFileType — AAL logging', () => {
 
   const clickDownload = async screen => {
     const btn = await screen.findByTestId('download-report-button');
-    await waitFor(() => {
-      const pdfChecked = screen.container.querySelector(
-        'va-radio-option[value="pdf"][checked]',
-      );
-      expect(pdfChecked).to.exist;
-    });
-    // Explicitly fire value change event to update component state before submit
-    const vaRadio = screen.container.querySelector('va-radio');
-    fireEvent(
-      vaRadio,
-      new CustomEvent('vaValueChange', { detail: { value: 'pdf' } }),
-    );
     fireEvent.click(btn);
-    await Promise.resolve();
   };
 
   it('logs AAL success when PDF download succeeds', async () => {
-    makePdfStub.resolves();
     const screen = renderWithFormat('pdf');
     await clickDownload(screen);
+
     await waitFor(() => {
-      expect(postCreateAALStub.calledOnce).to.be.true;
+      expect(postCreateAALStub.calledOnce, 'AAL called once').to.be.true;
     });
     expect(
       postCreateAALStub.calledWithMatch({

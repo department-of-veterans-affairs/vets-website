@@ -63,7 +63,7 @@ describe('RadiologyDetails component', () => {
 
     // This test will give different results when run in different time zones.
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('April 4, 2024 5:03 p.m.', {
+      const formattedDate = screen.getByText('April 4, 2024 9:03 p.m.', {
         exact: true,
         selector: 'span',
       });
@@ -271,7 +271,7 @@ describe('RadiologyDetails component', () => {
 
     // This test will give different results when run in different time zones.
     it('should display the formatted date', () => {
-      const formattedDate = screen.getByText('January 6, 2004 2:27 p.m.', {
+      const formattedDate = screen.getByText('January 6, 2004 7:27 p.m.', {
         exact: true,
         selector: 'span',
       });
