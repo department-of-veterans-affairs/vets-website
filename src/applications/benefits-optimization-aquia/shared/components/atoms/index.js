@@ -14,3 +14,4 @@ export { SelectField } from './select-field';
 export { SignatureField } from './signature-field';
 export { SSNField } from './ssn-field';
 export { TextareaField } from './textarea-field';
+export { TextInputField } from './text-input-field';
