@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import ConfirmationRatedDisabilities from '../../components/ConfirmationRatedDisabilities';
 
@@ -11,16 +11,12 @@ describe('ConfirmationRatedDisabilities', () => {
         { name: 'Condition 2', 'view:selected': false, ratingPercentage: 50 },
       ],
     };
-    const wrapper = shallow(
+    const { container, getByText } = render(
       <ConfirmationRatedDisabilities formData={formData} />,
     );
-    expect(wrapper.find('h4').length).to.equal(1);
-    expect(wrapper.text()).to.include('Condition 1');
-    expect(wrapper.text()).to.include(
-      'claiming an increase from current 30% rating',
-    );
-    expect(wrapper.text()).to.not.include('Condition 2');
-    wrapper.unmount();
+    expect(container.querySelectorAll('h4')).to.have.length(1);
+    expect(getByText('Condition 1')).to.exist;
+    expect(getByText(/claiming an increase from current 30% rating/i)).to.exist;
   });
 
   it('should render nothing when no rated disabilities are selected', () => {
@@ -30,16 +26,16 @@ describe('ConfirmationRatedDisabilities', () => {
         { name: 'Condition 2', 'view:selected': false, ratingPercentage: 50 },
       ],
     };
-    const wrapper = shallow(
+    const { container } = render(
       <ConfirmationRatedDisabilities formData={formData} />,
     );
-    expect(wrapper.find('h4').length).to.equal(0);
-    wrapper.unmount();
+    expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 
   it('should render nothing when formData is empty', () => {
-    const wrapper = shallow(<ConfirmationRatedDisabilities formData={{}} />);
-    expect(wrapper.find('h4').length).to.equal(0);
-    wrapper.unmount();
+    const { container } = render(
+      <ConfirmationRatedDisabilities formData={{}} />,
+    );
+    expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import ConfirmationNewDisabilities from '../../components/ConfirmationNewDisabilities';
 
@@ -23,36 +23,31 @@ describe('ConfirmationNewDisabilities', () => {
         },
       ],
     };
-    const wrapper = shallow(
+    const { container, getByText } = render(
       <ConfirmationNewDisabilities formData={formData} />,
     );
-    expect(wrapper.find('h4').length).to.equal(2);
-    expect(wrapper.text()).to.include('Condition 1');
-    expect(wrapper.text()).to.include('new condition; Primary description 1');
-    expect(wrapper.text()).to.include('Condition 2');
-    expect(wrapper.text()).to.include(
-      'secondary condition; Primary description 2',
-    );
-    expect(wrapper.text()).to.include(
-      'secondary to Condition A; Caused by description A',
-    );
-    wrapper.unmount();
+    expect(container.querySelectorAll('h4')).to.have.length(2);
+    expect(getByText('Condition 1')).to.exist;
+    expect(getByText(/new condition; Primary description 1/i)).to.exist;
+    expect(getByText('Condition 2')).to.exist;
+    expect(getByText(/secondary condition; Primary description 2/i)).to.exist;
+    expect(getByText(/secondary to Condition A; Caused by description A/i)).to
+      .exist;
   });
 
   it('should render nothing when no new disabilities are provided', () => {
     const formData = {
       newDisabilities: [],
     };
-    const wrapper = shallow(
+    const { container } = render(
       <ConfirmationNewDisabilities formData={formData} />,
     );
-    expect(wrapper.find('h4').length).to.equal(0);
-    wrapper.unmount();
+    expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 
   it('should render nothing when formData is empty', () => {
-    const wrapper = shallow(<ConfirmationNewDisabilities formData={{}} />);
-    expect(wrapper.find('h4').length).to.equal(0);
-    wrapper.unmount();
+    const { container } = render(<ConfirmationNewDisabilities formData={{}} />);
+
+    expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 });
