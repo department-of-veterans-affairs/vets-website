@@ -589,7 +589,7 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/main' }}
+    # if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -616,9 +616,9 @@ jobs:
       - name: Annotate ESLint results
         run: |
           if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
+            yarn run eslint --concurrency=auto --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
           else
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
+            yarn run eslint --concurrency=auto --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
             ${{ steps.get-changed-apps.outputs.folders }}
           fi
         env:
