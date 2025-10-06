@@ -73,19 +73,50 @@ export const chooseFirstRadioIfUnknown = () => {
     .check({ force: true });
 };
 
-export const fillNewConditionAutocomplete = text => {
-  cy.get('va-text-input#root_newCondition')
-    .should('exist')
+// export const fillNewConditionAutocomplete = text => {
+//   cy.get('va-text-input#root_newCondition')
+//     .should('exist')
+//     .shadow()
+//     .find('#inputField')
+//     .as('condInput');
+
+//   cy.get('@condInput')
+//     .clear()
+//     .type(text, { delay: 10 });
+
+//   cy.get('@condInput').type('{downarrow}{enter}');
+//   cy.get('@condInput')
+//     .invoke('val')
+//     .should('not.be.empty');
+// };
+
+const getReadyInput = () =>
+  cy
+    .get('va-text-input#root_newCondition', { timeout: 15000 })
+    .should('have.class', 'hydrated') // wait for web component
     .shadow()
-    .find('#inputField')
-    .as('condInput');
+    .find('#inputField', { timeout: 15000 })
+    .should('be.visible')
+    .should($el => {
+      expect($el.prop('disabled'), 'disabled prop').to.eq(false);
+    });
 
-  cy.get('@condInput')
-    .clear()
-    .type(text, { delay: 10 });
+export const fillNewConditionAutocomplete = text => {
+  getReadyInput()
+    .invoke('val')
+    .then(v => {
+      if ((v || '').toLowerCase() === text.toLowerCase()) return;
 
-  cy.get('@condInput').type('{downarrow}{enter}');
-  cy.get('@condInput')
+      getReadyInput()
+        .clear()
+        .type(text, { delay: 10 });
+
+      cy.get('[role="listbox"]', { timeout: 15000 }).should('be.visible');
+
+      getReadyInput().type('{downarrow}{enter}');
+    });
+
+  getReadyInput()
     .invoke('val')
     .should('not.be.empty');
 };

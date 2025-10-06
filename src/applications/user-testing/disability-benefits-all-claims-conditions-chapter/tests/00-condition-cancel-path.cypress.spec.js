@@ -41,8 +41,7 @@ describe('Conditions — Page 2: Add a condition', () => {
       '?add=true',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('opens Cancel modal and stays on page when choosing "No, continue..."', () => {
@@ -82,8 +81,7 @@ describe('Conditions — Page 2: Add a condition', () => {
       '?add=true',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('opens Cancel modal and leaves page when choosing "Yes, cancel"', () => {
@@ -106,8 +104,7 @@ describe('Conditions — Page 2: Add a condition', () => {
       '/user-testing/conditions/conditions-mango/0/condition',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('Back navigates to the intro (Page 1)', () => {
@@ -119,24 +116,21 @@ describe('Conditions — Page 2: Add a condition', () => {
       'be.visible',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('selects a condition type and can continue', () => {
     bootstrapToAddCondition();
 
-    chooseConditionTypeRadioBtn(0); // "A condition I haven't claimed before"
+    chooseConditionTypeRadioBtn(0);
     clickContinue();
 
-    // We expect to land on add condition page with index 0
     expectPath(
       '/user-testing/conditions/conditions-mango/0/new-condition',
       '?add=true',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('requires Yes/No before continuing on summary', () => {
@@ -157,7 +151,6 @@ describe('Conditions — Page 2: Add a condition', () => {
       'true',
     );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
