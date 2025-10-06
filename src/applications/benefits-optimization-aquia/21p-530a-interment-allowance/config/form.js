@@ -14,13 +14,14 @@ import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowanc
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import {
-  PlaceholderPage,
-  OrganizationInformationPage,
   BurialBenefitsRecipientPage,
   MailingAddressPage,
-  VeteranPersonalInformationPage,
+  OrganizationInformationPage,
+  PlaceholderPage,
+  ServicePeriodsPage,
   VeteranBirthInformationPage,
   VeteranBurialInformationPage,
+  VeteranPersonalInformationPage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 const defaultSchema = {
@@ -138,12 +139,12 @@ const formConfig = {
     militaryHistoryChapter: {
       title: 'Military history',
       pages: {
-        militaryHistory: {
-          path: 'military-history',
-          title: 'Military history',
+        servicePeriods: {
+          path: 'service-periods',
+          title: 'Service periods',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: PlaceholderPage,
+          CustomPage: ServicePeriodsPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },

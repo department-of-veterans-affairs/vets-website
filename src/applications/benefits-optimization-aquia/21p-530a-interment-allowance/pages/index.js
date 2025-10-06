@@ -19,6 +19,7 @@ export { VeteranBurialInformationPage } from './veteran-burial-information';
 export { VeteranIdentificationPage } from './veteran-identification';
 
 // Chapter 3: Military history
+export { ServicePeriodsPage } from './service-periods';
 export { VeteranServicePage } from './veteran-service';
 
 // Chapter 4: Additional remarks

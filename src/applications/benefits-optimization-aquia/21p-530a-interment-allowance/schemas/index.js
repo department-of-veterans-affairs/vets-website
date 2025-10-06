@@ -40,9 +40,13 @@ export {
   branchOfServiceSchema,
   dateEnteredServiceSchema,
   dateSeparatedSchema,
+  formatServicePeriodSummary,
+  isServicePeriodEmpty,
   placeEnteredServiceSchema,
   placeSeparatedSchema,
   rankSchema,
+  servicePeriodItemSchema,
+  servicePeriodsSchema,
   veteranServiceSchema,
 } from './veteran-service';
 
