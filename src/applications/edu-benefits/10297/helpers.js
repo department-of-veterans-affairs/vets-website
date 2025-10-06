@@ -147,6 +147,7 @@ export const viewifyFields = formData => {
   });
   return newFormData;
 };
+
 export const maskBankInformation = (string, unmaskedLength) => {
   if (!string) {
     return '';
@@ -156,4 +157,28 @@ export const maskBankInformation = (string, unmaskedLength) => {
   const maskedPart = '●'.repeat(repeatCount);
   const unmaskedPart = string.slice(-unmaskedLength);
   return `${maskedPart}${unmaskedPart}`;
+};
+
+export const getPrefillIntlPhoneNumber = (phone = {}) => {
+  const areaCode = (phone.areaCode || '').trim();
+  const phoneNumber = (phone.phoneNumber || '').trim();
+
+  return {
+    callingCode: 1,
+    countryCode: 'US',
+    contact: `${areaCode}${phoneNumber}`,
+  };
+};
+
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
 };
