@@ -210,7 +210,11 @@ const NewRecordsIndicator = ({
 
   return (
     <>
-      <div className="vads-u-margin-y--2 no-print" id="new-records-indicator">
+      <div
+        className="vads-u-margin-y--2 no-print"
+        id="new-records-indicator"
+        data-testid="new-records-indicator-wrapper"
+      >
         {content()}
       </div>
       <div className="print-only">
