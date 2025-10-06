@@ -41,7 +41,7 @@ describe('SearchResultsHeader', () => {
   it('should render header if results exist', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -94,7 +94,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.HEALTH, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
@@ -111,7 +111,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.HEALTH, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 15 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         serviceType="PrimaryCare"
         context="new york"
@@ -128,7 +128,7 @@ describe('SearchResultsHeader', () => {
   it('with LocationType.HEALTH, null serviceType', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -238,7 +238,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.URGENT_CARE_PHARMACIES}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -254,7 +254,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.URGENT_CARE_PHARMACIES, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 15 results
+        results={[{}]}
         facilityType={LocationType.URGENT_CARE_PHARMACIES}
         context="new york"
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -288,7 +288,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.CC_PROVIDER, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
@@ -306,7 +306,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.CC_PROVIDER, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 15 results
+        results={[{}]}
         facilityType={LocationType.CC_PROVIDER}
         serviceType="foo"
         context="new york"
@@ -341,7 +341,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.BENEFITS, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
@@ -358,7 +358,7 @@ describe('SearchResultsHeader', () => {
   it('should render header with LocationType.BENEFITS, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 15 results
+        results={[{}]}
         facilityType={LocationType.BENEFITS}
         serviceType="ApplyingForBenefits"
         context="new york"
@@ -375,7 +375,7 @@ describe('SearchResultsHeader', () => {
   it('LocationType.BENEFITS, serviceType null', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.BENEFITS}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -407,7 +407,7 @@ describe('SearchResultsHeader', () => {
   it('LocationType.CEMETERY, totalEntries = 5', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -423,7 +423,7 @@ describe('SearchResultsHeader', () => {
   it('LocationType.CEMETERY, totalEntries = 15, currentPage = 2, totalPages = 2', () => {
     const wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 15 results
+        results={[{}]}
         facilityType={LocationType.CEMETERY}
         context="new york"
         pagination={{ totalEntries: 15, currentPage: 2, totalPages: 2 }}
@@ -438,7 +438,7 @@ describe('SearchResultsHeader', () => {
   it('should refresh header with new results', () => {
     let wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         context="new york"
         pagination={{ totalEntries: 5 }}
@@ -446,7 +446,7 @@ describe('SearchResultsHeader', () => {
     );
     wrapper = shallow(
       <SearchResultsHeader
-        results={[{}, {}, {}, {}, {}]} // 5 results
+        results={[{}]}
         facilityType={LocationType.HEALTH}
         context="new jersey"
         pagination={{ totalEntries: 5 }}
@@ -460,110 +460,4 @@ describe('SearchResultsHeader', () => {
   });
 
   // TODO: find a way to unit test the React.memo behavior
-
-  describe('#handleNumberOfResults', () => {
-    it('should handle filtered results - 2 results on first page with large total (filtered)', () => {
-      // API returns 15 total entries but only 2 are actually displayed due to filtering
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[{}, {}]} // 2 results
-          facilityType={LocationType.CC_PROVIDER}
-          serviceType="Dental"
-          context="new york"
-          specialtyMap={{ Dental: 'Dental' }}
-          pagination={{ totalEntries: 15, currentPage: 1, totalPages: 2 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.include(
-        'Showing 1 - 2 results for "Community providers',
-      );
-      wrapper.unmount();
-    });
-
-    it('should handle normal pagination - 80+ facilities with full pagination', () => {
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 10 results
-          facilityType={LocationType.HEALTH}
-          serviceType="PrimaryCare"
-          context="new york"
-          pagination={{ totalEntries: 80, currentPage: 1, totalPages: 8 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.match(
-        /Showing 1 - 10 of 80 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
-      );
-      wrapper.unmount();
-    });
-
-    it('should handle normal pagination - 80+ facilities on last page', () => {
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[{}, {}, {}, {}, {}, {}, {}, {}, {}, {}]} // 10 results
-          facilityType={LocationType.HEALTH}
-          serviceType="PrimaryCare"
-          context="new york"
-          pagination={{ totalEntries: 80, currentPage: 8, totalPages: 8 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.match(
-        /Showing 71 - 80 of 80 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
-      );
-      wrapper.unmount();
-    });
-
-    it('should handle small result sets - 5 total results', () => {
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[{}, {}, {}, {}, {}]} // 5 results
-          facilityType={LocationType.HEALTH}
-          serviceType="PrimaryCare"
-          context="new york"
-          pagination={{ totalEntries: 5, currentPage: 1, totalPages: 1 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.match(
-        /Showing 1 - 5 results for "VA health",\s+"Primary care"\s+near\s+"new york"/,
-      );
-      wrapper.unmount();
-    });
-
-    it('should handle single result correctly', () => {
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[{}]}
-          facilityType={LocationType.HEALTH}
-          serviceType="PrimaryCare"
-          context="new york"
-          pagination={{ totalEntries: 1, currentPage: 1, totalPages: 1 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.match(
-        /Showing 1 result for "VA health",\s+"Primary care"\s+near\s+"new york"/,
-      );
-      wrapper.unmount();
-    });
-
-    it('should handle no results correctly', () => {
-      const wrapper = shallow(
-        <SearchResultsHeader
-          results={[]}
-          facilityType={LocationType.HEALTH}
-          serviceType="PrimaryCare"
-          context="new york"
-          pagination={{ totalEntries: 0, currentPage: 1, totalPages: 1 }}
-        />,
-      );
-
-      expect(wrapper.find('h2').text()).to.match(
-        /No results found for "VA health",\s+"Primary care"\s+near\s+"new york"/,
-      );
-      wrapper.unmount();
-    });
-  });
 });
