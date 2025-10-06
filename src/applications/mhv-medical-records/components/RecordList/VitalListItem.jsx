@@ -60,7 +60,7 @@ const VitalListItem = props => {
         reviewLink: 'vital-li-review-over-time',
       };
     },
-    [updatedRecordType, isAccelerating, record.type],
+    [updatedRecordType, isAccelerating],
   );
 
   const url = `/vitals/${kebabCase(updatedRecordType)}-history${
