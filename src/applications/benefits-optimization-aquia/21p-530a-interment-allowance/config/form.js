@@ -13,7 +13,12 @@ import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
 import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
 import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
-import { PlaceholderPage } from '@bio-aquia/21p-530a-interment-allowance/pages';
+import {
+  PlaceholderPage,
+  OrganizationInformationPage,
+  BurialBenefitsRecipientPage,
+  MailingAddressPage,
+} from '@bio-aquia/21p-530a-interment-allowance/pages';
 
 const defaultSchema = {
   type: 'object',
@@ -71,7 +76,25 @@ const formConfig = {
           title: "Your organization's information",
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: PlaceholderPage,
+          CustomPage: OrganizationInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        burialBenefitsRecipient: {
+          path: 'burial-benefits-recipient',
+          title: 'Burial benefits recipient',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: BurialBenefitsRecipientPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MailingAddressPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },
