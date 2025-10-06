@@ -81,9 +81,12 @@ export const fillNewConditionAutocomplete = text => {
       .shadow()
       .find('#inputField');
 
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100);
+
   input()
     .clear()
-    .type(text, { delay: 10 });
+    .type(text, { delay: 10, force: true });
 
   input().type('{downarrow}{enter}');
 
