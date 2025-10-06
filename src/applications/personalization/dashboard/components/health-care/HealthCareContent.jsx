@@ -34,6 +34,7 @@ const HealthCareContent = ({
   shouldShowLoadingIndicator,
   hasInboxError,
   hasAppointmentsError,
+  hasHealthEnrollmentError,
   isVAPatient,
   isLOA1,
   isCernerPatient,
@@ -129,14 +130,36 @@ const HealthCareContent = ({
     );
   };
 
+  const AppointmentsError = () => (
+    <div className="vads-u-margin-bottom--2p5">
+      <va-alert status="warning" show-icon data-testid="healthcare-error">
+        <div>
+          We can’t show your appointments right now. Refresh this page or try
+          again later.
+        </div>
+      </va-alert>
+    </div>
+  );
+
   if (shouldShowLoadingIndicator) {
     return <va-loading-indicator message="Loading health care..." />;
+  }
+
+  if (hasHealthEnrollmentError) {
+    return (
+      <div className="vads-l-row">
+        <DashboardWidgetWrapper>
+          <HealthcareError />
+        </DashboardWidgetWrapper>
+      </div>
+    );
   }
 
   return (
     <div className="vads-l-row">
       <DashboardWidgetWrapper>
-        {hasAppointmentsError && <HealthcareError />}
+        {isVAPatient && <h3 className="vads-u-margin-top--0">Appointments</h3>}
+        {hasAppointmentsError && <AppointmentsError />}
         {hasUpcomingAppointment &&
           !isLOA1 && <AppointmentsCard appointments={appointments} />}
         {!isVAPatient && !isLOA1 && <NoHealthcareText />}
@@ -196,12 +219,14 @@ const mapStateToProps = state => {
   const hasUnreadMessagesCountError =
     selectUnreadCount(state)?.errors?.length > 0;
   const hasAppointmentsError = state.health?.appointments?.errors?.length > 0;
+  const hasHealthEnrollmentError = !!state.hcaEnrollmentStatus?.hasServerError;
 
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
+    hasHealthEnrollmentError,
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
@@ -240,6 +265,7 @@ HealthCareContent.propTypes = {
   fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
+  hasHealthEnrollmentError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isCernerPatient: PropTypes.bool,
   isLOA1: PropTypes.bool,
