@@ -1,7 +1,7 @@
 {
   "name": "vets-website",
   "version": "1.0.1",
-  "description": "Frontend build for VA.gov website static assets.",
+  "description": "Frontend build for VA.gov website static assets test.",
   "scripts": {
     "apps": "./script/app-list.sh",
     "build": "./script/build.sh --scaffold",
