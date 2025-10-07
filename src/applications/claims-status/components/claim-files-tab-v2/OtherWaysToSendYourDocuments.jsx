@@ -14,6 +14,7 @@ import {
 const OtherWaysToSendYourDocuments = () => {
   return (
     <div
+      id="other-ways-to-send-documents"
       className="other-ways-to-send-your-documents"
       data-testid="other-ways-to-send-documents"
     >

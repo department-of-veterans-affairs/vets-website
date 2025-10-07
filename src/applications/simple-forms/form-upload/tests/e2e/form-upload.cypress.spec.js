@@ -117,6 +117,27 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+      'supporting-documents': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-radio-option[value="Y"]').click();
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
+      'upload-supporting-documents': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-file-input-multiple')
+            .shadow()
+            .find('va-file-input input')
+            .selectFile(uploadImgPath, {
+              force: true,
+            });
+          cy.findAllByText(/^Continue/, { selector: 'button' })
+            .last()
+            .click();
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.findByText(/^Submit form/, { selector: 'button' })
