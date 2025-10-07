@@ -2,11 +2,23 @@ import React from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import ConfirmationPage from '../components/complex-claims/pages/ConfirmationPage';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const { apptId } = useParams();
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const complexClaimsEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableComplexClaims,
+  );
+
+  // If feature flag is disabled, redirect to home
+  if (!complexClaimsEnabled) {
+    window.location.replace('/');
+    return null;
+  }
 
   return (
     <Element name="topScrollElement">
