@@ -18,6 +18,7 @@ const sortIssues = issues =>
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
+
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
   } else if (
@@ -46,15 +47,6 @@ export const validateVaIssues = (
   );
 };
 
-// Overloading fullDate parameter with evidence date type to control error
-// messaging
-/* errors, fieldData, schema, uiSchema, index */
-export const validateVaFromDate = (errors, data, _schema, _uiSchema, _index) =>
-  validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
-
-export const validateVaToDate = (errors, data, _schema, _uiSchema, _index) =>
-  validateToDate(errors, data, 'evidenceDates');
-
 export const validateVaDate = (errors, data, _schema, _uiSchema, _index) =>
   validateYMDate(errors, data.treatmentDate);
 
@@ -70,6 +62,13 @@ export const buildVaLocationString = ({
     REGEXP.EMPTY_DATE,
     '',
   );
+
+  console.log([
+    data.locationAndName || '',
+    ...issues,
+    fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
+    noDate,
+  ]);
 
   return [
     data.locationAndName || '',

@@ -3,8 +3,6 @@ import { EVIDENCE_VA } from '../constants';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
   validateVaDate,
   validateVaUnique,
 } from '../validations/evidence';
@@ -76,8 +74,6 @@ export default {
         'ui:validations': [
           validateVaLocation,
           validateVaIssues,
-          validateVaFromDate,
-          validateVaToDate,
           validateVaDate,
           validateVaUnique,
         ],

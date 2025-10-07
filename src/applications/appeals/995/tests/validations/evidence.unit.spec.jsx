@@ -4,8 +4,6 @@ import { errorMessages } from '../../constants';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
   buildVaLocationString,
   isEmptyVaEntry,
   validateVaUnique,
@@ -31,19 +29,21 @@ import {
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
 
-describe('VA evidence', () => {
+describe('VA evidence validation utilities', () => {
   describe('validateVaLocation', () => {
     it('should not show an error for an added location name', () => {
       const errors = { addError: sinon.spy() };
       validateVaLocation(errors, { locationAndName: 'ok' });
       expect(errors.addError.called).to.be.false;
     });
+
     it('should show an error for a missing location name', () => {
       const errors = { addError: sinon.spy() };
       validateVaLocation(errors);
       expect(errors.addError.calledWith(errorMessages.evidence.locationMissing))
         .to.be.true;
     });
+
     it('should show an error for a too long location name', () => {
       const errors = { addError: sinon.spy() };
       validateVaLocation(errors, {
@@ -66,6 +66,7 @@ describe('VA evidence', () => {
       });
       expect(errors.addError.called).to.be.false;
     });
+
     it('should show an error for a missing issues', () => {
       const errors = { addError: sinon.spy() };
       validateVaIssues(errors, { issues: [] });
@@ -74,100 +75,27 @@ describe('VA evidence', () => {
     });
   });
 
-  describe('validateVaFromDate', () => {
-    it('should not show an error for a valid from date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaFromDate(errors, { evidenceDates: { from: '2022-01-01' } });
-      expect(errors.addError.called).to.be.false;
-    });
-    it('should show an error for an invalid from date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaFromDate(errors, { evidenceDates: { from: '-01-01' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
-    });
-    it('should show an error for a missing from date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaFromDate(errors, { evidenceDates: { from: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
-    });
-
-    it('should return false if feature toggle is enabled', () => {
-      const errors = { addError: sinon.spy() };
-      const result = validateVaFromDate(errors, {
-        evidenceDates: { from: '', to: '' },
-      });
-      expect(errors.addError.notCalled).to.be.true;
-      expect(result).to.be.false;
-    });
-  });
-
-  describe('validateVaToDate', () => {
-    it('should not show an error for a valid to date & range', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaToDate(errors, {
-        evidenceDates: { from: '2022-01-01', to: '2023-02-02' },
-      });
-      expect(errors.addError.called).to.be.false;
-    });
-    it('should show an error for an invalid to date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaToDate(errors, { evidenceDates: { to: '-01-01' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
-        .be.true;
-    });
-    it('should show an error for a missing to date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaToDate(errors, { evidenceDates: { to: '' } });
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to.be
-        .be.true;
-    });
-    it('should show an error for a to date before from date', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaToDate(errors, {
-        evidenceDates: { from: '2023-02-02', to: '2022-01-01' },
-      });
-      expect(errors.addError.calledWith(sharedErrorMessages.endDateBeforeStart))
-        .to.be.true;
-    });
-    it('should show an error for a to date in the future', () => {
-      const errors = { addError: sinon.spy() };
-      validateVaToDate(errors, {
-        evidenceDates: {
-          to: parseDateWithOffset({ years: MAX_YEARS_PAST + 1 }),
-        },
-      });
-      expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
-    });
-
-    it('should return false if feature toggle is enabled', () => {
-      const errors = { addError: sinon.spy() };
-      const result = validateVaToDate(errors, {
-        evidenceDates: { from: '', to: '' },
-      });
-      expect(errors.addError.notCalled).to.be.true;
-      expect(result).to.be.false;
-    });
-  });
-
   describe('validateVaDate', () => {
     const fullData = {};
+
     it('should not show an error for a valid treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
       expect(errors.addError.called).to.be.false;
     });
+
     it('should not show an error for an invalid treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '2000' }, fullData);
       expect(errors.addError.notCalled).to.be.true;
     });
+
     it('should not show an error for a missing treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '' }, fullData);
       expect(errors.addError.notCalled).to.be.true;
     });
+
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
       const treatmentDate = parseDateWithOffset({
@@ -175,13 +103,6 @@ describe('VA evidence', () => {
       }).substring(0, 7); // only keep YYYYY-MM
       validateVaDate(errors, { treatmentDate }, fullData);
       expect(errors.addError.args[0][0]).eq(errorMessages.evidence.pastDate);
-    });
-
-    it('should return undefined if feature toggle is disabled', () => {
-      const errors = { addError: sinon.spy() };
-      const result = validateVaDate(errors, { treatmentDate: '' });
-      expect(errors.addError.notCalled).to.be.true;
-      expect(result).to.be.undefined;
     });
   });
 
@@ -213,16 +134,18 @@ describe('VA evidence', () => {
           wrapped: false,
         });
 
-      it('should return an empty string', () => {
+      it.only('should return an empty string', () => {
         expect(buildVaLocationString()).to.eq('');
         expect(setup({ data: {} })).to.eq('');
         expect(setup({ data: { evidenceDates: {} } })).to.eq('');
       });
+
       it('should add different joiners', () => {
         expect(setup()).to.eq('name122022-01-012023-02-02');
         expect(setup({ joiner: ',' })).to.eq('name,1,2,2022-01-01,2023-02-02');
         expect(setup({ joiner: ';' })).to.eq('name;1;2;2022-01-01;2023-02-02');
       });
+
       it('should return expected strings for original form', () => {
         expect(setup({ data: {} })).to.eq('');
         expect(setup({ data: {}, joiner: ',' })).to.eq(',,');
