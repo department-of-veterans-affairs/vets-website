@@ -29,9 +29,8 @@ describe('useMyHealthAccessGuard', () => {
 
   beforeEach(() => {
     originalLocation = window.location;
-    window.location = {
-      replace: sinon.spy(),
-    };
+    delete window.location;
+    window.location.replace = sinon.spy();
   });
 
   afterEach(() => {

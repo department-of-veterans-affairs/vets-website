@@ -92,6 +92,7 @@ export const MenuItemLevel2 = ({ item, lastClickedMenuID, updateSubMenu }) => {
 };
 
 MenuItemLevel2.propTypes = {
+  updateSubMenu: PropTypes.func.isRequired,
   item: PropTypes.oneOfType([
     PropTypes.shape({
       href: PropTypes.string,
@@ -174,7 +175,6 @@ MenuItemLevel2.propTypes = {
     }),
   ]),
   lastClickedMenuID: PropTypes.string,
-  updateSubMenu: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
