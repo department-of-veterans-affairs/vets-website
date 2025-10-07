@@ -127,7 +127,7 @@ function migrateFile(fname, data) {
 function main() {
   // If the --help arg was passed or the dir + component args weren't passed
   // print the help and exit
-  if (options.help || (!options.dir || !options.component)) {
+  if (options.help || !options.dir || !options.component) {
     printMigrationHelp();
     process.exit(0);
   }
