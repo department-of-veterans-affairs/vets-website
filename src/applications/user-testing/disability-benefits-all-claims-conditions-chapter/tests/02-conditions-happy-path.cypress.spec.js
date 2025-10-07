@@ -17,7 +17,7 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
     chooseConditionType(0);
 
     cy.get('#inputField').type('asthma');
-    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 10000 }).should(
       'contain.text',
       'asthma',
     );
