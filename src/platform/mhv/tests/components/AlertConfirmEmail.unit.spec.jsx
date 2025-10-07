@@ -6,14 +6,17 @@ import { renderInReduxProvider as render } from '@department-of-veterans-affairs
 import AlertConfirmEmail, {
   dismissAlert,
   resetDismissAlert,
-  EMAIL_CONFIRMATION_DATE_THRESHOLD,
+  DATE_THRESHOLD,
 } from '../../components/AlertConfirmEmail';
 
+const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
+
 const stateFn = ({
-  confirmationDate = '2025-09-31T12:00:00.000+00:00',
+  confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
   featureTogglesLoading = false,
   mhvEmailConfirmation = true,
+  updatedAt = '2025-09-30T12:00:00.000+00:00',
   userProfileLoading = false,
 } = {}) => ({
   featureToggles: {
@@ -25,8 +28,9 @@ const stateFn = ({
       loading: userProfileLoading,
       vapContactInfo: {
         email: {
-          emailAddress,
           confirmationDate,
+          emailAddress,
+          updatedAt,
         },
       },
     },
@@ -69,7 +73,7 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   describe('<AlertConfirmContactEmail />', () => {
-    it('renders when !state.user.profile.vapContactInfo.email.confirmationDate', async () => {
+    it('renders when !confirmationDate', async () => {
       const initialState = stateFn({ confirmationDate: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
@@ -77,7 +81,7 @@ describe('<AlertConfirmEmail />', () => {
       });
     });
 
-    it(`renders when state.user.profile.vapContactInfo.email.confirmationDate < ${EMAIL_CONFIRMATION_DATE_THRESHOLD}`, async () => {
+    it(`renders when confirmationDate is before ${DATE_STRING}`, async () => {
       const confirmationDate = '2025-01-01T12:00:00.000+00:00';
       const initialState = stateFn({ confirmationDate });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
@@ -85,15 +89,68 @@ describe('<AlertConfirmEmail />', () => {
         expect(getByTestId('alert-confirm-contact-email')).to.exist;
       });
     });
+
+    it(`renders nothing when confirmationDate is after ${DATE_STRING}`, async () => {
+      const confirmationDate = '2025-09-30T12:00:00.000+00:00';
+      const initialState = stateFn({ confirmationDate });
+      const { container } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+    });
+
+    it('renders when !updatedAt', async () => {
+      const initialState = stateFn({ updatedAt: null });
+      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+      });
+    });
+
+    it(`renders when updatedAt is before ${DATE_STRING}`, async () => {
+      const updatedAt = '2025-01-01T12:00:00.000+00:00';
+      const initialState = stateFn({ updatedAt });
+      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+      });
+    });
+
+    it(`renders nothing when updatedAt is after ${DATE_STRING}`, async () => {
+      const updatedAt = '2025-09-30T12:00:00.000+00:00';
+      const initialState = stateFn({ updatedAt });
+      const { container } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+    });
   });
 
   describe('<AlertAddContactEmail />', () => {
-    it('renders when !state.user.profile.vapContactInfo.email.emailAddress', async () => {
+    it(`renders when !emailAddress`, async () => {
       const initialState = stateFn({ emailAddress: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
         expect(getByTestId('alert-add-contact-email')).to.exist;
       });
+    });
+
+    it(`renders when emailAddress === ''`, async () => {
+      const initialState = stateFn({ emailAddress: '' });
+      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(getByTestId('alert-add-contact-email')).to.exist;
+      });
+    });
+
+    it('renders nothing when !emailAddress and alert has been dismissed', async () => {
+      dismissAlert();
+      const initialState = stateFn({ emailAddress: null });
+      const { container } = render(<AlertConfirmEmail />, { initialState });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+      resetDismissAlert();
     });
   });
 });
