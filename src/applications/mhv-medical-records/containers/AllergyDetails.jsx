@@ -21,7 +21,7 @@ import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile } from '../util/helpers';
+import { generateTextFile, itemListWrapper } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -211,7 +211,11 @@ Provider notes: ${allergyData.notes} \n`;
               className="max-80 vads-u-margin-top--4"
               data-testid="allergy-reaction"
             >
-              <LabelValue label="Signs and symptoms">
+              <LabelValue
+                label="Signs and symptoms"
+                element={itemListWrapper(allergyData?.reaction)}
+                testId="allergy-signs-symptoms"
+              >
                 <ItemList list={allergyData.reaction} />
               </LabelValue>
               <LabelValue
@@ -240,7 +244,7 @@ Provider notes: ${allergyData.notes} \n`;
                 <LabelValue
                   label="Recorded by"
                   value={allergyData.provider}
-                  testId="allergy-observed"
+                  testId="allergy-recorded-by"
                   actionName="[allergy recorded by]"
                 />
               )}
