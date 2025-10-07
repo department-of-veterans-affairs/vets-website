@@ -26,14 +26,13 @@ export default function ReferralAppointments() {
     skip: !id,
   });
 
-  if (referral?.attributes?.hasAppointments) {
-    return (
-      <Redirect
-        to={`${basePath.url}/${
-          referral.appointmentId
-        }?eps=true&hasAppointments=true`}
-      />
-    );
+  if (referral?.attributes?.appointments?.data.length > 0) {
+    const appointmentId = referral.attributes.appointments.data[0].id;
+    const path =
+      referral.attributes.appointments.system === 'VAOS'
+        ? `${basePath.url}/${appointmentId}`
+        : `${basePath.url}/${appointmentId}?eps=true&hasAppointments=true`;
+    return <Redirect to={path} />;
   }
 
   if (!isInPilotUserStations) {
