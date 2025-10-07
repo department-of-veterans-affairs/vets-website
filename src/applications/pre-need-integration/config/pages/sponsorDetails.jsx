@@ -1,10 +1,12 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import {
+  currentOrPastDateUI,
+  ssnSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { ssnSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
