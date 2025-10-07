@@ -7,7 +7,6 @@ import * as SessionStorageModule from '../../utils/sessionStorage';
 const publicDirectLine =
   'https://northamerica.directline.botframework.com/v3/directline';
 const localDirectLine = 'http://localhost:3002/v3/directline';
-const token = 'fake-token';
 const sessionToken = 'fake-session-token';
 const sessionConversationIdKey = 'fake-session-conversation-id';
 
@@ -28,7 +27,7 @@ describe('directline', () => {
     });
   };
 
-  const setSessionStorage = loggedIn => {
+  const setSessionStorageBase = () => {
     sandbox
       .stub(SessionStorageModule, SessionStorageModule.getTokenKey.name)
       .returns(sessionToken);
@@ -39,18 +38,21 @@ describe('directline', () => {
         SessionStorageModule.getConversationIdKey.name,
       )
       .returns(sessionConversationIdKey);
-
-    sandbox
-      .stub(SessionStorageModule, SessionStorageModule.getLoggedInFlow.name)
-      .returns(loggedIn);
   };
 
   describe('useDirectLine', () => {
     it('should call local directline when USE_LOCAL_DIRECTLINE is true', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline(true);
+      setSessionStorageBase();
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn));
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(localDirectLine);
@@ -58,8 +60,15 @@ describe('directline', () => {
     it('should call public directline when USE_LOCAL_DIRECTLINE is false', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline(false);
+      setSessionStorageBase();
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn));
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(publicDirectLine);
@@ -67,33 +76,54 @@ describe('directline', () => {
     it('should call public directline when USE_LOCAL_DIRECTLINE is not set', () => {
       const createDirectLineFn = sandbox.spy();
       stubUseLocalDirectline('');
+      setSessionStorageBase();
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn));
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(createDirectLineFn.args[0][0].domain).to.equal(publicDirectLine);
     });
-    it('should use default values when logged out', () => {
+    it('should omit conversationId on first connection (production)', () => {
       const createDirectLineFn = sandbox.spy();
-      setSessionStorage('false');
+      setSessionStorageBase();
+      stubUseLocalDirectline(false);
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, false));
+      renderHook(() => useDirectLine(createDirectLineFn));
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(
         createDirectLineFn.calledWithExactly({
-          token,
+          token: sessionToken,
           domain: publicDirectLine,
           conversationId: '',
-          watermark: '',
+          watermark: '0',
         }),
       ).to.be.true;
     });
-    it('should use session storage values when logged in', () => {
+    it('should include conversationId on subsequent connections', () => {
       const createDirectLineFn = sandbox.spy();
-      setSessionStorage('true');
+      setSessionStorageBase();
+      stubUseLocalDirectline(false);
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns('false');
 
-      renderHook(() => useDirectLine(createDirectLineFn, token, true));
+      renderHook(() => useDirectLine(createDirectLineFn));
 
       expect(createDirectLineFn.calledOnce).to.be.true;
       expect(
@@ -101,9 +131,52 @@ describe('directline', () => {
           token: sessionToken,
           domain: publicDirectLine,
           conversationId: sessionConversationIdKey,
-          watermark: '',
+          watermark: '0',
         }),
       ).to.be.true;
+    });
+    it('should include conversationId on first connection when using local mock', () => {
+      const createDirectLineFn = sandbox.spy();
+      setSessionStorageBase();
+      stubUseLocalDirectline(true);
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
+
+      renderHook(() => useDirectLine(createDirectLineFn));
+
+      expect(createDirectLineFn.calledOnce).to.be.true;
+      expect(
+        createDirectLineFn.calledWithExactly({
+          token: sessionToken,
+          domain: localDirectLine,
+          conversationId: sessionConversationIdKey,
+          watermark: '0',
+        }),
+      ).to.be.true;
+    });
+    it("should set firstConnection to 'false' after hook runs", () => {
+      const createDirectLineFn = sandbox.spy();
+      const setFirstConnectionSpy = sandbox.spy(
+        SessionStorageModule,
+        SessionStorageModule.setFirstConnection.name,
+      );
+      setSessionStorageBase();
+      stubUseLocalDirectline(false);
+      sandbox
+        .stub(
+          SessionStorageModule,
+          SessionStorageModule.getFirstConnection.name,
+        )
+        .returns(undefined);
+
+      renderHook(() => useDirectLine(createDirectLineFn));
+
+      expect(setFirstConnectionSpy.calledOnce).to.be.true;
+      expect(setFirstConnectionSpy.calledWith('false')).to.be.true;
     });
   });
 });

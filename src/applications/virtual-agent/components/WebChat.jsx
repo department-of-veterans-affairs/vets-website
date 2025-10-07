@@ -54,7 +54,7 @@ const styleOptions = {
 
 export const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token, code, webChatFramework }) => {
+const WebChat = ({ code, webChatFramework }) => {
   const {
     createDirectLine,
     createStore,
@@ -85,7 +85,7 @@ const WebChat = ({ token, code, webChatFramework }) => {
   clearBotSessionStorageEventListener(isLoggedIn);
   signOutEventListener(isLoggedIn);
 
-  const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
+  const directLine = useDirectLine(createDirectLine);
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
