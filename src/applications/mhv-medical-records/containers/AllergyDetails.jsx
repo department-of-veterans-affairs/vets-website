@@ -84,6 +84,7 @@ const AllergyDetails = props => {
           ),
         );
       }
+      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
     },
     [
       allergyId,
@@ -102,18 +103,6 @@ const AllergyDetails = props => {
       };
     },
     [dispatch],
-  );
-
-  useEffect(
-    () => {
-      if (allergyId) {
-        dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-        );
-      }
-      updatePageTitle(pageTitles.ALLERGY_DETAILS_PAGE_TITLE);
-    },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies],
   );
 
   usePrintTitle(
