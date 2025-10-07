@@ -102,14 +102,23 @@ describe('Conditions — Summary (Edit & Delete)', () => {
       .click();
 
     cy.get('va-alert[status="success"]').should('not.exist');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('deletes the only condition and returns to add a condition screen', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
-    enterNewCondition(0, 'asthma');
-    sideOfBodyThenDate(0, '2022-06-15');
+
+    cy.get('#inputField').type('asthma');
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+      'contain.text',
+      'asthma',
+    );
+    cy.contains('[role="option"]', /^asthma$/i).click();
+
+    clickContinue();
+    clickContinue();
     chooseCause(0);
     enterCauseNewDetails(0, 'Initial details');
 
@@ -130,6 +139,8 @@ describe('Conditions — Summary (Edit & Delete)', () => {
       .and('have.attr', 'status', 'warning')
       .contains(/must add at least one/i)
       .should('be.visible');
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('confirms delete and removes the card', () => {
@@ -160,6 +171,7 @@ describe('Conditions — Summary (Edit & Delete)', () => {
         expect(p).to.match(/\/conditions-mango\/0\/condition$/);
       }
     });
+    cy.injectAxeThenAxeCheck();
   });
 
   it('opens/closes the delete modal and stays on summary when cancelling', () => {
@@ -180,5 +192,7 @@ describe('Conditions — Summary (Edit & Delete)', () => {
     // Still on summary page with card present
     expectPath('/user-testing/conditions/conditions-mango-summary', '');
     expectCardText(0, { titleRe: /asthma/i });
+
+    cy.injectAxeThenAxeCheck();
   });
 });
