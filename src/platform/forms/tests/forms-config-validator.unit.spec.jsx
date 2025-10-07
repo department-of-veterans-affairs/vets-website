@@ -13,6 +13,7 @@ const validatedConfigs = new Map();
 
 const formConfigFnParams = {
   'form-upload': '/find-forms/upload/21-0779',
+  'representative-form-upload': '/representative-form-upload/21-686c',
 };
 
 const missingFromVetsJsonSchema = [
@@ -24,6 +25,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10182,
   VA_FORM_IDS.FORM_1330M,
   VA_FORM_IDS.FORM_1330M2,
+  VA_FORM_IDS.FORM_1919,
   VA_FORM_IDS.FORM_20_0995,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_20_10207,
@@ -39,7 +41,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
   VA_FORM_IDS.FORM_21_686C_UPLOAD,
   VA_FORM_IDS.FORM_21P_0847,
-  VA_FORM_IDS.FORM_27_8832,
+  VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_HC_QSTNR,
@@ -54,7 +56,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_T_QSTNR,
   VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
   VA_FORM_IDS.FORM_XX_123,
-  VA_FORM_IDS.FORM_28_1900_V2,
+  // VA_FORM_IDS.FORM_28_1900,
   VA_FORM_IDS.FORM_10_10D_EXTENDED,
   VA_FORM_IDS.FORM_40_XXXX,
   VA_FORM_IDS.FORM_21_4140,
