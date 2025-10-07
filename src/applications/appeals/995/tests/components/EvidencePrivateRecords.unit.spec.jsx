@@ -13,7 +13,7 @@ import * as focusUtils from '~/platform/utilities/ui/focus';
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {
   errorMessages,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
@@ -243,8 +243,11 @@ describe('<EvidencePrivateRecords>', () => {
 
       waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
-          .to.be.true;
+        expect(
+          goSpy.calledWith(
+            `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index + 1}`,
+          ),
+        ).to.be.true;
       });
     });
 
@@ -265,8 +268,11 @@ describe('<EvidencePrivateRecords>', () => {
 
       waitFor(async () => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
-          .to.be.true;
+        expect(
+          goSpy.calledWith(
+            `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index + 1}`,
+          ),
+        ).to.be.true;
       });
     });
   });
@@ -508,8 +514,11 @@ describe('<EvidencePrivateRecords>', () => {
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].providerFacility.length).to.eq(2);
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index - 1}`))
-          .to.be.true;
+        expect(
+          goSpy.calledWith(
+            `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index - 1}`,
+          ),
+        ).to.be.true;
       });
     });
 
@@ -538,8 +547,11 @@ describe('<EvidencePrivateRecords>', () => {
       testAndCloseModal(container, 8, 'primaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index - 1}`))
-          .to.be.true;
+        expect(
+          goSpy.calledWith(
+            `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index - 1}`,
+          ),
+        ).to.be.true;
       });
     });
 
