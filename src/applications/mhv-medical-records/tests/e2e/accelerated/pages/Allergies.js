@@ -31,9 +31,7 @@ class Allergies {
   };
 
   goToAllergiesPage = () => {
-    cy.findByRole('link', {
-      name: 'Go to your allergies and reactions',
-    }).click();
+    cy.findByTestId('allergies-landing-page-link').click();
 
     cy.wait('@allergies-list');
   };

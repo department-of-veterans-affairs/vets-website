@@ -43,7 +43,6 @@ export function ResultCard({
     city,
     state,
     studentCount,
-    accreditationType,
     cautionFlags,
     facilityCode,
     vetTecProvider,
@@ -281,15 +280,7 @@ export function ResultCard({
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
           {/* eslint-disable-next-line no-nested-ternary */}
-          {accredited ? (
-            accreditationType ? (
-              <span className="capitalize-value">{accreditationType}</span>
-            ) : (
-              'Yes'
-            )
-          ) : (
-            'N/A'
-          )}
+          {accredited ? 'Yes' : 'N/A'}
         </p>
       </div>
       <div className="vads-u-flex--1">

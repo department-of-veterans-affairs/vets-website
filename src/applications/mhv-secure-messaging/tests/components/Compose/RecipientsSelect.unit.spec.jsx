@@ -8,6 +8,7 @@ import reducer from '../../../reducers';
 import RecipientsSelect from '../../../components/ComposeForm/RecipientsSelect';
 import * as Constants from '../../../util/constants';
 import { selectVaSelect } from '../../../util/testUtils';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RecipientsSelect', () => {
   const initialState = {
@@ -46,12 +47,14 @@ describe('RecipientsSelect', () => {
       name: 'Recipient 1',
       stationNumber: '552',
       signatureRequired: true,
+      ohTriageGroup: true,
     },
     {
       id: 2,
       name: 'Recipient 2',
       stationNumber: '402',
       signatureRequired: false,
+      ohTriageGroup: false,
     },
     {
       id: 3,
@@ -126,6 +129,28 @@ describe('RecipientsSelect', () => {
       expect(alert).to.contain.text(
         Constants.Prompts.Compose.SIGNATURE_REQUIRED,
       );
+    });
+  });
+
+  it('calls the onValueChange callback when a recipient is null', async () => {
+    // NOTE: Component derives alert text from selected recipient (effectiveSignatureRequired),
+    // not just the isSignatureRequired prop. Selecting a signature-required recipient
+    // should immediately show the REQUIRED alert text.
+    const onValueChange = sinon.spy();
+    const setCheckboxMarked = sinon.spy();
+    const setElectronicSignature = sinon.spy();
+    const customProps = {
+      onValueChange,
+      setCheckboxMarked,
+      setElectronicSignature,
+      defaultValue: '1', // Simulate selecting the placeholder (null) option
+    };
+    const screen = setup({ props: customProps });
+    selectVaSelect(screen.container, null);
+
+    await waitFor(() => {
+      expect(onValueChange.calledOnce).to.be.true;
+      expect(onValueChange.calledWith(null)).to.be.true;
     });
   });
 
@@ -388,5 +413,34 @@ describe('RecipientsSelect', () => {
       expect(optgroups.length).to.equal(2);
       expect(optgroups[0].getAttribute('label')).to.equal('VA Facility 402');
     });
+  });
+
+  it('dispatches selected recipient to state on selection', () => {
+    const sandbox = sinon.createSandbox();
+    const threadDetailsSpy = sandbox.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const screen = setup({});
+    selectVaSelect(screen.container, '1');
+
+    waitFor(() => {
+      expect(threadDetailsSpy.calledOnce).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: true,
+        recipientId: 1,
+        recipientName: 'Recipient 1',
+      });
+    });
+    selectVaSelect(screen.container, '2');
+    waitFor(() => {
+      expect(threadDetailsSpy.calledTwice).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: false,
+        recipientId: 2,
+        recipientName: 'Recipient 2',
+      });
+    });
+    sandbox.restore();
   });
 });

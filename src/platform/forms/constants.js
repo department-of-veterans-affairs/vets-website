@@ -111,6 +111,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_4192: '21-4192',
   FORM_21_0779: '21-0779',
   FORM_21P_530A: '21P-530A',
+  FORM_21P_0537: '21P-0537',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -208,10 +209,12 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
+    [VA_FORM_IDS.FORM_21_4140]: `${tryGetAppUrl('21-4140')}/`,
     [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
     [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
+    [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
   };
 };
 
@@ -747,10 +750,11 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10297,
-    benefit: 'education benefits',
-    title: '10297',
-    description: 'education benefits',
-    trackingPrefix: 'edu-10297',
+    benefit: 'Apply for VET TEC 2.0 (high-tech program)',
+    title: 'Apply for VET TEC 2.0 (high-tech program) (22-10297)',
+    description:
+      'Application for High Technology Veterans Education, Training, and Skills (VA Form 22-10297)',
+    trackingPrefix: 'edu-10297-',
   },
   {
     id: VA_FORM_IDS.FORM_22_0839,
@@ -764,10 +768,13 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10275,
-    benefit: 'education benefits',
-    title: '10275',
-    description: 'education benefits',
-    trackingPrefix: '10275-edu-benefits',
+    benefit:
+      'Commit to the Principles of Excellence for educational institutions',
+    title:
+      'Commit to the Principles of Excellence for educational institutions (22-10275)',
+    description:
+      'Principles of Excellence for educational institutions (VA Form 22-10275)',
+    trackingPrefix: 'edu-10275-',
   },
   {
     id: VA_FORM_IDS.FORM_40_4962,
@@ -775,6 +782,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Apply for burial in a VA national cemetery"',
     description: 'burial benefits',
     trackingPrefix: '40-4962-ToN-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_4140,
+    benefit: 'Employment Questionnaire (VA Form 21-4140)',
+    title: 'Income Verification for Disability Benefits',
+    description: 'Employment Questionnaire (VA Form 21-4140)',
+    trackingPrefix: '21-4140-income-verification-',
   },
   {
     id: VA_FORM_IDS.FORM_21_2680,
@@ -806,6 +820,14 @@ export const MY_VA_SIP_FORMS = [
     title: 'Application for Interment Allowance',
     description: 'benefits',
     trackingPrefix: '21p-530a-interment-allowance-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_0537,
+    benefit: 'marital status questionnaire for DIC recipients',
+    title: 'marital status questionnaire for DIC recipients (21P-0537)',
+    description:
+      'marital status questionnaire for DIC recipients application (21P-0537)',
+    trackingPrefix: '21p-0537-dic-marital-status-',
   },
 ];
 

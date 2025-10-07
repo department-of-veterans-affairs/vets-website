@@ -27,6 +27,7 @@ import {
   isRecipientInfoIncomplete,
   otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
+  requireExpandedArrayField,
   resolveRecipientFullName,
 } from '../../../helpers';
 import { incomeFrequencyLabels, relationshipLabels } from '../../../labels';
@@ -139,6 +140,7 @@ const relationshipPage = {
       'ui:options': {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherRecipientRelationshipExplanationRequired(
@@ -146,6 +148,9 @@ const relationshipPage = {
           index,
           'discontinuedIncomes',
         ),
+    },
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
     },
   },
   schema: {
