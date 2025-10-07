@@ -34,6 +34,7 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
 
     // Enter side of body and date
     sideOfBodyThenDate(0, '2022-06-15', 'LEFT');
+    clickContinue();
 
     // Choose the cause:  New
     chooseCause(0);
