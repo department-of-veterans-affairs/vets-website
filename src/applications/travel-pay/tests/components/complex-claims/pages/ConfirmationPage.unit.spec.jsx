@@ -7,16 +7,6 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import ConfirmationPage from '../../../../components/complex-claims/pages/ConfirmationPage';
 
 describe('Complex Claims ConfirmationPage', () => {
-  let windowPrintStub;
-
-  beforeEach(() => {
-    windowPrintStub = sinon.stub(window, 'print');
-  });
-
-  afterEach(() => {
-    windowPrintStub.restore();
-  });
-
   it('renders success confirmation when no error and data is present', () => {
     const screen = render(<ConfirmationPage />);
 
@@ -43,13 +33,20 @@ describe('Complex Claims ConfirmationPage', () => {
   });
 
   it('renders print button', () => {
+    const oldPrint = global.window.print;
+    const printSpy = sinon.spy();
+    global.window.print = printSpy;
+
     render(<ConfirmationPage />);
 
     const printButton = $('va-button[text="Print this page for your records"]');
     expect(printButton).to.exist;
 
+    expect(printSpy.notCalled).to.be.true;
     fireEvent.click(printButton);
-    expect(windowPrintStub.calledOnce).to.be.true;
+    expect(printSpy.calledOnce).to.be.true;
+
+    global.window.print = oldPrint;
   });
 
   it('renders what happens next section with process list', () => {
