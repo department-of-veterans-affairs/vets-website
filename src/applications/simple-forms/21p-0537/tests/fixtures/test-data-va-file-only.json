@@ -9,7 +9,8 @@
     },
     "recipientName": {
       "first": "Jane",
-      "last": "Doe"
+      "middle": "M",
+      "last": "Spouse"
     },
     "hasRemarried": false,
     "signature": "Jane Doe",
