@@ -1,7 +1,5 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
-import { ssnSchema } from 'platform/forms-system/src/js/web-component-patterns';
-
 import { merge, pick } from 'lodash';
 
 import {
@@ -59,7 +57,12 @@ export const schema = {
               },
             },
             pick(claimant.properties, ['name']),
-            { ssnSchema },
+            {
+              ssn: {
+                type: 'string',
+                pattern: '^[0-9]{9}$',
+              },
+            },
             pick(claimant.properties, ['dateOfBirth']),
           ),
         },
