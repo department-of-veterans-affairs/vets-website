@@ -30,8 +30,8 @@ export default function ReferralAppointments() {
     const appointmentId = referral.attributes.appointments.data[0].id;
     const path =
       referral.attributes.appointments.system === 'VAOS'
-        ? `${basePath.url}/${appointmentId}`
-        : `${basePath.url}/${appointmentId}?eps=true&hasAppointments=true`;
+        ? `/appointments/${appointmentId}`
+        : `/appointments/${appointmentId}?eps=true&hasAppointments=true`;
     return <Redirect to={path} />;
   }
 
