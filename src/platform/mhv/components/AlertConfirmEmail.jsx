@@ -14,7 +14,6 @@ import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-u
 const VA_PROFILE_EMAIL_HREF =
   '/profile/contact-information#contact-email-address';
 export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
-
 const COOKIE_NAME = 'MHV_EMAIL_CONFIRMATION_DISMISSED';
 const dismissedAlert = () => Cookies.get(COOKIE_NAME);
 export const dismissAlert = () =>
@@ -113,7 +112,17 @@ const showAlert = state =>
       new Date(DATE_THRESHOLD),
     ));
 
-export const AlertConfirmEmail = () => {
+/**
+ * <AlertConfirmEmail /> component
+ *
+ * Shows an alert to confirm or add a contact email address
+ *
+ * To view specification, run:
+ *   `yarn test:unit src/platform/mhv/tests/components/AlertConfirmEmail.unit.spec.jsx --reporter=spec`
+ *
+ * @returns {JSX.Element|null} <AlertConfirmContactEmail />, <AlertAddContactEmail />, or null
+ */
+const AlertConfirmEmail = () => {
   const renderAlert = useSelector(showAlert);
   const email = useSelector(selectContactEmailAddress);
 
