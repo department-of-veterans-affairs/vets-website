@@ -1,45 +1,53 @@
-// import {
-//   chooseCause,
-//   chooseConditionType,
-//   conditionsInfo,
-//   enterCauseNewDetails,
-//   enterNewCondition,
-//   finishSummaryNoMore,
-//   reviewAndExpand,
-//   sideOfBodyThenDate,
-//   startApplication,
-// } from './utils/conditionsPages';
+import {
+  chooseCause,
+  chooseConditionType,
+  conditionsInfo,
+  enterCauseNewDetails,
+  finishSummaryNoMore,
+  reviewAndExpand,
+  sideOfBodyThenDate,
+  startApplication,
+} from './utils/conditionsPages';
 
-// describe('Conditions — Happy Path (Pages 0 → 9)', () => {
-//   it('completes the happy path through summary and review', () => {
-//     // Click start application without signing in
-//     startApplication();
+import { clickContinue } from './utils/cypressHelpers';
 
-//     // Information page
-//     conditionsInfo();
+describe('Conditions — Happy Path (Pages 0 → 9)', () => {
+  it('completes the happy path through summary and review', () => {
+    // Click start application without signing in
+    startApplication();
 
-//     // Choose a type of condition to add:  New or Rated Disability
-//     chooseConditionType(0);
+    // Information page
+    conditionsInfo();
 
-//     // Enter a condition with laterality
-//     enterNewCondition(0, 'ankle sprain');
+    // Choose a type of condition to add:  New or Rated Disability
+    chooseConditionType(0);
 
-//     // Enter side of body and date
-//     sideOfBodyThenDate(0, '2022-06-15', 'LEFT');
+    // Enter a condition with laterality
+    cy.get('#inputField').type('ankle sprain');
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+      'contain.text',
+      'ankle sprain',
+    );
+    cy.contains('[role="option"]', /ankle/i).click();
 
-//     // Choose the cause:  New
-//     chooseCause(0);
+    clickContinue();
 
-//     // Enter the date and description for the new condition
-//     enterCauseNewDetails(
-//       0,
-//       'Condition started in 2022 after training—no prior history.',
-//     );
+    // Enter side of body and date
+    sideOfBodyThenDate(0, '2022-06-15', 'LEFT');
 
-//     // Choose No for adding more conditions
-//     finishSummaryNoMore(/ankle/i);
+    // Choose the cause:  New
+    chooseCause(0);
 
-//     // Review & submit
-//     reviewAndExpand();
-//   });
-// });
+    // Enter the date and description for the new condition
+    enterCauseNewDetails(
+      0,
+      'Condition started in 2022 after training—no prior history.',
+    );
+
+    // Choose No for adding more conditions
+    finishSummaryNoMore(/ankle/i);
+
+    // Review & submit
+    reviewAndExpand();
+  });
+});
