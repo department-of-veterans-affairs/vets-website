@@ -171,7 +171,7 @@ const formConfig = {
           },
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessPersInfo.uiSchemaA,
-          schema: witnessPersInfo.schema,
+          schema: witnessPersInfo.schemaA,
         },
         witnessPersInfoPageB: {
           // for Flow 2: 3rd-party claim, non-vet claimant
@@ -183,7 +183,7 @@ const formConfig = {
           },
           scrollAndFocusTarget: pageScrollAndFocus(),
           uiSchema: witnessPersInfo.uiSchemaB,
-          schema: witnessPersInfo.schema,
+          schema: witnessPersInfo.schemaB,
         },
         witnessOtherRelationshipPage: {
           path: 'witness-other-relationship',

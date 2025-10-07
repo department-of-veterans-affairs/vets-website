@@ -43,9 +43,28 @@ describe('witnessHasOtherRelationship', () => {
   it('should return the correct value if they have specified other relationship', () => {
     const formData = {
       claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
-      witnessRelationshipToClaimant: OTHER_RELATIONSHIP,
+      witnessRelationshipToClaimant: {
+        [OTHER_RELATIONSHIP]: true,
+      },
     };
     expect(witnessHasOtherRelationship(formData)).to.deep.equal(true);
+  });
+
+  it('should return false if they have not specified other relationship', () => {
+    const formData = {
+      claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+      witnessRelationshipToClaimant: {
+        [OTHER_RELATIONSHIP]: false,
+      },
+    };
+    expect(witnessHasOtherRelationship(formData)).to.deep.equal(false);
+  });
+
+  it('should return false if witnessRelationshipToClaimant is undefined', () => {
+    const formData = {
+      claimOwnership: CLAIM_OWNERSHIPS.THIRD_PARTY,
+    };
+    expect(witnessHasOtherRelationship(formData)).to.deep.equal(false);
   });
 });
 
