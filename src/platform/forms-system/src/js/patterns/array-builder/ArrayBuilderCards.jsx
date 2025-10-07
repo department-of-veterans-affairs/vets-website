@@ -5,94 +5,48 @@
  * Cards with "Edit" and "DELETE"
  */
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { setData } from 'platform/forms-system/src/js/actions';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { withRouter } from 'react-router';
+import { focusElement } from 'platform/utilities/ui';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
-  getItemDuplicateDismissedName,
-  META_DATA_KEY,
-  slugifyText,
 } from './helpers';
-import {
-  useArrayBuilderEvent,
-  ARRAY_BUILDER_EVENTS,
-} from './ArrayBuilderEvents';
 
-const EditLink = withRouter(({ to, srText, router }) => {
-  function handleRouteChange(event) {
-    event.preventDefault();
-    router.push(to);
-  }
-
-  return (
-    <va-link
-      active
-      href={to}
-      text="Edit"
-      onClick={handleRouteChange}
-      data-action="edit"
-      data-dd-privacy="mask"
-      data-dd-action-name="Edit Link"
-      label={srText}
-    />
-  );
-});
+const EditLink = ({ to, srText }) => (
+  <Link to={to} data-action="edit" aria-label={srText}>
+    <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
+      Edit
+      <va-icon size={3} icon="chevron_right" aria-hidden="true" />
+    </span>
+  </Link>
+);
 
 const RemoveButton = ({ onClick, srText }) => (
   <va-button-icon
     data-action="remove"
     button-type="delete"
     onClick={onClick}
-    data-dd-privacy="mask"
-    data-dd-action-name="Delete Button"
     label={srText}
   />
 );
-RemoveButton.propTypes = {
-  srText: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
 
 const MissingInformationAlert = ({ children }) => (
   <div className="vads-u-margin-top--2">
-    <va-alert status="error" uswds class="array-builder-missing-info-alert">
+    <va-alert status="error" uswds>
       {children}
     </va-alert>
   </div>
 );
-
-MissingInformationAlert.propTypes = {
-  children: PropTypes.any.isRequired,
-};
 
 const IncompleteLabel = () => (
   <div className="vads-u-margin-bottom--1">
     <span className="usa-label">INCOMPLETE</span>
-  </div>
-);
-
-const DuplicateInformationAlert = ({ status = 'warning', children }) => (
-  <div className="vads-u-margin-top--2">
-    <va-alert status={status} class="array-builder-duplicate-alert">
-      {children}
-    </va-alert>
-  </div>
-);
-
-DuplicateInformationAlert.propTypes = {
-  children: PropTypes.any.isRequired,
-  status: PropTypes.string,
-};
-
-const DuplicateLabel = ({ text }) => (
-  <div className="vads-u-margin-bottom--1">
-    <span className="usa-label">{text || 'DUPLICATE'}</span>
   </div>
 );
 
@@ -114,8 +68,8 @@ const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
   getEditItemPathUrl,
+  setFormData,
   formData,
-  fullData,
   nounSingular,
   titleHeaderLevel = '3',
   getText,
@@ -123,15 +77,13 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
-  duplicateChecks = {},
-  duplicateCheckResult = {},
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const arrayData = get(arrayPath, formData);
   const currentItem = arrayData?.[currentIndex];
   const isMounted = useRef(true);
-  const nounSingularSlug = slugifyText(nounSingular);
 
   useEffect(() => {
     isMounted.current = true;
@@ -139,33 +91,6 @@ const ArrayBuilderCards = ({
       isMounted.current = false;
     };
   }, []);
-
-  useArrayBuilderEvent(
-    ARRAY_BUILDER_EVENTS.INCOMPLETE_ITEM_ERROR,
-    ({ index, arrayPath: incompleteArrayPath }) => {
-      if (incompleteArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
-        scrollTo(card);
-        focusElement(`${card} .array-builder-missing-info-alert`);
-      }
-    },
-  );
-
-  useArrayBuilderEvent(
-    ARRAY_BUILDER_EVENTS.DUPLICATE_ITEM_ERROR,
-    ({ index, arrayPath: duplicateArrayPath }) => {
-      if (duplicateArrayPath === arrayPath) {
-        const card = `va-card[name="${nounSingularSlug}_${index}"]`;
-        requestAnimationFrame(() => {
-          if (!isMounted.current) {
-            return;
-          }
-          scrollTo(card);
-          focusElement(`${card} .array-builder-duplicate-alert`);
-        });
-      }
-    },
-  );
 
   if (!arrayData?.length) {
     return null;
@@ -188,9 +113,7 @@ const ArrayBuilderCards = ({
         focusElement(
           'button',
           null,
-          `va-card[name="${slugifyText(
-            nounSingular,
-          )}_${lastIndex}"] [data-action="remove"]`,
+          `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });
     }
@@ -207,10 +130,15 @@ const ArrayBuilderCards = ({
     if (!required(newData) && !arrayWithRemovedItem?.length) {
       delete newData[arrayPath];
     }
+    setFormData(newData);
     hideRemoveConfirmationModal({
       focusRemoveButton: false,
     });
-    onRemove(removedIndex, removedItem, newData);
+    onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll(newData);
     }
@@ -218,14 +146,13 @@ const ArrayBuilderCards = ({
 
   const Card = ({ index, children }) => (
     <div className="vads-u-margin-top--2">
-      <va-card uswds name={`${nounSingularSlug}_${index}`}>
+      <va-card uswds name={`${nounSingular}_${index}`}>
         {children}
       </va-card>
     </div>
   );
 
   Card.propTypes = {
-    children: PropTypes.any.isRequired,
     index: PropTypes.number.isRequired,
   };
 
@@ -253,76 +180,27 @@ const ArrayBuilderCards = ({
                 formData,
                 index,
               );
-
-              // Incomplete label & alert > duplicate label & alert
-              let label = null;
-              let alert = null;
-              if (isIncomplete(itemData)) {
-                label = <IncompleteLabel />;
-                alert = (
-                  <MissingInformationAlert>
-                    {getText(
-                      'cardItemMissingInformation',
-                      itemData,
-                      formData,
-                      index,
-                    )}
-                  </MissingInformationAlert>
-                );
-              } else if (
-                duplicateCheckResult.duplicates?.includes(
-                  duplicateCheckResult.arrayData?.[index],
-                )
-              ) {
-                const getDuplicateText = name =>
-                  duplicateChecks[name]?.({ itemData, fullData, index }) ||
-                  getText(name, itemData, formData, index);
-                const duplicateMetadataFlag = getItemDuplicateDismissedName({
-                  arrayPath,
-                  duplicateChecks,
-                  itemIndex: index,
-                  itemString: duplicateCheckResult.arrayData?.[index],
-                });
-                const dismissedInMetadata =
-                  fullData[META_DATA_KEY]?.[duplicateMetadataFlag];
-                // If they continue after seeing the duplicate modal between
-                // item pages, then we remove the duplicate label and change
-                // this from a warning to an info alert
-                label = dismissedInMetadata ? null : (
-                  <DuplicateLabel
-                    text={getDuplicateText('duplicateSummaryCardLabel')}
-                  />
-                );
-                const duplicateInfoAlertStatus = 'warning';
-                // allowDuplicates not enabled in MVP
-                // duplicateChecks.allowDuplicates ? 'warning' : 'error';
-
-                alert = dismissedInMetadata ? (
-                  <DuplicateInformationAlert status="info">
-                    {getDuplicateText('duplicateSummaryCardInfoAlert')}
-                  </DuplicateInformationAlert>
-                ) : (
-                  <DuplicateInformationAlert status={duplicateInfoAlertStatus}>
-                    {getDuplicateText(
-                      'duplicateSummaryCardWarningOrErrorAlert',
-                    )}
-                  </DuplicateInformationAlert>
-                );
-              }
-
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
                     <div>
-                      {label}
+                      {isIncomplete(itemData) && <IncompleteLabel />}
                       <CardTitle
-                        className={`vads-u-margin-top--0${cardHeadingStyling} dd-privacy-mask`}
-                        data-dd-action-name="Item Name"
+                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
                       >
                         {itemName}
                       </CardTitle>
                       {itemDescription}
-                      {alert}
+                      {isIncomplete(itemData) && (
+                        <MissingInformationAlert>
+                          {getText(
+                            'cardItemMissingInformation',
+                            itemData,
+                            formData,
+                            index,
+                          )}
+                        </MissingInformationAlert>
+                      )}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
@@ -355,8 +233,6 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        data-dd-privacy="mask"
-        data-dd-action-name="Delete Modal"
         modalTitle={getText('deleteTitle', currentItem, formData, currentIndex)}
         primaryButtonText={getText(
           'deleteYes',
@@ -384,19 +260,14 @@ const ArrayBuilderCards = ({
         visible={isModalVisible}
         uswds
       >
-        <div
-          className="dd-privacy-mask"
-          data-dd-action-name="Delete Confirmation"
-        >
-          {required(formData) && arrayData?.length === 1
-            ? getText(
-                'deleteNeedAtLeastOneDescription',
-                currentItem,
-                formData,
-                currentIndex,
-              )
-            : getText('deleteDescription', currentItem, formData, currentIndex)}
-        </div>
+        {required(formData) && arrayData?.length === 1
+          ? getText(
+              'deleteNeedAtLeastOneDescription',
+              currentItem,
+              formData,
+              currentIndex,
+            )
+          : getText('deleteDescription', currentItem, formData, currentIndex)}
       </VaModal>
     </div>
   );
@@ -407,16 +278,21 @@ const mapStateToProps = state => ({
   pageList: state.form.pages,
 });
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
-  fullData: PropTypes.object.isRequired,
   getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   isReview: PropTypes.bool.isRequired,
   nounSingular: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   cardDescription: PropTypes.oneOfType([
@@ -424,18 +300,10 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]),
-  duplicateCheckResult: PropTypes.shape({
-    duplicates: PropTypes.arrayOf(PropTypes.string).isRequired,
-    arrayData: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }),
-  duplicateChecks: PropTypes.shape({
-    // allowDuplicates: PropTypes.bool, // Not enabled in MVP
-    comparisonType: PropTypes.oneOf(['internal', 'external', 'all']),
-    duplicateSummaryCardInfoAlert: PropTypes.func,
-    duplicateSummaryCardWarningOrErrorAlert: PropTypes.func,
-    duplicateSummaryCardLabel: PropTypes.func,
-  }),
   titleHeaderLevel: PropTypes.string,
 };
 
-export default connect(mapStateToProps)(ArrayBuilderCards);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ArrayBuilderCards);
