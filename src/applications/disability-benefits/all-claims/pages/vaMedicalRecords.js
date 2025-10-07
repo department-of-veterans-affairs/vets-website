@@ -91,10 +91,19 @@ export const uiSchema = {
           ]),
           'ui:confirmationField': value => {
             // Replace XX with 01 so moment can create a valid date, then format as month/year only
-            const dateValue = value.formData?.replace?.('XX', '01');
-            const formattedDate = dateValue
+            const dateValue =
+              typeof value.formData === 'string'
+                ? value.formData.replace('XX', '01')
+                : undefined;
+
+            let formattedDate = dateValue
               ? formatDate(dateValue, 'MMMM YYYY')
               : 'Unknown';
+
+            if (!formattedDate || formattedDate === 'Invalid date') {
+              formattedDate = 'Unknown';
+            }
+
             return {
               data: formattedDate,
               label: 'When did you first visit this facility?',
