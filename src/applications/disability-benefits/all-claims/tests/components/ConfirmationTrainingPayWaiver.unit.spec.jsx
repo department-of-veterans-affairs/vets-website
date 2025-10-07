@@ -49,6 +49,22 @@ describe('ConfirmationTrainingPayWaiver', () => {
     expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 
+  it('should render when training pay waiver is false', () => {
+    const formData = {
+      hasTrainingPay: true,
+      waiveTrainingPay: false,
+    };
+    const { container, getByText } = render(
+      <ConfirmationTrainingPayWaiver formData={formData} />,
+    );
+    expect(container.querySelectorAll('h4')).to.have.length(1);
+    expect(getByText('Training pay waiver')).to.exist;
+    expect(getByText('Not selected')).to.exist;
+    expect(
+      getByText(/I want to get VA compensation pay instead of training pay/i),
+    ).to.exist;
+  });
+
   it('should render nothing when formData is empty', () => {
     const formData = {
       newDisabilities: [
