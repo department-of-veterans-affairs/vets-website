@@ -112,12 +112,13 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Verify link to start without signing in exists
-    const startLink = container.querySelector('.vads-c-action-link--blue');
-    expect(startLink).to.exist;
-    expect(startLink.textContent).to.equal(
-      'Start your question without signing in',
-    );
+   // Verify link to start without signing in exists
+const startLink = container.querySelector('.vads-c-action-link--blue');
+expect(startLink).to.exist;
+expect(startLink.textContent).to.equal(
+  'Start your question without signing in',
+);
+
   });
 
   it('should show sign in modal when URL has showSignInModal=true', async () => {
@@ -144,6 +145,10 @@ describe('IntroductionPage', () => {
         }
         return action;
       });
+// Verify sign-in alert is visible
+const signInAlert = container.querySelector('va-alert-sign-in');
+expect(signInAlert).to.exist;
+expect(signInAlert.getAttribute('visible')).to.equal('true');
 
       // Mock window.history.pushState
       const pushStateSpy = sinon.spy();
@@ -536,3 +541,4 @@ describe('IntroductionPage', () => {
     );
   });
 });
+git checkout -b my-node22-branch main
