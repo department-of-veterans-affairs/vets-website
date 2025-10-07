@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import {
+  VaMemorableDate,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EVIDENCE_PRIVATE_DETAILS_URL } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
