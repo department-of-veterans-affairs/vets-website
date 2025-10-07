@@ -163,6 +163,10 @@ export const getPrefillIntlPhoneNumber = (phone = {}) => {
   const areaCode = (phone.areaCode || '').trim();
   const phoneNumber = (phone.phoneNumber || '').trim();
 
+  /**
+   * All user profile numbers set to the *US* country code by default.
+   * This is due to the user endpoint only returning a calling code which is not unique.
+   */
   return {
     callingCode: 1,
     countryCode: 'US',
