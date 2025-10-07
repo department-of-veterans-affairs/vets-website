@@ -18,15 +18,20 @@ export default function transformForSubmit(formConfig, form) {
     const booleanWitnessRelationshipToClaimant = {
       'served-with':
         witnessRelationshipToClaimantAnswers[SERVED_WITH_CLAIMANT] ||
-        witnessRelationshipToClaimantAnswers[SERVED_WITH_VETERAN],
+        witnessRelationshipToClaimantAnswers[SERVED_WITH_VETERAN] ||
+        false,
       'family-or-friend':
         witnessRelationshipToClaimantAnswers[FAMILY_OR_FRIEND_OF_CLAIMANT] ||
-        witnessRelationshipToClaimantAnswers[FAMILY_OR_FRIEND_OF_VETERAN],
+        witnessRelationshipToClaimantAnswers[FAMILY_OR_FRIEND_OF_VETERAN] ||
+        false,
       'coworker-or-supervisor':
         witnessRelationshipToClaimantAnswers[
           COWORKER_OR_SUPERVISOR_OF_CLAIMANT
         ] ||
-        witnessRelationshipToClaimantAnswers[COWORKER_OR_SUPERVISOR_OF_VETERAN],
+        witnessRelationshipToClaimantAnswers[
+          COWORKER_OR_SUPERVISOR_OF_VETERAN
+        ] ||
+        false,
     };
 
     transformedData = {
