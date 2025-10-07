@@ -1,6 +1,11 @@
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
+import claimDetailsOpenNoEvidenceSubmissionsNoSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-no-supporting-docs.json';
+import claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-no-supporting-docs.json';
+import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-one-supporting-docs.json';
+import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
+import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -65,5 +70,60 @@ describe('Upload Files Test', () => {
     trackClaimsPage.navigateToFilesTab();
     trackClaimsPage.submitFilesForReview();
     cy.axeCheck();
+  });
+});
+
+describe('Claim Files Test - Show Document Upload Status Enabled', () => {
+  const testCases = [
+    {
+      description:
+        'Shows empty state - No supporting docs and no evidence submissions',
+      fixture: claimDetailsOpenNoEvidenceSubmissionsNoSupportingDocs,
+      expectedFilesInProgressCount: 0,
+      expectedFilesReceivedCount: 0,
+    },
+    {
+      description:
+        '1 In progress item - Show populated state for in progress items and empty state for files received',
+      fixture: claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs,
+      expectedFilesInProgressCount: 1,
+      expectedFilesReceivedCount: 0,
+    },
+    {
+      description:
+        'No in progress items - Show received state for in progress items and populated state for files received',
+      fixture: claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs,
+      expectedFilesInProgressCount: 0,
+      expectedFilesReceivedCount: 1,
+    },
+    {
+      description:
+        '1 In progress item and one supporting doc - show populated state for both sections',
+      fixture: claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs,
+      expectedFilesInProgressCount: 1,
+      expectedFilesReceivedCount: 1,
+    },
+  ];
+
+  testCases.forEach(testCase => {
+    it(testCase.description, () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        testCase.fixture,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+
+      trackClaimsPage.verifyFileSubmissionsInProgress(
+        testCase.expectedFilesInProgressCount,
+        testCase.expectedFilesReceivedCount,
+      );
+      trackClaimsPage.verifyFilesReceived(testCase.expectedFilesReceivedCount);
+      cy.axeCheck();
+    });
   });
 });

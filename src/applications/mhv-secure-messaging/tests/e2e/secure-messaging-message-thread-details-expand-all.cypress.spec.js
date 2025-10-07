@@ -18,7 +18,7 @@ describe('SM EXPAND ALL ACCORDIONS', () => {
 
     PatientMessageDetailsPage.verifyExpandedThreadBody(threadResponse);
 
-    PatientMessageDetailsPage.expandAllThreadMessages();
+    PatientMessageDetailsPage.collapseAllThreadMessages();
 
     PatientMessageDetailsPage.verifyAccordionStatus(false);
 
