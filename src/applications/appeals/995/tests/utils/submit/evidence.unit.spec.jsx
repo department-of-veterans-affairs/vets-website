@@ -6,14 +6,14 @@ import {
   EVIDENCE_VA,
   LIMITED_CONSENT_RESPONSE,
   SC_NEW_FORM_DATA,
-} from '../../constants';
+} from '../../../constants';
 import {
   getEvidence,
   getForm4142,
   getTreatmentDate,
   hasDuplicateFacility,
   hasDuplicateLocation,
-} from '../../utils/submit';
+} from '../../../utils/submit';
 
 describe('getTreatmentDate', () => {
   describe('showNewFormContent is false', () => {

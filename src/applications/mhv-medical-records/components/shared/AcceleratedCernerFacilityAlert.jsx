@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useAcceleratedData } from '@department-of-veterans-affairs/mhv/exports';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import { CernerAlertContent } from '../../util/constants';
-
-import useAcceleratedData from '../../hooks/useAcceleratedData';
 
 const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
   const {
     isCerner,
     isAccelerating,
     isAcceleratingCareNotes,
-    isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
@@ -18,7 +16,7 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
-    isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
+    isCerner ? CernerAlertContent.VITALS.pageName : null,
     isCerner ? CernerAlertContent.ALLERGIES.pageName : null,
     isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
     isAcceleratingCareNotes

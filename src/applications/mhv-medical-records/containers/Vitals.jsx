@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import {
   updatePageTitle,
   usePrintTitle,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { useHistory, useLocation } from 'react-router-dom';
 import RecordList from '../components/RecordList/RecordList';
@@ -26,7 +27,6 @@ import useAlerts from '../hooks/use-alerts';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import RecordListSection from '../components/shared/RecordListSection';
 import DatePicker from '../components/shared/DatePicker';
@@ -47,10 +47,10 @@ const Vitals = () => {
 
   const [cards, setCards] = useState(null);
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
-  const [acceleratedVitalsDate, setAcceleratedVitalsDate] = useState(
+  const [ohVitalsDate, setOhVitalsDate] = useState(
     urlVitalsDate || format(new Date(), 'yyyy-MM'),
   );
-  const [displayDate, setDisplayDate] = useState(acceleratedVitalsDate);
+  const [displayDate, setDisplayDate] = useState(ohVitalsDate);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -58,21 +58,17 @@ const Vitals = () => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isLoading, isAcceleratingVitals } = useAcceleratedData();
+  const { isLoading, isCerner } = useAcceleratedData();
   const isLoadingAcceleratedData =
-    isAcceleratingVitals && listState === loadStates.FETCHING;
+    isCerner && listState === loadStates.FETCHING;
 
   const dispatchAction = useMemo(
     () => {
       return isCurrent => {
-        return getVitals(
-          isCurrent,
-          isAcceleratingVitals,
-          acceleratedVitalsDate,
-        );
+        return getVitals(isCurrent, isCerner, ohVitalsDate);
       };
     },
-    [acceleratedVitalsDate, isAcceleratingVitals],
+    [ohVitalsDate, isCerner],
   );
 
   useTrackAction(statsdFrontEndActions.VITALS_LIST);
@@ -109,11 +105,11 @@ const Vitals = () => {
   useEffect(
     () => {
       // Only update if there is no time frame. This is only for on initial page load.
-      if (isAcceleratingVitals) {
+      if (isCerner) {
         const timeFrame = new URLSearchParams(location.search).get('timeFrame');
         if (!timeFrame) {
           const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', acceleratedVitalsDate);
+          searchParams.set('timeFrame', ohVitalsDate);
           history.push({
             pathname: location.pathname,
             search: searchParams.toString(),
@@ -121,13 +117,7 @@ const Vitals = () => {
         }
       }
     },
-    [
-      acceleratedVitalsDate,
-      history,
-      isAcceleratingVitals,
-      location.pathname,
-      location.search,
-    ],
+    [ohVitalsDate, history, isCerner, location.pathname, location.search],
   );
 
   usePrintTitle(
@@ -170,7 +160,7 @@ const Vitals = () => {
         listCurrentAsOf={vitalsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingVitals && (
+        {!isCerner && (
           <NewRecordsIndicator
             refreshState={refresh}
             extractType={refreshExtractTypes.VPR}
@@ -184,7 +174,7 @@ const Vitals = () => {
             }}
           />
         )}
-        {isAcceleratingVitals && (
+        {isCerner && (
           <div className="vads-u-margin-top--2 ">
             <hr className="vads-u-margin-y--1 vads-u-padding-0" />
             <p className="vads-u-margin--0">
@@ -207,8 +197,8 @@ const Vitals = () => {
             perPage={PER_PAGE}
             hidePagination
             domainOptions={{
-              isAccelerating: isAcceleratingVitals,
-              timeFrame: acceleratedVitalsDate,
+              isAccelerating: isCerner,
+              timeFrame: ohVitalsDate,
             }}
           />
         ) : (
@@ -222,19 +212,19 @@ const Vitals = () => {
     const [year, month] = event.target.value.split('-');
     // Ignore transient date changes.
     if (year?.length === 4 && month?.length === 2) {
-      setAcceleratedVitalsDate(`${year}-${month}`);
+      setOhVitalsDate(`${year}-${month}`);
     }
   };
 
   const triggerApiUpdate = e => {
     e.preventDefault();
     const searchParams = new URLSearchParams(location.search);
-    searchParams.set('timeFrame', acceleratedVitalsDate);
+    searchParams.set('timeFrame', ohVitalsDate);
     history.push({
       pathname: location.pathname,
       search: searchParams.toString(),
     });
-    setDisplayDate(acceleratedVitalsDate);
+    setDisplayDate(ohVitalsDate);
     dispatch({
       type: Actions.Vitals.UPDATE_LIST_STATE,
       payload: loadStates.PRE_FETCH,
@@ -266,14 +256,14 @@ const Vitals = () => {
       )}
       {!isLoading && (
         <>
-          {isAcceleratingVitals && (
+          {isCerner && (
             <>
               <DatePicker
                 {...{
                   updateDate,
                   triggerApiUpdate,
                   isLoadingAcceleratedData,
-                  dateValue: acceleratedVitalsDate,
+                  dateValue: ohVitalsDate,
                 }}
               />
             </>
