@@ -428,4 +428,30 @@ describe('0781 question', () => {
     expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
     form.unmount();
   });
+
+  describe('confirmation page traumatic event treatment display', () => {
+    const confirmationField =
+      uiSchema.providerFacility.items.treatmentLocation0781Related[
+        'ui:confirmationField'
+      ];
+
+    it('displays "Yes" or "No" for traumatic event treatment responses', () => {
+      const resultTrue = confirmationField({ formData: true });
+      expect(resultTrue.data).to.equal('Yes');
+      expect(resultTrue.label).to.equal(
+        'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+      );
+
+      const resultFalse = confirmationField({ formData: false });
+      expect(resultFalse.data).to.equal('No');
+      expect(resultFalse.label).to.equal(
+        'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+      );
+    });
+
+    it('defaults to "No" when no response is provided', () => {
+      expect(confirmationField({ formData: null }).data).to.equal('No');
+      expect(confirmationField({ formData: undefined }).data).to.equal('No');
+    });
+  });
 });
