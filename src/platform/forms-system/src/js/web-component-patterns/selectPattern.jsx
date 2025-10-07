@@ -35,15 +35,29 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  *  title: 'Branch of Service',
  *  hint: 'Select your branch of service',
  *  labels: {
- *    'Branches of Service': {
- *      navy: 'Navy',
- *      army: 'Army',
- *      marines: 'Marines',
- *      airForce: 'Air Force',
- *      coastguard: 'Coastguard'
+ *    navy: {
+ *      label: 'Navy',
+ *      group: 'Branches of Service'
  *    },
- *    'Other': {
- *      other: 'Other'
+ *    army: {
+ *      label: 'Army',
+ *      group: 'Branches of Service'
+ *    },
+ *    marines: {
+ *      label: 'Marines',
+ *      group: 'Branches of Service'
+ *    },
+ *    airForce: {
+ *      label: 'Air Force',
+ *      group: 'Branches of Service'
+ *    },
+ *    coastguard: {
+ *      label: 'Coastguard',
+ *      group: 'Branches of Service'
+ *    },
+ *    other: {
+ *      label: 'Other',
+ *      group: 'Other'
  *    }
  *  },
  *  errorMessages: {
@@ -61,7 +75,7 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  *  required?: UISchemaOptions['ui:required'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
- *  labels?: UISchemaOptions['ui:options']['labels'] | Record<string, Record<string, string>>,
+ *  labels?: Record<string, string | {label: string, group?: string}>,
  * }} options
  * @returns {UISchemaOptions}
  */

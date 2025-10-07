@@ -50,11 +50,18 @@ export default function VaSelectField(props) {
     addDefaultEntry = true;
   }
 
+  // Check if we have grouped options by looking for objects with 'group' property
   const hasGroups =
     labels &&
-    Object.values(labels).some(
-      value => typeof value === 'object' && value !== null,
-    );
+    Object.values(labels).some(value => {
+      return (
+        value !== null &&
+        typeof value === 'object' &&
+        // @ts-ignore - value is checked to be non-null above
+        // eslint-disable-next-line dot-notation
+        value['group']
+      );
+    });
 
   return (
     <VaSelect
@@ -68,19 +75,83 @@ export default function VaSelectField(props) {
       {addDefaultEntry &&
         !props.childrenProps.schema.default && <option value="" />}
       {hasGroups
-        ? Object.entries(labels).map(([groupLabel, groupOptions]) => (
-            <optgroup key={groupLabel} label={groupLabel}>
-              {Object.entries(groupOptions).map(([value, label]) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </optgroup>
-          ))
+        ? (() => {
+            // Group options by their group property
+            const groupedOptions = {};
+            enumOptions.forEach(option => {
+              const labelConfig = labels[option.value];
+              let groupName = 'Other';
+              let displayLabel = option.label;
+
+              // Handle different label formats
+              if (!labelConfig) {
+                // Use default label if no config
+                displayLabel = option.label;
+              } else if (typeof labelConfig === 'string') {
+                // Simple string label
+                displayLabel = labelConfig;
+              } else if (
+                typeof labelConfig === 'object' &&
+                labelConfig !== null
+              ) {
+                // Object format with potential group
+                // eslint-disable-next-line dot-notation
+                if (labelConfig['group']) {
+                  // eslint-disable-next-line dot-notation
+                  groupName = labelConfig['group'];
+                }
+                // eslint-disable-next-line dot-notation
+                if (labelConfig['label']) {
+                  // eslint-disable-next-line dot-notation
+                  displayLabel = labelConfig['label'];
+                }
+              }
+
+              if (!groupedOptions[groupName]) {
+                groupedOptions[groupName] = [];
+              }
+              groupedOptions[groupName].push({
+                value: option.value,
+                label: displayLabel,
+              });
+            });
+
+            return Object.entries(groupedOptions).map(
+              ([groupLabel, groupOptions]) => (
+                <optgroup key={groupLabel} label={groupLabel}>
+                  {groupOptions.map(({ value, label }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </optgroup>
+              ),
+            );
+          })()
         : enumOptions.map((option, index) => {
+            const labelConfig = labels[option.value];
+            let displayLabel = option.label;
+
+            if (labelConfig !== null && labelConfig !== undefined) {
+              if (
+                typeof labelConfig === 'object' &&
+                labelConfig !== null &&
+                // @ts-ignore - labelConfig is checked to be non-null above
+                // eslint-disable-next-line dot-notation
+                labelConfig['label']
+              ) {
+                // eslint-disable-next-line dot-notation
+                // @ts-ignore - labelConfig is checked to be non-null above
+                // eslint-disable-next-line dot-notation
+                displayLabel = labelConfig['label'] || option.label;
+              } else if (typeof labelConfig === 'string') {
+                displayLabel = labelConfig;
+              }
+            }
+
             return (
               <option key={index} value={option.value}>
-                {labels[option.value] || option.label}
+                {displayLabel}
               </option>
             );
           })}
