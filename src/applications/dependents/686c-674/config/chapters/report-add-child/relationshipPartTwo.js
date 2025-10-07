@@ -58,9 +58,18 @@ export const relationshipPartTwo = {
       }),
       'ui:options': {
         classNames: 'relationship-checkbox-group',
-        updateSchema: (formData, schema) => {
+        updateSchema: (formData, schema, _uiSchema, index) => {
           const rel = formData?.relationshipToChild || {};
           const shouldShowEvidence = rel.adopted || rel.stepchild;
+          const itemData = formData?.childrenToAdd?.[index] || formData;
+
+          if (!itemData?.relationshipToChild?.stepchild) {
+            itemData.biologicalParentDob = undefined;
+            itemData.biologicalParentName = undefined;
+            itemData.biologicalParentSsn = undefined;
+            itemData.isBiologicalChildOfSpouse = undefined;
+            itemData.dateEnteredHousehold = undefined;
+          }
 
           setTimeout(() => {
             if (shouldShowEvidence) {
