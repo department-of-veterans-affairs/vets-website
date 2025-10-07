@@ -5,7 +5,6 @@ import {
   enterCauseNewDetails,
   finishSummaryNoMore,
   reviewAndExpand,
-  sideOfBodyThenDate,
   startApplication,
 } from './utils/conditionsPages';
 
@@ -31,9 +30,7 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
     cy.contains('[role="option"]', /ankle/i).click();
 
     clickContinue();
-
-    // Enter side of body and date
-    sideOfBodyThenDate(0, '2022-06-15', 'LEFT');
+    clickContinue();
     clickContinue();
 
     // Choose the cause:  New
@@ -50,5 +47,7 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
 
     // Review & submit
     reviewAndExpand();
+
+    cy.injectAxeThenAxeCheck();
   });
 });
