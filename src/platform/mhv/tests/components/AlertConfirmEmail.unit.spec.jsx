@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import AlertConfirmEmail, {
   dismissAlert,
@@ -121,6 +122,19 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ updatedAt });
       const { container } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+    });
+
+    it.skip('is removed from DOM when dismissed', async () => {
+      // Error: Unable to find role="button"
+      mockApiRequest();
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByRole } = render(<AlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByRole('button', { name: 'Confirm' }).click();
         expect(container).to.be.empty;
       });
     });

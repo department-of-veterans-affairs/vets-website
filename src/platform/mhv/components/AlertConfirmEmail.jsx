@@ -10,15 +10,24 @@ import {
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
+const CONTENT = `We’ll send notifications about your VA health care and benefits to this email.`;
+const COOKIE_NAME = 'MHV_EMAIL_CONFIRMATION_DISMISSED';
+export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
 const VA_PROFILE_EMAIL_HREF =
   '/profile/contact-information#contact-email-address';
-export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
-const COOKIE_NAME = 'MHV_EMAIL_CONFIRMATION_DISMISSED';
+
 const dismissedAlert = () => Cookies.get(COOKIE_NAME);
 export const dismissAlert = () =>
   Cookies.set(COOKIE_NAME, 'true', { expires: 365 });
 export const resetDismissAlert = () => Cookies.remove(COOKIE_NAME);
+
+const putConfirmationDate = (confirmationDate = new Date().toISOString) =>
+  apiRequest('/profile/email_addresses', {
+    method: 'PUT',
+    body: { confirmationDate },
+  }).then(() => dismissAlert());
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
 const AlertConfirmContactEmail = ({ email }) => {
@@ -30,19 +39,12 @@ const AlertConfirmContactEmail = ({ email }) => {
     >
       <h2 slot="headline">Confirm your contact email</h2>
       <React.Fragment key=".1">
-        <p>
-          We’ll send notifications about your VA health care and benefits to
-          this email.
-        </p>
+        <p>{CONTENT}</p>
         <p className="vads-u-font-weight--bold">{email}</p>
         <p>
-          <VaButton
-            onClick={() => {}} // dispatch PUT ...
-            fullWidth
-            text="Confirm"
-          />
+          <VaButton onClick={putConfirmationDate} fullWidth text="Confirm" />
         </p>
-        <p className="vads-u-margin-bottom--0">
+        <p>
           <VaLink
             href={VA_PROFILE_EMAIL_HREF}
             text="Go to profile to update your contact email"
@@ -67,10 +69,7 @@ const AlertAddContactEmail = () => {
     >
       <h2 slot="headline">Add a contact email</h2>
       <React.Fragment key=".1">
-        <p>
-          We’ll send notifications about your VA health care and benefits to
-          this email.
-        </p>
+        <p>{CONTENT}</p>
         <p>
           <VaLinkAction
             type="primary-entry"
@@ -78,8 +77,13 @@ const AlertAddContactEmail = () => {
             text="Go to profile to add a contact email"
           />
         </p>
-        <p className="vads-u-margin-bottom--0">
-          <VaButton secondary onClick={dismissAlert} text="Skip adding email" />
+        <p>
+          <VaButton
+            fullWidth
+            secondary
+            onClick={dismissAlert}
+            text="Skip adding email"
+          />
         </p>
       </React.Fragment>
     </VaAlert>
