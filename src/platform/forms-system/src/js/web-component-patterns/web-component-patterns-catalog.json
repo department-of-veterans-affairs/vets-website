@@ -8,19 +8,19 @@
       "category": "Address",
       "uiSchema": "addressNoMilitaryUI",
       "uiSchemaType": "function",
-      "uiSchemaDescription": "uiSchema for address - Same as addressUI, but without the military checkbox. Includes fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
       "schema": "addressNoMilitarySchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressNoMilitaryUI. Fields may be omitted."
+      "schemaDescription": "Web component schema for address"
     },
     {
       "category": "Address",
       "uiSchema": "addressUI",
       "uiSchemaType": "function",
-      "uiSchemaDescription": "uiSchema for address - includes checkbox for military base, and fields for country, street, street2, street3, city, state, postal code. Fields may be omitted.",
+      "uiSchemaDescription": "Web component v3 uiSchema for address",
       "schema": "addressSchema",
       "schemaType": "function",
-      "schemaDescription": "Schema for addressUI. Fields may be omitted."
+      "schemaDescription": "Web component schema for address"
     },
     {
       "category": "AddressDeprecated",

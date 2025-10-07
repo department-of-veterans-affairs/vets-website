@@ -1,36 +1,27 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/definitions/dateRange';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import uiSchema from '../../../src/js/definitions/dateRange';
 
 const { dateRange: schema, date } = definitions;
 
-function fillDate(find, toFrom, day, month, year) {
-  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Day`), {
-    target: {
-      value: day,
-    },
-  });
-  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Month`), {
-    target: {
-      value: month,
-    },
-  });
-  ReactTestUtils.Simulate.change(find(`#root_${toFrom}Year`), {
-    target: {
-      value: year,
-    },
-  });
+function fillDate(form, toFrom, day, month, year) {
+  const _day = form.container.querySelector(`#root_${toFrom}Day`);
+  fireEvent.change(_day, { target: { value: day } });
+
+  const _month = form.container.querySelector(`#root_${toFrom}Month`);
+  fireEvent.change(_month, { target: { value: month } });
+
+  const _year = form.container.querySelector(`#root_${toFrom}Year`);
+  fireEvent.change(_year, { target: { value: year } });
 }
 
 describe('Schemaform definition dateRange', () => {
   it('should render dateRange', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
@@ -38,15 +29,13 @@ describe('Schemaform definition dateRange', () => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('label,legend').length).to.equal(8);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
-    expect(formDOM.querySelectorAll('select').length).to.equal(4);
+    expect(form.container.querySelectorAll('label,legend').length).to.equal(8);
+    expect(form.container.querySelectorAll('input').length).to.equal(2);
+    expect(form.container.querySelectorAll('select').length).to.equal(4);
   });
-  it('should render invalid dateRange error', () => {
+  it('should render invalid dateRange error', async () => {
     const dateRangeUISchema = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
@@ -54,21 +43,29 @@ describe('Schemaform definition dateRange', () => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    fillDate(find, 'from', 4, 4, 2000);
-    fillDate(find, 'to', 4, 4, 2001);
+    fillDate(form, 'to', 4, 4, 2000);
 
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
+    fillDate(form, 'from', 4, 4, 2001);
+
+    await waitFor(() => {
+      const submitButton = form.getByRole('button', { name: 'Submit' });
+      const mouseClick = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      });
+      fireEvent(submitButton, mouseClick);
+
+      const errorMessage = `Error ${
+        dateRangeUISchema['ui:errorMessages'].pattern
+      }`;
+      const errorElement = form.container.querySelector(
+        '.usa-input-error-message',
+      );
+      expect(errorElement.textContent).to.equal(errorMessage);
     });
-
-    expect(find('.usa-input-error-message').textContent).to.equal(
-      `Error ${dateRangeUISchema['ui:errorMessages'].pattern}`,
-    );
   });
   it('should render dateRange title and messages', () => {
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <DefinitionTester
         schema={schema}
         definitions={{ date }}
@@ -76,12 +73,10 @@ describe('Schemaform definition dateRange', () => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
-
-    expect(formDOM.querySelectorAll('legend')[0].textContent).to.equal(
+    expect(form.container.querySelectorAll('legend')[0].textContent).to.equal(
       'My from date',
     );
-    expect(formDOM.querySelectorAll('legend')[1].textContent).to.equal(
+    expect(form.container.querySelectorAll('legend')[1].textContent).to.equal(
       'My to date',
     );
   });

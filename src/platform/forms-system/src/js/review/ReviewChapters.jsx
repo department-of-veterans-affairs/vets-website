@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { scrollTo } from 'platform/utilities/scroll';
 import ReviewCollapsibleChapter from './ReviewCollapsibleChapter';
 import {
   createPageListByChapter,
@@ -16,13 +15,13 @@ import { getReviewPageOpenChapters, getViewedPages } from '../state/selectors';
 import {
   closeReviewChapter,
   openReviewChapter,
-  toggleAllReviewChapters,
   setData,
   setEditMode,
   setViewedPages,
   uploadFile,
 } from '../actions';
 
+import { scrollTo } from '../../../../utilities/ui';
 import { getPageKey } from '../utilities/review';
 
 class ReviewChapters extends React.Component {
@@ -36,7 +35,7 @@ class ReviewChapters extends React.Component {
     if (target) {
       const name = target.dataset?.chapter;
       const isOpen = target.getAttribute('open');
-      if (isOpen === 'true') {
+      if (isOpen) {
         this.props.openReviewChapter(name);
         scrollTo(`chapter${name}ScrollElement`);
       } else {
@@ -44,16 +43,6 @@ class ReviewChapters extends React.Component {
         this.props.closeReviewChapter(name, chapter?.pageKeys);
       }
     }
-  };
-
-  handleToggleAllChapters = ({ detail }) => {
-    const { status } = detail;
-    const allOpen = status === 'allOpen';
-    const chapterNames = this.props.chapters.reduce((acc, chapter) => {
-      acc[chapter.name] = allOpen;
-      return acc;
-    }, {});
-    this.props.toggleAllReviewChapters(chapterNames);
   };
 
   handleEdit = (pageKey, editing, index = null) => {
@@ -84,7 +73,6 @@ class ReviewChapters extends React.Component {
     return (
       <VaAccordion
         bordered
-        onAccordionExpandCollapseAll={this.handleToggleAllChapters}
         onAccordionItemToggled={this.handleToggleChapter}
         uswds
       >
@@ -106,7 +94,6 @@ class ReviewChapters extends React.Component {
             hasUnviewedPages={chapter.hasUnviewedPages}
             uploadFile={this.props.uploadFile}
             viewedPages={viewedPages}
-            formOptions={formConfig?.formOptions}
           />
         ))}
       </VaAccordion>
@@ -169,7 +156,6 @@ export function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   closeReviewChapter,
   openReviewChapter,
-  toggleAllReviewChapters,
   setData,
   setEditMode,
   setViewedPages,
@@ -187,7 +173,6 @@ ReviewChapters.propTypes = {
   setData: PropTypes.func.isRequired,
   setEditMode: PropTypes.func.isRequired,
   setViewedPages: PropTypes.func.isRequired,
-  toggleAllReviewChapters: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
   viewedPages: PropTypes.object.isRequired,
   formContext: PropTypes.object,

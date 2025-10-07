@@ -2,21 +2,13 @@
 /** @type {ArrayBuilderText} */
 export const DEFAULT_ARRAY_BUILDER_TEXT = {
   alertItemUpdated: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `${itemName}’s information has been updated`
       : `${props.nounSingular} information has been updated`;
   },
   alertItemDeleted: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `${itemName}’s information has been deleted`
       : `${props.nounSingular} information has been deleted`;
@@ -39,11 +31,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   cancelAddYes: props => `Yes, cancel`,
   cancelAddNo: props => `No, continue adding this ${props.nounSingular}`,
   cancelAddTitle: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `Cancel adding ${itemName}`
       : `Cancel adding this ${props.nounSingular}`;
@@ -58,11 +46,7 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   cancelEditYes: props => `Yes, cancel`,
   cancelEditNo: props => `No, continue editing this ${props.nounSingular}`,
   cancelEditTitle: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `Cancel editing ${itemName}`
       : `Cancel editing this ${props.nounSingular}`;
@@ -75,13 +59,9 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
       props.nounSingular
     }’s information before continuing.`,
   editSaveButtonText: props => `Save and continue`,
-  getItemName: (itemData, index, formData) => itemData?.name,
+  getItemName: (itemData, index) => itemData?.name,
   deleteDescription: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `This will delete ${itemName} and all the information from your list of ${
           props.nounPlural
@@ -100,40 +80,16 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
     } for us to process this form.`,
   deleteNo: props => `No, keep this ${props.nounSingular}`,
   deleteTitle: props => {
-    const itemName = props.getItemName(
-      props.itemData,
-      props.index,
-      props.formData,
-    );
+    const itemName = props.getItemName(props.itemData, props.index);
     return itemName
       ? `Delete ${itemName}’s information?`
       : `Delete this ${props.nounSingular}?`;
   },
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
-
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
   summaryAddButtonText: props => `Add ${props.nounSingular}`,
   summaryAddLinkText: props => `Add ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
-
-  duplicateModalTitle: props => 'Potential duplicate',
-  duplicateModalDescription: props =>
-    `You’ve entered multiple ${
-      props.nounPlural
-    } with this information. Are you adding a different ${
-      props.nounSingular
-    }, or is this a duplicate?`,
-  duplicateModalPrimaryButtonText: props => 'Don’t add, it’s a duplicate',
-  duplicateModalSecondaryButtonText: props =>
-    `Add, it’s a different ${props.nounSingular}`,
-  duplicateSummaryCardLabel: props => 'POSSIBLE DUPLICATE',
-  duplicateSummaryCardInfoAlert: props =>
-    `You may have multiple ${props.nounPlural} with this same information.`,
-  duplicateSummaryCardWarningOrErrorAlert: props =>
-    `You may have entered multiple ${
-      props.nounPlural
-    } with this same information.
-      Before continuing, review these entries and delete any duplicates.`,
 };
