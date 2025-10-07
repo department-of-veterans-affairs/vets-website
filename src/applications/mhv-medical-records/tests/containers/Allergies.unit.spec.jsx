@@ -3,35 +3,27 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
 import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
-// Mock the useAcceleratedData hook
-const mockUseAcceleratedData = sinon.stub();
-mockUseAcceleratedData.returns({
-  isLoading: false,
-  isCerner: false,
-});
-
-// Mock the module
-const useAcceleratedDataModule = {
-  __esModule: true,
-  default: mockUseAcceleratedData,
-};
-
-require.cache[require.resolve('../../hooks/useAcceleratedData')] = {
-  id: require.resolve('../../hooks/useAcceleratedData'),
-  filename: require.resolve('../../hooks/useAcceleratedData'),
-  loaded: true,
-  exports: useAcceleratedDataModule,
-};
-
 describe('Allergies list container', () => {
   const initialState = {
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_medical_records_allow_txt_downloads: true,
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_allergies_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
     user: {
       ...user,
       profile: {
@@ -50,14 +42,6 @@ describe('Allergies list container', () => {
           convertAllergy(item.resource),
         ),
       },
-    },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_accelerated_delivery_enabled: false,
-      // eslint-disable-next-line camelcase
-      mhv_accelerated_delivery_allergies_enabled: false,
     },
   };
 
