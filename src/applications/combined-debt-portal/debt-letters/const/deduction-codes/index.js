@@ -51,11 +51,11 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
     case '30':
       return (
         <>
-          <p>
+          <p className="vads-u-margin-top--0">
             Here are some common reasons for debt from disability and pension
             overpayments:
           </p>
-          <ul className="vads-u-padding-y--2">
+          <ul>
             <li>
               You’ve received a payment for disability compensation and military
               pay at the same time.
@@ -95,11 +95,11 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
     case '79':
       return (
         <>
-          <p>
+          <p className="vads-u-margin-top--0">
             Here are some common reasons for debt from education benefit
             overpayments:
           </p>
-          <ul className="vads-u-padding-y--2">
+          <ul>
             <li>You were suspended or put on academic probation</li>
             <li>You withdrew from a class or program</li>
             <li>You received duplicate payments for the same benefit</li>
