@@ -45,16 +45,14 @@ export const Nav = () => {
           />
         </a>
         <div className="heading-right">
-          <a
+          <va-button
             href="/representative/get-help"
-            className={`usa-button-secondary heading-help-link ${
-              profile ? 'logged-in' : ''
-            }`}
+            className="heading-help-link {ConditionalExpression}"
+            variant="secondary"
+            text="Help"
             data-testid="heading-help-link"
             data-eventname="nav-link-click"
-          >
-            Help
-          </a>
+          />
 
           {profile ? <DropdownContainer profile={profile} /> : <SignInButton />}
         </div>
