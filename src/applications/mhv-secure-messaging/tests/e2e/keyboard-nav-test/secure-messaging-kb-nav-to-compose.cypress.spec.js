@@ -13,8 +13,13 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+<<<<<<< HEAD
     cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).should('be.visible');
     cy.tabToElement(`[data-testid=${Locators.INTERSTITIAL_CONTINUE_BUTTON}]`);
+=======
+    cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE).should('be.visible');
+    cy.tabToElement(`[data-testid=${Locators.LINKS.START_NEW_MESSAGE}]`);
+>>>>>>> 483247c630 (fixed review comment items)
     cy.realPress(['Enter']);
     cy.get(Locators.ALERTS.PAGE_TITLE)
       .should('be.focused')
