@@ -8,11 +8,7 @@ import {
   startApplication,
 } from './utils/conditionsPages';
 
-import {
-  clickContinue,
-  expectCardText,
-  expectPath,
-} from './utils/cypressHelpers';
+import { clickContinue, expectPath } from './utils/cypressHelpers';
 
 describe('Conditions — Happy Path (Pages 0 → 9)', () => {
   it('completes the happy path through summary and review', () => {
@@ -30,10 +26,12 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
     clickContinue();
     clickContinue();
     chooseCause(0);
-    enterCauseNewDetails(0, 'Initial details');
-
+    enterCauseNewDetails(
+      0,
+      'Condition started in 2022 after training—no prior history.',
+    );
+    clickContinue();
     expectPath('/user-testing/conditions/conditions-mango-summary', '');
-    expectCardText(0, { titleRe: /asthma/i });
 
     // Choose No for adding more conditions
     finishSummaryNoMore(/asthma/i);
