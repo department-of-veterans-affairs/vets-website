@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { chapter } from '../../../../config/chapters/report-add-child';
+import chapter from '../../../../config/chapters/report-add-child';
 import * as helpers from '../../../../config/helpers';
 import * as utilities from '../../../../config/utilities';
 
