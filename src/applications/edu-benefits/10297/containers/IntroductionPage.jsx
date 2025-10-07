@@ -69,7 +69,7 @@ const IntroductionPage = props => {
       </h2>
       <ProcessList />
       <va-additional-info trigger="What happens after I apply?">
-        <p className="additional-info-content">
+        <p>
           If you’re eligible and the 4,000-student cap hasn’t been met, we’ll
           email you a Certificate of Eligibility. Otherwise, we’ll explain why
           you’re not eligible.
