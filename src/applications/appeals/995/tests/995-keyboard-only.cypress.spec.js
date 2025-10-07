@@ -4,15 +4,15 @@ import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import {
-  ADD_ISSUE_PATH,
-  CONTACT_INFO_PATH,
-  EVIDENCE_ADDITIONAL_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_VA_REQUEST_PATH,
-  LIMITED_CONSENT_DETAILS_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
+  ADD_ISSUE_URL,
+  CONTACT_INFO_URL,
+  EVIDENCE_ADDITIONAL_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_VA_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
 } from '../constants';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
@@ -74,13 +74,33 @@ describe('Supplemental Claim keyboard only navigation', () => {
           // *** Homelessness page
           h.verifyUrl(h.HOMELESSNESS_PATH);
           cy.tabToElement('[name="root_housingRisk"]');
-          cy.chooseRadio('N');
+          cy.chooseRadio('Y');
           cy.tabToContinueForm();
         }
       });
 
+      // *** Living situation page
+      h.verifyUrl(h.LIVING_SITUATION_PATH);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
+      cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
+      cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
+
+      // ** Other Housing Risk page
+      h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
+      cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
+      cy.realType('Testing content');
+      cy.tabToContinueForm();
+
+      // ** Point of contact page
+      h.verifyUrl(h.HOUSING_CONTACT_PATH);
+      cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
+      cy.realType('Ted Mosby');
+      cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
+      cy.realType('2105550123');
+      cy.tabToContinueForm();
+
       // *** Contact info page
-      h.verifyUrl(CONTACT_INFO_PATH);
+      h.verifyUrl(CONTACT_INFO_URL);
       cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
       cy.realPress('Space');
 
@@ -102,7 +122,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // Add one issue
       cy.tabToElement('.add-new-issue');
       cy.realPress('Enter');
-      h.verifyUrl(ADD_ISSUE_PATH);
+      h.verifyUrl(ADD_ISSUE_URL);
 
       const newIssue = data.additionalIssues[0];
       cy.tabToElement('[name="issue-name"]');
@@ -145,7 +165,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** VA evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_VA_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_VA_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
@@ -169,13 +189,13 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Private evidence request (y/n) question page
-      h.verifyUrl(EVIDENCE_PRIVATE_REQUEST_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_PROMPT_URL);
       cy.tabToElement('[name="private"]'); // Yes radio
       cy.chooseRadio('y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
 
       // *** Private evidence authorization page
-      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_AUTHORIZATION_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
 
@@ -201,7 +221,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Limited consent prompt page
-      h.verifyUrl(LIMITED_CONSENT_PROMPT_PATH);
+      h.verifyUrl(LIMITED_CONSENT_PROMPT_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_RADIOS); // Yes radio
@@ -209,7 +229,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Limited consent details page
-      h.verifyUrl(LIMITED_CONSENT_DETAILS_PATH);
+      h.verifyUrl(LIMITED_CONSENT_DETAILS_URL);
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement(h.LIMITED_CONSENT_TEXTAREA);
@@ -217,7 +237,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Private evidence facility page
-      h.verifyUrl(EVIDENCE_PRIVATE_PATH);
+      h.verifyUrl(EVIDENCE_PRIVATE_DETAILS_URL);
 
       const facilityData = data.providerFacility[0];
       // eslint-disable-next-line cypress/no-unnecessary-waiting
@@ -263,7 +283,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToSubmitForm();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads
-      h.verifyUrl(EVIDENCE_ADDITIONAL_PATH);
+      h.verifyUrl(EVIDENCE_ADDITIONAL_URL);
       cy.tabToElement(h.ADDTL_EVIDENCE_RADIO); // No radio
       cy.chooseRadio('N');
       cy.tabToSubmitForm();

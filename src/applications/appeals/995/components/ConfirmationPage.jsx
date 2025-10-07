@@ -38,7 +38,7 @@ import { ConfirmationTitle } from '../../shared/components/ConfirmationTitle';
 import ConfirmationPersonalInfo from '../../shared/components/ConfirmationPersonalInfo';
 import ConfirmationIssues from '../../shared/components/ConfirmationIssues';
 import { LivingSituation } from './LivingSituation';
-import { convertBoolResponseToYesNo } from '../utils/form-data-display';
+import { convertBoolResponseToYesNo } from '../../shared/utils/form-data-display';
 
 export const ConfirmationPage = () => {
   resetStoredSubTask();
@@ -60,10 +60,6 @@ export const ConfirmationPage = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
-
-  const livingSituation = showScNewForm ? (
-    <LivingSituation data={data} />
-  ) : null;
 
   return (
     <>
@@ -138,11 +134,11 @@ export const ConfirmationPage = () => {
 
       <ConfirmationPersonalInfo
         dob={profile.dob}
+        formData={data}
+        hasHomeAndMobilePhone
+        livingSituation={<LivingSituation data={data} />}
         userFullName={profile.userFullName}
         veteran={data.veteran}
-        hasHomeAndMobilePhone
-        livingSituation={showScNewForm ? livingSituation : null}
-        formData={data}
       />
 
       <ConfirmationIssues data={data} />
@@ -166,21 +162,18 @@ export const ConfirmationPage = () => {
               : 'No, I didn’t certify'}
           </div>
         </li>
-
-        {showScNewForm && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {facilityTypeTitle}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-testid="confirmation-facility-types"
-              data-dd-action-name="facility types selected"
-            >
-              {facilityTypeList(data.facilityTypes) || 'None selected'}
-            </div>
-          </li>
-        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {facilityTypeTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-testid="confirmation-facility-types"
+            data-dd-action-name="facility types selected"
+          >
+            {facilityTypeList(data.facilityTypes) || 'None selected'}
+          </div>
+        </li>
       </ul>
 
       {noEvidence && (
@@ -213,7 +206,6 @@ export const ConfirmationPage = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          showScNewForm={showScNewForm}
           limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
         />
       ) : null}

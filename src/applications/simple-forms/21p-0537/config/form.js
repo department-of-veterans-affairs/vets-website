@@ -9,6 +9,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
+import { pageFocusScroll } from '../helpers';
 
 // Import page configurations
 import recipientIdentifier from '../pages/recipientIdentifier';
@@ -42,6 +43,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
   trackingPrefix: '21p-0537-dic-marital-status-',
+  useCustomScrollAndFocus: true,
+  v3SegmentedProgressBar: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -71,6 +74,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
       fullNamePath: 'recipientName',
+      useProfileFullName: true,
     },
   },
   title: 'Marital Status Questionnaire for DIC Recipients',
@@ -89,12 +93,14 @@ const formConfig = {
           title: "Deceased Veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         veteranIdentifier: {
           path: 'veteran-info/identifier',
           title: "Deceased Veteran's identification",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -106,6 +112,7 @@ const formConfig = {
           title: 'Have you remarried?',
           uiSchema: remarriageQuestion.uiSchema,
           schema: remarriageQuestion.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -118,6 +125,7 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: marriageInfo.uiSchema,
           schema: marriageInfo.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         spouseVeteranStatus: {
           path: 'marital/spouse-veteran',
@@ -125,6 +133,7 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: spouseVeteranStatus.uiSchema,
           schema: spouseVeteranStatus.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         spouseVeteranId: {
           path: 'marital/spouse-veteran-id',
@@ -134,6 +143,7 @@ const formConfig = {
             formData.remarriage?.spouseIsVeteran === true,
           uiSchema: spouseVeteranId.uiSchema,
           schema: spouseVeteranId.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         terminationStatus: {
           path: 'marital/termination-status',
@@ -141,15 +151,26 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: terminationStatus.uiSchema,
           schema: terminationStatus.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
         terminationDetails: {
           path: 'marital/termination-details',
-          title: 'Termination details',
+          title: 'End of marriage details',
           depends: formData =>
             formData.hasRemarried === true &&
             formData.remarriage?.hasTerminated === true,
           uiSchema: terminationDetails.uiSchema,
           schema: terminationDetails.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
+        },
+        marriageRecognition: {
+          path: 'marital/marriage-recognition',
+          title: 'Important information about marriage recognition',
+          depends: formData => formData.hasRemarried === true,
+          hideOnReview: true,
+          uiSchema: marriageRecognition.uiSchema,
+          schema: marriageRecognition.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
@@ -161,20 +182,7 @@ const formConfig = {
           title: 'How can we reach you?',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
-        },
-      },
-    },
-    certificationChapter: {
-      title: 'Additional information',
-      CustomPageReview: null,
-      pages: {
-        marriageRecognition: {
-          path: 'additional-info/marriage-recognition',
-          title: 'Important information about marriage recognition',
-          depends: formData => formData.hasRemarried === true,
-          hideOnReview: true,
-          uiSchema: marriageRecognition.uiSchema,
-          schema: marriageRecognition.schema,
+          scrollAndFocusTarget: pageFocusScroll(),
         },
       },
     },
