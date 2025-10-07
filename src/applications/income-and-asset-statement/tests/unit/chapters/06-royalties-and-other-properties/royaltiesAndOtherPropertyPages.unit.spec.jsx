@@ -72,7 +72,7 @@ describe('royalties list and loop pages', () => {
         incomeGenerationMethod: 'INTELLECTUAL_PROPERTY',
       };
       expect(options.text.getItemName(item, 0, mockFormData)).to.equal(
-        'John Doe’s income from benefits from intellectual property',
+        'John Doe’s income from intellectual property rights',
       );
     });
     it('should return "Alex Smith’s income" if recipient is Veteran and not logged in', () => {
@@ -85,7 +85,7 @@ describe('royalties list and loop pages', () => {
           ...mockFormData,
           isLoggedIn: false,
         }),
-      ).to.equal('Alex Smith’s income from use of land');
+      ).to.equal('Alex Smith’s income from land usage fees');
     });
     it('should return "Jane Doe’s income', () => {
       const recipientName = { first: 'Jane', middle: 'A', last: 'Doe' };
@@ -112,6 +112,7 @@ describe('royalties list and loop pages', () => {
     const {
       recipientRelationship,
       recipientName,
+      incomeGenerationMethod,
       canBeSold,
       ...baseItem
     } = testData.data.royaltiesAndOtherProperties[0];
@@ -128,6 +129,7 @@ describe('royalties list and loop pages', () => {
     const {
       recipientRelationship,
       recipientName,
+      incomeGenerationMethod,
       canBeSold,
       ...baseItem
     } = testDataZeroes.data.royaltiesAndOtherProperties[0];
@@ -369,7 +371,7 @@ describe('royalties list and loop pages', () => {
       formConfig,
       schema,
       uiSchema,
-      { 'va-radio': 2, 'va-text-input': 2, 'va-textarea': 1 },
+      { 'va-radio': 2, 'va-text-input': 2 },
       'income type',
     );
     testComponentFieldsMarkedAsRequired(
@@ -377,9 +379,9 @@ describe('royalties list and loop pages', () => {
       schema,
       uiSchema,
       [
-        'va-radio[label="How is the income generated from this asset?"]',
-        'va-text-input[label="Gross monthly income"]',
-        'va-text-input[label="Fair market value of this asset"]',
+        'va-radio[label="How is income generated from this asset?"]',
+        'va-text-input[label="What’s the gross monthly income from this asset?"]',
+        'va-text-input[label="What’s the fair market value of this asset?"]',
         'va-radio[label="Can the asset be sold?"]',
       ],
       'income type',
