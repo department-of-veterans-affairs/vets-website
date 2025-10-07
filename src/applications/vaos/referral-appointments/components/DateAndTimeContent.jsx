@@ -32,6 +32,7 @@ export const DateAndTimeContent = props => {
 
   const providerTimeZone =
     draftAppointmentInfo.attributes.provider.location.timezone;
+  const timezoneDescription = getTimezoneDescByTimeZoneString(providerTimeZone);
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
@@ -164,8 +165,7 @@ export const DateAndTimeContent = props => {
         {!noSlotsAvailable && (
           <p>
             Select an available date and time from the calendar below.
-            Appointment times are displayed in{' '}
-            {`${getTimezoneDescByTimeZoneString(providerTimeZone)}`}.
+            Appointment times are displayed in {`${timezoneDescription}`}.
           </p>
         )}
       </div>
