@@ -1,8 +1,6 @@
 import set from 'platform/utilities/data/set';
 import get from 'platform/utilities/data/get';
-
 import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
-
 import { validateBenefitsIntakeName } from '../../../utils/validation';
 
 export const benefitsIntakeFullNameUI = (formatTitle, uiOptions = {}) => {
