@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { format, sub } from 'date-fns';
 
+import sinon from 'sinon';
 import {
   getFullName,
   getFormatedDate,
@@ -9,6 +10,8 @@ import {
   isEmptyObject,
   getRootParentUrl,
   calculateAge,
+  hideDependentsWarning,
+  getIsDependentsWarningHidden,
 } from '../../utils';
 
 describe('getFullName', () => {
@@ -248,5 +251,91 @@ describe('calculateAge', () => {
       dobStr: format(testDate, 'MMMM d, yyyy'),
       labeledAge: 'Newborn',
     });
+  });
+});
+
+describe('getIsDependentsWarningHidden', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
+  });
+
+  afterEach(() => {
+    // Clean up localStorage after each test
+    localStorage.clear();
+  });
+
+  it('should return false when no warning date is stored', () => {
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return true when a valid date is stored', () => {
+    const testDate = '2023-12-01T10:00:00.000Z';
+    localStorage.setItem('viewDependentsWarningClosedAt', testDate);
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.true;
+  });
+
+  it('should return false when an invalid date string is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', 'invalid-date');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return false when an empty string is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', '');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+
+  it('should return false when null is stored', () => {
+    localStorage.setItem('viewDependentsWarningClosedAt', 'null');
+
+    const result = getIsDependentsWarningHidden();
+    expect(result).to.be.false;
+  });
+});
+
+describe('hideDependentsWarning', () => {
+  let clock;
+
+  beforeEach(() => {
+    const fixed = new Date('2023-12-01T10:00:00.000Z').getTime();
+    clock = sinon.useFakeTimers({ now: fixed, toFake: ['Date'] });
+  });
+  afterEach(() => clock.restore());
+
+  it('should store the current date in localStorage', () => {
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.equal('2023-12-01T10:00:00.000Z');
+  });
+
+  it('should overwrite existing stored date', () => {
+    // Set an initial date
+    localStorage.setItem(
+      'viewDependentsWarningClosedAt',
+      '2023-01-01T00:00:00.000Z',
+    );
+
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    expect(storedValue).to.equal('2023-12-01T10:00:00.000Z');
+  });
+
+  it('should store a valid ISO string that can be parsed', () => {
+    hideDependentsWarning();
+
+    const storedValue = localStorage.getItem('viewDependentsWarningClosedAt');
+    const parsedDate = new Date(storedValue);
+
+    expect(Number.isNaN(parsedDate.getTime())).to.be.false;
+    expect(parsedDate.toISOString()).to.equal('2023-12-01T10:00:00.000Z');
   });
 });

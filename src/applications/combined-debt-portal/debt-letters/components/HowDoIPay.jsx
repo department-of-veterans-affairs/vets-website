@@ -112,9 +112,10 @@ const HowDoIPay = ({ userData }) => {
       <h3>Pay by phone</h3>
       <p>
         Call us at <va-telephone contact={CONTACTS.DMC} /> (
-        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-        overseas) (<va-telephone contact="711" tty="true" />
-        ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        <va-telephone contact="711" tty="true" />
+        ). If you’re outside the U.S., call{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
+        here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
 
       <h3>Pay by mail</h3>

@@ -41,7 +41,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     featureToggles: createFeatureToggles({
       isAccelerating: true,
       isAcceleratingAllergies: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     }),
   };
 
@@ -75,7 +75,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: true,
+            isAcceleratingVitals: false,
             isAcceleratingConditions: true,
           }),
         },
@@ -103,7 +103,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: true,
+            isAcceleratingVitals: false,
             isAcceleratingConditions: true,
           }),
         },
@@ -134,17 +134,17 @@ describe('Accelerated Cerner Facility Alert', () => {
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
   });
 
-  it('hides correctly when isAcceleratingVitals is true', () => {
+  it('hides correctly when isCerner is true', () => {
     const screen = setup(
       {
         ...initialState,
         featureToggles: createFeatureToggles({
           isAccelerating: true,
-          isAcceleratingVitals: true,
+          isAcceleratingVitals: false,
         }),
-        user: { profile: { facilities: [] } },
+        user: { profile: { facilities: userProfileFacilities } },
       },
-      { facilities: [] },
+      { facilities: userProfileFacilities },
       CernerAlertContent.VITALS,
     );
 
