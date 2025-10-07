@@ -93,7 +93,7 @@ export const uiSchema = {
             // Replace XX with 01 so moment can create a valid date, then format as month/year only
             const dateValue =
               typeof value.formData === 'string'
-                ? value.formData.replace('XX', '01')
+                ? value.formData.replace(/XX/g, '01')
                 : undefined;
 
             let formattedDate = dateValue
