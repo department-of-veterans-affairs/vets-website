@@ -278,6 +278,9 @@ const veteranIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'unassociatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -312,6 +315,9 @@ const spouseIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'unassociatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -342,6 +348,9 @@ const custodianIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'unassociatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -372,6 +381,9 @@ const parentIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'unassociatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -398,6 +410,9 @@ const nonVeteranIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'unassociatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
