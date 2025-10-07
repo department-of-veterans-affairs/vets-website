@@ -31,7 +31,7 @@ describe('ConfirmationNewDisabilities', () => {
     expect(getByText(/new condition; Primary description 1/i)).to.exist;
     expect(getByText('Condition 2')).to.exist;
     expect(getByText(/secondary condition; Primary description 2/i)).to.exist;
-    expect(getByText(/secondary to Condition A; Caused by description A/i)).to
+    expect(getByText(/caused by Condition A; Caused by description A/i)).to
       .exist;
   });
 
