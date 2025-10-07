@@ -40,15 +40,15 @@ const VitalListItem = props => {
   const dataTestIds = useMemo(
     () => {
       if (isAccelerating) {
+        // Use canonical kebab-case slugs for accelerated Cypress (legacySlugMap removed)
+        const baseSlug = kebabCase(updatedRecordType);
         return {
-          displayName: `vital-${kebabCase(updatedRecordType)}-display-name`,
-          noRecordMessage: `vital-${kebabCase(
-            updatedRecordType,
-          )}-no-record-message`,
-          measurement: `vital-${kebabCase(updatedRecordType)}-measurement`,
-          date: `vital-${kebabCase(updatedRecordType)}-date`,
-          dateTimestamp: `vital-${kebabCase(updatedRecordType)}-date-timestamp`,
-          reviewLink: `vital-${kebabCase(updatedRecordType)}-review-over-time`,
+          displayName: `vital-${baseSlug}-display-name`,
+          noRecordMessage: `vital-${baseSlug}-no-record-message`,
+          measurement: `vital-${baseSlug}-measurement`,
+          date: `vital-${baseSlug}-date`,
+          dateTimestamp: `vital-${baseSlug}-date-timestamp`,
+          reviewLink: `vital-${baseSlug}-review-over-time`,
         };
       }
       return {
