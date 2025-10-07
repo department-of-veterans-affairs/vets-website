@@ -60,19 +60,15 @@ export default {
     }),
     wcv3SelectGrouped: selectUI({
       title: 'Select web component with grouped options (optgroups)',
-      hint: 'This demonstrates nested labels creating optgroups',
+      hint: 'This demonstrates group labeling',
       labels: {
-        'Branches of Service': {
-          navy: 'Navy',
-          army: 'Army',
-          marines: 'Marines',
-          airForce: 'Air Force',
-          coastguard: 'Coast Guard',
-        },
-        Other: {
-          other: 'Other',
-          notApplicable: 'Not Applicable',
-        },
+        coastguard: { label: 'Coast Guard', group: 'Branches of Service' },
+        airForce: { label: 'Air Force', group: 'Branches of Service' },
+        army: { label: 'Army', group: 'Branches of Service' },
+        marines: { label: 'Marines', group: 'Branches of Service' },
+        navy: { label: 'Navy', group: 'Branches of Service' },
+        other: { label: 'Other', group: 'Other' },
+        notApplicable: { label: 'Not Applicable', group: 'Other' },
       },
       errorMessages: {
         required: 'Please select an option',

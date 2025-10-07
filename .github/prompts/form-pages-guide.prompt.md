@@ -266,22 +266,18 @@ maritalStatus: selectUI({
 education: selectUI('Education level'),
 // Schema: selectSchema(['High school', 'Some college', 'Bachelor degree'])
 
-// selectUI with grouped options - nested labels
+// selectUI with grouped options - use group property
 branchOfService: selectUI({
   title: 'Branch of Service',
   hint: 'Select your branch of service',
   labels: {
-    'Branches of Service': {
-      navy: 'Navy',
-      army: 'Army',
-      marines: 'Marines',
-      airForce: 'Air Force',
-      coastguard: 'Coast Guard'
-    },
-    'Other': {
-      other: 'Other',
-      notApplicable: 'Not Applicable'
-    }
+    navy: { label: 'Navy', group: 'Branches of Service' },
+    army: { label: 'Army', group: 'Branches of Service' },
+    marines: { label: 'Marines', group: 'Branches of Service' },
+    airForce: { label: 'Air Force', group: 'Branches of Service' },
+    coastguard: { label: 'Coast Guard', group: 'Branches of Service' },
+    other: { label: 'Other', group: 'Other' },
+    notApplicable: { label: 'Not Applicable', group: 'Other' }
   },
   errorMessages: {
     required: 'Please select your branch of service'
