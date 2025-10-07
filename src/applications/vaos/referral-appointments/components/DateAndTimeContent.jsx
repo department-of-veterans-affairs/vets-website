@@ -20,6 +20,7 @@ import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { selectFeatureUseBrowserTimezone } from '../../redux/selectors';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
@@ -32,8 +33,12 @@ export const DateAndTimeContent = props => {
   const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.referringFacility.code,
+    featureUseBrowserTimezone,
   );
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
@@ -170,6 +175,7 @@ export const DateAndTimeContent = props => {
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
               currentReferral.referringFacility.code,
+              featureUseBrowserTimezone,
             )}`}
             .
           </p>

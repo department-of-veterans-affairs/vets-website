@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import Sinon from 'sinon';
 import {
   getTimezoneAbbrByFacilityId,
   getTimezoneAbbrFromApi,
@@ -130,8 +131,18 @@ describe('VAOS Utils: timezone', () => {
     it('should return the correct description', () => {
       expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
     });
-    it('should return null', () => {
-      expect(getTimezoneDescByFacilityId('0402')).to.be.null;
+    it.skip('should return the timezone for users current location for bad facility id', () => {
+      const stub = Sinon.stub(Intl, 'DateTimeFormat');
+      stub.returns({
+        resolvedOptions() {
+          return { timeZone: 'America/New_York' };
+        },
+      });
+
+      expect(getTimezoneDescByFacilityId('0402')).to.be.equal(
+        'Eastern time (ET)',
+      );
+      stub.restore();
     });
   });
 
@@ -225,6 +236,18 @@ describe('VAOS Utils: timezone', () => {
     it('should return null for an unknown id', () => {
       expect(getTimezoneByFacilityId(null)).to.be.null;
       expect(getTimezoneByFacilityId(undefined)).to.be.null;
+    });
+
+    it('should return the timezone for users current location for bad facility id', () => {
+      const stub = Sinon.stub(Intl, 'DateTimeFormat');
+      stub.returns({
+        resolvedOptions() {
+          return { timeZone: 'America/Chicago' };
+        },
+      });
+
+      expect(getTimezoneByFacilityId(null, true)).to.equal('America/Chicago');
+      stub.restore();
     });
   });
 

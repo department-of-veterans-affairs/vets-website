@@ -622,7 +622,10 @@ export function getCalendarData({ appointment, facility }) {
  *   - abbreviation: The timezone abbreviation (e.g. ET)
  *   - description: The written out description (e.g. Eastern time)
  */
-export function getAppointmentTimezone(appointment) {
+export function getAppointmentTimezone(
+  appointment,
+  isUseBrowserTimezone = false,
+) {
   // Appointments with timezone included in api
   if (appointment?.timezone) {
     const abbreviation = getTimezoneAbbrFromApi(appointment);
@@ -637,7 +640,10 @@ export function getAppointmentTimezone(appointment) {
   if (appointment?.location?.vistaId) {
     const locationId =
       appointment?.location.stationId || appointment?.location.vistaId;
-    const abbreviation = getTimezoneAbbrByFacilityId(locationId);
+    const abbreviation = getTimezoneAbbrByFacilityId(
+      locationId,
+      isUseBrowserTimezone,
+    );
 
     return {
       abbreviation,
