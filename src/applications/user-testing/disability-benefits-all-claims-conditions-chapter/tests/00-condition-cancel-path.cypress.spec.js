@@ -7,11 +7,8 @@ import {
 import {
   addCondition,
   chooseCause,
-  chooseConditionType,
   conditionsInfo,
   enterCauseNewDetails,
-  enterNewCondition,
-  sideOfBodyThenDate,
   startApplication,
 } from './utils/conditionsPages';
 
@@ -133,24 +130,32 @@ describe('Conditions — Page 2: Add a condition', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('requires Yes/No before continuing on summary', () => {
-    startApplication();
-    conditionsInfo();
-    chooseConditionType(0);
-    enterNewCondition(0, 'asthma');
-    sideOfBodyThenDate(0, '2022-06-15');
+  it('requires Yes/No before continuing on summary', () => {
+    bootstrapToAddCondition();
+    chooseConditionTypeRadioBtn(0);
+    clickContinue();
+
+    const BASE = `/user-testing/conditions/conditions-mango/0`;
+    expectPath(`${BASE}/new-condition`, '?add=true');
+
+    cy.get('#inputField').type('asthma');
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+      'contain.text',
+      'asthma',
+    );
+    cy.contains('[role="option"]', /^asthma$/i).click();
+
+    clickContinue();
+    clickContinue();
     chooseCause(0);
     enterCauseNewDetails(0, 'Initial details');
-
-    expectPath('/user-testing/conditions/conditions-mango-summary', '');
-    cy.contains('button', /^Continue$/i).click();
+    clickContinue();
 
     cy.get('va-radio[name="root_view:hasConditions"]').should(
       'have.attr',
       'aria-invalid',
       'true',
     );
-
     cy.injectAxeThenAxeCheck();
   });
 });
