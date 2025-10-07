@@ -160,6 +160,12 @@
       "rootUrl": "/track-claims"
     },
     {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
+    },
+    {
       "directoryPath": "src/applications/combined-debt-portal/combined",
       "appName": "Debt and bills",
       "entryName": "combined-debt-portal",
@@ -646,6 +652,12 @@
       "rootUrl": "/sign-in-changes-reminder"
     },
     {
+      "directoryPath": "src/applications/sign-in-confirm-contact-email",
+      "appName": "Sign In Confirm Contact Email",
+      "entryName": "confirm-contact-email",
+      "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -794,6 +806,12 @@
       "appName": "Travel Pay",
       "entryName": "travel-pay",
       "rootUrl": "/my-health/travel-pay"
+    },
+    {
+      "directoryPath": "src/applications/travel-pay/form-prototype",
+      "appName": "Form Prototype",
+      "entryName": "form-prototype",
+      "rootUrl": "/my-health/travel-pay/form-prototype"
     },
     {
       "directoryPath": "src/applications/user-testing/disability-benefits-all-claims-conditions-chapter",
