@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ConfirmationPage from '../../../../components/complex-claims/pages/ConfirmationPage';
@@ -48,7 +48,7 @@ describe('Complex Claims ConfirmationPage', () => {
     const printButton = $('va-button[text="Print this page for your records"]');
     expect(printButton).to.exist;
 
-    printButton.click();
+    fireEvent.click(printButton);
     expect(windowPrintStub.calledOnce).to.be.true;
   });
 
