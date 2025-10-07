@@ -73,12 +73,11 @@ const IntroductionPage = ({ route, router }) => {
         Follow these steps to submit the form
       </h2>
       <VaProcessList>
-        <VaProcessListItem header="Confirm power of attorney">
+        <VaProcessListItem header="Confirm that you represent the claimant">
           <p>
-            Make sure you or your Veterans Service Organization (VSO) has
-            established power of attorney (POA) with the claimant. If POA is not
-            established, the portal will not allow you to submit the claimant’s
-            form.
+            Make sure you or your Veterans Service Organization (VSO) have
+            established representation with the claimant. If you don’t currently
+            represent them, the portal will not allow you to submit the form.
           </p>
         </VaProcessListItem>
         <VaProcessListItem header="Download, fill out, and sign the form">
@@ -103,8 +102,8 @@ const IntroductionPage = ({ route, router }) => {
         </VaProcessListItem>
         <VaProcessListItem header="Upload and submit the form">
           <p>
-            First provide information about the claimant so we can confirm you
-            have established POA. Then upload the form, review, and submit the
+            First provide information about the claimant so we can confirm that
+            you represent them. Then upload the form, review, and submit the
             form.
           </p>
           <p>
