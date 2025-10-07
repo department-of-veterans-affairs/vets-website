@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class CurrencyWidget extends React.Component {
   constructor(props) {
     super(props);
-    let value = props.value;
+    let { value } = props;
     if (typeof value === 'number') {
       value = value.toFixed(2);
     }
@@ -38,7 +38,7 @@ export default class CurrencyWidget extends React.Component {
 
   render() {
     const { id, disabled, options } = this.props;
-    const value = this.state.value;
+    const { value } = this.state;
 
     return (
       <input
@@ -62,8 +62,8 @@ CurrencyWidget.propTypes = {
    */
   options: PropTypes.shape({
     /*
-    * input's autocomplete attribute value
-    */
+     * input's autocomplete attribute value
+     */
     autocomplete: PropTypes.string,
   }),
 };

@@ -308,7 +308,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
            * "Please select a contested issue" and a minItem error
            * "Does not meet minimum length of 1"; there's no need to confuse
            * anyone and show both
-          */
+           */
           if (!errorExists(processedErrors, propertyName, index)) {
             const { chapterKey = '', pageKey = '' } =
               reviewErrors._override?.(property || err?.stack || argument) ||

@@ -2,11 +2,11 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
-import Form from '@department-of-veterans-affairs/react-jsonschema-form';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import uiSchema from '../../../src/js/definitions/date';
 import definitions from 'vets-json-schema/dist/definitions.json';
+import uiSchema from '../../../src/js/definitions/date';
 
 describe('Schemaform definition date', () => {
   it('should render date', () => {
@@ -23,24 +23,28 @@ describe('Schemaform definition date', () => {
   });
   it('should render invalid date error', () => {
     const dateUISchema = uiSchema();
-    const form = ReactTestUtils.renderIntoDocument(
+    const form = render(
       <DefinitionTester schema={definitions.date} uiSchema={dateUISchema} />,
     );
 
-    const formDOM = findDOMNode(form);
-    const find = formDOM.querySelector.bind(formDOM);
-    ReactTestUtils.Simulate.change(find('input'), {
-      target: {
-        value: 'asfd',
-      },
-    });
-    ReactTestUtils.findRenderedComponentWithType(form, Form).onSubmit({
-      preventDefault: f => f,
+    const input = form.getByLabelText('Year');
+    // normal method of setting input will not work if the value is not a number
+    Object.defineProperty(input, 'value', { value: 'asdf', writable: true }); // Directly set value
+    fireEvent.input(input);
+
+    const mouseClick = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
     });
 
-    expect(find('.usa-input-error-message').textContent).to.equal(
-      `Error ${dateUISchema['ui:errorMessages'].pattern}`,
-    );
+    const submitButton = form.getByRole('button', { name: 'Submit' });
+    fireEvent(submitButton, mouseClick);
+    waitFor(() => {
+      const error = form.container.querySelector('.usa-input-error-message');
+      expect(error.textContent).to.equal(
+        `Error ${dateUISchema['ui:errorMessages'].pattern}`,
+      );
+    });
   });
   it('should render date title', () => {
     const form = ReactTestUtils.renderIntoDocument(
