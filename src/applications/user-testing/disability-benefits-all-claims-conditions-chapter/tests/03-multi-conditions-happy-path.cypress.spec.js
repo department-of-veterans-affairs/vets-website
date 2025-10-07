@@ -1,3 +1,9 @@
+/* 
+This test is causing timeout issues in the pipeline.
+So it is commented out. Simply uncomment in order to
+run the test in a local environment
+*/
+
 // import {
 //   addRatedDisability,
 //   chooseCause,
