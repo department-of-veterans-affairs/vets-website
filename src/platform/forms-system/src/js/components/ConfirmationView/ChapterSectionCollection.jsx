@@ -114,9 +114,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   } = uiSchema;
 
   const label =
-    uiSchema?.['ui:title'] ||
-    schemaFromState?.properties?.[key]?.title ||
-    schema?.properties?.[key]?.title;
+    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
 
   let refinedData = Array.isArray(data) ? data[index] : data;
   refinedData = typeof data === 'object' ? data[key] : data;
@@ -224,33 +222,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
-export const getPageTitle = (pageFormConfig, formData, formConfig) => {
-  // Check for review title first, fallback to page title
-  const onReviewPage = true;
-  let pageTitle = pageFormConfig.reviewTitle || pageFormConfig.title;
-
-  if (typeof pageTitle === 'function') {
-    try {
-      pageTitle = pageTitle({
-        formData,
-        formConfig,
-        onReviewPage,
-      });
-    } catch (e) {
-      // Handle exceptions and fallback to empty string
-      pageTitle = '';
-    }
-  }
-
-  return pageTitle || '';
-};
-
-export const buildFields = (
-  chapter,
-  formData,
-  pagesFromState,
-  showPageTitles,
-) => {
+export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page => {
     // page level ui:confirmationField
     const ConfirmationField = page.uiSchema['ui:confirmationField'];
@@ -265,7 +237,7 @@ export const buildFields = (
       );
     }
 
-    const fields = Object.entries(page.uiSchema).flatMap(
+    return Object.entries(page.uiSchema).flatMap(
       ([uiSchemaKey, uiSchemaValue]) => {
         if (['ratedDisabilities', 'newDisabilities'].includes(uiSchemaKey)) {
           return []; // Skip rendering these fields
@@ -281,25 +253,6 @@ export const buildFields = (
         );
       },
     );
-
-    if (showPageTitles) {
-      const pageTitle = getPageTitle(page, formData, chapter.formConfig);
-      const presentFields = fields.filter(item => item != null);
-
-      if (presentFields.length > 0) {
-        return [
-          <li key={`page-li-${page.pageKey}`}>
-            <h4 key={`page-title-${page.pageKey}`}>{pageTitle}</h4>
-            <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
-              {presentFields}
-            </ul>
-          </li>,
-        ];
-      }
-      return [];
-    }
-
-    return fields;
   });
 };
 
@@ -340,7 +293,6 @@ const useChapterSectionCollection = formConfig => {
  *   header?: string
  *   collapsible?: boolean
  *   className?: string
- *   showPageTitles?: boolean
  * }} props
  * @returns {JSX.Element[]}
  */
@@ -349,7 +301,6 @@ export const ChapterSectionCollection = ({
   collapsible = true,
   header = 'Information you submitted on this form',
   className,
-  showPageTitles = false,
 }) => {
   const { chapters, formData, pagesFromState } = useChapterSectionCollection(
     formConfig,
@@ -358,35 +309,27 @@ export const ChapterSectionCollection = ({
 
   resetDefaults();
 
-  const content = chapters.map((chapter, index) => {
+  const content = chapters.map(chapter => {
     const chapterTitle = getChapterTitle(
       chapter.formConfig,
       formData,
       formConfig,
     );
-    const fields = buildFields(
-      chapter,
-      formData,
-      pagesFromState,
-      showPageTitles,
-    ).filter(item => item != null);
+    const fields = buildFields(chapter, formData, pagesFromState).filter(
+      item => item != null,
+    );
 
     hasFields = hasFields || fields.length > 0;
 
-    if (fields.length === 0) return null;
-
     return (
-      <React.Fragment key={`chapter_${chapter.name}`}>
-        {index > 0 && (
-          <hr className="vads-u-border--1px vads-u-border-color--gray-light vads-u-margin-y--2" />
-        )}
-        <div>
+      fields.length > 0 && (
+        <div key={`chapter_${chapter.name}`}>
           <h3>{chapterTitle}</h3>
           <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
             {fields}
           </ul>
         </div>
-      </React.Fragment>
+      )
     );
   });
 
@@ -419,6 +362,4 @@ ChapterSectionCollection.propTypes = {
   className: PropTypes.string,
   collapsible: PropTypes.bool,
   header: PropTypes.string,
-  pageTitles: PropTypes.bool,
-  showPageTitles: PropTypes.bool,
 };
