@@ -730,4 +730,71 @@ describe('VA Medical Records', () => {
       });
     });
   });
+
+  describe('confirmation page display formatting', () => {
+    describe('treatment date confirmation field', () => {
+      const confirmationField =
+        uiSchema.vaTreatmentFacilities.items.treatmentDateRange.from[
+          'ui:confirmationField'
+        ];
+
+      it('formats partial dates with XX placeholders as readable month/year', () => {
+        const result = confirmationField({ formData: '2008-01-XX' });
+        expect(result.data).to.equal('January 2008');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('displays "Unknown" for missing or empty dates', () => {
+        expect(confirmationField({ formData: null }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: undefined }).data).to.equal(
+          'Unknown',
+        );
+        expect(confirmationField({ formData: '' }).data).to.equal('Unknown');
+      });
+
+      it('formats complete dates as readable month/year', () => {
+        const result = confirmationField({ formData: '2010-04-01' });
+        expect(result.data).to.equal('April 2010');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('displays "Unknown" for invalid dates with multiple XX placeholders', () => {
+        const result = confirmationField({ formData: '2010-XX-XX' });
+        expect(result.data).to.equal('Unknown');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+    });
+
+    describe('traumatic event treatment confirmation field', () => {
+      const confirmationField =
+        uiSchema.vaTreatmentFacilities.items.treatmentLocation0781Related[
+          'ui:confirmationField'
+        ];
+
+      it('displays "Yes" or "No" based on boolean response', () => {
+        const resultTrue = confirmationField({ formData: true });
+        expect(resultTrue.data).to.equal('Yes');
+        expect(resultTrue.label).to.equal(
+          'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        );
+
+        const resultFalse = confirmationField({ formData: false });
+        expect(resultFalse.data).to.equal('No');
+        expect(resultFalse.label).to.equal(
+          'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        );
+      });
+
+      it('defaults to "No" for missing values', () => {
+        expect(confirmationField({ formData: null }).data).to.equal('No');
+        expect(confirmationField({ formData: undefined }).data).to.equal('No');
+      });
+    });
+  });
 });
