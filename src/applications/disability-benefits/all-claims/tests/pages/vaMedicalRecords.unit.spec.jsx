@@ -762,9 +762,9 @@ describe('VA Medical Records', () => {
         );
       });
 
-      it('displays "Unknown" for invalid dates with multiple XX placeholders', () => {
+      it('replaces all XX placeholders with 01 (edge case since month should be a valid month)', () => {
         const result = confirmationField({ formData: '2010-XX-XX' });
-        expect(result.data).to.equal('Unknown');
+        expect(result.data).to.equal('January 2010');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
