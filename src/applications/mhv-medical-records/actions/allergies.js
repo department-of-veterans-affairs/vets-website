@@ -14,8 +14,8 @@ import { getListWithRetry } from './common';
 
 export const getAllergiesList = (
   isCurrent = false,
-  isAccelerating,
-  isCerner,
+  isAccelerating = false,
+  isCerner = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
@@ -54,8 +54,8 @@ export const getAllergiesList = (
 export const getAllergyDetails = (
   id,
   allergyList,
-  isAccelerating,
-  isCerner,
+  isAccelerating = false,
+  isCerner = false,
 ) => async dispatch => {
   try {
     let getDetailsFunc;
