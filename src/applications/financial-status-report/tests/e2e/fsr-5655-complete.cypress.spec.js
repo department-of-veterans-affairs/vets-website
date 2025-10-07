@@ -186,7 +186,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .as('BenefitAmount');
-          cy.get('@BenefitAmount').clear({ force: true });
+          cy.get('@BenefitAmount').type('{selectall}{backspace}', {
+            timeout: 1000,
+            force: true,
+          });
           cy.get('@BenefitAmount').type('1015.23', { force: true });
           customButtonGroupContinue('Update');
           cy.get('[data-testid="mini-summary-card"]')
