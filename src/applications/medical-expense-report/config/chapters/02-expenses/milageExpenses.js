@@ -5,10 +5,10 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Milage expenses',
-  path: 'expenses/milage',
+  title: 'Mileage expenses',
+  path: 'expenses/mileage',
   uiSchema: {
-    ...titleUI('Milage expenses'),
+    ...titleUI('Mileage expenses'),
     hasMileage: yesNoUI({
       title:
         'Did you, your spouse, or your dependents pay mileage that wasn’t reimbursed?',

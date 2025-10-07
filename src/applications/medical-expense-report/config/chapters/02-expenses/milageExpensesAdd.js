@@ -19,12 +19,12 @@ import { travelerTypeLabels } from '../../../utils/labels';
 import ListItemView from '../../../components/ListItemView';
 
 const MileageView = ({ formData }) => (
-  <ListItemView title={formData.provider} />
+  <ListItemView title={formData.traveler} />
 );
 
 MileageView.propTypes = {
   formData: PropTypes.shape({
-    provider: PropTypes.string,
+    traveler: PropTypes.string,
   }),
 };
 
@@ -58,16 +58,16 @@ export default {
           title: 'Who needed to travel?',
           labels: travelerTypeLabels,
         }),
-        childName: textUI({
+        travelerName: textUI({
           title: 'Enter the child’s name',
           expandUnder: 'traveler',
           expandUnderCondition: field => {
             return field === 'DEPENDENT' || field === 'OTHER';
           },
-          hideIf: (formData, index) =>
-            !['DEPENDENT', 'OTHER'].includes(
-              formData?.mileage?.[index]?.traveler,
-            ),
+          // hideIf: (formData, index) =>
+          //   !['DEPENDENT', 'OTHER'].includes(
+          //     formData?.mileage?.[index]?.traveler,
+          //   ),
           required: (formData, index) =>
             ['DEPENDENT', 'OTHER'].includes(
               formData?.mileage?.[index]?.traveler,
@@ -90,8 +90,8 @@ export default {
           title: 'Tell us where you traveled',
           expandUnder: 'travelLocation',
           expandUnderCondition: field => field === 'OTHER',
-          hideIf: (formData, index) =>
-            formData?.mileage?.[index]?.travelLocation !== 'OTHER',
+          // hideIf: (formData, index) =>
+          //   formData?.mileage?.[index]?.travelLocation !== 'OTHER',
           required: (formData, index) =>
             formData?.mileage?.[index]?.travelLocation === 'OTHER',
         }),
@@ -105,6 +105,8 @@ export default {
           title: 'How much were you reimbursed?',
           expandUnder: 'travelReimbursed',
           expandUnderCondition: field => field === true,
+          required: (formData, index) =>
+            formData?.mileage?.[index]?.travelReimbursed === true,
         }),
       },
     },
@@ -125,7 +127,7 @@ export default {
           ],
           properties: {
             traveler: radioSchema(Object.keys(travelerTypeLabels)),
-            childName: textSchema,
+            travelerName: textSchema,
             travelLocation: radioSchema([
               'HOSPITAL',
               'CLINIC',

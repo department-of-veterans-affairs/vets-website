@@ -37,7 +37,11 @@ export function transform(formConfig, form) {
   });
 }
 
-export async function submit(form, formConfig, apiPath = '') {
+export async function submit(
+  form,
+  formConfig,
+  apiPath = '/v0/api/medical_expense_reports',
+) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
   const apiRequestOptions = {
@@ -74,14 +78,14 @@ export async function submit(form, formConfig, apiPath = '') {
 
   return sendRequest().catch(async respOrError => {
     // if it's a CSRF error, clear CSRF and retry once
-    // const errorResponse = respOrError?.errors?.[0];
-    // if (
-    //   errorResponse?.status === '403' &&
-    //   errorResponse?.detail === 'Invalid Authenticity Token'
-    // ) {
-    //   localStorage.setItem('csrfToken', '');
-    //   return sendRequest().catch(onFailure);
-    // }
+    const errorResponse = respOrError?.errors?.[0];
+    if (
+      errorResponse?.status === '403' &&
+      errorResponse?.detail === 'Invalid Authenticity Token'
+    ) {
+      localStorage.setItem('csrfToken', '');
+      return sendRequest().catch(onFailure);
+    }
 
     // in other cases, handle error regularly
     return onFailure(respOrError);

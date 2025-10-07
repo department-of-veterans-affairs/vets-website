@@ -16,9 +16,13 @@
     },
     "email": "jane.doe@example.com",
     "primaryPhone": {
-        "callingCode": "1",
         "countryCode": "US",
-        "contact": "5551234567"
+        "contact": "5551234567",
+        "callingCode": 1,
+        "_error": null,
+        "_isValid": true,
+        "_required": true,
+        "_touched": true
     },
     "veteranFullName": {
         "first": "John",
@@ -30,6 +34,7 @@
     "veteranDateOfBirth": "1970-01-01",
     "vaFileNumber": "987654321",
     "isOver65": true,
+    "firstTimeReporting": true,
     "reportingPeriod": {
         "from": "2023-01-01",
         "to": "2023-12-31"
@@ -40,29 +45,36 @@
             "recipients": "SPOUSE",
             "provider": "Dr. Smith",
             "hoursPerWeek": "10",
-            "paymentDate": {
+            "careDate": {
                 "from": "2023-01-14",
                 "to": "2023-01-15"
             },
             "paymentPeriod": "monthly",
-            "paymentAmount": 25
+            "paymentAmount": 25,
+            "hourlyRate": 50,
+            "typeOfCare": "inHome",
+            "monthlyPayment": 100
         },
         {
             "recipients": "SPOUSE",
             "provider": "Dr. Smith",
             "hoursPerWeek": "50",
-            "paymentDate": {
+            "careDate": {
                 "from": "2023-02-01",
                 "to": "2023-03-15"
             },
             "paymentPeriod": "monthly",
-            "paymentAmount": 25
+            "paymentAmount": 25,
+            "hourlyRate": 50,
+            "typeOfCare": "residential",
+            "monthlyPayment": 100
         }
     ],
+    "hasMedicalExpenses": true,
     "medicalExpenses": [
         {
           "recipient": "VETERAN",
-          "recipientName": "5A (1)",
+          "recipientName": "John B. Doe Sr.",
           "provider": "5A (5)",
           "purpose": "5A (6)",
           "paymentDate": "2001-01-01",
@@ -79,22 +91,24 @@
           "paymentAmount": 876543.21
         }
     ],
+    "hasMileage": true,
     "mileage": [
         {
           "traveler": "VETERAN",
-          "travelerName": "6A (1)",
-          "travelLocation": "6A (2)",
-          "travelMilesTraveled": "1",
+          "travelLocation": "HOSPITAL",
+          "travelMilesTraveled": "10",
           "travelDate": "2001-01-10",
-          "travelReimbursementAmount": 123456.78
+          "travelReimbursed": false
         },
         {
-          "traveler": "SPOUSE",
-          "travelerName": "6B (1)",
-          "travelLocation": "6B (2)",
+          "traveler": "OTHER",
+          "travelerName": "Tom Otherson",
+          "travelLocation": "OTHER",
+          "travelLocationOther": "Some Other Place",
           "travelMilesTraveled": "10",
           "travelDate": "2002-02-20",
-          "travelReimbursementAmount": 876543.21
+          "travelReimbursed": true,
+          "travelReimbursementAmount": 125.67
         }
     ],
     "files": [

@@ -73,22 +73,22 @@ export default {
         reviewMode: true,
       },
       items: {
-        recipients: radioUI({
+        recipient: radioUI({
           title: 'Who is the expense for?',
           labels: recipientTypeLabels,
         }),
         childName: textUI({
           title: 'Enter the child’s name',
-          expandUnder: 'recipients',
+          expandUnder: 'recipient',
           expandUnderCondition: field =>
             field === 'DEPENDENT' || field === 'OTHER',
           hideIf: (formData, index) =>
             !['DEPENDENT', 'OTHER'].includes(
-              formData?.medicalExpenses?.[index]?.recipients,
+              formData?.medicalExpenses?.[index]?.recipient,
             ),
           required: (formData, index) =>
             ['DEPENDENT', 'OTHER'].includes(
-              formData?.medicalExpenses?.[index]?.recipients,
+              formData?.medicalExpenses?.[index]?.recipient,
             ),
         }),
         provider: textUI('Who receives the payment?'),
@@ -115,7 +115,7 @@ export default {
         items: {
           type: 'object',
           required: [
-            'recipients',
+            'recipient',
             'provider',
             'purpose',
             'paymentDate',
@@ -123,7 +123,7 @@ export default {
             'paymentAmount',
           ],
           properties: {
-            recipients: radioSchema(Object.keys(recipientTypeLabels)),
+            recipient: radioSchema(Object.keys(recipientTypeLabels)),
             childName: textSchema,
             provider: textSchema,
             purpose: textSchema,

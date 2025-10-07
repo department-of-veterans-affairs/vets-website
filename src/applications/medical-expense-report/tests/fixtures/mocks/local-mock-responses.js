@@ -61,6 +61,16 @@ const responses = {
       },
     });
   },
+  'POST /v0/api/medical_expense_reports': (req, res) => {
+    return res.json({
+      formSubmissionId: '123fake-submission-id-567',
+      confirmationNumber: '123fake-submission-id-567',
+      timestamp: '2020-11-12',
+      attributes: {
+        guid: '123fake-submission-id-567',
+      },
+    });
+  },
 };
 
 module.exports = responses;
