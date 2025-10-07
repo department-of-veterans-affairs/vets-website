@@ -77,7 +77,7 @@ const FormStartControls = props => {
 
     // Wizard status needs an intermediate value between not-started &
     // complete to prevent infinite loops in the RoutedSavableApp
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       formConfig?.wizardStorageKey || WIZARD_STATUS,
       WIZARD_STATUS_RESTARTING,
     );
@@ -145,18 +145,7 @@ const FormStartControls = props => {
     );
   }
 
-  return formConfig?.formOptions?.useWebComponentForNavigation ? (
-    <va-link-action
-      href="#start"
-      onClick={event => {
-        event.preventDefault();
-        handleLoadPrefill();
-      }}
-      label={ariaLabel}
-      message-aria-describedby={ariaDescribedby}
-      text={startText}
-    />
-  ) : (
+  return (
     <a
       href="#start"
       className="vads-c-action-link--green"
