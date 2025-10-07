@@ -845,9 +845,11 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 // Modify default uiSchema for SSN to insert any missing dashes.
 export const ssnDashesUI = ssnUI();
 
-export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
-  'ui:title': 'Applicant’s Social Security number',
-});
+export const preparerSsnDashesUI = ssnUI('Applicant’s Social Security number');
+
+export const sponsorDetailsSsnDashesUI = ssnUI(
+  'Sponsor’s Social Security number',
+);
 
 export const VAClaimNumberAdditionalInfo = (
   <va-additional-info trigger="What is a “VA claim number”?">

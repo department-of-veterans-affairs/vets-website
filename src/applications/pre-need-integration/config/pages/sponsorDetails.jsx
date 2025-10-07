@@ -10,7 +10,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   veteranUI,
   sponsorDetailsSubHeader,
-  ssnDashesUI,
+  sponsorDetailsSsnDashesUI,
   sponsorDetailsGuidingText,
 } from '../../utils/helpers';
 
@@ -51,10 +51,7 @@ export const uiSchema = {
         },
         'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
       }),
-      ssn: {
-        ...ssnDashesUI,
-        'ui:title': 'Sponsor’s Social Security number',
-      },
+      ssn: sponsorDetailsSsnDashesUI,
       dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
       cityOfBirth: {
         'ui:title': 'Sponsor’s birth city',
@@ -85,13 +82,15 @@ export const schema = {
                 properties: {},
               },
             },
+            pick(veteran.properties, ['currentName']),
+            {
+              ssn: ssnSchema,
+            },
             pick(veteran.properties, [
-              'currentName',
               'dateOfBirth',
               'cityOfBirth',
               'stateOfBirth',
             ]),
-            { ssn: ssnSchema },
           ),
         },
       },
