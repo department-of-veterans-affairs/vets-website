@@ -9,14 +9,19 @@ export default {
   uiSchema: {
     primaryPhone: phoneUI('Primary phone number'),
     secondaryPhone: phoneUI('Secondary phone number'),
-    emailAddress: emailToSendNotificationsUI(),
+    emailAddress: emailToSendNotificationsUI({
+      charcount: true,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       primaryPhone: phoneSchema,
       secondaryPhone: phoneSchema,
-      emailAddress: emailToSendNotificationsSchema,
+      emailAddress: {
+        ...emailToSendNotificationsSchema,
+        maxLength: 30,
+      },
     },
     required: ['primaryPhone', 'emailAddress'],
   },

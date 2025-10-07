@@ -73,6 +73,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
       fullNamePath: 'recipientName',
+      useProfileFullName: true,
     },
   },
   title: 'Verify your marital status for DIC benefits',
