@@ -1,0 +1,230 @@
+/**
+ * Proof of Concept: MSW in unit tests
+ * This demonstrates replacing mockFetch with MSW for cleaner, more realistic mocking
+ */
+import { expect } from 'chai';
+import React from 'react';
+import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
+import { server } from '~/platform/testing/msw/server';
+import {
+  prescriptionsHandler,
+  prescriptionsErrorHandler,
+} from '~/platform/testing/msw/handlers/medications/prescriptions';
+import { rest } from 'msw';
+
+// Import the component you want to test
+// Note: Replace with actual component path
+// import PrescriptionsList from '../../containers/PrescriptionsList';
+
+describe('PrescriptionsList - MSW POC', () => {
+  // MSW server is automatically set up by server.js
+  // No need for mockFetch() or resetFetch()
+
+  it('fetches and displays prescriptions using MSW', async () => {
+    // MSW is already handling the default /my_health/v1/prescriptions endpoint
+    // No manual mocking needed!
+
+    // Example render (replace with actual component)
+    // const screen = renderWithStoreAndRouterV6(<PrescriptionsList />, {
+    //   initialState: {},
+    // });
+
+    // await waitFor(() => {
+    //   expect(screen.getByText(/medication/i)).to.exist;
+    // });
+
+    // This test demonstrates that MSW is active and intercepting requests
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    expect(response.status).to.equal(200);
+    expect(data.data).to.be.an('array');
+    expect(data.data.length).to.be.greaterThan(0);
+  });
+
+  it('handles empty prescriptions list', async () => {
+    // Override for this specific test
+    server.use(prescriptionsHandler({ count: 0 }));
+
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    expect(data.data).to.be.an('array');
+    expect(data.data.length).to.equal(0);
+  });
+
+  it('handles API errors', async () => {
+    // Override with error handler
+    server.use(prescriptionsErrorHandler(500));
+
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    expect(response.status).to.equal(500);
+    expect(data.errors).to.exist;
+  });
+
+  it('can customize response data', async () => {
+    // Full control over response
+    server.use(
+      rest.get('/my_health/v1/prescriptions', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [
+              {
+                id: 'custom-1',
+                type: 'prescriptions',
+                attributes: {
+                  prescriptionName: 'Custom Medication',
+                  prescriptionId: 12345,
+                },
+              },
+            ],
+          }),
+        );
+      }),
+    );
+
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    expect(data.data[0].attributes.prescriptionName).to.equal(
+      'Custom Medication',
+    );
+  });
+
+  it('can test query parameters', async () => {
+    server.use(
+      rest.get('/my_health/v1/prescriptions', (req, res, ctx) => {
+        const page = req.url.searchParams.get('page');
+        const perPage = req.url.searchParams.get('per_page');
+
+        // Can assert or use query params to customize response
+        return res(
+          ctx.json({
+            data: [],
+            meta: {
+              pagination: {
+                currentPage: parseInt(page, 10),
+                perPage: parseInt(perPage, 10),
+              },
+            },
+          }),
+        );
+      }),
+    );
+
+    const response = await fetch(
+      '/my_health/v1/prescriptions?page=2&per_page=20',
+    );
+    const data = await response.json();
+
+    expect(data.meta.pagination.currentPage).to.equal(2);
+    expect(data.meta.pagination.perPage).to.equal(20);
+  });
+
+  it('demonstrates OLD mockFetch pattern (for comparison)', async () => {
+    // OLD WAY (commented out to avoid import):
+    // mockFetch();
+    // setFetchJSONResponse(global.fetch.onFirstCall(), {
+    //   data: [{ id: '1', attributes: { prescriptionName: 'Test' } }],
+    // });
+
+    // NEW WAY with MSW - more declarative, easier to read:
+    server.use(
+      rest.get('/my_health/v1/prescriptions', (req, res, ctx) => {
+        return res(
+          ctx.json({
+            data: [
+              {
+                id: '1',
+                type: 'prescriptions',
+                attributes: { prescriptionName: 'Test' },
+              },
+            ],
+          }),
+        );
+      }),
+    );
+
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    expect(data.data[0].attributes.prescriptionName).to.equal('Test');
+  });
+});
+
+describe('MSW Benefits Demonstration', () => {
+  it('reuses scenario from shared scenarios', async () => {
+    // Import scenarios
+    const {
+      scenarios,
+    } = await import('@department-of-veterans-affairs/platform-testing/msw/scenarios');
+
+    // Load a pre-built scenario
+    server.use(...scenarios.medications.withRefillable(3));
+
+    const response = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data = await response.json();
+
+    // All prescriptions should be refillable
+    expect(data.data.length).to.equal(3);
+    data.data.forEach(rx => {
+      expect(rx.attributes.isRefillable).to.be.true;
+    });
+  });
+
+  it('demonstrates request inspection', async () => {
+    let capturedRequest = null;
+
+    server.use(
+      rest.get('/my_health/v1/prescriptions', (req, res, ctx) => {
+        // Capture request for inspection
+        capturedRequest = {
+          url: req.url.href,
+          headers: Object.fromEntries(req.headers.entries()),
+        };
+
+        return res(ctx.json({ data: [] }));
+      }),
+    );
+
+    await fetch('/my_health/v1/prescriptions', {
+      headers: { 'X-Custom-Header': 'test-value' },
+    });
+
+    expect(capturedRequest).to.exist;
+    expect(capturedRequest.headers['x-custom-header']).to.equal('test-value');
+  });
+
+  it('demonstrates sequential responses', async () => {
+    let callCount = 0;
+
+    server.use(
+      rest.get('/my_health/v1/prescriptions', (req, res, ctx) => {
+        callCount += 1;
+
+        if (callCount === 1) {
+          // First call returns empty
+          return res(ctx.json({ data: [] }));
+        }
+
+        // Subsequent calls return data
+        return res(
+          ctx.json({
+            data: [{ id: '1', type: 'prescriptions', attributes: {} }],
+          }),
+        );
+      }),
+    );
+
+    const response1 = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data1 = await response1.json();
+    expect(data1.data.length).to.equal(0);
+
+    const response2 = await fetch('http://localhost/my_health/v1/prescriptions');
+    const data2 = await response2.json();
+    expect(data2.data.length).to.equal(1);
+  });
+});

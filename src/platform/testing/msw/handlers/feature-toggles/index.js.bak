@@ -1,0 +1,39 @@
+import { rest } from 'msw';
+
+/**
+ * Generate feature toggles response
+ * @param {object} overrides - Toggle overrides (key: boolean)
+ * @returns {object} Feature toggles response
+ */
+export const generateFeatureToggles = (overrides = {}) => {
+  const defaultToggles = {
+    mhvMedicationsToVaGovRelease: true,
+    mhvMedicationsDisplayRefillContent: true,
+    mhvMedicationsRemoveLandingPage: true,
+    // Add more default toggles as needed
+  };
+
+  const toggles = { ...defaultToggles, ...overrides };
+
+  return {
+    data: {
+      type: 'feature_toggles',
+      features: Object.entries(toggles).map(([name, value]) => ({
+        name,
+        value,
+      })),
+    },
+  };
+};
+
+/**
+ * MSW handler for GET /v0/feature_toggles
+ */
+export const featureTogglesHandler = (overrides = {}) => {
+  return rest.get('/v0/feature_toggles', (req, res, ctx) => {
+    return res(
+      ctx.delay(300),
+      ctx.json(generateFeatureToggles(overrides)),
+    );
+  });
+};
