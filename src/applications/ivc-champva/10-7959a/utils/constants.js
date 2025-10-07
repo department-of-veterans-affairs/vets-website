@@ -4,7 +4,6 @@ export const CHAMPVA_PHONE_NUMBER = '8007338387';
 export const FEATURE_TOGGLES = [
   'champvaEnableClaimResubmitQuestion',
   'champvaClaimsLlmValidation',
-  'champvaEnabledResubmitUploads',
 ];
 
 export const FILE_SIZE_MAX = '20MB';

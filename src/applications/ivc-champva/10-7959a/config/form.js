@@ -51,11 +51,6 @@ import {
   claimIdentificationNumber,
   resubmissionLetterUpload,
   resubmissionDocsUpload,
-  claimType,
-  medicalClaimDetails,
-  medicalUploadSupportingDocs,
-  pharmacyClaimDetails,
-  pharmacyClaimUploadDocs,
 } from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
@@ -187,9 +182,7 @@ const formConfig = {
         page1e2: {
           path: 'resubmission-letter-upload',
           title: 'Upload CHAMPVA resubmission letter',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            formData['view:champvaEnabledResubmitUploads'],
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...resubmissionLetterUpload,
@@ -197,60 +190,10 @@ const formConfig = {
         page1e3: {
           path: 'resubmission-supporting-docs-upload',
           title: 'Upload supporting documents for your claim',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            formData['view:champvaEnabledResubmitUploads'],
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
           ...resubmissionDocsUpload,
-        },
-        page1f: {
-          path: 'resubmission-claim-type',
-          title: 'Claim type',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            !formData['view:champvaEnabledResubmitUploads'],
-          ...claimType,
-        },
-        page1g: {
-          path: 'resubmission-medical-claim-details',
-          title: 'Claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical' &&
-            !formData['view:champvaEnabledResubmitUploads'],
-          ...medicalClaimDetails,
-        },
-        page1h: {
-          path: 'resubmission-medical-supporting-docs',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical' &&
-            !formData['view:champvaEnabledResubmitUploads'],
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
-          ...medicalUploadSupportingDocs,
-        },
-        pageij: {
-          path: 'resubmission-pharmacy-claim-details',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy' &&
-            !formData['view:champvaEnabledResubmitUploads'],
-          ...pharmacyClaimDetails,
-        },
-        page1k: {
-          path: 'resubmission-pharmacy-supporting-docs',
-          title: 'Upload support documents for your pharmacy claim',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy' &&
-            !formData['view:champvaEnabledResubmitUploads'],
-          CustomPage: FileFieldCustomSimple,
-          CustomPageReview: null,
-          ...pharmacyClaimUploadDocs,
         },
       },
     },
