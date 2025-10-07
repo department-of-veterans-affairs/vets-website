@@ -7,13 +7,13 @@ import AllergiesListPage from './pages/AllergiesListPage';
 describe('Medical Records View Allergies', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     site.loadPage();
   });
 
   it('Toggle Menu button Print or download on Details Page ', () => {
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
+    AllergiesListPage.goToAllergies(allergies);
 
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
 
