@@ -23,7 +23,11 @@ const VA_PROFILE_EMAIL_HREF =
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
 const AlertConfirmContactEmail = ({ email }) => {
   return (
-    <VaAlert status="warning" dataTestid="alert-confirm-contact-email">
+    <VaAlert
+      status="warning"
+      dataTestid="alert-confirm-contact-email"
+      className="vads-u-margin-y--2"
+    >
       <h2 slot="headline">Confirm your contact email</h2>
       <React.Fragment key=".1">
         <p>
@@ -34,10 +38,11 @@ const AlertConfirmContactEmail = ({ email }) => {
         <p>
           <VaButton
             onClick={() => {}} // dispatch PUT ...
+            fullWidth
             text="Confirm"
           />
         </p>
-        <p>
+        <p className="vads-u-margin-bottom--0">
           <VaLink
             href={VA_PROFILE_EMAIL_HREF}
             text="Go to profile to update your contact email"
@@ -55,7 +60,11 @@ AlertConfirmContactEmail.propTypes = {
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-45009&t=CogySEDQUAcvZwHQ-4
 const AlertAddContactEmail = () => {
   return (
-    <VaAlert status="warning" dataTestid="alert-add-contact-email">
+    <VaAlert
+      status="warning"
+      dataTestid="alert-add-contact-email"
+      className="vads-u-margin-y--2"
+    >
       <h2 slot="headline">Add a contact email</h2>
       <React.Fragment key=".1">
         <p>
@@ -69,8 +78,8 @@ const AlertAddContactEmail = () => {
             text="Go to profile to add a contact email"
           />
         </p>
-        <p>
-          <VaButton onClick={dismissAlert} text="Skip adding email" />
+        <p className="vads-u-margin-bottom--0">
+          <VaButton secondary onClick={dismissAlert} text="Skip adding email" />
         </p>
       </React.Fragment>
     </VaAlert>
