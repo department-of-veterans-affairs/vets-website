@@ -89,11 +89,10 @@ describe('VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
-
-    expect(
+    const testVal =
       pdfList[0].sections[0].items[pdfList[0].sections[0].items.length - 1]
-        .value,
-    ).to.equal('test');
+        .value;
+    expect(testVal).to.equal('test');
   });
 
   it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
