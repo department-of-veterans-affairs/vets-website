@@ -70,27 +70,13 @@ function IntroductionPage({ route }) {
         formConfig={formConfig}
       />
 
-      <h2>Have questions about this form?</h2>
-      <p>Contact us if you need assistance:</p>
-      <ul>
-        <li>
-          <strong>Call us:</strong> 1-877-294-6380 (TTY: 711)
-        </li>
-        <li>
-          <strong>Submit an inquiry online:</strong>{' '}
-          <a
-            href="https://iris.va.gov"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://iris.va.gov
-          </a>
-        </li>
-        <li>
-          <strong>Write to us:</strong> Include your full name and VA file
-          number in your correspondence
-        </li>
-      </ul>
+      <h2>Need help?</h2>
+      <p>
+        If you have questions or need help filling out this form, call us at{' '}
+        <va-telephone contact="8772946380" /> (
+        <va-telephone contact="711" tty />
+        ). We're here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
 
       <va-omb-info
         res-burden={5}

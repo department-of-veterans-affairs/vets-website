@@ -10,7 +10,7 @@ describe('Medical Records View Heart Rate', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     cy.visit('my-health/medical-records');
     Vitals.setIntercepts({ vitalData: vitalsData });
