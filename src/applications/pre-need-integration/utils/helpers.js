@@ -9,11 +9,13 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import { ssnUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  ssnUI,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
