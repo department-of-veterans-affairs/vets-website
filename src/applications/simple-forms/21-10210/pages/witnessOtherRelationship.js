@@ -26,9 +26,9 @@ export default {
           title:
             claimantType === CLAIMANT_TYPES.VETERAN
               ? // Flow 2: vet claimant
-                'Since your relationship with the Veteran was not listed, please describe it here (30 characters maximum)'
+                'Since your relationship with the Veteran was not listed, please describe it here'
               : // Flow 4: non-vet claimant
-                'Since your relationship with the Claimant was not listed, please describe it here (30 characters maximum)',
+                'Since your relationship with the Claimant was not listed, please describe it here',
         };
       },
     }),
