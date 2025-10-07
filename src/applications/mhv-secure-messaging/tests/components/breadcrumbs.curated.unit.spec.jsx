@@ -96,7 +96,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.RECENT_CARE_TEAMS}`);
+      expect(history.location.pathname).to.equal(`${Paths.COMPOSE}`);
     });
   });
 
@@ -121,7 +121,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(Paths.RECENT_CARE_TEAMS);
+      expect(history.location.pathname).to.equal(Paths.COMPOSE);
     });
   });
 
