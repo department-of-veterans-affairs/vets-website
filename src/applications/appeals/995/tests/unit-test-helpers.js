@@ -75,31 +75,3 @@ export const verifyProviderPrivate = (
     );
   }
 };
-
-/* <h5 class="va-title vads-u-font-weight--bold">We’re requesting records from these VA locations:</h5>
-<ul class="evidence-summary remove-bullets" role="list">
-<li class="vads-u-padding-x--0 vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--2 vads-u-margin-bottom--2">
-<div class="">
-<h6 class="va-location dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold" data-dd-action-name="VA location name">South Texas VA Facility</h6>
-<div class="dd-privacy-hidden overflow-wrap-word" data-dd-action-name="VA location treated issues">Hypertension</div>
-<div class="dd-privacy-hidden" data-dd-action-name="VA location treatment date">February 2000</div>
-<div class="vads-u-margin-top--1p5">
-<va-link disable-analytics="true" id="edit-va-0" aria-label="Edit South Texas VA Facility" data-link="/supporting-evidence/va-medical-records?index=0" text="Edit" href="/supporting-evidence/va-medical-records?index=0" label="Edit South Texas VA Facility" class="edit-item">
-</va-link>
-<va-button data-index="0" data-type="va" class="remove-item vads-u-width--auto vads-u-margin-left--2 vads-u-margin-top--0" label="Remove South Texas VA Facility" text="Remove" secondary="true">
-</va-button>
-</div>
-</div>
-</li>
-<li class="vads-u-padding-x--0 vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--2 vads-u-margin-bottom--2">
-<div class="">
-<h6 class="va-location dd-privacy-hidden overflow-wrap-word vads-u-margin-y--0 vads-u-font-weight--bold" data-dd-action-name="VA location name">Midwest Alabama VA Facility</h6>
-<div class="dd-privacy-hidden overflow-wrap-word" data-dd-action-name="VA location treated issues">Hypertension and Gluten Intolerance</div>I don’t have the date<div class="vads-u-margin-top--1p5">
-<va-link disable-analytics="true" id="edit-va-1" aria-label="Edit Midwest Alabama VA Facility" data-link="/supporting-evidence/va-medical-records?index=1" text="Edit" href="/supporting-evidence/va-medical-records?index=1" label="Edit Midwest Alabama VA Facility" class="edit-item">
-</va-link>
-<va-button data-index="1" data-type="va" class="remove-item vads-u-width--auto vads-u-margin-left--2 vads-u-margin-top--0" label="Remove Midwest Alabama VA Facility" text="Remove" secondary="true">
-</va-button>
-</div>
-</div>
-</li>
-</ul> */
