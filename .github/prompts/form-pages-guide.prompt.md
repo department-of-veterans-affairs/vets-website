@@ -876,6 +876,23 @@ activeDuty: yesNoUI({
   }
 })
 // Schema: yesNoSchema
+
+// yesNoUI with descriptions for additional context
+hasHealthInsurance: yesNoUI({
+  title: 'Do you have health insurance coverage?',
+  labels: {
+    Y: 'Yes, I have health insurance',
+    N: 'No, I do not have health insurance'
+  },
+  descriptions: {
+    Y: 'Select this if you currently have any form of health insurance coverage',
+    N: 'Select this if you do not have health insurance coverage'
+  },
+  errorMessages: {
+    required: 'Please select whether you have health insurance'
+  }
+})
+// Schema: yesNoSchema
 ```
 
 ---
