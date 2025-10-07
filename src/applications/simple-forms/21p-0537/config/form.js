@@ -80,7 +80,6 @@ const formConfig = {
   subTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
   customText: {
     appType: 'form',
-    submitButtonText: 'Submit',
   },
   defaultDefinitions: {},
   footerContent,
