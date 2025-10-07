@@ -17,11 +17,11 @@ const WebpackBar = require('webpackbar');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
 
-const headerFooterData = require('@department-of-veterans-affairs/platform-landing-pages/header-footer-data');
-const facilitySidebar = require('@department-of-veterans-affairs/platform-landing-pages/facility-sidebar');
+const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -33,13 +33,13 @@ const {
 // TODO: refactor the other approach for creating files without the hash so that we're only doing that in the webpack config: https://github.com/department-of-veterans-affairs/vets-website/blob/a012bad17e5bf024b0ea7326a72ae6a737e349ec/src/site/stages/build/plugins/process-entry-names.js#L35
 const vaMedalliaStylesFilename = 'va-medallia-styles';
 
-const generateWebpackDevConfig = require('./webpack.dev.config');
+const generateWebpackDevConfig = require('./webpack.dev.config.js');
 
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
 const sharedModules = [
-  '@department-of-veterans-affairs/platform-polyfills',
+  getAbsolutePath('src/platform/polyfills'),
   'react',
   'react-dom',
   'react-redux',
@@ -49,19 +49,18 @@ const sharedModules = [
 ];
 
 const globalEntryFiles = {
-  polyfills:
-    '@department-of-veterans-affairs/platform-polyfills/preESModulesPolyfills',
-  style: '@department-of-veterans-affairs/platform-site-wide/style',
-  [vaMedalliaStylesFilename]:
-    '@department-of-veterans-affairs/platform-site-wide/va-medallia-style',
+  polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
+  style: getAbsolutePath('src/platform/site-wide/sass/style.scss'),
+  [vaMedalliaStylesFilename]: getAbsolutePath(
+    'src/platform/site-wide/sass/va-medallia-style.scss',
+  ),
   styleConsolidated: getAbsolutePath(
     'src/applications/proxy-rewrite/sass/style-consolidated.scss',
   ),
   vendor: sharedModules,
   // This is to solve the issue of the vendor file being cached
   'shared-modules': sharedModules,
-  'web-components':
-    '@department-of-veterans-affairs/platform-site-wide/wc-loader',
+  'web-components': getAbsolutePath('src/platform/site-wide/wc-loader.js'),
 };
 
 function getEntryManifests(entry) {
@@ -149,7 +148,7 @@ async function getScaffoldAssets() {
 
 const templateLayoutToDevTemplate = {
   'accredited-representative-portal.html':
-    'node_modules/@department-of-veterans-affairs/platform-landing-pages/arp-dev-template.ejs',
+    'src/platform/landing-pages/arp-dev-template.ejs',
 };
 
 /**
@@ -163,7 +162,7 @@ const templateLayoutToDevTemplate = {
 function getDevTemplate(templateLayout) {
   return (
     templateLayoutToDevTemplate[templateLayout] ||
-    'node_modules/@department-of-veterans-affairs/platform-landing-pages/dev-template.ejs'
+    'src/platform/landing-pages/dev-template.ejs'
   );
 }
 
@@ -430,10 +429,6 @@ module.exports = async (env = {}) => {
       alias: {
         fs: 'pdfkit/js/virtual-fs.js',
         'iconv-lite': false,
-        '@bio-aquia': path.resolve(
-          __dirname,
-          '../src/applications/benefits-optimization-aquia',
-        ),
       },
       extensions: ['.js', '.jsx', '.tsx', '.ts'],
       fallback: {
@@ -447,6 +442,9 @@ module.exports = async (env = {}) => {
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
         'process/browser': require.resolve('process/browser'),
+        os: require.resolve('os-browserify/browser'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
       },
       symlinks: false,
     },
@@ -487,8 +485,17 @@ module.exports = async (env = {}) => {
         'process.env.MAPBOX_TOKEN': JSON.stringify(
           process.env.MAPBOX_TOKEN || '',
         ),
+        'process.env.VIRTUAL_AGENT_BACKEND_URL': JSON.stringify(
+          process.env.VIRTUAL_AGENT_BACKEND_URL || '',
+        ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.DATADOG_APP_NAME': JSON.stringify(
+          process.env.DATADOG_APP_NAME || '',
+        ),
+        'process.env.DATADOG_API_KEY': JSON.stringify(
+          process.env.DATADOG_API_KEY || '',
+        ),
         'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
         'process.env.LOG_LEVEL': JSON.stringify(
           process.env.LOG_LEVEL || 'info',
@@ -526,10 +533,6 @@ module.exports = async (env = {}) => {
           {
             from: 'src/site/assets',
             to: buildPath,
-          },
-          {
-            from: 'src/platform/site-wide/sass/fonts',
-            to: `${buildPath}/generated`,
           },
           {
             from:
@@ -576,10 +579,6 @@ module.exports = async (env = {}) => {
       }),
     );
   }
-
-  baseConfig.watchOptions = {
-    ignored: /\/(\.git|node_modules)\//,
-  };
 
   return baseConfig;
 };

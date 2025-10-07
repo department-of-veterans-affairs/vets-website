@@ -1,6 +1,6 @@
 /* LocalReporter.js
-  * Custom reporter to create a separate report-file for each spec-file
-*/
+ * Custom reporter to create a separate report-file for each spec-file
+ */
 const Mochawesome = require('mochawesome');
 
 class LocalReporter extends Mochawesome {
