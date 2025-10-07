@@ -29,7 +29,7 @@ import sharedErrorMessages from '../../../shared/content/errorMessages';
 | Empty    | Focus error | Prev page & remove | Focus error      |
 | Partial  | Focus error | Modal & Prev page  | Focus error      |
  */
-describe('<EvidencePrivateRecords>', () => {
+describe('EvidencePrivateRecords', () => {
   const validDate = parseDateWithOffset({ months: -2 });
   const mockData = {
     contestedIssues: [
@@ -46,6 +46,7 @@ describe('<EvidencePrivateRecords>', () => {
       { issue: 'test 2', decisionDate: validDate, [SELECTED]: true },
     ],
   };
+
   const mockAddress = {
     country: 'USA',
     street: '123 Main',
@@ -54,12 +55,14 @@ describe('<EvidencePrivateRecords>', () => {
     state: 'CA',
     postalCode: '90210',
   };
+
   const mockFacility = {
     providerFacilityName: 'Location 1',
     providerFacilityAddress: mockAddress,
     issues: ['test 1'],
     treatmentDateRange: { from: '2001-01-01', to: '2011-01-01' },
   };
+
   const mockFacility2 = {
     providerFacilityName: 'Location 2',
     providerFacilityAddress: mockAddress,
@@ -75,18 +78,16 @@ describe('<EvidencePrivateRecords>', () => {
     goToPath = () => {},
     setFormData = () => {},
   } = {}) => (
-    <div>
-      <EvidencePrivateRecords
-        testingIndex={index}
-        data={data}
-        goBack={goBack}
-        goForward={goForward}
-        goToPath={goToPath}
-        setFormData={setFormData}
-        contentBeforeButtons={<div>before</div>}
-        contentAfterButtons={<div>after</div>}
-      />
-    </div>
+    <EvidencePrivateRecords
+      testingIndex={index}
+      data={data}
+      goBack={goBack}
+      goForward={goForward}
+      goToPath={goToPath}
+      setFormData={setFormData}
+      contentBeforeButtons={<div>before</div>}
+      contentAfterButtons={<div>after</div>}
+    />
   );
 
   const getErrorElements = container =>
