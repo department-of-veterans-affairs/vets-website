@@ -71,7 +71,6 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       body: statementOfTruthBody,
-      useProfileFullName: true,
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
       fullNamePath: 'recipientName',
