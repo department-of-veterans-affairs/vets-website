@@ -13,11 +13,11 @@ import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { chapters } from './chapters';
+import { chapters, mebChapters } from './chapters';
 
 import manifest from '../manifest.json';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
-import { introductionPage } from '../helpers';
+import { introductionPage, isMeb1995ReRouteEnabled } from '../helpers';
 
 const {
   preferredContactMethod,
@@ -72,7 +72,8 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
-  chapters,
+  chapters: isMeb1995ReRouteEnabled() ? mebChapters : chapters,
+  isMeb1995ReRouteEnabled,
 };
 
 export default formConfig;

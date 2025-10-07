@@ -242,3 +242,7 @@ if (isProductionOfTestProdEnv()) {
     fullSchema1995,
   );
 }
+
+export const mebChapters = {
+  // meb1995ReReoute chapters go here
+};
