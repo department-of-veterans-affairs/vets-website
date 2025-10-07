@@ -4,7 +4,7 @@ import { merge, pick } from 'lodash';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { ssnOrVaFileNumberNoHintSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import { ssnSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
@@ -91,7 +91,7 @@ export const schema = {
               'cityOfBirth',
               'stateOfBirth',
             ]),
-            { ssn: ssnOrVaFileNumberNoHintSchema },
+            { ssn: ssnSchema },
           ),
         },
       },
