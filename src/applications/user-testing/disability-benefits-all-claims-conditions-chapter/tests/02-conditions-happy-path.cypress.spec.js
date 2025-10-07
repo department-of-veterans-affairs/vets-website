@@ -22,14 +22,13 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
     chooseConditionType(0);
 
     // Enter a condition with laterality
-    cy.get('#inputField').type('ankle sprain');
+    cy.get('#inputField').type('asthma');
     cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
       'contain.text',
-      'ankle sprain',
+      'asthma',
     );
-    cy.contains('[role="option"]', /ankle/i).click();
+    cy.contains('[role="option"]', /asthma/i).click();
 
-    clickContinue();
     clickContinue();
     clickContinue();
 
@@ -43,7 +42,7 @@ describe('Conditions — Happy Path (Pages 0 → 9)', () => {
     );
 
     // Choose No for adding more conditions
-    finishSummaryNoMore(/ankle/i);
+    finishSummaryNoMore(/asthma/i);
 
     // Review & submit
     reviewAndExpand();
