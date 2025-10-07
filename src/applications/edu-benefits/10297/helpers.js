@@ -3,6 +3,8 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { focusElement } from '~/platform/utilities/ui';
+
 export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
   <>
     <p>Your submission is in progress.</p>
@@ -157,6 +159,10 @@ export const maskBankInformation = (string, unmaskedLength) => {
   const maskedPart = '●'.repeat(repeatCount);
   const unmaskedPart = string.slice(-unmaskedLength);
   return `${maskedPart}${unmaskedPart}`;
+};
+
+export const focusOnH3 = () => {
+  focusElement('#main h3');
 };
 
 export const getPrefillIntlPhoneNumber = (phone = {}) => {
