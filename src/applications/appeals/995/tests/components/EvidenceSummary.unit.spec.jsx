@@ -13,16 +13,7 @@ import {
   EVIDENCE_OTHER,
   LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
-
-const verifyHeader = (headers, index, expectedContent) => {
-  expect(headers[index].textContent).to.eq(expectedContent);
-};
-
-const verifyLink = (selector, expectedPath) => {
-  const link = $$(selector)?.[0];
-  expect(link).to.exist;
-  expect(link.href).to.eq(expectedPath);
-};
+import { verifyHeader, verifyLink } from '../unit-test-helpers';
 
 const clickContinue = container => {
   fireEvent.click($('.form-progress-buttons .usa-button-primary', container));

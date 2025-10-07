@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  EVIDENCE_PRIVATE_DETAILS_PATH,
-  EVIDENCE_VA_DETAILS_PATH,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_VA_DETAILS_URL,
 } from '../constants';
 
 export const verifyHeader = (headers, index, expectedContent) => {
@@ -47,7 +47,7 @@ export const verifyProviderVA = (
   if (!reviewMode) {
     verifyLink(
       `#edit-va-${providerIndex}`,
-      `/${EVIDENCE_VA_DETAILS_PATH}?index=${providerIndex}`,
+      `/${EVIDENCE_VA_DETAILS_URL}?index=${providerIndex}`,
     );
 
     const removeButton = $$(`va-button[data-index="${providerIndex}"]`)[0];
@@ -71,7 +71,7 @@ export const verifyProviderPrivate = (
   if (!reviewMode) {
     verifyLink(
       `#edit-private-${providerIndex}`,
-      `/${EVIDENCE_PRIVATE_DETAILS_PATH}?index=${providerIndex}`,
+      `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${providerIndex}`,
     );
   }
 };
