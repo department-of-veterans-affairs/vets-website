@@ -30,7 +30,7 @@ const formConfig = (pathname = null) => {
   if (formNumber === '21-526EZ') {
     return {
       rootUrl: manifest.rootUrl,
-      urlPrefix: `/${formNumber.toLowerCase()}/`,
+      urlPrefix: `/submit-va-form-${formNumber.toLowerCase()}/`,
       submitUrl: `${
         environment.API_URL
       }/accredited_representative_portal/v0/submit_representative_form`,
@@ -92,7 +92,7 @@ const formConfig = (pathname = null) => {
   }
   return {
     rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber.toLowerCase()}/`,
+    urlPrefix: `/submit-va-form-${formNumber.toLowerCase()}/`,
     submitUrl: `${
       environment.API_URL
     }/accredited_representative_portal/v0/submit_representative_form`,

@@ -94,7 +94,7 @@ const routes = [
                 loader: DashboardPage.loader,
               },
               {
-                path: 'poa-requests',
+                path: 'representation-requests',
                 element: (
                   <POARequestSearchPage title="Representation requests | Veterans Affairs" />
                 ),
@@ -117,7 +117,7 @@ const routes = [
                 loader: ClaimantSearchPage.loader,
               },
               {
-                path: 'poa-requests/:id',
+                path: 'representation-requests/:id',
                 element: (
                   <POARequestDetailsPage title="Representation request | Veterans Affairs" />
                 ),
