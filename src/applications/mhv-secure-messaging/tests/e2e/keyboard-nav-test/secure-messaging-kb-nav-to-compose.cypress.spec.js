@@ -13,8 +13,8 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.findByTestId('start-message-link').should('be.visible');
-    cy.tabToElement('[data-testid="start-message-link"]');
+    cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE).should('be.visible');
+    cy.tabToElement(`[data-testid=${Locators.LINKS.START_NEW_MESSAGE}]`);
     cy.realPress(['Enter']);
     cy.get(Locators.ALERTS.PAGE_TITLE)
       .should('be.focused')
