@@ -15,6 +15,7 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   generateTextFile,
@@ -43,7 +44,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
