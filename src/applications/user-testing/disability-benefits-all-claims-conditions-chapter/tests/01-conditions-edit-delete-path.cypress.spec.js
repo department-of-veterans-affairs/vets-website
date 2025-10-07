@@ -3,8 +3,6 @@ import {
   chooseConditionType,
   conditionsInfo,
   enterCauseNewDetails,
-  enterNewCondition,
-  sideOfBodyThenDate,
   startApplication,
 } from './utils/conditionsPages';
 
@@ -147,8 +145,16 @@ describe('Conditions — Summary (Edit & Delete)', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
-    enterNewCondition(0, 'asthma');
-    sideOfBodyThenDate(0, '2022-06-15');
+
+    cy.get('#inputField').type('asthma');
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+      'contain.text',
+      'asthma',
+    );
+    cy.contains('[role="option"]', /^asthma$/i).click();
+
+    clickContinue();
+    clickContinue();
     chooseCause(0);
     enterCauseNewDetails(0, 'Initial details');
 
@@ -178,8 +184,16 @@ describe('Conditions — Summary (Edit & Delete)', () => {
     startApplication();
     conditionsInfo();
     chooseConditionType(0);
-    enterNewCondition(0, 'asthma');
-    sideOfBodyThenDate(0, '2022-06-15');
+
+    cy.get('#inputField').type('asthma');
+    cy.get('[data-testid="autocomplete-list"]', { timeout: 5000 }).should(
+      'contain.text',
+      'asthma',
+    );
+    cy.contains('[role="option"]', /^asthma$/i).click();
+
+    clickContinue();
+    clickContinue();
     chooseCause(0);
     enterCauseNewDetails(0, 'Initial details');
 
