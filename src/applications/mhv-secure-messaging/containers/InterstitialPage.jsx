@@ -80,10 +80,12 @@ const InterstitialPage = props => {
         </p>
 
         <va-link-action
-          href={`${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`}
+          href={
+            mhvSecureMessagingCuratedListFlow
+              ? `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`
+              : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
+          }
           onClick={handleContinueButton}
-          label={continueButtonText}
-          message-aria-describedby={continueButtonText}
           text={continueButtonText}
           type="primary"
           data-testid="start-message-link"
