@@ -63,8 +63,7 @@ const requestsV2 = require('./v2/requests.json');
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
-const providerUtils = require('../../referral-appointments/utils/provider');
-const referralUtils = require('../../referral-appointments/utils/referrals');
+// const providerUtils = require('../../referral-appointments/utils/provider');
 const MockReferralListResponse = require('../../tests/fixtures/MockReferralListResponse');
 const MockReferralDetailResponse = require('../../tests/fixtures/MockReferralDetailResponse');
 const MockReferralDraftAppointmentResponse = require('../../tests/fixtures/MockReferralDraftAppointmentResponse');
@@ -78,8 +77,6 @@ const features = require('./featureFlags');
 const mockAppts = [];
 let currentMockId = 1;
 const draftAppointmentPollCount = {};
-
-const referrals = referralUtils.createReferrals(4, null, null, true, true);
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -460,9 +457,11 @@ const responses = {
     return res.json(patientProviderRelationships);
   },
   'GET /vaos/v2/referrals': (req, res) => {
-    return res.json({
-      data: referrals,
-    });
+    return res.json(
+      new MockReferralListResponse({
+        numberOfReferrals: 'predefined',
+      }),
+    );
   },
   'GET /vaos/v2/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
@@ -496,18 +495,13 @@ const responses = {
         }),
       );
     }
-    const originalReferral = referrals.find(
-      ref => ref.id === req.params.referralId,
+
+    return res.json(
+      new MockReferralDetailResponse({
+        id: req.params.referralId,
+        referralNumber: req.params.referralId,
+      }),
     );
-    const referral = referralUtils.createReferralById(
-      '2024-12-02',
-      req.params.referralId,
-      null,
-      originalReferral.attributes.categoryOfCare || 'OPTOMETRY',
-    );
-    return res.json({
-      data: referral,
-    });
   },
   'POST /vaos/v2/appointments/draft': (req, res) => {
     const { referral_number: referralNumber } = req.body;
@@ -531,25 +525,13 @@ const responses = {
       );
     }
 
-    const draftAppointment = providerUtils.createDraftAppointmentInfo(
-      referralNumber,
+    return res.json(
+      new MockReferralDraftAppointmentResponse({
+        referralNumber,
+        categoryOfCare: 'OPTOMETRY',
+        startDate: new Date(),
+      }),
     );
-
-    if (referralNumber !== 'draft-no-slots-error') {
-      draftAppointment.attributes.slots = getMockSlots({
-        existingAppointments: confirmedAppointmentsv3.data,
-        futureMonths: 2,
-        pastMonths: 0,
-        slotsPerDay: 3,
-        conflictRate: 0,
-        forceConflictWithAppointments: nextBusinessDayAppointments,
-        communityCareSlots: true,
-      }).data;
-    }
-
-    return res.json({
-      data: draftAppointment,
-    });
   },
   'GET /vaos/v2/eps_appointments/:appointmentId': (req, res) => {
     let successPollCount = 2; // The number of times to poll before returning a confirmed appointment

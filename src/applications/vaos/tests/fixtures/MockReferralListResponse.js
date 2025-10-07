@@ -134,7 +134,7 @@ class MockReferralListResponse {
   static getRandomReferrals(count = 3) {
     const referrals = [];
     for (let i = 0; i < count; i++) {
-      const categoryOfCare = i % 2 === 0 ? 'OPTOMETRY' : 'CHIROPRACTIC';
+      const categoryOfCare = 'OPTOMETRY'; // Use only OPTOMETRY to ensure they pass filters
       referrals.push(
         MockReferralListResponse.createReferral({ categoryOfCare }),
       );
