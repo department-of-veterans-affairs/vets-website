@@ -74,8 +74,9 @@ export const chooseFirstRadioIfUnknown = () => {
 };
 
 export const fillNewConditionAutocomplete = text => {
+  cy.get('va-text-input#root_newCondition').should('exist');
+
   cy.get('va-text-input#root_newCondition')
-    .should('exist')
     .shadow()
     .find('#inputField')
     .as('condInput');
@@ -83,11 +84,10 @@ export const fillNewConditionAutocomplete = text => {
   cy.get('@condInput')
     .clear()
     .type(text, { delay: 10 });
+  cy.get('[data-testid="autocomplete-list"]').should('be.visible');
 
-  cy.get('@condInput').type('{downarrow}{enter}');
-  cy.get('@condInput')
-    .invoke('val')
-    .should('not.be.empty');
+  cy.contains('[role="option"]', new RegExp(`^${text}$`, 'i')).click();
+  cy.get('@condInput').should('have.value', text);
 };
 
 export const selectSideOfBody = side => {
@@ -100,13 +100,12 @@ export const fillNewConditionDate = input => {
   let year;
   let month;
   let day;
+
   if (typeof input === 'string') {
     const m = input.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
     if (!m)
       throw new Error(`fillNewConditionDate: invalid date string "${input}"`);
-    year = m[1];
-    month = m[2];
-    day = m[3];
+    [, year, month, day] = m;
   } else if (input && typeof input === 'object') {
     ({ year, month, day } = input);
   } else {
@@ -126,6 +125,8 @@ export const fillNewConditionDate = input => {
   cy.get('.usa-memorable-date').within(() => {
     cy.get('va-select')
       .should('exist')
+      .as('monthHost');
+    cy.get('@monthHost')
       .shadow()
       .find('select')
       .should('be.visible')
@@ -133,6 +134,8 @@ export const fillNewConditionDate = input => {
 
     cy.get('.usa-form-group--day va-text-input')
       .should('exist')
+      .as('dayHost');
+    cy.get('@dayHost')
       .shadow()
       .find('#inputField')
       .clear()
@@ -140,6 +143,8 @@ export const fillNewConditionDate = input => {
 
     cy.get('.usa-form-group--year va-text-input')
       .should('exist')
+      .as('yearHost');
+    cy.get('@yearHost')
       .shadow()
       .find('#inputField')
       .clear()
