@@ -26,12 +26,12 @@ export default function ReferralAppointments() {
     skip: !id,
   });
 
-  if (referral?.attributes?.appointments?.data.length > 0) {
+  if (referral?.attributes?.appointments?.data?.length > 0) {
     const appointmentId = referral.attributes.appointments.data[0].id;
     const path =
       referral.attributes.appointments.system === 'VAOS'
-        ? `/appointments/${appointmentId}`
-        : `/appointments/${appointmentId}?eps=true&hasAppointments=true`;
+        ? `/${appointmentId}`
+        : `/${appointmentId}?eps=true&hasAppointments=true`;
     return <Redirect to={path} />;
   }
 
