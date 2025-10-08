@@ -22,7 +22,14 @@ const options = {
       item?.previousFullName
         ? formatFullName(item.previousFullName)
         : undefined,
-    summaryTitleWithoutItems: 'Other Service names',
+    summaryTitleWithoutItems: 'Other service names',
+    cancelAddYes: 'Yes, cancel adding this previous name',
+    cancelAddNo: 'No',
+    cancelEditYes: 'Yes, cancel editing this previous name',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this previous name',
+    deleteNo: 'No',
   },
 };
 
@@ -70,7 +77,7 @@ const otherNamePage = {
       nounSingular: options.nounSingular,
       hasMultipleItemPages: false,
     }),
-    previousFullName: fullNameUI(title => `Previous ${title}`),
+    previousFullName: fullNameUI(),
   },
   schema: {
     type: 'object',
