@@ -40,19 +40,12 @@ const generateStore = (initialState = {}) => {
 
 describe('<Announcements />', () => {
   const mockDate = new Date('2024-03-20T12:00:00Z');
-  let originalDate;
+  let clock;
   let apiRequestStub;
   let constantsStub;
 
   beforeEach(() => {
-    // Mock the Date constructor to return a consistent date
-    originalDate = global.Date;
-    global.Date = class extends Date {
-      constructor(...args) {
-        super(...args);
-        return args.length === 0 ? mockDate : this;
-      }
-    };
+    clock = sinon.useFakeTimers({ now: mockDate.getTime(), toFake: ['Date'] });
 
     // Mock the API request
     apiRequestStub = sinon
@@ -64,8 +57,8 @@ describe('<Announcements />', () => {
   });
 
   afterEach(() => {
-    // Restore the original Date constructor and stubs
-    global.Date = originalDate;
+    // Restore the clock and stubs
+    clock.restore();
     apiRequestStub.restore();
     constantsStub.restore();
   });

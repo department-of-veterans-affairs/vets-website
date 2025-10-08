@@ -45,14 +45,18 @@ export class ScheduleReferralPageObject extends PageObject {
   }
 
   /**
-   * Validates that referring facility information is displayed
+   * Validates that the community care office link is displayed
    */
-  assertreferringFacility() {
-    // Verify that the facility information is populated
-    cy.findByTestId('referral-facility')
+  assertCommunityCareOfficeLink() {
+    // Verify that the community care office link is present and has correct attributes
+    cy.findByTestId('referral-community-care-office')
       .should('exist')
-      .and('contain.text', 'Referring VA facility:')
-      .and('contain.text', 'Phone:');
+      .and(
+        'have.attr',
+        'href',
+        '/COMMUNITYCARE/providers/Care-Coordination-Facilities.asp',
+      )
+      .and('have.attr', 'text', 'Find your community care office');
 
     return this;
   }
