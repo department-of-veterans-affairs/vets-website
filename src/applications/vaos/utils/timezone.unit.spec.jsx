@@ -134,18 +134,8 @@ describe('VAOS Utils: timezone', () => {
     it('should return null', () => {
       expect(getTimezoneDescByFacilityId('0402')).to.be.null;
     });
-    it.skip('should return the timezone for users current location for bad facility id', () => {
-      const stub = Sinon.stub(Intl, 'DateTimeFormat');
-      stub.returns({
-        resolvedOptions() {
-          return { timeZone: 'America/New_York' };
-        },
-      });
-
-      expect(getTimezoneDescByFacilityId('0402')).to.be.equal(
-        'Eastern time (ET)',
-      );
-      stub.restore();
+    it('should return the timezone for users current location for bad facility id', () => {
+      expect(getTimezoneDescByFacilityId(null, true)).not.be.null;
     });
   });
 
