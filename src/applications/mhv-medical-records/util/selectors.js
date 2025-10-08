@@ -25,8 +25,6 @@ export const selectSidenavFlag = state =>
 
 // Domain-level Feature Toggles
 
-export const selectMarch17UpdatesFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage];
 export const selectFilterAndSortFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort];
 export const selectMilestoneTwoFlag = state =>

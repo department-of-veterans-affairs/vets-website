@@ -18,7 +18,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayDomains = true,
     mhvMedicalRecordsDisplaySidenav = true,
     mhvMedicalRecordsToVaGovRelease = true,
-    mhvMedicalRecordsMarch17Updates = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
@@ -138,10 +137,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_to_va_gov_release',
           value: mhvMedicalRecordsToVaGovRelease,
-        },
-        {
-          name: 'mhv_medical_records_update_landing_page',
-          value: mhvMedicalRecordsMarch17Updates,
         },
         {
           name: 'mhv_medical_records_milestone_two',
