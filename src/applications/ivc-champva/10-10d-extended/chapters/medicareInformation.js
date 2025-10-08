@@ -757,9 +757,6 @@ export const medicareStatusPage = {
     const excluded = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     return excluded.some(a => getAgeInYears(a.applicantDob) >= 65);
   },
-  onNavBack: ({ goPath }) => {
-    goPath('/report-medicare-plans');
-  },
   ...medicarePartADenialPage('hasProofMultipleApplicants'),
 };
 
