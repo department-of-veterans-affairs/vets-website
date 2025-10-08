@@ -19,6 +19,7 @@ import {
   selectCurrentPage,
 } from './redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 
 function handleScheduleClick(dispatch) {
   return () => {
@@ -113,16 +114,18 @@ export const CompleteReferral = props => {
         <va-alert
           status={appointmentInfoTimeout ? 'warning' : 'error'}
           data-testid={appointmentInfoTimeout ? 'warning-alert' : 'error-alert'}
+          class="vads-u-margin-top--5"
         >
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
             {appointmentInfoTimeout
-              ? `Try refreshing this page. If it still doesn’t work, please call us at ${
-                  currentReferral.referringFacility.phone
-                } during normal business hours to schedule.`
-              : `We’re sorry. Please call us at ${
-                  currentReferral.referringFacility.phone
-                } during normal business hours to schedule.`}
+              ? `Try refreshing this page. If it still doesn’t work, call your community care provider at  ${
+                  currentReferral.provider.phone
+                } or your facility’s community care office to schedule an appointment.`
+              : `We’re sorry. Call your community care provider at ${
+                  currentReferral.provider.phone
+                } or your facility’s community care office to schedule an appointment.`}
           </p>
+          <FindCommunityCareOfficeLink />
         </va-alert>
       </ReferralLayout>
     );

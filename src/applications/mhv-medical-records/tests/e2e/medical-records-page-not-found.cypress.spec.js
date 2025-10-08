@@ -2,9 +2,15 @@ import { rootUrl } from '../../manifest.json';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 
 describe('Page Not Found', () => {
-  it('Visit an unsupported URL and get a page not found', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visit an unsupported URL and get a page not found', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
 
     cy.visit(`${rootUrl}/path1`);
     cy.injectAxeThenAxeCheck();
