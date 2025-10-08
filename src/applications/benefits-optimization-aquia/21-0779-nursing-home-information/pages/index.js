@@ -18,5 +18,6 @@ export { CertificationLevelOfCarePage } from './certification-level-of-care';
 export { AdmissionDatePage } from './admission-date';
 export { MedicaidFacilityPage } from './medicaid-facility';
 export { MedicaidApplicationPage } from './medicaid-application';
+export { MedicaidStatusPage } from './medicaid-status';
 export { MedicaidStartDatePage } from './medicaid-start-date';
 export { MonthlyCostsPage } from './monthly-costs';

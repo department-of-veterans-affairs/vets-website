@@ -27,6 +27,7 @@ import {
   AdmissionDatePage,
   MedicaidFacilityPage,
   MedicaidApplicationPage,
+  MedicaidStatusPage,
   MedicaidStartDatePage,
   MonthlyCostsPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
@@ -42,6 +43,7 @@ import {
   admissionDateInfoSchema,
   medicaidFacilitySchema,
   medicaidApplicationSchema,
+  currentMedicaidStatusSchema,
   medicaidStartDateInfoSchema,
   monthlyCostsSchema,
 } from '../schemas';
@@ -246,6 +248,17 @@ const formConfig = {
             createPageValidator(medicaidApplicationSchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidApplication'),
         },
+        medicaidStatus: {
+          path: 'medicaid-status',
+          title: 'Medicaid status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MedicaidStatusPage,
+          CustomPageReview: null,
+          verifyItemValues: values =>
+            createPageValidator(currentMedicaidStatusSchema)(values),
+          onErrorChange: createValidationErrorHandler('medicaidStatus'),
+        },
         medicaidStartDate: {
           path: 'medicaid-start-date',
           title: 'Medicaid start date',
@@ -254,7 +267,7 @@ const formConfig = {
           CustomPage: MedicaidStartDatePage,
           CustomPageReview: null,
           depends: formData =>
-            formData?.medicaidApplication?.hasAppliedForMedicaid === 'yes',
+            formData?.medicaidStatus?.currentlyCoveredByMedicaid === 'yes',
           verifyItemValues: values =>
             createPageValidator(medicaidStartDateInfoSchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidStartDateInfo'),
