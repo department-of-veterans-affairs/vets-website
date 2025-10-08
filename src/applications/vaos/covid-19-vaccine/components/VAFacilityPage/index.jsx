@@ -240,9 +240,9 @@ function VAFacilityPage({
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <p>
                 Or,{' '}
-                <button
-                  type="button"
+                <va-button
                   className="va-button-link"
+                  text="use your current location"
                   data-testid="use-current-location"
                   onClick={() => {
                     updateFacilitySortMethod(
@@ -250,9 +250,7 @@ function VAFacilityPage({
                       uiSchema,
                     );
                   }}
-                >
-                  use your current location
-                </button>
+                />
               </p>
             )}
           </>
@@ -265,9 +263,9 @@ function VAFacilityPage({
             </h2>
             <p>
               Or,{' '}
-              <button
-                type="button"
+              <va-button
                 className="va-button-link"
+                text="use your home address on file"
                 data-testid="use-home-address"
                 onClick={() => {
                   updateFacilitySortMethod(
@@ -275,9 +273,7 @@ function VAFacilityPage({
                     uiSchema,
                   );
                 }}
-              >
-                use your home address on file
-              </button>
+              />
             </p>
           </>
         )}
