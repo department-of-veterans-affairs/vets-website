@@ -1,14 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import AlertConfirmEmail, {
-  dismissAlert,
-  resetDismissAlert,
+import AlertConfirmEmail from '../../components/AlertConfirmEmail';
+import {
+  dismissAlertViaCookie,
+  resetDismissAlertViaCookie,
   DATE_THRESHOLD,
-} from '../../components/AlertConfirmEmail';
+} from '../../components/AlertConfirmEmail/selectors';
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
@@ -40,13 +41,13 @@ const stateFn = ({
 
 describe('<AlertConfirmEmail />', () => {
   it('renders nothing when alert has been dismissed', async () => {
-    dismissAlert();
+    dismissAlertViaCookie();
     const initialState = stateFn();
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
-    resetDismissAlert();
+    resetDismissAlertViaCookie();
   });
 
   it('renders nothing when state.featureToggles.loading', async () => {
@@ -126,15 +127,14 @@ describe('<AlertConfirmEmail />', () => {
       });
     });
 
-    it.skip('is removed from DOM when dismissed', async () => {
-      // Error: Unable to find role="button"
+    it(`is removed from DOM when 'Confirm' button clicked`, async () => {
       mockApiRequest();
       const initialState = stateFn({ confirmationDate: null });
-      const { container, getByRole } = render(<AlertConfirmEmail />, {
+      const { container } = render(<AlertConfirmEmail />, {
         initialState,
       });
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
       await waitFor(() => {
-        getByRole('button', { name: 'Confirm' }).click();
         expect(container).to.be.empty;
       });
     });
@@ -158,13 +158,25 @@ describe('<AlertConfirmEmail />', () => {
     });
 
     it('renders nothing when !emailAddress and alert has been dismissed', async () => {
-      dismissAlert();
+      dismissAlertViaCookie();
       const initialState = stateFn({ emailAddress: null });
       const { container } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
         expect(container).to.be.empty;
       });
-      resetDismissAlert();
+      resetDismissAlertViaCookie();
+    });
+
+    it(`is removed from DOM when 'Skip adding email' button clicked`, async () => {
+      const initialState = stateFn({ emailAddress: null });
+      const { container } = render(<AlertConfirmEmail />, {
+        initialState,
+      });
+      const button = 'va-button[text="Skip adding email"]';
+      fireEvent.click(container.querySelector(button));
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
     });
   });
 });

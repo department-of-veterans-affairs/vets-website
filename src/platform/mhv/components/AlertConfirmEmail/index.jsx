@@ -1,36 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
-import { isBefore } from 'date-fns';
 import {
   VaAlert,
   VaButton,
   VaLink,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import {
+  dismissAlertViaCookie,
+  selectContactEmailAddress,
+  showAlert,
+} from './selectors';
 
 const CONTENT = `We’ll send notifications about your VA health care and benefits to this email.`;
-const COOKIE_NAME = 'MHV_EMAIL_CONFIRMATION_DISMISSED';
-export const DATE_THRESHOLD = '2025-03-01T12:00:00.000+00:00';
 const VA_PROFILE_EMAIL_HREF =
   '/profile/contact-information#contact-email-address';
 
-const dismissedAlert = () => Cookies.get(COOKIE_NAME);
-export const dismissAlert = () =>
-  Cookies.set(COOKIE_NAME, 'true', { expires: 365 });
-export const resetDismissAlert = () => Cookies.remove(COOKIE_NAME);
-
-const putConfirmationDate = (confirmationDate = new Date().toISOString) =>
-  apiRequest('/profile/email_addresses', {
-    method: 'PUT',
-    body: { confirmationDate },
-  }).then(() => dismissAlert());
-
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
-const AlertConfirmContactEmail = ({ email }) => {
+const AlertConfirmContactEmail = ({ email, onConfirmClick }) => {
   return (
     <VaAlert
       status="warning"
@@ -42,7 +31,7 @@ const AlertConfirmContactEmail = ({ email }) => {
         <p>{CONTENT}</p>
         <p className="vads-u-font-weight--bold">{email}</p>
         <p>
-          <VaButton onClick={putConfirmationDate} fullWidth text="Confirm" />
+          <VaButton onClick={onConfirmClick} fullWidth text="Confirm" />
         </p>
         <p>
           <VaLink
@@ -57,10 +46,11 @@ const AlertConfirmContactEmail = ({ email }) => {
 
 AlertConfirmContactEmail.propTypes = {
   email: PropTypes.string.isRequired,
+  onConfirmClick: PropTypes.func.isRequired,
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-45009&t=CogySEDQUAcvZwHQ-4
-const AlertAddContactEmail = () => {
+const AlertAddContactEmail = ({ onSkipClick }) => {
   return (
     <VaAlert
       status="warning"
@@ -81,7 +71,7 @@ const AlertAddContactEmail = () => {
           <VaButton
             fullWidth
             secondary
-            onClick={dismissAlert}
+            onClick={onSkipClick}
             text="Skip adding email"
           />
         </p>
@@ -90,31 +80,9 @@ const AlertAddContactEmail = () => {
   );
 };
 
-const selectContactEmailConfirmationDate = state =>
-  selectVAPContactInfo(state)?.email?.confirmationDate;
-
-const selectContactEmailUpdatedAt = state =>
-  selectVAPContactInfo(state)?.email?.updatedAt;
-
-const selectContactEmailAddress = state =>
-  selectVAPContactInfo(state)?.email?.emailAddress;
-
-const showAlert = state =>
-  !dismissedAlert() &&
-  !state.featureToggles.loading &&
-  state.featureToggles.mhvEmailConfirmation &&
-  !state.user.profile.loading &&
-  (!selectContactEmailAddress(state) ||
-    !selectContactEmailConfirmationDate(state) ||
-    isBefore(
-      new Date(selectContactEmailConfirmationDate(state)),
-      new Date(DATE_THRESHOLD),
-    ) ||
-    !selectContactEmailUpdatedAt(state) ||
-    isBefore(
-      new Date(selectContactEmailUpdatedAt(state)),
-      new Date(DATE_THRESHOLD),
-    ));
+AlertAddContactEmail.propTypes = {
+  onSkipClick: PropTypes.func.isRequired,
+};
 
 /**
  * <AlertConfirmEmail /> component
@@ -129,13 +97,30 @@ const showAlert = state =>
 const AlertConfirmEmail = () => {
   const renderAlert = useSelector(showAlert);
   const email = useSelector(selectContactEmailAddress);
+  const [dismissed, setDismissed] = useState(false);
 
-  if (!renderAlert) return null;
+  const putConfirmationDate = (confirmationDate = new Date().toISOString) =>
+    apiRequest('/profile/email_addresses', {
+      method: 'PUT',
+      body: { confirmationDate },
+    })
+      .then(() => setDismissed(true))
+      .then(() => dismissAlertViaCookie());
+
+  const onSkipClick = () => {
+    setDismissed(true);
+    dismissAlertViaCookie();
+  };
+
+  if (!renderAlert || dismissed) return null;
 
   return email ? (
-    <AlertConfirmContactEmail email={email} />
+    <AlertConfirmContactEmail
+      email={email}
+      onConfirmClick={putConfirmationDate}
+    />
   ) : (
-    <AlertAddContactEmail />
+    <AlertAddContactEmail onSkipClick={onSkipClick} />
   );
 };
 
