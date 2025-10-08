@@ -15,7 +15,8 @@ import { getRootParentUrl } from '../../shared/utils';
 // Must match the H1
 document.title = TITLE;
 
-export default function App({ location, children, isLoggedIn }) {
+export default function App({ location, children }) {
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const featureToggle = useSelector(
     state => state?.featureToggles?.vaDependentsVerification,
   );
@@ -60,12 +61,11 @@ export default function App({ location, children, isLoggedIn }) {
     // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-dependents-verification',
     version: '1.0.0',
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 20,
-    sessionSampleRate: 50,
-
+    sessionReplaySampleRate: 100,
+    sessionSampleRate: 100,
     defaultPrivacyLevel: 'mask-user-input',
     trackBfcacheViews: true,
+    env: environment.isProduction(),
   });
 
   useEffect(() => {
