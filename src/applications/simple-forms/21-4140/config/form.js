@@ -7,6 +7,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from '../../shared/config/submit-transformer';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
@@ -24,6 +25,7 @@ const formConfig = {
   trackingPrefix: '21-4140-income-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
