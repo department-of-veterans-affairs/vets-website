@@ -9,7 +9,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
 import { nameWording, privWrapper } from '../../shared/utilities';
 import { FileFieldCustomSimple } from '../../shared/components/fileUploads/FileUpload';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
+import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
+import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 import {
   certifierRoleSchema,
   certifierReceivedPacketSchema,
@@ -20,7 +21,6 @@ import {
   certifierRelationshipSchema,
   certifierClaimStatusSchema,
 } from '../chapters/signerInformation';
-import NotEnrolledPage from '../components/FormPages/NotEnrolledPage';
 import {
   insuranceStatusSchema,
   insurancePages,
@@ -39,7 +39,6 @@ import {
   applicantAddressSchema,
   applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
-
 import {
   blankSchema,
   sponsorAddressSchema,
@@ -271,21 +270,8 @@ const formConfig = {
             (get('street', formData?.certifierAddress) ||
               get('street', formData?.sponsorAddress)),
           CustomPage: props => {
-            const extraProps = {
-              ...props,
-              customTitle: privWrapper(`${fnp(props.data)} address`),
-              customDescription:
-                'We’ll send any important information about this claim to this address.',
-              customSelectText: `Does ${nameWording(
-                props.data,
-                false,
-                false,
-                true,
-              )} have the same address as you?`,
-              positivePrefix: 'Yes, their address is',
-              negativePrefix: 'No, they have a different address',
-            };
-            return ApplicantAddressCopyPage(extraProps);
+            const opts = { ...props, dataKey: 'applicantAddress' };
+            return AddressSelectionPage(opts);
           },
           CustomPageReview: null,
           uiSchema: {},
