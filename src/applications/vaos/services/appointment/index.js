@@ -74,6 +74,7 @@ export async function fetchAppointments({
   avs = false,
   fetchClaimStatus = false,
   includeEPS = false,
+  featureUseBrowserTimezone = false,
 }) {
   try {
     const appointments = [];
@@ -94,9 +95,15 @@ export async function fetchAppointments({
       );
     });
 
-    appointments.push(...transformVAOSAppointments(filteredAppointments), {
-      meta: allAppointments.backendSystemFailures,
-    });
+    appointments.push(
+      ...transformVAOSAppointments(
+        filteredAppointments,
+        featureUseBrowserTimezone,
+      ),
+      {
+        meta: allAppointments.backendSystemFailures,
+      },
+    );
 
     return appointments;
   } catch (e) {
@@ -191,10 +198,11 @@ export async function fetchBookedAppointment({
   id,
   avs = true,
   fetchClaimStatus = true,
+  featureUseBrowserTimezone = false,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
-    return transformVAOSAppointment(appointment);
+    return transformVAOSAppointment(appointment, featureUseBrowserTimezone);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

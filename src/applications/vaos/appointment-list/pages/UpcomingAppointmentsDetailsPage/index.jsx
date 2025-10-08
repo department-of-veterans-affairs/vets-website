@@ -26,6 +26,7 @@ import {
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
+import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
 
 export default function UpcomingAppointmentsDetailsPage() {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ export default function UpcomingAppointmentsDetailsPage() {
     state => getConfirmedAppointmentDetailsInfo(state, id),
     shallowEqual,
   );
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
   const isInPerson = isInPersonVisit(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -50,13 +54,19 @@ export default function UpcomingAppointmentsDetailsPage() {
 
   useEffect(
     () => {
-      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      dispatch(
+        fetchConfirmedAppointmentDetails(
+          id,
+          appointmentTypePrefix,
+          featureUseBrowserTimezone,
+        ),
+      );
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
       };
     },
-    [id, dispatch, appointmentTypePrefix],
+    [id, dispatch, appointmentTypePrefix, featureUseBrowserTimezone],
   );
 
   useEffect(

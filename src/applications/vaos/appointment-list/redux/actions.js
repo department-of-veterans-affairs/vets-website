@@ -4,6 +4,7 @@ import { selectPatientFacilities } from '@department-of-veterans-affairs/platfor
 import * as Sentry from '@sentry/browser';
 import {
   selectFeatureCCDirectScheduling,
+  selectFeatureUseBrowserTimezone,
   selectSystemIds,
 } from '../../redux/selectors';
 import {
@@ -89,6 +90,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const state = getState();
     const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
     const patientFacilities = selectPatientFacilities(state);
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     const includeEPS = getIsInPilotUserStations(
       featureCCDirectScheduling,
@@ -126,6 +128,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           startDate, // Start 30 days in the past for canceled appointments
           endDate,
           includeEPS,
+          featureUseBrowserTimezone,
         }),
       ];
       if (includeRequests) {
@@ -353,7 +356,11 @@ export function fetchRequestDetails(id) {
   };
 }
 
-export function fetchConfirmedAppointmentDetails(id, type) {
+export function fetchConfirmedAppointmentDetails(
+  id,
+  type,
+  featureUseBrowserTimezone,
+) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
@@ -377,6 +384,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
+          featureUseBrowserTimezone,
         });
       }
 
