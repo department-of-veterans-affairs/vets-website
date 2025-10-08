@@ -3,16 +3,13 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const hasTerminatedUI = yesNoUI({
-  title: 'Has your remarriage ended?',
-  hint: 'If "Yes," please provide the date and reason',
-});
-
 export default {
   uiSchema: {
-    hideFormTitle: true,
     remarriage: {
-      hasTerminated: hasTerminatedUI,
+      hasTerminated: yesNoUI({
+        title: 'Has your remarriage ended?',
+        labelHeaderLevel: '3',
+      }),
     },
   },
   schema: {

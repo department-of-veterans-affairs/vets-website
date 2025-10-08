@@ -148,7 +148,7 @@ const Allergies = props => {
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
-    if (isAcceleratingAllergies) {
+    if (isCerner) {
       return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -212,7 +212,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingAllergies && (
+        {!isCerner && (
           <NewRecordsIndicator
             refreshState={refresh}
             extractType={refreshExtractTypes.ALLERGY}

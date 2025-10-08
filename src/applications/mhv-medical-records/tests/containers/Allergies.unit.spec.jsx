@@ -14,17 +14,37 @@ import {
 
 describe('Allergies list container', () => {
   const initialState = {
-    user,
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_medical_records_allow_txt_downloads: true,
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_allergies_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       allergies: {
         allergiesList: allergies.entry.map(item =>
           convertAllergy(item.resource),
         ),
       },
-    },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
     },
   };
 
