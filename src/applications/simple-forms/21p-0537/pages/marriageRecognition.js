@@ -11,22 +11,20 @@ const MarriageRecognitionInfo = () => (
       benefits) (38 U.S.C. § 103(c)).
     </p>
     <p>
-      Additional guidance on when VA recognizes marriages is available at{' '}
       <a
         href="http://www.va.gov/opa/marriage/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        http://www.va.gov/opa/marriage/
+        Additional guidance on when VA recognizes marriages (opens in new tab)
       </a>
-      .
     </p>
   </va-alert>
 );
 
 export default {
   uiSchema: {
-    'ui:title': 'Important information about marriage recognition',
+    hideFormTitle: true,
     'ui:description': MarriageRecognitionInfo,
   },
   schema: {

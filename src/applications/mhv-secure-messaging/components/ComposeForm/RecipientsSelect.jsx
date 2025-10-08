@@ -180,6 +180,7 @@ const RecipientsSelect = ({
     e => {
       const { value } = e.detail;
       if (!+value) {
+        onValueChange(null);
         return;
       }
 
@@ -196,6 +197,7 @@ const RecipientsSelect = ({
         updateDraftInProgress({
           recipientName: recipient.name,
           recipientId: recipient.id,
+          ohTriageGroup: recipient.ohTriageGroup,
         }),
       );
 

@@ -285,11 +285,11 @@ export const setUnsavedNavigationError = (
 };
 
 export const getSize = num => {
-  if (num > 999999) {
-    return `${(num / 1000000).toFixed(1)} MB`;
+  if (num >= 1024 * 1024) {
+    return `${(num / 1024 / 1024).toFixed(1)} MB`;
   }
-  if (num > 999) {
-    return `${Math.floor(num / 1000)} KB`;
+  if (num >= 1024) {
+    return `${(num / 1024).toFixed(1)} KB`;
   }
   return `${num} B`;
 };
@@ -408,6 +408,28 @@ export const findBlockedFacilities = recipients => {
   const allFacilities = [...facilityList];
 
   return { fullyBlockedFacilities, allFacilities };
+};
+
+export const findAllowedFacilities = recipients => {
+  const allowedVistaFacilities = new Set();
+  const allowedOracleFacilities = new Set();
+
+  recipients.forEach(recipient => {
+    const { stationNumber, blockedStatus, ohTriageGroup } = recipient;
+
+    if (blockedStatus === false) {
+      if (ohTriageGroup === true) {
+        allowedOracleFacilities.add(stationNumber);
+      } else {
+        allowedVistaFacilities.add(stationNumber);
+      }
+    }
+  });
+
+  return {
+    allowedVistaFacilities: [...allowedVistaFacilities],
+    allowedOracleFacilities: [...allowedOracleFacilities],
+  };
 };
 
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {

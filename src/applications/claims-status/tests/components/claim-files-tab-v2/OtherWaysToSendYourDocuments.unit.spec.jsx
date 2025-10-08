@@ -3,7 +3,12 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
 import OtherWaysToSendYourDocuments from '../../../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
-import { MAILING_ADDRESS, CONTACT_INFO, LINKS } from '../../../constants';
+import {
+  MAILING_ADDRESS,
+  CONTACT_INFO,
+  LINKS,
+  ANCHOR_LINKS,
+} from '../../../constants';
 
 describe('<OtherWaysToSendYourDocuments>', () => {
   let getByText;
@@ -18,6 +23,14 @@ describe('<OtherWaysToSendYourDocuments>', () => {
   describe('Main Structure', () => {
     it('should render the main heading', () => {
       expect(getByText('Other ways to send your documents')).to.exist;
+    });
+
+    it('should render the main heading with correct id', () => {
+      const heading = container.querySelector('h2#other-ways-to-send');
+      expect(heading).to.exist;
+      expect(heading.getAttribute('id')).to.equal(
+        ANCHOR_LINKS.otherWaysToSendDocuments,
+      );
     });
 
     it('should render the general instructions', () => {

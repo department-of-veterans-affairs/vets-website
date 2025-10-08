@@ -8,6 +8,7 @@
 
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
+import { findVaLinkByText } from '~/applications/personalization/common/e2eHelpers';
 
 import { PROFILE_PATHS } from '@@profile/constants';
 
@@ -75,9 +76,9 @@ describe('Notification Settings', () => {
 
           // should find alert with details on what notifications are missing due to missing mobile phone
           cy.get('va-alert-expandable').within(() => {
-            cy.findByRole('link', {
-              name: 'Add your mobile number to your profile',
-            }).should('exist');
+            findVaLinkByText('Add your mobile number to your profile').should(
+              'exist',
+            );
             cy.findAllByText('Appointment reminders').should('exist');
             cy.findAllByText(
               'Prescription shipment and tracking updates',
@@ -140,9 +141,9 @@ describe('Notification Settings', () => {
 
           // should find alert with details on what notifications are missing due to missing mobile phone
           cy.get('va-alert-expandable').within(() => {
-            cy.findByRole('link', {
-              name: 'Add your email address to your profile',
-            }).should('exist');
+            findVaLinkByText('Add your email address to your profile').should(
+              'exist',
+            );
             cy.findByText('RX refill shipment notification').should(
               'not.exist',
             );
