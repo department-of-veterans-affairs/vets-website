@@ -131,6 +131,9 @@ describe('VAOS Utils: timezone', () => {
     it('should return the correct description', () => {
       expect(getTimezoneDescByFacilityId('4022')).to.equal('Eastern time (ET)');
     });
+    it('should return null', () => {
+      expect(getTimezoneDescByFacilityId('0402')).to.be.null;
+    });
     it.skip('should return the timezone for users current location for bad facility id', () => {
       const stub = Sinon.stub(Intl, 'DateTimeFormat');
       stub.returns({
