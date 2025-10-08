@@ -26,16 +26,7 @@ const HowDoIPay = ({ userData }) => {
       <h3>Pay online</h3>
       <p>
         You can pay directly from your bank account. Or by debit or credit card
-        on the secure{' '}
-        <a
-          aria-label="Pay.gov - Opens in new window"
-          target="_blank"
-          href="https://www.pay.va.gov/"
-          rel="noreferrer"
-        >
-          pay.va.gov
-        </a>{' '}
-        website.
+        on the secure pay.va.gov website.
       </p>
       <p>
         You’ll need to provide the following details to pay this debt online:
