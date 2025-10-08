@@ -4,7 +4,7 @@
  *
  * @export
  * @param {Object} obj
- * @returns {Object} An object with keys that have either null or undefined values
+ * @returns {Object} An object with keys that do not have either null or undefined values
  */
 export function removeEmpty(obj) {
   return Object.entries(obj)
