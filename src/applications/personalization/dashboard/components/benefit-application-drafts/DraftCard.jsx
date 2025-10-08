@@ -80,6 +80,7 @@ Draft.propTypes = {
   lastSavedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string,
+  shouldFormat: PropTypes.bool,
 };
 
 export default Draft;
