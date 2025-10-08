@@ -323,6 +323,12 @@ module.exports = async (env = {}) => {
               cacheDirectory: '.babelcache',
               cacheCompression: false,
               // Also see .babelrc
+              // Add istanbul instrumentation for E2E code coverage when CODE_COVERAGE=true
+              ...(process.env.CODE_COVERAGE === 'true' && {
+                plugins: [
+                  ['istanbul', { exclude: ['**/tests/**/*', '**/mocks/**/*'] }],
+                ],
+              }),
             },
           },
         },
