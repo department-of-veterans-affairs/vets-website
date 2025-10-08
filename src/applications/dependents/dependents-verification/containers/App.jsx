@@ -16,7 +16,9 @@ import { getRootParentUrl } from '../../shared/utils';
 document.title = TITLE;
 
 export default function App({ location, children }) {
-  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
   const featureToggle = useSelector(
     state => state?.featureToggles?.vaDependentsVerification,
   );
@@ -103,6 +105,5 @@ export default function App({ location, children }) {
 
 App.propTypes = {
   children: PropTypes.node,
-  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
 };
