@@ -11,13 +11,9 @@
       "first": "Jane",
       "last": "Doe"
     },
-    "recipient": {
-      "phone": {
-        "daytime": "555-000-0000"
-      },
-      "email": "jane@example.com"
-    },
     "hasRemarried": false,
-    "signature": "Jane Doe"
+    "signature": "Jane Doe",
+    "primaryPhone": "555-000-0000",
+    "emailAddress": "jane@example.com"
   }
 }

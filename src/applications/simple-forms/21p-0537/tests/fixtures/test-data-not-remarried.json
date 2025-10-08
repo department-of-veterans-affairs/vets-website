@@ -13,14 +13,9 @@
       "middle": "Elizabeth",
       "last": "Johnson"
     },
-    "recipient": {
-      "phone": {
-        "daytime": "703-555-1234",
-        "evening": ""
-      },
-      "email": "mary.johnson@example.com"
-    },
     "hasRemarried": false,
-    "signature": "Mary Elizabeth Johnson"
+    "signature": "Mary Elizabeth Johnson",
+    "primaryPhone": "703-555-1234",
+    "emailAddress": "mary.johnson@example.com"
   }
 }
