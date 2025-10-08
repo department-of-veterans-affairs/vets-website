@@ -11,7 +11,8 @@ import {
 
 export const isEditFromContext = context => context?.edit;
 
-const isEditFromUrl = () => Boolean(getArrayUrlSearchParams().get('edit'));
+export const isEditFromUrl = () =>
+  Boolean(getArrayUrlSearchParams().get('edit'));
 
 export const createAddAndEditTitles = (addTitle, editTitle) =>
   isEditFromUrl() ? editTitle : addTitle;

@@ -3,7 +3,7 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { createNewConditionName } from './utils';
+import { createNewConditionName, isEditFromUrl } from './utils';
 
 export const causeOptions = {
   NEW:
@@ -15,13 +15,14 @@ export const causeOptions = {
 };
 
 const allowSecondary = (formData, index) => {
+  if (isEditFromUrl()) return true;
   const ratedCount = Array.isArray(formData?.ratedDisabilities)
     ? formData.ratedDisabilities.length
     : 0;
 
   // How many NEW conditions are in this claim?
-  const newCount = Array.isArray(formData?.newConditions)
-    ? formData.newConditions.length
+  const newCount = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities.length
     : 0;
 
   // Show SECONDARY if:
@@ -68,8 +69,7 @@ const causePage = {
           enum: allowedCauseValues(formData, index),
         }),
       },
-      'ui:required': (formData, index) =>
-        !formData?.newDisabilities?.[index]?.ratedDisability,
+      'ui:required': formData => !formData?.ratedDisability,
     },
   },
 

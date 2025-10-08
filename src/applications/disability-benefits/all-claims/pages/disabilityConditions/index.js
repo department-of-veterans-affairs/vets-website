@@ -29,21 +29,21 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     Intro: pageBuilder.introPage({
       title: 'Add your disabilities and conditions',
-      path: 'conditions-mango-intro',
+      path: 'orientation',
       uiSchema: ratedIntroPage.uiSchema,
       schema: ratedIntroPage.schema,
     }),
 
     Summary: pageBuilder.summaryPage({
       title: 'Review your conditions',
-      path: `conditions-mango-summary`,
+      path: `conditions/summary`,
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
 
     Condition: pageBuilder.itemPage({
       title: 'Type of condition',
-      path: `conditions-mango/:index/condition`,
+      path: `conditions/:index/condition`,
       depends: (formData, index, ctx) => {
         const noEdit = !isEditFromContext(ctx);
         const picked =

@@ -19,7 +19,7 @@ import {
 export const SummaryPage = pageBuilder => ({
   Summary: pageBuilder.summaryPage({
     title: 'Review your conditions',
-    path: `conditions-mango-summary`,
+    path: `conditions/summary`,
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -40,14 +40,14 @@ const hasCause = (formData, index, cause) =>
 export const remainingSharedPages = (pageBuilder, helpers) => ({
   DisabilityDate: pageBuilder.itemPage({
     title: 'Approximate date of service-connected disability worsening',
-    path: `conditions-mango/:index/rated-disability-date`,
+    path: `conditions/:index/rated-disability-date`,
     depends: (formData, index) => isRatedDisability(formData, index),
     uiSchema: ratedDisabilityDatePage.uiSchema,
     schema: ratedDisabilityDatePage.schema,
   }),
   NewCondition: pageBuilder.itemPage({
     title: 'Add new condition',
-    path: `conditions-mango/:index/new-condition`,
+    path: `conditions/:index/new-condition`,
     depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: newConditionPage.uiSchema,
     schema: newConditionPage.schema,
@@ -63,7 +63,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   }),
   SideOfBody: pageBuilder.itemPage({
     title: 'Side of the body for new condition',
-    path: `conditions-mango/:index/side-of-body`,
+    path: `conditions/:index/side-of-body`,
     depends: (formData, index) =>
       isNewCondition(formData, index) && hasSideOfBody(formData, index),
     uiSchema: sideOfBodyPage.uiSchema,
@@ -71,7 +71,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   }),
   NewConditionDate: pageBuilder.itemPage({
     title: 'Approximate start date of new condition',
-    path: `conditions-mango/:index/new-condition-date`,
+    path: `conditions/:index/new-condition-date`,
     depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: newConditionDatePage.uiSchema,
     schema: newConditionDatePage.schema,
@@ -79,7 +79,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   }),
   ConditionCause: pageBuilder.itemPage({
     title: 'Cause of new condition',
-    path: `conditions-mango/:index/cause`,
+    path: `conditions/:index/cause`,
     depends: (formData, index) => isNewCondition(formData, index),
     uiSchema: causePage.uiSchema,
     schema: causePage.schema,
@@ -87,7 +87,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   CauseNewDetails: pageBuilder.itemPage({
     title:
       'Details of the injury, event, disease or exposure that caused new condition',
-    path: `conditions-mango/:index/cause-new`,
+    path: `conditions/:index/cause-new`,
     depends: (formData, index) =>
       isNewCondition(formData, index) && hasCause(formData, index, 'NEW'),
     uiSchema: causeNewPage.uiSchema,
@@ -96,7 +96,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   CauseSecondary: pageBuilder.itemPage({
     title:
       'Details of the service-connected disability or condition that caused new condition',
-    path: `conditions-mango/:index/cause-secondary`,
+    path: `conditions/:index/cause-secondary`,
     depends: (formData, index) =>
       isNewCondition(formData, index) && hasCause(formData, index, 'SECONDARY'),
     uiSchema: causeSecondaryPage.uiSchema,
@@ -106,7 +106,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   CauseWorsened: pageBuilder.itemPage({
     title:
       'Details of the injury, event or exposure that worsened new condition',
-    path: `conditions-mango/:index/cause-worsened`,
+    path: `conditions/:index/cause-worsened`,
     depends: (formData, index) =>
       isNewCondition(formData, index) && hasCause(formData, index, 'WORSENED'),
     uiSchema: causeWorsenedPage.uiSchema,
@@ -115,7 +115,7 @@ export const remainingSharedPages = (pageBuilder, helpers) => ({
   CauseVA: pageBuilder.itemPage({
     title:
       'Details of the injury or event in VA care that caused new condition',
-    path: `conditions-mango/:index/cause-va`,
+    path: `conditions/:index/cause-va`,
     depends: (formData, index) =>
       isNewCondition(formData, index) && hasCause(formData, index, 'VA'),
     uiSchema: causeVAPage.uiSchema,

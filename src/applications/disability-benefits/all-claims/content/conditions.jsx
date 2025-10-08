@@ -56,7 +56,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
 
       return found
         ? `caused by ${item.causedByDisability.trim()}`
-        : 'cause is unknown or was removed';
+        : `${item.causedByDisability.trim()} has been removed — please edit to change the cause`;
     }
 
     case 'WORSENED':
