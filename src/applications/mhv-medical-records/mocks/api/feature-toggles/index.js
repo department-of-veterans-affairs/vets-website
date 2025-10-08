@@ -17,7 +17,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   mhvAcceleratedDeliveryCareNotesEnabled: true,
-  mhvMedicalRecordsMilestoneTwo: true,
 });
 
 const generateFeatureToggles = ({

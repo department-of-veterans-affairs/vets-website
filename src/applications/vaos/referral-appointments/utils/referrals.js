@@ -56,11 +56,12 @@ const errorReferralsList = (errorUUIDs || []).map(uuid => {
 /**
  * Creates a referral object with specified uuid and expiration date.
  *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} uuid The UUID for the referral
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
  * @param {String} categoryOfCare The category of care for the referral
  * @param {Boolean} hasProvider Whether the referral has a provider
+ * @param {String} stationId The station id for the referral
  * @returns {Object} Referral object
  */
 const createReferralById = (
@@ -69,6 +70,7 @@ const createReferralById = (
   expirationDate,
   categoryOfCare = 'OPTOMETRY',
   hasProvider = true,
+  stationId = '659BY',
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
@@ -96,7 +98,7 @@ const createReferralById = (
     attributes: {
       uuid,
       referralDate: '2023-01-01',
-      stationId: '659BY',
+      stationId,
       expirationDate:
         expirationDate || format(addMonths(relativeDate, 6), mydFormat),
       referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
