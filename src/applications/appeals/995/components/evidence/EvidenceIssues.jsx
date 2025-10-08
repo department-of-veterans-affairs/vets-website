@@ -9,17 +9,25 @@ const EvidenceIssues = ({
   currentData,
   handlers,
   showError,
-}) => (
-  <VaCheckboxGroup
-    label={content.issuesLabel}
-    name="issues"
-    onVaChange={handlers.onIssueChange}
-    onBlur={handlers.onBlur}
-    error={showError('issues')}
-    required
-  >
-    {availableIssues.length ? (
-      availableIssues.map((issue, index) => (
+}) => {
+  if (!availableIssues.length) {
+    return (
+      <p>
+        <strong>{NO_ISSUES_SELECTED}</strong>
+      </p>
+    );
+  }
+
+  return (
+    <VaCheckboxGroup
+      label={content.issuesLabel}
+      name="issues"
+      onVaChange={handlers.onIssueChange}
+      onBlur={handlers.onBlur}
+      error={showError('issues')}
+      required
+    >
+      {availableIssues.map((issue, index) => (
         <va-checkbox
           key={index}
           name="issues"
@@ -29,12 +37,10 @@ const EvidenceIssues = ({
           value={issue}
           checked={(currentData?.issues || []).includes(issue)}
         />
-      ))
-    ) : (
-      <strong>{NO_ISSUES_SELECTED}</strong>
-    )}
-  </VaCheckboxGroup>
-);
+      ))}
+    </VaCheckboxGroup>
+  );
+};
 
 export default EvidenceIssues;
 
