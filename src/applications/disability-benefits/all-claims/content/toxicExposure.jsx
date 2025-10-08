@@ -127,8 +127,13 @@ export function teSubtitle(
  *
  * @returns true if all criteria are met, false otherwise
  */
+const hasSchemaNewDisabilities = formData =>
+  Array.isArray(formData?.newDisabilities) &&
+  formData.newDisabilities.some(d => d?.condition && d?.cause);
+
 export function showToxicExposurePages(formData) {
-  return isClaimingNew(formData) && formData?.newDisabilities?.length > 0;
+  // Only show TE when there is at least one *schema-shaped* NEW/SECONDARY/WORSENED/VA row
+  return isClaimingNew(formData) && hasSchemaNewDisabilities(formData);
 }
 
 /**

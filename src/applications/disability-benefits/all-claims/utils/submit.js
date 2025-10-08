@@ -163,6 +163,89 @@ export const setActionTypes = formData => {
   return _.set('ratedDisabilities', mapped, formData);
 };
 
+/* At time of submission, the newDisabilities object also contains
+rated disabilities. These rated disabilities that have been selected
+for increase must be removed from the newDisabilities object and
+added to the ratedDisabilities object. This transformation is needed
+in order for the form to successfully submit.
+*/
+const isSchemaNewRow = r => r?.condition && r?.cause;
+const isIncreaseRow = r => r?.ratedDisability && !r?.condition && !r?.cause;
+
+export const normalizeIncreases = formData => {
+  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  const rated = Array.isArray(formData?.ratedDisabilities)
+    ? formData.ratedDisabilities.map(r => ({ ...r }))
+    : [];
+  const newList = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities
+    : [];
+
+  const indexByName = new Map(rated.map((r, i) => [norm(r.name), i]));
+  const remainingNew = [];
+
+  for (const row of newList) {
+    if (isSchemaNewRow(row)) {
+      // true NEW/SECONDARY/etc. so keep
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    if (!isIncreaseRow(row)) {
+      // not schema-shaped, not an increase just keep as-is
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    // At this point: it's an increase row
+    const name = row.ratedDisability;
+    const idx = indexByName.get(norm(name));
+
+    if (idx === undefined) {
+      // no rated match so keep as-is
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    // we have a rated match → hoist into rated
+    const target = rated[idx];
+    if (row.conditionDate && !target.conditionDate) {
+      target.conditionDate = row.conditionDate;
+    }
+    target['view:selected'] = true;
+    target.disabilityActionType = 'INCREASE';
+  }
+
+  // Build output — omit newDisabilities if empty
+  const out = {
+    ...formData,
+    ratedDisabilities: rated,
+  };
+
+  if (remainingNew.length > 0) {
+    out.newDisabilities = remainingNew;
+  } else if ('newDisabilities' in out) {
+    delete out.newDisabilities;
+  }
+
+  return out;
+};
+
+export const sanitizeNewDisabilities = formData => {
+  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  if (!Array.isArray(formData.newDisabilities)) return formData;
+
+  const cleaned = formData.newDisabilities.filter(
+    r => r && r.condition && r.cause,
+  );
+
+  const out = { ...formData };
+  if (cleaned.length) out.newDisabilities = cleaned;
+  else delete out.newDisabilities;
+
+  return out;
+};
+
 /**
  * Transforms the related disabilities object into an array of strings. The condition
  *  name only gets added to the list if the property value is truthy and is in the list

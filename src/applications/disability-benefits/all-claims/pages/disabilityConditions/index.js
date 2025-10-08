@@ -44,8 +44,15 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
     Condition: pageBuilder.itemPage({
       title: 'Type of condition',
       path: `conditions-mango/:index/condition`,
-      depends: (formData, _index, ctx) =>
-        !isEditFromContext(ctx) && hasRatedDisabilities(formData),
+      depends: (formData, index, ctx) => {
+        const noEdit = !isEditFromContext(ctx);
+        const picked =
+          formData?.newDisabilities?.[index]?.ratedDisability != null;
+
+        const canAddMore = hasRatedDisabilities(formData, undefined);
+
+        return noEdit && (picked || canAddMore);
+      },
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
     }),

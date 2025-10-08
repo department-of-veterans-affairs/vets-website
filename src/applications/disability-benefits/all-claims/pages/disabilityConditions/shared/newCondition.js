@@ -110,6 +110,8 @@ const newConditionPage = {
         useAllFormData: true,
         hideLabelText: true,
       },
+      'ui:required': (formData, index) =>
+        !formData?.newDisabilities?.[index]?.ratedDisability,
     },
   },
   schema: {
@@ -119,7 +121,6 @@ const newConditionPage = {
         type: 'string',
       },
     },
-    required: ['condition'],
   },
 };
 

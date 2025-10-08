@@ -72,10 +72,11 @@ describe('526 utils shared page', () => {
     expect(utils.isRatedDisability(formData, 1)).to.be.true;
   });
 
-  it('createNonSelectedRatedDisabilities excludes already-selected items (except current index)', () => {
+  it('getRemainingRatedDisabilities excludes already-selected items (except current index)', () => {
     const idxStub = sinon
       .stub(abHelpers, 'getArrayIndexFromPathName')
       .returns(1);
+
     try {
       const fullData = {
         [ARRAY_PATH]: [
@@ -89,9 +90,9 @@ describe('526 utils shared page', () => {
         ],
       };
 
-      const out = utils.createNonSelectedRatedDisabilities(fullData);
-      expect(out).to.deep.equal({ Back: 'Back', Neck: 'Neck' });
-      expect(utils.hasRatedDisabilities(fullData)).to.be.true;
+      const out = utils.getRemainingRatedDisabilities(fullData, 1);
+      expect(out).to.deep.equal(['Back', 'Neck']);
+      expect(utils.hasRatedDisabilities(fullData, 1)).to.be.true;
     } finally {
       idxStub.restore();
     }
@@ -138,16 +139,16 @@ describe('526 utils shared page', () => {
       utils.isItemIncomplete({
         condition: 'Knee',
         cause: 'SECONDARY',
-        causedByCondition: {},
-        causedByConditionDescription: '',
+        causedByDisability: {},
+        causedByDisabilityDescription: '',
       }),
     ).to.be.true;
     expect(
       utils.isItemIncomplete({
         condition: 'Knee',
         cause: 'SECONDARY',
-        causedByCondition: { Back: true },
-        causedByConditionDescription: 'Because …',
+        causedByDisability: { Back: true },
+        causedByDisabilityDescription: 'Because …',
       }),
     ).to.be.false;
 

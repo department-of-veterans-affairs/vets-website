@@ -12,8 +12,8 @@ import formConfig from '../../../../config/form';
 const newDisabilities = [
   {
     cause: 'SECONDARY',
-    causedByCondition: 'Hypertension',
-    causedByConditionDescription: 'dfgdsgfsgfds',
+    causedByDisability: 'Hypertension',
+    causedByDisabilityDescription: 'dfgdsgfsgfds',
     condition: 'heart attack (myocardial infarction)',
     conditionDate: '2020-01-01',
     ratedDisability: "A condition I haven't claimed before",

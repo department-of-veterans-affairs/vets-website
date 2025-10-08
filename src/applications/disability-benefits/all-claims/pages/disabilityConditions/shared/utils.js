@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
-import {
-  getArrayIndexFromPathName,
-  getArrayUrlSearchParams,
-} from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 import { ARRAY_PATH, NEW_CONDITION_OPTION } from '../../../constants';
@@ -66,37 +63,24 @@ export const isRatedDisability = (formData, index) => {
   );
 };
 
-const getSelectedRatedDisabilities = fullData => {
-  const currentIndex = getArrayIndexFromPathName();
-
-  return fullData?.[ARRAY_PATH]?.reduce((acc, item, index) => {
-    if (index !== currentIndex && isRatedDisability(item)) {
+export const getSelectedRatedDisabilities = (fullData, currentIndex) =>
+  fullData?.[ARRAY_PATH]?.reduce((acc, item, idx) => {
+    if (idx !== currentIndex && isRatedDisability(item))
       acc.push(item?.ratedDisability);
-    }
     return acc;
-  }, []);
-};
+  }, []) || [];
 
-export const createNonSelectedRatedDisabilities = fullData => {
-  const selectedRatedDisabilities = getSelectedRatedDisabilities(fullData);
-
-  return (
-    fullData?.ratedDisabilities?.reduce((acc, disability) => {
-      if (!selectedRatedDisabilities?.includes(disability.name)) {
-        acc[disability.name] = disability.name;
-      }
-      return acc;
-    }, {}) || {}
+export const getRemainingRatedDisabilities = (fullData, currentIndex) => {
+  const selected = new Set(
+    getSelectedRatedDisabilities(fullData, currentIndex),
   );
+  return (fullData?.ratedDisabilities || [])
+    .map(d => d.name)
+    .filter(name => !selected.has(name));
 };
 
-export const hasRatedDisabilities = fullData => {
-  if (fullData?.ratedDisabilities?.length === 0) {
-    return false;
-  }
-
-  return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
-};
+export const hasRatedDisabilities = (fullData, currentIndex) =>
+  getRemainingRatedDisabilities(fullData, currentIndex).length > 0;
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 export const capitalizeFirstLetter = string =>
@@ -131,9 +115,9 @@ const getItemName = item =>
 const causeFollowUpChecks = {
   NEW: item => !item?.primaryDescription,
   SECONDARY: item =>
-    !item?.causedByCondition ||
-    !Object.keys(item?.causedByCondition).length ||
-    !item?.causedByConditionDescription,
+    !item?.causedByDisabilityDescription ||
+    !Object.keys(item?.causedByDisability).length ||
+    !item?.causedByDisabilityDescription,
   WORSENED: item => !item?.worsenedDescription || !item?.worsenedEffects,
   VA: item => !item?.vaMistreatmentDescription || !item?.vaMistreatmentLocation,
 };

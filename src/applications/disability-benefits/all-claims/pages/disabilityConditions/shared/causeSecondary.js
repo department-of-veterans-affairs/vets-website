@@ -33,7 +33,7 @@ const causeSecondaryPage = {
       undefined,
       false,
     ),
-    causedByCondition: selectUI({
+    causedByDisability: selectUI({
       title:
         'Choose the service-connected disability that caused your new condition.',
       updateUiSchema: (_formData, fullData, index) => ({
@@ -44,7 +44,7 @@ const causeSecondaryPage = {
       updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) =>
         selectSchema(getOtherConditions(fullData, index)),
     }),
-    causedByConditionDescription: textareaUI({
+    causedByDisabilityDescription: textareaUI({
       title: 'Briefly describe how this disability led to your new condition. ',
       updateUiSchema: (_formData, fullData, index) => ({
         'ui:title': `Briefly describe how this disability or condition caused ${createNewConditionName(
@@ -57,13 +57,13 @@ const causeSecondaryPage = {
   schema: {
     type: 'object',
     properties: {
-      causedByCondition: selectSchema(conditionOptions),
-      causedByConditionDescription: {
+      causedByDisability: selectSchema(conditionOptions),
+      causedByDisabilityDescription: {
         type: 'string',
         maxLength: 400,
       },
     },
-    required: ['causedByCondition', 'causedByConditionDescription'],
+    required: ['causedByDisability', 'causedByDisabilityDescription'],
   },
 };
 

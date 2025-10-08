@@ -68,6 +68,8 @@ const causePage = {
           enum: allowedCauseValues(formData, index),
         }),
       },
+      'ui:required': (formData, index) =>
+        !formData?.newDisabilities?.[index]?.ratedDisability,
     },
   },
 
@@ -77,7 +79,6 @@ const causePage = {
       // Start with the full set; updateSchema will trim it at runtime
       cause: radioSchema(Object.keys(causeOptions)),
     },
-    required: ['cause'],
   },
 };
 

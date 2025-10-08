@@ -85,8 +85,8 @@ describe('526 cause secondary shared page', () => {
 
     const testData = {
       ratedDisabilities: [{ name: 'tinnitus' }],
-      causedByCondition: 'tinnitus',
-      causedByConditionDescription: 'Tinnitus aggravated my anxiety.',
+      causedByDisability: 'tinnitus',
+      causedByDisabilityDescription: 'Tinnitus aggravated my anxiety.',
     };
 
     const { getByRole } = mountPage(testData, spy);

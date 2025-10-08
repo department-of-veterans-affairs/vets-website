@@ -41,7 +41,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       return 'caused by an injury, event, disease or exposure during my service';
 
     case 'SECONDARY': {
-      const target = norm(item.causedByCondition);
+      const target = norm(item.causedByDisability);
       if (!target) return '';
 
       const newNames = (fullData?.newDisabilities ?? [])
@@ -55,7 +55,7 @@ export const createCauseFollowUpDescriptions = (item, fullData = {}) => {
       const found = newNames.includes(target) || ratedNames.includes(target);
 
       return found
-        ? `caused by ${item.causedByCondition.trim()}`
+        ? `caused by ${item.causedByDisability.trim()}`
         : 'cause is unknown or was removed';
     }
 
