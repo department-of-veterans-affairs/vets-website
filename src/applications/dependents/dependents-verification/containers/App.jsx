@@ -54,21 +54,18 @@ export default function App({ location, children, isLoggedIn }) {
   useBrowserMonitoring({
     loggedIn: isLoggedIn,
     toggleName: 'vaDependentsBrowserMonitoringEnabled',
-
     applicationId: '2f49e2b2-d5d6-4a53-9850-a42ed7ab26d7',
     clientToken: 'pub15c7121f25875066ff90b92371cd7ff4',
     site: 'ddog-gov.com',
     // see https://docs.datadoghq.com/getting_started/site/
     service: 'benefits-dependents-verification',
     version: '1.0.0',
-    // sessionSampleRate: 100, // README not using this
-
-    // example: record 100% of staging sessions, but only 10% of production
     sessionReplaySampleRate:
       environment.vspEnvironment() === 'staging' ? 100 : 20,
+    sessionSampleRate: 50,
+
     defaultPrivacyLevel: 'mask-user-input',
     trackBfcacheViews: true,
-    env: environment.isProduction(), // Is this still needed?
   });
 
   useEffect(() => {
