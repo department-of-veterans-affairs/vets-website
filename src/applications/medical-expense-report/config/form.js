@@ -1,6 +1,5 @@
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
+// import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -9,12 +8,13 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
 import { submit } from './submit';
-import { defaultDefinitions } from './definitions';
-import GetFormHelp from '../components/GetFormHelp';
-import ErrorText from '../components/ErrorText';
+// import { defaultDefinitions } from './definitions';
+// import GetFormHelp from '../components/GetFormHelp';
+// import ErrorText from '../components/ErrorText';
 import applicantInformation from './chapters/01-applicant-information';
-import expenses from './chapters/02-expenses';
+// import expenses from './chapters/02-expenses';
 import additionalInformation from './chapters/03-additional-information';
+import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -23,29 +23,19 @@ const formConfig = {
   submitUrl: '/v0/api',
   submit,
   trackingPrefix: 'med-expense-8416',
-  v3SegmentedProgressBar: true,
-  prefillEnabled: true,
+  // v3SegmentedProgressBar: true,
   dev: {
-    disableWindowUnloadInCI: true,
+    // disableWindowUnloadInCI: true,
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  downtime: {
-    dependencies: [externalServices.icmhs],
-  },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      { href: '/', label: 'Pension benefits' },
-      {
-        href: '/pension/medical-expense-report-form-21p-8416',
-        label: 'Report medical expenses',
-      },
-    ],
-  }),
+  // downtime: {
+  //   dependencies: [externalServices.icmhs],
+  // },
   formId: VA_FORM_IDS.FORM_21P_8416,
   useCustomScrollAndFocus: false,
-  defaultDefinitions,
+  defaultDefinitions: {},
+  prefillEnabled: true,
   saveInProgress: {
     messages: {
       inProgress: 'Your medical expense report is in progress.',
@@ -69,7 +59,7 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: 'veteranFullName',
+      fullNamePath: 'claimantFullName',
     },
   },
   title: TITLE,
@@ -77,12 +67,15 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
-  errorText: ErrorText,
+  // getHelp: GetFormHelp,
+  // errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
     applicantInformation,
-    expenses,
+    careExpenses: {
+      title: 'Care Expenses',
+      pages: careExpensesPages,
+    },
     additionalInformation,
   },
 };
