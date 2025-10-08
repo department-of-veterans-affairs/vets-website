@@ -17,6 +17,7 @@ const uiSchema = {
     'ui:options': {
       monthSelect: false,
       hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
+      classNames: 'va-memorable-date-field',
     },
   },
   'view:releaseDateNote': {
