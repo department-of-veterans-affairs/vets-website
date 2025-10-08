@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   parse,
   isValid,
-  differenceInYears,
   format,
   isWithinInterval,
   startOfToday,
@@ -16,7 +15,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ManageDependents from '../../manage-dependents/containers/ManageDependentsApp';
-import { maskID } from '../../../shared/utils';
+import { maskID, calculateAge } from '../../../shared/utils';
 
 function ViewDependentsListItem(props) {
   const [open, setOpen] = useState(false);
@@ -63,9 +62,7 @@ function ViewDependentsListItem(props) {
   const removalDate = upcomingRemoval
     ? parse(upcomingRemoval, 'MM/dd/yyyy', new Date())
     : '';
-  const ageInYears = isValid(dobObj)
-    ? differenceInYears(new Date(), dobObj)
-    : '';
+  const ageInYears = calculateAge(dateOfBirth);
   const upcomingBirthday = isValid(dobObj)
     ? new Date(new Date().getFullYear(), dobObj.getMonth(), dobObj.getDate())
     : null;
@@ -115,7 +112,7 @@ function ViewDependentsListItem(props) {
                 className="dd-privacy-mask"
                 data-dd-action-name="Dependent's age"
               >
-                {ageInYears} years old
+                {ageInYears.labeledAge}
               </dd>
             </div>
           )}
