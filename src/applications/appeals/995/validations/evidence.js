@@ -63,13 +63,6 @@ export const buildVaLocationString = ({
     '',
   );
 
-  console.log([
-    data.locationAndName || '',
-    ...issues,
-    fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
-    noDate,
-  ]);
-
   return [
     data.locationAndName || '',
     ...issues,
@@ -79,7 +72,6 @@ export const buildVaLocationString = ({
 };
 
 // Check if VA evidence object is empty
-// an empty va-memorable-date value may equal '--'
 export const isEmptyVaEntry = (data = {}) => {
   return buildVaLocationString({ data }).trim() === 'false';
 };
@@ -106,6 +98,7 @@ export const validateVaUnique = (
 /* *** Private *** */
 export const validatePrivateName = (errors, data) => {
   const { providerFacilityName } = data || {};
+
   if (!providerFacilityName) {
     errors.addError(errorMessages.evidence.facilityMissing);
   }
