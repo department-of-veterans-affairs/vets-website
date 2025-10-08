@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import causePage, { causeOptions } from '../../../pages/shared/cause';
