@@ -190,7 +190,6 @@ export const conditionReducer = (state = initialState, action) => {
     }
     case Actions.Conditions.GET_UNIFIED_LIST: {
       const data = action.response?.data || [];
-      const oldList = state.conditionsList;
       const newList =
         data
           .map(condition => {
@@ -205,8 +204,7 @@ export const conditionReducer = (state = initialState, action) => {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        conditionsList: typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        conditionsList: newList,
       };
     }
     case Actions.Conditions.COPY_UPDATED_LIST: {

@@ -71,7 +71,6 @@ export const NAV_MENU_DROPDOWN = [
     LABEL: 'Find Claimant',
     URL: '/claimant-search',
     ICON: 'search',
-    FEATURE_FLAG_NAME: 'accredited_representative_portal_search',
     TEST_ID: 'user-nav-claimant-search-link',
   },
   {
@@ -82,7 +81,6 @@ export const NAV_MENU_DROPDOWN = [
   {
     LABEL: 'Submissions',
     URL: '/submissions',
-    FEATURE_FLAG_NAME: 'accredited_representative_portal_submissions',
     TEST_ID: 'submissions-link',
   },
 ];
