@@ -20,7 +20,7 @@ More documentation: https://github.com/department-of-veterans-affairs/va.gov-tea
    yarn mock-api --responses src/applications/vaos/services/mocks/index.js
    ```
 
-3. Navigate to `http://localhost:3001/my-health/appointments` and click on the "Referrals and requests" link
+3. Navigate to `http://localhost:3001/my-health/appointments` and click on the "Review referrals and requests" link
 
 ## Business rules
 
