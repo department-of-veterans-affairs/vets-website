@@ -10,16 +10,9 @@
       "vaFileNumber": "987654321"
     },
     "recipientName": {
-      "first": "Jennifer",
-      "middle": "Marie",
-      "last": "Doe"
-    },
-    "recipient": {
-      "phone": {
-        "daytime": "555-123-4567",
-        "evening": "555-987-6543"
-      },
-      "email": "jennifer.doe@example.com"
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
     },
     "hasRemarried": true,
     "remarriage": {
@@ -39,6 +32,9 @@
       "terminationDate": "",
       "terminationReason": ""
     },
-    "signature": "Jennifer Marie Doe"
+    "signature": "Jane M Spouse",
+    "primaryPhone": "555-123-4567",
+    "secondaryPhone": "555-987-6543",
+    "emailAddress": "jane.spouse@example.com"
   }
 }
