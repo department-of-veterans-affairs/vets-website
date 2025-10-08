@@ -18,6 +18,7 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
+  selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -802,6 +803,7 @@ export function submitAppointmentOrRequest(history) {
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -824,6 +826,7 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          featureUseBrowserTimezone,
         });
 
         dispatch({
@@ -911,6 +914,7 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
+          featureUseBrowserTimezone,
         });
 
         dispatch({

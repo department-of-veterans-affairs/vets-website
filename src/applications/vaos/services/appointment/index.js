@@ -62,11 +62,13 @@ function apptRequestSort(a, b) {
  *
  * @export
  * @async
- * @param {String} startDate Date in YYYY-MM-DD format
- * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
- * @param {Boolean} includeEPS Boolean to include EPS appointments
- * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
+ * @param {Object} params
+ * @param {Date} params.startDate Date in YYYY-MM-DD format
+ * @param {Date} params.endDate Date in YYYY-MM-DD format
+ * @param {Boolean} params.fetchClaimStatus Boolean to fetch travel claim data
+ * @param {Boolean} params.includeEPS Boolean to include EPS appointments
+ * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
+ * @returns {Promise <Object>[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
   startDate,
@@ -120,10 +122,12 @@ export async function fetchAppointments({
  *
  * @export
  * @async
- * @param {String} startDate Date in YYYY-MM-DD format
- * @param {String} endDate Date in YYYY-MM-DD format
- * @param {Boolean} includeEPS Boolean to include EPS appointments
- * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
+ * @param {Object} params
+ * @param {Date} params.startDate Date in YYYY-MM-DD format
+ * @param {Date} params.endDate Date in YYYY-MM-DD format
+ * @param {Boolean} params.includeEPS Boolean to include EPS appointments
+ * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
+ * @returns {Promise Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({
   startDate,
@@ -171,8 +175,10 @@ export async function getAppointmentRequests({
  *
  * @export
  * @async
- * @param {string} id Appointment request id
- * @returns {Appointment} An Appointment object for the given request id
+ * @param {Object} params
+ * @param {string} params.id Appointment request id
+ * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
+ * @returns {Promise<Object>} An Appointment object for the given request id
  */
 export async function fetchRequestById({
   id,
@@ -195,10 +201,11 @@ export async function fetchRequestById({
  *
  * @export
  * @async
- * @param {string} id MAS or community care booked appointment id
- * @param {avs} Boolean to fetch avs data
- * @param {fetchClaimStatus} Boolean to fetch travel claim data
- * @returns {Appointment} A transformed appointment with the given id
+ * @param {Object} params
+ * @param {string} params.id MAS or community care booked appointment id
+ * @param {boolean} params.avs to fetch avs data
+ * @param {boolean} params.fetchClaimStatus Boolean to fetch travel claim data
+ * @returns {Promise<Object>} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({
   id,
@@ -447,12 +454,16 @@ export function groupAppointmentsByMonth(appointments) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
- * @returns {Appointment} The created appointment
+ * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
+ * @returns {Promise<Object>} The created appointment
  */
-export async function createAppointment({ appointment }) {
+export async function createAppointment({
+  appointment,
+  featureUseBrowserTimezone = false,
+}) {
   const result = await postAppointment(appointment);
 
-  return transformVAOSAppointment(result);
+  return transformVAOSAppointment(result, featureUseBrowserTimezone);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
@@ -463,9 +474,13 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
- * @returns {?Appointment} Returns either null or the updated appointment data
+ * @param {boolean?} params.featureUseBrowserTimezone Feature flag. Default = false.
+ * @returns {Promise<Object>} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment }) {
+export async function cancelAppointment({
+  appointment,
+  featureUseBrowserTimezone = false,
+}) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -490,7 +505,10 @@ export async function cancelAppointment({ appointment }) {
     });
     resetDataLayer();
 
-    return transformVAOSAppointment(updatedAppointment);
+    return transformVAOSAppointment(
+      updatedAppointment,
+      featureUseBrowserTimezone,
+    );
   } catch (e) {
     captureError(e, true);
     recordEvent({

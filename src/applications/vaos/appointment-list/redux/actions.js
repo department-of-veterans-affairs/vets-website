@@ -450,13 +450,17 @@ export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const state = getState();
     const appointment = state.appointments.appointmentToCancel;
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     try {
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const updatedAppointment = await cancelAppointment({ appointment });
+      const updatedAppointment = await cancelAppointment({
+        appointment,
+        featureUseBrowserTimezone,
+      });
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
