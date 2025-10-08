@@ -29,7 +29,7 @@ export const disabilityConditionsWorkflow = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     Intro: pageBuilder.introPage({
       title: 'Add your disabilities and conditions',
-      path: 'orientation',
+      path: 'conditions/orientation',
       uiSchema: ratedIntroPage.uiSchema,
       schema: ratedIntroPage.schema,
     }),

@@ -79,7 +79,7 @@ describe('createCauseFollowUpDescriptions', () => {
   it('returns SECONDARY with no match', () => {
     const item = { cause: 'SECONDARY', causedByDisability: 'Unknown Thing' };
     expect(createCauseFollowUpDescriptions(item, {})).to.equal(
-      'cause is unknown or was removed',
+      'Unknown Thing has been removed — please edit to change the cause',
     );
   });
 
@@ -122,7 +122,7 @@ describe('NewConditionCardDescription', () => {
   it('renders SECONDARY with no match shows "cause is unknown"', () => {
     const item = { cause: 'SECONDARY', causedByDisability: 'X' };
     const { getByText } = render(<NewConditionCardDescription {...item} />);
-    expect(getByText(/cause is unknown or was removed\./i)).to.exist;
+    expect(getByText(/X has been removed/i)).to.exist;
   });
 });
 
