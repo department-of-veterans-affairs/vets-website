@@ -10,7 +10,7 @@ import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaDate, // YYYY-MM
+  validateVaDate,
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';

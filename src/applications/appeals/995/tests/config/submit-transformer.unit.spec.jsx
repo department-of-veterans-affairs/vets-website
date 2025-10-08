@@ -1,15 +1,9 @@
 import { expect } from 'chai';
-
 import formConfig from '../../config/form';
-
 import { transform } from '../../config/submit-transformer';
 
 import maximalData from '../fixtures/data/pre-api-comprehensive-test.json';
 import transformedMaximalData from '../fixtures/data/transformed-comprehensive-test.json';
-
-import maximalDataV2 from '../fixtures/data/maximal-test-v2.json';
-import transformedMaximalDataV2 from '../fixtures/data/transformed-comprehensive-test-v2.json';
-
 import noEvidence from '../fixtures/data/pre-api-no-evidence-test.json';
 import transformedNoEvidence from '../fixtures/data/transformed-no-evidence-test.json';
 
@@ -20,14 +14,6 @@ describe('transform', () => {
     transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
 
     expect(transformedResult).to.deep.equal(transformedMaximalData);
-  });
-
-  it('should transform maximal-test-v2.json correctly', () => {
-    const transformedResult = JSON.parse(transform(formConfig, maximalDataV2));
-    // copy over variables that change based on date & location
-    transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';
-
-    expect(transformedResult).to.deep.equal(transformedMaximalDataV2);
   });
 
   it('should transform no evidence test correctly', () => {

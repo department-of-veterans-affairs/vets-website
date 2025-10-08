@@ -114,6 +114,31 @@
     "form5103Acknowledged": true,
     "view:hasPrivateEvidence": false,
     "benefitType": "compensation",
+    "contestedIssues": [{
+      "id": null,
+      "type": "contestableIssue",
+      "attributes": {
+        "ratingIssueReferenceId": "142894",
+        "ratingIssueProfileDate": "2022-03-12",
+        "ratingIssueDiagnosticCode": "5260",
+        "ratingIssueSubjectText": "Headaches",
+        "description": "Acute chronic head pain",
+        "ratingIssuePercentNumber": "10",
+        "isRating": true,
+        "latestIssuesInChain": [{
+          "id": null,
+          "approxDecisionDate": "2022-03-12"
+        }],
+        "decisionIssueId": null,
+        "ratingDecisionReferenceId": null,
+        "approxDecisionDate": "2022-03-12",
+        "rampClaimId": null,
+        "titleOfActiveReview": null,
+        "sourceReviewType": null,
+        "timely": true
+      },
+      "view:selected": true
+    }],
     "additionalIssues": [
       {
         "issue": "Tinnitus",

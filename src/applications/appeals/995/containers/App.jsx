@@ -68,8 +68,6 @@ export const App = ({
             ...formData,
             benefitType: subTaskBenefitType,
           });
-          console.log('this is happening 1: ', formData);
-          console.log('subTaskBenefitType: ', subTaskBenefitType);
         } else if (
           loggedIn &&
           // internalTesting is used to test the get contestable issues API call

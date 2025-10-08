@@ -20,7 +20,6 @@ import {
 import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
-const setFormDataSpy = sinon.spy();
 
 const getData = ({
   loggedIn = true,
@@ -79,16 +78,10 @@ const getData = ({
   };
 };
 
-const mockStore = data => ({
-  getState: () => data,
-  subscribe: () => {},
-  dispatch: () => ({
-    setData: setFormDataSpy,
-    getContestableIssuesAction: () => {},
-  }),
-});
-
 describe('App', () => {
+  const middleware = [thunk];
+  const mockStore = configureStore(middleware);
+
   it('should render logged out state', () => {
     const { props, data } = getData({ loggedIn: false });
     const { container } = render(
@@ -96,7 +89,6 @@ describe('App', () => {
         <App {...props} />
       </Provider>,
     );
-
     const article = $('#form-0995', container);
     expect(article).to.exist;
     expect(article.getAttribute('data-location')).to.eq('introduction');
@@ -111,7 +103,6 @@ describe('App', () => {
         <App {...props} />
       </Provider>,
     );
-
     const article = $('#form-0995', container);
     expect(article).to.exist;
     expect(article.getAttribute('data-location')).to.eq('introduction');
@@ -179,174 +170,170 @@ describe('App', () => {
     expect(push.notCalled).to.be.true;
   });
 
-  it.only('should update benefit type in form data', async () => {
+  it('should update benefit type in form data', async () => {
     const { props, data } = getData({ loggedIn: true, data: {} });
     const store = mockStore(data);
     setStoredSubTask(hasComp);
 
     render(
       <Provider store={store}>
-        <App {...props} setFormData={setFormDataSpy} />
+        <App {...props} />
       </Provider>,
     );
 
     // testing issuesNeedUpdating branch for code coverage
-    // console.log('setFormDataSpy: ', setFormDataSpy.firstCall);
-    // expect(setFormDataSpy.calledWith({ ...data, benefitType: '' }));
     await waitFor(() => {
-      expect(setFormDataSpy.calledOnce());
+      const [action] = store.getActions();
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data).to.deep.equal(hasComp);
     });
-    // console.log(store.dispatch());
-    // const [action] = store.getActions();
-    // expect(action.type).to.eq(SET_DATA);
-    // expect(action.data).to.deep.equal(hasComp);
   });
 
-  // it('should call contestable issues API if logged in', async () => {
-  //   mockApiRequest(contestableIssuesResponse);
-  //   const { props, data } = getData({
-  //     data: { ...hasComp, internalTesting: true },
-  //   });
-  //   render(
-  //     <Provider store={mockStore(data)}>
-  //       <App {...props} />
-  //     </Provider>,
-  //   );
+  it('should call contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
 
-  //   await waitFor(() => {
-  //     expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
-  //     resetFetch();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      resetFetch();
+    });
+  });
 
-  // it('should update contested issues', async () => {
-  //   const { props, data } = getData({
-  //     loggedIn: true,
-  //     data: {
-  //       ...hasComp,
-  //       internalTesting: true,
-  //       contestedIssues: [
-  //         {
-  //           attributes: {
-  //             ratingIssueSubjectText: 'test',
-  //             approxDecisionDate: '2000-01-01',
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   });
-  //   const contestableIssues = {
-  //     status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-  //     issues: [
-  //       {
-  //         attributes: {
-  //           ratingIssueSubjectText: 'test',
-  //           approxDecisionDate: '2000-01-02',
-  //         },
-  //       },
-  //     ],
-  //     legacyCount: 0,
-  //   };
-  //   const store = mockStore({ ...data, contestableIssues });
+  it('should update contested issues', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
+    });
+    const contestableIssues = {
+      status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+      issues: [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'test',
+            approxDecisionDate: '2000-01-02',
+          },
+        },
+      ],
+      legacyCount: 0,
+    };
+    const store = mockStore({ ...data, contestableIssues });
 
-  //   render(
-  //     <Provider store={store}>
-  //       <App {...props} />
-  //     </Provider>,
-  //   );
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
 
-  //   // testing issuesNeedUpdating branch for code coverage
-  //   await waitFor(() => {
-  //     const [action] = store.getActions();
-  //     expect(action.type).to.eq(SET_DATA);
-  //     expect(action.data).to.deep.equal({
-  //       ...hasComp,
-  //       contestedIssues: [
-  //         {
-  //           attributes: {
-  //             ratingIssueSubjectText: 'test',
-  //             approxDecisionDate: '2000-01-02',
-  //             description: '',
-  //           },
-  //         },
-  //       ],
-  //       legacyCount: 0,
-  //       internalTesting: true,
-  //     });
-  //   });
-  // });
+    // testing issuesNeedUpdating branch for code coverage
+    await waitFor(() => {
+      const [action] = store.getActions();
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data).to.deep.equal({
+        ...hasComp,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-02',
+              description: '',
+            },
+          },
+        ],
+        legacyCount: 0,
+        internalTesting: true,
+      });
+    });
+  });
 
-  // it('should not update contestable issues when the API fails', async () => {
-  //   const { props, data } = getData({
-  //     loggedIn: true,
-  //     data: {
-  //       ...hasComp,
-  //       internalTesting: true,
-  //       contestedIssues: [
-  //         {
-  //           attributes: {
-  //             ratingIssueSubjectText: 'test',
-  //             approxDecisionDate: '2000-01-01',
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   });
-  //   const contestableIssues = {
-  //     status: FETCH_CONTESTABLE_ISSUES_FAILED,
-  //     issues: [],
-  //     legacyCount: undefined,
-  //   };
-  //   const store = mockStore({ ...data, contestableIssues });
+  it('should not update contestable issues when the API fails', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
+    });
+    const contestableIssues = {
+      status: FETCH_CONTESTABLE_ISSUES_FAILED,
+      issues: [],
+      legacyCount: undefined,
+    };
+    const store = mockStore({ ...data, contestableIssues });
 
-  //   render(
-  //     <Provider store={store}>
-  //       <App {...props} />
-  //     </Provider>,
-  //   );
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
 
-  //   // testing issuesNeedUpdating branch for code coverage
-  //   await waitFor(() => {
-  //     const actions = store.getActions();
-  //     expect(actions.length).to.eq(0);
-  //   });
-  // });
+    // testing issuesNeedUpdating branch for code coverage
+    await waitFor(() => {
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
+    });
+  });
 
-  // it('should update evidence', async () => {
-  //   const { props, data } = getData({
-  //     loggedIn: true,
-  //     data: {
-  //       ...hasComp,
-  //       contestedIssues: [],
-  //       legacyCount: 0,
-  //       [EVIDENCE_VA]: true,
-  //       locations: [{ issues: ['abc', 'def'] }],
-  //       additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
-  //       internalTesting: true,
-  //     },
-  //   });
-  //   const contestableIssues = {
-  //     status: 'done',
-  //     issues: [],
-  //     legacyCount: 0,
-  //   };
-  //   const store = mockStore({ ...data, contestableIssues });
+  it('should update evidence', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        contestedIssues: [],
+        legacyCount: 0,
+        [EVIDENCE_VA]: true,
+        locations: [{ issues: ['abc', 'def'] }],
+        additionalIssues: [{ issue: 'bbb', [SELECTED]: true }],
+        internalTesting: true,
+      },
+    });
+    const contestableIssues = {
+      status: 'done',
+      issues: [],
+      legacyCount: 0,
+    };
+    const store = mockStore({ ...data, contestableIssues });
 
-  //   render(
-  //     <Provider store={store}>
-  //       <App {...props} />
-  //     </Provider>,
-  //   );
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
 
-  //   // testing update evidence (evidenceNeedsUpdating) branch for code coverage
-  //   await waitFor(() => {
-  //     const [action] = store.getActions();
-  //     expect(action.type).to.eq(SET_DATA);
-  //     expect(action.data).to.deep.equal({
-  //       ...data.form.data,
-  //       providerFacility: [],
-  //       locations: [{ issues: [] }],
-  //     });
-  //   });
-  // });
+    // testing update evidence (evidenceNeedsUpdating) branch for code coverage
+    await waitFor(() => {
+      const [action] = store.getActions();
+      expect(action.type).to.eq(SET_DATA);
+      expect(action.data).to.deep.equal({
+        ...data.form.data,
+        providerFacility: [],
+        locations: [{ issues: [] }],
+      });
+    });
+  });
 });
