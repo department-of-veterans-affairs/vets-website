@@ -80,15 +80,15 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '140':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
-          Pay your balance now or request help by <strong>{endDateText}</strong>
-          .
+          Pay your {balance} balance now or request help by{' '}
+          <strong>{endDateText}</strong>.
         </DebtSummaryMessage>
       );
     case '109':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
           Pay your {balance} balance now or request help by {endDateText}{' '}
-          <strong>to avoid more interest charges.</strong>
+          <strong>to avoid more interest charges</strong>.
         </DebtSummaryMessage>
       );
     case '117':
@@ -108,7 +108,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '680':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
-          Pay your {balance} balance now or request help.{' '}
+          Pay your {balance} balance now or request help.
         </DebtSummaryMessage>
       );
     case '681':
@@ -151,7 +151,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           paid.
         </DebtSummaryMessage>
       );
-    case '603': // TODO: Date Not Listed
+    case '603':
     case '613':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
@@ -172,7 +172,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           p.m. ET. to pay this debt.
         </DebtSummaryMessage>
       );
-    // case '081': TODO: No Definition in mockup
+    case '081':
     case '500':
     case '510':
     case '503':
@@ -252,8 +252,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '420':
     case '421':
     case '422':
-    case '627':
     case '425': // ok - defined in spreadsheet
+    case '627':
     default:
       return (
         <DebtSummaryMessage IconComponent={InfoIcon}>

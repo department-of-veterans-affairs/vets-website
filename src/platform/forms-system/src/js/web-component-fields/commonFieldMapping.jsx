@@ -54,11 +54,19 @@ export default function commonFieldMapping(props) {
   const { headerStyleClass, labelHeaderLevel } = getLabelHeaderLevelProps(
     uiOptions,
   );
+  const dataAttributes = {};
+
+  if (uiOptions?.data) {
+    Object.entries(uiOptions.data).forEach(([key, value]) => {
+      dataAttributes[`data-${key}`] = value;
+    });
+  }
 
   return {
     className: `rjsf-web-component-field${headerStyleClass}${
       uiOptions?.classNames ? ` ${uiOptions.classNames}` : ''
     }`,
+    ...dataAttributes,
     enableAnalytics: uiOptions?.enableAnalytics,
     error,
     hint: uiOptions?.hint,

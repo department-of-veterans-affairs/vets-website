@@ -766,7 +766,7 @@ const Prescriptions = () => {
       <PrescriptionsPrintOnly
         list={printedList}
         hasError={
-          hasExportListDownloadError || isAlertVisible || allergiesError
+          hasExportListDownloadError || isAlertVisible || !!allergiesError
         }
         isFullList={printedList.length === prescriptionsExportList.length}
       />
