@@ -7,10 +7,12 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   VaAlert,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { AlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -61,7 +63,12 @@ import FormsAndApplications from './benefit-application-drafts/FormsAndApplicati
 import PaymentsAndDebts from './benefit-payments/PaymentsAndDebts';
 import NewMyVaToggle from './NewMyVaToggle';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+const DashboardHeader = ({
+  isLOA3,
+  showConfirmEmail,
+  showNotifications,
+  user,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -121,6 +128,7 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
+      {showConfirmEmail && <AlertConfirmEmail />}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -210,6 +218,7 @@ const LOA1Content = ({
 
 DashboardHeader.propTypes = {
   isLOA3: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -346,6 +355,7 @@ const Dashboard = ({
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
+                showConfirmEmail={props.showConfirmEmail}
                 showNotifications={showNotifications}
                 user={props.user}
               />
@@ -568,12 +578,18 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const showConfirmEmail =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
   return {
     canAccessMilitaryHistory,
     canAccessPaymentHistory,
     canAccessRatingInfo,
     isLOA3,
     isLOA1,
+    showConfirmEmail,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
@@ -615,6 +631,7 @@ Dashboard.propTypes = {
     }),
   ),
   showClaimsAndAppeals: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,
   showMPIConnectionError: PropTypes.bool,

@@ -123,6 +123,7 @@ describe('<Dashboard />', () => {
       },
       featureToggles: {
         [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: false,
+        mhvEmailConfirmation: true,
       },
     };
   });
@@ -328,6 +329,67 @@ describe('<Dashboard />', () => {
 
     await waitFor(() => {
       expect(getByTestId('req-loader')).to.exist;
+    });
+  });
+
+  describe('AlertConfirmContactEmail component', () => {
+    it('renders <AlertConfirmContactEmail />', async () => {
+      mockFetch();
+      const { getByTestId, queryByTestId } = renderInReduxProvider(
+        <Dashboard />,
+        {
+          initialState,
+          reducers,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+      });
+    });
+
+    it('suppresses <AlertConfirmEmail /> when feature toggle is off', async () => {
+      mockFetch();
+      initialState.featureToggles.mhvEmailConfirmation = false;
+      const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+        initialState,
+        reducers,
+      });
+      await waitFor(() => {
+        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+      });
+    });
+
+    it('suppresses <AlertConfirmEmail /> when email.updatedAt is after 3/1/2025', async () => {
+      mockFetch();
+      initialState.user.profile.vapContactInfo.email.updatedAt =
+        '2025-09-09T12:00:00.000+00:00';
+      const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+        initialState,
+        reducers,
+      });
+      await waitFor(() => {
+        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+      });
+    });
+
+    it(`suppresses <AlertConfirmEmail /> when <ContactInfoNeeded /> renders`, async () => {
+      mockFetch();
+      initialState.user.profile.vapContactInfo.email.emailAddress = null;
+      const { getByTestId, queryByTestId } = renderInReduxProvider(
+        <Dashboard />,
+        {
+          initialState,
+          reducers,
+        },
+      );
+      await waitFor(() => {
+        expect(getByTestId('account-blocked-alert')).to.exist;
+        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+      });
     });
   });
 });
