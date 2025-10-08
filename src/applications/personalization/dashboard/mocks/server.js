@@ -50,10 +50,12 @@ const responses = {
     true,
   ),
   'GET /v0/user': (req, res) => {
-    const userType = 'loa3'; // 'loa3', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
+    const userType = 'loa3'; // 'loa3', 'loa3NoHealth', 'loa3NoEmail', 'loa1', or 'loa1NoEmail'
     switch (userType) {
       case 'loa3':
         return res.status(200).json(user.simpleUser); // This is an LOA3 user
+      case 'loa3NoHealth':
+        return res.status(200).json(user.loa3NoHealthUser); // This is an LOA3 user
       case 'loa3NoEmail':
         return res.status(200).json(user.loa3UserWithNoEmail); // This is an LOA3 user with no email
       case 'loa1':

@@ -175,14 +175,17 @@ const HealthCareContent = ({
             !isCernerPatient && <NoUpcomingAppointmentsText />}
         </DashboardWidgetWrapper>
       </div>
-      <div className="vads-l-row">
-        <DashboardWidgetWrapper>
-          {isVAPatient && <h3 className="vads-u-margin-top--0">Messages</h3>}
-          {hasInboxError && <MessagesError />}
-          {!hasInboxError && unreadMessagesCount === 0 && <NoUnreadMessages />}
-          {!hasInboxError && unreadMessagesCount > 0 && <UnreadMessages />}
-        </DashboardWidgetWrapper>
-      </div>
+      {isVAPatient && (
+        <div className="vads-l-row">
+          <DashboardWidgetWrapper>
+            {isVAPatient && <h3>Messages</h3>}
+            {hasInboxError && <MessagesError />}
+            {!hasInboxError &&
+              unreadMessagesCount === 0 && <NoUnreadMessages />}
+            {!hasInboxError && unreadMessagesCount > 0 && <UnreadMessages />}
+          </DashboardWidgetWrapper>
+        </div>
+      )}
     </>
   );
 };
