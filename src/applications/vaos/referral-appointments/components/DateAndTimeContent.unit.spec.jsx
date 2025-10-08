@@ -184,4 +184,35 @@ describe('VAOS Component: DateAndTimeContent', () => {
       expect(screen.getByTestId('referral-community-care-office')).to.exist;
     });
   });
+
+  it('should display provider timezone when it differs from referral timezone', async () => {
+    // Create draft appointment info with Pacific timezone provider
+    const pacificTimezoneDraftAppointmentInfo = createDraftAppointmentInfo();
+    pacificTimezoneDraftAppointmentInfo.attributes.provider.location.timezone =
+      'America/Los_Angeles';
+    pacificTimezoneDraftAppointmentInfo.attributes.slots = transformSlotsForCommunityCare(
+      slots,
+    );
+
+    // Appointments are in Eastern time (from appointmentsByMonth)
+    // but provider is in Pacific time
+    const screen = renderWithStoreAndRouter(
+      <DateAndTimeContent
+        currentReferral={referral}
+        draftAppointmentInfo={pacificTimezoneDraftAppointmentInfo}
+        appointmentsByMonth={appointmentsByMonth}
+      />,
+      {
+        initialState,
+      },
+    );
+
+    // Should display Pacific time zone information for the provider
+    expect(
+      screen.getByText(
+        /Appointment times are displayed in Pacific time \(PT\)/,
+      ),
+    ).to.exist;
+    expect(screen.getByTestId('cal-widget')).to.exist;
+  });
 });
