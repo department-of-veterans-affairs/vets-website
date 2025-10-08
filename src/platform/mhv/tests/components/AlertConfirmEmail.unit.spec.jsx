@@ -13,6 +13,7 @@ import {
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
+// default state is to *not* render the alert
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
@@ -42,7 +43,7 @@ const stateFn = ({
 describe('<AlertConfirmEmail />', () => {
   it('renders nothing when alert has been dismissed', async () => {
     dismissAlertViaCookie();
-    const initialState = stateFn();
+    const initialState = stateFn({ emailAddress: null });
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
