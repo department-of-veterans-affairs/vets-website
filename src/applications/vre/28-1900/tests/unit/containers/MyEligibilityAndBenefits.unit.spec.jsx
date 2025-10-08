@@ -25,10 +25,10 @@ const renderPage = state =>
     <Provider store={makeStore(state)}>
       <MemoryRouter
         initialEntries={[
-          '/careers-employment/vocational-rehabilitation/my-eligibility-and-benefits',
+          '/careers-employment/vocational-rehabilitation/your-eligibility-and-benefits',
         ]}
       >
-        <Route path="/careers-employment/vocational-rehabilitation/my-eligibility-and-benefits">
+        <Route path="/careers-employment/vocational-rehabilitation/your-eligibility-and-benefits">
           <MyEligibilityAndBenefits />
         </Route>
       </MemoryRouter>
@@ -95,7 +95,7 @@ afterEach(() => {
 describe('<MyEligibilityAndBenefits> early-return branches', () => {
   it('shows loading indicator when loading is true', () => {
     const { getByText, container } = renderPage(makeState({ loading: true }));
-    getByText('My eligibility and benefits');
+    getByText('Your eligibility and benefits');
     expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
@@ -103,7 +103,7 @@ describe('<MyEligibilityAndBenefits> early-return branches', () => {
     const { getByText, container } = renderPage(
       makeState({ error: { status: 400 } }),
     );
-    getByText('My eligibility and benefits');
+    getByText('Your eligibility and benefits');
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
     getByText('We can’t load the eligibility details right now');
 
@@ -119,7 +119,7 @@ describe('<MyEligibilityAndBenefits> early-return branches', () => {
     const { getByText, container } = renderPage(
       makeState({ error: { status: 403 } }),
     );
-    getByText('My eligibility and benefits');
+    getByText('Your eligibility and benefits');
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
   });
 
@@ -127,7 +127,7 @@ describe('<MyEligibilityAndBenefits> early-return branches', () => {
     const { getByText, container } = renderPage(
       makeState({ error: { status: 500 } }),
     );
-    getByText('My eligibility and benefits');
+    getByText('Your eligibility and benefits');
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
     getByText('We can’t load the eligibility details right now');
   });
