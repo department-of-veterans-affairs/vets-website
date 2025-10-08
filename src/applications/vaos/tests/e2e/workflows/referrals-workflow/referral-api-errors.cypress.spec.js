@@ -46,7 +46,7 @@ describe('VAOS Referral API Error Handling', () => {
     // Mock the appointments API to at least have one appointment
     const response = new MockAppointmentResponse({
       cancellable: false,
-      localStartTime: Date(),
+      localStartTime: mockToday,
       status: APPOINTMENT_STATUS.booked,
     });
     mockAppointmentsGetApi({ response: [response] });
