@@ -107,14 +107,7 @@ const createReferralById = (
       referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
-      appointments: {
-        system: 'EPS',
-        data: [
-          {
-            id: 12312312312,
-          },
-        ],
-      },
+      appointments: {},
       referringFacility: {
         name: 'Batavia VA Medical Center',
         phone: '(585) 297-1000',
