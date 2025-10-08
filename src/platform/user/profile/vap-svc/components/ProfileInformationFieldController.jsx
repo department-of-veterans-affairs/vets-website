@@ -656,6 +656,30 @@ export const mapStateToProps = (state, ownProps) => {
     allowInternationalPhones: enableInternationalPhones,
   });
 
+  // Override the uiSchema title if a custom title is provided
+  let customUiSchema = uiSchema;
+  if (ownProps.title) {
+    if (uiSchema?.inputPhoneNumber?.['ui:title']) {
+      // Handle phone fields
+      customUiSchema = {
+        ...uiSchema,
+        inputPhoneNumber: {
+          ...uiSchema.inputPhoneNumber,
+          'ui:title': ownProps.title,
+        },
+      };
+    } else if (uiSchema?.emailAddress?.['ui:title']) {
+      // Handle email fields
+      customUiSchema = {
+        ...uiSchema,
+        emailAddress: {
+          ...uiSchema.emailAddress,
+          'ui:title': ownProps.title,
+        },
+      };
+    }
+  }
+
   const hasUnsavedEdits = state.vapService?.hasUnsavedEdits;
   return {
     hasUnsavedEdits,
@@ -681,10 +705,10 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    title,
+    title: ownProps.title || title, // Use custom title if provided, otherwise use default
     apiRoute,
     convertCleanDataToPayload,
-    uiSchema,
+    uiSchema: customUiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
