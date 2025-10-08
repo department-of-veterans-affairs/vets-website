@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
@@ -247,6 +248,32 @@ describe('Breadcrumbs', () => {
     );
   });
 
+  it('should navigate back to compose flow page from contact list when coming from compose flow and no active draft', async () => {
+    const previousUrl = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl,
+        },
+        threadDetails: {
+          drafts: [], // No active draft
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.CONTACT_LIST,
+    });
+
+    fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(previousUrl);
+    });
+  });
+
   it('navigates back correctly from CARE_TEAM_HELP to Select care team (previousUrl)', async () => {
     const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
     const customState = {
@@ -303,6 +330,147 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(previous);
+    });
+  });
+
+  describe('SessionStorage - Compose Entry URL Management', () => {
+    let setItemSpy;
+    let removeItemSpy;
+    let getItemSpy;
+
+    beforeEach(() => {
+      // Mock sessionStorage methods
+      setItemSpy = sinon.spy(Storage.prototype, 'setItem');
+      removeItemSpy = sinon.spy(Storage.prototype, 'removeItem');
+      getItemSpy = sinon.stub(Storage.prototype, 'getItem');
+      getItemSpy.returns(null); // Default: no stored entry URL
+    });
+
+    afterEach(() => {
+      setItemSpy.restore();
+      removeItemSpy.restore();
+      getItemSpy.restore();
+      sessionStorage.clear();
+    });
+
+    it('captures entry URL in sessionStorage when entering compose from INBOX', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.INBOX,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE, // Now in compose flow
+      });
+
+      await waitFor(() => {
+        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.INBOX)).to.be
+          .true;
+      });
+    });
+
+    it('captures entry URL when entering compose from other valid folder paths', async () => {
+      // Test SENT path
+      const sentState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.SENT,
+          },
+        },
+      };
+
+      const { unmount: unmountSent } = renderWithStoreAndRouter(
+        <SmBreadcrumbs />,
+        {
+          initialState: sentState,
+          reducers: reducer,
+          path: Paths.COMPOSE,
+        },
+      );
+
+      await waitFor(() => {
+        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.SENT)).to.be
+          .true;
+      });
+
+      unmountSent();
+      setItemSpy.reset();
+
+      // Test custom FOLDERS path
+      const customFolderPath = `${Paths.FOLDERS}123/`;
+      const foldersState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: customFolderPath,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: foldersState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      await waitFor(() => {
+        expect(setItemSpy.calledWith('sm_composeEntryUrl', customFolderPath)).to
+          .be.true;
+      });
+    });
+
+    it('does NOT capture entry URL when entering compose from non-folder paths', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.DRAFTS,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: Paths.COMPOSE,
+      });
+
+      await waitFor(() => {
+        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.DRAFTS)).to.be
+          .false;
+      });
+    });
+
+    it('does NOT overwrite entry URL when navigating within compose flow', async () => {
+      // Simulate having already entered compose flow from INBOX
+      getItemSpy.returns(Paths.INBOX);
+
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`, // Previous was select care team
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.COMPOSE}${Paths.START_MESSAGE}`, // Now at start message
+      });
+
+      // Should NOT call setItem again because previousUrl is not a valid folder
+      await waitFor(() => {
+        expect(
+          setItemSpy.calledWith(
+            'sm_composeEntryUrl',
+            `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+          ),
+        ).to.be.false;
+      });
     });
   });
 });
