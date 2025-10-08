@@ -9,16 +9,9 @@
       "ssn": "434353344"
     },
     "recipientName": {
-      "first": "Susan",
-      "middle": "Ann",
-      "last": "Williams"
-    },
-    "recipient": {
-      "phone": {
-        "daytime": "202-555-9876",
-        "evening": "202-555-1234"
-      },
-      "email": "susan.williams@example.com"
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
     },
     "hasRemarried": true,
     "remarriage": {
@@ -36,6 +29,9 @@
       "terminationDate": "2024-03-15",
       "terminationReason": "Divorce"
     },
-    "signature": "Susan Ann Williams"
+    "signature": "Jane M Spouse",
+    "primaryPhone": "202-555-9876",
+    "secondaryPhone": "202-555-1234",
+    "emailAddress": "susan.williams@example.com"
   }
 }

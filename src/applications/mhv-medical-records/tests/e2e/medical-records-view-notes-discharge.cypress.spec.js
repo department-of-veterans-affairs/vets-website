@@ -7,7 +7,7 @@ import notes from './fixtures/notes/notes.json';
 describe('Medical Records Care Summary Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // Given Navigate to Notes Page
     NotesListPage.gotoNotesList();
