@@ -21,13 +21,13 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 
 ## Running tests
 
-Unit tests can be run using this command: `yarn test:unit --app-folder mhv-medical-records`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `yarn test:unit --app-folder mhv-medical-records --coverage --coverage-html`. View the report at `/coverage/index.html`
+Unit tests can be run using this command: `TZ=UTC yarn test:unit --app-folder mhv-medical-records`. To get detailed errors, run this command with `--log-level=error`. To get coverage reports run this command `TZ=UTC yarn test:unit --app-folder mhv-medical-records --coverage --coverage-html`. View the report at `/coverage/index.html`
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `mhv-medical-records` to run end to end tests for this app.
 
 Run Cypress from command line:
 
-- Run all `yarn cy:run --spec "src/applications/mhv-medical-records/**/**/*"`
+- Run all `TZ=UTC yarn cy:run --spec "src/applications/mhv-medical-records/**/**/*"`
 - Use the `-b electron` option to specify the Electron browser, which is lightweight, tightly integrated with Cypress, and comes pre-installed, removing the need for separate installation.
 
 ### Test coverage
