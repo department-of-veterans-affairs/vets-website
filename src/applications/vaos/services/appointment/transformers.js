@@ -60,10 +60,6 @@ function getAtlasLocation(appt) {
 function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
   const timezone = appt.location?.attributes?.timezone?.timeZoneId;
 
-  if (featureUseBrowserTimezone && !timezone) {
-    return getTimezoneByFacilityId(appt.locationId, featureUseBrowserTimezone);
-  }
-
   return (
     timezone ||
     getTimezoneByFacilityId(appt.locationId, featureUseBrowserTimezone)
