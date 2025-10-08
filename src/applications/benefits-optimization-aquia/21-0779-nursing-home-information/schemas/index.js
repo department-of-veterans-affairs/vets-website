@@ -41,6 +41,7 @@ export {
 
 import { medicaidFacilitySchema } from './medicaid-facility';
 import { medicaidApplicationSchema } from './medicaid-application';
+import { currentMedicaidStatusSchema } from './medicaid-status';
 import { medicaidStartDateInfoSchema } from './medicaid-start-date';
 import { monthlyCostsSchema } from './monthly-costs';
 
@@ -93,6 +94,15 @@ export {
   medicaidApplicationSchema,
   medicaidApplicationStatusSchema,
 } from './medicaid-application';
+
+/**
+ * Medicaid status schemas
+ * @description Schemas for validating Medicaid status
+ */
+export {
+  medicaidStatusSchema,
+  currentMedicaidStatusSchema,
+} from './medicaid-status';
 
 /**
  * Medicaid start date schemas
@@ -163,6 +173,7 @@ export {
  * @property {Object} certificationLevelOfCare - Level of care certification (skilled/intermediate)
  * @property {Object} medicaidFacility - Medicaid facility approval status
  * @property {Object} medicaidApplication - Patient's Medicaid application status
+ * @property {Object} medicaidStatus - Patient's Medicaid status
  * @property {Object} medicaidStartDateInfo - Medicaid coverage start date
  * @property {Object} monthlyCosts - Monthly out-of-pocket costs
  * @property {Object} nursingOfficialInformation - Nursing home official's information
@@ -187,6 +198,7 @@ export const nursingHomeFormSchema = z.object({
   // Medicaid information
   medicaidFacility: medicaidFacilitySchema,
   medicaidApplication: medicaidApplicationSchema,
+  medicaidStatus: currentMedicaidStatusSchema,
   medicaidStartDateInfo: medicaidStartDateInfoSchema.optional(),
 
   // Cost information
