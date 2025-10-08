@@ -87,14 +87,8 @@ export const clearInput = selector =>
 export const checkInputText = (selector, expectedValue) =>
   cy.findByTestId(selector).should('have.value', expectedValue);
 
-export const checkAccordionValue = (selector, expectedValue, index) =>
-  cy
-    .findByTestId(RESULTSPAGE)
-    .findByTestId(selector)
-    .shadow()
-    .get('button')
-    .eq(index)
-    .should('have.text', expectedValue);
+export const checkAccordionValue = (selector, expectedValue) =>
+  cy.findByTestId(selector).should('have.attr', 'header', expectedValue);
 
 export const verifyElement = selector =>
   cy.findByTestId(selector).should('exist');
