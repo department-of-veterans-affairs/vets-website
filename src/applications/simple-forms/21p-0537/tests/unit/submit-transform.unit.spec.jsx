@@ -47,8 +47,8 @@ describe('21P-0537 submit transformer', () => {
         prefix: '123',
         lineNumber: '4567',
       });
-      expect(result.recipient.email).to.equal('jennifer.doe@example.com');
-      expect(result.recipient.signature).to.equal('Jennifer Marie Doe');
+      expect(result.recipient.email).to.equal('jane.spouse@example.com');
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
 
       // Should prioritize SSN for inReplyReferTo
       expect(result.inReplyReferTo).to.equal('434353347');
@@ -206,7 +206,7 @@ describe('21P-0537 submit transformer', () => {
       });
 
       // Test recipient signature
-      expect(result.recipient.signature).to.equal('Jane Doe');
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
     });
   });
 
@@ -265,6 +265,36 @@ describe('21P-0537 submit transformer', () => {
       expect(result.recipient.signatureDate.month).to.match(/^\d{2}$/);
       expect(result.recipient.signatureDate.day).to.match(/^\d{2}$/);
       expect(result.recipient.signatureDate.year).to.match(/^\d{4}$/);
+    });
+  });
+
+  describe('signature field', () => {
+    it('should use signature field when present', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      testData.data.signature = 'John Doe';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('John Doe');
+    });
+
+    it('should fallback to statementOfTruthSignature when signature is missing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      delete testData.data.signature;
+      testData.data.statementOfTruthSignature = 'Jane Smith';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('Jane Smith');
+    });
+
+    it('should use empty string when both signature fields are missing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+      delete testData.data.signature;
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.recipient.signature).to.equal('');
     });
   });
 });

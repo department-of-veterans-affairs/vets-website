@@ -5,9 +5,15 @@ import MicrobiologyDetailsPage from './pages/MicrobiologyDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records View Labs And Tests', () => {
-  it('Visits Medical Records View Microbiology Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Microbiology Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     LabsAndTestsListPage.goToLabsAndTests();
     const record = labsAndTests.entry[2].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4, labsAndTests.entry[2]);
