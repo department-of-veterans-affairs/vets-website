@@ -321,6 +321,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -338,6 +339,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             typeOfCare,
             directSchedulingEnabled,
             isCerner: true,
+            featureUseBrowserTimezone,
           });
 
           dispatch({
@@ -371,6 +373,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           typeOfCare,
           directSchedulingEnabled,
           featurePastVisitMHFilter,
+          featureUseBrowserTimezone,
         });
 
         if (showModal) {

@@ -695,13 +695,14 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return () => {
+  return (featureUseBrowserTimezone = false) => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
         return {
           start: subYears(startOfDay(new Date()), i + 1),
           end: subYears(startOfDay(new Date()), i),
+          featureUseBrowserTimezone,
         };
       });
 
@@ -720,6 +721,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
+          featureUseBrowserTimezone,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());
