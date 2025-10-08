@@ -64,10 +64,6 @@ export default {
           expandUnderCondition: field => {
             return field === 'DEPENDENT' || field === 'OTHER';
           },
-          // hideIf: (formData, index) =>
-          //   !['DEPENDENT', 'OTHER'].includes(
-          //     formData?.mileage?.[index]?.traveler,
-          //   ),
           required: (formData, index) =>
             ['DEPENDENT', 'OTHER'].includes(
               formData?.mileage?.[index]?.traveler,
@@ -90,8 +86,6 @@ export default {
           title: 'Tell us where you traveled',
           expandUnder: 'travelLocation',
           expandUnderCondition: field => field === 'OTHER',
-          // hideIf: (formData, index) =>
-          //   formData?.mileage?.[index]?.travelLocation !== 'OTHER',
           required: (formData, index) =>
             formData?.mileage?.[index]?.travelLocation === 'OTHER',
         }),
@@ -101,13 +95,16 @@ export default {
           monthSelect: false,
         }),
         travelReimbursed: yesNoUI('Were you reimbursed from another source?'),
-        travelReimbursementAmount: currencyUI({
-          title: 'How much were you reimbursed?',
-          expandUnder: 'travelReimbursed',
-          expandUnderCondition: field => field === true,
-          required: (formData, index) =>
+        // Required doesn't seem to work set directly on currencyUI.
+        travelReimbursementAmount: {
+          ...currencyUI({
+            title: 'How much were you reimbursed?',
+            expandUnder: 'travelReimbursed',
+            expandUnderCondition: field => field === true,
+          }),
+          'ui:required': (formData, index) =>
             formData?.mileage?.[index]?.travelReimbursed === true,
-        }),
+        },
       },
     },
   },
