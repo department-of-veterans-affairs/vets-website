@@ -20,26 +20,37 @@ export default function CapitalizedTextInputField(props) {
     if (!initials || initials.length === 0) {
       return '';
     }
+    const lettersOnlyPattern = /^[A-Za-z]+$/;
+    if (!lettersOnlyPattern.test(initials)) {
+      return 'Please enter your initials using letters only';
+    }
 
     const firstName = formData?.authorizedOfficial?.fullName?.first || '';
-    const lastName = formData?.authorizedOfficial?.fullName?.last || '';
+
+    const lastName1 = formData?.authorizedOfficial?.fullName?.last;
+    let lastName2;
+
+    const hyphenIndex = lastName1.indexOf('-');
+    if (hyphenIndex !== -1) {
+      lastName2 = lastName1.substring(hyphenIndex + 1);
+    }
 
     const firstLetter = firstName.charAt(0).toUpperCase();
-    const lastLetter = lastName.charAt(0).toUpperCase();
+    const lastLetter1 = lastName1.charAt(0).toUpperCase();
+    const lastLetter2 = lastName2?.charAt(0).toUpperCase();
 
-    if (initials.length === 2) {
-      const inputFirst = initials.charAt(0);
-      const inputSecond = initials.charAt(1);
+    const inputFirst = initials.charAt(0);
+    const inputSecond = initials.charAt(1);
 
-      if (inputFirst !== firstLetter || inputSecond !== lastLetter) {
-        return `Initials must match your name: ${firstLetter}${lastLetter}`;
-      }
-    } else if (initials.length === 3) {
-      const inputFirst = initials.charAt(0);
+    if (inputFirst !== firstLetter || inputSecond !== lastLetter1) {
+      return `Initials must match your name: ${firstName} ${lastName1}`;
+    }
+
+    if (initials.length === 3) {
       const inputThird = initials.charAt(2);
 
-      if (inputFirst !== firstLetter || inputThird !== lastLetter) {
-        return `Initials must match your name: ${firstLetter}${lastLetter}`;
+      if (inputThird !== lastLetter2) {
+        return `Initials must match your name: ${firstName} ${lastName1}`;
       }
     }
 
