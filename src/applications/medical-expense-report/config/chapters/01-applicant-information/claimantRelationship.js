@@ -2,16 +2,25 @@ import {
   titleUI,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import UnauthenticatedWarningAlert from '../../../components/UnauthenticatedWarningAlert';
 
 /** @type {PageSchema} */
 export default {
   title: 'Claimant information',
   path: 'applicant/claimant',
   uiSchema: {
-    ...titleUI('Claimant information'),
+    ...titleUI('Your identity'),
+    'view:warningAlert': {
+      'ui:description': UnauthenticatedWarningAlert,
+    },
     claimantNotVeteran: yesNoUI({
-      title: 'Is the claimant for these expenses different than the veteran?',
-      classNames: 'vads-u-margin-bottom--2',
+      title: 'Which of these best describes you?',
+      yesNoReverse: true,
+      labels: {
+        Y: 'I’m a Veteran, and I want to report unreimbursed medical expenses',
+        N:
+          'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
+      },
     }),
   },
   schema: {
