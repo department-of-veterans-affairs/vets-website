@@ -41,7 +41,9 @@ describe('Current Employment Chapter', () => {
     const { pages } = currentEmploymentChapter;
     expect(pages.militaryService.path).to.equal('military-service');
     expect(pages.currentIncome.path).to.equal('current-income');
-    expect(pages.jobLeavingReason.path).to.equal('job-leaving-reason');
+    expect(pages.jobLeavingReason.path).to.equal(
+      'leaving-work-due-to-disability',
+    );
     expect(pages.disabilityRetirement.path).to.equal('disability-retirement');
     expect(pages.workersCompensation.path).to.equal('workers-compensation');
     expect(pages.jobSearchSummary.path).to.equal('job-search-summary');
