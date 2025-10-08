@@ -11,38 +11,39 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
       isAcceleratingEnabled: false,
       isAcceleratingAllergies: false,
     });
-    AllergiesListPage.goToAllergies(allergiesData);
   });
 
   it('Visits allergies list and uses regular VistA endpoint', () => {
+    // Set up intercept to verify VistA path (no use_oh_data_path parameter)
     cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
       expect(req.url).to.not.contain('use_oh_data_path=1');
       req.reply(allergiesData);
     }).as('vista-allergies-list');
 
     site.loadPage();
-
-    cy.wait('@vista-allergies-list');
+    AllergiesListPage.goToAllergies(allergiesData);
 
     cy.injectAxeThenAxeCheck();
 
+    // Verify page title
     cy.title().should(
       'contain',
       'Allergies and Reactions - Medical Records | Veterans Affairs',
     );
 
-    cy.get('body').should('be.visible');
-    cy.get(
-      '[data-testid="allergies-list"], [data-testid="no-records-message"], h1',
-      { timeout: 10000 },
-    ).should('exist');
+    // Verify page heading
+    cy.get('h1').should('contain', 'Allergies and reactions');
 
+    // Verify VistA data format (not unified format)
     cy.get('body').then($body => {
       if ($body.find('[data-testid="record-list-item"]').length > 0) {
         cy.get('[data-testid="record-list-item"]')
           .first()
-          .find('a')
-          .should('be.visible');
+          .within(() => {
+            cy.get('a').should('be.visible');
+            // VistA format uses "Date entered:" label
+            cy.contains('Date entered:').should('be.visible');
+          });
       }
     });
   });
@@ -50,10 +51,11 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
   it('Navigates to allergy detail using VistA endpoint', () => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies/*', req => {
       expect(req.url).to.not.contain('use_oh_data_path=1');
-      req.reply(allergiesData.entry[0]);
+      req.reply(allergiesData.entry[0].resource);
     }).as('vista-allergy-detail');
 
     site.loadPage();
+    AllergiesListPage.goToAllergies(allergiesData);
 
     cy.get('body').then($body => {
       if ($body.find('[data-testid="record-list-item"]').length > 0) {
@@ -66,7 +68,13 @@ describe('Medical Records View Allergies for VistA Users (Path 3)', () => {
 
         cy.injectAxeThenAxeCheck();
 
+        // Verify detail page displays
         cy.url().should('include', '/allergies/');
+        cy.get('h1').should('exist');
+
+        // Verify VistA format fields
+        cy.contains('Date entered').should('be.visible');
+        cy.get('[data-testid="allergy-type"]').should('exist');
       }
     });
   });
