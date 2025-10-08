@@ -12,13 +12,9 @@
       "middle": "M",
       "last": "Spouse"
     },
-    "recipient": {
-      "phone": {
-        "daytime": "555-000-0000"
-      },
-      "email": "jane@example.com"
-    },
     "hasRemarried": false,
-    "signature": "Jane M Spouse"
+    "signature": "Jane M Spouse",
+    "primaryPhone": "555-000-0000",
+    "emailAddress": "jane@example.com"
   }
 }

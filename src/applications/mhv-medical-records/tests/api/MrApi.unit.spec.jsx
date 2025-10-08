@@ -48,7 +48,7 @@ import {
   getPatient,
   getAcceleratedAllergies,
   getAcceleratedAllergy,
-  getAcceleratedVitals,
+  getVitalsWithOHData,
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
@@ -376,13 +376,19 @@ describe('Accelerated OH API calls', () => {
       });
     });
   });
-  describe('getAcceleratedVitals', () => {
+  describe('getVitalsWithOHData', () => {
     it('should make an api call to get all vitals', () => {
       const mockData = { mock: 'data' };
+      const mockDate = '2023-01';
       mockApiRequest(mockData);
 
-      return getAcceleratedVitals().then(res => {
+      return getVitalsWithOHData(mockDate).then(res => {
         expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
   });

@@ -37,7 +37,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'a' })
+          cy.findAllByText(/verify/i, { selector: 'a' })
             .first()
             .click();
         });
@@ -188,15 +188,9 @@ const testConfig = createTestConfig(
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'recipient_phone_daytime',
-              data.recipient.phone.daytime,
-            );
-            fillTextWebComponent(
-              'recipient_phone_evening',
-              data.recipient.phone.evening,
-            );
-            fillTextWebComponent('recipient_email', data.recipient.email);
+            fillTextWebComponent('primaryPhone', data.primaryPhone);
+            fillTextWebComponent('secondaryPhone', data.secondaryPhone);
+            fillTextWebComponent('emailAddress', data.emailAddress);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -204,11 +198,8 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(_data => {
-            reviewAndSubmitPageFlow(
-              { first: 'Jane', middle: 'M', last: 'Spouse' },
-              'Submit form',
-            );
+          cy.get('@testData').then(data => {
+            reviewAndSubmitPageFlow(data.signature, 'Submit form');
           });
         });
       },

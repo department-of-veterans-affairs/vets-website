@@ -7,10 +7,9 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { DEPENDENT_CHOICES, DEPENDENT_TITLE } from '../constants';
-import { maskID } from '../../shared/utils';
+import { maskID, calculateAge } from '../../shared/utils';
 
 import { removeEditContactInformation } from '../util/contact-info';
-import { calculateAge } from '../helpers';
 
 export const DependentsInformation = ({
   data = {},

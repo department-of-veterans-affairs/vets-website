@@ -110,7 +110,7 @@ const RecentCareTeams = () => {
       );
       dispatch(
         updateDraftInProgress({
-          recipientId: value,
+          recipientId: recipient?.triageTeamId,
           careSystemName: recipient?.healthCareSystemName,
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,

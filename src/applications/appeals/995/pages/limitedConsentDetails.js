@@ -4,14 +4,14 @@ import { content } from '../content/limitedConsent';
 export default {
   uiSchema: {
     limitedConsent: textareaUI({
-      title: content.textAreaTitle,
-      hint: content.textAreaHint,
+      title: content.detailsQuestion,
+      hint: content.detailsHint,
       labelHeaderLevel: 3,
       classNames: 'vads-u-margin-bottom--4',
       required: () => true,
       hideOnReview: true,
       errorMessages: {
-        required: content.errorMessage,
+        required: content.detailsError,
       },
     }),
   },
