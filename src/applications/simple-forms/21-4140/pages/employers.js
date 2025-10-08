@@ -5,8 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastDateRangeSchema,
+  currentOrPastDateRangeUI,
   textUI,
   textSchema,
   addressUI,
@@ -127,30 +127,28 @@ const employmentDatesPage = {
           ? `Dates you were employed at ${formData.employerName}`
           : 'Employment dates',
     ),
-    employmentStartDate: {
-      ...currentOrPastDateUI({
+    employmentDates: currentOrPastDateRangeUI(
+      {
         title: 'Employment start date',
         errorMessages: {
           required: 'Enter start date of employment',
         },
-      }),
-    },
-    employmentEndDate: {
-      ...currentOrPastDateUI({
+      },
+      {
         title: 'Employment end date',
         errorMessages: {
           required: 'Enter end date of employment',
         },
-      }),
-    },
+      },
+      'End date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      employmentStartDate: currentOrPastDateSchema,
-      employmentEndDate: currentOrPastDateSchema,
+      employmentDates: currentOrPastDateRangeSchema,
     },
-    required: ['employmentStartDate', 'employmentEndDate'],
+    required: ['employmentDates'],
   },
 };
 
