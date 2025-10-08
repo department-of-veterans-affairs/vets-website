@@ -122,6 +122,31 @@ export function getTimezoneAbbrFromApi(appointment) {
 }
 
 /**
+ * Function to return timezone description by timezone string
+ *
+ * @export
+ * @param {string} timezone - The IANA timezone string (e.g., 'America/New_York')
+ * @returns Timezone description Example: 'Central time (CT)'
+ */
+export function getTimezoneDescByTimeZoneString(timezone) {
+  let abbreviation = formatInTimeZone(new Date(), timezone, 'z');
+  abbreviation = mapGmtToAbbreviation(abbreviation);
+
+  // Strip out middle char in abbreviation so we can ignore DST
+  if (timezone.includes('America') || timezone.includes('Pacific')) {
+    abbreviation = stripDST(abbreviation);
+  }
+
+  const label = TIMEZONE_LABELS[abbreviation];
+
+  if (label) {
+    return `${label} (${abbreviation})`;
+  }
+
+  return abbreviation;
+}
+
+/**
  * Function to return timezone abbreviation.
  *
  * @export

@@ -161,8 +161,6 @@
   "mhvLandingPageShowShareMyHealthDataLink": "mhv_landing_page_show_share_my_health_data_link",
   "mhvMedicalRecordsAllowTxtDownloads": "mhv_medical_records_allow_txt_downloads",
   "mhvMedicalRecordsCcdExtendedFileTypes": "mhv_medical_records_ccd_extended_file_types",
-  "mhvMedicalRecordsDisplayDomains": "mhv_medical_records_display_domains",
-  "mhvMedicalRecordsDisplaySidenav": "mhv_medical_records_display_sidenav",
   "mhvMedicalRecordsFilterAndSort": "mhv_medical_records_filter_and_sort",
   "mhvMedicalRecordsSupportBackendPaginationAllergy": "mhv_medical_records_support_backend_pagination_allergy",
   "mhvMedicalRecordsSupportBackendPaginationCareSummaryNote": "mhv_medical_records_support_backend_pagination_care_summary_note",
