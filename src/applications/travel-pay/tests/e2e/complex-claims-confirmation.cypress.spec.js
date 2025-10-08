@@ -142,13 +142,13 @@ describe('Complex Claims Confirmation Page', () => {
     cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
 
     // Check back link
-    cy.get('va-link[back][data-testid="complex-claim-back-link"]').should(
+    cy.get('va-link[data-testid="complex-claim-back-link"]').should(
       'be.visible',
     );
-    cy.get('va-link[back][data-testid="complex-claim-back-link"]')
+    cy.get('va-link[data-testid="complex-claim-back-link"]')
       .should('have.attr', 'href')
       .and('include', `/my-health/appointments/past/${appointmentId}`);
-    cy.get('va-link[back][data-testid="complex-claim-back-link"]')
+    cy.get('va-link[data-testid="complex-claim-back-link"]')
       .should('have.attr', 'text')
       .and('equal', 'Back to your appointment');
   });
