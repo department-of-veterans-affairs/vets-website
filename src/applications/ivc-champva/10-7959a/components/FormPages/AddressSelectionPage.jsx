@@ -20,10 +20,10 @@ const PAGE_DESCRIPTION = content['address-selection--page-description'];
 const PROMPT = content['address-selection--prompt'];
 
 // convert address objects to formatted strings
-const formatAddress = ({ street, street2, city, state, country } = {}) =>
-  [street, street2, [city, state].filter(Boolean).join(', '), country]
-    .filter(Boolean)
-    .join(', ');
+const formatAddress = ({ street, street2, city, state, country } = {}) => {
+  const cityState = [city, state].filter(Boolean).join(', ');
+  return [street, street2, cityState, country].filter(Boolean).join(', ');
+};
 
 // build unique radio options from form data
 const buildAddressOptions = ({ certifierAddress, sponsorAddress }) => {

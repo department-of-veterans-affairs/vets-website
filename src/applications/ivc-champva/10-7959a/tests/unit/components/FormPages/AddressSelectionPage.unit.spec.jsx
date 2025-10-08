@@ -103,7 +103,7 @@ describe('10-7959a <AddressSelectionPage>', () => {
       expect(Object.prototype.hasOwnProperty.call(payload, DATA_KEY)).to.be
         .false;
 
-      // enusre the original data object has not been mutated
+      // ensure the original data object has not been mutated
       expect(props.data).to.not.have.property(FIELD_NAME);
     });
 
