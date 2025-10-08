@@ -77,20 +77,16 @@
       {
         "locationAndName": "VAMC Location 1",
         "issues": [],
-        "evidenceDates": {
-          "from": "",
-          "to": ""
-        }
+        "treatmentDate": "",
+        "noDate": true
       },
       {
         "locationAndName": "",
         "issues": [
           "Test 2"
         ],
-        "evidenceDates": {
-          "from": "",
-          "to": ""
-        }
+        "treatmentDate": "",
+        "noDate": true
       }
     ],
     "providerFacility": [
