@@ -4,12 +4,7 @@ import PropTypes from 'prop-types';
 
 import { selectIsCernerPatient } from '~/platform/user/cerner-dsot/selectors';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import backendServices from '~/platform/user/profile/constants/backendServices';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
-import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-
-import { selectAvailableServices } from '~/platform/user/selectors';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCard from './AppointmentsCard';
@@ -17,10 +12,6 @@ import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
-  shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
-  fetchUnreadMessages,
-  authenticatedWithSSOe,
   unreadMessagesCount,
   shouldShowLoadingIndicator,
   hasInboxError,
@@ -167,14 +158,7 @@ const HealthCareContent = ({
 };
 
 const mapStateToProps = state => {
-  const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
-    backendServices.MESSAGING,
-  );
-
   const fetchingAppointments = state.health?.appointments?.fetching;
-  const fetchingUnreadMessages = shouldFetchUnreadMessages
-    ? selectUnreadCount(state)?.fetching
-    : false;
 
   const hasUnreadMessagesCountError =
     selectUnreadCount(state)?.errors?.length > 0;
@@ -187,7 +171,6 @@ const mapStateToProps = state => {
     hasAppointmentsError,
     hasHealthEnrollmentError,
     isCernerPatient: selectIsCernerPatient(state),
-    shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
     // resolved or failed. Right now we only set this flag to true _after_ an
@@ -196,7 +179,7 @@ const mapStateToProps = state => {
     // IconCTALinks before the supporting data has been loaded. It only switches
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
-    shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
+    shouldShowLoadingIndicator: fetchingAppointments,
     unreadMessagesCount: selectUnreadCount(state)?.count || 0,
   };
 };
@@ -217,9 +200,7 @@ HealthCareContent.propTypes = {
     }),
   ),
   dataLoadingDisabled: PropTypes.bool,
-  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.func,
-  authenticatedWithSSOe: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasHealthEnrollmentError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
