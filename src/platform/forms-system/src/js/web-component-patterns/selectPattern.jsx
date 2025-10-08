@@ -4,7 +4,7 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  * uiSchema for generic select field
  *
  * ```js
- * // uiSchema
+ * // Simple usage
  * exampleSelect: selectUI('Select animal')
  * exampleSelect: selectUI({
  *  title: 'Select animal',
@@ -14,9 +14,8 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  * // schema:
  * exampleSelect: selectSchema(['Cat', 'Dog', 'Octopus'])
  *
- * // or with labels defined:
- * // uiSchema
- * exampleSelect: selectSchema({
+ * // With key/value labels:
+ * exampleSelect: selectUI({
  *  title: 'Select animal',
  *  labels: {
  *    cat: 'Cat',
@@ -30,6 +29,44 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  *
  * // schema
  * exampleSelect: selectSchema(['cat', 'dog', 'octopus'])
+ *
+ * // With grouped options (optgroups):
+ * branchOfService: selectUI({
+ *  title: 'Branch of Service',
+ *  hint: 'Select your branch of service',
+ *  labels: {
+ *    navy: {
+ *      label: 'Navy',
+ *      group: 'Branches of Service'
+ *    },
+ *    army: {
+ *      label: 'Army',
+ *      group: 'Branches of Service'
+ *    },
+ *    marines: {
+ *      label: 'Marines',
+ *      group: 'Branches of Service'
+ *    },
+ *    airForce: {
+ *      label: 'Air Force',
+ *      group: 'Branches of Service'
+ *    },
+ *    coastguard: {
+ *      label: 'Coastguard',
+ *      group: 'Branches of Service'
+ *    },
+ *    other: {
+ *      label: 'Other',
+ *      group: 'Other'
+ *    }
+ *  },
+ *  errorMessages: {
+ *    required: 'Please select your branch of service'
+ *  }
+ * })
+ *
+ * // schema (same as flat)
+ * branchOfService: selectSchema(['navy', 'army', 'marines', 'airForce', 'coastguard', 'other'])
  * ```
  *
  * @param {string | UIOptions & {
@@ -38,7 +75,7 @@ import VaSelectField from '../web-component-fields/VaSelectField';
  *  required?: UISchemaOptions['ui:required'],
  *  labelHeaderLevel?: UISchemaOptions['ui:options']['labelHeaderLevel'],
  *  hint?: string,
- *  labels?: UISchemaOptions['ui:options']['labels'],
+ *  labels?: Record<string, string | {label: string, group?: string}>,
  * }} options
  * @returns {UISchemaOptions}
  */

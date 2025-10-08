@@ -5,9 +5,15 @@ import ConditionDetailsPage from './pages/ConditionDetailsPage';
 import conditions from './fixtures/conditions.json';
 
 describe('Medical Records View Conditions', () => {
-  it('Visits Medical Records View Conditions Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Conditions Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     // cy.visit('my-health/medical-records/conditions');
     ConditionsListPage.gotoConditionsListPage();
     ConditionsListPage.clickConditionsDetailsLink(1);

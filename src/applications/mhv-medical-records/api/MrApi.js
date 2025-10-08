@@ -176,7 +176,7 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getAcceleratedVitals = async vitalsDate => {
+export const getVitalsWithOHData = async vitalsDate => {
   const from = `&from=${vitalsDate}`;
   const to = `&to=${vitalsDate}`;
   return apiRequest(

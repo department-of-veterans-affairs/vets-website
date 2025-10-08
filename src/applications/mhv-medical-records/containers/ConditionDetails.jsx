@@ -15,8 +15,13 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { generateTextFile, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  processList,
+  itemListWrapper,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -39,7 +44,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -197,11 +201,12 @@ Provider Notes: ${processList(record.comments)}\n`;
                 testId="condition-location"
                 actionName="[condition details - location]"
               />
-              <LabelValue label="Provider notes">
-                <ItemList
-                  data-testid="condition-provider-notes"
-                  list={record.comments}
-                />
+              <LabelValue
+                label="Provider notes"
+                element={itemListWrapper(record?.comments)}
+                testId="condition-provider-notes"
+              >
+                <ItemList list={record.comments} />
               </LabelValue>
               {containsSctOrIcd(record.name) && (
                 <LabelValue

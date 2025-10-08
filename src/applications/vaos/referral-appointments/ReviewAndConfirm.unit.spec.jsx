@@ -235,6 +235,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('create-error-alert')).to.contain.text(
       'We couldn’t schedule this appointment',
     );
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
     sandbox.assert.calledOnce(
       requestStub.withArgs('/vaos/v2/appointments/draft'),
     );

@@ -210,6 +210,44 @@ class TrackClaimsPageV2 {
     );
   }
 
+  verifyFilesReceived(number) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        cy.get('.files-received-container').should('be.visible');
+        const text =
+          number > 0
+            ? `Placeholder for ${number} files received`
+            : 'We haven’t received any files yet.';
+        cy.get(
+          '.files-received-container [data-testid="files-received-cards"]',
+        ).should('contain', text);
+
+        cy.injectAxeThenAxeCheck();
+      });
+  }
+
+  verifyFileSubmissionsInProgress(numFilesInProgress, numSupportingDocs = 0) {
+    cy.get('.tabs li:nth-child(2) > a')
+      .click()
+      .then(() => {
+        let fipText = '';
+        if (numFilesInProgress === 0) {
+          fipText =
+            numSupportingDocs === 0
+              ? 'You don’t have any file submissions in progress.'
+              : 'We’ve received all the files you’ve uploaded.';
+        } else {
+          fipText = `Placeholder for ${numFilesInProgress} in progress items`;
+        }
+        cy.get('.file-submissions-in-progress-container').should('be.visible');
+        cy.get(
+          '.file-submissions-in-progress-container [data-testid="file-submissions-in-progress-cards"]',
+        ).should('contain', fipText);
+        cy.injectAxeThenAxeCheck();
+      });
+  }
+
   verifyClaimEvidence(nthEvidenceSubmission, claimStatus) {
     cy.get(
       `.documents-filed-container > ol li:nth-child(${nthEvidenceSubmission}) div > .docs-filed-text`,

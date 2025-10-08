@@ -10,7 +10,7 @@ describe('Medical Records View Body Weight', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -23,19 +23,15 @@ describe('Medical Records View Body Weight', () => {
     Vitals.selectMonthAndYear({ month: '3', year: 2024 });
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
     // check for latest id
-    cy.get('[data-testid="vital-body-weight-measurement"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vital-body-weight-measurement"]').contains('88.6 kg');
+    cy.get('[data-testid="vital-weight-measurement"]').should('be.visible');
+    cy.get('[data-testid="vital-weight-measurement"]').contains('88.6 kg');
 
-    cy.get('[data-testid="vital-body-weight-date-timestamp"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vital-body-weight-date-timestamp"]').contains(
+    cy.get('[data-testid="vital-weight-date-timestamp"]').should('be.visible');
+    cy.get('[data-testid="vital-weight-date-timestamp"]').contains(
       'January 1, 2014',
     );
 
-    cy.get('[data-testid="vital-body-weight-review-over-time"]').should(
+    cy.get('[data-testid="vital-weight-review-over-time"]').should(
       'be.visible',
     );
 

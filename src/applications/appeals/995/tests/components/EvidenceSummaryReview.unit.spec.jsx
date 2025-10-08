@@ -100,14 +100,13 @@ describe('<EvidenceSummaryReview>', () => {
     const { container } = setupSummary({ limit: 'Pizza addiction' });
 
     expect($('va-button', container)).to.exist;
-    // now includes limited consent
     expect(
       $$('.va-title, .private-title, .upload-title', container).length,
     ).to.eq(3);
     expect($$('ul', container).length).to.eq(3);
 
     const items = $$('li', container);
-    expect(items.length).to.eq(7);
+    expect(items.length).to.eq(8);
     expect(items[0].textContent).to.contain(
       'VAMC Location 1TestJan 1, 2001 – Jan 1, 2011',
     );
@@ -115,18 +114,21 @@ describe('<EvidenceSummaryReview>', () => {
       'VAMC Location 2Test 2Feb 2, 2002 – Feb 2, 2012',
     );
     expect(items[2].textContent).to.contain(
-      'Do you want to limit the information we can request?No',
+      'Authorize the release of non-VA medical records to the VA (21-4142)You must give us authorization for us to get your non-VA medical records',
     );
     expect(items[3].textContent).to.contain(
-      'Private DoctorPTSD and TinnitusApr 1, 2022 – Jul 1, 2022',
+      'Do you want to limit consent for the information requested?No',
     );
     expect(items[4].textContent).to.contain(
-      'Private HospitalTest 2, Tinnitus, and TestSep 20, 2022 – Sep 30, 2022',
+      'Private DoctorPTSD and TinnitusApr 1, 2022 – Jul 1, 2022',
     );
     expect(items[5].textContent).to.contain(
+      'Private HospitalTest 2, Tinnitus, and TestSep 20, 2022 – Sep 30, 2022',
+    );
+    expect(items[6].textContent).to.contain(
       'private-medical-records.pdfMedical Treatment Record - Non-Government Facility',
     );
-    expect(items[6].textContent).to.contain('x-rays.pdfOther Correspondence');
+    expect(items[7].textContent).to.contain('x-rays.pdfOther Correspondence');
 
     expect($$('a', container).length).to.eq(0);
   });

@@ -8,6 +8,7 @@ import {
   openCrisisModal,
   logUniqueUserMetricsEvents,
   EVENT_REGISTRY,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -16,8 +17,8 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import environment from 'platform/utilities/environment';
+
 import {
   CernerAlertContent,
   downtimeNotificationParams,
@@ -26,7 +27,6 @@ import {
 import { createSession, postCreateAAL } from '../api/MrApi';
 import { selectMarch17UpdatesFlag } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
 

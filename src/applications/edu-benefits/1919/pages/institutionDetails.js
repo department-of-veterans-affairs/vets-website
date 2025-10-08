@@ -21,9 +21,11 @@ const uiSchema = {
       'ui:validations': [
         (errors, fieldData, formData) => {
           const institutionName = formData?.institutionDetails?.institutionName;
+          const facilityCode = formData?.institutionDetails?.facilityCode;
           if (
             (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) ||
-            institutionName === 'not found'
+            institutionName === 'not found' ||
+            facilityCode === ''
           ) {
             errors.addError(
               'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',

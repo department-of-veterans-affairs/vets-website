@@ -5,7 +5,7 @@ import ConditionsListPage from './pages/ConditionsListPage';
 describe('Medical Records Health Conditions', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     cy.visit('my-health/medical-records/Conditions');
   });

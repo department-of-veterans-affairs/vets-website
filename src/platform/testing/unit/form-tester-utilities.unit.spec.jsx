@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { extractBaseNameFromFirstField } from '../e2e/cypress/support/form-tester/utilities';
+import { extractBaseNameFromFirstField } from '../e2e/cypress/support/form-tester/patterns';
 
 describe('Form Tester Utilities', () => {
   describe('extractBaseNameFromFirstField', () => {

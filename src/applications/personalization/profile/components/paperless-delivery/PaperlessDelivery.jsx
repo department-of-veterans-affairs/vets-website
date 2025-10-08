@@ -19,7 +19,6 @@ import { FieldHasBeenUpdated } from '../alerts/FieldHasBeenUpdated';
 import { Description } from './Description';
 import { MissingEmailAlert } from './MissingEmailAlert';
 import { ProfileEmail } from './ProfileEmail';
-import { SecureStorage } from './SecureStorage';
 import { Documents } from './Documents';
 import { Note } from './Note';
 import { ApiErrorAlert } from './ApiErrorAlert';
@@ -74,7 +73,10 @@ export const PaperlessDelivery = () => {
             <MissingEmailAlert emailAddress={emailAddress} />
             <FieldHasBeenUpdated slim />
             <ProfileEmail emailAddress={emailAddress} />
-            <SecureStorage />
+            <hr
+              aria-hidden="true"
+              className="vads-u-margin-y--3 vads-u-border-top--0"
+            />
             <Documents />
             <Note />
           </>

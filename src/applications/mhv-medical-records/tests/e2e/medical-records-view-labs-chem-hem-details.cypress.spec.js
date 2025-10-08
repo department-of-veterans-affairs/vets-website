@@ -5,9 +5,15 @@ import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
 import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records View Labs And Tests', () => {
-  it('Visits Medical Records View Labs And Tests Details', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records View Labs And Tests Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
     LabsAndTestsListPage.goToLabsAndTests();
     const record = labsAndTests.entry[1].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[1]);
