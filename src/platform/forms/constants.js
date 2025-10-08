@@ -205,7 +205,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
       '0538-dependents-verification',
     )}/`,
-    [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('22-10297')}/`,
+    [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('10297-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
     [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
@@ -750,7 +750,6 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_22_10297,
-    benefit: 'Apply for VET TEC 2.0 (high-tech program)',
     title: 'Apply for VET TEC 2.0 (high-tech program) (22-10297)',
     description:
       'Application for High Technology Veterans Education, Training, and Skills (VA Form 22-10297)',

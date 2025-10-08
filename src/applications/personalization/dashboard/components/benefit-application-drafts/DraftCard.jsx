@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  recordDashboardClick,
-  formatFormTitle,
-} from '~/applications/personalization/dashboard/helpers';
+import { recordDashboardClick } from '~/applications/personalization/dashboard/helpers';
 
 const Draft = ({
   continueUrl,
@@ -13,6 +10,7 @@ const Draft = ({
   formTitle,
   lastSavedDate,
   presentableFormId,
+  shouldFormat,
 }) => {
   const content = (
     <>
@@ -22,7 +20,7 @@ const Draft = ({
             Draft
           </span>
           <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--1p5">
-            {formatFormTitle(formTitle)}
+            {formTitle}
           </span>
         </h3>
         {presentableFormId && (
@@ -41,7 +39,8 @@ const Draft = ({
           <span className="sr-only">Alert: </span>
           <div>
             <p className="vads-u-margin-top--0">
-              Application expires on: {expirationDate}
+              {shouldFormat ? 'Form' : 'Application'} expires on:{' '}
+              {expirationDate}
             </p>
             <p>Last saved on: {lastSavedDate}</p>
           </div>
@@ -49,7 +48,7 @@ const Draft = ({
       </div>
       <va-link
         active
-        text="Continue your application"
+        text={shouldFormat ? 'Continue your form' : 'Continue your application'}
         href={continueUrl}
         onClick={recordDashboardClick(formId, 'continue-button')}
       />
