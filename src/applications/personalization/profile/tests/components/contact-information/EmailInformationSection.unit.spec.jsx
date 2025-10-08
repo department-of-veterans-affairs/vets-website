@@ -6,11 +6,11 @@ import set from 'lodash/set';
 import vapService from '@@vap-svc/reducers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
+import EmailInformationSection from '../../../components/contact-information/email-addresses/EmailInformationSection';
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
-import EmailInformationSection from '../../../components/contact-information/email-addresses/EmailInformationSection';
 
 const baseState = {
   user: {
