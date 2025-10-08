@@ -14,7 +14,7 @@ describe('Medical Records View Allergies', () => {
     // const site = new MedicalRecordsSite();
     // site.login();
 
-    cy.intercept('GET', '/my_health/v1/medical_records/allergies', {
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies*', {
       statusCode: 400,
       body: {
         alertType: 'error',
