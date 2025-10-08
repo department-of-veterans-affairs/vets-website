@@ -34,8 +34,6 @@ describe('VAOS Referral API Error Handling', () => {
     { errorType: 'serverError', responseCode: 500 },
   ];
 
-  // Test comment: Added a comment to trigger a build
-
   // Set up the base app state before each test
   beforeEach(() => {
     // Set required feature flags
