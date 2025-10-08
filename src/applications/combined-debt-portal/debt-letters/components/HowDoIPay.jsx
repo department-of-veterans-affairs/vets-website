@@ -89,10 +89,9 @@ const HowDoIPay = ({ userData }) => {
             <li>
               <strong>Person Entitled</strong> is the first initial, middle
               initial (if there is one), and first four letters of the debtor’s
-              last name. If the entry on the collection letter after Person
-              Entitled does not have a middle initial, a blank will appear where
-              the middle initial would be. Please leave the same space blank on
-              this form.
+              last name. If the Person Entitled doesn’t have a middle initial,
+              that space will be left blank. Please leave the same space blank
+              on this form.
             </li>
             <li>
               <strong>Deduction Code</strong> is a number that tells us what
