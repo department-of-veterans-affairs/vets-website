@@ -19,20 +19,23 @@ describe('EmailConfirmationInterstitial', () => {
   it('should update the pathname to / when the user does not have a session', () => {
     const originalLocation = window.location;
     window.location = { pathname: '/sign-in-confirm-contact-email' };
+    // Node 22 compatibility
+    window.location.pathname = '/sign-in-confirm-contact-email';
     const mockStore = generateStore();
     render(
       <Provider store={mockStore}>
         <EmailConfirmationInterstitial />
       </Provider>,
     );
-    const location = window.location.pathname || window.location.href;
-    expect(location).to.equal('/');
+    expect(window.location.pathname).to.equal('/');
     window.location = originalLocation;
   });
 
   it('should not update the pathname when the user has a session', () => {
     const originalLocation = window.location;
     window.location = { pathname: '/sign-in-confirm-contact-email' };
+    // Node 22 compatibility
+    window.location.pathname = '/sign-in-confirm-contact-email';
     localStorage.setItem('hasSession', 'true');
     const mockStore = generateStore();
     render(
@@ -40,8 +43,7 @@ describe('EmailConfirmationInterstitial', () => {
         <EmailConfirmationInterstitial />
       </Provider>,
     );
-    const location = window.location.pathname || window.location.href;
-    expect(location).to.equal('/sign-in-confirm-contact-email');
+    expect(window.location.pathname).to.equal('/sign-in-confirm-contact-email');
     window.location = originalLocation;
     localStorage.clear();
   });
