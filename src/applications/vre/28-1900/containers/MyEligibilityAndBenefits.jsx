@@ -6,6 +6,7 @@ import NeedHelp from '../components/NeedHelp';
 import { fetchCh31Eligibility } from '../actions/ch31-my-eligibility-and-benefits';
 import EligibilityCriteria from '../components/EligibilityCriteria';
 import BenefitsSummary from '../components/BenefitsSummary';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const MyEligibilityAndBenefits = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -36,8 +37,9 @@ const MyEligibilityAndBenefits = () => {
   if (!showEligibilityPage) {
     return (
       <div className="row">
+        <Breadcrumbs />
         <div className="usa-width-two-thirds vads-u-margin-y--4 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <p className="vads-u-color--gray-medium">
             This page isn’t available right now.
           </p>
@@ -49,8 +51,9 @@ const MyEligibilityAndBenefits = () => {
   if (loading) {
     return (
       <div className="row">
+        <Breadcrumbs />
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <va-loading-indicator
             set-focus
             message="Loading your eligibility..."
@@ -62,8 +65,9 @@ const MyEligibilityAndBenefits = () => {
   if (error) {
     return (
       <div className="row">
+        <Breadcrumbs />
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <va-alert status="error" visible class="vads-u-margin-y--4">
             <h2 slot="headline">
               We can’t load the eligibility details right now
@@ -121,8 +125,9 @@ const MyEligibilityAndBenefits = () => {
 
   return (
     <div className="row ">
+      <Breadcrumbs />
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-        <h1>My eligibility and benefits</h1>
+        <h1>Your eligibility and benefits</h1>
 
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
