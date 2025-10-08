@@ -38,13 +38,13 @@ export const CertificationLevelOfCarePage = ({
   // pitfall: claimantPersonalInfo will be undefined if veteran is the patient
   const {
     claimantQuestion,
-    claimantPersonalInfo,
+    claimantPersonalInfo = {},
     veteranPersonalInfo,
   } = formDataToUse;
   const { fullName = {} } = veteranPersonalInfo;
   const { claimantFullName = {} } = claimantPersonalInfo;
 
-  const veteranIsPatient = claimantQuestion === 'veteran';
+  const veteranIsPatient = claimantQuestion?.patientType === 'veteran';
 
   const patientName = veteranIsPatient
     ? `${fullName?.first || ''} ${fullName?.last || ''}`.trim()
