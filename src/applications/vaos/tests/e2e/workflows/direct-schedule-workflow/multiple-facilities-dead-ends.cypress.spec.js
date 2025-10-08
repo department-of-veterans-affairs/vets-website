@@ -3,6 +3,8 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
+
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
 import TypeOfCarePageObject from '../../page-objects/TypeOfCarePageObject';
@@ -198,6 +200,10 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],
           }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
         });
 
         mockSchedulingConfigurationApi({

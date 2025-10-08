@@ -5,6 +5,7 @@ import {
   TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
@@ -22,6 +23,7 @@ import {
   mockAppointmentCreateApi,
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
+  mockClinicsApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -84,6 +86,10 @@ describe('VAOS request schedule flow - Primary care', () => {
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983'],
           }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockSchedulingConfigurationApi({
@@ -241,6 +247,10 @@ describe('VAOS request schedule flow - Primary care', () => {
             facilityIds: ['983', '984'],
           }),
         });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockSchedulingConfigurationApi({
           facilityIds: ['983', '984'],
@@ -395,6 +405,10 @@ describe('VAOS request schedule flow - Primary care', () => {
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
+      });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({ count: 1 }),
       });
       mockEligibilityCCApi({ cceType });
       mockSchedulingConfigurationApi({

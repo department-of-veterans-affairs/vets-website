@@ -5,6 +5,7 @@ import {
   TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockProviderResponse from '../../../fixtures/MockProviderResponse';
@@ -28,6 +29,7 @@ import {
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockCCProvidersApi,
+  mockClinicsApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -63,14 +65,12 @@ describe('VAOS direct schedule flow - Optometry', () => {
   describe('When veteran is not CC eligible', () => {
     describe('And one facility supports online scheduling', () => {
       beforeEach(() => {
-        const mockEligibilityResponseDirect = new MockEligibilityResponse({
-          facilityId: '983',
-          typeOfCareId,
-          isEligible: false,
-          type: 'direct',
-          ineligibilityReason:
-            MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
-        });
+        const mockEligibilityResponseDirect = MockEligibilityResponse.createPatientHistoryInsufficientResponse(
+          {
+            type: 'direct',
+            typeOfCareId,
+          },
+        );
         const mockEligibilityResponseRequest = new MockEligibilityResponse({
           facilityId: '983',
           typeOfCareId,
@@ -88,6 +88,12 @@ describe('VAOS direct schedule flow - Optometry', () => {
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983'],
+          }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({
+            count: 2,
           }),
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
@@ -240,6 +246,12 @@ describe('VAOS direct schedule flow - Optometry', () => {
             facilityIds: ['983', '984'],
           }),
         });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({
+            count: 2,
+          }),
+        });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockSchedulingConfigurationApi({
           facilityIds: ['983', '984'],
@@ -388,6 +400,12 @@ describe('VAOS direct schedule flow - Optometry', () => {
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
+        }),
+      });
+      mockClinicsApi({
+        locationId: '983',
+        response: MockClinicResponse.createResponses({
+          count: 2,
         }),
       });
       mockEligibilityCCApi({ cceType });

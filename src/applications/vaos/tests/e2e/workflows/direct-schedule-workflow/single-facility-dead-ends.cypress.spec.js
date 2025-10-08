@@ -2,6 +2,7 @@
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import { TYPE_OF_CARE_IDS } from '../../../../utils/constants';
 import MockEligibilityResponse from '../../../fixtures/MockEligibilityResponse';
+import MockClinicResponse from '../../../fixtures/MockClinicResponse';
 import MockFacilityResponse from '../../../fixtures/MockFacilityResponse';
 import MockUser from '../../../fixtures/MockUser';
 import AppointmentListPageObject from '../../page-objects/AppointmentList/AppointmentListPageObject';
@@ -43,6 +44,10 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983'],
           }),
+        });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
         });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -91,6 +96,10 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           }),
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
+        mockClinicsApi({
+          locationId: '983',
+          response: [],
+        });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -139,6 +148,11 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
             },
           ),
         });
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
+
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
         mockSchedulingConfigurationApi({
           facilityIds: ['983'],
@@ -245,7 +259,10 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
           ),
         });
         mockFacilitiesApi({ response: [new MockFacilityResponse()] });
-
+        mockClinicsApi({
+          locationId: '983',
+          response: MockClinicResponse.createResponses({ count: 1 }),
+        });
         // Configure facility 983 to accept request schedule appointments for
         // primary care.
         mockSchedulingConfigurationApi({

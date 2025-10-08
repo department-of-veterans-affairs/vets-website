@@ -62,14 +62,14 @@ export default class MockEligibilityResponse {
    *
    * @static
    * @param {Object} arguments - Method arguments
-   * @param {string} arguments.type - Appointment scheduling type: 'direct' or 'request'.
+   * @param {string} [arguments.type=direct] - Appointment scheduling type: 'direct' or 'request', defaults to direct.
    * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
    * @param {string} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
    * @returns Instance of MockEligibilityResponse
    * @memberof MockEligibilityResponse
    */
   static createPatientHistoryInsufficientResponse({
-    type,
+    type = 'direct',
     facilityId = '983',
     typeOfCareId = 'primaryCare',
   }) {
