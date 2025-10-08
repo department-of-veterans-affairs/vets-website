@@ -428,9 +428,9 @@ describe('VAOS Referral API Error Handling', () => {
       // Click the continue button to finalize the appointment
       reviewAndConfirm.clickContinue();
 
-      // Reset clock, using new Date for request timeout.
+      // Reset clock, using mockToday for request timeout.
       cy.clock().then(clock => clock.restore());
-      cy.clock(new Date(), ['Date']);
+      cy.clock(mockToday, ['Date']);
 
       // Wait for submit appointment response
       cy.wait('@v2:post:submitAppointment');
