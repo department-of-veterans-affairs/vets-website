@@ -74,7 +74,7 @@ describe('Breadcrumbs', () => {
       sm: {
         ...initialState.sm,
         breadcrumbs: {
-          previousUrl: '/new-message/',
+          previousUrl: Paths.INBOX,
         },
       },
     };
@@ -210,7 +210,7 @@ describe('Breadcrumbs', () => {
     const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
       initialState: customState,
       reducers: reducer,
-      path: Paths.COMPOSE,
+      path: `${Paths.MESSAGE_THREAD}/123123`,
     });
 
     fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
@@ -283,6 +283,9 @@ describe('Breadcrumbs', () => {
       sm: {
         breadcrumbs: {
           previousUrl: previous,
+        },
+        recipients: {
+          recentRecipients: [{ id: '123', name: 'Some Care Team' }],
         },
       },
     };
