@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import { UnconnectedHealthCareContent } from '../../../components/health-care/HealthCareContent';
+import { UnconnectedHealthCareContent } from '../../../components/health-care/HealthCareContentLegacy';
 import { v2 } from '../../../mocks/appointments';
 
 describe('<UnconnectedHealthCareContent />', () => {

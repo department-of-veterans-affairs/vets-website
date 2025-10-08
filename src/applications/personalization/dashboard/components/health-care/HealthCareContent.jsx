@@ -60,7 +60,7 @@ const HealthCareContent = ({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
   const NoUpcomingAppointmentsText = () => (
-    <va-card>
+    <va-card data-testid="no-upcoming-appointments-card">
       <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
       <p>You don’t have any upcoming appointments.</p>
       <CTALink
@@ -72,7 +72,7 @@ const HealthCareContent = ({
   );
 
   const NoUnreadMessages = () => (
-    <va-card>
+    <va-card data-testid="no-unread-messages-card">
       <h4 className="vads-u-margin-top--1">No unread messages</h4>
       <CTALink
         text="Go to inbox"
@@ -83,7 +83,7 @@ const HealthCareContent = ({
   );
 
   const UnreadMessages = () => (
-    <va-card>
+    <va-card data-testid="upread-messages-card">
       <h4 className="vads-u-margin-top--1">
         {unreadMessagesCount} unread message
         {unreadMessagesCount !== 1 && 's'}
