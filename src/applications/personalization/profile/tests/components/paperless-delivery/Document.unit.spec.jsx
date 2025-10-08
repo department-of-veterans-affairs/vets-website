@@ -111,6 +111,7 @@ describe('Document', () => {
       checkbox,
       new CustomEvent('vaChange', {
         detail: { checked: false },
+        target: { checked: true },
         bubbles: true,
         composed: true,
       }),
@@ -140,6 +141,7 @@ describe('Document', () => {
       checkbox,
       new CustomEvent('vaChange', {
         detail: { checked: true },
+        target: { checked: true },
         bubbles: true,
         composed: true,
       }),
