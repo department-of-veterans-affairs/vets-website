@@ -16,7 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { SummaryDescription } from '../../../components/AssociatedIncomeSummaryDescription';
+import { AssociatedIncomeSummaryDescription } from '../../../components/SummaryDescriptions';
 import { DependentDescription } from '../../../components/DependentDescription';
 import {
   formatCurrency,
@@ -33,6 +33,7 @@ import {
   updatedIsRecipientInfoIncomplete,
   updatedRecipientNameRequired,
   updatedResolveRecipientFullName,
+  requireExpandedArrayField,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -62,7 +63,7 @@ export const options = {
       ? 'Income from financial accounts'
       : null,
     summaryDescriptionWithoutItems: showUpdatedContent()
-      ? SummaryDescription
+      ? AssociatedIncomeSummaryDescription
       : null,
     getItemName: (item, index, formData) => {
       if (!isDefined(item?.recipientRelationship) || !isDefined(item?.payer)) {
@@ -278,6 +279,9 @@ const veteranIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -312,6 +316,9 @@ const spouseIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -341,6 +348,9 @@ const custodianIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -368,6 +378,9 @@ const parentIncomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -393,6 +406,9 @@ const incomeRecipientPage = {
     otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
       'associatedIncomes',
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
   },
   schema: {
     type: 'object',
@@ -446,6 +462,7 @@ const incomeTypePage = {
       'ui:options': {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
+        expandedContentFocus: true,
       },
       'ui:required': (formData, index) =>
         otherIncomeTypeExplanationRequired(
@@ -480,6 +497,9 @@ const incomeTypePage = {
             hint: 'Name of business, financial institution, or program, etc.',
           },
     ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherIncomeType'),
+    },
   },
   schema: {
     type: 'object',

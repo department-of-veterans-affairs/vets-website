@@ -8,6 +8,7 @@
 
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user';
+import { findVaLinkByText } from '~/applications/personalization/common/e2eHelpers';
 
 import { PROFILE_PATHS } from '@@profile/constants';
 
@@ -25,11 +26,13 @@ describe('Notification Settings', () => {
   beforeEach(() => {
     getCommPrefsStub = cy.stub();
     mockNotificationSettingsAPIs();
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     cy.intercept('/v0/profile/communication_preferences', req => {
       getCommPrefsStub();
       req.reply({
         statusCode: 200,
         body: mockCommunicationPreferences,
+        delay: 200,
       });
     });
   });
@@ -53,12 +56,13 @@ describe('Notification Settings', () => {
           user.data.attributes.vet360ContactInformation.mobilePhone = null;
           cy.login(user);
           cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+
+          cy.loadingIndicatorWorks();
+
           cy.findByRole('heading', {
             name: 'Notification settings',
             level: 1,
           }).should('exist');
-
-          cy.loadingIndicatorWorks();
 
           cy.findByText('veteran@gmail.com').should('exist');
 
@@ -67,17 +71,23 @@ describe('Notification Settings', () => {
           // email based notifications should be shown
           cy.findByText('RX refill shipment notification').should('not.exist');
           cy.findByText('VA Appointment reminders').should('not.exist');
-          cy.findByText('Secure messaging alert').should('exist');
-          cy.findByText('Medical images and reports available').should('exist');
+          cy.get('[data-testid="checkbox-group-item9"]')
+            .shadow()
+            .findByText('Secure messaging alert')
+            .should('exist');
+          cy.get('[data-testid="checkbox-group-item10"]')
+            .shadow()
+            .findByText('Medical images and reports available')
+            .should('exist');
           cy.findByText('Biweekly MHV newsletter').should('not.exist');
 
           cy.get('va-alert-expandable').click();
 
           // should find alert with details on what notifications are missing due to missing mobile phone
           cy.get('va-alert-expandable').within(() => {
-            cy.findByRole('link', {
-              name: 'Add your mobile number to your profile',
-            }).should('exist');
+            findVaLinkByText('Add your mobile number to your profile').should(
+              'exist',
+            );
             cy.findAllByText('Appointment reminders').should('exist');
             cy.findAllByText(
               'Prescription shipment and tracking updates',
@@ -109,12 +119,13 @@ describe('Notification Settings', () => {
           user.data.attributes.vet360ContactInformation.email = null;
           cy.login(user);
           cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+
+          cy.loadingIndicatorWorks();
+
           cy.findByRole('heading', {
             name: 'Notification settings',
             level: 1,
           }).should('exist');
-
-          cy.loadingIndicatorWorks();
 
           cy.findByTestId('mobile-phone-number-on-file')
             .shadow()
@@ -124,25 +135,30 @@ describe('Notification Settings', () => {
           cy.findAllByTestId('notification-group').should('exist');
 
           // text based notifications should be shown
-          cy.findAllByText('Appointment reminders').should('exist');
-          cy.findAllByText('Prescription shipment and tracking updates').should(
-            'exist',
-          );
-          cy.findByText(`Board of Veterans' Appeals hearing reminder`).should(
-            'exist',
-          );
-          cy.findByText('Appeal status updates').should('exist');
-          cy.findByText('Disability and pension deposit notifications').should(
-            'exist',
-          );
+          cy.get('[data-testid="checkbox-group-item3"]')
+            .shadow()
+            .findByText('Appointment reminders')
+            .should('exist');
+          cy.get('[data-testid="checkbox-group-item4"]')
+            .shadow()
+            .findByText('Prescription shipment and tracking updates')
+            .should('exist');
+          cy.get('[data-testid="checkbox-group-item1"]')
+            .shadow()
+            .findByText(`Board of Veterans' Appeals hearing reminder`)
+            .should('exist');
+          cy.get('[data-testid="checkbox-group-item5"]')
+            .shadow()
+            .findByText('Disability and pension deposit notifications')
+            .should('exist');
 
           cy.get('va-alert-expandable').click();
 
           // should find alert with details on what notifications are missing due to missing mobile phone
           cy.get('va-alert-expandable').within(() => {
-            cy.findByRole('link', {
-              name: 'Add your email address to your profile',
-            }).should('exist');
+            findVaLinkByText('Add your email address to your profile').should(
+              'exist',
+            );
             cy.findByText('RX refill shipment notification').should(
               'not.exist',
             );

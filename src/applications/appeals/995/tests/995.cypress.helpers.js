@@ -11,11 +11,11 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   PRIMARY_PHONE,
   BASE_URL,
-  EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_UPLOAD_URL,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -36,6 +36,11 @@ const { chapters } = formConfig;
 
 export const VETERAN_INFO_PATH = chapters.infoPages.pages.veteranInfo.path;
 export const HOMELESSNESS_PATH = chapters.infoPages.pages.housingRisk.path;
+export const LIVING_SITUATION_PATH =
+  chapters.infoPages.pages.livingSituation.path;
+export const OTHER_HOUSING_RISK_PATH =
+  chapters.infoPages.pages.otherHousingRisk.path;
+export const HOUSING_CONTACT_PATH = chapters.infoPages.pages.contact.path;
 export const PRIMARY_PHONE_PATH =
   chapters.infoPages.pages.choosePrimaryPhone.path;
 export const ISSUES_SUMMARY_PATH = chapters.issues.pages.issueSummary.path;
@@ -47,12 +52,21 @@ export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
   chapters.evidence.pages.evidenceVaRecords.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
+export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
 
+export const OTHER_HOUSING_RISK_INPUT = '[name="root_otherHousingRisks"]';
+export const LIVING_SITUATION_SHELTER_CHECKBOX =
+  '[name="root_livingSituation_shelter"]';
+export const LIVING_SITUATION_OTHER_CHECKBOX =
+  '[name="root_livingSituation_other"]';
+export const POINT_OF_CONTACT_NAME_INPUT = '[name="root_pointOfContactName"]';
+export const POINT_OF_CONTACT_PHONE_INPUT = '[name="root_pointOfContactPhone"]';
 export const VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_vamc"]';
 export const NON_VA_EVIDENCE_CHECKBOX = '[name="root_facilityTypes_nonVa"]';
 export const ADDTL_EVIDENCE_RADIO = '[name="root_view:hasOtherEvidence"]';
 export const MST_RADIO = '[name="root_mstOption"]';
+export const MST_OPTION_RADIO = '[name="root_optionIndicator"]';
 
 // VA location inputs
 export const VA_EVIDENCE_FACILITY_NAME_INPUT = '[name="name"]';
@@ -67,6 +81,9 @@ export const PRIVACY_MODAL_TITLE =
 export const PRIVACY_AGREEMENT_CHECKBOX = 'input[name="privacy-agreement"]';
 export const LIMITED_CONSENT_RADIOS = '[name="root_view:hasPrivateLimitation"]';
 export const LIMITED_CONSENT_TEXTAREA = '[name="root_limitedConsent"]';
+
+export const clickContinue = () =>
+  cy.findByText('Continue', { selector: 'button' }).click();
 
 export const verifyUrl = link =>
   cy.url().should('contain', `${manifest.rootUrl}/${link}`);
@@ -222,13 +239,13 @@ export const pageHooks = {
   },
   'veteran-information': () => {
     getPastItf(cy);
-    cy.findByText('Continue', { selector: 'button' }).click();
+    clickContinue();
   },
   'primary-phone-number': ({ afterHook }) => {
     afterHook(() => {
       cy.get('@testData').then(testData => {
         cy.selectRadio('primary', testData[PRIMARY_PHONE] || 'home');
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
@@ -236,7 +253,7 @@ export const pageHooks = {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(async testData => {
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
         // prevent continuing without any issues selected
         cy.location('pathname').should(
           'eq',
@@ -269,7 +286,7 @@ export const pageHooks = {
               .click({ force: true });
           }
         });
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
@@ -279,12 +296,21 @@ export const pageHooks = {
     afterHook(() => {
       cy.get('@testData').then(({ form5103Acknowledged }) => {
         cy.selectVaCheckbox('5103', form5103Acknowledged);
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
+  'facility-types': ({ afterHook }) => {
+    afterHook(() => {
+      cy.injectAxeThenAxeCheck();
 
-  [EVIDENCE_VA_PATH]: ({ afterHook }) => {
+      cy.selectVaCheckbox('root_facilityTypes_vamc', true);
+      cy.selectVaCheckbox('root_facilityTypes_nonVa', true);
+      clickContinue();
+    });
+  },
+
+  [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ locations = [], showScNewForm }) => {
@@ -319,18 +345,18 @@ export const pageHooks = {
             }
           }
         });
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
 
-  [EVIDENCE_PRIVATE_REQUEST_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_PROMPT_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
         const hasPrivate = data[EVIDENCE_PRIVATE];
         cy.get(`va-radio-option[value="${hasPrivate ? 'y' : 'n'}"]`).click();
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
@@ -347,12 +373,12 @@ export const pageHooks = {
             .find('input')
             .click({ force: true });
         }
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
 
-  [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ providerFacility = [] }) => {
@@ -418,12 +444,12 @@ export const pageHooks = {
             }
           }
         });
-        cy.findByText('Continue', { selector: 'button' }).click();
+        clickContinue();
       });
     });
   },
 
-  [EVIDENCE_UPLOAD_PATH]: () => {
+  [EVIDENCE_UPLOAD_URL]: () => {
     cy.get('input[type="file"]').upload(
       path.join(__dirname, 'fixtures/data/example-upload.pdf'),
       'testing',

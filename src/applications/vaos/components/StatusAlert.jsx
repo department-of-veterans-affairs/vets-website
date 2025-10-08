@@ -122,7 +122,7 @@ export default function StatusAlert({ appointment, facility }) {
     }
     return (
       <>
-        <InfoAlert status="error" backgroundOnly>
+        <InfoAlert status="error" backgroundOnly className="vads-u-width--auto">
           {message}
           {appointment.showScheduleLink && (
             <>

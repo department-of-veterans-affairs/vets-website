@@ -1,19 +1,16 @@
 import {
   yesNoUI,
   yesNoSchema,
-  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-// Spouse Veteran status question
-const spouseVeteranUI = yesNoUI();
-spouseVeteranUI['ui:title'] = 'Is your spouse a Veteran?';
-spouseVeteranUI['ui:required'] = () => true;
 
 export default {
   uiSchema: {
-    ...titleUI('Is your spouse a Veteran?'),
     remarriage: {
-      spouseIsVeteran: spouseVeteranUI,
+      spouseIsVeteran: yesNoUI({
+        title: 'Is your spouse a Veteran?',
+        labelHeaderLevel: '3',
+        required: () => true,
+      }),
     },
   },
   schema: {

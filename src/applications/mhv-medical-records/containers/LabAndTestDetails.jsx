@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+
 import {
   clearLabsAndTestDetails,
   getLabsAndTestsDetails,
@@ -19,7 +23,6 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import UnifiedLabsAndTests from '../components/LabsAndTests/UnifiedLabAndTest';
 import { useTrackAction } from '../hooks/useTrackAction';
 
@@ -72,7 +75,8 @@ const LabAndTestDetails = () => {
       dispatch,
       isAcceleratingLabsAndTests,
       isLoading,
-      labAndTestDetails,
+      labAndTestDetails?.id,
+      labAndTestDetails?.notFound,
       history,
     ],
   );

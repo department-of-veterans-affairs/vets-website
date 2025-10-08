@@ -1,17 +1,15 @@
 export default function prefillTransformer(pages, _formData, metadata, state) {
-  const profile = state?.user?.profile || {};
+  const { profile = {} } = state?.user || {};
+  const { userFullName, email, phoneNumber } = profile;
 
   return {
     pages,
     formData: {
-      recipientName: profile.userFullName || {},
-      recipient: {
-        email: profile.email || '',
-        phone: {
-          daytime: profile.phoneNumber || '',
-        },
-      },
+      recipientName: userFullName || { first: '', last: '' },
+      primaryPhone: phoneNumber || '',
+      emailAddress: email || '',
     },
     metadata,
+    state,
   };
 }
