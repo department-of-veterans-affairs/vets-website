@@ -332,8 +332,8 @@ describe('<Dashboard />', () => {
     });
   });
 
-  describe('AlertConfirmContactEmail component', () => {
-    it('renders <AlertConfirmContactEmail />', async () => {
+  describe('AlertConfirmEmail component', () => {
+    it('renders <AlertConfirmEmail />', async () => {
       mockFetch();
       const { getByTestId, queryByTestId } = renderInReduxProvider(
         <Dashboard />,
