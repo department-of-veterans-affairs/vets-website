@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 144,
+  "totalApplications": 143,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -646,6 +646,12 @@
       "rootUrl": "/sign-in-changes-reminder"
     },
     {
+      "directoryPath": "src/applications/sign-in-confirm-contact-email",
+      "appName": "Sign In Confirm Contact Email",
+      "entryName": "confirm-contact-email",
+      "rootUrl": "/sign-in-confirm-contact-email"
+    },
+    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -722,6 +728,12 @@
       "appName": "Request to be a substitute claimant for a deceased claimant",
       "entryName": "21P-0847-substitute-claimant",
       "rootUrl": "/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
+    },
+    {
+      "directoryPath": "src/applications/simple-forms/21p-601",
+      "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
+      "entryName": "21p-0601",
+      "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-0601"
     },
     {
       "directoryPath": "src/applications/simple-forms/26-4555",
