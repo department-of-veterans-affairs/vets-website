@@ -4,7 +4,11 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
+import {
+  EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+} from '../constants';
 
 import {
   privateRecordsRequestTitle,
@@ -49,7 +53,7 @@ const EvidencePrivateRequest = ({
     onGoBack: () => {
       if (data[EVIDENCE_VA]) {
         // go to last VA location entry, but only if they requested it
-        goToPath(`/${EVIDENCE_VA_PATH}?index=${locations.length - 1}`);
+        goToPath(`/${EVIDENCE_VA_DETAILS_URL}?index=${locations.length - 1}`);
       } else {
         // go to request VA evidence page
         goBack();
