@@ -17,6 +17,7 @@ import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import FindCommunityCareOfficeLink from './FindCCFacilityLink';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
@@ -175,11 +176,12 @@ export const DateAndTimeContent = props => {
           data-testid="no-slots-alert"
           class="vads-u-margin-top--3"
         >
-          <h2 slot="headline">
-            We’re sorry. We couldn’t find any open time slots.
-          </h2>
-          <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.provider.telephone} />
+          <h2 slot="headline">We couldn’t find any open time slots.</h2>
+          <p className="vads-u-margin-bottom--1">
+            Call this provider or your facility’s community care office to
+            schedule an appointment. Find your community care office
+          </p>
+          <FindCommunityCareOfficeLink />
         </va-alert>
       )}
       {!noSlotsAvailable && (

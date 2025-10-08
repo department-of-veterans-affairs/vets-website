@@ -35,6 +35,7 @@ import { isBetween18And23 } from './helpers';
 import {
   DependentSeriouslyDisabledDescription,
   formatFullName,
+  formatPossessiveString,
   showMultiplePageResponse,
 } from '../../../helpers';
 
@@ -98,7 +99,7 @@ const summaryPage = {
 const fullNamePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Add a dependent child',
+      title: 'Dependent child',
       nounSingular: options.nounSingular,
     }),
     fullName: fullNameUI(title => `Child’s ${title}`),
@@ -117,7 +118,9 @@ const birthInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} birth information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} birth information`,
       undefined,
       false,
     ),
@@ -144,7 +147,9 @@ const socialSecurityNumberPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} Social Security information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} Social Security information`,
       undefined,
       false,
     ),
@@ -175,7 +180,9 @@ const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} relationship information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} relationship information`,
       undefined,
       false,
     ),
@@ -198,7 +205,9 @@ const attendingSchoolPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} school information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} school information`,
       undefined,
       false,
     ),
@@ -232,7 +241,9 @@ const disabledPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} disabled information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} disability information`,
       undefined,
       false,
     ),
@@ -265,7 +276,9 @@ const previouslyMarriedPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} marriage information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} marriage information`,
       undefined,
       false,
     ),
@@ -294,7 +307,9 @@ const inHouseholdPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} household information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} household information`,
       undefined,
       false,
     ),
@@ -316,7 +331,9 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `${formatFullName(formData.fullName)} address information`,
+        `${formatPossessiveString(
+          formatFullName(formData.fullName),
+        )} address information`,
       undefined,
       false,
     ),
