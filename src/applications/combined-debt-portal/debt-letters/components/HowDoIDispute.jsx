@@ -24,6 +24,7 @@ const HowDoIDispute = () => {
         href="/manage-va-debt/dispute-debt/"
         message-aria-describedby="Opens pay.va.gov"
         text="Dispute an overpayment online"
+        type="secondary"
       />
     </section>
   );

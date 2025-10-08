@@ -107,6 +107,7 @@ const HowDoIPay = ({ userData }) => {
         message-aria-describedby="Opens pay.va.gov"
         text="Pay at pay.va.gov"
         class="vads-u-margin-top--2"
+        type="secondary"
       />
 
       <h3>Pay by phone</h3>
