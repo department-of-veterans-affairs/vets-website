@@ -10,7 +10,7 @@ const Draft = ({
   formTitle,
   lastSavedDate,
   presentableFormId,
-  shouldFormat,
+  isForm,
 }) => {
   const content = (
     <>
@@ -39,8 +39,7 @@ const Draft = ({
           <span className="sr-only">Alert: </span>
           <div>
             <p className="vads-u-margin-top--0">
-              {shouldFormat ? 'Form' : 'Application'} expires on:{' '}
-              {expirationDate}
+              {isForm ? 'Form' : 'Application'} expires on: {expirationDate}
             </p>
             <p>Last saved on: {lastSavedDate}</p>
           </div>
@@ -48,7 +47,7 @@ const Draft = ({
       </div>
       <va-link
         active
-        text={shouldFormat ? 'Continue your form' : 'Continue your application'}
+        text={isForm ? 'Continue your form' : 'Continue your application'}
         href={continueUrl}
         onClick={recordDashboardClick(formId, 'continue-button')}
       />
@@ -80,7 +79,7 @@ Draft.propTypes = {
   lastSavedDate: PropTypes.string.isRequired,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string,
-  shouldFormat: PropTypes.bool,
+  isForm: PropTypes.bool,
 };
 
 export default Draft;

@@ -151,7 +151,7 @@ const ApplicationsInProgress = ({
                   'MMMM d, yyyy',
                 );
                 const continueUrl = `${getFormLink(formId)}resume`;
-                const shouldFormat = formArrays.includes(formId);
+                const isForm = formArrays.includes(formId);
                 // TODO: consider combining all "Application Cards" into single component
                 return (
                   <DraftCard
@@ -159,12 +159,10 @@ const ApplicationsInProgress = ({
                     continueUrl={continueUrl}
                     expirationDate={expirationDate}
                     formId={formId}
-                    formTitle={
-                      shouldFormat ? formTitle : formatFormTitle(formTitle)
-                    }
+                    formTitle={isForm ? formTitle : formatFormTitle(formTitle)}
                     lastSavedDate={lastSavedDate}
                     presentableFormId={hasBenefit ? presentableFormId : false}
-                    shouldFormat={shouldFormat}
+                    isForm={isForm}
                   />
                 );
               }
@@ -176,15 +174,11 @@ const ApplicationsInProgress = ({
                   fromUnixTime(createdAt),
                   'MMMM d, yyyy',
                 );
-                const shouldFormat = formArrays.includes(formId);
-
                 return (
                   <SubmissionCard
                     key={formId}
                     formId={formId}
-                    formTitle={
-                      shouldFormat ? formatFormTitle(formTitle) : formTitle
-                    }
+                    formTitle={formTitle}
                     guid={form.id}
                     lastSavedDate={lastSavedDate}
                     submittedDate={submittedDate}
