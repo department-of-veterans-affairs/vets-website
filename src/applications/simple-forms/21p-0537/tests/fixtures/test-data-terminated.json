@@ -13,13 +13,6 @@
       "middle": "Ann",
       "last": "Williams"
     },
-    "recipient": {
-      "phone": {
-        "daytime": "202-555-9876",
-        "evening": "202-555-1234"
-      },
-      "email": "susan.williams@example.com"
-    },
     "hasRemarried": true,
     "remarriage": {
       "dateOfMarriage": "2020-09-10",
@@ -36,6 +29,9 @@
       "terminationDate": "2024-03-15",
       "terminationReason": "Divorce"
     },
-    "signature": "Susan Ann Williams"
+    "signature": "Susan Ann Williams",
+    "primaryPhone": "202-555-9876",
+    "secondaryPhone": "202-555-1234",
+    "emailAddress": "susan.williams@example.com"
   }
 }
