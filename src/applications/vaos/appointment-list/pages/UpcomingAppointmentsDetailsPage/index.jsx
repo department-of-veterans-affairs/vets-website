@@ -54,13 +54,7 @@ export default function UpcomingAppointmentsDetailsPage() {
 
   useEffect(
     () => {
-      dispatch(
-        fetchConfirmedAppointmentDetails(
-          id,
-          appointmentTypePrefix,
-          featureUseBrowserTimezone,
-        ),
-      );
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());

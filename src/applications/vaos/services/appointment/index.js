@@ -129,6 +129,7 @@ export async function getAppointmentRequests({
   startDate,
   endDate,
   includeEPS = false,
+  featureUseBrowserTimezone,
 }) {
   try {
     const appointments = await getAppointments({
@@ -136,6 +137,7 @@ export async function getAppointmentRequests({
       endDate,
       statuses: ['proposed', 'cancelled'],
       includeEPS,
+      featureUseBrowserTimezone,
     });
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
@@ -147,6 +149,7 @@ export async function getAppointmentRequests({
 
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
+      featureUseBrowserTimezone,
     );
 
     transformRequests.push({
@@ -171,11 +174,14 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id }) {
+export async function fetchRequestById({
+  id,
+  featureUseBrowserTimezone = false,
+}) {
   try {
     const appointment = await getAppointment(id);
 
-    return transformVAOSAppointment(appointment);
+    return transformVAOSAppointment(appointment, featureUseBrowserTimezone);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

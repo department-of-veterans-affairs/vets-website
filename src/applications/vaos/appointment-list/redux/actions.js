@@ -143,6 +143,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             startDate: requestStartDate, // Start 120 days in the past for requests
             endDate: requestEndDate, // End 1 day in the future for requests
             includeEPS,
+            featureUseBrowserTimezone,
           })
             .then(requests => {
               dispatch({
@@ -247,6 +248,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       featureCCDirectScheduling,
       patientFacilities || [],
     );
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
@@ -264,6 +266,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
+        featureUseBrowserTimezone,
       });
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
@@ -319,6 +322,7 @@ export function fetchRequestDetails(id) {
       ]);
       let facilityId = getVAAppointmentLocationId(request);
       let facility = state.appointments.facilityData?.[facilityId];
+      const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
       if (!request || (facilityId && !facility)) {
         dispatch({
@@ -327,7 +331,10 @@ export function fetchRequestDetails(id) {
       }
 
       if (!request) {
-        request = await fetchRequestById({ id });
+        request = await fetchRequestById({
+          id,
+          featureUseBrowserTimezone,
+        });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
       }
@@ -356,14 +363,11 @@ export function fetchRequestDetails(id) {
   };
 }
 
-export function fetchConfirmedAppointmentDetails(
-  id,
-  type,
-  featureUseBrowserTimezone,
-) {
+export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
