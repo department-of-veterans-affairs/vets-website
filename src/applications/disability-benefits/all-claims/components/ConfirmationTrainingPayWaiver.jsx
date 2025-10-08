@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ConfirmationTrainingPayWaiver = ({ formData }) => {
+  // These labels are switched in the form with yesNoReverse, so here they are reversed to match the form
   const labels = {
-    Y:
+    N:
       'I don’t want to get VA compensation pay for the days I receive training pay.',
-    N: 'I want to get VA compensation pay instead of training pay.',
+    Y: 'I want to get VA compensation pay instead of training pay.',
   };
   if (formData?.hasTrainingPay) {
     return (

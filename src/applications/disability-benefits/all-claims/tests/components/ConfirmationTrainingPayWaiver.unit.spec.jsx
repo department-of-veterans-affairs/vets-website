@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import ConfirmationTrainingPayWaiver from '../../components/ConfirmationTrainingPayWaiver';
 
 describe('ConfirmationTrainingPayWaiver', () => {
-  it('should render correctly with training pay waiver selected', () => {
+  it('should render correctly when training pay waiver is false', () => {
     const formData = {
       newDisabilities: [
         {
@@ -23,7 +23,7 @@ describe('ConfirmationTrainingPayWaiver', () => {
         },
       ],
       hasTrainingPay: true,
-      waiveTrainingPay: true,
+      waiveTrainingPay: false,
     };
     const { container, getByText } = render(
       <ConfirmationTrainingPayWaiver formData={formData} />,
@@ -31,7 +31,7 @@ describe('ConfirmationTrainingPayWaiver', () => {
 
     expect(container.querySelectorAll('h4')).to.have.length(1);
     expect(getByText('Training pay waiver')).to.exist;
-    expect(getByText('Selected')).to.exist;
+    expect(getByText('Not selected')).to.exist;
     expect(
       getByText(
         /I don’t want to get VA compensation pay for the days I receive training pay/i,
@@ -49,17 +49,17 @@ describe('ConfirmationTrainingPayWaiver', () => {
     expect(container.querySelectorAll('h4')).to.have.length(0);
   });
 
-  it('should render when training pay waiver is false', () => {
+  it('should render when training pay waiver is true', () => {
     const formData = {
       hasTrainingPay: true,
-      waiveTrainingPay: false,
+      waiveTrainingPay: true,
     };
     const { container, getByText } = render(
       <ConfirmationTrainingPayWaiver formData={formData} />,
     );
     expect(container.querySelectorAll('h4')).to.have.length(1);
     expect(getByText('Training pay waiver')).to.exist;
-    expect(getByText('Not selected')).to.exist;
+    expect(getByText('Selected')).to.exist;
     expect(
       getByText(/I want to get VA compensation pay instead of training pay/i),
     ).to.exist;
