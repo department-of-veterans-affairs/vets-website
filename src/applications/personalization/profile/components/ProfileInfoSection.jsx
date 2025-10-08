@@ -7,6 +7,8 @@ import {
   numberBetween,
 } from '../../common/proptypeValidators';
 
+import AlertConfirmEmail from './alerts/AlertConfirmEmail';
+
 const sectionTitle = classNames(['vads-u-margin--0']);
 
 const rowTitle = classNames([
@@ -167,6 +169,7 @@ export const ProfileInfoSection = ({
   level = 3,
   data,
   asList = false,
+  enableAlertConfirmEmail = false,
 }) => {
   const secondaryLevel = level + 1;
 
@@ -179,6 +182,8 @@ export const ProfileInfoSection = ({
       >
         {title}
       </HeadingLevel>
+
+      {enableAlertConfirmEmail && <AlertConfirmEmail />}
 
       <div className="vads-u-margin-top--1">
         {Array.isArray(data) ? (
@@ -196,6 +201,7 @@ ProfileInfoSection.propTypes = {
     .isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
+  enableAlertConfirmEmail: PropTypes.bool,
   level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
   title: PropTypes.string,
