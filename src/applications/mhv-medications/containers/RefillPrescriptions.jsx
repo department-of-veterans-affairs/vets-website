@@ -26,7 +26,7 @@ import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
@@ -212,13 +212,15 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent && (
-          <RefillAlert
-            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
-            refillStatus={refillStatus}
-            refillAlertList={refillAlertList}
-          />
-        )}
+        {showRefillProgressContent &&
+          refillAlertList.length > 0 && (
+            <DelayedRefillAlert
+              dataDogActionName={
+                dataDogActionNames.refillPage.REFILL_ALERT_LINK
+              }
+              refillAlertList={refillAlertList}
+            />
+          )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />

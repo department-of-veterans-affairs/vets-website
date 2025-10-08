@@ -49,7 +49,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
@@ -636,11 +636,12 @@ const Prescriptions = () => {
     );
   };
 
-  const renderRefillAlert = () => {
+  const renderDelayedRefillAlert = () => {
     if (!showRefillProgressContent) return null;
+    if (!refillAlertList?.length) return null;
 
     return (
-      <RefillAlert
+      <DelayedRefillAlert
         dataDogActionName={
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
@@ -784,7 +785,7 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            {renderRefillAlert()}
+            {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
         )}
