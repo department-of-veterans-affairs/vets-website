@@ -157,17 +157,18 @@ export const getEvidence = formData => {
   const showNewFormContent = showScNewForm(formData);
   // Add VA evidence data
 
-  if (showNewFormContent) {
-    const types = getFacilityType(formData);
-    if (Object.keys(types).length) {
-      evidenceSubmission.treatmentLocations = types.treatmentLocations;
-      evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
-    }
+  const types = getFacilityType(formData);
+
+  if (Object.keys(types).length) {
+    evidenceSubmission.treatmentLocations = types.treatmentLocations;
+    evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
   }
 
   const locations = getVAEvidence(formData);
+
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
+
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {
         if (!hasDuplicateLocation(list, location, showNewFormContent)) {
@@ -209,15 +210,18 @@ export const getEvidence = formData => {
       [],
     );
   }
+
   // additionalDocuments added in submit-transformer
   if (getOtherEvidence(formData).length) {
     evidenceSubmission.evidenceType.push('upload');
   }
+
   // Lighthouse wants us pass an evidence type of "none" if we're not submitting
   // evidence
   if (evidenceSubmission.evidenceType.length === 0) {
     evidenceSubmission.evidenceType.push('none');
   }
+
   return {
     form5103Acknowledged: formData.form5103Acknowledged,
     evidenceSubmission,
