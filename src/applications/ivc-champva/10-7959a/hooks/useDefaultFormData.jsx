@@ -25,19 +25,23 @@ export const useDefaultFormData = () => {
     [loading, toggles],
   );
 
+  const toggleValues = useMemo(
+    () => {
+      if (loading) return {};
+      return Object.fromEntries(
+        Object.entries(toggleViewFields).filter(([k, v]) => formData[k] !== v),
+      );
+    },
+    [formData, loading, toggleViewFields],
+  );
+
   useEffect(
     () => {
       if (loading) return;
-
-      const updates = Object.entries(toggleViewFields).reduce((acc, [k, v]) => {
-        if (formData[k] !== v) acc[k] = v;
-        return acc;
-      }, {});
-
-      if (Object.keys(updates).length > 0) {
-        dispatch(setData({ ...formData, ...updates }));
+      if (Object.keys(toggleValues).length > 0) {
+        dispatch(setData({ ...formData, ...toggleValues }));
       }
     },
-    [dispatch, formData, loading, toggleViewFields],
+    [dispatch, formData, loading, toggleValues],
   );
 };
