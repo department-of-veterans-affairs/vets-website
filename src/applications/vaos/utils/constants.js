@@ -414,7 +414,7 @@ export const ELIGIBILITY_REASONS = {
 
 // https://coderepo.mobilehealth.va.gov/projects/VAR/repos/vaos-service/browse/vaos-service/src/main/resources/swagger.json?useDefaultHandler=true
 // VaosIneligibilityReasonValueSet
-export const ELIGIBILITY_CODES_VAOS = {
+export const INELIGIBILITY_CODES_VAOS = {
   PATIENT_HISTORY_INSUFFICIENT: 'patient-history-insufficient',
   REQUEST_LIMIT_EXCEEDED: 'facility-request-limit-exceeded',
   DIRECT_SCHEDULING_DISABLED: 'facility-cs-direct-disabled',

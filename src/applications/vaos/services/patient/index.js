@@ -8,7 +8,7 @@ import { captureError } from '../../utils/error';
 import {
   ELIGIBILITY_REASONS,
   TYPE_OF_CARE_IDS,
-  ELIGIBILITY_CODES_VAOS,
+  INELIGIBILITY_CODES_VAOS,
 } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
@@ -24,13 +24,24 @@ function createErrorHandler(errorKey) {
   };
 }
 
-function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
-  return !Array.isArray(ineligibilityReasons)
-    ? true
-    : !ineligibilityReasons.some(reason => {
+/**
+ * Checks if returned values from patient eligibility contain a specific error code
+ * @param {{coding:{code:string}[]}[]} ineligibilityReasons
+ * @param {string} vaosErrorCode, a keyof INELIGIBILITY_CODES_VAOS in src/applications/vaos/utils/constants.js
+ * @returns {boolean} true if ineligibilityReasons contains the vaosErrorCode
+ */
+function hasEligibilityError(ineligibilityReasons, vaosErrorCode) {
+  return Array.isArray(ineligibilityReasons)
+    ? ineligibilityReasons.some(reason => {
         const { code } = reason.coding[0];
-        return code === ineligibilityType;
-      });
+        return code === vaosErrorCode;
+      })
+    : false;
+}
+
+// Negation of hasEligibilityError, for readability
+function doesNotHaveEligibilityError(ineligibilityReasons, ineligibilityType) {
+  return !hasEligibilityError(ineligibilityReasons, ineligibilityType);
 }
 
 /**
@@ -70,13 +81,13 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   } else if (results.direct) {
     output.direct = {
       eligible: results.direct.eligible,
-      hasRequiredAppointmentHistory: checkEligibilityReason(
+      hasRequiredAppointmentHistory: doesNotHaveEligibilityError(
         results.direct.ineligibilityReasons,
-        ELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+        INELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
       ),
-      disabled: !checkEligibilityReason(
+      disabled: hasEligibilityError(
         results.direct.ineligibilityReasons,
-        ELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
+        INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
       ),
     };
   }
@@ -84,24 +95,24 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
   if (results.request instanceof Error) {
     output.request = new Error('Request eligibility check error');
   } else if (results.request) {
-    const disabled = !checkEligibilityReason(
+    const disabled = hasEligibilityError(
       results.request.ineligibilityReasons,
-      ELIGIBILITY_CODES_VAOS.REQUEST_SCHEDULING_DISABLED,
+      INELIGIBILITY_CODES_VAOS.REQUEST_SCHEDULING_DISABLED,
     );
     output.request = {
       disabled,
       eligible: results.request.eligible,
       hasRequiredAppointmentHistory:
         !disabled &&
-        checkEligibilityReason(
+        doesNotHaveEligibilityError(
           results.request.ineligibilityReasons,
-          ELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
+          INELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT,
         ),
       isEligibleForNewAppointmentRequest:
         !disabled &&
-        checkEligibilityReason(
+        doesNotHaveEligibilityError(
           results.request.ineligibilityReasons,
-          ELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
+          INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED,
         ),
     };
   }

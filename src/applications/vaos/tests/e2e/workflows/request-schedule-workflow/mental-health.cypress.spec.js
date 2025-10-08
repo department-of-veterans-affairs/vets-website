@@ -3,7 +3,7 @@ import { addMonths } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
-  ELIGIBILITY_CODES_VAOS,
+  INELIGIBILITY_CODES_VAOS,
   TYPE_OF_CARE_IDS,
 } from '../../../../utils/constants';
 import MockAppointmentResponse from '../../../fixtures/MockAppointmentResponse';
@@ -69,7 +69,7 @@ describe('VAOS request schedule flow - Mental health', () => {
             typeOfCareId,
             isEligible: false,
             ineligibilityReason:
-              ELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
+              INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
           });
           const mockEligibilityRequest = new MockEligibilityResponse({
             facilityId: '983',
@@ -211,7 +211,7 @@ describe('VAOS request schedule flow - Mental health', () => {
             typeOfCareId,
             isEligible: false,
             ineligibilityReason:
-              ELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
+              INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED,
           });
           const mockEligibilityRequest = new MockEligibilityResponse({
             facilityId: '983',
