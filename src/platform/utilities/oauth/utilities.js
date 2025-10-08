@@ -257,18 +257,23 @@ export const formatInfoCookie = cookieStringRaw => {
 export const getInfoToken = () => {
   if (!infoTokenExists()) return null;
 
-  const cookie = `; ${document.cookie}`;
-  const parts = cookie.split(`; ${COOKIES.INFO_TOKEN}=`);
-
-  if (parts.length === 2) {
-    const value = parts
-      .pop()
-      .split(';')
-      .shift();
-    return formatInfoCookie(decodeURIComponent(value));
+  let cookieArray = document.cookie.split(';');
+  // to make tests pass
+  if (!Array.isArray(cookieArray)) {
+    cookieArray = [cookieArray];
   }
 
-  return null;
+  return cookieArray
+    .map(cookie => cookie.split('='))
+    .reduce((acc, [cookieKey, cookieValue]) => {
+      if (cookieKey.includes(COOKIES.INFO_TOKEN)) {
+        return {
+          ...acc,
+          ...formatInfoCookie(decodeURIComponent(cookieValue)),
+        };
+      }
+      return acc;
+    }, {});
 };
 
 export const removeInfoToken = () => {
