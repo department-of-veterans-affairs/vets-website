@@ -77,9 +77,9 @@ Draft.propTypes = {
   formTitle: PropTypes.string.isRequired,
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
+  isForm: PropTypes.bool,
   // String to show at the very top of the component, usually `Form ${formId}`
   presentableFormId: PropTypes.string,
-  isForm: PropTypes.bool,
 };
 
 export default Draft;
