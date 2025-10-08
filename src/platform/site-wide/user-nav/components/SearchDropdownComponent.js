@@ -28,25 +28,17 @@ const Keycodes = {
 class SearchDropdownComponent extends React.Component {
   static propTypes = {
     /**
-     * A boolean value for whether the submit button should be rendered or not.
+     * A string value that will be prepended to the classnames for the button
      * */
-    showButton: PropTypes.bool,
+    buttonClassName: PropTypes.string,
     /**
      * A string value that should be displayed on the submit button
      * */
     buttonText: PropTypes.string,
     /**
-     * A string value that will be prepended to the classnames for the button
-     * */
-    buttonClassName: PropTypes.string,
-    /**
      * A boolean value for whether or not the component has "submit" functionality
      * */
     canSubmit: PropTypes.bool,
-    /**
-     * A string value that will be prepended on each id
-     * */
-    id: PropTypes.string,
     /**
      * A string value that will be prepended to the classnames for the base component
      * */
@@ -56,47 +48,41 @@ class SearchDropdownComponent extends React.Component {
      * */
     containerClassName: PropTypes.string,
     /**
-     * A string value that will be prepended to the classnames for the input field
-     * */
-    inputClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the suggestionsList
-     * */
-    suggestionsListClassName: PropTypes.string,
-    /**
-     * A string value that will be prepended to the classnames for the individual suggestions
-     * */
-    suggestionClassName: PropTypes.string,
-    /**
      * the debounce rate at which to fetch suggestions
      * */
     debounceRate: PropTypes.number,
-    /**
-     * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
-     * */
-    formatSuggestions: PropTypes.bool,
-    /**
-     * A function that is called every time the input value changes, which is passed the current Input Value
-     * */
-    getInputValue: PropTypes.func,
-    /**
-     * A function that is passed the current state as a param,
-     * and is called whenever the input field's current value is submitted
-     * */
-    onInputSubmit: PropTypes.func,
-    /**
-     * A function that is passed the current state as a param,
-     * and is called whenever a suggested value is submitted
-     * */
-    onSuggestionSubmit: PropTypes.func,
     /**
      * A function that is passed to retrieve the input for the search app component
      * */
     fetchInputValue: PropTypes.func,
     /**
+     * A boolean value for whether or not suggestions are formatted to have the suggested values highlighted
+     * */
+    formatSuggestions: PropTypes.bool,
+    /**
+     * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
+     * */
+    fullWidthSuggestions: PropTypes.bool,
+    /**
+     * A function that is called every time the input value changes, which is passed the current Input Value
+     * */
+    getInputValue: PropTypes.func,
+    /**
+     * A string value that will be prepended on each id
+     * */
+    id: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the input field
+     * */
+    inputClassName: PropTypes.string,
+    /**
      * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
      * */
     mobileResponsive: PropTypes.bool,
+    /**
+     * A boolean value for whether the submit button should be rendered or not.
+     * */
+    showButton: PropTypes.bool,
     /**
      * A string value for the default value of the input field.
      * */
@@ -110,9 +96,23 @@ class SearchDropdownComponent extends React.Component {
      * */
     submitOnEnter: PropTypes.bool,
     /**
-     * A boolean value for whether suggestions should take up the width of the input field and the button, or just the input field.
+     * A string value that will be prepended to the classnames for the individual suggestions
      * */
-    fullWidthSuggestions: PropTypes.bool,
+    suggestionClassName: PropTypes.string,
+    /**
+     * A string value that will be prepended to the classnames for the suggestionsList
+     * */
+    suggestionsListClassName: PropTypes.string,
+    /**
+     * A function that is passed the current state as a param,
+     * and is called whenever the input field's current value is submitted
+     * */
+    onInputSubmit: PropTypes.func,
+    /**
+     * A function that is passed the current state as a param,
+     * and is called whenever a suggested value is submitted
+     * */
+    onSuggestionSubmit: PropTypes.func,
   };
 
   static defaultProps = {

@@ -10,7 +10,7 @@ export function loginHandler(loginType, isOAuth, oktaParams = {}) {
   const isOAuthAttempt = isOAuth && '-oauth';
   const { codeChallenge = '', clientId = '', state = '' } = oktaParams;
 
-  if (TEST_APPS.OKTA?.includes(clientId) && !environment.isProduction()) {
+  if (clientId === TEST_APPS.OKTA && !environment.isProduction()) {
     const url = createOktaOAuthRequest({
       clientId,
       codeChallenge,
@@ -54,10 +54,10 @@ export default function LoginButton({
 }
 
 LoginButton.propTypes = {
-  csp: PropTypes.string,
-  onClick: PropTypes.func,
-  useOAuth: PropTypes.bool,
-  ariaDescribedBy: PropTypes.string,
   actionLocation: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
+  csp: PropTypes.string,
   queryParams: PropTypes.object,
+  useOAuth: PropTypes.bool,
+  onClick: PropTypes.func,
 };
