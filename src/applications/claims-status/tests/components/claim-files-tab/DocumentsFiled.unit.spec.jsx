@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, within } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import DocumentsFiled from '../../../components/claim-files-tab/DocumentsFiled';
@@ -469,6 +470,89 @@ describe('<DocumentsFiled>', () => {
       expect(
         $('.filename-title', container).getAttribute('data-dd-privacy'),
       ).to.equal('mask');
+    });
+  });
+
+  context('Timezone-aware message display', () => {
+    const claim = {
+      type: 'claim',
+      attributes: {
+        trackedItems: [],
+        supportingDocuments: [],
+      },
+    };
+
+    it('should display timezone message below Documents filed heading', () => {
+      const { getByText } = render(<DocumentsFiled claim={claim} />);
+
+      getByText('Documents filed');
+      expect(getByText(/Files uploaded after.*will show as received/)).to.exist;
+      expect(getByText(/but we record your submissions when you upload them/))
+        .to.exist;
+    });
+
+    it('should include time and timezone in message', () => {
+      const { getByText } = render(<DocumentsFiled claim={claim} />);
+
+      const messageParagraph = getByText(
+        /Files uploaded after.*will show as received/,
+      );
+      expect(messageParagraph.textContent).to.match(
+        /\d{1,2}:\d{2}\s+(a|p)\.m\./,
+      );
+    });
+
+    it('should NOT display message when in UTC timezone', () => {
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      const { queryByText } = render(<DocumentsFiled claim={claim} />);
+
+      expect(queryByText('Documents filed')).to.exist;
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+
+      timezoneStub.restore();
+    });
+
+    it('should not render message paragraph element when timezone offset is 0', () => {
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      const { container } = render(<DocumentsFiled claim={claim} />);
+
+      const activityContainer = container.querySelector(
+        '.documents-filed-container',
+      );
+      const paragraphs = activityContainer.querySelectorAll('p');
+
+      paragraphs.forEach(p => {
+        expect(p.textContent).to.not.include('Files uploaded');
+      });
+
+      timezoneStub.restore();
+    });
+
+    it('should conditionally render message based on timezone offset', () => {
+      const { container, rerender } = render(<DocumentsFiled claim={claim} />);
+
+      let messageParagraph = container.querySelector(
+        '.vads-u-color--gray-medium',
+      );
+      expect(messageParagraph).to.exist;
+
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      rerender(<DocumentsFiled claim={claim} />);
+      messageParagraph = container.querySelector('.vads-u-color--gray-medium');
+      expect(messageParagraph?.textContent || '').to.not.include(
+        'Files uploaded',
+      );
+
+      timezoneStub.restore();
     });
   });
 });

@@ -50,6 +50,9 @@ import {
   generateClaimTitle,
   isStandard5103Notice,
   getShowEightPhases,
+  getTimezoneDiscrepancyMessage,
+  showTimezoneDiscrepancyMessage,
+  formatUploadDateTime,
 } from '../../utils/helpers';
 
 import {
@@ -1738,6 +1741,312 @@ describe('Disability benefits helpers: ', () => {
         );
         expect(result.type).to.equal('error');
       });
+    });
+  });
+
+  describe('getTimezoneDiscrepancyMessage', () => {
+    it('should return empty string for UTC timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(0);
+      expect(message).to.equal('');
+    });
+
+    it('should return "after" message for UTC-4 (EDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(240);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('8:00 p.m.');
+      expect(message).to.include("next day's date");
+      expect(message).to.include(
+        'but we record your submissions when you upload them',
+      );
+    });
+
+    it('should return "after" message for UTC-5 (EST/CDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(300);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('7:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "after" message for UTC-8 (PST/AKDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(480);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('4:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "after" message for UTC-10 (HST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(600);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('2:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "after" message for UTC-6 (CST/MDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(360);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('6:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "after" message for UTC-7 (MST/PDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(420);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('5:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "after" message for UTC-9 (AKST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(540);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('3:00 p.m.');
+      expect(message).to.include("next day's date");
+    });
+
+    it('should return "before" message for UTC+1 (BST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-60);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('1:00 a.m.');
+      expect(message).to.include("previous day's date");
+      expect(message).to.include(
+        'but we record your submissions when you upload them',
+      );
+    });
+
+    it('should return "before" message for UTC+9 (JST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-540);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('9:00 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+2 (CEST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-120);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('2:00 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+10 (AEST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-600);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('10:00 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+11 (AEDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-660);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('11:00 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+12 (NZST) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-720);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('12:00 p.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+13 (NZDT) timezone', () => {
+      const message = getTimezoneDiscrepancyMessage(-780);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('1:00 p.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should return "before" message for UTC+5:30 (IST) timezone with fractional hours', () => {
+      const message = getTimezoneDiscrepancyMessage(-330);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('5:30 a.m.');
+      expect(message).to.include("previous day's date");
+    });
+
+    it('should include timezone abbreviation in message for EDT', () => {
+      const message = getTimezoneDiscrepancyMessage(240);
+      // Timezone abbreviation should appear after the time
+      expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
+    });
+
+    it('should include timezone abbreviation in message for PST', () => {
+      const message = getTimezoneDiscrepancyMessage(480);
+      expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
+    });
+
+    it('should handle null input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(null)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(null);
+      expect(message).to.equal('');
+    });
+
+    it('should handle undefined input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(undefined)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(undefined);
+      expect(message).to.equal('');
+    });
+
+    it('should handle NaN input gracefully', () => {
+      expect(() => getTimezoneDiscrepancyMessage(NaN)).to.not.throw();
+      const message = getTimezoneDiscrepancyMessage(NaN);
+      expect(message).to.equal('');
+    });
+
+    it('should match exact VA.gov message format for "after" messages', () => {
+      const message = getTimezoneDiscrepancyMessage(240);
+      // Complete format validation for negative offset (UTC-X)
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on the next day's date, but we record your submissions when you upload them."
+      expect(message).to.match(
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the next day's date, but we record your submissions when you upload them\.$/,
+      );
+    });
+
+    it('should match exact VA.gov message format for "before" messages', () => {
+      const message = getTimezoneDiscrepancyMessage(-540);
+      // Complete format validation for positive offset (UTC+X)
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on the previous day's date, but we record your submissions when you upload them."
+      expect(message).to.match(
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the previous day's date, but we record your submissions when you upload them\.$/,
+      );
+    });
+
+    it('should use correct apostrophe in "day\'s date"', () => {
+      const message = getTimezoneDiscrepancyMessage(240);
+      expect(message).to.include("day's date");
+      expect(message).to.not.include('days date');
+      expect(message).to.not.include('day`s date');
+    });
+
+    it('should use periods in a.m./p.m. format', () => {
+      const morningMessage = getTimezoneDiscrepancyMessage(-60); // 1:00 a.m.
+      const eveningMessage = getTimezoneDiscrepancyMessage(240); // 8:00 p.m.
+
+      expect(morningMessage).to.match(/\d{1,2}:\d{2} a\.m\./);
+      expect(eveningMessage).to.match(/\d{1,2}:\d{2} p\.m\./);
+
+      // Should NOT have formats without periods
+      expect(morningMessage).to.not.include(' am ');
+      expect(eveningMessage).to.not.include(' pm ');
+    });
+  });
+
+  describe('shouldShowTimezoneDiscrepancyMessage', () => {
+    it('should return true when upload time would show as next day in UTC', () => {
+      const uploadTime = new Date('2025-08-15T22:18:00-04:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      expect(result).to.be.true;
+    });
+
+    it('should return false when upload time would show as same day in UTC', () => {
+      const uploadTime = new Date('2025-08-15T15:00:00-04:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      expect(result).to.be.false;
+    });
+
+    it('should return true at boundary time (8:00 PM EDT = midnight UTC)', () => {
+      const uploadTime = new Date('2025-08-15T20:00:00-04:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      expect(result).to.be.true;
+    });
+
+    it('should return false just before boundary time', () => {
+      const uploadTime = new Date('2025-08-15T19:59:59-04:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      expect(result).to.be.false;
+    });
+
+    it('should handle null input gracefully', () => {
+      expect(() => showTimezoneDiscrepancyMessage(null)).to.not.throw();
+    });
+
+    it('should handle undefined input gracefully', () => {
+      expect(() => showTimezoneDiscrepancyMessage(undefined)).to.not.throw();
+    });
+
+    it('should handle invalid date input gracefully', () => {
+      expect(() =>
+        showTimezoneDiscrepancyMessage(new Date('invalid')),
+      ).to.not.throw();
+    });
+  });
+
+  describe('formatUploadDateTime', () => {
+    it('should format date with time and timezone', () => {
+      const date = new Date('2025-08-15T22:18:00-04:00');
+      const formatted = formatUploadDateTime(date);
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+      expect(formatted).to.match(/\d{1,2}:\d{2}\s+(a|p)\.m\./);
+    });
+
+    it('should handle different times of day correctly', () => {
+      const morningDate = new Date('2025-08-15T09:30:00-04:00');
+      const eveningDate = new Date('2025-08-15T21:45:00-04:00');
+
+      const morningFormatted = formatUploadDateTime(morningDate);
+      const eveningFormatted = formatUploadDateTime(eveningDate);
+
+      expect(morningFormatted).to.match(/a\.m\./);
+      expect(eveningFormatted).to.match(/p\.m\./);
+    });
+
+    it('should throw error for invalid input', () => {
+      expect(() => formatUploadDateTime('invalid-date')).to.throw(
+        /formatUploadDateTime: invalid date provided/,
+      );
+    });
+
+    it('should include timezone abbreviation', () => {
+      const date = new Date('2025-08-15T22:18:00-04:00');
+      const formatted = formatUploadDateTime(date);
+      // Should end with timezone abbreviation (2-4 uppercase letters)
+      expect(formatted).to.match(/[A-Z]{2,4}$/);
+    });
+
+    it('should handle noon correctly', () => {
+      // Use local time to avoid timezone conversion issues
+      const noonDate = new Date(2025, 7, 15, 12, 0, 0); // Month is 0-indexed
+      const formatted = formatUploadDateTime(noonDate);
+      expect(formatted).to.include('12:00 p.m.');
+    });
+
+    it('should handle midnight correctly', () => {
+      // Use local time to avoid timezone conversion issues
+      const midnightDate = new Date(2025, 7, 15, 0, 0, 0); // Month is 0-indexed
+      const formatted = formatUploadDateTime(midnightDate);
+      expect(formatted).to.include('12:00 a.m.');
+    });
+
+    it('should handle single-digit hours correctly', () => {
+      // Use local time to avoid timezone conversion issues
+      const singleDigitHour = new Date(2025, 7, 15, 9, 0, 0); // Month is 0-indexed
+      const formatted = formatUploadDateTime(singleDigitHour);
+      // Should be "9:00" not "09:00"
+      expect(formatted).to.match(/\s9:00\s/);
+    });
+
+    it('should accept Date object input', () => {
+      const dateObject = new Date('2025-08-15T22:18:00-04:00');
+      const formatted = formatUploadDateTime(dateObject);
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+    });
+
+    it('should accept ISO string input', () => {
+      const isoString = '2025-08-15T22:18:00-04:00';
+      const formatted = formatUploadDateTime(isoString);
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+    });
+
+    it('should throw error for null input', () => {
+      expect(() => formatUploadDateTime(null)).to.throw(
+        /formatUploadDateTime: date parameter is required/,
+      );
+    });
+
+    it('should throw error for undefined input', () => {
+      expect(() => formatUploadDateTime(undefined)).to.throw(
+        /formatUploadDateTime: date parameter is required/,
+      );
     });
   });
 });

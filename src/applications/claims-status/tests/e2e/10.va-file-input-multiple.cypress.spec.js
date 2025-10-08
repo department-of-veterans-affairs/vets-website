@@ -951,11 +951,12 @@ describe('VA File Input Multiple', () => {
       cy.wait('@documents');
       cy.get('va-alert')
         .should('be.visible')
-        .and('contain.text', `We received your file upload on`)
+        .and('contain.text', 'We received your file upload on')
         .and(
           'contain.text',
-          'If your uploaded file doesn’t appear in the Documents Filed section on this page, please try refreshing the page.',
-        );
+          'Your file should be listed in the Documents filed section',
+        )
+        .and('contain.text', "If it's not there, try refreshing the page");
       cy.axeCheck();
     });
 
