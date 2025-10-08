@@ -13,7 +13,7 @@ const {
 
 const pageTitle = 'mock service branch inputs';
 
-const expectedNumberOfWebComponentFields = 3;
+const expectedNumberOfWebComponentFields = 2;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -22,7 +22,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 3;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
