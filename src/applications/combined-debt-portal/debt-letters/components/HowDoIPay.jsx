@@ -102,12 +102,13 @@ const HowDoIPay = ({ userData }) => {
         </va-accordion-item>
       </va-accordion>
 
-      <va-link-action
+      <br />
+      <va-link
+        aria-label="Opens pay.va.gov in a new tab"
+        external
         href="https://www.pay.va.gov/"
-        message-aria-describedby="Opens pay.va.gov"
         text="Pay at pay.va.gov"
         class="vads-u-margin-top--2"
-        type="secondary"
       />
 
       <h3>Pay by phone</h3>
