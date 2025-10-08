@@ -85,12 +85,15 @@ export function getTimezoneByFacilityId(id, isUseBrowserTimezone = false) {
   }
 
   // Check 5 digit facility/location ids
-  if (timezones[id.substring(0, 3)]) {
-    return timezones[id.substring(0, 3)];
+  const timezone = timezones[id.substring(0, 3)];
+  if (isUseBrowserTimezone && !timezone) {
+    // Default to browser timezone
+    return mapGmtToAbbreviation(
+      Intl.DateTimeFormat().resolvedOptions().timeZone,
+    );
   }
 
-  // Default to browser timezone
-  return mapGmtToAbbreviation(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  return timezone;
 }
 
 /**
