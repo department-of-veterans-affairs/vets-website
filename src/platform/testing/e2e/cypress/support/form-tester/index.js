@@ -3,7 +3,7 @@ import path from 'path';
 import get from 'platform/utilities/data/get';
 
 import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
-import { processPatternFieldGroups } from './utilities';
+import { fillPatterns } from './patterns';
 
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
@@ -175,18 +175,27 @@ const performPageActions = (pathname, _13647Exception = false) => {
       /\/(start|introduction|confirmation|review-and-submit)$/,
     );
 
-    if (!hookExecuted && shouldAutofill) cy.fillPage();
+    const continuePageProcessing = () => {
+      cy.expandAccordions();
+      cy.injectAxe();
+      cy.axeCheck('main', { _13647Exception });
 
-    cy.expandAccordions();
-    cy.injectAxe();
-    cy.axeCheck('main', { _13647Exception });
+      const postHookPromise = new Promise(resolve => {
+        postHook();
+        resolve();
+      });
+      cy.wrap(postHookPromise, NO_LOG_OPTION);
+    };
 
-    const postHookPromise = new Promise(resolve => {
-      postHook();
-      resolve();
-    });
-
-    cy.wrap(postHookPromise, NO_LOG_OPTION);
+    if (!hookExecuted && shouldAutofill) {
+      cy.fillPage().then(({ abortProcessing }) => {
+        if (!abortProcessing) {
+          continuePageProcessing();
+        }
+      });
+    } else {
+      continuePageProcessing();
+    }
   });
 };
 
@@ -514,14 +523,17 @@ Cypress.Commands.add('enterData', field => {
 
 /**
  * Fills all of the fields on a page, looping until no more fields appear.
+ * @returns {Promise<{abortProcessing: boolean}>} Resolves with processing status.
  */
 Cypress.Commands.add('fillPage', () => {
-  cy.location('pathname', NO_LOG_OPTION)
+  return cy
+    .location('pathname', NO_LOG_OPTION)
     .then(getArrayItemPath)
     .then(({ arrayItemPath }) => {
       const touchedFields = new Set();
       const snapshot = {};
       let fillAvailableFields;
+      let shouldAbortProcessing = false;
 
       /**
        * Fills out a field (or set of fields) using the created field object,
@@ -598,24 +610,35 @@ Cypress.Commands.add('fillPage', () => {
 
       const fillFormPatternFields = () => {
         return cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
-          return processPatternFieldGroups($form, arrayItemPath, touchedFields);
+          return fillPatterns($form, arrayItemPath, touchedFields);
         });
       };
 
       fillAvailableFields = () => {
-        getFieldSelectors().then(fieldSelector => {
-          cy.get(APP_SELECTOR, NO_LOG_OPTION)
+        return getFieldSelectors().then(fieldSelector => {
+          return cy
+            .get(APP_SELECTOR, NO_LOG_OPTION)
             .then($form => countFormElements(fieldSelector, $form))
             .then(() => fillFormPatternFields())
-            .then(() => fillFormFields(fieldSelector))
-            .then(() => fillAdditionalFields(fieldSelector));
+            .then(({ abortProcessing } = {}) => {
+              if (abortProcessing) {
+                shouldAbortProcessing = true;
+                return;
+              }
+              fillFormFields(fieldSelector);
+              fillAdditionalFields(fieldSelector);
+            });
         });
       };
 
-      fillAvailableFields();
+      return fillAvailableFields().then(() => ({
+        abortProcessing: shouldAbortProcessing,
+      }));
+    })
+    .then(result => {
+      Cypress.log();
+      return result;
     });
-
-  Cypress.log();
 });
 
 /**

@@ -325,7 +325,7 @@ export function addressUI(options = {}) {
     'ui:validations': [],
     'ui:options': {
       classNames:
-        'vads-web-component-pattern-field-group vads-web-component-pattern-address',
+        'vads-web-component-pattern vads-web-component-pattern-address',
     },
   };
 
