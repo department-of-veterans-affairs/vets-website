@@ -2,6 +2,10 @@ import { parse, isValid, format } from 'date-fns';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { calculateAge } from './dates';
+
+export { calculateAge };
+
 const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
 
 /**

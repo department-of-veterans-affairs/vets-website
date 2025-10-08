@@ -178,27 +178,6 @@ describe('21P-0537 form config conditional dependencies', () => {
     });
   });
 
-  describe('marriageRecognition page', () => {
-    const dependsFn =
-      formConfig.chapters.maritalDetailsChapter.pages.marriageRecognition
-        .depends;
-
-    it('should be visible when hasRemarried is true', () => {
-      const formData = { hasRemarried: true };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasRemarried is false', () => {
-      const formData = { hasRemarried: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when hasRemarried is undefined', () => {
-      const formData = {};
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
   describe('form configuration structure', () => {
     it('should have all required chapters', () => {
       expect(formConfig.chapters).to.have.property('veteranInfoChapter');
@@ -267,11 +246,6 @@ describe('21P-0537 form config conditional dependencies', () => {
           formData,
         ),
       ).to.be.false;
-      expect(
-        formConfig.chapters.maritalDetailsChapter.pages.marriageRecognition.depends(
-          formData,
-        ),
-      ).to.be.false;
     });
 
     it('should show correct pages for remarried, spouse is veteran, marriage ongoing', () => {
@@ -301,11 +275,6 @@ describe('21P-0537 form config conditional dependencies', () => {
       ).to.be.true;
       expect(
         formConfig.chapters.maritalDetailsChapter.pages.terminationStatus.depends(
-          formData,
-        ),
-      ).to.be.true;
-      expect(
-        formConfig.chapters.maritalDetailsChapter.pages.marriageRecognition.depends(
           formData,
         ),
       ).to.be.true;
@@ -345,11 +314,6 @@ describe('21P-0537 form config conditional dependencies', () => {
       ).to.be.true;
       expect(
         formConfig.chapters.maritalDetailsChapter.pages.terminationDetails.depends(
-          formData,
-        ),
-      ).to.be.true;
-      expect(
-        formConfig.chapters.maritalDetailsChapter.pages.marriageRecognition.depends(
           formData,
         ),
       ).to.be.true;
