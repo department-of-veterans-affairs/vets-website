@@ -30,7 +30,7 @@ function createErrorHandler(errorKey) {
  * @param {string} vaosErrorCode, a keyof INELIGIBILITY_CODES_VAOS in src/applications/vaos/utils/constants.js
  * @returns {boolean} true if ineligibilityReasons contains the vaosErrorCode
  */
-function hasEligibilityError(ineligibilityReasons, vaosErrorCode) {
+export function hasEligibilityError(ineligibilityReasons, vaosErrorCode) {
   return Array.isArray(ineligibilityReasons)
     ? ineligibilityReasons.some(reason => {
         const { code } = reason.coding[0];
@@ -39,7 +39,11 @@ function hasEligibilityError(ineligibilityReasons, vaosErrorCode) {
     : false;
 }
 
-// Negation of hasEligibilityError, for readability
+/** Negation of hasEligibilityError, for readability
+ * @param {{coding:{code:string}[]}[]} ineligibilityReasons
+ * @param {string} ineligibilityType, a keyof INELIGIBILITY_CODES_VAOS in src/applications/vaos/utils/constants.js
+ * @returns {boolean} true if ineligibilityReasons does not contain the ineligibilityType or ineligibilityReasons is not an array (e.g. undefined)
+ */
 function doesNotHaveEligibilityError(ineligibilityReasons, ineligibilityType) {
   return !hasEligibilityError(ineligibilityReasons, ineligibilityType);
 }
@@ -386,8 +390,8 @@ export async function fetchFlowEligibilityAndClinics({
     );
   }
 
-  // When removeFacilityConfigCheck removed, delete first if condition from first if condition
-  // Then remove removeFacilityConfigCheck from 2nd part of first if condition
+  // When removeFacilityConfigCheck removed, first if condition should just be:
+  // if (results.patientEligibility.direct?.disabled)
   // Location does not support direct scheduling
   if (
     (keepFacilityConfigCheck &&
