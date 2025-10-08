@@ -26,12 +26,7 @@ const formatAddress = ({ street, street2, city, state, country } = {}) =>
     .join(', ');
 
 // build unique radio options from form data
-const buildAddressOptions = ({
-  certifierAddress,
-  sponsorAddress,
-  applicants,
-  excludeIndex,
-}) => {
+const buildAddressOptions = ({ certifierAddress, sponsorAddress }) => {
   const addUnique = (map, addr) => {
     const formatted = formatAddress(addr);
     if (formatted && !map.has(formatted)) {
@@ -41,10 +36,6 @@ const buildAddressOptions = ({
   const m = new Map();
   addUnique(m, certifierAddress);
   addUnique(m, sponsorAddress);
-  (applicants ?? []).forEach((a, i) => {
-    if (i !== excludeIndex) addUnique(m, a?.applicantAddress);
-  });
-
   return [...m.values()];
 };
 
@@ -78,34 +69,10 @@ const AddressSelectionPage = props => {
     contentBeforeButtons,
     data,
     dataKey,
-    fullData,
     goForward,
-    pagePerItemIndex,
     onChange,
   } = props;
-
-  // `fullData` is populated when inside the ArrayBuilder flow
-  const fullOrItemData = fullData ?? data;
-
-  // `pagePerItemIndex` is a string, we need to convert it to a number
-  const itemIndex = useMemo(
-    () => {
-      const n = Number(pagePerItemIndex);
-      return Number.isFinite(n) && n >= 0 ? n : null;
-    },
-    [pagePerItemIndex],
-  );
-  const isArrayMode = itemIndex !== null;
-
-  // data can be the root dataset or from an array item
-  const localData = useMemo(
-    () =>
-      isArrayMode && data.applicants
-        ? data.applicants?.[itemIndex] ?? {}
-        : data,
-    [data, isArrayMode, itemIndex],
-  );
-  const currentValue = localData[FIELD_NAME];
+  const currentValue = data[FIELD_NAME];
 
   const [error, setError] = useState(undefined);
 
@@ -114,11 +81,10 @@ const AddressSelectionPage = props => {
       const nextValue = e?.detail?.value;
       setError(undefined);
 
-      const dataToUpdate = isArrayMode ? localData : fullOrItemData;
-      const nextData = applyOptionSelection(dataToUpdate, nextValue, dataKey);
+      const nextData = applyOptionSelection(data, nextValue, dataKey);
       onChange(nextData);
     },
-    [dataKey, fullOrItemData, isArrayMode, localData, onChange],
+    [data, dataKey, onChange],
   );
 
   const handleSubmit = useCallback(
@@ -133,18 +99,10 @@ const AddressSelectionPage = props => {
   const addressOpts = useMemo(
     () =>
       buildAddressOptions({
-        certifierAddress: fullOrItemData.certifierAddress,
-        sponsorAddress: fullOrItemData.sponsorAddress,
-        applicants: fullOrItemData.applicants,
-        excludeIndex: isArrayMode ? itemIndex : -1,
+        certifierAddress: data.certifierAddress,
+        sponsorAddress: data.sponsorAddress,
       }),
-    [
-      fullOrItemData.certifierAddress,
-      fullOrItemData.sponsorAddress,
-      fullOrItemData.applicants,
-      isArrayMode,
-      itemIndex,
-    ],
+    [data.certifierAddress, data.sponsorAddress],
   );
 
   const vaRadioOpts = useMemo(
@@ -174,12 +132,7 @@ const AddressSelectionPage = props => {
 
   const pageTitle = useMemo(
     () => {
-      const applicantName = nameWording(
-        fullOrItemData,
-        undefined,
-        undefined,
-        true,
-      );
+      const applicantName = nameWording(data, undefined, undefined, true);
       return titleUI(
         <>
           <span data-dd-privacy="hidden">{applicantName}</span> {PAGE_TITLE}
@@ -187,15 +140,15 @@ const AddressSelectionPage = props => {
         PAGE_DESCRIPTION,
       )['ui:title'];
     },
-    [fullOrItemData],
+    [data],
   );
 
   const inputLabel = useMemo(
     () => {
-      const applicantName = nameWording(fullOrItemData, false, false, true);
+      const applicantName = nameWording(data, false, false, true);
       return `${PROMPT} ${applicantName} ${LABEL_TEXT}`;
     },
-    [fullOrItemData],
+    [data],
   );
 
   return (
@@ -228,9 +181,7 @@ AddressSelectionPage.propTypes = {
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
   dataKey: PropTypes.string,
-  fullData: PropTypes.object,
   goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   onChange: PropTypes.func,
 };
 

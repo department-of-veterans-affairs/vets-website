@@ -18,10 +18,9 @@ const addr = (overrides = {}) => ({
 });
 
 const baseData = {
-  certifierRole: 'applicant',
+  certifierRole: 'sponsor',
   certifierAddress: addr({ street: '111 Certifier Rd', state: 'IN' }),
   sponsorAddress: addr({ street: '222 Sponsor Ave', state: 'IN' }),
-  applicants: [],
 };
 
 const json = obj => JSON.stringify(obj);
@@ -71,62 +70,16 @@ const renderPage = (overrides = {}) => {
 };
 
 describe('10-7959a <AddressSelectionPage>', () => {
-  context('when the component renders', () => {
-    it('should render correct number of options when duplicate addresses are present', () => {
-      const { vaRadioOptions, optionLabels } = renderPage({
-        data: {
-          ...baseData,
-          sponsorAddress: { ...baseData.certifierAddress },
-          applicants: [
-            { applicantAddress: addr({ street: '333 Driver Lane' }) },
-            { applicantAddress: addr({ street: '333 Driver Lane' }) },
-          ],
-        },
-      });
-      expect(vaRadioOptions().length).to.equal(3);
-      const labels = optionLabels().join(' | ');
-      expect(labels.includes('111 Certifier Rd')).to.be.true;
-      expect(labels.includes('333 Driver Lane')).to.be.true;
+  it('should render correct number of options when duplicate addresses are present', () => {
+    const { vaRadioOptions, optionLabels } = renderPage({
+      data: {
+        ...baseData,
+        sponsorAddress: { ...baseData.certifierAddress },
+      },
     });
-
-    it('should exclude addresses from the current applicant when in array mode', () => {
-      const applicants = [
-        { applicantAddress: addr({ street: '123 A St' }) },
-        { applicantAddress: addr({ street: '123 B St' }) },
-        { applicantAddress: addr({ street: '123 C St' }) },
-      ];
-
-      const { optionLabels } = renderPage({
-        data: { ...baseData, applicants },
-        fullData: { ...baseData, applicants },
-        pagePerItemIndex: '1',
-      });
-
-      const labels = optionLabels().join(' | ');
-      expect(labels.includes('123 B St')).to.be.false;
-      expect(labels.includes('123 A St')).to.be.true;
-      expect(labels.includes('123 C St')).to.be.true;
-    });
-
-    it('should render the correct label text based on the applicant array index and role', () => {
-      // case 1 - when the first array item and certifierRole === applicant
-      const r1 = renderPage({
-        data: { ...baseData, applicants: [{}] },
-        pagePerItemIndex: '0',
-      });
-      const label1 = r1.vaRadio().getAttribute('label') || '';
-      expect(label1.startsWith('Do you')).to.be.true;
-      r1.unmount();
-
-      // case 2 - when any other index in the array
-      const r2 = renderPage({
-        data: { ...baseData, certifierRole: 'sponsor', applicants: [{}, {}] },
-        pagePerItemIndex: '1',
-      });
-      const label2 = r2.vaRadio().getAttribute('label') || '';
-      expect(label2.startsWith('Does the applicant')).to.be.true;
-      r2.unmount();
-    });
+    expect(vaRadioOptions().length).to.equal(2);
+    const labels = optionLabels().join(' | ');
+    expect(labels.includes('111 Certifier Rd')).to.be.true;
   });
 
   context('when an option has been selected', () => {
@@ -160,9 +113,7 @@ describe('10-7959a <AddressSelectionPage>', () => {
 
       const { fireChange } = renderPage({
         onChange,
-        fullData: { ...baseData, applicants: [{}, {}] },
-        data: { ...baseData, applicants: [{}, {}] },
-        pagePerItemIndex: '0',
+        data: { ...baseData },
       });
 
       fireChange(json(chosen));
@@ -172,10 +123,6 @@ describe('10-7959a <AddressSelectionPage>', () => {
 
       expect(payload[FIELD_NAME]).to.equal(json(chosen));
       expect(payload[DATA_KEY]).to.deep.equal(chosen);
-
-      // ensure we are only setting the array item data
-      expect(payload).to.not.have.property('certifierAddress');
-      expect(payload).to.not.have.property('sponsorAddress');
     });
   });
 
