@@ -58,6 +58,8 @@ describe('VAOS Referral API Error Handling', () => {
 
     // Visit the appointments page
     cy.visit('/my-health/appointments');
+
+    cy.clock(mockToday, ['Date']);
   });
 
   describe('Referrals List API Errors', () => {
@@ -214,7 +216,7 @@ describe('VAOS Referral API Error Handling', () => {
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when submit appointment returns ${responseCode}`, () => {
         // Use cy.clock() to control time and ensure consistent appointment slot dates
-        cy.clock(mockToday, ['Date']);
+        // cy.clock(mockToday, ['Date']);
 
         // Mock error response
         const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
@@ -315,7 +317,7 @@ describe('VAOS Referral API Error Handling', () => {
     errorCases.forEach(({ errorType, responseCode }) => {
       it(`should display an error message when appointment details returns ${responseCode}`, () => {
         // Use cy.clock() to control time and ensure consistent appointment slot dates
-        cy.clock(mockToday, ['Date']);
+        // cy.clock(mockToday, ['Date']);
 
         // Mock error response
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
@@ -393,7 +395,7 @@ describe('VAOS Referral API Error Handling', () => {
       });
 
       // Use cy.clock() to control time and speed up the polling timeout test
-      cy.clock(mockToday, ['Date']);
+      // cy.clock(mockToday, ['Date']);
 
       // Navigate to the Referrals and Requests page
       appointmentList.navigateToReferralsAndRequests();
@@ -425,6 +427,10 @@ describe('VAOS Referral API Error Handling', () => {
 
       // Click the continue button to finalize the appointment
       reviewAndConfirm.clickContinue();
+
+      // Reset clock, using mockToday for request timeout.
+      // cy.clock().then(clock => clock.restore());
+      // cy.clock(mockToday, ['Date']);
 
       // Wait for submit appointment response
       cy.wait('@v2:post:submitAppointment');
