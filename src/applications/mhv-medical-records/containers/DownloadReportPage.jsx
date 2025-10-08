@@ -72,13 +72,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       ],
   );
 
-  const useUnifiedSelfEnteredAPI = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
-      ],
-  );
-
   const [selfEnteredPdfLoading, setSelfEnteredPdfLoading] = useState(false);
   const [successfulSeiDownload, setSuccessfulSeiDownload] = useState(false);
   const [failedSeiDomains, setFailedSeiDomains] = useState([]);
@@ -201,7 +194,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const handleDownloadSelfEnteredPdf = e => {
     e.preventDefault();
     setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, runningUnitTest)
+    generateSEIPdf(userProfile, runningUnitTest)
       .then(res => {
         if (res.success) {
           const { failedDomains } = res;
