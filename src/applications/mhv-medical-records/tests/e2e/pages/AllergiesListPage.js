@@ -5,7 +5,7 @@ class AllergiesListPage extends BaseListPage {
   goToAllergies = (allergies = defaultAllergies) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/allergies',
+      '/my_health/v1/medical_records/allergies*',
       allergies,
     ).as('allergiesList');
     cy.visit('my-health/medical-records/allergies');

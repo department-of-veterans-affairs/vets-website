@@ -2,6 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { countries } from 'platform/forms/address';
 
 import { focusElement } from '~/platform/utilities/ui';
 
@@ -74,11 +75,17 @@ export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
 export const getCardDescription = item => {
+  const countryCode = item?.providerAddress?.country;
+  const countryObj = countries.find(country => country.value === countryCode);
+  const countryName = countryObj?.label || countryCode;
+
   return item ? (
     <>
       <div className=" vads-u-margin-y--2" data-testid="card-street">
-        <p>{item?.providerAddress?.street}</p>
-        <p data-testid="card-address">
+        <p className="vads-u-margin-bottom--0">
+          {item?.providerAddress?.street}
+        </p>
+        <p className="vads-u-margin-y--0" data-testid="card-address">
           {`${item?.providerAddress?.city}${
             item?.providerAddress?.state ||
             item?.providerAddress?.postalCode !== 'NA'
@@ -92,6 +99,11 @@ export const getCardDescription = item => {
             ? ` ${item?.providerAddress?.postalCode}`
             : ''}
         </p>
+        {countryCode !== 'USA' && (
+          <p className="vads-u-margin-top--0" data-testid="card-country">
+            {countryName}
+          </p>
+        )}
       </div>
     </>
   ) : null;
