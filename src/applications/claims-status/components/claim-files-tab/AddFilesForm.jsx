@@ -12,6 +12,7 @@ import {
   checkIsEncryptedPdf,
 } from 'platform/forms-system/src/js/utilities/file';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { DOC_TYPES } from '../../utils/helpers';
 import { FILE_TYPES, isPdf, validateFiles } from '../../utils/validations';
 import mailMessage from '../MailMessage';
@@ -24,6 +25,9 @@ import {
   PASSWORD_ERROR,
   DOC_TYPE_ERROR,
   SUBMIT_TEXT,
+  SUBMIT_FILES_FOR_REVIEW_TEXT,
+  SEND_YOUR_DOCUMENTS_TEXT,
+  ANCHOR_LINKS,
 } from '../../constants';
 
 // File encryption utilities
@@ -223,6 +227,9 @@ const createSubmissionPayload = (files, docTypes, encrypted) => {
 };
 
 const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const toggleValue = useToggleValue(TOGGLE_NAMES.cstShowDocumentUploadStatus);
+
   const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState([]);
   const [encrypted, setEncrypted] = useState([]);
@@ -348,7 +355,7 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           accept={FILE_TYPES.map(type => `.${type}`).join(',')}
           ref={fileInputRef}
           hint={HINT_TEXT}
-          label={LABEL_TEXT}
+          label={toggleValue ? '' : LABEL_TEXT}
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}
@@ -367,15 +374,27 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
         </VaFileInputMultiple>
         <VaButton
           class="vads-u-margin-top--3"
-          text={SUBMIT_TEXT}
+          text={toggleValue ? SUBMIT_FILES_FOR_REVIEW_TEXT : SUBMIT_TEXT}
           onClick={handleSubmit}
         />
-        <va-additional-info
-          class="vads-u-margin-y--3"
-          trigger="Need to mail your documents?"
-        >
-          {mailMessage}
-        </va-additional-info>
+        {!toggleValue && (
+          <va-additional-info
+            class="vads-u-margin-y--3"
+            trigger="Need to mail your documents?"
+          >
+            {mailMessage}
+          </va-additional-info>
+        )}
+        {toggleValue && (
+          <>
+            <div className="vads-u-margin-top--3 vads-u-margin-bottom--5">
+              <va-link
+                href={`#${ANCHOR_LINKS.otherWaysToSendDocuments}`}
+                text={SEND_YOUR_DOCUMENTS_TEXT}
+              />
+            </div>
+          </>
+        )}
         <VaModal
           id="upload-status"
           onCloseEvent={() => setCanShowUploadModal(false)}

@@ -8,10 +8,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { focusElement, scrollTo } from 'platform/utilities/ui';
-import { withRouter } from 'react-router';
+import { dataDogLogger } from 'platform/monitoring/Datadog/utilities';
 import {
   arrayBuilderContextObject,
   createArrayBuilderItemEditPath,
@@ -77,13 +79,20 @@ const IncompleteLabel = () => (
   </div>
 );
 
-const DuplicateInformationAlert = ({ status = 'warning', children }) => (
-  <div className="vads-u-margin-top--2">
-    <va-alert status={status} class="array-builder-duplicate-alert">
-      {children}
-    </va-alert>
-  </div>
-);
+const DuplicateInformationAlert = ({ status = 'warning', children }) => {
+  dataDogLogger({
+    message: 'Duplicate alert',
+    // being consistent with log in ArrayBuilderItemPage
+    attributes: { state: 'shown', buttonUsed: null },
+  });
+  return (
+    <div className="vads-u-margin-top--2">
+      <va-alert status={status} class="array-builder-duplicate-alert">
+        {children}
+      </va-alert>
+    </div>
+  );
+};
 
 DuplicateInformationAlert.propTypes = {
   children: PropTypes.any.isRequired,

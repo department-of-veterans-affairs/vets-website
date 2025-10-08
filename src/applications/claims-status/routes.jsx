@@ -17,6 +17,7 @@ import ClaimsStatusApp from './containers/ClaimsStatusApp';
 import OverviewPage from './containers/OverviewPage';
 import Standard5103NoticePage from './containers/Standard5103NoticePage';
 import DocumentRedirectPage from './containers/DocumentRedirectPage';
+import FilesWeCouldntReceive from './components/FilesWeCouldntReceive';
 
 const routes = (
   <Routes>
@@ -28,6 +29,10 @@ const routes = (
         <Route path="status" element={<AppealsV2StatusPage />} />
       </Route>
       <Route path="your-claims" element={<YourClaimsPageV2 />} />
+      <Route
+        path="your-claims/files-we-couldnt-receive"
+        element={<FilesWeCouldntReceive />}
+      />
       <Route path="your-claims/:id" element={<ClaimPage />}>
         <Route index element={<Navigate to="status" replace />} />
         <Route

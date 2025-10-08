@@ -4,7 +4,7 @@ import { subMonths, format, addMonths } from 'date-fns';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { renderWithRouter } from '../../utils';
+import { renderWithReduxAndRouter } from '../../utils';
 import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
 
 import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
@@ -17,6 +17,14 @@ const nineMonthsAgoDate = subMonths(today, 9);
 const nineMonthsAgoSuspenseDate = format(nineMonthsAgoDate, 'yyyy-MM-dd');
 const fiveMonthsFromNow = addMonths(today, 5);
 const fiveMonthsFromNowSuspenseDate = format(fiveMonthsFromNow, 'yyyy-MM-dd');
+
+// Needed for the rendering of the AddFilesForm child component
+const initialState = {
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    cst_show_document_upload_status: false,
+  },
+};
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
@@ -42,8 +50,9 @@ describe('<DefaultPage>', () => {
       documents: '[]',
       date: '2024-03-07',
     };
-    const { getByText, container } = renderWithRouter(
+    const { getByText, container } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
@@ -84,8 +93,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-07',
     };
-    const { getByText, container } = renderWithRouter(
+    const { getByText, container } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
@@ -115,8 +125,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-07',
     };
-    const { getByText, container } = renderWithRouter(
+    const { getByText, container } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
@@ -154,8 +165,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-07',
     };
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     getByText('Your friendly RV1 name');
     getByText(
@@ -181,8 +193,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-21',
     };
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     getByText(
       `We made a request on ${formatDate(
@@ -206,8 +219,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-21',
     };
-    const { getByText } = renderWithRouter(
+    const { getByText } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     getByText('Request for evidence');
     getByText(
@@ -232,8 +246,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-07',
     };
-    const { getByText, container } = renderWithRouter(
+    const { getByText, container } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
@@ -258,8 +273,9 @@ describe('<DefaultPage>', () => {
       documents: [],
       date: '2024-03-07',
     };
-    const { getByText, container } = renderWithRouter(
+    const { getByText, container } = renderWithReduxAndRouter(
       <DefaultPage {...defaultProps} item={item} />,
+      { initialState },
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;

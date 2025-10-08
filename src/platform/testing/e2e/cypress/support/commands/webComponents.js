@@ -1,3 +1,4 @@
+import get from 'platform/utilities/data/get';
 import { makeMinimalPNG } from '../form-tester/utilities';
 
 const FORCE_OPTION = { force: true };
@@ -551,3 +552,123 @@ Cypress.Commands.add(
     });
   },
 );
+
+/**
+ * Determines whether to "add another" item based on test data vs existing cards.
+ * @param {string} selector - CSS selector for the element with data-array-path
+ * @param {boolean} overrideValue - Optional override value
+ * @param {function} actionCallback - Function to call with the decision (true/false)
+ */
+function arrayBuilderConditionalAction(
+  selector,
+  overrideValue,
+  actionCallback,
+) {
+  // If override is provided, use it directly
+  if (typeof overrideValue === 'boolean') {
+    return actionCallback(overrideValue);
+  }
+
+  // Otherwise, auto-determine based on test data and existing cards
+  return cy.get(selector).then($element => {
+    const arrayPath = $element.attr('data-array-path');
+
+    return cy.get('@testData').then(testData => {
+      const arrayData = get(arrayPath, testData, []);
+      const arrayLength = Array.isArray(arrayData) ? arrayData.length : 0;
+
+      return cy.get('body').then($body => {
+        const cardCount = $body.find('va-card').length;
+        const shouldAddAnother = arrayLength > cardCount;
+
+        return actionCallback(shouldAddAnother);
+      });
+    });
+  });
+}
+
+/**
+ * Selects Yes/No for array builder summary page conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('selectArrayBuilderSummaryYesNo', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-yes-no',
+    overrideValue,
+    shouldSelect => {
+      return cy.get('.wc-pattern-array-builder-yes-no').then($element => {
+        const fieldName = $element.attr('name');
+        cy.selectYesNoVaRadioOption(fieldName, shouldSelect);
+        return cy.wrap(null, { log: false });
+      });
+    },
+  );
+});
+
+/**
+ * Clicks array builder summary page add button conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('clickArrayBuilderSummaryAddButton', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-summary-add-button',
+    overrideValue,
+    shouldClick => {
+      if (shouldClick) {
+        cy.get('.wc-pattern-array-builder-summary-add-button').click();
+        // we abort because we will have navigated to a new page
+        return cy.wrap({ abortProcessing: true }, { log: false });
+      }
+      return cy.wrap(null, { log: false });
+    },
+  );
+});
+
+/**
+ * Clicks array builder summary page add link conditionally based on test data and existing cards on the page.
+ * @param {boolean} [overrideValue]
+ */
+Cypress.Commands.add('clickArrayBuilderSummaryAddLink', overrideValue => {
+  return arrayBuilderConditionalAction(
+    '.wc-pattern-array-builder-summary-add-link',
+    overrideValue,
+    shouldClick => {
+      if (shouldClick) {
+        cy.get('.wc-pattern-array-builder-summary-add-link').click();
+        // we abort because we will have navigated to a new page
+        return cy.wrap({ abortProcessing: true }, { log: false });
+      }
+      return cy.wrap(null, { log: false });
+    },
+  );
+});
+
+/**
+ * General-purpose array builder summary continue command that auto-detects the pattern type
+ * (yes/no radio, button, or link) and applies the appropriate interaction based on the cards present.
+ * @param {boolean} [overrideValue] - true=add another, false=continue without adding
+ */
+Cypress.Commands.add('arrayBuilderSummaryContinue', overrideValue => {
+  return cy.get('body').then($body => {
+    const hasYesNoRadio =
+      $body.find('.wc-pattern-array-builder-yes-no').length > 0;
+    if (hasYesNoRadio) {
+      return cy.selectArrayBuilderSummaryYesNo(overrideValue);
+    }
+
+    const hasButton =
+      $body.find('.wc-pattern-array-builder-summary-add-button').length > 0;
+    if (hasButton) {
+      return cy.clickArrayBuilderSummaryAddButton(overrideValue);
+    }
+
+    const hasLink =
+      $body.find('.wc-pattern-array-builder-summary-add-link').length > 0;
+    if (hasLink) {
+      return cy.clickArrayBuilderSummaryAddLink(overrideValue);
+    }
+
+    cy.log('Warning: No array builder pattern found (yes/no, button, or link)');
+    return cy.wrap(null, { log: false });
+  });
+});

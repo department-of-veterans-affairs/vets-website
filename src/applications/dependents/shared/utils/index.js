@@ -2,6 +2,12 @@ import { parse, isValid, format } from 'date-fns';
 
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { calculateAge } from './dates';
+
+export { calculateAge };
+
+const VIEW_DEPENDENTS_WARNING_KEY = 'viewDependentsWarningClosedAt';
+
 /**
  * Return formatted full name from name object
  * @param {Object} name - An object containing first, middle, and last names
@@ -67,3 +73,17 @@ export function isEmptyObject(obj) {
 }
 
 export const getRootParentUrl = rootUrl => rootUrl.split(/\b\//)[0];
+
+export function getIsDependentsWarningHidden() {
+  const rawStoredDate = localStorage.getItem(VIEW_DEPENDENTS_WARNING_KEY);
+  if (!rawStoredDate) {
+    return false;
+  }
+
+  const dateClosed = new Date(rawStoredDate);
+  return !Number.isNaN(dateClosed.getTime());
+}
+
+export function hideDependentsWarning() {
+  localStorage.setItem(VIEW_DEPENDENTS_WARNING_KEY, new Date().toISOString());
+}

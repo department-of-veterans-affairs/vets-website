@@ -21,7 +21,7 @@ const all = {
         name: 'Sick sinus syndrome',
         provider: 'Gregory Jacobs',
         facility: 'Washington DC VA Medical Center',
-        comments: ['Consistent Tachycardia-Brachycardia'],
+        comments: ['Consistent Tachycardia-Brachycardia', 'Notes 2', 'Notes 3'],
       },
     },
     {

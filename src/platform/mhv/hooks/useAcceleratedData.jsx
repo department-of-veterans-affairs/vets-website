@@ -72,13 +72,9 @@ const useAcceleratedData = () => {
 
   const isAcceleratingAllergies = useMemo(
     () => {
-      return (
-        isAcceleratedDeliveryEnabled &&
-        isAcceleratingAllergiesEnabled &&
-        isCerner
-      );
+      return isAcceleratedDeliveryEnabled && isAcceleratingAllergiesEnabled;
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled, isCerner],
+    [isAcceleratedDeliveryEnabled, isAcceleratingAllergiesEnabled],
   );
 
   const isAcceleratingCareNotes = useMemo(
@@ -97,11 +93,9 @@ const useAcceleratedData = () => {
 
   const isAcceleratingVitals = useMemo(
     () => {
-      return (
-        isAcceleratedDeliveryEnabled && isAcceleratingVitalsEnabled && isCerner
-      );
+      return isAcceleratedDeliveryEnabled && isAcceleratingVitalsEnabled;
     },
-    [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled, isCerner],
+    [isAcceleratedDeliveryEnabled, isAcceleratingVitalsEnabled],
   );
 
   const isAcceleratingVaccines = useMemo(
@@ -138,7 +132,6 @@ const useAcceleratedData = () => {
   );
 
   return {
-    isLoading,
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingCareNotes,
@@ -146,6 +139,8 @@ const useAcceleratedData = () => {
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
+    isCerner,
+    isLoading,
   };
 };
 

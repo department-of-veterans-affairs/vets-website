@@ -41,11 +41,6 @@ export const NOD_BASE_URL = `${NOD_INFO_URL}/request-board-appeal-form-10182`;
 export const NOD_OPTIONS_URL = `${NOD_INFO_URL}/#what-are-my-board-appeal-optio`;
 export const NOD_FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
 
-export const CLAIM_STATUS_TOOL_URL = '/claim-or-appeal-status';
-
-export const COVID_FAQ_URL =
-  'https://www.va.gov/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio';
-
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const PROFILE_URL = '/profile';
 export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';

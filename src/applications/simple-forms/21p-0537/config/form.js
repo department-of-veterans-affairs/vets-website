@@ -74,6 +74,7 @@ const formConfig = {
       messageAriaDescribedby:
         'I certify that the information provided is true and correct to the best of my knowledge.',
       fullNamePath: 'recipientName',
+      useProfileFullName: true,
     },
   },
   title: 'Marital Status Questionnaire for DIC Recipients',
