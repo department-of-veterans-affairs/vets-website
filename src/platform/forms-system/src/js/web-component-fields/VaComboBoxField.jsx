@@ -2,27 +2,12 @@
 import React from 'react';
 import { VaComboBox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaSelectAndComboBoxFieldMapping from './vaSelectAndComboBoxFieldMapping';
+import { renderOptions } from './helpers';
 
 export default function VaComboBoxField(props) {
   const mappedProps = vaSelectAndComboBoxFieldMapping(props);
 
-  // return an option
-  function getOption(option, key) {
-    return (
-      <option key={key} value={option.value}>
-        {option.label}
-      </option>
-    );
-  }
-
-  // return the optgroup with options
-  function getOptGroup(option, key) {
-    return (
-      <optgroup key={key} label={option.optionGroup}>
-        {option.options.map((opt, j) => getOption(opt, `${key}-${j}`))}
-      </optgroup>
-    );
-  }
+  const labels = props.uiOptions?.labels || {};
 
   return (
     <VaComboBox
@@ -34,10 +19,7 @@ export default function VaComboBoxField(props) {
         undefined
       }
     >
-      {props.childrenProps.schema._options.map(
-        (option, i) =>
-          option.optionGroup ? getOptGroup(option, i) : getOption(option, i),
-      )}
+      {renderOptions(props.childrenProps.schema, labels)}
     </VaComboBox>
   );
 }

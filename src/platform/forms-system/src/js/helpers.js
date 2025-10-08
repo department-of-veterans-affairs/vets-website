@@ -1101,20 +1101,3 @@ export function handleSessionRefresh(xhr, csrfTokenStored) {
     localStorage.setItem('csrfToken', csrfToken);
   }
 }
-
-/**
- * Get an enum list for use in a pattern with underlying va-combo-box, e.g. servicePattern
- * Finds the possible values in an array of options, including opt groups
- * @returns {string[]} array of string values
- */
-export function getEnum(options) {
-  const enumList = [];
-  options.forEach(option => {
-    if (option.options) {
-      option.options.forEach(opt => enumList.push(opt.value));
-    } else {
-      enumList.push(option.value);
-    }
-  });
-  return enumList;
-}

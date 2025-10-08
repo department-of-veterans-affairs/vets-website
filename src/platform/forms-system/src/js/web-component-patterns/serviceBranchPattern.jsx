@@ -1,34 +1,87 @@
 import VaComboBoxField from '../web-component-fields/VaComboBoxField';
-import { getEnum } from '../helpers';
 
-const DEFAULT_BRANCHES = [
-  { value: 'AAC', label: 'Army Air Corps or Army Air Force' },
-  { value: 'AF ACAD', label: 'Air Force Academy' },
-  { value: 'AF', label: 'Air Force' },
-  { value: 'AFR', label: 'Air Force Reserves' },
-  { value: 'ANG', label: 'Air National Guard' },
-  { value: 'AR', label: 'Army Reserves' },
-  { value: 'ARMY', label: 'Army' },
-  { value: 'ARNG', label: 'Army National Guard' },
-  { value: 'CG ACAD', label: 'Coast Guard Academy' },
-  { value: 'CG', label: 'Coast Guard' },
-  { value: 'CGR', label: 'Coast Guard Reserves' },
-  { value: 'MC', label: 'Marine Corps' },
-  { value: 'MCR', label: 'Marine Corps Reserves' },
-  { value: 'MM', label: 'Merchant Marine' },
-  { value: 'N ACAD', label: 'Naval Academy' },
-  { value: 'NAVY', label: 'Navy' },
-  {
-    value: 'NOAA',
-    label: 'National Oceanic & Atmospheric Administration',
+// remove the group property because opt groups don't work properly with va-combo-box
+// see https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4971
+// and https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4970
+function removeGroups(labels) {
+  const result = {};
+  Object.keys(labels).forEach(key => {
+    result[key] = { ...labels[key] };
+    delete result[key].group;
+  });
+  return result;
+}
+
+const _ARMY_BRANCH_LABELS = {
+  AAC: {
+    label: 'Army Air Corps or Army Air Force',
+    group: 'Army',
   },
-  { value: 'NR', label: 'Navy Reserves' },
-  { value: 'OTH', label: 'Other' },
-  { value: 'PHS', label: 'Public Health Service' },
-  { value: 'SF', label: 'Space Force' },
-  { value: 'USMA', label: 'US Military Academy' },
-  { value: 'WAC', label: "Women's Army Corps" },
-];
+  ARMY: { label: 'Army', group: 'Army' },
+  AR: { label: 'Army Reserves', group: 'Army' },
+  ARNG: { label: 'Army National Guard', group: 'Army' },
+  WAC: { label: "Women's Army Corps", group: 'Army' },
+};
+
+export const ARMY_BRANCH_LABELS = removeGroups(_ARMY_BRANCH_LABELS);
+
+const _NAVY_BRANCH_LABELS = {
+  NAVY: { label: 'Navy', group: 'Navy' },
+  NR: { label: 'Navy Reserves', group: 'Navy' },
+  MM: { label: 'Merchant Marine', group: 'Navy' },
+  MC: { label: 'Marine Corps', group: 'Navy' },
+  MCR: { label: 'Marine Corps Reserves', group: 'Navy' },
+  'N ACAD': { label: 'Naval Academy', group: 'Navy' },
+};
+
+export const NAVY_BRANCH_LABELS = removeGroups(_NAVY_BRANCH_LABELS);
+
+const _AIR_FORCE_BRANCH_LABELS = {
+  AF: { label: 'Air Force', group: 'Air Force' },
+  AFR: { label: 'Air Force Reserves', group: 'Air Force' },
+  ANG: { label: 'Air National Guard', group: 'Air Force' },
+  'AF ACAD': { label: 'Air Force Academy', group: 'Air Force' },
+};
+
+export const AIR_FORCE_BRANCH_LABELS = removeGroups(_AIR_FORCE_BRANCH_LABELS);
+
+const _SPACE_FORCE_BRANCH_LABELS = {
+  SF: { label: 'Space Force', group: 'Space Force' },
+};
+
+export const SPACE_FORCE_BRANCH_LABELS = removeGroups(
+  _SPACE_FORCE_BRANCH_LABELS,
+);
+
+const _COAST_GUARD_BRANCH_LABELS = {
+  CG: { label: 'Coast Guard', group: 'Coast Guard' },
+  CGR: { label: 'Coast Guard Reserves', group: 'Coast Guard' },
+  'CG ACAD': { label: 'Coast Guard Academy', group: 'Coast Guard' },
+};
+
+export const COAST_GUARD_BRANCH_LABELS = removeGroups(
+  _COAST_GUARD_BRANCH_LABELS,
+);
+
+const _OTHER_BRANCH_LABELS = {
+  PHS: { label: 'Public Health Service', group: 'Other' },
+  NOAA: {
+    label: 'National Oceanic & Atmospheric Administration',
+    group: 'Other',
+  },
+  USMA: { label: 'US Military Academy', group: 'Other' },
+};
+
+export const OTHER_BRANCH_LABELS = removeGroups(_OTHER_BRANCH_LABELS);
+
+export const DEFAULT_BRANCH_LABELS = {
+  ...ARMY_BRANCH_LABELS,
+  ...NAVY_BRANCH_LABELS,
+  ...AIR_FORCE_BRANCH_LABELS,
+  ...SPACE_FORCE_BRANCH_LABELS,
+  ...COAST_GUARD_BRANCH_LABELS,
+  ...OTHER_BRANCH_LABELS,
+};
 
 /**
  * uiSchema for service branch field
@@ -81,7 +134,7 @@ const DEFAULT_BRANCHES = [
  * @returns {UISchemaOptions}
  */
 export const serviceBranchUI = options => {
-  const { title, description, errorMessages, required, ...uiOptions } =
+  const { title, description, errorMessages, labels, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   return {
@@ -91,6 +144,7 @@ export const serviceBranchUI = options => {
     'ui:required': required,
     'ui:options': {
       ...uiOptions,
+      labels: labels || DEFAULT_BRANCH_LABELS,
     },
     'ui:errorMessages': errorMessages,
   };
@@ -118,16 +172,9 @@ export const serviceBranchUI = options => {
  * @param {(ServiceBranch | ServiceBranchOptionGroup)[]} [options.branches]
  * @returns {SchemaOptions}
  */
-export const serviceBranchSchema = (options = {}) => {
-  const { branches } = options;
-  const _branches =
-    Array.isArray(branches) && branches.length > 0
-      ? branches
-      : DEFAULT_BRANCHES;
+export const serviceBranchSchema = labels => {
   return {
     type: 'string',
-    enum: getEnum(_branches),
-    _options: _branches,
-    ...options,
+    enum: Array.isArray(labels) ? labels : Object.keys(DEFAULT_BRANCH_LABELS),
   };
 };
