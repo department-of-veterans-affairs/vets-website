@@ -440,7 +440,7 @@ describe('VAOS Referral API Error Handling', () => {
       cy.wait('@v2:get:appointmentDetails', { timeout: 10000 });
 
       // Advance time by 35 seconds (beyond the app's 30-second timeout)
-      cy.tick(35000);
+      cy.clock().then(clock => clock.tick(35_000));
 
       // Verify error message is displayed
       completeReferral.assertNotBookedError();
