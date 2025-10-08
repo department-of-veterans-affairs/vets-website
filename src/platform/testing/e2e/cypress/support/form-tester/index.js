@@ -8,13 +8,9 @@ import { fillPatterns } from './patterns';
 const APP_SELECTOR = '#react-root';
 const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
-const ERROR_SELECTORS = [
-  'fieldset [error]:not([error=""])', // For web components
-  'fieldset .usa-input-error-message', // For non-web components
-];
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date, va-telephone-input, va-file-input, va-file-input-multiple';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -162,13 +158,7 @@ const getFieldSelectors = () => {
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', {
-    _13647Exception,
-    // Ignore heading order from the first axe check because headers
-    // may be in the shadow dom which may not be loaded yet.
-    // There is another axe check below which DOES check heading order.
-    headingOrder: false,
-  });
+  cy.axeCheck('main', { _13647Exception });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -199,63 +189,6 @@ const performPageActions = (pathname, _13647Exception = false) => {
   });
 };
 
-const captureValidationErrors = () => {
-  try {
-    const errors = [];
-    const $body = Cypress.$('body');
-
-    ERROR_SELECTORS.forEach(selector => {
-      const elements = $body.find(selector);
-      elements.each((index, element) => {
-        const $el = Cypress.$(element);
-        const tagName = element.tagName.toLowerCase();
-
-        let text = '';
-
-        if (tagName.startsWith('va-') && $el.attr('error')) {
-          text = $el.attr('error');
-        } else {
-          text = $el.text().trim();
-          text = text.replace(/^Error\s+/, '');
-        }
-
-        if (text && $el.is(':visible')) {
-          let fieldName = $el.attr('name') || $el.attr('id') || '';
-
-          // When directly selecting '.usa-input-error-message'
-          // remove the '-error-message' to refer to the actual field
-          if (fieldName.endsWith('-error-message')) {
-            fieldName = fieldName.replace('-error-message', '');
-          }
-
-          /**
-           * Examples:
-           * fieldName = "root_veteran_fullName_first"
-           * tagName = "va-text-input"
-           * text = "Please enter a first name"
-           *
-           * Example outputs web components:
-           * "  • root_veteran_fullName_first" (va-text-input): "Please enter a first name"
-           * "  • root_veteran_dateOfBirth" (va-memorable-date): "Please provide the date of birth"
-           *
-           * Example outputs non-web components:
-           * "  • root_veteranFullName_first": "Please enter a first name"
-           */
-          const fieldPrefix = fieldName ? `"${fieldName}" ` : '';
-          const tagNameSuffix = tagName.startsWith('va-') ? `(${tagName})` : '';
-          errors.push(`  • ${fieldPrefix}${tagNameSuffix}: "${text}"`);
-        }
-      });
-    });
-
-    return errors;
-  } catch (error) {
-    // If error capture fails, return empty array to avoid breaking the test
-    // The original navigation error will still be thrown
-    return [];
-  }
-};
-
 /**
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
@@ -272,16 +205,7 @@ const processPage = ({ _13647Exception, stopTestAfterPath }) => {
       cy.location('pathname', NO_LOG_OPTION)
         .should(newPathname => {
           if (pathname === newPathname) {
-            let errorMessage = `Expected to navigate away from ${pathname}`;
-
-            const pageErrors = captureValidationErrors();
-            if (pageErrors.length > 0) {
-              errorMessage += `\n\nPage contains validation errors:\n${pageErrors.join(
-                '\n',
-              )}\n\nThis suggests required fields may be missing or invalid.`;
-            }
-
-            throw new Error(errorMessage);
+            throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
         .then(() => processPage({ _13647Exception, stopTestAfterPath }));
@@ -305,7 +229,7 @@ const defaultPostHook = pathname => {
         }
       });
 
-      cy.clickFormContinue();
+      cy.findByText(/submit/i, { selector: 'button' }).click(FORCE_OPTION);
     };
   }
 
@@ -316,7 +240,12 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.clickFormContinue();
+    cy.findByText(/continue/i, {
+      selector: 'button',
+      timeout: 30000,
+    })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 
@@ -627,6 +556,43 @@ Cypress.Commands.add('fillPage', () => {
               }
               fillFormFields(fieldSelector);
               fillAdditionalFields(fieldSelector);
+=======
+      const fillAvailableFields = () => {
+        getFieldSelectors().then(fieldSelector => {
+          cy.get(APP_SELECTOR, NO_LOG_OPTION)
+            .then($form => {
+              // Get the starting number of array items and fields to compare
+              // after filling out all currently visible fields, as new fields
+              // may get added or expanded after this iteration.
+              snapshot.arrayItemCount = $form.find(ARRAY_ITEM_SELECTOR).length;
+              snapshot.fieldCount = $form.find(fieldSelector).length;
+            })
+            .within(NO_LOG_OPTION, $form => {
+              // Fill out every field that's currently on the page.
+              const fields = $form.find(fieldSelector);
+              if (!fields.length) return;
+              cy.wrap(fields).each(element => {
+                cy.wrap(createFieldObject(element), NO_LOG_OPTION).then(
+                  processFieldObject,
+                );
+              });
+
+              // Once all currently visible fields have been filled, add an array
+              // item if there are more to be added according to the test data.
+              if (snapshot.fieldCount === $form.find(fieldSelector).length) {
+                addNewArrayItem($form);
+              }
+
+              cy.wrap($form, NO_LOG_OPTION);
+            })
+            .then($form => {
+              // If there are new array items or fields to be filled,
+              // iterate through the page again.
+              const { arrayItemCount, fieldCount } = snapshot;
+              const fieldsNeedInput =
+                arrayItemCount !== $form.find(ARRAY_ITEM_SELECTOR).length ||
+                fieldCount !== $form.find(fieldSelector).length;
+              if (fieldsNeedInput) fillAvailableFields();
             });
         });
       };

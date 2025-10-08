@@ -54,11 +54,11 @@ const NavItem = ({
 
 NavItem.propTypes = {
   depth: PropTypes.number.isRequired,
-  item: NavItemPropTypes,
   index: PropTypes.number.isRequired,
   renderChildItems: PropTypes.func.isRequired,
   sortedNavItems: PropTypes.arrayOf(NavItemPropTypes).isRequired,
   trackEvents: PropTypes.func.isRequired,
+  item: NavItemPropTypes,
   navExpanded: PropTypes.bool,
 };
 
