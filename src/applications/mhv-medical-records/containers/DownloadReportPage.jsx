@@ -60,11 +60,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
 
   const fullState = useSelector(state => state);
 
-  const selectMilestoneTwoFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
-  );
-
   const ccdExtendedFileTypeFlag = useSelector(
     state =>
       state.featureToggles[
@@ -340,10 +335,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
-            in the previous version of My HealtheVet.
-            {selectMilestoneTwoFlag &&
-              ` You can no longer enter or
-            edit health information in My HealtheVet.`}
+            in the previous version of My HealtheVet. You can no longer enter or
+            edit health information in My HealtheVet.
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -368,24 +361,22 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               data-testid="downloadSelfEnteredButton"
             />
           )}
-          {!selectMilestoneTwoFlag && (
-            <>
-              <p>
-                <strong>Note:</strong> Self-entered My Goals are no longer
-                available on My HealtheVet and not included in this report. To
-                download your historical goals you can go to the previous
-                version of My HealtheVet.
-              </p>
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'va-blue-button',
-                )}
-                text="Go to the previous version of My HealtheVet to download historical
+          <>
+            <p>
+              <strong>Note:</strong> Self-entered My Goals are no longer
+              available on My HealtheVet and not included in this report. To
+              download your historical goals you can go to the previous version
+              of My HealtheVet.
+            </p>
+            <ExternalLink
+              href={mhvUrl(
+                isAuthenticatedWithSSOe(fullState),
+                'va-blue-button',
+              )}
+              text="Go to the previous version of My HealtheVet to download historical
                 goals"
-              />
-            </>
-          )}
+            />
+          </>
         </va-accordion-item>
       </va-accordion>
       <p className="vads-u-margin--0 vads-u-margin-top--2">
