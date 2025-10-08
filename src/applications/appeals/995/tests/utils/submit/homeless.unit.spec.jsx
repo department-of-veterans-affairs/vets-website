@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { livingSituationSubmissionChoices } from '../../content/livingSituation';
-import { getHomeless } from '../../utils/submit/homeless';
+import { livingSituationSubmissionChoices } from '../../../content/livingSituation';
+import { getHomeless } from '../../../utils/submit/homeless';
 
 describe('getHomeless', () => {
   const setup = ({
