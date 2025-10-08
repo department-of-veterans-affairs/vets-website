@@ -7,7 +7,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import ConfirmationPage from '../../../../components/complex-claims/pages/ConfirmationPage';
 
 describe('Complex Claims ConfirmationPage', () => {
-  it('renders success confirmation when no error and data is present', () => {
+  it('renders success confirmation', () => {
     const screen = render(<ConfirmationPage />);
 
     expect(screen.getByRole('heading', { level: 1 })).to.have.property(
@@ -70,7 +70,7 @@ describe('Complex Claims ConfirmationPage', () => {
     ).to.exist;
     expect(
       $(
-        'va-link[href="/my-health/travel-reimbursement-claims/direct-deposit"][text="Set up direct deposit"]',
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
       ),
     ).to.exist;
   });

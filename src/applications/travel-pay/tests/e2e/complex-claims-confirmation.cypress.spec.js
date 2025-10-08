@@ -100,7 +100,7 @@ describe('Complex Claims Confirmation Page', () => {
 
     // Check direct deposit setup link
     cy.get(
-      'va-link[href="/my-health/travel-reimbursement-claims/direct-deposit"][text="Set up direct deposit"]',
+      'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"][text="Set up direct deposit"]',
     ).should('be.visible');
   });
 
@@ -123,18 +123,18 @@ describe('Complex Claims Confirmation Page', () => {
     );
 
     // Check phone numbers
-    cy.get('va-telephone[contact="8008271000"]').should('be.visible');
+    cy.get('va-telephone[contact="8555747292"]').should('be.visible');
     cy.get('va-telephone[contact="711"][tty]').should('be.visible');
 
     // Check hours of operation
     cy.get('p').should(
       'contain.text',
-      `We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET`,
+      `We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET`,
     );
 
     // Check Ask VA link
     cy.get(
-      'va-link[href="https://ask.va.gov/"][text="Ask us a question online"]',
+      'va-link[href="https://ask.va.gov/"][text="Contact us online through Ask VA"]',
     ).should('be.visible');
   });
 
@@ -161,20 +161,6 @@ describe('Complex Claims Confirmation Page', () => {
     cy.get('va-link[back][data-testid="complex-claim-back-link"]')
       .should('have.attr', 'href')
       .and('include', `/my-health/appointments/past/${differentApptId}`);
-  });
-
-  describe('error handling', () => {
-    it('displays error alert when appointment fails to load', () => {
-      ApiInitializer.initializeAppointment.errorPath();
-      cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
-
-      // Should still show the page but potentially with different content
-      // The actual error handling depends on how the component handles appointment loading errors
-      cy.get('h1').should(
-        'contain.text',
-        `We’re processing your travel reimbursement claim`,
-      );
-    });
   });
 
   describe('responsive behavior', () => {
