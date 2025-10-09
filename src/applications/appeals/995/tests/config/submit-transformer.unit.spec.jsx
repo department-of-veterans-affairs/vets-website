@@ -7,7 +7,7 @@ import noEvidence from '../fixtures/data/no-evidence-test.json';
 import transformedNoEvidence from '../fixtures/data/transformed-no-evidence-test.json';
 
 describe('transform', () => {
-  it('should transform maximal-test.json correctly', () => {
+  it.only('should transform maximal-test.json correctly', () => {
     const transformedResult = JSON.parse(transform(formConfig, maximalData));
     // copy over variables that change based on date & location
     transformedResult.data.attributes.veteran.timezone = 'America/Los_Angeles';

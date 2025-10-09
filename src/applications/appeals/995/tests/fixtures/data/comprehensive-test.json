@@ -1,61 +1,18 @@
 {
   "data": {
-    "view:vhaContent": {},
-    "optionIndicator": "revoke",
-    "mstOption": true,
-    "view:supportInfo": {},
-    "additionalDocuments": [
-      {
-        "name": "content.pdf",
-        "size": 940985,
-        "confirmationCode": "bf76366d-5f52-44bd-8fe6-c29faf1bb0c8",
-        "attachmentId": "L015",
-        "isEncrypted": false
-      }
-    ],
-    "view:hasOtherEvidence": true,
-    "view:otherEvidenceInfo": {},
-    "limitedConsent": "Testing content for limited consent",
-    "view:hasPrivateLimitation": true,
-    "view:evidenceLimitInfo": {},
-    "view:hasVaEvidence": true,
-    "view:vaEvidenceInfo": {},
-    "facilityTypes": {
-      "vamc": true,
-      "cboc": true,
-      "mtf": true,
-      "ccp": true,
-      "vetCenter": true,
-      "nonVa": true,
-      "other": "Some other type of provider"
-    },
-    "view:pointOfContact": {},
-    "pointOfContactName": "Ted Mosby",
-    "pointOfContactPhone": "2105550123",
-    "view:otherHousingRisk": {},
-    "otherHousingRisks": "Testing content for housing risks",
-    "view:domesticViolenceInfo": {},
-    "livingSituation": {
-      "notRegular": true,
-      "shelter": true,
-      "friendOrFamily": true,
-      "facility30Days": true,
-      "home30Days": true,
-      "other": true
-    },
-    "view:housingRisk": {},
-    "housingRisk": true,
     "veteran": {
+      "ssnLastFour": "1111",
+      "vaFileLastFour": "1111",
       "address": {
-        "badAddress": false,
         "addressLine1": "Street",
         "addressLine2": "812 Harrow Road",
         "addressLine3": "",
-        "addressPou": "CORRESPONDENCE",
-        "addressType": "INTERNATIONAL",
         "city": "London",
         "countryName": "United Kingdom",
         "countryCodeIso2": "GB",
+        "badAddress": false,
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "INTERNATIONAL",
         "countryCodeIso3": "GBR",
         "countryCodeFips": "",
         "countyCode": "",
@@ -83,10 +40,11 @@
         "zipCodeSuffix": ""
       },
       "homePhone": {
-        "areaCode": "210",
         "countryCode": "1",
-        "createdAt": "2025-08-26T17:51:31.000+00:00",
+        "areaCode": "210",
+        "phoneNumber": "5551234",
         "extension": "",
+        "createdAt": "2025-08-26T17:51:31.000+00:00",
         "effectiveEndDate": "",
         "effectiveStartDate": "2025-08-26T17:51:29.000+00:00",
         "id": 567562,
@@ -95,7 +53,6 @@
         "isTextPermitted": "",
         "isTty": "",
         "isVoicemailable": "",
-        "phoneNumber": "5551234",
         "phoneType": "HOME",
         "sourceDate": "2025-08-26T17:51:29.000+00:00",
         "sourceSystemUser": "",
@@ -105,10 +62,11 @@
         "vaProfileId": "205205"
       },
       "mobilePhone": {
-        "areaCode": "407",
         "countryCode": "1",
-        "createdAt": "2025-06-03T18:15:27.000+00:00",
+        "areaCode": "407",
+        "phoneNumber": "9329999",
         "extension": "",
+        "createdAt": "2025-06-03T18:15:27.000+00:00",
         "effectiveEndDate": "",
         "effectiveStartDate": "2025-06-03T18:15:25.000+00:00",
         "id": 534693,
@@ -117,7 +75,6 @@
         "isTextPermitted": "",
         "isTty": "",
         "isVoicemailable": "",
-        "phoneNumber": "9329999",
         "phoneType": "MOBILE",
         "sourceDate": "2025-06-03T18:15:25.000+00:00",
         "sourceSystemUser": "",
@@ -126,15 +83,31 @@
         "vet360Id": "205205",
         "vaProfileId": "205205"
       },
-      "email": "vaeventbusdemo@adhocteam.us",
-      "ssnLastFour": "1111",
-      "vaFileLastFour": "1111"
+      "email": "vaeventbusdemo@adhocteam.us"
     },
-    "view:primaryPhone": "home",
-    "view:issueNotListed": {},
-    "form5103Acknowledged": true,
-    "view:hasPrivateEvidence": true,
     "benefitType": "compensation",
+    "view:primaryPhone": "home",
+    "housingRisk": true,
+    "livingSituation": {
+      "notRegular": true,
+      "shelter": true,
+      "friendOrFamily": true,
+      "facility30Days": true,
+      "home30Days": true,
+      "other": true
+    },
+    "otherHousingRisks": "Testing content for housing risks",
+    "pointOfContactName": "Ted Mosby",
+    "pointOfContactPhone": "2105550123",
+    "facilityTypes": {
+      "vetCenter": true,
+      "ccp": true,
+      "vamc": true,
+      "cboc": true,
+      "mtf": true,
+      "nonVa": true,
+      "other": "Some other type of provider"
+    },
     "additionalIssues": [
       {
         "issue": "Tinnitus",
@@ -152,40 +125,52 @@
         "view:selected": true
       }
     ],
+    "mstOption": true,
+    "optionIndicator": "revoke",
+    "form5103Acknowledged": true,
+    "privacyAgreementAccepted": true,
     "locations": [
       {
         "locationAndName": "South Texas VA Facility",
-        "issues": ["Tinnitus", "Migraines"],
+        "issues": [
+          "Tinnitus",
+          "Migraines"
+        ],
+        "treatmentDate": "",
         "evidenceDates": {
           "from": "",
           "to": ""
         },
-        "treatmentDate": "",
         "noDate": true
       },
       {
         "locationAndName": "Midwest Alabama VA Facility",
-        "issues": ["Migraines", "Right Knee Injury"],
+        "issues": [
+          "Migraines",
+          "Right Knee Injury"
+        ],
+        "treatmentDate": "2000-01",
         "evidenceDates": {
           "from": "",
           "to": ""
-        },
-        "treatmentDate": "2000-01"
+        }
       }
     ],
-    "privacyAgreementAccepted": true,
     "providerFacility": [
       {
         "providerFacilityName": "Provider One",
         "providerFacilityAddress": {
           "country": "USA",
           "street": "123 Main Street",
-          "street2": "Street address 2",
           "city": "San Antonio",
           "state": "TX",
-          "postalCode": "78258"
+          "postalCode": "78258",
+          "street2": "Street address 2"
         },
-        "issues": ["Tinnitus", "Migraines"],
+        "issues": [
+          "Tinnitus",
+          "Migraines"
+        ],
         "treatmentDateRange": {
           "from": "2009-08-07",
           "to": "2012-10-24"
@@ -196,17 +181,44 @@
         "providerFacilityAddress": {
           "country": "USA",
           "street": "456 Elm Street",
-          "street2": "",
           "city": "Madison",
           "state": "WI",
-          "postalCode": "38784"
+          "postalCode": "38784",
+          "street2": ""
         },
-        "issues": ["Migraines", "Right Knee Injury"],
+        "issues": [
+          "Migraines",
+          "Right Knee Injury"
+        ],
         "treatmentDateRange": {
           "from": "2005-12-17",
           "to": "2007-03-04"
         }
       }
-    ]
+    ],
+    "view:hasPrivateLimitation": true,
+    "limitedConsent": "Testing content for limited consent",
+    "view:hasVaEvidence": true,
+    "view:hasPrivateEvidence": true,
+    "view:hasOtherEvidence": true,
+    "additionalDocuments": [
+      {
+        "name": "content.pdf",
+        "confirmationCode": "bf76366d-5f52-44bd-8fe6-c29faf1bb0c8",
+        "attachmentId": "L015",
+        "size": 940985,
+        "isEncrypted": false
+      }
+    ],
+    "view:vhaContent": {},
+    "view:supportInfo": {},
+    "view:otherEvidenceInfo": {},
+    "view:evidenceLimitInfo": {},
+    "view:vaEvidenceInfo": {},
+    "view:pointOfContact": {},
+    "view:otherHousingRisk": {},
+    "view:domesticViolenceInfo": {},
+    "view:housingRisk": {},
+    "view:issueNotListed": {}
   }
 }
