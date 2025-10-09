@@ -1,10 +1,6 @@
 import React from 'react';
 import { useLoaderData, redirect } from 'react-router-dom';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { AUTH_ERRORS } from 'platform/user/authentication/errors';
-import store from '../utilities/store';
 import { userPromise } from '../utilities/auth';
 import manifest from '../manifest.json';
 
@@ -114,13 +110,7 @@ AuthCallbackHandler.loader = async () => {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
   const toParam = searchParams.get('to');
-  const toggles = toggleValues(store.getState());
-  const dashboardEnabled = !!toggles[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-  ];
-  const fallback = dashboardEnabled
-    ? '/representative/dashboard'
-    : '/representative/poa-requests';
+  const fallback = '/representative/poa-requests';
 
   // Sanitize untrusted redirect target to prevent open redirects
   const sanitizeReturnPath = (untrusted, defaultPath) => {
@@ -165,33 +155,9 @@ AuthCallbackHandler.loader = async () => {
       // Set hasSession flag to ensure page refreshes recognize the user is authenticated
       localStorage.setItem('hasSession', 'true');
 
-      // Ensure toggles are hydrated
-      try {
-        connectFeatureToggle(store.dispatch);
-        await new Promise(resolve => {
-          const timeout = setTimeout(resolve, 400);
-          const unsubscribe = store.subscribe(() => {
-            const { loading } = toggleValues(store.getState());
-            if (loading === false) {
-              clearTimeout(timeout);
-              unsubscribe();
-              resolve();
-            }
-          });
-        });
-      } catch (e) {
-        // ignore; we'll fall back to whatever we had
-      }
-
       // Re-evaluate destination using updated toggles
       {
-        const togglesNow = toggleValues(store.getState());
-        const dashboardNow = !!togglesNow[
-          FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-        ];
-        const newFallback = dashboardNow
-          ? '/representative/dashboard'
-          : '/representative/poa-requests';
+        const newFallback = '/representative/poa-requests';
         to = sanitizeReturnPath(toParam, newFallback);
       }
 
