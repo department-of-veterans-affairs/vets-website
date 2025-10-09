@@ -7,7 +7,7 @@ import PrintDownload from '../../../components/shared/PrintDownload';
 import { DOWNLOAD_FORMAT } from '../../../util/constants';
 
 describe('Medications Print/Download button component', () => {
-  let handleFullListDownload;
+  let handleExportListDownload;
   let handlePrintPage;
 
   const setGlobalNavigator = value => {
@@ -16,7 +16,7 @@ describe('Medications Print/Download button component', () => {
   };
 
   const setup = (
-    onDownload = handleFullListDownload,
+    onDownload = handleExportListDownload,
     success = false,
     list = false,
     onPrint = undefined,
@@ -35,7 +35,7 @@ describe('Medications Print/Download button component', () => {
   };
 
   beforeEach(() => {
-    handleFullListDownload = sinon.spy();
+    handleExportListDownload = sinon.spy();
     handlePrintPage = sinon.spy();
   });
 
@@ -68,49 +68,55 @@ describe('Medications Print/Download button component', () => {
   });
 
   it('displays success message ', () => {
-    const screen = setup(handleFullListDownload, true);
+    const screen = setup(handleExportListDownload, true);
 
     const sucessMessage = screen.getByText('Download started');
     expect(sucessMessage).to.exist;
   });
 
   it('displays spinner when loading ', () => {
-    const screen = setup(handleFullListDownload, false, false, undefined, true);
+    const screen = setup(
+      handleExportListDownload,
+      false,
+      false,
+      undefined,
+      true,
+    );
 
     expect(screen.getByTestId('print-download-loading-indicator')).to.exist;
   });
 
   it('button displays different text for list', () => {
-    const screen = setup(handleFullListDownload, true, true);
+    const screen = setup(handleExportListDownload, true, true);
 
-    const successMessage = screen.getByText(
-      'Download a PDF of all medications',
-    );
-    expect(successMessage).to.exist;
+    const printButton = screen.getByText('Print');
+    const pdfDownloadButton = screen.getByText('Download a PDF');
+    const textDownloadButton = screen.getByText('Download a text file (.txt)');
+    expect(printButton).to.exist;
+    expect(pdfDownloadButton).to.exist;
+    expect(textDownloadButton).to.exist;
   });
 
   it('should start downloading PDF on PDF button click', () => {
     setGlobalNavigator(true);
-    const screen = setup(handleFullListDownload, false, true);
-    const downloadButton = screen.getByText(
-      'Download a PDF of all medications',
-    );
+    const screen = setup(handleExportListDownload, false, true);
+    const downloadButton = screen.getByText('Download a PDF');
     fireEvent.click(downloadButton);
-    expect(handleFullListDownload.getCalls().length).to.equal(1);
-    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.false;
-    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.true;
+    expect(handleExportListDownload.getCalls().length).to.equal(1);
+    expect(handleExportListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be
+      .false;
+    expect(handleExportListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.true;
   });
 
   it('should start downloading TXT on TXT button click', () => {
     setGlobalNavigator(true);
-    const screen = setup(handleFullListDownload, false, true);
-    const downloadButton = screen.getByText(
-      'Download a text file (.txt) of all medications',
-    );
+    const screen = setup(handleExportListDownload, false, true);
+    const downloadButton = screen.getByText('Download a text file (.txt)');
     fireEvent.click(downloadButton);
-    expect(handleFullListDownload.getCalls().length).to.equal(1);
-    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be.false;
-    expect(handleFullListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.true;
+    expect(handleExportListDownload.getCalls().length).to.equal(1);
+    expect(handleExportListDownload.calledWith(DOWNLOAD_FORMAT.PDF)).to.be
+      .false;
+    expect(handleExportListDownload.calledWith(DOWNLOAD_FORMAT.TXT)).to.be.true;
   });
 
   it('should start print page using custom fn on print button click', () => {
@@ -121,7 +127,7 @@ describe('Medications Print/Download button component', () => {
   });
 
   it('user keyboard events: upArrow, downArrow, and esc keys', () => {
-    const screen = setup(handleFullListDownload, false, true);
+    const screen = setup(handleExportListDownload, false, true);
     const printDownloadDropdownList = screen.getByTestId('print-download-list');
     fireEvent.keyDown(printDownloadDropdownList, { charCode: 38 });
     fireEvent.keyDown(printDownloadDropdownList, { charCode: 40 });
@@ -131,7 +137,7 @@ describe('Medications Print/Download button component', () => {
   });
 
   it('on mousedown, click user events ', () => {
-    const screen = setup(handleFullListDownload, false, true);
+    const screen = setup(handleExportListDownload, false, true);
     const printRecordsButton = screen.getByTestId('print-records-button');
     fireEvent.mouseDown(printRecordsButton);
     fireEvent.click(printRecordsButton);

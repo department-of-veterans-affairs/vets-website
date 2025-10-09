@@ -9,7 +9,7 @@ export default {
     unemploymentCertifications: {
       ...checkboxGroupUI({
         title: 'Do you certify that you have no employment to report?',
-        labelHeaderLevel: '3', // Makes title serve as page heading
+        labelHeaderLevel: '1', // Makes title serve as page heading
         required: true,
         labels: {
           unemploymentCertification:
