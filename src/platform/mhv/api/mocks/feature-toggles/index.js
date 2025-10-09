@@ -12,6 +12,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -116,6 +117,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
+        },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
 
         // medical records
