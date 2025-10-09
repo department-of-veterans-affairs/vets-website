@@ -19,7 +19,7 @@ const VA_PROFILE_EMAIL_HREF =
   '/profile/contact-information#contact-email-address';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
-const AlertConfirmContactEmail = ({ email, onConfirmClick }) => {
+const AlertConfirmContactEmail = ({ emailAddress, onConfirmClick }) => {
   return (
     <VaAlert
       status="warning"
@@ -29,9 +29,9 @@ const AlertConfirmContactEmail = ({ email, onConfirmClick }) => {
       <h2 slot="headline">Confirm your contact email</h2>
       <React.Fragment key=".1">
         <p>{CONTENT}</p>
-        <p className="vads-u-font-weight--bold">{email}</p>
+        <p className="vads-u-font-weight--bold">{emailAddress}</p>
         <p>
-          <VaButton onClick={onConfirmClick} fullWidth text="Confirm" />
+          <VaButton onClick={() => onConfirmClick()} fullWidth text="Confirm" />
         </p>
         <p>
           <VaLink
@@ -45,7 +45,7 @@ const AlertConfirmContactEmail = ({ email, onConfirmClick }) => {
 };
 
 AlertConfirmContactEmail.propTypes = {
-  email: PropTypes.string.isRequired,
+  emailAddress: PropTypes.string.isRequired,
   onConfirmClick: PropTypes.func.isRequired,
 };
 
@@ -71,7 +71,7 @@ const AlertAddContactEmail = ({ onSkipClick }) => {
           <VaButton
             fullWidth
             secondary
-            onClick={onSkipClick}
+            onClick={() => onSkipClick()}
             text="Skip adding email"
           />
         </p>
@@ -96,13 +96,13 @@ AlertAddContactEmail.propTypes = {
  */
 const AlertConfirmEmail = () => {
   const renderAlert = useSelector(showAlert);
-  const email = useSelector(selectContactEmailAddress);
+  const emailAddress = useSelector(selectContactEmailAddress);
   const [dismissed, setDismissed] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString) =>
+  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
-      body: { confirmationDate },
+      body: JSON.stringify({ confirmationDate, emailAddress }),
     })
       .then(() => setDismissed(true))
       .then(() => dismissAlertViaCookie());
@@ -114,9 +114,9 @@ const AlertConfirmEmail = () => {
 
   if (!renderAlert || dismissed) return null;
 
-  return email ? (
+  return emailAddress ? (
     <AlertConfirmContactEmail
-      email={email}
+      emailAddress={emailAddress}
       onConfirmClick={putConfirmationDate}
     />
   ) : (

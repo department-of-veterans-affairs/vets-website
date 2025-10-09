@@ -13,7 +13,8 @@ import {
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
-// default state is to *not* render the alert
+// default state for specs is to *not* render the alert, with feature enabled
+// and email updated/confirmed after DATE_THRESHOLD
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
@@ -52,7 +53,10 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   it('renders nothing when state.featureToggles.loading', async () => {
-    const initialState = stateFn({ featureTogglesLoading: true });
+    const initialState = stateFn({
+      emailAddress: null,
+      featureTogglesLoading: true,
+    });
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
@@ -60,7 +64,10 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   it('renders nothing when !state.featureToggles.mhvEmailConfirmation', async () => {
-    const initialState = stateFn({ mhvEmailConfirmation: false });
+    const initialState = stateFn({
+      emailAddress: null,
+      mhvEmailConfirmation: false,
+    });
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
@@ -68,7 +75,10 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   it('renders nothing when state.user.profile.loading', async () => {
-    const initialState = stateFn({ userProfileLoading: true });
+    const initialState = stateFn({
+      emailAddress: '',
+      userProfileLoading: true,
+    });
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
@@ -76,6 +86,27 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   describe('<AlertConfirmContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByRole, getByTestId } = render(
+        <AlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => {
+        getByTestId('alert-confirm-contact-email');
+        getByRole('heading', { name: /^Confirm your contact email$/ });
+
+        // getByRole('button', { name: /^Confirm$/ });
+        const button = container.querySelector('va-button[text="Confirm"]');
+        expect(button).to.exist;
+
+        // getByRole('link', { name: /$Go to profile/ });
+        const link = container.querySelector('va-link[text~="Go to profile"]');
+        const href = '/profile/contact-information#contact-email-address';
+        expect(link.href).to.equal(href);
+      });
+    });
+
     it('renders when !confirmationDate', async () => {
       const initialState = stateFn({ confirmationDate: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
@@ -142,6 +173,29 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   describe('<AlertAddContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByRole, getByTestId } = render(
+        <AlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => {
+        getByTestId('alert-add-contact-email');
+        getByRole('heading', { name: /^Add a contact email$/ });
+
+        // getByRole('link', { name: /$Go to profile/ });
+        const linkSelector = 'va-link-action[text~="Go to profile"]';
+        const link = container.querySelector(linkSelector);
+        const href = '/profile/contact-information#contact-email-address';
+        expect(link.href).to.equal(href);
+
+        // getByRole('button', { name: /^Skip adding email$/ });
+        const buttonSelector = 'va-button[text="Skip adding email"]';
+        const button = container.querySelector(buttonSelector);
+        expect(button).to.exist;
+      });
+    });
+
     it(`renders when !emailAddress`, async () => {
       const initialState = stateFn({ emailAddress: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
