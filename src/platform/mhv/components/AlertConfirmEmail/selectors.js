@@ -25,6 +25,7 @@ export const showAlert = state =>
   !state.featureToggles.loading &&
   state.featureToggles.mhvEmailConfirmation &&
   !state.user.profile.loading &&
+  state.user.profile.vaPatient &&
   (!selectContactEmailAddress(state) ||
     !selectContactEmailConfirmationDate(state) ||
     isBefore(
