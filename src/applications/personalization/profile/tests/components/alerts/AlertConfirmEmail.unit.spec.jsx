@@ -20,6 +20,7 @@ const stateFn = ({
   mhvEmailConfirmation = true,
   updatedAt = '2025-09-30T12:00:00.000+00:00',
   userProfileLoading = false,
+  vaPatient = true,
 } = {}) => ({
   featureToggles: {
     loading: featureTogglesLoading,
@@ -28,6 +29,7 @@ const stateFn = ({
   user: {
     profile: {
       loading: userProfileLoading,
+      vaPatient,
       vapContactInfo: {
         email: {
           confirmationDate,
@@ -50,7 +52,7 @@ describe('<AlertConfirmEmail />', () => {
     resetDismissAlertViaCookie();
   });
 
-  it('renders nothing when state.featureToggles.loading', async () => {
+  it('renders nothing when featureToggles.loading', async () => {
     const initialState = stateFn({
       emailAddress: null,
       featureTogglesLoading: true,
@@ -61,7 +63,7 @@ describe('<AlertConfirmEmail />', () => {
     });
   });
 
-  it('renders nothing when !state.featureToggles.mhvEmailConfirmation', async () => {
+  it('renders nothing when !featureToggles.mhvEmailConfirmation', async () => {
     const initialState = stateFn({
       emailAddress: null,
       mhvEmailConfirmation: false,
@@ -72,10 +74,21 @@ describe('<AlertConfirmEmail />', () => {
     });
   });
 
-  it('renders nothing when state.user.profile.loading', async () => {
+  it('renders nothing when user.profile.loading', async () => {
     const initialState = stateFn({
       emailAddress: null,
       userProfileLoading: true,
+    });
+    const { container } = render(<AlertConfirmEmail />, { initialState });
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
+  });
+
+  it('renders nothing when !user.profile.vaPatient', async () => {
+    const initialState = stateFn({
+      emailAddress: null,
+      vaPatient: false,
     });
     const { container } = render(<AlertConfirmEmail />, { initialState });
     await waitFor(() => {
