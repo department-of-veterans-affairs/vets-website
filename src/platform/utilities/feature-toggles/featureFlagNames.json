@@ -337,7 +337,6 @@
   "virtualAgentEnableParamErrorDetection": "virtual_agent_enable_param_error_detection",
   "virtualAgentShowAiDisclaimer": "virtual_agent_show_ai_disclaimer",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
-  "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
   "vreModularApi": "vre_modular_api",
   "vreCutoverNotice": "vre_cutover_notice",
   "vyeLoginWidget": "vye_login_widget",

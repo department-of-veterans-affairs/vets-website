@@ -10,7 +10,6 @@ import {
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
-  getInAuthExp,
   getIsTrackingUtterances,
   getRecentUtterances,
   setEventSkillValue,
@@ -44,6 +43,37 @@ function getStartConversationActivity(value) {
   };
 }
 
+function createSendMessageActivity(newUtterance) {
+  return {
+    type: 'WEB_CHAT/SEND_MESSAGE',
+    payload: { type: 'message', text: newUtterance },
+  };
+}
+
+function resetUtterances(dispatch) {
+  const utterances = getRecentUtterances();
+  const utterance = utterances ? utterances[0] : undefined;
+  if (utterance) {
+    dispatch(createSendMessageActivity(utterance));
+    // Reset utterance array
+    setRecentUtterances([]);
+  }
+}
+
+// Public helper used by Bot.jsx to replay both stored utterances (if present)
+export function replayStoredUtterances(dispatch) {
+  const utterances = getRecentUtterances();
+  if (utterances && Array.isArray(utterances)) {
+    // send in original chronological order
+    utterances.forEach(u => {
+      if (u && u.length) {
+        dispatch(createSendMessageActivity(u));
+      }
+    });
+    setRecentUtterances([]);
+  }
+}
+
 function getEventName(action) {
   return action?.payload?.activity?.name ?? '';
 }
@@ -54,6 +84,22 @@ function getEventValue(action) {
     action?.payload?.activity?.value ||
     ''
   );
+}
+
+function handleSignInEvent(action) {
+  const actionEventName = getEventName(action);
+  if (actionEventName === ACTIVITY_EVENT_NAMES.SIGN_IN_TRIGGER) {
+    setIsTrackingUtterances(false);
+    sendWindowEventWithActionPayload('webchat-auth-activity', action);
+  }
+}
+
+function handleGreetingEvent(action, dispatch) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  if (actionEventName === ACTIVITY_EVENT_NAMES.GREETING_TRIGGER && eventValue) {
+    resetUtterances(dispatch);
+  }
 }
 
 function handleSkillEntryEvent(action) {
@@ -112,23 +158,6 @@ function handleRagAgentExitEvent(action) {
   }
 }
 
-function createSendMessageActivity(newUtterance) {
-  return {
-    type: 'WEB_CHAT/SEND_MESSAGE',
-    payload: { type: 'message', text: newUtterance },
-  };
-}
-
-function resetUtterances(dispatch) {
-  const utterances = getRecentUtterances();
-  const utterance = utterances ? utterances[0] : undefined;
-  if (utterance) {
-    dispatch(createSendMessageActivity(utterance));
-    // Reset utterance array
-    setRecentUtterances([]);
-  }
-}
-
 // define thunks for actions
 export const processActionConnectFulfilled = ({
   dispatch,
@@ -156,8 +185,6 @@ export const processIncomingActivity = ({
 }) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
-  const isMessageFromBot =
-    data.type === 'message' && data.text && data.from.role === 'bot';
   const isFormPostButton = data.value?.type === 'FormPostButton';
   const isCSATSurveyResponse = data.valueType === 'CSATSurveyResponse';
 
@@ -165,22 +192,8 @@ export const processIncomingActivity = ({
     setIsTrackingUtterances(true);
   }
 
-  if (isMessageFromBot) {
-    const botWantsToSignInUser = data.text.includes(
-      'Alright. Sending you to the sign-in page...',
-    );
-
-    const inAuthExp = getInAuthExp();
-    const isNewAuthedConversation =
-      data.text.includes('To get started') && inAuthExp === 'true';
-
-    if (botWantsToSignInUser) {
-      setIsTrackingUtterances(false);
-      sendWindowEventWithActionPayload('webchat-auth-activity', action);
-    } else if (isNewAuthedConversation) {
-      resetUtterances(dispatch);
-    }
-  }
+  handleSignInEvent(action);
+  handleGreetingEvent(action, dispatch);
 
   if (isComponentToggleOn && isFormPostButton) {
     submitForm(data.value.url, data.value.body);

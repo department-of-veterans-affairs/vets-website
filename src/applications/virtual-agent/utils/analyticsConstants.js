@@ -2,6 +2,8 @@ export const EVENT_API_CALL = 'api_call';
 
 // Activity names emitted by the bot
 export const ACTIVITY_EVENT_NAMES = {
+  SIGN_IN_TRIGGER: 'Sign_In_Trigger',
+  GREETING_TRIGGER: 'Greeting_Trigger',
   SKILL_ENTRY: 'Skill_Entry',
   SKILL_EXIT: 'Skill_Exit',
   AGENT_LLM_RESPONSE: 'AgentLLMResponse',

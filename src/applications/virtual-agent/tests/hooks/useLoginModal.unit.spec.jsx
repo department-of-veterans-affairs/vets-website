@@ -18,7 +18,7 @@ describe('useLoginModal', () => {
   });
 
   describe('useLoginModal', () => {
-    it('should call showLoginModal if user is not logged in, it is an auth topic and virtualAgentUseStsAuthentication is enabled', () => {
+    it('should call showLoginModal if user is not logged in, it is an auth topic', () => {
       const toggleLoginModalSpy = sandbox.spy(
         ActionsModule,
         'toggleLoginModal',
@@ -51,17 +51,6 @@ describe('useLoginModal', () => {
       sandbox.stub(ReactReduxModule, 'useDispatch').returns(() => {});
 
       renderHook(() => useLoginModal(false, false, true));
-
-      expect(toggleLoginModalSpy.notCalled).to.be.true;
-    });
-    it('should not call showLoginModal if virtualAgentUseStsAuthentication is disabled', () => {
-      const toggleLoginModalSpy = sandbox.spy(
-        ActionsModule,
-        'toggleLoginModal',
-      );
-      sandbox.stub(ReactReduxModule, 'useDispatch').returns(() => {});
-
-      renderHook(() => useLoginModal(false, true, false));
 
       expect(toggleLoginModalSpy.notCalled).to.be.true;
     });

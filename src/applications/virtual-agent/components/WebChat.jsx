@@ -69,17 +69,12 @@ const WebChat = ({ token, code, webChatFramework }) => {
     TOGGLE_NAMES.virtualAgentComponentTesting,
   );
 
-  const isStsAuthEnabled = useToggleValue(
-    TOGGLE_NAMES.virtualAgentUseStsAuthentication,
-  );
-
   const store = useWebChatStore({
     createStore,
     code,
     isMobile,
     environment,
     isComponentToggleOn,
-    isStsAuthEnabled,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { connect, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
-import SignInModal from '@department-of-veterans-affairs/platform-user/SignInModal';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 
 // Components
@@ -14,15 +13,9 @@ import ChatboxDisclaimer from './ChatboxDisclaimer';
 import useLoginModal from '../hooks/useLoginModal';
 
 // Utils
-import {
-  getInAuthExp,
-  getLoggedInFlow,
-  setInAuthExp,
-  setLoggedInFlow,
-} from '../utils/sessionStorage';
-
-// Event Listeners
-import webAuthActivityEventListener from '../event-listeners/webAuthActivityEventListener';
+import { getLoggedInFlow, setLoggedInFlow } from '../utils/sessionStorage';
+import { replayStoredUtterances } from '../utils/actions';
+import { ACCEPTED } from '../reducers';
 
 // Selectors
 import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedIn';
@@ -30,40 +23,29 @@ import selectVirtualAgentDataTermsAccepted from '../selectors/selectVirtualAgent
 
 const MINUTE = 60 * 1000;
 
-function Bot({
-  virtualAgentEnableParamErrorDetection,
-  virtualAgentUseStsAuthentication,
-}) {
+function Bot({ virtualAgentEnableParamErrorDetection }) {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
   const isAccepted = useSelector(selectVirtualAgentDataTermsAccepted);
-  const [isAuthTopic, setIsAuthTopic] = useState(false);
   const loggedInFlow = getLoggedInFlow();
 
-  webAuthActivityEventListener(isLoggedIn, setIsAuthTopic);
+  useLoginModal();
 
-  useLoginModal(isLoggedIn, isAuthTopic, virtualAgentUseStsAuthentication);
+  // Auto-accept the disclaimer on return from a chatbot-initiated login
+  useEffect(
+    () => {
+      if (isLoggedIn && loggedInFlow === 'true' && !isAccepted) {
+        dispatch({ type: ACCEPTED });
+        replayStoredUtterances(dispatch);
+        // reset the flag so it does not auto-accept on future visits
+        setLoggedInFlow('false');
+      }
+    },
+    [isLoggedIn, loggedInFlow, isAccepted, dispatch],
+  );
 
-  if (loggedInFlow === 'true' && isLoggedIn) {
-    setInAuthExp('true');
-    setLoggedInFlow('false');
-  }
-
-  const inAuthExp = getInAuthExp();
-  if (!isAccepted && !inAuthExp) {
+  if (!isAccepted) {
     return <ChatboxDisclaimer />;
-  }
-
-  if (!isLoggedIn && isAuthTopic && !virtualAgentUseStsAuthentication) {
-    return (
-      <SignInModal
-        data-testid="sign-in-modal"
-        visible
-        onClose={() => {
-          setIsAuthTopic(false);
-          setLoggedInFlow('false');
-        }}
-      />
-    );
   }
 
   return (
@@ -78,15 +60,11 @@ function Bot({
 
 Bot.propTypes = {
   virtualAgentEnableParamErrorDetection: PropTypes.bool,
-  virtualAgentUseStsAuthentication: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   virtualAgentEnableParamErrorDetection: toggleValues(state)[
     FEATURE_FLAG_NAMES.virtualAgentEnableParamErrorDetection
-  ],
-  virtualAgentUseStsAuthentication: toggleValues(state)[
-    FEATURE_FLAG_NAMES.virtualAgentUseStsAuthentication
   ],
 });
 
