@@ -284,3 +284,26 @@ export const childEvidence = (formData = {}) => {
 
 export const showDupeModalIfEnabled = (formData = {}) =>
   !!formData.vaDependentsDuplicateModals;
+
+export const isAddingDependents = formData =>
+  !!formData?.['view:addOrRemoveDependents']?.add;
+export const isRemovingDependents = formData =>
+  !!formData?.['view:addOrRemoveDependents']?.remove;
+export const showV3Picklist = formData => !!formData?.vaDependentsV3;
+export const noV3Picklist = formData => !formData?.vaDependentsV3;
+
+export const hasAwardedDependents = (formData = {}) =>
+  Array.isArray(formData?.dependents?.awarded) &&
+  formData.dependents.awarded.length > 0;
+
+export const isVisiblePicklistPage = (formData, relationship) => {
+  const pickList = formData?.['view:removeDependentPickList'] || [];
+  return (
+    (showV3Picklist(formData) &&
+      formData?.['view:addOrRemoveDependents']?.remove &&
+      pickList.some(
+        item => item.selected && item.relationshipToVeteran === relationship,
+      )) ||
+    false
+  );
+};
