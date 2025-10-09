@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -119,6 +120,18 @@ describe('<AlertConfirmEmail />', () => {
       });
     });
 
+    it('reports a load event to analytics', async () => {
+      const props = { recordLoadEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { getByTestId } = render(<AlertConfirmEmail {...props} />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('alert-confirm-contact-email');
+        expect(props.recordLoadEvent.calledWith('Confirm your contact email'));
+      });
+    });
+
     it('renders when !confirmationDate', async () => {
       const initialState = stateFn({ confirmationDate: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
@@ -205,6 +218,18 @@ describe('<AlertConfirmEmail />', () => {
         const buttonSelector = 'va-button[text="Skip adding email"]';
         const button = container.querySelector(buttonSelector);
         expect(button).to.exist;
+      });
+    });
+
+    it('reports a load event to analytics', async () => {
+      const props = { recordLoadEvent: sinon.spy() };
+      const initialState = stateFn({ emailAddress: null });
+      const { getByTestId } = render(<AlertConfirmEmail {...props} />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('alert-add-contact-email');
+        expect(props.recordLoadEvent.calledWith('Add a contact email'));
       });
     });
 
