@@ -107,6 +107,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10275: '22-10275',
   FORM_40_4962: '40-4962',
   FORM_21_2680: '21-2680',
+  FORM_21_8940: '21-8940',
   FORM_21_4192: '21-4192',
   FORM_21_0779: '21-0779',
   FORM_21P_530A: '21P-530A',
@@ -210,11 +211,81 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
     [VA_FORM_IDS.FORM_21_4140]: `${tryGetAppUrl('21-4140')}/`,
     [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
+    [VA_FORM_IDS.FORM_21_8940]: `${tryGetAppUrl('21-8940')}/`,
     [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
     [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
     [VA_FORM_IDS.FORM_21P_8416]: `${tryGetAppUrl('21P-8416')}/`,
+    [VA_FORM_IDS.FORM_21_0779_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0779/introduction/`,
+    [VA_FORM_IDS.FORM_21_4192_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4192/introduction/`,
+    [VA_FORM_IDS.FORM_21_509_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-509/introduction/`,
+    [VA_FORM_IDS.FORM_21_8940_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8940/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0516_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0516-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0517_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0517-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0518_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0518-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0519C-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-0519S-1/introduction/`,
+    [VA_FORM_IDS.FORM_21P_530A_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-530A/introduction/`,
+    [VA_FORM_IDS.FORM_21P_8049_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-8049/introduction/`,
+    [VA_FORM_IDS.FORM_21_2680_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-2680/introduction/`,
+    [VA_FORM_IDS.FORM_21_674B_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-674B/introduction/`,
+    [VA_FORM_IDS.FORM_21_8951_2_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8951-2/introduction/`,
+    [VA_FORM_IDS.FORM_21_0788_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0788/introduction/`,
+    [VA_FORM_IDS.FORM_21_4193_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4193/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4718A_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4718A/introduction/`,
+    [VA_FORM_IDS.FORM_21_4140_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-4140/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4706C_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4706C/introduction/`,
+    [VA_FORM_IDS.FORM_21_8960_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-8960/introduction/`,
+    [VA_FORM_IDS.FORM_21_0304_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-0304/introduction/`,
+    [VA_FORM_IDS.FORM_21_651_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21-651/introduction/`,
+    [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
+      'form-upload-flow',
+    )}/21P-4185/introduction/`,
   };
 };
 
@@ -339,91 +410,97 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_0779_UPLOAD,
-    benefit: 'form 21-0779 upload',
+    benefit:
+      'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
     title: 'form 21-0779 upload',
     description: 'uploaded file for form 21-0779',
     trackingPrefix: 'form-21-0779-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_4185_UPLOAD,
-    benefit: 'form 21P-4185 upload',
+    benefit: 'Report of Income from Property or Business',
     title: 'form 21P-4185 upload',
     description: 'uploaded file for form 21P-4185',
     trackingPrefix: 'form-21P-4185-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_651_UPLOAD,
-    benefit: 'form 21-651 upload',
+    benefit:
+      'Election of Compensation in Lieu of Retired Pay or Waiver of Retired Pay to Secure Compensation from Department of Veterans Affairs (38 U.S.C. 5304(a)-5305)',
     title: 'form 21-651 upload',
     description: 'uploaded file for form 21-651',
     trackingPrefix: 'form-21-651-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0304_UPLOAD,
-    benefit: 'form 21-0304 upload',
+    benefit: "Benefits for a Qualifying Veteran's Child Born with Disabilities",
     title: 'form 21-0304 upload',
     description: 'uploaded file for form 21-0304',
     trackingPrefix: 'form-21-0304-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_8960_UPLOAD,
-    benefit: 'form 21-8960 upload',
+    benefit: 'Certification of School Attendance or Termination',
     title: 'form 21-8960 upload',
     description: 'uploaded file for form 21-8960',
     trackingPrefix: 'form-21-8960-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_4706c_UPLOAD,
-    benefit: 'form 21P-4706c upload',
+    id: VA_FORM_IDS.FORM_21P_4706C_UPLOAD,
+    benefit: "Court Appointed Fiduciary's Account",
     title: 'form 21P-4706c upload',
     description: 'uploaded file for form 21P-4706c',
     trackingPrefix: 'form-21P-4706c-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_4140_UPLOAD,
-    benefit: 'form 21-4140 upload',
+    benefit: 'Employment Questionnaire',
     title: 'form 21-4140 upload',
     description: 'uploaded file for form 21-4140',
     trackingPrefix: 'form-21-4140-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_4718a_UPLOAD,
-    benefit: 'form 21P-4718a upload',
+    id: VA_FORM_IDS.FORM_21P_4718A_UPLOAD,
+    benefit:
+      'Certificate of Balance on Deposit and Authorization to Disclose Financial Records',
     title: 'form 21P-4718a upload',
     description: 'uploaded file for form 21P-4718a',
     trackingPrefix: 'form-21p-4718a-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_4193_UPLOAD,
-    benefit: 'form 21-4193 upload',
+    benefit:
+      'Notice to Department of Veterans Affairs of Veteran or Beneficiary Incarcerated in Penal Institution',
     title: 'form 21-4193 upload',
     description: 'uploaded file for form 21-4193',
     trackingPrefix: 'form-21-4193-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_0788_UPLOAD,
-    benefit: 'form 21-0788 upload',
+    benefit: "Information Regarding Apportionment of Beneficiary's Award",
     title: 'form 21-0788 upload',
     description: 'uploaded file for form 21-0788',
     trackingPrefix: 'form-21-0788-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_8951_2_UPLOAD,
-    benefit: 'form 21-8951-2 upload',
+    benefit:
+      'Notice of Waiver of VA Compensation or Pension to Receive Military Pay and Allowances',
     title: 'form 21-8951-2 upload',
     description: 'uploaded file for form 21-8951-2',
     trackingPrefix: 'form-21-8951-2-upload-',
   },
   {
-    id: VA_FORM_IDS.FORM_21_674b_UPLOAD,
-    benefit: 'form 21-674b upload',
+    id: VA_FORM_IDS.FORM_21_674B_UPLOAD,
+    benefit: 'School Attendance Report',
     title: 'form 21-674b upload',
     description: 'uploaded file for form 21-674b',
     trackingPrefix: 'form-21-674b-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_2680_UPLOAD,
-    benefit: 'form 21-2680 upload',
+    benefit:
+      'Examination for Housebound Status or Permanent Need for Regular Aid and Attendance',
     title: 'form 21-2680 upload',
     description: 'uploaded file for form 21-2680',
     trackingPrefix: 'form-21-2680-upload-',
@@ -481,14 +558,14 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_4192_UPLOAD,
-    benefit: `form 21-4192 upload`,
+    benefit: `Request for Employment Information in Connection with Claim for Disability Benefits`,
     title: `form 21-4192 upload`,
     description: 'uploaded file for form 21-4192',
     trackingPrefix: 'form-21-4192-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21_509_UPLOAD,
-    benefit: `form 21-509 upload`,
+    benefit: `Statement of Dependency of Parent(s)`,
     title: `form 21-509 upload`,
     description: 'uploaded file for form 21-509',
     trackingPrefix: 'form-21-509-upload-',
@@ -516,42 +593,42 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21_8940_UPLOAD,
-    benefit: `form 21-8940 upload`,
+    benefit: `Increased Compensation Based on Un-employability`,
     title: `form 21-8940 upload`,
     description: 'uploaded file for form 21-8940',
     trackingPrefix: 'form-21-8940-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0516_1_UPLOAD,
-    benefit: `form 21P-0516-1 upload`,
+    benefit: `Improved Pension Eligibility Verification Report (Veteran with No Children)`,
     title: `form 21P-0516-1 upload`,
     description: 'uploaded file for form 21P-0516-1',
     trackingPrefix: 'form-21p-0516-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0517_1_UPLOAD,
-    benefit: `form 21P-0517-1 upload`,
+    benefit: `Improved Pension Eligibility Verification Report (Veteran with Children)`,
     title: `form 21P-0517-1 upload`,
     description: 'uploaded file for form 21P-0517-1',
     trackingPrefix: 'form-21p-0517-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
-    benefit: `form 21P-0518-1 upload`,
+    benefit: `Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)`,
     title: `form 21P-0518-1 upload`,
     description: 'uploaded file for form 21P-0518-1',
     trackingPrefix: 'form-21p-0518-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0519C_1_UPLOAD,
-    benefit: `form 21P-0519C-1 upload`,
+    benefit: `Improved Pension Eligibility Verification Report (Child or Children)`,
     title: `form 21P-0519C-1 upload`,
     description: 'uploaded file for form 21P-0519C-1',
     trackingPrefix: 'form-21p-0519C-1-upload-',
   },
   {
     id: VA_FORM_IDS.FORM_21P_0519S_1_UPLOAD,
-    benefit: `form 21P-0519S-1 upload`,
+    benefit: `Improved Pension Eligibility Verification Report (Surviving Spouse with Children)`,
     title: `form 21P-0519S-1 upload`,
     description: 'uploaded file for form 21P-0519S-1',
     trackingPrefix: 'form-21p-0519S-1-upload-',
@@ -572,7 +649,7 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21P_530A_UPLOAD,
-    benefit: `form 21P-530a upload`,
+    benefit: `Interment Allowance (Under 38 U.S.C. Chapter 23)`,
     title: `form 21P-530a upload`,
     description: 'uploaded file for form 21P-530a',
     trackingPrefix: 'form-21p-530a-upload-',
@@ -586,7 +663,7 @@ export const MY_VA_SIP_FORMS = [
   },
   {
     id: VA_FORM_IDS.FORM_21P_8049_UPLOAD,
-    benefit: `form 21P-8049 upload`,
+    benefit: `Request for Details of Expenses`,
     title: `form 21P-8049 upload`,
     description: 'uploaded file for form 21P-8049',
     trackingPrefix: 'form-21p-8049-upload-',
@@ -789,6 +866,13 @@ export const MY_VA_SIP_FORMS = [
       'Application for Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
     description: 'benefits',
     trackingPrefix: '21-2680-house-bound-status-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_8940,
+    benefit: 'increased compensation based on unemployability',
+    title: 'Apply for additional compensation based on inability to work',
+    description: 'increased compensation based on unemployability',
+    trackingPrefix: 'disability-21-8940-',
   },
   {
     id: VA_FORM_IDS.FORM_21_4192,
