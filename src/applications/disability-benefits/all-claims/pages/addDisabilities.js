@@ -6,6 +6,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import Autocomplete from '../components/Autocomplete';
 import disabilityLabelsRevised from '../content/disabilityLabelsRevised';
 import NewDisability from '../components/NewDisability';
+import ConfirmationNewDisabilities from '../components/ConfirmationNewDisabilities';
 import {
   validateDisabilityName,
   requireDisability,
@@ -99,6 +100,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationNewDisabilities,
 };
 
 export const schema = {

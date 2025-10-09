@@ -65,6 +65,7 @@ const causesWithoutSecondary = allCauses.filter(
 
 export const uiSchema = {
   'ui:title': 'Disability details',
+  'ui:confirmationField': null,
   newDisabilities: {
     items: {
       'ui:title': disabilityNameTitle,
