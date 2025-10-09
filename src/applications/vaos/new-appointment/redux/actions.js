@@ -19,6 +19,7 @@ import {
   selectFeatureMentalHealthHistoryFiltering,
   selectFeatureRecentLocationsFilter,
   selectFeatureRemoveFacilityConfigCheck,
+  selectFeatureUseBrowserTimezone,
   selectRegisteredCernerFacilityIds,
   selectSystemIds,
 } from '../../redux/selectors';
@@ -321,6 +322,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
     const featurePastVisitMHFilter = selectFeatureMentalHealthHistoryFiltering(
       state,
     );
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     const removeFacilityConfigCheck = selectFeatureRemoveFacilityConfigCheck(
       state,
@@ -343,6 +345,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             directSchedulingEnabled,
             isCerner: true,
             removeFacilityConfigCheck,
+            featureUseBrowserTimezone,
           });
 
           dispatch({
@@ -377,6 +380,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           directSchedulingEnabled,
           featurePastVisitMHFilter,
           removeFacilityConfigCheck,
+          featureUseBrowserTimezone,
         });
         if (showModal) {
           recordEvent({
@@ -656,6 +660,7 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
     const state = getState();
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
+    const typeOfCare = getTypeOfCare(getFormData(state))?.idV2;
     const { data } = newAppointment;
 
     let startDate = start;
@@ -704,6 +709,8 @@ export function getAppointmentSlots(start, end, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
+          typeOfCare,
+          provider: data.selectedProvider,
         });
         const tomorrow = startOfDay(
           addDays(new Date(new Date().toISOString()), 1),
@@ -831,6 +838,7 @@ export function submitAppointmentOrRequest(history) {
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
+    const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -853,6 +861,7 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          featureUseBrowserTimezone,
         });
 
         dispatch({
@@ -940,6 +949,7 @@ export function submitAppointmentOrRequest(history) {
 
         const requestData = await createAppointment({
           appointment: requestBody,
+          featureUseBrowserTimezone,
         });
 
         dispatch({

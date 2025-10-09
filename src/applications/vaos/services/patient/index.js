@@ -279,6 +279,7 @@ export async function fetchFlowEligibilityAndClinics({
   featurePastVisitMHFilter = false,
   isCerner = false,
   removeFacilityConfigCheck = false,
+  featureUseBrowserTimezone,
 }) {
   // Helper to avoid confusion
   const keepFacilityConfigCheck = !removeFacilityConfigCheck;
@@ -319,9 +320,9 @@ export async function fetchFlowEligibilityAndClinics({
         directTypeOfCareSettings.patientHistoryRequired === true;
 
       if (isDirectAppointmentHistoryRequired) {
-        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
-          createErrorHandler('direct-no-matching-past-clinics-error'),
-        );
+        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+          featureUseBrowserTimezone,
+        ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
       }
     }
   }
