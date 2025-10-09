@@ -268,9 +268,12 @@ class MockReferralDraftAppointmentResponse {
     // Return complete response matching the expected format
     return {
       data: {
-        id: referralNumber,
+        id: `draft-${Math.random()
+          .toString(36)
+          .substring(2, 10)}`,
         type: 'draft_appointment',
         attributes: {
+          referralNumber,
           provider,
           slots: mockSlots,
           drivetime: {
