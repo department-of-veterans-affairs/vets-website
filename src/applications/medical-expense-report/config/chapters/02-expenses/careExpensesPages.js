@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  // currencyUI,
-  // currencySchema,
-  // radioUI,
-  // checkboxUI,
-  // radioSchema,
-  titleUI,
+  currencyUI,
+  currencySchema,
+  radioUI,
+  checkboxUI,
+  radioSchema,
+  // titleUI,
   // numberSchema,
-  // checkboxSchema,
+  checkboxSchema,
   // numberUI,
   textUI,
   textSchema,
   arrayBuilderItemFirstPageTitleUI,
   // arrayBuilderItemSubsequentPageTitleUI,
-  // currentOrPastDateRangeUI,
-  // currentOrPastDateRangeSchema,
+  currentOrPastDateRangeUI,
+  currentOrPastDateRangeSchema,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -23,7 +23,7 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 // import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 import ListItemView from '../../../components/ListItemView';
-// import { recipientTypeLabels } from '../../../utils/labels';
+import { recipientTypeLabels } from '../../../utils/labels';
 
 const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -35,35 +35,45 @@ CareExpenseView.propTypes = {
   }),
 };
 
+const transformTypeOfCare = type =>
+  type === 'residential'
+    ? 'Residential care facility'
+    : 'In-home care attendant';
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'careExpenses',
-  nounSingular: 'treatment record',
-  nounPlural: 'treatment records',
+  nounSingular: 'care expense',
+  nounPlural: 'care expenses',
   required: false,
-  isItemIncomplete: item => !item?.name,
+  isItemIncomplete: item =>
+    !item?.typeOfCare ||
+    !item?.recipients ||
+    !item?.careDate?.from ||
+    !item?.monthlyPayment,
   maxItems: 5,
   text: {
-    getItemName: item => item?.name,
+    getItemName: item =>
+      transformTypeOfCare(item?.typeOfCare) || 'New care expense',
     // cardDescription: item => `blah`,
   },
 };
 
 /** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...titleUI(
-      `Treatment records`,
-      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
-        options.maxItems
-      }.`,
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
-  },
-};
+// const introPage = {
+//   uiSchema: {
+//     ...titleUI(
+//       `Treatment records`,
+//       `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
+//         options.maxItems
+//       }.`,
+//     ),
+//   },
+//   schema: {
+//     type: 'object',
+//     properties: {},
+//   },
+// };
 
 /**
  * This page is skipped on the first loop for required flow
@@ -85,30 +95,116 @@ const summaryPage = {
 };
 
 /** @returns {PageSchema} */
-const namePage = {
+const typeOfCarePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Name',
+      title: 'Type of care',
       nounSingular: options.nounSingular,
     }),
-    name: textUI('Name'),
+    typeOfCare: radioUI({
+      title: 'Select the type of care.',
+      labels: {
+        residential: 'Residential care facility',
+        inHome: 'In-home care attendant',
+      },
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      typeOfCare: radioSchema(['residential', 'inHome']),
     },
-    required: ['name'],
+    required: ['typeOfCare'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Type of care',
+      nounSingular: options.nounSingular,
+    }),
+    recipients: radioUI({
+      title: 'Who is the expense for?',
+      labels: recipientTypeLabels,
+    }),
+    childName: textUI({
+      title: 'Enter the child’s name',
+      expandUnder: 'recipients',
+      expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
+      required: (formData, index) =>
+        ['DEPENDENT', 'OTHER'].includes(
+          formData?.careExpenses?.[index]?.recipients,
+        ),
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipients: radioSchema(Object.keys(recipientTypeLabels)),
+      childName: textSchema,
+    },
+    required: ['recipients'],
+  },
+};
+/** @returns {PageSchema} */
+const datePage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Type of care',
+      nounSingular: options.nounSingular,
+    }),
+    careDate: currentOrPastDateRangeUI(
+      {
+        title: 'Care start date',
+        monthSelect: false,
+      },
+      {
+        title: 'Care end date',
+        monthSelect: false,
+      },
+    ),
+    noEndDate: checkboxUI('No end date'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      careDate: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
+      noEndDate: checkboxSchema,
+    },
+    required: ['typeOfCare'],
+  },
+};
+
+/** @returns {PageSchema} */
+const costPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Cost of care',
+      nounSingular: options.nounSingular,
+    }),
+    monthlyPayment: currencyUI('How much is each monthly payment?'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      monthlyPayment: currencySchema,
+    },
+    required: ['monthlyPayment'],
   },
 };
 
 export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
-  intro: pageBuilder.introPage({
-    title: 'Care expenses',
-    path: 'expenses/care',
-    uiSchema: introPage.uiSchema,
-    schema: introPage.schema,
-  }),
+  // intro: pageBuilder.introPage({
+  //   title: 'Care expenses',
+  //   path: 'expenses/care',
+  //   uiSchema: introPage.uiSchema,
+  //   schema: introPage.schema,
+  // }),
   careExpensesSummary: pageBuilder.summaryPage({
     title: 'Care expenses',
     path: 'expenses/care-summary',
@@ -117,17 +213,35 @@ export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     ContentBeforeButtons: () => (
       <div>
         <p>
-          Content before "Finish your form later" link, and back/continue
+          Content before "Finish your form la ter" link, and back/continue
           buttons
         </p>
       </div>
     ),
   }),
-  careExpensesNamePage: pageBuilder.itemPage({
-    title: 'Add unreimbursed care expense',
-    path: 'expenses/care/:index/name',
-    uiSchema: namePage.uiSchema,
-    schema: namePage.schema,
+  careExpensesTypePage: pageBuilder.itemPage({
+    title: 'Type of care',
+    path: 'expenses/care/:index/type-of-care',
+    uiSchema: typeOfCarePage.uiSchema,
+    schema: typeOfCarePage.schema,
+  }),
+  careExpensesRecipientPage: pageBuilder.itemPage({
+    title: 'Care recipient and pro',
+    path: 'expenses/care/:index/recipient-provider',
+    uiSchema: recipientPage.uiSchema,
+    schema: recipientPage.schema,
+  }),
+  careExpensesDatesPage: pageBuilder.itemPage({
+    title: 'Dates of care',
+    path: 'expenses/care/:index/dates',
+    uiSchema: datePage.uiSchema,
+    schema: datePage.schema,
+  }),
+  careExpensesCostPage: pageBuilder.itemPage({
+    title: 'Cost of care',
+    path: 'expenses/care/:index/cost',
+    uiSchema: costPage.uiSchema,
+    schema: costPage.schema,
   }),
 }));
 
@@ -153,36 +267,36 @@ export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
 //         reviewMode: true,
 //       },
 //       items: {
-//         recipients: radioUI({
-//           title: 'Who is the expense for?',
-//           labels: recipientTypeLabels,
-//         }),
-//         childName: textUI({
-//           title: 'Enter the child’s name',
-//           expandUnder: 'recipients',
-//           expandUnderCondition: field =>
-//             field === 'DEPENDENT' || field === 'OTHER',
-//           hideIf: (formData, index) =>
-//             !['DEPENDENT', 'OTHER'].includes(
-//               formData?.careExpenses?.[index]?.recipients,
-//             ),
-//           required: (formData, index) =>
-//             ['DEPENDENT', 'OTHER'].includes(
-//               formData?.careExpenses?.[index]?.recipients,
-//             ),
-//         }),
+// recipients: radioUI({
+//   title: 'Who is the expense for?',
+//   labels: recipientTypeLabels,
+// }),
+// childName: textUI({
+//   title: 'Enter the child’s name',
+//   expandUnder: 'recipients',
+//   expandUnderCondition: field =>
+//     field === 'DEPENDENT' || field === 'OTHER',
+//   hideIf: (formData, index) =>
+//     !['DEPENDENT', 'OTHER'].includes(
+//       formData?.careExpenses?.[index]?.recipients,
+//     ),
+//   required: (formData, index) =>
+//     ['DEPENDENT', 'OTHER'].includes(
+//       formData?.careExpenses?.[index]?.recipients,
+//     ),
+// }),
 //         provider: textUI('What’s the name of the care provider?'),
-//         careDate: currentOrPastDateRangeUI(
-//           {
-//             title: 'Care start date',
-//             monthSelect: false,
-//           },
-//           {
-//             title: 'Care end date',
-//             monthSelect: false,
-//           },
-//         ),
-//         noEndDate: checkboxUI('No end date'),
+// careDate: currentOrPastDateRangeUI(
+//   {
+//     title: 'Care start date',
+//     monthSelect: false,
+//   },
+//   {
+//     title: 'Care end date',
+//     monthSelect: false,
+//   },
+// ),
+// noEndDate: checkboxUI('No end date'),
 //         monthlyPayment: currencyUI('How much is each monthly payment?'),
 //         typeOfCare: radioUI({
 //           title: 'Select the type of care.',
@@ -219,11 +333,11 @@ export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
 //             recipients: radioSchema(Object.keys(recipientTypeLabels)),
 //             childName: textSchema,
 //             provider: textSchema,
-//             careDate: {
-//               ...currentOrPastDateRangeSchema,
-//               required: ['from'],
-//             },
-//             noEndDate: checkboxSchema,
+// careDate: {
+//   ...currentOrPastDateRangeSchema,
+//   required: ['from'],
+// },
+// noEndDate: checkboxSchema,
 //             monthlyPayment: currencySchema,
 //             typeOfCare: radioSchema(['residential', 'inHome']),
 //             hourlyRate: currencySchema,
