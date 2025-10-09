@@ -6,7 +6,6 @@ import {
   fileInputMultipleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default {
   uiSchema: {
@@ -49,14 +48,6 @@ export default {
             submit this application, such as your computer, tablet, or mobile
             phone. You can upload your file from there.
           </p>
-
-          <VaAdditionalInfo trigger="Document upload instructions">
-            <ul>
-              <li>You can upload a .pdf, .jpeg, or .png file</li>
-              <li>Maximum file size: 25MB</li>
-            </ul>
-          </VaAdditionalInfo>
-
           <p>
             <em>
               A 1MB file equals about 500 pages of text. A photo is usually
@@ -71,6 +62,8 @@ export default {
       title: 'Upload your supporting evidence',
       required: false,
       accept: '.pdf,.jpeg,.jpg,.png',
+      hint:
+        'You can upload a .pdf, .jpeg, or .png file. Your files must not be larger than 25MB',
       maxFileSize: 26214400, // 25MB in bytes
       fileUploadUrl: `${
         environment.API_URL
