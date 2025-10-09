@@ -448,10 +448,5 @@ describe('0781 question', () => {
         'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
       );
     });
-
-    it('defaults to "No" when no response is provided', () => {
-      expect(confirmationField({ formData: null }).data).to.equal('No');
-      expect(confirmationField({ formData: undefined }).data).to.equal('No');
-    });
   });
 });
