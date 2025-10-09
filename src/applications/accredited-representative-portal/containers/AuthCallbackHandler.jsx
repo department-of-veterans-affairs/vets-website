@@ -110,7 +110,7 @@ AuthCallbackHandler.loader = async () => {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
   const toParam = searchParams.get('to');
-  const fallback = '/representative/poa-requests';
+  const fallback = '/representative/dashboard';
 
   // Sanitize untrusted redirect target to prevent open redirects
   const sanitizeReturnPath = (untrusted, defaultPath) => {
@@ -130,7 +130,7 @@ AuthCallbackHandler.loader = async () => {
     }
   };
 
-  let to = sanitizeReturnPath(toParam, fallback);
+  const to = sanitizeReturnPath(toParam, fallback);
 
   // If we have code and state, process the OAuth callback
   if (code && state) {
@@ -154,12 +154,6 @@ AuthCallbackHandler.loader = async () => {
 
       // Set hasSession flag to ensure page refreshes recognize the user is authenticated
       localStorage.setItem('hasSession', 'true');
-
-      // Re-evaluate destination using updated toggles
-      {
-        const newFallback = '/representative/poa-requests';
-        to = sanitizeReturnPath(toParam, newFallback);
-      }
 
       // Redirect to the destination computed earlier (defaults to POA requests)
       window.location.replace(to);
