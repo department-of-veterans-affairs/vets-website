@@ -149,6 +149,15 @@ const testConfig = createTestConfig(
         });
       },
 
+      'report-674/add-students/0/student-education-benefits/start-date': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.clickFormContinue();
+        });
+      },
+
       'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -205,16 +214,16 @@ const testConfig = createTestConfig(
           cy.clickFormContinue();
         });
       },
+      '686-report-add-child/0/marriage-end-details': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.clickFormContinue();
+        });
+      },
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
 
-          cy.clickFormContinue();
-        });
-      },
-      'add-child/0/additional-information': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#root_doesChildLiveWithYouYes').click();
           cy.clickFormContinue();
         });
       },
@@ -248,7 +257,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    // skip: Cypress.env('CI'),
+    skip: Cypress.env('CI'),
   },
 
   manifest,

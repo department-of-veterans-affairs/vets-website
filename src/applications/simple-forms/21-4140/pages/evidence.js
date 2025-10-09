@@ -71,6 +71,7 @@ export default {
       title: 'Upload your supporting evidence',
       required: false,
       accept: '.pdf,.jpeg,.jpg,.png',
+      disallowEncryptedPdfs: true,
       maxFileSize: 26214400, // 25MB in bytes
       fileUploadUrl: `${
         environment.API_URL
