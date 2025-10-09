@@ -3,8 +3,8 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
-import Autocomplete from './Autocomplete';
-import { conditionObjects } from '../content/conditionOptions';
+import Autocomplete from '../../components/AutocompleteNew';
+import { conditionObjects } from '../../content/conditionOptions';
 
 // Extract the raw string options from conditionObjects
 const allResults = conditionObjects

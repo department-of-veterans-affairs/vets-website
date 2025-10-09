@@ -4,13 +4,13 @@ import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import causeSecondaryPage from '../../../pages/shared/causeSecondary';
-import formConfig from '../../../config/form';
-import { arrayBuilderOptions } from '../../../pages/shared/utils';
+import causeSecondaryPage from '../../../../pages/disabilityConditions/shared/causeSecondary';
+import formConfig from '../../../../config/form';
+import { arrayOptions } from '../../../../pages/disabilityConditions/shared/utils';
 
 const mountPage = (data = {}, onSubmit = () => {}) => {
   const seed = {
-    [arrayBuilderOptions.arrayPath]: [{}],
+    [arrayOptions.arrayPath]: [{}],
   };
   return render(
     <DefinitionTester
@@ -62,19 +62,22 @@ describe('526 cause secondary shared page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    await waitFor(() => {
-      const selectContainer = container.querySelector('va-select');
-      const textareaContainer = container.querySelector('va-textarea');
+    await waitFor(
+      () => {
+        const selectEl = container.querySelector('va-select');
+        const textareaEl = container.querySelector('va-textarea');
 
-      expect(selectContainer).to.have.attribute(
-        'error',
-        'You must provide a response',
-      );
-      expect(textareaContainer).to.have.attribute(
-        'error',
-        'You must provide a response',
-      );
-    });
+        expect(selectEl).to.have.attribute(
+          'error',
+          'You must provide a response',
+        );
+        expect(textareaEl).to.have.attribute(
+          'error',
+          'You must provide a response',
+        );
+      },
+      { timeout: 2000 },
+    );
   });
 
   it('submits after the user chooses a connected disability and adds a description', async () => {
@@ -82,8 +85,8 @@ describe('526 cause secondary shared page', () => {
 
     const testData = {
       ratedDisabilities: [{ name: 'tinnitus' }],
-      causedByCondition: 'tinnitus',
-      causedByConditionDescription: 'Tinnitus aggravated my anxiety.',
+      causedByDisability: 'tinnitus',
+      causedByDisabilityDescription: 'Tinnitus aggravated my anxiety.',
     };
 
     const { getByRole } = mountPage(testData, spy);

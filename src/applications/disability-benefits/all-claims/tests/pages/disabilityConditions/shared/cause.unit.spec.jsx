@@ -4,8 +4,23 @@ import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
-import causePage, { causeOptions } from '../../../pages/shared/cause';
-import formConfig from '../../../config/form';
+import causePage, {
+  causeOptions,
+} from '../../../../pages/disabilityConditions/shared/cause';
+import formConfig from '../../../../config/form';
+
+const newDisabilities = [
+  {
+    cause: 'SECONDARY',
+    causedByDisability: 'Hypertension',
+    causedByDisabilityDescription: 'dfgdsgfsgfds',
+    condition: 'heart attack (myocardial infarction)',
+    conditionDate: '2020-01-01',
+    ratedDisability: "A condition I haven't claimed before",
+    sideOfBody: undefined,
+    _forceFieldBlur: undefined,
+  },
+];
 
 const mountPage = (data = {}, onSubmit = () => {}) =>
   render(
@@ -33,7 +48,17 @@ describe('526 cause shared page', () => {
   });
 
   it('renders one radio for every option', () => {
-    const { container } = mountPage();
+    const dataWithRatedDisabilities = {
+      ...newDisabilities,
+      ratedDisabilities: [
+        {
+          conditionDate: '2025-01-01',
+          ratedDisability: 'Sciatica',
+        },
+      ],
+    };
+
+    const { container } = mountPage(dataWithRatedDisabilities);
     const options = container.querySelectorAll('va-radio-option');
 
     expect(options.length).to.equal(Object.keys(causeOptions).length);
@@ -61,7 +86,8 @@ describe('526 cause shared page', () => {
   });
 
   it('blocks navigation when nothing is selected', async () => {
-    const { getByRole, container } = mountPage();
+    const { container, getByRole } = mountPage();
+
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
