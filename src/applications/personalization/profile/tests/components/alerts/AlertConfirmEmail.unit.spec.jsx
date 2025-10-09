@@ -12,6 +12,7 @@ import {
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
+// default state for specs is feature enabled, email confirmed -- not alerting
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
@@ -83,11 +84,28 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   describe('<AlertConfirmContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByRole, getByTestId } = render(
+        <AlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => {
+        getByTestId('alert-confirm-contact-email');
+        getByRole('heading', { name: /^Confirm your contact email$/ });
+
+        // getByRole('button', { name: /^Confirm contact email$/ });
+        const buttonSelector = 'va-button[text="Confirm contact email"]';
+        const button = container.querySelector(buttonSelector);
+        expect(button).to.exist;
+      });
+    });
+
     it('renders when !confirmationDate', async () => {
       const initialState = stateFn({ confirmationDate: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -96,7 +114,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ confirmationDate });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -113,7 +131,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ updatedAt: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -122,7 +140,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ updatedAt });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -150,11 +168,28 @@ describe('<AlertConfirmEmail />', () => {
   });
 
   describe('<AlertAddContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByRole, getByTestId } = render(
+        <AlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => {
+        getByTestId('alert-add-contact-email');
+        getByRole('heading', { name: /^Add a contact email$/ });
+
+        // getByRole('button', { name: /^Skip adding an email$/ });
+        const buttonSelector = 'va-button[text="Skip adding an email"]';
+        const button = container.querySelector(buttonSelector);
+        expect(button).to.exist;
+      });
+    });
+
     it(`renders when !emailAddress`, async () => {
       const initialState = stateFn({ emailAddress: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-add-contact-email')).to.exist;
+        getByTestId('alert-add-contact-email');
       });
     });
 
@@ -162,7 +197,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ emailAddress: '' });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-add-contact-email')).to.exist;
+        getByTestId('alert-add-contact-email');
       });
     });
 

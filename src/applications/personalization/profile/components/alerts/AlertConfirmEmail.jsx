@@ -6,8 +6,11 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
-import { dismissAlertViaCookie, showAlertConfirmEmail } from '../../selectors';
+import {
+  dismissAlertViaCookie,
+  selectContactEmailAddress,
+  showAlertConfirmEmail,
+} from '../../selectors';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
 const AlertConfirmContactEmail = ({ onClick = () => {} }) => {
@@ -24,7 +27,7 @@ const AlertConfirmContactEmail = ({ onClick = () => {} }) => {
           If not, use the edit button to update.
         </p>
         <p>
-          <VaButton text="Confirm contact email" onClick={onClick} />
+          <VaButton text="Confirm contact email" onClick={() => onClick()} />
         </p>
       </React.Fragment>
     </VaAlert>
@@ -51,7 +54,11 @@ const AlertAddContactEmail = ({ onClick = () => {} }) => {
           adding an email.
         </p>
         <p>
-          <VaButton text="Skip adding an email" onClick={onClick} secondary />
+          <VaButton
+            text="Skip adding an email"
+            onClick={() => onClick()}
+            secondary
+          />
         </p>
       </React.Fragment>
     </VaAlert>
@@ -63,24 +70,24 @@ AlertAddContactEmail.propTypes = {
 };
 
 /**
- * <AlertConfirmEmail /> component
+ * `<AlertConfirmEmail />` component
  *
- * Shows an alert to confirm or add a contact email address at the /profile/contact-information path
+ * Alert to confirm or add a contact email address at the `/profile/contact-information` path
  *
  * To view specification, run:
  *   `yarn test:unit src/applications/personalization/profile/tests/components/alerts/AlertConfirmEmail.unit.spec.jsx --reporter=spec`
  *
- * @returns {JSX.Element|null} <AlertConfirmContactEmail />, <AlertAddContactEmail />, or null
+ * @returns {JSX.Element|null} `<AlertConfirmContactEmail />`, `<AlertAddContactEmail />`, or null
  */
 const AlertConfirmEmail = () => {
   const showAlert = useSelector(showAlertConfirmEmail);
-  const email = useSelector(selectVAPContactInfo)?.email?.emailAddress;
+  const emailAddress = useSelector(selectContactEmailAddress);
   const [dismissed, setDismissed] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString) =>
+  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
-      body: { confirmationDate },
+      body: JSON.stringify({ confirmationDate, emailAddress }),
     })
       .then(() => setDismissed(true))
       .then(() => dismissAlertViaCookie());
@@ -92,15 +99,11 @@ const AlertConfirmEmail = () => {
 
   if (!showAlert || dismissed) return null;
 
-  return email ? (
+  return emailAddress ? (
     <AlertConfirmContactEmail onClick={putConfirmationDate} />
   ) : (
     <AlertAddContactEmail onClick={onSkipClick} />
   );
-};
-
-AlertConfirmEmail.propTypes = {
-  recordEventFn: PropTypes.func,
 };
 
 export default AlertConfirmEmail;
