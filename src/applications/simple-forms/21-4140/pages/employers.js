@@ -99,6 +99,7 @@ const employerNameAndAddressPage = {
         errorMessages: {
           required: 'Enter name of employer',
         },
+        charcount: true,
       }),
     },
     employerAddress: addressUI({
@@ -108,7 +109,7 @@ const employerNameAndAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      employerName: textSchema,
+      employerName: { ...textSchema, maxLength: 125 },
       employerAddress: addressSchema({
         omit: ['street2', 'street3', 'isMilitary'],
       }),
@@ -169,6 +170,7 @@ const employmentDetailsPage = {
         errorMessages: {
           required: 'Enter type of work',
         },
+        charcount: true,
       }),
     },
     hoursPerWeek: {
@@ -200,7 +202,7 @@ const employmentDetailsPage = {
   schema: {
     type: 'object',
     properties: {
-      typeOfWork: textSchema,
+      typeOfWork: { ...textSchema, maxLength: 35 },
       hoursPerWeek: numberSchema,
       lostTimeFromIllness: numberSchema,
       highestGrossIncomePerMonth: currencySchema,
