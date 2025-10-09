@@ -2,6 +2,9 @@ import React from 'react';
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { countries } from 'platform/forms/address';
+
+import { focusElement } from '~/platform/utilities/ui';
 
 export const ConfirmationSubmissionAlert = ({ confirmationNumber }) => (
   <>
@@ -72,11 +75,17 @@ export const getAgeInYears = birthDate =>
   Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 
 export const getCardDescription = item => {
+  const countryCode = item?.providerAddress?.country;
+  const countryObj = countries.find(country => country.value === countryCode);
+  const countryName = countryObj?.label || countryCode;
+
   return item ? (
     <>
       <div className=" vads-u-margin-y--2" data-testid="card-street">
-        <p>{item?.providerAddress?.street}</p>
-        <p data-testid="card-address">
+        <p className="vads-u-margin-bottom--0">
+          {item?.providerAddress?.street}
+        </p>
+        <p className="vads-u-margin-y--0" data-testid="card-address">
           {`${item?.providerAddress?.city}${
             item?.providerAddress?.state ||
             item?.providerAddress?.postalCode !== 'NA'
@@ -90,6 +99,11 @@ export const getCardDescription = item => {
             ? ` ${item?.providerAddress?.postalCode}`
             : ''}
         </p>
+        {countryCode !== 'USA' && (
+          <p className="vads-u-margin-top--0" data-testid="card-country">
+            {countryName}
+          </p>
+        )}
       </div>
     </>
   ) : null;
@@ -147,6 +161,7 @@ export const viewifyFields = formData => {
   });
   return newFormData;
 };
+
 export const maskBankInformation = (string, unmaskedLength) => {
   if (!string) {
     return '';
@@ -156,4 +171,36 @@ export const maskBankInformation = (string, unmaskedLength) => {
   const maskedPart = '●'.repeat(repeatCount);
   const unmaskedPart = string.slice(-unmaskedLength);
   return `${maskedPart}${unmaskedPart}`;
+};
+
+export const focusOnH3 = () => {
+  focusElement('#main h3');
+};
+
+export const getPrefillIntlPhoneNumber = (phone = {}) => {
+  const areaCode = (phone.areaCode || '').trim();
+  const phoneNumber = (phone.phoneNumber || '').trim();
+
+  /**
+   * All user profile numbers set to the *US* country code by default.
+   * This is due to the user endpoint only returning a calling code which is not unique.
+   */
+  return {
+    callingCode: 1,
+    countryCode: 'US',
+    contact: `${areaCode}${phoneNumber}`,
+  };
+};
+
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
 };
