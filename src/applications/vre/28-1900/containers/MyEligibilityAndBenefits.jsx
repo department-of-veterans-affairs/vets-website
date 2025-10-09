@@ -109,19 +109,8 @@ const MyEligibilityAndBenefits = () => {
     .trim()
     .toLowerCase();
 
-  const isIneligibleRec = recommendation === 'ineligible';
-
-  // Has RES case?
-  const hasResCaseId =
-    attrs?.resCaseId !== undefined &&
-    attrs?.resCaseId !== null &&
-    attrs?.resCaseId !== '' &&
-    attrs?.resCaseId !== 0;
-
-  // UI flags
-  const showMissingCaseAlert = !hasResCaseId && isIneligibleRec;
   const isEligible = recommendation === 'eligible';
-  const isIneligible = recommendation === 'ineligible' && hasResCaseId;
+  const isIneligible = recommendation === 'ineligible';
 
   return (
     <div className="row ">
@@ -201,26 +190,6 @@ const MyEligibilityAndBenefits = () => {
             />
           </va-alert>
         )}
-
-        {showMissingCaseAlert && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-            class="vads-u-margin-y--6"
-          >
-            <h2 slot="headline">We are unable to determine your eligibility</h2>
-            <p className="vads-u-margin-y--2">
-              We are currently unable to determine your eligibility. You are
-              still encouraged to proceed and apply for the VA Form 28-1900.
-            </p>
-            <va-link-action
-              href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
-              text="Apply for VR&E benefits"
-              type="primary"
-            />
-          </va-alert>
-        )}
         <EligibilityCriteria
           veteranProfile={veteranProfile}
           disabilityRating={disabilityRating}
@@ -232,7 +201,7 @@ const MyEligibilityAndBenefits = () => {
           irndStatus={irndStatus}
           eligibilityTerminationDateStatus={eligibilityTerminationDateStatus}
         />
-        {hasResCaseId && (
+        {isEligible && (
           <BenefitsSummary
             result={attrs?.resEligibilityRecommendation}
             entitlementDetails={entitlementDetails}

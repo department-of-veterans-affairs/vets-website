@@ -172,16 +172,6 @@ describe('<MyEligibilityAndBenefits> recommendation branches', () => {
     );
     expect(container.querySelector('va-alert[status="warning"]')).to.exist;
   });
-
-  it('renders "unable to determine" warning when "ineligible" but missing RES case id', () => {
-    const attrs = makeAttrs({ recommendation: 'ineligible', resCaseId: '' });
-    const { getByText, container } = renderPage(makeState({ attrs }));
-
-    getByText('We are unable to determine your eligibility');
-    expect(
-      container.querySelectorAll('va-alert[status="warning"]').length,
-    ).to.be.greaterThan(0);
-  });
 });
 
 describe('<MyEligibilityAndBenefits> content details', () => {
