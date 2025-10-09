@@ -11,11 +11,6 @@ export default function EmailConfirmationInterstitial() {
   const [confirmationSuccess, setConfirmationSuccess] = useState(false);
   const [confirmationError, setConfirmationError] = useState(false);
 
-  // Mocked value for testing/styling purposes below
-  // const confirmationSuccess = false;
-  // const confirmationError = false;
-
-  // Removed for testing purposes below
   useEffect(() => {
     document.title = 'Confirm your contact email address';
     if (!localStorage.getItem('hasSession')) {
@@ -26,8 +21,6 @@ export default function EmailConfirmationInterstitial() {
   const contactEmail =
     useSelector(selectUser).vet360ContactInformation?.email?.emailAddress ||
     'No email provided';
-  // Mocked value for testing/styling purposes below
-  // const contactEmail = 'caitlin.neathawk@va.gov'
 
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
@@ -49,9 +42,6 @@ export default function EmailConfirmationInterstitial() {
         setConfirmationSuccess(false);
       });
   };
-
-  // Mocked value for testing purposes below
-  // const handleConfirmation = () => { console.log('hello')};
 
   return (
     <>
