@@ -41,29 +41,53 @@ const CHANGED_APPS =
     : [];
 
 const CHANGED_APPS_UNIQUE = [...new Set(CHANGED_APPS)];
+const CHANGED_SPEC_FILES = CHANGED_FILES.filter(filePath =>
+  /\.unit\.spec\.jsx?$/.test(filePath),
+);
 
-const TESTS_TO_STRESS_TEST = ALL_SPECS.filter(
+const DISALLOWED_SPECS_IN_CHANGED_APPS = DISALLOWED_SPECS.filter(
   specPath =>
-    CHANGED_APPS_UNIQUE.some(filePath => specPath.includes(filePath)) &&
+    CHANGED_APPS_UNIQUE.some(appPath => specPath.includes(appPath)) &&
     fs.existsSync(specPath),
 );
 
+const TESTS_TO_STRESS_TEST = Array.from(
+  new Set([
+    ...CHANGED_SPEC_FILES.filter(filePath => fs.existsSync(filePath)),
+    ...DISALLOWED_SPECS_IN_CHANGED_APPS,
+  ]),
+);
+
 core.exportVariable('DISALLOWED_TESTS', DISALLOWED_SPECS);
+
 if (TESTS_TO_STRESS_TEST.length > 0 && IS_STRESS_TEST === 'false') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
+  core.exportVariable('UNIT_TESTS_CHANGED', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
+  core.exportVariable('TESTS_RAN', 'true');
   fs.writeFileSync(
     `unit_tests_to_stress_test.json`,
     JSON.stringify(TESTS_TO_STRESS_TEST),
   );
+  fs.writeFileSync(
+    `changed_unit_tests.json`,
+    JSON.stringify(CHANGED_SPEC_FILES),
+  );
 } else if (IS_STRESS_TEST === 'true') {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'true');
+  core.exportVariable('UNIT_TESTS_CHANGED', 'true');
   core.exportVariable('APPS_TO_STRESS_TEST', ALL_APPS);
+  core.exportVariable('TESTS_RAN', 'true');
   fs.writeFileSync(
     `unit_tests_to_stress_test.json`,
     JSON.stringify(ALL_SPECS.filter(specPath => fs.existsSync(specPath))),
   );
+  fs.writeFileSync(
+    `changed_unit_tests.json`,
+    JSON.stringify(CHANGED_SPEC_FILES),
+  );
 } else {
   core.exportVariable('UNIT_TESTS_TO_STRESS_TEST', 'false');
+  core.exportVariable('UNIT_TESTS_CHANGED', 'false');
   core.exportVariable('APPS_TO_STRESS_TEST', CHANGED_APPS_UNIQUE);
 }
