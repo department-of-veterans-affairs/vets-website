@@ -90,18 +90,46 @@ export const uiSchema = {
             startedAfterServicePeriod,
           ]),
           'ui:confirmationField': value => {
-            // Replace XX with 01 so moment can create a valid date, then format as month/year only
-            const dateValue =
-              typeof value.formData === 'string'
-                ? value.formData.replace(/XX/g, '01')
-                : undefined;
+            if (
+              typeof value.formData !== 'string' ||
+              !value.formData ||
+              value.formData === ''
+            ) {
+              return {
+                data: 'Unknown',
+                label: 'When did you first visit this facility?',
+              };
+            }
 
-            let formattedDate = dateValue
-              ? formatDate(dateValue, 'MMMM YYYY')
-              : 'Unknown';
+            const [year, month, day] = value.formData.split('-');
 
-            if (!formattedDate || formattedDate === 'Invalid date') {
-              formattedDate = 'Unknown';
+            if (year === 'XXXX') {
+              return {
+                data: 'Unknown',
+                label: 'When did you first visit this facility?',
+              };
+            }
+
+            let formattedDate = 'Unknown';
+
+            if (month === 'XX') {
+              // Year only: 2015-XX-XX → "2015"
+              formattedDate = year;
+            } else if (day === 'XX') {
+              // Month/Year: 2015-12-XX → "December 2015"
+              const monthYear = formatDate(`${year}-${month}-01`, 'MMMM YYYY');
+              formattedDate =
+                monthYear && monthYear !== 'Invalid date'
+                  ? monthYear
+                  : 'Unknown';
+            } else {
+              // Full date: 2015-12-10 → "December 10, 2015"
+              const fullDate = formatDate(
+                `${year}-${month}-${day}`,
+                'MMMM D, YYYY',
+              );
+              formattedDate =
+                fullDate && fullDate !== 'Invalid date' ? fullDate : 'Unknown';
             }
 
             return {
