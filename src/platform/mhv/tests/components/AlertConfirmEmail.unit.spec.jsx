@@ -13,8 +13,7 @@ import {
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
-// default state for specs is to *not* render the alert, with feature enabled
-// and email updated/confirmed after DATE_THRESHOLD
+// default state for specs is feature enabled, email confirmed -- not alerting
 const stateFn = ({
   confirmationDate = '2025-09-30T12:00:00.000+00:00',
   emailAddress = 'vet@va.gov',
@@ -111,7 +110,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ confirmationDate: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -120,7 +119,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ confirmationDate });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -137,7 +136,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ updatedAt: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -146,7 +145,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ updatedAt });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        getByTestId('alert-confirm-contact-email');
       });
     });
 
@@ -200,7 +199,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ emailAddress: null });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-add-contact-email')).to.exist;
+        getByTestId('alert-add-contact-email');
       });
     });
 
@@ -208,7 +207,7 @@ describe('<AlertConfirmEmail />', () => {
       const initialState = stateFn({ emailAddress: '' });
       const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
       await waitFor(() => {
-        expect(getByTestId('alert-add-contact-email')).to.exist;
+        getByTestId('alert-add-contact-email');
       });
     });
 

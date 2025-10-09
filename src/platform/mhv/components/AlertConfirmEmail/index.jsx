@@ -85,14 +85,14 @@ AlertAddContactEmail.propTypes = {
 };
 
 /**
- * <AlertConfirmEmail /> component
+ * `<AlertConfirmEmail />` component
  *
- * Shows an alert to confirm or add a contact email address
+ * Alert to confirm or add a contact email address at `/my-health` and `/my-va` paths.
  *
  * To view specification, run:
  *   `yarn test:unit src/platform/mhv/tests/components/AlertConfirmEmail.unit.spec.jsx --reporter=spec`
  *
- * @returns {JSX.Element|null} <AlertConfirmContactEmail />, <AlertAddContactEmail />, or null
+ * @returns {JSX.Element|null} `<AlertConfirmContactEmail />`, `<AlertAddContactEmail />`, or null
  */
 const AlertConfirmEmail = () => {
   const renderAlert = useSelector(showAlert);
