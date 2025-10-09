@@ -248,34 +248,22 @@ const testConfig = createTestConfig(
       'report-674/add-students/:index/previous-term-dates': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            cy.log(
-              'Previous term dates data:',
-              data.studentInformation?.[0]?.schoolInformation
-                ?.lastTermSchoolInformation,
-            );
-
             const lastTerm =
               data.studentInformation?.[0]?.schoolInformation
                 ?.lastTermSchoolInformation;
 
             if (lastTerm?.termBegin) {
-              cy.log(`Filling termBegin: ${lastTerm.termBegin}`);
               fillDateWebComponentPattern(
                 'schoolInformation_lastTermSchoolInformation_termBegin',
                 lastTerm.termBegin,
               );
-            } else {
-              cy.log('No termBegin found!');
             }
 
             if (lastTerm?.dateTermEnded) {
-              cy.log(`Filling dateTermEnded: ${lastTerm.dateTermEnded}`);
               fillDateWebComponentPattern(
                 'schoolInformation_lastTermSchoolInformation_dateTermEnded',
                 lastTerm.dateTermEnded,
               );
-            } else {
-              cy.log('No dateTermEnded found!');
             }
 
             cy.clickFormContinue();
