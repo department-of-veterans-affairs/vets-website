@@ -1,4 +1,5 @@
 // @ts-check
+import { formatDateLong } from 'platform/utilities/date';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -27,11 +28,18 @@ const options = {
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
-    cardDescription: ({ itemData }) => {
+    cardDescription: itemData => {
       if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
-        return `${itemData.employmentStartDate} to ${
-          itemData.employmentEndDate
-        }`;
+        try {
+          const startDate = formatDateLong(itemData.employmentStartDate);
+          const endDate = formatDateLong(itemData.employmentEndDate);
+          return `${startDate} to ${endDate}`;
+        } catch (error) {
+          // Fallback to raw dates if formatting fails
+          return `${itemData.employmentStartDate} to ${
+            itemData.employmentEndDate
+          }`;
+        }
       }
       return '';
     },
