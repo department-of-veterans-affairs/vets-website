@@ -93,10 +93,10 @@ const MedicalClaimsDescription = ({ formData }) => {
       </va-additional-info>
 
       <p>
-        <strong>Note:</strong>
-        &nbsp; CHAMPVA will not be able to process your claim if your statement
-        does not include all of the listed information. You may need to ask your
-        provider for a statement that has all of the information listed here.
+        <strong>Note:</strong> CHAMPVA will not be able to process your claim if
+        your statement does not include all of the listed information. You may
+        need to ask your provider for a statement that has all of the
+        information listed here.
       </p>
 
       <p>
