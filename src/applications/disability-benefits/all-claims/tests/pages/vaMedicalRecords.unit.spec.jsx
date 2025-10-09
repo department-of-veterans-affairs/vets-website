@@ -754,20 +754,82 @@ describe('VA Medical Records', () => {
         expect(confirmationField({ formData: '' }).data).to.equal('Unknown');
       });
 
-      it('formats complete dates as readable month/year', () => {
+      it('formats complete dates as full date with day', () => {
         const result = confirmationField({ formData: '2010-04-01' });
-        expect(result.data).to.equal('April 2010');
+        expect(result.data).to.equal('April 1, 2010');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
       });
 
-      it('replaces all XX placeholders with 01 (edge case since month should be a valid month)', () => {
+      it('formats year-only dates when month is XX', () => {
         const result = confirmationField({ formData: '2010-XX-XX' });
-        expect(result.data).to.equal('January 2010');
+        expect(result.data).to.equal('2010');
         expect(result.label).to.equal(
           'When did you first visit this facility?',
         );
+      });
+
+      it('formats year-only dates when month is XX', () => {
+        const result = confirmationField({ formData: '2015-XX-XX' });
+        expect(result.data).to.equal('2015');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('formats month-year dates when day is XX', () => {
+        const result = confirmationField({ formData: '2020-12-XX' });
+        expect(result.data).to.equal('December 2020');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('handles different valid months correctly', () => {
+        expect(confirmationField({ formData: '2021-02-XX' }).data).to.equal(
+          'February 2021',
+        );
+        expect(confirmationField({ formData: '2021-06-XX' }).data).to.equal(
+          'June 2021',
+        );
+        expect(confirmationField({ formData: '2021-11-XX' }).data).to.equal(
+          'November 2021',
+        );
+      });
+
+      it('formats full dates with day correctly', () => {
+        expect(confirmationField({ formData: '2021-02-15' }).data).to.equal(
+          'February 15, 2021',
+        );
+        expect(confirmationField({ formData: '2021-06-05' }).data).to.equal(
+          'June 5, 2021',
+        );
+        expect(confirmationField({ formData: '2021-11-22' }).data).to.equal(
+          'November 22, 2021',
+        );
+      });
+
+      it('returns Unknown for invalid year (XXXX)', () => {
+        const result = confirmationField({ formData: 'XXXX-01-01' });
+        expect(result.data).to.equal('Unknown');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('returns Unknown for completely unknown date', () => {
+        const result = confirmationField({ formData: 'XXXX-XX-XX' });
+        expect(result.data).to.equal('Unknown');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('handles edge case with non-string input types', () => {
+        expect(confirmationField({ formData: 123 }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: {} }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: [] }).data).to.equal('Unknown');
       });
     });
 
