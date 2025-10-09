@@ -15,6 +15,7 @@ registerCypressHelpers();
 describe('Notification Settings Feature Toggles', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
@@ -80,20 +81,27 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
+      cy.get('[data-testid="checkbox-group-item4"]')
+        .shadow()
+        .findByText('Prescription shipment and tracking updates')
+        .should('exist');
 
-      cy.findByText('Appointment reminders').should('exist');
-      cy.findByText('Prescription shipment and tracking updates').should(
-        'exist',
-      );
-      cy.findByText('Secure messaging alert').should('exist');
-      cy.findByText('Medical images and reports available').should('exist');
-      cy.findByText('Disability and pension deposit notifications').should(
-        'exist',
-      );
+      cy.get('[data-testid="checkbox-group-item9"]')
+        .shadow()
+        .findByText('Secure messaging alert')
+        .should('exist');
+      cy.get('[data-testid="checkbox-group-item10"]')
+        .shadow()
+        .findByText('Medical images and reports available')
+        .should('exist');
+      cy.get('[data-testid="checkbox-group-item5"]')
+        .shadow()
+        .findByText('Disability and pension deposit notifications')
+        .should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -114,14 +122,15 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('Appointment reminders').should('exist');
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
 
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
-      cy.findByText('Secure messaging alert').should('not.exist');
-      cy.findByText('Medical images and reports available').should('not.exist');
+      // Secure messaging alert
+      cy.get('[data-testid="checkbox-group-item9"]').should('not.exist');
+      // Medical images and reports available
+      cy.get('[data-testid="checkbox-group-item10"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -142,14 +151,15 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('Appointment reminders').should('exist');
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
 
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
-      cy.findByText('Secure messaging alert').should('not.exist');
-      cy.findByText('Medical images and reports available').should('not.exist');
+      // Secure messaging alert
+      cy.get('[data-testid="checkbox-group-item9"]').should('not.exist');
+      // Medical images and reports available
+      cy.get('[data-testid="checkbox-group-item10"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -170,14 +180,18 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('Appointment reminders').should('exist');
-      cy.findByText('Secure messaging alert').should('exist');
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
 
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
-      cy.findByText('Medical images and reports available').should('not.exist');
+      cy.get('[data-testid="checkbox-group-item9"]')
+        .shadow()
+        .findByText('Secure messaging alert')
+        .should('exist');
+
+      // Medical images and reports available
+      cy.get('[data-testid="checkbox-group-item10"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -198,17 +212,20 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('Appointment reminders').should('exist');
-      cy.findByText('Prescription shipment and tracking updates').should(
-        'exist',
-      );
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
 
-      cy.findByText('Secure messaging alert').should('not.exist');
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
-      cy.findByText('Medical images and reports available').should('not.exist');
+      cy.get('[data-testid="checkbox-group-item4"]')
+        .shadow()
+        .findByText('Prescription shipment and tracking updates')
+        .should('exist');
+
+      // Secure messaging alert
+      cy.get('[data-testid="checkbox-group-item9"]').should('not.exist');
+      // Medical images and reports available
+      cy.get('[data-testid="checkbox-group-item10"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });
@@ -229,17 +246,20 @@ describe('Notification Settings Feature Toggles', () => {
 
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
-      cy.findByText('Appointment reminders').should('exist');
-      cy.findByText('Prescription shipment and tracking updates').should(
-        'exist',
-      );
+      cy.get('[data-testid="checkbox-group-item3"]')
+        .shadow()
+        .findByText('Appointment reminders')
+        .should('exist');
 
-      cy.findByText('Secure messaging alert').should('not.exist');
-      cy.findByText('General VA Updates and Information').should('not.exist');
-      cy.findByText('Biweekly MHV newsletter').should('not.exist');
-      cy.findByText('RX refill shipment notification').should('not.exist');
-      cy.findByText('VA Appointment reminders').should('not.exist');
-      cy.findByText('Medical images and reports available').should('not.exist');
+      cy.get('[data-testid="checkbox-group-item4"]')
+        .shadow()
+        .findByText('Prescription shipment and tracking updates')
+        .should('exist');
+
+      // Secure messaging alert
+      cy.get('[data-testid="checkbox-group-item9"]').should('not.exist');
+      // Medical images and reports available
+      cy.get('[data-testid="checkbox-group-item10"]').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });

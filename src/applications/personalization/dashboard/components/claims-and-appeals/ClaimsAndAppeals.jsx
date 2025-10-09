@@ -148,36 +148,10 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
 const ClaimsAndAppeals = ({
   appealsData,
   claimsData,
-  // for some unit testing purposes, we want to prevent this component from
-  // making API calls which kicks off a chain of events that results in the
-  // component always showing a loading spinner. I do not like this approach.
-  dataLoadingDisabled = false,
   hasAPIError,
   isLOA1,
-  getAppeals,
-  getClaims,
-  shouldLoadAppeals,
-  shouldLoadClaims,
   shouldShowLoadingIndicator,
 }) => {
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadAppeals) {
-        getAppeals();
-      }
-    },
-    [dataLoadingDisabled, getAppeals, shouldLoadAppeals],
-  );
-
-  React.useEffect(
-    () => {
-      if (!dataLoadingDisabled && shouldLoadClaims) {
-        getClaims();
-      }
-    },
-    [dataLoadingDisabled, getClaims, shouldLoadClaims],
-  );
-
   // the most recently updated open claim or appeal or
   // the latest closed claim or appeal that has been updated in the past 60 days
   const highlightedClaimOrAppeal = useHighlightedClaimOrAppeal(
@@ -264,13 +238,10 @@ ClaimsAndAppeals.propTypes = {
   getAppeals: PropTypes.func.isRequired,
   getClaims: PropTypes.func.isRequired,
   hasAPIError: PropTypes.bool.isRequired,
-  shouldLoadAppeals: PropTypes.bool.isRequired,
-  shouldLoadClaims: PropTypes.bool.isRequired,
   shouldShowLoadingIndicator: PropTypes.bool.isRequired,
   userFullName: PropTypes.object.isRequired,
   appealsData: PropTypes.arrayOf(PropTypes.object),
   claimsData: PropTypes.arrayOf(PropTypes.object),
-  dataLoadingDisabled: PropTypes.bool,
   isLOA1: PropTypes.bool,
 };
 
