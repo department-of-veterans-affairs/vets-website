@@ -95,12 +95,9 @@ describe('getConditionsList - isAccelerating feature', () => {
   it('should dispatch an error', () => {
     mockApiRequest(error404);
     getConditionsList(false, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        Actions.Conditions.UPDATE_LIST_STATE,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Conditions.GET_UNIFIED_LIST,
-      );
+      expect(dispatch.firstCall.args[2].title).to.equal('"Error"');
+      expect(dispatch.firstCall.args[2].detail).to.equal('Not Found');
+      expect(dispatch.firstCall.args[2].status).to.equal('404');
     });
   });
 
