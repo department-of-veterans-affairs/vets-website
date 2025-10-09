@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const renderLetterHistory = diaryCode => {
-  switch (diaryCode) {
+export const renderLetterHistory = letterCode => {
+  switch (letterCode) {
     case '100':
     case '101':
     case '102':
