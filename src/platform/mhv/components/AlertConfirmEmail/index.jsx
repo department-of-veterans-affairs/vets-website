@@ -15,6 +15,11 @@ import {
   selectContactEmailAddress,
   showAlert,
 } from './selectors';
+import {
+  AlertSystemResponseConfirmError,
+  AlertSystemResponseConfirmSuccess,
+  AlertSystemResponseSkipSuccess,
+} from './AlertSystemResponse';
 
 const _recordLoadEvent = headline => {
   // record GA event
@@ -28,15 +33,16 @@ const _recordLoadEvent = headline => {
   datadogRum.addAction(`VaAlert load event: ${headline}`);
 };
 
-const CONTENT = `We’ll send notifications about your VA health care and benefits to this email.`;
+const CONTENT = `We’ll send notifications about your VA health care and
+  benefits to this email.`;
 const VA_PROFILE_EMAIL_HREF =
   '/profile/contact-information#contact-email-address';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-44682&t=CogySEDQUAcvZwHQ-4
 const AlertConfirmContactEmail = ({
   emailAddress,
-  recordLoadEvent = () => {},
-  onConfirmClick = () => {},
+  recordLoadEvent,
+  onConfirmClick,
 }) => {
   const headline = 'Confirm your contact email';
 
@@ -51,7 +57,12 @@ const AlertConfirmContactEmail = ({
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>{CONTENT}</p>
-        <p className="vads-u-font-weight--bold">{emailAddress}</p>
+        <p
+          className="vads-u-font-weight--bold"
+          style={{ wordBreak: 'break-word' }}
+        >
+          {emailAddress}
+        </p>
         <p>
           <VaButton onClick={() => onConfirmClick()} fullWidth text="Confirm" />
         </p>
@@ -73,10 +84,7 @@ AlertConfirmContactEmail.propTypes = {
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7184-45009&t=CogySEDQUAcvZwHQ-4
-const AlertAddContactEmail = ({
-  recordLoadEvent = () => {},
-  onSkipClick = () => {},
-}) => {
+const AlertAddContactEmail = ({ recordLoadEvent, onSkipClick }) => {
   const headline = 'Add a contact email';
 
   useEffect(() => recordLoadEvent(headline), [headline, recordLoadEvent]);
@@ -128,39 +136,54 @@ AlertAddContactEmail.propTypes = {
 const AlertConfirmEmail = ({ recordLoadEvent = _recordLoadEvent }) => {
   const renderAlert = useSelector(showAlert);
   const emailAddress = useSelector(selectContactEmailAddress);
-  const [dismissed, setDismissed] = useState(false);
+
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
+  const [confirmError, setConfirmError] = useState(false);
+  const [skipSuccess, setSkipSuccess] = useState(false);
 
   const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
       body: JSON.stringify({ confirmationDate, emailAddress }),
     })
-      .then(() => setDismissed(true))
-      .then(() => dismissAlertViaCookie());
+      .then(() => setConfirmSuccess(true))
+      .then(() => dismissAlertViaCookie())
+      .catch(() => setConfirmError(true));
 
   const onSkipClick = () => {
-    setDismissed(true);
+    setSkipSuccess(true);
     dismissAlertViaCookie();
   };
 
-  if (!renderAlert || dismissed) return null;
+  if (!renderAlert) return null;
 
   return emailAddress ? (
-    <AlertConfirmContactEmail
-      emailAddress={emailAddress}
-      onConfirmClick={putConfirmationDate}
-      recordLoadEvent={recordLoadEvent}
-    />
+    <>
+      {confirmSuccess && <AlertSystemResponseConfirmSuccess />}
+      {confirmError && <AlertSystemResponseConfirmError />}
+      {!confirmSuccess && (
+        <AlertConfirmContactEmail
+          emailAddress={emailAddress}
+          onConfirmClick={putConfirmationDate}
+          recordLoadEvent={recordLoadEvent}
+        />
+      )}
+    </>
   ) : (
-    <AlertAddContactEmail
-      onSkipClick={onSkipClick}
-      recordLoadEvent={recordLoadEvent}
-    />
+    <>
+      {skipSuccess && <AlertSystemResponseSkipSuccess />}
+      {!skipSuccess && (
+        <AlertAddContactEmail
+          onSkipClick={onSkipClick}
+          recordLoadEvent={recordLoadEvent}
+        />
+      )}
+    </>
   );
 };
 
 AlertConfirmEmail.propTypes = {
-  recordLoadEvent: PropTypes.func.isRequired,
+  recordLoadEvent: PropTypes.func,
 };
 
 export default AlertConfirmEmail;

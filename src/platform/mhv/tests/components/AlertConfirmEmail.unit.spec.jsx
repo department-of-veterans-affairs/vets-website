@@ -184,15 +184,34 @@ describe('<AlertConfirmEmail />', () => {
       });
     });
 
-    it(`is removed from DOM when 'Confirm' button clicked`, async () => {
+    it(`renders success when 'Confirm' button clicked`, async () => {
       mockApiRequest();
       const initialState = stateFn({ confirmationDate: null });
-      const { container } = render(<AlertConfirmEmail />, {
-        initialState,
-      });
+      const { container, getByTestId, queryByTestId } = render(
+        <AlertConfirmEmail />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('alert-confirm-contact-email'));
       fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
       await waitFor(() => {
-        expect(container).to.be.empty;
+        getByTestId('alert-confirm-success');
+        expect(queryByTestId('alert-confirm-contact-email')).to.be.null;
+      });
+    });
+
+    it(`renders error when 'Confirm' button clicked`, async () => {
+      mockApiRequest({}, false);
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId } = render(<AlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => getByTestId('alert-confirm-contact-email'));
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      await waitFor(() => {
+        getByTestId('alert-confirm-error');
+        getByTestId('alert-confirm-contact-email');
       });
     });
   });
@@ -259,15 +278,20 @@ describe('<AlertConfirmEmail />', () => {
       resetDismissAlertViaCookie();
     });
 
-    it(`is removed from DOM when 'Skip adding email' button clicked`, async () => {
+    it(`renders success 'Skip adding email' button clicked`, async () => {
       const initialState = stateFn({ emailAddress: null });
-      const { container } = render(<AlertConfirmEmail />, {
-        initialState,
-      });
+      const { container, getByTestId, queryByTestId } = render(
+        <AlertConfirmEmail />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('alert-add-contact-email'));
       const button = 'va-button[text="Skip adding email"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
-        expect(container).to.be.empty;
+        getByTestId('alert-skip-success');
+        expect(queryByTestId('alert-add-contact-email')).to.be.null;
       });
     });
   });
