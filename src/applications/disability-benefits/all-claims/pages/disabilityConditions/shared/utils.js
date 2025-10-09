@@ -269,3 +269,14 @@ export const addStyleToShadowDomOnPages = async (
       });
     });
 };
+
+export const backfillCauseForIncreaseRows = formData => {
+  const list = formData?.newDisabilities;
+  if (!Array.isArray(list)) return;
+
+  for (const row of list) {
+    if (row && row.ratedDisability && !row.condition && !row.cause) {
+      row.cause = 'WORSENED'; // add just enough to satisfy validator
+    }
+  }
+};
