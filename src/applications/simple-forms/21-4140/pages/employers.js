@@ -24,20 +24,20 @@ const options = {
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: false,
-  isItemIncomplete: item => !item?.employerName || !item?.employmentStartDate,
+  isItemIncomplete: item => !item?.employerName || !item?.employmentDates?.from,
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
     cardDescription: itemData => {
-      if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
+      if (itemData?.employmentDates?.from && itemData?.employmentDates?.to) {
         try {
-          const startDate = formatDateLong(itemData.employmentStartDate);
-          const endDate = formatDateLong(itemData.employmentEndDate);
+          const startDate = formatDateLong(itemData.employmentDates?.from);
+          const endDate = formatDateLong(itemData.employmentDates?.to);
           return `${startDate} to ${endDate}`;
         } catch (error) {
           // Fallback to raw dates if formatting fails
-          return `${itemData.employmentStartDate} to ${
-            itemData.employmentEndDate
+          return `${itemData.employmentDates?.from} to ${
+            itemData.employmentDates?.to
           }`;
         }
       }
