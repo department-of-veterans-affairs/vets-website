@@ -92,7 +92,7 @@ describe('getConditionsList - isAccelerating feature', () => {
     });
   });
 
-  it('should dispatch an error', () => {
+  it('should understand status code 404', () => {
     mockApiRequest(error404);
     getConditionsList(false, true)(dispatch).then(() => {
       expect(dispatch.firstCall.args[2].title).to.equal('"Error"');
