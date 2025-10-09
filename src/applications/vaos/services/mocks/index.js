@@ -557,7 +557,6 @@ const responses = {
     // create a mock appointment in draft state for polling simulation
     let mockAppointment = new MockReferralAppointmentDetailsResponse({
       appointmentId,
-      referralNumber: appointmentId,
       status: 'draft',
     });
 
@@ -610,7 +609,6 @@ const responses = {
       draftAppointmentPollCount[appointmentId] = 0;
       mockAppointment = new MockReferralAppointmentDetailsResponse({
         appointmentId,
-        referralNumber: appointmentId,
         status: 'booked',
       });
     }
