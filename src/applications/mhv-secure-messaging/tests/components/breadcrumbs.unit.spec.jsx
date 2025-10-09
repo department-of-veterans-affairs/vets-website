@@ -539,22 +539,12 @@ describe('Breadcrumbs', () => {
   });
 
   describe('SessionStorage - Compose Entry URL Management', () => {
-    let setItemSpy;
-    let removeItemSpy;
-    let getItemSpy;
-
     beforeEach(() => {
-      // Mock sessionStorage methods
-      setItemSpy = sinon.spy(Storage.prototype, 'setItem');
-      removeItemSpy = sinon.spy(Storage.prototype, 'removeItem');
-      getItemSpy = sinon.stub(Storage.prototype, 'getItem');
-      getItemSpy.returns(null); // Default: no stored entry URL
+      // Clear sessionStorage before each test
+      sessionStorage.clear();
     });
 
     afterEach(() => {
-      setItemSpy.restore();
-      removeItemSpy.restore();
-      getItemSpy.restore();
       sessionStorage.clear();
     });
 
@@ -574,8 +564,9 @@ describe('Breadcrumbs', () => {
       });
 
       await waitFor(() => {
-        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.INBOX)).to.be
-          .true;
+        expect(sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+          Paths.INBOX,
+        );
       });
     });
 
@@ -599,12 +590,13 @@ describe('Breadcrumbs', () => {
       );
 
       await waitFor(() => {
-        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.SENT)).to.be
-          .true;
+        expect(sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+          Paths.SENT,
+        );
       });
 
       unmountSent();
-      setItemSpy.reset();
+      sessionStorage.clear();
 
       // Test custom FOLDERS path
       const customFolderPath = `${Paths.FOLDERS}123/`;
@@ -623,8 +615,9 @@ describe('Breadcrumbs', () => {
       });
 
       await waitFor(() => {
-        expect(setItemSpy.calledWith('sm_composeEntryUrl', customFolderPath)).to
-          .be.true;
+        expect(sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+          customFolderPath,
+        );
       });
     });
 
@@ -644,14 +637,13 @@ describe('Breadcrumbs', () => {
       });
 
       await waitFor(() => {
-        expect(setItemSpy.calledWith('sm_composeEntryUrl', Paths.DRAFTS)).to.be
-          .false;
+        expect(sessionStorage.getItem('sm_composeEntryUrl')).to.be.null;
       });
     });
 
     it('does NOT overwrite entry URL when navigating within compose flow', async () => {
       // Simulate having already entered compose flow from INBOX
-      getItemSpy.returns(Paths.INBOX);
+      sessionStorage.setItem('sm_composeEntryUrl', Paths.INBOX);
 
       const customState = {
         sm: {
@@ -667,14 +659,11 @@ describe('Breadcrumbs', () => {
         path: `${Paths.COMPOSE}${Paths.START_MESSAGE}`, // Now at start message
       });
 
-      // Should NOT call setItem again because previousUrl is not a valid folder
+      // Should NOT overwrite - entry URL should still be INBOX
       await waitFor(() => {
-        expect(
-          setItemSpy.calledWith(
-            'sm_composeEntryUrl',
-            `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
-          ),
-        ).to.be.false;
+        expect(sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+          Paths.INBOX,
+        );
       });
     });
   });
