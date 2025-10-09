@@ -8,6 +8,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from '../../shared/config/submit-transformer';
+import getHelp from '../../shared/components/GetFormHelp';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
@@ -153,7 +154,7 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
+  getHelp,
   footerContent,
 };
 
