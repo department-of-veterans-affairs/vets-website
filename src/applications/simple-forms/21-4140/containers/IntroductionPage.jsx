@@ -67,6 +67,7 @@ export const IntroductionPage = props => {
           devOnly={{
             forceShowFormControls: true,
           }}
+          hideUnauthedStartLink
         />
       )}
       <p />
