@@ -3,8 +3,10 @@ import { format, parseISO } from 'date-fns';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { scrollTo } from 'platform/utilities/scroll';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { maskSSN } from 'applications/_mock-form-ae-design-patterns/utils/helpers/general';
