@@ -112,6 +112,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_0779: '21-0779',
   FORM_21P_530A: '21P-530A',
   FORM_21P_0537: '21P-0537',
+  FORM_CC: 'CC',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -125,6 +126,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
   '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
+  [VA_FORM_IDS.FORM_CC]: 'travel_pay/v0/claims/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
@@ -215,6 +217,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
     [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
+    [VA_FORM_IDS.FORM_CC]: `${tryGetAppUrl('CC')}/`,
   };
 };
 
@@ -828,6 +831,13 @@ export const MY_VA_SIP_FORMS = [
     description:
       'marital status questionnaire for DIC recipients application (21P-0537)',
     trackingPrefix: '21p-0537-dic-marital-status-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_CC,
+    benefit: 'travel pay benefits',
+    title: 'Complex Claim Form Prototype',
+    description: 'travel pay benefits',
+    trackingPrefix: 'cc-prototype',
   },
 ];
 

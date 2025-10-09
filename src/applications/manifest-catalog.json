@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 144,
+  "totalApplications": 145,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -806,6 +806,12 @@
       "appName": "Travel Pay",
       "entryName": "travel-pay",
       "rootUrl": "/my-health/travel-pay"
+    },
+    {
+      "directoryPath": "src/applications/travel-pay/complex-claim-form-prototype",
+      "appName": "Complex Claim Form Prototype",
+      "entryName": "complex-claim-form-prototype",
+      "rootUrl": "/my-health/travel-pay/complex-claim-form-prototype"
     },
     {
       "directoryPath": "src/applications/travel-pay/form-prototype",
