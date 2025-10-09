@@ -45,9 +45,9 @@ export const prescriptionsApi = createApi({
   // refetchOnMountOrArgChange: 60,
   tagTypes: ['Prescription'],
   endpoints: builder => ({
-    getPrescriptionSortedList: builder.query({
-      query: ({ sortEndpoint, includeImage = false }) => ({
-        path: `${apiBasePath}/prescriptions?${sortEndpoint}${
+    getPrescriptionsExportList: builder.query({
+      query: ({ filterOption = '', sortEndpoint, includeImage = false }) => ({
+        path: `${apiBasePath}/prescriptions?${filterOption}${sortEndpoint}${
           includeImage ? INCLUDE_IMAGE_ENDPOINT : ''
         }`,
       }),
@@ -195,7 +195,7 @@ export const {
   useGetPrescriptionDocumentationQuery,
   useRefillPrescriptionMutation,
   useBulkRefillPrescriptionsMutation,
-  useGetPrescriptionSortedListQuery,
+  useGetPrescriptionsExportListQuery,
   endpoints: {
     // Auto-generated hooks for the endpoints
     getPrescriptionsList,
@@ -204,7 +204,7 @@ export const {
     getPrescriptionDocumentation,
     refillPrescription,
     bulkRefillPrescriptions,
-    getPrescriptionSortedList,
+    getPrescriptionsExportList,
   },
   usePrefetch,
 } = prescriptionsApi;

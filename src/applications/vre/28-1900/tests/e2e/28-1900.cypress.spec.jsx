@@ -64,6 +64,13 @@ const testConfig = createTestConfig(
           );
         });
       },
+      confirmation: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(
+            `va-link[text="Download a copy of your VA Form 28-1900"]`,
+          ).should('be.visible');
+        });
+      },
     },
 
     setupPerTest: () => {
