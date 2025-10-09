@@ -148,7 +148,7 @@ describe('<FileSubmissionsInProgress>', () => {
       }
       expect(queryByTestId('file-in-progress-card-5')).to.not.exist;
 
-      const showMoreButton = getByTestId('show-more-button');
+      const showMoreButton = getByTestId('show-more-in-progress-button');
       expect(showMoreButton).to.exist;
       expect(showMoreButton.getAttribute('text')).to.equal(
         'Show more in progress (3)',
@@ -160,13 +160,13 @@ describe('<FileSubmissionsInProgress>', () => {
         <FileSubmissionsInProgress claim={claim} />,
       );
 
-      const showMoreButton = getByTestId('show-more-button');
+      const showMoreButton = getByTestId('show-more-in-progress-button');
       userEvent.click(showMoreButton);
 
       for (let i = 0; i < 8; i++) {
         expect(getByTestId(`file-in-progress-card-${i}`)).to.exist;
       }
-      expect(queryByTestId('show-more-button')).to.not.exist;
+      expect(queryByTestId('show-more-in-progress-button')).to.not.exist;
     });
   });
 });
