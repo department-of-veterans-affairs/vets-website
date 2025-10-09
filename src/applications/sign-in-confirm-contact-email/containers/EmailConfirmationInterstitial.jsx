@@ -74,7 +74,7 @@ export default function EmailConfirmationInterstitial() {
         {!confirmationSuccess && (
           <ConfirmAddBtnGroup
             email={contactEmail}
-            handleConfirmation={{ handleConfirmation }}
+            handleConfirmation={handleConfirmation}
           />
         )}
         {confirmationSuccess ? (
@@ -93,7 +93,7 @@ export default function EmailConfirmationInterstitial() {
           <h2 className="vads-u-margin-top--0">What's changing</h2>
           <p>
             We'll send all VA notifications to the contact email address listed
-            in your VA.gov profile. We wont't send any more notifications to the
+            in your VA.gov profile. We won't send any more notifications to the
             email listed in the previous MyHealtheVet experience. Make sure the
             contact email address listed in your VA.gov profile is the one you
             want us to send notifications to.

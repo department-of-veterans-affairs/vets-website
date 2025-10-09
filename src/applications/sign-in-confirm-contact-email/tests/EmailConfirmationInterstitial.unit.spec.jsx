@@ -66,7 +66,7 @@ describe('EmailConfirmationInterstitial', () => {
     ).to.not.be.null;
     expect(
       getByText(
-        /We'll send all VA notifications to the contact email address listed in your VA.gov profile. We wont't send any more notifications to the email listed in the previous MyHealtheVet experience. Make sure the contact email address listed in your VA.gov profile is the one you want us to send notifications to./i,
+        /We'll send all VA notifications to the contact email address listed in your VA.gov profile. We won't send any more notifications to the email listed in the previous MyHealtheVet experience. Make sure the contact email address listed in your VA.gov profile is the one you want us to send notifications to./i,
       ),
     ).to.not.be.null;
 
@@ -86,7 +86,7 @@ describe('EmailConfirmationInterstitial', () => {
       </Provider>,
     );
 
-    const confirmButton = container.querySelector('va-button');
+    const confirmButton = container.querySelector('.confirm-button');
     expect(confirmButton).to.exist;
     fireEvent.click(confirmButton);
 

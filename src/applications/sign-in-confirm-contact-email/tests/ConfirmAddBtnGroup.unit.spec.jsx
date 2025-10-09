@@ -22,16 +22,13 @@ describe('ConfirmAddBtnGroup', () => {
     const email = 'test@test.com';
     const { container } = render(<ConfirmAddBtnGroup email={email} />);
 
-    const buttons = container.querySelectorAll('va-button');
-    expect(buttons).to.have.lengthOf(2);
-
-    const confirmButton = buttons[0];
+    const confirmButton = container.querySelector('.confirm-button');
     expect(confirmButton.getAttribute('text')).to.equal('Confirm');
     expect(confirmButton.getAttribute('aria-label')).to.equal(
       'Confirm Contact Email',
     );
 
-    const updateButton = buttons[1];
+    const updateButton = container.querySelector('.update-button');
     expect(updateButton.getAttribute('text')).to.equal(
       'Update email in profile',
     );
@@ -50,7 +47,7 @@ describe('ConfirmAddBtnGroup', () => {
       />,
     );
 
-    const confirmButton = container.querySelectorAll('va-button')[0];
+    const confirmButton = container.querySelector('.confirm-button');
     expect(confirmButton).to.exist;
     fireEvent.click(confirmButton);
     expect(handleConfirmation.calledOnce).to.be.true;
@@ -60,7 +57,7 @@ describe('ConfirmAddBtnGroup', () => {
     const email = 'test@test.com';
     const { container } = render(<ConfirmAddBtnGroup email={email} />);
 
-    const updateButton = container.querySelectorAll('va-button')[1];
+    const updateButton = container.querySelector('.update-button');
     expect(updateButton).to.exist;
     const originalLocation = window.location;
     window.location = { href: '' };

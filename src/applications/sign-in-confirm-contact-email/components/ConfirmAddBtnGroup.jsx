@@ -13,19 +13,21 @@ export default function ConfirmAddBtnGroup({ email, handleConfirmation }) {
         </div>
       ) : (
         <div className="vads-u-display--flex vads-u-margin-y--2 vads-u-flex-direction--column">
-          <div className="vads-u-margin-y--1">
+          <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
             <va-button
+              full-width
               aria-label="Confirm Contact Email"
-              className="vads-u-margin-bottom--1 confirm-button"
+              class="confirm-button"
               text="Confirm"
-              fullwidth
               onClick={handleConfirmation}
             />
           </div>
           <div>
             <va-button
               continue
+              full-width
               aria-label="Update Contact Email"
+              class="update-button"
               text="Update email in profile"
               secondary
               onClick={() => {
