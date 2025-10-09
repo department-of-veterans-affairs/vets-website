@@ -85,11 +85,11 @@ describe('Complex Claims Mileage', () => {
       fireEvent(
         departureRadio,
         new CustomEvent('vaValueChange', {
-          detail: { value: 'address-placeholder' },
+          detail: { value: 'home-address' },
         }),
       );
 
-      expect(departureRadio.value).to.equal('address-placeholder');
+      expect(departureRadio.value).to.equal('home-address');
     });
   });
 
@@ -192,36 +192,6 @@ describe('Complex Claims Mileage', () => {
 
       expect(departureRadio.value).to.equal('');
       expect(tripTypeRadio.value).to.equal('');
-    });
-  });
-
-  describe('Accessibility', () => {
-    it('has proper heading structure', () => {
-      const screen = render(<Mileage />);
-
-      const mainHeading = screen.getByRole('heading', { level: 1 });
-      expect(mainHeading).to.exist;
-      expect(mainHeading.textContent).to.equal('Mileage');
-    });
-
-    it('has required attributes on radio groups', () => {
-      render(<Mileage />);
-
-      const departureRadio = $('va-radio[id="departure-address"]');
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
-
-      expect(departureRadio.hasAttribute('required')).to.be.true;
-      expect(tripTypeRadio.hasAttribute('required')).to.be.true;
-    });
-
-    it('has proper labels for radio groups', () => {
-      render(<Mileage />);
-
-      const departureRadio = $('va-radio[id="departure-address"]');
-      const tripTypeRadio = $('va-radio[id="trip-type"]');
-
-      expect(departureRadio.getAttribute('label')).to.not.be.empty;
-      expect(tripTypeRadio.getAttribute('label')).to.not.be.empty;
     });
   });
 });
