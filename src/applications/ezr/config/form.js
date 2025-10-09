@@ -27,8 +27,6 @@ import {
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteranV1,
   spouseAddressDoesNotMatchVeteransV1,
-  spouseDidNotCohabitateWithVeteranV2,
-  spouseAddressDoesNotMatchVeteransV2,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
@@ -377,22 +375,7 @@ const formConfig = {
           ...spousalInformationPages.spouseInformationSummaryPage,
           depends: includeSpousalInformationV2,
         },
-        spousePersonalInformationV2: {
-          ...spousalInformationPages.spousePersonalInformationPage,
-          depends: includeSpousalInformationV2,
-        },
-        spouseAdditionalInformationV2: {
-          ...spousalInformationPages.spouseAdditionalInformationPage,
-          depends: includeSpousalInformationV2,
-        },
-        spouseFinancialSupportV2: {
-          ...spousalInformationPages.spouseFinancialSupportPage,
-          depends: spouseDidNotCohabitateWithVeteranV2,
-        },
-        spouseContactInformationV2: {
-          ...spousalInformationPages.spouseContactInformationPage,
-          depends: spouseAddressDoesNotMatchVeteransV2,
-        },
+        ...spousalInformationPages,
         spousePersonalInformation: {
           path: 'household-information/spouse-personal-information',
           title: 'Spouse\u2019s personal information',
