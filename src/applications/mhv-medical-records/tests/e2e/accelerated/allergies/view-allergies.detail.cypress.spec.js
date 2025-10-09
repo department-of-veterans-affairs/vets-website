@@ -26,7 +26,8 @@ describe('Medical Records View Allergies Detail', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    const ALLERGY_INDEX = 0;
+    // Use index 6 (Penicillin after date sorting) - OH record with complete data (reactions, notes, provider)
+    const ALLERGY_INDEX = 6;
     Allergies.checkUnifiedAllergyListItem({ index: ALLERGY_INDEX });
     Allergies.selectAllergy({ index: ALLERGY_INDEX });
     Allergies.validateAllergyDetailPage();

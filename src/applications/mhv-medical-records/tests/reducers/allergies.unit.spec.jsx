@@ -131,11 +131,11 @@ describe('convertUnifiedAllergy function', () => {
       attributes: {
         id: '123',
         name: 'Test Allergy',
-        categories: ['Medication', 'Food'],
+        categories: ['medication', 'food'], // Backend sends lowercase
         date: '2024-01-01T12:00:00.000+00:00',
         reactions: ['Hives', 'Swelling'], // Backend sends 'reactions' array
         location: 'VA Medical Center',
-        // observedHistoric: null, // Not available in Oracle Health FHIR
+        observedHistoric: null, // Backend sends null for Oracle Health FHIR data
         notes: ['Test notes'],
         provider: 'Dr. Test',
       },
@@ -145,7 +145,7 @@ describe('convertUnifiedAllergy function', () => {
 
     expect(converted.id).to.equal('123');
     expect(converted.name).to.equal('Test Allergy');
-    expect(converted.type).to.equal('Medication, Food');
+    expect(converted.type).to.equal('Medication, food'); // Capitalizes first letter only
     expect(converted.reaction).to.deep.equal(['Hives', 'Swelling']); // Frontend converts to 'reaction'
     expect(converted.location).to.equal('VA Medical Center');
     expect(converted.observedOrReported).to.equal(EMPTY_FIELD); // Oracle Health doesn't have this field

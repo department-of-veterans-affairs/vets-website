@@ -109,6 +109,12 @@ export const convertUnifiedAllergy = allergy => {
       EMPTY_FIELD,
     provider: allergyData?.provider || EMPTY_FIELD,
     sortKey: allergyData?.date ? new Date(allergyData.date) : null,
+    // Note: The v2 unified endpoint combines both Oracle Health and VistA data sources
+    // into a single normalized format. The backend does not provide a data source field
+    // to distinguish between them. We set isOracleHealthData to true for all v2 records
+    // because the unified format uses the same display logic as Oracle Health data
+    // (with provider, location, and other OH-style fields). Components check this flag
+    // to determine which template to use for rendering.
     isOracleHealthData: true,
   };
 };
@@ -176,7 +182,6 @@ export const allergyReducer = (state = initialState, action) => {
     }
     case Actions.Allergies.GET_UNIFIED_LIST: {
       const data = action.response.data || [];
-      const oldList = state.allergiesList;
       const newList =
         data
           ?.map(allergy => {
@@ -191,8 +196,7 @@ export const allergyReducer = (state = initialState, action) => {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        allergiesList: typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        allergiesList: newList,
       };
     }
     case Actions.Allergies.GET_UNIFIED_ITEM: {

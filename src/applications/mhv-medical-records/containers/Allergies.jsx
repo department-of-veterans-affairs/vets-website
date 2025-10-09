@@ -212,20 +212,21 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isCerner && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.ALLERGY}
-            newRecordsFound={
-              Array.isArray(allergies) &&
-              Array.isArray(updatedRecordList) &&
-              allergies.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
+        {!isCerner &&
+          !isAcceleratingAllergies && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.ALLERGY}
+              newRecordsFound={
+                Array.isArray(allergies) &&
+                Array.isArray(updatedRecordList) &&
+                allergies.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
         {isLoadingAcceleratedData && (
           <>
             <div className="vads-u-margin-y--8">

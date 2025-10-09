@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
@@ -66,6 +67,10 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
+        // Note: isOracleHealthData is true for both v2 unified data and v1 OH data
+        // The v2 endpoint combines Oracle Health and VistA records into a single format,
+        // and the backend doesn't provide a field to distinguish the source.
+        // Components use this flag to determine which template to render.
         isOracleHealthData: isAcceleratingAllergies || isCerner,
       };
     },
@@ -94,6 +99,15 @@ const AllergyDetails = props => {
       isAcceleratingAllergies,
       isCerner,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (allergyData) {
+        focusElement(document.querySelector('h1'));
+      }
+    },
+    [allergyData],
   );
 
   useEffect(

@@ -22,7 +22,7 @@ const AllergyListItem = ({ record }) => (
           sendDataDogAction('Allergies Detail Link');
         }}
       >
-        {record.name}{' '}
+        {record.name}
         <span
           className="sr-only"
           data-dd-privacy="mask"
@@ -123,9 +123,9 @@ const AllergyListItem = ({ record }) => (
           className="vads-u-display--inline-block"
           data-dd-privacy="mask"
           style={{ whiteSpace: 'pre-line' }}
-          data-dd-action-name="[allergy list - notes - Print]"
+          data-dd-action-name="[allergy list - provider - Print]"
         >
-          {record.notes}
+          {record.provider}
         </span>
       </div>
     )}

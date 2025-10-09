@@ -1,5 +1,6 @@
 import MedicalRecordsSite from '../../mr_site/MedicalRecordsSite';
 import Allergies from '../pages/Allergies';
+import AllergiesIntercepts from '../pages/AllergiesIntercepts';
 import allergiesV2Data from '../fixtures/allergies/uhd.json';
 import allergiesV1Data from '../fixtures/allergies/sample-lighthouse.json';
 import oracleHealthUser from '../fixtures/user/oracle-health.json';
@@ -14,7 +15,7 @@ describe('Allergy Details with 3-Path Routing', () => {
         isAcceleratingEnabled: true,
         isAcceleratingAllergies: true,
       });
-      Allergies.setIntercepts({ allergiesData: allergiesV2Data });
+      AllergiesIntercepts.setupV2Intercepts(allergiesV2Data);
     });
 
     it('displays v2 unified allergy detail correctly', () => {
@@ -23,25 +24,18 @@ describe('Allergy Details with 3-Path Routing', () => {
 
       cy.injectAxeThenAxeCheck();
 
-      // Verify v2 unified format on list page
-      cy.get('[data-testid="record-list-item"]')
-        .first()
-        .within(() => {
-          cy.get('a').should('contain', 'penicillins');
-          cy.contains('Date entered:').should('be.visible');
-        });
+      // Verify v2 unified format on list page (Penicillin is at index 6 after date sorting)
+      Allergies.verifyListItemName({ index: 6, name: 'Penicillin' });
 
-      // Click on first allergy to go to detail page
-      Allergies.selectAllergy({ index: 0 });
+      // Click on Penicillin allergy to go to detail page
+      Allergies.selectAllergy({ index: 6 });
 
       cy.injectAxeThenAxeCheck();
 
       // Verify v2 unified detail page
-      cy.url().should('include', '/allergies/');
-      cy.get('h1').should('contain', 'penicillins');
-      cy.contains('Medication').should('be.visible');
-      cy.contains('February 25, 2025').should('be.visible');
-      cy.contains('Urticaria (Hives)').should('be.visible');
+      Allergies.verifyDetailPageHeader('Penicillin');
+      Allergies.verifyV2UnifiedFormat();
+      Allergies.verifyDetailPageContent(['2002', 'Urticaria (Hives)']);
     });
   });
 
@@ -52,39 +46,25 @@ describe('Allergy Details with 3-Path Routing', () => {
         isAcceleratingEnabled: false,
         isAcceleratingAllergies: false,
       });
+      AllergiesIntercepts.setupOracleHealthIntercepts(allergiesV1Data);
     });
 
     it('displays OH allergy detail with use_oh_data_path parameter', () => {
-      const allergyId = '7006';
-
-      // Intercept list call with OH path
-      cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
-        if (!req.url.includes(`/${allergyId}`)) {
-          expect(req.url).to.contain('use_oh_data_path=1');
-          req.reply(allergiesV1Data);
-        }
-      }).as('oh-allergies-list');
-
-      // Intercept detail call with OH path
-      cy.intercept(
-        'GET',
-        `/my_health/v1/medical_records/allergies/${allergyId}*`,
-        req => {
-          expect(req.url).to.contain('use_oh_data_path=1');
-          req.reply(allergiesV1Data.entry[0].resource);
-        },
-      ).as('oh-allergy-detail');
-
       site.loadPage();
-      cy.visit(`/my-health/medical-records/allergies/${allergyId}`);
-
-      cy.wait('@oh-allergy-detail');
+      Allergies.goToAllergiesPage();
 
       cy.injectAxeThenAxeCheck();
 
-      // Verify OH data format
-      cy.get('h1').should('exist');
-      cy.contains('Date entered').should('be.visible');
+      // Verify OH format on list
+      Allergies.verifyFirstListItem();
+
+      // Go to detail page
+      Allergies.selectAllergy({ index: 0 });
+
+      cy.injectAxeThenAxeCheck();
+
+      // Verify OH data format on detail
+      Allergies.verifyOHFormat();
     });
   });
 
@@ -95,40 +75,26 @@ describe('Allergy Details with 3-Path Routing', () => {
         isAcceleratingEnabled: false,
         isAcceleratingAllergies: false,
       });
+      AllergiesIntercepts.setupVistaIntercepts(allergiesV1Data);
     });
 
     it('displays VistA allergy detail without OH parameter', () => {
-      const allergyId = '7006';
-
-      // Intercept list call WITHOUT OH path
-      cy.intercept('GET', '/my_health/v1/medical_records/allergies*', req => {
-        if (!req.url.includes(`/${allergyId}`)) {
-          expect(req.url).to.not.contain('use_oh_data_path=1');
-          req.reply(allergiesV1Data);
-        }
-      }).as('vista-allergies-list');
-
-      // Intercept detail call WITHOUT OH path
-      cy.intercept(
-        'GET',
-        `/my_health/v1/medical_records/allergies/${allergyId}*`,
-        req => {
-          expect(req.url).to.not.contain('use_oh_data_path=1');
-          req.reply(allergiesV1Data.entry[0].resource);
-        },
-      ).as('vista-allergy-detail');
-
       site.loadPage();
-      cy.visit(`/my-health/medical-records/allergies/${allergyId}`);
-
-      cy.wait('@vista-allergy-detail');
+      Allergies.goToAllergiesPage();
 
       cy.injectAxeThenAxeCheck();
 
-      // Verify VistA data format
-      cy.get('h1').should('exist');
-      cy.contains('Date entered').should('be.visible');
-      cy.get('[data-testid="allergy-type"]').should('exist');
+      // Verify VistA format on list
+      Allergies.verifyFirstListItem();
+
+      // Go to detail page
+      Allergies.selectAllergy({ index: 0 });
+
+      cy.injectAxeThenAxeCheck();
+
+      // Verify VistA data format on detail
+      Allergies.verifyOHFormat();
+      Allergies.verifyVistaFormat();
     });
   });
 
@@ -139,39 +105,27 @@ describe('Allergy Details with 3-Path Routing', () => {
         isAcceleratingEnabled: true,
         isAcceleratingAllergies: true,
       });
-      Allergies.setIntercepts({ allergiesData: allergiesV2Data });
+      AllergiesIntercepts.setupV2Intercepts(allergiesV2Data);
+      AllergiesIntercepts.blockV1Endpoint();
     });
 
     it('uses v2 endpoint when both acceleration and Cerner are true', () => {
-      // Ensure v1 endpoint is NOT called
-      cy.intercept('GET', '/my_health/v1/medical_records/allergies/*', () => {
-        throw new Error(
-          'Should not call v1 endpoint when acceleration is enabled',
-        );
-      });
-
       site.loadPage();
       Allergies.goToAllergiesPage();
 
       cy.injectAxeThenAxeCheck();
 
-      // Verify v2 unified format on list (not v1 OH format)
-      cy.get('[data-testid="record-list-item"]')
-        .first()
-        .within(() => {
-          cy.get('a').should('contain', 'penicillins');
-          cy.contains('Date entered:').should('be.visible');
-        });
+      // Verify v2 unified format on list (not v1 OH format) - Penicillin is at index 6
+      Allergies.verifyListItemName({ index: 6, name: 'Penicillin' });
 
-      // Click on first allergy to go to detail page
-      Allergies.selectAllergy({ index: 0 });
+      // Click on Penicillin allergy to go to detail page
+      Allergies.selectAllergy({ index: 6 });
 
       cy.injectAxeThenAxeCheck();
 
       // Verify v2 unified detail (acceleration takes priority over Cerner)
-      cy.url().should('include', '/allergies/');
-      cy.get('h1').should('contain', 'penicillins');
-      cy.contains('Medication').should('be.visible');
+      Allergies.verifyDetailPageHeader('Penicillin');
+      Allergies.verifyV2UnifiedFormat();
     });
   });
 });

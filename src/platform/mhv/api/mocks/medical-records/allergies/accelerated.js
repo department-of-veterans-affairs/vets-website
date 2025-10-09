@@ -1,50 +1,18 @@
 const all = {
   data: [
     {
-      id: '132892323',
+      id: '2678',
       type: 'allergy',
       attributes: {
-        id: '132892323',
-        name: 'penicillins',
+        id: '2678',
+        name: 'TRAZODONE',
+        date: null,
         categories: ['medication'],
-        date: '2025-02-25T17:50:49Z',
-        reactions: ['Urticaria (Hives)', 'Sneezing'],
-        location: 'VA Medical Center',
-        // observedHistoric: null, // Not available in Oracle Health FHIR data
-        notes: [
-          'Patient reports adverse reaction to previously prescribed pencicillins',
-        ],
-        provider: 'Borland, Victoria A',
-      },
-    },
-    {
-      id: '132892324',
-      type: 'allergy',
-      attributes: {
-        id: '132892324',
-        name: 'Shellfish',
-        categories: ['food'],
-        date: '2024-08-15T10:30:00Z',
-        reactions: ['Difficulty breathing', 'Rash'],
-        location: 'Community Care Center',
-        // observedHistoric: null, // Not available in Oracle Health FHIR data
-        notes: ['Patient reports severe reaction to shellfish'],
-        provider: 'Dr. Sarah Johnson',
-      },
-    },
-    {
-      id: '132892325',
-      type: 'allergy',
-      attributes: {
-        id: '132892325',
-        name: 'Peanuts',
-        categories: ['food'],
-        date: '2023-12-10T14:20:00Z',
-        reactions: ['Anaphylaxis', 'Swelling'],
-        location: 'VA Medical Center',
-        // observedHistoric: null, // Not available in Oracle Health FHIR data
-        notes: ['Severe allergic reaction requiring epinephrine'],
-        provider: 'Dr. Michael Smith',
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
       },
     },
     {
@@ -53,13 +21,188 @@ const all = {
       attributes: {
         id: '30624',
         name: 'NKA (NO KNOWN ALLERGY)',
+        date: null,
         categories: ['medication'],
-        date: '1994-10-05T15:54:34+00:00',
         reactions: [],
-        location: 'VA Medical Center',
-        observedHistoric: 'h', // VistA data example - has this field
+        location: null,
+        observedHistoric: 'h',
         notes: ['PER PAN 10-5-94'],
-        provider: 'VA Medical Center',
+        provider: null,
+      },
+    },
+    {
+      id: '2679',
+      type: 'allergy',
+      attributes: {
+        id: '2679',
+        name: 'MAXZIDE',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '2677',
+      type: 'allergy',
+      attributes: {
+        id: '2677',
+        name: 'INDOMETHACIN',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '2676',
+      type: 'allergy',
+      attributes: {
+        id: '2676',
+        name: 'ASPIRIN',
+        date: null,
+        categories: ['medication'],
+        reactions: [],
+        location: null,
+        observedHistoric: 'h',
+        notes: [],
+        provider: null,
+      },
+    },
+    {
+      id: '132892323',
+      type: 'allergy',
+      attributes: {
+        id: '132892323',
+        name: 'Penicillin',
+        date: '2002',
+        categories: ['medication'],
+        reactions: ['Urticaria (Hives)', 'Sneezing'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Patient reports adverse reaction to previously prescribed pencicillins',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316417',
+      type: 'allergy',
+      attributes: {
+        id: '132316417',
+        name: 'Oxymorphone',
+        date: '2019',
+        categories: ['medication'],
+        reactions: ['Anaphylaxis'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Testing Contraindication type reaction',
+          'Secondary comment for contraindication',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132320329',
+      type: 'allergy',
+      attributes: {
+        id: '132320329',
+        name: 'Naproxen',
+        date: '2004-12-17',
+        categories: ['medication'],
+        reactions: ['Sneezing', 'Syncope', 'free text reaction'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'This is a secondary comment added to the naproxen allergy',
+          'This is an initial comment added to the naproxen allergy',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132312405',
+      type: 'allergy',
+      attributes: {
+        id: '132312405',
+        name: 'Grass pollen (substance)',
+        date: '2022',
+        categories: ['environment'],
+        reactions: ['Sneezing', 'Urticaria (Hives)'],
+        location: null,
+        observedHistoric: null,
+        notes: [
+          'Testing whether alllergy with resolved status is still passed through !@\\#$%^&*()',
+        ],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132320343',
+      type: 'allergy',
+      attributes: {
+        id: '132320343',
+        name: 'Radish (substance)',
+        date: '1966',
+        categories: ['food'],
+        reactions: ['Depression'],
+        location: null,
+        observedHistoric: null,
+        notes: ['Radish makes Hooper sad-ish :('],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316411',
+      type: 'allergy',
+      attributes: {
+        id: '132316411',
+        name: 'Sunlight (substance) (deprecated)',
+        date: '2024',
+        categories: [],
+        reactions: ['Urticaria (Hives)'],
+        location: null,
+        observedHistoric: null,
+        notes: [],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132312395',
+      type: 'allergy',
+      attributes: {
+        id: '132312395',
+        name: 'Coconut (substance)',
+        date: '2024-11-08',
+        categories: ['food'],
+        reactions: ['Pruritus', 'Delirium'],
+        location: null,
+        observedHistoric: null,
+        notes: ['This allergy duplicates an allergy entered into VistA'],
+        provider: ' Victoria A Borland',
+      },
+    },
+    {
+      id: '132316427',
+      type: 'allergy',
+      attributes: {
+        id: '132316427',
+        name: 'Cashew nut (substance)',
+        date: '2024-12-17',
+        categories: ['food'],
+        reactions: ['Oral Edema'],
+        location: null,
+        observedHistoric: null,
+        notes: [],
+        provider: ' Victoria A Borland',
       },
     },
   ],
@@ -69,8 +212,10 @@ const empty = { data: [] };
 
 const single = (req, res) => {
   const { id } = req.params;
-  const response = all.data.find(item => item.id === id);
-  return res.json({ data: response });
+  const response = all.data.find(item => {
+    return item.id === id;
+  });
+  return res.json(response || {});
 };
 
 module.exports = {

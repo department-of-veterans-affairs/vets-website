@@ -18,10 +18,12 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
-    isAcceleratingVitals ? CernerAlertContent.VITALS.pageName : null,
-    isCerner ? CernerAlertContent.VITALS.pageName : null,
-    isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : null,
-    isCerner ? CernerAlertContent.ALLERGIES.pageName : null,
+    isAcceleratingVitals || isCerner
+      ? CernerAlertContent.VITALS.pageName
+      : null,
+    isAcceleratingAllergies || isCerner
+      ? CernerAlertContent.ALLERGIES.pageName
+      : null,
     isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
     isAcceleratingCareNotes
       ? CernerAlertContent.CARE_SUMMARIES_AND_NOTES.pageName

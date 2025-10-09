@@ -48,12 +48,20 @@ describe('Medical Records Accelerated Allergies', () => {
 
     cy.injectAxeThenAxeCheck();
 
-    // Verify the first allergy shows unified data format
+    // Verify the first allergy shows unified data format (Cashew nut - most recent, OH record)
     cy.get('[data-testid="record-list-item"]')
       .first()
       .within(() => {
-        // Check unified format fields using real Oracle Health data
-        cy.get('a').should('contain', 'penicillins');
+        // Check unified format fields - OH record with provider
+        cy.get('a').should('contain', 'Cashew nut');
+        cy.contains('Date entered:').should('be.visible');
+      });
+
+    // Also verify a VistA record (TRAZODONE at index 8 - null date, sorted to end)
+    cy.get('[data-testid="record-list-item"]')
+      .eq(8)
+      .within(() => {
+        cy.get('a').should('contain', 'TRAZODONE');
         cy.contains('Date entered:').should('be.visible');
       });
   });

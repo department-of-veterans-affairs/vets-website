@@ -36,7 +36,9 @@ class Allergies {
   };
 
   goToAllergiesPage = () => {
-    cy.findByTestId('allergies-landing-page-link').click();
+    cy.findByTestId('allergies-landing-page-link')
+      .scrollIntoView()
+      .click({ force: true });
 
     cy.wait('@allergies-list');
   };
@@ -63,6 +65,50 @@ class Allergies {
     cy.url().should('include', '/allergies/');
     cy.get('h1').should('be.visible');
     cy.contains('Date entered:').should('be.visible');
+  };
+
+  // Helper methods for list page assertions
+  verifyListItemName = ({ index = 0, name } = {}) => {
+    cy.get('[data-testid="record-list-item"]')
+      .eq(index)
+      .within(() => {
+        cy.get('a').should('contain', name);
+        cy.contains('Date entered:').should('be.visible');
+      });
+  };
+
+  verifyFirstListItem = () => {
+    cy.get('[data-testid="record-list-item"]')
+      .first()
+      .within(() => {
+        cy.get('a').should('be.visible');
+        cy.contains('Date entered:').should('be.visible');
+      });
+  };
+
+  // Helper methods for detail page assertions
+  verifyDetailPageHeader = name => {
+    cy.url().should('include', '/allergies/');
+    cy.get('h1').should('contain', name);
+  };
+
+  verifyDetailPageContent = (expectedContent = []) => {
+    expectedContent.forEach(content => {
+      cy.contains(content).should('be.visible');
+    });
+  };
+
+  verifyV2UnifiedFormat = () => {
+    cy.contains('Medication').should('be.visible');
+  };
+
+  verifyVistaFormat = () => {
+    cy.get('[data-testid="allergy-type"]').should('exist');
+  };
+
+  verifyOHFormat = () => {
+    cy.contains('Date entered').should('be.visible');
+    cy.get('h1').should('exist');
   };
 }
 
