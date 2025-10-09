@@ -12,6 +12,7 @@ import {
   fillTextareaWebComponent,
   fillSelectWebComponent,
   selectRadioWebComponent,
+  signAndSubmit,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -331,21 +332,11 @@ const testConfig = createTestConfig(
 
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-text-input')
-            .shadow()
-            .find('input')
-            .type('John Doe');
-
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input[type="checkbox"]')
-            .check({ force: true });
-
-          cy.clickFormContinue();
+          signAndSubmit();
         });
       },
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
 
   manifest,
