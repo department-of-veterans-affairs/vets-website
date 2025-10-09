@@ -8,10 +8,12 @@ import {
   dateFormatWithoutTime,
   formatDate,
   sendDataDogAction,
+  getMonthFromSelectedDate,
 } from '../../util/helpers';
 
 const VitalListItem = props => {
   const { record, options = {} } = props;
+  // TODO: Should this be decoupled from isCerner as well?
   const { isAccelerating, timeFrame } = options;
   const displayName = vitalTypeDisplayNames[record.type];
 
@@ -137,7 +139,9 @@ const VitalListItem = props => {
                     .slice(0, 3)
                     .join(' ')
                 : displayName.toLowerCase()}{' '}
-              over time
+              {isAccelerating && timeFrame
+                ? `for ${getMonthFromSelectedDate({ date: timeFrame })}`
+                : 'over time'}
             </strong>
             <span aria-hidden="true">
               <va-icon icon="navigate_next" size={1} />

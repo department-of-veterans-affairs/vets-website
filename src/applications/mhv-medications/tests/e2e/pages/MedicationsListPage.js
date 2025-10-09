@@ -248,7 +248,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of all medications')
+      .should('contain', 'Download a PDF')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
@@ -776,10 +776,6 @@ class MedicationsListPage {
 
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
     cy.get('[data-testid="download-print-button"]').should('be.enabled');
-  };
-
-  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
-    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
   };
 
   verifyPharmacyPhoneNumberOnListPage = phoneNumber => {
