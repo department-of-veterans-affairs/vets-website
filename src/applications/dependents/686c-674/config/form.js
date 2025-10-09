@@ -56,6 +56,7 @@ import {
   isRemovingDependents,
 } from './utilities';
 import migrations from './migrations';
+import reviewDependents from './chapters/picklist/reviewDependents';
 
 export const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -144,6 +145,13 @@ export const formConfig = {
           ? 'Manage dependents'
           : 'Add or remove dependents',
       pages: {
+        reviewDependents: {
+          title: 'Review your VA Dependents',
+          path: 'review-dependents',
+          depends: showV3Picklist,
+          uiSchema: reviewDependents.uiSchema,
+          schema: reviewDependents.schema,
+        },
         addOrRemoveDependents: {
           title: 'What would you like to do?',
           path: 'options-selection',
