@@ -45,24 +45,16 @@ const formConfig = {
       { href: '/', label: 'VA.gov home' },
       {
         href: '/disability',
-        label: 'Disability',
+        label: 'Disability benefits',
       },
       {
-        href: '/disability/eligibility',
-        label: 'Eligibility',
-      },
-      {
-        href: '/disability/eligibility/special-claims',
-        label: 'Special claims',
-      },
-      {
-        href: '/disability/eligibility/special-claims/unemployability',
-        label: 'Unemployability',
+        href: '/disability/eligibility/special-claims/unemployability/',
+        label: 'Verify Individual Unemployability status',
       },
       {
         href:
           '/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140',
-        label: 'Employment questionnaire form 21 4140',
+        label: 'Submit Employment Questionnaire',
       },
     ],
   }),
