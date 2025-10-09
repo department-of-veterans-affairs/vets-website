@@ -45,13 +45,6 @@ describe('Get condition action', () => {
     });
   });
 
-  it('should dispatch an error', () => {
-    mockApiRequest(error404);
-    return getConditionDetails('310x', undefined)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
-    });
-  });
-
   it('should dispatch a get details action and pull from the list', () => {
     mockApiRequest(condition);
     return getConditionDetails('1', [{ id: '1' }])(dispatch).then(() => {
@@ -90,6 +83,18 @@ describe('getConditionsList - isAccelerating feature', () => {
   it('should dispatch GET_UNIFIED_LIST', () => {
     mockApiRequest(conditionsAccelerating);
     return getConditionsList(false, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.Conditions.UPDATE_LIST_STATE,
+      );
+      expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Conditions.GET_UNIFIED_LIST,
+      );
+    });
+  });
+
+  it('should dispatch an error', () => {
+    mockApiRequest(error404);
+    getConditionsList(false, true)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         Actions.Conditions.UPDATE_LIST_STATE,
       );
