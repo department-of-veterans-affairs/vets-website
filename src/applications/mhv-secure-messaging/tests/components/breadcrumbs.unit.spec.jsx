@@ -7,7 +7,7 @@ import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
-import { Breadcrumbs, Paths } from '../../util/constants';
+import { Breadcrumbs, DefaultFolders, Paths } from '../../util/constants';
 import manifest from '../../manifest.json';
 
 let initialState;
@@ -330,6 +330,100 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(previous);
+    });
+  });
+
+  it('should navigate to Sent folder when clicking back from Sent folder thread', async () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          list: {
+            href: `${Paths.FOLDERS}${DefaultFolders.SENT.id}`,
+            label: 'Sent',
+          },
+          previousUrl: Paths.INBOX,
+        },
+        folders: {
+          folder: {
+            folderId: DefaultFolders.SENT.id,
+            name: 'Sent',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `${Paths.MESSAGE_THREAD}12345/`,
+    });
+
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.SENT);
+    });
+  });
+
+  it('should navigate to Inbox folder when clicking back from Inbox folder thread', async () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          list: {
+            href: `${Paths.FOLDERS}${DefaultFolders.INBOX.id}`,
+            label: 'Inbox',
+          },
+          previousUrl: Paths.SENT,
+        },
+        folders: {
+          folder: {
+            folderId: DefaultFolders.INBOX.id,
+            name: 'Inbox',
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `${Paths.MESSAGE_THREAD}67890/`,
+    });
+
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    });
+  });
+
+  it('should navigate to Folders page when clicking back from Drafts page', async () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          list: {
+            href: Paths.FOLDERS,
+            label: 'Folders',
+            isRouterLink: true,
+          },
+          previousUrl: Paths.FOLDERS,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.DRAFTS,
+    });
+
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.FOLDERS);
     });
   });
 
