@@ -114,6 +114,7 @@ const formConfig = {
   },
   title: 'File a CHAMPVA claim',
   subTitle: 'CHAMPVA Claim Form (VA Form 10-7959a)',
+  dev: { disableWindowUnloadInCI: true },
   defaultDefinitions: {},
   chapters: {
     signerInformation: {

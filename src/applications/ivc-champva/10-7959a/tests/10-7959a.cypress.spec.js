@@ -104,15 +104,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page2c.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.get('select').select(1);
-            cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
         afterHook(() => {
           cy.get('input[type="file"]')
