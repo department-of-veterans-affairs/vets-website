@@ -302,6 +302,6 @@ describe('EpsAppointmentDetailsPage', () => {
 
     const description = container.getByTestId('appointment-time-description');
     expect(description).to.exist;
-    expect(description.textContent).to.include('Eastern Standard Time'); // Full timezone description
+    expect(description.textContent).to.include('Eastern time (ET)'); // Full timezone description
   });
 });
