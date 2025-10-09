@@ -4,10 +4,31 @@
     "optionIndicator": "revoke",
     "mstOption": true,
     "view:supportInfo": {},
-    "view:hasOtherEvidence": false,
+    "additionalDocuments": [
+      {
+        "name": "content.pdf",
+        "size": 940985,
+        "confirmationCode": "bf76366d-5f52-44bd-8fe6-c29faf1bb0c8",
+        "attachmentId": "L015",
+        "isEncrypted": false
+      }
+    ],
+    "view:hasOtherEvidence": true,
     "view:otherEvidenceInfo": {},
-    "view:hasVaEvidence": false,
+    "limitedConsent": "Testing content for limited consent",
+    "view:hasPrivateLimitation": true,
+    "view:evidenceLimitInfo": {},
+    "view:hasVaEvidence": true,
     "view:vaEvidenceInfo": {},
+    "facilityTypes": {
+      "vamc": true,
+      "cboc": true,
+      "mtf": true,
+      "ccp": true,
+      "vetCenter": true,
+      "nonVa": true,
+      "other": "Some other type of provider"
+    },
     "view:pointOfContact": {},
     "pointOfContactName": "Ted Mosby",
     "pointOfContactPhone": "2105550123",
@@ -112,33 +133,10 @@
     "view:primaryPhone": "home",
     "view:issueNotListed": {},
     "form5103Acknowledged": true,
-    "view:hasPrivateEvidence": false,
+    "view:hasPrivateEvidence": true,
+    "showScNewForm": true,
     "benefitType": "compensation",
-    "contestedIssues": [{
-      "id": null,
-      "type": "contestableIssue",
-      "attributes": {
-        "ratingIssueReferenceId": "142894",
-        "ratingIssueProfileDate": "2022-03-12",
-        "ratingIssueDiagnosticCode": "5260",
-        "ratingIssueSubjectText": "Headaches",
-        "description": "Acute chronic head pain",
-        "ratingIssuePercentNumber": "10",
-        "isRating": true,
-        "latestIssuesInChain": [{
-          "id": null,
-          "approxDecisionDate": "2022-03-12"
-        }],
-        "decisionIssueId": null,
-        "ratingDecisionReferenceId": null,
-        "approxDecisionDate": "2022-03-12",
-        "rampClaimId": null,
-        "titleOfActiveReview": null,
-        "sourceReviewType": null,
-        "timely": true
-      },
-      "view:selected": true
-    }],
+    "hasRedirected": true,
     "additionalIssues": [
       {
         "issue": "Tinnitus",
@@ -154,6 +152,62 @@
         "issue": "Right Knee Injury",
         "decisionDate": "2018-01-20",
         "view:selected": true
+      }
+    ],
+    "locations": [
+      {
+        "locationAndName": "South Texas VA Facility",
+        "issues": ["Tinnitus", "Migraines"],
+        "evidenceDates": {
+          "from": "",
+          "to": ""
+        },
+        "treatmentDate": "",
+        "noDate": true
+      },
+      {
+        "locationAndName": "Midwest Alabama VA Facility",
+        "issues": ["Migraines", "Right Knee Injury"],
+        "evidenceDates": {
+          "from": "",
+          "to": ""
+        },
+        "treatmentDate": "2000-01"
+      }
+    ],
+    "privacyAgreementAccepted": true,
+    "providerFacility": [
+      {
+        "providerFacilityName": "Provider One",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "123 Main Street",
+          "street2": "Street address 2",
+          "city": "San Antonio",
+          "state": "TX",
+          "postalCode": "78258"
+        },
+        "issues": ["Tinnitus", "Migraines"],
+        "treatmentDateRange": {
+          "from": "2009-08-07",
+          "to": "2012-10-24"
+        }
+      },
+      {
+        "providerFacilityName": "Provider Two",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 Elm Street",
+          "street2": "",
+          "city": "Madison",
+          "state": "WI",
+          "postalCode": "38784"
+        },
+        "issues": ["Migraines", "Right Knee Injury"],
+        "treatmentDateRange": {
+          "from": "2005-12-17",
+          "to": "2007-03-04"
+        }
       }
     ]
   }

@@ -13,7 +13,11 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     dataPrefix: 'data',
 
-    dataSets: ['no-evidence-test', 'minimal-test', 'partial-evidence-test'],
+    dataSets: [
+      'no-evidence-test',
+      'api-formatted-minimal-test',
+      'pre-api-partial-evidence-test',
+    ],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

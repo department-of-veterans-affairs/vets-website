@@ -215,7 +215,7 @@ export const setupPerTest = (_testData, toggles = []) => {
   cy.intercept(
     'GET',
     `${CONTESTABLE_ISSUES_API}/compensation`,
-    dataSet === 'maximal-test'
+    dataSet === 'api-formatted-comprehensive-test'
       ? mockContestableIssuesWithLegacyAppeals
       : mockContestableIssues,
   ).as('getIssues');
