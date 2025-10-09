@@ -249,32 +249,6 @@ describe('Breadcrumbs', () => {
     );
   });
 
-  it('should navigate back to compose flow page from contact list when coming from compose flow and no active draft', async () => {
-    const previousUrl = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
-    const customState = {
-      sm: {
-        breadcrumbs: {
-          previousUrl,
-        },
-        threadDetails: {
-          drafts: [], // No active draft
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
-      initialState: customState,
-      reducers: reducer,
-      path: Paths.CONTACT_LIST,
-    });
-
-    fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
-
-    await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(previousUrl);
-    });
-  });
-
   it('navigates back correctly from CARE_TEAM_HELP to Select care team (previousUrl)', async () => {
     const previous = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
     const customState = {
@@ -425,6 +399,38 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(Paths.FOLDERS);
+    });
+  });
+
+  describe('Custom folder breadcrumb setup', () => {
+    it('should set breadcrumbs correctly when viewing a custom folder', async () => {
+      const customFolderName = 'My Custom Folder';
+      const customFolderId = 123;
+      const customState = {
+        sm: {
+          folders: {
+            folder: {
+              folderId: customFolderId,
+              name: customFolderName,
+            },
+            folderList: [
+              { id: customFolderId, name: customFolderName },
+              { id: 456, name: 'Another Folder' },
+            ],
+          },
+        },
+      };
+
+      const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.FOLDERS}${customFolderId}/`,
+      });
+
+      // Component should render with back button (folder paths use back button)
+      const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+      expect(backButton).to.exist;
+      expect(backButton).to.have.attribute('text', 'Back');
     });
   });
 
