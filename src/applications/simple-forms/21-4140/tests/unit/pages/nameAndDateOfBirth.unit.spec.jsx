@@ -11,7 +11,7 @@ const {
 
 const pageTitle = 'nameAndDateOfBirth';
 
-// The page has 5 fields: firstName, middleName, lastName, suffix, dateOfBirth
+// The page has 4 fields: firstName, middleName, lastName, dateOfBirth
 const numberOfWebComponentFields = 4;
 testNumberOfWebComponentFields(
   formConfig,
@@ -21,7 +21,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-// According to PRD: firstName and lastName are required, so 2 validation errors expected
+// According to PRD: firstName, lastName and dateOfBirth are required, so 3 validation errors expected
 const numberOfWebComponentErrors = 3;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
