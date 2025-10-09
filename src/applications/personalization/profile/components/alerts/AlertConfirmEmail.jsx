@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -6,17 +6,38 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import {
   dismissAlertViaCookie,
   selectContactEmailAddress,
   showAlertConfirmEmail,
 } from '../../selectors';
 
+const _recordLoadEvent = headline => {
+  // record GA event
+  recordEvent({
+    event: 'nav-alert-box-load',
+    action: 'load',
+    'alert-box-headline': headline,
+    'alert-box-status': 'warning',
+  });
+  // record DD event
+  datadogRum.addAction(`VaAlert load event: ${headline}`);
+};
+
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
-const AlertConfirmContactEmail = ({ onClick = () => {} }) => {
+const AlertConfirmContactEmail = ({
+  recordLoadEvent = () => {},
+  onClick = () => {},
+}) => {
+  const headline = 'Confirm your contact email';
+
+  useEffect(() => recordLoadEvent(headline), [headline, recordLoadEvent]);
+
   return (
     <VaAlert status="warning" dataTestid="alert-confirm-contact-email">
-      <h2 slot="headline">Confirm your contact email</h2>
+      <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
           We’ll send notifications about your VA health care and benefits to
@@ -35,14 +56,22 @@ const AlertConfirmContactEmail = ({ onClick = () => {} }) => {
 };
 
 AlertConfirmContactEmail.propTypes = {
+  recordLoadEvent: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45893&t=t55H62nbe7HYOvFq-4
-const AlertAddContactEmail = ({ onClick = () => {} }) => {
+const AlertAddContactEmail = ({
+  recordLoadEvent = () => {},
+  onClick = () => {},
+}) => {
+  const headline = 'Add a contact email';
+
+  useEffect(() => recordLoadEvent(headline), [headline, recordLoadEvent]);
+
   return (
     <VaAlert status="warning" dataTestid="alert-add-contact-email">
-      <h2 slot="headline">Add a contact email</h2>
+      <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
           We’ll send notifications about your VA health care and benefits to
@@ -66,6 +95,7 @@ const AlertAddContactEmail = ({ onClick = () => {} }) => {
 };
 
 AlertAddContactEmail.propTypes = {
+  recordLoadEvent: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -79,7 +109,7 @@ AlertAddContactEmail.propTypes = {
  *
  * @returns {JSX.Element|null} `<AlertConfirmContactEmail />`, `<AlertAddContactEmail />`, or null
  */
-const AlertConfirmEmail = () => {
+const AlertConfirmEmail = ({ recordLoadEvent = _recordLoadEvent }) => {
   const showAlert = useSelector(showAlertConfirmEmail);
   const emailAddress = useSelector(selectContactEmailAddress);
   const [dismissed, setDismissed] = useState(false);
@@ -100,10 +130,20 @@ const AlertConfirmEmail = () => {
   if (!showAlert || dismissed) return null;
 
   return emailAddress ? (
-    <AlertConfirmContactEmail onClick={putConfirmationDate} />
+    <AlertConfirmContactEmail
+      onClick={putConfirmationDate}
+      recordLoadEvent={recordLoadEvent}
+    />
   ) : (
-    <AlertAddContactEmail onClick={onSkipClick} />
+    <AlertAddContactEmail
+      onClick={onSkipClick}
+      recordLoadEvent={recordLoadEvent}
+    />
   );
+};
+
+AlertConfirmEmail.propTypes = {
+  recordLoadEvent: PropTypes.func,
 };
 
 export default AlertConfirmEmail;
