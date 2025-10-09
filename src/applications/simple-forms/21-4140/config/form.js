@@ -57,6 +57,7 @@ const formConfig = {
         label: 'Submit Employment Questionnaire',
       },
     ],
+    wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_21_4140,
   saveInProgress: {
