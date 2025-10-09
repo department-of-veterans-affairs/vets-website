@@ -76,7 +76,6 @@ const causePage = {
   schema: {
     type: 'object',
     properties: {
-      // Start with the full set; updateSchema will trim it at runtime
       cause: radioSchema(Object.keys(causeOptions)),
     },
   },
