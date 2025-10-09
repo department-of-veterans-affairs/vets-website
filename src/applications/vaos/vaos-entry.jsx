@@ -8,7 +8,6 @@ import manifest from './manifest.json';
 import reducer from './redux/reducer';
 import { vaosApi } from './redux/api/vaosApi';
 
-// Initialize app.
 startApp({
   url: manifest.rootUrl,
   createRoutesWithStore,
