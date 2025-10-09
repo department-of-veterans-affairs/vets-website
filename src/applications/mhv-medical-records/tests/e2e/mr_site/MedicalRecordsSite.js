@@ -78,22 +78,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhvMedicalRecordsDisplayDomains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_domains',
-            value: true,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplaySidenav',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_sidenav',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
