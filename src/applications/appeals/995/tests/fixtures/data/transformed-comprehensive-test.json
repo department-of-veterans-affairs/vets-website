@@ -39,9 +39,10 @@
               "evidenceDates": [
                 {
                   "startDate": "2001-01-01",
-                  "endDate": "2011-01-01"
+                  "endDate": "2001-01-01"
                 }
-              ]
+              ],
+              "noTreatmentDates": false
             }
           },
           {
