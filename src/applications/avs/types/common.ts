@@ -9,9 +9,9 @@ export interface ManifestType {
 }
 
 // Define the application state structure
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppState {
-  // Currently the reducer is empty, but we'll define this for future use
-  [key: string]: unknown;
+  // Currently the reducer is empty, but will be expanded when state management is added
 }
 
 // Route parameters

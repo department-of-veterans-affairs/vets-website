@@ -3,18 +3,14 @@
 import type { AvsData } from './domain';
 
 // API Response types
-export interface ApiResponseData<T = unknown> {
+export interface AvsApiResponseData {
   id: string;
   type: string;
-  attributes: T;
+  attributes: AvsData;
 }
 
-export interface ApiResponse<T = unknown> {
-  data: ApiResponseData<T>;
-}
-
-export interface AvsApiResponse extends ApiResponse<AvsData> {
-  data: ApiResponseData<AvsData>;
+export interface AvsApiResponse {
+  data: AvsApiResponseData;
 }
 
 // Loader return type

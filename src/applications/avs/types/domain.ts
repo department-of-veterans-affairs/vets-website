@@ -112,7 +112,6 @@ export interface Order {
   instructions?: string;
   date?: string;
   text: string;
-  [key: string]: unknown;
 }
 
 export interface ClinicalReminder {
@@ -197,6 +196,4 @@ export interface AvsData {
   clinicMedications?: ClinicMedication[];
   clinicalServices?: ClinicalService[];
   moreHelpAndInformation?: string;
-  // Add more AVS-specific fields as needed
-  [key: string]: unknown;
 }
