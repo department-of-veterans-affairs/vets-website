@@ -1,5 +1,9 @@
 import { Actions } from '../util/actionTypes';
-import { findBlockedFacilities, formatRecipient } from '../util/helpers';
+import {
+  findAllowedFacilities,
+  findBlockedFacilities,
+  formatRecipient,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -8,11 +12,12 @@ const initialState = {
    */
   allRecipients: [],
   allowedRecipients: [],
+  vistaRecipients: [],
   recentRecipients: undefined,
   blockedRecipients: [],
   blockedFacilities: [],
   allFacilities: [],
-  allowedVistaFacilities: [],
+  vistaFacilities: [],
   allowedOhFacilities: [],
   activeCareSystem: null,
   activeCareTeam: null,
@@ -50,16 +55,22 @@ export const recipientsReducer = (state = initialState, action) => {
 
         allRecipients: recipients,
 
-        allowedRecipients: recipients
-          .filter(
-            recipient =>
-              recipient.blockedStatus === false &&
-              recipient.preferredTeam === true &&
-              (state.activeCareSystem?.vhaId === undefined ||
-                state.activeCareSystem?.vhaId === recipient.stationNumber),
-          )
+        allowedRecipients: recipients.filter(
+          recipient =>
+            recipient.blockedStatus === false &&
+            recipient.preferredTeam === true &&
+            (state.activeCareSystem?.vhaId === undefined ||
+              state.activeCareSystem?.vhaId === recipient.stationNumber),
+        ),
+
+        vistaFacilities: findAllowedFacilities(recipients)
+          .allowedVistaFacilities,
+
+        vistaRecipients: recipients
+          .filter(recipient => recipient.ohTriageGroup !== true)
           .map(recipient => formatRecipient(recipient)),
 
+        activeCareSystem: action.response.meta.activeCareSystem || null,
         blockedRecipients: recipients
           .filter(recipient => recipient.blockedStatus === true)
           .map(recipient => formatRecipient(recipient)),

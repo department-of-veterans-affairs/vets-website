@@ -44,7 +44,7 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
   });
 
   it('verify particular group', () => {
-    PatientComposePage.verifyRecipientsQuantityInGroup(0, 3);
+    PatientComposePage.verifyRecipientsQuantityInGroup(0, 4);
     PatientComposePage.verifyRecipientsQuantityInGroup(1, 3);
     PatientComposePage.verifyRecipientsQuantityInGroup(2, 1);
     PatientComposePage.verifyRecipientsQuantityInGroup(3, 1);
@@ -56,11 +56,11 @@ describe('SM RECIPIENTS GROUPING ON DRAFT', () => {
     PatientComposePage.verifyRecipientsGroupName(1, 'VA Madison health care');
     PatientComposePage.verifyRecipientsGroupName(
       2,
-      'VA Martinsburg health care',
+      'VA Northern Arizona health care',
     );
     PatientComposePage.verifyRecipientsGroupName(
       3,
-      'VA Northern Arizona health care',
+      'VA Puget Sound health care',
     );
 
     cy.injectAxe();

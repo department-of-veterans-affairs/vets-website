@@ -57,6 +57,11 @@ export const getCardDescription = item => {
   ) : null;
 };
 
+export const capitalizeFirstLetter = str => {
+  if (!str || typeof str !== 'string') return '';
+  return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
+};
+
 export const getCardTitle = item => {
   let cardTitle = null;
 

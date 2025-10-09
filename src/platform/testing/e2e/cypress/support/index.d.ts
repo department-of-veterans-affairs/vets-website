@@ -88,6 +88,38 @@ declare namespace Cypress {
     selectYesNoVaRadioOption(field: string, value: boolean): Chainable<Subject>;
 
     /**
+     * Selects Yes/No for array builder summary page based on test data or manual override.
+     * Auto-detects the yes/no element by class name.
+     * @param overrideValue - Optional manual override (true=Yes, false=No). If not provided, auto-determines based on test data.
+     */
+    selectArrayBuilderSummaryYesNo(overrideValue?: boolean): Chainable<Subject>;
+
+    /**
+     * Clicks array builder summary page add button with conditional logic to determine whether to add another item
+     * based on test data and existing cards on the page. Auto-detects the button by class name.
+     * @param overrideValue - Optional override: true=click to add, false=don't click
+     */
+    clickArrayBuilderSummaryAddButton(
+      overrideValue?: boolean,
+    ): Chainable<Subject>;
+
+    /**
+     * Clicks array builder summary page add link with conditional logic to determine whether to add another item
+     * based on test data and existing cards on the page. Auto-detects the link by class name.
+     * @param overrideValue - Optional override: true=click to add, false=don't click
+     */
+    clickArrayBuilderSummaryAddLink(
+      overrideValue?: boolean,
+    ): Chainable<Subject>;
+
+    /**
+     * General-purpose array builder summary continue command that auto-detects the pattern type
+     * (yes/no radio, button, or link) and applies the appropriate interaction with conditional logic.
+     * @param overrideValue - Optional override: true=add another, false=continue without adding
+     */
+    arrayBuilderSummaryContinue(overrideValue?: boolean): Chainable<Subject>;
+
+    /**
      * Custom command to fill va-date web component.
      * @param field - The "name" of a va-date, or the element itself.
      * @param dateString - A string dateString of format XXXX-XX-XX

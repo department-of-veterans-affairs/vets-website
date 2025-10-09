@@ -225,7 +225,7 @@ export const arrayBuilderYesNoUI = (
   return {
     ...yesNoUI({
       title: defaultTitle,
-      classNames: 'wc-pattern-array-builder-yes-no',
+      classNames: 'wc-pattern-array-builder wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
 

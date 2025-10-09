@@ -99,7 +99,7 @@ class AdditionalEvidencePage extends React.Component {
             </>
           )}
           <h3 id="add-files" className="vads-u-margin-bottom--3">
-            Additional evidence
+            {this.props.additionalEvidenceTitle || 'Additional evidence'}
           </h3>
           {isOpen ? (
             <>
@@ -171,6 +171,7 @@ const mapDispatchToProps = {
 };
 
 AdditionalEvidencePage.propTypes = {
+  additionalEvidenceTitle: PropTypes.string,
   cancelUpload: PropTypes.func,
   claim: PropTypes.object,
   clearAdditionalEvidenceNotification: PropTypes.func,

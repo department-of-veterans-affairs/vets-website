@@ -106,9 +106,6 @@ export const DocumentUploadGuidelinesDescription = () => {
 export const SummaryDescription = () => {
   return (
     <>
-      <h1 className="vads-u-font-size--h2">
-        Income and net worth from owned assets
-      </h1>
       <p>
         In this section, we’ll ask about properties and any income you receive
         from physical assets that you solely own or that you own with someone

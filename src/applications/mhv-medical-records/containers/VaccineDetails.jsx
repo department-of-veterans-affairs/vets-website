@@ -15,7 +15,9 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import { generateTextFile } from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -34,7 +36,6 @@ import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const VaccineDetails = props => {

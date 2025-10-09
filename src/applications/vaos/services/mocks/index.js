@@ -496,6 +496,18 @@ const responses = {
       );
     }
 
+    // Handle out-of-pilot-station test case with non-pilot station ID
+    if (req.params.referralId === 'out-of-pilot-station') {
+      return res.json(
+        new MockReferralDetailResponse({
+          id: req.params.referralId,
+          referralNumber: req.params.referralId,
+          categoryOfCare: 'OPTOMETRY',
+          stationId: '123', // Non-pilot station ID
+        }),
+      );
+    }
+
     return res.json(
       new MockReferralDetailResponse({
         id: req.params.referralId,

@@ -184,9 +184,9 @@ const NotificationSettings = ({
                 data-testid="international-mobile-number-info-alert"
               >
                 <p className="vads-u-padding-bottom--2">
-                  You have an international phone number, update to a US based
-                  mobile phone number to have access to these text notifications
-                  settings:
+                  We can’t send text notifications to international phone
+                  numbers. Add a U.S. mobile phone number if you want to receive
+                  these text notifications:
                 </p>
                 <ul className="vads-u-padding-bottom--2">
                   <li>Health appointment reminders</li>

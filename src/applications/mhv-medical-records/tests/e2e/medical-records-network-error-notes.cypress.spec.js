@@ -1,9 +1,15 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 
 describe('Medical Records View Notes', () => {
-  it('Visits Medical Records, Views Network Error On Notes List', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
+  });
+
+  it('Visits Medical Records, Views Network Error On Notes List', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
 
     cy.intercept('GET', '/my_health/v1/medical_records/clinical_notes', {
       statusCode: 400,

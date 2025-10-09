@@ -124,9 +124,11 @@ describe('SelectCareTeam', () => {
     });
     expect(screen.getByTestId('care-system-636')).to.exist; // VA Boston
     expect(screen.getByTestId('care-system-662')).to.exist; // VA Seattle
+    expect(screen.getByTestId('care-system-757')).to.exist; // VA Seattle
+
     // Check the number of radio options
     const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    expect(radioOptions.length).to.equal(2);
+    expect(radioOptions.length).to.equal(3);
   });
 
   it('displays health care system facilities as select dropdown when 6 or more', async () => {

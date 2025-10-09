@@ -4,10 +4,17 @@ import DownloadReportsPage from './pages/DownloadReportsPage';
 import DownloadAllPage from './pages/DownloadAllPage';
 
 describe('Test download all page', () => {
-  it('test download all feature', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
     site.loadPage();
+  });
+
+  it('test download all feature', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
     DownloadReportsPage.goToDownloadAllPage();

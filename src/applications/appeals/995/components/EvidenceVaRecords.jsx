@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_VA_DETAILS_URL } from '../constants';
 import { content, contentOld } from '../content/evidenceVaRecords';
 import { getIndex, getVAEvidence, hasErrors } from '../utils/evidence';
 import { showScNewForm as newFormToggle } from '../utils/toggle';
@@ -24,7 +24,7 @@ import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 import { customPageProps995 } from '../../shared/props';
 
-const VA_PATH = `/${EVIDENCE_VA_PATH}`;
+const VA_PATH = `/${EVIDENCE_VA_DETAILS_URL}`;
 
 const defaultData = {
   locationAndName: '',

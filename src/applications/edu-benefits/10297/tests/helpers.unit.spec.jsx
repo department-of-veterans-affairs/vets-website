@@ -182,6 +182,20 @@ describe('getCardDescription', () => {
   it('returns null when no item provided', () => {
     expect(getCardDescription(null)).to.be.null;
   });
+
+  it('displays country name when country is not United States', () => {
+    const card = {
+      providerAddress: {
+        country: 'CAN',
+        street: '100 Queen St',
+        city: 'Toronto',
+        state: 'ON',
+        postalCode: 'M5H 2N2',
+      },
+    };
+    const { getByTestId } = render(getCardDescription(card));
+    expect(getByTestId('card-country').textContent).to.contain('Canada');
+  });
 });
 
 describe('validateTrainingProviderStartDate', () => {

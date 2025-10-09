@@ -1,4 +1,5 @@
 export { useBackToTop } from './hooks/useBackToTop';
+export { default as useAcceleratedData } from './hooks/useAcceleratedData';
 export { default as MHVDown } from './downtime/components/MHVDown';
 export {
   default as MHVDowntimeApproaching,

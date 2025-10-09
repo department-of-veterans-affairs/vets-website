@@ -76,7 +76,7 @@ const SelectCareTeam = () => {
       if (String(selectedCareTeamId) !== String(newId)) {
         setSelectedCareTeamId(newId);
 
-        if (recipient.id && recipient.id !== '0') {
+        if (newId && newId !== '0') {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
@@ -103,7 +103,7 @@ const SelectCareTeam = () => {
               }),
             );
           }
-        } else if (!recipient.id) {
+        } else if (!newId || newId === '0') {
           dispatch(
             updateDraftInProgress({
               recipientId: null,
@@ -270,7 +270,7 @@ const SelectCareTeam = () => {
 
       const selectedRecipientStationNumber = allowedRecipients.find(
         recipient => recipient.id === +selectedCareTeamId,
-      ).stationNumber;
+      )?.stationNumber;
 
       if (
         !draftInProgress.careSystemVhaId ||

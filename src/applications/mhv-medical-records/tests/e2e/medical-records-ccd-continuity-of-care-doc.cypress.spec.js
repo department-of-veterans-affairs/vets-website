@@ -4,10 +4,17 @@ import ccdGenerateResponse from './fixtures/ccd-generate-response.json';
 // import ccdDownloadResponse from './fixtures/ccd-download-response.xml';
 
 describe('Medical Records download page', () => {
-  it('Verifies CCD download', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
     site.loadPage();
+  });
+
+  it('Verifies CCD download', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
 

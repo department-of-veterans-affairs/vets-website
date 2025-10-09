@@ -23,12 +23,6 @@ export const searchAreaOptions = {
   'Show all': 'Show all',
 };
 
-export const endpointOptions = {
-  fetchVSOReps: `/services/veteran/v0/vso_accredited_representatives`,
-  fetchOtherReps: `/services/veteran/v0/other_accredited_representatives`,
-  flagReps: `/representation_management/v0/flag_accredited_representatives`,
-};
-
 /*
  * Toggle true for local development
  */
@@ -36,8 +30,32 @@ export const useStagingDataLocally = true;
 
 const baseUrl =
   useStagingDataLocally && environment.BASE_URL === 'http://localhost:3001'
-    ? `https://staging-api.va.gov`
-    : `${environment.API_URL}`;
+    ? 'https://staging-api.va.gov'
+    : environment.API_URL;
+
+let endpoints = {
+  fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
+  fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+  flagReps: '/representation_management/v0/flag_accredited_representatives',
+};
+
+export const getEndpointOptions = () => endpoints;
+
+export const setRepSearchEndpointsFromFlag = enabled => {
+  if (enabled) {
+    endpoints = {
+      ...endpoints,
+      fetchVSOReps: '/representation_management/v0/accredited_individuals',
+      fetchOtherReps: '/representation_management/v0/accredited_individuals',
+    };
+  } else {
+    endpoints = {
+      ...endpoints,
+      fetchVSOReps: '/services/veteran/v0/vso_accredited_representatives',
+      fetchOtherReps: '/services/veteran/v0/other_accredited_representatives',
+    };
+  }
+};
 
 export const formatReportBody = newReport => {
   const reportRequestBody = {

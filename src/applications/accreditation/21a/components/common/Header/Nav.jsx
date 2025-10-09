@@ -54,27 +54,15 @@ export const Nav = () => {
       {profile && (
         <div className="nav__container-secondary" data-testid="desktop-nav-row">
           <div className="nav__container vads-u-display--flex">
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
-              }
+            <a
+              className="nav__btn desktop"
+              href="/representative/claimant-search"
+              data-testid="desktop-search-link"
+              data-eventname="nav-link-click"
             >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/claimant-search"
-                  data-testid="desktop-search-link"
-                  data-eventname="nav-link-click"
-                >
-                  <va-icon
-                    icon="search"
-                    size={2}
-                    className="people-search-icon"
-                  />
-                  Find Claimant
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </a>
             <a
               className="nav__btn desktop"
               href="/representative/poa-requests"
@@ -83,21 +71,13 @@ export const Nav = () => {
             >
               Representation Requests
             </a>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-              }
+            <a
+              className="nav__btn desktop"
+              href="/representative/submissions"
+              data-testid="desktop-search-link"
             >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/submissions"
-                  data-testid="desktop-search-link"
-                >
-                  Submissions
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
+              Submissions
+            </a>
             <Toggler
               toggleName={
                 Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp

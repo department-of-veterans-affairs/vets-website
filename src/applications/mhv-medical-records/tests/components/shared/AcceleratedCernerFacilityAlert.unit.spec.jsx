@@ -41,7 +41,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     featureToggles: createFeatureToggles({
       isAccelerating: true,
       isAcceleratingAllergies: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     }),
   };
 
@@ -75,7 +75,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: true,
+            isAcceleratingVitals: false,
             isAcceleratingConditions: true,
           }),
         },
@@ -103,7 +103,7 @@ describe('Accelerated Cerner Facility Alert', () => {
           featureToggles: createFeatureToggles({
             isAccelerating: true,
             isAcceleratingAllergies: true,
-            isAcceleratingVitals: true,
+            isAcceleratingVitals: false,
             isAcceleratingConditions: true,
           }),
         },
@@ -117,7 +117,7 @@ describe('Accelerated Cerner Facility Alert', () => {
     });
   });
 
-  it('renders correctly when isAccelerating is false -- always should the modal when accelerating is false', () => {
+  it('renders correctly for non-Cerner patients -- should show alert when not hiding', () => {
     const screen = setup(
       {
         ...initialState,
@@ -128,23 +128,23 @@ describe('Accelerated Cerner Facility Alert', () => {
       {
         facilities: userProfileFacilities,
       },
-      CernerAlertContent.MR_LANDING_PAGE,
+      CernerAlertContent.VACCINES, // Use a page that's not in the hide list for Cerner patients
     );
 
     expect(screen.queryByTestId('cerner-facilities-alert')).to.exist;
   });
 
-  it('hides correctly when isAcceleratingVitals is true', () => {
+  it('hides correctly when isCerner is true', () => {
     const screen = setup(
       {
         ...initialState,
         featureToggles: createFeatureToggles({
           isAccelerating: true,
-          isAcceleratingVitals: true,
+          isAcceleratingVitals: false,
         }),
-        user: { profile: { facilities: [] } },
+        user: { profile: { facilities: userProfileFacilities } },
       },
-      { facilities: [] },
+      { facilities: userProfileFacilities },
       CernerAlertContent.VITALS,
     );
 

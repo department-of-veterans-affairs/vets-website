@@ -15,11 +15,11 @@ export const DownloadLettersAlert = () => (
     </p>
     <p>
       If you have any questions, call us at{' '}
-      <va-telephone contact={CONTACTS.DMC} /> (or{' '}
-      <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-      overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. If
-      you have hearing loss, call TTY:{' '}
-      <va-telephone contact={CONTACTS['711']} />.
+      <va-telephone contact={CONTACTS.DMC} /> (
+      <va-telephone contact="711" tty="true" />
+      ). If you’re outside the U.S., call{' '}
+      <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re here
+      Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
     </p>
     <p>
       We’re working to fix this problem as fast as we can. Check back soon for

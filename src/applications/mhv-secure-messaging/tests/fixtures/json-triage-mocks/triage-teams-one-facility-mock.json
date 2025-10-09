@@ -5,6 +5,7 @@
   "allTriageGroupsBlocked": false,
   "mockBlockedFacilities": [],
   "mockAllFacilities": ["662"],
+  "mockVistaFacilities": ["662"],
 
   "mockAllRecipients": [
     {
