@@ -1,38 +1,26 @@
 {
   "data": {
-    "view:incomeReceiptWaiversMissingInformation": {},
-    "view:isAddingIncomeReceiptWaivers": true,
-    "view:annuitiesMissingInformation": {},
-    "view:isAddingAnnuities": true,
-    "view:royaltiesAndOtherPropertiesMissingInformation": {},
-    "view:isAddingRoyalties": true,
-    "view:uploadMessage": {},
-    "view:discontinuedIncomesMissingInformation": {},
-    "view:isAddingDiscontinuedIncomes": true,
-    "view:unreportedAssetsMissingInformation": {},
-    "view:isAddingUnreportedAssets": true,
-    "view:trustsMissingInformation": {},
-    "view:trustSupplementaryFormsAlert": {},
-    "view:isAddingTrusts": true,
-    "view:assetTransfersMissingInformation": {},
-    "view:isAddingAssetTransfers": true,
-    "view:ownedAssetsMissingInformation": {},
-    "view:supplementaryFormsAlert": {},
-    "view:isAddingOwnedAssets": true,
-    "view:associatedIncomesMissingInformation": {},
-    "view:isAddingAssociatedIncomes": true,
-    "view:unassociatedIncomesMissingInformation": {},
-    "view:isAddingUnassociatedIncomes": true,
+    "isLoggedIn": true,
+    "dateReceivedByVa": false,
     "incomeNetWorthDateRange": {
       "from": "2023-02-01",
       "to": "2024-02-01"
     },
-    "dateReceivedByVa": false,
-    "claimantType": "VETERAN",
-    "claimantFullName": {},
-    "email": "john.veteran@gmail.com",
-    "claimantPhone": "2023336688",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
     "otherVeteranFullName": {},
+    "veteranSocialSecurityNumber": "111111111",
+    "veteranSsnLastFour": "1111",
+    "vaFileNumber": "111111111",
+    "vaFileNumberLastFour": "1111",
+    "claimantFullName": {},
+    "claimantPhone": "2023336688",
+    "claimantType": "VETERAN",
+    "email": "john.veteran@gmail.com",
+    "view:isAddingUnassociatedIncomes": true,
     "unassociatedIncomes": [
       {
         "incomeType": "SOCIAL_SECURITY",
@@ -41,6 +29,7 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingAssociatedIncomes": true,
     "associatedIncomes": [
       {
         "incomeType": "INTEREST",
@@ -50,6 +39,7 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingOwnedAssets": true,
     "ownedAssets": [
       {
         "assetType": "BUSINESS",
@@ -58,6 +48,7 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingRoyalties": true,
     "royaltiesAndOtherProperties": [
       {
         "incomeGenerationMethod": "INTELLECTUAL_PROPERTY",
@@ -69,6 +60,7 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingAssetTransfers": true,
     "assetTransfers": [
       {
         "transferMethod": "SOLD",
@@ -87,6 +79,7 @@
         "originalOwnerRelationship": "VETERAN"
       }
     ],
+    "view:isAddingTrusts": true,
     "trusts": [
       {
         "addedFundsDate": "2022-02-04",
@@ -103,6 +96,7 @@
         "marketValueAtEstablishment": 122000
       }
     ],
+    "view:isAddingAnnuities": true,
     "annuities": [
       {
         "addedFundsDate": "2022-01-04",
@@ -117,6 +111,7 @@
         "marketValueAtEstablishment": 122000
       }
     ],
+    "view:isAddingUnreportedAssets": true,
     "unreportedAssets": [
       {
         "assetOwnerRelationship": "VETERAN",
@@ -125,6 +120,7 @@
         "assetLocation": "123 Fakesville, NV"
       }
     ],
+    "view:isAddingDiscontinuedIncomes": true,
     "discontinuedIncomes": [
       {
         "grossAnnualAmount": 12000,
@@ -135,6 +131,7 @@
         "recipientRelationship": "VETERAN"
       }
     ],
+    "view:isAddingIncomeReceiptWaivers": true,
     "incomeReceiptWaivers": [
       {
         "recipientRelationship": "VETERAN",
@@ -148,16 +145,6 @@
           "last": "Doe"
         }
       }
-    ],
-    "isLoggedIn": true,
-    "veteranSocialSecurityNumber": "111111111",
-    "veteranSsnLastFour": "1111",
-    "vaFileNumber": "111111111",
-    "vaFileNumberLastFour": "1111",
-    "veteranFullName": {
-      "first": "John",
-      "middle": "",
-      "last": "Veteran"
-    }
+    ]
   }
 }
