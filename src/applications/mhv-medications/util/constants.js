@@ -61,7 +61,7 @@ export const filterOptions = {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
-      'Prescriptions that just ran out of refills or became too old to refill (expired)',
+      'Prescriptions that need renewal (no refills left or expired in last 120 days)',
     url: '&filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
   },
