@@ -22,6 +22,7 @@ export const GovBanner = () => {
           className="header__flag"
           src="https://www.va.gov/img/tiny-usa-flag.png"
           aria-hidden="true"
+          z-index="-1"
         />
         {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
