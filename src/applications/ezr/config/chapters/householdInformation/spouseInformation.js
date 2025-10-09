@@ -1,5 +1,10 @@
 import React from 'react';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import {
+  includeSpousalInformationV2,
+  spouseAddressDoesNotMatchVeteransV2,
+  spouseDidNotCohabitateWithVeteranV2,
+} from 'applications/ezr/utils/helpers/form-config';
 import spouseInformationSummaryPage from '../../../definitions/spouseInformationSummary';
 import spousePersonalInformationPage from '../../../definitions/spousePersonalInformation';
 import { spouseAdditionalInformationPage } from '../../../definitions/spouseAdditionalInformation';
@@ -90,6 +95,7 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'household-information/spouse-information',
     uiSchema: spouseInformationSummaryPageSchema.uiSchema,
     schema: spouseInformationSummaryPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spousePersonalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-information-title'],
@@ -97,6 +103,7 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
       'household-information/spouse-information/:index/personal-information',
     uiSchema: spousePersonalInformationPageSchema.uiSchema,
     schema: spousePersonalInformationPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spouseAdditionalInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-addtl-info-title'],
@@ -104,18 +111,21 @@ const spousalInformationPages = arrayBuilderPages(options, pageBuilder => ({
       'household-information/spouse-information/:index/additional-information',
     uiSchema: spouseAdditionalInformationPageSchema.uiSchema,
     schema: spouseAdditionalInformationPageSchema.schema,
+    depends: includeSpousalInformationV2,
   }),
   spouseFinancialSupportPage: pageBuilder.itemPage({
     title: content['household-spouse-support-title'],
     path: 'household-information/spouse-information/:index/financial-support',
     uiSchema: spouseFinancialSupportPageSchema.uiSchema,
     schema: spouseFinancialSupportPageSchema.schema,
+    depends: spouseDidNotCohabitateWithVeteranV2,
   }),
   spouseContactInformationPage: pageBuilder.itemPage({
     title: content['household-spouse-contact-info-title'],
     path: 'household-information/spouse-information/:index/contact-information',
     uiSchema: spouseContactInformationPageSchema.uiSchema,
     schema: spouseContactInformationPageSchema.schema,
+    depends: spouseAddressDoesNotMatchVeteransV2,
   }),
 }));
 
