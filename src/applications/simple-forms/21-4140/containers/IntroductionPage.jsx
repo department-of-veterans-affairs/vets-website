@@ -31,7 +31,7 @@ const IntroContent = () => {
         </li>
         <li>You’ll need your Social Security number or your VA file number</li>
         <li>
-          After you submit this form, we’ll review it and advise you of your
+          After you submit this form, we’ll review it and advise you of our
           decision and your options
         </li>
       </ul>

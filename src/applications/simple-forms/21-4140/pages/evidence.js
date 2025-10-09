@@ -1,5 +1,6 @@
 // @ts-check
 import React from 'react';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
@@ -71,7 +72,9 @@ export default {
       required: false,
       accept: '.pdf,.jpeg,.jpg,.png',
       maxFileSize: 26214400, // 25MB in bytes
-      skipUpload: true, // Set to true for development - will need backend implementation
+      fileUploadUrl: `${
+        environment.API_URL
+      }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
       formNumber: '21-4140',
       errorMessages: {
         required: 'Please select a file to upload',
