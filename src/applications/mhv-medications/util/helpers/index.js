@@ -6,6 +6,8 @@ export { createOriginalFillRecord } from './getRefillHistory';
 export { createVAPharmacyText } from './createVAPharmacyText';
 export { dateFormat } from './dateFormat';
 export { determineRefillLabel } from './determinRefillLabel';
+export { displayHeaderPrefaceText } from './displayHeaderPrefaceText';
+export { displayMedicationsListHeader } from './displayMedicationsListHeader';
 export { displayProviderName } from './displayProviderName';
 export { extractContainedResource } from './extractContainedResource';
 export {

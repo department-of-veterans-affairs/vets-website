@@ -1,10 +1,14 @@
 import { reportGeneratedBy } from '@department-of-veterans-affairs/mhv/exports';
-import { dateFormat } from './helpers';
-import { rxListSortingOptions } from './constants';
+import {
+  dateFormat,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
+} from './helpers';
 
 export function buildPdfData({
   userName,
   dob,
+  selectedFilterOption,
   selectedSortOption,
   rxList,
   allergiesList,
@@ -26,21 +30,18 @@ export function buildPdfData({
     footerLeft: reportGeneratedBy,
     footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
     title: 'Medications',
-    preface: [
-      {
-        value: `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.`,
-      },
-    ],
+    preface: displayHeaderPrefaceText(
+      selectedFilterOption,
+      selectedSortOption,
+      rxList?.length,
+    ),
     results: [
       {
-        header: 'Medications list',
-        preface: `Showing ${rxList?.length} medications, ${rxListSortingOptions[
-          selectedSortOption
-        ].LABEL.toLowerCase()}`,
+        header: displayMedicationsListHeader(selectedFilterOption),
         list: rxList,
       },
       {
-        header: 'Allergies',
+        header: 'Allergies and reactions',
         ...(allergiesList &&
           allergiesList.length > 0 && {
             preface: [

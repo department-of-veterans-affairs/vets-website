@@ -393,6 +393,7 @@ const Prescriptions = () => {
       const pdfDataObj = buildPdfData({
         userName,
         dob,
+        selectedFilterOption,
         selectedSortOption,
         rxList,
         allergiesList,
@@ -400,7 +401,13 @@ const Prescriptions = () => {
       await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, dob, selectedSortOption, setPdfTxtGenerateStatus],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      setPdfTxtGenerateStatus,
+    ],
   );
 
   const generateTXT = useCallback(
