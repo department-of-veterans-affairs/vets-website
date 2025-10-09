@@ -16,65 +16,6 @@ const OMB_RES_BURDEN = 15;
 const OMB_NUMBER = '2900-0361';
 const OMB_EXP_DATE = '07/31/2027';
 
-const ProcessList = () => {
-  return (
-    <va-process-list>
-      <va-process-list-item header="Prepare">
-        <p>
-          <strong>
-            To fill out this application, you’ll need your or your sponsor’s:
-          </strong>
-        </p>
-        <ul>
-          <li>Social Security number or VA file number (c-file number)</li>
-        </ul>
-        <p>
-          <strong>
-            You’ll also need the name and address of the nursing home, and the
-            date you were admitted.
-          </strong>
-        </p>
-        <va-additional-info trigger="What if I need help filling out my application?">
-          <p>
-            An accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your application.{' '}
-            <a href="/disability/get-help-filing-claim/">
-              Get help filing your claim
-            </a>
-            .
-          </p>
-        </va-additional-info>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this nursing home information form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process applications in the order we receive them. The amount of
-          time it takes us to review your application depends on:
-        </p>
-        <ul>
-          <li>The type of benefit you’re applying for</li>
-          <li>
-            How many applications we have to review when we receive your
-            application
-          </li>
-        </ul>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve reviewed your application, you’ll receive a notice in the
-          mail about the decision.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
-  );
-};
-
 export const IntroductionPage = ({ route }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
@@ -105,34 +46,29 @@ export const IntroductionPage = ({ route }) => {
         who has a mental or physical disability.
       </p>
 
-      <va-additional-info trigger="What is a qualified extended care facility?">
-        <p>
-          For the purposes of meeting the Aid and Attendance criteria, a nursing
-          home is defined as:
-        </p>
-        <ul>
-          <li>
-            any extended care facility that is licensed by a state to provide
-            skilled or intermediate-level nursing care
-          </li>
-          <li>
-            a nursing home care unit in a State Veterans Home that is approved
-            for payment, or
-          </li>
-          <li>a VA nursing home care unit.</li>
-        </ul>
-        <p>
-          <a href="/pension/aid-attendance-housebound/">
-            Learn more about how the VA defines a nursing home
-          </a>
-          .
-        </p>
-      </va-additional-info>
+      <h3>What is a qualified extended care facility?</h3>
+      <p>
+        For the purposes of meeting the Aid and Attendance criteria, a nursing
+        home is defined as:
+      </p>
+      <ul>
+        <li>
+          any extended care facility that is licensed by a state to provide
+          skilled or intermediate-level nursing care
+        </li>
+        <li>
+          a nursing home care unit in a State Veterans Home that is approved for
+          payment, or
+        </li>
+        <li>a VA nursing home care unit.</li>
+      </ul>
+      <va-link
+        href="/pension/aid-attendance-housebound/"
+        text="Learn more about how the VA defines a nursing home."
+      />
 
       <p className="vads-u-margin-top--2">
-        <strong>
-          You’ll need to provide the following information about the patient:
-        </strong>
+        You’ll need to provide the following information about the patient:
       </p>
       <ul>
         <li>Social Security number or VA file number</li>
@@ -147,10 +83,6 @@ export const IntroductionPage = ({ route }) => {
         to.
       </p>
 
-      <h2 className="vads-u-font-size--h3 vads-u-margin-top--3">
-        Follow the steps below to provide VA with your nursing home information
-      </h2>
-      <ProcessList />
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (

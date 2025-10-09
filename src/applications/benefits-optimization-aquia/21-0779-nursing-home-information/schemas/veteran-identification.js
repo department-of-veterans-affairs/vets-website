@@ -87,11 +87,17 @@ export const dateOfBirthSchema = z
   }, 'Please enter a valid date');
 
 /**
- * Complete veteran identification schema
+ * Schema for veteran personal information (name and DOB)
  */
-export const veteranIdentificationSchema = z.object({
+export const veteranPersonalInfoSchema = z.object({
   fullName: fullNameSchema,
   dateOfBirth: dateOfBirthSchema,
+});
+
+/**
+ * Schema for veteran identification information (SSN and file number)
+ */
+export const veteranIdentificationInfoSchema = z.object({
   ssn: ssnSchema,
   vaFileNumber: vaFileNumberSchema,
 });

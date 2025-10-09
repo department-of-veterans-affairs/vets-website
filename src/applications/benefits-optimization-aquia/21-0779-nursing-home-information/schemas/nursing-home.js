@@ -25,29 +25,11 @@ export const nursingHomeAddressSchema = z.object({
 });
 
 /**
- * Schema for nursing home admission date
- * Validates date format and ensures date is not in the future
- * @type {import('zod').ZodSchema}
- */
-export const admissionDateSchema = z
-  .string()
-  .min(1, 'Admission date is required')
-  .refine(val => {
-    const date = new Date(val);
-    return date instanceof Date && !Number.isNaN(date.getTime());
-  }, 'Please enter a valid date')
-  .refine(val => {
-    const date = new Date(val);
-    return date <= new Date();
-  }, 'Admission date cannot be in the future');
-
-/**
  * Complete schema for nursing home details section
- * Includes facility name, address, and admission date
+ * Includes facility name and address
  * @type {import('zod').ZodSchema}
  */
 export const nursingHomeDetailsSchema = z.object({
   nursingHomeName: z.string().min(1, 'Nursing home name is required'),
   nursingHomeAddress: nursingHomeAddressSchema,
-  admissionDate: admissionDateSchema,
 });
