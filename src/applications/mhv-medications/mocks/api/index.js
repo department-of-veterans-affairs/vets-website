@@ -42,7 +42,7 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies': allergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
     delaySingleResponse(
-      () => res.json(prescriptions.generateMockPrescriptions()),
+      () => res.json(prescriptions.generateMockPrescriptions(_req)),
       2250,
     );
   },
