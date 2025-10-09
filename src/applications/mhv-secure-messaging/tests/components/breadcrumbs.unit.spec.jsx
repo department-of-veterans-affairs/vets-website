@@ -418,6 +418,9 @@ describe('Breadcrumbs', () => {
               { id: 456, name: 'Another Folder' },
             ],
           },
+          breadcrumbs: {
+            previousUrl: Paths.FOLDERS,
+          },
         },
       };
 
@@ -427,10 +430,13 @@ describe('Breadcrumbs', () => {
         path: `${Paths.FOLDERS}${customFolderId}/`,
       });
 
-      // Component should render with back button (folder paths use back button)
       const backButton = await screen.findByTestId('sm-breadcrumbs-back');
       expect(backButton).to.exist;
       expect(backButton).to.have.attribute('text', 'Back');
+      expect(backButton).to.have.attribute(
+        'href',
+        `${manifest.rootUrl}${Paths.FOLDERS}`,
+      );
     });
   });
 

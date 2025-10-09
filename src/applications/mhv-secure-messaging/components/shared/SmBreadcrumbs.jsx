@@ -63,12 +63,12 @@ const SmBreadcrumbs = () => {
       Constants.Paths.MESSAGE_THREAD,
       Constants.Paths.REPLY,
       Constants.Paths.COMPOSE,
-      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}/`,
-      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}/`,
-      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}/`,
-      `${Constants.Paths.RECENT_CARE_TEAMS}/`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_HEALTH_CARE_SYSTEM}`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.SELECT_CARE_TEAM}`,
+      `${Constants.Paths.COMPOSE}${Constants.Paths.START_MESSAGE}`,
+      Constants.Paths.RECENT_CARE_TEAMS,
       Constants.Paths.CONTACT_LIST,
-      `${Constants.Paths.CARE_TEAM_HELP}/`,
+      Constants.Paths.CARE_TEAM_HELP,
       Constants.Paths.DRAFTS,
       Constants.Paths.DELETED,
       `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -147,7 +147,7 @@ const SmBreadcrumbs = () => {
     () => {
       // Build current path including child path if present
       const currentPath = `/${locationBasePath}/${
-        locationChildPath ? `${locationChildPath}` : ''
+        locationChildPath ? `${locationChildPath}/` : ''
       }`;
 
       // Check if current page is in the compose flow
@@ -173,7 +173,7 @@ const SmBreadcrumbs = () => {
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (crumb.href === Constants.Paths.FOLDERS) {
+      } else if (crumb?.href === Constants.Paths.FOLDERS) {
         history.push(Constants.Paths.FOLDERS);
       } else if (isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);

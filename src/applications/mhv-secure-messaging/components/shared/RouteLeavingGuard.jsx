@@ -109,12 +109,13 @@ export const RouteLeavingGuard = ({
 
       // Allow navigation between specified paths without guard
       const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedAllowedPaths = allowedPaths.map(normalizePath);
       const normalizedCurrentPath = normalizePath(currentPath);
       const normalizedNextPath = normalizePath(nextPath);
 
       if (
-        allowedPaths.includes(normalizedCurrentPath) &&
-        allowedPaths.includes(normalizedNextPath)
+        normalizedAllowedPaths.includes(normalizedCurrentPath) &&
+        normalizedAllowedPaths.includes(normalizedNextPath)
       ) {
         return true;
       }
