@@ -7,7 +7,6 @@ import { selectAvailableServices } from '~/platform/user/selectors';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import HealthCareContent from './HealthCareContent';
 import HealthCareContentLegacy from './HealthCareContentLegacy';
-import CTALink from '../CTALink';
 
 const HealthCare = ({
   dataLoadingDisabled = false,
@@ -32,7 +31,7 @@ const HealthCare = ({
           {isLOA1 && (
             <div data-testid="no-health-care-notice">
               <p>We can’t find any VA health care for you.</p>
-              <CTALink text="Go to My HealtheVet" href="/my-health" />
+              <va-link text="Go to My HealtheVet" href="/my-health" />
             </div>
           )}
           {!isLOA1 && (

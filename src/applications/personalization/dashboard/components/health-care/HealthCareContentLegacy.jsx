@@ -20,7 +20,6 @@ import HealthCareCTA from './HealthCareCTA';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCardLegacy from './AppointmentsCardLegacy';
-import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
@@ -109,10 +108,10 @@ const HealthCareContent = ({
             your appointment information. Please try again later or go to the
             appointments tool:
           </div>
-          <CTALink
+          <va-link
             text="Schedule and manage your appointments"
             href="/my-health/appointments"
-            showArrow
+            active
             className="vads-u-font-weight--bold"
             onClick={() =>
               recordEvent({
