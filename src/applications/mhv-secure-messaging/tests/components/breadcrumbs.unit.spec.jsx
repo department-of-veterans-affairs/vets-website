@@ -8,6 +8,7 @@ import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
 import reducer from '../../reducers';
 import { Breadcrumbs, DefaultFolders, Paths } from '../../util/constants';
+import * as helpers from '../../util/helpers';
 import manifest from '../../manifest.json';
 
 let initialState;
@@ -424,6 +425,110 @@ describe('Breadcrumbs', () => {
 
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(Paths.FOLDERS);
+    });
+  });
+
+  describe('Invalid folder ID redirects', () => {
+    let navigateToFolderByFolderIdStub;
+
+    beforeEach(() => {
+      navigateToFolderByFolderIdStub = sinon.stub(
+        helpers,
+        'navigateToFolderByFolderId',
+      );
+    });
+
+    afterEach(() => {
+      navigateToFolderByFolderIdStub.restore();
+    });
+
+    it('should redirect when accessing system folder INBOX via /folders/0', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.FOLDERS,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.FOLDERS}0/`,
+      });
+
+      await waitFor(() => {
+        expect(navigateToFolderByFolderIdStub.calledOnce).to.be.true;
+        expect(navigateToFolderByFolderIdStub.firstCall.args[0]).to.equal('0');
+      });
+    });
+
+    it('should redirect when accessing system folder SENT via /folders/-1', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.FOLDERS,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.FOLDERS}-1/`,
+      });
+
+      await waitFor(() => {
+        expect(navigateToFolderByFolderIdStub.calledOnce).to.be.true;
+        expect(navigateToFolderByFolderIdStub.firstCall.args[0]).to.equal('-1');
+      });
+    });
+
+    it('should redirect when accessing system folder DRAFTS via /folders/-2', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.FOLDERS,
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.FOLDERS}-2/`,
+      });
+
+      await waitFor(() => {
+        expect(navigateToFolderByFolderIdStub.calledOnce).to.be.true;
+        expect(navigateToFolderByFolderIdStub.firstCall.args[0]).to.equal('-2');
+      });
+    });
+
+    it('should NOT redirect when accessing valid custom folder', async () => {
+      const customState = {
+        sm: {
+          breadcrumbs: {
+            previousUrl: Paths.FOLDERS,
+          },
+          folders: {
+            folder: {
+              folderId: 123,
+              name: 'My Custom Folder',
+            },
+          },
+        },
+      };
+
+      renderWithStoreAndRouter(<SmBreadcrumbs />, {
+        initialState: customState,
+        reducers: reducer,
+        path: `${Paths.FOLDERS}123/`,
+      });
+
+      await waitFor(() => {
+        expect(navigateToFolderByFolderIdStub.called).to.be.false;
+      });
     });
   });
 
