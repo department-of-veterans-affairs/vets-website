@@ -21,8 +21,8 @@ import { formatCurrency, showMultiplePageResponse } from '../../../helpers';
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'medicalExpenses',
-  nounSingular: 'Medical expense',
-  nounPlural: 'Medical expenses',
+  nounSingular: 'medical expense',
+  nounPlural: 'medical expenses',
   required: false,
   isItemIncomplete: item =>
     !item?.recipients ||
@@ -62,6 +62,13 @@ const options = {
           </li>
         </ul>
       ),
+    cancelAddYes: 'Yes, cancel adding this medical expense',
+    cancelAddNo: 'No',
+    cancelEditYes: 'Yes, cancel editing this medical expense',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this medical expense',
+    deleteNo: 'No',
   },
 };
 
