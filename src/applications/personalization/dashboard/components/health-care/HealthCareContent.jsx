@@ -8,7 +8,6 @@ import { selectUnreadCount } from '~/applications/personalization/dashboard/sele
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import AppointmentsCard from './AppointmentsCard';
-import CTALink from '../CTALink';
 
 const HealthCareContent = ({
   appointments,
@@ -30,10 +29,10 @@ const HealthCareContent = ({
     <va-card data-testid="no-upcoming-appointments-card">
       <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
       <p>You don’t have any upcoming appointments.</p>
-      <CTALink
+      <va-link
         text="Manage health appointments"
         href="/my-health/appointments"
-        showArrow
+        active
       />
     </va-card>
   );
@@ -41,10 +40,10 @@ const HealthCareContent = ({
   const NoUnreadMessages = () => (
     <va-card data-testid="no-unread-messages-card">
       <h4 className="vads-u-margin-top--1">No unread messages</h4>
-      <CTALink
+      <va-link
         text="Go to inbox"
         href="/my-health/secure-messages/inbox"
-        showArrow
+        active
       />
     </va-card>
   );
@@ -55,10 +54,10 @@ const HealthCareContent = ({
         {unreadMessagesCount} unread message
         {unreadMessagesCount !== 1 && 's'}
       </h4>
-      <CTALink
+      <va-link
         text="Go to inbox"
         href="/my-health/secure-messages/inbox"
-        showArrow
+        active
       />
     </va-card>
   );
@@ -66,7 +65,7 @@ const HealthCareContent = ({
   const NoHealthcareText = () => (
     <div data-testid="no-health-care-notice">
       <p>We can’t find any VA health care for you.</p>
-      <CTALink text="Go to My HealtheVet" href="/my-health" />
+      <va-link text="Go to My HealtheVet" href="/my-health" />
     </div>
   );
 
