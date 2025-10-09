@@ -12,6 +12,7 @@ import {
 } from '../../actions/conditions';
 import { getCondition as apiGetCondition } from '../../api/MrApi';
 import * as Helpers from '../../util/helpers';
+import error404 from '../fixtures/404.json';
 
 describe('Get conditions action', () => {
   it('should dispatch a get list action (default behavior isAccelerating is false/undefined )', () => {
@@ -40,6 +41,13 @@ describe('Get condition action', () => {
   it('should dispatch a get details action', () => {
     mockApiRequest(condition);
     return getConditionDetails('3106', undefined)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
+    });
+  });
+
+  it('should dispatch an error', () => {
+    mockApiRequest(error404);
+    return getConditionDetails('310x', undefined)(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(Actions.Conditions.GET);
     });
   });
