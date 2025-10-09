@@ -26,6 +26,15 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   transformForSubmit,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
