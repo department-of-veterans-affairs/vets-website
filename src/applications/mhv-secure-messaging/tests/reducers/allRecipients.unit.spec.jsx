@@ -28,6 +28,7 @@ describe('allRecipients reducers', () => {
           relationshipType: recipient.attributes.relationshipType,
           signatureRequired: false,
           healthCareSystemName: undefined,
+          ohTriageGroup: recipient.attributes.ohTriageGroup,
           type: 'Care Team',
           status: recipient.attributes.blockedStatus
             ? RecipientStatus.BLOCKED
@@ -35,6 +36,7 @@ describe('allRecipients reducers', () => {
         };
       }),
     );
+    expect(store.getState().vistaFacilities).to.deep.equal(['649']);
   });
   it('should dispatch action on getAllTriageTeamRecipients error', async () => {
     const store = mockStore();
@@ -54,5 +56,86 @@ describe('allRecipients reducers', () => {
     expect(store.getState().allRecipients[0].name).to.equal(
       recipient.attributes.name,
     );
+  });
+
+  it('should correctly set vistaFacilities with multiple facilities', async () => {
+    const store = mockStore();
+    const customRecipients = [
+      {
+        id: '1',
+        type: 'al_triage_teams',
+        attributes: {
+          triageTeamId: 1,
+          name: 'Team 1',
+          stationNumber: '123',
+          blockedStatus: false,
+          relationshipType: 'PATIENT',
+          preferredTeam: true,
+          ohTriageGroup: false,
+        },
+      },
+      {
+        id: '2',
+        type: 'al_triage_teams',
+        attributes: {
+          triageTeamId: 2,
+          name: 'Team 2',
+          stationNumber: '456',
+          blockedStatus: false,
+          relationshipType: 'PATIENT',
+          preferredTeam: true,
+          ohTriageGroup: false,
+        },
+      },
+      {
+        id: '3',
+        type: 'al_triage_teams',
+        attributes: {
+          triageTeamId: 3,
+          name: 'Team 3',
+          stationNumber: '123',
+          blockedStatus: false,
+          relationshipType: 'PATIENT',
+          preferredTeam: true,
+          ohTriageGroup: false,
+        },
+      },
+      {
+        id: '4',
+        type: 'al_triage_teams',
+        attributes: {
+          triageTeamId: 4,
+          name: 'Team 4',
+          stationNumber: '789',
+          blockedStatus: true, // Blocked, should not be in vistaFacilities
+          relationshipType: 'PATIENT',
+          preferredTeam: true,
+          ohTriageGroup: false,
+        },
+      },
+      {
+        id: '4',
+        type: 'al_triage_teams',
+        attributes: {
+          triageTeamId: 4,
+          name: 'Team 4',
+          stationNumber: '567',
+          blockedStatus: false,
+          relationshipType: 'PATIENT',
+          preferredTeam: true,
+          ohTriageGroup: true, // OH, should not be in vistaFacilities
+        },
+      },
+    ];
+    const customMockResponse = {
+      data: customRecipients,
+      meta: {
+        associatedTriageGroups: 4,
+        associatedBlockedTriageGroups: 1,
+      },
+    };
+    mockApiRequest(customMockResponse);
+    await store.dispatch(getAllTriageTeamRecipients());
+    expect(store.getState().vistaFacilities).to.deep.equal(['123', '456']);
   });
 });
