@@ -26,7 +26,7 @@ export const uiSchema = {
     'ui:description': UploadDescription,
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
-      label: 'Lay statements and other evidence',
+      label: 'Uploaded file(s)',
     }),
   },
 };
