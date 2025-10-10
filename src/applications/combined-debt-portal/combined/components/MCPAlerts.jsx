@@ -11,9 +11,6 @@ const Alert = ({ children }) => children;
 
 Alert.Error = () => (
   <va-alert status="error" data-testid="error-alert">
-    <span className="sr-only">
-      Error. We can’t access your current copay balances right now
-    </span>
     <h2 slot="headline">
       We can’t access your current copay balances right now
     </h2>
@@ -50,8 +47,6 @@ Alert.PastDueOTPP = ({ copay, history }) => {
 
   return (
     <va-alert status="warning" data-testid="otpp-past-due-balance-alert">
-      <span className="sr-only">Warning. Your balance may be overdue</span>
-
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
         Your balance due on
@@ -93,8 +88,6 @@ Alert.PastDue = ({ copay }) => {
 
   return (
     <va-alert status="warning" data-testid="past-due-balance-alert">
-      <span className="sr-only">Warning. Your balance may be overdue</span>
-
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
         Your balance on
@@ -132,9 +125,6 @@ Alert.ZeroBalance = ({ copay }) => {
 
   return (
     <va-alert status="info" data-testid="zero-balance-alert">
-      <span className="sr-only">
-        You don’t need to make a payment at this time{' '}
-      </span>
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
       <p>
         Your balance is $0 and was updated on
@@ -167,7 +157,6 @@ Alert.ZeroBalance.propTypes = {
 
 Alert.NoHealthcare = () => (
   <va-alert status="warning" data-testid="no-healthcare-alert">
-    <span className="sr-only">You’re not enrolled in VA health care</span>
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
     <p>
       You can’t check copay balances at this time because our records show that
@@ -192,9 +181,6 @@ Alert.NoHealthcare = () => (
 
 Alert.NoHistory = () => (
   <va-alert status="info" data-testid="no-history-alert">
-    <span className="sr-only">
-      You haven’t received a copay bill in the past 6 months
-    </span>
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
     </h2>
