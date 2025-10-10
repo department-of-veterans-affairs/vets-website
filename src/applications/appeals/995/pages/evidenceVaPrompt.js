@@ -8,7 +8,7 @@ import {
   requestVaRecordsHint,
   requestVaRecordsTitle,
   requestVaRecordsInfo,
-} from '../content/evidenceVaRecordsRequest';
+} from '../content/evidenceVaPrompt';
 
 import { EVIDENCE_VA } from '../constants';
 import { showScNewForm } from '../utils/toggle';
