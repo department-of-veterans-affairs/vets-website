@@ -1137,6 +1137,84 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+// Helper: Format time in VA.gov standard (h:mm a.m./p.m.)
+const formatTimeVaStyle = date => {
+  const time = format(date, 'h:mm a').toLowerCase();
+  // Use case-insensitive replacement to handle any case variations
+  return time.replace(/am/i, 'a.m.').replace(/pm/i, 'p.m.');
+};
+
+// Helper: Get timezone abbreviation
+const getTimezoneAbbr = date => {
+  return date
+    .toLocaleString('en-US', { timeZoneName: 'short' })
+    .split(' ')
+    .pop();
+};
+
+export const getTimezoneDiscrepancyMessage = timezoneOffsetMinutes => {
+  // Handle invalid inputs
+  if (
+    timezoneOffsetMinutes == null ||
+    Number.isNaN(timezoneOffsetMinutes) ||
+    timezoneOffsetMinutes === 0
+  ) {
+    return '';
+  }
+
+  const totalMinutes = Math.abs(timezoneOffsetMinutes);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  // Create a date object representing the cutoff time
+  const cutoffHour = timezoneOffsetMinutes > 0 ? 24 - hours : hours;
+  const cutoffDate = new Date();
+  cutoffDate.setHours(cutoffHour, minutes, 0, 0);
+
+  const timeStr = formatTimeVaStyle(cutoffDate);
+  const tzAbbr = getTimezoneAbbr(cutoffDate);
+
+  const isNextDay = timezoneOffsetMinutes > 0;
+  const beforeAfter = isNextDay ? 'after' : 'before';
+  const nextPrevious = isNextDay ? 'next' : 'previous';
+
+  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show as received on the ${nextPrevious} day's date, but we record your submissions when you upload them.`;
+};
+
+export const showTimezoneDiscrepancyMessage = uploadDate => {
+  // Handle invalid inputs
+  if (!uploadDate || !(uploadDate instanceof Date) || !isValid(uploadDate)) {
+    return false;
+  }
+
+  const localDay = uploadDate.getDate();
+  const utcDay = uploadDate.getUTCDate();
+
+  return localDay !== utcDay;
+};
+
+export const formatUploadDateTime = date => {
+  // Validate input exists
+  if (date == null) {
+    throw new Error('formatUploadDateTime: date parameter is required');
+  }
+
+  const parsedDate = typeof date === 'string' ? parseISO(date) : date;
+
+  // Throw error for invalid dates - this is a programming error, not a user error
+  if (!isValid(parsedDate)) {
+    throw new Error(
+      `formatUploadDateTime: invalid date provided - ${JSON.stringify(date)}`,
+    );
+  }
+
+  const dateStr = format(parsedDate, 'MMMM d, yyyy');
+  const timeStr = formatTimeVaStyle(parsedDate);
+  const tzAbbr = getTimezoneAbbr(parsedDate);
+
+  return `${dateStr} at ${timeStr} ${tzAbbr}`;
+};
+
 // Covers two cases:
 //   1. Standard 5103s we get back from the API (only occurs when they're closed).
 //   2. Standard 5103s that we're mocking within our application logic.

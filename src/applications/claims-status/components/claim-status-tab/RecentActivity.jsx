@@ -14,6 +14,7 @@ import {
   getShowEightPhases,
   renderDefaultThirdPartyMessage,
   getDisplayFriendlyName,
+  getTimezoneDiscrepancyMessage,
 } from '../../utils/helpers';
 import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
@@ -233,11 +234,18 @@ export default function RecentActivity({ claim }) {
     );
   };
 
+  const timezoneDiscrepancyMessage = getTimezoneDiscrepancyMessage(
+    new Date().getTimezoneOffset(),
+  );
+
   return (
     <div className="recent-activity-container">
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-        Recent activity
-      </h3>
+      <h3 className="vads-u-margin-top--0">Recent activity</h3>
+      {timezoneDiscrepancyMessage && (
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3 vads-u-color--gray-medium">
+          {timezoneDiscrepancyMessage}
+        </p>
+      )}
       {pageLength > 0 && (
         <ol className="va-list-horizontal">
           {currentPageItems.map(item => (

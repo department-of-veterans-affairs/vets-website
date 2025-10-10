@@ -1,6 +1,7 @@
 import React from 'react';
 import { within } from '@testing-library/react';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -1389,4 +1390,121 @@ describe('<RecentActivity>', () => {
       });
     },
   );
+
+  context('Timezone-aware message display', () => {
+    it('should display timezone message below Recent activity heading', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      getByText('Recent activity');
+      expect(getByText(/Files uploaded after.*will show as received/)).to.exist;
+      expect(getByText(/but we record your submissions when you upload them/))
+        .to.exist;
+    });
+
+    it('should include time and timezone in message', () => {
+      const { getByText } = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const messageParagraph = getByText(
+        /Files uploaded after.*will show as received/,
+      );
+      expect(messageParagraph.textContent).to.match(
+        /\d{1,2}:\d{2}\s+(a|p)\.m\./,
+      );
+    });
+
+    it('should NOT display message when in UTC timezone', () => {
+      // Mock timezone offset to return 0 (UTC)
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      const { queryByText } = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Heading should exist
+      expect(queryByText('Recent activity')).to.exist;
+
+      // Message should NOT exist
+      expect(queryByText(/Files uploaded/)).to.not.exist;
+      expect(queryByText(/will show as received/)).to.not.exist;
+
+      // Restore original method
+      timezoneStub.restore();
+    });
+
+    it('should not render message paragraph element when timezone offset is 0', () => {
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      const heading = container.querySelector('h3');
+      expect(heading).to.exist;
+      expect(heading.textContent).to.equal('Recent activity');
+
+      // Find all paragraphs in recent-activity-container
+      const activityContainer = container.querySelector(
+        '.recent-activity-container',
+      );
+      const paragraphs = activityContainer.querySelectorAll('p');
+
+      // No paragraph should contain timezone message
+      paragraphs.forEach(p => {
+        expect(p.textContent).to.not.include('Files uploaded');
+      });
+
+      timezoneStub.restore();
+    });
+
+    it('should conditionally render message based on timezone offset', () => {
+      // Test with non-UTC (should render)
+      const { container, rerender } = renderWithRouter(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      let messageParagraph = container.querySelector(
+        '.vads-u-color--gray-medium',
+      );
+      expect(messageParagraph).to.exist;
+      expect(messageParagraph.textContent).to.include('Files uploaded');
+
+      // Mock UTC and re-render
+      const timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(0);
+
+      // Force re-render by remounting component
+      rerender(
+        <Provider store={getStore(true)}>
+          <RecentActivity claim={openClaimStep1} />
+        </Provider>,
+      );
+
+      // Message paragraph should not exist
+      messageParagraph = container.querySelector('.vads-u-color--gray-medium');
+      expect(messageParagraph?.textContent || '').to.not.include(
+        'Files uploaded',
+      );
+
+      timezoneStub.restore();
+    });
+  });
 });

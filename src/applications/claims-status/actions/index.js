@@ -10,8 +10,10 @@ import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
 import {
   makeAuthRequest,
   roundToNearest,
-  buildDateFormatter,
   getUploadErrorMessage,
+  formatUploadDateTime,
+  showTimezoneDiscrepancyMessage,
+  getTimezoneDiscrepancyMessage,
 } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
@@ -340,8 +342,6 @@ export function submitFiles(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
-              const now = new Date(Date.now());
-              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
@@ -349,15 +349,27 @@ export function submitFiles(claimId, trackedItem, files) {
                 dispatch({
                   type: DONE_UPLOADING,
                 });
+
+                const now = new Date();
+                const uploadDateTime = formatUploadDateTime(now);
+                const timezoneOffset = now.getTimezoneOffset();
+
+                const refreshMessage =
+                  "Your file should be listed in the Documents filed section. If it's not there, try refreshing the page.";
+
                 dispatch(
                   setNotification({
-                    title: `We received your file upload on ${uploadDate}`,
+                    title: `We received your file upload on ${uploadDateTime}`,
                     body: (
-                      <span>
-                        If your uploaded file doesn’t appear in the Documents
-                        Filed section on this page, please try refreshing the
-                        page.
-                      </span>
+                      <>
+                        {refreshMessage}
+                        {showTimezoneDiscrepancyMessage(now) && (
+                          <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                            <strong>Note:</strong>{' '}
+                            {getTimezoneDiscrepancyMessage(timezoneOffset)}
+                          </div>
+                        )}
+                      </>
                     ),
                   }),
                 );

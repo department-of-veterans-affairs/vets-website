@@ -58,21 +58,23 @@ export default function ClaimDetailLayout(props) {
 
     headingContent = (
       <>
-        {message && (
-          <Notification
-            title={message.title}
-            body={message.body}
-            type={message.type}
-            onClose={clearNotification}
-            onSetFocus={focusNotificationAlert}
-          />
-        )}
         <h1 className="claim-title">
           {claimTitle}
           <span className="vads-u-font-family--sans vads-u-margin-top--1">
             {claimSubheader}
           </span>
         </h1>
+        {message && (
+          <div className="vads-u-margin-top--4">
+            <Notification
+              title={message.title}
+              body={message.body}
+              type={message.type}
+              onClose={clearNotification}
+              onSetFocus={focusNotificationAlert}
+            />
+          </div>
+        )}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h3">
             What you’ve claimed
