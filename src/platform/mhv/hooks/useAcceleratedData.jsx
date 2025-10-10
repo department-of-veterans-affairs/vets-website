@@ -132,6 +132,8 @@ const useAcceleratedData = () => {
   );
 
   return {
+    isLoading,
+    isCerner,
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingCareNotes,
@@ -139,8 +141,6 @@ const useAcceleratedData = () => {
     isAcceleratingVitals,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
-    isCerner,
-    isLoading,
   };
 };
 

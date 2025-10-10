@@ -126,6 +126,16 @@ describe('The My VA Dashboard', () => {
   ];
 
   beforeEach(() => {
+    // Blank intercepts for stuff we don't care about
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
+    cy.intercept('/v0/appeals', { data: [] });
+    cy.intercept('/v0/benefits_claims', { data: [] });
+    cy.intercept('/v0/debts*', { data: [] });
+    cy.intercept('/v0/medical_copays', { data: [] });
+    cy.intercept('/v0/my_va/submission_statuses', { data: [] });
+    cy.intercept('/v0/onsite_notifications', { data: [] });
+    cy.intercept('/vaos/v2/appointments*', { data: [] });
+
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(

@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 
 import marriageInfo from '../../pages/marriageInfo';
-import marriageRecognition from '../../pages/marriageRecognition';
+import phoneAndEmail from '../../pages/phoneAndEmail';
+import remarriageQuestion from '../../pages/remarriageQuestion';
 import spouseVeteranId from '../../pages/spouseVeteranId';
 import spouseVeteranStatus from '../../pages/spouseVeteranStatus';
 import terminationDetails from '../../pages/terminationDetails';
+import terminationStatus from '../../pages/terminationStatus';
 
 describe('21P-0537 page configurations', () => {
   describe('marriageInfo', () => {
@@ -49,22 +51,50 @@ describe('21P-0537 page configurations', () => {
     });
   });
 
-  describe('marriageRecognition', () => {
+  describe('phoneAndEmail', () => {
     it('exports uiSchema and schema', () => {
-      expect(marriageRecognition).to.have.property('uiSchema');
-      expect(marriageRecognition).to.have.property('schema');
+      expect(phoneAndEmail).to.have.property('uiSchema');
+      expect(phoneAndEmail).to.have.property('schema');
     });
 
-    it('has ui:description that is a React component', () => {
-      const description = marriageRecognition.uiSchema['ui:description'];
-      expect(description).to.be.a('function');
+    it('has primaryPhone field', () => {
+      expect(phoneAndEmail.uiSchema).to.have.property('primaryPhone');
+      expect(phoneAndEmail.schema.properties).to.have.property('primaryPhone');
     });
 
-    it('renders MarriageRecognitionInfo component', () => {
-      const MarriageRecognitionInfo =
-        marriageRecognition.uiSchema['ui:description'];
-      const component = MarriageRecognitionInfo();
-      expect(component).to.exist;
+    it('has secondaryPhone field', () => {
+      expect(phoneAndEmail.uiSchema).to.have.property('secondaryPhone');
+      expect(phoneAndEmail.schema.properties).to.have.property(
+        'secondaryPhone',
+      );
+    });
+
+    it('has emailAddress field', () => {
+      expect(phoneAndEmail.uiSchema).to.have.property('emailAddress');
+      expect(phoneAndEmail.schema.properties).to.have.property('emailAddress');
+    });
+
+    it('requires primaryPhone and emailAddress', () => {
+      expect(phoneAndEmail.schema.required).to.include('primaryPhone');
+      expect(phoneAndEmail.schema.required).to.include('emailAddress');
+    });
+  });
+
+  describe('remarriageQuestion', () => {
+    it('exports uiSchema and schema', () => {
+      expect(remarriageQuestion).to.have.property('uiSchema');
+      expect(remarriageQuestion).to.have.property('schema');
+    });
+
+    it('has hasRemarried field', () => {
+      expect(remarriageQuestion.uiSchema).to.have.property('hasRemarried');
+      expect(remarriageQuestion.schema.properties).to.have.property(
+        'hasRemarried',
+      );
+    });
+
+    it('hasRemarried is required', () => {
+      expect(remarriageQuestion.schema.required).to.include('hasRemarried');
     });
   });
 
@@ -74,11 +104,10 @@ describe('21P-0537 page configurations', () => {
       expect(spouseVeteranId).to.have.property('schema');
     });
 
-    it('has required function for spouse veteran ID', () => {
-      const required =
-        spouseVeteranId.uiSchema.remarriage.spouseVeteranId['ui:required'];
-      expect(required).to.be.a('function');
-      expect(required()).to.be.true;
+    it('has spouse veteran ID field required in schema', () => {
+      expect(spouseVeteranId.schema.properties.remarriage.required).to.include(
+        'spouseVeteranId',
+      );
     });
   });
 
@@ -116,6 +145,28 @@ describe('21P-0537 page configurations', () => {
         terminationDetails.uiSchema.remarriage.terminationReason['ui:required'];
       expect(reasonRequired).to.be.a('function');
       expect(reasonRequired()).to.be.true;
+    });
+  });
+
+  describe('terminationStatus', () => {
+    it('exports uiSchema and schema', () => {
+      expect(terminationStatus).to.have.property('uiSchema');
+      expect(terminationStatus).to.have.property('schema');
+    });
+
+    it('has hasTerminated field', () => {
+      expect(terminationStatus.uiSchema.remarriage).to.have.property(
+        'hasTerminated',
+      );
+      expect(
+        terminationStatus.schema.properties.remarriage.properties,
+      ).to.have.property('hasTerminated');
+    });
+
+    it('hasTerminated is required', () => {
+      expect(
+        terminationStatus.schema.properties.remarriage.required,
+      ).to.include('hasTerminated');
     });
   });
 });
