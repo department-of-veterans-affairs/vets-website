@@ -60,22 +60,18 @@ describe('Acknowledgements Page', () => {
   it('renders all four statement descriptions', () => {
     const { container } = renderPage();
 
-    // Statement 1
     expect(container.textContent).to.contain(
       'For all U.S. schools, once this agreement is accepted by VA',
     );
 
-    // Statement 2
     expect(container.textContent).to.contain(
       'The IHL agrees to provide contributions to eligible individuals',
     );
 
-    // Statement 3
     expect(container.textContent).to.contain(
       'The IHL agrees to provide contributions on behalf of a participating individual',
     );
 
-    // Statement 4
     expect(container.textContent).to.contain(
       'The IHL agrees to provide the maximum amount of contributions payable',
     );
