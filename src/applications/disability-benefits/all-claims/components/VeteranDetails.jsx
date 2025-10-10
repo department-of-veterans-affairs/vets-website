@@ -35,6 +35,7 @@ function VeteranDetails({ profile }) {
           </p>
         )}
         <p>Date of birth: {dob ? formatDate(dob) : ''}</p>
+        <p>VeteranDetails valid? {new Date(dob).getFullYear() > 1950}</p>
         <p>Gender: {genderLabels[gender]}</p>
       </div>
       {editNote('personal information')}
