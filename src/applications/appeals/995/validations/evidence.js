@@ -1,8 +1,6 @@
 import { isValidUSZipCode } from 'platform/forms/address';
-
-import { errorMessages, SC_NEW_FORM_DATA } from '../constants';
+import { errorMessages } from '../constants';
 import { validateDate, validateYMDate } from './date';
-
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/replace';
 import {
@@ -20,6 +18,7 @@ const sortIssues = issues =>
 /* *** VA *** */
 export const validateVaLocation = (errors, data) => {
   const { locationAndName } = data || {};
+
   if (!locationAndName) {
     errors.addError(errorMessages.evidence.locationMissing);
   } else if (
@@ -48,83 +47,33 @@ export const validateVaIssues = (
   );
 };
 
-// Overloading fullDate parameter with evidence date type to control error
-// messaging
-/* errors, fieldData, formData, schema, uiSchema, index, appStateData */
-export const validateVaFromDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
-  validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
-
-export const validateVaToDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
-  validateToDate(errors, data, 'evidenceDates');
-
-export const validateVaDate = (
-  errors,
-  data,
-  formData = {},
-  _schema,
-  _uiSchema,
-  _index,
-  appStateData = {},
-) =>
-  (appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+export const validateVaDate = (errors, data, _schema, _uiSchema, _index) =>
   validateYMDate(errors, data.treatmentDate);
 
 export const buildVaLocationString = ({
   data = {},
   joiner = '',
   includeIssues = true,
-  newForm = false,
   wrapped = false,
 } = {}) => {
   const issues = includeIssues ? sortIssues(data.issues || []) : [];
-  if (newForm) {
-    const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
-    const treatmentDate = (data.treatmentDate || '').replace(
-      REGEXP.EMPTY_DATE,
-      '',
-    );
+  const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
+  const treatmentDate = (data.treatmentDate || '').replace(
+    REGEXP.EMPTY_DATE,
+    '',
+  );
 
-    return [
-      data.locationAndName || '',
-      ...issues,
-      fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
-      noDate,
-    ].join(joiner);
-  }
   return [
     data.locationAndName || '',
     ...issues,
-    fixDateFormat(data.evidenceDates?.from || '').replace(
-      REGEXP.EMPTY_DATE,
-      '',
-    ),
-    fixDateFormat(data.evidenceDates?.to || '').replace(REGEXP.EMPTY_DATE, ''),
+    fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
+    noDate,
   ].join(joiner);
 };
 
 // Check if VA evidence object is empty
-// an empty va-memorable-date value may equal '--'
-export const isEmptyVaEntry = (data = {}, newForm) => {
-  const emptyData = newForm ? 'false' : '';
-  return buildVaLocationString({ data, newForm }).trim() === emptyData;
+export const isEmptyVaEntry = (data = {}) => {
+  return buildVaLocationString({ data }).trim() === 'false';
 };
 
 export const validateVaUnique = (
@@ -140,7 +89,6 @@ export const validateVaUnique = (
       data,
       joiner: ',',
       includeIssues: true,
-      newForm: fullData?.[SC_NEW_FORM_DATA],
     }).toLowerCase(),
   );
 
@@ -150,6 +98,7 @@ export const validateVaUnique = (
 /* *** Private *** */
 export const validatePrivateName = (errors, data) => {
   const { providerFacilityName } = data || {};
+
   if (!providerFacilityName) {
     errors.addError(errorMessages.evidence.facilityMissing);
   }

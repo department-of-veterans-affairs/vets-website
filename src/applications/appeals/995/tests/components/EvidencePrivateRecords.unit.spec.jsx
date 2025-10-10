@@ -17,7 +17,11 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
@@ -120,7 +124,6 @@ describe('<EvidencePrivateRecords>', () => {
     const { container } = render(setup({ data: null }));
     expect($$('va-text-input', container).length).to.eq(5);
     expect($$('va-select', container).length).to.eq(2);
-    expect($('va-checkbox-group', container)).to.exist;
     expect($$('va-checkbox', container).length).to.eq(0);
     expect($$('va-memorable-date', container).length).to.eq(2);
   });
@@ -709,9 +712,7 @@ describe('<EvidencePrivateRecords>', () => {
     it('should show no contestable issues were selected message', () => {
       const data = { data: { contestedIssues: [], additionalIssues: [] } };
       const { container } = render(setup(data));
-      expect($('va-checkbox-group', container).textContent).to.contain(
-        NO_ISSUES_SELECTED,
-      );
+      expect($$('p', container)[2].textContent).to.contain(NO_ISSUES_SELECTED);
     });
   });
 });

@@ -17,13 +17,13 @@
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
-        "extension": "5678"
+        "extension": "2345"
       },
       "mobilePhone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8002222",
-        "extension": "1234"
+        "extension": "5678"
       },
       "email": "user@example.com"
     },
@@ -68,43 +68,30 @@
         }
       }
     ],
-    "legacyCount": 2,
-    "additionalIssues": [
-      {
-        "issue": "Test",
-        "decisionDate": "2022-1-1",
-        "view:selected": true
-      },
-      {
-        "issue": "Test 2",
-        "decisionDate": "2022-6-28",
-        "view:selected": true
-      }
-    ],
+    "legacyCount": 0,
+    "additionalIssues": [],
     "socOptIn": true,
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
     "locations": [
       {
-        "locationAndName": "VAMC Location 1",
-        "issues": [
-          "Test",
-          "Test 2"
-        ],
+        "locationAndName": "South Texas VA Facility",
+        "issues": ["Tinnitus", "Migraines"],
         "evidenceDates": {
-          "from": "2001-1-1",
-          "to": "2011-1-1"
-        }
+          "from": "",
+          "to": ""
+        },
+        "treatmentDate": "",
+        "noDate": true
       },
       {
-        "locationAndName": "VAMC Location 2",
-        "issues": [
-          "Test 2"
-        ],
+        "locationAndName": "Midwest Alabama VA Facility",
+        "issues": ["Migraines", "Right Knee Injury"],
         "evidenceDates": {
-          "from": "2002-2-2",
-          "to": "2012-2-2"
-        }
+          "from": "",
+          "to": ""
+        },
+        "treatmentDate": "2000-01"
       }
     ],
     "providerFacility": [
@@ -112,34 +99,29 @@
         "providerFacilityName": "Private Doctor",
         "providerFacilityAddress": {
           "country": "USA",
-          "street": "123 main",
-          "city": "city",
-          "state": "AK",
-          "postalCode": "90210"
+          "street": "",
+          "city": "",
+          "state": "",
+          "postalCode": ""
         },
-        "issues": [
-          "Test",
-          "Test 2"
-        ],
+        "issues": [],
         "treatmentDateRange": {
-          "from": "2022-1-1",
-          "to": "2022-2-1"
+          "from": "",
+          "to": ""
         }
       },
       {
-        "providerFacilityName": "Private Hospital",
+        "providerFacilityName": "",
         "providerFacilityAddress": {
           "country": "USA",
           "street": "456 main",
-          "city": "city",
-          "state": "AK",
-          "postalCode": "90211"
+          "city": "",
+          "state": "",
+          "postalCode": ""
         },
-        "issues": [
-          "Test 2"
-        ],
+        "issues": [],
         "treatmentDateRange": {
-          "from": "2022-2-1",
+          "from": "",
           "to": "2022-5-1"
         }
       }
@@ -148,37 +130,22 @@
     "view:patientAcknowledgement": {
       "view:acknowledgement": true
     },
-    "view:hasVaEvidence": true,
-    "view:hasPrivateEvidence": true,
-    "view:hasPrivateLimitation": true,
-    "view:hasOtherEvidence": true,
+    "view:hasVaEvidence": false,
+    "view:hasPrivateEvidence": false,
+    "view:hasOtherEvidence": false,
     "additionalDocuments": [
       {
         "name": "private-medical-records.pdf",
         "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-        "attachmentId": "L049",
+        "attachmentId": "",
         "size": 20000,
         "isEncrypted": false
       },
       {
         "name": "x-rays.pdf",
-        "confirmationCode": "ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj",
+        "confirmationCode": "",
         "attachmentId": "L023",
         "size": 30000,
-        "isEncrypted": false
-      },
-      {
-        "name": "buddy-statement.pdf",
-        "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
-        "attachmentId": "L015",
-        "size": 40000,
-        "isEncrypted": false
-      },
-      {
-        "name": "photos.pdf",
-        "confirmationCode": "pppppppp-qqqql-rrrr-ssss-ttttttttttt",
-        "attachmentId": "L070",
-        "size": 40000,
         "isEncrypted": false
       }
     ]

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import maximalTest from '../fixtures/data/maximal-test.json';
+import maximalTest from '../fixtures/data/api-formatted-comprehensive-test.json';
 import formConfig from '../../config/form';
 import { SUBMIT_URL } from '../../constants/apis';
 
