@@ -43,7 +43,9 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
       on the check or money order.
     </p>
     <h3>Pay by mail</h3>
-    <p>Please send us these items:</p>
+    <p>
+      <strong>Please send us these items:</strong>
+    </p>
     <ul>
       <li>
         A check or money order (made payable to the "U.S. Department of Veterans
