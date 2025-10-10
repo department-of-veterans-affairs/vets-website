@@ -9,12 +9,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
 import { submit } from './submit';
 // import { defaultDefinitions } from './definitions';
-// import GetFormHelp from '../components/GetFormHelp';
-// import ErrorText from '../components/ErrorText';
-import applicantInformation from './chapters/01-applicant-information';
-// import expenses from './chapters/02-expenses';
 import additionalInformation from './chapters/03-additional-information';
+import hasCareExpenses from './chapters/02-expenses/careExpenses';
 import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
+import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
+import claimantInformation from './chapters/01-applicant-information/claimantInformation';
+import contactInformation from './chapters/01-applicant-information/contactInformation';
+import mailingAddress from './chapters/01-applicant-information/mailingAddress';
+import veteranInformation from './chapters/01-applicant-information/veteranInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,10 +73,52 @@ const formConfig = {
   // errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    applicantInformation,
+    applicantInformation: {
+      title: 'Applicant information',
+      pages: {
+        claimantRelationship: {
+          title: 'Applicant information',
+          path: 'applicant/relationship',
+          uiSchema: claimantRelationship.uiSchema,
+          schema: claimantRelationship.schema,
+        },
+        claimantInformation: {
+          title: 'Your information',
+          path: 'applicant/information',
+          uiSchema: claimantInformation.uiSchema,
+          schema: claimantInformation.schema,
+        },
+        mailingAddress: {
+          title: 'Your address',
+          path: 'applicant/mail-address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          title: 'Your contact information',
+          path: 'applicant/contact',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'applicant/veteran-information',
+          uiSchema: veteranInformation.uiSchema,
+          schema: veteranInformation.schema,
+        },
+      },
+    },
     careExpenses: {
       title: 'Care Expenses',
-      pages: careExpensesPages,
+      pages: {
+        hasCareExpenses: {
+          title: 'Care expenses',
+          path: 'expenses/care',
+          uiSchema: hasCareExpenses.uiSchema,
+          schema: hasCareExpenses.schema,
+        },
+        ...careExpensesPages,
+      },
     },
     additionalInformation,
   },

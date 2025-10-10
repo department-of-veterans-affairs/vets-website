@@ -21,8 +21,6 @@ export function CareExpenseDescription() {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Care expenses',
-  path: 'expenses/care',
   uiSchema: {
     ...titleUI('Care expenses'),
     'ui:description': CareExpenseDescription,
