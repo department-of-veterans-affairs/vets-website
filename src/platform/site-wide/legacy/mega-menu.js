@@ -109,6 +109,11 @@ export function initNavMenu() {
   const openMenuElement = document.querySelector('.vetnav-controller-open');
   const closeMenuElement = document.querySelector('.vetnav-controller-close');
 
+  // Guard against missing DOM nodes before wiring listeners
+  if (!menuElement || !openMenuElement || !closeMenuElement) {
+    return;
+  }
+
   const mm = new MegaMenu(menuElement, openMenuElement, closeMenuElement);
   mm.resetMenu();
 }
