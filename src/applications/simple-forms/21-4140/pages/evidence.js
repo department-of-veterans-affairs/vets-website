@@ -72,9 +72,9 @@ export default {
         !formData.supportingEvidence ||
         !Array.isArray(formData.supportingEvidence) ||
         formData.supportingEvidence.length === 0 ? (
-        <span>No evidence was uploaded</span>
+        <li>No evidence was uploaded</li>
       ) : (
-        <>
+        <li>
           <div className="vads-u-color--gray">Supporting evidence uploaded</div>
           {formData.supportingEvidence.map(file => (
             <ul key={file.name}>
@@ -83,7 +83,7 @@ export default {
               <li>{file.type}</li>
             </ul>
           ))}
-        </>
+        </li>
       );
     },
     supportingEvidence: fileInputMultipleUI({
