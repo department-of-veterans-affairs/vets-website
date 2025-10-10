@@ -13,10 +13,9 @@ describe('Personal and contact information', () => {
       addressPage.loadPage('no-change');
       addressPage.updateWithoutChanges();
       addressPage.validateSavedForm(formFields, false);
+      // Assert focus is on the update saved alert
       addressPage.validateFocusedElement({
-        tag: 'va-button',
-        name: 'Edit Mailing address',
-        innerTag: 'button',
+        tag: 'va-alert',
       });
       cy.injectAxeThenAxeCheck();
     });

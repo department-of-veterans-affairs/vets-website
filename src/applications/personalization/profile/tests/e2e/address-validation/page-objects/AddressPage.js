@@ -31,8 +31,8 @@ const validateSavedForm = (
     // this linting warning is actually a bug in cypress
     // https://github.com/cypress-io/eslint-plugin-cypress/issues/140
     cy.focused().then($focused => {
-      expect($focused).to.have.attr('aria-label', 'Edit Mailing address');
-      expect($focused).to.have.text('Edit');
+      expect($focused).to.have.attr('role', 'alert');
+      expect($focused).to.have.text('Update saved.');
     });
   }
 
@@ -147,16 +147,21 @@ const updateWithoutChanges = () => {
 };
 
 const validateFocusedElement = element => {
-  // If the element is a web component, assert focus is on the
-  // native element inside the shadow DOM
-  if (element.innerTag) {
-    cy.get(`${element.tag}[label="${element.name}"]`)
+  const { tag, innerTag, role } = element;
+  const name = element.name || '';
+
+  if (innerTag) {
+    // Assert focus is on the native element inside the shadow DOM of a web component
+    cy.get(`${tag}[label="${name}"]`)
       .shadow()
-      .find(element.innerTag)
+      .find(innerTag)
       .should('be.focused');
+  } else if (role) {
+    // Assert focus with a role-based query
+    cy.findByRole(role, { name }).should('be.focused');
   } else {
-    // Otherwise, use the standard role-based query
-    cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+    // Fallback to direct tag query
+    cy.get(tag).should('be.focused');
   }
 };
 
@@ -318,16 +323,21 @@ class AddressPage {
   };
 
   validateFocusedElement = element => {
-    // If the element is a web component, assert focus is on the
-    // native element inside the shadow DOM
-    if (element.innerTag) {
-      cy.get(`${element.tag}[label="${element.name}"]`)
+    const { tag, innerTag, role } = element;
+    const name = element.name || '';
+
+    if (innerTag) {
+      // Assert focus is on the native element inside the shadow DOM of a web component
+      cy.get(`${tag}[label="${name}"]`)
         .shadow()
-        .find(element.innerTag)
+        .find(innerTag)
         .should('be.focused');
+    } else if (role) {
+      // Assert focus with a role-based query
+      cy.findByRole(role, { name }).should('be.focused');
     } else {
-      // Otherwise, use the standard role-based query
-      cy.findByRole(element.tag, { name: element.name }).should('be.focused');
+      // Fallback to direct tag query
+      cy.get(tag).should('be.focused');
     }
   };
 }
