@@ -29,13 +29,17 @@ describe('Letters Empty State Feature Flag', () => {
 
   context('when feature flag is enabled', () => {
     beforeEach(() => {
-      // Enable the feature flag
+      // Enable the feature flags
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
           features: [
             {
               name: 'empty_state_benefit_letters',
+              value: true,
+            },
+            {
+              name: 'letters_page_new_design',
               value: true,
             },
           ],
@@ -134,7 +138,7 @@ describe('Letters Empty State Feature Flag', () => {
 
   context('when feature flag is disabled', () => {
     beforeEach(() => {
-      // Disable the feature flag
+      // Disable the empty state feature flag but enable new design
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
@@ -142,6 +146,10 @@ describe('Letters Empty State Feature Flag', () => {
             {
               name: 'empty_state_benefit_letters',
               value: false,
+            },
+            {
+              name: 'letters_page_new_design',
+              value: true,
             },
           ],
         },
