@@ -18,12 +18,12 @@ export const ReviewDependents = () => {
     return (
       <div
         key={index}
-        className="dependent-card vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
+        className="vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
       >
-        <h4 style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>{name}</h4>
-        <p style={{ margin: 0, color: '#666' }}>
+        <h4 className="vads-u-margin-top--0">{name}</h4>
+        <span>
           {relationship} | {age}
-        </p>
+        </span>
       </div>
     );
   };

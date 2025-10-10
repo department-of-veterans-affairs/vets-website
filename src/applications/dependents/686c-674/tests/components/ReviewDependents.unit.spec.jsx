@@ -21,8 +21,8 @@ const renderWithStore = (state = {}) => {
 
 describe('ReviewDependents', () => {
   it('should render the main heading', () => {
-    const { container } = renderWithStore({});
-    const heading = container.querySelector('h3');
+    const { getByRole } = renderWithStore({});
+    const heading = getByRole('heading', { level: 3 });
     expect(heading.textContent).to.equal('Review your VA dependents');
   });
 
@@ -45,16 +45,16 @@ describe('ReviewDependents', () => {
   });
 
   it('should not show qualification section when no dependents', () => {
-    const { container } = renderWithStore({
+    const { queryByRole } = renderWithStore({
       dependents: { awarded: [] },
     });
 
-    const qualificationHeading = container.querySelector('h5');
+    const qualificationHeading = queryByRole('heading', { level: 5 });
     expect(qualificationHeading).to.be.null;
   });
 
   it('should show qualification section when dependents exist', () => {
-    const { container } = renderWithStore({
+    const { getByRole } = renderWithStore({
       dependents: {
         awarded: [
           {
@@ -66,7 +66,7 @@ describe('ReviewDependents', () => {
       },
     });
 
-    const qualificationHeading = container.querySelector('h5');
+    const qualificationHeading = getByRole('heading', { level: 5 });
     expect(qualificationHeading).to.not.be.null;
   });
 
@@ -84,16 +84,30 @@ describe('ReviewDependents', () => {
       },
     ];
 
-    const { container } = renderWithStore({
+    const { getAllByRole } = renderWithStore({
       dependents: { awarded: mockDependents },
     });
 
-    const dependentCards = container.querySelectorAll('.dependent-card');
-    expect(dependentCards.length).to.equal(2);
+    // Count h4 headings that represent dependent names
+    const dependentHeadings = getAllByRole('heading', { level: 4 }).filter(
+      heading =>
+        heading.textContent === 'Maya Patel' ||
+        heading.textContent === 'Naomi Garcia' ||
+        heading.textContent ===
+          'Check if someone is missing on your VA benefits',
+    );
+
+    // Should have 2 dependent name headings (plus 1 additional h4 for missing benefits)
+    const dependentNames = dependentHeadings.filter(
+      heading =>
+        heading.textContent !==
+        'Check if someone is missing on your VA benefits',
+    );
+    expect(dependentNames.length).to.equal(2);
   });
 
   it('should render dependent information correctly', () => {
-    const { container } = renderWithStore({
+    const { getByText } = renderWithStore({
       dependents: {
         awarded: [
           {
@@ -105,16 +119,15 @@ describe('ReviewDependents', () => {
       },
     });
 
-    const dependentCard = container.querySelector('.dependent-card');
-    const name = dependentCard.querySelector('h4');
-    const details = dependentCard.querySelector('p');
+    const name = getByText('Maya Patel');
+    const details = getByText('Spouse | 47 years old');
 
-    expect(name.textContent).to.equal('Maya Patel');
-    expect(details.textContent).to.equal('Spouse | 47 years old');
+    expect(name).to.not.be.null;
+    expect(details).to.not.be.null;
   });
 
   it('should handle missing name fields gracefully', () => {
-    const { container } = renderWithStore({
+    const { getByText } = renderWithStore({
       dependents: {
         awarded: [
           {
@@ -131,18 +144,17 @@ describe('ReviewDependents', () => {
       },
     });
 
-    const dependentCards = container.querySelectorAll('.dependent-card');
-    const firstCardName = dependentCards[0].querySelector('h4');
-    const secondCardName = dependentCards[1].querySelector('h4');
+    const firstCardName = getByText('OnlyFirst');
+    const secondCardName = getByText('OnlyLast');
 
-    expect(firstCardName.textContent).to.equal('OnlyFirst');
-    expect(secondCardName.textContent).to.equal('OnlyLast');
+    expect(firstCardName).to.not.be.null;
+    expect(secondCardName).to.not.be.null;
   });
 
   it('should handle undefined form data gracefully', () => {
-    const { container } = renderWithStore();
+    const { getByRole, container } = renderWithStore();
 
-    const heading = container.querySelector('h3');
+    const heading = getByRole('heading', { level: 3 });
     expect(heading).to.not.be.null;
 
     const errorAlert = container.querySelector('va-alert[status="error"]');
