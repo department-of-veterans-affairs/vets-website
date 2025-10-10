@@ -10,7 +10,12 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
+import {
+  DOWNLOAD_FORMAT,
+  FIELD_NONE_NOTED,
+  pdfDefaultPendingMedDefinition,
+  pdfDefaultPendingRenewalDefinition,
+} from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -26,7 +31,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(FIELD_NONE_NOTED);
+    expect(pdfList[0].sections[0].items[3].value).to.equal(FIELD_NONE_NOTED);
   });
 });
 
@@ -89,7 +94,10 @@ describe('VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[12].value).to.equal('test');
+    const testVal =
+      pdfList[0].sections[0].items[pdfList[0].sections[0].items.length - 1]
+        .value;
+    expect(testVal).to.equal('test');
   });
 
   it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
@@ -110,6 +118,40 @@ describe('VA prescription Config', () => {
     const pdfList = buildVAPrescriptionPDFList(rxDetails);
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
+  });
+
+  it('should display PendingMed status description if NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    const statusTxt = pdfDefaultPendingMedDefinition.reduce(
+      (fullStatus, item) =>
+        fullStatus + item.value + (item.continued ? ' ' : '\n'),
+      '',
+    );
+    expect(status.value).to.equal(statusTxt);
+  });
+
+  it('should display PendingMed status description if Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    const statusTxt = pdfDefaultPendingRenewalDefinition.reduce(
+      (fullStatus, item) =>
+        fullStatus + item.value + (item.continued ? ' ' : '\n'),
+      '',
+    );
+    expect(status.value).to.equal(statusTxt);
   });
 });
 
