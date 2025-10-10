@@ -20,10 +20,15 @@ const MyEligibilityAndBenefits = () => {
     TOGGLE_NAMES.vreEligibilityStatusUpdates,
   );
 
-  useEffect(() => {
-    scrollToTop();
-    focusElement('h1');
-  }, []);
+  useEffect(
+    () => {
+      if (!loading) {
+        scrollToTop();
+        focusElement('h1');
+      }
+    },
+    [loading],
+  );
 
   useEffect(
     () => {
@@ -39,7 +44,7 @@ const MyEligibilityAndBenefits = () => {
       <div className="row">
         {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-y--4 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-          <h1>Your eligibility and benefits</h1>
+          <h1>Your VR&E eligibility and benefits</h1>
           <p className="vads-u-color--gray-medium">
             This page isn’t available right now.
           </p>
@@ -53,7 +58,7 @@ const MyEligibilityAndBenefits = () => {
       <div className="row">
         {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>Your eligibility and benefits</h1>
+          <h1>Your VR&E eligibility and benefits</h1>
           <va-loading-indicator
             set-focus
             message="Loading your eligibility..."
@@ -67,7 +72,7 @@ const MyEligibilityAndBenefits = () => {
       <div className="row">
         {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>Your eligibility and benefits</h1>
+          <h1>Your VR&E eligibility and benefits</h1>
           <va-alert status="error" visible class="vads-u-margin-y--4">
             <h2 slot="headline">
               We can’t load the eligibility details right now
@@ -116,7 +121,7 @@ const MyEligibilityAndBenefits = () => {
     <div className="row ">
       {/* <Breadcrumbs /> */}
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-        <h1>Your eligibility and benefits</h1>
+        <h1>Your VR&E eligibility and benefits</h1>
 
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your

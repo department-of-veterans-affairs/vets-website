@@ -1,34 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 
-const Breadcrumbs = ({ location }) => {
-  const pathname = location?.pathname ?? '/';
-
+const Breadcrumbs = () => {
   const crumbs = [
     { href: '/', label: 'VA.gov home' },
     { href: '/careers-employment', label: 'Careers and employment' },
     {
-      href: '/careers-employment/vocational-rehabilitation',
-      label: 'Veteran Readiness and Employment (Chapter 31)',
+      href: '/careers-employment/your-vre-eligibility/',
+      label: 'Your VR&E eligibility and benefits',
     },
   ];
-
-  const isEligibility = pathname.startsWith('/your-eligibility-and-benefits');
-
-  if (isEligibility) {
-    crumbs.push({
-      href:
-        '/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/your-eligibility-and-benefits',
-      label: 'Your eligibility and benefits',
-    });
-  } else {
-    crumbs.push({
-      href:
-        '/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/introduction',
-      label: 'Apply for Veteran Readiness and Employment Form 28-1900',
-    });
-  }
 
   return (
     <div className="row">
@@ -44,4 +25,4 @@ const Breadcrumbs = ({ location }) => {
   );
 };
 
-export default withRouter(Breadcrumbs);
+export default Breadcrumbs;
