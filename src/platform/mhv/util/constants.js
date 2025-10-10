@@ -71,26 +71,6 @@ export const selfEnteredDocSections = {
   VITALS: 'vitals and readings',
 };
 
-// used to reference the sections of the SEI document
-// (does not show emergency contacts because it is only a sub-section)
-export const selfEnteredDomains = {
-  ACTIVITY_JOURNAL: 'activityJournal',
-  ALLERGIES: 'allergies',
-  DEMOGRAPHICS: 'demographics',
-  EMERGENCY_CONTACTS: 'emergencyContacts',
-  FAMILY_HISTORY: 'familyHistory',
-  FOOD_JOURNAL: 'foodJournal',
-  HEALTH_PROVIDERS: 'providers',
-  HEALTH_INSURANCE: 'healthInsurance',
-  TEST_ENTRIES: 'testEntries',
-  MEDICAL_EVENTS: 'medicalEvents',
-  MEDICATIONS: 'medications',
-  MILITARY_HISTORY: 'militaryHistory',
-  TREATMENT_FACILITIES: 'treatmentFacilities',
-  VACCINES: 'vaccines',
-  VITALS: 'vitals',
-};
-
 // All SEI domains in one place for easy iteration
 export const SEI_DOMAINS = [
   'activityJournal',
