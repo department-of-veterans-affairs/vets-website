@@ -68,8 +68,8 @@ function transformForSubmit(formConfig, form) {
   );
 
   // Split phone numbers
-  const daytimePhone = splitPhone(transformedData.recipient?.phone?.daytime);
-  const eveningPhone = splitPhone(transformedData.recipient?.phone?.evening);
+  const daytimePhone = splitPhone(transformedData.primaryPhone);
+  const eveningPhone = splitPhone(transformedData.secondaryPhone);
 
   // Get current date for signature (format as YYYY-MM-DD)
   const today = new Date();
@@ -93,8 +93,11 @@ function transformForSubmit(formConfig, form) {
         daytime: daytimePhone,
         evening: eveningPhone,
       },
-      email: transformedData.recipient?.email || '',
-      signature: transformedData.signature || '',
+      email: transformedData.emailAddress || '',
+      signature:
+        transformedData.signature ||
+        transformedData.statementOfTruthSignature ||
+        '',
       signatureDate,
     },
     inReplyReferTo: (() => {

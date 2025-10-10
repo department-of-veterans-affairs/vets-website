@@ -4,7 +4,7 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { content } from '../content/evidenceSummary';
 import { content as vaContent } from '../content/evidenceVaRecords';
-import { EVIDENCE_VA_PATH } from '../constants';
+import { EVIDENCE_VA_DETAILS_URL } from '../constants';
 import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../shared/constants';
 import {
   confirmationPageLabel,
@@ -54,7 +54,7 @@ export const EvidenceVaContent = ({
             treatmentDate = '',
             noDate,
           } = location || {};
-          const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
+          const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
           const fromDate = formatDate(evidenceDates.from);
           const toDate = formatDate(evidenceDates.to);
           // treatment date only includes YYYY-MM; include '-01' to fit parser
