@@ -113,7 +113,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         const button = container.querySelector('va-button[text="Confirm"]');
         expect(button).to.exist;
 
-        // getByRole('link', { name: /$Go to profile/ });
+        // getByRole('link', { name: /^Go to profile/ });
         const link = container.querySelector('va-link[text~="Go to profile"]');
         const href = '/profile/contact-information#contact-email-address';
         expect(link.href).to.equal(href);
@@ -242,7 +242,7 @@ describe('<MhvAlertConfirmEmail />', () => {
         getByTestId('mhv-alert--add-contact-email');
         getByRole('heading', { name: /^Add a contact email$/ });
 
-        // getByRole('link', { name: /$Go to profile/ });
+        // getByRole('link', { name: /^Go to profile/ });
         const linkSelector = 'va-link-action[text~="Go to profile"]';
         const link = container.querySelector(linkSelector);
         const href = '/profile/contact-information#contact-email-address';
