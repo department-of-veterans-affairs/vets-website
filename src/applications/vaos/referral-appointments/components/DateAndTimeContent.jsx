@@ -12,14 +12,12 @@ import {
 } from '../redux/selectors';
 import { getSlotByDate } from '../utils/provider';
 import { getDriveTimeString } from '../../utils/appointment';
-import {
-  getTimezoneDescByFacilityId,
-  getTimezoneByFacilityId,
-} from '../../utils/timezone';
+import { getTimezoneDescByTimeZoneString } from '../../utils/timezone';
 import { getReferralSlotKey } from '../utils/referrals';
 import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import FindCommunityCareOfficeLink from './FindCCFacilityLink';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
@@ -32,9 +30,10 @@ export const DateAndTimeContent = props => {
   const selectedSlotStartTime = useSelector(getSelectedSlotStartTime);
   const currentPage = useSelector(selectCurrentPage);
   const [error, setError] = useState('');
-  const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.referringFacility.code,
-  );
+
+  const providerTimeZone =
+    draftAppointmentInfo.attributes.provider.location.timezone;
+  const timezoneDescription = getTimezoneDescByTimeZoneString(providerTimeZone);
   const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
@@ -167,11 +166,7 @@ export const DateAndTimeContent = props => {
         {!noSlotsAvailable && (
           <p>
             Select an available date and time from the calendar below.
-            Appointment times are displayed in{' '}
-            {`${getTimezoneDescByFacilityId(
-              currentReferral.referringFacility.code,
-            )}`}
-            .
+            Appointment times are displayed in {`${timezoneDescription}`}.
           </p>
         )}
       </div>
@@ -181,11 +176,12 @@ export const DateAndTimeContent = props => {
           data-testid="no-slots-alert"
           class="vads-u-margin-top--3"
         >
-          <h2 slot="headline">
-            We’re sorry. We couldn’t find any open time slots.
-          </h2>
-          <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.provider.telephone} />
+          <h2 slot="headline">We couldn’t find any open time slots.</h2>
+          <p className="vads-u-margin-bottom--1">
+            Call this provider or your facility’s community care office to
+            schedule an appointment. Find your community care office
+          </p>
+          <FindCommunityCareOfficeLink />
         </va-alert>
       )}
       {!noSlotsAvailable && (
@@ -196,11 +192,10 @@ export const DateAndTimeContent = props => {
               availableSlots={draftAppointmentInfo.attributes.slots}
               value={[selectedSlotStartTime || '']}
               id="dateTime"
-              timezone={facilityTimeZone}
+              timezone={providerTimeZone}
               additionalOptions={{
                 required: true,
               }}
-              // disabled={loadingSlots}
               disabledMessage={disabledMessage}
               onChange={onChange}
               onNextMonth={null}

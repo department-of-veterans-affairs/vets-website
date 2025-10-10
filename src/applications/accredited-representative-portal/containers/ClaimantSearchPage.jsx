@@ -8,11 +8,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SsnField from 'platform/forms-system/src/js/web-component-fields/SsnField';
 import { useSearchParams, useNavigation } from 'react-router-dom';
-import {
-  Toggler,
-  useFeatureToggle,
-  connectFeatureToggle,
-} from 'platform/utilities/feature-toggles';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -273,14 +269,6 @@ const ClaimantSearchPage = () => {
       setSearchData(updatedSearchData);
     };
   };
-
-  const { useToggleValue } = useFeatureToggle();
-  if (
-    !useToggleValue(Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch)
-  ) {
-    window.location = '/representative';
-    return null;
-  }
 
   const searchResult = () =>
     searchPerformed ? (

@@ -3,11 +3,14 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
 import { waitFor } from '@testing-library/dom';
-import sinon from 'sinon';
 import HealthConditions from '../../containers/HealthConditions';
 import conditions from '../fixtures/conditions.json';
+import acceleratedConditions from '../fixtures/conditionsAccelerating.json';
 import reducer from '../../reducers';
-import { convertCondition } from '../../reducers/conditions';
+import {
+  convertCondition,
+  convertUnifiedCondition,
+} from '../../reducers/conditions';
 import user from '../fixtures/user.json';
 import { loadStates } from '../../util/constants';
 
@@ -160,44 +163,48 @@ describe('Health conditions container with errors', () => {
 });
 
 describe('Health conditions with accelerated data', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-
-    // Mock the useAcceleratedData hook
-    sandbox
-      .stub(require('../../hooks/useAcceleratedData'), 'default')
-      .returns({ isAcceleratingConditions: false });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  const setUpState = ({
+    isAcceleratingConditions = false,
+    conditionsArray = [],
+    loadState = loadStates.LOADED,
+  }) => {
+    return {
+      featureToggles: {
+        /* eslint-disable camelcase */
+        mhv_accelerated_delivery_enabled: true,
+        mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
+        /* eslint-enable camelcase */
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
+      },
+      user,
+      mr: {
+        conditions: {
+          conditionsList: conditionsArray,
+          listState: loadState,
+          listCurrentAsOf: new Date(),
+        },
+        alerts: {
+          alertList: [],
+        },
+        refresh: {
+          status: null,
+          initialFhirLoad: false,
+        },
+      },
+    };
+  };
 
   describe('when isAcceleratingConditions is false', () => {
     it('should show NewRecordsIndicator and standard condition list', () => {
-      const initialState = {
-        user,
-        mr: {
-          conditions: {
-            conditionsList: conditions.entry.map(condition =>
-              convertCondition(condition),
-            ),
-            listCurrentAsOf: new Date(),
-          },
-          alerts: {
-            alertList: [],
-          },
-          refresh: {
-            status: null,
-            initialFhirLoad: false,
-          },
-        },
-      };
-
       const screen = renderWithStoreAndRouter(<HealthConditions />, {
-        initialState,
+        initialState: setUpState({
+          loadState: loadStates.FETCHING,
+        }),
         reducers: reducer,
         path: '/conditions',
       });
@@ -205,74 +212,37 @@ describe('Health conditions with accelerated data', () => {
       // Should not show accelerated loading indicator
       expect(screen.queryByTestId('accelerated-loading-indicator')).to.not
         .exist;
+      // Should show the NewRecordsIndicator
+      expect(screen.getByTestId('new-records-indicator-wrapper')).to.exist;
       expect(screen.getByText('Health conditions')).to.exist;
     });
   });
 
   describe('when isAcceleratingConditions is true', () => {
-    beforeEach(() => {
-      sandbox.restore();
-      sandbox = sinon.createSandbox();
-
-      // Mock isAcceleratingConditions as true
-      sandbox
-        .stub(require('../../hooks/useAcceleratedData'), 'default')
-        .returns({ isAcceleratingConditions: true });
-    });
-
     it('should not show NewRecordsIndicator when accelerating conditions', () => {
-      const initialState = {
-        user,
-        mr: {
-          conditions: {
-            conditionsList: conditions.entry.map(condition =>
-              convertCondition(condition),
-            ),
-            listState: loadStates.LOADED,
-            listCurrentAsOf: new Date(),
-          },
-          alerts: {
-            alertList: [],
-          },
-          refresh: {
-            status: null,
-            initialFhirLoad: false,
-          },
-        },
-      };
-
       const screen = renderWithStoreAndRouter(<HealthConditions />, {
-        initialState,
+        initialState: setUpState({
+          isAcceleratingConditions: true,
+          conditionsArray: acceleratedConditions.data.map(condition =>
+            convertUnifiedCondition(condition),
+          ),
+        }),
         reducers: reducer,
         path: '/conditions',
       });
 
       // NewRecordsIndicator should not be rendered when isAcceleratingConditions is true
-      expect(screen.queryByTestId('accelerated-loading-indicator')).to.not
+      expect(screen.queryByTestId('new-records-indicator-wrapper')).to.not
         .exist;
       expect(screen.getByText('Health conditions')).to.exist;
     });
 
     it('should show accelerated loading indicator when fetching', () => {
-      const initialState = {
-        user,
-        mr: {
-          conditions: {
-            conditionsList: [],
-            listState: loadStates.FETCHING,
-          },
-          alerts: {
-            alertList: [],
-          },
-          refresh: {
-            status: null,
-            initialFhirLoad: false,
-          },
-        },
-      };
-
       const screen = renderWithStoreAndRouter(<HealthConditions />, {
-        initialState,
+        initialState: setUpState({
+          isAcceleratingConditions: true,
+          loadState: loadStates.FETCHING,
+        }),
         reducers: reducer,
         path: '/conditions',
       });

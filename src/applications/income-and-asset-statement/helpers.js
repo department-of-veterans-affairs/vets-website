@@ -318,3 +318,44 @@ export const sharedYesNoOptionsBase = {
   labelHeaderLevel: '2',
   labelHeaderLevelStyle: '3',
 };
+
+/**
+ * Filters and classifies owned assets based on upload status and type.
+ *
+ * @param {Object} formData - The form data object.
+ * @param {string[]} [assetTypeAllowlist=['BUSINESS', 'FARM']] - Asset types to include.
+ * @returns {{
+ *   alertAssets: Array<Object>,
+ *   hasFarm: boolean,
+ *   hasBusiness: boolean,
+ *   missingAssetTypes: string[],
+ * }} An object with filtered assets and derived flags.
+ */
+export const getIncompleteOwnedAssets = (
+  formData,
+  assetTypeAllowlist = ['BUSINESS', 'FARM'],
+) => {
+  const assets = formData?.ownedAssets || [];
+
+  // Filter for assets where user either declined to upload OR said yes but didn't upload
+  const alertAssets = assets.filter(asset => {
+    const isFarmOrBusiness = assetTypeAllowlist.includes(asset.assetType);
+    const declinedUpload = asset['view:addFormQuestion'] === false;
+    const saidYesButNoUpload =
+      asset['view:addFormQuestion'] === true &&
+      (!asset?.uploadedDocuments || !asset.uploadedDocuments.name);
+
+    return isFarmOrBusiness && (declinedUpload || saidYesButNoUpload);
+  });
+
+  const missingAssetTypes = [
+    ...new Set(alertAssets.map(asset => asset.assetType)),
+  ];
+
+  return {
+    alertAssets,
+    missingAssetTypes,
+    hasFarm: missingAssetTypes.includes('FARM'),
+    hasBusiness: missingAssetTypes.includes('BUSINESS'),
+  };
+};

@@ -68,6 +68,21 @@ export default {
         N: 'No, the Veteran is not on active duty now',
       },
     }),
+    wcv3HasHealthInsurance: yesNoUI({
+      title: 'Do you have health insurance coverage?',
+      labels: {
+        Y: 'Yes, I have health insurance',
+        N: 'No, I do not have health insurance',
+      },
+      descriptions: {
+        Y:
+          'Select this if you currently have any form of health insurance coverage',
+        N: 'Select this if you do not have health insurance coverage',
+      },
+      errorMessages: {
+        required: 'Please select whether you have health insurance',
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -91,6 +106,7 @@ export default {
         'none',
       ]),
       wcv3IsCurrentlyActiveDuty: yesNoSchema,
+      wcv3HasHealthInsurance: yesNoSchema,
     },
     required: [
       'vaCompensationType',

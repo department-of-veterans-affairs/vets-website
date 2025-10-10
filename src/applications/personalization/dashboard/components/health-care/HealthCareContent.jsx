@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,9 +9,7 @@ import {
   Toggler,
 } from '~/platform/utilities/feature-toggles';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
-import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import { selectAvailableServices } from '~/platform/user/selectors';
@@ -25,12 +23,7 @@ import CTALink from '../CTALink';
 const HealthCareContent = ({
   appointments,
   authenticatedWithSSOe,
-  shouldFetchUnreadMessages,
-  fetchConfirmedFutureAppointments,
-  fetchUnreadMessages,
   unreadMessagesCount,
-  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
-  dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   hasInboxError,
   hasAppointmentsError,
@@ -40,29 +33,6 @@ const HealthCareContent = ({
 }) => {
   const nextAppointment = appointments?.[0];
   const hasUpcomingAppointment = !!nextAppointment;
-
-  useEffect(
-    () => {
-      if (!dataLoadingDisabled && isVAPatient) {
-        fetchConfirmedFutureAppointments();
-      }
-    },
-    [dataLoadingDisabled, fetchConfirmedFutureAppointments, isVAPatient],
-  );
-
-  useEffect(
-    () => {
-      if (shouldFetchUnreadMessages && !dataLoadingDisabled && isVAPatient) {
-        fetchUnreadMessages();
-      }
-    },
-    [
-      shouldFetchUnreadMessages,
-      fetchUnreadMessages,
-      dataLoadingDisabled,
-      isVAPatient,
-    ],
-  );
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -216,10 +186,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  fetchUnreadMessages: fetchUnreadMessageCountAction,
-  fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
-};
+const mapDispatchToProps = {};
 
 HealthCareContent.propTypes = {
   appointments: PropTypes.arrayOf(
@@ -235,9 +202,6 @@ HealthCareContent.propTypes = {
     }),
   ),
   authenticatedWithSSOe: PropTypes.bool,
-  dataLoadingDisabled: PropTypes.bool,
-  fetchConfirmedFutureAppointments: PropTypes.func,
-  fetchUnreadMessages: PropTypes.func,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
   isCernerPatient: PropTypes.bool,

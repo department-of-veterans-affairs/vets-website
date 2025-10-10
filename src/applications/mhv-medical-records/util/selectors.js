@@ -20,8 +20,6 @@ export const selectBypassDowntime = state =>
 
 export const selectMhvMrEnabledFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease];
-export const selectSidenavFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySidenav];
 
 // Domain-level Feature Toggles
 
@@ -29,5 +27,3 @@ export const selectMarch17UpdatesFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage];
 export const selectFilterAndSortFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort];
-export const selectMilestoneTwoFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo];

@@ -86,6 +86,19 @@ describe('Condition details container', () => {
       }),
     ).to.exist;
   });
+
+  it('renders each provider note inside the ItemList', () => {
+    const { comments } = initialState.mr.conditions.conditionDetails;
+    expect(comments).to.be.an('array').and.not.empty;
+    // The ItemList component does not forward arbitrary data-testid props at the container level.
+    // Instead, each list entry renders with data-testid="list-item-multiple" when multiple entries exist.
+    const items = screen.getAllByTestId('list-item-multiple');
+    expect(items.length).to.equal(comments.length);
+    const itemTexts = items.map(i => i.textContent.trim());
+    comments.forEach(text => {
+      expect(itemTexts).to.include(text);
+    });
+  });
 });
 
 describe('Condition details container with record with no ICD/SCT code in the name', () => {

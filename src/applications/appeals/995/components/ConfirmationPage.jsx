@@ -162,21 +162,18 @@ export const ConfirmationPage = () => {
               : 'No, I didn’t certify'}
           </div>
         </li>
-
-        {showScNewForm && (
-          <li>
-            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-              {facilityTypeTitle}
-            </div>
-            <div
-              className="vads-u-margin-bottom--2 dd-privacy-hidden"
-              data-testid="confirmation-facility-types"
-              data-dd-action-name="facility types selected"
-            >
-              {facilityTypeList(data.facilityTypes) || 'None selected'}
-            </div>
-          </li>
-        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {facilityTypeTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-testid="confirmation-facility-types"
+            data-dd-action-name="facility types selected"
+          >
+            {facilityTypeList(data.facilityTypes) || 'None selected'}
+          </div>
+        </li>
       </ul>
 
       {noEvidence && (
@@ -209,7 +206,6 @@ export const ConfirmationPage = () => {
           privacyAgreementAccepted={data.privacyAgreementAccepted}
           reviewMode
           showListOnly
-          showScNewForm={showScNewForm}
           limitedConsentResponse={data?.[LIMITED_CONSENT_RESPONSE]}
         />
       ) : null}

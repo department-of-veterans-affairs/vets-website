@@ -31,7 +31,7 @@ import {
   atLeast3Years,
 } from '../pages';
 
-import { trainingProviderArrayOptions } from '../helpers';
+import { trainingProviderArrayOptions, focusOnH3 } from '../helpers';
 
 import dateReleasedFromActiveDuty from '../pages/dateReleasedFromActiveDuty';
 import activeDutyStatus from '../pages/activeDutyStatus';
@@ -152,6 +152,7 @@ const formConfig = {
             path: 'training-provider',
             uiSchema: trainingProviderSummary.uiSchema,
             schema: trainingProviderSummary.schema,
+            scrollAndFocusTarget: focusOnH3,
           }),
           trainingProviderDetails: pageBuilder.itemPage({
             title: 'Training provider name and mailing address',

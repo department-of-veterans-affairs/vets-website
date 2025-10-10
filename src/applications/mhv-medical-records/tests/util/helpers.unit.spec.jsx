@@ -32,6 +32,7 @@ import {
   removeTrailingSlash,
   formatDateAndTimeWithGenericZone,
   formatDateTime,
+  itemListWrapper,
 } from '../../util/helpers';
 import { refreshPhases, VALID_REFRESH_DURATION } from '../../util/constants';
 
@@ -128,6 +129,30 @@ describe('processList', () => {
     const list = [];
     const result = processList(list);
     expect(result).to.eq('None recorded');
+  });
+});
+
+describe('itemListWrapper', () => {
+  it('returns undefined for non-array input', () => {
+    expect(itemListWrapper('string')).to.be.undefined;
+    expect(itemListWrapper(null)).to.be.undefined;
+    expect(itemListWrapper(undefined)).to.be.undefined;
+  });
+
+  it('returns undefined for an empty array', () => {
+    expect(itemListWrapper([])).to.be.undefined;
+  });
+
+  it('returns undefined for a single-item array', () => {
+    expect(itemListWrapper(['only'])).to.be.undefined;
+  });
+
+  it('returns div for a multi-item array (2 items)', () => {
+    expect(itemListWrapper(['a', 'b'])).to.equal('div');
+  });
+
+  it('returns div for an array with more than two items', () => {
+    expect(itemListWrapper(['a', 'b', 'c'])).to.equal('div');
   });
 });
 

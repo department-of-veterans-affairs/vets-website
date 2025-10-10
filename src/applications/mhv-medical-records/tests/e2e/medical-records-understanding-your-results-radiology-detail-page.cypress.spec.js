@@ -9,7 +9,7 @@ import MedicalRecordsLandingPage from './pages/MedicalRecordsLandingPage';
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     cy.intercept('POST', '/my_health/v1/medical_records/session', {
       statusCode: 204,

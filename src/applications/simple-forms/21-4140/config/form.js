@@ -1,11 +1,14 @@
 // @ts-check
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from '../../shared/config/submit-transformer';
+import getHelp from '../../shared/components/GetFormHelp';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
@@ -19,12 +22,20 @@ import evidence from '../pages/evidence';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: '21-4140-income-verification-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  transformForSubmit,
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate has been represented correctly.',
+      fullNamePath: 'fullName',
+    },
+  },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -35,26 +46,19 @@ const formConfig = {
       { href: '/', label: 'VA.gov home' },
       {
         href: '/disability',
-        label: 'Disability',
+        label: 'Disability benefits',
       },
       {
-        href: '/disability/eligibility',
-        label: 'Eligibility',
-      },
-      {
-        href: '/disability/eligibility/special-claims',
-        label: 'Special claims',
-      },
-      {
-        href: '/disability/eligibility/special-claims/unemployability',
-        label: 'Unemployability',
+        href: '/disability/eligibility/special-claims/unemployability/',
+        label: 'Verify Individual Unemployability status',
       },
       {
         href:
           '/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140',
-        label: 'Employment questionnaire form 21 4140',
+        label: 'Submit Employment Questionnaire',
       },
     ],
+    wrapping: true,
   }),
   formId: VA_FORM_IDS.FORM_21_4140,
   saveInProgress: {
@@ -143,7 +147,7 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
+  getHelp,
   footerContent,
 };
 

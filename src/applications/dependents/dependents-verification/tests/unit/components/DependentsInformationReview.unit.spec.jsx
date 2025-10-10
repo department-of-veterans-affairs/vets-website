@@ -8,7 +8,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { DependentsInformationReview } from '../../../components/DependentsInformationReview';
 import { defaultData } from './dependent-data';
-import { calculateAge } from '../../../helpers';
+import { calculateAge } from '../../../../shared/utils';
 
 function renderPage({ data = defaultData, goToPath = () => {} } = {}) {
   const mockStore = {

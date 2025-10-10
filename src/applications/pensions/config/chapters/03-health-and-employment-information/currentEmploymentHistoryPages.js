@@ -26,6 +26,13 @@ const options = {
   text: {
     getItemName: item => item?.jobType,
     summaryTitleWithoutItems: 'Current employment',
+    cancelAddYes: 'Yes, cancel adding this current job',
+    cancelAddNo: 'No',
+    cancelEditYes: 'Yes, cancel editing this current job',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this current job',
+    deleteNo: 'No',
   },
 };
 
@@ -38,6 +45,7 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingCurrentEmployment': arrayBuilderYesNoUI(options, {
       title: 'Are you currently employed?',
+      hint: null,
       labelHeaderLevel: ' ',
     }),
   },

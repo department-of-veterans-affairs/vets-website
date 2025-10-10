@@ -48,6 +48,7 @@ const convertToLatLng = async query => {
       types,
       autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
       query,
+      fuzzyMatch: false,
     })
     .send()
     .then(({ body: { features } }) => {

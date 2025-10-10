@@ -1,4 +1,5 @@
 import { NETWORTH_VALUE } from './constants';
+import { calculateAge } from '../../shared/utils';
 
 export default function prefillTransformer(pages, formData, metadata) {
   const {
@@ -13,9 +14,14 @@ export default function prefillTransformer(pages, formData, metadata) {
   const isMilitary =
     ['APO', 'FPO', 'DPO'].includes((address?.city || '').toUpperCase()) ||
     false;
-  const awardedDependents = dependents.filter(
-    dependent => dependent.awardIndicator === 'Y',
-  );
+  const awardedDependents = dependents
+    .filter(dependent => dependent.awardIndicator === 'Y')
+    .map(dependent => ({
+      ...dependent,
+      // Calculate and add age for dependents not awarded so we can display it
+      age: calculateAge(dependent.dateOfBirth, { dateInFormat: 'yyyy-MM-dd' })
+        .labeledAge,
+    }));
   const notAwardedDependents = dependents.filter(
     dependent => dependent.awardIndicator !== 'Y',
   );

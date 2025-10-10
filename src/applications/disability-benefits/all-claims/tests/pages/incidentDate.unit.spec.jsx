@@ -45,9 +45,9 @@ describe('781 Incident Date', () => {
     );
 
     fillDate(form, 'root_incident0_incidentDate', '2016-07-10');
-    await waitFor(() => {
-      form.find('form').simulate('submit');
+    form.find('form').simulate('submit');
 
+    await waitFor(() => {
       expect(form.find('.usa-input-error-message').length).to.equal(0);
       expect(onSubmit.called).to.be.true;
     });
@@ -98,7 +98,7 @@ describe('781 Incident Date', () => {
   });
 
   describe('incidentDate field validation', () => {
-    const testCurrentOrPastDateField = (
+    const testCurrentOrPastDateField = async (
       testDate,
       shouldPass,
       expectedError = '',
@@ -117,64 +117,68 @@ describe('781 Incident Date', () => {
 
       fillDate(form, 'root_incident0_incidentDate', testDate);
       form.find('form').simulate('submit');
+      form.update();
 
       if (shouldPass) {
         expect(form.find('.usa-input-error-message').length).to.equal(0);
         expect(onSubmit.called).to.be.true;
       } else {
-        expect(form.find('.usa-input-error-message').text()).to.include(
-          expectedError,
-        );
-        expect(onSubmit.called).to.be.false;
+        await waitFor(() => {
+          form.update();
+          expect(form.find('.usa-input-error-message').text()).to.include(
+            expectedError,
+          );
+          expect(onSubmit.called).to.be.false;
+        });
       }
       form.unmount();
     };
 
-    it('should accept current date', () => {
+    it('should accept current date', async () => {
       const currentDate = format(new Date(), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(currentDate, true);
+      await testCurrentOrPastDateField(currentDate, true);
     });
 
-    it('should accept past date', () => {
+    it('should accept past date', async () => {
       const pastDate = format(subYears(new Date(), 5), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(pastDate, true);
+      await testCurrentOrPastDateField(pastDate, true);
     });
 
-    it('should reject future date', () => {
+    it('should reject future date', async () => {
       const futureDate = format(addYears(new Date(), 1), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(
+      await testCurrentOrPastDateField(
         futureDate,
         false,
         'Please provide a valid current or past date',
       );
     });
 
-    it('should reject date before 1900', () => {
-      testCurrentOrPastDateField(
+    it('should reject date before 1900', async () => {
+      await testCurrentOrPastDateField(
         '1899-12-31',
         false,
         `Please enter a year between 1900 and ${new Date().getFullYear()}`,
       );
     });
 
-    it('should reject invalid date format', () => {
-      testCurrentOrPastDateField(
+    it('should reject invalid date format', async () => {
+      await testCurrentOrPastDateField(
         'invalid-date',
         false,
         'Please enter a valid current or past date',
       );
     });
 
-    it('should reject non-leap year February 29', () => {
-      testCurrentOrPastDateField(
+    it('should reject non-leap year February 29', async () => {
+      await testCurrentOrPastDateField(
         '2021-02-29',
         false,
         'Please provide a valid date',
       );
     });
 
-    it('should accept leap year February 29', () => {
-      testCurrentOrPastDateField('2020-02-29', true);
+    it('should accept leap year February 29', async () => {
+      await testCurrentOrPastDateField('2020-02-29', true);
     });
   });
 });

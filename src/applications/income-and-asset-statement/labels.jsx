@@ -1,5 +1,3 @@
-import { showUpdatedContent } from './helpers';
-
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
@@ -93,7 +91,7 @@ export const updatedIncomeTypeLabels = {
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
+  OTHER: 'Other financial asset income',
 };
 
 export const ownedAssetTypeLabels = {
@@ -103,10 +101,10 @@ export const ownedAssetTypeLabels = {
 };
 
 export const generatedIncomeTypeLabels = {
-  INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
-  MINERALS_LUMBER: 'Extraction of minerals/lumber',
-  USE_OF_LAND: 'Use of land',
-  OTHER: 'Other',
+  INTELLECTUAL_PROPERTY: 'Intellectual property rights',
+  MINERALS_LUMBER: 'Mineral or lumber extraction',
+  USE_OF_LAND: 'Land usage fees',
+  OTHER: 'Another way',
 };
 
 export const trustTypeLabels = {

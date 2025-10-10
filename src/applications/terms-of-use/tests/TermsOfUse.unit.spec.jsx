@@ -10,15 +10,8 @@ import {
 } from 'platform/testing/unit/msw-adapter';
 import TermsOfUse from '../containers/TermsOfUse';
 
-const store = ({
-  termsOfUseEnabled = true,
-  authenticatedWithSiS = false,
-} = {}) => ({
+const store = ({ authenticatedWithSiS = false } = {}) => ({
   getState: () => ({
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      terms_of_use: termsOfUseEnabled,
-    },
     user: {
       profile: {
         session: {
@@ -123,17 +116,6 @@ describe('TermsOfUse', () => {
         2,
       ); // modal
     });
-  });
-
-  it('should NOT display Accept or Decline buttons termsOfUse Flipper is disabled', () => {
-    const mockStore = store({ termsOfUseEnabled: false });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <TermsOfUse />
-      </Provider>,
-    );
-
-    expect(container.querySelectorAll('va-button', container).length).to.eql(2); // modal
   });
 
   it('should display the declined modal if the decline button is clicked', async () => {

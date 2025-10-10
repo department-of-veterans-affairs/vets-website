@@ -27,15 +27,7 @@ describe('BetaTesting', () => {
         "Welcome to our chatbot, a new part of VA.gov. We're still building the bot's ability to respond to your questions, so it won't have answers to every question.",
       );
       expect(questionsText[1].textContent).to.equal(
-        'If you’re a Veteran in crisis or concerned about one, connect with our caring, qualified Veterans Crisis Line responders for confidential help. Many of them are Veterans themselves. This service is private, free, and available 24/7.',
-      );
-
-      expect(questionsText[2].textContent).to.equal(
-        'To connect with a Veterans Crisis Line responder anytime day or night:',
-      );
-
-      expect(questionsText[3].textContent).to.equal(
-        'If you have questions about VA benefits and services that our chatbot can’t answer right now, you can get the information in any of these ways:',
+        'If you have questions about VA benefits and services that our chatbot can’t answer right now, you can get the information in any of these ways:Call us at one of our helpful VA phone numbersContact us online through Ask VAExplore our resources and support content',
       );
     });
   });

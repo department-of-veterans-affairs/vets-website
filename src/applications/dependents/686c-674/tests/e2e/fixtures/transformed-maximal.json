@@ -107,6 +107,7 @@
       "isEncrypted": false
     }
   ],
+  "view:householdIncome": true,
   "householdIncome": false,
 
   "reportDivorce": {

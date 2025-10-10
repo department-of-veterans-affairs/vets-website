@@ -76,6 +76,13 @@ const options = {
           </li>
         </ul>
       ),
+    cancelAddYes: 'Yes, cancel adding this care expense',
+    cancelAddNo: 'No',
+    cancelEditYes: 'Yes, cancel editing this care expense',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this care expense',
+    deleteNo: 'No',
   },
 };
 

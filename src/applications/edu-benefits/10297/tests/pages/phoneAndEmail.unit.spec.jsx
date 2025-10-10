@@ -22,7 +22,9 @@ describe('22-10297 Phone and email address page', () => {
     );
 
     expect(
-      container.querySelector('va-text-input[label="Mobile phone number"]'),
+      container.querySelector(
+        'va-telephone-input[label="Mobile phone number"]',
+      ),
     ).to.exist;
   });
 
@@ -35,8 +37,9 @@ describe('22-10297 Phone and email address page', () => {
       />,
     );
 
-    expect(container.querySelector('va-text-input[label="Home phone number"]'))
-      .to.exist;
+    expect(
+      container.querySelector('va-telephone-input[label="Home phone number"]'),
+    ).to.exist;
   });
 
   it('renders input for email address', () => {

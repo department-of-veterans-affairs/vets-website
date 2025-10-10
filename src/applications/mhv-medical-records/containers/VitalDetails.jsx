@@ -17,6 +17,7 @@ import {
   makePdf,
   formatNameFirstLast,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   clearVitalDetails,
@@ -57,7 +58,6 @@ import useListRefresh from '../hooks/useListRefresh';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const VitalDetails = props => {
@@ -94,13 +94,13 @@ const VitalDetails = props => {
     state => state.mr.vitals.listCurrentAsOf,
   );
 
-  const { isAcceleratingVitals, isLoading } = useAcceleratedData();
+  const { isCerner, isLoading } = useAcceleratedData();
 
   useTrackAction(statsdFrontEndActions.VITALS_DETAILS);
 
   const urlVitalsDate = new URLSearchParams(location.search).get('timeFrame');
   const dispatchAction = isCurrent => {
-    return getVitals(isCurrent, isAcceleratingVitals, urlVitalsDate);
+    return getVitals(isCurrent, isCerner, urlVitalsDate);
   };
 
   useListRefresh({
@@ -206,21 +206,14 @@ const VitalDetails = props => {
       if (updatedRecordType && !isLoading) {
         const formattedVitalType = macroCase(updatedRecordType);
 
-        if (isAcceleratingVitals && vitalsList?.length) {
+        if (isCerner && vitalsList?.length) {
           dispatch(setVitalsList(formattedVitalType));
         } else {
           dispatch(getVitalDetails(formattedVitalType, vitalsList));
         }
       }
     },
-    [
-      vitalType,
-      vitalsList,
-      dispatch,
-      updatedRecordType,
-      isAcceleratingVitals,
-      isLoading,
-    ],
+    [vitalType, vitalsList, dispatch, updatedRecordType, isCerner, isLoading],
   );
 
   const lastUpdatedText = getLastUpdatedText(
@@ -297,7 +290,7 @@ Provider notes: ${vital.notes}\n\n`,
         >
           <h2 className="sr-only">{`List of ${vitalDisplayName} results`}</h2>
 
-          {!isAcceleratingVitals && (
+          {!isCerner && (
             <NewRecordsIndicator
               refreshState={refresh}
               extractType={refreshExtractTypes.VPR}
@@ -343,7 +336,7 @@ Provider notes: ${vital.notes}\n\n`,
                   >
                     <HeaderSection
                       header={
-                        isAcceleratingVitals
+                        isCerner
                           ? formatDateInLocalTimezone(vital.effectiveDateTime)
                           : vital.date
                       }
