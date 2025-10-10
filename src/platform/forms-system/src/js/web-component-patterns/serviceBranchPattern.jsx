@@ -1,18 +1,6 @@
 import VaComboBoxField from '../web-component-fields/VaComboBoxField';
 
-// remove the group property because opt groups don't work properly with va-combo-box
-// see https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4971
-// and https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4970
-function removeGroups(labels) {
-  const result = {};
-  Object.keys(labels).forEach(key => {
-    result[key] = { ...labels[key] };
-    delete result[key].group;
-  });
-  return result;
-}
-
-const _ARMY_BRANCH_LABELS = {
+export const ARMY_BRANCH_LABELS = {
   AAC: {
     label: 'Army Air Corps or Army Air Force',
     group: 'Army',
@@ -23,9 +11,7 @@ const _ARMY_BRANCH_LABELS = {
   WAC: { label: "Women's Army Corps", group: 'Army' },
 };
 
-export const ARMY_BRANCH_LABELS = removeGroups(_ARMY_BRANCH_LABELS);
-
-const _NAVY_BRANCH_LABELS = {
+export const NAVY_BRANCH_LABELS = {
   NAVY: { label: 'Navy', group: 'Navy' },
   NR: { label: 'Navy Reserves', group: 'Navy' },
   MM: { label: 'Merchant Marine', group: 'Navy' },
@@ -34,36 +20,24 @@ const _NAVY_BRANCH_LABELS = {
   'N ACAD': { label: 'Naval Academy', group: 'Navy' },
 };
 
-export const NAVY_BRANCH_LABELS = removeGroups(_NAVY_BRANCH_LABELS);
-
-const _AIR_FORCE_BRANCH_LABELS = {
+export const AIR_FORCE_BRANCH_LABELS = {
   AF: { label: 'Air Force', group: 'Air Force' },
   AFR: { label: 'Air Force Reserves', group: 'Air Force' },
   ANG: { label: 'Air National Guard', group: 'Air Force' },
   'AF ACAD': { label: 'Air Force Academy', group: 'Air Force' },
 };
 
-export const AIR_FORCE_BRANCH_LABELS = removeGroups(_AIR_FORCE_BRANCH_LABELS);
-
-const _SPACE_FORCE_BRANCH_LABELS = {
+export const SPACE_FORCE_BRANCH_LABELS = {
   SF: { label: 'Space Force', group: 'Space Force' },
 };
 
-export const SPACE_FORCE_BRANCH_LABELS = removeGroups(
-  _SPACE_FORCE_BRANCH_LABELS,
-);
-
-const _COAST_GUARD_BRANCH_LABELS = {
+export const COAST_GUARD_BRANCH_LABELS = {
   CG: { label: 'Coast Guard', group: 'Coast Guard' },
   CGR: { label: 'Coast Guard Reserves', group: 'Coast Guard' },
   'CG ACAD': { label: 'Coast Guard Academy', group: 'Coast Guard' },
 };
 
-export const COAST_GUARD_BRANCH_LABELS = removeGroups(
-  _COAST_GUARD_BRANCH_LABELS,
-);
-
-const _OTHER_BRANCH_LABELS = {
+export const OTHER_BRANCH_LABELS = {
   PHS: { label: 'Public Health Service', group: 'Other' },
   NOAA: {
     label: 'National Oceanic & Atmospheric Administration',
@@ -71,8 +45,6 @@ const _OTHER_BRANCH_LABELS = {
   },
   USMA: { label: 'US Military Academy', group: 'Other' },
 };
-
-export const OTHER_BRANCH_LABELS = removeGroups(_OTHER_BRANCH_LABELS);
 
 export const DEFAULT_BRANCH_LABELS = {
   ...ARMY_BRANCH_LABELS,
@@ -88,7 +60,7 @@ export const DEFAULT_BRANCH_LABELS = {
  *
  * ```js
  * // uiSchema minimal
- * exampleServiceBranch: serviceBranchUI({required: () => true})
+ * exampleServiceBranch: serviceBranchUI()
  *
  * // uiSchema full
  * exampleServiceBranch: serviceBranchUI({
@@ -96,6 +68,16 @@ export const DEFAULT_BRANCH_LABELS = {
  *  hint: 'Choose a branch of the armed forces',
  *  placeholder: 'Select a service branch',
  *  required: () => true,
+ *  labels: {
+ *     AAC: {
+ *       label: 'Army Air Corps or Army Air Force',
+ *       group: 'Army',
+ *     },
+ *     ARMY: { label: 'Army', group: 'Army' },
+ *     AR: { label: 'Army Reserves', group: 'Army' },
+ *     ARNG: { label: 'Army National Guard', group: 'Army' },
+ *     WAC: { label: "Women's Army Corps", group: 'Army' },
+ *   },
  *  errorMessages: {
       required: 'You must select a service branch',
     },
@@ -106,21 +88,7 @@ export const DEFAULT_BRANCH_LABELS = {
  * exampleServiceBranch: serviceBranchSchema()
  *
  * // schema with custom options
- * exampleServiceBranch: serviceBranchSchema([
- *   { value: "army", label: "Army" },
- *   { value: "air-force", label: "Air Force" }
- * ]})
- * 
- * // schema with option groups
- * exampleServiceBranch: serviceBranchSchema([
- *   { value: "army", label: "Army" },
- *   { value: "air-force", label: "Air Force" }
- *   { optiongroup: "oceanic", options: [
- *      { value: "marines", label: "Marines"},
- *      { value: "navy", label: "Navy" }
- *      { value: "coast guard", label: "Coast Guard" }
- *    ]}
- * ]})
+ * exampleServiceBranch: serviceBranchSchema(["AAC", "ARMY", "AR", "ARNG", "WAC"])
  * ```
  *
  * @param {string | UIOptions & {
@@ -153,23 +121,13 @@ export const serviceBranchUI = options => {
 /**
  * schema for serviceBranchUI
  * ```js
- * exampleServiceBranch: serviceBranchSchema([{ value: 'AF', label: 'Air Force' }, { value: 'ARMY', label: 'Army' }])
- * exampleServiceBranch: serviceBranchSchema([
- * { optionGroup: 'Active Duty', options: [{ value: 'AF', label: 'Air Force' }, { value: 'ARMY', label: 'Army' }] },
- * { optionGroup: 'National Guard', options: [{ value: 'ANG', label: 'Air National Guard' }, { value: 'ARNG', label: 'Army National Guard' }]
- * }])
+ * exampleServiceBranch: serviceBranchSchema()
+ * exampleServiceBranch: serviceBranchSchema(["AAC", "ARMY", "AR", "ARNG", "WAC"])
  * ```
- * @typedef {Object} ServiceBranch
- * @property {string} value the code for the branch
- * @property {string} label the display name for the branch
- * @typedef {Object} ServiceBranchOptionGroup
- * @property {string} optionGroup the label for the option group
- * @property {ServiceBranch[]} options the options in the group
  */
 
 /**
- * @param {Object } [options]
- * @param {(ServiceBranch | ServiceBranchOptionGroup)[]} [options.branches]
+ * @param {Array<string> } [labels]
  * @returns {SchemaOptions}
  */
 export const serviceBranchSchema = labels => {
