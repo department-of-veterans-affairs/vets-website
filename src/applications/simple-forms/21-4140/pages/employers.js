@@ -1,4 +1,5 @@
 // @ts-check
+import { formatDateLong } from 'platform/utilities/date';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -27,11 +28,18 @@ const options = {
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
-    cardDescription: ({ itemData }) => {
+    cardDescription: itemData => {
       if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
-        return `${itemData.employmentStartDate} to ${
-          itemData.employmentEndDate
-        }`;
+        try {
+          const startDate = formatDateLong(itemData.employmentStartDate);
+          const endDate = formatDateLong(itemData.employmentEndDate);
+          return `${startDate} to ${endDate}`;
+        } catch (error) {
+          // Fallback to raw dates if formatting fails
+          return `${itemData.employmentStartDate} to ${
+            itemData.employmentEndDate
+          }`;
+        }
       }
       return '';
     },
@@ -91,6 +99,7 @@ const employerNameAndAddressPage = {
         errorMessages: {
           required: 'Enter name of employer',
         },
+        charcount: true,
       }),
     },
     employerAddress: addressUI({
@@ -100,7 +109,7 @@ const employerNameAndAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      employerName: textSchema,
+      employerName: { ...textSchema, maxLength: 125 },
       employerAddress: addressSchema({
         omit: ['street2', 'street3', 'isMilitary'],
       }),
@@ -161,6 +170,7 @@ const employmentDetailsPage = {
         errorMessages: {
           required: 'Enter type of work',
         },
+        charcount: true,
       }),
     },
     hoursPerWeek: {
@@ -192,7 +202,7 @@ const employmentDetailsPage = {
   schema: {
     type: 'object',
     properties: {
-      typeOfWork: textSchema,
+      typeOfWork: { ...textSchema, maxLength: 35 },
       hoursPerWeek: numberSchema,
       lostTimeFromIllness: numberSchema,
       highestGrossIncomePerMonth: currencySchema,

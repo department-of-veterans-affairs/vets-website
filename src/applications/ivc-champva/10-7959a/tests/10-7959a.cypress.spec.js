@@ -17,13 +17,18 @@ import {
 } from '../../shared/tests/helpers';
 
 import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+import { goToNextPage, uploadDocumentAndGoToNext } from './e2e/utils';
 
 const ALL_PAGES = getAllPages(formConfig);
 
-// For intercepting file uploads:
 const UPLOAD_URL = `${
   environment.API_URL
 }/ivc_champva/v1/forms/submit_supporting_documents`;
+
+const SAMPLE_FILE = path.join(
+  __dirname,
+  'e2e/fixtures/data/example_upload.png',
+);
 
 const testConfig = createTestConfig(
   {
@@ -84,9 +89,15 @@ const testConfig = createTestConfig(
               data.certifierAddress,
             );
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
+      },
+      [ALL_PAGES.page1e2.path]: ({ afterHook }) => {
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
+      },
+      [ALL_PAGES.page1e3.path]: ({ afterHook }) => {
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
       [ALL_PAGES.page2d.path]: ({ afterHook }) => {
         afterHook(() => {
@@ -100,62 +111,18 @@ const testConfig = createTestConfig(
               data.applicantNewAddress,
             );
             cy.injectAxeThenAxeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
+            goToNextPage();
           });
         });
       },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.injectAxeThenAxeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
       [ALL_PAGES.page8.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.injectAxeThenAxeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
-      },
-      // Resubmission pharmacy upload path
-      [ALL_PAGES.page1k.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.injectAxeThenAxeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
       [ALL_PAGES.page9.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('input[type="file"]')
-            .upload(
-              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
-              'testing',
-            )
-            .get('.schemaform-file-uploading')
-            .should('not.exist');
-          cy.injectAxeThenAxeCheck();
-          cy.findByText(/continue/i, { selector: 'button' }).click();
-        });
+        afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
     },
     setupPerTest: () => {
