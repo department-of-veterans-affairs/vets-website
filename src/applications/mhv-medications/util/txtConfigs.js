@@ -9,15 +9,9 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
-import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
-  pdfDefaultPendingMedDefinition,
-  pdfDefaultPendingRenewalDefinition,
-  nonVAMedicationTypes,
-  FIELD_NOT_AVAILABLE,
-} from './constants';
+import { nonVAMedicationTypes, FIELD_NOT_AVAILABLE } from './constants';
 
 /**
  * Return Non-VA prescription TXT
@@ -88,20 +82,6 @@ export const buildPrescriptionsTXT = prescriptions => {
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
-    let statusDefinition;
-    if (pendingMed) {
-      statusDefinition = pdfDefaultPendingMedDefinition;
-    } else if (pendingRenewal) {
-      statusDefinition = pdfDefaultPendingRenewalDefinition;
-    } else {
-      statusDefinition =
-        pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition;
-    }
-    const statusText = statusDefinition.reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
-    );
     result += `
 ${rx.prescriptionName}
 
@@ -126,7 +106,7 @@ Prescription number: ${rx.prescriptionNumber}
 `
         : ''
     }
-Status: ${statusText}
+Status: ${prescriptionMedAndRenewalStatus(rx, 'print')}
 Refills left: ${validateIfAvailable(
       'Number of refills left',
       rx.refillRemaining,
@@ -232,21 +212,6 @@ export const buildVAPrescriptionTXT = prescription => {
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
 
-  let statusDefinition;
-  if (pendingMed) {
-    statusDefinition = pdfDefaultPendingMedDefinition;
-  } else if (pendingRenewal) {
-    statusDefinition = pdfDefaultPendingRenewalDefinition;
-  } else {
-    statusDefinition =
-      pdfStatusDefinitions[prescription.refillStatus] ||
-      pdfDefaultStatusDefinition;
-  }
-  const statusText = statusDefinition.reduce(
-    (fullStatus, item) =>
-      fullStatus + item.value + (item.continued ? ' ' : '\n'),
-    '',
-  );
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -275,7 +240,7 @@ Prescription number: ${prescription.prescriptionNumber}
 `
       : ''
   }
-Status: ${statusText}
+Status: ${prescriptionMedAndRenewalStatus(prescription, 'print')}
 Refills left: ${validateIfAvailable(
     'Number of refills left',
     prescription.refillRemaining,

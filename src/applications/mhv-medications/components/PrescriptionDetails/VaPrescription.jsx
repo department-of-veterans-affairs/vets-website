@@ -18,10 +18,10 @@ import {
   isRefillTakingLongerThanExpected,
   pharmacyPhoneNumber,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
-import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
@@ -88,25 +88,26 @@ const VaPrescription = prescription => {
     [prescription?.prescriptionId],
   );
 
-  const determineStatus = () => {
-    if (pendingRenewal) {
-      return (
-        <p data-testid="pending-renewal-status">
-          This is a renewal you requested. Your VA pharmacy is reviewing it now.
-          Details may change.
-        </p>
-      );
-    }
-    if (pendingMed) {
-      return (
-        <p>
-          This is a new prescription from your provider. Your VA pharmacy is
-          reviewing it now. Details may change.
-        </p>
-      );
-    }
-    return <StatusDropdown status={prescription.dispStatus} />;
-  };
+  // const determineStatus = () => {
+  //   return prescriptionMedAndRenewalStatus(prescription, 'VaPrescription');
+  //   // if (pendingRenewal) {
+  //   //   return (
+  //   //     <p data-testid="pending-renewal-status">
+  //   //       This is a renewal you requested. Your VA pharmacy is reviewing it now.
+  //   //       Details may change.
+  //   //     </p>
+  //   //   );
+  //   // }
+  //   // if (pendingMed) {
+  //   //   return (
+  //   //     <p>
+  //   //       This is a new prescription from your provider. Your VA pharmacy is
+  //   //       reviewing it now. Details may change................
+  //   //     </p>
+  //   //   );
+  //   // }
+  //   // return <StatusDropdown status={prescription.dispStatus} />;
+  // };
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
@@ -281,7 +282,7 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
-            {determineStatus()}
+            {prescriptionMedAndRenewalStatus(prescription, 'VaPrescription')}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left
             </h3>
