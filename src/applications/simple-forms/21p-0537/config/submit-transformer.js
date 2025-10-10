@@ -61,6 +61,44 @@ function transformForSubmit(formConfig, form) {
     };
   };
 
+  const recipientFullName = sotSig => {
+    // Default to empty name object
+    const nameObj = formatName();
+    nameObj.first = 'User'; // Minimum required for backend to send confirmation email
+
+    if (!sotSig || typeof sotSig !== 'string') return nameObj;
+
+    // Clean up signature by removing extra spaces and trimming
+    const cleanSig = sotSig.trim().replace(/\s+/g, ' ');
+    if (!cleanSig) return nameObj;
+
+    const parts = cleanSig.split(' ');
+
+    switch (parts.length) {
+      case 1:
+        // Just a first name
+        [nameObj.first] = parts;
+        break;
+      case 2:
+        // First and last name
+        [nameObj.first, nameObj.last] = parts;
+        break;
+      case 3:
+        // First, middle, and last name
+        [nameObj.first, nameObj.middle, nameObj.last] = parts;
+        break;
+      default:
+        // More than 3 parts
+        [nameObj.first] = parts;
+        // Take the last part as the last name
+        nameObj.last = parts[parts.length - 1];
+        // Everything in between is the middle name(s)
+        nameObj.middle = parts.slice(1, parts.length - 1).join(' ');
+    }
+
+    return nameObj;
+  };
+
   // Split veteran SSN
   const veteranSSN = splitSSN(
     transformedData.veteranIdentification?.ssn ||
@@ -77,6 +115,10 @@ function transformForSubmit(formConfig, form) {
     today.getMonth() + 1,
   ).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const signatureDate = splitDate(todayFormatted);
+  const signature =
+    transformedData.signature ||
+    transformedData.statementOfTruthSignature ||
+    '';
 
   const result = {
     formNumber: formConfig.formId,
@@ -94,11 +136,9 @@ function transformForSubmit(formConfig, form) {
         evening: eveningPhone,
       },
       email: transformedData.emailAddress || '',
-      signature:
-        transformedData.signature ||
-        transformedData.statementOfTruthSignature ||
-        '',
+      signature,
       signatureDate,
+      fullName: recipientFullName(signature),
     },
     inReplyReferTo: (() => {
       // Follow the same logic as the form validation - prefer SSN if provided, otherwise VA file number
