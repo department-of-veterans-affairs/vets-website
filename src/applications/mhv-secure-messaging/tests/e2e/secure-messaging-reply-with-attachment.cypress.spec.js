@@ -18,7 +18,7 @@ describe('SM REPLY WITH ATTACHMENT', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
   });
 
   it('verify user can send a reply with attachments', () => {
@@ -67,7 +67,7 @@ describe('SM ATTACH FILE BUTTON BEHAVIOR', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getStartMessageLink().click();
   });
 
   it('verify attach file button label change', () => {

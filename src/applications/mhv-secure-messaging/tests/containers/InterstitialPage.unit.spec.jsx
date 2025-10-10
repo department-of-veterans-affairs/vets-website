@@ -41,11 +41,11 @@ describe('Interstitial page header', () => {
       ),
     ).to.exist;
 
-    const continueButton = screen.getByTestId('continue-button');
+    const startMessageLink = screen.getByTestId('start-message-link');
 
-    expect(continueButton).to.have.attribute('data-dd-action-name');
+    expect(startMessageLink).to.have.attribute('data-dd-action-name');
 
-    expect(continueButton.nextSibling.textContent).to.contain(
+    expect(startMessageLink.nextSibling.textContent).to.contain(
       'If you need help sooner, use one of these urgent communications options:',
     );
     expect(
@@ -60,8 +60,10 @@ describe('Interstitial page header', () => {
     const screen = setup({
       props: { type: 'draft', acknowledge: acknowledgeSpy },
     });
-    const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton.textContent).to.contain('Continue to draft');
+    const startMessageLink = screen.queryByTestId('start-message-link');
+    expect(startMessageLink.getAttribute('text')).to.contain(
+      'Continue to draft',
+    );
   });
 
   it('renders "Continue to reply" on type reply', () => {
@@ -69,11 +71,13 @@ describe('Interstitial page header', () => {
     const screen = setup({
       props: { type: 'reply', acknowledge: acknowledgeSpy },
     });
-    const continueButton = screen.queryByTestId('continue-button');
-    expect(continueButton.textContent).to.contain('Continue to reply');
+    const startMessageLink = screen.queryByTestId('start-message-link');
+    expect(startMessageLink.getAttribute('text')).to.contain(
+      'Continue to reply',
+    );
   });
 
-  it('"Continue to start message" button responds on Enter key', async () => {
+  it('"Start a new message" link responds on Enter key', async () => {
     let updateAcknowledgeSpy = sinon.spy();
     updateAcknowledgeSpy = sinon.spy(
       threadDetailsActions,
@@ -84,13 +88,13 @@ describe('Interstitial page header', () => {
       reducers: reducer,
       path: '/new-message/',
     });
-    const continueButton = screen.queryByTestId('continue-button');
-    userEvent.type(continueButton, '{enter}');
+    const startMessageLink = screen.queryByTestId('start-message-link');
+    userEvent.type(startMessageLink, '{enter}');
     sinon.assert.calledWith(updateAcknowledgeSpy);
     updateAcknowledgeSpy.restore();
   });
 
-  it('"Continue to start message" button responds on Space key', async () => {
+  it('"Start a new message" link responds on Space key', async () => {
     let updateAcknowledgeSpy = sinon.spy();
     updateAcknowledgeSpy = sinon.spy(
       threadDetailsActions,
@@ -101,19 +105,19 @@ describe('Interstitial page header', () => {
       reducers: reducer,
       path: '/new-message/',
     });
-    const continueButton = screen.queryByTestId('continue-button');
-    userEvent.type(continueButton, '{space}');
+    const startMessageLink = screen.queryByTestId('start-message-link');
+    userEvent.type(startMessageLink, '{space}');
     sinon.assert.calledWith(updateAcknowledgeSpy);
     updateAcknowledgeSpy.restore();
   });
 
-  it('"Continue to start message" button does respond on Tab key', async () => {
+  it('"Start a new message" link does respond on Tab key', async () => {
     const acknowledgeSpy = sinon.spy();
     const screen = setup({
       props: { acknowledge: acknowledgeSpy },
     });
-    const continueButton = screen.getByTestId('continue-button');
-    continueButton.focus();
+    const startMessageLink = screen.getByTestId('start-message-link');
+    startMessageLink.focus();
     userEvent.tab();
     expect(acknowledgeSpy.called).to.be.false;
   });
@@ -129,8 +133,8 @@ describe('Interstitial page header', () => {
       },
     );
 
-    const continueButton = getByTestId('continue-button');
-    userEvent.click(continueButton);
+    const startMessageLink = getByTestId('start-message-link');
+    userEvent.click(startMessageLink);
 
     await waitFor(() => {
       expect(acknowledgeSpy.called).to.be.false;

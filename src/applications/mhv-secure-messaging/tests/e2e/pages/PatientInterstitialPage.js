@@ -21,13 +21,17 @@ class PatientInterstitialPage {
     return cy.findByTestId(Locators.BUTTONS.CONTINUE);
   };
 
+  getStartMessageLink = () => {
+    return cy.findByTestId('start-message-link');
+  };
+
   continueToRecentRecipients = (
     searchMockResponse = searchSentFolderResponse,
   ) => {
     cy.intercept(`POST`, Paths.INTERCEPT.SENT_SEARCH, searchMockResponse).as(
       'recentRecipients',
     );
-    this.getContinueButton().click();
+    this.getStartMessageLink().click();
     cy.wait('@recentRecipients');
   };
 

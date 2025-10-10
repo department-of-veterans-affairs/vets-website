@@ -61,7 +61,8 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     GeneralFunctionsPage.verifyPageHeader(
       'Only use messages for non-urgent needs',
     );
-    cy.findByRole('button', { name: /Continue to start message/i }).click();
+
+    cy.findByTestId('start-message-link').click();
     GeneralFunctionsPage.verifyPageHeader('Select care team');
     cy.location('pathname').should(
       'include',
