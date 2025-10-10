@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
-  FIELD_NONE_NOTED,
-} from '../../util/constants';
+import { FIELD_NONE_NOTED } from '../../util/constants';
 import {
   validateField,
   dateFormat,
@@ -15,6 +11,7 @@ import {
   displayProviderName,
   getRxStatus,
   rxSourceIsNonVA,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
 import MedicationDescription from '../shared/MedicationDescription';
 import { selectPendingMedsFlag } from '../../util/selectors';
@@ -120,37 +117,9 @@ const PrescriptionPrintOnly = props => {
                 </>
               )}
             <p>
-              <strong>Status:</strong> {rxStatus}
+              <strong>Status: </strong>
+              {prescriptionMedAndRenewalStatus(rx, 'print')}
             </p>
-            <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
-              {pdfStatusDefinitions[rx.refillStatus]
-                ? pdfStatusDefinitions[rx.refillStatus].map((def, i) => {
-                    if (Array.isArray(def.value)) {
-                      return (
-                        <ul key={i} className="vads-u-margin--0">
-                          {def.value.map((val, idx) => (
-                            <li key={idx} className="vads-u-margin--0">
-                              {val}
-                            </li>
-                          ))}
-                        </ul>
-                      );
-                    }
-                    if (def.weight === 'bold') {
-                      return <strong key={i}>{def.value}</strong>;
-                    }
-                    return (
-                      <div key={i} className="vads-u-margin-y--0p5">
-                        {def.value}
-                      </div>
-                    );
-                  })
-                : pdfDefaultStatusDefinition.map(({ value }, i) => (
-                    <div key={i} className="vads-u-margin-y--0p5">
-                      {value}
-                    </div>
-                  ))}
-            </div>
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>

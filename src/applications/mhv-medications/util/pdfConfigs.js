@@ -9,10 +9,9 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
 import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
   FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
@@ -177,15 +176,15 @@ export const buildPrescriptionsPDFList = prescriptions => {
               : []),
             {
               title: 'Status',
-              value: validateField(rx.dispStatus),
+              value: validateField(
+                prescriptionMedAndRenewalStatus(rx, 'print'),
+              ),
               inline: true,
               indent: 32,
             },
             {
               isRich: true,
-              value:
-                pdfStatusDefinitions[rx.refillStatus] ||
-                pdfDefaultStatusDefinition,
+              value: validateField(rx.dispStatus),
               indent: 32,
             },
             {
@@ -420,14 +419,10 @@ export const buildVAPrescriptionPDFList = prescription => {
               : []),
             {
               title: 'Status',
-              value: prescription.dispStatus || 'Unknown',
+              value: validateField(
+                prescriptionMedAndRenewalStatus(prescription, 'print'),
+              ),
               inline: true,
-            },
-            {
-              isRich: true,
-              value:
-                pdfStatusDefinitions[prescription.refillStatus] ||
-                pdfDefaultStatusDefinition,
             },
             {
               title: 'Refills left',
