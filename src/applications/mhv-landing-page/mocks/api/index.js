@@ -63,6 +63,8 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
   'GET /my_health/v1/medical_records/self_entered/vaccines': seiVaccines,
   'GET /my_health/v1/medical_records/self_entered/vitals': seiVitals,
   'GET /my_health/v1/medical_records/self_entered': seiAllDomains,
+
+  'PUT /v0/profile/email_addresses': 'OK',
 });
 
 module.exports = responses(USER_MOCKS.DEFAULT);
