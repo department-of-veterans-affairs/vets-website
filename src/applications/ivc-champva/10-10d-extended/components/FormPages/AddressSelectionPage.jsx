@@ -10,14 +10,26 @@ export const FIELD_NAME = 'view:sharesAddressWith';
 export const NOT_SHARED = 'na';
 
 // declare option content
-const OPTION_NO_LABEL = 'No, use a new address';
-const OPTION_YES_LABEL = 'Yes, use';
+export const OPTION_NO_LABEL = 'No, use a new address';
+export const OPTION_YES_LABEL = 'Yes, use';
 
 // convert address objects to formatted strings
-const formatAddress = ({ street, street2, city, state, country } = {}) =>
+export const formatAddress = ({ street, street2, city, state, country } = {}) =>
   [street, street2, [city, state].filter(Boolean).join(', '), country]
     .filter(Boolean)
     .join(', ');
+
+// build input label based on form data
+export const getInputLabel = ({
+  role,
+  isArrayMode = false,
+  itemIndex = null,
+}) => {
+  const party = isArrayMode ? 'applicant' : 'Veteran';
+  const prompt =
+    role === 'applicant' && itemIndex === 0 ? 'Do you' : `Does the ${party}`;
+  return `${prompt} have the same mailing address as one previously entered in this application?`;
+};
 
 // build unique radio options from form data
 const buildAddressOptions = ({
@@ -43,7 +55,7 @@ const buildAddressOptions = ({
 };
 
 // declare a safety helper for parsing JSON string
-const safeParse = str => {
+export const safeParse = str => {
   try {
     return JSON.parse(str);
   } catch {
@@ -75,7 +87,10 @@ const AddressSelectionPage = props => {
     fullData,
     goForward,
     pagePerItemIndex,
+    setFormData,
+    updatePage,
     onChange,
+    onReviewPage,
   } = props;
 
   // `fullData` is populated when inside the ArrayBuilder flow
@@ -110,9 +125,18 @@ const AddressSelectionPage = props => {
 
       const dataToUpdate = isArrayMode ? localData : fullOrItemData;
       const nextData = applyOptionSelection(dataToUpdate, nextValue, dataKey);
-      onChange(nextData);
+      const onUpdate = onReviewPage ? setFormData : onChange;
+      onUpdate(nextData);
     },
-    [dataKey, fullOrItemData, isArrayMode, localData, onChange],
+    [
+      dataKey,
+      fullOrItemData,
+      isArrayMode,
+      localData,
+      onChange,
+      onReviewPage,
+      setFormData,
+    ],
   );
 
   const handleSubmit = useCallback(
@@ -180,14 +204,7 @@ const AddressSelectionPage = props => {
   );
 
   const inputLabel = useMemo(
-    () => {
-      const party = isArrayMode ? 'applicant' : 'Veteran';
-      const prompt =
-        data.certifierRole === 'applicant' && itemIndex === 0
-          ? 'Do you'
-          : `Does the ${party}`;
-      return `${prompt} have the same mailing address as one previously entered in this application?`;
-    },
+    () => getInputLabel({ role: data.certifierRole, isArrayMode, itemIndex }),
     [data.certifierRole, isArrayMode, itemIndex],
   );
 
@@ -208,9 +225,20 @@ const AddressSelectionPage = props => {
         </VaRadio>
       </fieldset>
 
-      {contentBeforeButtons}
-      <NavButtons submitToContinue />
-      {contentAfterButtons}
+      {!onReviewPage ? (
+        <>
+          {contentBeforeButtons}
+          <NavButtons submitToContinue />
+          {contentAfterButtons}
+        </>
+      ) : (
+        <va-button
+          onClick={updatePage}
+          text="Update page"
+          label="Update Veteran’s address"
+          class="vads-u-margin-bottom--4"
+        />
+      )}
     </form>
   );
 };
@@ -224,7 +252,10 @@ AddressSelectionPage.propTypes = {
   fullData: PropTypes.object,
   goForward: PropTypes.func,
   pagePerItemIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
   onChange: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 
 export default AddressSelectionPage;
