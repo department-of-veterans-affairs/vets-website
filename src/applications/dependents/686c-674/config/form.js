@@ -32,7 +32,7 @@ import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapt
 
 import {
   removeDependentsPicklistOptions,
-  // removeDependentsPicklistPages,
+  removeDependentsPicklistFollowupPages,
 } from './chapters/formConfigRemovePicklist';
 import addChild from './chapters/report-add-child';
 import report674 from './chapters/formConfig674';
@@ -184,7 +184,8 @@ export const formConfig = {
       },
     },
 
-    // removeDependentsPicklistPages,
+    removeDependentsPicklistFollowupPages,
+
     addSpouse,
     addChild,
     report674,
