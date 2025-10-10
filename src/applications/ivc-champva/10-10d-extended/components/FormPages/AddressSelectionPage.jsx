@@ -4,14 +4,26 @@ import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { applicantWording } from '../../../shared/utilities';
 import { VaRadio, VaRadioOption } from '../../imports';
+import content from '../../locales/en/content.json';
 
 // declare reusable constants
 export const FIELD_NAME = 'view:sharesAddressWith';
 export const NOT_SHARED = 'na';
 
-// declare option content
-export const OPTION_NO_LABEL = 'No, use a new address';
-export const OPTION_YES_LABEL = 'Yes, use';
+// declare static content
+const APPLICANT_SINGULAR = content['noun--applicant'];
+const ERROR_MSG_REQUIRED = content['error--required'];
+const LABEL_TEXT = content['address-selection--label-text'];
+export const OPTION_NO_LABEL = content['address-selection--no-option'];
+export const OPTION_YES_LABEL = content['address-selection--yes-option'];
+const PAGE_TITLE = content['address-selection--page-title'];
+const PAGE_DESCRIPTION = content['address-selection--page-description'];
+const PROMPT_THIRD = content['address-selection--prompt-third'];
+const PROMPT_SECOND = content['address-selection--prompt-second'];
+const UPDATE_BTN_TEXT = content['button--update-page'];
+const UPDATE_BTN_ARIA_LABEL = content['address-selection--update-aria-label'];
+const VETERAN_SINGULAR = content['noun--veteran-singular'];
+const VETERAN_POSSESSIVE = content['noun--veteran-possessive'];
 
 // convert address objects to formatted strings
 export const formatAddress = ({ street, street2, city, state, country } = {}) =>
@@ -25,10 +37,12 @@ export const getInputLabel = ({
   isArrayMode = false,
   itemIndex = null,
 }) => {
-  const party = isArrayMode ? 'applicant' : 'Veteran';
+  const party = isArrayMode ? APPLICANT_SINGULAR : VETERAN_SINGULAR;
   const prompt =
-    role === 'applicant' && itemIndex === 0 ? 'Do you' : `Does the ${party}`;
-  return `${prompt} have the same mailing address as one previously entered in this application?`;
+    role === 'applicant' && itemIndex === 0
+      ? PROMPT_SECOND
+      : `${PROMPT_THIRD} ${party}`;
+  return `${prompt} ${LABEL_TEXT}`;
 };
 
 // build unique radio options from form data
@@ -142,7 +156,7 @@ const AddressSelectionPage = props => {
   const handleSubmit = useCallback(
     e => {
       e.preventDefault();
-      if (!currentValue) return setError('You must provide a response');
+      if (!currentValue) return setError(ERROR_MSG_REQUIRED);
       return goForward({ formData: data });
     },
     [currentValue, data, goForward],
@@ -192,12 +206,14 @@ const AddressSelectionPage = props => {
 
   const pageTitle = useMemo(
     () => {
-      const party = isArrayMode ? applicantWording(localData) : 'Veteran’s';
+      const party = isArrayMode
+        ? applicantWording(localData)
+        : VETERAN_POSSESSIVE;
       return titleUI(
         <>
-          <span data-dd-privacy="hidden">{party}</span> address selection
+          <span data-dd-privacy="hidden">{party}</span> {PAGE_TITLE}
         </>,
-        'We’ll send any important information about this application to this address.',
+        PAGE_DESCRIPTION,
       )['ui:title'];
     },
     [isArrayMode, localData],
@@ -234,8 +250,8 @@ const AddressSelectionPage = props => {
       ) : (
         <va-button
           onClick={updatePage}
-          text="Update page"
-          label="Update Veteran’s address"
+          text={UPDATE_BTN_TEXT}
+          label={UPDATE_BTN_ARIA_LABEL}
           class="vads-u-margin-bottom--4"
         />
       )}

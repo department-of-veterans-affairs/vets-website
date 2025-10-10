@@ -10,6 +10,10 @@ import {
   NOT_SHARED,
   OPTION_YES_LABEL,
 } from '../../../../components/FormPages/AddressSelectionPage';
+import content from '../../../../locales/en/content.json';
+
+// declare static content
+const REVIEW_OPTION_NO = content['review--no-option'];
 
 describe('10-10d <AddressSelectionReviewPage>', () => {
   const subject = ({
@@ -91,7 +95,7 @@ describe('10-10d `formatDataValue` helper', () => {
   });
 
   it('should return the NOT_SHARED label for "na"', () => {
-    expect(formatDataValue('na')).to.equal('No');
+    expect(formatDataValue('na')).to.equal(REVIEW_OPTION_NO);
   });
 
   it('should format JSON address with prefix by default', () => {

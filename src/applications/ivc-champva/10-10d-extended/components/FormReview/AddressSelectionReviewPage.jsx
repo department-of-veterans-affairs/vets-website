@@ -5,15 +5,19 @@ import {
   formatAddress,
   getInputLabel,
   NOT_SHARED,
-  OPTION_NO_LABEL,
   OPTION_YES_LABEL,
   safeParse,
 } from '../FormPages/AddressSelectionPage';
+import content from '../../locales/en/content.json';
+
+// declare static content
+const EDIT_BTN_TEXT = content['button--edit'];
+const REVIEW_OPTION_NO = content['review--no-option'];
 
 // parse the stored data value in to human-friendly text
 export const formatDataValue = (storedValue, { withPrefix = true } = {}) => {
   if (!storedValue) return '';
-  if (storedValue === NOT_SHARED) return OPTION_NO_LABEL.split(',')[0];
+  if (storedValue === NOT_SHARED) return REVIEW_OPTION_NO;
 
   const parsed = safeParse(storedValue);
   const addr = parsed ? formatAddress(parsed) : String(storedValue);
@@ -62,8 +66,8 @@ const AddressSelectionReviewPage = props => {
             {title}
           </h4>
           <va-button
-            text="Edit"
-            label={`Edit ${title}`}
+            text={EDIT_BTN_TEXT}
+            label={`${EDIT_BTN_TEXT} ${title}`}
             onClick={editPage}
             secondary
           />
