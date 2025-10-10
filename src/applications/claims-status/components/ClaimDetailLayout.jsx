@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 
 import {
   buildDateFormatter,
@@ -63,7 +64,10 @@ export default function ClaimDetailLayout(props) {
             title={message.title}
             body={message.body}
             type={message.type}
-            onClose={clearNotification}
+            onClose={() => {
+              focusElement('.claim-title');
+              clearNotification();
+            }}
             onSetFocus={focusNotificationAlert}
           />
         )}
