@@ -9,6 +9,7 @@
   "address-selection--update-aria-label": "Update address",
   "button--edit": "Edit",
   "button--update-page": "Update page",
+  "error--required": "You must provide a response",
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
   "form-start-text": "Start the form",

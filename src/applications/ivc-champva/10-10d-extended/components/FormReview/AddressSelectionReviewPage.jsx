@@ -60,7 +60,7 @@ const AddressSelectionReviewPage = props => {
 
   return (
     <div className="form-review-panel-page">
-      <form className="rjsf" noValidate="">
+      <form className="rjsf" noValidate>
         <div className="form-review-panel-page-header-row">
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
