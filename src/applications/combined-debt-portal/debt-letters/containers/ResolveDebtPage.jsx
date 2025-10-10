@@ -52,11 +52,11 @@ const ResolveDebtPage = ({ match }) => {
             label: 'Current overpayment balances',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedId}`,
+            href: `/manage-va-debt/summary/debt-balances/${selectedId}`,
             label: `Debt details`,
           },
           {
-            href: `/manage-va-debt/summary/balances/details/${selectedId}/resolve`,
+            href: `/manage-va-debt/summary/balances/${selectedId}/resolve`,
             label: `${title}`,
           },
         ]}

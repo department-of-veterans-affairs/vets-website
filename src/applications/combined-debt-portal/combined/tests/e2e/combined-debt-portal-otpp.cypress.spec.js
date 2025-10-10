@@ -71,7 +71,7 @@ describe('CDP - One Thing Per Page', () => {
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
 
-        cy.url().should('match', /\/copay-balances\/[^/]+\/detail$/);
+        cy.url().should('match', /\/copay-balances\/[^/]+\$/);
         cy.go('back');
 
         // Resolve this bill link should be present and work
@@ -81,7 +81,7 @@ describe('CDP - One Thing Per Page', () => {
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this bill');
         cy.get('@resolveLink').click();
-        cy.url().should('match', /\/copay-balances\/[^/]+\/detail\/resolve$/);
+        cy.url().should('match', /\/copay-balances\/[^/]+\/resolve$/);
 
         cy.injectAxeThenAxeCheck();
       });
@@ -178,7 +178,7 @@ describe('CDP - One Thing Per Page', () => {
           .as('detailLink');
         cy.get('@detailLink').should('contain', 'Review details');
         cy.get('@detailLink').click();
-        cy.url().should('match', /\/debt-balances\/details\/[^/]+$/);
+        cy.url().should('match', /\/debt-balances\/[^/]+$/);
         cy.go('back');
 
         // Resolve this debt link should be present and work
@@ -189,7 +189,7 @@ describe('CDP - One Thing Per Page', () => {
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this debt');
         cy.get('@resolveLink').click();
-        cy.url().should('match', /\/debt-balances\/details\/[^/]+\/resolve$/);
+        cy.url().should('match', /\/debt-balances\/[^/]+\/resolve$/);
 
         cy.injectAxeThenAxeCheck();
       });

@@ -52,6 +52,7 @@ const HowDoIGetHelp = ({
           href="/manage-va-debt/request-debt-help-form-5655/"
           message-aria-describedby="Opens pay.va.gov"
           text="Request help with your debt"
+          type="secondary"
         />
       </section>
       {disputeDebtActive && <HowDoIDispute />}

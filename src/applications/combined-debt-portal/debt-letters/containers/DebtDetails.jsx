@@ -105,7 +105,7 @@ const DebtDetails = () => {
             label: 'Current overpayment balances',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${
+            href: `/manage-va-debt/summary/debt-balances/${
               selectedDebt.compositeDebtId
             }`,
             label: `${title}`,

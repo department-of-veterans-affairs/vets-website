@@ -43,11 +43,11 @@ const ResolvePage = ({ match }) => {
             label: 'Current copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${title}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/resolve`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/resolve`,
             label: 'Resolve your bill',
           },
         ]}

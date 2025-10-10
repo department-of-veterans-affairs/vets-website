@@ -66,11 +66,11 @@ const HTMLStatementPage = ({ match }) => {
             label: 'Current copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${prevPage}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/statement`,
             label: `${title}`,
           },
         ]}

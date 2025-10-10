@@ -98,7 +98,7 @@ const HowDoIPay = ({ userData }) => {
         external
         href="https://www.pay.va.gov/"
         text="Pay at pay.va.gov"
-        class="vads-u-margin-top--2"
+        class="vads-u-margin-top--2 vads-u-font-weight--bold"
       />
 
       <h3>Pay by phone</h3>
