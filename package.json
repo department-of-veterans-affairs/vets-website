@@ -226,6 +226,7 @@
     "node-fetch": "^2.6.12",
     "null-loader": "^4.0.1",
     "nyc": "^15.1.0",
+    "openapi-typescript": "4.5.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "^6.2.1",
