@@ -120,6 +120,10 @@ export const showRudisill1995 = () => {
   return sessionStorage.getItem('isRudisill1995') === 'true';
 };
 
+export const isMeb1995ReRouteEnabled = () => {
+  return sessionStorage.getItem('meb1995ReRoute') === 'true';
+};
+
 export const SeventeenOrOlder = birthday => {
   return (
     birthday === undefined ||
