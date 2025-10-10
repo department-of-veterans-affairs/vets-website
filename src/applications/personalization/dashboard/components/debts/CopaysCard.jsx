@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
-import { getLatestCopay } from '../../helpers';
-import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
+import { getLatestCopay } from '../../helpers';
 
 export const CopaysCard = ({ copays }) => {
   const latestCopay = getLatestCopay(copays) ?? null;
@@ -25,39 +24,39 @@ export const CopaysCard = ({ copays }) => {
 
   const content = (
     <>
-      <h3 className="vads-u-margin-top--0" data-testid="copay-due-header">
+      <h4 className="vads-u-margin-y--0 vads-u-padding-bottom--1">Copays</h4>
+      <h5
+        data-testid="copay-due-header"
+        className="vads-u-font-size--h4 vads-u-margin-y--0 vads-u-margin-top--0p5"
+      >
         {copayDueHeaderContent}
-      </h3>
-      <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
+      </h5>
+      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5">
         Updated on{' '}
         {format(new Date(latestCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
       </p>
-      <CTALink
-        text="Manage your VA bills"
-        href="/manage-va-debt/summary/copay-balances"
-        showArrow
-        className="vads-u-font-weight--bold"
-        onClick={() =>
-          recordEvent({
-            event: 'dashboard-navigation',
-            'dashboard-action': 'view-link',
-            'dashboard-product': 'view-manage-va-bills',
-          })
-        }
-        testId="manage-va-copays-link"
-      />
+      <p className="vads-u-margin-y--0 vads-u-margin-top--0p5 vads-u-padding-y--1">
+        <va-link
+          active
+          text="Review copay bills"
+          href="/manage-va-debt/summary/copay-balances"
+          onClick={() =>
+            recordEvent({
+              event: 'dashboard-navigation',
+              'dashboard-action': 'view-link',
+              'dashboard-product': 'view-manage-va-bills',
+            })
+          }
+          data-testid="manage-va-copays-link"
+        />
+      </p>
     </>
   );
 
   return (
     <div className="vads-u-margin-bottom--3">
       <va-card>
-        <div
-          className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-padding--1"
-          data-testid="copay-card"
-        >
-          {content}
-        </div>
+        <div data-testid="copay-card">{content}</div>
       </va-card>
     </div>
   );

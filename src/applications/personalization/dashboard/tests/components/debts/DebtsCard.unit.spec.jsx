@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
-
+import { getVaLinkByText } from 'applications/personalization/common/unitHelpers';
 import DebtsCard from '../../../components/debts/DebtsCard';
 
 describe('<DebtsCard />', () => {
@@ -14,9 +14,8 @@ describe('<DebtsCard />', () => {
       initialState: {},
     });
 
-    expect(tree.getByText(/2 overpayment debts/)).to.exist;
-    expect(tree.getByText('Review your current VA benefit debt')).to.exist;
-    expect(tree.getByText('Manage your VA debt')).to.exist;
+    expect(tree.getByText(/2 outstanding debts/)).to.exist;
+    expect(getVaLinkByText('Review outstanding debts', tree)).to.exist;
   });
 
   it('renders zero debt message when count is 0', () => {
@@ -40,6 +39,6 @@ describe('<DebtsCard />', () => {
       initialState: {},
     });
 
-    expect(tree.getByText('1 overpayment debt')).to.exist;
+    expect(tree.getByText('1 outstanding debt')).to.exist;
   });
 });
