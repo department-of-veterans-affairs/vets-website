@@ -50,6 +50,7 @@ describe('<Dashboard />', () => {
           services: ['appeals-status'],
           claims: {},
           signIn: { serviceName: 'logingov' },
+          vaPatient: true,
           vapContactInfo: {
             email: {
               createdAt: '2018-04-20T17:24:13.000Z',
@@ -122,6 +123,7 @@ describe('<Dashboard />', () => {
         },
       },
       featureToggles: {
+        loading: false,
         [Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage]: false,
         mhvEmailConfirmation: true,
       },
@@ -332,8 +334,8 @@ describe('<Dashboard />', () => {
     });
   });
 
-  describe('AlertConfirmEmail component', () => {
-    it('renders <AlertConfirmEmail />', async () => {
+  describe('MhvAlertConfirmEmail component', () => {
+    it('renders <MhvAlertConfirmEmail />', async () => {
       mockFetch();
       const { getByTestId, queryByTestId } = renderInReduxProvider(
         <Dashboard />,
@@ -343,12 +345,12 @@ describe('<Dashboard />', () => {
         },
       );
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(getByTestId('mhv-alert--confirm-contact-email')).to.exist;
+        expect(queryByTestId('mhv-alert--add-contact-email')).to.not.exist;
       });
     });
 
-    it('suppresses <AlertConfirmEmail /> when feature toggle is off', async () => {
+    it('suppresses <MhvAlertConfirmEmail /> when feature toggle is off', async () => {
       mockFetch();
       initialState.featureToggles.mhvEmailConfirmation = false;
       const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
@@ -356,12 +358,12 @@ describe('<Dashboard />', () => {
         reducers,
       });
       await waitFor(() => {
-        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--add-contact-email')).to.not.exist;
       });
     });
 
-    it('suppresses <AlertConfirmEmail /> when email.updatedAt is after 3/1/2025', async () => {
+    it('suppresses <MhvAlertConfirmEmail /> when email.updatedAt is after 3/1/2025', async () => {
       mockFetch();
       initialState.user.profile.vapContactInfo.email.updatedAt =
         '2025-09-09T12:00:00.000+00:00';
@@ -370,12 +372,12 @@ describe('<Dashboard />', () => {
         reducers,
       });
       await waitFor(() => {
-        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--add-contact-email')).to.not.exist;
       });
     });
 
-    it(`suppresses <AlertConfirmEmail /> when <ContactInfoNeeded /> renders`, async () => {
+    it(`suppresses <MhvAlertConfirmEmail /> when <ContactInfoNeeded /> renders`, async () => {
       mockFetch();
       initialState.user.profile.vapContactInfo.email.emailAddress = null;
       const { getByTestId, queryByTestId } = renderInReduxProvider(
@@ -387,8 +389,8 @@ describe('<Dashboard />', () => {
       );
       await waitFor(() => {
         expect(getByTestId('account-blocked-alert')).to.exist;
-        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.not.exist;
+        expect(queryByTestId('mhv-alert--add-contact-email')).to.not.exist;
       });
     });
   });

@@ -12,7 +12,7 @@ import {
   VaAlert,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { AlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
+import { MhvAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -128,7 +128,7 @@ const DashboardHeader = ({
           });
         }}
       />
-      {showConfirmEmail && <AlertConfirmEmail />}
+      {showConfirmEmail && <MhvAlertConfirmEmail />}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>

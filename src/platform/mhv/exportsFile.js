@@ -50,4 +50,6 @@ export {
   logUniqueUserMetricsEvents,
   EVENT_REGISTRY,
 } from './unique_user_metrics';
-export { default as AlertConfirmEmail } from './components/AlertConfirmEmail';
+export {
+  default as MhvAlertConfirmEmail,
+} from './components/MhvAlertConfirmEmail';
