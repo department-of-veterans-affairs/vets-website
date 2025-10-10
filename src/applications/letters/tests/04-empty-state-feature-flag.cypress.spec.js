@@ -75,11 +75,15 @@ describe('Letters Empty State Feature Flag', () => {
         .should('be.visible');
 
       cy.get('p')
-        .contains('Most Veterans find benefit letters and documents here such as:')
+        .contains(
+          'Most Veterans find benefit letters and documents here such as:',
+        )
         .should('be.visible');
 
       // Verify the list of typical letters is shown
-      cy.contains('Most Veterans find benefit letters and documents here such as:')
+      cy.contains(
+        'Most Veterans find benefit letters and documents here such as:',
+      )
         .next('ul')
         .within(() => {
           cy.contains('Benefit Summary and Service Verification Letter').should(
@@ -183,7 +187,9 @@ describe('Letters Empty State Feature Flag', () => {
         .should('not.exist');
 
       cy.get('p')
-        .contains('Most Veterans find benefit letters and documents here such as:')
+        .contains(
+          'Most Veterans find benefit letters and documents here such as:',
+        )
         .should('not.exist');
 
       // The page should be relatively empty (just the header and address section)

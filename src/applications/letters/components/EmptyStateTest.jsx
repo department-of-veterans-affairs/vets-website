@@ -12,6 +12,7 @@ const mockStore = createStore(() => ({
     optionsAvailable: false,
   },
   featureToggles: {
+    // eslint-disable-next-line camelcase
     empty_state_benefit_letters: true, // Enable feature flag
   },
 }));

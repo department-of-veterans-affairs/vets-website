@@ -86,7 +86,8 @@ describe('New letters page design', () => {
     cy.get('va-accordion-item:nth-of-type(4)')
       .shadow()
       .find('button[aria-expanded=false]')
-      .click();
+      .wait(500)
+      .click({ force: true });
     cy.get('va-button')
       .shadow()
       .find('button')
@@ -114,7 +115,8 @@ describe('New letters page design', () => {
     cy.get('va-accordion-item:nth-of-type(4)')
       .shadow()
       .find('button[aria-expanded=false]')
-      .click();
+      .wait(500)
+      .click({ force: true });
     // Get array of checkboxes, loop to click through all but the first one
     cy.get('input[type="checkbox"]').each(($el, index) => {
       if (index > 0) {
