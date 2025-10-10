@@ -23,15 +23,15 @@
         "value": true
       },
       {
-<<<<<<< HEAD
         "name": "disability_compensation_toxic_exposure_destruction_modal",
         "value": false
       },
       {
         "name": "disability_526_toxic_exposure_opt_out_data_purge",
-=======
+        "value": false
+      },
+      {
         "name": "disability_compensation_new_conditions_workflow",
->>>>>>> ec0ceb7488 (integrated new condition workflow behind feature toggle)
         "value": false
       }
     ]
