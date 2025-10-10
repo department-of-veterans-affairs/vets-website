@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
@@ -82,8 +82,21 @@ const WebChat = ({ code, webChatFramework }) => {
     isStsAuthEnabled,
   });
 
-  clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener(isLoggedIn);
+  // Register global event listeners once and clean up on unmount
+  useEffect(
+    () => {
+      const cleanupBeforeUnload = clearBotSessionStorageEventListener(
+        isLoggedIn,
+      );
+      const cleanupSignOut = signOutEventListener(isLoggedIn);
+
+      return () => {
+        if (typeof cleanupBeforeUnload === 'function') cleanupBeforeUnload();
+        if (typeof cleanupSignOut === 'function') cleanupSignOut();
+      };
+    },
+    [isLoggedIn],
+  );
 
   const directLine = useDirectLine(createDirectLine);
 

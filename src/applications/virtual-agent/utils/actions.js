@@ -141,7 +141,21 @@ export const processIncomingActivity = ({
   }
 
   if (isCSATSurveyResponse) {
-    processCSAT(data);
+    try {
+      // Defer to next frame to allow Adaptive Card DOM to render
+      requestAnimationFrame(() => {
+        try {
+          processCSAT(data);
+        } catch (e) {
+          // Safeguard to prevent crashing the chat UI
+          // eslint-disable-next-line no-console
+          console.warn('CSAT processing error (deferred):', e);
+        }
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('CSAT processing error:', e);
+    }
   }
 
   const trackingUtterances = getIsTrackingUtterances();

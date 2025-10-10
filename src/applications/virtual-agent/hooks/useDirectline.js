@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   getConversationIdKey,
   getFirstConnection,
@@ -11,36 +11,37 @@ const getDirectLineDomain = () =>
     ? 'http://localhost:3002/v3/directline'
     : 'https://northamerica.directline.botframework.com/v3/directline';
 
-// First-connection logic:
-// - Do NOT send conversationId on the very first connection in production
-//   (breaks the bot's greeting/init flow).
-// - Always send conversationId on subsequent connections to enable history replay.
-// - In local mock mode, always include conversationId so the mock can persist state.
+// Connection logic:
+// - Production DirectLine (websocket) does not replay history with watermark.
+//   To guarantee greeting and avoid blank chat on reload, always start a NEW
+//   conversation (omit conversationId/watermark) in production.
+// - Local mock supports watermark-based replay: include conversationId and
+//   watermark=0 to request full transcript.
 export default function useDirectLine(createDirectLine) {
   const token = getTokenKey();
   const firstConnection = getFirstConnection();
   const domain = getDirectLineDomain();
+  const isLocal = !!process.env.USE_LOCAL_DIRECTLINE;
 
-  const conversationId =
-    firstConnection === 'false' || process.env.USE_LOCAL_DIRECTLINE
-      ? getConversationIdKey()
-      : '';
+  const conversationId = isLocal ? getConversationIdKey() : '';
 
   // Mark that we've connected once for subsequent reloads
-  setFirstConnection('false');
+  useEffect(() => {
+    setFirstConnection('false');
+  }, []);
 
   // Intentionally keep an empty dependency array to avoid recreating the DirectLine
   // connection on re-renders. We capture the initial token/domain/conversationId at
   // mount time to drive the desired reconnect behavior.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(
-    () =>
-      createDirectLine({
-        token,
-        domain,
-        conversationId,
-        watermark: '0', // request full transcript history
-      }),
-    [],
-  );
+  return useMemo(() => {
+    const options = { token, domain };
+    if (isLocal && conversationId) {
+      options.conversationId = conversationId;
+      if (firstConnection === 'false') {
+        options.watermark = '0'; // local replay only after first mount
+      }
+    }
+    return createDirectLine(options);
+  }, []);
 }

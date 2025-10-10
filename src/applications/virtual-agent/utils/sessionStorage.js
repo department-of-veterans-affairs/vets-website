@@ -5,6 +5,7 @@ const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
 const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 const IS_TRACKING_UTTERANCES = `${BOT_SESSION_PREFIX}isTrackingUtterances`;
 const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
+const CODE_KEY = `${BOT_SESSION_PREFIX}code`;
 const FIRST_CONNECTION = `${BOT_SESSION_PREFIX}firstConnection`;
 const SKILL_EVENT_VALUE = `${BOT_SESSION_PREFIX}skillEventValue`;
 
@@ -79,6 +80,14 @@ export function setTokenKey(value) {
   setStorageItem(TOKEN_KEY, value);
 }
 
+export function getCodeKey() {
+  return getStorageItem(CODE_KEY);
+}
+
+export function setCodeKey(value) {
+  setStorageItem(CODE_KEY, value);
+}
+
 // First-connection flag helpers.
 // NOTE: store values as strings, e.g., 'false' or 'true' (not booleans).
 export function getFirstConnection() {
@@ -96,7 +105,12 @@ export function clearBotSessionStorage(forceClear) {
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
   // Ensure critical keys persist across page lifecycle clears.
   // Keep first-connection flag, conversationId, and token.
-  const excludeClear = [FIRST_CONNECTION, CONVERSATION_ID_KEY, TOKEN_KEY];
+  const excludeClear = [
+    FIRST_CONNECTION,
+    CONVERSATION_ID_KEY,
+    TOKEN_KEY,
+    CODE_KEY,
+  ];
 
   // capture the canceled login scenarios [issue #479]
   if (!forceClear && loggedInFlow === 'true' && inAuthExp !== 'true') {
