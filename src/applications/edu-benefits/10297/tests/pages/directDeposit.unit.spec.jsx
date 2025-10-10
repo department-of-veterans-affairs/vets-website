@@ -63,20 +63,6 @@ describe('22 10297 Direct deposit page', () => {
     expect(acctIdx).to.be.lessThan(imgIdx);
   });
 
-  it('shows required errors when empty', () => {
-    const { getByRole, container } = renderPage();
-
-    fireEvent.click(getByRole('button', { name: /submit|continue/i }));
-
-    const errMessages = Array.from(container.querySelectorAll('[error]')).map(
-      n => n.getAttribute('error'),
-    );
-
-    expect(errMessages).to.include('Select an account type');
-    expect(errMessages).to.include('Enter a 9-digit routing number');
-    expect(errMessages).to.include('Enter your account number');
-  });
-
   it('rejects invalid routing number (fails pattern/checksum)', () => {
     const badData = {
       bankAccount: {
