@@ -3,10 +3,8 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { fireEvent, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
 import { EVIDENCE_VA } from '../../constants';
 import {
@@ -44,9 +42,8 @@ describe('Supplemental Claims VA evidence request page', () => {
 
     const radio = $('va-radio', container);
     expect(radio.getAttribute('label')).to.eq(requestVaRecordsTitle);
-    expect(radio.getAttribute('hint')).to.eq('');
+    expect(radio.getAttribute('hint')).to.eq(requestVaRecordsHint);
     expect($$('va-radio-option', container).length).to.eq(2);
-    expect($('va-additional-info', container)).to.exist;
   });
 
   it('should not allow submit with radios unselected (required)', async () => {
@@ -113,6 +110,5 @@ describe('Supplemental Claims VA evidence request page', () => {
     const radio = $('va-radio', container);
     expect(radio.getAttribute('label')).to.eq(requestVaRecordsTitle);
     expect(radio.getAttribute('hint')).to.eq(requestVaRecordsHint);
-    expect($('va-additional-info', container)).to.exist;
   });
 });

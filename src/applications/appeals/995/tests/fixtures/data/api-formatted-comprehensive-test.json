@@ -23,19 +23,18 @@
       "veteran": {
         "timezone": "America/Chicago",
         "address": {
-          "addressLine1": "123 Mailing Address St.",
-          "addressLine2": "Apt 1",
-          "city": "Fulton",
-          "stateCode": "NY",
+          "addressLine1": "PO Box 494",
+          "city": "Moca",
+          "stateCode": "PR",
           "countryCodeISO2": "US",
-          "zipCode5": "97063"
+          "zipCode5": "00676"
         },
         "phone": {
           "countryCode": "1",
-          "areaCode": "989",
-          "phoneNumber": "8981233"
+          "areaCode": "913",
+          "phoneNumber": "2785427"
         },
-        "email": "myemail72585885@unattended.com"
+        "email": "emailonvagov@gmail.com"
       },
       "form5103Acknowledged": true,
       "evidenceSubmission": {
@@ -95,33 +94,29 @@
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Hypertension - 0% - Service connection for hypertension is denied.",
-        "decisionDate": "2023-09-26",
-        "ratingIssueReferenceId": "8891"
+        "issue": "Hypertension",
+        "decisionDate": "2023-09-26"
       }
     },
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Impotence - 0% - Evaluation of impotence, which is currently 0% disabling, is continued.",
-        "decisionDate": "2023-09-26",
-        "ratingIssueReferenceId": "7902"
+        "issue": "Impotence",
+        "decisionDate": "2023-09-26"
       }
     },
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Let Knee Instability - 10% - Evaluation of let knee instability, which is currently 10% disabling, is increased to 10% effective February 13",
-        "decisionDate": "2023-09-26",
-        "ratingIssueReferenceId": "7952"
+        "issue": "Left Knee Instability",
+        "decisionDate": "2023-09-26"
       }
     },
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Right Knee Injury - 30% - Evaluation of right knee injury, which is currently 30% disabling, is continued.",
-        "decisionDate": "2023-09-26",
-        "ratingIssueReferenceId": "7884"
+        "issue": "Right Knee Injury",
+        "decisionDate": "2023-09-26"
       }
     },
     {
@@ -183,8 +178,8 @@
           "postalCode": "37676"
         },
         "issues": [
+          "Left Knee Instability",
           "Seizures",
-          "Let Knee Instability",
           "Right Knee Injury"
         ],
         "treatmentDateRange": [
@@ -229,7 +224,7 @@
         "issues": [
           "Hypothyroidism",
           "Right Knee Injury",
-          "Let Knee Instability"
+          "Left Knee Instability"
         ],
         "treatmentDateRange": [
           {
@@ -244,29 +239,29 @@
     {
       "name": "content.pdf",
       "size": 940985,
-      "confirmationCode": "3ba4fd50-9b08-4bc5-b904-6d575dffb59e",
-      "attachmentId": "L139",
+      "confirmationCode": "6f01fa44-4228-446c-a80b-b2b91763f369",
+      "attachmentId": "L034",
       "isEncrypted": false
     },
     {
       "name": "content (1).pdf",
       "size": 1159362,
-      "confirmationCode": "51db396b-991c-4f9c-a01c-efd54ee6223b",
-      "attachmentId": "L222",
+      "confirmationCode": "08c088d1-a7aa-474a-903e-9f9c0cfc4465",
+      "attachmentId": "L229",
       "isEncrypted": false
     },
     {
       "name": "2018-4142-Form.pdf",
       "size": 742917,
-      "confirmationCode": "a599f075-e23d-4768-bc65-9e9b9cc436d2",
-      "attachmentId": "L827",
+      "confirmationCode": "e0b6ec0d-9978-424d-b39b-93ce82eafcd7",
+      "attachmentId": "L107",
       "isEncrypted": false
     },
     {
       "name": "2021-4142-Form.pdf",
       "size": 1028976,
-      "confirmationCode": "a455bdc2-790f-4b73-84b8-930534f0ddba",
-      "attachmentId": "L029",
+      "confirmationCode": "d9254823-2154-43cc-934c-4f284533b320",
+      "attachmentId": "L139",
       "isEncrypted": false
     }
   ]

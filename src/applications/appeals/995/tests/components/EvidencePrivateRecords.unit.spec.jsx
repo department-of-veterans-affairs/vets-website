@@ -20,9 +20,7 @@ import {
   clickAddAnother,
   clickBack,
   clickContinue,
-  verifyHeader,
 } from '../unit-test-helpers';
-import { content } from '../../content/evidencePrivateRecords';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';

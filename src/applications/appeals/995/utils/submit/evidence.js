@@ -43,37 +43,31 @@ export const getTreatmentDate = location => {
 };
 
 export const hasDuplicateLocation = (list, currentLocation) => {
+  // console.log('currentLocation: ', currentLocation);
   const currentString = buildVaLocationString({
-    data: {
-      ...currentLocation,
-      evidenceDates: {
-        from: getTreatmentDate(currentLocation),
-        to: getTreatmentDate(currentLocation),
-      },
-    },
+    data: currentLocation,
     joiner: ',',
     includeIssues: false,
   });
 
+  // console.log('list: ', list);
+
   return list.some(location => {
     const data = {
       ...location.attributes,
-      evidenceDates: location.attributes.evidenceDates?.[0] || {},
+      treatmentDate: location.attributes.treatmentDate,
       noDate: location.attributes.noTreatmentDates,
     };
 
     const locationString = buildVaLocationString({
-      data: {
-        ...data,
-        evidenceDates: {
-          from: getTreatmentDate(data),
-          to: getTreatmentDate(data),
-        },
-      },
+      data,
       joiner: ',',
       includeIssues: false,
       wrapped: true,
     });
+    console.log('currentString: ', currentString);
+
+    console.log('locationString: ', locationString);
 
     return locationString === currentString;
   });
