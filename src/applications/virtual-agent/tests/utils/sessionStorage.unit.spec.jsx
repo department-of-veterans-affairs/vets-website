@@ -9,12 +9,14 @@ import {
   getLoggedInFlow,
   getRecentUtterances,
   getTokenKey,
+  getFirstConnection,
   setConversationIdKey,
   setInAuthExp,
   setIsTrackingUtterances,
   setLoggedInFlow,
   setRecentUtterances,
   setTokenKey,
+  setFirstConnection,
   storeUtterances,
 } from '../../utils/sessionStorage';
 
@@ -23,6 +25,20 @@ describe('sessionStorage', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+  });
+
+  describe('firstConnection', () => {
+    it('should set and get first-connection flag as a string', () => {
+      setFirstConnection('false');
+      const result = getFirstConnection();
+      expect(result).to.equal('false');
+    });
+
+    it('should use the prefixed key for first-connection', () => {
+      setFirstConnection('false');
+      const raw = sessionStorage.getItem('va-bot.firstConnection');
+      expect(raw).to.equal('false');
+    });
   });
 
   afterEach(() => {
@@ -154,6 +170,32 @@ describe('sessionStorage', () => {
       const itemToNotClear = sessionStorage.getItem('va-bot.itemToNotClear');
 
       expect(itemToNotClear).to.be.equal('strawberry');
+    });
+
+    it('should preserve FIRST_CONNECTION, CONVERSATION_ID_KEY, and TOKEN_KEY by default and clear other keys', () => {
+      // Ensure default clearing path triggers (both not 'true')
+      sessionStorage.removeItem('va-bot.loggedInFlow');
+      sessionStorage.removeItem('va-bot.inAuthExperience');
+
+      // Set critical keys (should persist)
+      setFirstConnection('false');
+      setConversationIdKey('abc');
+      setTokenKey('def');
+
+      // Set other bot-prefixed keys (should be cleared)
+      sessionStorage.setItem('va-bot.itemToClear', 'banana');
+      setRecentUtterances(['x']);
+
+      clearBotSessionStorage(false);
+
+      // Critical keys remain
+      expect(getFirstConnection()).to.equal('false');
+      expect(getConversationIdKey()).to.equal('abc');
+      expect(getTokenKey()).to.equal('def');
+
+      // Others cleared
+      expect(sessionStorage.getItem('va-bot.itemToClear')).to.be.null;
+      expect(getRecentUtterances()).to.be.null;
     });
   });
 
