@@ -26,7 +26,14 @@ components/
 │       ├── page-template.jsx
 │       ├── page-template.unit.spec.jsx
 │       └── index.js
-├── error-boundary.jsx    # React error boundary for error handling
+├── error-boundary/       # React error boundary wrapper
+│   ├── error-boundary.jsx
+│   ├── error-boundary.unit.spec.jsx
+│   └── index.js
+├── save-in-progress-wrapper/ # Save-in-progress resume controls
+│   ├── save-in-progress-wrapper.jsx
+│   ├── save-in-progress-wrapper.unit.spec.jsx
+│   └── index.js
 └── index.js              # Barrel exports
 ```
 
@@ -209,9 +216,26 @@ export const AddressReviewPage = ({ data, editPage, title }) => (
 );
 ```
 
-## Error Boundary
+## Infrastructure Components
 
-- `FormErrorBoundary` - React error boundary that catches JavaScript errors and displays user-friendly error messages
+### Error Boundary
+
+- `error-boundary/` - React error boundary component
+  - Catches JavaScript errors in child component tree
+  - Displays user-friendly error messages
+  - Logs errors to monitoring in development only
+  - Shows contact information for support
+  - Comprehensive unit tests with 100% coverage
+
+### Save-in-Progress Wrapper
+
+- `save-in-progress-wrapper/` - Form resume controls component
+  - Detects saved form data on page refresh
+  - Displays resume controls when user navigates directly to form page
+  - Integrates with VA.gov save-in-progress system
+  - Handles expired form detection
+  - Shows loading states during data fetch
+  - Preserves breadcrumbs during transitions
 
 ## Usage
 
