@@ -11,14 +11,14 @@ describe('BenefitsSummary', () => {
 
     {
       const label = getByText('Result');
-      const row = label.closest('div');
+      const row = label.closest('li');
       const value = within(row).getByText(/to apply for Chapter 31 benefits/i);
       expect(value).to.exist;
     }
 
     {
       const label = getByText('Total months of entitlement');
-      const row = label.closest('div');
+      const row = label.closest('li');
       const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
@@ -27,7 +27,7 @@ describe('BenefitsSummary', () => {
       const label = getByText(
         'Months of entitlement you have used for education/training',
       );
-      const row = label.closest('div');
+      const row = label.closest('li');
       const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
@@ -36,7 +36,7 @@ describe('BenefitsSummary', () => {
       const label = getByText(
         'Potential months of remaining entitlement toward Chapter 31 program',
       );
-      const row = label.closest('div');
+      const row = label.closest('li');
       const value = within(row).getByText(/0\s*months\s*,\s*0\s*days/i);
       expect(value).to.exist;
     }
@@ -50,20 +50,20 @@ describe('BenefitsSummary', () => {
 
     {
       const label = getByText('Result');
-      const row = label.closest('div');
+      const row = label.closest('li');
       const value = within(row).getByText(/to apply for Chapter 31 benefits/i);
       expect(value).to.exist;
     }
     {
       const label = getByText('Total months of entitlement');
-      const row = label.closest('div');
+      const row = label.closest('li');
       expect(within(row).getByText(/0\s*months\s*,\s*0\s*days/i)).to.exist;
     }
     {
       const label = getByText(
         'Months of entitlement you have used for education/training',
       );
-      const row = label.closest('div');
+      const row = label.closest('li');
       // Accept singular "day" or plural "days", and be flexible about commas/whitespace.
       expect(within(row).getByText(/3\s*months\s*,\s*1\s*day(s)?/i)).to.exist;
     }
@@ -71,7 +71,7 @@ describe('BenefitsSummary', () => {
       const label = getByText(
         'Potential months of remaining entitlement toward Chapter 31 program',
       );
-      const row = label.closest('div');
+      const row = label.closest('li');
       expect(within(row).getByText(/0\s*months\s*,\s*0\s*days/i)).to.exist;
     }
   });
