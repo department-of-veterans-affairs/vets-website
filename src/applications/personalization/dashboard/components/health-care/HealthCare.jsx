@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { selectAvailableServices } from '~/platform/user/selectors';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import HealthCareContent from './HealthCareContent';
+import HealthCareContentLegacy from './HealthCareContentLegacy';
 
 const HealthCare = ({
   dataLoadingDisabled = false,
@@ -18,17 +20,36 @@ const HealthCare = ({
 
   return (
     <div
-      className="health-care-wrapper vads-u-margin-y--6"
+      className="health-care-wrapper"
       data-testid="dashboard-section-health-care"
     >
       <h2 data-testid="health-care-section-header" className={headerClassNames}>
         Health care
       </h2>
-      <HealthCareContent
-        dataLoadingDisabled={dataLoadingDisabled}
-        isVAPatient={isVAPatient}
-        isLOA1={isLOA1}
-      />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled}>
+        <Toggler.Enabled>
+          {isLOA1 && (
+            <div data-testid="no-health-care-notice">
+              <p>We can’t find any VA health care for you.</p>
+              <va-link text="Go to My HealtheVet" href="/my-health" />
+            </div>
+          )}
+          {!isLOA1 && (
+            <HealthCareContent
+              dataLoadingDisabled={dataLoadingDisabled}
+              isVAPatient={isVAPatient}
+              isLOA1={isLOA1}
+            />
+          )}
+        </Toggler.Enabled>
+        <Toggler.Disabled>
+          <HealthCareContentLegacy
+            dataLoadingDisabled={dataLoadingDisabled}
+            isVAPatient={isVAPatient}
+            isLOA1={isLOA1}
+          />
+        </Toggler.Disabled>
+      </Toggler>
     </div>
   );
 };
