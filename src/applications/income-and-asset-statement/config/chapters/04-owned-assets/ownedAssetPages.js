@@ -25,13 +25,13 @@ import {
   generateDeleteDescription,
   isDefined,
   otherRecipientRelationshipTypeUI,
+  requireExpandedArrayField,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
   updatedIsRecipientInfoIncomplete,
   updatedRecipientNameRequired,
   updatedResolveRecipientFullName,
-  requireExpandedArrayField,
 } from '../../../helpers';
 
 import SupplementaryFormsAlert, {

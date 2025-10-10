@@ -15,7 +15,6 @@ const generateFeatureToggles = (toggles = {}) => {
 
     // medical records
     mhvMedicalRecordsToVaGovRelease = true,
-    mhvMedicalRecordsMarch17Updates = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
@@ -122,10 +121,7 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medical_records_to_va_gov_release',
           value: mhvMedicalRecordsToVaGovRelease,
         },
-        {
-          name: 'mhv_medical_records_update_landing_page',
-          value: mhvMedicalRecordsMarch17Updates,
-        },
+
         // secure messaging
         {
           name: 'mhv_secure_messaging_triage_group_plain_language',

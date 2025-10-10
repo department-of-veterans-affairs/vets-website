@@ -215,16 +215,53 @@ class TrackClaimsPageV2 {
       .click()
       .then(() => {
         cy.get('.files-received-container').should('be.visible');
-        const text =
-          number > 0
-            ? `Placeholder for ${number} files received`
-            : 'We haven’t received any files yet.';
-        cy.get(
-          '.files-received-container [data-testid="files-received-cards"]',
-        ).should('contain', text);
+
+        if (number === 0) {
+          // Verify empty state message - check for partial text to handle different apostrophe types
+          cy.get(
+            '.files-received-container [data-testid="files-received-cards"]',
+          ).should('contain', 'We haven’t received any files yet.');
+        } else {
+          // Verify cards are rendered
+          cy.get('[data-testid^="file-received-card-"]').should(
+            'have.length',
+            number,
+          );
+
+          // Verify each card has all required elements
+          cy.get('[data-testid^="file-received-card-"]').each($card => {
+            cy.wrap($card).within(() => {
+              // 1. Each card should have a status badge
+              cy.get('.file-status-badge').should('exist');
+
+              // 2. Each card should have a filename (or "File name unknown")
+              cy.get('.filename-title').should('exist');
+
+              // 3. Each card should have a received date
+              cy.get('.file-received-date').should('exist');
+            });
+          });
+        }
 
         cy.injectAxeThenAxeCheck();
       });
+  }
+
+  clickShowMoreFilesReceived() {
+    cy.get('[data-testid="show-more-button"]')
+      .shadow()
+      .find('button')
+      .click();
+  }
+
+  verifyShowMoreFilesReceivedButtonText(text) {
+    cy.get('[data-testid="show-more-button"]')
+      .should('exist')
+      .and('have.attr', 'text', text);
+  }
+
+  verifyShowMoreFilesReceivedButtonNotExists() {
+    cy.get('[data-testid="show-more-button"]').should('not.exist');
   }
 
   verifyFileSubmissionsInProgress(numFilesInProgress, numSupportingDocs = 0) {
