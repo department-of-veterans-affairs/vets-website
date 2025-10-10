@@ -26,9 +26,6 @@ export default function TravelClaimDetails() {
   const canViewClaimDetails = useToggleValue(
     TOGGLE_NAMES.travelPayViewClaimDetails,
   );
-  const canViewClaimStatuses = useToggleValue(
-    TOGGLE_NAMES.travelPayPowerSwitch,
-  );
 
   const featureFlagIsLoading = useToggleLoadingValue();
 
@@ -42,13 +39,6 @@ export default function TravelClaimDetails() {
         />
       </div>
     );
-  }
-
-  // Implicitly assumes that if a user can't view claim statuses,
-  // they also can't view claim details
-  if (!canViewClaimStatuses) {
-    window.location.replace('/');
-    return null;
   }
 
   if (!canViewClaimDetails) {

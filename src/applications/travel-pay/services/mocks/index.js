@@ -33,7 +33,6 @@ const responses = {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },

@@ -8,15 +8,12 @@ import ClaimStatusExplainerPage from '../../containers/pages/ClaimStatusExplaine
 describe('ClaimStatusExplainerPage', () => {
   const getState = ({
     featureTogglesAreLoading = false,
-    hasStatusFeatureFlag = true,
     hasClaimsManagementFeatureFlag = false,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
       /* eslint-disable camelcase */
-      travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFeatureFlag,
-      /* eslint-enable camelcase */
     },
   });
 
@@ -38,14 +35,6 @@ describe('ClaimStatusExplainerPage', () => {
     });
 
     expect(screen.queryByText('What does my claim status mean?')).to.exist;
-  });
-
-  it('redirects to the root path when claim statuses feature flag is false', () => {
-    renderWithStoreAndRouter(<ClaimStatusExplainerPage />, {
-      initialState: { ...getState({ hasStatusFeatureFlag: false }) },
-    });
-
-    expect(window.location.replace.calledWith('/')).to.be.true;
   });
 
   it('shows a loading spinner of toggles are loading', () => {

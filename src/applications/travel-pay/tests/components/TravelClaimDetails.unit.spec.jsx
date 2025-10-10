@@ -21,7 +21,6 @@ describe('TravelClaimDetails', () => {
 
   const getState = ({
     featureTogglesAreLoading = false,
-    hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
     hasClaimsManagementFlag = true,
     loadingDetails = false,
@@ -31,7 +30,6 @@ describe('TravelClaimDetails', () => {
     featureToggles: {
       loading: featureTogglesAreLoading,
       /* eslint-disable camelcase */
-      travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       travel_pay_claims_management: hasClaimsManagementFlag,
       /* eslint-enable camelcase */
@@ -82,16 +80,6 @@ describe('TravelClaimDetails', () => {
         /Even if you already set up direct deposit for your VA benefits, you’ll need to set up another direct deposit for VA travel pay reimbursements./i,
       ),
     );
-  });
-
-  it('redirects to the root path when claim statuses feature flag is false', () => {
-    renderWithStoreAndRouter(<TravelClaimDetails />, {
-      initialState: { ...getState({ hasStatusFeatureFlag: false }) },
-      path: '/claims/1234',
-      reducers: reducer,
-    });
-
-    expect(window.location.replace.calledWith('/')).to.be.true;
   });
 
   it('redirects to claim details when claim details feature flag is false', () => {

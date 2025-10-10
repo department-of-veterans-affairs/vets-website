@@ -20,7 +20,6 @@ export default function TravelPayStatusApp() {
   } = useFeatureToggle();
 
   const toggleIsLoading = useToggleLoadingValue();
-  const appEnabled = useToggleValue(TOGGLE_NAMES.travelPayPowerSwitch);
   const smocEnabled = useToggleValue(
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
@@ -39,11 +38,6 @@ export default function TravelPayStatusApp() {
         />
       </div>
     );
-  }
-
-  if (!appEnabled) {
-    window.location.replace('/');
-    return null;
   }
 
   return (
