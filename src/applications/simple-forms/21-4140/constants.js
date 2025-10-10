@@ -1,2 +1,2 @@
-export const TITLE = 'Income Verification for Disability Benefits';
+export const TITLE = 'Submit Employment Questionnaire (VA Form 21-4140)';
 export const SUBTITLE = 'Employment Questionnaire (VA Form 21-4140)';
