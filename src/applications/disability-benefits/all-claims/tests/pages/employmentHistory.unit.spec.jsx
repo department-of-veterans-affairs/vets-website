@@ -142,8 +142,10 @@ describe('Employment History', () => {
       );
 
       form.find('form').simulate('submit');
+      form.update();
 
       await waitFor(() => {
+        form.update();
         expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
         expect(form.find(ERR_MSG_CSS_CLASS).text()).to.contain(
           'To date must be after From date',
@@ -205,8 +207,10 @@ describe('Employment History', () => {
         );
 
         form.find('form').simulate('submit');
+        form.update();
 
         await waitFor(() => {
+          form.update();
           expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
           // Use the same maxYear calculation as the system
           const { maxYear } = require('platform/forms-system/src/js/helpers');
@@ -231,8 +235,10 @@ describe('Employment History', () => {
         );
 
         form.find('form').simulate('submit');
+        form.update();
 
         await waitFor(() => {
+          form.update();
           expect(form.find(ERR_MSG_CSS_CLASS)).to.have.lengthOf(1);
           expect(form.find(ERR_MSG_CSS_CLASS).text()).to.contain(
             'Please provide a valid date',
