@@ -109,6 +109,13 @@ export const Edit = () => {
 
   useEffect(
     () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
+    },
+    [editPageHeadingString],
+  );
+
+  useEffect(
+    () => {
       // Set initial focus on the page heading for keyboard navigation
       if (fieldInfo && !hasVAPServiceError) {
         const headingElement = document.querySelector('h1');

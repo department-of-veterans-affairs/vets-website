@@ -62,6 +62,7 @@ const createClaim = (
     evidenceSubmissions = [],
     contentions = [],
     previousPhases = {},
+    trackedItems = null,
   },
   withTrackedItems = true,
 ) => ({
@@ -98,24 +99,26 @@ const createClaim = (
       ],
       issues,
       evidence,
-      trackedItems: withTrackedItems
-        ? [
-            {
-              id: 1,
-              displayName: '21-4142/21-4142a',
-              status: 'NEEDED_FROM_YOU',
-              suspenseDate: '2024-12-01',
-              type: 'other',
-            },
-            {
-              id: 2,
-              displayName: 'Private medical records',
-              status: 'NEEDED_FROM_OTHERS',
-              suspenseDate: '2024-12-10',
-              type: 'other',
-            },
-          ]
-        : [],
+      trackedItems:
+        trackedItems ||
+        (withTrackedItems
+          ? [
+              {
+                id: 1,
+                displayName: '21-4142/21-4142a',
+                status: 'NEEDED_FROM_YOU',
+                suspenseDate: '2024-12-01',
+                type: 'other',
+              },
+              {
+                id: 2,
+                displayName: 'Private medical records',
+                status: 'NEEDED_FROM_OTHERS',
+                suspenseDate: '2024-12-10',
+                type: 'other',
+              },
+            ]
+          : []),
     },
   },
 });
@@ -533,6 +536,222 @@ const baseClaims = [
     },
     false,
   ),
+  // Claim to exercise FilesReceived component
+  createClaim('9', {
+    baseEndProductCode: '020',
+    claimDate: '2024-10-09',
+    phaseType: 'GATHERING_OF_EVIDENCE',
+    claimType: 'Compensation',
+    claimTypeCode: '020CPHLP',
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    documentsNeeded: false,
+    developmentLetterSent: true,
+    evidenceWaiverSubmitted5103: true,
+    issues: [],
+    evidence: [],
+    evidenceSubmissions: [],
+    supportingDocuments: [
+      // Documents with trackedItemId=null will show "No review status available"
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+        'Photographs',
+        'additional_evidence_photo_1.pdf',
+        null,
+        '2025-09-28',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0201}',
+        'Birth Certificate',
+        'additional_evidence_birth_cert.pdf',
+        null,
+        '2025-09-27',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0202}',
+        'Medical Record',
+        'additional_evidence_medical.pdf',
+        null,
+        '2025-09-26',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0203}',
+        'DD214',
+        'additional_evidence_dd214.pdf',
+        null,
+        '2025-09-25',
+      ),
+      // Documents for tracked item 101 - "Reviewed by VA"
+      createSupportingDocument(
+        '{DOC-101-1}',
+        'Medical Treatment Records',
+        'hospital_a_records.pdf',
+        101,
+        '2025-09-24',
+      ),
+      // Documents for tracked item 102 - "Reviewed by VA" (ACCEPTED)
+      createSupportingDocument(
+        '{DOC-102-1}',
+        'Military Personnel Record',
+        'service_records.pdf',
+        102,
+        '2025-09-23',
+      ),
+      // Documents for tracked item 103 - "Pending review"
+      createSupportingDocument(
+        '{DOC-103-1}',
+        'Medical Treatment Records',
+        'private_clinic_records.pdf',
+        103,
+        '2025-09-22',
+      ),
+      createSupportingDocument(
+        '{DOC-103-2}',
+        'Medical Treatment Records',
+        'doctor_notes.pdf',
+        103,
+        '2025-09-22',
+      ),
+      // Documents for tracked item 104 - "No longer needed"
+      createSupportingDocument(
+        '{DOC-104-1}',
+        'Buddy/Lay Statement',
+        'buddy_statement.pdf',
+        104,
+        '2025-09-21',
+      ),
+      // Documents for tracked item 105 - "Pending review"
+      createSupportingDocument(
+        '{DOC-105-1}',
+        'Dental Records',
+        'dental_xrays.pdf',
+        105,
+        '2025-09-20',
+      ),
+      // Documents for tracked item 106 - "Reviewed by VA"
+      createSupportingDocument(
+        '{DOC-106-1}',
+        'Medical Records',
+        'lab_results_2024.pdf',
+        106,
+        '2025-09-19',
+      ),
+      // Documents for tracked item 107 - "Reviewed by VA" (ACCEPTED)
+      createSupportingDocument(
+        '{DOC-107-1}',
+        'VA Form 21-0781',
+        'ptsd_statement.pdf',
+        107,
+        '2025-09-17',
+      ),
+      // Documents for tracked item 108 - "Pending review"
+      createSupportingDocument(
+        '{DOC-108-1}',
+        'Medical Records',
+        'therapy_records.pdf',
+        108,
+        '2025-09-16',
+      ),
+    ],
+    // Tracked items WITHOUT embedded documents (serializer will add them)
+    trackedItems: [
+      // Tracked item with NO documents - will show "File name unknown"
+      {
+        id: 109,
+        displayName: 'Employment records',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-30',
+        closedDate: null,
+        suspenseDate: '2024-12-15',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Reviewed by VA"
+      {
+        id: 101,
+        displayName: 'Medical records - Hospital A',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-24',
+        closedDate: null,
+        suspenseDate: '2024-12-01',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Reviewed by VA" (ACCEPTED)
+      {
+        id: 102,
+        displayName: 'Service Personnel Records',
+        status: 'ACCEPTED',
+        receivedDate: '2025-09-23',
+        closedDate: null,
+        suspenseDate: '2024-12-01',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Pending review"
+      {
+        id: 103,
+        displayName: 'Private medical records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-10',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "No longer needed"
+      {
+        id: 104,
+        displayName: 'Buddy statement',
+        status: 'NO_LONGER_REQUIRED',
+        receivedDate: null,
+        closedDate: '2025-09-21',
+        suspenseDate: '2024-12-15',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Pending review"
+      {
+        id: 105,
+        displayName: 'Dental records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-20',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Reviewed by VA"
+      {
+        id: 106,
+        displayName: 'Lab results',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-19',
+        closedDate: null,
+        suspenseDate: '2024-12-25',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Reviewed by VA" (ACCEPTED)
+      {
+        id: 107,
+        displayName: 'PTSD Statement',
+        status: 'ACCEPTED',
+        receivedDate: '2025-09-17',
+        closedDate: null,
+        suspenseDate: '2024-12-28',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Pending review"
+      {
+        id: 108,
+        displayName: 'Therapy records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-30',
+        type: 'still_need_from_you_list',
+      },
+    ],
+    contentions: [
+      {
+        name: 'Service connection for tinnitus',
+      },
+    ],
+  }),
 ];
 
 function getClaimDataById(id) {
@@ -584,7 +803,7 @@ function generateMockClaims(count, startId = 100) {
 }
 
 // Toggle this flag to switch between just baseClaims or baseClaims + manyClaims
-const USE_MANY_CLAIMS = false;
+const USE_MANY_CLAIMS = true;
 
 const claimsToUse = (() => {
   if (USE_MANY_CLAIMS) {
@@ -898,6 +1117,7 @@ const responses = {
   'GET /v0/benefits_claims/6': getClaimDataById('6'),
   'GET /v0/benefits_claims/7': getClaimDataById('7'),
   'GET /v0/benefits_claims/8': getClaimDataById('8'),
+  'GET /v0/benefits_claims/9': getClaimDataById('9'),
 
   'GET /v0/appeals': {
     data: [appealData1],

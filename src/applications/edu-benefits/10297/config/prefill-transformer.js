@@ -1,19 +1,19 @@
 import _ from 'lodash';
-import { viewifyFields } from '../helpers';
+import { getPrefillIntlPhoneNumber, viewifyFields } from '../helpers';
 
 export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillContactInformation = data => {
+    const { applicantFullName, email, ssn, mailingAddress, dateOfBirth } = data;
     const {
-      applicantFullName,
-      contactInfo: { homePhone, mobilePhone } = {},
-      email,
-      ssn,
-      mailingAddress,
-      dateOfBirth,
-    } = data;
-    const { dob, email: emailAddress, userFullName } = state.user.profile;
+      dob,
+      email: emailAddress,
+      userFullName,
+      vapContactInfo,
+    } = state.user.profile;
 
     const emailAddresses = email || emailAddress || undefined;
+    const mobilePhone = getPrefillIntlPhoneNumber(vapContactInfo?.mobilePhone);
+    const homePhone = getPrefillIntlPhoneNumber(vapContactInfo?.homePhone);
 
     const newData = _.omit(data, ['homePhone', 'mobilePhone', 'email', 'dob']);
     newData.contactInfo = {

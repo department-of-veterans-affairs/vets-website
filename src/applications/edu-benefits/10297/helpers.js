@@ -161,6 +161,7 @@ export const viewifyFields = formData => {
   });
   return newFormData;
 };
+
 export const maskBankInformation = (string, unmaskedLength) => {
   if (!string) {
     return '';
@@ -174,4 +175,32 @@ export const maskBankInformation = (string, unmaskedLength) => {
 
 export const focusOnH3 = () => {
   focusElement('#main h3');
+};
+
+export const getPrefillIntlPhoneNumber = (phone = {}) => {
+  const areaCode = (phone.areaCode || '').trim();
+  const phoneNumber = (phone.phoneNumber || '').trim();
+
+  /**
+   * All user profile numbers set to the *US* country code by default.
+   * This is due to the user endpoint only returning a calling code which is not unique.
+   */
+  return {
+    callingCode: 1,
+    countryCode: 'US',
+    contact: `${areaCode}${phoneNumber}`,
+  };
+};
+
+export const getTransformIntlPhoneNumber = (phone = {}) => {
+  let _contact = '';
+  const { callingCode, contact, countryCode } = phone;
+
+  if (contact) {
+    const _callingCode = callingCode ? `+${callingCode} ` : '';
+    const _countryCode = countryCode ? ` (${countryCode})` : '';
+    _contact = `${_callingCode}${contact}${_countryCode}`;
+  }
+
+  return _contact;
 };

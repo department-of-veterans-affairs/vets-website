@@ -27,15 +27,15 @@ import {
   fullNameUIHelper,
   generateDeleteDescription,
   isDefined,
-  isRecipientInfoIncomplete,
-  otherGeneratedIncomeTypeExplanationRequired,
   otherRecipientRelationshipTypeUI,
-  recipientNameRequired,
+  otherGeneratedIncomeTypeExplanationRequired,
   requireExpandedArrayField,
-  resolveRecipientFullName,
   sharedRecipientRelationshipBase,
   showUpdatedContent,
   sharedYesNoOptionsBase,
+  updatedIsRecipientInfoIncomplete,
+  updatedRecipientNameRequired,
+  updatedResolveRecipientFullName,
 } from '../../../helpers';
 import {
   custodianRelationshipLabels,
@@ -53,7 +53,7 @@ export const options = {
   nounPlural: 'royalties',
   required: false,
   isItemIncomplete: item =>
-    isRecipientInfoIncomplete(item) ||
+    updatedIsRecipientInfoIncomplete(item) ||
     typeof item.canBeSold !== 'boolean' ||
     !isDefined(item.grossMonthlyIncome) ||
     !isDefined(item.fairMarketValue) ||
@@ -70,7 +70,7 @@ export const options = {
       if (!isDefined(item?.recipientRelationship)) {
         return undefined;
       }
-      const fullName = resolveRecipientFullName(item, formData);
+      const fullName = updatedResolveRecipientFullName(item, formData);
       const possessiveName = formatPossessiveString(fullName);
       return `${possessiveName} income from ${lowercase(
         generatedIncomeTypeLabels[item.incomeGenerationMethod],
@@ -640,7 +640,11 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       path: 'royalties/:index/recipient-name',
       depends: (formData, index) =>
         (!showUpdatedContent() || formData.claimantType !== 'CHILD') &&
-        recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
+        updatedRecipientNameRequired(
+          formData,
+          index,
+          'royaltiesAndOtherProperties',
+        ),
       uiSchema: recipientNamePage.uiSchema,
       schema: recipientNamePage.schema,
     }),

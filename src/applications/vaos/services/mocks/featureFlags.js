@@ -22,4 +22,5 @@ module.exports = [
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
   { name: 'vaOnlineSchedulingImmediateCareAlert', value: true },
   { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
+  { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
 ];

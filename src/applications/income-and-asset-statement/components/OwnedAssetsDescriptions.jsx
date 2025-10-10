@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import MailingAddress from './MailingAddress';
 
 const MAX_FILE_SIZE_MB = 20;
 
@@ -27,16 +28,7 @@ export const DocumentMailingAddressDescription = () => {
         completed {formDescription}.
       </p>
       <p>Send it to this address:</p>
-      <p className="va-address-block">
-        U.S. Department of Veterans Affairs
-        <br />
-        Pension Intake Center
-        <br />
-        PO Box 5365
-        <br />
-        Janesville, WI 53547-5365
-        <br />
-      </p>
+      <MailingAddress />
     </>
   );
 };

@@ -35,6 +35,7 @@ const uiSchema = {
     },
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      pattern: 'Please enter your initials using letters only',
     },
   },
   'view:statement2': {
@@ -48,17 +49,9 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
-    'ui:validations': [
-      (errors, fieldData, formData) => {
-        const a = (fieldData || '').toUpperCase();
-        const b = (formData?.statement1Initial || '').toUpperCase();
-        if (a && b && a !== b) {
-          errors.addError('Initials must match across all statements');
-        }
-      },
-    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      pattern: 'Please enter your initials using letters only',
     },
   },
   'view:statement3': {
@@ -72,17 +65,9 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
-    'ui:validations': [
-      (errors, fieldData, formData) => {
-        const a = (fieldData || '').toUpperCase();
-        const b = (formData?.statement1Initial || '').toUpperCase();
-        if (a && b && a !== b) {
-          errors.addError('Initials must match across all statements');
-        }
-      },
-    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      pattern: 'Please enter your initials using letters only',
     },
   },
   'view:statement4': {
@@ -96,17 +81,9 @@ const uiSchema = {
       width: 'small',
       classNames: 'vads-u-margin-bottom--6',
     },
-    'ui:validations': [
-      (errors, fieldData, formData) => {
-        const a = (fieldData || '').toUpperCase();
-        const b = (formData?.statement1Initial || '').toUpperCase();
-        if (a && b && a !== b) {
-          errors.addError('Initials must match across all statements');
-        }
-      },
-    ],
     'ui:errorMessages': {
       required: 'Please enter your initials',
+      pattern: 'Please enter your initials using letters only',
     },
   },
   agreementCheckbox: checkboxUI({

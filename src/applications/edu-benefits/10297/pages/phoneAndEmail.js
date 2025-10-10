@@ -1,22 +1,16 @@
 import {
   emailSchema,
   emailUI,
-  phoneSchema,
-  phoneUI,
+  internationalPhoneSchema,
+  internationalPhoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const uiSchema = {
   ...titleUI('Phone and email address'),
   contactInfo: {
-    mobilePhone: phoneUI({
-      title: 'Mobile phone number',
-      hint: 'Include area code',
-    }),
-    homePhone: phoneUI({
-      title: 'Home phone number',
-      hint: 'Include area code',
-    }),
+    mobilePhone: internationalPhoneUI('Mobile phone number'),
+    homePhone: internationalPhoneUI('Home phone number'),
     emailAddress: emailUI({
       title: 'Email',
     }),
@@ -29,8 +23,8 @@ const schema = {
     contactInfo: {
       type: 'object',
       properties: {
-        mobilePhone: phoneSchema,
-        homePhone: phoneSchema,
+        mobilePhone: internationalPhoneSchema(),
+        homePhone: internationalPhoneSchema(),
         emailAddress: emailSchema,
       },
     },

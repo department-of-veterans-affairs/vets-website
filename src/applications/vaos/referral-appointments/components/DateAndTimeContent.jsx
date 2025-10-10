@@ -18,11 +18,14 @@ import { titleCase } from '../../utils/formatters';
 import ProviderAddress from './ProviderAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import FindCommunityCareOfficeLink from './FindCCFacilityLink';
+import { getIsInPilotReferralStation } from '../utils/pilot';
 
 export const DateAndTimeContent = props => {
   const { currentReferral, draftAppointmentInfo, appointmentsByMonth } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const isStationIdValid = getIsInPilotReferralStation(currentReferral);
 
   // Add a counter state to trigger focusing
   const [focusTrigger, setFocusTrigger] = useState(0);
@@ -132,6 +135,79 @@ export const DateAndTimeContent = props => {
     />
   );
 
+  const getContent = () => {
+    // If the station is not in the pilot, show an alert
+    if (!isStationIdValid) {
+      return (
+        <va-alert
+          status="warning"
+          data-testid="station-id-not-valid-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">Online scheduling isn’t available right now</h2>
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+            Call this provider or your facility’s community care office to
+            schedule an appointment.
+          </p>
+          <FindCommunityCareOfficeLink />
+        </va-alert>
+      );
+    }
+
+    // If there are no slots available, show an alert
+    if (noSlotsAvailable) {
+      return (
+        <va-alert
+          status="warning"
+          data-testid="no-slots-alert"
+          class="vads-u-margin-top--3"
+        >
+          <h2 slot="headline">
+            We’re sorry. We couldn’t find any open time slots.
+          </h2>
+          <p>Please call this provider to schedule an appointment</p>
+          <va-telephone contact={currentReferral.provider.telephone} />
+        </va-alert>
+      );
+    }
+
+    // If there are slots available, show the calendar and form buttons
+    return (
+      <>
+        <div data-testid="cal-widget">
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={draftAppointmentInfo.attributes.slots}
+            value={[selectedSlotStartTime || '']}
+            id="dateTime"
+            timezone={providerTimeZone}
+            additionalOptions={{
+              required: true,
+            }}
+            disabledMessage={disabledMessage}
+            onChange={onChange}
+            onNextMonth={null}
+            onPreviousMonth={null}
+            minDate={new Date()}
+            maxDate={latestAvailableSlot}
+            required
+            requiredMessage={error}
+            startMonth={new Date()}
+            showValidation={error.length > 0}
+            showWeekends
+            overrideMaxDays
+            upcomingAppointments={appointmentsByMonth}
+          />
+        </div>
+        <FormButtons
+          onBack={onBack}
+          onSubmit={onSubmit}
+          loadingText="Page change in progress"
+        />
+      </>
+    );
+  };
+
   return (
     <>
       <div>
@@ -170,54 +246,7 @@ export const DateAndTimeContent = props => {
           </p>
         )}
       </div>
-      {noSlotsAvailable && (
-        <va-alert
-          status="warning"
-          data-testid="no-slots-alert"
-          class="vads-u-margin-top--3"
-        >
-          <h2 slot="headline">We couldn’t find any open time slots.</h2>
-          <p className="vads-u-margin-bottom--1">
-            Call this provider or your facility’s community care office to
-            schedule an appointment. Find your community care office
-          </p>
-          <FindCommunityCareOfficeLink />
-        </va-alert>
-      )}
-      {!noSlotsAvailable && (
-        <>
-          <div data-testid="cal-widget">
-            <CalendarWidget
-              maxSelections={1}
-              availableSlots={draftAppointmentInfo.attributes.slots}
-              value={[selectedSlotStartTime || '']}
-              id="dateTime"
-              timezone={providerTimeZone}
-              additionalOptions={{
-                required: true,
-              }}
-              disabledMessage={disabledMessage}
-              onChange={onChange}
-              onNextMonth={null}
-              onPreviousMonth={null}
-              minDate={new Date()}
-              maxDate={latestAvailableSlot}
-              required
-              requiredMessage={error}
-              startMonth={new Date()}
-              showValidation={error.length > 0}
-              showWeekends
-              overrideMaxDays
-              upcomingAppointments={appointmentsByMonth}
-            />
-          </div>
-          <FormButtons
-            onBack={() => onBack()}
-            onSubmit={() => onSubmit()}
-            loadingText="Page change in progress"
-          />
-        </>
-      )}
+      {getContent()}
     </>
   );
 };

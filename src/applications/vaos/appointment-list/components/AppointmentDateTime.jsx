@@ -1,8 +1,10 @@
 import { formatInTimeZone } from 'date-fns-tz';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { getAppointmentTimezone } from '../../services/appointment';
 import { DATE_FORMATS } from '../../utils/constants';
+import { selectFeatureUseBrowserTimezone } from '../../redux/selectors';
 
 export function AppointmentDate({
   date,
@@ -27,9 +29,16 @@ export function AppointmentTime({
   timezone,
   format = 'h:mm aaaa',
 }) {
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
+
   if (!appointment) return null;
 
-  const { abbreviation, description } = getAppointmentTimezone(appointment);
+  const { abbreviation, description } = getAppointmentTimezone(
+    appointment,
+    featureUseBrowserTimezone,
+  );
   return (
     <>
       <span data-dd-privacy="mask" data-testid="appointment-time">
