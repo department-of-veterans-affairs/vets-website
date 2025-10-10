@@ -48,12 +48,9 @@ import {
 } from '../chapters/sponsorInformation';
 
 import {
-  claimIdentifyingNumber,
-  claimType,
-  medicalClaimDetails,
-  medicalUploadSupportingDocs,
-  pharmacyClaimDetails,
-  pharmacyClaimUploadDocs,
+  claimIdentificationNumber,
+  resubmissionLetterUpload,
+  resubmissionDocsUpload,
 } from '../chapters/resubmission';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
@@ -174,55 +171,29 @@ const formConfig = {
       },
     },
     resubmissionInformation: {
-      title: 'Claim information',
+      title: 'Resubmission information',
       pages: {
         page1e1: {
           path: 'resubmission-claim-number',
           title: 'Claim ID number',
           depends: formData => get('claimStatus', formData) === 'resubmission',
-          ...claimIdentifyingNumber,
+          ...claimIdentificationNumber,
         },
-        page1f: {
-          path: 'resubmission-claim-type',
-          title: 'Claim type',
+        page1e2: {
+          path: 'resubmission-letter-upload',
+          title: 'Upload CHAMPVA resubmission letter',
           depends: formData => get('claimStatus', formData) === 'resubmission',
-          ...claimType,
-        },
-        page1g: {
-          path: 'resubmission-medical-claim-details',
-          title: 'Claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
-          ...medicalClaimDetails,
-        },
-        page1h: {
-          path: 'resubmission-medical-supporting-docs',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'medical',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
-          ...medicalUploadSupportingDocs,
+          ...resubmissionLetterUpload,
         },
-        pageij: {
-          path: 'resubmission-pharmacy-claim-details',
-          title: 'claim details',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
-          ...pharmacyClaimDetails,
-        },
-        page1k: {
-          path: 'resubmission-pharmacy-supporting-docs',
-          title: 'Upload support documents for your pharmacy claim',
-          depends: formData =>
-            get('claimStatus', formData) === 'resubmission' &&
-            get('claimType', formData) === 'pharmacy',
+        page1e3: {
+          path: 'resubmission-supporting-docs-upload',
+          title: 'Upload supporting documents for your claim',
+          depends: formData => get('claimStatus', formData) === 'resubmission',
           CustomPage: FileFieldCustomSimple,
           CustomPageReview: null,
-          ...pharmacyClaimUploadDocs,
+          ...resubmissionDocsUpload,
         },
       },
     },

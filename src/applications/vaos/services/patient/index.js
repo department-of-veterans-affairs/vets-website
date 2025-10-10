@@ -242,6 +242,7 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   featurePastVisitMHFilter = false,
   isCerner = false,
+  featureUseBrowserTimezone,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -273,9 +274,9 @@ export async function fetchFlowEligibilityAndClinics({
       directTypeOfCareSettings.patientHistoryRequired === true;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
-        createErrorHandler('direct-no-matching-past-clinics-error'),
-      );
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+        featureUseBrowserTimezone,
+      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }
 

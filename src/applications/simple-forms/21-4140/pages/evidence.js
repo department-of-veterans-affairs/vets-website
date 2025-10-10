@@ -64,6 +64,7 @@ export default {
       accept: '.pdf,.jpeg,.jpg,.png',
       hint:
         'You can upload a .pdf, .jpeg, or .png file. Your files must not be larger than 25MB',
+      disallowEncryptedPdfs: true,
       maxFileSize: 26214400, // 25MB in bytes
       fileUploadUrl: `${
         environment.API_URL
