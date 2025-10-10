@@ -8,6 +8,7 @@ import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
+import { getVaButtonByText } from 'applications/personalization/common/unitHelpers';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -32,9 +33,10 @@ function getVaButton(action, numberName) {
 function deletePhoneNumber(numberName) {
   // delete
   getVaButton('Remove', numberName).click();
-  const confirmDeleteButton = view.getByText('Yes, remove my information', {
-    selector: 'button',
-  });
+  const confirmDeleteButton = getVaButtonByText(
+    'Yes, remove my information',
+    view,
+  );
   confirmDeleteButton.click();
 
   return { confirmDeleteButton };
