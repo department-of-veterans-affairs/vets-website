@@ -18,10 +18,7 @@ export const ReviewDependents = () => {
     return (
       <div
         key={index}
-        style={{
-          border: '1px solid #ccc',
-          padding: '16px',
-          marginBottom: '16px',
+        className="vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
         }}
       >
         <h4 style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>{name}</h4>
