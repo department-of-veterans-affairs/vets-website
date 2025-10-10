@@ -20,45 +20,45 @@ const BenefitsSummary = ({ result, entitlementDetails }) => {
       </p>
 
       <div className="vads-u-margin-bottom--3">
-        <dl className="vads-u-margin--0">
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-            <dt className="vads-u-font-weight--bold vads-u-min-width--18rem">
+        <ul className="vads-u-margin--0 vads-u-padding-left--0">
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline vads-u-list-style--none">
+            <span className="vads-u-font-weight--bold vads-u-min-width--18rem">
               Result
-            </dt>
-            <dd className="vads-u-margin--0">{sentence}</dd>
-          </div>
+            </span>
+            <span className="vads-u-margin--0">{sentence}</span>
+          </li>
 
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-            <dt className="vads-u-font-weight--bold vads-u-min-width--18rem">
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline vads-u-list-style--none">
+            <span className="vads-u-font-weight--bold vads-u-min-width--18rem">
               Total months of entitlement
-            </dt>
-            <dd className="vads-u-margin--0">
+            </span>
+            <span className="vads-u-margin--0">
               {pluralize(max.month, 'month', 'months')},{' '}
               {pluralize(max.days, 'day', 'days')}
-            </dd>
-          </div>
+            </span>
+          </li>
 
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-            <dt className="vads-u-font-weight--bold vads-u-min-width--18rem">
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline vads-u-list-style--none">
+            <span className="vads-u-font-weight--bold vads-u-min-width--18rem">
               Months of entitlement you have used for education/training
-            </dt>
-            <dd className="vads-u-margin--0">
+            </span>
+            <span className="vads-u-margin--0">
               {pluralize(used.month, 'month', 'months')},{' '}
               {pluralize(used.days, 'day', 'days')}
-            </dd>
-          </div>
+            </span>
+          </li>
 
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline">
-            <dt className="vads-u-font-weight--bold vads-u-min-width--18rem">
+          <li className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-y--2 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-align-items--baseline vads-u-list-style--none">
+            <span className="vads-u-font-weight--bold vads-u-min-width--18rem">
               Potential months of remaining entitlement toward Chapter 31
               program
-            </dt>
-            <dd className="vads-u-margin--0">
+            </span>
+            <span className="vads-u-margin--0">
               {pluralize(remaining.month, 'month', 'months')},{' '}
               {pluralize(remaining.days, 'day', 'days')}
-            </dd>
-          </div>
-        </dl>
+            </span>
+          </li>
+        </ul>
       </div>
     </>
   );
