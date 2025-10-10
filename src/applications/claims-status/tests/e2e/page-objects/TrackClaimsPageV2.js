@@ -401,7 +401,7 @@ class TrackClaimsPageV2 {
     cy.axeCheck();
   }
 
-  submitFilesForReview() {
+  submitFilesForReview(showDocumentUploadStatus = false) {
     cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
@@ -441,8 +441,11 @@ class TrackClaimsPageV2 {
         /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
       );
 
-      // Click submit button
-      cy.get('va-button[text="Submit documents for review"]')
+      // Click submit button - use different text based on feature toggle
+      const buttonText = showDocumentUploadStatus
+        ? 'Submit files for review'
+        : 'Submit documents for review';
+      cy.get(`.add-files-form va-button[text="${buttonText}"]`)
         .shadow()
         .find('button')
         .click();
@@ -469,12 +472,18 @@ class TrackClaimsPageV2 {
       });
     });
 
-    cy.get('va-alert h2').should('contain', 'We received your file upload');
+    const alertHeading = showDocumentUploadStatus
+      ? 'Document submission started on'
+      : 'We received your file upload';
+    cy.get('va-alert h2').should('contain', alertHeading);
   }
 
-  submitFilesShowsError() {
+  submitFilesShowsError(showDocumentUploadStatus = false) {
     // Click submit without selecting any files to trigger validation error
-    cy.get('va-button[text="Submit documents for review"]')
+    const buttonText = showDocumentUploadStatus
+      ? 'Submit files for review'
+      : 'Submit documents for review';
+    cy.get(`va-button[text="${buttonText}"]`)
       .shadow()
       .find('button')
       .click();
