@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import createDirectDepositPage from '../../pages/DirectDeposit';
@@ -63,7 +63,7 @@ describe('22 10297 Direct deposit page', () => {
     expect(acctIdx).to.be.lessThan(imgIdx);
   });
 
-  it('rejects invalid routing number (fails pattern/checksum)', () => {
+  it('rejects invalid routing number (fails pattern/checksum)', async () => {
     const badData = {
       bankAccount: {
         accountType: 'checking',
@@ -76,13 +76,15 @@ describe('22 10297 Direct deposit page', () => {
 
     fireEvent.click(getByRole('button', { name: /submit|continue/i }));
 
-    const routingError = container
-      .querySelector('va-text-input[name="root_bankAccount_routingNumber"]')
-      ?.getAttribute('error');
+    await waitFor(() => {
+      const routingError = container
+        .querySelector('va-text-input[name="root_bankAccount_routingNumber"]')
+        ?.getAttribute('error');
 
-    expect(routingError).to.equal(
-      'Please enter a valid 9 digit routing number',
-    );
+      expect(routingError).to.equal(
+        'Please enter a valid 9 digit routing number',
+      );
+    });
   });
 
   it('submits successfully with valid data', () => {
