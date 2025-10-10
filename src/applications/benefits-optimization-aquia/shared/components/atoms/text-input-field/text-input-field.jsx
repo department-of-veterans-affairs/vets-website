@@ -6,28 +6,22 @@ import { useFieldValidation } from '../../../hooks/use-field-validation';
 import { logger } from '../../../utils/logger';
 
 /**
- * Text input field with VA web component integration and Zod validation.
- * Simplified to leverage native VA component validation with Zod schema support.
+ * Generic text input field with VA web component integration and Zod validation.
+ * Use this component for generic text inputs that don't require specialized formatting or validation.
  * Uses native va-text-input v3 web component for consistent VA.gov styling.
  *
- * @deprecated Use more specific field components instead for better semantics and validation:
+ * For specialized data types, use dedicated components:
  * - {@link SSNField} for Social Security numbers
  * - {@link PhoneField} for phone numbers
  * - {@link SelectField} for dropdowns (states, countries, etc.)
  * - {@link MemorableDateField} for dates
  * - {@link TextareaField} for multi-line text
- * - {@link CheckboxField} for boolean values
- * - {@link RadioField} for single selection from options
  * - {@link FullnameField} for full name (first, middle, last, suffix)
  * - {@link AddressField} for complete addresses
- *
- * Only use FormField for generic text inputs that don't have a specialized component.
  *
  * @component
  * @see [VA Text Input Component](https://design.va.gov/components/form/text-input)
  * @see [VA Input Messages](https://design.va.gov/components/form/input-message)
- * @see [Web Components Catalog - Text Input](../docs/WEB_COMPONENTS_CATALOG.md#text-input-fields)
- * @see [VA Adapter Architecture](../docs/WEB_COMPONENTS_CATALOG.md#va-adapter-architecture)
  *
  * @param {Object} props - Component props
  * @param {string} props.name - Field name for form identification
@@ -35,7 +29,7 @@ import { logger } from '../../../utils/logger';
  * @param {import('zod').ZodSchema} props.schema - Zod schema for validation
  * @param {string} props.value - Current field value
  * @param {Function} props.onChange - Change handler function (name, value) => void
- * @param {boolean} [props.required=false] - Whether the field is required (unused, kept for API compatibility)
+ * @param {boolean} [props.required=false] - Whether the field is required
  * @param {string} [props.type='text'] - HTML input type (text, email, url, etc.)
  * @param {string} [props.hint] - Additional help text displayed below the label
  * @param {string} [props.error] - External error message to display
@@ -45,41 +39,23 @@ import { logger } from '../../../utils/logger';
  *
  * @example
  * ```jsx
- * // ❌ Don't use for phone numbers
- * <FormField
- *   name="phone"
- *   label="Phone Number"
- *   schema={phoneSchema}
- *   value={formData.phone}
+ * <TextInputField
+ *   name="placeOfEntry"
+ *   label="Place of entry"
+ *   schema={placeOfEntrySchema}
+ *   value={formData.placeOfEntry}
  *   onChange={handleFieldChange}
- * />
- *
- * // ✅ Use PhoneField instead
- * <PhoneField
- *   name="phone"
- *   label="Phone Number"
- *   schema={phoneSchema}
- *   value={formData.phone}
- *   onChange={handleFieldChange}
- * />
- *
- * // ✅ OK for generic text without a specialized component
- * <FormField
- *   name="organizationName"
- *   label="Organization Name"
- *   schema={organizationNameSchema}
- *   value={formData.organizationName}
- *   onChange={handleFieldChange}
+ *   hint="Enter the city and state or name of the military base"
  * />
  * ```
  */
-export const FormField = ({
+export const TextInputField = ({
   name,
   label,
   schema,
   value,
   onChange,
-  required: _required = false,
+  required = false,
   type = 'text',
   hint,
   error: externalError,
@@ -127,7 +103,7 @@ export const FormField = ({
   );
 
   if (debug) {
-    logger.debug(`FormField[${name}]:`, {
+    logger.debug(`TextInputField[${name}]:`, {
       externalError,
       validationError,
       displayError,
@@ -145,7 +121,7 @@ export const FormField = ({
       value={value || ''}
       type={type}
       hint={hint}
-      required={_required}
+      required={required}
       error={shouldShowError ? displayError : null}
       onInput={handleChange}
       onBlur={handleBlur}
@@ -153,7 +129,7 @@ export const FormField = ({
   );
 };
 
-FormField.propTypes = {
+TextInputField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
