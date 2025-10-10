@@ -67,7 +67,9 @@ describe('Authed Letter Test', () => {
     cy.get('.step-content va-accordion-item:nth-of-type(4)')
       .shadow()
       .find('button[aria-expanded=true]')
-      .click();
+      .click({
+        force: true,
+      });
     cy.contains('label', 'Military service').should('not.be.visible');
   });
 });
