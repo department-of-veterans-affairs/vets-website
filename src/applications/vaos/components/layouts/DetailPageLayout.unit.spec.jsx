@@ -17,7 +17,6 @@ describe('VAOS Component: DetailPageLayout', () => {
   const initialState = {
     featureToggles: {
       travelPayViewClaimDetails: true,
-      travelPaySubmitMileageExpense: true,
     },
   };
 

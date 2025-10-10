@@ -15,7 +15,6 @@ module.exports = [
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
   { name: 'travelPayViewClaimDetails', value: true },
-  { name: 'travelPaySubmitMileageExpense', value: true },
   { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
   { name: 'vaOnlineSchedulingAddSubstanceUseDisorder', value: true },
   { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },

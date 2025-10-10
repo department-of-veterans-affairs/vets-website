@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { Element, scrollToFirstError } from 'platform/utilities/scroll';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
@@ -32,17 +31,6 @@ const SubmitFlowWrapper = () => {
   );
   const { error: submissionError } = useSelector(
     state => state.travelPay.claimSubmission,
-  );
-
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const toggleIsLoading = useToggleLoadingValue();
-  const canSubmitMileage = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
   useEffect(
@@ -152,7 +140,7 @@ const SubmitFlowWrapper = () => {
     },
   ];
 
-  if (toggleIsLoading || isLoading) {
+  if (isLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -162,11 +150,6 @@ const SubmitFlowWrapper = () => {
         />
       </div>
     );
-  }
-
-  if (!canSubmitMileage) {
-    window.location.replace('/');
-    return null;
   }
 
   return (
