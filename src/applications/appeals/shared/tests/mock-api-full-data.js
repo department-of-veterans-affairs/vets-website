@@ -10,7 +10,7 @@ const delay = require('mocker-api/lib/delay');
 const mockSipPut = require('./fixtures/mocks/put-progress-forms.json');
 const mockUser = require('./fixtures/mocks/user.json');
 
-const mockScMax = require('../../995/tests/fixtures/data/maximal-test-v2.json');
+const mockScMax = require('../../995/tests/fixtures/data/pre-api-comprehensive-test.json');
 const mockHlrMax = require('../../996/tests/fixtures/data/maximal-test-v2.json');
 const mockNodMax = require('../../10182/tests/fixtures/data/maximal-test.json');
 
