@@ -14,7 +14,7 @@ const OMB_EXP_DATE = '8/31/2027';
 const IntroContent = () => {
   return (
     <>
-      <p>
+      <p className="va-introtext">
         Use this form if we asked you to verify your income and employment
         status for your Individual Unemployment (IU) benefits.
       </p>
