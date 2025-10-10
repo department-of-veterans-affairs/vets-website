@@ -114,6 +114,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_530A: '21P-530A',
   FORM_21P_0537: '21P-0537',
   FORM_21P_8416: '21P-8416',
+  FORM_21P_534EZ: '21P-534EZ',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -288,6 +289,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
+    [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('21P-534EZ')}/`,
   };
 };
 
@@ -921,6 +923,13 @@ export const MY_VA_SIP_FORMS = [
     title: '21P-8416 Medical expense report form',
     description: 'medical expense',
     trackingPrefix: 'med-expense-8416',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_534EZ,
+    benefit: 'benefits',
+    title: '534EZ Survivors benefits',
+    description: 'benefits',
+    trackingPrefix: 'survivors-534ez',
   },
 ];
 
