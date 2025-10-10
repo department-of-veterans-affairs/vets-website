@@ -67,6 +67,25 @@ export default {
         </div>
       ),
     }),
+    'ui:confirmationField': ({ formData }) => {
+      return !formData ||
+        !formData.supportingEvidence ||
+        !Array.isArray(formData.supportingEvidence) ||
+        formData.supportingEvidence.length === 0 ? (
+        <li>No evidence was uploaded</li>
+      ) : (
+        <li>
+          <div className="vads-u-color--gray">Supporting evidence uploaded</div>
+          {formData.supportingEvidence.map(file => (
+            <ul key={file.name}>
+              <li>{file.name}</li>
+              <li>{file.size}B</li>
+              <li>{file.type}</li>
+            </ul>
+          ))}
+        </li>
+      );
+    },
     supportingEvidence: fileInputMultipleUI({
       title: 'Upload your supporting evidence',
       required: false,
