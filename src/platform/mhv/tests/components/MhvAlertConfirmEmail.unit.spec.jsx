@@ -5,12 +5,12 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import AlertConfirmEmail from '../../components/AlertConfirmEmail';
+import MhvAlertConfirmEmail from '../../components/MhvAlertConfirmEmail';
 import {
   dismissAlertViaCookie,
   resetDismissAlertViaCookie,
   DATE_THRESHOLD,
-} from '../../components/AlertConfirmEmail/selectors';
+} from '../../components/MhvAlertConfirmEmail/selectors';
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
@@ -43,11 +43,11 @@ const stateFn = ({
   },
 });
 
-describe('<AlertConfirmEmail />', () => {
+describe('<MhvAlertConfirmEmail />', () => {
   it('renders nothing when alert has been dismissed', async () => {
     dismissAlertViaCookie();
     const initialState = stateFn({ emailAddress: null });
-    const { container } = render(<AlertConfirmEmail />, { initialState });
+    const { container } = render(<MhvAlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
@@ -59,7 +59,7 @@ describe('<AlertConfirmEmail />', () => {
       emailAddress: null,
       featureTogglesLoading: true,
     });
-    const { container } = render(<AlertConfirmEmail />, { initialState });
+    const { container } = render(<MhvAlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
@@ -70,7 +70,7 @@ describe('<AlertConfirmEmail />', () => {
       emailAddress: null,
       mhvEmailConfirmation: false,
     });
-    const { container } = render(<AlertConfirmEmail />, { initialState });
+    const { container } = render(<MhvAlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
@@ -81,7 +81,7 @@ describe('<AlertConfirmEmail />', () => {
       emailAddress: '',
       userProfileLoading: true,
     });
-    const { container } = render(<AlertConfirmEmail />, { initialState });
+    const { container } = render(<MhvAlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
@@ -92,7 +92,7 @@ describe('<AlertConfirmEmail />', () => {
       emailAddress: '',
       vaPatient: false,
     });
-    const { container } = render(<AlertConfirmEmail />, { initialState });
+    const { container } = render(<MhvAlertConfirmEmail />, { initialState });
     await waitFor(() => {
       expect(container).to.be.empty;
     });
@@ -102,11 +102,11 @@ describe('<AlertConfirmEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ confirmationDate: null });
       const { container, getByRole, getByTestId } = render(
-        <AlertConfirmEmail />,
+        <MhvAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-contact-email');
         getByRole('heading', { name: /^Confirm your contact email$/ });
 
         // getByRole('button', { name: /^Confirm$/ });
@@ -121,38 +121,42 @@ describe('<AlertConfirmEmail />', () => {
     });
 
     it('reports a load event to analytics', async () => {
-      const props = { recordLoadEvent: sinon.spy() };
+      const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
-      const { getByTestId } = render(<AlertConfirmEmail {...props} />, {
+      const { getByTestId } = render(<MhvAlertConfirmEmail {...props} />, {
         initialState,
       });
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
-        expect(props.recordLoadEvent.calledWith('Confirm your contact email'));
+        getByTestId('mhv-alert--confirm-contact-email');
+        expect(props.recordEvent.calledWith('Confirm your contact email'));
       });
     });
 
     it('renders when !confirmationDate', async () => {
       const initialState = stateFn({ confirmationDate: null });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-contact-email');
       });
     });
 
     it(`renders when confirmationDate is before ${DATE_STRING}`, async () => {
       const confirmationDate = '2025-01-01T12:00:00.000+00:00';
       const initialState = stateFn({ confirmationDate });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-contact-email');
       });
     });
 
     it(`renders nothing when confirmationDate is after ${DATE_STRING}`, async () => {
       const confirmationDate = '2025-09-30T12:00:00.000+00:00';
       const initialState = stateFn({ confirmationDate });
-      const { container } = render(<AlertConfirmEmail />, { initialState });
+      const { container } = render(<MhvAlertConfirmEmail />, { initialState });
       await waitFor(() => {
         expect(container).to.be.empty;
       });
@@ -160,58 +164,69 @@ describe('<AlertConfirmEmail />', () => {
 
     it('renders when !updatedAt', async () => {
       const initialState = stateFn({ updatedAt: null });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-contact-email');
       });
     });
 
     it(`renders when updatedAt is before ${DATE_STRING}`, async () => {
       const updatedAt = '2025-01-01T12:00:00.000+00:00';
       const initialState = stateFn({ updatedAt });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-contact-email');
       });
     });
 
     it(`renders nothing when updatedAt is after ${DATE_STRING}`, async () => {
       const updatedAt = '2025-09-30T12:00:00.000+00:00';
       const initialState = stateFn({ updatedAt });
-      const { container } = render(<AlertConfirmEmail />, { initialState });
+      const { container } = render(<MhvAlertConfirmEmail />, { initialState });
       await waitFor(() => {
         expect(container).to.be.empty;
       });
     });
 
-    it(`renders success when 'Confirm' button clicked`, async () => {
+    it(`renders success when 'Confirm' button clicked, calls recordEvent`, async () => {
       mockApiRequest();
+      const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
       const { container, getByTestId, queryByTestId } = render(
-        <AlertConfirmEmail />,
+        <MhvAlertConfirmEmail {...props} />,
+        { initialState },
+      );
+      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
+      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
+      await waitFor(() => {
+        getByTestId('mhv-alert--confirm-success');
+        expect(queryByTestId('mhv-alert--confirm-contact-email')).to.be.null;
+        const headline = 'Thank you for confirming your contact email address';
+        expect(props.recordEvent.calledWith(headline));
+      });
+    });
+
+    it(`renders error when 'Confirm' button clicked, calls recordEvent`, async () => {
+      mockApiRequest({}, false);
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId } = render(
+        <MhvAlertConfirmEmail {...props} />,
         {
           initialState,
         },
       );
-      await waitFor(() => getByTestId('alert-confirm-contact-email'));
+      await waitFor(() => getByTestId('mhv-alert--confirm-contact-email'));
       fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
       await waitFor(() => {
-        getByTestId('alert-confirm-success');
-        expect(queryByTestId('alert-confirm-contact-email')).to.be.null;
-      });
-    });
-
-    it(`renders error when 'Confirm' button clicked`, async () => {
-      mockApiRequest({}, false);
-      const initialState = stateFn({ confirmationDate: null });
-      const { container, getByTestId } = render(<AlertConfirmEmail />, {
-        initialState,
-      });
-      await waitFor(() => getByTestId('alert-confirm-contact-email'));
-      fireEvent.click(container.querySelector('va-button[text="Confirm"]'));
-      await waitFor(() => {
-        getByTestId('alert-confirm-error');
-        getByTestId('alert-confirm-contact-email');
+        getByTestId('mhv-alert--confirm-error');
+        getByTestId('mhv-alert--confirm-contact-email');
+        const headline = 'We couldn’t confirm your contact email';
+        expect(props.recordEvent.calledWith(headline));
       });
     });
   });
@@ -220,11 +235,11 @@ describe('<AlertConfirmEmail />', () => {
     it('renders', async () => {
       const initialState = stateFn({ emailAddress: null });
       const { container, getByRole, getByTestId } = render(
-        <AlertConfirmEmail />,
+        <MhvAlertConfirmEmail />,
         { initialState },
       );
       await waitFor(() => {
-        getByTestId('alert-add-contact-email');
+        getByTestId('mhv-alert--add-contact-email');
         getByRole('heading', { name: /^Add a contact email$/ });
 
         // getByRole('link', { name: /$Go to profile/ });
@@ -241,57 +256,62 @@ describe('<AlertConfirmEmail />', () => {
     });
 
     it('reports a load event to analytics', async () => {
-      const props = { recordLoadEvent: sinon.spy() };
+      const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ emailAddress: null });
-      const { getByTestId } = render(<AlertConfirmEmail {...props} />, {
+      const { getByTestId } = render(<MhvAlertConfirmEmail {...props} />, {
         initialState,
       });
       await waitFor(() => {
-        getByTestId('alert-add-contact-email');
-        expect(props.recordLoadEvent.calledWith('Add a contact email'));
+        getByTestId('mhv-alert--add-contact-email');
+        expect(props.recordEvent.calledWith('Add a contact email'));
       });
     });
 
     it(`renders when !emailAddress`, async () => {
       const initialState = stateFn({ emailAddress: null });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-add-contact-email');
+        getByTestId('mhv-alert--add-contact-email');
       });
     });
 
     it(`renders when emailAddress === ''`, async () => {
       const initialState = stateFn({ emailAddress: '' });
-      const { getByTestId } = render(<AlertConfirmEmail />, { initialState });
+      const { getByTestId } = render(<MhvAlertConfirmEmail />, {
+        initialState,
+      });
       await waitFor(() => {
-        getByTestId('alert-add-contact-email');
+        getByTestId('mhv-alert--add-contact-email');
       });
     });
 
     it('renders nothing when !emailAddress and alert has been dismissed', async () => {
       dismissAlertViaCookie();
       const initialState = stateFn({ emailAddress: null });
-      const { container } = render(<AlertConfirmEmail />, { initialState });
+      const { container } = render(<MhvAlertConfirmEmail />, { initialState });
       await waitFor(() => {
         expect(container).to.be.empty;
       });
       resetDismissAlertViaCookie();
     });
 
-    it(`renders success 'Skip adding email' button clicked`, async () => {
+    it(`renders success when 'Skip' button clicked, calls recordEvent`, async () => {
+      const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ emailAddress: null });
       const { container, getByTestId, queryByTestId } = render(
-        <AlertConfirmEmail />,
-        {
-          initialState,
-        },
+        <MhvAlertConfirmEmail {...props} />,
+        { initialState },
       );
-      await waitFor(() => getByTestId('alert-add-contact-email'));
+      await waitFor(() => getByTestId('mhv-alert--add-contact-email'));
       const button = 'va-button[text="Skip adding email"]';
       fireEvent.click(container.querySelector(button));
       await waitFor(() => {
-        getByTestId('alert-skip-success');
-        expect(queryByTestId('alert-add-contact-email')).to.be.null;
+        getByTestId('mhv-alert--skip-success');
+        expect(queryByTestId('mhv-alert--add-contact-email')).to.be.null;
+        const headline = 'Okay, we’ll skip adding a contact email for now';
+        expect(props.recordEvent.calledWith(headline));
       });
     });
   });
