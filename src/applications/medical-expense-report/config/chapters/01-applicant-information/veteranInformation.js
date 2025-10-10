@@ -1,3 +1,4 @@
+// @ts-check
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -8,10 +9,9 @@ import {
   vaFileNumberUI,
   vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import { isSameOrAfter } from '../../../utils/helpers';
-import { prefixedFullNameUI } from '../../definitions';
+import { conditionalVeteranNameUI } from './helpers';
 
 // const { vaClaimsHistory } = fullSchemaPensions.properties;
 
@@ -44,28 +44,11 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Veteran information',
-  path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    ...titleUI(
-      formData =>
-        formData.claimantNotVeteran
-          ? 'Claimant information'
-          : 'Veteran information',
-    ),
-    veteranFullName: {
-      ...prefixedFullNameUI({ label: 'Veteran’s' }),
-      'ui:options': {
-        hideIf: formData => formData.claimantNotVeteran === false,
-      },
-    },
+    ...titleUI('Veteran information'),
+    veteranFullName: conditionalVeteranNameUI(title => `Veteran's ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
-    // TODO: Uncomment if we want to use vaClaimsHistory
-    // vaClaimsHistory: yesNoUI({
-    //   title: 'Have you ever filed a claim with VA?',
-    //   classNames: 'vads-u-margin-bottom--2',
-    // }),
     vaFileNumber: {
       ...vaFileNumberUI('Veteran’s VA file number'),
       'ui:options': {
@@ -79,21 +62,14 @@ export default {
   },
   schema: {
     type: 'object',
-    required: [
-      'veteranFullName',
-      'veteranSocialSecurityNumber',
-      'veteranDateOfBirth',
-    ],
+    required: ['veteranSocialSecurityNumber', 'veteranDateOfBirth'],
     properties: {
       'view:warningAlert': {
         type: 'object',
         properties: {},
       },
-      veteranFullName: fullNameSchema,
+      veteranFullName: { ...fullNameSchema, required: [] },
       veteranSocialSecurityNumber: ssnSchema,
-      // TODO: Uncomment if we want to use vaClaimsHistory
-      // vaClaimsHistory,
-      /* Do $ref definitions work here? Would it make sense to pull the definition from the vets-json-schema file */
       vaFileNumber: vaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
