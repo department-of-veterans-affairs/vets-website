@@ -21,7 +21,7 @@ const spouseMarriageEnded = {
     goBack: (/* { _itemData, _index, _fullData } */) =>
       'marriage-reason-to-remove',
 
-    onSubmit: ({ _event, itemData, goForward }) => {
+    onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
         !itemData.marriageEndType ||

@@ -17,7 +17,7 @@ const parentReasonToRemove = {
     // return empty path to go to first parent page
     goBack: (/* { itemData, index, fullData } */) => '',
 
-    onSubmit: ({ _event, itemData, goForward }) => {
+    onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (!itemData.removalReason) {
         setTimeout(scrollToFirstError);
