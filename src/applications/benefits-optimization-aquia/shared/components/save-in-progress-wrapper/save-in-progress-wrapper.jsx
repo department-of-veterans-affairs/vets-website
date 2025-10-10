@@ -235,6 +235,9 @@ const mapDispatchToProps = {
   removeInProgressFormAction: removeInProgressForm,
 };
 
+// Export unwrapped component for testing
+export { SaveInProgressWrapper };
+
 export default withRouter(
   connect(
     mapStateToProps,
