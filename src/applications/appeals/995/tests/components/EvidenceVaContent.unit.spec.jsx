@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
 import { content } from '../../content/evidenceSummary';
-import { content as vaContent } from '../../content/evidenceVaRecords';
+import { content as vaContent } from '../../content/evidenceVaDetails';
 import { EvidenceVaContent } from '../../components/EvidenceVaContent';
 import { records } from '../data/evidence-records';
 

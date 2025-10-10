@@ -9,7 +9,7 @@ import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
 
-import maximalData from '../fixtures/data/maximal-test.json';
+import maximalData from '../fixtures/data/pre-api-comprehensive-test.json';
 
 describe('<PrimaryPhoneReview>', () => {
   const setup = ({
