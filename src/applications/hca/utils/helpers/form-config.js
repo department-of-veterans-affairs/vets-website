@@ -1,6 +1,6 @@
 import { inRange } from 'lodash';
 import { isAfter, isBefore } from 'date-fns';
-import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
+import { HIGH_DISABILITY_MINIMUM } from '../constants';
 import { replaceStrValues } from './general';
 import content from '../../locales/en/content.json';
 
@@ -354,18 +354,6 @@ export const spouseDidNotCohabitateWithVeteran = formData => {
 export const spouseAddressDoesNotMatchVeterans = formData => {
   const { sameAddress } = formData;
   return includeSpousalInformation(formData) && !sameAddress;
-};
-
-/**
- * Helper that determines if dependent information needs to be collected
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `false`
- */
-export const includeDependentInformation = formData => {
-  return (
-    includeHouseholdInformation(formData) &&
-    !formData[DEPENDENT_VIEW_FIELDS.skip]
-  );
 };
 
 /**
