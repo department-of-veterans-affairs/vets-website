@@ -15,11 +15,15 @@ import {
   EVIDENCE_VA_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+  verifyHeader,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { MAX_LENGTH, SELECTED } from '../../../shared/constants';
 import { records } from '../data/evidence-records';
-import { verifyHeader } from '../unit-test-helpers';
 import { content } from '../../content/evidenceVaDetails';
 
 const vaLocations = records().locations;

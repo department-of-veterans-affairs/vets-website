@@ -17,7 +17,11 @@ import {
   NO_ISSUES_SELECTED,
 } from '../../constants';
 
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';

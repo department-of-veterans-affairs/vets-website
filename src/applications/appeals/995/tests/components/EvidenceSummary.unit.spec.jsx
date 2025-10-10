@@ -13,15 +13,12 @@ import {
   EVIDENCE_OTHER,
   LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
-import { verifyHeader, verifyLink } from '../unit-test-helpers';
-
-const clickContinue = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-};
-
-const clickBack = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-secondary', container));
-};
+import {
+  clickBack,
+  clickContinue,
+  verifyHeader,
+  verifyLink,
+} from '../unit-test-helpers';
 
 const clickUpdatePage = container => {
   fireEvent.click($('.form-nav-buttons va-button', container));

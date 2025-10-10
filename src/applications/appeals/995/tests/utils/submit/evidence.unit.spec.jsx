@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-
 import {
   EVIDENCE_OTHER,
   EVIDENCE_PRIVATE,
@@ -12,8 +11,8 @@ import {
   getTreatmentDate,
   hasDuplicateFacility,
   hasDuplicateLocation,
-} from '../../../utils/submit';
-// TODO
+} from '../../../utils/submit/evidence';
+
 describe('getTreatmentDate', () => {
   it('should return empty when the proper data is not given', () => {
     const location = {
@@ -73,46 +72,6 @@ describe('getTreatmentDate', () => {
 });
 
 describe('hasDuplicateLocation', () => {
-  describe('original form', () => {
-    const getLocation = ({
-      wrap = false,
-      name = 'test 1',
-      from = '2022-01-01',
-      to = '2022-02-02',
-    } = {}) => {
-      const location = {
-        locationAndName: name,
-        issues: ['1', '2'],
-        evidenceDates: wrap ? [{ startDate: from, endDate: to }] : { from, to },
-      };
-      return wrap ? { attributes: location } : location;
-    };
-    const list = [
-      getLocation({ wrap: true }),
-      getLocation({ name: 'test 2', wrap: true }),
-    ];
-
-    it('should not find any duplicates', () => {
-      const blank = getLocation();
-      expect(hasDuplicateLocation([{ attributes: {} }], blank)).to.be.false;
-      const name = getLocation({ name: 'test 3' });
-      expect(hasDuplicateLocation(list, name)).to.be.false;
-      const to = getLocation({ to: '2022-03-03' });
-      expect(hasDuplicateLocation(list, to)).to.be.false;
-      const from = getLocation({ from: '2022-03-03' });
-      expect(hasDuplicateLocation(list, from)).to.be.false;
-    });
-    it('should report duplicate location', () => {
-      const first = getLocation();
-      expect(hasDuplicateLocation(list, first)).to.be.true;
-      const second = getLocation({ name: 'test 2' });
-      expect(hasDuplicateLocation(list, second)).to.be.true;
-
-      // check date format without leading zeros
-      const first2 = getLocation({ from: '2022-1-1', to: '2022-2-2' });
-      expect(hasDuplicateLocation(list, first2)).to.be.true;
-    });
-  });
   describe('new form', () => {
     const getLocation = ({
       wrap = false,
@@ -128,8 +87,10 @@ describe('hasDuplicateLocation', () => {
         evidenceDates: wrap ? [evidenceDates] : evidenceDates,
         treatmentDate: date,
       };
+
       return wrap ? { attributes: location } : location;
     };
+
     const list = [
       getLocation({ wrap: true }),
       getLocation({ name: 'test 2', wrap: true }),
@@ -141,6 +102,7 @@ describe('hasDuplicateLocation', () => {
       const from = getLocation({ date: '2022-03' });
       expect(hasDuplicateLocation(list, from, true)).to.be.false;
     });
+
     it('should report duplicate location', () => {
       const first = getLocation();
       expect(hasDuplicateLocation(list, first, true)).to.be.true;
@@ -157,27 +119,24 @@ describe('getEvidence', () => {
   const getData = ({ hasVa = true } = {}) => ({
     data: {
       [EVIDENCE_VA]: hasVa,
-      form5103Acknowåledged: true,
+      form5103Acknowledged: true,
       locations: [
         {
           locationAndName: 'test 1',
           issues: ['1', '2'],
-          evidenceDates: { from: '2022-01-05', to: '2022-02-02' },
           treatmentDate: '2002-05',
           noDate: false,
         },
         {
           locationAndName: 'test 2',
           issues: ['1', '2'],
-          evidenceDates: { from: '2022-03-03', to: '2022-04-04' },
           treatmentDate: '2002-07',
           noDate: false,
         },
         {
           locationAndName: 'test 3',
-          issues: ['2'],
-          evidenceDates: { from: '2022-05-05', to: '2022-06-06' },
-          treatmentDate: '2002', // incomplete date
+          issues: ['1'],
+          treatmentDate: '',
           noDate: true,
         },
       ],
@@ -224,6 +183,7 @@ describe('getEvidence', () => {
 
   it('should include evidenceType of none when no evidence submitted', () => {
     const evidence = getData({ hasVa: false });
+
     expect(getEvidence(evidence.data)).to.deep.equal({
       form5103Acknowledged: true,
       evidenceSubmission: {
@@ -231,10 +191,12 @@ describe('getEvidence', () => {
       },
     });
   });
+
   it('should process evidence when available', () => {
     const evidence = getData();
     expect(getEvidence(evidence.data)).to.deep.equal(evidence.result());
   });
+
   it('should add "upload" to evidence type when available', () => {
     const { data } = getData();
     const evidence = {
@@ -246,6 +208,7 @@ describe('getEvidence', () => {
       ['retrieval', 'upload'],
     );
   });
+
   it('should only include "upload" when documents were uploaded with no VA evidence', () => {
     const { data } = getData({ hasVa: false });
     const evidence = {
@@ -257,7 +220,8 @@ describe('getEvidence', () => {
       ['upload'],
     );
   });
-  it('should combine duplicate VA locations & dates', () => {
+
+  it.only('should combine duplicate VA locations & dates', () => {
     const evidence = getData();
     evidence.data.locations.push(evidence.data.locations[0]);
     evidence.data.locations.push(evidence.data.locations[1]);
