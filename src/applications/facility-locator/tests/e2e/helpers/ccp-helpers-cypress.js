@@ -449,21 +449,23 @@ function initApplicationMock(
     },
   }).as('mockUrgentCare');
 
+  const providersData =
+    providerType && providers[providerType]?.length
+      ? providers[providerType]
+      : [];
+
   cy.intercept(
     'GET',
     `/facilities_api/v2/ccp/provider?*specialties[]=${providerType}*`,
     {
-      data:
-        providerType && providers[providerType]?.length
-          ? providers[providerType]
-          : [],
+      data: providersData,
       meta: {
         pagination: {
           currentPage: 1,
           prevPage: null,
           nextPage: null,
           totalPages: 1,
-          totalEntries: 15,
+          totalEntries: providersData.length,
         },
       },
       links: {
