@@ -15,10 +15,6 @@ describe('Pathology details component', () => {
         labsAndTestsDetails: convertLabsAndTestsRecord(pathology),
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
 
   let screen;

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   generatePdfScaffold,
   updatePageTitle,
@@ -46,12 +45,6 @@ const AllergyDetails = props => {
   const allergy = useSelector(state => state.mr.allergies.allergyDetails);
   const allergyList = useSelector(state => state.mr.allergies.allergiesList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const { isLoading, isCerner } = useAcceleratedData();
 
@@ -198,13 +191,9 @@ Provider notes: ${allergyData.notes} \n`;
             <PrintDownload
               description="Allergies Detail"
               downloadPdf={generateAllergyPdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateAllergyTxt}
             />
-            <DownloadingRecordsInfo
-              description="Allergy Detail"
-              allowTxtDownloads={allowTxtDownloads}
-            />
+            <DownloadingRecordsInfo description="Allergy Detail" />
 
             <div
               className="max-80 vads-u-margin-top--4"
