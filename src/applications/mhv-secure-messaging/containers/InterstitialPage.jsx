@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -7,16 +7,29 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import { getPrescriptionById } from '../actions/prescription';
 
 const InterstitialPage = props => {
   const { type } = props;
   const history = useHistory();
+  const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
 
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  useEffect(
+    () => {
+      const searchParams = new URLSearchParams(location.search);
+      const prescriptionId = searchParams.get('prescriptionId');
+      if (prescriptionId) {
+        dispatch(getPrescriptionById(prescriptionId));
+      }
+    },
+    [location.search, dispatch],
+  );
 
   const continueButtonText = useMemo(
     () => {
