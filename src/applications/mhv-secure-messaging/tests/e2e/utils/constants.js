@@ -14,6 +14,7 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  RECENT_CARE_TEAMS: 'recent/',
   START_MESSAGE: '/start-message',
   SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
