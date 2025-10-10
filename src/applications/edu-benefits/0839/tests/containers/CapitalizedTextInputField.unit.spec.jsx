@@ -171,4 +171,28 @@ describe('CapitalizedTextInputField Component', () => {
       expect(error).to.contain('Initials must match your name');
     });
   });
+
+  it('clears validation error when user starts typing after validation error', async () => {
+    const { container } = renderComponent({
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
+    const input = container.querySelector('va-text-input');
+
+    inputVaTextInput(container, 'AB');
+    triggerBlur(input);
+
+    await waitFor(() => {
+      const error = input.getAttribute('error');
+      expect(error).to.not.be.null;
+      expect(error).to.contain('Initials must match your name');
+    });
+
+    inputVaTextInput(container, 'JD');
+
+    await waitFor(() => {
+      const error = input.getAttribute('error');
+      expect(error).to.be.null;
+    });
+  });
 });
