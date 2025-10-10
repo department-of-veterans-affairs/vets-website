@@ -1,4 +1,5 @@
 // @ts-check
+import { formatDateLong } from 'platform/utilities/date';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -27,11 +28,18 @@ const options = {
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
-    cardDescription: ({ itemData }) => {
+    cardDescription: itemData => {
       if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
-        return `${itemData.employmentStartDate} to ${
-          itemData.employmentEndDate
-        }`;
+        try {
+          const startDate = formatDateLong(itemData.employmentStartDate);
+          const endDate = formatDateLong(itemData.employmentEndDate);
+          return `${startDate} to ${endDate}`;
+        } catch (error) {
+          // Fallback to raw dates if formatting fails
+          return `${itemData.employmentStartDate} to ${
+            itemData.employmentEndDate
+          }`;
+        }
       }
       return '';
     },
@@ -91,6 +99,7 @@ const employerNameAndAddressPage = {
         errorMessages: {
           required: 'Enter name of employer',
         },
+        charcount: true,
       }),
     },
     employerAddress: addressUI({
@@ -100,7 +109,7 @@ const employerNameAndAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      employerName: textSchema,
+      employerName: { ...textSchema, maxLength: 125 },
       employerAddress: addressSchema({
         omit: ['street2', 'street3', 'isMilitary'],
       }),
@@ -156,11 +165,13 @@ const employmentDetailsPage = {
     ),
     typeOfWork: {
       ...textUI({
-        title: 'Type of work',
-        hint: 'If self-employed enter "Self"',
+        title: 'Describe the kind of work you did',
+        hint:
+          'For example: cashier at a grocery store, part-time landscaper, or office assistant',
         errorMessages: {
-          required: 'Enter type of work',
+          required: 'Enter the kind of work you did',
         },
+        charcount: true,
       }),
     },
     hoursPerWeek: {
@@ -173,18 +184,18 @@ const employmentDetailsPage = {
     },
     lostTimeFromIllness: {
       ...numberUI({
-        title: 'Lost time from service-connected disabilities',
+        title: 'Hours of work you missed in the past 12 months',
         hint: 'Total hours',
         errorMessages: {
-          required: 'Enter total hours during your entire time of illness',
+          required: 'Enter the number of hours of work you missed',
         },
       }),
     },
     highestGrossIncomePerMonth: {
       ...currencyUI({
-        title: 'Highest monthly gross income',
+        title: 'Highest monthly income (before taxes)',
         errorMessages: {
-          required: 'Enter highest gross income per month',
+          required: 'Enter your highest monthly income',
         },
       }),
     },
@@ -192,7 +203,7 @@ const employmentDetailsPage = {
   schema: {
     type: 'object',
     properties: {
-      typeOfWork: textSchema,
+      typeOfWork: { ...textSchema, maxLength: 35 },
       hoursPerWeek: numberSchema,
       lostTimeFromIllness: numberSchema,
       highestGrossIncomePerMonth: currencySchema,
