@@ -18,8 +18,7 @@ export const ReviewDependents = () => {
     return (
       <div
         key={index}
-        className="vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
-        }}
+        className="dependent-card vads-u-border--1px vads-u-border-color-gray-light vads-u-padding--2 vads-u-margin-bottom--2"
       >
         <h4 style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>{name}</h4>
         <p style={{ margin: 0, color: '#666' }}>
