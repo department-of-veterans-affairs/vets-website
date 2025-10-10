@@ -88,27 +88,6 @@ const VaPrescription = prescription => {
     [prescription?.prescriptionId],
   );
 
-  // const determineStatus = () => {
-  //   return prescriptionMedAndRenewalStatus(prescription, 'VaPrescription');
-  //   // if (pendingRenewal) {
-  //   //   return (
-  //   //     <p data-testid="pending-renewal-status">
-  //   //       This is a renewal you requested. Your VA pharmacy is reviewing it now.
-  //   //       Details may change.
-  //   //     </p>
-  //   //   );
-  //   // }
-  //   // if (pendingMed) {
-  //   //   return (
-  //   //     <p>
-  //   //       This is a new prescription from your provider. Your VA pharmacy is
-  //   //       reviewing it now. Details may change................
-  //   //     </p>
-  //   //   );
-  //   // }
-  //   // return <StatusDropdown status={prescription.dispStatus} />;
-  // };
-
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
       datadogRum.addAction(dataDogActionNames.detailsPage.REFILLS_ACCORDIAN);
