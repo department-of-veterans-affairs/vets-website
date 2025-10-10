@@ -85,8 +85,7 @@ describe('IntroductionPage', () => {
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
     expect($('.sip-wrapper', container)).to.exist;
-    expect(queryByText(/Other VA health care benefits and services/)).to.not
-      .exist;
+    expect(queryByText(/Other VA health care benefits and services/)).to.exist;
   });
 
   it('should render MST section when feature toggle is enabled', () => {
