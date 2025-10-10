@@ -1,6 +1,6 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import benefitsData from '../fixtures/mocks/benefitsData.json';
-// import data from '../fixtures/data/calculator-constants.json';
+import data from '../fixtures/data/calculator-constants.json';
 
 // Read inside Shadow DOM for this spec
 Cypress.config('includeShadowDom', true);
@@ -9,10 +9,10 @@ describe('CH31 Your eligibility and benefits', () => {
   beforeEach(() => {
     cy.login();
 
-    // cy.intercept('GET', '**/v1/gi/calculator_constants*', {
-    //   statusCode: 200,
-    //   body: data,
-    // });
+    cy.intercept('GET', '**/v1/gi/calculator_constants*', {
+      statusCode: 200,
+      body: data,
+    });
 
     cy.intercept('GET', '**/data/cms/*.json', { statusCode: 200 }).as('cms');
 
