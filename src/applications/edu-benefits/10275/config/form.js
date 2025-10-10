@@ -10,7 +10,7 @@ import {
   agreementType,
   institutionDetailsFacility,
   authorizingOfficial,
-  yourInformation,
+  newAuthorizingOfficial,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -100,11 +100,11 @@ const formConfig = {
       title: 'Associated officials',
       pages: {
         yourInformationNew: {
-          path: 'new-commitment-your-information',
+          path: 'new-commitment-authorizing-official',
           title: 'Your information',
           depends: data => data?.agreementType === 'newCommitment',
-          uiSchema: yourInformation.uiSchema,
-          schema: yourInformation.schema,
+          uiSchema: newAuthorizingOfficial.uiSchema,
+          schema: newAuthorizingOfficial.schema,
         },
       },
     },
