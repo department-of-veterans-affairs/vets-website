@@ -14,8 +14,8 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
 
     dataSets: [
-      'no-evidence-test',
-      'api-formatted-minimal-test',
+      'pre-api-no-evidence-test',
+      'pre-api-minimal-test',
       'pre-api-partial-evidence-test',
     ],
 

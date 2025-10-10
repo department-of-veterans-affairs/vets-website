@@ -5,7 +5,6 @@ import { getHomeless } from './homeless';
 import { getAddress, getEmail } from './veteran';
 import {
   getTreatmentDate,
-  hasDuplicateLocation,
   hasDuplicateFacility,
   getEvidence,
   getForm4142,
@@ -47,7 +46,6 @@ export {
   getAddress,
   getEmail,
   getTreatmentDate,
-  hasDuplicateLocation,
   hasDuplicateFacility,
   getEvidence,
   getMstData,

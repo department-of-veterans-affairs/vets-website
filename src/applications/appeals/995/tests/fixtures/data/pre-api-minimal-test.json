@@ -1,71 +1,23 @@
 {
   "data": {
     "view:vhaContent": {},
-    "optionIndicator": "revoke",
-    "mstOption": true,
     "view:supportInfo": {},
-    "additionalDocuments": [
-      {
-        "name": "content.pdf",
-        "size": 940985,
-        "confirmationCode": "6f01fa44-4228-446c-a80b-b2b91763f369",
-        "attachmentId": "L034",
-        "isEncrypted": false
-      },
-      {
-        "name": "content (1).pdf",
-        "size": 1159362,
-        "confirmationCode": "08c088d1-a7aa-474a-903e-9f9c0cfc4465",
-        "attachmentId": "L229",
-        "isEncrypted": false
-      },
-      {
-        "name": "2021-4142-Form.pdf",
-        "size": 1028976,
-        "confirmationCode": "d9254823-2154-43cc-934c-4f284533b320",
-        "attachmentId": "L139",
-        "isEncrypted": false
-      },
-      {
-        "name": "2018-4142-Form.pdf",
-        "size": 742917,
-        "confirmationCode": "e0b6ec0d-9978-424d-b39b-93ce82eafcd7",
-        "attachmentId": "L107",
-        "isEncrypted": false
-      }
-    ],
-    "view:hasOtherEvidence": true,
+    "additionalDocuments": [],
+    "view:hasOtherEvidence": false,
     "view:otherEvidenceInfo": {},
-    "limitedConsent": "Testing content for limited consent",
-    "view:hasPrivateLimitation": true,
     "view:evidenceLimitInfo": {},
     "view:hasVaEvidence": true,
     "view:vaEvidenceInfo": {},
     "facilityTypes": {
       "vamc": true,
-      "cboc": true,
-      "mtf": true,
-      "ccp": true,
-      "vetCenter": true,
-      "nonVa": true,
-      "other": "Some other type of provider"
-    },
-    "view:pointOfContact": {},
-    "pointOfContactName": "Ted Mosby",
-    "pointOfContactPhone": "2105550123",
-    "view:otherHousingRisk": {},
-    "otherHousingRisks": "Testing content for housing risks",
-    "view:domesticViolenceInfo": {},
-    "livingSituation": {
-      "notRegular": true,
-      "shelter": true,
-      "friendOrFamily": true,
-      "facility30Days": true,
-      "home30Days": true,
-      "other": true
+      "cboc": false,
+      "mtf": false,
+      "ccp": false,
+      "vetCenter": false,
+      "nonVa": false
     },
     "view:housingRisk": {},
-    "housingRisk": true,
+    "housingRisk": false,
     "veteran": {
       "address": {
         "badAddress": false,
@@ -154,7 +106,7 @@
     "view:primaryPhone": "home",
     "view:issueNotListed": {},
     "form5103Acknowledged": true,
-    "view:hasPrivateEvidence": true,
+    "view:hasPrivateEvidence": false,
     "benefitType": "compensation",
     "contestedIssues": [{
       "id": null,
@@ -181,71 +133,15 @@
       },
       "view:selected": true
     }],
-    "additionalIssues": [
-      {
-        "issue": "Hypertension",
-        "decisionDate": "2023-09-26",
-        "view:selected": true
-      },
-      {
-        "issue": "Impotence",
-        "decisionDate": "2023-09-26",
-        "view:selected": true
-      },
-      {
-        "issue": "Left Knee Instability",
-        "decisionDate": "2023-09-26",
-        "view:selected": true
-      },
-      {
-        "issue": "Right Knee Injury",
-        "decisionDate": "2023-09-26",
-        "view:selected": true
-      },
-      {
-        "issue": "Hyperthyroidism",
-        "decisionDate": "2017-04-16",
-        "view:selected": true
-      },
-      {
-        "issue": "Seizures",
-        "decisionDate": "2000-10-24",
-        "view:selected": true
-      },
-      {
-        "issue": "Parkinson's",
-        "decisionDate": "2013-03-20",
-        "view:selected": true
-      }
-    ],
     "locations": [
       {
         "locationAndName": "South Texas VA Facility",
-        "issues": ["Hypertension", "Left Knee Instability", "Hyperthyroidism", "Right Knee Injury"],
+        "issues": ["Headaches"],
         "evidenceDates": {
           "from": "",
           "to": ""
         },
         "treatmentDate": "2000-01"
-      },
-      {
-        "locationAndName": "Midwest Alabama VA Facility",
-        "issues": ["Left Knee Instability", "Right Knee Injury", "Hypertension"],
-        "evidenceDates": {
-          "from": "",
-          "to": ""
-        },
-        "treatmentDate": "",
-        "noDate": true
-      },
-      {
-        "locationAndName": "Southern Pennsylvania VA Facility",
-        "issues": ["Seizures", "Parkinson's", "Impotence"],
-        "evidenceDates": {
-          "from": "",
-          "to": ""
-        },
-        "treatmentDate": "1999-06"
       }
     ],
     "privacyAgreementAccepted": true,
@@ -264,54 +160,6 @@
         "treatmentDateRange": {
           "from": "2010-08-09",
           "to": "2011-08-13"
-        }
-      },
-      {
-        "providerFacilityName": "Provider Two",
-        "providerFacilityAddress": {
-          "country": "USA",
-          "street": "456 Elm Street",
-          "street2": "",
-          "city": "Madison",
-          "state": "WI",
-          "postalCode": "37676"
-        },
-        "issues": ["Left Knee Instability", "Seizures", "Right Knee Injury"],
-        "treatmentDateRange": {
-          "from": "2013-03-13",
-          "to": "2014-03-14"
-        }
-      },
-      {
-        "providerFacilityName": "Provider Three",
-        "providerFacilityAddress": {
-          "country": "USA",
-          "street": "678 Maple Ave",
-          "street2": "",
-          "city": "Montgomery",
-          "state": "AL",
-          "postalCode": "28783"
-        },
-        "issues": ["Parkinson's", "Hypertension", "Impotence"],
-        "treatmentDateRange": {
-          "from": "2012-12-12",
-          "to": "2013-12-13"
-        }
-      },
-      {
-        "providerFacilityName": "Provider Four",
-        "providerFacilityAddress": {
-          "country": "USA",
-          "street": "980 Sycamore Ln",
-          "street2": "",
-          "city": "Sacramento",
-          "state": "CA",
-          "postalCode": "90375"
-        },
-        "issues": ["Hyperthyroidism", "Right Knee Injury", "Left Knee Instability"],
-        "treatmentDateRange": {
-          "from": "2014-02-03",
-          "to": "2016-02-05"
         }
       }
     ]

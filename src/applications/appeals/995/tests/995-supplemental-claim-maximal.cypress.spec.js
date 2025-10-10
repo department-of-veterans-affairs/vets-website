@@ -9,7 +9,7 @@ const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
     dataPrefix: 'data',
-    dataSets: ['api-formatted-comprehensive-test'],
+    dataSets: ['pre-api-comprehensive-test'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),

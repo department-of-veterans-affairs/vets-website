@@ -10,7 +10,7 @@ import {
   getForm4142,
   getTreatmentDate,
   hasDuplicateFacility,
-  hasDuplicateLocation,
+  dedupeVALocations,
 } from '../../../utils/submit/evidence';
 
 describe('getTreatmentDate', () => {
@@ -71,47 +71,44 @@ describe('getTreatmentDate', () => {
   });
 });
 
-describe('hasDuplicateLocation', () => {
-  describe('new form', () => {
-    const getLocation = ({
-      wrap = false,
-      name = 'test 1',
-      date = '2024-03',
-      noDate = false,
-    } = {}) => {
-      const evidenceDates = { from: '2022-01-01', to: '2022-02-02' };
-      const location = {
-        locationAndName: name,
-        issues: ['1', '2'],
-        noDate,
-        evidenceDates: wrap ? [evidenceDates] : evidenceDates,
-        treatmentDate: date,
-      };
-
-      return wrap ? { attributes: location } : location;
+describe('dedupeVALocations', () => {
+  const getLocation = ({
+    wrap = false,
+    name = 'test 1',
+    date = '2024-03',
+    noDate = false,
+  } = {}) => {
+    const evidenceDates = { from: '2022-01-01', to: '2022-02-02' };
+    const location = {
+      locationAndName: name,
+      issues: ['1', '2'],
+      noDate,
+      evidenceDates: wrap ? [evidenceDates] : evidenceDates,
+      treatmentDate: date,
     };
 
-    const list = [
-      getLocation({ wrap: true }),
-      getLocation({ name: 'test 2', wrap: true }),
-    ];
+    return wrap ? { attributes: location } : location;
+  };
 
-    it('should not find any duplicates in new form', () => {
-      const name = getLocation({ name: 'test 3' });
-      expect(hasDuplicateLocation(list, name, true)).to.be.false;
-      const from = getLocation({ date: '2022-03' });
-      expect(hasDuplicateLocation(list, from, true)).to.be.false;
-    });
+  const list = [
+    getLocation({ wrap: true }),
+    getLocation({ name: 'test 2', wrap: true }),
+  ];
 
-    it('should report duplicate location', () => {
-      const first = getLocation();
-      expect(hasDuplicateLocation(list, first, true)).to.be.true;
-      const second = getLocation({ name: 'test 2' });
-      expect(hasDuplicateLocation(list, second, true)).to.be.true;
+  it('should not dedupe unique items', () => {
+    const name = getLocation({ name: 'test 3' });
+    expect(dedupeVALocations([...list, name]).length).to.eq(3);
 
-      // check date format without leading zeros
-      expect(hasDuplicateLocation(list, first, true)).to.be.true;
-    });
+    const from = getLocation({ date: '2022-03' });
+    expect(dedupeVALocations([...list, from]).length).to.eq(3);
+  });
+
+  it('should dedupe non-unique items', () => {
+    const first = getLocation({ wrap: true });
+    expect(dedupeVALocations([...list, first]).length).to.eq(2);
+
+    const second = getLocation({ wrap: true, name: 'test 2' });
+    expect(dedupeVALocations([...list, second]).length).to.eq(2);
   });
 });
 
@@ -221,7 +218,7 @@ describe('getEvidence', () => {
     );
   });
 
-  it.only('should combine duplicate VA locations & dates', () => {
+  it('should combine duplicate VA locations & dates', () => {
     const evidence = getData();
     evidence.data.locations.push(evidence.data.locations[0]);
     evidence.data.locations.push(evidence.data.locations[1]);
