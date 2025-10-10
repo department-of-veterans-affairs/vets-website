@@ -171,7 +171,6 @@ export function prefillTransformer(pages, formData, metadata, state) {
     felonyOrWarrant: formData?.felonyOrWarrant,
     chosenBenefit: formData?.chosenBenefit,
     email: emailAddress,
-    confirmEmail: emailAddress,
     mobilePhone: {
       phone: mobilePhoneNumber?.replace(/\D/g, ''),
       isInternational: mobilePhoneIsInternational,
