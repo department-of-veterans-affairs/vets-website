@@ -123,6 +123,7 @@ schemas/
 ### Current Implementation
 
 The schema system currently includes:
+
 - **address/** - US, international, and military address validation
 - **contact/** - Phone and email validation patterns
 - **name/** - First, middle, last name, and suffix validation
@@ -132,11 +133,13 @@ The schema system currently includes:
 ### Directory Organization
 
 Each schema follows a consistent structure:
+
 - **Schema file** (`[schema-name].js`) - Zod schema definitions
 - **Test file** (`[schema-name].unit.spec.jsx`) - Unit tests
 - **Barrel file** (`index.js`) - Named exports
 
 This organization provides:
+
 - **Co-location** - Tests live next to their schemas
 - **Encapsulation** - Each schema module is self-contained
 - **Clean imports** - Multiple import options via barrel files
@@ -159,8 +162,8 @@ ctx.addIssue({
   path: ['postalCode'],
   params: {
     expectedFormat: '96xxx',
-    actualValue: data.postalCode
-  }
+    actualValue: data.postalCode,
+  },
 });
 ```
 
@@ -171,7 +174,7 @@ ctx.addIssue({
 ```javascript
 import { personalInfoSchema } from '@bio-aquia/shared/schemas';
 
-const validatePersonalInfo = (data) => {
+const validatePersonalInfo = data => {
   return personalInfoSchema.parse(data);
 };
 ```
@@ -182,7 +185,7 @@ const validatePersonalInfo = (data) => {
 import {
   personalInfoSchema,
   addressSchema,
-  contactSchema
+  contactSchema,
 } from '@bio-aquia/shared/schemas';
 
 const completeProfileSchema = z.object({
@@ -195,7 +198,7 @@ const completeProfileSchema = z.object({
 ### **Form-Specific Extension**
 
 ```javascript
-// In burial-flags-21-2008/schemas/
+// In 2008-burial-flags-21/schemas/
 import { personalInfoSchema } from '@bio-aquia/shared/schemas';
 
 export const applicantInfoSchema = personalInfoSchema.extend({

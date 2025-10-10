@@ -17,7 +17,7 @@ The `@bio-aq/shared` module enhances VA.gov's robust form system with Zod valida
 
 ### Memorial Forms (`aq-memorials`)
 
-- **burial-flags-21-2008** - Burial flag request form
+- **2008-burial-flags-21** - Burial flag request form
 - **memorial-medallion-40-1330m** - Memorial medallion application
 
 ### Health Forms (`aq-health`)
@@ -343,7 +343,7 @@ yarn test:unit src/applications/benefits-optimization-aquia/shared/components/at
 
 ```bash
 # Run form integration tests
-yarn test:unit --app-folder burial-flags-21-2008
+yarn test:unit --app-folder 2008-burial-flags-21
 ```
 
 ### Accessibility Testing
@@ -407,13 +407,13 @@ yarn test:unit --coverage
 
 - Review existing documentation
 - Check the Known Issues & TODOs section above
-- Follow development patterns from burial-flags-21-2008
+- Follow development patterns from 2008-burial-flags-21
 
 ## Success Metrics
 
 ### Current Achievement (Baseline)
 
-- ✅ **100% component reuse** in burial-flags-21-2008
+- ✅ **100% component reuse** in 2008-burial-flags-21
 - ✅ **WCAG 2.1 AA compliance** across all components
 - ✅ **Zod validation** with user-friendly error messages
 - ✅ **VA web component** integration throughout
@@ -505,7 +505,7 @@ Thin integration layers that enhance VA's system:
 
 ## Form Patterns and Helpers
 
-This section outlines the patterns and helpers available in bio-aquia/shared, based on the proven patterns from burial-flags-21-2008.
+This section outlines the patterns and helpers available in bio-aquia/shared, based on the proven patterns from 2008-burial-flags-21.
 
 ### Core Pattern: CustomPage with useFormSection
 
@@ -799,7 +799,7 @@ PersonalInfoPage.propTypes = {
 ### Usage Example in Form Config
 
 ```javascript
-// In burial-flags-21-2008/config/form.js
+// In 2008-burial-flags-21/config/form.js
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { createPageValidator } from '@bio-aquia/shared/utils';
 
@@ -808,7 +808,7 @@ export default {
   formId: VA_FORM_IDS.FORM_21_2008,
   version: 0,
   rootUrl: manifest.rootUrl,
-  trackingPrefix: 'burial-flags-21-2008-',
+  trackingPrefix: '2008-burial-flags-21-',
 
   // VA handles save-in-progress, we just provide validation
   pages: {

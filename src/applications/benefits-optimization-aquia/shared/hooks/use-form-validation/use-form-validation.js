@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { ZodError } from 'zod';
 
-import { flattenZodError } from '../../utils/zod-helpers';
+import { flattenZodError } from '@bio-aquia/shared/utils/zod-helpers';
 
 /**
  * Hook for form validation using Zod schemas
