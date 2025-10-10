@@ -156,7 +156,6 @@
     "form5103Acknowledged": true,
     "view:hasPrivateEvidence": true,
     "benefitType": "compensation",
-    "hasRedirected": true,
     "contestedIssues": [{
       "id": null,
       "type": "contestableIssue",
@@ -204,7 +203,7 @@
         "view:selected": true
       },
       {
-        "issue": "Hypothyroidism",
+        "issue": "Hyperthyroidism",
         "decisionDate": "2017-04-16",
         "view:selected": true
       },
@@ -222,7 +221,7 @@
     "locations": [
       {
         "locationAndName": "South Texas VA Facility",
-        "issues": ["Hypertension", "Left Knee Instability", "Hypothyroidism", "Right Knee Injury"],
+        "issues": ["Hypertension", "Left Knee Instability", "Hyperthyroidism", "Right Knee Injury"],
         "evidenceDates": {
           "from": "",
           "to": ""
@@ -261,7 +260,7 @@
           "state": "TX",
           "postalCode": "78258"
         },
-        "issues": ["Hypertension", "Hypothyroidism", "Right Knee Injury"],
+        "issues": ["Hypertension", "Hyperthyroidism", "Right Knee Injury"],
         "treatmentDateRange": {
           "from": "2010-08-09",
           "to": "2011-08-13"

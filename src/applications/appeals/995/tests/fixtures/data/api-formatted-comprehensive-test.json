@@ -122,7 +122,7 @@
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "Hypothyroidism",
+        "issue": "Hyperthyroidism",
         "decisionDate": "2017-04-16"
       }
     },
@@ -157,7 +157,7 @@
         },
         "issues": [
           "Hypertension",
-          "Hypothyroidism",
+          "Hyperthyroidism",
           "Right Knee Injury"
         ],
         "treatmentDateRange": [
@@ -222,7 +222,7 @@
           "postalCode": "90375"
         },
         "issues": [
-          "Hypothyroidism",
+          "Hyperthyroidism",
           "Right Knee Injury",
           "Left Knee Instability"
         ],

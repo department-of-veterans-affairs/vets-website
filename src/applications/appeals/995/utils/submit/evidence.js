@@ -1,7 +1,4 @@
-import {
-  buildPrivateString,
-  buildVaLocationString,
-} from '../../validations/evidence';
+import { buildPrivateString } from '../../validations/evidence';
 import {
   getVAEvidence,
   getOtherEvidence,
@@ -42,34 +39,29 @@ export const getTreatmentDate = location => {
   return fixDateFormat(date, treatmentDate.length === 4);
 };
 
-export const hasDuplicateLocation = (list, currentLocation) => {
-  // console.log('currentLocation: ', currentLocation);
-  const currentString = buildVaLocationString({
-    data: currentLocation,
-    joiner: ',',
-    includeIssues: false,
-  });
+export const dedupeVALocations = locations => {
+  const uniqueLocations = new Map();
 
-  // console.log('list: ', list);
+  return locations.filter(item => {
+    // Sometimes items are wrapped with { attributes: { ...contents } }
+    const itemDetails = item?.locationAndName ? item : item.attributes;
 
-  return list.some(location => {
-    const data = {
-      ...location.attributes,
-      treatmentDate: location.attributes.treatmentDate,
-      noDate: location.attributes.noTreatmentDates,
+    // Create a unique key by stringifying the object
+    // Sort the issues array to ensure consistent comparison
+    const normalizedItem = {
+      ...itemDetails,
+      issues: [...itemDetails.issues].sort(),
     };
 
-    const locationString = buildVaLocationString({
-      data,
-      joiner: ',',
-      includeIssues: false,
-      wrapped: true,
-    });
-    console.log('currentString: ', currentString);
+    const key = JSON.stringify(normalizedItem);
 
-    console.log('locationString: ', locationString);
+    // If we haven't seen this key before, keep it
+    if (!uniqueLocations.has(key)) {
+      uniqueLocations.set(key, true);
+      return true;
+    }
 
-    return locationString === currentString;
+    return false;
   });
 };
 
@@ -144,44 +136,41 @@ export const getEvidence = formData => {
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
 
-    evidenceSubmission.retrieveFrom = formData.locations.reduce(
-      (list, location) => {
-        if (!hasDuplicateLocation(list, location)) {
-          // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
-          // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
-          const from = getTreatmentDate(location);
-          const to = getTreatmentDate(location);
+    const uniqueVALocations = dedupeVALocations(formData.locations);
 
-          const entry = {
-            type: 'retrievalEvidence',
-            attributes: {
-              // We're not including the issues here - it's only in the form to
-              // make the UX consistent with the private records location pages
-              locationAndName: location.locationAndName,
-              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one because of UX considerations
-              evidenceDates: [{ startDate: from, endDate: to }],
-            },
-          };
+    evidenceSubmission.retrieveFrom = uniqueVALocations.map(location => {
+      // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
+      // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+      const from = getTreatmentDate(location);
+      const to = getTreatmentDate(location);
 
-          // Because of Lighthouse's schema, don't include `evidenceDates` if no
-          // date is provided
-          // Only startDate (from) is required, remove evidenceDates if
-          // undefined
-          const noTreatmentDates = location.noDate || !from;
+      const entry = {
+        type: 'retrievalEvidence',
+        attributes: {
+          // We're not including the issues here - it's only in the form to
+          // make the UX consistent with the private records location pages
+          locationAndName: location.locationAndName,
+          // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+          // providing one because of UX considerations
+          evidenceDates: [{ startDate: from, endDate: to }],
+        },
+      };
 
-          if (noTreatmentDates) {
-            delete entry.attributes.evidenceDates;
-          }
+      // Because of Lighthouse's schema, don't include `evidenceDates` if no
+      // date is provided
+      // Only startDate (from) is required, remove evidenceDates if
+      // undefined
+      const noTreatmentDates = location.noDate || !from;
 
-          // noDate can be undefined; so fallback to false due to LH schema
-          entry.attributes.noTreatmentDates = noTreatmentDates || false;
-          list.push(entry);
-        }
-        return list;
-      },
-      [],
-    );
+      if (noTreatmentDates) {
+        delete entry.attributes.evidenceDates;
+      }
+
+      // noDate can be undefined; so fallback to false due to LH schema
+      entry.attributes.noTreatmentDates = noTreatmentDates || false;
+
+      return entry;
+    });
   }
 
   // additionalDocuments added in submit-transformer

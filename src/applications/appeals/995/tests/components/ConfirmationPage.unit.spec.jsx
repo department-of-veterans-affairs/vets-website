@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import ConfirmationPage from '../../components/ConfirmationPage';
 import comprehensiveTest from '../fixtures/data/pre-api-comprehensive-test.json';
-import noEvidenceTest from '../fixtures/data/no-evidence-test.json';
+import noEvidenceTest from '../fixtures/data/pre-api-no-evidence-test.json';
 import { verifyHeader } from '../unit-test-helpers';
 import { title995 } from '../../content/title';
 import { content as evidenceSummaryContent } from '../../content/evidenceSummary';
