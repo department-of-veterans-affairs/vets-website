@@ -29,6 +29,7 @@ describe('<Issues/>', () => {
   };
   const appealIssuesWithoutDescription = {
     issues: addStatusToIssues([
+      { lastAction: null, description: '' },
       { lastAction: null, description: null },
       { lastAction: null, description: null },
       { lastAction: 'field_grant', description: null },
