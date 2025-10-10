@@ -8,6 +8,7 @@ import {
   dateFormatWithoutTime,
   formatDate,
   sendDataDogAction,
+  getMonthFromSelectedDate,
 } from '../../util/helpers';
 
 const VitalListItem = props => {
@@ -138,7 +139,9 @@ const VitalListItem = props => {
                     .slice(0, 3)
                     .join(' ')
                 : displayName.toLowerCase()}{' '}
-              over time
+              {isAccelerating && timeFrame
+                ? `for ${getMonthFromSelectedDate({ date: timeFrame })}`
+                : 'over time'}
             </strong>
             <span aria-hidden="true">
               <va-icon icon="navigate_next" size={1} />

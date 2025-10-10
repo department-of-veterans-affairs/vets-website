@@ -36,7 +36,12 @@ describe('21P-0537 App', () => {
 
     const component = App(props);
     expect(component).to.exist;
-    expect(component.props.currentLocation).to.include(location);
+    // Toggler wrapper obfuscating things - after we eventually remove
+    // the feature toggle constraint this expectation could be changed to:
+    // // expect(component.props.currentLocation).to.include(location);
+    expect(
+      component.props.children[0].props.children.props.currentLocation,
+    ).to.include(location);
   });
 
   it('renders with children', () => {
@@ -47,6 +52,9 @@ describe('21P-0537 App', () => {
 
     const component = App(props);
     expect(component).to.exist;
-    expect(component.props.children.props.children).to.exist;
+    // Toggler wrapper obfuscating things - after we eventually remove
+    // the feature toggle constraint this expectation could be changed to:
+    // // expect(component.props.children.props.children).to.exist;
+    expect(component.props.children[0].props.children).to.exist;
   });
 });

@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import { sub, format } from 'date-fns';
+
 import prefillTransformer from '../../config/prefill-transformer';
 import { NETWORTH_VALUE } from '../../config/constants';
 
@@ -8,7 +10,7 @@ const defaultDependents = [
       first: 'Jane',
       last: 'Doe',
     },
-    dateOfBirth: '1990-07-07',
+    dateOfBirth: format(sub(new Date(), { years: 35 }), 'yyyy-MM-dd'),
     ssn: '702023332',
     relationshipToVeteran: 'Spouse',
     awardIndicator: 'Y',
@@ -84,7 +86,9 @@ const buildData = ({
     dependents: {
       hasDependents:
         dependents.filter(d => d.awardIndicator === 'Y').length > 0,
-      awarded: dependents.filter(d => d.awardIndicator === 'Y'),
+      awarded: dependents
+        .filter(d => d.awardIndicator === 'Y')
+        .map(d => ({ ...d, age: '35 years old' })),
       notAwarded: dependents.filter(d => d.awardIndicator !== 'Y'),
     },
   },
