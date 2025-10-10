@@ -1,5 +1,6 @@
 import omit from 'platform/utilities/data/omit';
 import { MILITARY_CITIES } from '../constants';
+import { wrapInSingleArray } from './array-builder';
 
 /**
  * Map address object to match the key names in the schema
@@ -89,6 +90,9 @@ export function prefillTransformer(pages, formData, metadata, state) {
   if (veteranHomeAddress && !doesAddressMatch) {
     newData = { ...newData, veteranHomeAddress };
   }
+
+  // Wrap necessary data in nested arrays for prefill.
+  newData = wrapInSingleArray(newData, state);
 
   return {
     metadata,
