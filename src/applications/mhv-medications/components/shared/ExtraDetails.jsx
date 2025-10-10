@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import {
-  dateFormat,
-  pharmacyPhoneNumber,
-  rxSourceIsNonVA,
-} from '../../util/helpers';
+import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
-  const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const pharmacyPhone = rx.pharmacyPhoneNumber;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -104,9 +100,7 @@ const ExtraDetails = rx => {
             to your care team.
           </p>
           <va-link
-            href={`${
-              environment.BASE_URL
-            }/my-health/secure-messages/new-message/`}
+            href={`${environment.BASE_URL}/my-health/secure-messages/new-message/`}
             text="Start a new message"
             data-testid="discontinued-compose-message-link"
             data-dd-action-name={
@@ -142,22 +136,18 @@ const ExtraDetails = rx => {
           />
         </p>
       )}
-      {dispStatus === dispStatusObj.active &&
-        noRefillRemaining && (
-          <div className="no-print">
-            <p
-              className="vads-u-margin-y--0"
-              data-testid="active-no-refill-left"
-            >
-              You have no refills left. If you need more, request a renewal.
-            </p>
-            <va-link
-              href="/resources/how-to-renew-a-va-prescription"
-              text="Learn how to renew prescriptions"
-              data-testid="learn-to-renew-prescriptions-link"
-            />
-          </div>
-        )}
+      {dispStatus === dispStatusObj.active && noRefillRemaining && (
+        <div className="no-print">
+          <p className="vads-u-margin-y--0" data-testid="active-no-refill-left">
+            You have no refills left. If you need more, request a renewal.
+          </p>
+          <va-link
+            href="/resources/how-to-renew-a-va-prescription"
+            text="Learn how to renew prescriptions"
+            data-testid="learn-to-renew-prescriptions-link"
+          />
+        </div>
+      )}
     </div>
   );
 };

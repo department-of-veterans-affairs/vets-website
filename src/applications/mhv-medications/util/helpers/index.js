@@ -8,9 +8,7 @@ export { dateFormat } from './dateFormat';
 export { determineRefillLabel } from './determinRefillLabel';
 export { displayProviderName } from './displayProviderName';
 export { extractContainedResource } from './extractContainedResource';
-export {
-  filterRecentlyRequestedForAlerts,
-} from './filterRecentlyRequestedForAlerts';
+export { filterRecentlyRequestedForAlerts } from './filterRecentlyRequestedForAlerts';
 export { fromToNumbs } from './fromToNumbs';
 export { generateMedicationsPDF } from './generateMedicationsPDF';
 export { generateTextFile } from './generateTextFile';
@@ -22,10 +20,7 @@ export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
-export {
-  isRefillTakingLongerThanExpected,
-} from './isRefillTakingLongerThanExpected';
-export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
+export { isRefillTakingLongerThanExpected } from './isRefillTakingLongerThanExpected';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';
