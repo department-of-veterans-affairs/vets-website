@@ -12,6 +12,7 @@ import {
 } from '../../actions/conditions';
 import { getCondition as apiGetCondition } from '../../api/MrApi';
 import * as Helpers from '../../util/helpers';
+import error404 from '../fixtures/404.json';
 
 describe('Get conditions action', () => {
   it('should dispatch a get list action (default behavior isAccelerating is false/undefined )', () => {
@@ -88,6 +89,15 @@ describe('getConditionsList - isAccelerating feature', () => {
       expect(dispatch.secondCall.args[0].type).to.equal(
         Actions.Conditions.GET_UNIFIED_LIST,
       );
+    });
+  });
+
+  it('should understand status code 404', () => {
+    mockApiRequest(error404);
+    getConditionsList(false, true)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[2].title).to.equal('"Error"');
+      expect(dispatch.firstCall.args[2].detail).to.equal('Not Found');
+      expect(dispatch.firstCall.args[2].status).to.equal('404');
     });
   });
 
