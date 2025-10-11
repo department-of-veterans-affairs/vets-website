@@ -1,7 +1,6 @@
 /**
  * @module containers/IntroductionPage
- * @description Introduction page component for VA Form 21-2680 that displays
- * form overview, process steps, and save-in-progress functionality
+ * @description Introduction page for VA Form 21-2680
  */
 
 import React, { useEffect } from 'react';
@@ -11,59 +10,71 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+
 import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 
-/** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes to complete form */
+/** @constant {number} OMB_RES_BURDEN - Estimated burden in minutes */
 const OMB_RES_BURDEN = 30;
 
-/** @constant {string} OMB_NUMBER - Office of Management and Budget control number */
+/** @constant {string} OMB_NUMBER - OMB control number */
 const OMB_NUMBER = '2900-0721';
 
-/** @constant {string} OMB_EXP_DATE - OMB approval expiration date */
+/** @constant {string} OMB_EXP_DATE - OMB expiration date */
 const OMB_EXP_DATE = '02/28/2026';
 
 /**
- * Process list component showing the steps to complete the form
- * @returns {React.ReactElement} Process list with application steps
+ * Process list component
+ * @returns {React.ReactElement} Process steps
  */
 const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+        <h4>What you’ll need:</h4>
+        <p>
+          <strong>For the claimant (Sections I-V):</strong>
+        </p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>Veteran’s name, SSN, and VA file number (if applicable)</li>
+          <li>Date of birth and service number (if applicable)</li>
+          <li>Your contact information if you’re not the Veteran</li>
+          <li>Current hospitalization status and details</li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          <strong>For the clinician (Sections VI-VIII):</strong>
+        </p>
+        <ul>
+          <li>Medical diagnoses and permanent/total disabilities</li>
+          <li>Functional limitations and ADL assistance needs</li>
+          <li>Vision status and nursing home care requirements</li>
+          <li>NPI number and facility information</li>
+        </ul>
+      </va-process-list-item>
+      <va-process-list-item header="Complete the form">
+        <p>
+          <strong>Claimant completes first:</strong> Fill out Sections I-V,
+          including benefit type selection (SMC or SMP) and sign.
+        </p>
+        <p>
+          <strong>Clinician completes next:</strong> An MD, DO, Physician
+          Assistant, or Advanced Practice Registered Nurse must complete the
+          examination sections (VI-VIII).
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Submit">
+        <p>Once both sections are complete, submit the form to VA.</p>
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          If the form indicates nursing home care is needed, you may also need
+          to submit VA Form 21-0779.
         </p>
       </va-process-list-item>
       <va-process-list-item header="VA Review">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          VA will review the examination to determine eligibility for Aid and
+          Attendance or Housebound benefits.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -71,23 +82,15 @@ const ProcessList = () => {
 };
 
 /**
- * Introduction page component for VA Form 21-2680
- * Displays form overview, process steps, and handles authentication state
+ * Introduction page component
  * @param {Object} props - Component properties
- * @param {Object} props.route - Route configuration from React Router
- * @param {Object} props.route.formConfig - Form configuration object
- * @param {boolean} props.route.formConfig.prefillEnabled - Whether prefill is enabled
- * @param {Object} props.route.formConfig.savedFormMessages - Messages for saved forms
- * @param {Array} props.route.pageList - List of form pages
- * @param {Object} [props.location] - React Router location object
- * @returns {React.ReactElement} Introduction page component
+ * @returns {React.ReactElement} Introduction page
  */
-export const IntroductionPage = props => {
+export const IntroductionPage = ({ route }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const showVerifyIdentity = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
@@ -97,11 +100,24 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+
+      <va-alert status="info" show-icon class="vads-u-margin-bottom--2">
+        <h3 slot="headline">Two-part form</h3>
+        <p>
+          This form has two parts: The claimant (Veteran or survivor) completes
+          Sections I-V, then a qualified medical professional completes the
+          examination sections (VI-VIII).
+        </p>
+      </va-alert>
+
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Follow the steps below to apply for Aid and Attendance or Housebound
+        benefits.
       </h2>
+
       <ProcessList />
-      {showVerifyIdentify ? (
+
+      {showVerifyIdentity ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
         <SaveInProgressIntro
@@ -115,6 +131,7 @@ export const IntroductionPage = props => {
           }}
         />
       )}
+
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -133,7 +150,6 @@ IntroductionPage.propTypes = {
     }).isRequired,
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
+
+export default IntroductionPage;

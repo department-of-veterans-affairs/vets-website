@@ -5,10 +5,17 @@
  */
 
 /** @exports Constants - Application-wide constants */
-export { TITLE, SUBTITLE } from './constants';
+export {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /** @exports Containers - React container components */
-export { App, IntroductionPage, ConfirmationPage } from './containers';
+export {
+  App,
+  IntroductionPage,
+  ConfirmationPage,
+} from '@bio-aquia/21-2680-house-bound-status/containers';
 
 /** @exports Pages - Form page configurations */
 export {
@@ -16,13 +23,17 @@ export {
   mailingAddress,
   nameAndDateOfBirth,
   phoneAndEmailAddress,
-} from './pages';
+} from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /** @exports Config - Form configuration object */
-export { formConfig } from './config';
+export { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 
 /** @exports Routes - React Router configuration */
-export { default as routes } from './routes';
+export {
+  default as routes,
+} from '@bio-aquia/21-2680-house-bound-status/routes';
 
 /** @exports Reducers - Redux reducer configuration */
-export { default as reducer } from './reducers';
+export {
+  default as reducer,
+} from '@bio-aquia/21-2680-house-bound-status/reducers';

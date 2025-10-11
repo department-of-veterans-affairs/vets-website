@@ -1,0 +1,23 @@
+/**
+ * Workaround for VA web component bug that duplicates radio options
+ * Each va-radio-option is rendering two identical .usa-radio divs
+ * This CSS hides the second duplicate in each option
+ */
+
+// Hide the duplicate radio option (second .usa-radio in each va-radio-option)
+va-radio-option {
+  .usa-radio:nth-of-type(2) {
+    display: none !important;
+  }
+}
+
+// Alternative approach if the above doesn't work
+// Target the duplicates more specifically
+va-radio {
+  va-radio-option {
+    // Only show the first radio div, hide any subsequent ones
+    .usa-radio ~ .usa-radio {
+      display: none !important;
+    }
+  }
+}

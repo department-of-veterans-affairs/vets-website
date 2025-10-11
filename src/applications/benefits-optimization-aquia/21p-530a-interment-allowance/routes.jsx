@@ -1,15 +1,10 @@
-/**
- * @module routes
- * @description Route configuration for VA Form 21P-530A Application for Interment Allowance
- */
-
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
-import App from '@bio-aquia/21p-530a-interment-allowance/containers/app';
+import { App } from '@bio-aquia/21p-530a-interment-allowance/containers/app';
 
 /**
- * Route configuration object
- * @type {RouteConfig}
+ * Route configuration for the 21P-530a form application
+ * @module routes
  */
 const route = {
   path: '/',

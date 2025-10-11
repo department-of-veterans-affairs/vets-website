@@ -1,101 +1,148 @@
-/**
- * @module config/form
- * @description Form configuration for VA Form 21P-530A Application for Interment Allowance
- */
-
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import {
-  TITLE,
-  SUBTITLE,
-} from '@bio-aquia/21p-530a-interment-allowance/constants';
-import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
-import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
-import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
 
-import { nameAndDateOfBirth } from '@bio-aquia/21p-530a-interment-allowance/pages/name-and-date-of-birth';
-import { identificationInformation } from '@bio-aquia/21p-530a-interment-allowance/pages/identification-information';
-import { mailingAddress } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address';
-import { phoneAndEmailAddress } from '@bio-aquia/21p-530a-interment-allowance/pages/phone-and-email-address';
+import {
+  SUBMIT_URL,
+  SUBTITLE,
+  TITLE,
+  TRACKING_PREFIX,
+} from '@bio-aquia/21p-530a-interment-allowance/constants';
+import ConfirmationPage from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
+import IntroductionPage from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
+import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
+import {
+  createPageValidator,
+  createValidationErrorHandler,
+} from '@bio-aquia/shared/utils';
+
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
+import GetHelpFooter from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
+import {
+  CemeteryInformationPage,
+  OfficialSignaturePage,
+  VeteranIdentificationPage,
+  VeteranServicePage,
+} from '@bio-aquia/21p-530a-interment-allowance/pages';
+import {
+  cemeteryInformationSchema,
+  officialSignatureSchema,
+  veteranIdentificationSchema,
+  veteranServiceSchema,
+} from '@bio-aquia/21p-530a-interment-allowance/schemas';
+
+const defaultSchema = {
+  type: 'object',
+  properties: {},
+};
 
 /**
- * Main form configuration object
+ * Form configuration for VA Form 21P-530a - State or Tribal Organization Application for Interment Allowance
  * @type {FormConfig}
  */
-export const formConfig = {
+const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: SUBMIT_URL,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: '21p-530a-interment-allowance-',
+  trackingPrefix: TRACKING_PREFIX,
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelpFooter,
+  preSubmitInfo: PreSubmitInfo,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21P_530A,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21P-530A) is in progress.',
-    //   expired: 'Your saved benefits application (21P-530A) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your state or tribal organization interment allowance application (21P-530a) is in progress.',
+      expired:
+        'Your saved interment allowance application (21P-530a) has expired. If you want to submit your application, please start a new one.',
+      saved: 'Your interment allowance application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound:
+      'Please start over to submit your interment allowance application.',
+    noAuth: 'Please sign in again to continue your application.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    veteranInformationChapter: {
+      title: 'Deceased veteran information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: 'Veteran identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranIdentificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranIdentificationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranIdentification'),
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
+        veteranService: {
+          path: 'veteran-service',
+          title: 'Veteran service information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranServicePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranServiceSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranService'),
         },
       },
     },
-    mailingAddressChapter: {
-      title: 'Mailing address',
+    cemeteryChapter: {
+      title: 'Cemetery and organization',
       pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        cemeteryInformation: {
+          path: 'cemetery-information',
+          title: 'Cemetery information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CemeteryInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(cemeteryInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('cemeteryInformation'),
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
+    certificationChapter: {
+      title: 'Certification',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        officialSignature: {
+          path: 'official-signature',
+          title: 'Official signature',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: OfficialSignaturePage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(officialSignatureSchema)(values),
+          onErrorChange: createValidationErrorHandler('officialSignature'),
         },
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
-// Platform expects default export for form config
 export default formConfig;
