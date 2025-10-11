@@ -12,9 +12,9 @@ const initializeRealUserMonitoring = () => {
     !window.DD_RUM?.getInitConfiguration()
   ) {
     datadogRum.init({
-      applicationId: 'cca24a05-9ea0-49ea-aaa9-0d1e04a17ba0',
-      clientToken: 'puba5e0866f8008f60a6bc8b09ae555dd92',
-      site: 'ddog-gov.com',
+      applicationId: process.env.D_DOG_APPLICATION_ID,
+      clientToken: process.env.D_DOG_CLIENT_TOKEN,
+      site: process.env.D_DOG_SITE_ADDRESS,
       service: '10-10d',
       env: environment.vspEnvironment(),
       sessionSampleRate: 100,
