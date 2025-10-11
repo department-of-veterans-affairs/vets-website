@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
   MemorableDateField,
   SSNField,
+  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
@@ -18,7 +18,7 @@ import {
   ssnSchema,
   vaFileNumberSchema,
   veteranIdentificationSchema,
-} from '../schemas';
+} from '../../schemas';
 
 /**
  * Data processor to ensure date values are properly formatted strings
@@ -41,6 +41,8 @@ export const VeteranIdentificationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -52,6 +54,8 @@ export const VeteranIdentificationPage = ({
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       schema={veteranIdentificationSchema}
       sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
@@ -100,7 +104,7 @@ export const VeteranIdentificationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="serviceNumber"
             label="Veteran's service number (if different from SSN)"
             value={localData.serviceNumber}
@@ -111,7 +115,7 @@ export const VeteranIdentificationPage = ({
             schema={serviceNumberSchema}
           />
 
-          <FormField
+          <TextInputField
             name="vaFileNumber"
             label="Veteran's VA file number"
             value={localData.vaFileNumber}
@@ -136,7 +140,7 @@ export const VeteranIdentificationPage = ({
           <va-fieldset className="vads-u-margin-y--2">
             <legend className="schemaform-block-title">Place of birth</legend>
 
-            <FormField
+            <TextInputField
               name="placeOfBirth.city"
               label="City"
               value={localData.placeOfBirth?.city}
@@ -147,7 +151,7 @@ export const VeteranIdentificationPage = ({
               schema={placeOfBirthSchema.shape.city}
             />
 
-            <FormField
+            <TextInputField
               name="placeOfBirth.state"
               label="State"
               value={localData.placeOfBirth?.state}
@@ -179,5 +183,7 @@ VeteranIdentificationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
