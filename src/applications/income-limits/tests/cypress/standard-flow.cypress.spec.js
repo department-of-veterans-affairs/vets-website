@@ -35,10 +35,10 @@ describe('standard flow', () => {
 
     // Results
     h.verifyElement(h.RESULTSPAGE);
-    h.checkAccordionValue(h.RESULTS_1, '$16,037 or less', 0);
-    h.checkAccordionValue(h.RESULTS_2, '$16,038 - $39,849', 1);
-    h.checkAccordionValue(h.RESULTS_3, '$39,850 - $46,450', 2);
-    h.checkAccordionValue(h.RESULTS_4, '$46,451 - $51,095', 3);
-    h.checkAccordionValue(h.RESULTS_5, '$51,096 or more', 4);
+    h.checkAccordionValue(h.RESULTS_1, '$16,037 or less');
+    h.checkAccordionValue(h.RESULTS_2, '$16,038 - $39,849');
+    h.checkAccordionValue(h.RESULTS_3, '$39,850 - $46,450');
+    h.checkAccordionValue(h.RESULTS_4, '$46,451 - $51,095');
+    h.checkAccordionValue(h.RESULTS_5, '$51,096 or more');
   });
 });
