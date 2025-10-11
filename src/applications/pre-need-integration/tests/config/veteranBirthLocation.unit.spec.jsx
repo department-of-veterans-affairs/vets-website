@@ -22,7 +22,7 @@ describe('Pre-need applicant veteran birth location', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 
@@ -40,8 +40,15 @@ describe('Pre-need applicant veteran birth location', () => {
     fireEvent.submit(container.querySelector('form'));
 
     await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(2);
+      // Select all va-text-input fields with an error attribute
+      const errorInputs = container.querySelectorAll('va-text-input[error]');
+      expect(errorInputs.length).to.equal(2);
+      // Optionally check error attribute value
+      errorInputs.forEach(input => {
+        expect(input.getAttribute('error')).to.equal(
+          'You must provide a response',
+        );
+      });
       expect(onSubmit.called).to.be.false;
     });
   });
