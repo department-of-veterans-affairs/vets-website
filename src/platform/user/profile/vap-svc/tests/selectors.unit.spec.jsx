@@ -288,7 +288,7 @@ describe('selectors', () => {
     it('should return the address validation data', () => {
       const addressValidation = {
         addressValidationType: 'foo',
-        validationKey: '123',
+        overrideValidationKey: '123',
         addressValidationError: null,
       };
       state.vapService.addressValidation = addressValidation;
