@@ -1,10 +1,10 @@
 import React from 'react';
 
 /**
- * Benefits Information page component for VA Form 21-4192
- * @module pages/benefits-information
+ * Duty Status page component for VA Form 21-4192
+ * @module pages/duty-status
  */
-const BenefitsInformationPage = () => {
+const DutyStatusPage = () => {
   return (
     <div className="vads-u-margin-y--4">
       <va-alert status="info" visible>
@@ -18,4 +18,4 @@ const BenefitsInformationPage = () => {
   );
 };
 
-export default BenefitsInformationPage;
+export default DutyStatusPage;

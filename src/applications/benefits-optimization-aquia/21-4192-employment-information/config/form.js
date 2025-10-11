@@ -22,14 +22,12 @@ import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/
 
 // Import page components
 import {
-  EmployerInformationPage,
   VeteranInformationPage,
-  EmploymentDetailsPage,
-  TerminationInformationPage,
+  EmployerInformationPage,
+  EmploymentInformationPage,
+  DutyStatusPage,
   BenefitsInformationPage,
-  ReserveGuardQuestionPage,
-  ReserveGuardStatusPage,
-  CertificationPage,
+  RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
 
 const defaultSchema = {
@@ -73,21 +71,12 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    identificationChapter: {
-      title: 'Section I - Identification Information',
+    veteranInformationChapter: {
+      title: 'Veteran Information',
       pages: {
-        employerInformation: {
-          path: 'employer-information',
-          title: 'Employer information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmployerInformationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-        },
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran identification',
+          title: 'Veteran Information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranInformationPage,
@@ -96,62 +85,54 @@ const formConfig = {
         },
       },
     },
+    employerInformationChapter: {
+      title: 'Employers Information',
+      pages: {
+        employerInformation: {
+          path: 'employer-information',
+          title: 'Employers Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmployerInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+      },
+    },
     employmentInformationChapter: {
-      title: 'Section II - Employment Information',
+      title: 'Employment Information',
       pages: {
-        employmentDetails: {
-          path: 'employment-details',
-          title: 'Employment details',
+        employmentInformation: {
+          path: 'employment-information',
+          title: 'Employment Information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: EmploymentDetailsPage,
+          CustomPage: EmploymentInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
-        },
-        terminationInformation: {
-          path: 'termination-information',
-          title: 'Termination information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: TerminationInformationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          depends: formData =>
-            formData?.employmentEndDate !== undefined &&
-            formData?.employmentEndDate !== '',
         },
       },
     },
-    reserveGuardChapter: {
-      title: 'Section III - Reserve or National Guard',
+    dutyStatusChapter: {
+      title: 'Duty Status',
       pages: {
-        reserveGuardQuestion: {
-          path: 'reserve-guard-question',
-          title: 'Military service status',
+        dutyStatus: {
+          path: 'duty-status',
+          title: 'Duty Status',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: ReserveGuardQuestionPage,
+          CustomPage: DutyStatusPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
-        },
-        reserveGuardStatus: {
-          path: 'reserve-guard-status',
-          title: 'Reserve or National Guard status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ReserveGuardStatusPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          depends: formData => formData?.isReserveOrGuard === 'yes',
         },
       },
     },
-    benefitsChapter: {
-      title: 'Section IV - Benefit Information',
+    benefitsInformationChapter: {
+      title: 'Benefits Information',
       pages: {
         benefitsInformation: {
           path: 'benefits-information',
-          title: 'Benefits and payments',
+          title: 'Benefits Information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: BenefitsInformationPage,
@@ -160,15 +141,15 @@ const formConfig = {
         },
       },
     },
-    certificationChapter: {
-      title: 'Certification',
+    remarksChapter: {
+      title: 'Remarks',
       pages: {
-        certification: {
-          path: 'certification',
-          title: 'Employer certification',
+        remarks: {
+          path: 'remarks',
+          title: 'Remarks',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: CertificationPage,
+          CustomPage: RemarksPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
         },
