@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import {
   safeNewDate,
   getPhase,
@@ -88,19 +89,38 @@ describe('getPhase', () => {
 });
 
 describe('getOverallPhase', () => {
-  const now = Date.now();
-  const pastTime = Date.now() - VALID_REFRESH_DURATION - 1;
+  let clock;
+  let now;
+  let pastTime;
+  let currStatus;
+  let staleStatus;
 
-  const currStatus = {
-    lastRequested: now - 1000,
-    lastCompleted: now,
-    lastSuccessfulCompleted: now,
-  };
-  const staleStatus = {
-    lastRequested: pastTime,
-    lastCompleted: pastTime,
-    lastSuccessfulCompleted: pastTime,
-  };
+  beforeEach(() => {
+    // Set up fake time with a realistic timestamp
+    clock = sinon.useFakeTimers({
+      now: new Date('2024-01-01T12:00:00Z').getTime(),
+      toFake: ['Date'],
+    });
+    now = Date.now();
+    pastTime = now - VALID_REFRESH_DURATION - 1;
+
+    currStatus = {
+      lastRequested: now - 1000,
+      lastCompleted: now,
+      lastSuccessfulCompleted: now,
+    };
+    staleStatus = {
+      lastRequested: pastTime,
+      lastCompleted: pastTime,
+      lastSuccessfulCompleted: pastTime,
+    };
+  });
+
+  afterEach(() => {
+    if (clock) {
+      clock.restore();
+    }
+  });
 
   it('should return null if refreshStatus is empty or null', () => {
     expect(getOverallPhase([], 1234567890)).to.be.null;
@@ -117,7 +137,7 @@ describe('getOverallPhase', () => {
         lastSuccessfulCompleted: now - 1000,
       },
     ];
-    const result = getOverallPhase(refreshStatus, Date.now());
+    const result = getOverallPhase(refreshStatus, now);
     expect(result).to.equal(refreshPhases.IN_PROGRESS);
   });
 
@@ -126,7 +146,7 @@ describe('getOverallPhase', () => {
       { ...staleStatus, extract: refreshExtractTypes.ALLERGY },
       { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
-    const result = getOverallPhase(refreshStatus, Date.now());
+    const result = getOverallPhase(refreshStatus, now);
     expect(result).to.equal(refreshPhases.STALE);
   });
 
@@ -140,7 +160,7 @@ describe('getOverallPhase', () => {
       },
       { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
-    const result = getOverallPhase(refreshStatus, Date.now());
+    const result = getOverallPhase(refreshStatus, now);
     expect(result).to.equal(refreshPhases.CURRENT);
   });
 
@@ -149,7 +169,7 @@ describe('getOverallPhase', () => {
       { ...currStatus, extract: refreshExtractTypes.ALLERGY },
       { ...currStatus, extract: refreshExtractTypes.VPR },
     ];
-    const result = getOverallPhase(refreshStatus, Date.now());
+    const result = getOverallPhase(refreshStatus, now);
     expect(result).to.equal(refreshPhases.CURRENT);
   });
 
@@ -163,7 +183,7 @@ describe('getOverallPhase', () => {
         lastSuccessfulCompleted: pastTime,
       },
     ];
-    const result = getOverallPhase(refreshStatus, Date.now());
+    const result = getOverallPhase(refreshStatus, now);
     expect(result).to.be.null;
   });
 });

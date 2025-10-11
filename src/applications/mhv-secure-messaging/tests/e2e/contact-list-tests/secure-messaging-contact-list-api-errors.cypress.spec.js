@@ -26,7 +26,7 @@ describe('SM CONTACT LIST API ERRORS', () => {
       body: {},
     }).as('saveRecipientsFail');
 
-    ContactListPage.selectCheckBox('100');
+    ContactListPage.selectCheckBox('***TG 100_SLC4%');
     ContactListPage.clickSaveContactListButton();
     cy.wait('@saveRecipientsFail');
 

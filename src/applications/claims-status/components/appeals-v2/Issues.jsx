@@ -1,51 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import titleCase from 'platform/utilities/data/titleCase';
-import { pluralize } from '~/platform/utilities/ui';
 
-const Issues = ({ issues, appealType }) => {
+const Issues = ({ issues, isAppeal }) => {
   const open = issues.filter(i => i.status === 'open');
   const remand = issues.filter(i => i.status === 'remand');
   const granted = issues.filter(i => i.status === 'granted');
   const denied = issues.filter(i => i.status === 'denied');
   const withdrawn = issues.filter(i => i.status === 'withdrawn');
-  /*
-  Filter out issues with no description so that we can
-  display the amount of issues without a description
-  */
-  const openNoDescription = open.filter(i => i.description === null);
-  const remandNoDescription = remand.filter(i => i.description === null);
-  const grantedNoDescription = granted.filter(i => i.description === null);
-  const deniedNoDescription = denied.filter(i => i.description === null);
-  const withdrawnNoDescription = withdrawn.filter(i => i.description === null);
-  const isAppeal = appealType === 'appeal' || appealType === 'legacy appeal';
 
-  const getListItems = (item, i) => {
-    if (item.description === null) {
-      return null;
-    }
-    return (
-      <li
-        className="issue-item"
-        key={`${item.status}-${i}`}
-        data-dd-privacy="mask"
-        data-dd-action-name="appeal issues"
-      >
-        {item.description}
-      </li>
-    );
-  };
-  // Add a list item that displays the amount of issues without a description
-  const getNoDescriptionItems = (count, status) => (
+  const getListItems = (item, i) => (
     <li
       className="issue-item"
-      key={`missing-description-items-${status}`}
+      key={`${item.status}-${i}`}
       data-dd-privacy="mask"
-      data-dd-action-name="missing description items"
+      data-dd-action-name="appeal issues"
     >
-      {`We're unable to show ${count} ${pluralize(count, 'issue')} on ${
-        isAppeal ? 'appeal' : `your ${titleCase(appealType)}`
-      }`}
+      {item.description}
     </li>
   );
 
@@ -55,24 +25,14 @@ const Issues = ({ issues, appealType }) => {
   const deniedListItems = denied.map(getListItems);
   const withdrawnListItems = withdrawn.map(getListItems);
 
-  const openSection = openListItems.length ? (
-    <ul>
-      {openListItems}
-      {openNoDescription.length > 0 &&
-        getNoDescriptionItems(openNoDescription.length, 'open')}
-    </ul>
-  ) : null;
+  const openSection = openListItems.length ? <ul>{openListItems}</ul> : null;
 
   let remandSection = null;
   if (remandListItems.length) {
     remandSection = (
       <div className="remand-section">
         <h4 className="vads-u-font-size--h5">Remand</h4>
-        <ul>
-          {remandListItems}
-          {remandNoDescription.length > 0 &&
-            getNoDescriptionItems(remandNoDescription.length, 'remand')}
-        </ul>
+        <ul>{remandListItems}</ul>
       </div>
     );
   }
@@ -82,11 +42,7 @@ const Issues = ({ issues, appealType }) => {
     grantedSection = (
       <div className="granted-section">
         <h4 className="vads-u-font-size--h5">Granted</h4>
-        <ul>
-          {grantedListItems}
-          {grantedNoDescription.length > 0 &&
-            getNoDescriptionItems(grantedNoDescription.length, 'granted')}
-        </ul>
+        <ul>{grantedListItems}</ul>
       </div>
     );
   }
@@ -96,11 +52,7 @@ const Issues = ({ issues, appealType }) => {
     deniedSection = (
       <div className="denied-section">
         <h4 className="vads-u-font-size--h5">Denied</h4>
-        <ul>
-          {deniedListItems}
-          {deniedNoDescription.length > 0 &&
-            getNoDescriptionItems(deniedNoDescription.length, 'denied')}
-        </ul>
+        <ul>{deniedListItems}</ul>
       </div>
     );
   }
@@ -110,11 +62,7 @@ const Issues = ({ issues, appealType }) => {
     withdrawnSection = (
       <div className="withdrawn-section">
         <h4 className="vads-u-font-size--h5">Withdrawn</h4>
-        <ul>
-          {withdrawnListItems}
-          {withdrawnNoDescription.length > 0 &&
-            getNoDescriptionItems(withdrawnNoDescription.length, 'withdrawn')}
-        </ul>
+        <ul>{withdrawnListItems}</ul>
       </div>
     );
   }
@@ -178,7 +126,7 @@ const Issues = ({ issues, appealType }) => {
 };
 
 Issues.propTypes = {
-  appealType: PropTypes.string.isRequired,
+  isAppeal: PropTypes.bool.isRequired,
   issues: PropTypes.arrayOf(
     PropTypes.shape({
       status: PropTypes.oneOf([

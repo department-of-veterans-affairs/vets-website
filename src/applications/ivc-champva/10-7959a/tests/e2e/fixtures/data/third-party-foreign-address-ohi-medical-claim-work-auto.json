@@ -1,6 +1,7 @@
 {
   "description": "Third party signer, beneficiary has foreign address, OHI, medical claim, work related, auto related",
   "data": {
+    "view:sharesAddressWith": "na",
     "claimStatus": "new",
     "view:hasPolicies": true,
     "primaryEob": [
@@ -81,7 +82,6 @@
         "providerPhone": "1231231235"
       }
     ],
-    "sharesAddressWith": "not-shared",
     "statementOfTruthSignature": "Certifier Middle Jones",
     "statementOfTruthCertified": true
   }

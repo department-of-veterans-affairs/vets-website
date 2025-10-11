@@ -174,6 +174,12 @@ describe('Health conditions with accelerated data', () => {
         mhv_accelerated_delivery_enabled: true,
         mhv_accelerated_delivery_conditions_enabled: isAcceleratingConditions,
         /* eslint-enable camelcase */
+        loading: false,
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+        },
       },
       user,
       mr: {

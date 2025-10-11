@@ -72,11 +72,3 @@ export const ssoeTransactionId = state =>
  */
 export const signInServiceEnabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];
-
-/**
- * Checks if the Terms of Use feature flag is enabled.
- * @param {Object} state - The application state.
- * @returns {boolean} - True if the feature is enabled.
- */
-export const termsOfUseEnabled = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.termsOfUse];

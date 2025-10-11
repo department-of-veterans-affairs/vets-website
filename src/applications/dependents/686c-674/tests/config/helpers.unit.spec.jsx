@@ -136,4 +136,34 @@ describe('CancelButton Component (Web Components)', () => {
       });
     });
   });
+
+  it(`should navigate to the removePath location passed into the component when clicking cancel`, async () => {
+    const pushSpy = sinon.spy();
+    const removePath = '/test-path';
+    const props = {
+      dependentType: 'children who got married',
+      dependentButtonType: 'children',
+      removePath,
+      router: { push: pushSpy },
+    };
+    const { getByTestId } = render(<CancelButton {...props} />);
+
+    fireEvent.click(getByTestId('cancel-btn'));
+    const modal = getByTestId('cancel-modal');
+
+    expect(modal.getAttribute('modal-title')).to.include(
+      `Cancel removing ${props.dependentType}?`,
+    );
+    expect(modal.getAttribute('primary-button-text')).to.equal('Yes, cancel');
+    expect(modal.getAttribute('secondary-button-text')).to.include(
+      `No, continue removing ${props.dependentButtonType}`,
+    );
+
+    modal.__events.primaryButtonClick();
+
+    await waitFor(() => {
+      expect(pushSpy.called).to.be.true;
+      expect(pushSpy.calledWith(removePath));
+    });
+  });
 });

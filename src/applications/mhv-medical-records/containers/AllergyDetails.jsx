@@ -53,7 +53,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
+  const { isLoading, isCerner } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -67,21 +67,19 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAcceleratingAllergies,
+        isOracleHealthData: isCerner,
       };
     },
-    [allergy, isAcceleratingAllergies],
+    [allergy, isCerner],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
-        dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-        );
+        dispatch(getAllergyDetails(allergyId, allergyList, isCerner));
       }
     },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
+    [allergyId, allergyList, dispatch, isLoading, isCerner],
   );
 
   useEffect(
@@ -127,7 +125,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAcceleratingAllergies) {
+    if (allergyData.isOracleHealthData) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n

@@ -6,6 +6,7 @@ import NeedHelp from '../components/NeedHelp';
 import { fetchCh31Eligibility } from '../actions/ch31-my-eligibility-and-benefits';
 import EligibilityCriteria from '../components/EligibilityCriteria';
 import BenefitsSummary from '../components/BenefitsSummary';
+// import Breadcrumbs from '../components/Breadcrumbs';
 
 const MyEligibilityAndBenefits = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -36,8 +37,9 @@ const MyEligibilityAndBenefits = () => {
   if (!showEligibilityPage) {
     return (
       <div className="row">
+        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-y--4 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <p className="vads-u-color--gray-medium">
             This page isn’t available right now.
           </p>
@@ -49,8 +51,9 @@ const MyEligibilityAndBenefits = () => {
   if (loading) {
     return (
       <div className="row">
+        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <va-loading-indicator
             set-focus
             message="Loading your eligibility..."
@@ -62,8 +65,9 @@ const MyEligibilityAndBenefits = () => {
   if (error) {
     return (
       <div className="row">
+        {/* <Breadcrumbs /> */}
         <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-          <h1>My eligibility and benefits</h1>
+          <h1>Your eligibility and benefits</h1>
           <va-alert status="error" visible class="vads-u-margin-y--4">
             <h2 slot="headline">
               We can’t load the eligibility details right now
@@ -105,24 +109,14 @@ const MyEligibilityAndBenefits = () => {
     .trim()
     .toLowerCase();
 
-  const isIneligibleRec = recommendation === 'ineligible';
-
-  // Has RES case?
-  const hasResCaseId =
-    attrs?.resCaseId !== undefined &&
-    attrs?.resCaseId !== null &&
-    attrs?.resCaseId !== '' &&
-    attrs?.resCaseId !== 0;
-
-  // UI flags
-  const showMissingCaseAlert = !hasResCaseId && isIneligibleRec;
   const isEligible = recommendation === 'eligible';
-  const isIneligible = recommendation === 'ineligible' && hasResCaseId;
+  const isIneligible = recommendation === 'ineligible';
 
   return (
     <div className="row ">
+      {/* <Breadcrumbs /> */}
       <div className="usa-width-two-thirds vads-u-margin-bottom--4 vads-u-margin-top--0p5 vads-u-margin-x--1 medium-screen:vads-u-margin-x--0 ">
-        <h1>My eligibility and benefits</h1>
+        <h1>Your eligibility and benefits</h1>
 
         <p className="vads-u-font-size--lg">
           Below you will find your Chapter 31 eligibility, which includes your
@@ -196,26 +190,6 @@ const MyEligibilityAndBenefits = () => {
             />
           </va-alert>
         )}
-
-        {showMissingCaseAlert && (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-            class="vads-u-margin-y--6"
-          >
-            <h2 slot="headline">We are unable to determine your eligibility</h2>
-            <p className="vads-u-margin-y--2">
-              We are currently unable to determine your eligibility. You are
-              still encouraged to proceed and apply for the VA Form 28-1900.
-            </p>
-            <va-link-action
-              href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/#"
-              text="Apply for VR&E benefits"
-              type="primary"
-            />
-          </va-alert>
-        )}
         <EligibilityCriteria
           veteranProfile={veteranProfile}
           disabilityRating={disabilityRating}
@@ -227,7 +201,7 @@ const MyEligibilityAndBenefits = () => {
           irndStatus={irndStatus}
           eligibilityTerminationDateStatus={eligibilityTerminationDateStatus}
         />
-        {hasResCaseId && (
+        {isEligible && (
           <BenefitsSummary
             result={attrs?.resEligibilityRecommendation}
             entitlementDetails={entitlementDetails}

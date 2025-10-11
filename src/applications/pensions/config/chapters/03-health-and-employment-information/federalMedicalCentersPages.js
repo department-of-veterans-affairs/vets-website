@@ -20,7 +20,10 @@ const options = {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from federal medical facilities',
     cancelEditTitle: 'Cancel editing this federal medical facility',
+    cancelAddNo: 'No',
+    cancelNo: 'No',
     deleteTitle: 'Delete federal medical facility',
+    deleteNo: 'No',
   },
 };
 

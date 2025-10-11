@@ -71,7 +71,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({ featureFlag: false });
 
       expect(result).to.equal(
-        `Did the household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 
@@ -79,7 +79,7 @@ describe('household income helpers', () => {
       const result = netWorthTitle({});
 
       expect(result).to.equal(
-        `Did the household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`,
+        `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`,
       );
     });
 
@@ -90,7 +90,7 @@ describe('household income helpers', () => {
       });
 
       expect(result).to.equal(
-        'Did the household have a net worth greater than $200,000 in the last tax year?',
+        'Did your household have a net worth less than $200,000 in the last tax year?',
       );
     });
 
@@ -101,7 +101,7 @@ describe('household income helpers', () => {
       });
 
       expect(result).to.equal(
-        'Did the household have a net worth greater than $1,500,000 in the last tax year?',
+        'Did your household have a net worth less than $1,500,000 in the last tax year?',
       );
     });
 
@@ -116,7 +116,7 @@ describe('household income helpers', () => {
         10,
       ).toLocaleString('en-US');
       expect(result).to.equal(
-        `Did the household have a net worth greater than $${expectedValue} in the last tax year?`,
+        `Did your household have a net worth less than $${expectedValue} in the last tax year?`,
       );
     });
 
@@ -132,7 +132,7 @@ describe('household income helpers', () => {
         10,
       ).toLocaleString('en-US');
       expect(result).to.equal(
-        `Did the household have a net worth greater than $${expectedValue} in the last tax year?`,
+        `Did your household have a net worth less than $${expectedValue} in the last tax year?`,
       );
     });
 
@@ -148,7 +148,7 @@ describe('household income helpers', () => {
         10,
       ).toLocaleString('en-US');
       expect(result).to.equal(
-        `Did the household have a net worth greater than $${expectedValue} in the last tax year?`,
+        `Did your household have a net worth less than $${expectedValue} in the last tax year?`,
       );
     });
 
@@ -159,7 +159,7 @@ describe('household income helpers', () => {
       });
 
       expect(result).to.equal(
-        'Did the household have a net worth greater than $12,345,678 in the last tax year?',
+        'Did your household have a net worth less than $12,345,678 in the last tax year?',
       );
     });
 
@@ -170,7 +170,7 @@ describe('household income helpers', () => {
       });
 
       expect(result).to.equal(
-        'Did the household have a net worth greater than $100 in the last tax year?',
+        'Did your household have a net worth less than $100 in the last tax year?',
       );
     });
   });

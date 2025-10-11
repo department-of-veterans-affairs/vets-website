@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const LoadingButton = () => {
   const ref = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const focusButton = () => {
       const inner = ref.current?.shadowRoot?.querySelector('button');
       if (inner) {
         inner.focus();
       } else {
-        setTimeout(focusButton, 50);
+        requestAnimationFrame(focusButton);
       }
     };
-    focusButton();
+    requestAnimationFrame(focusButton);
   }, []);
 
   return <VaButton loading text="Loading..." ref={ref} />;

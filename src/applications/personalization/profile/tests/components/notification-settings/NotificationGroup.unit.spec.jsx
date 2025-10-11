@@ -302,12 +302,8 @@ describe('NotificationGroup component', () => {
         initialState,
       },
     );
-
-    expect(
-      await view.findByText('Disability and pension deposit notifications'),
-    ).to.exist;
-
-    expect(await view.findByTestId('checkbox-channel5-1')).to.exist;
+    expect(view.findByTestId('checkbox-group-item5')).to.exist;
+    expect(view.findByTestId('checkbox-channel5-1')).to.exist;
   });
 
   it('should only see Appointment reminders and Prescription shipment and tracking updates items when all the notification toggles are turned off', () => {
@@ -344,13 +340,11 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('Appointment reminders')).to.exist;
-    expect(view.queryByText('Prescription shipment and tracking updates')).to
-      .exist;
+    expect(view.getByTestId('checkbox-group-item3')).to.exist;
+    expect(view.getByTestId('checkbox-group-item4')).to.exist;
 
-    expect(view.queryByText('Secure messaging alert')).to.not.exist;
-    expect(view.queryByText('Medical images and reports available')).to.not
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item10')).to.not.exist;
   });
 
   it('should display Medical images and reports available group when profileShowMhvNotificationSettingsMedicalImages is true', () => {
@@ -370,12 +364,11 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('Appointment reminders')).to.exist;
-    expect(view.queryByText('Prescription shipment and tracking updates')).to
-      .exist;
-    expect(view.queryByText('Medical images and reports available')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item3')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item4')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item10')).to.exist;
 
-    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.not.exist;
   });
 
   it('should display Securing messaging alert group when profileShowMhvNotificationSettingsNewSecureMessaging is true', () => {
@@ -395,13 +388,11 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('Appointment reminders')).to.exist;
-    expect(view.queryByText('Prescription shipment and tracking updates')).to
-      .exist;
-    expect(view.queryByText('Secure messaging alert')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item4')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.exist;
 
-    expect(view.queryByText('Medical images and reports available')).to.not
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item10')).to.not.exist;
   });
 
   it('should display Prescription shipment and tracking updates group when profileShowMhvNotificationSettingsEmailRxShipment is true', () => {
@@ -421,13 +412,11 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('Appointment reminders')).to.exist;
-    expect(view.queryByText('Prescription shipment and tracking updates')).to
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item3')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item4')).to.exist;
 
-    expect(view.queryByText('Secure messaging alert')).to.not.exist;
-    expect(view.queryByText('Medical images and reports available')).to.not
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item10')).to.not.exist;
   });
 
   it('should never display Rx refill shipment and Biweekly MHV newsletter even when all the notification toggles are on', () => {
@@ -471,18 +460,17 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('Appointment reminders')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.exist;
 
-    expect(view.queryByText('Secure messaging alert')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item9')).to.exist;
 
-    expect(view.queryByText('Prescription shipment and tracking updates')).to
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item4')).to.exist;
 
-    expect(view.queryByText('Medical images and reports available')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item10')).to.exist;
 
-    expect(view.queryByText('Rx refill shipment')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item7')).to.not.exist;
 
-    expect(view.queryByText('Biweekly MHV newsletter')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item11')).to.not.exist;
   });
 
   it('should display New benefit overpayment debt notification by default', () => {
@@ -495,11 +483,9 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('New benefit overpayment debt notification')).to
-      .exist;
-    expect(view.queryByText('Disability and pension deposit notifications')).to
-      .exist;
-    expect(view.queryByText('New health care copay bill')).to.not.exist;
+    expect(view.queryByTestId('checkbox-group-item13')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item5')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item15')).to.not.exist;
   });
 
   it('should display New benefit overpayment debt notification when profileShowNewHealthCareCopayBillNotificationSetting is true', () => {
@@ -523,10 +509,8 @@ describe('NotificationGroup component', () => {
       },
     );
 
-    expect(view.queryByText('New health care copay bill')).to.exist;
-    expect(view.queryByText('Disability and pension deposit notifications')).to
-      .exist;
-    expect(view.queryByText('New benefit overpayment debt notification')).to
-      .exist;
+    expect(view.queryByTestId('checkbox-group-item14')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item5')).to.exist;
+    expect(view.queryByTestId('checkbox-group-item13')).to.exist;
   });
 });

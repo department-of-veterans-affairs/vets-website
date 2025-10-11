@@ -9,7 +9,8 @@
         "stationNumber": "531",
         "blockedStatus": false,
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -21,7 +22,8 @@
         "stationNumber": "531",
         "blockedStatus": false,
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -33,7 +35,8 @@
         "stationNumber": "531",
         "blockedStatus": false,
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -45,7 +48,8 @@
         "blockedStatus": false,
         "name": "***TG 100_SLC4%",
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -57,7 +61,8 @@
         "blockedStatus": false,
         "name": "***TG 200_APPT_SLC4%",
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -69,7 +74,8 @@
         "stationNumber": "583",
         "blockedStatus": false,
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -81,7 +87,8 @@
         "blockedStatus": false,
         "name": "SLC4 PCMM",
         "relationType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -93,7 +100,8 @@
         "stationNumber": "531",
         "blockedStatus": false,
         "preferredTeam": true,
-        "relationshipType": "PATIENT"
+        "relationshipType": "PATIENT",
+        "ohTriageGroup": false
       }
     },
     {
@@ -105,7 +113,8 @@
         "stationNumber": "531",
         "blockedStatus": false,
         "preferredTeam": true,
-        "relationshipType": "PATIENT"
+        "relationshipType": "PATIENT",
+        "ohTriageGroup": true
       }
     }
   ],

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { useBrowserMonitoring } from 'platform/monitoring/Datadog/';
+import environment from 'platform/utilities/environment';
 import formConfig from '../config/form';
 import NoFormPage from '../components/NoFormPage';
 import manifest from '../manifest.json';
@@ -14,6 +16,9 @@ import { getRootParentUrl } from '../../shared/utils';
 document.title = TITLE;
 
 export default function App({ location, children }) {
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
   const featureToggle = useSelector(
     state => state?.featureToggles?.vaDependentsVerification,
   );
@@ -46,6 +51,24 @@ export default function App({ location, children }) {
   ];
 
   const rawBreadcrumbs = JSON.stringify(breadcrumbs);
+
+  // Add Datadog UX monitoring to the application
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/116840
+  useBrowserMonitoring({
+    loggedIn: isLoggedIn,
+    toggleName: 'vaDependentsBrowserMonitoringEnabled',
+    applicationId: '2f49e2b2-d5d6-4a53-9850-a42ed7ab26d7',
+    clientToken: 'pub15c7121f25875066ff90b92371cd7ff4',
+    site: 'ddog-gov.com',
+    // see https://docs.datadoghq.com/getting_started/site/
+    service: 'benefits-dependents-verification',
+    version: '1.0.0',
+    sessionReplaySampleRate: 100,
+    sessionSampleRate: 100,
+    defaultPrivacyLevel: 'mask-user-input',
+    trackBfcacheViews: true,
+    env: environment.isProduction(),
+  });
 
   useEffect(() => {
     if (!isIntroPage && dependentsLoading) {

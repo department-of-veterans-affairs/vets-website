@@ -14,6 +14,7 @@ import {
   setUnsavedNavigationError,
   titleCase,
   updateDrafts,
+  findAllowedFacilities,
 } from '../../util/helpers';
 import {
   DefaultFolders as Folders,
@@ -190,6 +191,141 @@ describe('MHV Secure Messaging helpers', () => {
     it('should handle negative values as bytes (fallback behavior)', () => {
       expect(getSize(-1)).to.equal('-1 B');
       expect(getSize(-1024)).to.equal('-1024 B');
+    });
+  });
+
+  describe('findAllowedFacilities function', () => {
+    it('should return empty arrays for empty recipients', () => {
+      const result = findAllowedFacilities([]);
+      expect(result).to.eql({
+        allowedVistaFacilities: [],
+        allowedOracleFacilities: [],
+      });
+    });
+
+    it('should add to allowedVistaFacilities when blockedStatus is false and ohTriageGroup is false', () => {
+      const recipients = [
+        {
+          stationNumber: '123',
+          blockedStatus: false,
+          ohTriageGroup: false,
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: ['123'],
+        allowedOracleFacilities: [],
+      });
+    });
+
+    it('should add to allowedOracleFacilities when blockedStatus is false and ohTriageGroup is true', () => {
+      const recipients = [
+        {
+          stationNumber: '456',
+          blockedStatus: false,
+          ohTriageGroup: true,
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: [],
+        allowedOracleFacilities: ['456'],
+      });
+    });
+
+    it('should not add when blockedStatus is true', () => {
+      const recipients = [
+        {
+          stationNumber: '789',
+          blockedStatus: true,
+          ohTriageGroup: false,
+        },
+        {
+          stationNumber: '101',
+          blockedStatus: true,
+          ohTriageGroup: true,
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: [],
+        allowedOracleFacilities: [],
+      });
+    });
+
+    it('should handle multiple recipients with mixed statuses', () => {
+      const recipients = [
+        {
+          stationNumber: '123',
+          blockedStatus: false,
+          ohTriageGroup: false,
+        },
+        {
+          stationNumber: '456',
+          blockedStatus: false,
+          ohTriageGroup: true,
+        },
+        {
+          stationNumber: '789',
+          blockedStatus: true,
+          ohTriageGroup: false,
+        },
+        {
+          stationNumber: '101',
+          blockedStatus: false,
+          ohTriageGroup: false,
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: ['123', '101'],
+        allowedOracleFacilities: ['456'],
+      });
+    });
+
+    it('should deduplicate stationNumbers using Sets', () => {
+      const recipients = [
+        {
+          stationNumber: '123',
+          blockedStatus: false,
+          ohTriageGroup: false,
+        },
+        {
+          stationNumber: '123',
+          blockedStatus: false,
+          ohTriageGroup: false,
+        },
+        {
+          stationNumber: '456',
+          blockedStatus: false,
+          ohTriageGroup: true,
+        },
+        {
+          stationNumber: '456',
+          blockedStatus: false,
+          ohTriageGroup: true,
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: ['123'],
+        allowedOracleFacilities: ['456'],
+      });
+    });
+
+    it('should handle recipients with missing properties gracefully', () => {
+      const recipients = [
+        {
+          stationNumber: '123',
+          blockedStatus: false,
+          // ohTriageGroup missing, should default to false in logic
+        },
+      ];
+      const result = findAllowedFacilities(recipients);
+      expect(result).to.eql({
+        allowedVistaFacilities: ['123'],
+        allowedOracleFacilities: [],
+      });
     });
   });
 });

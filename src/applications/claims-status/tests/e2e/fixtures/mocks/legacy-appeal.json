@@ -1,0 +1,238 @@
+{
+  "data": [{
+    "id": "12",
+    "type": "legacyAppeal",
+    "attributes": {
+      "appealIds": ["12"],
+      "updated": "2018-05-29T19:38:40-04:00",
+      "incompleteHistory": false,
+      "type": "original",
+      "active": true,
+      "description": "Service connection, sleep apnea",
+      "aod": false,
+      "location": "aoj",
+      "aoj": "vba",
+      "programArea": "compensation",
+      "status": {
+        "type": "pending_form9",
+        "details": {
+          "lastSocDate": "2018-05-15",
+          "certificationTimeliness": [2, 12],
+          "ssocTimeliness": [7, 20]
+        }
+      },
+      "alerts": [{
+        "type": "form9_needed",
+        "details": {
+          "dueDate": "2018-07-31"
+        }
+      }],
+      "docket": null,
+      "issues": [{
+        "description": "Service connection, sleep apnea0",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": null,
+        "date": null
+      },{
+        "description": "Service connection, tinnitus",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "field_grant",
+        "date": null
+      },{
+        "description": "Service connection, sore foot",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "withdrawn",
+        "date": null
+      },{
+        "description": "Service connection, shoulder ache",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "allowed",
+        "date": null
+      },{
+        "description": "Service connection, knee ankylosis",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "denied",
+        "date": null
+      },{
+        "description": "Service connection, arthritis",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "remand",
+        "date": null
+      },{
+        "description": "Service connection, wrist issue",
+        "diagnosticCode": "6847",
+        "active": true,
+        "lastAction": "cavc_remand",
+        "date": null
+      }],
+      "events": [{
+        "type": "claim_decision",
+        "date": "2017-07-31"
+      }, {
+        "type": "nod",
+        "date": "2017-08-10"
+      }, {
+        "type": "soc",
+        "date": "2018-05-15"
+      }],
+      "evidence": []
+    }
+  },
+  {
+    "id": "13",
+    "type": "legacyAppeal",
+    "attributes": {
+      "appealIds": ["13"],
+      "updated": "2020-05-13T10:08:40-04:00",
+      "incompleteHistory": false,
+      "type": "original",
+      "active": false,
+      "description": "TEST TEST",
+      "aod": false,
+      "location": "aoj",
+      "aoj": "vba",
+      "programArea": "compensation",
+      "status": {
+        "type": "bva_decision",
+        "details": {
+          "issues": [
+            {
+              "description": "Service connection, sleep apnea",
+              "disposition": "allowed"
+            }
+          ],
+          "lastSocDate": "2020-05-13",
+          "certificationTimeliness": [
+            2,
+            12
+          ],
+          "ssocTimeliness": [
+            7,
+            20
+          ]
+        }
+      },
+      "alerts": [
+        {
+          "type": "form9_needed",
+          "details": {
+            "dueDate": "2018-07-31"
+          }
+        }
+      ],
+      "docket": null,
+      "issues": [
+        {
+          "description": "Service connection, sleep apnea",
+          "diagnosticCode": "6847",
+          "active": false,
+          "lastAction": "allowed",
+          "date": "2020-05-13"
+        }
+      ],
+      "events": [
+        {
+          "type": "claim_decision",
+          "date": "2017-07-31"
+        },
+        {
+          "type": "nod",
+          "date": "2017-08-10"
+        },
+        {
+          "type": "soc",
+          "date": "2020-03-13"
+        },
+        {
+          "type": "bva_decision",
+          "date": "2020-05-13"
+        }
+      ],
+      "evidence": []
+    }
+  },
+  {
+    "id": "14",
+    "type": "legacyAppeal",
+    "attributes": {
+      "appealIds": ["14"],
+      "updated": "2020-05-13T10:08:40-04:00",
+      "incompleteHistory": false,
+      "type": "original",
+      "active": false,
+      "description": "TEST TEST",
+      "aod": false,
+      "location": "aoj",
+      "aoj": "vba",
+      "programArea": "compensation",
+      "status": {
+        "type": "post_bva_dta_decision",
+        "details": {
+          "issues": [
+            {
+              "description": "Service connection, sleep apnea",
+              "disposition": "allowed"
+            }
+          ],
+          "lastSocDate": "2020-05-13",
+          "certificationTimeliness": [
+            2,
+            12
+          ],
+          "ssocTimeliness": [
+            7,
+            20
+          ]
+        }
+      },
+      "alerts": [
+        {
+          "type": "form9_needed",
+          "details": {
+            "dueDate": "2018-07-31"
+          }
+        }
+      ],
+      "docket": null,
+      "issues": [
+        {
+          "description": "Service connection, sleep apnea",
+          "diagnosticCode": "6847",
+          "active": false,
+          "lastAction": "allowed",
+          "date": "2020-05-13"
+        }
+      ],
+      "events": [
+        {
+          "type": "claim_decision",
+          "date": "2017-07-31"
+        },
+        {
+          "type": "nod",
+          "date": "2017-08-10"
+        },
+        {
+          "type": "soc",
+          "date": "2020-03-13"
+        },
+        {
+          "type": "bva_decision",
+          "date": "2020-05-12"
+        },
+        {
+          "type": "post_bva_dta_decision",
+          "date": "2020-05-13"
+        }
+      ],
+      "evidence": []
+    }
+  }
+  ]
+}

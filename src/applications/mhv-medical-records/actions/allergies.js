@@ -2,8 +2,8 @@ import { Actions } from '../util/actionTypes';
 import {
   getAllergies,
   getAllergy,
-  getAcceleratedAllergies,
-  getAcceleratedAllergy,
+  getAllergiesWithOHData,
+  getAllergyWithOHData,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -12,17 +12,19 @@ import { getListWithRetry } from './common';
 
 export const getAllergiesList = (
   isCurrent = false,
-  isAccelerating = false,
+  isCerner = false,
 ) => async dispatch => {
   dispatch({
     type: Actions.Allergies.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const getData = isAccelerating ? getAcceleratedAllergies : getAllergies;
+    const getData = isCerner ? getAllergiesWithOHData : getAllergies;
+    const actionType = Actions.Allergies.GET_LIST;
+
     const response = await getListWithRetry(dispatch, getData);
     dispatch({
-      type: Actions.Allergies.GET_LIST,
+      type: actionType,
       response,
       isCurrent,
     });
@@ -35,17 +37,19 @@ export const getAllergiesList = (
 export const getAllergyDetails = (
   id,
   allergyList,
-  isAccelerating = false,
+  isCerner = false,
 ) => async dispatch => {
   try {
-    const getData = isAccelerating ? getAcceleratedAllergy : getAllergy;
+    const getDetailsFunc = isCerner ? getAllergyWithOHData : getAllergy;
+    const actionType = Actions.Allergies.GET;
+
     await dispatchDetails(
       id,
       allergyList,
       dispatch,
-      getData,
+      getDetailsFunc,
       Actions.Allergies.GET_FROM_LIST,
-      Actions.Allergies.GET,
+      actionType,
     );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));

@@ -184,23 +184,4 @@ describe('authentication selectors', () => {
       expect(selectors.signInServiceEnabled(state)).to.be.undefined;
     });
   });
-
-  describe('termsOfUseEnabled', () => {
-    it('pulls out featureToggles.termsOfUse', () => {
-      const state = {
-        featureToggles: {
-          [FEATURE_FLAG_NAMES.termsOfUse]: true,
-        },
-      };
-
-      expect(selectors.termsOfUseEnabled(state)).to.be.true;
-    });
-    it('returns undefined when termsOfUse is not present', () => {
-      const state = {
-        featureToggles: {},
-      };
-
-      expect(selectors.termsOfUseEnabled(state)).to.be.undefined;
-    });
-  });
 });

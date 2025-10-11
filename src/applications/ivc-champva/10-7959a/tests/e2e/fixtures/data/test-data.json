@@ -1,6 +1,7 @@
 {
   "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
+    "view:sharesAddressWith": "na",
     "view:hasPolicies": true,
     "certifierRelationship": "parent",
     "certifierPhone": "5554443333",

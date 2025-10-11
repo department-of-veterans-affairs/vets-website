@@ -936,7 +936,7 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
     expect(newState.vaccinesList[1].date).to.equal('January 15, 2023');
   });
 
-  it('should preserve existing list and put new data in updatedList when oldList exists', () => {
+  it('should put new data in vaccinesList', () => {
     const initialState = {
       vaccinesList: [
         { id: '1', name: 'Previous Vaccine 1' },
@@ -963,13 +963,9 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
       isCurrent: true,
     });
 
-    // Should preserve the original list
-    expect(newState.vaccinesList).to.have.lengthOf(2);
-    expect(newState.vaccinesList[0].id).to.equal('1');
-    expect(newState.vaccinesList[1].id).to.equal('2');
-    // Should store new items in updatedList
-    expect(newState.updatedList).to.have.lengthOf(1);
-    expect(newState.updatedList[0].id).to.equal('123');
+    // Should store new items in the original list
+    expect(newState.vaccinesList).to.have.lengthOf(1);
+    expect(newState.vaccinesList[0].id).to.equal('123');
   });
 
   it('should handle empty data array', () => {
@@ -989,6 +985,34 @@ describe('vaccineReducer - GET_UNIFIED_LIST action', () => {
 
     expect(newState.vaccinesList).to.have.lengthOf(0);
     expect(newState.listState).to.equal(loadStates.FETCHED);
+  });
+
+  it('should set listCurrentAsOf to null when isCurrent is false', () => {
+    const response = {
+      data: [
+        {
+          id: '999',
+          attributes: {
+            groupName: 'Test Vaccine',
+            date: '2023-08-01T10:00:00Z',
+          },
+        },
+      ],
+      meta: { pagination: { totalEntries: 1 } },
+    };
+
+    const newState = vaccineReducer(
+      {},
+      {
+        type: Actions.Vaccines.GET_UNIFIED_LIST,
+        response,
+        isCurrent: false,
+      },
+    );
+
+    expect(newState.vaccinesList).to.have.lengthOf(1);
+    expect(newState.listCurrentAsOf).to.equal(null);
+    expect(newState.updateNeeded).to.be.false;
   });
 });
 
