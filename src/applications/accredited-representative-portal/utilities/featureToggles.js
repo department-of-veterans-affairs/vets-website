@@ -5,10 +5,3 @@ export const IsCustomLoginEnabled = () => {
 
   return useToggleValue(TOGGLE_NAMES.accreditedRepresentativePortalCustomLogin);
 };
-
-export const UseDashboardRedirectEnabled = () => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  return useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalDashboardLink,
-  );
-};
