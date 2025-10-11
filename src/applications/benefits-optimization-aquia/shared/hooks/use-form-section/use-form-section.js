@@ -118,10 +118,9 @@ export const useFormSection = ({
           'constructor',
           'prototype',
         ]);
-        const isDangerousKey = key => dangerousKeys.includes(key);
 
         // Check all parts for dangerous keys before processing
-        if (parts.some(isDangerousKey)) {
+        if (parts.some(part => dangerousKeys.includes(part))) {
           // Silently block dangerous field paths to prevent prototype pollution
           return;
         }
@@ -131,10 +130,6 @@ export const useFormSection = ({
         let current = updatedData;
         for (let i = 0; i < parts.length - 1; i++) {
           const key = parts[i];
-          // Defense in depth: Block dangerous keys at every step
-          if (isDangerousKey(key)) {
-            return;
-          }
           // Additional safety: only create plain objects
           if (
             !current[key] ||
@@ -147,10 +142,6 @@ export const useFormSection = ({
         }
 
         const finalKey = parts[parts.length - 1];
-        // Defense in depth: Block dangerous final key
-        if (isDangerousKey(finalKey)) {
-          return;
-        }
         // Use Object.defineProperty for safer property assignment
         Object.defineProperty(current, finalKey, {
           value: processedValue,
@@ -159,16 +150,9 @@ export const useFormSection = ({
           configurable: true,
         });
       } else {
-        // Prevent prototype pollution via dangerous property names
-        const dangerousKeys = Object.freeze([
-          '__proto__',
-          'constructor',
-          'prototype',
-        ]);
-        const isDangerousKey = key => dangerousKeys.includes(key);
-
         // Also check for dangerous keys in simple paths
-        if (isDangerousKey(fieldPath)) {
+        const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+        if (dangerousKeys.includes(fieldPath)) {
           // Silently block dangerous fields to prevent prototype pollution
           return;
         }
