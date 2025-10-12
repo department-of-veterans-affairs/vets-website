@@ -34,11 +34,14 @@ import {
 
 // Import schemas
 import {
+  benefitsInformationSchema,
+  dutyStatusSchema,
   employerInformationSchema,
   employmentConcessionsSchema,
   employmentDatesDetailsSchema,
   employmentLastPaymentSchema,
   employmentTerminationSchema,
+  remarksSchema,
   veteranInformationSchema,
 } from '@bio-aquia/21-4192-employment-information/schemas';
 
@@ -181,6 +184,9 @@ const formConfig = {
           CustomPage: DutyStatusPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(dutyStatusSchema)(values),
+          onErrorChange: createValidationErrorHandler('dutyStatus'),
         },
       },
     },
@@ -195,6 +201,9 @@ const formConfig = {
           CustomPage: BenefitsInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(benefitsInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('benefitsInformation'),
         },
       },
     },
@@ -209,6 +218,9 @@ const formConfig = {
           CustomPage: RemarksPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(remarksSchema)(values),
+          onErrorChange: createValidationErrorHandler('remarks'),
         },
       },
     },
