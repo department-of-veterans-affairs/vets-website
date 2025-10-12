@@ -6,11 +6,10 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-// Commented out until schemas are implemented
-// import {
-//   createPageValidator,
-//   createValidationErrorHandler,
-// } from '@bio-aquia/shared/utils';
+import {
+  createPageValidator,
+  createValidationErrorHandler,
+} from '@bio-aquia/shared/utils';
 import {
   TITLE,
   SUBTITLE,
@@ -29,6 +28,12 @@ import {
   BenefitsInformationPage,
   RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
+
+// Import schemas
+import {
+  employerInformationSchema,
+  veteranInformationSchema,
+} from '@bio-aquia/21-4192-employment-information/schemas';
 
 const defaultSchema = {
   type: 'object',
@@ -82,6 +87,9 @@ const formConfig = {
           CustomPage: VeteranInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranInformation'),
         },
       },
     },
@@ -96,6 +104,9 @@ const formConfig = {
           CustomPage: EmployerInformationPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employerInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('employerInformation'),
         },
       },
     },

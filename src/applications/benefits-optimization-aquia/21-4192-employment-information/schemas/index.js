@@ -6,8 +6,6 @@
  */
 
 // Import individual schemas when created
-// import { employerInformationSchema } from './employer-information';
-// import { veteranInformationSchema } from './veteran-information';
 // import { employmentDetailsSchema } from './employment-details';
 // import { terminationInformationSchema } from './termination-information';
 // import { benefitsInformationSchema } from './benefits-information';
@@ -18,10 +16,22 @@
  * Section I - Identification schemas
  * @description Schemas for validating employer and veteran identification
  */
-// export {
-//   employerInformationSchema,
-//   veteranInformationSchema,
-// };
+export {
+  dateOfBirthSchema,
+  firstNameSchema,
+  fullNameSchema,
+  lastNameSchema,
+  middleNameSchema,
+  ssnSchema,
+  vaFileNumberSchema,
+  veteranInformationSchema,
+} from './veteran-information';
+export {
+  employerAddressSchema,
+  employerInformationSchema,
+  employerNameSchema,
+  phoneNumberSchema,
+} from './employer-information';
 
 /**
  * Section II - Employment Information schemas
