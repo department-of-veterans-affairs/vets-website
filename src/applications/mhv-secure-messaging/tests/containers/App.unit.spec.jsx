@@ -281,11 +281,11 @@ describe('App', () => {
       path: `/`,
     });
 
-    // The redirect happens via React Router, which updates the location
-    // The renderWithStoreAndRouter helper uses MemoryRouter which handles this internally
-    // We verify by checking that we're not on the 404 page
+    // Verify the redirect happened via React Router
     await waitFor(() => {
-      expect(screen.queryByTestId('mhv-page-not-found')).to.not.exist;
+      expect(screen.history.location.pathname).to.equal(
+        '/my-health/secure-messages/inbox/',
+      );
     });
   });
 
