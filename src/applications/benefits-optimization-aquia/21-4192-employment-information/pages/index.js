@@ -22,11 +22,11 @@ export {
   EmploymentLastPaymentPage,
 } from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
 export {
-  default as DutyStatusPage,
+  DutyStatusPage,
 } from '@bio-aquia/21-4192-employment-information/pages/duty-status';
 export {
-  default as BenefitsInformationPage,
+  BenefitsInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
 export {
-  default as RemarksPage,
+  RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages/remarks';

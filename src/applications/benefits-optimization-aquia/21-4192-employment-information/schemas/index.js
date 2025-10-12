@@ -69,17 +69,22 @@ export {
  * Section III - Reserve/Guard schemas
  * @description Schemas for validating Reserve or National Guard status
  */
-// export {
-//   reserveGuardStatusSchema,
-// };
+export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
 
 /**
  * Section IV - Benefits schemas
  * @description Schemas for validating employment-related benefits information
  */
-// export {
-//   benefitsInformationSchema,
-// };
+export {
+  benefitEntitlementSchema,
+  benefitsInformationSchema,
+} from './benefits-information';
+
+/**
+ * Section V - Remarks schemas
+ * @description Schemas for validating additional remarks or comments
+ */
+export { remarksFieldSchema, remarksSchema } from './remarks';
 
 /**
  * Certification schemas
