@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField, PhoneField } from '@bio-aquia/shared/components/atoms';
+import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
@@ -61,7 +61,7 @@ export const EmployerInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="employerName"
             label="Employer's name"
             value={localData.employerName}
@@ -70,6 +70,7 @@ export const EmployerInformationPage = ({
             forceShowError={formSubmitted}
             schema={employerNameSchema}
             required
+            maxlength={100}
           />
 
           <AddressField

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
   MemorableDateField,
+  NumberField,
   SSNField,
 } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
@@ -104,7 +104,7 @@ export const VeteranInformationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <NumberField
             name="vaFileNumber"
             label="VA file number (if applicable)"
             value={localData.vaFileNumber}
@@ -112,6 +112,8 @@ export const VeteranInformationPage = ({
             error={errors.vaFileNumber}
             forceShowError={formSubmitted}
             schema={vaFileNumberSchema}
+            hint="VA file number must be 8 or 9 digits"
+            inputmode="numeric"
           />
         </>
       )}
