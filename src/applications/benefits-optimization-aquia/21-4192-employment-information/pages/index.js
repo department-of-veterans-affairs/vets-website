@@ -10,8 +10,17 @@ export {
   EmployerInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
 export {
-  default as EmploymentInformationPage,
-} from '@bio-aquia/21-4192-employment-information/pages/employment-information';
+  EmploymentDatesDetailsPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-dates-details';
+export {
+  EmploymentConcessionsPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
+export {
+  EmploymentTerminationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
+export {
+  EmploymentLastPaymentPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
 export {
   default as DutyStatusPage,
 } from '@bio-aquia/21-4192-employment-information/pages/duty-status';

@@ -23,7 +23,10 @@ import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/
 import {
   VeteranInformationPage,
   EmployerInformationPage,
-  EmploymentInformationPage,
+  EmploymentDatesDetailsPage,
+  EmploymentConcessionsPage,
+  EmploymentTerminationPage,
+  EmploymentLastPaymentPage,
   DutyStatusPage,
   BenefitsInformationPage,
   RemarksPage,
@@ -32,6 +35,10 @@ import {
 // Import schemas
 import {
   employerInformationSchema,
+  employmentConcessionsSchema,
+  employmentDatesDetailsSchema,
+  employmentLastPaymentSchema,
+  employmentTerminationSchema,
   veteranInformationSchema,
 } from '@bio-aquia/21-4192-employment-information/schemas';
 
@@ -113,14 +120,53 @@ const formConfig = {
     employmentInformationChapter: {
       title: 'Employment Information',
       pages: {
-        employmentInformation: {
-          path: 'employment-information',
+        employmentDatesDetails: {
+          path: 'employment-dates-details',
           title: 'Employment Information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: EmploymentInformationPage,
+          CustomPage: EmploymentDatesDetailsPage,
           CustomPageReview: null,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentDatesDetailsSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentDatesDetails'),
+        },
+        employmentConcessions: {
+          path: 'employment-concessions',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentConcessionsPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentConcessionsSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentConcessions'),
+        },
+        employmentTermination: {
+          path: 'employment-termination',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentTerminationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentTerminationSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentTermination'),
+        },
+        employmentLastPayment: {
+          path: 'employment-last-payment',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentLastPaymentPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentLastPaymentSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentLastPayment'),
         },
       },
     },
