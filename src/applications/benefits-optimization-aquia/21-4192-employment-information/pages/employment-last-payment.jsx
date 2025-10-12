@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
+  CurrencyField,
   MemorableDateField,
   RadioField,
 } from '@bio-aquia/shared/components/atoms';
@@ -80,7 +80,7 @@ export const EmploymentLastPaymentPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <CurrencyField
             name="grossAmountLastPayment"
             label="Gross amount of last payment"
             value={localData.grossAmountLastPayment}
@@ -88,7 +88,6 @@ export const EmploymentLastPaymentPage = ({
             error={errors.grossAmountLastPayment}
             forceShowError={formSubmitted}
             schema={grossAmountLastPaymentSchema}
-            hint="Enter amount without commas or dollar signs"
           />
 
           <RadioField
@@ -105,7 +104,7 @@ export const EmploymentLastPaymentPage = ({
             ]}
           />
 
-          <FormField
+          <CurrencyField
             name="grossAmountPaid"
             label="Gross amount paid"
             value={localData.grossAmountPaid}
@@ -113,7 +112,6 @@ export const EmploymentLastPaymentPage = ({
             error={errors.grossAmountPaid}
             forceShowError={formSubmitted}
             schema={grossAmountPaidSchema}
-            hint="Enter amount without commas or dollar signs"
           />
 
           <MemorableDateField

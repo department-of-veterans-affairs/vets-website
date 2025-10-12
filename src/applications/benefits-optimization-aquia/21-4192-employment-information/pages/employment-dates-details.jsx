@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
+  CurrencyField,
   MemorableDateField,
+  NumberField,
   TextareaField,
+  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { transformDates } from '@bio-aquia/shared/forms';
@@ -104,7 +106,7 @@ export const EmploymentDatesDetailsPage = ({
             maxLength={1000}
           />
 
-          <FormField
+          <CurrencyField
             name="amountEarned"
             label="Amount earned during 12 months preceding last date of Employment (before deductions)"
             value={localData.amountEarned}
@@ -114,7 +116,7 @@ export const EmploymentDatesDetailsPage = ({
             schema={amountEarnedSchema}
           />
 
-          <FormField
+          <TextInputField
             name="timeLost"
             label="Time lost during 12 months preceding last date of employment (due to disability)"
             value={localData.timeLost}
@@ -122,9 +124,10 @@ export const EmploymentDatesDetailsPage = ({
             error={errors.timeLost}
             forceShowError={formSubmitted}
             schema={timeLostSchema}
+            maxlength={100}
           />
 
-          <FormField
+          <NumberField
             name="dailyHours"
             label="Number of hours worked (daily)"
             value={localData.dailyHours}
@@ -132,9 +135,10 @@ export const EmploymentDatesDetailsPage = ({
             error={errors.dailyHours}
             forceShowError={formSubmitted}
             schema={dailyHoursSchema}
+            hint="Enter the number of hours worked per day"
           />
 
-          <FormField
+          <NumberField
             name="weeklyHours"
             label="Number of hours worked (weekly)"
             value={localData.weeklyHours}
@@ -142,6 +146,7 @@ export const EmploymentDatesDetailsPage = ({
             error={errors.weeklyHours}
             forceShowError={formSubmitted}
             schema={weeklyHoursSchema}
+            hint="Enter the number of hours worked per week"
           />
         </>
       )}
