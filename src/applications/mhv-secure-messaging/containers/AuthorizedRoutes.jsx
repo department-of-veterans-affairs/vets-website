@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
@@ -48,6 +48,7 @@ const draftInProgressSafePaths = [
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
@@ -69,7 +70,7 @@ const AuthorizedRoutes = () => {
 
   if (location.pathname === `/`) {
     const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
-    window.location.replace(basePath);
+    history.replace(basePath);
     return <></>;
   }
 
