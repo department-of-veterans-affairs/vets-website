@@ -32,6 +32,19 @@ import {
   RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
 
+// Import review components
+import {
+  VeteranInformationReview,
+  EmployerInformationReview,
+  EmploymentDatesDetailsReview,
+  EmploymentConcessionsReview,
+  EmploymentTerminationReview,
+  EmploymentLastPaymentReview,
+  DutyStatusReview,
+  BenefitsInformationReview,
+  RemarksReview,
+} from '@bio-aquia/21-4192-employment-information/reviews';
+
 // Import schemas
 import {
   benefitsInformationSchema,
@@ -95,7 +108,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranInformationReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(veteranInformationSchema)(values),
@@ -112,7 +125,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: EmployerInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: EmployerInformationReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(employerInformationSchema)(values),
@@ -129,7 +142,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: EmploymentDatesDetailsPage,
-          CustomPageReview: null,
+          CustomPageReview: EmploymentDatesDetailsReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(employmentDatesDetailsSchema)(values),
@@ -141,7 +154,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: EmploymentConcessionsPage,
-          CustomPageReview: null,
+          CustomPageReview: EmploymentConcessionsReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(employmentConcessionsSchema)(values),
@@ -153,7 +166,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: EmploymentTerminationPage,
-          CustomPageReview: null,
+          CustomPageReview: EmploymentTerminationReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(employmentTerminationSchema)(values),
@@ -165,7 +178,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: EmploymentLastPaymentPage,
-          CustomPageReview: null,
+          CustomPageReview: EmploymentLastPaymentReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(employmentLastPaymentSchema)(values),
@@ -182,7 +195,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: DutyStatusPage,
-          CustomPageReview: null,
+          CustomPageReview: DutyStatusReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(dutyStatusSchema)(values),
@@ -199,7 +212,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: BenefitsInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: BenefitsInformationReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(benefitsInformationSchema)(values),
@@ -216,7 +229,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: RemarksPage,
-          CustomPageReview: null,
+          CustomPageReview: RemarksReview,
           pagePerItemIndex: 0,
           verifyItemValues: values =>
             createPageValidator(remarksSchema)(values),

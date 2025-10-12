@@ -32,6 +32,8 @@ const ensureDateStrings = formData => {
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
  * @param {Function} props.goBack - Function to go to previous page
+ * @param {boolean} props.onReviewPage - Whether page is being edited from review
+ * @param {Function} props.updatePage - Callback to exit edit mode
  * @returns {JSX.Element} Veteran information form page
  */
 export const VeteranInformationPage = ({
@@ -39,6 +41,8 @@ export const VeteranInformationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -53,6 +57,8 @@ export const VeteranInformationPage = ({
       schema={veteranInformationSchema}
       sectionName="veteranInformation"
       dataProcessor={ensureDateStrings}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       defaultData={{
         fullName: {
           first: '',
@@ -117,7 +123,9 @@ VeteranInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 
 export default VeteranInformationPage;

@@ -22,6 +22,8 @@ const PageTemplateWithHook = ({
   hideNavigation,
   navigationProps,
   className,
+  onReviewPage,
+  updatePage,
 }) => {
   const formSectionProps = useFormSection({
     sectionName: sectionName || 'default',
@@ -44,6 +46,8 @@ const PageTemplateWithHook = ({
       className={className}
       formSectionProps={formSectionProps}
       shouldUseHook
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
     >
       {children}
     </PageTemplateBase>
@@ -61,10 +65,12 @@ PageTemplateWithHook.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+  onReviewPage: PropTypes.bool,
   schema: PropTypes.object,
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+  updatePage: PropTypes.func,
 };
 
 /**
@@ -82,6 +88,8 @@ const PageTemplateBase = ({
   className,
   formSectionProps,
   shouldUseHook,
+  onReviewPage,
+  updatePage,
 }) => {
   /**
    * Renders children with proper form context.
@@ -158,9 +166,13 @@ const PageTemplateBase = ({
               <va-button
                 onClick={e => {
                   e.preventDefault();
-                  formSectionProps.handleContinue(goForward);
+                  if (onReviewPage && updatePage) {
+                    formSectionProps.handleContinue(updatePage);
+                  } else {
+                    formSectionProps.handleContinue(goForward);
+                  }
                 }}
-                text="Continue"
+                text={onReviewPage ? 'Save' : 'Continue'}
                 {...navigationProps?.continueButtonProps || {}}
               />
             </div>
@@ -180,8 +192,10 @@ PageTemplateBase.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+  onReviewPage: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+  updatePage: PropTypes.func,
 };
 
 /**
@@ -225,6 +239,8 @@ export const PageTemplate = ({
   navigationProps = {},
   className = '',
   useFormSectionHook = true,
+  onReviewPage = false,
+  updatePage,
 }) => {
   const shouldUseHook = useFormSectionHook && schema && sectionName;
 
@@ -245,6 +261,8 @@ export const PageTemplate = ({
         hideNavigation={hideNavigation}
         navigationProps={navigationProps}
         className={className}
+        onReviewPage={onReviewPage}
+        updatePage={updatePage}
       >
         {children}
       </PageTemplateWithHook>
@@ -286,6 +304,8 @@ export const PageTemplate = ({
       className={className}
       formSectionProps={fallbackProps}
       shouldUseHook={false}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
     >
       {children}
     </PageTemplateBase>
@@ -303,9 +323,11 @@ PageTemplate.propTypes = {
   goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
+  onReviewPage: PropTypes.bool,
   schema: PropTypes.object,
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+  updatePage: PropTypes.func,
   useFormSectionHook: PropTypes.bool,
 };

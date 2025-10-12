@@ -24,6 +24,8 @@ export const BenefitsInformationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -37,6 +39,8 @@ export const BenefitsInformationPage = ({
       goBack={goBack}
       schema={benefitsInformationSchema}
       sectionName="benefitsInformation"
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       defaultData={{
         benefitEntitlement: '',
       }}
@@ -70,7 +74,9 @@ BenefitsInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 
 export default BenefitsInformationPage;

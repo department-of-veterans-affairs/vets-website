@@ -27,6 +27,8 @@ export const EmployerInformationPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -40,6 +42,8 @@ export const EmployerInformationPage = ({
       goBack={goBack}
       schema={employerInformationSchema}
       sectionName="employerInformation"
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       defaultData={{
         employerName: '',
         employerAddress: {
@@ -134,7 +138,9 @@ EmployerInformationPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 
 export default EmployerInformationPage;
