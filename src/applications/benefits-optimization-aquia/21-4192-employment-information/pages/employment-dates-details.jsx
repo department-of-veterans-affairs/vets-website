@@ -42,6 +42,8 @@ export const EmploymentDatesDetailsPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -56,6 +58,8 @@ export const EmploymentDatesDetailsPage = ({
       schema={employmentDatesDetailsSchema}
       sectionName="employmentDatesDetails"
       dataProcessor={ensureDateStrings}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       defaultData={{
         beginningDate: '',
         endingDate: '',
@@ -149,7 +153,9 @@ EmploymentDatesDetailsPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 
 export default EmploymentDatesDetailsPage;

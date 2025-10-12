@@ -40,6 +40,8 @@ export const EmploymentLastPaymentPage = ({
   setFormData,
   goForward,
   goBack,
+  onReviewPage,
+  updatePage,
 }) => {
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
@@ -54,6 +56,8 @@ export const EmploymentLastPaymentPage = ({
       schema={employmentLastPaymentSchema}
       sectionName="employmentLastPayment"
       dataProcessor={ensureDateStrings}
+      onReviewPage={onReviewPage}
+      updatePage={updatePage}
       defaultData={{
         dateOfLastPayment: '',
         grossAmountLastPayment: '',
@@ -131,7 +135,9 @@ EmploymentLastPaymentPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
+  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
+  updatePage: PropTypes.func,
 };
 
 export default EmploymentLastPaymentPage;
