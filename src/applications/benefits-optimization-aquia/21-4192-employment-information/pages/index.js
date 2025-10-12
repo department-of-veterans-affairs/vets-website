@@ -4,10 +4,10 @@
  */
 
 export {
-  default as VeteranInformationPage,
+  VeteranInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
 export {
-  default as EmployerInformationPage,
+  EmployerInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
 export {
   default as EmploymentInformationPage,
