@@ -4,10 +4,7 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { content } from '../../content/evidenceSummary';
-import {
-  EvidenceVaContent,
-  getFormattedTreatmentDate,
-} from '../../components/EvidenceVaContent';
+import { EvidenceVaContent } from '../../components/EvidenceVaContent';
 import { records } from '../data/evidence-records';
 import { verifyHeader, verifyProviderVA } from '../unit-test-helpers';
 
@@ -243,12 +240,5 @@ describe('EvidenceVaContent', () => {
     expect(removeSpy.calledTwice).to.be.true;
     expect(removeSpy.args[1][0].target.getAttribute('data-index')).to.eq('1');
     expect(removeSpy.args[1][0].target.getAttribute('data-type')).to.eq('va');
-  });
-
-  describe('getFormattedTreatmentDate', () => {
-    it('should return the proper output', () => {
-      expect(getFormattedTreatmentDate(false, '2020-05')).to.eq('May 2020');
-      expect(getFormattedTreatmentDate(true, '')).to.eq(null);
-    });
   });
 });
