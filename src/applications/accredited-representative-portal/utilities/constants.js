@@ -24,7 +24,7 @@ export const getSignInUrl = ({ returnUrl } = {}) => {
   const url = new URL(signInPath, USIP_BASE_URL);
   url.searchParams.set(USIP_QUERY_PARAMS.application, USIP_APPLICATIONS.ARP);
   url.searchParams.set(USIP_QUERY_PARAMS.OAuth, true);
-  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representative/poa-requests');
+  url.searchParams.set(USIP_QUERY_PARAMS.to, '/representative/dashboard');
   if (returnUrl) {
     url.searchParams.set(USIP_QUERY_PARAMS.to, returnUrl);
   }
