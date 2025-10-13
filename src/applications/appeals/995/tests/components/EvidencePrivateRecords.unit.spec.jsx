@@ -2,14 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import * as focusUtils from '~/platform/utilities/ui/focus';
-
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {
   errorMessages,
@@ -24,7 +21,6 @@ import {
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
-import testData from '../fixtures/data/pre-api-comprehensive-test.json';
 
 /*
 | Data     | Forward     | Back               | Add another      |
