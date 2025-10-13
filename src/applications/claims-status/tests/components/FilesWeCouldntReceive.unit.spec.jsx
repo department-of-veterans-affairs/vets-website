@@ -267,7 +267,7 @@ describe('<FilesWeCouldntReceive>', () => {
         const expectedAriaLabel = `Go to the claim this file was uploaded for: ${
           expectedFileOrder[index]
         }`;
-        expect(link).to.have.attribute('aria-label', expectedAriaLabel);
+        expect(link).to.have.attribute('label', expectedAriaLabel);
       });
     });
   });

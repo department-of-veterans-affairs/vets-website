@@ -157,7 +157,7 @@ const FilesWeCouldntReceive = () => {
                               file.claimId
                             }/status`}
                             text="Go to claim this file was uploaded for"
-                            aria-label={`Go to the claim this file was uploaded for: ${
+                            label={`Go to the claim this file was uploaded for: ${
                               file.fileName
                             }`}
                           />
