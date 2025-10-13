@@ -1,0 +1,21 @@
+{
+  "address-selection--page-title": "address",
+  "address-selection--page-description": "We\u2019ll send any important information about this claim to this address.",
+  "address-selection--label-text": "have the same mailing address as you?",
+  "address-selection--prompt": "Does",
+  "address-selection--no-option": "No, use a new address",
+  "address-selection--yes-option": "Yes, use",
+  "error--required": "Please provide a response",
+  "page-title--beneficiary-plural": "Beneficiary\u2019s",
+  "page-title--your": "Your",
+  "resubmission-docs-upload--page-title": "Upload supporting documents for your claim",
+  "resubmission-docs-upload--input-label": "Upload supporting document",
+  "resubmission-letter-upload--page-title": "Upload the letter you received",
+  "resubmission-letter-upload--input-label": "Upload CHAMPVA letter",
+  "resubmission-id-number--page-title": "%s claim identification number",
+  "resubmission-id-number--page-desc": "We\u2019ll use the Program Document Identifier (PDI) or control number to identify the original claim that was submitted. These can be found on the letter you received from CHAMPVA requesting further action on your claim.",
+  "resubmission-id-number--select-label": "Is this a PDI number or control number?",
+  "resubmission-id-number--input-label": "Claim identification number",
+  "resubmission-id-number--pdi-option": "PDI number",
+  "resubmission-id-number--control-option": "Control number"
+}

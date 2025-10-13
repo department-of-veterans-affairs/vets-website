@@ -2,22 +2,22 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import * as focusUtils from '~/platform/utilities/ui/focus';
-
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {
   errorMessages,
   EVIDENCE_PRIVATE_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
-
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import { SELECTED, MAX_YEARS_PAST } from '../../../shared/constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
