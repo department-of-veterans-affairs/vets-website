@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
+import { paymentRows } from './PaymentViewObjectField';
 
 const ConfirmationPaymentInformation = ({ formData }) => {
   const bankingInformation = formData?.['view:bankAccount'];
@@ -12,28 +13,27 @@ const ConfirmationPaymentInformation = ({ formData }) => {
 
   const bankingEntries = {
     bankAccountType: {
-      label: 'Account type',
+      label: paymentRows.bankAccountType,
       data: bankingInformation.bankAccountType || '',
     },
     bankName: {
-      label: 'Bank name',
+      label: paymentRows.bankName,
       data: bankingInformation.bankName || '',
     },
     bankAccountNumber: {
-      label: 'Account number',
+      label: paymentRows.bankAccountNumber,
       data: bankingInformation.bankAccountNumber
         ? `******${bankingInformation.bankAccountNumber.slice(-4)}`
         : '',
     },
     bankRoutingNumber: {
-      label: 'Routing number',
+      label: paymentRows.bankRoutingNumber,
       data: bankingInformation.bankRoutingNumber
         ? `*****${bankingInformation.bankRoutingNumber.slice(-4)}`
         : '',
     },
   };
 
-  // export const reviewEntry = (description, key, uiSchema, label, data) => {
   return (
     <li>
       <h4>Payment Information</h4>
