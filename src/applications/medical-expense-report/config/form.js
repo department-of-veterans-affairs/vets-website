@@ -10,7 +10,6 @@ import FormSavedPage from '../containers/FormSavedPage';
 import { submit } from './submit';
 // import { defaultDefinitions } from './definitions';
 import reportingPeriod from './chapters/02-expenses/reportingPeriod';
-import additionalInformation from './chapters/03-additional-information';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
 import claimantInformation from './chapters/01-applicant-information/claimantInformation';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
@@ -19,6 +18,8 @@ import veteranInformation from './chapters/01-applicant-information/veteranInfor
 import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage';
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
+import supportingDocuments from './chapters/03-additional-information/supportingDocuments';
+import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -120,23 +121,27 @@ const formConfig = {
           schema: reportingPeriod.schema,
         },
         ...careExpensesPages,
-        // hasMedicalExpenses: {
-        //   title: 'Medical expenses',
-        //   path: 'expenses/medical',
-        //   uiSchema: hasMedicalExpenses.uiSchema,
-        //   schema: hasMedicalExpenses.schema,
-        // },
         ...medicalExpensesPages,
-        // hasMileageExpenses: {
-        //   title: 'Mileage expenses',
-        //   path: 'expenses/mileage',
-        //   uiSchema: hasMileageExpenses.uiSchema,
-        //   schema: hasMileageExpenses.schema,
-        // },
         ...mileageExpensesPages,
       },
     },
-    additionalInformation,
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        supportingDocuments: {
+          title: 'Supporting documents',
+          path: 'expenses/additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
+        uploadDocuments: {
+          title: 'Upload documents',
+          path: 'expenses/additional-information/upload-documents',
+          uiSchema: uploadDocuments.uiSchema,
+          schema: uploadDocuments.schema,
+        },
+      },
+    },
   },
 };
 

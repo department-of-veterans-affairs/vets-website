@@ -18,8 +18,6 @@ const UploadMessage = (
 );
 
 export default {
-  title: 'Upload documents',
-  path: 'expenses/additional-information/upload-documents',
   uiSchema: {
     ...titleUI(
       'Submit your supporting documents',
