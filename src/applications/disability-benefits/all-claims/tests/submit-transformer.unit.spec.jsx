@@ -12,6 +12,12 @@ import { transform } from '../submit-transformer';
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
+  beforeEach(() => {
+    global.formData = {
+      disabilityCompensationNewConditionsWorkflow: false,
+    };
+  });
+
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
