@@ -9,14 +9,16 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import FormSavedPage from '../containers/FormSavedPage';
 import { submit } from './submit';
 // import { defaultDefinitions } from './definitions';
+import reportingPeriod from './chapters/02-expenses/reportingPeriod';
 import additionalInformation from './chapters/03-additional-information';
-import hasCareExpenses from './chapters/02-expenses/careExpenses';
-import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
 import claimantRelationship from './chapters/01-applicant-information/claimantRelationship';
 import claimantInformation from './chapters/01-applicant-information/claimantInformation';
 import contactInformation from './chapters/01-applicant-information/contactInformation';
 import mailingAddress from './chapters/01-applicant-information/mailingAddress';
 import veteranInformation from './chapters/01-applicant-information/veteranInformation';
+import { careExpensesPages } from './chapters/02-expenses/careExpensesPages';
+import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage';
+import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -108,16 +110,30 @@ const formConfig = {
         },
       },
     },
-    careExpenses: {
-      title: 'Care Expenses',
+    expenses: {
+      title: 'Expenses',
       pages: {
-        hasCareExpenses: {
-          title: 'Care expenses',
-          path: 'expenses/care',
-          uiSchema: hasCareExpenses.uiSchema,
-          schema: hasCareExpenses.schema,
+        reportingPeriod: {
+          title: 'Reporting period',
+          path: 'expenses/reporting-period',
+          uiSchema: reportingPeriod.uiSchema,
+          schema: reportingPeriod.schema,
         },
         ...careExpensesPages,
+        // hasMedicalExpenses: {
+        //   title: 'Medical expenses',
+        //   path: 'expenses/medical',
+        //   uiSchema: hasMedicalExpenses.uiSchema,
+        //   schema: hasMedicalExpenses.schema,
+        // },
+        ...medicalExpensesPages,
+        // hasMileageExpenses: {
+        //   title: 'Mileage expenses',
+        //   path: 'expenses/mileage',
+        //   uiSchema: hasMileageExpenses.uiSchema,
+        //   schema: hasMileageExpenses.schema,
+        // },
+        ...mileageExpensesPages,
       },
     },
     additionalInformation,

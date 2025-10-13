@@ -18,38 +18,51 @@ import {
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { recipientTypeLabels } from '../../../utils/labels';
+import { recipientTypeLabels, careTypeLabels } from '../../../utils/labels';
 
-function SupportingDocumentsDescription() {
+function introDescription() {
   return (
     <div>
-      <p>
+      <p className="vads-u-margin-top--0">
         In the next few questions, we’ll ask you about recurring care expenses
         that aren’t reimbursed. You’ll need to add at least one care expense.
       </p>
-      <h4>You need to submit supporting documents</h4>
       <p>
-        Based on your answer, you’ll need to submit one or more of these VA
-        forms that have been signed by a provider:
+        Examples of unreimbursed care expenses include payments to in-home care
+        providers, nursing homes, or other care facilities that insurance won’t
+        cover.
       </p>
-      <ul>
-        <li>
-          Residential Care, Adult Daycare, or a Similar Facility worksheet
-          (opens in a new tab)
-        </li>
-        <li>In-Home Attendant Expenses worksheet (opens in a new tab)</li>
-        <li>
-          Request for Nursing Home Information in Connection with Claim for Aid
-          and Attendance (VA Form 21-0779 (opens in a new tab))
-        </li>
-        <li>
-          Examination for Housebound Status or Permanent Need for Regular Aid
-          and Attendance form (VA Form 21-2680 (opens in a new tab))
-        </li>
-      </ul>
-      <p>
-        We’ll ask you to upload these documents at the end of this application.
-      </p>
+      <va-additional-info trigger="You need to submit supporting documents">
+        <p>
+          If you are claiming in-home care, nursing home, or other care facility
+          expenses, you may need to submit proof for these claimed expenses and
+          other documents with your application.
+        </p>
+        <p>
+          In addition, if you are claiming any of these expense types, you may
+          need to attach one or more of these VA forms that have been signed by
+          a provider:
+        </p>
+        <ul>
+          <li>
+            Residential Care, Adult Daycare, or a Similar Facility worksheet
+            (opens in a new tab)
+          </li>
+          <li>In-Home Attendant Expenses worksheet (opens in a new tab)</li>
+          <li>
+            Request for Nursing Home Information in Connection with Claim for
+            Aid and Attendance (VA Form 21-0779 (opens in a new tab))
+          </li>
+          <li>
+            Examination for Housebound Status or Permanent Need for Regular Aid
+            and Attendance form (VA Form 21-2680 (opens in a new tab))
+          </li>
+        </ul>
+        <p>
+          We’ll ask you to upload these documents at the end of this
+          application.
+        </p>
+      </va-additional-info>
     </div>
   );
 }
@@ -64,12 +77,17 @@ const options = {
   arrayPath: 'careExpenses',
   nounSingular: 'care expense',
   nounPlural: 'care expenses',
-  required: true,
+  required: false,
   isItemIncomplete: item =>
     !item?.typeOfCare ||
     !item?.recipients ||
+    ((item.recipients === 'DEPENDENT' || item.recipients === 'OTHER') &&
+      !item?.childName) ||
+    !item?.provider ||
     !item?.careDate?.from ||
-    !item?.monthlyPayment,
+    !item?.monthlyPayment ||
+    (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
+      (!item?.hourlyRate || !item?.hoursPerWeek)),
   maxItems: 5,
   text: {
     getItemName: item =>
@@ -82,11 +100,11 @@ const options = {
 const introPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Add care expenses',
+      title: 'Care expenses',
       nounSingular: options.nounSingular,
       nounPlural: options.nounPlural,
     }),
-    'ui:description': SupportingDocumentsDescription,
+    'ui:description': introDescription,
   },
   schema: {
     type: 'object',
@@ -102,14 +120,18 @@ const introPage = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:hasCareExpenses': arrayBuilderYesNoUI(options),
+    'view:careExpensesList': arrayBuilderYesNoUI(
+      options,
+      { hint: '' },
+      { hint: '' },
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasCareExpenses': arrayBuilderYesNoSchema,
+      'view:careExpensesList': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasCareExpenses'],
+    required: ['view:careExpensesList'],
   },
 };
 
@@ -119,16 +141,13 @@ const typeOfCarePage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Type of care'),
     typeOfCare: radioUI({
       title: 'Select the type of care.',
-      labels: {
-        residential: 'Residential care facility',
-        inHome: 'In-home care attendant',
-      },
+      labels: careTypeLabels,
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      typeOfCare: radioSchema(['residential', 'inHome']),
+      typeOfCare: radioSchema(Object.keys(careTypeLabels)),
     },
     required: ['typeOfCare'],
   },
@@ -200,18 +219,29 @@ const costPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
     monthlyPayment: currencyUI('How much is each monthly payment?'),
     hourlyRate: {
-      ...currencyUI('What is the hourly rate for the care provider?'),
-      'ui:required': (formData, index) =>
-        formData?.careExpenses?.[index]?.typeOfCare === 'inHome',
-      'ui:hideIf': (formData, index) =>
-        formData?.careExpenses?.[index]?.typeOfCare !== 'inHome',
+      ...currencyUI({
+        title: 'What is the care provider’s hourly rate?',
+        hideIf: (formData, index, fullData) =>
+          fullData?.careExpenses?.[index]?.typeOfCare !==
+          'IN_HOME_CARE_ATTENDANT',
+      }),
+      'ui:required': (formData, index, fullData) =>
+        fullData?.careExpenses?.[index]?.typeOfCare ===
+        'IN_HOME_CARE_ATTENDANT',
     },
     hoursPerWeek: {
-      ...numberUI('How many hours per week does the care provider work?'),
-      'ui:required': (formData, index) =>
-        formData?.careExpenses?.[index]?.typeOfCare === 'inHome',
-      'ui:hideIf': (formData, index) =>
-        formData?.careExpenses?.[index]?.typeOfCare !== 'inHome',
+      ...numberUI({
+        title: 'How many hours per week does the care provider work?',
+        hideIf: (formData, index, fullData) => {
+          return (
+            fullData?.careExpenses?.[index]?.typeOfCare !==
+            'IN_HOME_CARE_ATTENDANT'
+          );
+        },
+      }),
+      'ui:required': (formData, index, fullData) =>
+        fullData?.careExpenses?.[index]?.typeOfCare ===
+        'IN_HOME_CARE_ATTENDANT',
     },
   },
   schema: {
@@ -226,45 +256,39 @@ const costPage = {
 };
 
 export const careExpensesPages = arrayBuilderPages(options, pageBuilder => ({
-  intro: pageBuilder.introPage({
+  careExpensesIntro: pageBuilder.introPage({
     title: 'Care expenses',
-    path: 'expenses/care/intro',
-    depends: formData => formData.hasCareExpenses === true,
+    path: 'expenses/care',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
   careExpensesSummary: pageBuilder.summaryPage({
     title: 'Care expenses',
-    path: 'expenses/care/summary',
-    depends: formData => formData.hasCareExpenses === true,
+    path: 'expenses/care/add',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
   careExpensesTypePage: pageBuilder.itemPage({
     title: 'Type of care',
     path: 'expenses/care/:index/type-of-care',
-    depends: formData => formData.hasCareExpenses === true,
     uiSchema: typeOfCarePage.uiSchema,
     schema: typeOfCarePage.schema,
   }),
   careExpensesRecipientPage: pageBuilder.itemPage({
     title: 'Care recipient and provider',
     path: 'expenses/care/:index/recipient-provider',
-    depends: formData => formData.hasCareExpenses === true,
     uiSchema: recipientPage.uiSchema,
     schema: recipientPage.schema,
   }),
   careExpensesDatesPage: pageBuilder.itemPage({
     title: 'Dates of care',
     path: 'expenses/care/:index/dates',
-    depends: formData => formData.hasCareExpenses === true,
     uiSchema: datePage.uiSchema,
     schema: datePage.schema,
   }),
   careExpensesCostPage: pageBuilder.itemPage({
     title: 'Cost of care',
     path: 'expenses/care/:index/cost',
-    depends: formData => formData.hasCareExpenses === true,
     uiSchema: costPage.uiSchema,
     schema: costPage.schema,
   }),
