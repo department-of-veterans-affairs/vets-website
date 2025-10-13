@@ -108,6 +108,7 @@ describe('VAOS Referral Appointments', () => {
           referralNumber,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       );
       mockDraftReferralAppointmentApi({

@@ -19,6 +19,7 @@ class MockReferralDraftAppointmentResponse {
       serverError: false,
       numberOfSlots: 3,
       startDate: null,
+      currentDate: null,
       ...options,
     };
   }
@@ -129,58 +130,6 @@ class MockReferralDraftAppointmentResponse {
   }
 
   /**
-   * Creates a draftAppointment object
-   *
-   * @param {Object} options - Options for the draft appointment
-   * @param {string} options.referralNumber - The referral Number
-   * @param {string} options.typeOfCare - Type of care
-   * @returns {Object} A draft appointment object
-   */
-  static createDraftAppointment({
-    referralNumber = 'PmDYsBz-egEtG13flMnHUQ==',
-    typeOfCare = 'Physical Therapy',
-  } = {}) {
-    const providerId = `provider-${Math.random()
-      .toString(36)
-      .substring(2, 10)}`;
-    const locationId = `location-${Math.random()
-      .toString(36)
-      .substring(2, 10)}`;
-
-    return {
-      id: `draft-${Math.random()
-        .toString(36)
-        .substring(2, 10)}`,
-      type: 'appointments',
-      attributes: {
-        typeOfCare,
-        appointmentType: 'COMMUNITY_CARE',
-        status: 'BOOKED',
-        schedulingMethod: 'direct',
-        referralNumber,
-        reasonForVisit: 'Follow-up/Routine',
-        providerId,
-        locationId,
-        timezone: 'America/New_York',
-      },
-      relationships: {
-        location: {
-          data: {
-            id: locationId,
-            type: 'ccLocations',
-          },
-        },
-        provider: {
-          data: {
-            id: providerId,
-            type: 'ccProviders',
-          },
-        },
-      },
-    };
-  }
-
-  /**
    * Creates a 404 Not Found error response
    *
    * @param {string} referralNumber - ID of the referral that wasn't found
@@ -223,7 +172,12 @@ class MockReferralDraftAppointmentResponse {
    * @returns {Object} The complete response object or error
    */
   toJSON() {
-    const { referralNumber, notFound, serverError } = this.options;
+    const {
+      referralNumber,
+      notFound,
+      serverError,
+      noSlotsError,
+    } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
@@ -256,21 +210,27 @@ class MockReferralDraftAppointmentResponse {
     const { ...locationWithoutName } = provider.location;
     delete locationWithoutName.name;
     provider.location = locationWithoutName;
-    const mockSlots = getMockSlots({
-      existingAppointments: confirmedAppointmentsv3.data,
-      futureMonths: 2,
-      pastMonths: 0,
-      slotsPerDay: 0,
-      conflictRate: 0,
-      forceConflictWithAppointments: nextBusinessDayAppointments,
-      communityCareSlots: true,
-    }).data;
+
+    // Generate slots unless noSlotsError is true
+    let mockSlots;
+    if (noSlotsError) {
+      mockSlots = [];
+    } else {
+      mockSlots = getMockSlots({
+        existingAppointments: confirmedAppointmentsv3.data,
+        futureMonths: 2,
+        pastMonths: 0,
+        conflictRate: 0,
+        forceConflictWithAppointments: nextBusinessDayAppointments,
+        communityCareSlots: true,
+        currentDate: this.options.currentDate,
+      }).data;
+    }
+
     // Return complete response matching the expected format
     return {
       data: {
-        id: `draft-${Math.random()
-          .toString(36)
-          .substring(2, 10)}`,
+        id: `appointment-for-${referralNumber}`,
         type: 'draft_appointment',
         attributes: {
           referralNumber,

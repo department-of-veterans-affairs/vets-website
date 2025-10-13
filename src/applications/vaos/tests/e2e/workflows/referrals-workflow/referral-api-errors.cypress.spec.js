@@ -149,6 +149,7 @@ describe('VAOS Referral API Error Handling', () => {
           {
             referralId,
             [errorType]: true,
+            currentDate: mockToday,
           },
         ).toJSON();
         mockDraftReferralAppointmentApi({
@@ -205,7 +206,7 @@ describe('VAOS Referral API Error Handling', () => {
         {
           referralId,
           categoryOfCare: 'Physical Therapy',
-          numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({
@@ -293,6 +294,7 @@ describe('VAOS Referral API Error Handling', () => {
           referralId,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({

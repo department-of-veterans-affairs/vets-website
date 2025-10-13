@@ -536,8 +536,8 @@ const responses = {
         new MockReferralDraftAppointmentResponse({
           referralNumber,
           categoryOfCare: 'OPTOMETRY',
-          numberOfSlots: 0,
           startDate: new Date(),
+          noSlotsError: true,
         }),
       );
     }
@@ -560,6 +560,11 @@ const responses = {
       status: 'draft',
     });
 
+    const mockBookedAppointment = new MockReferralAppointmentDetailsResponse({
+      appointmentId,
+      status: 'booked',
+    });
+
     const serverError = new MockReferralAppointmentDetailsResponse({
       appointmentId,
       serverError: true,
@@ -570,32 +575,32 @@ const responses = {
       notFound: true,
     });
 
-    if (appointmentId === 'details-retry-error') {
+    if (appointmentId === 'appointment-for-poll-retry-error') {
       // Set a very high poll count to simulate a timeout
       successPollCount = 1000;
     }
 
-    if (appointmentId === 'EEKoGzEf-appointment-details-error') {
-      return res.status(500).json(serverError);
-    }
-
-    if (appointmentId === 'eps-error-appointment-id') {
-      return res.status(400).json(notFoundError);
-    }
-    if (appointmentId === 'details-error') {
+    if (appointmentId === 'appointment-for-poll-error') {
       return res.status(500).json(serverError);
     }
 
     // Check if the request is coming from the details page
-    // We can determine this by checking the referer header or request path
-    const refererHeader = req.headers.referer || '';
-    const isDetailsView =
-      refererHeader.includes(`/${appointmentId}`) ||
-      req.query.view === 'details';
+    const isDetailsView = req.headers['x-page-type'] === 'details'; // 'details' or 'review-confirm'
+
+    if (
+      isDetailsView &&
+      appointmentId === 'appointment-for-details-not-found-error'
+    ) {
+      return res.status(400).json(notFoundError);
+    }
+
+    if (isDetailsView && appointmentId === 'appointment-for-details-error') {
+      return res.status(500).json(serverError);
+    }
 
     if (isDetailsView) {
       // For details view, immediately return appointment in booked state
-      return res.json(mockAppointment);
+      return res.json(mockBookedAppointment);
     }
 
     // Continue with normal polling behavior for ReviewAndConfirm component

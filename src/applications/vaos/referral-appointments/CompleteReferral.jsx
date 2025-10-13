@@ -10,7 +10,7 @@ import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
+import { usePollAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
@@ -65,7 +65,7 @@ export const CompleteReferral = props => {
     data: referralAppointmentInfo,
     isError: appointmentInfoError,
     isLoading: appointmentInfoLoading,
-  } = useGetAppointmentInfoQuery(appointmentId);
+  } = usePollAppointmentInfoQuery(appointmentId);
   const [booked, setBooked] = useState(
     referralAppointmentInfo?.attributes?.status === 'booked',
   );

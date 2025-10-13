@@ -50,6 +50,34 @@ export const vaosApi = createApi({
         try {
           return await apiRequestWithUrl(
             `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'details',
+              },
+            },
+          );
+        } catch (error) {
+          captureError(error, false, 'details fetch appointment info');
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
+    }),
+    pollAppointmentInfo: builder.query({
+      async queryFn(appointmentId) {
+        try {
+          return await apiRequestWithUrl(
+            `/vaos/v2/eps_appointments/${appointmentId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Page-Type': 'polling',
+              },
+            },
           );
         } catch (error) {
           captureError(error, false, 'poll fetch appointment info');
@@ -121,6 +149,7 @@ export const {
   useGetReferralByIdQuery,
   useGetPatientReferralsQuery,
   useGetAppointmentInfoQuery,
+  usePollAppointmentInfoQuery,
   usePostReferralAppointmentMutation,
   useGetDraftReferralAppointmentQuery,
 } = vaosApi;

@@ -87,15 +87,15 @@ class MockReferralListResponse {
         expirationDate: format(addMonths(today, 5), formatStr),
       }),
       MockReferralListResponse.createReferral({
-        id: 'details-retry-error',
+        id: 'poll-retry-error',
         categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'details-retry-error',
+        referralNumber: 'poll-retry-error',
         expirationDate: format(addMonths(today, 5), formatStr),
       }),
       MockReferralListResponse.createReferral({
-        id: 'details-error',
+        id: 'poll-error',
         categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'details-error',
+        referralNumber: 'poll-error',
         expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
       }),
       MockReferralListResponse.createReferral({
@@ -111,9 +111,15 @@ class MockReferralListResponse {
         expirationDate: format(addMonths(today, 5), formatStr),
       }),
       MockReferralListResponse.createReferral({
-        id: 'eps-error-appointment-id',
+        id: 'details-not-found-error',
         categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'eps-error-appointment-id',
+        referralNumber: 'details-not-found-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-error',
         expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
       }),
       MockReferralListResponse.createReferral({
