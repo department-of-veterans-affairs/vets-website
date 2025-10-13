@@ -13,6 +13,7 @@ import {
   fillFullNameWebComponentPattern,
   getPagePaths,
   reviewAndSubmitPageFlow,
+  selectCheckboxGroupWebComponent,
 } from '../../../shared/tests/e2e/helpers';
 
 const pagePaths = getPagePaths(formConfig);
@@ -33,21 +34,14 @@ const testConfig = createTestConfig(
       'witness-personal-information-a': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const label = data.witnessRelationshipToClaimant;
             fillFullNameWebComponentPattern(
               'witnessFullName',
               data.witnessFullName,
             );
-            cy.get(`va-checkbox[label="${label}"]`)
-              .shadow()
-              .get('#checkbox-element')
+            selectCheckboxGroupWebComponent(data.witnessRelationshipToClaimant);
+            cy.findByText('Continue')
               .first()
-              .click({ force: true })
-              .then(() => {
-                cy.findByText('Continue')
-                  .first()
-                  .click();
-              });
+              .click();
           });
         });
       },
@@ -82,21 +76,14 @@ const testConfig = createTestConfig(
       'witness-personal-information-b': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            const label = data.witnessRelationshipToClaimant;
             fillFullNameWebComponentPattern(
               'witnessFullName',
               data.witnessFullName,
             );
-            cy.get(`va-checkbox[label="${label}"]`)
-              .shadow()
-              .get('#checkbox-element')
+            selectCheckboxGroupWebComponent(data.witnessRelationshipToClaimant);
+            cy.findByText('Continue')
               .first()
-              .click({ force: true })
-              .then(() => {
-                cy.findByText('Continue')
-                  .first()
-                  .click();
-              });
+              .click();
           });
         });
       },
