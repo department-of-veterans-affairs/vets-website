@@ -22,19 +22,28 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { AssetTransfersSummaryDescription } from '../../../components/SummaryDescriptions';
-import { relationshipLabels, transferMethodLabels } from '../../../labels';
+import { DependentDescription } from '../../../components/DependentDescription';
 
 import {
   formatCurrency,
   formatFullNameNoSuffix,
   generateDeleteDescription,
   isDefined,
-  otherNewOwnerRelationshipExplanationRequired,
+  otherRecipientRelationshipTypeUI,
   otherTransferMethodExplanationRequired,
   requireExpandedArrayField,
-  sharedYesNoOptionsBase,
+  sharedRecipientRelationshipBase,
   showUpdatedContent,
+  sharedYesNoOptionsBase,
 } from '../../../helpers';
+import {
+  custodianRelationshipLabels,
+  parentRelationshipLabels,
+  relationshipLabelDescriptions,
+  relationshipLabels,
+  spouseRelationshipLabels,
+  transferMethodLabels,
+} from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -125,6 +134,7 @@ const updatedTitleNoItems =
   'Did you or your dependents transfer any assets this year or in the past 3 years?';
 const updatedTitleWithItems = 'Do you have more asset transfers to report?';
 const summaryPageTitle = 'Asset transfers and other sales';
+const incomeRecipientPageTitle = 'Asset owner relationship information';
 const yesNoOptionLabels = {
   Y: 'Yes, I have an asset transfer to report',
   N: 'No, I don’t have an asset transfer to report',
@@ -257,7 +267,143 @@ const custodianSummaryPage = {
 };
 
 /** @returns {PageSchema} */
-const relationshipPage = {
+const veteranIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: Object.fromEntries(
+        Object.entries(relationshipLabels).filter(
+          ([key]) => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      descriptions: relationshipLabelDescriptions,
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'assetTransfers',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(relationshipLabels).filter(
+          key => key !== 'PARENT' && key !== 'CUSTODIAN',
+        ),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: spouseRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key === 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'assetTransfers',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(spouseRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: custodianRelationshipLabels,
+      descriptions: Object.fromEntries(
+        Object.entries(relationshipLabelDescriptions).filter(
+          ([key]) => key !== 'CHILD',
+        ),
+      ),
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'assetTransfers',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(
+        Object.keys(custodianRelationshipLabels),
+      ),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const parentIncomeRecipientPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Royalty relationship',
+      nounSingular: options.nounSingular,
+    }),
+    recipientRelationship: radioUI({
+      ...sharedRecipientRelationshipBase,
+      labels: parentRelationshipLabels,
+      descriptions: {
+        SPOUSE: 'The Veteran’s other parent should file a separate claim',
+      },
+    }),
+    otherRecipientRelationshipType: otherRecipientRelationshipTypeUI(
+      'assetTransfers',
+    ),
+    'ui:options': {
+      ...requireExpandedArrayField('otherRecipientRelationshipType'),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientRelationship: radioSchema(Object.keys(parentRelationshipLabels)),
+      otherRecipientRelationshipType: { type: 'string' },
+    },
+    required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const nonVeteranIncomeRecipientPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Asset owner relationship information',
@@ -268,17 +414,9 @@ const relationshipPage = {
         'What is the asset’s original owner’s relationship to the Veteran?',
       labels: relationshipLabels,
     }),
-    otherOriginalOwnerRelationshipType: {
-      'ui:title': 'Tell us the type of relationship',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        expandUnder: 'originalOwnerRelationship',
-        expandUnderCondition: 'OTHER',
-        expandedContentFocus: true,
-      },
-      'ui:required': (formData, index) =>
-        otherNewOwnerRelationshipExplanationRequired(formData, index),
-    },
+    otherOriginalOwnerRelationshipType: otherRecipientRelationshipTypeUI(
+      'assetTransfers',
+    ),
     'ui:options': {
       ...requireExpandedArrayField('otherOriginalOwnerRelationshipType'),
     },
@@ -468,11 +606,56 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  assetTransferRelationshipPage: pageBuilder.itemPage({
+  assetTransferVeteranRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="VETERAN" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'asset-transfers/:index/veteran-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranIncomeRecipientPage.uiSchema,
+    schema: veteranIncomeRecipientPage.schema,
+  }),
+  assetTransferSpouseRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="SPOUSE" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'asset-transfers/:index/spouse-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseIncomeRecipientPage.uiSchema,
+    schema: spouseIncomeRecipientPage.schema,
+  }),
+  assetTransferCustodianRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="CUSTODIAN" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'asset-transfers/:index/custodian-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianIncomeRecipientPage.uiSchema,
+    schema: custodianIncomeRecipientPage.schema,
+  }),
+  assetTransferParentRecipientPage: pageBuilder.itemPage({
+    ContentBeforeButtons: showUpdatedContent() ? (
+      <DependentDescription claimantType="PARENT" />
+    ) : null,
+    title: incomeRecipientPageTitle,
+    path: 'asset-transfers/:index/parent-income-recipient',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentIncomeRecipientPage.uiSchema,
+    schema: parentIncomeRecipientPage.schema,
+  }),
+  assetTransferNonVeteranRecipientPage: pageBuilder.itemPage({
     title: 'Asset transfer relationship information',
-    path: 'asset-transfers/:index/relationship',
-    uiSchema: relationshipPage.uiSchema,
-    schema: relationshipPage.schema,
+    path: 'asset-transfers/:index/income-recipient',
+    depends: () => !showUpdatedContent(),
+    uiSchema: nonVeteranIncomeRecipientPage.uiSchema,
+    schema: nonVeteranIncomeRecipientPage.schema,
   }),
   assetTransferTypePage: pageBuilder.itemPage({
     title: 'Asset transfer type information',
