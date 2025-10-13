@@ -4,19 +4,17 @@ import {
   fullNameSchema,
   ssnUI,
   ssnSchema,
-  vaFileNumberUI,
-  vaFileNumberSchema,
-  yesNoUI,
+  serviceNumberUI,
+  serviceNumberSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 // TODO: Update vets-json-scheme with our version of fullSchemaPensions.
-import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+// import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import UnauthenticatedWarningAlert from '../../../components/UnauthenticatedWarningAlert';
 import { isSameOrAfter } from '../../../utils/helpers';
 import { benefitsIntakeFullNameUI } from './helpers';
-
-const { vaClaimsHistory } = fullSchemaPensions.properties;
 
 export function isOver65(formData, currentDate) {
   const today = currentDate || new Date();
@@ -51,23 +49,17 @@ export default {
   path: 'applicant/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
+    ...titleUI('Veteran name'),
     'ui:description': applicantDescription,
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
     veteranFullName: benefitsIntakeFullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),
-    vaClaimsHistory: yesNoUI({
-      title: 'Have you ever filed a claim with VA?',
-      classNames: 'vads-u-margin-bottom--2',
+    veteranServiceNumber: serviceNumberUI('Service number'),
+    veteranDateOfBirth: dateOfBirthUI({
+      monthSelect: false,
     }),
-    vaFileNumber: {
-      ...vaFileNumberUI(),
-      'ui:options': {
-        hint: 'Enter your VA file number if it doesn’t match your SSN',
-      },
-    },
-    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
@@ -75,6 +67,7 @@ export default {
       'veteranFullName',
       'veteranSocialSecurityNumber',
       'veteranDateOfBirth',
+      'veteranServiceNumber',
     ],
     properties: {
       'view:warningAlert': {
@@ -83,9 +76,8 @@ export default {
       },
       veteranFullName: fullNameSchema,
       veteranSocialSecurityNumber: ssnSchema,
-      vaClaimsHistory,
+      veteranServiceNumber: serviceNumberSchema,
       /* Do $ref definitions work here? Would it make sense to pull the definition from the vets-json-schema file */
-      vaFileNumber: vaFileNumberSchema,
       veteranDateOfBirth: dateOfBirthSchema,
     },
   },

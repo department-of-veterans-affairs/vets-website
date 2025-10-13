@@ -33,6 +33,7 @@ yalc.lock
 package-lock.json
 temp
 dump.rdb
+534ez_json.json
 
 # Ignore user's editor/IDE prefs
 .vscode/

@@ -9,7 +9,7 @@ export default {
   title: 'Mailing address',
   path: 'applicant/mail-address',
   uiSchema: {
-    ...titleUI('Mailing address'),
+    ...titleUI('Your mailing address'),
     veteranAddress: addressUI({
       labels: {
         militaryCheckbox:

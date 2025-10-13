@@ -1,16 +1,18 @@
 import mailingAddress from './mailingAddress';
 import applicantInformation from './applicantInformation';
-import claimantRelationship from './claimantRelationship';
+import veteranInformation from './veteranInformation';
 import claimantInformation from './claimantInformation';
 import contactInformation from './contactInformation';
+import benefitType from './benefitType';
 
 export default {
   title: 'Applicant information',
   pages: {
     applicantInformation,
-    claimantRelationship,
+    veteranInformation,
     claimantInformation,
     mailingAddress,
     contactInformation,
+    benefitType,
   },
 };
