@@ -133,6 +133,19 @@
       },
       "view:selected": true
     }],
+    "legacyCount": 2,
+    "additionalIssues": [
+      {
+        "issue": "Test",
+        "decisionDate": "2022-1-1",
+        "view:selected": true
+      },
+      {
+        "issue": "Test 2",
+        "decisionDate": "2022-6-28",
+        "view:selected": true
+      }
+    ],
     "locations": [
       {
         "locationAndName": "South Texas VA Facility",

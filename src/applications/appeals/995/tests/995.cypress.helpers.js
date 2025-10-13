@@ -27,7 +27,6 @@ import {
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {
   mockContestableIssues,
-  mockContestableIssuesWithLegacyAppeals,
   getRandomDate,
 } from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
@@ -211,13 +210,10 @@ export const setupPerTest = (_testData, toggles = []) => {
   });
 
   // Include legacy appeals to mock data for maximal test
-  const dataSet = Cypress.currentTest.titlePath[1];
   cy.intercept(
     'GET',
     `${CONTESTABLE_ISSUES_API}/compensation`,
-    dataSet === 'api-formatted-comprehensive-test'
-      ? mockContestableIssuesWithLegacyAppeals
-      : mockContestableIssues,
+    mockContestableIssues,
   ).as('getIssues');
 
   cy.intercept('POST', SUBMIT_URL, mockSubmit);
