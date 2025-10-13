@@ -2,6 +2,7 @@ import path from 'path';
 import _ from 'lodash';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { filterViewFields } from 'platform/forms-system/src/js/helpers';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import environment from 'platform/utilities/environment';
 
@@ -114,15 +115,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page2c.path]: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.get('select').select(1);
-            cy.injectAxeThenAxeCheck();
-            goToNextPage();
-          });
-        });
-      },
       [ALL_PAGES.page7.path]: ({ afterHook }) => {
         afterHook(() => uploadDocumentAndGoToNext(SAMPLE_FILE));
       },
@@ -150,11 +142,8 @@ const testConfig = createTestConfig(
       });
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
-          // Remove the "do you have another policy to add?" yes/no view-only prop
-          // before checking data validity. (have to include it so test proceeds)
-          // eslint-disable-next-line no-param-reassign
-          delete data['view:hasPolicies'];
-          verifyAllDataWasSubmitted(data, req.body);
+          const withoutViewFields = filterViewFields(data);
+          verifyAllDataWasSubmitted(withoutViewFields, req.body);
         });
         // Mock response
         req.reply({ status: 200 });

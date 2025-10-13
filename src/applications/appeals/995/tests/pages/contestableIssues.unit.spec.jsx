@@ -9,7 +9,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 
 import formConfig from '../../config/form';
-import maximalData from '../fixtures/data/maximal-test.json';
+import maximalData from '../fixtures/data/pre-api-comprehensive-test.json';
 import errorMessages from '../../../shared/content/errorMessages';
 
 const mockStore = data => ({

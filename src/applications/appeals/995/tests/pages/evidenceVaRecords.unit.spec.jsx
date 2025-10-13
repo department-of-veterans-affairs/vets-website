@@ -6,7 +6,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { newSchema, oldSchema } from '../../pages/evidenceVaRecords';
+import { newSchema, oldSchema } from '../../pages/evidenceVaDetails';
 import { SC_NEW_FORM_DATA } from '../../constants';
 
 describe('Supplemental Claims VA evidence page', () => {
@@ -14,7 +14,7 @@ describe('Supplemental Claims VA evidence page', () => {
     schema,
     uiSchema,
     appStateSelector,
-  } = formConfig.chapters.evidence.pages.evidenceVaRecords;
+  } = formConfig.chapters.evidence.pages.evidenceVaDetails;
 
   const uiOptions = uiSchema['ui:options'];
 
