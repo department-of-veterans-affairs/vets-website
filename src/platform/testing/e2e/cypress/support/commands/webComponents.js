@@ -131,6 +131,89 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   }
 });
 
+Cypress.Commands.add('fillVaTelephoneInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-telephone-input[name="${field}"]`)
+        : cy.wrap(field);
+    element.shadow().within(() => {
+      cy.get('va-text-input').then($contact => {
+        cy.fillVaTextInput($contact, value.contact);
+      });
+    });
+  }
+});
+
+Cypress.Commands.add('fillVaFileInput', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input[name="${field}"]`)
+        : cy.wrap(field);
+    cy.log('made it here');
+    element.then(async $el => {
+      const el = $el[0];
+
+      const pngFile = await makeMinimalPNG();
+      const mockFormData = {
+        name: value?.name || 'placeholder.png',
+        size: value?.size || 123,
+        password: value?.password || 'abc',
+        additionalData: value?.additionalData || {},
+        confirmationCode: value?.confirmationCode || '123456',
+        isEncrypted: value?.isEncrypted || true,
+        hasAdditionalInputError: false,
+        hasPasswordError: false,
+      };
+      const fileSelectEvent = new CustomEvent('vaChange', {
+        detail: { files: [pngFile], mockFormData },
+        bubbles: true,
+        composed: true,
+      });
+
+      el.dispatchEvent(fileSelectEvent);
+    });
+  }
+});
+
+Cypress.Commands.add('fillVaFileInputMultiple', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-file-input-multiple[name="${field}"]`)
+        : cy.wrap(field);
+
+    element.then(async $el => {
+      const el = $el[0];
+
+      const pngFile = await makeMinimalPNG();
+      const detail = {
+        action: 'FILE_ADDED',
+        file: pngFile,
+        state: [{ file: pngFile, password: undefined, changed: true }],
+        mockFormData: {
+          confirmationCode: 'abc123',
+          name: 'placeholder.png',
+          size: 123,
+          additionalData: {
+            documentStatus: 'public',
+          },
+        },
+      };
+
+      const options = {
+        detail,
+        bubbles: true,
+        composed: true,
+      };
+
+      const event = new CustomEvent('vaMultipleChange', options);
+      el.dispatchEvent(event);
+    });
+  }
+});
+
 function fillVaDateFields(year, month, day, monthYearOnly) {
   cy.get('@currentElement')
     .shadow()
@@ -308,8 +391,23 @@ Cypress.Commands.add('enterWebComponentData', field => {
       break;
     }
 
+    case 'VA-TELEPHONE-INPUT': {
+      cy.fillVaTelephoneInput(field.key, field.data);
+      break;
+    }
+
     case 'VA-MEMORABLE-DATE': {
       cy.fillVaMemorableDate(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT': {
+      cy.fillVaFileInput(field.key, field.data);
+      break;
+    }
+
+    case 'VA-FILE-INPUT-MULTIPLE': {
+      cy.fillVaFileInputMultiple(field.key, field.data);
       break;
     }
 
