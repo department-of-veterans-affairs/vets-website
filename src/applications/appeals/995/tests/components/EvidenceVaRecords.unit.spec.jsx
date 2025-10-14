@@ -3,14 +3,11 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import * as focusUtils from '~/platform/utilities/ui/focus';
-
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
@@ -18,9 +15,11 @@ import {
   EVIDENCE_VA_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
-
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
-
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   MAX_LENGTH,

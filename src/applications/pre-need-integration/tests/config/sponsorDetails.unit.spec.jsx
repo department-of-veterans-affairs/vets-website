@@ -1,63 +1,51 @@
 import React from 'react';
 import { expect } from 'chai';
-// import sinon from 'sinon';
-import { mount } from 'enzyme';
-
-import {
-  DefinitionTester,
-  // fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { render } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
-describe('Pre-need sponsor details', () => {
+describe('Pre-need sponsor Details info', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.sponsorInformation.pages.sponsorDetails;
 
-  it('should render', () => {
-    const form = mount(
+  function getVaInput(container, label) {
+    return Array.from(container.querySelectorAll('va-text-input')).find(
+      el => el.getAttribute('label') === label,
+    );
+  }
+
+  it('should render sponsor name input fields', () => {
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('VaMemorableDate').length).to.equal(1);
-    expect(form.find('va-select').length).to.equal(1);
-    form.unmount();
+    expect(getVaInput(container, 'Sponsor’s first name')).to.exist;
+    expect(getVaInput(container, 'Sponsor’s last name')).to.exist;
+    expect(getVaInput(container, 'Sponsor’s middle name')).to.exist;
+    expect(getVaInput(container, 'Sponsor’s maiden name')).to.exist;
   });
 
-  // Non of these fields are required
-  // it('should submit with information', () => {
-  //   const onSubmit = sinon.spy();
-  //   const form = mount(
-  //     <DefinitionTester
-  //       schema={schema}
-  //       definitions={formConfig.defaultDefinitions}
-  //       onSubmit={onSubmit}
-  //       uiSchema={uiSchema}
-  //     />,
-  //   );
-
-  //   fillData(form, 'input#root_application_veteran_currentName_first', 'test');
-  //   fillData(form, 'input#root_application_veteran_currentName_last', 'test2');
-  //   fillData(form, 'input#root_application_veteran_ssn', '234443344');
-  //   fillData(form, 'select#root_application_veteran_dateOfBirthMonth', '2');
-  //   fillData(form, 'select#root_application_veteran_dateOfBirthDay', '2');
-  //   fillData(form, 'input#root_application_veteran_dateOfBirthYear', '2001');
-  //   fillData(form, 'input#root_application_veteran_cityOfBirth', 'Charleston');
-  //   fillData(
-  //     form,
-  //     'input#root_application_veteran_stateOfBirth',
-  //     'South Carolina',
-  //   );
-
-  //   form.find('form').simulate('submit');
-
-  //   expect(onSubmit.called).to.be.true;
-  //   form.unmount();
-  // });
+  it('should fire events on required fields', () => {
+    const { container } = render(
+      <DefinitionTester
+        schema={schema}
+        definitions={formConfig.defaultDefinitions}
+        uiSchema={uiSchema}
+      />,
+    );
+    const firstNameInput = getVaInput(container, 'Sponsor’s first name');
+    firstNameInput.value = 'John';
+    firstNameInput.dispatchEvent(
+      new CustomEvent('input', { bubbles: true, composed: true }),
+    );
+    firstNameInput.dispatchEvent(
+      new CustomEvent('change', { bubbles: true, composed: true }),
+    );
+    expect(firstNameInput.value).to.equal('John');
+  });
 });
