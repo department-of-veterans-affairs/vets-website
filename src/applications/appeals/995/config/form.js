@@ -41,8 +41,8 @@ import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
-import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
-import evidenceVaRecords from '../pages/evidenceVaRecords';
+import evidenceVaPrompt from '../pages/evidenceVaPrompt';
+import evidenceVaDetails from '../pages/evidenceVaDetails';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
@@ -271,14 +271,14 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecordsRequest: {
+        evidenceVaPrompt: {
           title: 'Request VA medical records',
           path: EVIDENCE_VA_PROMPT_URL,
-          uiSchema: evidenceVaRecordsRequest.uiSchema,
-          schema: evidenceVaRecordsRequest.schema,
+          uiSchema: evidenceVaPrompt.uiSchema,
+          schema: evidenceVaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecords: {
+        evidenceVaDetails: {
           title: 'VA medical records',
           path: EVIDENCE_VA_DETAILS_URL,
           depends: hasVAEvidence,
@@ -287,8 +287,8 @@ const formConfig = {
           }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: evidenceVaRecords.uiSchema,
-          schema: evidenceVaRecords.schema,
+          uiSchema: evidenceVaDetails.uiSchema,
+          schema: evidenceVaDetails.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },
