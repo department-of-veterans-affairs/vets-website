@@ -72,9 +72,9 @@ const CernerFacilityAlert = ({
 };
 
 CernerFacilityAlert.propTypes = {
-  facilitiesNames: PropTypes.array,
   apiError: PropTypes.bool,
   className: PropTypes.string,
+  facilitiesNames: PropTypes.array,
 };
 
 export default CernerFacilityAlert;

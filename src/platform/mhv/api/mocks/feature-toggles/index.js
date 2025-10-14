@@ -12,7 +12,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent,
     mhvMedicationsDontIncrementIpeCount,
-    mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -27,6 +26,8 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvAcceleratedDeliveryConditionsEnabled = false,
     mhvAcceleratedDeliveryVaccinesEnabled = false,
     mhvAcceleratedDeliveryLabsAndTestsEnabled = false,
+
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
 
     // secure messaging
     mhvSecureMessagingTriageGroupPlainLanguage = false,

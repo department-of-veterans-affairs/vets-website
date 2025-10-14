@@ -13,32 +13,23 @@ describe('New Cerner Facility Alert', () => {
     });
   };
 
-  it(`renders the alert in collapsed state by default`, async () => {
+  it(`renders the alert with correct text and link`, async () => {
     const screen = setup();
 
     const alert = screen.getByTestId('new-cerner-facilities-alert');
     expect(alert).to.exist;
-    expect(alert).to.have.attribute('aria-expanded', 'false');
 
-    const toggleButton = screen.getByTestId('new-cerner-facility-alert-toggle');
-    expect(toggleButton).to.exist;
-  });
-
-  it(`toggles the alert when the toggle button is clicked and menuOpen is true`, async () => {
-    const screen = setup();
-
-    const toggleButton = screen.getByTestId('new-cerner-facility-alert-toggle');
-    toggleButton.click(); // click on the button to expand the alert
+    const text = screen.getByTestId('new-cerner-health-facility-text')
+      .textContent;
+    expect(text).to.include(
+      'You can now manage your care for any VA health facility right here in myHeatheVet on VA.gov.',
+    );
+    expect(text).to.include(
+      'Note: You can also still access the My VA Health portal at this time.',
+    );
 
     const link = screen.getByText('Go to My VA Health');
     expect(link).to.exist;
-
-    const alert = screen.getByTestId('new-cerner-facilities-alert');
-    expect(alert).to.exist;
-    expect(alert).to.have.attribute('aria-expanded', 'true');
-
-    const text = screen.getByTestId('new-cerner-facility-alert-toggle');
-    expect(text).to.exist;
   });
 
   it(`applies apiError margin-top class when apiError is true`, async () => {
