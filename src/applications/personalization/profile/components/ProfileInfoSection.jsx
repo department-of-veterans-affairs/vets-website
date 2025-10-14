@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { ProfileAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 
 import {
   optionalNumberBetween,
   numberBetween,
 } from '../../common/proptypeValidators';
-
-import AlertConfirmEmail from './alerts/AlertConfirmEmail';
 
 const sectionTitle = classNames(['vads-u-margin--0']);
 
@@ -183,7 +182,7 @@ export const ProfileInfoSection = ({
         {title}
       </HeadingLevel>
 
-      {enableAlertConfirmEmail && <AlertConfirmEmail />}
+      {enableAlertConfirmEmail && <ProfileAlertConfirmEmail />}
 
       <div className="vads-u-margin-top--1">
         {Array.isArray(data) ? (
