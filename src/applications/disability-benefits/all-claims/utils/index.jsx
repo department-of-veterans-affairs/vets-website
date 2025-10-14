@@ -692,6 +692,14 @@ export const showSubform8940And4192 = state =>
 export const showToxicExposureDestructionModal = state =>
   toggleValues(state).disabilityCompensationToxicExposureDestructionModal;
 
+/**
+ * Selector to check if the toxic exposure opt-out data purge feature flag is enabled.
+ * @param {Object} state - Redux state object
+ * @returns {boolean} True if the feature flag is enabled, false otherwise
+ */
+export const showToxicExposureOptOutDataPurge = state =>
+  toggleValues(state).disability526ToxicExposureOptOutDataPurge;
+
 export const wrapWithBreadcrumb = (title, component) => (
   <>
     <div className="row vads-u-padding-x--1p5">

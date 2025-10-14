@@ -348,12 +348,12 @@ describe('purgeToxicExposureData', () => {
         );
       });
 
-      it('should remove orphaned otherHerbicideLocations when parent herbicide object is missing (hasOrphanedOtherKey check)', () => {
+      it('should remove orphaned otherHerbicideLocations when sibling herbicide object is missing (hasOrphanedOtherKey check)', () => {
         const formData = {
           disability526ToxicExposureOptOutDataPurge: true,
           toxicExposure: {
             conditions: { asthma: true },
-            // No herbicide parent object
+            // No herbicide sibling object
             [EXPOSURE_TYPE_MAPPING.herbicide.detailsKey]: {
               vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
             },
@@ -376,7 +376,7 @@ describe('purgeToxicExposureData', () => {
 
         const result = purgeToxicExposureData(formData);
 
-        // Both details and otherKey fields should be removed when parent is missing
+        // Both details and otherKey fields should be removed when sibling is missing
         expect(result.toxicExposure).to.not.have.property(
           EXPOSURE_TYPE_MAPPING.herbicide.detailsKey,
         );
@@ -1155,6 +1155,8 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
 
   it('should handle maximal data set removing only orphaned details for false selections', () => {
     // Mock maximal test data with mixed true/false selections
+    // Includes 'other: true' and non-standard fields (chromium, depleted, etc.)
+    // to verify forward compatibility - unknown fields should be preserved
     const mockMaximalData = {
       disability526ToxicExposureOptOutDataPurge: true,
       toxicExposure: {
@@ -1212,7 +1214,7 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
           cambodia: false,
           laos: true,
           thailand: true,
-          other: true,
+          other: true, // Not in HERBICIDE_LOCATIONS - testing forward compatibility
         },
         herbicideDetails: {
           vietnam: {
@@ -1241,15 +1243,15 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
         otherExposures: {
           asbestos: true,
           chemical: false,
-          chromium: false,
-          depleted: true,
+          chromium: false, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
+          depleted: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
           mos: false,
           mustardGas: false,
           radiation: true,
-          shad: false,
-          shipyard: true,
+          shad: false, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
+          shipyard: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
           water: false,
-          other: true,
+          other: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
         },
         otherExposuresDetails: {
           asbestos: {
