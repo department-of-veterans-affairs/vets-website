@@ -118,16 +118,16 @@ export const buildPrescriptionsTXT = prescriptions => {
 
     const title = rx.prescriptionName;
 
-    const fillandRxBlock = isPending
-      ? ''
-      : joinLines(
+    const fillandRxBlock = !isPending
+      ? joinLines(
           `Last filled on: ${dateFormat(
             rx.sortedDispensedDate,
             'MMMM D, YYYY',
             'Date not available',
           )}`,
           `Prescription number: ${rx.prescriptionNumber}`,
-        );
+        )
+      : '';
 
     const attributes = joinLines(
       `Status: ${rx.dispStatus || 'Unknown'} - ${statusParagraph(

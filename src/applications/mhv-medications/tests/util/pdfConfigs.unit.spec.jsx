@@ -10,7 +10,11 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
+import {
+  DOWNLOAD_FORMAT,
+  FIELD_NONE_NOTED,
+  pdfDefaultStatusDefinition,
+} from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -26,7 +30,9 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
-    expect(pdfList[0].sections[0].items[2].value).to.equal(FIELD_NONE_NOTED);
+    expect(pdfList[0].sections[0].items[2].value).to.equal(
+      `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
+    );
   });
 });
 
@@ -116,7 +122,7 @@ describe('VA prescription Config', () => {
 describe('Non VA prescription Config', () => {
   it('should contain 9 values', () => {
     const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription);
-    expect(pdfGen[0].sections[0].items.length).to.equal(9);
+    expect(pdfGen[0].sections[0].items.length).to.equal(7);
   });
 
   it('should handle single name provider', () => {
@@ -124,7 +130,7 @@ describe('Non VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildNonVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[6].value).to.equal('test');
+    expect(pdfList[0].sections[0].items[5].value).to.equal('test');
   });
 });
 

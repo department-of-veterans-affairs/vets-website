@@ -130,6 +130,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    const isPending = pendingMed || pendingRenewal;
     const pdfStatusDefinition =
       pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
     const mostRecentRxRefillLine = () => {
@@ -151,19 +152,17 @@ export const buildPrescriptionsPDFList = prescriptions => {
       sections: [
         {
           items: [
-            !pendingMed && !pendingRenewal
-              ? {
-                  title: 'Last filled on',
-                  value: dateFormat(
-                    rx.sortedDispensedDate,
-                    'MMMM D, YYYY',
-                    'Date not available',
-                  ),
-                  inline: true,
-                }
-              : null,
-            ...(!pendingMed && !pendingRenewal
+            ...(!isPending
               ? [
+                  {
+                    title: 'Last filled on',
+                    value: dateFormat(
+                      rx.sortedDispensedDate,
+                      'MMMM D, YYYY',
+                      'Date not available',
+                    ),
+                    inline: true,
+                  },
                   {
                     title: 'Prescription number',
                     value: rx.prescriptionNumber,
