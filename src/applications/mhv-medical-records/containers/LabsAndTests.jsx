@@ -30,6 +30,7 @@ import { getMonthFromSelectedDate } from '../util/helpers';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useLatest from '../hooks/useLatest';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import DatePicker from '../components/shared/DatePicker';
@@ -124,6 +125,9 @@ const LabsAndTests = () => {
     dispatch,
   });
 
+  // Stable ref: latest listState for unmount cleanup
+  const listStateRef = useLatest(listState);
+
   useEffect(
     /**
      * @returns a callback to automatically load any new records when unmounting this component
@@ -131,9 +135,18 @@ const LabsAndTests = () => {
     () => {
       return () => {
         dispatch(reloadRecords());
+        // eslint-disable-next-line -- Intentional: read latest ref value at unmount time.
+        const latestState = listStateRef.current;
+        // If unmounting while still FETCHING, reset so we don't return to an infinite spinner.
+        if (latestState === loadStates.FETCHING) {
+          dispatch({
+            type: Actions.LabsAndTests.UPDATE_LIST_STATE,
+            payload: loadStates.PRE_FETCH,
+          });
+        }
       };
     },
-    [dispatch],
+    [dispatch, listStateRef],
   );
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;

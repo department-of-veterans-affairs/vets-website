@@ -9,7 +9,8 @@ import labsAndTests from '../fixtures/labsAndTests.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
-import { studyJobStatus } from '../../util/constants';
+import { loadStates, studyJobStatus } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('LabsAndTests list container', () => {
   const labsAndTestsFhir = labsAndTests.entry.map(item =>
@@ -205,5 +206,85 @@ describe('Labs and tests list container with radiology images ready', () => {
         `/labs-and-tests/${radiologyTestsMhv[0].id}/images`,
       );
     });
+  });
+});
+
+describe('Labs and Tests unmount cleanup', () => {
+  const baseInitialState = {
+    drupalStaticData: { vamcEhrData: { loading: false } },
+    user: {},
+    mr: {
+      labsAndTests: {
+        labsAndTestsList: [],
+        listState: loadStates.FETCHING,
+        listCurrentAsOf: new Date(),
+      },
+      alerts: { alertList: [] },
+      refresh: { status: null, initialFhirLoad: false },
+    },
+  };
+
+  it('resets listState to PRE_FETCH when unmounting while FETCHING', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.LabsAndTests.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState: baseInitialState,
+      reducers: tappedReducers,
+      path: '/labs-and-tests',
+    });
+
+    // Simulate navigating away
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.true;
+  });
+
+  it('does not reset listState when not FETCHING at unmount', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.LabsAndTests.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const initialState = {
+      ...baseInitialState,
+      mr: {
+        ...baseInitialState.mr,
+        labsAndTests: {
+          ...baseInitialState.mr.labsAndTests,
+          listState: loadStates.FETCHED,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<LabsAndTests />, {
+      initialState,
+      reducers: tappedReducers,
+      path: '/labs-and-tests',
+    });
+
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.false;
   });
 });

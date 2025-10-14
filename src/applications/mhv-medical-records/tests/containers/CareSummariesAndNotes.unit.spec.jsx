@@ -8,6 +8,8 @@ import reducer from '../../reducers';
 import { convertCareSummariesAndNotesRecord } from '../../reducers/careSummariesAndNotes';
 import notes from '../fixtures/notes.json';
 import user from '../fixtures/user.json';
+import { loadStates } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('CareSummariesAndNotes list container', () => {
   const initialState = {
@@ -126,5 +128,85 @@ describe('CareSummariesAndNotes list container with errors', () => {
         ),
       ).to.exist;
     });
+  });
+});
+
+describe('Care Summaries and Notes unmount cleanup', () => {
+  const baseInitialState = {
+    drupalStaticData: { vamcEhrData: { loading: false } },
+    user: {},
+    mr: {
+      careSummariesAndNotes: {
+        careSummariesAndNotesList: [],
+        listState: loadStates.FETCHING,
+        listCurrentAsOf: new Date(),
+      },
+      alerts: { alertList: [] },
+      refresh: { status: null, initialFhirLoad: false },
+    },
+  };
+
+  it('resets listState to PRE_FETCH when unmounting while FETCHING', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.CareSummariesAndNotes.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState: baseInitialState,
+      reducers: tappedReducers,
+      path: '/summaries-and-notes',
+    });
+
+    // Simulate navigating away
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.true;
+  });
+
+  it('does not reset listState when not FETCHING at unmount', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.CareSummariesAndNotes.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const initialState = {
+      ...baseInitialState,
+      mr: {
+        ...baseInitialState.mr,
+        careSummariesAndNotes: {
+          ...baseInitialState.mr.careSummariesAndNotes,
+          listState: loadStates.FETCHED,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<CareSummariesAndNotes />, {
+      initialState,
+      reducers: tappedReducers,
+      path: '/summaries-and-notes',
+    });
+
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.false;
   });
 });

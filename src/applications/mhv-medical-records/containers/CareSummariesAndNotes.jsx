@@ -28,6 +28,8 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import useLatest from '../hooks/useLatest';
+import { Actions } from '../util/actionTypes';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -67,6 +69,9 @@ const CareSummariesAndNotes = () => {
     dispatch,
   });
 
+  // Stable ref: latest listState for unmount cleanup
+  const listStateRef = useLatest(listState);
+
   useEffect(
     /**
      * @returns a callback to automatically load any new records when unmounting this component
@@ -74,9 +79,18 @@ const CareSummariesAndNotes = () => {
     () => {
       return () => {
         dispatch(reloadRecords());
+        // eslint-disable-next-line -- Intentional: read latest ref value at unmount time.
+        const latestState = listStateRef.current;
+        // If unmounting while still FETCHING, reset so we don't return to an infinite spinner.
+        if (latestState === loadStates.FETCHING) {
+          dispatch({
+            type: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+            payload: loadStates.PRE_FETCH,
+          });
+        }
       };
     },
-    [dispatch],
+    [dispatch, listStateRef],
   );
 
   useEffect(
