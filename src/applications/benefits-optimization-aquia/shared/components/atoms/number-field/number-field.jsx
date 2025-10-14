@@ -2,24 +2,41 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
- * Number input field component using VA Design System
- * Uses va-text-input web component with inputmode="numeric" for proper number input
+ * Number input field component using VA Design System.
+ * Uses va-text-input web component with inputmode="numeric" for proper numeric keyboard on mobile devices.
+ * Ideal for collecting numeric data like hours, counts, or identification numbers.
  *
  * @component
+ * @see [VA Text Input Component](https://design.va.gov/components/form/text-input)
+ * @see [USWDS Text Input](https://designsystem.digital.gov/components/text-input/)
+ *
  * @param {Object} props - Component props
- * @param {string} props.name - Field name for form handling
- * @param {string} props.label - Label text for the field
- * @param {string} props.value - Current field value
- * @param {Function} props.onChange - Change handler function
- * @param {string} [props.error] - Error message to display
- * @param {boolean} [props.required=false] - Whether field is required
- * @param {boolean} [props.forceShowError=false] - Force show error even if not touched
- * @param {Object} [props.schema] - Zod schema for validation (not used by va-text-input but kept for consistency)
- * @param {string} [props.hint] - Optional hint text
- * @param {number} [props.min] - Minimum value
- * @param {number} [props.max] - Maximum value
- * @param {string} [props.inputmode='numeric'] - Input mode for mobile keyboards
- * @returns {JSX.Element} Number input field
+ * @param {string} props.name - Field name for form identification
+ * @param {string} props.label - Label text displayed above the field
+ * @param {string|number} props.value - Current field value
+ * @param {Function} props.onChange - Change handler function (name, value) => void
+ * @param {string} [props.error] - External error message to display
+ * @param {boolean} [props.required=false] - Whether the field is required
+ * @param {boolean} [props.forceShowError=false] - Force display of validation errors even if untouched
+ * @param {import('zod').ZodSchema} [props.schema] - Zod schema for validation (not used by va-text-input but kept for consistency)
+ * @param {string} [props.hint] - Additional help text for the user
+ * @param {number} [props.min] - Minimum allowed value
+ * @param {number} [props.max] - Maximum allowed value
+ * @param {string} [props.inputmode='numeric'] - Input mode for mobile keyboards (numeric, decimal, tel)
+ * @returns {JSX.Element} VA number input field
+ *
+ * @example
+ * ```jsx
+ * <NumberField
+ *   name="dailyHours"
+ *   label="Number of hours worked (daily)"
+ *   value={formData.dailyHours}
+ *   onChange={handleFieldChange}
+ *   hint="Enter the number of hours worked per day"
+ *   min={0}
+ *   max={24}
+ * />
+ * ```
  */
 export const NumberField = ({
   name,
