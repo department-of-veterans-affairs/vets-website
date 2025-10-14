@@ -21,6 +21,7 @@ const baseState = {
   },
   user: {
     profile: {
+      vaPatient: true,
       vapContactInfo: {
         email: {
           confirmationDate: '2025-09-30T12:00:00.000+00:00',
@@ -99,7 +100,7 @@ describe('EmailInformationSection', () => {
     expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
   });
 
-  describe('AlertConfirmEmail', () => {
+  describe('ProfileAlertConfirmEmail component', () => {
     it('renders <AlertConfirmContactEmail /> when email.updatedAt is before the threshold value', async () => {
       const state = set(
         cloneDeep(baseState),
@@ -114,7 +115,7 @@ describe('EmailInformationSection', () => {
         },
       );
       await waitFor(() => {
-        expect(getByTestId('alert-confirm-contact-email')).to.exist;
+        expect(getByTestId('profile-alert--confirm-contact-email')).to.exist;
       });
     });
 
@@ -132,11 +133,11 @@ describe('EmailInformationSection', () => {
         },
       );
       await waitFor(() => {
-        expect(getByTestId('alert-add-contact-email')).to.exist;
+        expect(getByTestId('profile-alert--add-contact-email')).to.exist;
       });
     });
 
-    it('suppresses <AlertContactEmail /> when email.updatedAt is after the threshold value', async () => {
+    it('suppresses <ProfileAlertContactEmail /> when email.updatedAt is after the threshold value', async () => {
       const { queryByTestId } = renderInReduxProvider(
         <EmailInformationSection />,
         {
@@ -145,12 +146,13 @@ describe('EmailInformationSection', () => {
         },
       );
       await waitFor(() => {
-        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
+          .exist;
+        expect(queryByTestId('profile-alert--add-contact-email')).to.not.exist;
       });
     });
 
-    it('suppresses <AlertContactEmail /> when !featureToggles.mhvEmailConfirmation', async () => {
+    it('suppresses <ProfileAlertContactEmail /> when !featureToggles.mhvEmailConfirmation', async () => {
       const state = set(
         cloneDeep(baseState),
         'featureToggles.mhvEmailConfirmation',
@@ -164,8 +166,9 @@ describe('EmailInformationSection', () => {
         },
       );
       await waitFor(() => {
-        expect(queryByTestId('alert-confirm-contact-email')).to.not.exist;
-        expect(queryByTestId('alert-add-contact-email')).to.not.exist;
+        expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
+          .exist;
+        expect(queryByTestId('profile-alert--add-contact-email')).to.not.exist;
       });
     });
   });
