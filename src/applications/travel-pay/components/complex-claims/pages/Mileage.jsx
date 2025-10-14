@@ -10,8 +10,8 @@ const Mileage = () => {
   // TODO: Remove placeholder data
   const address = {
     addressLine1: '345 Home Address St.',
-    addressLine2: null,
-    addressLine3: null,
+    addressLine2: 'Apt. 123',
+    addressLine3: '#67',
     city: 'San Francisco',
     countryName: 'United States',
     stateCode: 'CA',
@@ -132,13 +132,14 @@ const Mileage = () => {
         onCloseEvent={handleCloseModal}
         onPrimaryButtonClick={handleCloseModal}
         onSecondaryButtonClick={handleCloseModal}
-        primaryButtonText="Confirm"
-        secondaryButtonText="Cancel"
+        primaryButtonText="Yes, cancel"
+        secondaryButtonText="No, continue adding this expense"
         status="warning"
         visible={isModalVisible}
       >
         <p>
-          By cancelling this expense, you will lose any progress on this form.
+          If you cancel, you’ll lose the information you entered about this
+          expense and will be returned to the review page.
         </p>
       </VaModal>
       <VaButton
