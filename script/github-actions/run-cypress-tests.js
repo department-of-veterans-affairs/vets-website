@@ -1,10 +1,14 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
+const glob = require('glob');
+
 const { runCommandSync } = require('../utils');
 
-const tests = fs.existsSync(path.resolve(`e2e_tests_to_test.json`))
-  ? JSON.parse(fs.readFileSync(path.resolve(`e2e_tests_to_test.json`)))
-  : null;
+// const tests = fs.existsSync(path.resolve(`e2e_tests_to_test.json`))
+//   ? JSON.parse(fs.readFileSync(path.resolve(`e2e_tests_to_test.json`)))
+//   : null;
+
+const tests = glob.sync('src/**/*.cypress.spec.{js,jsx}');
 
 const step = Number(process.env.STEP);
 const numContainers = Number(process.env.NUM_CONTAINERS);
