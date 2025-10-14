@@ -6,6 +6,7 @@ import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
 import manifest from '../../manifest.json';
+import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const SmBreadcrumbs = () => {
   const recentRecipients = useSelector(
     state => state.sm.recipients?.recentRecipients,
   );
+  const { mhvSecureMessagingRecentRecipients } = useFeatureToggles();
 
   // Use state + sessionStorage to persist entry URL and trigger re-renders
   const [composeEntryUrl, setComposeEntryUrlState] = useState(() =>
@@ -90,11 +92,66 @@ const SmBreadcrumbs = () => {
   // Determine whether the Recent Care Teams step should be part of the compose flow
   const showRecentCareTeams = useMemo(
     () =>
+      mhvSecureMessagingRecentRecipients &&
       recentRecipients !== undefined &&
       recentRecipients?.length > 0 &&
       recentRecipients !== 'error' &&
       recentRecipients !== null,
-    [recentRecipients],
+    [recentRecipients, mhvSecureMessagingRecentRecipients],
+  );
+
+  // Build the current path with proper formatting (used for navigation and href)
+  const currentPath = useMemo(
+    () => {
+      const basePath = locationBasePath?.startsWith('/')
+        ? locationBasePath
+        : `/${locationBasePath}`;
+      return locationChildPath
+        ? `${basePath}/${locationChildPath}/`
+        : `${basePath}/`;
+    },
+    [locationBasePath, locationChildPath],
+  );
+
+  const fallbackUrl = useMemo(
+    () => {
+      const path = locationBasePath ? `/${locationBasePath}/` : '/';
+
+      if (crumb?.href) {
+        return crumb.href;
+      }
+
+      // Priority 2: For message/reply pages, derive from activeFolder (survives refresh)
+      if (
+        activeFolder?.folderId !== undefined &&
+        (path === Constants.Paths.MESSAGE_THREAD ||
+          path === Constants.Paths.REPLY)
+      ) {
+        const { folderId } = activeFolder;
+
+        if (folderId === Constants.DefaultFolders.SENT.id) {
+          return Constants.Paths.SENT;
+        }
+        if (folderId === Constants.DefaultFolders.DRAFTS.id) {
+          return Constants.Paths.DRAFTS;
+        }
+        if (folderId === Constants.DefaultFolders.DELETED.id) {
+          return Constants.Paths.DELETED;
+        }
+        // Custom folders use the numeric ID
+        return `${Constants.Paths.FOLDERS}${folderId}`;
+      }
+
+      // Priority 3: For compose flow pages without a map entry,
+      // use composeEntryUrl if available
+      if (path.startsWith(Constants.Paths.COMPOSE) && composeEntryUrl) {
+        return composeEntryUrl;
+      }
+
+      // Priority 4: Use previousUrl from Redux (works during normal navigation) OR Default to inbox
+      return previousUrl || Constants.Paths.INBOX;
+    },
+    [crumb?.href, activeFolder, previousUrl, locationBasePath, composeEntryUrl],
   );
 
   // Validate if a path is a valid folder route - add future folder routes here
@@ -145,11 +202,6 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
-      // Build current path including child path if present
-      const currentPath = `/${locationBasePath}/${
-        locationChildPath ? `${locationChildPath}/` : ''
-      }`;
-
       // Check if current page is in the compose flow
       const composeFlowMap = getComposeFlowMap();
       const composeFlowDestination = composeFlowMap[currentPath];
@@ -181,8 +233,8 @@ const SmBreadcrumbs = () => {
         history.push(Constants.Paths.INBOX);
       } else {
         history.push(
-          previousUrl !== Constants.Paths.CONTACT_LIST
-            ? previousUrl
+          fallbackUrl !== Constants.Paths.CONTACT_LIST
+            ? fallbackUrl
             : Constants.Paths.INBOX,
         );
       }
@@ -190,14 +242,14 @@ const SmBreadcrumbs = () => {
     [
       activeDraftId,
       getComposeFlowMap,
+      currentPath,
       crumb?.href,
       history,
       locationBasePath,
-      locationChildPath,
       previousUrl,
+      fallbackUrl,
     ],
   );
-
   useEffect(
     () => {
       if (
@@ -325,11 +377,8 @@ const SmBreadcrumbs = () => {
   };
 
   // Determine the correct back link href based on compose flow logic
-  const currentPath = `/${locationBasePath}/${
-    locationChildPath ? `${locationChildPath}` : ''
-  }`;
   const composeFlowMap = getComposeFlowMap();
-  const backLinkHref = composeFlowMap[currentPath] || previousUrl;
+  const backLinkHref = composeFlowMap[currentPath] || fallbackUrl;
 
   return (
     <div>
