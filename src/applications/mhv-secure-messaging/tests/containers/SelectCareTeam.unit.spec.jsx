@@ -583,4 +583,40 @@ describe('SelectCareTeam', () => {
       expect(history.location.pathname).to.equal('select-care-team');
     });
   });
+
+  it('shows contact list link when user has VistA facilities', async () => {
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Update your contact list')).to.exist;
+    });
+  });
+
+  it('does not show contact list link when user has only Cerner facilities', async () => {
+    const customState = {
+      ...initialState,
+      user: {
+        profile: {
+          facilities: [
+            { facilityId: '954' }, // Cerner facility
+            { facilityId: '834' }, // Cerner facility
+          ],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Update your contact list')).to.not.exist;
+    });
+  });
 });
