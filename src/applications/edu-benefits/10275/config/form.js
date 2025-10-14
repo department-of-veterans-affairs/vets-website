@@ -10,6 +10,7 @@ import {
   agreementType,
   institutionDetailsFacility,
   authorizingOfficial,
+  poeCommitment,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -104,6 +105,18 @@ const formConfig = {
           depends: data => data?.agreementType === 'withdrawal',
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    principlesOfExcellenceCommitmentChapter: {
+      title: 'The Principles of Excellence',
+      pages: {
+        poeCommitment: {
+          path: 'principles-of-excellence',
+          title: 'The Principles of Excellence',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: poeCommitment.uiSchema,
+          schema: poeCommitment.schema,
         },
       },
     },

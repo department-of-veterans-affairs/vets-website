@@ -2,9 +2,28 @@
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+.form-22-10275{
+   @media (max-width: $small-screen) {
+    padding-inline: 0.5rem;
+   }
+}
 .need-help-container {
   width: 642px;
   @media (max-width: $small-screen) {
     width: 100%;
+  }
+}
+.box-highlight {
+  min-width: 648px;
+  background-color: var(--vads-color-primary-alt-lightest);
+  @media (max-width: $small-screen) {
+    min-width: 100%;
+  }
+}
+va-checkbox[error]::part(checkbox) {
+  font-weight: bold !important;
+  min-width: 648px;
+  @media (max-width: $small-screen) {
+    min-width: 100%;
   }
 }
