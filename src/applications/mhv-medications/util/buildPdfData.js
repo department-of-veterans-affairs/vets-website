@@ -50,9 +50,11 @@ export function buildPdfData({
                   'This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.',
               },
               {
-                value: `Showing ${
-                  allergiesList.length
-                } records from newest to oldest`,
+                value: `Showing ${allergiesList.length} ${
+                  allergiesList.length === 1
+                    ? 'record'
+                    : 'records from newest to oldest'
+                }`,
               },
             ],
           }),

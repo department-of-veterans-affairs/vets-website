@@ -13,6 +13,7 @@ import {
  * @param {string} selectedFilterOption - One of the filter keys.
  * @param {string} selectedSortOption - A key in `rxListSortingOptions`.
  * @param {number} rxListSize - Count of medications in the current list.
+ * @param {boolean} isPdf - true: build output for PDF; false: build output for TXT.
  * @returns {string} The full header preface text.
  * @throws {Error} If `selectedFilterOption` is not recognized.
  */
@@ -20,6 +21,7 @@ export const displayHeaderPrefaceText = (
   selectedFilterOption,
   selectedSortOption,
   rxListSize,
+  isPdf = true,
 ) => {
   const partsWithBoldCount = (prefix, middle, suffix) => [
     { value: 'This is a ', continued: true },
@@ -86,5 +88,9 @@ export const displayHeaderPrefaceText = (
     },
   ];
 
-  return [...headParts, ...tailParts];
+  const headerPrefaceText = [...headParts, ...tailParts];
+
+  return isPdf
+    ? headerPrefaceText
+    : headerPrefaceText.map(x => x.value).join('');
 };

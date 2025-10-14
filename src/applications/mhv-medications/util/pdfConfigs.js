@@ -4,6 +4,7 @@ import {
   dateFormat,
   determineRefillLabel,
   displayProviderName,
+  getMostRecentRxRefill,
   getRefillHistory,
   getShowRefillHistory,
   processList,
@@ -131,6 +132,19 @@ export const buildPrescriptionsPDFList = prescriptions => {
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
     const pdfStatusDefinition =
       pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
+    const mostRecentRxRefillLine = () => {
+      const newest = getMostRecentRxRefill(rx);
+
+      if (!newest) return '';
+
+      const filledDate = dateFormat(
+        newest.sortedDispensedDate,
+        'MMMM D, YYYY',
+        'Date not available',
+      );
+
+      return `${newest.prescriptionNumber}, last filled on ${filledDate}`;
+    };
 
     return {
       header: rx.prescriptionName,
@@ -229,13 +243,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
               inline: true,
             },
             rx.groupedMedications?.length > 0 && {
-              title:
-                'Most recent prescriptions associated with this medication',
-              value: rx.groupedMedications
-                .map(previousRx => {
-                  return previousRx.prescriptionNumber;
-                })
-                .join(', '),
+              title: 'Most recent prescription associated with this medication',
+              value: mostRecentRxRefillLine(),
               inline: true,
             },
           ],

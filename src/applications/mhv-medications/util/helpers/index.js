@@ -18,6 +18,7 @@ export { generateMedicationsPDF } from './generateMedicationsPDF';
 export { generateTextFile } from './generateTextFile';
 export { getErrorTypeFromFormat } from './getErrorTypeFromFormat';
 export { getImageUri } from './getImageUri';
+export { getMostRecentRxRefill } from './getMostRecentRxRefill';
 export { getReactions } from './getReactions';
 export { getRefillHistory } from './getRefillHistory';
 export { getRxStatus } from './getRxStatus';
