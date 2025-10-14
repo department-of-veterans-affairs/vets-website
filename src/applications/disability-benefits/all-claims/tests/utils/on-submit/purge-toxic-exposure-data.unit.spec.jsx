@@ -589,6 +589,29 @@ describe('purgeToxicExposureData', () => {
           'specifyOtherExposures',
         );
       });
+
+      it('should remove other fields when set to undefined', () => {
+        const formData = {
+          disability526ToxicExposureOptOutDataPurge: true,
+          toxicExposure: {
+            conditions: { asthma: true },
+            herbicide: { vietnam: true },
+            otherExposures: { asbestos: true },
+            otherHerbicideLocations: undefined, // Undefined value
+            specifyOtherExposures: undefined, // Undefined value
+          },
+        };
+
+        const result = purgeToxicExposureData(formData);
+
+        // Both should be removed - undefined is treated as unknown format (empty)
+        expect(result.toxicExposure).to.not.have.property(
+          'otherHerbicideLocations',
+        );
+        expect(result.toxicExposure).to.not.have.property(
+          'specifyOtherExposures',
+        );
+      });
     });
 
     describe('acceptance criteria - UX test cases', () => {
@@ -1093,10 +1116,100 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
     expect(result.toxicExposure).to.have.property('gulfWar1990');
   });
 
+  it('should preserve unknown/future fields in exposure selections and their details (forward compatibility)', () => {
+    // This test ensures that when new exposure types are added to the constants
+    // (e.g., new values in HERBICIDE_LOCATIONS or ADDITIONAL_EXPOSURES),
+    // the purge logic preserves them and their details based on selection status,
+    // just like it handles known fields.
+    const formData = {
+      disability526ToxicExposureOptOutDataPurge: true,
+      toxicExposure: {
+        conditions: { asthma: true },
+        // Herbicide with unknown future fields not in current HERBICIDE_LOCATIONS
+        herbicide: {
+          vietnam: true,
+          cambodia: false,
+          futureLocation1: true, // Unknown field - should be preserved
+          futureLocation2: false, // Unknown field - false should be preserved
+        },
+        herbicideDetails: {
+          vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+          cambodia: { startDate: '1969-01-01', endDate: '1970-01-01' }, // Should be removed (false)
+          futureLocation1: { startDate: '1975-01-01', endDate: '1976-01-01' }, // Should be kept (true)
+          futureLocation2: { startDate: '1977-01-01', endDate: '1978-01-01' }, // Should be removed (false)
+        },
+        otherHerbicideLocations: {
+          description: 'Other location description',
+          startDate: '1973-06-01',
+          endDate: '1974-12-31',
+        },
+        // Other exposures with unknown future fields not in current ADDITIONAL_EXPOSURES
+        otherExposures: {
+          asbestos: true,
+          radiation: false,
+          futureExposure1: true, // Unknown field - should be preserved
+          futureExposure2: false, // Unknown field - false should be preserved
+        },
+        otherExposuresDetails: {
+          asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+          radiation: { startDate: '1990-01-01', endDate: '1991-01-01' }, // Should be removed (false)
+          futureExposure1: { startDate: '2000-01-01', endDate: '2001-01-01' }, // Should be kept (true)
+          futureExposure2: { startDate: '2002-01-01', endDate: '2003-01-01' }, // Should be removed (false)
+        },
+        specifyOtherExposures: {
+          description: 'Future exposure description',
+          startDate: '2012-03-15',
+          endDate: '2013-09-30',
+        },
+      },
+    };
+
+    const result = purgeToxicExposureData(formData);
+
+    // Herbicide section should preserve unknown fields based on their selection status
+    expect(result.toxicExposure.herbicide).to.deep.equal({
+      vietnam: true,
+      cambodia: false,
+      futureLocation1: true,
+      futureLocation2: false,
+    });
+
+    // Herbicide details should only keep details for true selections (including unknown fields)
+    expect(result.toxicExposure.herbicideDetails).to.deep.equal({
+      vietnam: { startDate: '1968-01-01', endDate: '1970-01-01' },
+      futureLocation1: { startDate: '1975-01-01', endDate: '1976-01-01' },
+    });
+
+    // otherHerbicideLocations should be preserved when valid
+    expect(result.toxicExposure.otherHerbicideLocations).to.deep.equal({
+      description: 'Other location description',
+      startDate: '1973-06-01',
+      endDate: '1974-12-31',
+    });
+
+    // Other exposures should preserve unknown fields based on their selection status
+    expect(result.toxicExposure.otherExposures).to.deep.equal({
+      asbestos: true,
+      radiation: false,
+      futureExposure1: true,
+      futureExposure2: false,
+    });
+
+    // Other exposure details should only keep details for true selections (including unknown fields)
+    expect(result.toxicExposure.otherExposuresDetails).to.deep.equal({
+      asbestos: { startDate: '1980-01-01', endDate: '1985-01-01' },
+      futureExposure1: { startDate: '2000-01-01', endDate: '2001-01-01' },
+    });
+
+    // specifyOtherExposures should be preserved when valid
+    expect(result.toxicExposure.specifyOtherExposures).to.deep.equal({
+      description: 'Future exposure description',
+      startDate: '2012-03-15',
+      endDate: '2013-09-30',
+    });
+  });
+
   it('should handle maximal data set removing only orphaned details for false selections', () => {
-    // Mock maximal test data with mixed true/false selections
-    // Includes 'other: true' and non-standard fields (chromium, depleted, etc.)
-    // to verify forward compatibility - unknown fields should be preserved
     const mockMaximalData = {
       disability526ToxicExposureOptOutDataPurge: true,
       toxicExposure: {
@@ -1154,7 +1267,7 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
           cambodia: false,
           laos: true,
           thailand: true,
-          other: true, // Not in HERBICIDE_LOCATIONS - testing forward compatibility
+          other: true,
         },
         herbicideDetails: {
           vietnam: {
@@ -1183,15 +1296,15 @@ describe('purgeToxicExposureData - orphaned data removal', () => {
         otherExposures: {
           asbestos: true,
           chemical: false,
-          chromium: false, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
-          depleted: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
+          chromium: false,
+          depleted: true,
           mos: false,
           mustardGas: false,
           radiation: true,
-          shad: false, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
-          shipyard: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
+          shad: false,
+          shipyard: true,
           water: false,
-          other: true, // Not in ADDITIONAL_EXPOSURES - testing forward compatibility
+          other: true,
         },
         otherExposuresDetails: {
           asbestos: {
