@@ -34,14 +34,20 @@ const toPath = (baseHref, maybeUrl) => {
 };
 
 describe('HCA Routing Bug - Logged-in user incorrectly visits id-form', () => {
+  let beforeLoadHandler;
+
   beforeEach(() => {
     // Stub pushState so every navigation is captured from the very first script
     // Use cy.spy here so we can reference it later with @push
-    Cypress.on('window:before:load', win => {
+    beforeLoadHandler = win => {
       cy.spy(win.history, 'pushState').as('push');
-    });
-
+    };
+    Cypress.on('window:before:load', beforeLoadHandler);
     setupForAuth({ user: mockUser });
+  });
+
+  afterEach(() => {
+    if (beforeLoadHandler) Cypress.off('window:before:load', beforeLoadHandler);
   });
 
   it('should reproduce the bug: logged-in user is routed through id-form before reaching destination', () => {
