@@ -522,11 +522,6 @@ describe('SelectCareTeam', () => {
   });
 
   it('redirects users to interstitial page if interstitial not accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sandbox.spy(),
-    };
-
     const customState = {
       ...initialState,
       sm: {
@@ -547,8 +542,6 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       expect(history.location.pathname).to.equal('/new-message/');
     });
-
-    global.window.location = oldLocation;
   });
 
   it('wont redirect users if interstitial accepted', async () => {
