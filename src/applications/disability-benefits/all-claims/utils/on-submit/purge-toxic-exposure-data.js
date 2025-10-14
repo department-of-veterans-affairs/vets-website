@@ -166,40 +166,6 @@ const purgeExposureDetails = (toxicExposure, exposureType, mapping) => {
 };
 
 /**
- * Compares two objects and returns the keys that were removed.
- *
- * @param {Object} before - Object before purge
- * @param {Object} after - Object after purge
- * @param {string} [path=''] - Current path for nested objects
- * @returns {Array<string>} Array of removed key paths
- */
-const getRemovedKeys = (before, after, path = '') => {
-  const removed = [];
-
-  if (!before || typeof before !== 'object') return removed;
-
-  Object.keys(before).forEach(key => {
-    const currentPath = path ? `${path}.${key}` : key;
-
-    if (!(key in after)) {
-      // Key was completely removed
-      removed.push(currentPath);
-    } else if (
-      typeof before[key] === 'object' &&
-      before[key] !== null &&
-      !Array.isArray(before[key]) &&
-      typeof after[key] === 'object' &&
-      after[key] !== null
-    ) {
-      // Recursively check nested objects
-      removed.push(...getRemovedKeys(before[key], after[key], currentPath));
-    }
-  });
-
-  return removed;
-};
-
-/**
  * Removes orphaned and non-applicable toxic exposure data from form payload
  * to prevent backend validation errors when users opt out of sections.
  *
@@ -249,9 +215,6 @@ export const purgeToxicExposureData = formData => {
     return formData;
   }
 
-  // Store original data for logging
-  const originalToxicExposure = cloneDeep(formData.toxicExposure);
-
   const clonedData = cloneDeep(formData);
   let { toxicExposure } = clonedData;
 
@@ -271,48 +234,14 @@ export const purgeToxicExposureData = formData => {
 
   // User selected "none" for conditions - complete opt-out scenario
   if (conditions.none === true && !hasSelectedConditions(conditions)) {
-    const result = {
+    return {
       ...clonedData,
       toxicExposure: { conditions: { none: true } },
     };
-
-    // Log purge results
-    /* eslint-disable no-console */
-    console.group('🧹 Toxic Exposure Data Purge - Complete Opt-Out');
-    console.log(
-      '📥 Original Payload:\n',
-      JSON.stringify(originalToxicExposure, null, 2),
-    );
-    console.log('🗑️  Purge Reason: User selected "none" for conditions');
-    console.log(
-      '🗑️  Removed Keys:',
-      getRemovedKeys(originalToxicExposure, result.toxicExposure || {}),
-    );
-    console.log(
-      '📤 Payload Sent to Backend:\n',
-      JSON.stringify(result.toxicExposure, null, 2),
-    );
-    console.groupEnd();
-    /* eslint-enable no-console */
-
-    return result;
   }
 
   // No conditions selected = no toxic exposure claim = all exposure data is orphaned
   if (!hasSelectedConditions(conditions)) {
-    // Log purge results
-    /* eslint-disable no-console */
-    console.group('🧹 Toxic Exposure Data Purge - No Conditions Selected');
-    console.log(
-      '📥 Original Payload:\n',
-      JSON.stringify(originalToxicExposure, null, 2),
-    );
-    console.log('🗑️  Purge Reason: No conditions selected');
-    console.log('🗑️  Removed Keys:', getRemovedKeys(originalToxicExposure, {}));
-    console.log('📤 Payload Sent to Backend: (toxicExposure removed entirely)');
-    console.groupEnd();
-    /* eslint-enable no-console */
-
     return clonedData;
   }
 
@@ -334,44 +263,8 @@ export const purgeToxicExposureData = formData => {
   });
 
   if (hasNoMeaningfulData) {
-    // Log purge results
-    /* eslint-disable no-console */
-    console.group('🧹 Toxic Exposure Data Purge - No Meaningful Data');
-    console.log(
-      '📥 Original Payload:\n',
-      JSON.stringify(originalToxicExposure, null, 2),
-    );
-    console.log('🗑️  Purge Reason: No meaningful data remaining after cleanup');
-    console.log('🗑️  Removed Keys:', getRemovedKeys(originalToxicExposure, {}));
-    console.log('📤 Payload Sent to Backend: (toxicExposure removed entirely)');
-    console.groupEnd();
-    /* eslint-enable no-console */
-
     return clonedData;
   }
 
-  const result = { ...clonedData, toxicExposure };
-
-  // Log purge results - always log to show function is running
-  const removedKeys = getRemovedKeys(originalToxicExposure, toxicExposure);
-  /* eslint-disable no-console */
-  console.group('🧹 Toxic Exposure Data Purge - Orphaned Data Cleanup');
-  console.log(
-    '📥 Original Payload:\n',
-    JSON.stringify(originalToxicExposure, null, 2),
-  );
-  if (removedKeys.length > 0) {
-    console.log('🗑️  Purge Reason: Removing orphaned and non-applicable data');
-    console.log(`🗑️  Removed Keys (${removedKeys.length}):`, removedKeys);
-  } else {
-    console.log('✅ No orphaned data found - payload is clean');
-  }
-  console.log(
-    '📤 Payload Sent to Backend:\n',
-    JSON.stringify(toxicExposure, null, 2),
-  );
-  console.groupEnd();
-  /* eslint-enable no-console */
-
-  return result;
+  return { ...clonedData, toxicExposure };
 };
