@@ -99,7 +99,7 @@ const formConfig = {
     associatedOfficialsChapter: {
       title: 'Associated officials',
       pages: {
-        yourInformationNew: {
+        authorizingOfficialNew: {
           path: 'new-commitment-authorizing-official',
           title: 'Your information',
           depends: data => data?.agreementType === 'newCommitment',
