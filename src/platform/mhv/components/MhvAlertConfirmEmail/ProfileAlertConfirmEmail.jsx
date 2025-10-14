@@ -127,6 +127,9 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
     dismissAlertViaCookie();
   };
 
+  if (skipSuccess)
+    return <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />;
+
   if (!renderAlert) return null;
 
   return (
@@ -148,9 +151,6 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
         </>
       ) : (
         <>
-          {skipSuccess && (
-            <AlertSystemResponseSkipSuccess recordEvent={recordEvent} />
-          )}
           {!skipSuccess && (
             <AlertAddContactEmail
               onClick={onSkipClick}
