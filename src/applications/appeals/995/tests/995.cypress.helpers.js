@@ -11,11 +11,11 @@ import mockUpload from './fixtures/mocks/mockUpload.json';
 import {
   PRIMARY_PHONE,
   BASE_URL,
-  EVIDENCE_VA_PATH,
-  EVIDENCE_PRIVATE_REQUEST_PATH,
-  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_VA_DETAILS_URL,
+  EVIDENCE_PRIVATE_PROMPT_URL,
+  EVIDENCE_PRIVATE_DETAILS_URL,
   EVIDENCE_PRIVATE,
-  EVIDENCE_UPLOAD_PATH,
+  EVIDENCE_UPLOAD_URL,
 } from '../constants';
 import {
   CONTESTABLE_ISSUES_API,
@@ -50,7 +50,7 @@ export const EVIDENCE_SUMMARY_PATH =
   chapters.evidence.pages.evidenceSummary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.evidenceVaRecords.path;
+  chapters.evidence.pages.evidenceVaDetails.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -300,8 +300,17 @@ export const pageHooks = {
       });
     });
   },
+  'facility-types': ({ afterHook }) => {
+    afterHook(() => {
+      cy.injectAxeThenAxeCheck();
 
-  [EVIDENCE_VA_PATH]: ({ afterHook }) => {
+      cy.selectVaCheckbox('root_facilityTypes_vamc', true);
+      cy.selectVaCheckbox('root_facilityTypes_nonVa', true);
+      clickContinue();
+    });
+  },
+
+  [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ locations = [], showScNewForm }) => {
@@ -341,7 +350,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_REQUEST_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_PROMPT_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(data => {
@@ -369,7 +378,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
+  [EVIDENCE_PRIVATE_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ providerFacility = [] }) => {
@@ -440,7 +449,7 @@ export const pageHooks = {
     });
   },
 
-  [EVIDENCE_UPLOAD_PATH]: () => {
+  [EVIDENCE_UPLOAD_URL]: () => {
     cy.get('input[type="file"]').upload(
       path.join(__dirname, 'fixtures/data/example-upload.pdf'),
       'testing',

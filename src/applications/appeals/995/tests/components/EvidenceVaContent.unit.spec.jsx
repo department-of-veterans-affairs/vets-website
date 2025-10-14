@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
-import { EVIDENCE_VA_PATH } from '../../constants';
+import { EVIDENCE_VA_DETAILS_URL } from '../../constants';
 import { content } from '../../content/evidenceSummary';
-import { content as vaContent } from '../../content/evidenceVaRecords';
+import { content as vaContent } from '../../content/evidenceVaDetails';
 import { EvidenceVaContent } from '../../components/EvidenceVaContent';
 import { records } from '../data/evidence-records';
 
@@ -87,7 +87,9 @@ describe('evidenceSummaryList', () => {
 
       const li = $$('li', container);
       expect(li[0].textContent).to.contain('Missing condition');
-      expect(li[1].textContent).to.contain('Test 1 and Test 2');
+      expect(li[1].textContent).to.contain(
+        'Midwest Alabama VA FacilityHypertension and Gluten IntoleranceI don’t have the date',
+      );
     });
     it('should show missing location name & treatment dates', () => {
       const vaEvidence = [
@@ -106,6 +108,7 @@ describe('evidenceSummaryList', () => {
       expect(li.textContent).to.contain('Missing location name');
       expect(li.textContent).to.contain('Missing treatment date');
     });
+
     it('should show missing location message with partial list', () => {
       const { container } = render(
         <div>
@@ -116,6 +119,7 @@ describe('evidenceSummaryList', () => {
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
     });
+
     it('should show missing treatment date', () => {
       const vaEvidence = [{ treatmentDate: '' }];
       const { container } = render(
@@ -145,10 +149,10 @@ describe('evidenceSummaryList', () => {
 
       const links = $$('.edit-item', container);
       expect(links[0].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=0`,
+        `${EVIDENCE_VA_DETAILS_URL}?index=0`,
       );
       expect(links[1].getAttribute('data-link')).to.contain(
-        `${EVIDENCE_VA_PATH}?index=1`,
+        `${EVIDENCE_VA_DETAILS_URL}?index=1`,
       );
     });
     it('should execute callback when removing an entry', () => {
