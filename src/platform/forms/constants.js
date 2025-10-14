@@ -66,7 +66,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_26_4555: '26-4555',
   FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
-  FORM_28_1900_V2: '28-1900-V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -148,6 +147,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     }
   };
 
+  // the string passed to tryGetAppUrl() must match the app's entryName from the manifest catalog
   return {
     [VA_FORM_IDS.FEEDBACK_TOOL]: `${tryGetAppUrl('feedback-tool')}/`,
     [VA_FORM_IDS.FORM_10_10D]: `${tryGetAppUrl('10-10D')}/`,
@@ -189,7 +189,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_27_8832]: `${tryGetAppUrl('new-chapter-36-form')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
-    [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,
@@ -201,25 +200,35 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/`,
 
     [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('dispute-debt')}/`,
-    [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
-    [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
+    [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330m2-medallions')}/`,
+    [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330m-medallions')}/`,
     [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10D-EXTENDED')}/`,
+    [VA_FORM_IDS.FORM_10_10D_EXTENDED]: `${tryGetAppUrl('10-10d-extended')}/`,
     [VA_FORM_IDS.FORM_21_0538]: `${tryGetAppUrl(
       '0538-dependents-verification',
     )}/`,
     [VA_FORM_IDS.FORM_22_10297]: `${tryGetAppUrl('10297-edu-benefits')}/`,
-    [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('22-0839')}/`,
-    [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('22-10275')}/`,
-    [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-4962')}/`,
-    [VA_FORM_IDS.FORM_21_4140]: `${tryGetAppUrl('21-4140')}/`,
-    [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl('21-2680')}/`,
+    [VA_FORM_IDS.FORM_22_0839]: `${tryGetAppUrl('0839-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_22_10275]: `${tryGetAppUrl('10275-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_40_4962]: `${tryGetAppUrl('40-xxxx-ton')}/`,
+    [VA_FORM_IDS.FORM_21_4140]: `${tryGetAppUrl(
+      '21-4140-income-verification',
+    )}/`,
+    [VA_FORM_IDS.FORM_21_2680]: `${tryGetAppUrl(
+      '21-2680-house-bound-status',
+    )}/`,
     [VA_FORM_IDS.FORM_21_8940]: `${tryGetAppUrl('21-8940')}/`,
-    [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
-    [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
-    [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
-    [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
-    [VA_FORM_IDS.FORM_21P_8416]: `${tryGetAppUrl('21P-8416')}/`,
+    [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl(
+      '21-4192-employment-information',
+    )}/`,
+    [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl(
+      '21-0779-nursing-home-information',
+    )}/`,
+    [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl(
+      '21p-530a-interment-allowance',
+    )}/`,
+    [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21p-0537')}/`,
+    [VA_FORM_IDS.FORM_21P_8416]: `${tryGetAppUrl('medical-expense-report')}/`,
     [VA_FORM_IDS.FORM_21_0779_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21-0779/introduction/`,
@@ -289,7 +298,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_4185_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
     )}/21P-4185/introduction/`,
-    [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('21P-534EZ')}/`,
+    [VA_FORM_IDS.FORM_21P_534EZ]: `${tryGetAppUrl('survivors-benefits')}/`,
   };
 };
 
@@ -753,14 +762,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Veteran Readiness and Employment Benefits application (28-1900)',
     trackingPrefix: '28-1900-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_28_1900_V2,
-    benefit: 'Veteran Readiness and Employment Benefits',
-    title: 'Veteran Readiness and Employment Benefits (28-1900)',
-    description:
-      'Veteran Readiness and Employment Benefits application (28-1900)',
-    trackingPrefix: 'new-careers-employment-28-1900-',
   },
   {
     id: VA_FORM_IDS.FORM_28_8832,
