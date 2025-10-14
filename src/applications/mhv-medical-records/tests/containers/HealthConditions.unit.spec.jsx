@@ -258,13 +258,6 @@ describe('Health conditions with accelerated data', () => {
 
 describe('Health conditions unmount cleanup', () => {
   const baseInitialState = {
-    featureToggles: {
-      /* eslint-disable camelcase */
-      mhv_accelerated_delivery_enabled: false,
-      mhv_accelerated_delivery_conditions_enabled: false,
-      /* eslint-enable camelcase */
-      loading: false,
-    },
     drupalStaticData: { vamcEhrData: { loading: false } },
     user: {},
     mr: {

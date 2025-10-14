@@ -191,13 +191,13 @@ describe('Vaccines list container with errors', async () => {
   });
 });
 
-describe('Allergies unmount cleanup', () => {
+describe('Vaccines unmount cleanup', () => {
   const baseInitialState = {
     drupalStaticData: { vamcEhrData: { loading: false } },
     user: {},
     mr: {
       vaccines: {
-        allergiesList: [],
+        vaccinesList: [],
         listState: loadStates.FETCHING,
         listCurrentAsOf: new Date(),
       },

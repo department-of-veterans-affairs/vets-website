@@ -144,7 +144,7 @@ const Vaccines = props => {
         }
       };
     },
-    [dispatch],
+    [dispatch, listStateRef],
   );
 
   useEffect(
