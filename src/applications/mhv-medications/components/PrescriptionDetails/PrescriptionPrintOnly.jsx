@@ -109,13 +109,15 @@ const PrescriptionPrintOnly = props => {
                   : 'Not filled yet'}
               </p>
             ) : null}
-            {!pendingMed && !pendingRenewal && (
-              <>
-                <p>
-                  <strong>Prescription number:</strong> {rx.prescriptionNumber}
-                </p>
-              </>
-            )}
+            {!pendingMed &&
+              !pendingRenewal && (
+                <>
+                  <p>
+                    <strong>Prescription number:</strong>{' '}
+                    {rx.prescriptionNumber}
+                  </p>
+                </>
+              )}
             <p>
               <strong>Status:</strong> {rxStatus}
             </p>
@@ -193,18 +195,19 @@ const PrescriptionPrintOnly = props => {
               <strong>Prescribed by:</strong>{' '}
               {displayProviderName(rx?.providerFirstName, rx?.providerLastName)}
             </p>
-            {!isDetailsRx && rx.groupedMedications?.length > 0 && (
-              <p>
-                <strong>
-                  Previous prescriptions associated with this medication:
-                </strong>{' '}
-                {rx.groupedMedications
-                  .map(previousRx => {
-                    return previousRx.prescriptionNumber;
-                  })
-                  .join(', ')}
-              </p>
-            )}
+            {!isDetailsRx &&
+              rx.groupedMedications?.length > 0 && (
+                <p>
+                  <strong>
+                    Previous prescriptions associated with this medication:
+                  </strong>{' '}
+                  {rx.groupedMedications
+                    .map(previousRx => {
+                      return previousRx.prescriptionNumber;
+                    })
+                    .join(', ')}
+                </p>
+              )}
           </div>
           {showRefillHistory && (
             <div className="print-only-refill-container vads-u-margin-left--2">
@@ -237,12 +240,13 @@ const PrescriptionPrintOnly = props => {
                           </p>
                         </>
                       )}
-                      {i === 0 && !isPartialFill && (
-                        <p>
-                          <strong>Shipped on:</strong>{' '}
-                          {dateFormat(latestTrackingStatus?.completeDateTime)}
-                        </p>
-                      )}
+                      {i === 0 &&
+                        !isPartialFill && (
+                          <p>
+                            <strong>Shipped on:</strong>{' '}
+                            {dateFormat(latestTrackingStatus?.completeDateTime)}
+                          </p>
+                        )}
                       {!isPartialFill && (
                         <>
                           <p className="vads-u-margin--0">
@@ -263,58 +267,59 @@ const PrescriptionPrintOnly = props => {
               </div>
             </div>
           )}
-          {isDetailsRx && rx.groupedMedications?.length > 0 && (
-            <>
-              <h3>Previous prescriptions</h3>
-              <div className="vads-u-margin-left--2">
-                <p className="vads-u-margin-y--1p5">
-                  {`Showing ${rx.groupedMedications.length} prescription${
-                    rx.groupedMedications.length > 1
-                      ? 's, from newest to oldest'
-                      : ''
-                  }`}
-                </p>
-                <div className="print-only-rx-details-container">
-                  {rx.groupedMedications.map(entry => {
-                    return (
-                      <div
-                        key={entry.prescriptionNumber}
-                        className="vads-u-margin-bottom--2"
-                      >
-                        <h4>
-                          {`Prescription number: ${entry.prescriptionNumber}`}
-                        </h4>
-                        <p>
-                          <strong>Last filled:</strong>{' '}
-                          {entry.sortedDispensedDate
-                            ? dateFormat(
-                                entry.sortedDispensedDate,
-                                'MMMM D, YYYY',
-                              )
-                            : 'Not filled yet'}
-                        </p>
-                        <p>
-                          <strong>Quantity:</strong>{' '}
-                          {validateField(entry.quantity)}
-                        </p>
-                        <p>
-                          <strong>Prescribed on:</strong>{' '}
-                          {dateFormat(entry.orderedDate, 'MMMM D, YYYY')}
-                        </p>
-                        <p>
-                          <strong>Prescribed by:</strong>{' '}
-                          {displayProviderName(
-                            entry?.providerFirstName,
-                            entry?.providerLastName,
-                          )}
-                        </p>
-                      </div>
-                    );
-                  })}
+          {isDetailsRx &&
+            rx.groupedMedications?.length > 0 && (
+              <>
+                <h3>Previous prescriptions</h3>
+                <div className="vads-u-margin-left--2">
+                  <p className="vads-u-margin-y--1p5">
+                    {`Showing ${rx.groupedMedications.length} prescription${
+                      rx.groupedMedications.length > 1
+                        ? 's, from newest to oldest'
+                        : ''
+                    }`}
+                  </p>
+                  <div className="print-only-rx-details-container">
+                    {rx.groupedMedications.map(entry => {
+                      return (
+                        <div
+                          key={entry.prescriptionNumber}
+                          className="vads-u-margin-bottom--2"
+                        >
+                          <h4>
+                            {`Prescription number: ${entry.prescriptionNumber}`}
+                          </h4>
+                          <p>
+                            <strong>Last filled:</strong>{' '}
+                            {entry.sortedDispensedDate
+                              ? dateFormat(
+                                  entry.sortedDispensedDate,
+                                  'MMMM D, YYYY',
+                                )
+                              : 'Not filled yet'}
+                          </p>
+                          <p>
+                            <strong>Quantity:</strong>{' '}
+                            {validateField(entry.quantity)}
+                          </p>
+                          <p>
+                            <strong>Prescribed on:</strong>{' '}
+                            {dateFormat(entry.orderedDate, 'MMMM D, YYYY')}
+                          </p>
+                          <p>
+                            <strong>Prescribed by:</strong>{' '}
+                            {displayProviderName(
+                              entry?.providerFirstName,
+                              entry?.providerLastName,
+                            )}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
         </div>
       ) : (
         activeNonVaContent(rx)
