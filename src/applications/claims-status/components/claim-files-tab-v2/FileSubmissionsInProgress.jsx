@@ -15,7 +15,7 @@ const generateInProgressDocs = evidenceSubmissions => {
     .filter(es => es.uploadStatus !== 'FAILED' && es.uploadStatus !== 'SUCCESS')
     .map(es => ({
       ...es,
-      uploadStatus: 'SUBMISSION IN PROGRESS',
+      uploadStatusDisplayValue: 'SUBMISSION IN PROGRESS',
     }));
 };
 
@@ -72,7 +72,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
               role="list"
             >
               {currentPageItems.map((item, itemIndex) => {
-                const statusBadgeText = item.uploadStatus;
+                const statusBadgeText = item.uploadStatusDisplayValue;
                 const requestTypeText = item.trackedItemDisplayName
                   ? `Request type: ${item.trackedItemDisplayName}`
                   : 'You submitted this file as additional evidence.';
