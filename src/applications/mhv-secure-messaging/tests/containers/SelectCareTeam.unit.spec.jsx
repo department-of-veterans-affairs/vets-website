@@ -47,6 +47,15 @@ describe('SelectCareTeam', () => {
         draftInProgress: {},
       },
     },
+    user: {
+      profile: {
+        facilities: [
+          { facilityId: '662' },
+          { facilityId: '636' },
+          { facilityId: '757' },
+        ],
+      },
+    },
     drupalStaticData: {
       vamcEhrData: {
         data: {
@@ -82,6 +91,7 @@ describe('SelectCareTeam', () => {
               ehr: 'cerner',
             },
           },
+          cernerFacilities: [{ vhaId: '954' }, { vhaId: '834' }],
         },
       },
     },
