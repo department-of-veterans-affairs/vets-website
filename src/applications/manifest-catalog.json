@@ -454,6 +454,12 @@
       "rootUrl": "/burials-memorials/memorial-items/headstones-markers-medallions-approver/request-medallion-form-40-1330m2"
     },
     {
+      "directoryPath": "src/applications/medical-expense-report",
+      "appName": "21P-8416 Medical expense report form",
+      "entryName": "medical-expense-report",
+      "rootUrl": "/pension/medical-expense-report-form-21p-8416"
+    },
+    {
       "directoryPath": "src/applications/messages",
       "appName": "My Messages",
       "entryName": "messages",
@@ -770,6 +776,12 @@
       "appName": "Survivor and Dependent Benefits 22-5490",
       "entryName": "survivor-dependent-education-benefit-22-5490",
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
+    },
+    {
+      "directoryPath": "src/applications/survivors-benefits",
+      "appName": "534EZ Survivors benefits",
+      "entryName": "survivors-benefits",
+      "rootUrl": "/supporting-forms-for-claims/apply-form-21p-534ez"
     },
     {
       "directoryPath": "src/applications/terms-of-use",
