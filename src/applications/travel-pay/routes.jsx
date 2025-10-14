@@ -5,6 +5,7 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
 import Mileage from './components/complex-claims/pages/Mileage';
+import AgreementPage from './components/complex-claims/pages/AgreementPage';
 import ChooseExpenseType from './components/complex-claims/pages/ChooseExpenseType';
 import ConfirmationPage from './components/complex-claims/pages/ConfirmationPage';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
