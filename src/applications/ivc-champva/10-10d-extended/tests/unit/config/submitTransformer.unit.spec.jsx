@@ -87,12 +87,7 @@ describe('10-10d-extended transform for submit', () => {
   });
 
   it('should set `hasApplicantOver65` to false if all applicants are under 65', () => {
-    const testData = {
-      data: {
-        applicants: [{ applicantDob: '2003-01-01' }],
-      },
-    };
-
+    const testData = { data: { applicants: [{ applicantDob: '2003-01-01' }] } };
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
     expect(transformed.hasApplicantOver65).to.be.false;
   });
