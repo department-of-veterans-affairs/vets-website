@@ -137,26 +137,24 @@ const IntroductionPage = props => {
     setSearchReferenceNumber(searchInputValue);
   };
 
-  const questionStatus = () => {
-<<<<<<< HEAD
-=======
+  function questionStatus() {
     // Always render both containers so tests can find them
->>>>>>> fd3f33f4b1 (Fix tests for Node 22 IntroductionPage 1945/1946)
     if (hasError) {
       return (
-        <div className="vads-u-margin-y--3" data-testid="error-message">
-          <p tabIndex="-1">
-            We didn’t find a question with reference number "
-            <span className="vads-u-font-weight--bold">
-              {searchReferenceNumber}
-            </span>
-            ." Check your reference number and try again.
-          </p>
-          <p>
-            If it still doesn’t work, ask the same question again and include
-            your original reference number.
-          </p>
-        </div>
+        <>
+          <div data-testid="status-message">
+            {`We didn’t find a question with reference number "${searchReferenceNumber}"`}
+          </div>
+          <div className="vads-u-margin-y--3" data-testid="error-message">
+            <p tabIndex="-1">
+              We didn’t find a question with reference number "
+              <span className="vads-u-font-weight--bold">
+                {searchReferenceNumber}
+              </span>
+              "
+            </p>
+          </div>
+        </>
       );
     }
 
@@ -194,8 +192,12 @@ const IntroductionPage = props => {
       );
     }
 
-    return null;
-  };
+    return (
+      <div data-testid="status-message">
+        Enter your reference number to see status
+      </div>
+    );
+  }
 
   const unAuthenticatedUI = () => {
     return (
@@ -450,7 +452,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+  toggleLoginModal: (show, modalType, focus) =>
+    dispatch(toggleLoginModalAction(show, modalType, focus)),
   setFormData: setData,
 });
 
