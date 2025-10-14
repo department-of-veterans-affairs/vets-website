@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { MhvPageNotFoundContent } from 'platform/mhv/components/MhvPageNotFound';
@@ -49,28 +49,22 @@ const draftInProgressSafePaths = [
 const AuthorizedRoutes = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { draftInProgress } = useSelector((state) => state.sm.threadDetails);
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
-  useEffect(
-    () => {
-      const isDraftSafe = draftInProgressSafePaths.some(
-        path =>
-          path instanceof RegExp
-            ? path.test(location.pathname)
-            : location.pathname.startsWith(path),
-      );
-      if (!isDraftSafe && draftInProgress?.recipientId) {
-        dispatch(clearDraftInProgress());
-      }
-    },
-    [location.pathname, draftInProgress?.recipientId, dispatch],
-  );
+  useEffect(() => {
+    const isDraftSafe = draftInProgressSafePaths.some((path) =>
+      path instanceof RegExp
+        ? path.test(location.pathname)
+        : location.pathname.startsWith(path),
+    );
+    if (!isDraftSafe && draftInProgress?.recipientId) {
+      dispatch(clearDraftInProgress());
+    }
+  }, [location.pathname, draftInProgress?.recipientId, dispatch]);
 
   if (location.pathname === `/`) {
-    const basePath = `${manifest.rootUrl}${Paths.INBOX}`;
-    window.location.replace(basePath);
-    return <></>;
+    return <Redirect to={`${manifest.rootUrl}${Paths.INBOX}`} />;
   }
 
   return (
