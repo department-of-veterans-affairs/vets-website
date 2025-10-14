@@ -1,9 +1,7 @@
 import React from 'react';
 import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
-import {
-  isLoggedInVeteranPreparer,
-  ApplicantDetailsHeader,
-} from '../../utils/helpers';
+import { isLoggedInVeteranPreparer } from '../../utils/helpers2';
+import { ApplicantDetailsHeader } from '../../utils/helpers';
 
 // Use the platform's personal information component for logged in veteran preparers
 export const veteranApplicantDetailsReviewPreparerPage = personalInformationPage(
