@@ -3,6 +3,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -12,7 +13,6 @@ import prefillTransformer from './prefill-transformer';
 import { pageFocusScroll } from '../helpers';
 
 // Import page configurations
-import personalInformation from '../pages/personalInformation';
 import recipientIdentifier from '../pages/recipientIdentifier';
 import recipientName from '../pages/recipientName';
 import remarriageQuestion from '../pages/remarriageQuestion';
@@ -88,7 +88,19 @@ const formConfig = {
     contactInfoChapter: {
       title: 'Your contact information',
       pages: {
-        personalInformation,
+        personalInformation: {
+          path: 'contact/name',
+          title: 'Your name',
+          CustomPage: props => <PersonalInformation {...props} />,
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget: pageFocusScroll(),
+          schema: {
+            type: 'object',
+            properties: {}, // Must be present even if empty
+          },
+          uiSchema: {},
+        },
         phoneAndEmail: {
           path: 'contact/phone-email',
           title: 'Your phone number and email address',
