@@ -57,7 +57,19 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+function getAppointmentTimezone(appt, featureUseBrowserTimezone) {
+  const timezone = appt.location?.attributes?.timezone?.timeZoneId;
+
+  return (
+    timezone ||
+    getTimezoneByFacilityId(appt.locationId, featureUseBrowserTimezone)
+  );
+}
+
+export function transformVAOSAppointment(
+  appt,
+  featureUseBrowserTimezone = false,
+) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
   const isPast = appt.past;
@@ -77,9 +89,7 @@ export function transformVAOSAppointment(appt) {
     isCompAndPen || isCovid || appt.modality === 'vaInPerson';
 
   const isCancellable = appt.cancellable;
-  const appointmentTZ = appt.location
-    ? appt.location?.attributes?.timezone?.timeZoneId
-    : getTimezoneByFacilityId(appt.locationId);
+  const appointmentTZ = getAppointmentTimezone(appt, featureUseBrowserTimezone);
 
   let videoData = { isVideo };
   if (isVideo) {
@@ -244,6 +254,8 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, featureUseBrowserTimezone) {
+  return appts.map(appt =>
+    transformVAOSAppointment(appt, featureUseBrowserTimezone),
+  );
 }

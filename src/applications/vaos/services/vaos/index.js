@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { getTestFacilityId } from '../../utils/appointment';
 import { DATE_FORMATS } from '../../utils/constants';
+import { removeEmpty } from '../../utils/object';
 import {
   apiRequestWithUrl,
   parseApiList,
@@ -166,19 +167,32 @@ export function getAvailableV2Slots({
   startDate,
   endDate,
 }) {
-  const queryParams = [];
-  const start = startDate.toISOString();
-  const end = endDate.toISOString();
+  const paramsObj = {
+    // eslint-disable-next-line camelcase
+    clinical_service: clinicId ? null : typeOfCare,
+    provider,
+    start: startDate.toISOString(),
+    end: endDate.toISOString(),
+  };
 
-  if (typeOfCare) queryParams.push(`clinical_service=${typeOfCare}`);
-  if (provider) queryParams.push(`provider=${provider}`);
+  // Construct the parameter string and remove all keys that have values of null
+  // or undefined
+  const searchParams = new URLSearchParams(removeEmpty(paramsObj)).toString();
 
+  // For both OH and VistA searches the base URL looks like this
   let baseUrl = `/vaos/v2/locations/${facilityId}`;
-  if (clinicId) baseUrl = `${baseUrl}/clinics/${clinicId.split('_')[1]}`;
 
-  baseUrl = `${baseUrl}/slots?start=${encodeURIComponent(
-    start,
-  )}&end=${encodeURIComponent(end)}${queryParams.join('&')}`;
+  // If a clinicId is passed, we are querying a VistA location and need to
+  // add the clinicId to the baseUrl
+  if (clinicId) {
+    const selectedClinicId = clinicId.includes('_')
+      ? clinicId.split('_')[1]
+      : clinicId;
+    baseUrl = `${baseUrl}/clinics/${selectedClinicId}`;
+  }
+
+  // Adds the parameters to the baseUrl
+  baseUrl = `${baseUrl}/slots?${searchParams}`;
 
   return apiRequestWithUrl(baseUrl).then(parseApiList);
 }
