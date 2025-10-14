@@ -288,7 +288,6 @@ export const childContent = (pdfUrl, trackingPrefix, goBack) => (
 
 export const dateSigned = () => {
   const date = new Date();
-  date.setDate(date.getDate());
   return date.toISOString().split('T')[0];
 };
 
