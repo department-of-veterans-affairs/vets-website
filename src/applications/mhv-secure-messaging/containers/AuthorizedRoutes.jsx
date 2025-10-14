@@ -49,19 +49,23 @@ const draftInProgressSafePaths = [
 const AuthorizedRoutes = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { draftInProgress } = useSelector((state) => state.sm.threadDetails);
+  const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
 
-  useEffect(() => {
-    const isDraftSafe = draftInProgressSafePaths.some((path) =>
-      path instanceof RegExp
-        ? path.test(location.pathname)
-        : location.pathname.startsWith(path),
-    );
-    if (!isDraftSafe && draftInProgress?.recipientId) {
-      dispatch(clearDraftInProgress());
-    }
-  }, [location.pathname, draftInProgress?.recipientId, dispatch]);
+  useEffect(
+    () => {
+      const isDraftSafe = draftInProgressSafePaths.some(
+        path =>
+          path instanceof RegExp
+            ? path.test(location.pathname)
+            : location.pathname.startsWith(path),
+      );
+      if (!isDraftSafe && draftInProgress?.recipientId) {
+        dispatch(clearDraftInProgress());
+      }
+    },
+    [location.pathname, draftInProgress?.recipientId, dispatch],
+  );
 
   if (location.pathname === `/`) {
     return <Redirect to={`${manifest.rootUrl}${Paths.INBOX}`} />;

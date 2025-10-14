@@ -300,7 +300,9 @@ describe('SelectCareTeam', () => {
       fireEvent.click(continueButton);
 
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.MESSAGE_THREAD}${customState.sm.threadDetails.draftInProgress.messageId}`,
+        `${Paths.MESSAGE_THREAD}${
+          customState.sm.threadDetails.draftInProgress.messageId
+        }`,
       );
     });
   });
@@ -365,7 +367,7 @@ describe('SelectCareTeam', () => {
     });
 
     const val = customState.sm.recipients.allowedRecipients.find(
-      (r) => r.ohTriageGroup === true,
+      r => r.ohTriageGroup === true,
     ).id;
     await waitFor(() => {
       selectVaSelect(screen.container, val);
@@ -373,7 +375,7 @@ describe('SelectCareTeam', () => {
 
     waitFor(() => {
       const callArgs = updateDraftInProgressSpy.args;
-      const validArg = callArgs.find((arg) => arg[0].ohTriageGroup === true);
+      const validArg = callArgs.find(arg => arg[0].ohTriageGroup === true);
       expect(validArg[0]).to.include({
         ohTriageGroup: true,
       });
@@ -450,7 +452,7 @@ describe('SelectCareTeam', () => {
       selectVaSelect(screen.container, val);
 
       // Wait a bit for the component to process the selection
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       expect(selectElement).to.have.attribute('value', val);
     });
@@ -459,7 +461,7 @@ describe('SelectCareTeam', () => {
     const getNavigationErrorCall = () => {
       return updateDraftInProgressSpy
         .getCalls()
-        .find((call) => call.args[0]?.navigationError);
+        .find(call => call.args[0]?.navigationError);
     };
     let navigationErrorCall;
     await waitFor(
@@ -502,7 +504,7 @@ describe('SelectCareTeam', () => {
       const selectElement = screen.getByTestId('compose-recipient-select');
       selectVaSelect(screen.container, val);
 
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       expect(selectElement).to.have.attribute('value', val);
     });
@@ -510,7 +512,7 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       const calls = updateDraftInProgressSpy.getCalls();
       const navigationErrorCall = calls.find(
-        (call) => call.args[0]?.navigationError,
+        call => call.args[0]?.navigationError,
       );
       expect(navigationErrorCall).to.exist;
       expect(navigationErrorCall.args[0].navigationError).to.deep.equal(

@@ -30,9 +30,9 @@ describe('App', () => {
       },
     },
   };
-  const downtime = (maintenanceWindows) => {
+  const downtime = maintenanceWindows => {
     return createServiceMap(
-      maintenanceWindows.map((maintenanceWindow) => {
+      maintenanceWindows.map(maintenanceWindow => {
         return {
           attributes: {
             externalService: maintenanceWindow,
@@ -471,7 +471,7 @@ describe('App', () => {
   });
 
   it('renders LaunchMessagingAal component', async () => {
-    const stubUseFeatureToggles = (value) => {
+    const stubUseFeatureToggles = value => {
       const useFeatureToggles = require('../../hooks/useFeatureToggles');
       return sinon.stub(useFeatureToggles, 'default').returns(value);
     };
