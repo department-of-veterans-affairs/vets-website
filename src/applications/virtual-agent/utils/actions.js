@@ -2,6 +2,11 @@ import * as _ from 'lodash';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 
+import {
+  EVENT_API_CALL,
+  ACTIVITY_EVENT_NAMES,
+  API_CALL_NAMES,
+} from './analyticsConstants';
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
@@ -54,13 +59,54 @@ function getEventValue(action) {
 function handleSkillEntryEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
-  const apiName = `Chatbot Skill Entry - ${eventValue}`;
-  if (actionEventName === 'Skill_Entry') {
+  const apiName = `${API_CALL_NAMES.SKILL_ENTRY} - ${eventValue}`;
+  if (actionEventName === ACTIVITY_EVENT_NAMES.SKILL_ENTRY) {
     setEventSkillValue(eventValue);
     recordEvent({
-      event: 'api_call',
+      event: EVENT_API_CALL,
       'api-name': apiName,
-      topic: eventValue,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleSkillExitEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  const apiName = `${API_CALL_NAMES.SKILL_EXIT} - ${eventValue}`;
+  if (actionEventName === ACTIVITY_EVENT_NAMES.SKILL_EXIT) {
+    recordEvent({
+      event: EVENT_API_CALL,
+      'api-name': apiName,
+      'api-status': 'successful',
+    });
+  }
+}
+
+// Track RAG Agent Entry based on bot RAG_ENTRY event
+function handleRagAgentEntryEvent(action) {
+  const actionEventName = getEventName(action);
+  const skillName = getEventValue(action);
+  const apiName = `${API_CALL_NAMES.RAG_AGENT_ENTRY} - ${skillName}`;
+
+  if (actionEventName === ACTIVITY_EVENT_NAMES.RAG_ENTRY) {
+    recordEvent({
+      event: EVENT_API_CALL,
+      'api-name': apiName,
+      'api-status': 'successful',
+    });
+  }
+}
+
+// Emit a RAG Agent Exit based on bot RAG_EXIT event
+function handleRagAgentExitEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  const apiName = `${API_CALL_NAMES.RAG_AGENT_EXIT} - ${eventValue}`;
+  if (actionEventName === ACTIVITY_EVENT_NAMES.RAG_EXIT) {
+    recordEvent({
+      event: EVENT_API_CALL,
+      'api-name': apiName,
       'api-status': 'successful',
     });
   }
@@ -150,6 +196,9 @@ export const processIncomingActivity = ({
   }
 
   handleSkillEntryEvent(action);
+  handleSkillExitEvent(action);
+  handleRagAgentEntryEvent(action);
+  handleRagAgentExitEvent(action);
 };
 
 export function addActivityData(action, { isMobile }) {

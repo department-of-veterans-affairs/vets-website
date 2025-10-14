@@ -18,9 +18,16 @@ const options = {
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
     getItemName: item => item?.medicalCenter,
-    summaryTitleWithoutItems: 'Treatment from federal medical facilities',
-    cancelEditTitle: 'Cancel editing this federal medical facility',
-    deleteTitle: 'Delete federal medical facility',
+    summaryTitleWithoutItems: 'Treatment from federal medical centers',
+    cancelAddTitle: 'Cancel adding this federal medical center',
+    cancelAddYes: 'Yes, Cancel adding this federal medical center',
+    cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this federal medical center',
+    cancelEditYes: 'Yes, Cancel editing this federal medical center',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this federal medical center',
+    deleteNo: 'No',
   },
 };
 
@@ -33,10 +40,10 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingFederalMedicalCenters': arrayBuilderYesNoUI(options, {
       title:
-        'Have you received treatment from any non-VA federal medical facilities within the past year?',
+        'Have you received treatment from any non-VA federal medical centers within the past year?',
       labelHeaderLevel: ' ',
       hint:
-        'Examples of federal medical facilities include military bases and prisons',
+        'Examples of federal medical centers include military bases and prisons',
     }),
   },
   schema: {
@@ -71,7 +78,7 @@ export const federalMedicalCentersPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     federalMedicalCentersSummary: pageBuilder.summaryPage({
-      title: 'Federal medical facilities',
+      title: 'Federal medical centers',
       path: 'medical/history/federal-medical-centers/summary',
       depends: () => showMultiplePageResponse(),
       uiSchema: summaryPage.uiSchema,

@@ -3,24 +3,23 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import * as focusUtils from '~/platform/utilities/ui/focus';
-
 import EvidenceVaRecords from '../../components/EvidenceVaRecords';
 import {
   errorMessages,
   EVIDENCE_VA,
-  EVIDENCE_VA_PATH,
+  EVIDENCE_VA_DETAILS_URL,
   NO_ISSUES_SELECTED,
 } from '../../constants';
-
-import { clickAddAnother, clickBack, clickContinue } from './helpers';
-
+import {
+  clickAddAnother,
+  clickBack,
+  clickContinue,
+} from '../unit-test-helpers';
 import { parseDateWithOffset } from '../../../shared/utils/dates';
 import {
   MAX_LENGTH,
@@ -255,8 +254,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
@@ -278,8 +278,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
@@ -377,8 +378,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
 
@@ -405,8 +407,9 @@ describe('<EvidenceVaRecords>', () => {
 
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index + 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index + 1}`),
+        ).to.be.true;
       });
     });
   });
@@ -631,8 +634,9 @@ describe('<EvidenceVaRecords>', () => {
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].locations.length).to.eq(2);
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index - 1}`),
+        ).to.be.true;
       });
     });
 
@@ -664,8 +668,9 @@ describe('<EvidenceVaRecords>', () => {
       testAndCloseModal(container, 'primaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
-        expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
-          .be.true;
+        expect(
+          goSpy.calledWith(`/${EVIDENCE_VA_DETAILS_URL}?index=${index - 1}`),
+        ).to.be.true;
       });
     });
 

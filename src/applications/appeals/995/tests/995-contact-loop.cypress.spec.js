@@ -1,9 +1,9 @@
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL, CONTACT_INFO_PATH } from '../constants';
+import { BASE_URL, CONTACT_INFO_URL } from '../constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
-import mockV2Data from './fixtures/data/maximal-test.json';
+import mockV2Data from './fixtures/data/pre-api-comprehensive-test.json';
 import { getPastItf, fetchItf } from './995.cypress.helpers';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
@@ -14,7 +14,7 @@ import mockTelephoneUpdateSuccess from '../../shared/tests/fixtures/mocks/profil
 
 describe('995 contact info loop', () => {
   Cypress.config({ requestTimeout: 10000 });
-  const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_PATH}`;
+  const MAIN_CONTACT_PATH = `${BASE_URL}/${CONTACT_INFO_URL}`;
 
   beforeEach(() => {
     cypressSetup();

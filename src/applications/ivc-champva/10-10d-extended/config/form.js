@@ -3,12 +3,12 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
-import GetFormHelp from '../../shared/components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
+import content from '../locales/en/content.json';
 
 import {
   certifierRoleSchema,
@@ -44,13 +44,9 @@ import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
+  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
-  // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // TODO: when we have the submitUrl up and running, remove this dummy response:
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -64,6 +60,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submissionError: SubmissionError,
+  footerContent: FormFooter,
   customText: { appType: 'form' },
   dev: {
     showNavLinks: true,
@@ -111,8 +108,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA application (includes 10-7959c).',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
+  title: content['form-title'],
+  subTitle: content['form-subtitle'],
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -227,7 +224,6 @@ const formConfig = {
       pages: healthInsurancePages,
     },
   },
-  footerContent: GetFormHelp,
 };
 
 export default formConfig;
