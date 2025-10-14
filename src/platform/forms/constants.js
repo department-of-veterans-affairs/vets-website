@@ -218,7 +218,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21_4192]: `${tryGetAppUrl('21-4192')}/`,
     [VA_FORM_IDS.FORM_21_0779]: `${tryGetAppUrl('21-0779')}/`,
     [VA_FORM_IDS.FORM_21P_530A]: `${tryGetAppUrl('21P-530A')}/`,
-    [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21P-0537')}/`,
+    [VA_FORM_IDS.FORM_21P_0537]: `${tryGetAppUrl('21p-0537')}/`,
     [VA_FORM_IDS.FORM_21P_8416]: `${tryGetAppUrl('21P-8416')}/`,
     [VA_FORM_IDS.FORM_21_0779_UPLOAD]: `${tryGetAppUrl(
       'form-upload-flow',
