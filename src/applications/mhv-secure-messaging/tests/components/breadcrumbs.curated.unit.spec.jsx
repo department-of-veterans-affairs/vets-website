@@ -148,10 +148,16 @@ describe('Curated list breadcrumb back navigation', () => {
     });
   });
 
-  it('Contact list Back navigates to previousUrl when no active draft (previousUrl = Drafts)', async () => {
+  it('Contact list Back navigates to previous compose flow page when no active draft', async () => {
+    // Simulate: compose flow -> /select-care-team/ -> /contact-list/
+    // Should navigate back to /select-care-team/ (the previous step)
+    const previousPage = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+
     const { container, history } = renderAt(Paths.CONTACT_LIST, {
       sm: {
-        breadcrumbs: { previousUrl: Paths.DRAFTS },
+        breadcrumbs: {
+          previousUrl: previousPage,
+        },
         threadDetails: { drafts: [] },
       },
     });
@@ -166,7 +172,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(history.location.pathname).to.equal(previousPage);
     });
   });
 

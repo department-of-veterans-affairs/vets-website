@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -47,10 +48,15 @@ describe('Breadcrumbs', () => {
     expect(backButton).to.have.attribute('text', 'Back');
   });
 
-  it('on Drafts page, renders Back button with correct href', async () => {
+  it('on Drafts page, renders Back button with correct href to Folders', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
+          list: {
+            href: Paths.FOLDERS,
+            label: 'Folders',
+            isRouterLink: true,
+          },
           previousUrl: '/inbox/',
         },
       },
@@ -63,9 +69,8 @@ describe('Breadcrumbs', () => {
     });
 
     const breadcrumb = await screen.findByTestId('sm-breadcrumbs-back');
-    const expectedHref = `${manifest.rootUrl}${
-      customState.sm.breadcrumbs.previousUrl
-    }`;
+    // Drafts page should go back to Folders, not previousUrl
+    const expectedHref = `${manifest.rootUrl}${Paths.FOLDERS}`;
     expect(breadcrumb).to.have.attribute('href', expectedHref);
     expect(breadcrumb).to.have.attribute('text', 'Back');
   });
@@ -204,7 +209,17 @@ describe('Breadcrumbs', () => {
     const customState = {
       sm: {
         breadcrumbs: {
-          previousUrl: Paths.DRAFTS,
+          list: {
+            href: Paths.SENT,
+            label: 'Sent',
+          },
+          previousUrl: Paths.SENT,
+        },
+        folders: {
+          folder: {
+            folderId: DefaultFolders.SENT.id,
+            name: 'Sent',
+          },
         },
       },
     };
@@ -218,7 +233,7 @@ describe('Breadcrumbs', () => {
     fireEvent.click(screen.getByTestId('sm-breadcrumbs-back'));
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.DRAFTS);
+      expect(screen.history.location.pathname).to.equal(Paths.SENT);
     });
   });
 
@@ -279,16 +294,19 @@ describe('Breadcrumbs', () => {
     });
   });
 
-  it('navigates back to recent care teams from select care team', async () => {
-    const previous = Paths.RECENT_CARE_TEAMS;
+  it('navigates back to recent care teams from select care team when feature flag is enabled', async () => {
     const customState = {
       sm: {
         breadcrumbs: {
-          previousUrl: previous,
+          previousUrl: Paths.RECENT_CARE_TEAMS,
         },
         recipients: {
           recentRecipients: [{ id: '123', name: 'Some Care Team' }],
         },
+      },
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: true,
       },
     };
 
@@ -304,7 +322,41 @@ describe('Breadcrumbs', () => {
     fireEvent.click(backButton);
 
     await waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(previous);
+      expect(screen.history.location.pathname).to.equal(
+        Paths.RECENT_CARE_TEAMS,
+      );
+    });
+  });
+
+  it('navigates back to compose interstitial from select care team when feature flag is disabled', async () => {
+    const customState = {
+      sm: {
+        breadcrumbs: {
+          previousUrl: Paths.INBOX,
+        },
+        recipients: {
+          recentRecipients: [{ id: '123', name: 'Some Care Team' }],
+        },
+      },
+      featureToggles: {
+        loading: false,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecentRecipients]: false,
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SmBreadcrumbs />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+    });
+
+    const backButton = await screen.findByTestId('sm-breadcrumbs-back');
+    expect(backButton).to.have.attribute('text', 'Back');
+
+    fireEvent.click(backButton);
+
+    await waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.COMPOSE);
     });
   });
 

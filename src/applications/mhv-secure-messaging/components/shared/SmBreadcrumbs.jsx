@@ -129,6 +129,9 @@ const SmBreadcrumbs = () => {
       ) {
         const { folderId } = activeFolder;
 
+        if (folderId === Constants.DefaultFolders.INBOX.id) {
+          return Constants.Paths.INBOX;
+        }
         if (folderId === Constants.DefaultFolders.SENT.id) {
           return Constants.Paths.SENT;
         }
@@ -143,7 +146,9 @@ const SmBreadcrumbs = () => {
       }
 
       // Priority 3: For compose flow pages without a map entry,
-      // use composeEntryUrl if available
+      // use composeEntryUrl if available (persists across refresh)
+      // NOTE: Contact list is NOT included here because it should go back to
+      // the previous step in the compose flow, not jump back to the entry folder
       if (path.startsWith(Constants.Paths.COMPOSE) && composeEntryUrl) {
         return composeEntryUrl;
       }
@@ -225,6 +230,10 @@ const SmBreadcrumbs = () => {
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (isContactList && previousUrl) {
+        // Contact list should always go back to previousUrl (the previous page in the flow)
+        // Use previousUrl directly instead of fallbackUrl to avoid timing issues
+        history.push(previousUrl);
       } else if (crumb?.href === Constants.Paths.FOLDERS) {
         history.push(Constants.Paths.FOLDERS);
       } else if (isSentFolder && !isReplyPath) {
@@ -378,7 +387,12 @@ const SmBreadcrumbs = () => {
 
   // Determine the correct back link href based on compose flow logic
   const composeFlowMap = getComposeFlowMap();
-  const backLinkHref = composeFlowMap[currentPath] || fallbackUrl;
+  // Special case for contact list: use previousUrl directly to avoid timing issues
+  const backLinkHref =
+    composeFlowMap[currentPath] ||
+    (currentPath === Constants.Paths.CONTACT_LIST && previousUrl
+      ? previousUrl
+      : fallbackUrl);
 
   return (
     <div>
