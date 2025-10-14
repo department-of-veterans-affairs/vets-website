@@ -88,21 +88,18 @@ export function setCodeKey(value) {
   setStorageItem(CODE_KEY, value);
 }
 
-// First-connection flag helpers.
-// NOTE: store values as strings, e.g., 'false' or 'true' (not booleans).
-export function getFirstConnection() {
-  return getStorageItem(FIRST_CONNECTION);
-}
-
-export function setFirstConnection(value) {
-  setStorageItem(FIRST_CONNECTION, value);
-}
+// First-connection helpers removed; key retained for backward compatibility
 
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = getLoggedInFlow();
   const inAuthExp = getInAuthExp();
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
+  // When user is in the auth experience but not logged in, do nothing.
+  // This preserves any temporary session state during the auth flow.
+  if (!forceClear && inAuthExp === 'true' && loggedInFlow !== 'true') {
+    return;
+  }
   // Ensure critical keys persist across page lifecycle clears.
   // Keep first-connection flag, conversationId, and token.
   const excludeClear = [

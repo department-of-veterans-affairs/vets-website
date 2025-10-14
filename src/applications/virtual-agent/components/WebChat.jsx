@@ -73,6 +73,10 @@ const WebChat = ({ code, webChatFramework }) => {
     TOGGLE_NAMES.virtualAgentUseStsAuthentication,
   );
 
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
+
   const store = useWebChatStore({
     createStore,
     code,
@@ -80,6 +84,7 @@ const WebChat = ({ code, webChatFramework }) => {
     environment,
     isComponentToggleOn,
     isStsAuthEnabled,
+    isSessionPersistenceEnabled,
   });
 
   // Register global event listeners once and clean up on unmount
