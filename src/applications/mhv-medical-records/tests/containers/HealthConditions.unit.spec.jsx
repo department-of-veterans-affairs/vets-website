@@ -13,6 +13,7 @@ import {
 } from '../../reducers/conditions';
 import user from '../fixtures/user.json';
 import { loadStates } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('Health conditions list container', () => {
   const initialState = {
@@ -252,5 +253,92 @@ describe('Health conditions with accelerated data', () => {
       );
       expect(loadingIndicator).to.have.attribute('setfocus');
     });
+  });
+});
+
+describe('Health conditions unmount cleanup', () => {
+  const baseInitialState = {
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_conditions_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: { vamcEhrData: { loading: false } },
+    user: {},
+    mr: {
+      conditions: {
+        conditionsList: [],
+        listState: loadStates.FETCHING,
+        listCurrentAsOf: new Date(),
+      },
+      alerts: { alertList: [] },
+      refresh: { status: null, initialFhirLoad: false },
+    },
+  };
+
+  it('resets listState to PRE_FETCH when unmounting while FETCHING', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Conditions.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState: baseInitialState,
+      reducers: tappedReducers,
+      path: '/conditions',
+    });
+
+    // Simulate navigating away
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.true;
+  });
+
+  it('does not reset listState when not FETCHING at unmount', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Conditions.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const initialState = {
+      ...baseInitialState,
+      mr: {
+        ...baseInitialState.mr,
+        conditions: {
+          ...baseInitialState.mr.conditions,
+          listState: loadStates.FETCHED,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<HealthConditions />, {
+      initialState,
+      reducers: tappedReducers,
+      path: '/conditions',
+    });
+
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.false;
   });
 });
