@@ -26,6 +26,7 @@ import {
   refreshExtractTypes,
   CernerAlertContent,
   statsdFrontEndActions,
+  loadStates,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -34,6 +35,7 @@ import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo'
 import { generateTextFile, getLastUpdatedText } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useLatest from '../hooks/useLatest';
 import RecordListSection from '../components/shared/RecordListSection';
 import {
   generateAllergiesIntro,
@@ -44,6 +46,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -85,6 +88,9 @@ const Allergies = props => {
 
   useTrackAction(statsdFrontEndActions.ALLERGIES_LIST);
 
+  // Stable ref: latest listState for unmount cleanup
+  const listStateRef = useLatest(listState);
+
   useEffect(
     /**
      * @returns a callback to automatically load any new records when unmounting this component
@@ -92,9 +98,18 @@ const Allergies = props => {
     () => {
       return () => {
         dispatch(reloadRecords());
+        // eslint-disable-next-line -- Intentional: read latest ref value at unmount time.
+        const latestState = listStateRef.current;
+        // If unmounting while still FETCHING, reset so we don't return to an infinite spinner.
+        if (latestState === loadStates.FETCHING) {
+          dispatch({
+            type: Actions.Allergies.UPDATE_LIST_STATE,
+            payload: loadStates.PRE_FETCH,
+          });
+        }
       };
     },
-    [dispatch],
+    [dispatch, listStateRef],
   );
 
   useEffect(

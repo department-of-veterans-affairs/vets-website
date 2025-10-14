@@ -8,6 +8,8 @@ import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
+import { loadStates } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('Allergies list container', () => {
   const initialState = {
@@ -191,5 +193,92 @@ describe('Allergies list container with errors', () => {
         }),
       ).to.exist;
     });
+  });
+});
+
+describe('Allergies unmount cleanup', () => {
+  const baseInitialState = {
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_allergies_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: { vamcEhrData: { loading: false } },
+    user: {},
+    mr: {
+      allergies: {
+        allergiesList: [],
+        listState: loadStates.FETCHING,
+        listCurrentAsOf: new Date(),
+      },
+      alerts: { alertList: [] },
+      refresh: { status: null, initialFhirLoad: false },
+    },
+  };
+
+  it('resets listState to PRE_FETCH when unmounting while FETCHING', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Allergies.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies />, {
+      initialState: baseInitialState,
+      reducers: tappedReducers,
+      path: '/allergies',
+    });
+
+    // Simulate navigating away
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.true;
+  });
+
+  it('does not reset listState when not FETCHING at unmount', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Allergies.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const initialState = {
+      ...baseInitialState,
+      mr: {
+        ...baseInitialState.mr,
+        allergies: {
+          ...baseInitialState.mr.allergies,
+          listState: loadStates.FETCHED,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Allergies />, {
+      initialState,
+      reducers: tappedReducers,
+      path: '/allergies',
+    });
+
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.false;
   });
 });
