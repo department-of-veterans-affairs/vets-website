@@ -77,7 +77,8 @@
         "name": "Diabetes mellitus1",
         "ratedDisabilityId": "1",
         "diagnosticCode": 5238,
-        "disabilityActionType": "INCREASE"
+        "disabilityActionType": "INCREASE",
+        "unemployabilityDisability": true
       },
       {
         "name": "De-selected",
@@ -111,11 +112,76 @@
         }
       ]
     },
+    "toxicExposure": {
+      "specifyOtherExposures": {
+        "description": "It makes no sense for this particular condition, but hey, this is only test data."
+      },
+      "otherExposuresDetails": {
+        "asbestos": { "startDate": "1995-03-12", "endDate": "2023-01-28" },
+        "chemical": { "startDate": "1998-06-15", "endDate": "2000-09-30" },
+        "water": { "startDate": "1985-01-01", "endDate": "1987-12-31" },
+        "mos": { "startDate": "2005-03-10", "endDate": "2010-08-20" },
+        "mustardgas": { "startDate": "1991-02-01", "endDate": "1991-04-15" },
+        "radiation": { "startDate": "2002-07-01", "endDate": "2003-01-31" }
+      },
+      "otherExposures": {
+        "asbestos": true, "chemical": true, "water": true,
+        "mos": true, "mustardgas": true, "radiation": true
+      },
+      "otherHerbicideLocations": {
+        "startDate": "2014-01-28", "endDate": "2016-01-12",
+        "description": "It makes no sense for this particular condition, but hey, this is only test data."
+      },
+      "herbicideDetails": {
+        "cambodia": { "startDate": "1969-05-01", "endDate": "1970-06-30" },
+        "guam": { "startDate": "1968-01-15", "endDate": "1969-12-31" },
+        "koreandemilitarizedzone": { "startDate": "2023-01-12", "endDate": "2024-01-12" },
+        "johnston": { "startDate": "1972-04-01", "endDate": "1973-09-30" },
+        "laos": { "startDate": "1965-12-01", "endDate": "1971-03-31" },
+        "c123": { "startDate": "1972-01-01", "endDate": "1982-12-31" },
+        "thailand": { "startDate": "1967-02-01", "endDate": "1975-05-31" },
+        "vietnam": { "startDate": "1965-01-09", "endDate": "1975-04-30" }
+      },
+      "herbicide": {
+        "cambodia": true, "guam": true, "koreandemilitarizedzone": true,
+        "johnston": true, "laos": true, "c123": true, "thailand": true, "vietnam": true
+      },
+      "gulfWar2001Details": {
+        "djibouti": { "startDate": "2002-10-01", "endDate": "2005-03-31" },
+        "lebanon": { "startDate": "2006-07-12", "endDate": "2006-08-14" },
+        "uzbekistan": { "startDate": "2001-10-15", "endDate": "2003-05-20" },
+        "yemen": { "startDate": "2009-12-01", "endDate": "2011-06-30" },
+        "airspace": { "startDate": "2020-01-30", "endDate": "2023-06-21" }
+      },
+      "gulfWar2001": {
+        "djibouti": true, "lebanon": true, "uzbekistan": true,
+        "yemen": true, "airspace": true
+      },
+      "gulfWar1990Details": {
+        "afghanistan": { "startDate": "2000-02-12", "endDate": "2015-12-12" },
+        "bahrain": { "startDate": "1990-08-15", "endDate": "1991-06-30" },
+        "iraq": { "startDate": "1991-01-17", "endDate": "1991-02-28" },
+        "kuwait": { "startDate": "1991-01-20", "endDate": "1991-03-15" },
+        "saudiarabia": { "startDate": "1990-08-02", "endDate": "1991-07-31" },
+        "turkey": { "startDate": "2015-03-21", "endDate": "2020-06-21" },
+        "waters": { "startDate": "1990-09-01", "endDate": "1991-04-30" },
+        "airspace": { "startDate": "1990-08-10", "endDate": "1991-05-15" }
+      },
+      "gulfWar1990": {
+        "afghanistan": true, "bahrain": true, "iraq": true, "kuwait": true,
+        "saudiarabia": true, "turkey": true, "waters": true, "airspace": true
+      },
+      "conditions": {
+        "asthma": true,
+        "cranialnerveparalysisorcranialneuritisinflammationofcranialnerves": true
+      }
+    },
     "newPrimaryDisabilities": [
       {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "asthma"
+        "condition": "asthma",
+        "unemployabilityDisability": true
       },
       {
         "cause": "WORSENED",
@@ -133,11 +199,57 @@
         "specialIssues": ["POW"]
       },
       {
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "cause": "NEW",
-        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
-        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
+        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense."
       }
     ],
+    "form8940": {
+      "unemployability": {
+        "remarks": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "receivedOtherEducationTrainingPostUnemployability": false,
+        "education": "Some college",
+        "receivedOtherEducationTrainingPreUnemployability": false,
+        "attemptedToObtainEmploymentSinceUnemployability": false,
+        "disabilityPreventMilitaryDuties": false,
+        "receiveExpectDisabilityRetirement": true,
+        "receiveExpectWorkersCompensation": true,
+        "past12MonthsEarnedIncome": 12000,
+        "leftLastJobDueToDisability": false,
+        "previousEmployers": [
+          {
+            "name": "The Employer Inc",
+            "employerAddress": {
+              "country": "USA",
+              "addressLine1": "5333 Side Street",
+              "city": "Richmond",
+              "state": "VA",
+              "zipCode": "23173"
+            }
+          }
+        ],
+        "mostEarningsInAYear": "100000",
+        "yearOfMostEarnings": "2024",
+        "occupationDuringMostEarnings": "Software Engineer",
+        "disabilityAffectedEmploymentFullTimeDate": "2020-01-08",
+        "lastWorkedFullTimeDate": "2024-01-01",
+        "becameTooDisabledToWorkDate": "2022-01-01",
+        "doctorProvidedCare": [
+          {
+            "name": "Dr Good",
+            "address": {
+              "country": "USA",
+              "addressLine1": "122 Main St",
+              "state": "DC",
+              "zipCode": "20001"
+            },
+            "dates": "For a while, for testing."
+          }
+        ],
+        "disabilityPreventingEmployment": "Diabetes mellitus1,asthma",
+        "underDoctorHospitalCarePast12M": true
+      }
+    },
     "attachments": [
       {
         "name": "AngleSettingJig_9_25_15.pdf",
