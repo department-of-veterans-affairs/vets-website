@@ -6,15 +6,15 @@ import {
 } from 'platform/testing/unit/msw-adapter';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import MockDate from 'mockdate';
 import ReferralsAndRequests from './ReferralsAndRequests';
 import reducers from '../redux/reducer';
 import { getTestDate, renderWithStoreAndRouter } from '../tests/mocks/setup';
 import { APPOINTMENT_STATUS } from '../utils/constants';
-import { createReferrals } from './utils/referrals';
 import MockAppointmentResponse from '../tests/fixtures/MockAppointmentResponse';
 import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
+import MockReferralListResponse from '../tests/fixtures/MockReferralListResponse';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -50,12 +50,12 @@ describe('VAOS Component: Referrals and Requests', () => {
       pending: true,
       status: APPOINTMENT_STATUS.proposed,
     }).setLocation(new MockFacilityResponse());
+    const referralsResponse = new MockReferralListResponse({
+      numberOfReferrals: 3,
+    });
     mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
-        jsonResponse(
-          { data: createReferrals(3, '2025-01-01') },
-          { status: 200 },
-        ),
+        jsonResponse(referralsResponse, { status: 200 }),
       ),
     );
 
@@ -71,10 +71,15 @@ describe('VAOS Component: Referrals and Requests', () => {
       initialState,
     });
 
-    waitFor(() => {
-      expect(screen.getByText('Referrals and requests')).to.exist;
+    await waitFor(() => {
       expect(screen.getByTestId('referral-list')).to.exist;
     });
+    expect(screen.getByText('Referrals and requests')).to.exist;
+    expect(
+      within(screen.getByTestId('referral-list')).getAllByTestId(
+        'appointment-list-item',
+      ),
+    ).to.have.lengthOf(3);
   });
 
   it('should display error message if both calls fail if failed action is called', async () => {
@@ -106,12 +111,12 @@ describe('VAOS Component: Referrals and Requests', () => {
       pending: true,
       status: APPOINTMENT_STATUS.proposed,
     }).setLocation(new MockFacilityResponse());
+    const referralsResponse = new MockReferralListResponse({
+      numberOfReferrals: 3,
+    });
     mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
-        jsonResponse(
-          { data: createReferrals(3, '2025-01-01') },
-          { status: 500 },
-        ),
+        jsonResponse(referralsResponse, { status: 500 }),
       ),
     );
 
