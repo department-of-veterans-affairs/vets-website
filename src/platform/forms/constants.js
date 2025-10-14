@@ -66,7 +66,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_26_4555: '26-4555',
   FORM_27_8832: '27-8832',
   FORM_28_1900: '28-1900',
-  FORM_28_1900_V2: '28-1900-V2',
   FORM_28_8832: '28-8832',
   FORM_40_0247: '40-0247',
   FORM_40_10007: '40-10007',
@@ -189,7 +188,6 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_26_4555]: `${tryGetAppUrl('4555-adapted-housing')}/`,
     [VA_FORM_IDS.FORM_27_8832]: `${tryGetAppUrl('new-chapter-36-form')}/`,
     [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900-chapter-31')}/`,
-    [VA_FORM_IDS.FORM_28_1900_V2]: `${tryGetAppUrl('new-28-1900-chapter-31')}/`,
     [VA_FORM_IDS.FORM_28_8832]: `${tryGetAppUrl(
       '25-8832-planning-and-career-guidance',
     )}/`,
@@ -753,14 +751,6 @@ export const MY_VA_SIP_FORMS = [
     description:
       'Veteran Readiness and Employment Benefits application (28-1900)',
     trackingPrefix: '28-1900-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_28_1900_V2,
-    benefit: 'Veteran Readiness and Employment Benefits',
-    title: 'Veteran Readiness and Employment Benefits (28-1900)',
-    description:
-      'Veteran Readiness and Employment Benefits application (28-1900)',
-    trackingPrefix: 'new-careers-employment-28-1900-',
   },
   {
     id: VA_FORM_IDS.FORM_28_8832,
