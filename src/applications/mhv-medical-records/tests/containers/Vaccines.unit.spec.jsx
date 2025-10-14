@@ -8,6 +8,8 @@ import reducer from '../../reducers';
 import user from '../fixtures/user.json';
 import vaccines from '../fixtures/vaccines.json';
 import { convertVaccine } from '../../reducers/vaccines';
+import { loadStates } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 describe('Vaccines list container', () => {
   const initialState = {
@@ -186,5 +188,85 @@ describe('Vaccines list container with errors', async () => {
   it('does not display a print button', () => {
     const printButton = screen.queryByTestId('print-download-menu');
     expect(printButton).to.be.null;
+  });
+});
+
+describe('Allergies unmount cleanup', () => {
+  const baseInitialState = {
+    drupalStaticData: { vamcEhrData: { loading: false } },
+    user: {},
+    mr: {
+      vaccines: {
+        allergiesList: [],
+        listState: loadStates.FETCHING,
+        listCurrentAsOf: new Date(),
+      },
+      alerts: { alertList: [] },
+      refresh: { status: null, initialFhirLoad: false },
+    },
+  };
+
+  it('resets listState to PRE_FETCH when unmounting while FETCHING', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Vaccines.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines />, {
+      initialState: baseInitialState,
+      reducers: tappedReducers,
+      path: '/vaccines',
+    });
+
+    // Simulate navigating away
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.true;
+  });
+
+  it('does not reset listState when not FETCHING at unmount', () => {
+    let updatedToPreFetch = false;
+    const tappedReducers = {
+      ...reducer,
+      mr: (state, action) => {
+        if (
+          action?.type === Actions.Vaccines.UPDATE_LIST_STATE &&
+          action?.payload === loadStates.PRE_FETCH
+        ) {
+          updatedToPreFetch = true;
+        }
+        return reducer.mr(state, action);
+      },
+    };
+
+    const initialState = {
+      ...baseInitialState,
+      mr: {
+        ...baseInitialState.mr,
+        vaccines: {
+          ...baseInitialState.mr.vaccines,
+          listState: loadStates.FETCHED,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<Vaccines />, {
+      initialState,
+      reducers: tappedReducers,
+      path: '/vaccines',
+    });
+
+    screen.unmount();
+
+    expect(updatedToPreFetch).to.be.false;
   });
 });
