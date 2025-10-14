@@ -237,6 +237,8 @@
   "profileShowQuickSubmitNotificationSetting": "profile_show_quick_submit_notification_setting",
   "profileShowNoValidationKeyAddressAlert": "profile_show_no_validation_key_address_alert",
   "profileUseExperimental": "profile_use_experimental",
+  "profile2Enabled": "profile_2_enabled",
+  "profileHealthCareSettingsPage": "profile_health_care_settings_page",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
   "representativeStatusEnabled": "representative_status_enabled",
   "representativeStatusEnableV2Features": "representative_status_enable_v2_features",
