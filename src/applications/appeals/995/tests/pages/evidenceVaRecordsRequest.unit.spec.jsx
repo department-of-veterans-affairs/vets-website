@@ -17,7 +17,7 @@ import {
   requestVaRecordsTitle,
   requestVaRecordsTitleOld,
   requestVaRecordsHint,
-} from '../../content/evidenceVaRecordsRequest';
+} from '../../content/evidenceVaPrompt';
 import errorMessages from '../../../shared/content/errorMessages';
 
 const mockStore = ({ toggle = false } = {}) => ({
@@ -38,7 +38,7 @@ describe('Supplemental Claims VA evidence request page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.evidence.pages.evidenceVaRecordsRequest;
+  } = formConfig.chapters.evidence.pages.evidenceVaPrompt;
 
   it('should render', () => {
     const { container } = render(
