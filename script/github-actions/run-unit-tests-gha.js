@@ -85,6 +85,11 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
+  const preload = path.resolve(__dirname, '../../babel-register.cjs');
+  const baseEnv = `NODE_OPTIONS=--require=${preload} STEP =unit-tests LOG_LEVEL=${options[
+    'log-level'
+  ].toLowerCase()}`;
+
   const coverageInclude = options['app-folder']
     ? `--include 'src/applications/${options['app-folder']}/**'`
     : '';
@@ -96,15 +101,15 @@ function buildTestCommand(testPaths) {
     ? '--reporter=html mocha --retries 5'
     : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
+  const mochaExtra = '--extension js --extension jsx';
+
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
-  return `STEP=unit-tests LOG_LEVEL=${options[
-    'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
+  return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
     options.config
-  } ${testPaths.join(' ')}`;
+  } ${mochaExtra} ${testPaths.join(' ')}`;
 }
 
 // Main execution
