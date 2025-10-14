@@ -8,6 +8,13 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import App from './containers/App';
+import ComplexClaimsContextProvider from './context/ComplexClaimsContext';
+
+const ComplexClaimsFlow = (
+  <ComplexClaimsContextProvider>
+    <ComplexClaimSubmitFlowWrapper />
+  </ComplexClaimsContextProvider>
+);
 
 const routes = (
   <Routes>
@@ -27,7 +34,7 @@ const routes = (
       />
       <Route
         path="/file-new-claim/complex/:apptId"
-        element={<ComplexClaimSubmitFlowWrapper />}
+        element={ComplexClaimsFlow}
       />
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
