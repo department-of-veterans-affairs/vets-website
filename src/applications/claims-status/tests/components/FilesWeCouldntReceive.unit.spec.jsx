@@ -264,10 +264,10 @@ describe('<FilesWeCouldntReceive>', () => {
       ];
 
       vaLinks.forEach((link, index) => {
-        const expectedAriaLabel = `Go to the claim this file was uploaded for: ${
+        const expectedLabel = `Go to the claim this file was uploaded for: ${
           expectedFileOrder[index]
         }`;
-        expect(link).to.have.attribute('label', expectedAriaLabel);
+        expect(link).to.have.attribute('label', expectedLabel);
       });
     });
   });
