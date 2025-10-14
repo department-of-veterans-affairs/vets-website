@@ -4,6 +4,9 @@ import { MhvPageNotFound } from '@department-of-veterans-affairs/mhv/exports';
 
 import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
+import Mileage from './components/complex-claims/pages/Mileage';
+import ChooseExpenseType from './components/complex-claims/pages/ChooseExpenseType';
+import ConfirmationPage from './components/complex-claims/pages/ConfirmationPage';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
@@ -33,8 +36,8 @@ const routes = (
         element={<ComplexClaimSubmitFlowWrapper />}
       >
         <Route index element={<>Intro</>} />
-        {/* <Route path="choose-expense" element={<ChooseExpenseType />} />
-        <Route path="mileage" element={<Mileage />} /> */}
+        <Route path="choose-expense" element={<ChooseExpenseType />} />
+        <Route path="mileage" element={<Mileage />} />
         <Route path="review" element={<ReviewPage />} />
         <Route path="travel-agreement" element={<AgreementPage />} />
         <Route path="confirmation" element={<ConfirmationPage />} />
