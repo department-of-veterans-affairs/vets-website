@@ -12,6 +12,7 @@ import prefillTransformer from './prefill-transformer';
 import { pageFocusScroll } from '../helpers';
 
 // Import page configurations
+import personalInformation from '../pages/personalInformation';
 import recipientIdentifier from '../pages/recipientIdentifier';
 import recipientName from '../pages/recipientName';
 import remarriageQuestion from '../pages/remarriageQuestion';
@@ -87,6 +88,7 @@ const formConfig = {
     contactInfoChapter: {
       title: 'Your contact information',
       pages: {
+        personalInformation,
         phoneAndEmail: {
           path: 'contact/phone-email',
           title: 'Your phone number and email address',
