@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   VaModal,
   VaButton,
@@ -6,7 +6,11 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import { ComplexClaimsContext } from '../../../context/ComplexClaimsContext';
+
 const Mileage = () => {
+  const { pageIndex, setPageIndex } = useContext(ComplexClaimsContext);
+
   // TODO: Remove placeholder data
   const address = {
     addressLine1: '345 Home Address St.',
@@ -38,7 +42,14 @@ const Mileage = () => {
     setIsModalVisible(false);
   };
 
+  const handleBack = () => {
+    setPageIndex(pageIndex - 1);
+  };
+
   const handleContinue = () => {
+    // TODO: Save mileage data when form data management is implemented
+    // For now, just handle page navigation
+
     // Check if user selected "another-address" or "one-way"
     if (departureAddress === 'another-address' || tripType === 'one-way') {
       // TODO: Replace with actual redirect logic for special cases
@@ -47,10 +58,8 @@ const Mileage = () => {
       // eslint-disable-next-line no-console
       console.log('Special case detected - would redirect to different page');
     } else {
-      // TODO: Replace with normal flow redirect logic
-      // Example: navigate('/next-step-page')
-      // eslint-disable-next-line no-console
-      console.log('Normal flow - would continue to next page');
+      // Increment page index to move to next step
+      setPageIndex(pageIndex + 1);
     }
   };
 
@@ -153,7 +162,7 @@ const Mileage = () => {
         continue
         disable-analytics
         onPrimaryClick={handleContinue}
-        onSecondaryClick={() => {}}
+        onSecondaryClick={handleBack}
       />
     </>
   );

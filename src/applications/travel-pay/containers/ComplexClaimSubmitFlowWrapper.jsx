@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
+import Mileage from '../components/complex-claims/pages/Mileage';
 import ConfirmationPage from '../components/complex-claims/pages/ConfirmationPage';
+import { ComplexClaimsContext } from '../context/ComplexClaimsContext';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const { apptId } = useParams();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const { pageIndex } = useContext(ComplexClaimsContext);
 
   const complexClaimsEnabled = useToggleValue(
     TOGGLE_NAMES.travelPayEnableComplexClaims,
@@ -19,6 +23,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
     window.location.replace('/');
     return null;
   }
+
+  const pageList = [Mileage, ConfirmationPage];
+  const CurrentPage = pageList[pageIndex];
 
   return (
     <Element name="topScrollElement">
@@ -33,7 +40,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <ConfirmationPage />
+          <CurrentPage />
         </div>
       </article>
     </Element>
