@@ -72,3 +72,6 @@
   content: counter(my-counter) ". ";
   margin-right: 5px;
 }
+.va-memorable-date-field::part(legend) {
+  width: 100vw;
+}
