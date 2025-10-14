@@ -459,16 +459,13 @@ class ProfileInformationFieldController extends React.Component {
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
         {showErrorAlert && (
-          <div data-testid="generic-error-alert" className="vads-u-width--full">
+          <div className="vads-u-width--full">
             <GenericErrorAlert fieldName={fieldName} />
           </div>
         )}
 
         {showUpdateSuccessAlert && (
-          <div
-            data-testid="update-success-alert"
-            className="vads-u-width--full"
-          >
+          <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         )}
