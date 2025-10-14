@@ -2,8 +2,8 @@
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
+  firstNameLastNameNoMaxLengthSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -17,20 +17,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      fullName: {
-        ...fullNameNoSuffixSchema,
-        properties: {
-          ...fullNameNoSuffixSchema.properties,
-          first: {
-            ...fullNameNoSuffixSchema.properties.first,
-            maxLength: null,
-          },
-          last: {
-            ...fullNameNoSuffixSchema.properties.last,
-            maxLength: null,
-          },
-        },
-      },
+      fullName: firstNameLastNameNoMaxLengthSchema,
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],
