@@ -273,9 +273,9 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(
-        '/my-health/secure-messages/inbox/',
-      );
+      const ariaLabel = document.querySelector('va-alert span');
+      expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
+      expect(history.location.pathname).to.equal('/inbox/');
     });
   });
 

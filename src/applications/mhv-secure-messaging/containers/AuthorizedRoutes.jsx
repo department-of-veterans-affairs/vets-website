@@ -11,7 +11,6 @@ import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import * as Constants from '../util/constants';
-import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 import InterstitialPage from './InterstitialPage';
@@ -68,7 +67,7 @@ const AuthorizedRoutes = () => {
   );
 
   if (location.pathname === `/`) {
-    return <Redirect to={`${manifest.rootUrl}${Paths.INBOX}`} />;
+    return <Redirect to={Paths.INBOX} />;
   }
 
   return (
