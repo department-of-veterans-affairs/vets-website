@@ -92,6 +92,36 @@ export function transform(formConfig, form) {
       ...clonedData,
     };
   };
+
+  const primaryOfficialTrainingTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+
+    return {
+      ...clonedData,
+      primaryOfficialTraining: {
+        trainingCompletionDate: clonedData.primaryOfficialTraining
+          .trainingExempt
+          ? dateSigned()
+          : clonedData.primaryOfficialTraining.trainingCompletionDate,
+        trainingExempt:
+          clonedData?.primaryOfficialTraining?.trainingExempt ?? false,
+      },
+    };
+  };
+
+  const institutionDetailsTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+
+    return {
+      ...clonedData,
+      institutionDetails: {
+        ...clonedData.institutionDetails,
+        facilityCode:
+          clonedData?.institutionDetails?.facilityCode ?? '12345678',
+      },
+    };
+  };
+
   const removeExcessTransform = formData => {
     const clonedData = _.cloneDeep(formData);
 
@@ -131,6 +161,8 @@ export function transform(formConfig, form) {
     additionalOfficialTransform,
     readOnlyOfficialTransform,
     removeExcessTransform,
+    primaryOfficialTrainingTransform,
+    institutionDetailsTransform,
     privacyAgreementTransform,
     usFormTransform,
   ].reduce((formData, transformer) => {
