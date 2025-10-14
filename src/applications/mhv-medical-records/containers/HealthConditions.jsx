@@ -63,7 +63,7 @@ const HealthConditions = () => {
     dispatch,
   });
 
-  // Stable ref: latest listState for unmount cleanup without extra effect dependencies.
+  // Stable ref: latest listState for unmount cleanup
   const listStateRef = useLatest(listState);
 
   useEffect(
