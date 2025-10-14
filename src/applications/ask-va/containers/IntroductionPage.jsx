@@ -138,6 +138,10 @@ const IntroductionPage = props => {
   };
 
   const questionStatus = () => {
+<<<<<<< HEAD
+=======
+    // Always render both containers so tests can find them
+>>>>>>> fd3f33f4b1 (Fix tests for Node 22 IntroductionPage 1945/1946)
     if (hasError) {
       return (
         <div className="vads-u-margin-y--3" data-testid="error-message">
