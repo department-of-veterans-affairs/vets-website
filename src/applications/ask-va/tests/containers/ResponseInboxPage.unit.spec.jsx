@@ -481,9 +481,9 @@ describe('ResponseInboxPage', () => {
     await findByText('Send a reply');
     const input = container.querySelector('va-textarea');
     input.value = 'Test reply';
-    const event = new CustomEvent('input', {
+    const event = new window.Event('input', {
       bubbles: true,
-      detail: { value: 'Test reply' },
+      cancelable: true,
     });
 
     input.dispatchEvent(event);
