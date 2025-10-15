@@ -107,6 +107,7 @@ describe('Document', () => {
     const checkbox = container.querySelector(
       'va-checkbox[label="1095-B Proof of Health Care"]',
     );
+    checkbox.checked = false;
     fireEvent(
       checkbox,
       new CustomEvent('vaChange', {
@@ -136,6 +137,7 @@ describe('Document', () => {
     const checkbox = container.querySelector(
       'va-checkbox[label="1095-B Proof of Health Care"]',
     );
+    checkbox.checked = true;
     fireEvent(
       checkbox,
       new CustomEvent('vaChange', {
