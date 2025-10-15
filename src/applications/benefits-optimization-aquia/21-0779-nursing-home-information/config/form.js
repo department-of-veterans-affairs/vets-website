@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   SUBTITLE,
@@ -57,9 +58,7 @@ const defaultSchema = {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/form21_0779',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/form21_0779`,
   trackingPrefix: '21-0779-nursing-home-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
