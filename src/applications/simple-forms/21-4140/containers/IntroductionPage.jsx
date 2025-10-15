@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
@@ -48,7 +48,6 @@ export const IntroductionPage = props => {
 
   useEffect(() => {
     scrollToTop();
-    focusElement('h1');
   }, []);
 
   return (
