@@ -48,14 +48,6 @@ export default function App({ location, children }) {
     () => isLoadingFeatureFlags || isLoadingProfile,
     [isLoadingFeatureFlags, isLoadingProfile],
   );
-  const hasSavedForm = useMemo(
-    () =>
-      savedForms.some(
-        ({ form, metaData }) =>
-          form === formConfig.formId && !isExpired(metaData?.expiresAt),
-      ),
-    [savedForms],
-  );
 
   const [routeChecked, setRouteChecked] = useState(false);
 
@@ -74,14 +66,17 @@ export default function App({ location, children }) {
   useLayoutEffect(
     () => {
       if (isAppLoading) return;
+      const hasSavedForm = savedForms.some(
+        ({ form, metaData }) =>
+          form === formConfig.formId && !isExpired(metaData?.expiresAt),
+      );
       if (isMergedFormEnabled && !hasSavedForm) {
-        const targetUrl = getAppUrl('10-10d-extended');
-        window.location.replace(targetUrl);
+        window.location.replace(getAppUrl('10-10d-extended'));
         return;
       }
       setRouteChecked(true);
     },
-    [hasSavedForm, isAppLoading, isMergedFormEnabled],
+    [isAppLoading, isMergedFormEnabled, savedForms],
   );
 
   // Add Datadog RUM to the app

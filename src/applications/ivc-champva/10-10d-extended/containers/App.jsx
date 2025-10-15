@@ -27,14 +27,6 @@ const App = ({ location, children }) => {
     () => isLoadingFeatureFlags || isLoadingProfile,
     [isLoadingFeatureFlags, isLoadingProfile],
   );
-  const hasSavedForm = useMemo(
-    () =>
-      savedForms.some(
-        ({ form, metaData }) =>
-          form === VA_FORM_IDS.FORM_10_10D && !isExpired(metaData?.expiresAt),
-      ),
-    [savedForms],
-  );
 
   const [routeChecked, setRouteChecked] = useState(false);
 
@@ -42,14 +34,17 @@ const App = ({ location, children }) => {
   useLayoutEffect(
     () => {
       if (isAppLoading) return;
-      if (!isMergedFormEnabled || !hasSavedForm) {
-        const targetUrl = getAppUrl('10-10D');
-        window.location.replace(targetUrl);
+      const hasSavedForm = savedForms.some(
+        ({ form, metaData }) =>
+          form === VA_FORM_IDS.FORM_10_10D && !isExpired(metaData?.expiresAt),
+      );
+      if (!isMergedFormEnabled || hasSavedForm) {
+        window.location.replace(getAppUrl('10-10D'));
         return;
       }
       setRouteChecked(true);
     },
-    [hasSavedForm, isAppLoading, isMergedFormEnabled],
+    [isAppLoading, isMergedFormEnabled, savedForms],
   );
 
   const showLoadingIndicator = isAppLoading || !routeChecked;
