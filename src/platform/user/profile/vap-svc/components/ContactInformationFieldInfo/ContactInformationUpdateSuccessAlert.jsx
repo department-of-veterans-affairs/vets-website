@@ -33,6 +33,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         slim
         uswds
         role="alert"
+        data-testid="update-success-alert"
       >
         <p className="vads-u-margin-y--0" id={id}>
           Update saved.

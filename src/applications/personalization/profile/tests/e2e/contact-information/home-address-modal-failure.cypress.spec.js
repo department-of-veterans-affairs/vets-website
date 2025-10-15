@@ -46,7 +46,7 @@ describe('Home address update modal - api failure', () => {
       });
 
     cy.findByTestId('mailingAddress')
-      .get('.usa-input-error-message')
+      .findByTestId('generic-error-alert')
       .should('exist');
 
     cy.injectAxeThenAxeCheck();
