@@ -109,6 +109,8 @@ const responses = {
             profileUseExperimental: false,
             profileShowPrivacyPolicy: false,
             profileShowPaperlessDelivery: false,
+            profile2Enabled: true,
+            profileHealthCareSettingsPage: true,
             vetStatusPdfLogging: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
