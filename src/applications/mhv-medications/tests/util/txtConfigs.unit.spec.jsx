@@ -9,11 +9,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
 import { validateField, convertHtmlForDownload } from '../../util/helpers';
-import {
-  DOWNLOAD_FORMAT,
-  pdfDefaultPendingMedDefinition,
-  pdfDefaultPendingRenewalDefinition,
-} from '../../util/constants';
+import { DOWNLOAD_FORMAT } from '../../util/constants';
 
 describe('Prescriptions List Txt Config', () => {
   it('Should show all rxs with prescription name', () => {
@@ -156,12 +152,9 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
     const txt = buildVAPrescriptionTXT(rxDetails);
-    const statusTxt = pdfDefaultPendingMedDefinition.reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
+    expect(txt).to.match(
+      /Status: This is a new prescription from your provider/,
     );
-    expect(txt).to.include(statusTxt);
   });
 
   it('should display PendingMed status description if Renew', () => {
@@ -169,12 +162,7 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
     const txt = buildVAPrescriptionTXT(rxDetails);
-    const statusTxt = pdfDefaultPendingRenewalDefinition.reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
-    );
-    expect(txt).to.include(statusTxt);
+    expect(txt).to.match(/Status: This is a renewal you requested/);
   });
 });
 

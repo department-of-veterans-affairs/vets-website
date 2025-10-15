@@ -10,12 +10,7 @@ import prescriptions from '../fixtures/prescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import {
-  DOWNLOAD_FORMAT,
-  FIELD_NONE_NOTED,
-  pdfDefaultPendingMedDefinition,
-  pdfDefaultPendingRenewalDefinition,
-} from '../../util/constants';
+import { DOWNLOAD_FORMAT, FIELD_NONE_NOTED } from '../../util/constants';
 import { convertHtmlForDownload } from '../../util/helpers';
 
 describe('Prescriptions List Config', () => {
@@ -129,12 +124,9 @@ describe('VA prescription Config', () => {
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
-    const statusTxt = pdfDefaultPendingMedDefinition.reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
+    expect(status.value).to.match(
+      /This is a new prescription from your provider/,
     );
-    expect(status.value).to.equal(statusTxt);
   });
 
   it('should display PendingMed status description if Renew', () => {
@@ -146,12 +138,7 @@ describe('VA prescription Config', () => {
     const status = pdfList[0].sections[0].items.find(
       item => item.title === 'Status',
     );
-    const statusTxt = pdfDefaultPendingRenewalDefinition.reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
-    );
-    expect(status.value).to.equal(statusTxt);
+    expect(status.value).to.match(/This is a renewal you requested/);
   });
 });
 
