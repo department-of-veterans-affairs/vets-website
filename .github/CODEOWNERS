@@ -289,3 +289,4 @@ src/applications/travel-pay @department-of-veterans-affairs/va-platform-cop-fron
 
 # BIO Huntridge Labs
 src/applications/medical-expense-report @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/survivors-benefits @department-of-veterans-affairs/bio-huntridge @department-of-veterans-affairs/va-platform-cop-frontend
