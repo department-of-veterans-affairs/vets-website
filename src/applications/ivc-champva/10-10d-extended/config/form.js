@@ -67,6 +67,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formOptions: {
+    useWebComponentForNavigation: true,
     filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({

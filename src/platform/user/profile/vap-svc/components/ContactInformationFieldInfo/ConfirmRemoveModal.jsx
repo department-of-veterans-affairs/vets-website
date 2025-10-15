@@ -94,20 +94,21 @@ const ConfirmRemoveModal = ({
             {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
           </p>
           <div>
-            <LoadingButton
-              isLoading={isLoading}
+            <va-button
+              loading={isLoading}
               onClick={deleteAction}
-              aria-label="Yes, remove my information"
-              loadingText="Removing your information"
-            >
-              Yes, remove my information
-            </LoadingButton>
+              text={isLoading ? '' : 'Yes, remove my information'}
+              class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+              data-testid="confirm-remove-button"
+            />
 
             {!isLoading && (
               <va-button
                 secondary
                 onClick={cancelAction}
                 text="No, cancel this change"
+                class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                data-testid="cancel-remove-button"
               />
             )}
           </div>
