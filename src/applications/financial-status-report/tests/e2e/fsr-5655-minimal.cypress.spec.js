@@ -56,9 +56,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('a.vads-c-action-link--green')
-          .first()
-          .click();
+        cy.clickStartForm();
       },
       // ============================================================
       // ================== veteranInformationChapter ==================
@@ -76,7 +74,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type=checkbox]')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'spouse-information': ({ afterHook }) => {
@@ -84,7 +82,7 @@ const testConfig = createTestConfig(
           cy.get('#root_questions_isMarriedNo')
             .should('be.visible')
             .click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'dependents-count': ({ afterHook }) => {
@@ -108,7 +106,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('125');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'cash-in-bank': ({ afterHook }) => {
@@ -118,7 +116,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('329.12');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       // ==============================================================
@@ -127,7 +125,7 @@ const testConfig = createTestConfig(
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="monthly"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-comment/0': ({ afterHook }) => {
@@ -137,13 +135,13 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('10.00');
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="waiver"]').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
@@ -153,7 +151,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input[type=checkbox]')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'resolution-comments': ({ afterHook }) => {
@@ -174,7 +172,7 @@ const testConfig = createTestConfig(
       'bankruptcy-history': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#has-not-declared-bankruptcy').click();
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       // ============================================================
@@ -195,9 +193,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .check({ force: true });
-          cy.findAllByText(/Submit your request/i, {
-            selector: 'button',
-          }).click();
+          cy.clickFormContinue();
         });
       },
     },
