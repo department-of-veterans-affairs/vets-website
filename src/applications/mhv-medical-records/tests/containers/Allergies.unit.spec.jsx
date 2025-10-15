@@ -82,9 +82,8 @@ describe('Allergies list container', () => {
   });
 
   it('displays a list of records', async () => {
-    await waitFor(() => {
-      expect(screen.getAllByTestId('record-list-item').length).to.eq(10);
-    });
+    const items = await screen.findAllByTestId('record-list-item');
+    expect(items).to.have.lengthOf(10);
   });
 
   it('displays a print button', () => {
