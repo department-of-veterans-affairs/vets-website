@@ -11,7 +11,30 @@ import { convertAllergy } from '../../reducers/allergies';
 
 describe('Allergies list container', () => {
   const initialState = {
-    user,
+    featureToggles: {
+      /* eslint-disable camelcase */
+      mhv_accelerated_delivery_enabled: false,
+      mhv_accelerated_delivery_allergies_enabled: false,
+      /* eslint-enable camelcase */
+      loading: false,
+    },
+    drupalStaticData: {
+      vamcEhrData: {
+        loading: false,
+      },
+    },
+    user: {
+      ...user,
+      profile: {
+        ...user.profile,
+        facilities: [
+          {
+            facilityId: '983',
+            isCerner: false,
+          },
+        ],
+      },
+    },
     mr: {
       allergies: {
         allergiesList: allergies.entry.map(item =>
