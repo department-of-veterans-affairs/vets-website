@@ -193,7 +193,6 @@ MaritalStatusPage.propTypes = {
   pagePerItemIndex: PropTypes.number,
   trackingPrefix: PropTypes.string,
   goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   NavButtons: PropTypes.func.isRequired,
