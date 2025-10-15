@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -9,7 +10,8 @@ const IntroductionPage = ({ route }) => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
-  const pbbFormsRequireLoa3 = true;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   return (
     <div className="schemaform-intro vads-u-margin-bottom--6">

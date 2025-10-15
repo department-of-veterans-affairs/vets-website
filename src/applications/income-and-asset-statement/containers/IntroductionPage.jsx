@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { isLoggedIn } from 'platform/user/selectors';
 
@@ -11,8 +12,8 @@ export const IntroductionPage = ({ route }) => {
   const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
 
-  // Mock flipper while we wait for merge
-  const pbbFormsRequireLoa3 = false;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   const renderIfVeteranContent = authenticated => {
     const prefix = authenticated ? 'You’ll' : 'If you’re the Veteran, you’ll';
