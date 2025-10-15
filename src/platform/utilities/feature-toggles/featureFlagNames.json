@@ -74,6 +74,7 @@
   "disputeDebt": "dispute_debt",
   "dslogonInterstitialRedirect": "dslogon_interstitial_redirect",
   "dslogonButtonDisabled": "dslogon_button_disabled",
+  "emptyStateBenefitLetters": "empty_state_benefit_letters",
   "enrollmentVerification": "enrollment_verification",
   "ezrDownloadPdfEnabled": "ezr_download_pdf_enabled",
   "ezrProdEnabled": "ezr_prod_enabled",
