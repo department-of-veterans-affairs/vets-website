@@ -34,13 +34,8 @@ const defaultProps = {
   optionsAvailable: true,
 };
 
-// Ensure the Toggler is set to false
-const getStore = (lettersPageNewDesign = false) =>
+const getStore = () =>
   createStore(() => ({
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      letters_page_new_design: lettersPageNewDesign,
-    },
     letters: {
       optionsAvailable: true,
       requestOptions: {},
@@ -77,25 +72,9 @@ describe('<LetterList>', () => {
       focusElementSpy.restore();
     });
 
-    it('sets focus to h2 when lettersNewDesign is false', () => {
+    it('sets focus to letters title', () => {
       render(
         <Provider store={getStore()}>
-          <MemoryRouter>
-            <LetterList {...defaultProps} lettersNewDesign={false} />
-          </MemoryRouter>
-        </Provider>,
-      );
-
-      // Check that focusElement was called
-      expect(focusElementSpy.callCount).to.equal(1);
-      // Check what it was called with - when lettersNewDesign is false, it should call with nav header
-      const lastCall = focusElementSpy.getCall(0);
-      expect(lastCall.args[0]).to.equal('h2#nav-form-header');
-    });
-
-    it('sets focus to letters title when lettersNewDesign is true', () => {
-      render(
-        <Provider store={getStore(true)}>
           <MemoryRouter>
             <LetterList {...defaultProps} lettersNewDesign />
           </MemoryRouter>
@@ -130,21 +109,7 @@ describe('<LetterList>', () => {
     });
   });
 
-  it('[TOGGLER OFF]: renders DL buttons for all letters in list', () => {
-    const component = SkinDeep.shallowRender(
-      <Provider store={getStore()}>
-        <LetterList {...defaultProps} />
-      </Provider>,
-    );
-
-    const checkButtonInPanel = panel => {
-      expect(panel.text()).to.contain('Connect(DownloadLetterLink)');
-    };
-
-    component.everySubTree('va-accordion-item').forEach(checkButtonInPanel);
-  });
-
-  it('[TOGGLER ON]: renders DL links for all letters except BSL in list', () => {
+  it('renders DL links for all letters except BSL in list', () => {
     const assertHocRendered = panel => {
       expect(panel.subTree('Hoc')).to.exist; // Not exact, but shows the Toggler is rendered
     };
@@ -162,9 +127,7 @@ describe('<LetterList>', () => {
       .forEach(assertHocRendered);
   });
 
-  // We want to test BSL logic for both toggler states because it (BSL) isn't
-  // changing until the second phase of the new design
-  it('[TOGGLER OFF]: does not render DL link for BSL if !optionsAvailable', () => {
+  it('does not render DL link for BSL if !optionsAvailable', () => {
     const assertButtonUndefined = panelText => {
       expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
     };
@@ -184,45 +147,7 @@ describe('<LetterList>', () => {
       .forEach(assertButtonUndefined);
   });
 
-  it('[TOGGLER ON]: does not render DL link for BSL if !optionsAvailable', () => {
-    const assertButtonUndefined = panelText => {
-      expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
-    };
-
-    const isBSL = panelText => panelText.includes(defaultProps.letters[1].name);
-    const props = { ...defaultProps, optionsAvailable: false };
-    const component = SkinDeep.shallowRender(<LetterList {...props} />);
-
-    component
-      .everySubTree('va-accordion-item')
-      .map(panel => panel.text())
-      .filter(isBSL)
-      .forEach(assertButtonUndefined);
-  });
-
-  it('[TOGGLER OFF]: renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
-    const checkButtonInPanel = panelText => {
-      expect(panelText).to.includes('Connect(DownloadLetterLink)');
-    };
-
-    const isNotBSL = panelText =>
-      !panelText.includes(defaultProps.letters[1].name);
-
-    const props = { ...defaultProps, optionsAvailable: false };
-    const component = SkinDeep.shallowRender(
-      <Provider store={getStore()}>
-        <LetterList {...props} />
-      </Provider>,
-    );
-
-    component
-      .everySubTree('va-accordion-item')
-      .map(panel => panel.text())
-      .filter(isNotBSL)
-      .forEach(checkButtonInPanel);
-  });
-
-  it('[TOGGLER ON]: renders DL link for non-benefit-summary letters if !optionsAvailable', () => {
+  it('renders DL link for non-benefit-summary letters if !optionsAvailable', () => {
     const checkButtonLink = panelText => {
       expect(panelText).to.includes('Letter');
     };
@@ -251,21 +176,9 @@ describe('<LetterList>', () => {
       'One of our systems appears to be down.',
     );
   });
-  it('renders VeteranBenefitSummaryLetter lettersPageNewDesign is false', () => {
+  it('renders VeteranBenefitSummaryOptions', () => {
     const { getByText } = render(
       <Provider store={getStore()}>
-        <MemoryRouter>
-          <LetterList {...defaultProps} />
-        </MemoryRouter>
-      </Provider>,
-    );
-    expect(getByText('Benefit Summary and Service Verification Letter')).to
-      .exist;
-    expect(getByText('VA benefit and disability information')).to.exist;
-  });
-  it('renders VeteranBenefitSummaryOptions lettersPageNewDesign is true', () => {
-    const { getByText } = render(
-      <Provider store={getStore(true)}>
         <MemoryRouter>
           <LetterList {...defaultProps} />
         </MemoryRouter>
@@ -280,7 +193,7 @@ describe('<LetterList>', () => {
     ).to.exist;
   });
 
-  it('render Benefit Summary Letter for letter type benefit_summary_dependent as letter title when lettersPageNewDesign is true', () => {
+  it('render Benefit Summary Letter for letter type benefit_summary_dependent as letter title', () => {
     const propsWithBenefitSummaryDependentLetter = {
       letters: [
         {
@@ -293,7 +206,7 @@ describe('<LetterList>', () => {
       optionsAvailable: true,
     };
     const { getByText } = render(
-      <Provider store={getStore(true)}>
+      <Provider store={getStore()}>
         <MemoryRouter>
           <LetterList {...propsWithBenefitSummaryDependentLetter} />
         </MemoryRouter>
@@ -306,7 +219,7 @@ describe('<LetterList>', () => {
       ),
     ).to.exist;
   });
-  it('renders updated proof of service card description lettersPageNewDesign is true', () => {
+  it('renders updated proof of service card description', () => {
     const proofOfService = {
       letters: [
         {
@@ -319,7 +232,7 @@ describe('<LetterList>', () => {
       optionsAvailable: true,
     };
     const { getByText } = render(
-      <Provider store={getStore(true)}>
+      <Provider store={getStore()}>
         <MemoryRouter>
           <LetterList {...proofOfService} />
         </MemoryRouter>
@@ -332,7 +245,7 @@ describe('<LetterList>', () => {
       ),
     ).to.exist;
   });
-  it('renders updated letter description description lettersPageNewDesign is true', () => {
+  it('renders updated letter description description', () => {
     const props = {
       letters: [
         {
@@ -365,7 +278,7 @@ describe('<LetterList>', () => {
       optionsAvailable: true,
     };
     const { getByText } = render(
-      <Provider store={getStore(true)}>
+      <Provider store={getStore()}>
         <MemoryRouter>
           <LetterList {...props} />
         </MemoryRouter>
