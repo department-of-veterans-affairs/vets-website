@@ -114,6 +114,32 @@ describe('VA prescription Config', () => {
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
   });
+
+  it('should display PendingMed status description if NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    expect(status.value).to.match(
+      /This is a new prescription from your provider/,
+    );
+  });
+
+  it('should display PendingMed status description if Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    expect(status.value).to.match(/This is a renewal you requested/);
+  });
 });
 
 describe('Non VA prescription Config', () => {
