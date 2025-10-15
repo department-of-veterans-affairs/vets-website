@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation, useHistory } from 'react-router-dom';
+import AddToCalendarButton from '../components/AddToCalendarButton';
 import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage } from './redux/actions';
+import { APPOINTMENT_STATUS } from '../utils/constants';
 // eslint-disable-next-line import/no-restricted-paths
 
 // eslint-disable-next-line import/no-restricted-paths
@@ -12,6 +15,10 @@ import Section from '../components/Section';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import ProviderAddress from './components/ProviderAddress';
+import {
+  ClinicOrFacilityPhone,
+  Details,
+} from '../components/layouts/DetailPageLayout';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
@@ -80,8 +87,27 @@ export default function EpsAppointmentDetailsPage() {
     ? 'Past community care appointment'
     : 'Community care appointment';
 
+  const facility = {
+    name: appointment.provider.location.name,
+    address: appointment.provider.location.address,
+    phone: appointment.provider.phone,
+    website: appointment.provider.location.website,
+    timezone: appointment.provider.location.timezone,
+    practiceName: appointment.provider.location.name,
+  };
+
+  const calendarData = {
+    vaos: {
+      isCommunityCare: true,
+    },
+    ...appointment,
+    minutesDuration: appointment.minutesDuration ?? 30,
+    start: new Date(appointment.start),
+    communityCareProvider: { ...facility },
+  };
+
   return (
-    <PageLayout>
+    <PageLayout showNeedHelp>
       <div className="vaos-hide-for-print mobile:vads-u-margin-bottom--0 mobile-lg:vads-u-margin-bottom--1 medium-screen:vads-u-margin-bottom--2">
         <nav aria-label="backlink" className="vads-u-padding-y--2 ">
           <va-link
@@ -115,6 +141,12 @@ export default function EpsAppointmentDetailsPage() {
             date={appointment.start}
             timezone={appointment.provider.location.timezone}
           />
+          {APPOINTMENT_STATUS.cancelled !== appointment.status &&
+            !isPastAppointment && (
+              <div className="vads-u-margin-top--1 vaos-hide-for-print">
+                <AddToCalendarButton appointment={calendarData} />
+              </div>
+            )}
         </Section>
         <Section heading="Provider">
           <span data-dd-privacy="mask">
@@ -122,6 +154,7 @@ export default function EpsAppointmentDetailsPage() {
               'Provider information not available'}`}
           </span>
           <br />
+          {/* TODO need to figure out if we get treatment specialty from the API */}
           {appointment.provider.location.address && (
             <ProviderAddress
               address={appointment.provider.location.address}
@@ -130,15 +163,22 @@ export default function EpsAppointmentDetailsPage() {
               phone={appointment.provider.phone}
             />
           )}
+          {/* TODO need to figure out what phone data we get from the API */}
+          <ClinicOrFacilityPhone facilityPhone={appointment.provider.phone} />
         </Section>
+        {/* TODO need to figure out if we get reason and other details from the API */}
+        <Details
+          reason={appointment.reason}
+          otherDetails={appointment.comments}
+        />
         <Section heading="Prepare for your appointment">
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-            Bring your insurance cards, a list of your medications, and other
-            things to share with your provider
+            Bring your insurance cards. And bring a list of your medications and
+            other information to share with your provider.
           </p>
           <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
             <va-link
-              text="Find out what to bring to your appointment"
+              text="Find a full list of things to bring to your appointment"
               href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
             />
           </p>
@@ -149,6 +189,20 @@ export default function EpsAppointmentDetailsPage() {
             appointment.
           </span>
         </Section>
+        <div
+          className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--4 vaos-appts__block-label vaos-hide-for-print"
+          style={{ rowGap: '16px' }}
+        >
+          <div className="vads-u-display--auto vads-u-margin-right--2">
+            <VaButton
+              text="Print"
+              secondary
+              onClick={() => window.print()}
+              data-testid="print-button"
+              uswds
+            />
+          </div>
+        </div>
       </va-card>
     </PageLayout>
   );
