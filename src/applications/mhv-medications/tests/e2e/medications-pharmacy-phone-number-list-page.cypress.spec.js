@@ -2,7 +2,7 @@ import MedicationsSite from './med_site/MedicationsSite';
 import rxList from './fixtures/listOfPrescriptions.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import activeRx from './fixtures/active-on-hold-prescription-details.json';
-// test
+
 describe('Medications List Page Pharmacy Phone Number', () => {
   it('visits Medications List Page Pharmacy Phone Number for Rx', () => {
     const site = new MedicationsSite();
