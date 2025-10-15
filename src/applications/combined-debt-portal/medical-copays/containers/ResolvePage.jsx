@@ -15,7 +15,7 @@ const ResolvePage = ({ match }) => {
   const combinedPortalData = useSelector(state => state.combinedPortal);
   const statements = combinedPortalData.mcp.statements ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
-  const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
+  const title = `Resolve your copay bill`;
 
   const acctNum =
     selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
@@ -47,15 +47,15 @@ const ResolvePage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
           {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
-            label: `${title}`,
+            label: `Copay bill for ${selectedCopay?.station.facilityName}`,
           },
           {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}/resolve`,
-            label: 'Resolve your bill',
+            label: 'Resolve your copay',
           },
         ]}
         label="Breadcrumb"
@@ -66,11 +66,11 @@ const ResolvePage = ({ match }) => {
           data-testid="resolve-page-title"
           className="vads-u-margin-bottom--2"
         >
-          Resolve your copay bill for {selectedCopay?.station.facilityName}
+          Resolve your copay
         </h1>
         <p className="va-introtext">
-          You can pay your balance, request financial help, or dispute this
-          bill.
+          You can pay your balance, request financial help, or dispute this bill
+          for {selectedCopay?.station.facilityName}.
         </p>
         <va-on-this-page class="medium-screen:vads-u-margin-top--0" />
         <HowToPay

@@ -104,7 +104,7 @@ const OverviewPage = () => {
   const statementsEmpty = statements?.length === 0;
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
-  const title = 'Current copay balances';
+  const title = 'Copay balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -189,7 +189,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
         ]}
         label="Breadcrumb"
