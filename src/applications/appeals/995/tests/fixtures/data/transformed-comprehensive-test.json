@@ -1,0 +1,277 @@
+{
+  "data": {
+    "type": "supplementalClaim",
+    "attributes": {
+      "benefitType": "compensation",
+      "claimantType": "veteran",
+      "homeless": true,
+      "homelessLivingSituation": [
+        "I LIVE OR SLEEP IN A PLACE THAT IS NOT MEANT FOR REGULAR SLEEPING",
+        "I LIVE IN A SHELTER",
+        "I AM STAYING WITH A FRIEND OR FAMILY MEMBER, BECAUSE I AM UNABLE TO OWN A HOME RIGHT NOW",
+        "IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER",
+        "IN THE NEXT 30 DAYS, I WILL LOSE MY HOME",
+        "OTHER"
+      ],
+      "homelessLivingSituationOther": "Testing content for housing risks",
+      "homelessPointOfContact": "Ted Mosby",
+      "homelessPointOfContactPhone": {
+        "areaCode": "210",
+        "phoneNumber": "5550123"
+      },
+      "mstUpcomingEventDisclosure": "I REVOKE PRIOR CONSENT",
+      "veteran": {
+        "timezone": "America/Los_Angeles",
+        "address": {
+          "addressLine1": "Street",
+          "addressLine2": "812 Harrow Road",
+          "city": "London",
+          "countryCodeISO2": "GB",
+          "internationalPostalCode": "W2 1JP",
+          "zipCode5": "00000"
+        },
+        "phone": {
+          "countryCode": "1",
+          "areaCode": "210",
+          "phoneNumber": "5551234"
+        },
+        "email": "vaeventbusdemo@adhocteam.us"
+      },
+      "form5103Acknowledged": true,
+      "evidenceSubmission": {
+        "evidenceType": [
+          "retrieval",
+          "upload"
+        ],
+        "treatmentLocations": [
+          "VA MEDICAL CENTERS (VAMC) AND COMMUNITY-BASED OUTPATIENT CLINICS (CBOC)",
+          "DEPARTMENT OF DEFENSE (DOD) MILITARY TREATMENT FACILITY(IES) (MTF)",
+          "COMMUNITY CARE",
+          "VA VET CENTER",
+          "PRIVATE HEALTH CARE PROVIDER",
+          "OTHER"
+        ],
+        "treatmentLocationOther": "Some other type of provider",
+        "retrieveFrom": [
+          {
+            "type": "retrievalEvidence",
+            "attributes": {
+              "locationAndName": "South Texas VA Facility",
+              "evidenceDates": [
+                {
+                  "startDate": "2000-01-01",
+                  "endDate": "2000-01-01"
+                }
+              ],
+              "noTreatmentDates": false
+            }
+          },
+          {
+            "type": "retrievalEvidence",
+            "attributes": {
+              "locationAndName": "Midwest Alabama VA Facility",
+              "noTreatmentDates": true
+            }
+          },
+          {
+            "type": "retrievalEvidence",
+            "attributes": {
+              "locationAndName": "Southern Pennsylvania VA Facility",
+              "evidenceDates": [
+                {
+                  "startDate": "1999-06-01",
+                  "endDate": "1999-06-01"
+                }
+              ],
+              "noTreatmentDates": false
+            }
+          }
+        ]
+      },
+      "socOptIn": true
+    }
+  },
+  "included": [
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "decisionDate": "2022-03-12",
+        "issue": "Headaches - 10% - Acute chronic head pain",
+        "ratingIssueReferenceId": "142894"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Hypertension",
+        "decisionDate": "2023-09-26"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Impotence",
+        "decisionDate": "2023-09-26"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Left Knee Instability",
+        "decisionDate": "2023-09-26"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Right Knee Injury",
+        "decisionDate": "2023-09-26"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Hyperthyroidism",
+        "decisionDate": "2017-04-16"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Seizures",
+        "decisionDate": "2000-10-24"
+      }
+    },
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Parkinson's",
+        "decisionDate": "2013-03-20"
+      }
+    }
+  ],
+  "form4142": {
+    "privacyAgreementAccepted": true,
+    "limitedConsent": "Testing content for limited consent",
+    "providerFacility": [
+      {
+        "providerFacilityName": "Provider One",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "123 Main Street",
+          "street2": "Street address 2",
+          "city": "San Antonio",
+          "state": "TX",
+          "postalCode": "78258"
+        },
+        "issues": [
+          "Hypertension",
+          "Hyperthyroidism",
+          "Right Knee Injury"
+        ],
+        "treatmentDateRange": [
+          {
+            "from": "2010-08-09",
+            "to": "2011-08-13"
+          }
+        ]
+      },
+      {
+        "providerFacilityName": "Provider Two",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "456 Elm Street",
+          "street2": "",
+          "city": "Madison",
+          "state": "WI",
+          "postalCode": "37676"
+        },
+        "issues": [
+          "Left Knee Instability",
+          "Seizures",
+          "Right Knee Injury"
+        ],
+        "treatmentDateRange": [
+          {
+            "from": "2013-03-13",
+            "to": "2014-03-14"
+          }
+        ]
+      },
+      {
+        "providerFacilityName": "Provider Three",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "678 Maple Ave",
+          "street2": "",
+          "city": "Montgomery",
+          "state": "AL",
+          "postalCode": "28783"
+        },
+        "issues": [
+          "Parkinson's",
+          "Hypertension",
+          "Impotence"
+        ],
+        "treatmentDateRange": [
+          {
+            "from": "2012-12-12",
+            "to": "2013-12-13"
+          }
+        ]
+      },
+      {
+        "providerFacilityName": "Provider Four",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "980 Sycamore Ln",
+          "street2": "",
+          "city": "Sacramento",
+          "state": "CA",
+          "postalCode": "90375"
+        },
+        "issues": [
+          "Hyperthyroidism",
+          "Right Knee Injury",
+          "Left Knee Instability"
+        ],
+        "treatmentDateRange": [
+          {
+            "from": "2014-02-03",
+            "to": "2016-02-05"
+          }
+        ]
+      }
+    ]
+  },
+  "additionalDocuments": [
+    {
+      "name": "content.pdf",
+      "size": 940985,
+      "confirmationCode": "6f01fa44-4228-446c-a80b-b2b91763f369",
+      "attachmentId": "L034",
+      "isEncrypted": false
+    },
+    {
+      "name": "content (1).pdf",
+      "size": 1159362,
+      "confirmationCode": "08c088d1-a7aa-474a-903e-9f9c0cfc4465",
+      "attachmentId": "L229",
+      "isEncrypted": false
+    },
+    {
+      "name": "2021-4142-Form.pdf",
+      "size": 1028976,
+      "confirmationCode": "d9254823-2154-43cc-934c-4f284533b320",
+      "attachmentId": "L139",
+      "isEncrypted": false
+    },
+    {
+      "name": "2018-4142-Form.pdf",
+      "size": 742917,
+      "confirmationCode": "e0b6ec0d-9978-424d-b39b-93ce82eafcd7",
+      "attachmentId": "L107",
+      "isEncrypted": false
+    }
+  ]
+}

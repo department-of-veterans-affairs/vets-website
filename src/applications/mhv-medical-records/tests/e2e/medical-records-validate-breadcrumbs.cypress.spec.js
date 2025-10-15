@@ -5,12 +5,18 @@ import allergies from './fixtures/allergies-multiple-pages.json';
 import allergyDetail from './fixtures/allergies-details-page-2.json';
 
 describe('Medical Records validate breadcrumbs', () => {
-  it('visits list pages and details pages, validates breadcrumbs', () => {
-    const site = new MedicalRecordsSite();
-    site.login();
-    site.loadPage();
+  const site = new MedicalRecordsSite();
 
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
+  beforeEach(() => {
+    site.login();
+  });
+
+  it('visits list pages and details pages, validates breadcrumbs', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
+
+    AllergiesListPage.goToAllergies(allergies);
     AllergiesListPage.verifyBreadcrumbs('Medical records');
     AllergiesListPage.loadVAPaginationNextAllergies();
     // navigate to allergies details page
