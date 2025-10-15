@@ -20,7 +20,7 @@ import {
 
 import { dateFormat } from '../util/helpers';
 import { selectRefillProgressFlag } from '../util/selectors';
-import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
+import { SESSION_SELECTED_PAGE_NUMBER, REFILL_STATUS } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -81,7 +81,7 @@ const RefillPrescriptions = () => {
     false,
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
-  const [refillStatus, setRefillStatus] = useState('notStarted');
+  const [refillStatus, setRefillStatus] = useState(REFILL_STATUS.NOT_STARTED);
 
   // Handle API errors from RTK Query
   const prescriptionsApiError = refillableError || bulkRefillError;
@@ -104,7 +104,7 @@ const RefillPrescriptions = () => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      setRefillStatus('inProgress');
+      setRefillStatus(REFILL_STATUS.IN_PROGRESS);
       window.scrollTo(0, 0);
 
       // Get just the prescription IDs for the bulk refill
@@ -112,9 +112,9 @@ const RefillPrescriptions = () => {
 
       try {
         await bulkRefillPrescriptions(prescriptionIds);
-        setRefillStatus('finished');
+        setRefillStatus(REFILL_STATUS.FINISHED);
       } catch (error) {
-        setRefillStatus('error');
+        setRefillStatus(REFILL_STATUS.ERROR);
       }
 
       // Log when user requests a refill (after the main refill logic)
