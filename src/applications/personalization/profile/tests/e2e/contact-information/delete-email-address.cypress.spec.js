@@ -26,6 +26,43 @@ const setup = () => {
   cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 };
 
+const mockSuccessResponse = (delay = 0) => {
+  // Mock DELETE request to return success response
+  cy.intercept('DELETE', '/v0/profile/email_addresses', {
+    statusCode: 200,
+    delay,
+    body: {
+      data: {
+        id: '',
+        type: 'async_transaction_va_profile_email_address_transactions',
+        attributes: {
+          transactionId: 'email_address_tx_id',
+          transactionStatus: 'RECEIVED',
+          type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+          metadata: [],
+        },
+      },
+    },
+  });
+
+  // Mock GET request to return success response for transaction status
+  cy.intercept('GET', '/v0/profile/status/email_address_tx_id', {
+    statusCode: 200,
+    body: {
+      data: {
+        id: 'email_address_tx_id',
+        type: 'async_transaction_va_profile_email_address_transactions',
+        attributes: {
+          transactionId: 'email_address_tx_id',
+          transactionStatus: 'COMPLETED_SUCCESS',
+          type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
+          metadata: [],
+        },
+      },
+    },
+  });
+};
+
 const removeEmailAddress = () => {
   // Click remove button for contact email
   cy.get('[data-field-name="email"]')
@@ -33,7 +70,7 @@ const removeEmailAddress = () => {
     .click();
 
   // Confirm delete in modal
-  cy.get('va-button[data-testid="confirm-remove-button"]').click();
+  cy.get('[data-testid="confirm-remove-button"]').click();
 };
 
 describe('Delete email address', () => {
@@ -46,7 +83,7 @@ describe('Delete email address', () => {
     cy.get('[data-field-name="email"]')
       .find('va-button[text="Remove"]')
       .click();
-    cy.get('va-button[data-testid="cancel-remove-button"]').click();
+    cy.get('[data-testid="cancel-remove-button"]').click();
     // Confirm modal closes & focus is on the Remove button
     cy.get('va-modal').should('not.exist');
     cy.get('[data-field-name="email"]')
@@ -62,6 +99,7 @@ describe('Delete email address', () => {
     // Mock DELETE request to return API error response
     cy.intercept('DELETE', '/v0/profile/email_addresses', {
       statusCode: 400,
+      delay: 1000, // to simulate loading state
       body: {
         data: {
           id: '',
@@ -78,55 +116,58 @@ describe('Delete email address', () => {
 
     // Open remove modal & click to confirm
     removeEmailAddress();
-    // Confirm modal closes & error alert appears
+    // Confirm the Remove button is in a loading state while the transaction is pending
+    cy.get('[data-testid="confirm-remove-button"]').should(
+      'have.attr',
+      'loading',
+    );
+    // Confirm modal closes & error alert appears with focus
     cy.get('va-modal').should('not.exist');
-    cy.contains(
-      'We couldn’t save your recent contact email address update. Please try again later.',
-    ).should('be.visible');
+    cy.get('[data-testid="generic-error-alert"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('should complete successfully', () => {
-    // Mock DELETE request to return success response
-    cy.intercept('DELETE', '/v0/profile/email_addresses', {
-      statusCode: 200,
-      body: {
-        data: {
-          id: '',
-          type: 'async_transaction_va_profile_email_adress_transactions',
-          attributes: {
-            transactionId: 'email_address_tx_id',
-            transactionStatus: 'RECEIVED',
-            type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-            metadata: [],
-          },
-        },
-      },
-    });
-
-    // Mock GET request to return success response for transaction status
-    cy.intercept('GET', '/v0/profile/status/email_address_tx_id', {
-      statusCode: 200,
-      body: {
-        data: {
-          id: 'email_address_tx_id',
-          type: 'async_transaction_va_profile_email_address_transactions',
-          attributes: {
-            transactionId: 'email_address_tx_id',
-            transactionStatus: 'COMPLETED_SUCCESS',
-            type: 'AsyncTransaction::VAProfile::EmailAddressTransaction',
-            metadata: [],
-          },
-        },
-      },
-    });
+    // Mock DELETE & GET transaction status 200 response
+    mockSuccessResponse();
 
     // Open remove modal & click to confirm
     removeEmailAddress();
-    // Confirm modal closes & success alert appears
+    // Confirm the Remove button is in a loading state while the transaction is pending
+    cy.get('[data-testid="confirm-remove-button"]').should(
+      'have.attr',
+      'loading',
+    );
+    // Confirm modal closes & success alert appears with focus
     cy.get('va-modal').should('not.exist');
-    cy.get('[data-testid="update-success-alert"]').should('be.visible');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should show loading indicator when modal is closed before transaction completes', () => {
+    // Mock DELETE & GET transaction status 200 response
+    mockSuccessResponse(2000);
+
+    // Open remove modal & click to confirm
+    removeEmailAddress();
+    // Confirm the Remove button is in a loading state while the transaction is pending
+    cy.get('[data-testid="confirm-remove-button"]').should(
+      'have.attr',
+      'loading',
+    );
+    // Close the modal while loading state is active
+    cy.get('va-modal')
+      .shadow()
+      .find('.va-modal-close')
+      .click();
+    // Confirm modal closes & loading indicator appears with focus
+    cy.get('va-modal').should('not.exist');
+    cy.get('[data-testid="loading-indicator"]').should('be.focused');
+    // Confirm loading indicator disappears & success alert appears with focus
+    cy.get('[data-testid="loading-indicator"]').should('not.exist');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });

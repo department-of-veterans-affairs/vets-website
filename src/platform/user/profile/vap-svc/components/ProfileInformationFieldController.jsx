@@ -144,6 +144,9 @@ class ProfileInformationFieldController extends React.Component {
           150, // Increased timeout so focus isn't set on an alert in the background
         );
       } else if (showErrorAlert || showUpdateSuccessAlert) {
+        // TODO: fix this so it only focuses on the alert if the modal is closed, because right now
+        // this overrides any focus on this address modals
+        // May need to prevent update success alert from displaying while modals are open
         // Focus on whichever alert is showing for the current field (success or error)
         waitForRenderThenFocus(
           `[data-field-name="${fieldName}"] va-alert`,
@@ -187,6 +190,18 @@ class ProfileInformationFieldController extends React.Component {
       // forceEditView will result in now standard edit button being rendered, so we don't want to focus on it
       // Success callback (non-address) after updating a field
       successCallback();
+    } else if (
+      ((!prevProps.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
+        (!prevProps.showErrorAlert && showErrorAlert)) &&
+      !this.props.showEditView &&
+      !this.props.showRemoveModal
+    ) {
+      // Success or error alert just appeared after modal was already closed
+      waitForRenderThenFocus(
+        `[data-field-name="${fieldName}"] va-alert`,
+        document,
+        50,
+      );
     }
   }
 
