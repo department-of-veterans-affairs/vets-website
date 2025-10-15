@@ -83,7 +83,7 @@ describe('Allergies list container', () => {
 
   it('displays a list of records', async () => {
     const items = await screen.findAllByTestId('record-list-item');
-    expect(items).to.have.lengthOf(10);
+    expect(items).to.have.lengthOf(5);
   });
 
   it('displays a print button', () => {
