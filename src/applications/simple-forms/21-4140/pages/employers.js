@@ -5,8 +5,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastDateRangeSchema,
+  currentOrPastDateRangeUI,
   textUI,
   textSchema,
   addressUI,
@@ -19,25 +19,25 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: false,
-  isItemIncomplete: item => !item?.employerName || !item?.employmentStartDate,
+  isItemIncomplete: item => !item?.employerName || !item?.employmentDates?.from,
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
     cardDescription: itemData => {
-      if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
+      if (itemData?.employmentDates?.from && itemData?.employmentDates?.to) {
         try {
-          const startDate = formatDateLong(itemData.employmentStartDate);
-          const endDate = formatDateLong(itemData.employmentEndDate);
+          const startDate = formatDateLong(itemData.employmentDates?.from);
+          const endDate = formatDateLong(itemData.employmentDates?.to);
           return `${startDate} to ${endDate}`;
         } catch (error) {
           // Fallback to raw dates if formatting fails
-          return `${itemData.employmentStartDate} to ${
-            itemData.employmentEndDate
+          return `${itemData.employmentDates?.from} to ${
+            itemData.employmentDates?.to
           }`;
         }
       }
@@ -127,30 +127,28 @@ const employmentDatesPage = {
           ? `Dates you were employed at ${formData.employerName}`
           : 'Employment dates',
     ),
-    employmentStartDate: {
-      ...currentOrPastDateUI({
+    employmentDates: currentOrPastDateRangeUI(
+      {
         title: 'Employment start date',
         errorMessages: {
           required: 'Enter start date of employment',
         },
-      }),
-    },
-    employmentEndDate: {
-      ...currentOrPastDateUI({
+      },
+      {
         title: 'Employment end date',
         errorMessages: {
           required: 'Enter end date of employment',
         },
-      }),
-    },
+      },
+      'End date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      employmentStartDate: currentOrPastDateSchema,
-      employmentEndDate: currentOrPastDateSchema,
+      employmentDates: currentOrPastDateRangeSchema,
     },
-    required: ['employmentStartDate', 'employmentEndDate'],
+    required: ['employmentDates'],
   },
 };
 

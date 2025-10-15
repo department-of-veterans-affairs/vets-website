@@ -148,4 +148,58 @@ describe('526 All Claims Private medical records', () => {
     });
     form.unmount();
   });
+
+  describe('confirmation page file name display', () => {
+    const confirmationField =
+      uiSchema.privateMedicalRecordAttachments['ui:confirmationField'];
+
+    it('displays uploaded file names for confirmation review', () => {
+      const mockFormData = [
+        { name: 'medical-record-1.pdf', attachmentId: 'L107' },
+        { name: 'lab-results.jpg', attachmentId: 'L107' },
+      ];
+      const result = confirmationField({ formData: mockFormData });
+      expect(result.data).to.deep.equal([
+        'medical-record-1.pdf',
+        'lab-results.jpg',
+      ]);
+      expect(result.label).to.equal('Private medical records');
+    });
+
+    it('uses fileName property as fallback when name is not available', () => {
+      const mockFormData = [
+        { fileName: 'scan.pdf', attachmentId: 'L107' },
+        { name: 'report.pdf', attachmentId: 'L107' },
+      ];
+      const result = confirmationField({ formData: mockFormData });
+      expect(result.data).to.deep.equal(['scan.pdf', 'report.pdf']);
+      expect(result.label).to.equal('Private medical records');
+    });
+
+    it('handles files with missing or empty names gracefully', () => {
+      const mockFormData = [
+        { attachmentId: 'L107' }, // No name or fileName
+        { name: '', attachmentId: 'L107' }, // Empty name
+        { name: 'valid-file.pdf', attachmentId: 'L107' },
+      ];
+      const result = confirmationField({ formData: mockFormData });
+      expect(result.data).to.deep.equal([
+        undefined,
+        undefined,
+        'valid-file.pdf',
+      ]);
+      expect(result.label).to.equal('Private medical records');
+    });
+
+    it('handles empty file list', () => {
+      const result = confirmationField({ formData: [] });
+      expect(result.data).to.deep.equal([]);
+      expect(result.label).to.equal('Private medical records');
+    });
+
+    it('handles missing file data safely', () => {
+      expect(confirmationField({ formData: null }).data).to.be.undefined;
+      expect(confirmationField({ formData: undefined }).data).to.be.undefined;
+    });
+  });
 });
