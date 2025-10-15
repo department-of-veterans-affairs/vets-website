@@ -23,6 +23,7 @@ class VAPServiceTransactionPending extends React.Component {
         label="Updating"
         message="Updating your information..."
         set-focus
+        data-testid="loading-indicator"
       />
     );
 

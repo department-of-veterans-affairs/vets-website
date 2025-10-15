@@ -85,7 +85,7 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .should(`be.visible`)
       .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
 
-    cy.get('va-alert[status="success"]').should('be.focused');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
 
     cy.get(Locators.SIGNATURE.GENERAL).should(
       `contain.text`,

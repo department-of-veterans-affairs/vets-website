@@ -5,16 +5,11 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
-import {
-  FIELD_TITLES,
-  FIELD_NAMES,
-  DEFAULT_ERROR_MESSAGE,
-} from '@@vap-svc/constants';
+import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
-import { getVaButtonByText } from 'applications/personalization/common/unitHelpers';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -38,11 +33,7 @@ function getVaButton(action, addressName) {
 function deleteAddress(addressName) {
   // delete
   getVaButton('Remove', addressName).click();
-  const confirmDeleteButton = getVaButtonByText(
-    'Yes, remove my information',
-    view,
-  );
-
+  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
   confirmDeleteButton.click();
 
   return { confirmDeleteButton };
@@ -58,18 +49,13 @@ async function testSlowSuccess(addressName) {
   // wait for the confirm removal modal to close
   await waitForElementToBeRemoved(confirmDeleteButton);
 
-  // assert the va-loading-indicator is shown
-  const loadingIndicator = view.container.querySelector('va-loading-indicator');
-  expect(loadingIndicator).to.exist;
-  expect(loadingIndicator).to.have.attribute(
-    'message',
-    'Updating your information...',
-  );
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionSucceeded);
 
   // update saved alert should appear
-  await view.findByText('Update saved.');
+  await view.findByTestId('update-success-alert');
 
   // the edit button should exist
   expect(getVaButton('Edit', addressName)).to.exist;
@@ -80,9 +66,8 @@ async function testTransactionCreationFails(addressName) {
   server.use(...mocks.createTransactionFailure);
   deleteAddress(addressName);
 
-  // assert the error alert appears
-  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
-  expect(error).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   expect(getVaButton('Edit', addressName)).to.exist;
 }
@@ -97,19 +82,13 @@ async function testSlowFailure(addressName) {
   // wait for the confirm removal modal to close
   await waitForElementToBeRemoved(confirmDeleteButton);
 
-  // assert the va-loading-indicator is shown
-  const loadingIndicator = view.container.querySelector('va-loading-indicator');
-  expect(loadingIndicator).to.exist;
-  expect(loadingIndicator).to.have.attribute(
-    'message',
-    'Updating your information...',
-  );
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  // assert the error alert appears
-  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
-  expect(error).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the edit button should be back
   expect(getVaButton('Edit', addressName)).to.exist;

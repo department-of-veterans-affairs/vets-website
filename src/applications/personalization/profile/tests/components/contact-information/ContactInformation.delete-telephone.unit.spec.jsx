@@ -4,16 +4,11 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'platform/testing/unit/msw-adapter';
 
-import {
-  FIELD_TITLES,
-  FIELD_NAMES,
-  DEFAULT_ERROR_MESSAGE,
-} from '@@vap-svc/constants';
+import { FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
-import { getVaButtonByText } from 'applications/personalization/common/unitHelpers';
 import {
   createBasicInitialState,
   renderWithProfileReducers,
@@ -37,10 +32,7 @@ function getVaButton(action, numberName) {
 function deletePhoneNumber(numberName) {
   // delete
   getVaButton('Remove', numberName).click();
-  const confirmDeleteButton = getVaButtonByText(
-    'Yes, remove my information',
-    view,
-  );
+  const confirmDeleteButton = view.getByTestId('confirm-remove-button');
   confirmDeleteButton.click();
 
   return { confirmDeleteButton };
@@ -54,7 +46,7 @@ async function testSuccess(numberName, shortNumberName) {
   server.use(...mocks.transactionSucceeded);
 
   // update saved alert should appear
-  await view.findByText('Update saved.');
+  await view.findByTestId('update-success-alert');
 
   // the edit phone number button should still exist
   expect(getVaButton('Edit', numberName)).to.exist;
@@ -68,9 +60,8 @@ async function testTransactionCreationFails(numberName) {
 
   deletePhoneNumber(numberName);
 
-  // assert the error alert appears
-  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
-  expect(error).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   expect(getVaButton('Edit', numberName)).to.exist;
 }
@@ -85,19 +76,13 @@ async function testSlowFailure(numberName) {
   // wait for the confirm removal modal to close
   await waitForElementToBeRemoved(confirmDeleteButton);
 
-  // assert the va-loading-indicator is shown
-  const loadingIndicator = view.container.querySelector('va-loading-indicator');
-  expect(loadingIndicator).to.exist;
-  expect(loadingIndicator).to.have.attribute(
-    'message',
-    'Updating your information...',
-  );
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  // assert the error alert appears
-  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
-  expect(error).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the add/edit button should be back
   expect(getVaButton('Edit', numberName)).to.exist;

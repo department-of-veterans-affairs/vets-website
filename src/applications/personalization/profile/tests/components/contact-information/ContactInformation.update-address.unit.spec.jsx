@@ -96,18 +96,13 @@ async function testSlowSuccess(addressName) {
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(cityInput);
 
-  // assert the va-loading-indicator is shown
-  const loadingIndicator = view.container.querySelector('va-loading-indicator');
-  expect(loadingIndicator).to.exist;
-  expect(loadingIndicator).to.have.attribute(
-    'message',
-    'Updating your information...',
-  );
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionSucceeded);
 
   // update saved alert should appear
-  await view.findByText('Update saved.');
+  await view.findByTestId('update-success-alert');
 
   // confirm that the new address appears
   expect(view.getAllByText(/123 Main St/i).length).to.equal(2);
@@ -178,19 +173,13 @@ async function testSlowFailure(addressName) {
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(cityInput);
 
-  // assert the va-loading-indicator is shown
-  const loadingIndicator = view.container.querySelector('va-loading-indicator');
-  expect(loadingIndicator).to.exist;
-  expect(loadingIndicator).to.have.attribute(
-    'message',
-    'Updating your information...',
-  );
+  // the va-loading-indicator should display
+  await view.findByTestId('loading-indicator');
 
   server.use(...mocks.transactionFailed);
 
-  // assert the error alert appears
-  const error = await view.findByText(DEFAULT_ERROR_MESSAGE);
-  expect(error).to.exist;
+  // the error alert should appear
+  await view.findByTestId('generic-error-alert');
 
   // and the edit button should be back
   expect(getEditVaButton(addressName)).to.exist;
