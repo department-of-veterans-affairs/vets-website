@@ -43,6 +43,12 @@ export default function useDirectLine(createDirectLine) {
       }
       return createDirectLine(options);
     },
-    [token, domain, isSessionPersistenceEnabled, conversationId],
+    [
+      token,
+      domain,
+      isSessionPersistenceEnabled,
+      conversationId,
+      createDirectLine,
+    ],
   );
 }
