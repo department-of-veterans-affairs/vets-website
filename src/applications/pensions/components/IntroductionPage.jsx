@@ -10,6 +10,9 @@ const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
 
+  // Mock flipper while we wait for merge
+  const pbbFormsRequireLoa3 = false;
+
   useEffect(
     () => {
       focusElement('va-breadcrumbs');
@@ -171,6 +174,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}

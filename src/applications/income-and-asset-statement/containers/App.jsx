@@ -22,8 +22,6 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
   const incomeAndAssetsContentUpdates = useToggleValue(
     TOGGLE_NAMES.incomeAndAssetsContentUpdates,
   );
-  // Mock flipper while we wait for merge
-  // const pbbFormsRequireLoa3 = true;
 
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading ?? false,

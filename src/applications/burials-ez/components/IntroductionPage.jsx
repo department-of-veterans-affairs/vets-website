@@ -9,6 +9,8 @@ const IntroductionPage = ({ route }) => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
 
+  const pbbFormsRequireLoa3 = true;
+
   return (
     <div className="schemaform-intro vads-u-margin-bottom--6">
       <FormTitle title="Apply for a Veterans burial allowance and transportation benefits" />
@@ -112,6 +114,7 @@ const IntroductionPage = ({ route }) => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         headingLevel={2}
         prefillEnabled={route.formConfig.prefillEnabled}
         pageList={route.pageList}
