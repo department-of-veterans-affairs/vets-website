@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
@@ -48,6 +48,16 @@ export default function App({ location, children }) {
     () => isLoadingFeatureFlags || isLoadingProfile,
     [isLoadingFeatureFlags, isLoadingProfile],
   );
+  const hasSavedForm = useMemo(
+    () =>
+      savedForms.some(
+        ({ form, metaData }) =>
+          form === formConfig.formId && !isExpired(metaData?.expiresAt),
+      ),
+    [savedForms],
+  );
+
+  const [routeChecked, setRouteChecked] = useState(false);
 
   document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
@@ -61,24 +71,24 @@ export default function App({ location, children }) {
   });
 
   // redirect to merged form if feature is active & user doesn't have an in-progress form
-  useEffect(
+  useLayoutEffect(
     () => {
       if (isAppLoading) return;
-      const hasSavedForm = savedForms.some(
-        ({ form, metaData }) =>
-          form === formConfig.formId && !isExpired(metaData?.expiresAt),
-      );
       if (isMergedFormEnabled && !hasSavedForm) {
-        window.location(getAppUrl('10-10d-extended'));
+        const targetUrl = getAppUrl('10-10d-extended');
+        window.location.replace(targetUrl);
+        return;
       }
+      setRouteChecked(true);
     },
-    [isAppLoading, isMergedFormEnabled, savedForms],
+    [hasSavedForm, isAppLoading, isMergedFormEnabled],
   );
 
   // Add Datadog RUM to the app
   useBrowserMonitoring();
 
-  return isAppLoading ? (
+  const showLoadingIndicator = isAppLoading || !routeChecked;
+  return showLoadingIndicator ? (
     <va-loading-indicator
       message="Loading application..."
       class="vads-u-margin-y--4"
