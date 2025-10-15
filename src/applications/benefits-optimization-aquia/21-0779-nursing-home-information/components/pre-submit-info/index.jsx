@@ -32,9 +32,11 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
     'Nursing Home Official': DEFAULT_SIGNATURE_STATE,
   });
 
+  const { nursingOfficialInformation = {} } = formData;
+
   // Get the official's name from form data
-  const officialName =
-    formData?.officialInfoAndSignature?.officialName || 'Official';
+  const officialName = `${nursingOfficialInformation?.firstName ||
+    ''} ${nursingOfficialInformation?.lastName || ''}`.trim();
 
   // Validate signature text is valid and checkbox is checked
   useEffect(
@@ -60,20 +62,27 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         ((dirty && !matches) || (!dirty && showError && !value));
 
       const statementText = [
-        `I, ${officialName}, certify and declare under penalty of perjury under the laws of the United States of America that the information I have provided in this form is true and correct.`,
-        'I understand that providing false or fraudulent information may result in criminal prosecution under 18 U.S.C. §§ 287, 1001.',
-        'I certify that the veteran or claimant named in this form is currently a patient in this nursing home and is receiving the level of care indicated.',
+        `I, ${officialName}, confirm that the identifying information in this form is accurate and has been represented correctly.`,
       ];
+
+      const federalLawNote = (
+        <p>
+          <strong>Note:</strong> According to federal law, there are criminal
+          penalties, including a fine and/or imprisonment for up to 5 years, for
+          withholding information or for providing incorrect information (See 18
+          U.S.C. 1001).
+        </p>
+      );
 
       return (
         <StatementOfTruthItem
-          fullName={officialName}
           hasCheckboxError={hasCheckboxError}
           hasInputError={hasInputError}
           label="Nursing Home Official"
           signature={signature}
           setSignatures={setSignatures}
           statementText={statementText}
+          additionalChildComponent={federalLawNote}
         />
       );
     },
@@ -82,15 +91,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <va-alert status="warning" show-icon class="vads-u-margin-bottom--4">
-        <h3 slot="headline">Certification required</h3>
-        <p>
-          This form must be certified by an authorized nursing home official. By
-          signing below, you certify that all information provided in this form
-          is accurate and complete.
-        </p>
-      </va-alert>
-
       <p
         id="nursing-home-statements-declaration"
         className="vads-u-margin-bottom--4"
@@ -102,12 +102,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       <div aria-describedby="nursing-home-statements-declaration">
         {statementOfTruth}
       </div>
-
-      <p className="vads-u-margin-top--4 vads-u-margin-bottom--6">
-        <strong>Note:</strong> This signature certifies all information provided
-        in VA Form 21-0779 and serves as the official certification required for
-        processing Aid and Attendance benefits.
-      </p>
     </div>
   );
 };
