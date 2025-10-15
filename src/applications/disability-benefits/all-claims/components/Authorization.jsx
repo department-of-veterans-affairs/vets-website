@@ -15,7 +15,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import { PrivacyActStatementContent } from './privacyActStatementContent';
 
-const AUTHORIZATION_LABEL =
+export const AUTHORIZATION_LABEL =
   'I acknowledge and authorize this release of information';
 
 const AUTH_ERROR =

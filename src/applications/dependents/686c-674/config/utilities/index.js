@@ -25,6 +25,7 @@ import {
   noV3Picklist,
   hasAwardedDependents,
   isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 } from './data';
 
 export {
@@ -54,4 +55,5 @@ export {
   noV3Picklist,
   hasAwardedDependents,
   isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 };

@@ -57,8 +57,10 @@ const options = {
           </li>
         </ul>
       ),
+    cancelAddTitle: 'Cancel adding this income source',
     cancelAddYes: 'Yes, cancel adding this income source',
     cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this income source',
     cancelEditYes: 'Yes, cancel editing this income source',
     cancelEditNo: 'No',
     cancelNo: 'No',

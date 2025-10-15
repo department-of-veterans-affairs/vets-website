@@ -9,7 +9,7 @@ const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/maximal.json');
+const mockMaxData = require('./e2e/fixtures/picklist.json');
 
 const returnUrl = '/options-selection/remove-active-dependents'; // '/review-and-submit';
 

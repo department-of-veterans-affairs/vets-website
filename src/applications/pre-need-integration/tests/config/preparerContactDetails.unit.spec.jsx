@@ -123,6 +123,7 @@ describe('Pre-need preparer contact details', () => {
       </Provider>,
     );
 
+    expect(form.find('va-text-input').length).to.equal(6);
     // Should have country and state selects for CAN
     // State field should be labeled as "Province"
     expect(form.find('va-select').length).to.equal(2);
@@ -185,7 +186,7 @@ describe('Pre-need preparer contact details', () => {
     );
 
     // Check for address text inputs (street, street2, city, postal, phone, email)
-    expect(form.find('input').length).to.equal(6);
+    expect(form.find('va-text-input').length).to.equal(6);
     form.unmount();
   });
 });

@@ -2,17 +2,18 @@ import {
   showV3Picklist,
   hasAwardedDependents,
   isRemovingDependents,
+  hasSelectedPicklistItems,
 } from '../utilities';
 
 import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
+import PicklistRemoveDependentFollowup from '../../components/PicklistRemoveDependentFollowup';
 
-import removeDependentPicklist from './picklist/removeDependentPicklist';
-
+// Remove dependents picklist page in optionSelection chapter
 export const removeDependentsPicklistOptions = {
   title: 'Manage dependents',
   path: 'options-selection/remove-active-dependents',
-  uiSchema: removeDependentPicklist.uiSchema,
-  schema: removeDependentPicklist.schema,
+  uiSchema: {},
+  schema: { type: 'object', properties: {} },
   CustomPage: PicklistRemoveDependents,
   CustomPageReview: null,
   depends: formData =>
@@ -21,10 +22,21 @@ export const removeDependentsPicklistOptions = {
     isRemovingDependents(formData),
 };
 
-export const removeDependentsPicklistPages = {
+// Remove dependents picklist chapter
+export const removeDependentsPicklistFollowupPages = {
   title: 'Remove dependents',
   pages: {
-    removeSpouseFollowup: {},
-    removeChildFollowup: {},
+    removeDependentFollowup: {
+      title: 'Removing dependents',
+      path: 'remove-dependent',
+      uiSchema: {},
+      schema: { type: 'object', properties: {} },
+      CustomPage: PicklistRemoveDependentFollowup,
+      CustomPageReview: null,
+      depends: formData =>
+        showV3Picklist(formData) &&
+        hasAwardedDependents(formData) &&
+        hasSelectedPicklistItems(formData),
+    },
   },
 };

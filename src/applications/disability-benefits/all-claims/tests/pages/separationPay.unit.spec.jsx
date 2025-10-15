@@ -23,9 +23,9 @@ describe('Separation Pay', () => {
       />,
     );
 
-    // Expect one question with two radio inputs
-    expect(form.find('.form-radio-buttons').length).to.equal(1);
-    expect(form.find('input').length).to.equal(2);
+    // Expect one VaRadio with two radio options
+    expect(form.find('VaRadio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 
@@ -103,8 +103,9 @@ describe('Separation Pay', () => {
       />,
     );
 
-    expect(form.find('.form-radio-buttons').length).to.equal(1);
-    expect(form.find('input').length).to.equal(3); // 2 radios + year input
+    expect(form.find('VaRadio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2); // Yes/No options
+    expect(form.find('input').length).to.equal(1); // year input
     expect(form.find('select').length).to.equal(1); // service branch
     form.unmount();
   });

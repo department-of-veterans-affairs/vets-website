@@ -19,8 +19,6 @@ const getStore = () =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
-      accredited_representative_portal_custom_login: true,
-      // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
       // eslint-disable-next-line camelcase
       accredited_representative_portal_help: true,

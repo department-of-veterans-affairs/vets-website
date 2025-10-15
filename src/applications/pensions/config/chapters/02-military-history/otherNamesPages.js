@@ -23,8 +23,10 @@ const options = {
         ? formatFullName(item.previousFullName)
         : undefined,
     summaryTitleWithoutItems: 'Other service names',
+    cancelAddTitle: 'Cancel adding this previous name',
     cancelAddYes: 'Yes, cancel adding this previous name',
     cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this previous name',
     cancelEditYes: 'Yes, cancel editing this previous name',
     cancelEditNo: 'No',
     cancelNo: 'No',
@@ -53,10 +55,6 @@ const summaryPage = {
       },
       {
         title: 'Do you have another previous name to report?',
-        labels: {
-          Y: 'Yes, I have another previous name to report',
-          N: 'No, I don’t have anymore previous names to report',
-        },
       },
     ),
   },

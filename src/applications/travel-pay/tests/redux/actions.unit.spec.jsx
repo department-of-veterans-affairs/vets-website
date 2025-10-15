@@ -8,6 +8,7 @@ import {
   getAppointmentData,
   submitMileageOnlyClaim,
 } from '../../redux/actions';
+import { stripTZOffset } from '../../util/dates';
 
 const mockAppt = {
   start: '2024-12-30T14:00:00Z',
@@ -152,7 +153,16 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.rejects(new Error('nope'));
 
-      await submitMileageOnlyClaim('2024-05-26T16:40:45.781Z')(mockDispatch);
+      // Create submission data from appointment data, just like SubmitFlowWrapper does
+      const submissionData = {
+        appointmentDateTime: stripTZOffset(mockAppt.localStartTime),
+        facilityStationNumber: mockAppt.location.id,
+        facilityName: mockAppt.location.attributes.name,
+        appointmentType: 'Other',
+        isComplete: false,
+      };
+
+      await submitMileageOnlyClaim(submissionData)(mockDispatch);
 
       expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
         .be.true;
@@ -164,7 +174,16 @@ describe('Redux - actions', () => {
       const mockDispatch = sinon.spy();
       apiStub.resolves({ claimId: '1234' });
 
-      await submitMileageOnlyClaim('2024-05-26T16:40:45.781Z')(mockDispatch);
+      // Create submission data from appointment data, just like SubmitFlowWrapper does
+      const submissionData = {
+        appointmentDateTime: stripTZOffset(mockAppt.localStartTime),
+        facilityStationNumber: mockAppt.location.id,
+        facilityName: mockAppt.location.attributes.name,
+        appointmentType: 'Other',
+        isComplete: false,
+      };
+
+      await submitMileageOnlyClaim(submissionData)(mockDispatch);
 
       expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
         .be.true;

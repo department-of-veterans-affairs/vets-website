@@ -6,6 +6,7 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPagePersonalization: true,
   mhvLandingPageShowShareMyHealthDataLink: true,
   mhvMilestone2ChangesEnabled: true,
+  mhvEmailConfirmation: true,
   travelPayPowerSwitch: true,
 });
 

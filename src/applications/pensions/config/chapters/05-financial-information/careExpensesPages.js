@@ -76,8 +76,10 @@ const options = {
           </li>
         </ul>
       ),
+    cancelAddTitle: 'Cancel adding this care expense',
     cancelAddYes: 'Yes, cancel adding this care expense',
     cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this care expense',
     cancelEditYes: 'Yes, cancel editing this care expense',
     cancelEditNo: 'No',
     cancelNo: 'No',
