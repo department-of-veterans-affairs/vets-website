@@ -193,10 +193,7 @@ describe('CDP - One Thing Per Page', () => {
           .as('resolveLink');
         cy.get('@resolveLink').should('contain', 'Resolve this debt');
         cy.get('@resolveLink').click();
-        cy.url().should(
-          'match',
-          /\/debt-balances\/[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\/resolve$/i,
-        );
+        cy.url().should('match', /\/debt-balances\/\d+\/resolve$/);
 
         cy.injectAxeThenAxeCheck();
       });
