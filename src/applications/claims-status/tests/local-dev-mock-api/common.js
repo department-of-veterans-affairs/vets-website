@@ -1,3 +1,5 @@
+const { format } = require('date-fns');
+
 // Helpers
 const createClaimPhaseDates = (claimDate, phaseType, previousPhases = {}) => ({
   phaseChangeDate: claimDate,
@@ -518,6 +520,53 @@ const baseClaims = [
           uploadStatus: 'QUEUED',
           vaNotifyStatus: null,
         },
+        {
+          acknowledgementDate: format(
+            new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+            'yyyy-MM-dd',
+          ),
+          claimId: 8,
+          createdAt: format(
+            new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+            'yyyy-MM-dd',
+          ),
+          deleteDate: null,
+          documentType:
+            'VA Form 21-4142 - Authorization To Disclose Information',
+          failedDate: format(new Date(Date.now()), 'yyyy-MM-dd'),
+          fileName: 'authorization-form-signed.pdf',
+          id: 132,
+          lighthouseUpload: true,
+          trackedItemId: 3,
+          trackedItemDisplayName: '21-4142',
+          uploadStatus: 'FAILED',
+          vaNotifyStatus: 'SENT',
+        },
+        {
+          acknowledgementDate: format(
+            new Date(Date.now() + 27 * 24 * 60 * 60 * 1000),
+            'yyyy-MM-dd',
+          ),
+          claimId: 8,
+          createdAt: format(
+            new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+            'yyyy-MM-dd',
+          ),
+          deleteDate: null,
+          documentType:
+            'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+          failedDate: format(
+            new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            'yyyy-MM-dd',
+          ),
+          fileName: 'my-car-claim-form.pdf',
+          id: 111,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'FAILED',
+          vaNotifyStatus: 'SENT',
+        },
       ],
       supportingDocuments: [
         createSupportingDocument(
@@ -533,6 +582,7 @@ const baseClaims = [
           name: 'Service connection for tinnitus',
         },
       ],
+      trackedItems: [],
     },
     false,
   ),

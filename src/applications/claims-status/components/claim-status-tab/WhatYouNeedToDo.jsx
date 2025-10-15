@@ -2,9 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { getFilesNeeded } from '../../utils/helpers';
 import FilesNeeded from '../claim-files-tab/FilesNeeded';
+import UploadType2ErrorAlert from '../UploadType2ErrorAlert';
 
 function WhatYouNeedToDo({ claim }) {
-  const { evidenceWaiverSubmitted5103, trackedItems } = claim.attributes;
+  const {
+    evidenceWaiverSubmitted5103,
+    trackedItems,
+    evidenceSubmissions,
+  } = claim.attributes;
 
   const filesNeeded = trackedItems
     ? // When user indicates they will not be submitting more evidence by adding a standard or automated 5103 waiver,
@@ -17,6 +22,10 @@ function WhatYouNeedToDo({ claim }) {
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
         What you need to do
       </h3>
+
+      {evidenceSubmissions.some(
+        submission => submission.uploadStatus === 'FAILED',
+      ) && <UploadType2ErrorAlert claim={claim} />}
 
       {filesNeeded.length === 0 && (
         <div className="no-documents">
