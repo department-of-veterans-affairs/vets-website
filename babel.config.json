@@ -41,6 +41,7 @@
       "module-resolver",
       {
         "root": "./src",
+        "extensions": [".js", ".jsx", ".json"],
         "alias": {
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
