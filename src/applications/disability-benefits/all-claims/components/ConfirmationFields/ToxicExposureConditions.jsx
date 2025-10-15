@@ -11,7 +11,7 @@ const ToxicExposureConditions = ({ formData }) => {
   const claimedKeys = Object.keys(teConditions).filter(
     key => key !== 'none' && teConditions[key] === true,
   );
-  const conditionsContainer = formData?.newDisabilities;
+  const conditionsContainer = formData?.newDisabilities || [];
   const finalList = conditionsContainer
     .filter(condition => claimedKeys.includes(sippableId(condition.condition)))
     .map(condition => condition.condition);
