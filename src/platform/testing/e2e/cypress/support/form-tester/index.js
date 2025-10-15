@@ -262,11 +262,6 @@ const captureValidationErrors = () => {
  */
 const processPage = ({ _13647Exception, stopTestAfterPath }) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
-    if (pathname.startsWith('/mock-simple-forms-patterns')) {
-      const _path = `the path about to be tested is....${pathname}`;
-      cy.task('log', _path);
-    }
-
     if (pathname.endsWith(stopTestAfterPath)) {
       return;
     }
@@ -758,8 +753,6 @@ const testForm = testConfig => {
         });
 
         it('fills the form', () => {
-          const app = testConfig.appName;
-          cy.task('log', `about to fill the form -- ${app}`);
           cy.visit(rootUrl).injectAxe();
 
           cy.get(LOADING_SELECTOR)
