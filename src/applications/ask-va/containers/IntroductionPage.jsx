@@ -124,10 +124,14 @@ const IntroductionPage = props => {
   const handleSearchByReferenceNumber = async () => {
     const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
     await getApiData(url);
-    const headingElement = document.querySelector(
-      '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
-    );
-    if (headingElement) headingElement.focus();
+
+    // Only run this in the browser where document exists
+    if (typeof document !== 'undefined') {
+      const headingElement = document.querySelector(
+        '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
+      );
+      if (headingElement) headingElement.focus();
+    }
   };
 
   const handleSearchInputChange = async e => {
@@ -138,23 +142,18 @@ const IntroductionPage = props => {
   };
 
   function questionStatus() {
-    // Always render both containers so tests can find them
     if (hasError) {
       return (
-        <>
-          <div data-testid="status-message">
-            {`We didn’t find a question with reference number "${searchReferenceNumber}"`}
-          </div>
-          <div className="vads-u-margin-y--3" data-testid="error-message">
-            <p tabIndex="-1">
-              We didn’t find a question with reference number "
-              <span className="vads-u-font-weight--bold">
-                {searchReferenceNumber}
-              </span>
-              "
-            </p>
-          </div>
-        </>
+        <div data-testid="status-message" className="vads-u-margin-y--3">
+          {/* ·· */}
+          <p tabIndex="-1" data-testid="error-message">
+            We didn’t find a question with reference number "
+            <span className="vads-u-font-weight--bold">
+              {searchReferenceNumber}
+            </span>
+            "
+          </p>
+        </div>
       );
     }
 

@@ -10,6 +10,27 @@ import IntroductionPage from '../../containers/IntroductionPage';
 import { mockInquiryStatusResponse } from '../../utils/mockData';
 import { getData } from '../fixtures/data/mock-form-data';
 import { createURLSearchParamsMock } from '../utils/test-utils';
+// Mock Blob for Node environment
+before(() => {
+  if (typeof Blob === 'undefined') {
+    global.Blob = class {
+      constructor(parts, options) {
+        this.parts = parts;
+        this.options = options;
+      }
+    };
+  }
+});
+// Mock document.querySelector to avoid Node errors
+before(() => {
+  if (typeof document === 'undefined') {
+    global.document = {
+      querySelector: () => ({
+        focus: () => {},
+      }),
+    };
+  }
+});
 
 describe('IntroductionPage', () => {
   let sandbox;
