@@ -127,7 +127,7 @@ describe('Medications Prescriptions container', () => {
       },
     });
 
-    expect(await screen.findByTestId('alert-banner')).to.exist;
+    expect(await screen.findByTestId('mhv-rx--delayed-refill-alert')).to.exist;
     expect(await screen.findByTestId('rxDelay-alert-message')).to.exist;
   });
 
@@ -152,7 +152,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     await waitFor(() => {
-      expect(screen.queryByTestId('alert-banner')).not.to.exist;
+      expect(screen.queryByTestId('mhv-rx--delayed-refill-alert')).not.to.exist;
       expect(screen.queryByTestId('rxDelay-alert-message')).not.to.exist;
     });
   });

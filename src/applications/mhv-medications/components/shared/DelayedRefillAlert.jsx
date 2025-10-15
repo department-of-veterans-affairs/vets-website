@@ -20,11 +20,9 @@ const DelayedRefillAlert = props => {
     <VaAlert
       status="warning"
       visible
-      uswds
       className="vads-u-margin-bottom--3"
-      data-testid="alert-banner"
+      data-testid="mhv-rx--delayed-refill-alert"
       data-dd-privacy="mask"
-      slim={false}
     >
       <h2 slot="headline" data-testid="rxDelay-alert-message">
         Some refills are taking longer than expected
