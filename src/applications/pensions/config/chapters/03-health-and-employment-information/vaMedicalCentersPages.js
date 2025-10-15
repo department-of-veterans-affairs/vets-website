@@ -19,6 +19,8 @@ const options = {
   text: {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from VA medical centers',
+    alertItemUpdated: 'Your VA medical center information has been updated',
+    alertItemDeleted: 'Your VA medical center information has been deleted',
     cancelAddTitle: 'Cancel adding this VA medical center',
     cancelAddYes: 'Yes, cancel adding this VA medical center',
     cancelAddNo: 'No',

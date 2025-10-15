@@ -70,6 +70,8 @@ const options = {
     getItemName: item =>
       item.fullName ? formatFullName(item.fullName) : undefined,
     summaryTitleWithoutItems: 'Dependent children',
+    alertItemUpdated: 'Your dependents information has been updated',
+    alertItemDeleted: 'Your dependents information has been deleted',
     cancelAddTitle: 'Cancel adding this dependent child',
     cancelAddYes: 'Yes, cancel adding this dependent child',
     cancelAddNo: 'No',
