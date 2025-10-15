@@ -2,16 +2,17 @@ import {
   titleUI,
   fullNameSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { benefitsIntakeFullNameUI } from './helpers';
+import { prefixedFullNameUI } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Claimant information',
-  path: 'applicant/claimant/information',
-  depends: formData => formData.claimantNotVeteran === true,
+  // depends: formData => formData.claimantNotVeteran === true,
   uiSchema: {
-    ...titleUI('Claimant information'),
-    claimantFullName: benefitsIntakeFullNameUI(),
+    ...titleUI(
+      'Your information',
+      'You aren’t required to fill in all fields, but we can review your application faster if you provide more information.',
+    ),
+    claimantFullName: prefixedFullNameUI({ label: 'Your' }),
   },
   schema: {
     type: 'object',

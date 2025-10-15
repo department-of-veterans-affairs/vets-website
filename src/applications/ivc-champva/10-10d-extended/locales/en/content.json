@@ -1,5 +1,20 @@
 {
+  "address-selection--page-title": "address",
+  "address-selection--page-description": "We\u2019ll send any important information about this claim to this address.",
+  "address-selection--label-text": "have the same mailing address as one previously entered in this application?",
+  "address-selection--prompt-third": "Does the",
+  "address-selection--prompt-second": "Do you",
+  "address-selection--no-option": "No, use a new address",
+  "address-selection--yes-option": "Yes, use",
+  "address-selection--update-aria-label": "Update address",
+  "button--edit": "Edit",
+  "button--update-page": "Update page",
+  "error--required": "You must provide a response",
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
-  "form-start-text": "Start the form"
+  "form-start-text": "Start the form",
+  "noun--applicant": "applicant",
+  "noun--veteran-singular": "Veteran",
+  "noun--veteran-possessive": "Veteran\u2019s",
+  "review--no-option": "No"
 }

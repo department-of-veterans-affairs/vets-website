@@ -1,6 +1,8 @@
 // TODO: Replace with our version of scheme when ready.
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import * as address from '@department-of-veterans-affairs/platform-forms-system/address';
+import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { merge } from 'lodash';
 
 export const {
   spouseDateOfBirth,
@@ -39,4 +41,37 @@ export const defaultDefinitions = {
   expectedIncome,
   netWorth,
   benefitsIntakeFullName,
+};
+
+export const prefixedFullNameUI = ({ label, hint }) =>
+  merge({}, fullNameUI(title => `${label} ${title}`), {
+    first: {
+      'ui:options': {
+        hint,
+      },
+    },
+  });
+
+export const fullNameNotRequired = {
+  type: 'object',
+  properties: {
+    first: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+    middle: {
+      type: 'string',
+      maxLength: 30,
+    },
+    last: {
+      type: 'string',
+      minLength: 1,
+      maxLength: 30,
+    },
+    suffix: {
+      type: 'string',
+      enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
+    },
+  },
 };

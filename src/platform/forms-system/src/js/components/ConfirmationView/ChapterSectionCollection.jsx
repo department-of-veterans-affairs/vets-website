@@ -267,6 +267,9 @@ export const buildFields = (
 
     const fields = Object.entries(page.uiSchema).flatMap(
       ([uiSchemaKey, uiSchemaValue]) => {
+        if (['ratedDisabilities', 'newDisabilities'].includes(uiSchemaKey)) {
+          return []; // Skip rendering these fields
+        }
         const data = formData?.[uiSchemaKey];
         return fieldEntries(
           uiSchemaKey,

@@ -1,18 +1,66 @@
-import set from 'platform/utilities/data/set';
-import get from 'platform/utilities/data/get';
+import {
+  validateNameSymbols,
+  validateEmpty,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaTextInputField,
+  VaSelectField,
+} from 'platform/forms-system/src/js/web-component-fields';
 
-import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
-
-import { validateBenefitsIntakeName } from '../../../utils/validation';
-
-export const benefitsIntakeFullNameUI = (formatTitle, uiOptions = {}) => {
-  let uiSchema = fullNameUI(formatTitle, uiOptions);
-  ['first', 'last'].forEach(part => {
-    const validations = [
-      ...get([part, 'ui:validations'], uiSchema),
-      validateBenefitsIntakeName,
-    ];
-    uiSchema = set(`${part}.ui:validations`, validations, uiSchema);
-  });
-  return uiSchema;
+export const conditionalVeteranNameUI = (formatTitle, uiOptions = {}) => {
+  return {
+    'ui:validations': [validateEmpty],
+    first: {
+      'ui:title': formatTitle ? formatTitle('first name') : 'First name',
+      'ui:autocomplete': 'given-name',
+      'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateNameSymbols],
+      'ui:errorMessages': {
+        required: 'Please enter a first name',
+      },
+      'ui:required': formData => formData?.claimantNotVeteran === true,
+      'ui:options': {
+        uswds: true,
+        hideIf: formData => formData.claimantNotVeteran === false,
+        ...uiOptions,
+      },
+    },
+    middle: {
+      'ui:title': formatTitle ? formatTitle('middle name') : 'Middle name',
+      'ui:webComponentField': VaTextInputField,
+      'ui:autocomplete': 'additional-name',
+      'ui:validations': [validateNameSymbols],
+      'ui:options': {
+        uswds: true,
+        hideIf: formData => formData.claimantNotVeteran === false,
+        ...uiOptions,
+      },
+    },
+    last: {
+      'ui:title': formatTitle ? formatTitle('last name') : 'Last name',
+      'ui:autocomplete': 'family-name',
+      'ui:webComponentField': VaTextInputField,
+      'ui:validations': [validateNameSymbols],
+      'ui:errorMessages': {
+        required: 'Please enter a last name',
+      },
+      'ui:required': formData => formData?.claimantNotVeteran === true,
+      'ui:options': {
+        uswds: true,
+        hideIf: formData => formData.claimantNotVeteran === false,
+        ...uiOptions,
+      },
+    },
+    suffix: {
+      'ui:title': formatTitle ? formatTitle('suffix') : 'Suffix',
+      'ui:autocomplete': 'honorific-suffix',
+      'ui:webComponentField': VaSelectField,
+      'ui:options': {
+        widgetClassNames: 'form-select-medium',
+        uswds: true,
+        hideIf: formData => formData.claimantNotVeteran === false,
+        ...uiOptions,
+      },
+    },
+  };
 };
