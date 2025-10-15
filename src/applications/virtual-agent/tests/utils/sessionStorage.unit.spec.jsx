@@ -9,14 +9,12 @@ import {
   getLoggedInFlow,
   getRecentUtterances,
   getTokenKey,
-  getFirstConnection,
   setConversationIdKey,
   setInAuthExp,
   setIsTrackingUtterances,
   setLoggedInFlow,
   setRecentUtterances,
   setTokenKey,
-  setFirstConnection,
   storeUtterances,
 } from '../../utils/sessionStorage';
 
@@ -27,19 +25,7 @@ describe('sessionStorage', () => {
     sandbox = sinon.sandbox.create();
   });
 
-  describe('firstConnection', () => {
-    it('should set and get first-connection flag as a string', () => {
-      setFirstConnection('false');
-      const result = getFirstConnection();
-      expect(result).to.equal('false');
-    });
-
-    it('should use the prefixed key for first-connection', () => {
-      setFirstConnection('false');
-      const raw = sessionStorage.getItem('va-bot.firstConnection');
-      expect(raw).to.equal('false');
-    });
-  });
+  // firstConnection helpers removed; key retained for backward compatibility
 
   afterEach(() => {
     sandbox.restore();
@@ -172,13 +158,13 @@ describe('sessionStorage', () => {
       expect(itemToNotClear).to.be.equal('strawberry');
     });
 
-    it('should preserve FIRST_CONNECTION, CONVERSATION_ID_KEY, and TOKEN_KEY by default and clear other keys', () => {
+    it('should preserve firstConnection (raw), conversationId and token by default and clear other keys', () => {
       // Ensure default clearing path triggers (both not 'true')
       sessionStorage.removeItem('va-bot.loggedInFlow');
       sessionStorage.removeItem('va-bot.inAuthExperience');
 
       // Set critical keys (should persist)
-      setFirstConnection('false');
+      sessionStorage.setItem('va-bot.firstConnection', 'false');
       setConversationIdKey('abc');
       setTokenKey('def');
 
@@ -189,7 +175,9 @@ describe('sessionStorage', () => {
       clearBotSessionStorage(false);
 
       // Critical keys remain
-      expect(getFirstConnection()).to.equal('false');
+      expect(sessionStorage.getItem('va-bot.firstConnection')).to.equal(
+        'false',
+      );
       expect(getConversationIdKey()).to.equal('abc');
       expect(getTokenKey()).to.equal('def');
 

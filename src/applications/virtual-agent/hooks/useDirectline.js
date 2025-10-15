@@ -1,10 +1,6 @@
-import { useEffect, useMemo } from 'react';
-import {
-  getConversationIdKey,
-  getFirstConnection,
-  getTokenKey,
-  setFirstConnection,
-} from '../utils/sessionStorage';
+import { useMemo } from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { getConversationIdKey, getTokenKey } from '../utils/sessionStorage';
 
 const getDirectLineDomain = () =>
   process.env.USE_LOCAL_DIRECTLINE
@@ -19,29 +15,40 @@ const getDirectLineDomain = () =>
 //   watermark=0 to request full transcript.
 export default function useDirectLine(createDirectLine) {
   const token = getTokenKey();
-  const firstConnection = getFirstConnection();
   const domain = getDirectLineDomain();
-  const isLocal = !!process.env.USE_LOCAL_DIRECTLINE;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
 
-  const conversationId = isLocal ? getConversationIdKey() : '';
-
-  // Mark that we've connected once for subsequent reloads
-  useEffect(() => {
-    setFirstConnection('false');
-  }, []);
+  // Always capture the conversationId from the token endpoint so the socket
+  // attaches to the correct conversation. Replay remains gated by watermark
+  // below.
+  const conversationId = getConversationIdKey();
 
   // Intentionally keep an empty dependency array to avoid recreating the DirectLine
   // connection on re-renders. We capture the initial token/domain/conversationId at
   // mount time to drive the desired reconnect behavior.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(() => {
-    const options = { token, domain };
-    if (isLocal && conversationId) {
-      options.conversationId = conversationId;
-      if (firstConnection === 'false') {
-        options.watermark = '0'; // local replay only after first mount
+  // Intentionally keep a stable DirectLine instance across renders
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(
+    () => {
+      const options = { token, domain };
+      if (conversationId) {
+        options.conversationId = conversationId;
       }
-    }
-    return createDirectLine(options);
-  }, []);
+      if (isSessionPersistenceEnabled) {
+        options.watermark = '0';
+      }
+      return createDirectLine(options);
+    },
+    [
+      token,
+      domain,
+      isSessionPersistenceEnabled,
+      conversationId,
+      createDirectLine,
+    ],
+  );
 }

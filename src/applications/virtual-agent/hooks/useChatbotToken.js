@@ -1,5 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { useEffect, useState } from 'react';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import { logErrorToDatadog } from '../utils/logging';
 import retryOnce from '../utils/retryOnce';
@@ -11,7 +12,7 @@ import {
   setTokenKey,
 } from '../utils/sessionStorage';
 
-async function getToken(setToken, setCode, setLoadingStatus) {
+async function getToken(setToken, setCode, setLoadingStatus, forceNew = false) {
   try {
     const response = await retryOnce(() => {
       return apiRequest('/chatbot/token', {
@@ -19,16 +20,15 @@ async function getToken(setToken, setCode, setLoadingStatus) {
       });
     });
 
-    // Only store new values if not already present (reuse across reloads)
-    const conversationId = getConversationIdKey();
-    const tokenKey = getTokenKey();
-    if (!conversationId || !tokenKey) {
+    // Overwrite when forced (non-persist mode) otherwise reuse if present
+    const existingConversationId = getConversationIdKey();
+    const existingToken = getTokenKey();
+    if (forceNew || !existingConversationId || !existingToken) {
       setConversationIdKey(response.conversationId);
       setTokenKey(response.token);
       setToken(response.token);
     } else {
-      // We already had a token; prefer the existing one for continuity
-      setToken(tokenKey);
+      setToken(existingToken);
     }
     setCode(response.code);
     setLoadingStatus(COMPLETE);
@@ -43,23 +43,35 @@ export default function useChatbotToken() {
   const [token, setToken] = useState('');
   const [code, setCode] = useState('');
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isSessionPersistenceEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled,
+  );
 
-  useEffect(() => {
-    // Intentionally run once on mount: prevents duplicate fetches on re-renders
-    clearBotSessionStorage();
+  useEffect(
+    () => {
+      // Intentionally run once on mount: prevents duplicate fetches on re-renders
+      clearBotSessionStorage();
 
-    // Reuse existing token/conversationId if present
-    const existingConversationId = getConversationIdKey();
-    const existingToken = getTokenKey();
-    if (existingConversationId && existingToken) {
-      setToken(existingToken);
-      setLoadingStatus(COMPLETE);
-      return;
-    }
+      // When persistence is OFF, force fresh token/conversationId.
+      if (!isSessionPersistenceEnabled) {
+        getToken(setToken, setCode, setLoadingStatus, true);
+        return;
+      }
 
-    // Otherwise, fetch and store new values
-    getToken(setToken, setCode, setLoadingStatus);
-  }, []);
+      // When persistence is ON, reuse if present; else fetch new
+      const existingConversationId = getConversationIdKey();
+      const existingToken = getTokenKey();
+      if (existingConversationId && existingToken) {
+        setToken(existingToken);
+        setLoadingStatus(COMPLETE);
+        return;
+      }
+
+      getToken(setToken, setCode, setLoadingStatus);
+    },
+    [isSessionPersistenceEnabled],
+  );
 
   return { token, code, loadingStatus };
 }

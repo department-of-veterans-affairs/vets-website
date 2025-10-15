@@ -467,6 +467,10 @@ describe('actions', () => {
       };
 
       const processCSATStub = sandbox.stub(ProcessCSATModule, 'default');
+      const originalRAF = window.requestAnimationFrame;
+      const originalGlobalRAF = global.requestAnimationFrame;
+      window.requestAnimationFrame = cb => cb();
+      global.requestAnimationFrame = cb => cb();
 
       processIncomingActivity({
         action,
@@ -474,6 +478,8 @@ describe('actions', () => {
       })();
 
       expect(processCSATStub.calledOnce).to.be.true;
+      window.requestAnimationFrame = originalRAF;
+      global.requestAnimationFrame = originalGlobalRAF;
     });
 
     it('should not call processCSAT when activity is not CSATSurveyResponse', () => {
