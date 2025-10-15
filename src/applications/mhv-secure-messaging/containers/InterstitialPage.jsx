@@ -50,7 +50,7 @@ const InterstitialPage = props => {
         case 'draft':
           return 'Continue to draft';
         default:
-          return 'Start a new message';
+          return 'Continue to start message';
       }
     },
     [type],
@@ -78,21 +78,28 @@ const InterstitialPage = props => {
           Your care team may take up to <strong>3 business days</strong> to
           reply.
         </p>
-
-        <va-link-action
-          href={
-            mhvSecureMessagingCuratedListFlow
-              ? `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`
-              : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
-          }
-          onClick={handleContinueButton}
-          text={continueButtonText}
-          type="primary"
-          data-testid="start-message-link"
-          data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
-        />
-
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
+        {mhvSecureMessagingCuratedListFlow ? (
+          <va-link-action
+            href={
+              mhvSecureMessagingCuratedListFlow
+                ? `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`
+                : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
+            }
+            onClick={handleContinueButton}
+            text={continueButtonText}
+            type="primary"
+            data-testid="start-message-link"
+            data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
+          />
+        ) : (
+          <va-button
+            text={continueButtonText}
+            data-testid="continue-button"
+            onClick={handleContinueButton}
+            data-dd-action-name={`${continueButtonText} button on Interstitial Page`}
+          />
+        )}
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--3 vads-u-margin-bottom--2">
           If you need help sooner, use one of these urgent communications
           options:
         </h2>
