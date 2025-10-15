@@ -187,11 +187,13 @@ const IntroductionPage = ({ route }) => {
               ownership:
             </strong>{' '}
             Email your completed PDF to your State Approving Agency (SAA). If
-            you need help finding their email address,
+            you need help finding their email address,{' '}
             <va-link
-              text=" search the SAA contact directory (opens in a new tab)."
+              text="search the SAA contact directory"
               href="https://nasaa-vetseducation.com/nasaa-contacts/"
+              external
             />
+            .
           </p>
         </va-process-list-item>
       </va-process-list>

@@ -5,6 +5,7 @@ import { getListWithRetry } from '../../actions/common';
 
 describe('getListWithRetry', () => {
   let callCount = 0;
+  let clock;
 
   const mockedGetListNoRetry = () => {
     callCount += 1;
@@ -21,8 +22,18 @@ describe('getListWithRetry', () => {
     callCount = 0;
   });
 
+  afterEach(() => {
+    if (clock) {
+      clock.restore();
+      clock = null;
+    }
+  });
+
   it('returns success immediately and dispatches no actions', async () => {
+    clock = sinon.useFakeTimers({ toFake: ['Date', 'setTimeout'] });
     const mockDispatch = sinon.spy();
+    const startTime = Date.now();
+
     let result = null;
     try {
       result = await getListWithRetry(
@@ -30,7 +41,7 @@ describe('getListWithRetry', () => {
         mockedGetListNoRetry,
         1,
         20,
-        Date.now() + 10,
+        startTime + 100,
       );
     } catch (error) {
       expect.fail('Function should not have thrown an error');
@@ -41,25 +52,40 @@ describe('getListWithRetry', () => {
   });
 
   it('times out if success is not returned quickly enough', async () => {
+    // Use fake timers to control Date.now() only, let setTimeout run naturally
+    clock = sinon.useFakeTimers({
+      now: new Date('2024-01-01T00:00:00Z').getTime(),
+      toFake: ['Date'],
+    });
     const mockDispatch = sinon.spy();
+    const startTime = Date.now();
+    // Set timeout to 30ms - with 20ms retry delays, the function will timeout after first retry
+    const endTime = startTime + 30;
+
+    let caughtError = null;
     try {
-      await getListWithRetry(
-        mockDispatch,
-        mockedGetListRetry,
-        1,
-        20,
-        Date.now() + 10,
-      );
+      // Advance clock past the timeout before the function even checks
+      clock.tick(35);
+      await getListWithRetry(mockDispatch, mockedGetListRetry, 1, 20, endTime);
       expect.fail('Function should have thrown an error due to timeout');
     } catch (error) {
-      expect(error).to.exist;
-      expect(error.message).to.eq('Timed out while waiting for response');
-      expect(callCount).to.be.lessThan(3);
+      caughtError = error;
     }
+
+    expect(caughtError).to.exist;
+    expect(caughtError.message).to.eq('Timed out while waiting for response');
+    // Should timeout during retries
+    expect(callCount).to.be.lessThan(3);
   });
 
   it('retries several times before returning successfully', async () => {
+    clock = sinon.useFakeTimers({
+      now: new Date('2024-01-01T00:00:00Z').getTime(),
+      toFake: ['Date'],
+    });
     const mockDispatch = sinon.spy();
+    const startTime = Date.now();
+
     let result = null;
     try {
       result = await getListWithRetry(
@@ -67,11 +93,12 @@ describe('getListWithRetry', () => {
         mockedGetListRetry,
         1,
         20,
-        Date.now() + 50,
+        startTime + 100,
       );
     } catch (error) {
       expect.fail('Function should not have thrown an error');
     }
+
     expect(result).to.equal('success');
     expect(callCount).to.equal(3);
     expect(
