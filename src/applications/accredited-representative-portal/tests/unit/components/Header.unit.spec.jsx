@@ -21,8 +21,6 @@ const getStore = () =>
       // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
       // eslint-disable-next-line camelcase
-      accredited_representative_portal_help: true,
-      // eslint-disable-next-line camelcase
       accredited_representative_portal_profile: true,
     },
   }));
