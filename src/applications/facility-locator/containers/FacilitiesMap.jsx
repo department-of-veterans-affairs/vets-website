@@ -11,6 +11,7 @@ import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 
 // Components
 import Alert from '../components/Alert';
+import CommunityCareWarningBanner from '../components/CommunityCareWarningBanner';
 import ControlResultsHolder from '../components/ControlResultsHolder';
 import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
 import EmergencyCareAlert from '../components/EmergencyCareAlert';
@@ -927,13 +928,7 @@ const FacilitiesMap = props => {
           type.
         </p>
       )}
-      {props.showNonVACareWarningBanner && (
-        <Alert
-          displayType="warning"
-          title="What to know about community health care facilities"
-          description="If you go to a community care facility, call first to confirm they can provide the care you need. Because facilities may move or experience other changes, we may not always have the most current information."
-        />
-      )}
+      <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
       {mapboxTokenValid && otherToolsLink()}
     </>
@@ -948,7 +943,7 @@ const mapStateToProps = state => ({
   resultTime: state.searchResult.resultTime,
   results: state.searchResult.results,
   searchError: state.searchResult.error,
-  showNonVACareWarningBanner: showFacilityLocatorNoticeAboutNonVACare(state),
+  showCommunityCareBanner: showFacilityLocatorNoticeAboutNonVACare(state),
   specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
