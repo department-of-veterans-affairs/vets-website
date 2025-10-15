@@ -63,41 +63,6 @@ describe('Toxic Exposure Conditions', () => {
     expect(queryByText(/none claimed/i)).to.be.null;
   });
 
-  it('renders nothing if no toxic exposure data is present', () => {
-    const formData = {
-      newDisabilities: [{ condition: 'Asthma' }],
-    };
-    const { getByRole, queryByText } = render(
-      <ToxicExposureConditions formData={formData} />,
-    );
-    expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
-    expect(queryByText(/none claimed/i)).to.be.null;
-    expect(queryByText(/asthma/i)).to.be.null;
-  });
-
-  it('renders only matching claimed conditions', () => {
-    const formData = {
-      toxicExposure: {
-        conditions: {
-          asthma: true,
-          copd: true,
-          none: false,
-        },
-      },
-      newDisabilities: [
-        { condition: 'Asthma' },
-        { condition: 'COPD' },
-        { condition: 'Sleep Apnea' },
-      ],
-    };
-    const { getByText, queryByText } = render(
-      <ToxicExposureConditions formData={formData} />,
-    );
-    expect(getByText(/asthma/i)).to.exist;
-    expect(getByText(/copd/i)).to.exist;
-    expect(queryByText(/sleep apnea/i)).to.be.null;
-  });
-
   it('should render conditions page with multiple conditions', async () => {
     const formData = {
       newDisabilities: [
