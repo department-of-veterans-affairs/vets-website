@@ -621,6 +621,38 @@ describe('RouteLeavingGuard component', () => {
       expect(screen.history.location.pathname).to.equal(`/thread/${messageId}`);
     });
 
+    it('allows navigation to recent care teams path for compose type', async () => {
+      const navigationError = {
+        title: 'Navigation Test',
+        p1: 'Should not see this',
+        confirmButtonText: 'Leave',
+        cancelButtonText: 'Stay',
+      };
+
+      // Set up component with type='compose' starting at an allowed path
+      const screen = setup(
+        { type: 'compose' },
+        { navigationError },
+        '/new-message/select-care-team',
+      );
+
+      const modal = screen.getByTestId('navigation-warning-modal');
+      expect(modal.getAttribute('visible')).to.equal('false');
+
+      // Navigate to recent care teams path - should be allowed
+      act(() => {
+        screen.history.push('/new-message/recent');
+      });
+
+      await waitFor(() => {
+        // Modal should still not be visible because navigation was allowed
+        expect(modal.getAttribute('visible')).to.equal('false');
+      });
+
+      // Verify we navigated successfully
+      expect(screen.history.location.pathname).to.equal('/new-message/recent');
+    });
+
     it('tests allowed paths logic without navigation for reply type', () => {
       // This test verifies the allowed paths logic without relying on React Router navigation
       const navigationError = {

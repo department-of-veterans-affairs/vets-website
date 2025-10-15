@@ -2,7 +2,7 @@ import React from 'react';
 
 export function llmAlert({ formContext }) {
   // Early return if feature toggle is disabled
-  if (!formContext?.data?.champvaClaimsLlmValidation) return <></>;
+  if (!formContext?.data?.['view:champvaClaimsLlmValidation']) return <></>;
 
   // Get this page's upload key (e.g., medicalUpload)
   const currentFileFieldKey = Object.keys(

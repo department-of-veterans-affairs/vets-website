@@ -74,7 +74,6 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
   EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_UPLOAD_URL,
-  SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
@@ -104,8 +103,6 @@ import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../shared/utils/issues';
-
-import { clearRedirect } from '../utils/toggle';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -171,7 +168,6 @@ const formConfig = {
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
           scrollAndFocusTarget: focusAlertOrRadio,
-          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',
@@ -272,19 +268,16 @@ const formConfig = {
           scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaPrompt: {
-          title: 'Request VA medical records',
+          title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
           uiSchema: evidenceVaPrompt.uiSchema,
           schema: evidenceVaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaDetails: {
-          title: 'VA medical records',
+          title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
           depends: hasVAEvidence,
-          appStateSelector: state => ({
-            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
-          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
           uiSchema: evidenceVaDetails.uiSchema,
