@@ -20,6 +20,12 @@
 .vads-u-max-width--90 {
   max-width: 90% !important;
 }
+.icon-action {
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-success-dark);
+  border-radius: 50%;
+  margin-right: var(--vads-spacing-1);
+}
 .icon-color--warning {
   color: var(--vads-color-orange);
 }

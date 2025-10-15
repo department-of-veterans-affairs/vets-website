@@ -69,8 +69,14 @@ const HowDoIPay = ({ userData }) => {
         >
           <ul>
             <li>
-              <strong>File Number</strong> is your VA claim number. This field
-              must be 8 or 9 characters long.
+              <strong>
+                {userData.receivableId ? 'Receivable ID' : 'File Number'}
+              </strong>{' '}
+              {userData.receivableId
+                ? `is a 9-15 digit debt-specific ID number unique to
+              your education debt, providing enhanced security.`
+                : `is your
+              VA claim number. This field must be 8 or 9 characters long.`}
             </li>
             <li>
               <strong>Payee Number</strong> tells us whether the debtor is a
@@ -81,8 +87,7 @@ const HowDoIPay = ({ userData }) => {
               <strong>Person Entitled</strong> is the first initial, middle
               initial (if there is one), and first four letters of the debtor’s
               last name. If the Person Entitled doesn’t have a middle initial,
-              that space will be left blank. Please leave the same space blank
-              on this form.
+              that space will be left blank.
             </li>
             <li>
               <strong>Deduction Code</strong> is a number that tells us what
@@ -93,11 +98,12 @@ const HowDoIPay = ({ userData }) => {
       </va-accordion>
 
       <br />
+      <va-icon icon="navigate_next" class="icon-action" size="3" />
       <va-link
         aria-label="Opens pay.va.gov in a new tab"
         external
-        href="https://www.pay.va.gov/"
         text="Pay at pay.va.gov"
+        href="https://www.pay.va.gov/"
         class="vads-u-margin-top--2 vads-u-font-weight--bold"
       />
 
@@ -143,6 +149,7 @@ HowDoIPay.propTypes = {
     payeeNumber: PropTypes.string,
     personEntitled: PropTypes.string,
     deductionCode: PropTypes.string,
+    receivableId: PropTypes.string,
   }),
 };
 
