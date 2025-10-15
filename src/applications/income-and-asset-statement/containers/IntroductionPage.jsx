@@ -11,6 +11,9 @@ export const IntroductionPage = ({ route }) => {
   const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
 
+  // Mock flipper while we wait for merge
+  const pbbFormsRequireLoa3 = false;
+
   const renderIfVeteranContent = authenticated => {
     const prefix = authenticated ? 'You’ll' : 'If you’re the Veteran, you’ll';
     const body = 'need to report income and assets for these individuals:';
@@ -167,6 +170,7 @@ export const IntroductionPage = ({ route }) => {
       </va-additional-info>
 
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
