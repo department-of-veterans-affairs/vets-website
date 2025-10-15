@@ -6,8 +6,6 @@ import UnauthenticatedWarningAlert from '../../../components/UnauthenticatedWarn
 
 /** @type {PageSchema} */
 export default {
-  title: 'Claimant information',
-  path: 'applicant/claimant',
   uiSchema: {
     ...titleUI('Your identity'),
     'view:warningAlert': {
