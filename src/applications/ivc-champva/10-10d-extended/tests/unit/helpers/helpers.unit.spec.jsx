@@ -158,6 +158,7 @@ describe('1010d `getAgeInYears` util', () => {
       {},
       [],
       true,
+      false,
     ];
     cases.forEach(input => {
       expect(Number.isNaN(getAgeInYears(input, asOf))).to.equal(
