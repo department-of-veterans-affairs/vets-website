@@ -23,6 +23,14 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
+          const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
+          const secondDigit = formData.institutionDetails.facilityCode.charAt(
+            1,
+          );
+          const yrEligible =
+            ['1', '2', '3'].includes(firstDigit) &&
+            ['1', '2', '3', '4'].includes(secondDigit);
+
           const programTypes = Array.isArray(attrs.programTypes)
             ? attrs.programTypes
             : [];
@@ -47,6 +55,7 @@ export const useValidateFacilityCode = formData => {
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
                 ihlEligible,
+                yrEligible,
               },
             }),
           );
