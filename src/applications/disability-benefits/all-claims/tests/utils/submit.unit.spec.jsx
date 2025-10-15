@@ -30,6 +30,13 @@ import {
 
 import maximalData from '../fixtures/data/maximal-test.json';
 
+const base = () => ({
+  ratedDisabilities: [
+    { name: 'Tinnitus', ratingPercentage: 10 },
+    { name: 'Sciatica', ratingPercentage: 20 },
+  ],
+});
+
 describe('transformRelatedDisabilities', () => {
   it('should not throw an error', () => {
     expect(transformRelatedDisabilities({ '': true }, [undefined, ''])).to.eql(
@@ -245,6 +252,65 @@ describe('setActionTypes', () => {
     const noRated = _.omit('ratedDisabilities', formData);
 
     expect(setActionTypes(noRated)).to.deep.equal(noRated);
+  });
+
+  it('marks INCREASE when listed in newDisabilities (preferred path)', () => {
+    const data = {
+      ratedDisabilities: [{ name: 'Tinnitus' }, { name: 'Sciatica' }],
+      newDisabilities: [{ ratedDisability: 'Tinnitus' }],
+    };
+
+    const out = setActionTypes(data);
+
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Tinnitus')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.INCREASE);
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Sciatica')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.NONE);
+  });
+
+  it('should fallback to use view:selected when newDisabilities is empty', () => {
+    const data = {
+      ...base(),
+      ratedDisabilities: [
+        { name: 'Tinnitus', 'view:selected': true },
+        { name: 'Sciatica' },
+      ],
+      newDisabilities: [],
+    };
+
+    const out = setActionTypes(data);
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Tinnitus')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.INCREASE);
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Sciatica')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.NONE);
+  });
+
+  it('prefers newDisabilities over view:selected when both present', () => {
+    const data = {
+      ...base(),
+      newDisabilities: [{ ratedDisability: 'Sciatica' }],
+    };
+
+    data.ratedDisabilities[0]['view:selected'] = true;
+
+    const out = setActionTypes(data);
+
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Sciatica')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.INCREASE);
+    expect(
+      out.ratedDisabilities.find(d => d.name === 'Tinnitus')
+        .disabilityActionType,
+    ).to.equal(disabilityActionTypes.NONE);
   });
 });
 

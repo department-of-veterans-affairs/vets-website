@@ -11,6 +11,7 @@ export default {
         title: 'Do you certify that you have no employment to report?',
         labelHeaderLevel: '1', // Makes title serve as page heading
         required: true,
+        hint: 'You must select both statements to submit this form',
         labels: {
           unemploymentCertification:
             'I CERTIFY THAT I have not been employed by the VA, other employers or self-employed during the past twelve months.',

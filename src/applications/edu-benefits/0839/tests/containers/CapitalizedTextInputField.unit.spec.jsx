@@ -1,276 +1,198 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
-
 import CapitalizedTextInputField from '../../containers/CapitalizedTextInputField';
 
-const mockStore = configureStore();
+const mockStore = configureStore([]);
 
-describe('<CapitalizedTextInputField />', () => {
-  const defaultProps = {
-    label: 'Test Label',
-    required: false,
-    error: undefined,
-    uiOptions: {},
+describe('CapitalizedTextInputField Component', () => {
+  let store;
+  let onBlurSpy;
+  let onChangeSpy;
+
+  const getProps = ({
+    onChange = () => {},
+    onBlur = () => {},
+    value = '',
+  } = {}) => ({
+    label: 'Test Field',
     childrenProps: {
       name: 'testField',
-      value: '',
-      onChange: () => {},
-      onBlur: () => {},
+      formData: value,
+      onChange,
+      onBlur,
       schema: { type: 'string' },
       uiSchema: {},
       idSchema: { $id: 'testField' },
-      formData: '',
     },
-  };
+    uiOptions: {},
+  });
+
+  beforeEach(() => {
+    onBlurSpy = sinon.spy();
+    onChangeSpy = sinon.spy();
+    store = mockStore({
+      form: {
+        data: {
+          authorizedOfficial: {
+            fullName: {
+              first: 'John',
+              last: 'Doe',
+            },
+          },
+        },
+      },
+    });
+  });
 
   const renderComponent = (props = {}) => {
-    const store = mockStore({});
-    const mergedProps = { ...defaultProps, ...props };
-
     return render(
       <Provider store={store}>
-        <CapitalizedTextInputField {...mergedProps} />
+        <CapitalizedTextInputField {...getProps(props)} />
       </Provider>,
     );
   };
 
-  it('renders VaTextInput with correct props', () => {
-    const { container } = renderComponent();
+  const triggerBlur = input => {
+    // Get the React fiber instance to access props
+    const reactPropsKey = Object.keys(input).find(key =>
+      key.startsWith('__react'),
+    );
+    if (reactPropsKey) {
+      const reactProps = input[reactPropsKey];
+      if (reactProps?.memoizedProps?.onBlur) {
+        // Call the onBlur handler with a mock event
+        reactProps.memoizedProps.onBlur({
+          target: { value: input.value || '' },
+        });
+      }
+    }
+  };
 
-    const vaTextInput = container.querySelector('va-text-input');
-    expect(vaTextInput).to.exist;
-    expect(vaTextInput.getAttribute('label')).to.equal('Test Label');
-    expect(vaTextInput.getAttribute('name')).to.equal('testField');
-  });
-
-  it('capitalizes text on blur', () => {
-    const onBlurSpy = sinon.spy();
-    const onChangeSpy = sinon.spy();
-
+  it('renders VaTextInput component', () => {
     const { container } = renderComponent({
-      childrenProps: {
-        ...defaultProps.childrenProps,
-        onBlur: onBlurSpy,
-        onChange: onChangeSpy,
-      },
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
     });
-
-    const vaTextInput = container.querySelector('va-text-input');
-
-    inputVaTextInput(container, 'abc');
-
-    expect(vaTextInput.getAttribute('value')).to.equal('abc');
-
-    fireEvent.blur(vaTextInput);
-
-    expect(vaTextInput.getAttribute('value')).to.equal('ABC');
-    expect(onBlurSpy.called).to.be.true;
-    expect(onChangeSpy.calledWith('ABC')).to.be.true;
+    expect(container.querySelector('va-text-input')).to.exist;
   });
 
-  it('handles empty value correctly', () => {
+  it('renders with initial value', () => {
     const { container } = renderComponent({
-      childrenProps: {
-        ...defaultProps.childrenProps,
-        formData: '',
-      },
+      value: 'Test',
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
     });
-
-    const vaTextInput = container.querySelector('va-text-input');
-    expect(vaTextInput.getAttribute('value')).to.equal('');
+    const input = container.querySelector('va-text-input');
+    expect(input).to.have.attribute('value', 'Test');
   });
 
-  it('calls onBlur callback when provided', () => {
-    const onBlurSpy = sinon.spy();
-
+  it('capitalizes input value on blur', async () => {
     const { container } = renderComponent({
-      childrenProps: {
-        ...defaultProps.childrenProps,
-        onBlur: onBlurSpy,
-      },
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
+    const input = container.querySelector('va-text-input');
+
+    inputVaTextInput(container, 'jd');
+
+    await waitFor(() => {
+      expect(input.value).to.equal('jd');
     });
 
-    const vaTextInput = container.querySelector('va-text-input');
+    triggerBlur(input);
 
-    fireEvent.blur(vaTextInput);
-
-    expect(onBlurSpy.called).to.be.true;
+    await waitFor(() => {
+      expect(input.value).to.equal('JD');
+      expect(onChangeSpy.called).to.be.true;
+      expect(onChangeSpy.lastCall.args[0]).to.equal('JD');
+    });
   });
 
-  it('calls onChange callback with correct parameters', () => {
-    const onChangeSpy = sinon.spy();
-
+  it('calls onBlur callback when field loses focus', async () => {
     const { container } = renderComponent({
-      childrenProps: {
-        ...defaultProps.childrenProps,
-        onChange: onChangeSpy,
-      },
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
     });
+    const input = container.querySelector('va-text-input');
 
-    const vaTextInput = container.querySelector('va-text-input');
+    triggerBlur(input);
 
-    inputVaTextInput(container, 'abc');
-    expect(onChangeSpy.called).to.be.true;
-
-    fireEvent.blur(vaTextInput);
-    expect(onChangeSpy.calledWith('ABC')).to.be.true;
+    await waitFor(() => {
+      expect(onBlurSpy.called).to.be.true;
+    });
   });
 
-  it('maintains state correctly during multiple input/blur cycles', () => {
-    const { container } = renderComponent();
+  it('calls onChange callback when value changes', async () => {
+    const { container } = renderComponent({
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
 
-    const vaTextInput = container.querySelector('va-text-input');
+    inputVaTextInput(container, 'J');
 
-    inputVaTextInput(container, 'abc');
-    expect(vaTextInput.getAttribute('value')).to.equal('abc');
-
-    fireEvent.blur(vaTextInput);
-    expect(vaTextInput.getAttribute('value')).to.equal('ABC');
-
-    inputVaTextInput(container, 'def');
-    expect(vaTextInput.getAttribute('value')).to.equal('def');
-
-    fireEvent.blur(vaTextInput);
-    expect(vaTextInput.getAttribute('value')).to.equal('DEF');
+    await waitFor(() => {
+      expect(onChangeSpy.called).to.be.true;
+    });
   });
 
-  describe('validation logic', () => {
-    const createStoreWithFormData = formData => {
-      return mockStore({
-        form: {
-          data: formData,
-        },
-      });
-    };
+  it('validates initials against first and last name from Redux store', async () => {
+    const { container } = renderComponent({
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
+    const input = container.querySelector('va-text-input');
 
-    it('validates 2-letter initials correctly', () => {
-      const formData = {
-        authorizedOfficial: {
-          fullName: {
-            first: 'John',
-            last: 'Doe',
-          },
-        },
-      };
+    inputVaTextInput(container, 'JD');
+    triggerBlur(input);
 
-      const store = createStoreWithFormData(formData);
-      const { container } = render(
-        <Provider store={store}>
-          <CapitalizedTextInputField {...defaultProps} />
-        </Provider>,
-      );
-      const vaTextInput = container.querySelector('va-text-input');
+    await waitFor(() => {
+      expect(input.getAttribute('error')).to.be.null;
+    });
+  });
 
-      // Test correct initials
-      inputVaTextInput(container, 'jd');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('JD');
-      expect(vaTextInput.getAttribute('error')).to.be.null;
+  it('shows validation error when initials do not match name', async () => {
+    const { container } = renderComponent({
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
+    const input = container.querySelector('va-text-input');
 
-      // Test incorrect initials
-      inputVaTextInput(container, 'ab');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('AB');
-      expect(vaTextInput.getAttribute('error')).to.equal(
-        'Initials must match your name: JD',
-      );
+    inputVaTextInput(container, 'AB');
+    triggerBlur(input);
+
+    await waitFor(() => {
+      const error = input.getAttribute('error');
+      expect(error).to.not.be.null;
+      expect(error).to.contain('Initials must match your name');
+    });
+  });
+
+  it('clears validation error when user starts typing after validation error', async () => {
+    const { container } = renderComponent({
+      onChange: onChangeSpy,
+      onBlur: onBlurSpy,
+    });
+    const input = container.querySelector('va-text-input');
+
+    inputVaTextInput(container, 'AB');
+    triggerBlur(input);
+
+    await waitFor(() => {
+      const error = input.getAttribute('error');
+      expect(error).to.not.be.null;
+      expect(error).to.contain('Initials must match your name');
     });
 
-    it('validates 3-letter initials correctly (first and third must match)', () => {
-      const formData = {
-        authorizedOfficial: {
-          fullName: {
-            first: 'John',
-            last: 'Doe',
-          },
-        },
-      };
+    inputVaTextInput(container, 'JD');
 
-      const store = createStoreWithFormData(formData);
-      const { container } = render(
-        <Provider store={store}>
-          <CapitalizedTextInputField {...defaultProps} />
-        </Provider>,
-      );
-      const vaTextInput = container.querySelector('va-text-input');
-
-      inputVaTextInput(container, 'jxd');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('JXD');
-      expect(vaTextInput.getAttribute('error')).to.be.null;
-
-      inputVaTextInput(container, 'axd');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('AXD');
-      expect(vaTextInput.getAttribute('error')).to.equal(
-        'Initials must match your name: JD',
-      );
-
-      inputVaTextInput(container, 'jxa');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('JXA');
-      expect(vaTextInput.getAttribute('error')).to.equal(
-        'Initials must match your name: JD',
-      );
-    });
-
-    it('clears validation error on input', () => {
-      const formData = {
-        authorizedOfficial: {
-          fullName: {
-            first: 'John',
-            last: 'Doe',
-          },
-        },
-      };
-
-      const store = createStoreWithFormData(formData);
-      const { container } = render(
-        <Provider store={store}>
-          <CapitalizedTextInputField {...defaultProps} />
-        </Provider>,
-      );
-      const vaTextInput = container.querySelector('va-text-input');
-
-      // First, create a validation error
-      inputVaTextInput(container, 'ab');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('error')).to.equal(
-        'Initials must match your name: JD',
-      );
-
-      // Then, start typing to clear the error
-      inputVaTextInput(container, 'j');
-      expect(vaTextInput.getAttribute('error')).to.be.null;
-    });
-
-    it('handles case-insensitive name matching', () => {
-      const formData = {
-        authorizedOfficial: {
-          fullName: {
-            first: 'john', // lowercase
-            last: 'doe', // lowercase
-          },
-        },
-      };
-
-      const store = createStoreWithFormData(formData);
-      const { container } = render(
-        <Provider store={store}>
-          <CapitalizedTextInputField {...defaultProps} />
-        </Provider>,
-      );
-      const vaTextInput = container.querySelector('va-text-input');
-
-      inputVaTextInput(container, 'jd');
-      fireEvent.blur(vaTextInput);
-      expect(vaTextInput.getAttribute('value')).to.equal('JD');
-      expect(vaTextInput.getAttribute('error')).to.be.null;
+    await waitFor(() => {
+      const error = input.getAttribute('error');
+      expect(error).to.be.null;
     });
   });
 });

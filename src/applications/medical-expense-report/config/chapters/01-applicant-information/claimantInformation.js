@@ -6,8 +6,6 @@ import { prefixedFullNameUI } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Your information',
-  path: 'applicant/claimant/information',
   // depends: formData => formData.claimantNotVeteran === true,
   uiSchema: {
     ...titleUI(
