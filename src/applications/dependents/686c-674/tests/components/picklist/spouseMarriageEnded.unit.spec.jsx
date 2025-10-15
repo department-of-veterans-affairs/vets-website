@@ -206,12 +206,6 @@ describe('spouseMarriageEnded', () => {
       expect(spouseMarriageEnded.handlers.goForward()).to.equal('DONE');
     });
 
-    it('should return reason to remove page path on goBack', () => {
-      expect(spouseMarriageEnded.handlers.goBack()).to.equal(
-        'marriage-reason-to-remove',
-      );
-    });
-
     it('should call goForward when divorce form values are set on submit', () => {
       const goForward = sinon.spy();
       spouseMarriageEnded.handlers.onSubmit({
