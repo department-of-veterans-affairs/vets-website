@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-
+import sinon from 'sinon';
 import {
   getVAEvidence,
   getPrivateEvidence,
@@ -9,33 +9,32 @@ import {
   removeNonSelectedIssuesFromEvidence,
   onFormLoaded,
 } from '../../utils/evidence';
-import {
-  EVIDENCE_VA,
-  EVIDENCE_PRIVATE,
-  EVIDENCE_OTHER,
-  SC_NEW_FORM_DATA,
-  HAS_REDIRECTED,
-} from '../../constants';
-
+import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../../constants';
 import { SELECTED } from '../../../shared/constants';
 
 describe('getIndex', () => {
   const testData = ['', '', ''];
+
   it('should return search param index', () => {
     expect(getIndex(testData, null, '?index=1')).to.eq(1);
   });
+
   it('should return data length for larger indexes', () => {
     expect(getIndex(testData, null, '?index=9')).to.eq(testData.length);
   });
+
   it('should return zero for no index', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
   });
+
   it('should return zero for non-number indexes', () => {
     expect(getIndex(testData, null, '?index=a')).to.eq(0);
   });
+
   it('should return testIndex when missing an index', () => {
     expect(getIndex(testData, '2', '?test=a')).to.eq(2);
   });
+
   it('should return zero when missing an index & testIndex', () => {
     expect(getIndex(testData, null, '?test=a')).to.eq(0);
   });
@@ -46,15 +45,22 @@ describe('getVAEvidence', () => {
     expect(
       getVAEvidence({ [EVIDENCE_VA]: undefined, locations: [{}] }),
     ).to.deep.equal([]);
+
     expect(
       getVAEvidence({ [EVIDENCE_VA]: true, locations: [{}] }),
     ).to.deep.equal([{}]);
+
     expect(getVAEvidence({ [EVIDENCE_VA]: true, locations: [] })).to.deep.equal(
       [],
     );
+
     expect(
       getVAEvidence({ [EVIDENCE_VA]: false, locations: [{}] }),
     ).to.deep.equal([]);
+
+    expect(
+      getVAEvidence({ [EVIDENCE_VA]: true, locations: [{ test: 'test' }] }),
+    ).to.deep.equal([{ test: 'test' }]);
   });
 });
 
@@ -125,27 +131,33 @@ describe('evidenceNeedsUpdating', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
   });
+
   it('should return false if VA evidence undefined', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating({ ...evidence, locations: null })).to.be.false;
   });
+
   it('should return false if provider facility evidence undefined', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating({ ...evidence, providerFacility: null })).to.be
       .false;
   });
+
   it('should return false if provider facility evidence undefined', () => {
     expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
       .be.false;
   });
+
   it('should return false if no updates needed', () => {
     const evidence = getEvidence();
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
   });
+
   it('should return true if issue no longer exists', () => {
     const evidence = getEvidence({ addIssue: '' });
     expect(evidenceNeedsUpdating(evidence)).to.be.true;
   });
+
   it('should return true if issue is renamed', () => {
     const evidence = getEvidence({ addIssue: 'acb' });
     expect(evidenceNeedsUpdating(evidence)).to.be.true;
@@ -191,25 +203,30 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 
   const expected = getData();
+
   it('should return empty template with empty form data', () => {
     const result = removeNonSelectedIssuesFromEvidence();
     expect(result).to.deep.eq({ locations: [], providerFacility: [] });
   });
+
   it('should return un-modified evidence issues', () => {
     const data = getData('', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected location issues', () => {
     const data = getData('test 3', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected facility issues', () => {
     const data = getData('', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
     expect(result).to.deep.eq(expected);
   });
+
   it('should return remove non-selected issues', () => {
     const data = getData('test 3', 'test 4');
     const result = removeNonSelectedIssuesFromEvidence(data);
@@ -218,99 +235,12 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
 });
 
 describe('onFormLoaded', () => {
-  const getLocation = ({ from, treatmentDate }) => ({
-    evidenceDates: { from },
-    treatmentDate,
-    noDate: !treatmentDate,
-  });
-  const getData = ({
-    toggle = false,
-    locations = [],
-    redirected = true,
-  } = {}) => ({
-    [SC_NEW_FORM_DATA]: toggle,
-    [HAS_REDIRECTED]: redirected,
-    locations,
-  });
-  const returnUrl = '/test';
+  it('should direct to the correct returnUrl', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
 
-  it('should do nothing when locations is an empty array', () => {
-    const router = [];
-    const formData = getData();
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData());
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should do nothing when locations is an empty array when feature toggle is set', () => {
-    const router = [];
-    const formData = getData({ toggle: true });
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData({ toggle: true }));
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should do nothing when feature toggle is not set', () => {
-    const router = [];
-    const locations = [getLocation({ from: '2010-03-04' })];
-    const props = { locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal(getData(props));
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should update treatment date when feature toggle is set', () => {
-    const router = [];
-    const from = '2010-03-04';
-    const locations = [getLocation({ from })];
-    const props = { toggle: true, locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [getLocation({ from, treatmentDate: '2010-03' })],
-    });
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should not update treatment date when it is already defined & feature toggle is set', () => {
-    const router = [];
-    const from = '2010-03-04';
-    const locations = [getLocation({ from, treatmentDate: '2020-04' })];
-    const props = { toggle: true, locations };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [getLocation({ from, treatmentDate: '2020-04' })],
-    });
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should set no date when evidence date and treatment date are undefined & feature toggle is set', () => {
-    const router = [];
-    const props = { toggle: true, locations: [{}] };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [{ noDate: true, treatmentDate: '' }],
-    });
-    expect(router[0]).to.eq(returnUrl);
-  });
-
-  it('should redirect when redirect flag is not set & feature toggle is set', () => {
-    sessionStorage.setItem(HAS_REDIRECTED, 'true');
-    const router = [];
-    const props = { toggle: true, locations: [{}], redirected: false };
-    const formData = getData(props);
-    onFormLoaded({ formData, returnUrl, router });
-    expect(formData).to.deep.equal({
-      ...getData(props),
-      locations: [{ noDate: true, treatmentDate: '' }],
-    });
-    expect(router[0]).to.eq('/housing-risk');
-    expect(sessionStorage.getItem(HAS_REDIRECTED)).to.eq('true');
+    onFormLoaded({ returnUrl: '/housing-risk', router: routerSpy });
+    expect(routerSpy.push.firstCall.args[0]).to.eq('/housing-risk');
   });
 });
