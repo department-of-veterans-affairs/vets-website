@@ -98,9 +98,7 @@ describe('CDP - One Thing Per Page', () => {
           .findByTestId(`resolve-link-${id}`)
           .click();
 
-        cy.findByTestId('resolve-page-title').contains(
-          'Ralph H. Johnson Department of Veterans Affairs Medical Center',
-        );
+        cy.findByTestId('resolve-page-title').contains('Resolve your copay');
 
         // how to pay also has on this page that is hidden, let's make sure it only shows up once
         cy.get('va-on-this-page').should('have.length', 1);
@@ -210,7 +208,7 @@ describe('CDP - One Thing Per Page', () => {
           .click();
 
         cy.findByTestId('detail-page-title').contains(
-          'Resolve your Post-9/11 GI Bill debt for books and supplies',
+          'Resolve your overpayment',
         );
 
         cy.get('va-on-this-page').should('exist');
