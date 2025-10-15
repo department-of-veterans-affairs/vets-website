@@ -23,6 +23,8 @@ const options = {
         ? formatFullName(item.previousFullName)
         : undefined,
     summaryTitleWithoutItems: 'Other service names',
+    alertItemUpdated: 'Your previous name information has been updated',
+    alertItemDeleted: 'Your previous name information has been deleted',
     cancelAddTitle: 'Cancel adding this previous name',
     cancelAddYes: 'Yes, cancel adding this previous name',
     cancelAddNo: 'No',
