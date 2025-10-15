@@ -157,7 +157,7 @@ describe('Letters Empty State Feature Flag', () => {
       );
     });
 
-    it('should not display empty state content when feature flag is disabled', () => {
+    it('should not display empty state content', () => {
       cy.visit('/records/download-va-letters/letters/');
 
       cy.wait('@emptyLetters', { timeout: Timeouts.slow });
@@ -192,8 +192,4 @@ describe('Letters Empty State Feature Flag', () => {
       cy.injectAxeThenAxeCheck();
     });
   });
-
-  // Note: Eligibility error testing would require understanding the complex reducer logic
-  // that determines when AVAILABILITY_STATUSES.letterEligibilityError is set.
-  // This is typically triggered by backend service issues, not empty letter arrays.
 });
