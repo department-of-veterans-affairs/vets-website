@@ -85,7 +85,7 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
-  const baseEnv = `NODE_OPTIONS=--require=@babel/register STEP=unit-tests LOG_LEVEL=${options[
+  const baseEnv = `NODE_OPTIONS="--require=@babel/register" STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()}`;
 
