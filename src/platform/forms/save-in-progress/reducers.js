@@ -19,6 +19,7 @@ import {
   LOAD_STATUSES,
   PREFILL_STATUSES,
   saveErrors,
+  SET_FORM_ID,
 } from './actions';
 import set from '../../utilities/data/set';
 
@@ -67,6 +68,10 @@ export const saveInProgressReducers = {
 
     return newState;
   },
+  [SET_FORM_ID]: (state, action) => ({
+    ...state,
+    formId: action.formId,
+  }),
   [SET_IN_PROGRESS_FORM]: (state, action) => {
     let newState;
 

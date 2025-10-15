@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { TITLE, SUBTITLE } from '../constants';
+import { setFormId } from '../../redux/actions';
 
 const OMB_RES_BURDEN = 30;
 const OMB_NUMBER = '1234-5678';
@@ -46,11 +48,23 @@ const ProcessList = () => {
 };
 
 export const IntroductionPage = props => {
+  const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+  const inProgressForms =
+    useSelector(state => state.user.profile.savedForms) || [];
+  const inProgressCCForms = inProgressForms.filter(x =>
+    x.form.startsWith('CC'),
+  );
+  const [selection, setCCForm] = React.useState('CC');
   const { route } = props;
   const { formConfig, pageList } = route;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
+
+  const setInProgressFormId = e => {
+    setCCForm(e.target.value);
+    dispatch(setFormId(e.target.value));
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -67,16 +81,32 @@ export const IntroductionPage = props => {
       {showVerifyIdentify ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
+        <>
+          <VaSelect
+            label="Select a formid"
+            onVaSelect={setInProgressFormId}
+            value={selection}
+          >
+            <option value="CC">Start a new application</option>
+            {inProgressCCForms.map((form, index) => (
+              <option key={index} value={form.form}>
+                {form.form} - Last updated:{' '}
+                {new Date(form.lastUpdated).toLocaleDateString()}
+              </option>
+            ))}
+          </VaSelect>
+          <SaveInProgressIntro
+            formId={selection}
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Start a new application"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
+        </>
       )}
       <p />
       <va-omb-info

@@ -126,7 +126,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
   '21-686C-UPLOAD': '/accredited_representative_portal/v0/in_progress_forms/',
-  [VA_FORM_IDS.FORM_CC]: 'travel_pay/v0/claims/',
+  [VA_FORM_IDS.FORM_CC]: '/travel_pay/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:

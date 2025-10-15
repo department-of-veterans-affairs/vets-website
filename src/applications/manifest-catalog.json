@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 145,
+  "totalApplications": 144,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -812,12 +812,6 @@
       "appName": "Complex Claim Form Prototype",
       "entryName": "complex-claim-form-prototype",
       "rootUrl": "/my-health/travel-pay/complex-claim-form-prototype"
-    },
-    {
-      "directoryPath": "src/applications/travel-pay/form-prototype",
-      "appName": "Form Prototype",
-      "entryName": "form-prototype",
-      "rootUrl": "/my-health/travel-pay/form-prototype"
     },
     {
       "directoryPath": "src/applications/user-testing/disability-benefits-all-claims-conditions-chapter",

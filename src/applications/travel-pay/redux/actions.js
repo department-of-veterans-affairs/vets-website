@@ -14,6 +14,12 @@ export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
 export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
 export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
 export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
+export const SET_FORM_ID = 'SET_FORM_ID';
+
+export const setFormId = formId => ({
+  type: SET_FORM_ID,
+  formId,
+});
 
 // Get all travel claims
 const fetchTravelClaimsStart = () => ({

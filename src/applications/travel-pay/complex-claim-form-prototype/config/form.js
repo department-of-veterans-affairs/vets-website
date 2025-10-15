@@ -1,18 +1,14 @@
 import footerContent from 'platform/forms/components/FormFooter';
-import {
-  VA_FORM_IDS,
-  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
-} from 'platform/forms/constants';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import { prefillTransformer } from '../prefill-transformer';
+
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
-
-const claimId = window.location.pathname
-  .split('/')
-  .find(segment => /^[0-9a-fA-F-]{36}$/.test(segment));
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -37,16 +33,10 @@ const formConfig = {
         'Your saved travel pay benefits application has expired. If you want to apply for travel pay benefits, please start a new application.',
       saved: 'Your travel pay benefits application has been saved.',
     },
-    /**
-     * @param {{formId: string}} params
-     */
-    apiUrl: ({ formId }) =>
-      `${
-        VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId]
-      }${claimId}/in_progress_forms`,
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for travel pay benefits.',
     noAuth:
@@ -60,7 +50,7 @@ const formConfig = {
       title: 'Your personal information',
       pages: {
         nameAndDateOfBirth: {
-          path: `claims/${claimId}/name-and-date-of-birth`,
+          path: `name-and-date-of-birth`,
           title: 'Name and date of birth',
           uiSchema: nameAndDateOfBirth.uiSchema,
           schema: nameAndDateOfBirth.schema,

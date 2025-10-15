@@ -14,6 +14,7 @@ export const SET_FETCH_FORM_PENDING = 'SET_FETCH_FORM_PENDING';
 export const SET_IN_PROGRESS_FORM = 'SET_IN_PROGRESS_FORM';
 export const SET_START_OVER = 'SET_START_OVER';
 export const SET_PREFILL_UNFILLED = 'SET_PREFILL_UNFILLED';
+export const SET_FORM_ID = 'SET_FORM_ID';
 
 export const SAVE_STATUSES = Object.freeze({
   notAttempted: 'not-attempted',
@@ -322,7 +323,6 @@ export function fetchInProgressForm(
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
-
     // Query the api and return a promise (for navigation / error handling afterward)
     return apiRequest(apiUrl, { method: 'GET' })
       .then(resBody => {
