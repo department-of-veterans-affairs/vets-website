@@ -38,7 +38,7 @@ const UserHelpLinks = () => {
 
       <li>
         <a
-          data-testid="user-nav-profile-link"
+          data-testid="user-nav-help-link"
           className="vads-u-color--white"
           href="/representative/get-help"
           data-eventname="nav-link-click"

@@ -52,8 +52,8 @@ describe('UserNav', () => {
     );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
     expect(getByTestId('account_circle-toggle-dropdown-desktop-list')).to.exist;
-    const profileLink = getByTestId('user-nav-profile-link');
-    expect(profileLink).to.exist;
+    const helpLink = getByTestId('user-nav-help-link');
+    expect(helpLink).to.exist;
     const signOutLink = getByTestId('user-nav-sign-out-link');
     expect(signOutLink).to.exist;
     fireEvent.mouseDown(document);
