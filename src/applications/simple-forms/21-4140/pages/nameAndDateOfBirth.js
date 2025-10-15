@@ -3,11 +3,11 @@ import {
   dateOfBirthSchema,
   dateOfBirthUI,
   fullNameNoSuffixUI,
-  firstNameLastNameNoMaxLengthSchema,
+  fullNameNoSuffixSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
+// /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your name and date of birth'),
@@ -17,7 +17,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      fullName: firstNameLastNameNoMaxLengthSchema,
+      fullName: fullNameNoSuffixSchema({ maxLength: Infinity }),
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],

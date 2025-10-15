@@ -18,7 +18,7 @@ export const schema = {
     spouseInformation: {
       type: 'object',
       properties: {
-        fullName: fullNameNoSuffixSchema,
+        fullName: fullNameNoSuffixSchema(),
         birthDate: dateOfBirthSchema,
         ssn: ssnSchema,
       },

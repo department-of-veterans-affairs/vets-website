@@ -116,7 +116,7 @@ export const childInformationPage = {
     type: 'object',
     required: ['fullName', 'ssn', 'birthDate'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
       ssn: ssnSchema,
       birthDate: currentOrPastDateSchema,
     },

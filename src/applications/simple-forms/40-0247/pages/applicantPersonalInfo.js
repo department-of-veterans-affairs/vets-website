@@ -16,7 +16,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      applicantFullName: fullNameNoSuffixSchema,
+      applicantFullName: fullNameNoSuffixSchema(),
     },
     required: ['applicantFullName'],
   },

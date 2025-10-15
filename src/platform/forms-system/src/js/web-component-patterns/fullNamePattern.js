@@ -219,41 +219,36 @@ const firstNameLastNameSchema = firstNameLastNameDef;
  * schema for `fullNameNoSuffixUI`
  * @returns `commonDefinitions.fullNameNoSuffix`
  */
-const fullNameNoSuffixSchema = {
-  type: 'object',
-  required: ['first', 'last'],
-  properties: {
-    first: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 30,
+const fullNameNoSuffixSchema = options => {
+  const { maxLength = 30, minLength = 1 } = options || {};
+  return {
+    type: 'object',
+    required: ['first', 'last'],
+    properties: {
+      first: {
+        type: 'string',
+        minLength,
+        maxLength,
+      },
+      middle: {
+        type: 'string',
+        maxLength,
+      },
+      last: {
+        type: 'string',
+        minLength,
+        maxLength,
+      },
     },
-    middle: {
-      type: 'string',
-      maxLength: 30,
-    },
-    last: {
-      type: 'string',
-      minLength: 1,
-      maxLength: 30,
-    },
-  },
+  };
 };
 
 /**
  * @returns `commonDefinitions.fullNameNoSuffix` minus `middle`
  */
-const firstNameLastNameNoSuffixDef = cloneDeep(fullNameNoSuffixSchema);
+const firstNameLastNameNoSuffixDef = cloneDeep(fullNameNoSuffixSchema());
 delete firstNameLastNameNoSuffixDef.properties.middle;
 const firstNameLastNameNoSuffixSchema = firstNameLastNameNoSuffixDef;
-
-/**
- * @returns `commonDefinitions.fullNameNoSuffix` without the maxLength character limits
- */
-const firstNameLastNameNoMaxLengthDef = cloneDeep(fullNameNoSuffixSchema);
-delete firstNameLastNameNoMaxLengthDef.properties.first.maxLength;
-delete firstNameLastNameNoMaxLengthDef.properties.last.maxLength;
-const firstNameLastNameNoMaxLengthSchema = firstNameLastNameNoMaxLengthDef;
 
 /**
  * schema for `fullNameWithMaidenNameUI`
@@ -277,6 +272,5 @@ export {
   firstNameLastNameSchema,
   fullNameNoSuffixSchema,
   firstNameLastNameNoSuffixSchema,
-  firstNameLastNameNoMaxLengthSchema,
   fullNameWithMaidenNameSchema,
 };
