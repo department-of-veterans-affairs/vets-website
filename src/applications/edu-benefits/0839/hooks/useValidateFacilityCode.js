@@ -23,6 +23,10 @@ export const useValidateFacilityCode = formData => {
             },
           );
           const attrs = response.data.attributes;
+          const programTypes = Array.isArray(attrs.programTypes)
+            ? attrs.programTypes
+            : [];
+          const ihlEligible = programTypes.includes('IHL');
           const institutionAddress = {
             street: attrs.address1 || '',
             street2: attrs.address2 || '',
@@ -42,6 +46,7 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: response?.data?.attributes?.name,
                 institutionAddress,
+                ihlEligible,
               },
             }),
           );
@@ -55,6 +60,7 @@ export const useValidateFacilityCode = formData => {
                 ...formData.institutionDetails,
                 institutionName: 'not found',
                 institutionAddress: {},
+                ihlEligible: null,
               },
             }),
           );

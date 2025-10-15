@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   addressSchema,
   titleUI,
@@ -13,22 +14,31 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
 
   const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = details.institutionName === 'not found';
-  const ineligible = details.poeEligible === false;
+  const notIHL = details.ihlEligible === false;
 
   if (badFormat || notFound) {
     errors.addError(
       'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
     );
   }
-  if (ineligible) {
+  if (notIHL) {
     errors.addError(
-      'This institution is unable to participate in the Principles of Excellence.',
+      'This institution is not an IHL. Please see information below.',
     );
   }
 };
 
 const uiSchema = {
   ...titleUI("Please enter your institution's facility code"),
+  'view:additionalInstructions': {
+    'ui:description': (
+      <va-link
+        text="Review additional instructions for the Yellow Ribbon Program Agreement"
+        href="/school-administrators/submit-yellow-ribbon-program-agreement-form-22-0839/yellow-ribbon-instructions"
+        external
+      />
+    ),
+  },
   facilityCode: {
     ...textUI({
       title: 'Facility code',
@@ -41,7 +51,7 @@ const uiSchema = {
     'ui:validations': [facilityCodeUIValidation],
   },
   institutionName: {
-    'ui:title': 'Institution name',
+    'ui:title': 'Institution name and address',
     'ui:field': InstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
@@ -55,11 +65,30 @@ const uiSchema = {
       hideLabelText: true,
     },
   },
+  'view:warningBanner': {
+    'ui:description': formData => {
+      const notIHL = formData?.institutionDetails?.ihlEligible === false;
+      if (notIHL) {
+        return (
+          <va-alert
+            status="warning"
+            visible
+            headline="This institution is unable to participate in the Yellow Ribbon Program."
+          />
+        );
+      }
+      return null;
+    },
+  },
 };
 
 const schema = {
   type: 'object',
   properties: {
+    'view:additionalInstructions': {
+      type: 'object',
+      properties: {},
+    },
     facilityCode: textSchema,
     institutionName: {
       type: 'string',
@@ -83,8 +112,12 @@ const schema = {
       },
       required: ['street', 'city', 'state', 'postalCode', 'country'],
     },
+    'view:warningBanner': {
+      type: 'object',
+      properties: {},
+    },
   },
-  required: ['facilityCode', 'institutionName', 'institutionAddress'],
+  required: ['facilityCode'],
 };
 
 export { uiSchema, schema };
