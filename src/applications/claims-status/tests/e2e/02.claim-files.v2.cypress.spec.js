@@ -6,6 +6,7 @@ import claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs from './fixtures/mo
 import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-one-supporting-docs.json';
 import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
+import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -123,6 +124,44 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
         testCase.expectedFilesReceivedCount,
       );
       trackClaimsPage.verifyFilesReceived(testCase.expectedFilesReceivedCount);
+      cy.axeCheck();
+    });
+  });
+
+  context('Files Received - more than 5 files received', () => {
+    it('shows the user a show more button', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+      trackClaimsPage.verifyFilesReceived(5);
+      cy.axeCheck();
+    });
+
+    it('after clicking show more, the user sees all files', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManySupportingDocs,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+      trackClaimsPage.verifyFilesReceived(5);
+      trackClaimsPage.verifyShowMoreFilesReceivedButtonText(
+        'Show more received (3)',
+      );
+      trackClaimsPage.clickShowMoreFilesReceived();
+      trackClaimsPage.verifyFilesReceived(8);
+      trackClaimsPage.verifyShowMoreFilesReceivedButtonNotExists();
       cy.axeCheck();
     });
   });
