@@ -14,9 +14,6 @@ const spouseDeath = {
   handlers: {
     // Return "DONE" when we're done with this flow
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
-    // return empty path to go to first spouse page
-    goBack: (/* { itemData, index, fullData } */) =>
-      'marriage-reason-to-remove',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
