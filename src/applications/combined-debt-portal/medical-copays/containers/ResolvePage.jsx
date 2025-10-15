@@ -5,6 +5,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
+import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
 import { setPageFocus } from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
@@ -19,6 +20,12 @@ const ResolvePage = ({ match }) => {
   const acctNum =
     selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
   const amtDue = selectedCopay?.pHAmtDueOutput.replace(/&nbsp;/g, '');
+
+  // get veteran name
+  const userFullName = useSelector(({ user }) => user.profile.userFullName);
+  const fullName = userFullName?.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName.first} ${userFullName.last}`;
 
   useHeaderPageTitle(title);
 
@@ -70,6 +77,12 @@ const ResolvePage = ({ match }) => {
           acctNum={acctNum}
           facility={selectedCopay?.station}
           amtDue={amtDue}
+        />
+        <DownloadStatement
+          key={selectedId}
+          statementId={selectedId}
+          statementDate={selectedCopay?.pSStatementDate}
+          fullName={fullName}
         />
         <FinancialHelp showOneThingPerPage />
         <DisputeCharges showOneThingPerPage />
