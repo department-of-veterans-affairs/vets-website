@@ -115,7 +115,15 @@ const InterstitialPage = props => {
         </p>
         {mhvSecureMessagingCuratedListFlow ? (
           <va-link-action
+<<<<<<< HEAD
             href={getDestinationPath(true)}
+=======
+            href={
+              mhvSecureMessagingCuratedListFlow
+                ? `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`
+                : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
+            }
+>>>>>>> a18e152ab9 (put va-action-link behind the curatedListFlow ff and va-button when ff false and the url stays the same. reverted to original button text copy.)
             onClick={handleContinueButton}
             text={continueButtonText}
             type="primary"
