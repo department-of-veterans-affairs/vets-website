@@ -72,5 +72,5 @@ export const prescriptionMedAndRenewalStatus = (prescription, switchCase) => {
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
 
-  return determineStatus(switchCase, pendingMed, pendingRenewal);
+  return determineStatus(switchCase, pendingMed, pendingRenewal, prescription);
 };
