@@ -16,6 +16,7 @@ import { convertDateForInquirySubheader } from '../../config/helpers';
 import * as FileUploadModule from '../../components/FileUpload';
 import * as constants from '../../constants';
 import { createMockStore, mockRouterProps } from '../common';
+import { askVAAttachmentStorage } from '../../utils/StorageAdapter';
 
 describe('ResponseInboxPage', () => {
   // TODO: This check for mock data use needs to be replaced.
@@ -34,6 +35,8 @@ describe('ResponseInboxPage', () => {
   let environmentStub;
   let apiRequestStub;
   let FileUploadStub;
+  let askVAAttachmentStorageGetStub;
+  let askVAAttachmentStorageClearStub;
 
   beforeEach(() => {
     global.window.URL = {
@@ -47,6 +50,12 @@ describe('ResponseInboxPage', () => {
     FileUploadStub = sinon
       .stub(FileUploadModule, 'default')
       .callsFake(() => <div>FileUpload</div>);
+    askVAAttachmentStorageGetStub = sinon
+      .stub(askVAAttachmentStorage, 'get')
+      .resolves([]);
+    askVAAttachmentStorageClearStub = sinon
+      .stub(askVAAttachmentStorage, 'clear')
+      .resolves();
 
     props = {
       data: {},
@@ -86,6 +95,8 @@ describe('ResponseInboxPage', () => {
     FileUploadStub.restore();
     window.location = originalWindowLocation;
     localStorage.removeItem('askVAFiles');
+    askVAAttachmentStorageGetStub.restore();
+    askVAAttachmentStorageClearStub.restore();
   });
 
   // TODO: Can the component be driven by the router or component state
@@ -432,9 +443,9 @@ describe('ResponseInboxPage', () => {
     await findByText('Send a reply');
     const input = container.querySelector('va-textarea');
     input.value = 'Test reply';
-    const event = new CustomEvent('input', {
+    const event = new window.Event('input', {
       bubbles: true,
-      detail: { value: 'Test reply' },
+      cancelable: true,
     });
 
     input.dispatchEvent(event);
