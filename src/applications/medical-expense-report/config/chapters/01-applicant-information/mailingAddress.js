@@ -7,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your address'),
+    ...titleUI('Your mailing address'),
     claimantAddress: addressUI({
       labels: {
         militaryCheckbox:
