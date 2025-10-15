@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor, within } from '@testing-library/react';
 import Allergies from '../../containers/Allergies';
 import reducer from '../../reducers';
 import allergies from '../fixtures/allergies.json';
@@ -82,8 +82,9 @@ describe('Allergies list container', () => {
   });
 
   it('displays a list of records', async () => {
-    const items = await screen.findAllByTestId('record-list-item');
-    expect(items).to.have.lengthOf(10);
+    const webList = screen.getByTestId('record-list-web');
+    const items = await within(webList).findAllByTestId('record-list-item');
+    expect(items).to.have.lengthOf(5);
   });
 
   it('displays a print button', () => {
