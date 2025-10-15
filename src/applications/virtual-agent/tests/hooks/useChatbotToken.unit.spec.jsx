@@ -1,14 +1,29 @@
+import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import TOGGLE_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import * as RetryOnce from '../../utils/retryOnce';
 import useChatbotToken from '../../hooks/useChatbotToken';
 import { COMPLETE } from '../../utils/loadingStatus';
 
 describe('useChatbotToken', () => {
   let sandbox;
+  const createWrapper = (persist = false) => {
+    const initialState = {
+      featureToggles: {
+        loading: false,
+        [TOGGLE_NAMES.virtualAgentChatbotSessionPersistenceEnabled]: persist,
+      },
+    };
+    const store = createStore((state = initialState) => state);
+    // eslint-disable-next-line react/prop-types
+    return ({ children }) => <Provider store={store}>{children}</Provider>;
+  };
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -30,7 +45,9 @@ describe('useChatbotToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useChatbotToken());
+        result = renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(false),
+        });
       });
 
       expect(result.result.current.token).to.equal('abc');
@@ -45,7 +62,9 @@ describe('useChatbotToken', () => {
       });
 
       await act(async () => {
-        renderHook(() => useChatbotToken());
+        renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(false),
+        });
       });
 
       expect(sessionStorage.getItem('va-bot.token')).to.equal('t-new');
@@ -64,7 +83,9 @@ describe('useChatbotToken', () => {
 
       let result;
       await act(async () => {
-        result = renderHook(() => useChatbotToken());
+        result = renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(true),
+        });
       });
 
       expect(result.result.current.token).to.equal('t-existing');
@@ -85,7 +106,9 @@ describe('useChatbotToken', () => {
 
       let rendered;
       await act(async () => {
-        rendered = renderHook(() => useChatbotToken());
+        rendered = renderHook(() => useChatbotToken(), {
+          wrapper: createWrapper(false),
+        });
       });
       // Re-render the hook to simulate component re-render
       await act(async () => {
