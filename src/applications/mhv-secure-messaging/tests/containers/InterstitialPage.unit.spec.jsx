@@ -7,11 +7,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
-import { getByBrokenText } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
 import * as prescriptionActions from '../../actions/prescription';
 
-describe('Interstitial page header', () => {
+describe('Interstitial page', () => {
   const initialState = (isNewFlow = false) => {
     return {
       featureToggles: {
@@ -31,114 +30,210 @@ describe('Interstitial page header', () => {
       path,
     });
 
-  it('renders without errors', async () => {
-    const screen = setup({});
+  describe('with curated list flow feature flag disabled (old flow)', () => {
+    it('renders with continue button instead of link', () => {
+      const screen = setup({});
 
-    expect(
-      getByBrokenText(
-        'If you’re in crisis or having thoughts of suicide, ',
-        document.querySelector('.interstitial-page'),
-      ),
-    ).to.exist;
+      // Old flow uses va-button with continue-button testid
+      const continueButton = screen.getByTestId('continue-button');
+      expect(continueButton).to.exist;
+      expect(continueButton).to.have.attribute('data-dd-action-name');
+      expect(continueButton).to.have.attribute(
+        'text',
+        'Continue to start message',
+      );
 
-    const startMessageLink = screen.getByTestId('start-message-link');
+      // Should not have the new link
+      const startMessageLink = screen.queryByTestId('start-message-link');
+      expect(startMessageLink).to.not.exist;
 
-    expect(startMessageLink).to.have.attribute('data-dd-action-name');
-
-    expect(startMessageLink.nextSibling.textContent).to.contain(
-      'If you need help sooner, use one of these urgent communications options:',
-    );
-    expect(
-      document.querySelector(
-        'va-button[text="Connect with the Veterans Crisis Line"]',
-      ),
-    ).to.exist;
-  });
-
-  it('renders "Continue to draft" on type draft', () => {
-    const acknowledgeSpy = sinon.spy();
-    const screen = setup({
-      props: { type: 'draft', acknowledge: acknowledgeSpy },
+      // Verify crisis line content exists
+      expect(
+        document.querySelector(
+          'va-button[text="Connect with the Veterans Crisis Line"]',
+        ),
+      ).to.exist;
     });
-    const startMessageLink = screen.queryByTestId('start-message-link');
-    expect(startMessageLink.getAttribute('text')).to.contain(
-      'Continue to draft',
-    );
-  });
 
-  it('renders "Continue to reply" on type reply', () => {
-    const acknowledgeSpy = sinon.spy();
-    const screen = setup({
-      props: { type: 'reply', acknowledge: acknowledgeSpy },
+    it('renders "Continue to draft" button text on type draft', () => {
+      const screen = setup({
+        props: { type: 'draft' },
+      });
+      const continueButton = screen.getByTestId('continue-button');
+      expect(continueButton.getAttribute('text')).to.contain(
+        'Continue to draft',
+      );
     });
-    const startMessageLink = screen.queryByTestId('start-message-link');
-    expect(startMessageLink.getAttribute('text')).to.contain(
-      'Continue to reply',
-    );
-  });
 
-  it('"Start a new message" link responds on Enter key', async () => {
-    let updateAcknowledgeSpy = sinon.spy();
-    updateAcknowledgeSpy = sinon.spy(
-      threadDetailsActions,
-      'acceptInterstitial',
-    );
-    const screen = renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(true),
-      reducers: reducer,
-      path: '/new-message/',
+    it('renders "Continue to reply" button text on type reply', () => {
+      const screen = setup({
+        props: { type: 'reply' },
+      });
+      const continueButton = screen.getByTestId('continue-button');
+      expect(continueButton.getAttribute('text')).to.contain(
+        'Continue to reply',
+      );
     });
-    const startMessageLink = screen.queryByTestId('start-message-link');
-    userEvent.type(startMessageLink, '{enter}');
-    sinon.assert.calledWith(updateAcknowledgeSpy);
-    updateAcknowledgeSpy.restore();
   });
 
-  it('"Start a new message" link responds on Space key', async () => {
-    let updateAcknowledgeSpy = sinon.spy();
-    updateAcknowledgeSpy = sinon.spy(
-      threadDetailsActions,
-      'acceptInterstitial',
-    );
-    const screen = renderWithStoreAndRouter(<InterstitialPage />, {
-      initialState: initialState(true),
-      reducers: reducer,
-      path: '/new-message/',
+  describe('with curated list flow feature flag enabled (new flow)', () => {
+    it('renders with start message link instead of button', () => {
+      const screen = setup({ customState: initialState(true) });
+
+      // New flow uses va-link-action with start-message-link testid
+      const startMessageLink = screen.getByTestId('start-message-link');
+      expect(startMessageLink).to.exist;
+      expect(startMessageLink).to.have.attribute('data-dd-action-name');
+      expect(startMessageLink).to.have.attribute(
+        'text',
+        'Continue to start message',
+      );
+      expect(startMessageLink).to.have.attribute('type', 'primary');
+
+      // Should not have the old button
+      const continueButton = screen.queryByTestId('continue-button');
+      expect(continueButton).to.not.exist;
+
+      // Verify urgent communications heading is present
+      expect(startMessageLink.nextSibling.textContent).to.contain(
+        'If you need help sooner, use one of these urgent communications options:',
+      );
+
+      // Verify crisis line content exists
+      expect(
+        document.querySelector(
+          'va-button[text="Connect with the Veterans Crisis Line"]',
+        ),
+      ).to.exist;
     });
-    const startMessageLink = screen.queryByTestId('start-message-link');
-    userEvent.type(startMessageLink, '{space}');
-    sinon.assert.calledWith(updateAcknowledgeSpy);
-    updateAcknowledgeSpy.restore();
-  });
 
-  it('"Start a new message" link does respond on Tab key', async () => {
-    const acknowledgeSpy = sinon.spy();
-    const screen = setup({
-      props: { acknowledge: acknowledgeSpy },
+    it('renders "Continue to draft" link text on type draft', () => {
+      const screen = setup({
+        customState: initialState(true),
+        props: { type: 'draft' },
+      });
+      const startMessageLink = screen.getByTestId('start-message-link');
+      expect(startMessageLink.getAttribute('text')).to.contain(
+        'Continue to draft',
+      );
     });
-    const startMessageLink = screen.getByTestId('start-message-link');
-    startMessageLink.focus();
-    userEvent.tab();
-    expect(acknowledgeSpy.called).to.be.false;
-  });
 
-  it('when isPilot is true, clicking the continue button navigates to the select health care system page', async () => {
-    const acknowledgeSpy = sinon.spy();
-    const { history, getByTestId } = renderWithStoreAndRouter(
-      <InterstitialPage acknowledge={acknowledgeSpy} />,
-      {
+    it('renders "Continue to reply" link text on type reply', () => {
+      const screen = setup({
+        customState: initialState(true),
+        props: { type: 'reply' },
+      });
+      const startMessageLink = screen.getByTestId('start-message-link');
+      expect(startMessageLink.getAttribute('text')).to.contain(
+        'Continue to reply',
+      );
+    });
+
+    it('"Start a new message" link responds on Enter key', async () => {
+      let updateAcknowledgeSpy = sinon.spy();
+      updateAcknowledgeSpy = sinon.spy(
+        threadDetailsActions,
+        'acceptInterstitial',
+      );
+      const screen = renderWithStoreAndRouter(<InterstitialPage />, {
         initialState: initialState(true),
         reducers: reducer,
         path: '/new-message/',
-      },
-    );
+      });
+      const startMessageLink = screen.getByTestId('start-message-link');
+      userEvent.type(startMessageLink, '{enter}');
+      sinon.assert.calledWith(updateAcknowledgeSpy);
+      updateAcknowledgeSpy.restore();
+    });
 
-    const startMessageLink = getByTestId('start-message-link');
-    userEvent.click(startMessageLink);
+    it('"Start a new message" link responds on Space key', async () => {
+      let updateAcknowledgeSpy = sinon.spy();
+      updateAcknowledgeSpy = sinon.spy(
+        threadDetailsActions,
+        'acceptInterstitial',
+      );
+      const screen = renderWithStoreAndRouter(<InterstitialPage />, {
+        initialState: initialState(true),
+        reducers: reducer,
+        path: '/new-message/',
+      });
+      const startMessageLink = screen.getByTestId('start-message-link');
+      userEvent.type(startMessageLink, '{space}');
+      sinon.assert.calledWith(updateAcknowledgeSpy);
+      updateAcknowledgeSpy.restore();
+    });
 
-    await waitFor(() => {
+    it('"Start a new message" link does not respond on Tab key', async () => {
+      const acknowledgeSpy = sinon.spy();
+      const screen = setup({
+        customState: initialState(true),
+        props: { acknowledge: acknowledgeSpy },
+      });
+      const startMessageLink = screen.getByTestId('start-message-link');
+      startMessageLink.focus();
+      userEvent.tab();
       expect(acknowledgeSpy.called).to.be.false;
-      expect(history.location.pathname).to.equal('/new-message/recent/');
+    });
+
+    it('clicking the start message link navigates to recent care teams page when recent recipients exist', async () => {
+      const acknowledgeSpy = sinon.spy();
+      const stateWithRecentRecipients = {
+        ...initialState(true),
+        sm: {
+          recipients: {
+            recentRecipients: [
+              { id: 1, name: 'Team 1' },
+              { id: 2, name: 'Team 2' },
+            ],
+          },
+        },
+      };
+      const { history, getByTestId } = renderWithStoreAndRouter(
+        <InterstitialPage acknowledge={acknowledgeSpy} />,
+        {
+          initialState: stateWithRecentRecipients,
+          reducers: reducer,
+          path: '/new-message/',
+        },
+      );
+
+      const startMessageLink = getByTestId('start-message-link');
+      userEvent.click(startMessageLink);
+
+      await waitFor(() => {
+        expect(acknowledgeSpy.called).to.be.false;
+        expect(history.location.pathname).to.equal('/new-message/recent');
+      });
+    });
+
+    it('clicking the start message link navigates to select care team page when no recent recipients', async () => {
+      const acknowledgeSpy = sinon.spy();
+      const stateWithoutRecentRecipients = {
+        ...initialState(true),
+        sm: {
+          recipients: {
+            recentRecipients: [],
+          },
+        },
+      };
+      const { history, getByTestId } = renderWithStoreAndRouter(
+        <InterstitialPage acknowledge={acknowledgeSpy} />,
+        {
+          initialState: stateWithoutRecentRecipients,
+          reducers: reducer,
+          path: '/new-message/',
+        },
+      );
+
+      const startMessageLink = getByTestId('start-message-link');
+      userEvent.click(startMessageLink);
+
+      await waitFor(() => {
+        expect(acknowledgeSpy.called).to.be.false;
+        expect(history.location.pathname).to.equal(
+          '/new-message/select-care-team',
+        );
+      });
     });
   });
 

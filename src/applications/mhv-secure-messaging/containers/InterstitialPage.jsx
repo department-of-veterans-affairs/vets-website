@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
@@ -20,7 +20,9 @@ const InterstitialPage = props => {
   const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
+  const { recentRecipients } = useSelector(state => state.sm.recipients);
 
+  // console.log('recentRecipients', recentRecipients);
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
@@ -56,15 +58,39 @@ const InterstitialPage = props => {
     [type],
   );
 
+  // Determine the correct destination based on whether recent recipients exist
+  // This is used for both the href attribute AND the programmatic navigation
+  const getDestinationPath = useCallback(
+    (includeRootUrl = false) => {
+      // Check if we have recent recipients to show
+      const hasRecentRecipients =
+        Array.isArray(recentRecipients) && recentRecipients.length > 0;
+
+      // Go to recent if we have them, otherwise go to full selection
+      const path = hasRecentRecipients
+        ? Paths.RECENT_CARE_TEAMS
+        : `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+
+      return includeRootUrl ? `${manifest.rootUrl}${path}` : path;
+    },
+    [recentRecipients],
+  );
+
   const handleContinueButton = useCallback(
     event => {
       event.preventDefault();
       dispatch(acceptInterstitial());
       if (mhvSecureMessagingCuratedListFlow && type !== 'reply') {
-        history.push(`${Paths.RECENT_CARE_TEAMS}`);
+        history.push(getDestinationPath());
       }
     },
-    [history, mhvSecureMessagingCuratedListFlow, type, dispatch],
+    [
+      history,
+      mhvSecureMessagingCuratedListFlow,
+      type,
+      dispatch,
+      getDestinationPath,
+    ],
   );
 
   return (
@@ -80,11 +106,7 @@ const InterstitialPage = props => {
         </p>
         {mhvSecureMessagingCuratedListFlow ? (
           <va-link-action
-            href={
-              mhvSecureMessagingCuratedListFlow
-                ? `${manifest.rootUrl}${Paths.RECENT_CARE_TEAMS}`
-                : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
-            }
+            href={getDestinationPath(true)}
             onClick={handleContinueButton}
             text={continueButtonText}
             type="primary"
