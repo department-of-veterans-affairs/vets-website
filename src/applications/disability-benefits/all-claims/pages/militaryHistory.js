@@ -6,9 +6,10 @@ import { validateCurrentOrPastDate } from 'platform/forms-system/src/js/validati
 
 import ValidatedServicePeriodView from '../components/ValidatedServicePeriodView';
 import ArrayField from '../components/ArrayField';
-import { isValidServicePeriod, formatDate } from '../utils';
+import { isValidServicePeriod } from '../utils';
 import { validateAge, validateSeparationDate } from '../validations';
 import { getBranches } from '../utils/serviceBranches';
+import { formatDate } from '../utils/dates/formatting';
 
 import { serviceNoticeContent } from '../content/militaryHistoryContent';
 
