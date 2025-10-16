@@ -319,8 +319,6 @@ class ProfileInformationFieldController extends React.Component {
     });
   };
 
-  isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
-
   handleDeleteInitiated = () => {
     recordEvent({
       event: 'profile-navigation',
