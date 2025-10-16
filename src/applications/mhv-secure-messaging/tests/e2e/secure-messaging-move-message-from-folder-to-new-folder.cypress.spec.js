@@ -20,9 +20,12 @@ describe('Secure Messaging Move Message to New Folder tests', () => {
     FolderManagementPage.selectFolderFromModal(`Create new folder`);
     FolderManagementPage.moveMessageToNewFolder(updatedFoldersList);
 
+    // backToInbox just hits the back button.
     FolderManagementPage.backToInbox();
 
-    GeneralFunctionsPage.verifyUrl(`inbox`);
+    GeneralFunctionsPage.verifyUrl(
+      `folders/${createdFolderResponse.data.attributes.folderId}`,
+    );
 
     cy.get(`va-alert`).should('be.focused');
 

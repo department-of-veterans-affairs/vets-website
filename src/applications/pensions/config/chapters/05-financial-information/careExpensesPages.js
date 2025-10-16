@@ -77,6 +77,8 @@ const options = {
         </ul>
       ),
     cancelAddTitle: 'Cancel adding this care expense',
+    alertItemUpdated: 'Your care expense information has been updated',
+    alertItemDeleted: 'Your care expense information has been deleted',
     cancelAddYes: 'Yes, cancel adding this care expense',
     cancelAddNo: 'No',
     cancelEditTitle: 'Cancel editing this care expense',

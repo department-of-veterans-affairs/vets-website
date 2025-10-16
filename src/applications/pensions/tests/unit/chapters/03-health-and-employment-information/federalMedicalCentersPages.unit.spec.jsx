@@ -29,7 +29,7 @@ describe('federal medical centers summary page', () => {
     federalMedicalCentersSummary.schema,
     federalMedicalCentersSummary.uiSchema,
     [
-      `va-radio[label="Have you received treatment from any non-VA federal medical centers within the past year?"]`,
+      `va-radio[label="Have you received treatment from any non-VA federal medical facilities within the past year?"]`,
     ],
     pageTitle,
   );
