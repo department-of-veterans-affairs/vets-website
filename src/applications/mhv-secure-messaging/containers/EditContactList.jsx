@@ -35,6 +35,7 @@ const EditContactList = () => {
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [triageTeamCount, setTriageTeamCount] = useState({});
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
@@ -64,18 +65,33 @@ const EditContactList = () => {
     [allTriageTeams],
   );
 
-  const updatePreferredTeam = (triageTeamId, selected) => {
-    setAllTriageTeams(prevTeams =>
-      prevTeams.map(
-        team =>
-          team.triageTeamId === triageTeamId
-            ? {
-                ...team,
-                preferredTeam: selected || !team.preferredTeam,
-              }
-            : team,
-      ),
+  const SetStationCount = triageTeams => {
+    const stationNumbers = triageTeams.map(team => team.stationNumber);
+    const uniqueStationNumbers = [...new Set(stationNumbers)];
+    return Object.fromEntries(
+      uniqueStationNumbers.map(station => [
+        station,
+        triageTeams.filter(
+          team => team.stationNumber === station && team.preferredTeam,
+        ).length,
+      ]),
     );
+  };
+
+  const updatePreferredTeam = (triageTeamId, selected, stationNumber) => {
+    const updatedTriageTeams = allTriageTeams.map(
+      team =>
+        team.triageTeamId === triageTeamId ||
+        (selected !== null && team.stationNumber === stationNumber)
+          ? {
+              ...team,
+              preferredTeam:
+                (selected || !team.preferredTeam) && selected !== false,
+            }
+          : team,
+    );
+    setAllTriageTeams(updatedTriageTeams);
+    setTriageTeamCount(SetStationCount(updatedTriageTeams));
   };
 
   const navigateBack = useCallback(
@@ -125,6 +141,7 @@ const EditContactList = () => {
   useEffect(
     () => {
       setAllTriageTeams(vistaRecipients);
+      setTriageTeamCount(SetStationCount(vistaRecipients));
     },
     [vistaRecipients],
   );
@@ -232,36 +249,49 @@ const EditContactList = () => {
       {allTriageTeams?.length > 0 && (
         <>
           <form className="contactListForm">
-            {vistaFacilities.map(stationNumber => {
-              if (!blockedFacilities.includes(stationNumber)) {
-                const facilityName = getVamcSystemNameFromVhaId(
-                  ehrDataByVhaId,
-                  stationNumber,
-                );
+            <va-accordion open-single bordered>
+              {vistaFacilities.map((stationNumber, index) => {
+                if (!blockedFacilities.includes(stationNumber)) {
+                  const facilityName = getVamcSystemNameFromVhaId(
+                    ehrDataByVhaId,
+                    stationNumber,
+                  );
 
-                return (
-                  <FacilityCheckboxGroup
-                    key={stationNumber}
-                    errorMessage={checkboxError}
-                    facilityName={facilityName}
-                    multipleFacilities={vistaFacilities?.length > 1}
-                    updatePreferredTeam={updatePreferredTeam}
-                    triageTeams={allTriageTeams
-                      .filter(
-                        team =>
-                          team.stationNumber === stationNumber &&
-                          team.blockedStatus === false,
-                      )
-                      .sort((a, b) => {
-                        const aName = a.suggestedNameDisplay || a.name;
-                        const bName = b.suggestedNameDisplay || b.name;
-                        return aName.localeCompare(bName);
-                      })}
-                  />
-                );
-              }
-              return null;
-            })}
+                  return (
+                    <va-accordion-item
+                      header={`${facilityName ||
+                        'VA Medical Center'} - ${stationNumber || ''}`}
+                      subheader={`${triageTeamCount[stationNumber] ||
+                        0} teams selected`}
+                      key={stationNumber}
+                      data-testid="facility-accordion-item"
+                      data-dd-action-name="Contact list accordion clicked"
+                      open={index === 0}
+                    >
+                      <FacilityCheckboxGroup
+                        key={stationNumber}
+                        errorMessage={checkboxError}
+                        facilityName={facilityName}
+                        multipleFacilities={vistaFacilities?.length > 1}
+                        updatePreferredTeam={updatePreferredTeam}
+                        triageTeams={allTriageTeams
+                          .filter(
+                            team =>
+                              team.stationNumber === stationNumber &&
+                              team.blockedStatus === false,
+                          )
+                          .sort((a, b) => {
+                            const aName = a.suggestedNameDisplay || a.name;
+                            const bName = b.suggestedNameDisplay || b.name;
+                            return aName.localeCompare(bName);
+                          })}
+                      />
+                    </va-accordion-item>
+                  );
+                }
+                return null;
+              })}
+            </va-accordion>
 
             <div
               className="
