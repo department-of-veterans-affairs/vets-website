@@ -57,9 +57,8 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.firstCall.args[1]).to.equal('');
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.debug('Test message');
       expect(consoleLogStub.called).to.be.false;
     });
@@ -83,9 +82,8 @@ describe('Logger - Logging utility', () => {
       expect(consoleInfoStub.firstCall.args[1]).to.equal('');
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.info('Test message');
       expect(consoleInfoStub.called).to.be.false;
     });
@@ -109,9 +107,8 @@ describe('Logger - Logging utility', () => {
       expect(consoleWarnStub.firstCall.args[1]).to.equal('');
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.warn('Test message');
       expect(consoleWarnStub.called).to.be.false;
     });
@@ -142,9 +139,8 @@ describe('Logger - Logging utility', () => {
       );
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.error('Test message');
       expect(consoleErrorStub.called).to.be.false;
     });
@@ -166,9 +162,8 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.firstCall.args[1]).to.equal('');
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.timing('operation', 100);
       expect(consoleLogStub.called).to.be.false;
     });
@@ -198,9 +193,8 @@ describe('Logger - Logging utility', () => {
       });
     });
 
-    it('not log in test environment (unless ENABLE_TEST_LOGS=true)', () => {
+    it('not log in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
       logger.event('form', 'submit');
       expect(consoleLogStub.called).to.be.false;
     });
@@ -274,16 +268,14 @@ describe('Logger - Logging utility', () => {
       expect(consoleLogStub.called).to.be.false;
     });
 
-    it('not log errors in production', () => {
+    it('log errors in production', () => {
       process.env.NODE_ENV = 'production';
       logger.error('Production error');
-      expect(consoleErrorStub.called).to.be.false;
+      expect(consoleErrorStub.calledOnce).to.be.true;
     });
 
-    it('not log anything in test environment by default', () => {
+    it('not log anything in test environment', () => {
       process.env.NODE_ENV = 'test';
-      delete process.env.ENABLE_TEST_LOGS;
-
       logger.debug('Test debug');
       logger.info('Test info');
       logger.warn('Test warn');
@@ -295,24 +287,6 @@ describe('Logger - Logging utility', () => {
       expect(consoleInfoStub.called).to.be.false;
       expect(consoleWarnStub.called).to.be.false;
       expect(consoleErrorStub.called).to.be.false;
-    });
-
-    it('log in test environment when ENABLE_TEST_LOGS=true', () => {
-      process.env.NODE_ENV = 'test';
-      process.env.ENABLE_TEST_LOGS = 'true';
-
-      logger.debug('Test debug');
-      logger.info('Test info');
-      logger.warn('Test warn');
-      logger.error('Test error');
-
-      expect(consoleLogStub.called).to.be.true;
-      expect(consoleInfoStub.called).to.be.true;
-      expect(consoleWarnStub.called).to.be.true;
-      expect(consoleErrorStub.called).to.be.true;
-
-      // Clean up
-      delete process.env.ENABLE_TEST_LOGS;
     });
   });
 

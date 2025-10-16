@@ -9,8 +9,8 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import { formConfig } from '@bio-aquia/21p-530a-interment-allowance/config';
-import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers';
+import formConfig from '../../config/form';
+import { ConfirmationPage } from '../../containers/confirmation-page';
 
 const mockStore = state => createStore(() => state);
 

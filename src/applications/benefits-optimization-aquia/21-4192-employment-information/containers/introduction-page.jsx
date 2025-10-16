@@ -34,37 +34,53 @@ const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+        <h4>Information needed from the employer:</h4>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>Veteran’s full name and Social Security number</li>
+          <li>Employment start and end dates</li>
+          <li>Job title and duties performed</li>
+          <li>Earnings and time lost due to disability</li>
+          <li>Any concessions made due to disability</li>
+          <li>Termination details (if applicable)</li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
+          <strong>Note:</strong> This form must be completed by the employer or
+          an authorized representative of the organization.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
+      <va-process-list-item header="Complete">
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          The employer should complete all applicable sections of this form,
+          including employment information, benefit details, and certification.
+        </p>
+        <p>
+          For Reserve or National Guard members, additional information about
+          duty status may be required.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="VA Review">
+      <va-process-list-item header="Submit">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
+          Once completed, this form should be submitted along with the Veteran’s
+          VA Form 21-8940 (Application for Increased Compensation Based on
+          Unemployability).
+        </p>
+        <p>Submit by mail to:</p>
+        <p className="va-address-block">
+          Department of Veterans Affairs
+          <br />
+          Evidence Intake Center
+          <br />
+          P.O. Box 4444
+          <br />
+          Janesville, WI 53547-4444
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Decision">
+      <va-process-list-item header="Processing">
         <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          VA will review the employment information as part of the Veteran’s
+          Individual Unemployability claim. This information helps determine if
+          service-connected disabilities prevent substantially gainful
+          employment.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -83,10 +99,9 @@ const ProcessList = () => {
  * @param {Object} [props.location] - React Router location object
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = props => {
+export const IntroductionPage = ({ route }) => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
-  const { route } = props;
   const { formConfig, pageList } = route;
   const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
@@ -138,3 +153,5 @@ IntroductionPage.propTypes = {
     basename: PropTypes.string,
   }),
 };
+
+export default IntroductionPage;

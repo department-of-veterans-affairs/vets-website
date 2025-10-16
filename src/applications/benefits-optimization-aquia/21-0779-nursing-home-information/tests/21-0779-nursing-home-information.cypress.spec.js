@@ -1,9 +1,11 @@
 import path from 'path';
+
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import mockUser from './fixtures/mocks/user.json';
+
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
+import mockUser from './fixtures/mocks/user.json';
 
 const testConfig = createTestConfig(
   {

@@ -128,11 +128,7 @@ describe('Zod Helpers - Form validation utilities', () => {
 
       const errors = flattenZodError(result.error);
       expect(errors).to.have.property('level1');
-      expect(errors.level1).to.have.property('level2');
-      expect(errors.level1.level2).to.have.property(
-        'level3',
-        'Deep field required',
-      );
+      expect(errors.level1).to.have.property('level3', 'Deep field required');
     });
   });
 
@@ -252,12 +248,8 @@ describe('Zod Helpers - Form validation utilities', () => {
       });
 
       expect(errors).to.have.property('user');
-      expect(errors.user).to.have.property('profile');
-      expect(errors.user.profile).to.have.property('name', 'Name required');
-      expect(errors.user.profile).to.have.property(
-        'age',
-        'Age must be positive',
-      );
+      expect(errors.user).to.have.property('name', 'Name required');
+      expect(errors.user).to.have.property('age', 'Age must be positive');
     });
   });
 
@@ -520,12 +512,8 @@ describe('Zod Helpers - Form validation utilities', () => {
       const errors = errorHandler(invalidData);
       expect(errors).to.have.property('applicant');
       expect(errors.applicant).to.have.property('name', 'Name required');
-      expect(errors.applicant).to.have.property('address');
-      expect(errors.applicant.address).to.have.property(
-        'city',
-        'City required',
-      );
-      expect(errors.applicant.address).to.have.property('zip', 'Invalid ZIP');
+      expect(errors.applicant).to.have.property('city', 'City required');
+      expect(errors.applicant).to.have.property('zip', 'Invalid ZIP');
       expect(errors).to.have.property(
         'references',
         'At least one reference required',

@@ -10,19 +10,6 @@ import { logger } from '../../../utils/logger';
  * Simplified to leverage native VA component validation with Zod schema support.
  * Uses native va-text-input v3 web component for consistent VA.gov styling.
  *
- * @deprecated Use more specific field components instead for better semantics and validation:
- * - {@link SSNField} for Social Security numbers
- * - {@link PhoneField} for phone numbers
- * - {@link SelectField} for dropdowns (states, countries, etc.)
- * - {@link MemorableDateField} for dates
- * - {@link TextareaField} for multi-line text
- * - {@link CheckboxField} for boolean values
- * - {@link RadioField} for single selection from options
- * - {@link FullnameField} for full name (first, middle, last, suffix)
- * - {@link AddressField} for complete addresses
- *
- * Only use FormField for generic text inputs that don't have a specialized component.
- *
  * @component
  * @see [VA Text Input Component](https://design.va.gov/components/form/text-input)
  * @see [VA Input Messages](https://design.va.gov/components/form/input-message)
@@ -45,31 +32,13 @@ import { logger } from '../../../utils/logger';
  *
  * @example
  * ```jsx
- * // ❌ Don't use for phone numbers
  * <FormField
- *   name="phone"
- *   label="Phone Number"
- *   schema={phoneSchema}
- *   value={formData.phone}
+ *   name="firstName"
+ *   label="First Name"
+ *   schema={firstNameSchema}
+ *   value={formData.firstName}
  *   onChange={handleFieldChange}
- * />
- *
- * // ✅ Use PhoneField instead
- * <PhoneField
- *   name="phone"
- *   label="Phone Number"
- *   schema={phoneSchema}
- *   value={formData.phone}
- *   onChange={handleFieldChange}
- * />
- *
- * // ✅ OK for generic text without a specialized component
- * <FormField
- *   name="organizationName"
- *   label="Organization Name"
- *   schema={organizationNameSchema}
- *   value={formData.organizationName}
- *   onChange={handleFieldChange}
+ *   required
  * />
  * ```
  */
