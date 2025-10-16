@@ -41,7 +41,7 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 mobile-lg:vads-u-margin-y--4">
         What to know before you fill out this form
       </h2>
-      <p>
+      <div>
         The Principles of Excellence (PoE) were created under Executive Order
         13607 to help schools that serve Veterans, service members, and their
         families provide clear, honest information and strong student support.
@@ -70,7 +70,7 @@ export const IntroductionPage = props => {
           participation remains valid unless you change or withdraw it. If
           you’re not making changes, you don’t need to take further action.
         </p>
-      </p>
+      </div>
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Start the form
       </h2>

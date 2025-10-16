@@ -2,6 +2,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import submitForm from './submitForm';
+import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
@@ -18,7 +19,6 @@ import {
   additionalInstitutionDetailsItem,
 } from '../pages';
 import { additionalInstitutionDetailsArrayOptions } from '../helpers';
-import transform from './transform';
 
 /** @type {FormConfig} */
 const formConfig = {
