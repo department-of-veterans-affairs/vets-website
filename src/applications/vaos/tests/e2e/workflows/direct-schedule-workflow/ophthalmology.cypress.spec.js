@@ -145,7 +145,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           id: '983',
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983'],
-          }),
+          })[0],
         });
 
         // Act
