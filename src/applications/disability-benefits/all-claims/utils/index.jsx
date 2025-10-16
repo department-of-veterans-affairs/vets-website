@@ -67,9 +67,13 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const isUndefined = value => (value || '') === '';
 
-// moment().isSameOrBefore() => true; so expirationDate can't be undefined
-export const isNotExpired = (expirationDate = '') =>
-  getToday().isSameOrBefore(expirationDate);
+// parseDate().isSameOrBefore() => true; so expirationDate can't be undefined
+export const isNotExpired = (expirationDate = '') => {
+  const today = getToday();
+  const expiration = parseDate(expirationDate);
+  if (!today || !expiration) return false;
+  return today.isSameOrBefore(expiration);
+};
 
 export const isValidFullDate = dateString => {
   // expecting dateString = 'YYYY-MM-DD'
@@ -520,6 +524,9 @@ export const isWithinRange = (inside, outside, inclusivity = '[]') => {
   const from = parseDate(outside.from);
   const to = parseDate(outside.to);
 
+  if (!insideDate || !from || !to) return false;
+  if (!insideDate.isValid() || !from.isValid() || !to.isValid()) return false;
+
   return insideDate.isBetween(from, to, 'days', inclusivity);
 };
 
@@ -712,8 +719,14 @@ export const isExpired = date => {
     return true;
   }
   // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
-  const expires = getToday().unix(date?.expiresAt);
-  return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
+  const expires = parseDate(
+    new Date(date?.expiresAt * 1000).toISOString().split('T')[0],
+  );
+  return !(
+    expires &&
+    expires.isValid() &&
+    expires.endOf('day').isSameOrAfter(today)
+  );
 };
 
 /**
