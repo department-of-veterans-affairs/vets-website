@@ -2,24 +2,12 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 // App-level Feature Toggles
 
-/** Keep these two in the same selector to prevent a race-condition when loading. */
-export const flagsLoadedAndMhvEnabled = state => {
-  return {
-    featureTogglesLoading: state.featureToggles.loading,
-    appEnabled:
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease],
-  };
-};
-
 /**
  * Supports the smoke testing of MHV features by creating an allow-list of testers who can bypass
  * the MHV downtime notification in production.
  */
 export const selectBypassDowntime = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvBypassDowntimeNotification];
-
-export const selectMhvMrEnabledFlag = state =>
-  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsToVaGovRelease];
 
 // Domain-level Feature Toggles
 
