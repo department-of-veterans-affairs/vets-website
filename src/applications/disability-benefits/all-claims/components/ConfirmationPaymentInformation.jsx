@@ -9,7 +9,8 @@ const ConfirmationPaymentInformation = ({ formData }) => {
   const hasNewBankingInfo = Boolean(
     formData?.['view:bankAccount']?.bankAccountType ||
       formData?.['view:bankAccount']?.bankAccountNumber ||
-      formData?.['view:bankAccount']?.bankRoutingNumber,
+      formData?.['view:bankAccount']?.bankRoutingNumber ||
+      formData?.['view:bankAccount']?.bankName,
   );
 
   // Return null if no prefilled bank information and no new banking information (it is optional)
