@@ -108,6 +108,9 @@ class IntroductionPage extends React.Component {
               </Link>
             </li>
             <li>
+              <Link to="/service-branch">Service branch</Link>
+            </li>
+            <li>
               <Link to="/confirmation">Confirmation page</Link>
             </li>
           </ul>

@@ -4,11 +4,11 @@ import { options } from '../../../pages/employers';
 
 describe(`employers options`, () => {
   it('has item with all fields', () => {
-    const item = { employerName: '', employmentStartDate: '' };
+    const item = { employerName: '', employmentDates: { from: '' } };
     expect(options.isItemIncomplete(item)).to.be.true;
     const item2 = {
       employerName: 'placeholder',
-      employmentStartDate: '12-19-1905',
+      employmentDates: { from: '12-19-1905' },
     };
     expect(options.isItemIncomplete(item2)).to.be.false;
   });
@@ -28,15 +28,13 @@ describe(`employers options`, () => {
 
   it('gets the right card description', () => {
     const item = {
-      employmentStartDate: '12-12-2003',
-      employmentEndDate: '01-01-2004',
+      employmentDates: { from: '12-12-2003', to: '01-01-2004' },
     };
     expect(options.text.cardDescription(item)).to.equal(
       '12-12-2003 to 01-01-2004',
     );
     const item1 = {
-      employmentStartDate: 'invalid date',
-      employmentEndDate: 'invalid date',
+      employmentDates: { from: 'invalid date', to: 'invalid date' },
     };
     expect(options.text.cardDescription(item1)).to.equal(
       'invalid date to invalid date',

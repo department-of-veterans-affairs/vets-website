@@ -110,6 +110,54 @@ Cypress.Commands.add('selectVaSelect', (field, value) => {
   }
 });
 
+Cypress.Commands.add('selectVaComboBox', (field, value) => {
+  if (typeof value !== 'undefined') {
+    const strValue = value.toString();
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    cy.task('log', 'got the element');
+    element
+      .shadow()
+      .find('input')
+      .as('inputElement');
+
+    cy.task('log', 'got the input');
+    cy.get('@inputElement').click();
+
+    cy.get('@inputElement').clear(DELAY_OPTION);
+
+    const elementAgain =
+      typeof field === 'string'
+        ? cy.get(`va-combo-box[name="${field}"]`)
+        : cy.wrap(field);
+
+    elementAgain
+      .shadow()
+      .find('select')
+      .as('selectElement');
+
+    cy.task('log', 'got the select');
+
+    cy.get('@selectElement')
+      .find(`option[value="${strValue}"]`)
+      .invoke('text')
+      .as('optionLabel');
+
+    cy.task('log', 'got the option label');
+
+    cy.get('@optionLabel').then(label => {
+      cy.task('log', `typing the label ${label}`);
+      cy.get('@inputElement').type(label, FORCE_OPTION);
+      cy.get('@inputElement').type('{enter}');
+      cy.task('log', 'selected the option');
+    });
+    cy.task('log', 'all done');
+  }
+});
+
 Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   if (typeof isChecked !== 'undefined') {
     const element =
@@ -367,6 +415,11 @@ Cypress.Commands.add('enterWebComponentData', field => {
 
     case 'VA-CHECKBOX': {
       cy.selectVaCheckbox(field.element, field.data);
+      break;
+    }
+
+    case 'VA-COMBO-BOX': {
+      cy.selectVaComboBox(field.element, field.data);
       break;
     }
 
