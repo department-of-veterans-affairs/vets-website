@@ -89,7 +89,8 @@
     "exclude": [
       "src/platform/testing/**",
       "**/*.spec.js",
-      "**/*.spec.jsx"
+      "**/*.spec.jsx",
+      "**/*.d.ts"
     ]
   },
   "sasslintConfig": "config/sass-lint.yml",
