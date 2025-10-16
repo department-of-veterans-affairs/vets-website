@@ -3,36 +3,19 @@ import { EVIDENCE_VA } from '../constants';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
   validateVaDate,
   validateVaUnique,
 } from '../validations/evidence';
 
-import { showScNewForm } from '../utils/toggle';
+const dates = {
+  treatmentDate: { type: 'string' },
+  noDate: { type: 'boolean' },
+};
 
-const requiredLocations = newForm => {
-  const dates = newForm
-    ? {
-        treatmentDate: { type: 'string' },
-        noDate: { type: 'boolean' },
-      }
-    : {
-        evidenceDates: {
-          type: 'object',
-          required: ['from', 'to'],
-          properties: {
-            from: { type: 'string' },
-            to: { type: 'string' },
-          },
-        },
-      };
-
+const requiredLocations = () => {
   return {
     type: 'object',
-    required: newForm
-      ? ['locationAndName', 'issues']
-      : ['locationAndName', 'issues', 'evidenceDates'],
+    required: ['locationAndName', 'issues'],
     properties: {
       locationAndName: { type: 'string' },
       issues: { type: 'array', minItems: 1, items: { type: 'string' } },
@@ -41,21 +24,7 @@ const requiredLocations = newForm => {
   };
 };
 
-const notRequiredLocations = newForm => {
-  const dates = newForm
-    ? {
-        treatmentDate: { type: 'string' },
-        noDate: { type: 'boolean' },
-      }
-    : {
-        evidenceDates: {
-          type: 'object',
-          properties: {
-            from: { type: 'string' },
-            to: { type: 'string' },
-          },
-        },
-      };
+const notRequiredLocations = () => {
   return {
     type: 'object',
     required: [],
@@ -67,38 +36,7 @@ const notRequiredLocations = newForm => {
   };
 };
 
-export const newSchema = {
-  type: 'object',
-  oneOf: [
-    {
-      properties: {
-        [EVIDENCE_VA]: {
-          type: 'boolean',
-          enum: [true],
-        },
-        locations: {
-          type: 'array',
-          items: requiredLocations(true),
-        },
-      },
-    },
-    {
-      properties: {
-        [EVIDENCE_VA]: {
-          type: 'boolean',
-          enum: [false],
-        },
-        locations: {
-          type: 'array',
-          items: notRequiredLocations(true),
-        },
-      },
-    },
-  ],
-  properties: {},
-};
-
-export const oldSchema = {
+const schema = {
   type: 'object',
   oneOf: [
     {
@@ -131,24 +69,16 @@ export const oldSchema = {
 
 export default {
   uiSchema: {
-    'ui:options': {
-      // Moved outside of `items` because the form system isn't set up to detect
-      // an array inside of `oneOf`
-      updateSchema: (formData = {}) =>
-        showScNewForm(formData) ? newSchema : oldSchema,
-    },
     locations: {
       items: {
         'ui:validations': [
           validateVaLocation,
           validateVaIssues,
-          validateVaFromDate,
-          validateVaToDate,
           validateVaDate,
           validateVaUnique,
         ],
       },
     },
   },
-  schema: oldSchema,
+  schema,
 };
