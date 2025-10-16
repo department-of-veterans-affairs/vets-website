@@ -1377,6 +1377,33 @@ const responses = {
       ],
     },
   },
+
+  // Mock POST handler for file upload
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
+    // Simulate successful file upload
+    // In a real scenario, this would process the multipart form data
+    const { claimId } = req.params;
+
+    // Extract form data if available (for more realistic mocking)
+    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
+    const documentType = req.body?.document_type || 'Medical records';
+
+    // Simulate a slight delay like a real upload
+    setTimeout(() => {
+      res.status(200).json({
+        data: {
+          success: true,
+          jobId: `job-${Date.now()}`,
+          claimId,
+          document: {
+            fileName,
+            documentType,
+            uploadDate: new Date().toISOString(),
+          },
+        },
+      });
+    }, 500); // 500ms delay to simulate upload processing
+  },
 };
 
 module.exports = responses;

@@ -104,7 +104,7 @@ const DropdownLinks = ({ closeDropdown, category }) => {
             to="/get-help"
             onClick={handleClick}
             className="nav__mobile-menu-links"
-            data-testid="user-nav-profile-link"
+            data-testid="user-nav-help-link"
             data-eventname="nav-link-click"
           >
             Help

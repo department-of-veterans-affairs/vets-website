@@ -48,6 +48,9 @@ all-links.csv
 .tool-versions
 .cursorrules
 
+# Generated files from OpenAPI specs
+src/applications/benefits-optimization-aquia/**/generated/
+
 # Track shared IDE config
 !.vscode/extensions.json
 !.vscode/launch.json

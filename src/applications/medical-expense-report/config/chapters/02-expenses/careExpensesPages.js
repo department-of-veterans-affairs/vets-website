@@ -19,6 +19,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { recipientTypeLabels, careTypeLabels } from '../../../utils/labels';
+import { transformDate } from './helpers';
 
 function introDescription() {
   return (
@@ -67,11 +68,6 @@ function introDescription() {
   );
 }
 
-const transformTypeOfCare = type =>
-  type === 'residential'
-    ? 'Residential care facility'
-    : 'In-home care attendant';
-
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'careExpenses',
@@ -91,8 +87,8 @@ const options = {
   maxItems: 5,
   text: {
     getItemName: item =>
-      transformTypeOfCare(item?.typeOfCare) || 'New care expense',
-    cardDescription: item => item?.careDate?.from || '',
+      careTypeLabels[(item?.typeOfCare)] || 'New care expense',
+    cardDescription: item => transformDate(item?.careDate?.from) || '',
   },
 };
 
