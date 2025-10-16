@@ -15,4 +15,14 @@ describe('Medications List Page Allergies', () => {
     cy.injectAxe();
     cy.axeCheck('main');
   });
+
+  it('visits Medications List Page Accelerated Allergies Network Response', () => {
+    const site = new MedicationsSite();
+    const listPage = new MedicationsListPage();
+    site.login(true, true);
+    listPage.visitMedicationsListForUserWithAcceleratedAllergies();
+    listPage.verifyAllergiesListNetworkResponseWithAcceleratedAllergies();
+    cy.injectAxe();
+    cy.axeCheck('main');
+  });
 });
