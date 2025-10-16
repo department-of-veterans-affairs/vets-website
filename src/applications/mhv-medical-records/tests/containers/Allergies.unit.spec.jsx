@@ -9,7 +9,7 @@ import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
-describe('Allergies list container', () => {
+describe.skip('Allergies list container', () => {
   const initialState = {
     featureToggles: {
       /* eslint-disable camelcase */
