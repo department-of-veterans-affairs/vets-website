@@ -7,6 +7,7 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
+import { getRecentRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import {
   clearPrescription,
@@ -20,9 +21,19 @@ const InterstitialPage = props => {
   const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
-  const { recentRecipients } = useSelector(state => state.sm.recipients);
+  const { allRecipients, recentRecipients } = useSelector(
+    state => state.sm.recipients,
+  );
 
-  // console.log('recentRecipients', recentRecipients);
+  useEffect(
+    () => {
+      if (allRecipients?.length > 0) {
+        dispatch(getRecentRecipients(6));
+      }
+    },
+    [allRecipients, dispatch],
+  );
+
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
@@ -66,7 +77,6 @@ const InterstitialPage = props => {
       const hasRecentRecipients =
         Array.isArray(recentRecipients) && recentRecipients.length > 0;
 
-      // Go to recent if we have them, otherwise go to full selection
       const path = hasRecentRecipients
         ? Paths.RECENT_CARE_TEAMS
         : `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
