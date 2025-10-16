@@ -235,6 +235,26 @@ const employer = {
   },
 };
 
+const prescriptionCoverage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.provider} prescription coverage`,
+    ),
+    eob: yesNoUI({
+      title: 'Does the applicant(s) health insurance cover prescriptions?',
+      hint:
+        'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['eob'],
+    properties: {
+      eob: yesNoSchema,
+    },
+  },
+};
+
 const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -339,6 +359,11 @@ export const healthInsurancePages = arrayBuilderPages(
       path: 'health-insurance-employer-sponsorship/:index',
       title: 'Type of insurance - through employer',
       ...employer,
+    }),
+    prescriptionCoverage: pageBuilder.itemPage({
+      path: 'health-insurance-prescription-coverage/:index',
+      title: 'Prescription coverage',
+      ...prescriptionCoverage,
     }),
     comments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',
