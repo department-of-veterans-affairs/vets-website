@@ -9,7 +9,7 @@ const ToxicExposureConditions = ({ formData }) => {
   // and display the readable (non-Sippable) names of those conditions
   const teConditions = formData?.toxicExposure?.conditions || {};
   const claimedKeys = Object.keys(teConditions).filter(
-    key => key !== 'none' && teConditions[key] === true,
+    key => key !== 'none' && teConditions[key],
   );
   const conditionsContainer = formData?.newDisabilities || [];
   const finalList = conditionsContainer
@@ -20,7 +20,7 @@ const ToxicExposureConditions = ({ formData }) => {
     <li>
       <h4>Toxic Exposure </h4>
       <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
-        {teConditions?.none === true
+        {teConditions?.none
           ? reviewEntry(
               null,
               'toxicExposureNone',
