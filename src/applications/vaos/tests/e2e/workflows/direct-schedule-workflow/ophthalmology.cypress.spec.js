@@ -72,12 +72,6 @@ describe('VAOS request schedule flow - Audiology', () => {
 
   describe('When veteran is CC eligible', () => {
     const setup = () => {
-      // const mockEligibilityResponse = new MockEligibilityResponse({
-      //   facilityId: '983',
-      //   typeOfCareId,
-      //   isEligible: true,
-      // });
-
       const direct = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
@@ -113,7 +107,6 @@ describe('VAOS request schedule flow - Audiology', () => {
       mockEligibilityCCApi({ cceType });
       mockEligibilityDirectApi({ response: direct });
       mockEligibilityRequestApi({ response: request });
-      // mockEligibilityApi({ response: mockEligibilityResponse });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId,
