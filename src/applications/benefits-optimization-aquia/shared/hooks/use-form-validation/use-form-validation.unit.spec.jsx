@@ -120,7 +120,8 @@ describe('useFormValidation - Real-time validation hook', () => {
         'name',
         'Name required',
       );
-      expect(result.current.errors.user).to.have.property(
+      expect(result.current.errors.user).to.have.property('profile');
+      expect(result.current.errors.user.profile).to.have.property(
         'bio',
         'Bio too short',
       );
