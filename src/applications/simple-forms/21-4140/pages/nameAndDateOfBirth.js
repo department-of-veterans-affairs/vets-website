@@ -7,7 +7,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-// /** @type {PageSchema} */
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your name and date of birth'),
