@@ -90,9 +90,7 @@ describe('VA health services autosuggest', () => {
 
       // Erase part of the full service name in the input to verify
       // that the filter runs again and returns no results
-      cy.get(h.AUTOSUGGEST_INPUT)
-        .focus()
-        .type('{backspace}{backspace}{backspace}');
+      cy.get(h.AUTOSUGGEST_INPUT).type('{backspace}{backspace}{backspace}');
 
       h.scrollToThenVerifyElementByText('No results found.');
 
