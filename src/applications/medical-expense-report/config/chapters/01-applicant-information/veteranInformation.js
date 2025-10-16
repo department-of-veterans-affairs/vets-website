@@ -44,7 +44,12 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 export default {
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    ...titleUI('Veteran information'),
+    ...titleUI(
+      ({ formData }) =>
+        formData.claimantNotVeteran
+          ? 'Veteran information'
+          : 'Your information',
+    ),
     veteranFullName: {
       ...fullNameUI(),
       first: {
