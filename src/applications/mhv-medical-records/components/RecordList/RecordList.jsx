@@ -80,7 +80,7 @@ const RecordList = props => {
         hidePagination={hidePagination}
         perPage={perPage}
       />
-      <div className="no-print" data-testid="record-list-web">
+      <div className="no-print">
         {currentRecords?.length > 0 &&
           currentRecords.map((record, idx) => (
             <RecordListItem
