@@ -4,8 +4,9 @@ import { reviewEntry } from 'platform/forms-system/src/js/components/Confirmatio
 import { paymentRows } from './PaymentViewObjectField';
 
 const ConfirmationPaymentInformation = ({ formData }) => {
-  const hasPrefilledBankInfo =
-    Boolean(formData?.['view:bankAccount']?.['view:hasPrefilledBank']);
+  const hasPrefilledBankInfo = Boolean(
+    formData?.['view:bankAccount']?.['view:hasPrefilledBank'],
+  );
   const hasNewBankingInfo = Boolean(
     formData?.['view:bankAccount']?.bankAccountType ||
       formData?.['view:bankAccount']?.bankAccountNumber ||
@@ -97,9 +98,12 @@ const ConfirmationPaymentInformation = ({ formData }) => {
     );
   }
 
+  // Default return if no conditions are met
+  return null;
 };
 
 ConfirmationPaymentInformation.propTypes = {
   formData: PropTypes.object,
 };
+
 export default ConfirmationPaymentInformation;
