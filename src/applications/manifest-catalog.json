@@ -874,6 +874,12 @@
       "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
     },
     {
+      "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
+      "appName": "VRE CH31 Eligibility &amp; Entitlement",
+      "entryName": "ch31-eligibility-entitlement",
+      "rootUrl": "/careers-employment/your-vre-eligibility"
+    },
+    {
       "directoryPath": "src/applications/yellow-ribbon",
       "appName": "Yellow Ribbon Schools",
       "entryName": "yellow-ribbon",

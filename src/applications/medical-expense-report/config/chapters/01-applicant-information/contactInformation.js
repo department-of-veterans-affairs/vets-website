@@ -10,7 +10,12 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your email address and phone number'),
-    email: emailUI('Email'),
+    email: emailUI({
+      title: 'Email',
+      errorMessages: {
+        required: 'Enter an email address',
+      },
+    }),
     primaryPhone: internationalPhoneUI('Primary phone number'),
   },
   schema: {
@@ -18,7 +23,7 @@ export default {
     required: ['email', 'primaryPhone'],
     properties: {
       email: emailSchema,
-      primaryPhone: internationalPhoneSchema(),
+      primaryPhone: internationalPhoneSchema({ required: true }),
     },
   },
 };
