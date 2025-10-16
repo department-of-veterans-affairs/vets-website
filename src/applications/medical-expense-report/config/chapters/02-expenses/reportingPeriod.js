@@ -71,6 +71,8 @@ export default {
         },
       ),
       'ui:options': {
+        expandUnder: 'firstTimeReporting',
+        expandUnderCondition: field => field === false,
         hideIf: formData =>
           formData?.firstTimeReporting === true ||
           formData?.firstTimeReporting === undefined,
