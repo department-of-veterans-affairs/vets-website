@@ -33,7 +33,6 @@ const RecentCareTeams = () => {
     featureTogglesLoading,
   } = useFeatureToggles();
 
-  // console.log('recentRecipients', recentRecipients);
   useEffect(
     () => {
       if (!featureTogglesLoading && !mhvSecureMessagingRecentRecipients) {
