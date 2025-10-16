@@ -24,7 +24,7 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
  * @param {Object} props.route.formConfig - Form configuration object
  * @returns {React.ReactElement} Confirmation page view
  */
-export const ConfirmationPage = props => {
+export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
@@ -32,7 +32,7 @@ export const ConfirmationPage = props => {
 
   return (
     <ConfirmationView
-      formConfig={props.route?.formConfig}
+      formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       pdfUrl={submission.response?.pdfUrl}

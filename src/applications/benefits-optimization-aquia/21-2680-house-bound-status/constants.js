@@ -1,6 +1,6 @@
 /**
  * @module constants
- * @description Application-wide constants for VA Form 21-2680
+ * @description Constants for VA Form 21-2680 - Examination for Housebound Status or Aid & Attendance
  */
 
 /**
@@ -8,10 +8,57 @@
  * @constant {string}
  */
 export const TITLE =
-  'Application for Examination for Housebound Status or Permanent Need for Regular Aid & Attendance';
+  'Examination for Housebound Status or Permanent Need for Regular Aid & Attendance';
 
 /**
  * Subtitle displaying the form number
  * @constant {string}
  */
-export const SUBTITLE = 'benefits (VA Form 21-2680)';
+export const SUBTITLE = 'VA Form 21-2680';
+
+/**
+ * Benefit type options (Item 13)
+ * @constant {Object}
+ */
+export const BENEFIT_TYPES = {
+  SMC: 'smc', // Special Monthly Compensation (service-connected)
+  SMP: 'smp', // Special Monthly Pension (non-service-connected)
+};
+
+/**
+ * ADL assistance options (Item 27)
+ * @constant {Object}
+ */
+export const ADL_OPTIONS = {
+  BATHING: 'bathing',
+  TOILETING: 'toileting',
+  TRANSFERRING: 'transferring',
+  EATING: 'eating_self_feeding',
+  DRESSING: 'dressing',
+  HYGIENE: 'hygiene',
+  AMBULATING: 'ambulating_in_home',
+  MEDICATION: 'medication_management',
+  OTHER: 'other',
+};
+
+/**
+ * Locomotion aid options (Item 37)
+ * @constant {Object}
+ */
+export const LOCOMOTION_AIDS = {
+  CANES: 'canes',
+  BRACES: 'braces',
+  CRUTCHES: 'crutches',
+  ASSISTANCE_PERSON: 'assistance_of_another_person',
+};
+
+/**
+ * Distance options (Item 37)
+ * @constant {Object}
+ */
+export const DISTANCE_OPTIONS = {
+  ONE_BLOCK: '1_block',
+  FIVE_SIX_BLOCKS: '5_6_blocks',
+  ONE_MILE: '1_mile',
+  OTHER: 'other',
+};

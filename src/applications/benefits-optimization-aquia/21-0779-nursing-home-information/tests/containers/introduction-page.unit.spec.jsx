@@ -1,7 +1,8 @@
-import React from 'react';
-import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
+
 import formConfig from '../../config/form';
 import { IntroductionPage } from '../../containers/introduction-page';
 

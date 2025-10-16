@@ -1,12 +1,12 @@
 /**
  * @module pages/index
  * @description Barrel export file for form pages
- * Exports all page configurations for easy importing
+ * Exports all page components for easy importing
  */
 
-export { identificationInformation } from './identification-information';
-export { mailingAddress } from './mailing-address';
-export { nameAndDateOfBirth } from './name-and-date-of-birth';
-export { phoneAndEmailAddress } from './phone-and-email-address';
-export { nursingHomeDetails } from './nursing-home-details';
-export { nursingCareInformation } from './nursing-care-information';
+export { VeteranIdentificationPage } from './veteran-identification';
+export { ClaimantIdentificationPage } from './claimant-identification';
+export { NursingHomeDetailsPage } from './nursing-home-details';
+export { MedicaidAndCostPage } from './medicaid-and-cost';
+export { CertificationLevelOfCarePage } from './certification-level-of-care';
+export { OfficialInfoAndSignaturePage } from './official-info-and-signature';
