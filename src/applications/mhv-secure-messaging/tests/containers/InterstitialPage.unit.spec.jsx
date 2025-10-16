@@ -203,7 +203,7 @@ describe('Interstitial page', () => {
 
       await waitFor(() => {
         expect(acknowledgeSpy.called).to.be.false;
-        expect(history.location.pathname).to.equal('/new-message/recent');
+        expect(history.location.pathname).to.equal('/new-message/recent/');
       });
     });
 
