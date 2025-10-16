@@ -23,6 +23,16 @@ describe('Prescriptions List Config', () => {
     expect(pdfList.length).to.equal(prescriptions.length);
   });
 
+  it('should contain 13 values', () => {
+    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    expect(pdfList[0].sections[0].items.length).to.equal(13);
+  });
+
+  it('should contain a header with prescription name', () => {
+    const pdfList = buildPrescriptionsPDFList(prescriptions);
+    expect(pdfList[0].header).to.equal(prescriptions[0].prescriptionName);
+  });
+
   it('should handle blank non-required fields', () => {
     const blankPrescriptions = [
       {
@@ -34,12 +44,39 @@ describe('Prescriptions List Config', () => {
       `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
     );
   });
+
+  it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is NewOrder', () => {
+    prescriptions[0].prescriptionSource = 'PD';
+    prescriptions[0].dispStatus = 'NewOrder';
+    const pdfList = buildPrescriptionsPDFList(prescriptions);
+
+    const items = pdfList[0].sections[0].items.map(item => item.label);
+    expect(items).to.not.include('Last filled on:');
+    expect(items).to.not.include('Prescription number:');
+    expect(pdfList[0].sections[0].items.length).to.equal(11);
+  });
+
+  it('should NOT display "Last filled on" or "Prescription number" if rx prescription source is PD and dispStatus is Renew', () => {
+    prescriptions[0].prescriptionSource = 'PD';
+    prescriptions[0].dispStatus = 'Renew';
+    const pdfList = buildPrescriptionsPDFList(prescriptions);
+
+    const items = pdfList[0].sections[0].items.map(item => item.label);
+    expect(items).to.not.include('Last filled on:');
+    expect(items).to.not.include('Prescription number:');
+    expect(pdfList[0].sections[0].items.length).to.equal(11);
+  });
 });
 
 describe('Allergies List Config', () => {
   it('should map all allergies to a list', () => {
     const pdfList = buildAllergiesPDFList(allergies.entry);
     expect(pdfList.length).to.equal(allergies.entry.length);
+  });
+
+  it('should contain 3 values', () => {
+    const pdfList = buildAllergiesPDFList(allergies.entry);
+    expect(pdfList[0].sections[0].items.length).to.equal(3);
   });
 });
 
@@ -120,7 +157,7 @@ describe('VA prescription Config', () => {
 });
 
 describe('Non VA prescription Config', () => {
-  it('should contain 9 values', () => {
+  it('should contain 7 values', () => {
     const pdfGen = buildNonVAPrescriptionPDFList(nonVAPrescription);
     expect(pdfGen[0].sections[0].items.length).to.equal(7);
   });
