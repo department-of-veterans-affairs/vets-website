@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { formatDateRange } from '../utils';
+import { formatDateRange } from '../utils/dates/formatting';
 
 export default function PeriodOfConfinement({ formData = {} }) {
   return <div>{formatDateRange(formData)}</div>;
