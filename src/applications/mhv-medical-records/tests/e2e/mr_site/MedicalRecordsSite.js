@@ -78,10 +78,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
