@@ -30,8 +30,9 @@ describe('ezr <ApplicationDownloadLink>', () => {
       },
     };
     const { container } = renderProviderWrappedComponent(
-      mockStoreData,
+      {},
       <ApplicationDownloadLink formConfig={{}} linkText="My Link Text" />,
+      mockStoreData,
     );
     const selectors = () => ({
       vaAlert: container.querySelector('va-alert'),
