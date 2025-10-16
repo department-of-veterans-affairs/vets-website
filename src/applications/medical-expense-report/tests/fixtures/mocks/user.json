@@ -8,7 +8,7 @@
         "email": "john.doe@example.com",
         "loa": { "current": 3 },
         "first_name": "John",
-        "middle_name": "",
+        "middle_name": "Q",
         "last_name": "Doe",
         "gender": "M",
         "birth_date": "1985-01-01",
@@ -49,6 +49,15 @@
             "is_cerner": false
           }
         ]
+      },
+      "veteran_address" : {
+        "country" : "USA",
+        "street" : "101 Main St",
+        "street2" : "Apartment 2B",
+        "city" : "Anytown",
+        "state" : "OH",
+        "zip" : "01234",
+        "phone" : "123 555 1212"
       }
     }
   },
