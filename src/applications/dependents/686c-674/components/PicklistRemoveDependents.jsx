@@ -85,7 +85,7 @@ const RemoveDependentsPicklist = ({
         error={showCheckboxError ? 'Select at least one option' : null}
         label-header-level="3"
         label="Which dependents would you like to remove?"
-        hint="Select all that apply"
+        hint="Select all that apply."
         onVaChange={handlers.onChange}
         required
       >

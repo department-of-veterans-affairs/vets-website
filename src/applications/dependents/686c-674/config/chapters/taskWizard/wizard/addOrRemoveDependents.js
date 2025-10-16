@@ -7,7 +7,7 @@ export const uiSchema = {
   'view:addOrRemoveDependents': {
     ...checkboxGroupUI({
       title: 'What would you like to do?',
-      hint: 'Select all that apply',
+      hint: 'Select all that apply.',
       required: true,
       labelHeaderLevel: '3',
       tile: true,
