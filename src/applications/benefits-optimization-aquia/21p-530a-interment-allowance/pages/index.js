@@ -10,7 +10,6 @@ export { BurialBenefitsRecipientPage } from './burial-benefits-recipient';
 export { MailingAddressPage } from './mailing-address';
 
 // Chapter 2: Deceased Veteran information
-export { VeteranPersonalInformationPage } from './veteran-personal-information';
 export { VeteranIdentificationPage } from './veteran-identification';
 export { VeteranBirthInformationPage } from './veteran-birth-information';
 export { VeteranBurialInformationPage } from './veteran-burial-information';
