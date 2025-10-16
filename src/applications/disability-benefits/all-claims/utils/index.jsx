@@ -34,6 +34,7 @@ import {
 } from '../constants';
 import { getBranches } from './serviceBranches';
 import { setSharedVariable } from './sharedState';
+import { formatDateRange } from './dates/formatting';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -71,14 +72,6 @@ export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
   return date && m.isValid() ? m.format(format) : 'Unknown';
 };
-
-export const formatDateRange = (dateRange = {}, format = DATE_FORMAT) =>
-  dateRange?.from || dateRange?.to
-    ? `${formatDate(dateRange.from, format)} to ${formatDate(
-        dateRange.to,
-        format,
-      )}`
-    : 'Unknown';
 
 // moment().isSameOrBefore() => true; so expirationDate can't be undefined
 export const isNotExpired = (expirationDate = '') =>
