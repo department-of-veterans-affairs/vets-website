@@ -21,6 +21,7 @@ const InterstitialPage = props => {
   const location = useLocation();
   const { mhvSecureMessagingCuratedListFlow } = featureToggles();
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const { allRecipients, recentRecipients } = useSelector(
     state => state.sm.recipients,
   );
@@ -33,7 +34,11 @@ const InterstitialPage = props => {
     },
     [allRecipients, dispatch, recentRecipients],
   );
+=======
+  const { recentRecipients } = useSelector(state => state.sm.recipients);
+>>>>>>> d7dcee52c9 (WIP)
 
+  // console.log('recentRecipients', recentRecipients);
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
@@ -73,9 +78,17 @@ const InterstitialPage = props => {
   // This is used for both the href attribute AND the programmatic navigation
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {
+<<<<<<< HEAD
       const hasRecentRecipients =
         Array.isArray(recentRecipients) && recentRecipients.length > 0;
 
+=======
+      // Check if we have recent recipients to show
+      const hasRecentRecipients =
+        Array.isArray(recentRecipients) && recentRecipients.length > 0;
+
+      // Go to recent if we have them, otherwise go to full selection
+>>>>>>> d7dcee52c9 (WIP)
       const path = hasRecentRecipients
         ? Paths.RECENT_CARE_TEAMS
         : `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
@@ -116,6 +129,7 @@ const InterstitialPage = props => {
         {mhvSecureMessagingCuratedListFlow ? (
           <va-link-action
 <<<<<<< HEAD
+<<<<<<< HEAD
             href={getDestinationPath(true)}
 =======
             href={
@@ -124,6 +138,9 @@ const InterstitialPage = props => {
                 : `${manifest.rootUrl}${Paths.SELECT_CARE_TEAM}`
             }
 >>>>>>> a18e152ab9 (put va-action-link behind the curatedListFlow ff and va-button when ff false and the url stays the same. reverted to original button text copy.)
+=======
+            href={getDestinationPath(true)}
+>>>>>>> d7dcee52c9 (WIP)
             onClick={handleContinueButton}
             text={continueButtonText}
             type="primary"
