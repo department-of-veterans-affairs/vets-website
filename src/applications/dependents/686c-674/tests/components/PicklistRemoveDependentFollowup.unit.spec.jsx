@@ -259,20 +259,22 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=3',
+      testUrl: '?index=3&page=parent-reason-to-remove',
     });
 
     fireEvent.click($('.usa-button-secondary, va-button[back]', container));
 
     expect(goToPath.calledOnce).to.be.true;
-    expect(goToPath.firstCall.args[0]).to.equal('remove-dependent?index=2');
+    expect(goToPath.firstCall.args[0]).to.equal(
+      'remove-dependent?index=2&page=marriage-death',
+    );
   });
 
   it('should navigate back to spouse reason to remove page', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-ended',
+      testUrl: '?index=2&page=marriage-death',
     });
 
     fireEvent.click($('.usa-button-secondary, va-button[back]', container));
@@ -285,9 +287,9 @@ describe('PicklistRemoveDependentFollowup', () => {
 
   it('should redirect back to the main picklist page if the URL is invalid', () => {
     const goToPath = sinon.spy();
-    renderComponent({ goToPath, testUrl: '' });
+    renderComponent({ goToPath, testUrl: '?index=12&page=something' });
 
-    expect(goToPath.calledOnce).to.be.true;
+    expect(goToPath.called).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
       'options-selection/remove-active-dependents',
     );

@@ -57,8 +57,12 @@ const options = {
           </li>
         </ul>
       ),
+    alertItemUpdated: 'Your income source information has been updated',
+    alertItemDeleted: 'Your income source information has been deleted',
+    cancelAddTitle: 'Cancel adding this income source',
     cancelAddYes: 'Yes, cancel adding this income source',
     cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this income source',
     cancelEditYes: 'Yes, cancel editing this income source',
     cancelEditNo: 'No',
     cancelNo: 'No',

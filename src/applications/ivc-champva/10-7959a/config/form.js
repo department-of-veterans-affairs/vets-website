@@ -165,7 +165,8 @@ const formConfig = {
           path: 'is-resubmit',
           title: 'Your CHAMPVA claim status',
           // If the feature toggle is enabled, show this page:
-          depends: formData => formData.champvaEnableClaimResubmitQuestion,
+          depends: formData =>
+            formData['view:champvaEnableClaimResubmitQuestion'],
           ...certifierClaimStatusSchema,
         },
       },
