@@ -16,7 +16,6 @@ import {
   capitalizeEachWord,
   fieldsHaveInput,
   formatDate,
-  formatDateRange,
   formatFullName,
   formatMonthYearDate,
   hasGuardOrReservePeriod,
@@ -56,6 +55,7 @@ import {
   validateConditions,
   viewifyFields,
 } from '../../utils';
+import { formatDateRange } from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
 describe('526 helpers', () => {
