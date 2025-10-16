@@ -97,8 +97,6 @@ const ConfirmationPaymentInformation = ({ formData }) => {
     );
   }
 
-  // Default return if no conditions are met
-  return null;
 };
 
 ConfirmationPaymentInformation.propTypes = {
