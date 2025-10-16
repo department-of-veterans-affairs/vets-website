@@ -41,8 +41,6 @@ describe('Medical Records View Vitals', () => {
     cy.visit('my-health/medical-records');
     cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
     cy.wait('@session');
-    // Wait for the intercepted request
-    cy.wait('@pageNotFound');
 
     cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
     cy.visit('my-health/medical-records/vitals');
