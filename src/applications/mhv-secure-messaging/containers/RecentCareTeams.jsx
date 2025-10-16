@@ -36,7 +36,7 @@ const RecentCareTeams = () => {
   useEffect(
     () => {
       if (!featureTogglesLoading && !mhvSecureMessagingRecentRecipients) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       }
     },
     [featureTogglesLoading, history, mhvSecureMessagingRecentRecipients],
@@ -66,7 +66,7 @@ const RecentCareTeams = () => {
         recentRecipients === 'error' ||
         recentRecipients === null
       ) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
       }
     },
     [recentRecipients, history],
@@ -90,7 +90,7 @@ const RecentCareTeams = () => {
       }
       setError(null); // Clear error on valid submit
       if (selectedCareTeam === OTHER_VALUE) {
-        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`);
+        history.push(`${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`);
         return;
       }
       // TODO: CURATED LIST handle pushing selected recipient value to reducer
@@ -110,7 +110,7 @@ const RecentCareTeams = () => {
       );
       dispatch(
         updateDraftInProgress({
-          recipientId: value,
+          recipientId: recipient?.triageTeamId,
           careSystemName: recipient?.healthCareSystemName,
           recipientName: recipient?.name,
           careSystemVhaId: recipient?.stationNumber,

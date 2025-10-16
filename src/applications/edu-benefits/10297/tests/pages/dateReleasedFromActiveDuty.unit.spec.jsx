@@ -35,7 +35,7 @@ describe('Date released from active duty page', () => {
     expect(getByText('Your active duty release date')).to.exist;
 
     const dateField = container.querySelector(
-      '[id="root_dateReleasedFromActiveDuty-label"]',
+      '[name="root_dateReleasedFromActiveDuty"]',
     );
     expect(dateField).to.exist;
 

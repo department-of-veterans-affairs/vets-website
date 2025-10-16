@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isReviewAndSubmitPage } from '../../helpers';
+import { isReviewAndSubmitPage, getIncompleteOwnedAssets } from '../../helpers';
 
 const assetTypeAllowlist = ['BUSINESS', 'FARM'];
 
@@ -119,26 +119,9 @@ SupplementaryFormsAlert.propTypes = {
 };
 
 export function SupplementaryFormsAlertUpdated({ formData, headingLevel }) {
-  const assets = formData?.ownedAssets || [];
-
-  // Filter for assets where user either declined to upload OR said yes but didn't upload
-  const alertAssets = assets.filter(asset => {
-    const isFarmOrBusiness = assetTypeAllowlist.includes(asset.assetType);
-    const declinedUpload = asset['view:addFormQuestion'] === false;
-    const saidYesButNoUpload =
-      asset['view:addFormQuestion'] === true &&
-      (!asset?.uploadedDocuments || !asset.uploadedDocuments.name);
-
-    return isFarmOrBusiness && (declinedUpload || saidYesButNoUpload);
-  });
-
-  if (alertAssets.length === 0) return null;
-
-  const missingAssetTypes = [
-    ...new Set(alertAssets.map(asset => asset.assetType)),
-  ];
-  const hasFarm = missingAssetTypes.includes('FARM');
-  const hasBusiness = missingAssetTypes.includes('BUSINESS');
+  const { hasFarm, hasBusiness, missingAssetTypes } = getIncompleteOwnedAssets(
+    formData,
+  );
 
   const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
 

@@ -34,6 +34,9 @@ import {
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_STEM_CLAIMS_SUCCESS,
+  FETCH_FAILED_UPLOADS_ERROR,
+  FETCH_FAILED_UPLOADS_PENDING,
+  FETCH_FAILED_UPLOADS_SUCCESS,
   GET_CLAIM_DETAIL,
   RECORD_NOT_FOUND_ERROR,
   RESET_UPLOADS,
@@ -514,5 +517,26 @@ export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page,
+  };
+}
+
+export function fetchFailedUploads() {
+  return async dispatch => {
+    dispatch({ type: FETCH_FAILED_UPLOADS_PENDING });
+
+    try {
+      const response = await apiRequest(
+        '/benefits_claims/failed_upload_evidence_submissions',
+      );
+      dispatch({
+        type: FETCH_FAILED_UPLOADS_SUCCESS,
+        data: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_FAILED_UPLOADS_ERROR,
+        error: error.message || 'Failed to fetch failed uploads',
+      });
+    }
   };
 }
