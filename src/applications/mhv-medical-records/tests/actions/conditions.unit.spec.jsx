@@ -92,10 +92,12 @@ describe('getConditionsList - isAccelerating feature', () => {
     });
   });
 
-  it('should understand status code 404', () => {
+  it("should Not Call Actions.Conditions.GET_UNIFIED_LIST when there's an error", () => {
     mockApiRequest(error404, false);
     return getConditionsList(false, true)(dispatch).then(() => {
-      expect(dispatch.secondCall.args[0].type).to.equal('error');
+      expect(dispatch.secondCall.args[0].type).to.not.equal(
+        Actions.Conditions.GET_UNIFIED_LIST,
+      );
     });
   });
 

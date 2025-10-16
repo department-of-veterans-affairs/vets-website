@@ -32,11 +32,6 @@ export const getConditionsList = (
       isCurrent,
     });
   } catch (error) {
-    dispatch({
-      type: Constants.ALERT_TYPE_ERROR,
-      error,
-      isCurrent,
-    });
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
   }
 };
