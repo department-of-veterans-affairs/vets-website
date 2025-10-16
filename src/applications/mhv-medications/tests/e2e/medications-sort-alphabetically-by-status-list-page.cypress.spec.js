@@ -2,8 +2,8 @@ import MedicationsSite from './med_site/MedicationsSite';
 import MedicationsListPage from './pages/MedicationsListPage';
 import rxList from './fixtures/listOfPrescriptions.json';
 
-describe('Medications List Page Sort Alphabetically By Name', () => {
-  it('visits medications list page sort alphabetically by name', () => {
+describe('Medications List Page Sort Alphabetically By Status', () => {
+  it('visits medications list page sort alphabetically by status', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const listLength = 29;
@@ -16,16 +16,19 @@ describe('Medications List Page Sort Alphabetically By Name', () => {
       sortedData,
     ).as('sortedPrescriptions');
     listPage.visitMedicationsListPageURL(sortedData);
+
+    // Alphabetically by status is the default value, so select a different option then switch back
     listPage.selectSortDropDownOption('Alphabetically by name');
+    listPage.selectSortDropDownOption('Alphabetically by status');
 
     listPage.validateMedicationsListSorted(sortedData);
-    listPage.verifyPaginationDisplayedforSortAlphabeticallyByName(
+    listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
       1,
       10,
       listLength,
     );
     listPage.verifySortScreenReaderActionText(
-      'Sorting: Alphabetically by name',
+      'Sorting: Alphabetically by status',
     );
     cy.injectAxe();
     cy.axeCheck('main');
