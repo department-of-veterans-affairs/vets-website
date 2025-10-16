@@ -290,8 +290,9 @@ export async function fetchFlowEligibilityAndClinics({
     directSchedulingEnabled;
 
   const typeOfCareRequiresPastHistory =
-    typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
-    featurePastVisitMHFilter;
+    typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
+    (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
+      featurePastVisitMHFilter);
 
   const apiCalls = {
     patientEligibility: fetchPatientEligibility({
