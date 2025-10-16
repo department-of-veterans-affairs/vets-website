@@ -22,19 +22,29 @@ const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 // Generate dynamic slots with conflicts based on confirmed appointments
-const confirmedAppointmentsv3 = getMockConfirmedAppointments();
+const mockConfirmedAppointments = getMockConfirmedAppointments();
 // Find appointments scheduled for the next business day to force conflicts
 const nextBusinessDay = findNextBusinessDay();
 const nextBusinessDayString = nextBusinessDay.toISOString().split('T')[0]; // Get YYYY-MM-DD format
 
-const nextBusinessDayAppointments = confirmedAppointmentsv3.data.filter(
+// To locally test appointment details null state behavior, comment out
+// the inclusion of confirmed.json and uncomment the inclusion of
+// confirmed_null_states.json
+const confirmedV2 = require('./v2/confirmed.json');
+// const confirmedV2 = require('./v2/confirmed_null_states.json');
+
+const confirmedAppointmentsV3 = {
+  data: mockConfirmedAppointments.data.concat(confirmedV2.data),
+};
+
+const nextBusinessDayAppointments = confirmedAppointmentsV3.data.filter(
   appointment => {
     const appointmentDate = appointment.attributes.start.split('T')[0];
     return appointmentDate === nextBusinessDayString;
   },
 );
 const appointmentSlotsV2 = getMockSlots({
-  existingAppointments: confirmedAppointmentsv3.data,
+  existingAppointments: confirmedAppointmentsV3.data,
   futureMonths: 6,
   pastMonths: 1,
   slotsPerDay: 10,
@@ -46,12 +56,6 @@ const clinics984V2 = require('./v2/clinics_984.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
 const recentLocations = require('./v2/recent_locations.json');
 const vamcEhr = require('./v2/vamc_ehr.json');
-
-// To locally test appointment details null state behavior, comment out
-// the inclusion of confirmed.json and uncomment the inclusion of
-// confirmed_null_states.json
-// const confirmedV2 = require('./v2/confirmed.json');
-// const confirmedV2 = require('./v2/confirmed_null_states.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of requests.json and uncomment the inclusion of
@@ -188,7 +192,7 @@ const responses = {
   'PUT /vaos/v2/appointments/:id': (req, res) => {
     // TODO: also check through confirmed mocks, when those exist
     const appointments = requestsV2.data
-      .concat(confirmedAppointmentsv3.data)
+      .concat(confirmedAppointmentsV3.data)
       .concat(mockAppts);
 
     const appt = appointments.find(item => item.id === req.params.id);
@@ -217,7 +221,7 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
 
-    const appointments = confirmedAppointmentsv3.data.concat(
+    const appointments = confirmedAppointmentsV3.data.concat(
       requestsV2.data,
       mockAppts,
     );
@@ -296,7 +300,7 @@ const responses = {
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
       data: requestsV2.data
-        .concat(confirmedAppointmentsv3.data)
+        .concat(confirmedAppointmentsV3.data)
         .concat(mockAppts),
     };
     const appointment = appointments.data.find(
@@ -553,7 +557,7 @@ const responses = {
 
     if (referralNumber !== 'draft-no-slots-error') {
       draftAppointment.attributes.slots = getMockSlots({
-        existingAppointments: confirmedAppointmentsv3.data,
+        existingAppointments: confirmedAppointmentsV3.data,
         futureMonths: 2,
         pastMonths: 0,
         slotsPerDay: 3,

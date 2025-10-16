@@ -3,7 +3,14 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
-import { parseDate } from '../utils/dates';
+import {
+  parseDate,
+  isTreatmentBeforeService,
+  findEarliestServiceDate,
+  isMonthOnly,
+  isYearOnly,
+  isYearMonth,
+} from '../utils/dates';
 
 import {
   isValidYear,
@@ -24,11 +31,6 @@ import {
   validateZIP,
   limitNewDisabilities,
   requireSeparationLocation,
-  isMonthOnly,
-  isYearOnly,
-  isYearMonth,
-  isTreatmentBeforeService,
-  findEarliestServiceDate,
 } from '../validations';
 
 import { getDisabilityLabels } from '../content/disabilityLabels';
@@ -1674,13 +1676,14 @@ describe('526 All Claims validations', () => {
         expect(result.format('YYYY-MM-DD')).to.equal('2000-01-14');
       });
 
-      it('should throw error when service period has undefined dateRange', () => {
+      it('should filter out service periods with undefined dateRange', () => {
         const servicePeriods = [
           { serviceBranch: 'Army', dateRange: { from: '2003-03-12' } },
           { serviceBranch: 'Navy' },
         ];
 
-        expect(() => findEarliestServiceDate(servicePeriods)).to.throw();
+        const result = findEarliestServiceDate(servicePeriods);
+        expect(result.format('YYYY-MM-DD')).to.equal('2003-03-12');
       });
     });
   });

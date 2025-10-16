@@ -1,10 +1,11 @@
 import _ from 'platform/utilities/data';
 import {
-  PTSD_INCIDENT_ITERATION,
-  PTSD_CHANGE_LABELS,
   ATTACHMENT_KEYS,
   causeTypes,
   disabilityActionTypes,
+  NEW_CONDITION_OPTION,
+  PTSD_INCIDENT_ITERATION,
+  PTSD_CHANGE_LABELS,
 } from '../constants';
 
 import {
@@ -109,6 +110,23 @@ export const setActionType = disability =>
     ? _.set('disabilityActionType', disabilityActionTypes.INCREASE, disability)
     : _.set('disabilityActionType', disabilityActionTypes.NONE, disability);
 
+const norm = str => (str || '').trim().toLowerCase();
+
+const collectSelectedNamesFromNewDisabilities = formData => {
+  const picked = new Set();
+  const list = formData?.newDisabilities || [];
+  for (const newDisability of list) {
+    // For "increase on rated condition", UI stores: { ratedDisability: '<name>' }
+    const name = newDisability?.ratedDisability || null;
+
+    // Ignore "new condition" sentinel and empties
+    if (name && name !== NEW_CONDITION_OPTION) {
+      picked.add(norm(name));
+    }
+  }
+  return picked;
+};
+
 /**
  * Sets disabilityActionType for rated disabilities to either INCREASE (for
  * selected disabilities) or NONE (for unselected disabilities)
@@ -118,17 +136,114 @@ export const setActionType = disability =>
  * exist
  */
 export const setActionTypes = formData => {
-  const { ratedDisabilities } = formData;
-
-  if (ratedDisabilities) {
-    return _.set(
-      'ratedDisabilities',
-      ratedDisabilities.map(setActionType),
-      formData,
-    );
+  const rated = formData?.ratedDisabilities || [];
+  if (!rated.length) {
+    return _.cloneDeep(formData);
   }
 
-  return _.cloneDeep(formData);
+  const selectedNames = collectSelectedNamesFromNewDisabilities(formData);
+  const useFallback = selectedNames.size === 0;
+
+  const mapped = rated.map(data => {
+    let candidate;
+
+    if (!useFallback) {
+      if (selectedNames.has(norm(data.name))) {
+        candidate = { ...data, 'view:selected': true };
+      } else {
+        candidate = { ...data, 'view:selected': undefined };
+      }
+    } else {
+      candidate = data;
+    }
+
+    return setActionType(candidate);
+  });
+
+  return _.set('ratedDisabilities', mapped, formData);
+};
+
+/* At time of submission, the newDisabilities object also contains
+rated disabilities. These rated disabilities that have been selected
+for increase must be removed from the newDisabilities object and
+added to the ratedDisabilities object. This transformation is needed
+in order for the form to successfully submit.
+*/
+const isSchemaNewRow = r => r?.condition && r?.cause;
+const isIncreaseRow = r => r?.ratedDisability && !r?.condition && !r?.cause;
+
+export const normalizeIncreases = formData => {
+  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  const rated = Array.isArray(formData?.ratedDisabilities)
+    ? formData.ratedDisabilities.map(r => ({ ...r }))
+    : [];
+  const newList = Array.isArray(formData?.newDisabilities)
+    ? formData.newDisabilities
+    : [];
+
+  const indexByName = new Map(rated.map((r, i) => [norm(r.name), i]));
+  const remainingNew = [];
+
+  for (const row of newList) {
+    if (isSchemaNewRow(row)) {
+      // true NEW/SECONDARY/etc. so keep
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    if (!isIncreaseRow(row)) {
+      // not schema-shaped, not an increase just keep as-is
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    // At this point: it's an increase row
+    const name = row.ratedDisability;
+    const idx = indexByName.get(norm(name));
+
+    if (idx === undefined) {
+      // no rated match so keep as-is
+      remainingNew.push(row);
+      continue; // eslint-disable-line no-continue
+    }
+
+    // we have a rated match → hoist into rated
+    const target = rated[idx];
+    if (row.conditionDate && !target.conditionDate) {
+      target.conditionDate = row.conditionDate;
+    }
+    target['view:selected'] = true;
+    target.disabilityActionType = 'INCREASE';
+  }
+
+  // Build output — omit newDisabilities if empty
+  const out = {
+    ...formData,
+    ratedDisabilities: rated,
+  };
+
+  if (remainingNew.length > 0) {
+    out.newDisabilities = remainingNew;
+  } else if ('newDisabilities' in out) {
+    delete out.newDisabilities;
+  }
+
+  return out;
+};
+
+export const sanitizeNewDisabilities = formData => {
+  if (!formData?.disabilityCompensationNewConditionsWorkflow) return formData;
+  if (!Array.isArray(formData.newDisabilities)) return formData;
+
+  const cleaned = formData.newDisabilities.filter(
+    r => r && r.condition && r.cause,
+  );
+
+  const out = { ...formData };
+  if (cleaned.length) out.newDisabilities = cleaned;
+  else delete out.newDisabilities;
+
+  return out;
 };
 
 /**
