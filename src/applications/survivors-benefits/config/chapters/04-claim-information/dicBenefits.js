@@ -12,7 +12,7 @@ const dicOptions = {
     'D.I.C. due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
 };
 
-export const uiSchema = {
+const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({ title: 'D.I.C. benefits' }),
   'view:dicType': radioUI({
     title:
@@ -22,7 +22,7 @@ export const uiSchema = {
   }),
 };
 
-export const schema = {
+const schema = {
   type: 'object',
   properties: {
     'view:dicType': radioSchema(Object.keys(dicOptions)),

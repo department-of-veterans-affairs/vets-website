@@ -4,7 +4,7 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export const uiSchema = {
+const uiSchema = {
   ...arrayBuilderItemFirstPageTitleUI({
     title: 'Nursing home or increased survivor entitlement',
   }),
@@ -18,7 +18,7 @@ export const uiSchema = {
   }),
 };
 
-export const schema = {
+const schema = {
   type: 'object',
   properties: {
     needRegularAssistance: radioSchema(['YES', 'NO']),
