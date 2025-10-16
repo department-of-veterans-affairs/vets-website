@@ -6,6 +6,7 @@ import {
   getCardDescription,
   getReadOnlyPrimaryOfficialTitle,
   readOnlyCertifyingOfficialArrayOptions,
+  capitalizeFirstLetter,
 } from '../helpers';
 import { readOnlyCertifyingOfficialIntro } from '../pages/readOnlyCertifyingOfficialIntro';
 import { additionalOfficialIntro } from '../pages/additionalOfficialIntro';
@@ -237,6 +238,41 @@ describe('8794 helpers ', () => {
       expect(text.summaryTitleWithoutItems).to.equal(
         'Add read-only certifying officials',
       );
+    });
+  });
+  describe('capitalizeFirstLetter', () => {
+    it('returns empty string for falsy/undefined/null', () => {
+      expect(capitalizeFirstLetter()).to.equal('');
+      expect(capitalizeFirstLetter(null)).to.equal('');
+      expect(capitalizeFirstLetter('')).to.equal('');
+    });
+
+    it('returns empty string for non-string inputs', () => {
+      expect(capitalizeFirstLetter(123)).to.equal('');
+      expect(capitalizeFirstLetter(true)).to.equal('');
+      expect(capitalizeFirstLetter({})).to.equal('');
+      expect(capitalizeFirstLetter([])).to.equal('');
+      expect(capitalizeFirstLetter(() => {})).to.equal('');
+    });
+
+    it('capitalizes first character of a lowercase word', () => {
+      expect(capitalizeFirstLetter('apple')).to.equal('Apple');
+      expect(capitalizeFirstLetter('banana split')).to.equal('Banana split');
+    });
+
+    it('handles single-character strings', () => {
+      expect(capitalizeFirstLetter('a')).to.equal('A');
+      expect(capitalizeFirstLetter('z')).to.equal('Z');
+    });
+
+    it('leaves already-capitalized first letter unchanged', () => {
+      expect(capitalizeFirstLetter('Apple')).to.equal('Apple');
+      expect(capitalizeFirstLetter('USA')).to.equal('USA');
+    });
+
+    it('works with non-ASCII letters (basic unicode)', () => {
+      expect(capitalizeFirstLetter('ábc')).to.equal('Ábc');
+      expect(capitalizeFirstLetter('ñandú')).to.equal('Ñandú');
     });
   });
 });
