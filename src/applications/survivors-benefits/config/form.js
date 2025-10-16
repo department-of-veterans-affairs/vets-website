@@ -12,7 +12,14 @@ import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-import applicantInformation from './chapters/01-applicant-information';
+// import dicBenefits from './chapters/04-claim-information/dicBenefits';
+// import nursingHome from './chapters/04-claim-information/nursingHome';
+// import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
+// import accountInformation from './chapters/06-additional-information/accountInformation';
+// import claimProcessing from './chapters/06-additional-information/claimProcessing';
+import directDeposit from './chapters/06-additional-information/directDeposit';
+import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
+import uploadDocuments from './chapters/06-additional-information/uploadDocuments';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -35,7 +42,7 @@ const formConfig = {
     breadcrumbList: [
       { href: '/', label: 'VA.gov home' },
       {
-        href: '/supporting-forms-for-claims/apply-form-21p-534ezs',
+        href: '/supporting-forms-for-claims/apply-form-21p-534ez',
         label: 'Survivors benefits',
       },
     ],
@@ -78,7 +85,61 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    applicantInformation,
+    // Chapter 4
+    // claimInformation: {
+    //   title: 'Claim information',
+    //   pages: {
+    //     dicBenefits: {
+    //       title: 'D.I.C. benefits',
+    //       path: 'claim-information/dic',
+    //       uiSchema: dicBenefits.uiSchema,
+    //       schema: dicBenefits.schema,
+    //     },
+    //     ...treatmentPages,
+    //     nursingHome: {
+    //       title: 'Nursing home or increased survivor entitlement',
+    //       path: 'claim-information/nursing-home',
+    //       uiSchema: nursingHome.uiSchema,
+    //       schema: nursingHome.schema,
+    //     },
+    //   },
+    // },
+    // Chapter 6
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        // accountInformation: {
+        //   title: 'Account information',
+        //   path: 'expenses/additional-information/account-information',
+        //   uiSchema: accountInformation.uiSchema,
+        //   schema: accountInformation.schema,
+        // },
+        // claimProcessing: {
+        //   title: 'Faster claim processing',
+        //   path: 'expenses/additional-information/claim-processing',
+        //   uiSchema: claimProcessing.uiSchema,
+        //   schema: claimProcessing.schema,
+        // },
+        directDeposit: {
+          title: 'Direct deposit',
+          path: 'expenses/additional-information/direct-deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
+        supportingDocuments: {
+          title: 'Supporting documents',
+          path: 'expenses/additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
+        uploadDocuments: {
+          title: 'Upload supporting documents',
+          path: 'expenses/additional-information/upload-documents',
+          uiSchema: uploadDocuments.uiSchema,
+          schema: uploadDocuments.schema,
+        },
+      },
+    },
   },
 };
 
