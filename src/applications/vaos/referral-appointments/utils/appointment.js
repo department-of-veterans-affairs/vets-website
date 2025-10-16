@@ -4,7 +4,7 @@ const appointmentData = {
   attributes: {
     id: 'QC9S60he',
     status: 'booked',
-    start: '2025-10-08T14:00:00Z',
+    start: '2024-11-18T13:30:00Z',
     past: false,
     isLatest: true,
     lastRetrieved: '2025-10-14T15:15:07Z',

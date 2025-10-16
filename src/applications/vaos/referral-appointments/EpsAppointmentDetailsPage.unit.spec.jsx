@@ -193,7 +193,7 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByText(/Bring your insurance cards/)).to.exist;
     expect(
       container.querySelector(
-        'va-link[text="Find out what to bring to your appointment"]',
+        'va-link[text="Find a full list of things to bring to your appointment"]',
       ),
     ).to.exist;
 
@@ -257,7 +257,7 @@ describe('EpsAppointmentDetailsPage', () => {
     await waitFor(() => {
       expect(getByTestId('appointment-card')).to.exist;
     });
-    expect(getByTestId('provider-telephone')).to.exist;
+    expect(getByTestId('clinic-telephone')).to.exist;
   });
 
   it('should display correct time with timezone conversion', async () => {
