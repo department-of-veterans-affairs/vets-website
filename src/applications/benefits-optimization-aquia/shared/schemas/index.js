@@ -9,6 +9,9 @@ export * from './address';
 /** Contact information schemas (phone/email) */
 export * from './contact';
 
+/** Name validation schemas */
+export * from './name';
+
 /** Personal information schemas (names/SSN/DOB) */
 export * from './personal-info';
 
