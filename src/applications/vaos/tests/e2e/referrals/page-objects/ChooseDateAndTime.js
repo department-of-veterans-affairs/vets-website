@@ -24,7 +24,7 @@ export class ChooseDateAndTimePageObject extends PageObject {
   assertProviderInfo() {
     // Verify provider information
     cy.findByText(/You or your VA facility chose this/).should('exist');
-    cy.findByText(/A & D HEALTH CARE PROFS/).should('exist');
+    cy.findByText(/Dr. Moreen S. Rafa/).should('exist');
     cy.findByText(/Meridian Health/).should('exist');
 
     return this;

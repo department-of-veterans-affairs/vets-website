@@ -323,7 +323,7 @@ describe('VAOS Referral API Error Handling', () => {
           },
         ).toJSON();
         mockAppointmentDetailsApi({
-          id: draftAppointmentId,
+          id: '*',
           response: appointmentDetailsResponse,
           responseCode,
         });
