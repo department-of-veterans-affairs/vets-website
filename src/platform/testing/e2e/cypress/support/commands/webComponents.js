@@ -149,9 +149,12 @@ Cypress.Commands.add('selectVaComboBox', (field, value) => {
     cy.task('log', 'got the option label');
 
     cy.get('@optionLabel').then(label => {
+      cy.task('log', `typing the label ${label}`);
       cy.get('@inputElement').type(label, FORCE_OPTION);
       cy.get('@inputElement').type('{enter}');
+      cy.task('log', 'selected the option');
     });
+    cy.task('log', 'all done');
   }
 });
 
