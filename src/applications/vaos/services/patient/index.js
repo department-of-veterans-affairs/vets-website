@@ -268,7 +268,7 @@ function logEligibilityExplanation(
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
  * @param {boolean} [params.isCerner=false] whether the current site is a Cerner site
- * @param {boolean} [params.removeFacilityConfigCheck=false] whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT onyl
+ * @param {boolean} [params.removeFacilityConfigCheck=false] whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
