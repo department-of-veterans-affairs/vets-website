@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 146,
+  "totalApplications": 145,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -508,12 +508,6 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
-    },
-    {
       "directoryPath": "src/applications/new-chapter-36-form",
       "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
       "entryName": "new-chapter-36-form",
@@ -652,12 +646,6 @@
       "rootUrl": "/sign-in-changes-reminder"
     },
     {
-      "directoryPath": "src/applications/sign-in-confirm-contact-email",
-      "appName": "Sign In Confirm Contact Email",
-      "entryName": "confirm-contact-email",
-      "rootUrl": "/sign-in-confirm-contact-email"
-    },
-    {
       "directoryPath": "src/applications/simple-forms-form-engine/12-3456",
       "appName": "Form Builder Sandbox",
       "entryName": "12-3456",
@@ -722,12 +710,6 @@
       "appName": "Authorize the release of non-VA medical information to VA",
       "entryName": "21-4142-medical-release",
       "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142"
-    },
-    {
-      "directoryPath": "src/applications/simple-forms/21-8940",
-      "appName": "Apply for additional compensation based on inability to work",
-      "entryName": "21-8940",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/apply-form-21-8940"
     },
     {
       "directoryPath": "src/applications/simple-forms/21p-0537",
