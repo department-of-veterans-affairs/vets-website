@@ -1152,7 +1152,49 @@ const getTimezoneAbbr = date => {
     .pop();
 };
 
-export const getTimezoneDiscrepancyMessage = timezoneOffsetMinutes => {
+// Helper: Validate date input
+const isValidDateInput = date => {
+  return date && date instanceof Date && isValid(date);
+};
+
+// Helper: Calculate the cutoff time when uploads cross day boundaries
+const calculateCutoffTime = timezoneOffsetMinutes => {
+  const totalMinutes = Math.abs(timezoneOffsetMinutes);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  // Cutoff hour is when local time crosses to different UTC day
+  const cutoffHour = timezoneOffsetMinutes > 0 ? 24 - hours : hours;
+
+  // Create date representing cutoff time (immutable pattern)
+  const now = new Date();
+  return new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    cutoffHour,
+    minutes,
+    0,
+    0,
+  );
+};
+
+// Helper: Format UTC date as ISO date string
+const formatUtcDateString = date => {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+// Returns a message warning that files uploaded near midnight may show different dates in UTC.
+// Static mode (no uploadDate): Returns "next/previous day's date" for page headers.
+// Dynamic mode (with uploadDate): Returns specific UTC date like "August 16, 2025" for upload alerts.
+// Returns empty string for UTC timezone (offset = 0) or invalid inputs.
+export const getTimezoneDiscrepancyMessage = (
+  timezoneOffsetMinutes,
+  uploadDate = null,
+) => {
   // Handle invalid inputs
   if (
     timezoneOffsetMinutes == null ||
@@ -1162,28 +1204,30 @@ export const getTimezoneDiscrepancyMessage = timezoneOffsetMinutes => {
     return '';
   }
 
-  const totalMinutes = Math.abs(timezoneOffsetMinutes);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-
-  // Create a date object representing the cutoff time
-  const cutoffHour = timezoneOffsetMinutes > 0 ? 24 - hours : hours;
-  const cutoffDate = new Date();
-  cutoffDate.setHours(cutoffHour, minutes, 0, 0);
-
+  const cutoffDate = calculateCutoffTime(timezoneOffsetMinutes);
   const timeStr = formatTimeVaStyle(cutoffDate);
   const tzAbbr = getTimezoneAbbr(cutoffDate);
 
-  const isNextDay = timezoneOffsetMinutes > 0;
-  const beforeAfter = isNextDay ? 'after' : 'before';
-  const nextPrevious = isNextDay ? 'next' : 'previous';
+  const beforeAfter = timezoneOffsetMinutes > 0 ? 'after' : 'before';
 
-  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show as received on the ${nextPrevious} day's date, but we record your submissions when you upload them.`;
+  // If uploadDate is provided, calculate the specific UTC date
+  let dateText;
+  if (isValidDateInput(uploadDate)) {
+    // Convert local upload time to UTC and format the UTC date
+    const utcDateStr = formatUtcDateString(uploadDate);
+    dateText = format(parseISO(utcDateStr), 'MMMM d, yyyy');
+  } else {
+    // No uploadDate provided - use generic "next/previous day's date" language
+    const nextPrevious = timezoneOffsetMinutes > 0 ? 'next' : 'previous';
+    dateText = `the ${nextPrevious} day's date`;
+  }
+
+  return `Files uploaded ${beforeAfter} ${timeStr} ${tzAbbr} will show as received on ${dateText}, but we record your submissions when you upload them.`;
 };
 
 export const showTimezoneDiscrepancyMessage = uploadDate => {
   // Handle invalid inputs
-  if (!uploadDate || !(uploadDate instanceof Date) || !isValid(uploadDate)) {
+  if (!isValidDateInput(uploadDate)) {
     return false;
   }
 

@@ -1750,7 +1750,8 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.equal('');
     });
 
-    it('should return "after" message for UTC-4 (EDT) timezone', () => {
+    // Tests WITHOUT uploadDate parameter (static messages)
+    it('should return "after" message with "next day\'s date" for UTC-4 (EDT) timezone without uploadDate', () => {
       const message = getTimezoneDiscrepancyMessage(240);
       expect(message).to.include('Files uploaded after');
       expect(message).to.include('8:00 p.m.');
@@ -1760,115 +1761,168 @@ describe('Disability benefits helpers: ', () => {
       );
     });
 
-    it('should return "after" message for UTC-5 (EST/CDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(300);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('7:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "after" message for UTC-8 (PST/AKDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(480);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('4:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "after" message for UTC-10 (HST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(600);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('2:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "after" message for UTC-6 (CST/MDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(360);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('6:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "after" message for UTC-7 (MST/PDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(420);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('5:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "after" message for UTC-9 (AKST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(540);
-      expect(message).to.include('Files uploaded after');
-      expect(message).to.include('3:00 p.m.');
-      expect(message).to.include("next day's date");
-    });
-
-    it('should return "before" message for UTC+1 (BST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-60);
+    it('should return "before" message with "previous day\'s date" for UTC+9 (JST) timezone without uploadDate', () => {
+      const message = getTimezoneDiscrepancyMessage(-540);
       expect(message).to.include('Files uploaded before');
-      expect(message).to.include('1:00 a.m.');
+      expect(message).to.include('9:00 a.m.');
       expect(message).to.include("previous day's date");
       expect(message).to.include(
         'but we record your submissions when you upload them',
       );
     });
 
-    it('should return "before" message for UTC+9 (JST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-540);
+    // Tests WITH uploadDate parameter (upload success notification)
+    it('should return "after" message for UTC-4 (EDT) timezone with specific date', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('8:00 p.m.');
+      expect(message).to.include('August 16, 2025');
+      expect(message).to.include(
+        'but we record your submissions when you upload them',
+      );
+    });
+
+    it('should return "after" message for UTC-5 (EST/CDT) timezone with specific date', () => {
+      // Upload at 8:00 PM EST on January 15 = 1:00 AM UTC on January 16
+      const uploadDate = new Date('2025-01-15T20:00:00-05:00');
+      const message = getTimezoneDiscrepancyMessage(300, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('7:00 p.m.');
+      expect(message).to.include('January 16, 2025');
+    });
+
+    it('should return "after" message for UTC-8 (PST/AKDT) timezone with specific date', () => {
+      // Upload at 5:00 PM PST on December 20 = 1:00 AM UTC on December 21
+      const uploadDate = new Date('2025-12-20T17:00:00-08:00');
+      const message = getTimezoneDiscrepancyMessage(480, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('4:00 p.m.');
+      expect(message).to.include('December 21, 2025');
+    });
+
+    it('should return "after" message for UTC-10 (HST) timezone with specific date', () => {
+      // Upload at 3:00 PM HST on March 10 = 1:00 AM UTC on March 11
+      const uploadDate = new Date('2025-03-10T15:00:00-10:00');
+      const message = getTimezoneDiscrepancyMessage(600, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('2:00 p.m.');
+      expect(message).to.include('March 11, 2025');
+    });
+
+    it('should return "after" message for UTC-6 (CST/MDT) timezone with specific date', () => {
+      // Upload at 7:00 PM CST on February 28 = 1:00 AM UTC on March 1
+      const uploadDate = new Date('2025-02-28T19:00:00-06:00');
+      const message = getTimezoneDiscrepancyMessage(360, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('6:00 p.m.');
+      expect(message).to.include('March 1, 2025');
+    });
+
+    it('should return "after" message for UTC-7 (MST/PDT) timezone with specific date', () => {
+      // Upload at 6:00 PM PDT on October 15 = 1:00 AM UTC on October 16
+      const uploadDate = new Date('2025-10-15T18:00:00-07:00');
+      const message = getTimezoneDiscrepancyMessage(420, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('5:00 p.m.');
+      expect(message).to.include('October 16, 2025');
+    });
+
+    it('should return "after" message for UTC-9 (AKST) timezone with specific date', () => {
+      // Upload at 4:00 PM AKST on November 5 = 1:00 AM UTC on November 6
+      const uploadDate = new Date('2025-11-05T16:00:00-09:00');
+      const message = getTimezoneDiscrepancyMessage(540, uploadDate);
+      expect(message).to.include('Files uploaded after');
+      expect(message).to.include('3:00 p.m.');
+      expect(message).to.include('November 6, 2025');
+    });
+
+    it('should return "before" message for UTC+1 (BST) timezone with specific date', () => {
+      // Upload at 12:30 AM BST on June 10 = 11:30 PM UTC on June 9
+      const uploadDate = new Date('2025-06-10T00:30:00+01:00');
+      const message = getTimezoneDiscrepancyMessage(-60, uploadDate);
+      expect(message).to.include('Files uploaded before');
+      expect(message).to.include('1:00 a.m.');
+      expect(message).to.include('June 9, 2025');
+      expect(message).to.include(
+        'but we record your submissions when you upload them',
+      );
+    });
+
+    it('should return "before" message for UTC+9 (JST) timezone with specific date', () => {
+      // Upload at 8:00 AM JST on April 20 = 11:00 PM UTC on April 19
+      const uploadDate = new Date('2025-04-20T08:00:00+09:00');
+      const message = getTimezoneDiscrepancyMessage(-540, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('9:00 a.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('April 19, 2025');
     });
 
-    it('should return "before" message for UTC+2 (CEST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-120);
+    it('should return "before" message for UTC+2 (CEST) timezone with specific date', () => {
+      // Upload at 1:30 AM CEST on July 5 = 11:30 PM UTC on July 4
+      const uploadDate = new Date('2025-07-05T01:30:00+02:00');
+      const message = getTimezoneDiscrepancyMessage(-120, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('2:00 a.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('July 4, 2025');
     });
 
-    it('should return "before" message for UTC+10 (AEST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-600);
+    it('should return "before" message for UTC+10 (AEST) timezone with specific date', () => {
+      // Upload at 9:00 AM AEST on September 15 = 11:00 PM UTC on September 14
+      const uploadDate = new Date('2025-09-15T09:00:00+10:00');
+      const message = getTimezoneDiscrepancyMessage(-600, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('10:00 a.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('September 14, 2025');
     });
 
-    it('should return "before" message for UTC+11 (AEDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-660);
+    it('should return "before" message for UTC+11 (AEDT) timezone with specific date', () => {
+      // Upload at 10:00 AM AEDT on December 25 = 11:00 PM UTC on December 24
+      const uploadDate = new Date('2025-12-25T10:00:00+11:00');
+      const message = getTimezoneDiscrepancyMessage(-660, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('11:00 a.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('December 24, 2025');
     });
 
-    it('should return "before" message for UTC+12 (NZST) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-720);
+    it('should return "before" message for UTC+12 (NZST) timezone with specific date', () => {
+      // Upload at 11:00 AM NZST on May 1 = 11:00 PM UTC on April 30
+      const uploadDate = new Date('2025-05-01T11:00:00+12:00');
+      const message = getTimezoneDiscrepancyMessage(-720, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('12:00 p.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('April 30, 2025');
     });
 
-    it('should return "before" message for UTC+13 (NZDT) timezone', () => {
-      const message = getTimezoneDiscrepancyMessage(-780);
+    it('should return "before" message for UTC+13 (NZDT) timezone with specific date', () => {
+      // Upload at 12:00 PM NZDT on January 1 = 11:00 PM UTC on December 31, 2024
+      const uploadDate = new Date('2025-01-01T12:00:00+13:00');
+      const message = getTimezoneDiscrepancyMessage(-780, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('1:00 p.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('December 31, 2024');
     });
 
-    it('should return "before" message for UTC+5:30 (IST) timezone with fractional hours', () => {
-      const message = getTimezoneDiscrepancyMessage(-330);
+    it('should return "before" message for UTC+5:30 (IST) timezone with fractional hours and specific date', () => {
+      // Upload at 5:00 AM IST on August 10 = 11:30 PM UTC on August 9
+      const uploadDate = new Date('2025-08-10T05:00:00+05:30');
+      const message = getTimezoneDiscrepancyMessage(-330, uploadDate);
       expect(message).to.include('Files uploaded before');
       expect(message).to.include('5:30 a.m.');
-      expect(message).to.include("previous day's date");
+      expect(message).to.include('August 9, 2025');
     });
 
     it('should include timezone abbreviation in message for EDT', () => {
-      const message = getTimezoneDiscrepancyMessage(240);
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
       // Timezone abbreviation should appear after the time
       expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
     });
 
     it('should include timezone abbreviation in message for PST', () => {
-      const message = getTimezoneDiscrepancyMessage(480);
+      const uploadDate = new Date('2025-12-20T17:00:00-08:00');
+      const message = getTimezoneDiscrepancyMessage(480, uploadDate);
       expect(message).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\.\s+[A-Z]{2,4}\s/);
     });
 
@@ -1890,29 +1944,36 @@ describe('Disability benefits helpers: ', () => {
       expect(message).to.equal('');
     });
 
-    it('should match exact VA.gov message format for "after" messages', () => {
-      const message = getTimezoneDiscrepancyMessage(240);
+    it('should match exact VA.gov message format for "after" messages with specific date', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
       // Complete format validation for negative offset (UTC-X)
-      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on the next day's date, but we record your submissions when you upload them."
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on Month D, YYYY, but we record your submissions when you upload them."
       expect(message).to.match(
-        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the next day's date, but we record your submissions when you upload them\.$/,
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on [A-Z][a-z]+ \d{1,2}, \d{4}, but we record your submissions when you upload them\.$/,
       );
     });
 
-    it('should match exact VA.gov message format for "before" messages', () => {
-      const message = getTimezoneDiscrepancyMessage(-540);
+    it('should match exact VA.gov message format for "before" messages with specific date', () => {
+      // Upload at 8:00 AM JST on April 20 = 11:00 PM UTC on April 19
+      const uploadDate = new Date('2025-04-20T08:00:00+09:00');
+      const message = getTimezoneDiscrepancyMessage(-540, uploadDate);
       // Complete format validation for positive offset (UTC+X)
-      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on the previous day's date, but we record your submissions when you upload them."
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on Month D, YYYY, but we record your submissions when you upload them."
       expect(message).to.match(
-        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the previous day's date, but we record your submissions when you upload them\.$/,
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on [A-Z][a-z]+ \d{1,2}, \d{4}, but we record your submissions when you upload them\.$/,
       );
     });
 
-    it('should use correct apostrophe in "day\'s date"', () => {
-      const message = getTimezoneDiscrepancyMessage(240);
-      expect(message).to.include("day's date");
-      expect(message).to.not.include('days date');
-      expect(message).to.not.include('day`s date');
+    it('should format date with correct month name format', () => {
+      // Upload at 9:00 PM EDT on August 15 = 1:00 AM UTC on August 16
+      const uploadDate = new Date('2025-08-15T21:00:00-04:00');
+      const message = getTimezoneDiscrepancyMessage(240, uploadDate);
+      // Should use full month name, not abbreviation
+      expect(message).to.include('August 16, 2025');
+      expect(message).to.not.include('Aug 16');
+      expect(message).to.not.include('08/16');
     });
 
     it('should use periods in a.m./p.m. format', () => {
@@ -1925,6 +1986,22 @@ describe('Disability benefits helpers: ', () => {
       // Should NOT have formats without periods
       expect(morningMessage).to.not.include(' am ');
       expect(eveningMessage).to.not.include(' pm ');
+    });
+
+    it('should match exact format for "after" messages without uploadDate (static)', () => {
+      const message = getTimezoneDiscrepancyMessage(240); // UTC-4
+      // Format: "Files uploaded after H:MM a.m./p.m. TZ will show as received on the next day's date, but we record your submissions when you upload them."
+      expect(message).to.match(
+        /^Files uploaded after \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the next day's date, but we record your submissions when you upload them\.$/,
+      );
+    });
+
+    it('should match exact format for "before" messages without uploadDate (static)', () => {
+      const message = getTimezoneDiscrepancyMessage(-540); // UTC+9
+      // Format: "Files uploaded before H:MM a.m./p.m. TZ will show as received on the previous day's date, but we record your submissions when you upload them."
+      expect(message).to.match(
+        /^Files uploaded before \d{1,2}:\d{2} [ap]\.m\. [A-Z]{2,4} will show as received on the previous day's date, but we record your submissions when you upload them\.$/,
+      );
     });
   });
 

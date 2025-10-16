@@ -366,7 +366,7 @@ export function submitFiles(claimId, trackedItem, files) {
                         {showTimezoneDiscrepancyMessage(now) && (
                           <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
                             <strong>Note:</strong>{' '}
-                            {getTimezoneDiscrepancyMessage(timezoneOffset)}
+                            {getTimezoneDiscrepancyMessage(timezoneOffset, now)}
                           </div>
                         )}
                       </>

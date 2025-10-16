@@ -45,7 +45,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .first()
         .should('be.visible')
         .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on the')
+        .and('contain.text', 'will show as received on')
         .and(
           'contain.text',
           'but we record your submissions when you upload them',
@@ -55,22 +55,11 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
           expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
 
-          // Verify directional language (after/before and next/previous)
+          // Verify directional language (after/before)
           expect(text).to.match(/(after|before)/);
-          expect(text).to.match(/(next|previous)/);
 
-          // Verify consistent pairing: "after" with "next", "before" with "previous"
-          const hasAfter = text.includes('after');
-          const hasBefore = text.includes('before');
-          const hasNext = text.includes('next');
-          const hasPrevious = text.includes('previous');
-
-          if (hasAfter) {
-            expect(hasNext).to.be.true;
-          }
-          if (hasBefore) {
-            expect(hasPrevious).to.be.true;
-          }
+          // Static message should use "next/previous day's date" NOT specific date
+          expect(text).to.match(/(next|previous) day's date/);
         });
 
       cy.axeCheck();
@@ -91,7 +80,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
         .first()
         .should('be.visible')
         .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on the')
+        .and('contain.text', 'will show as received on')
         .and(
           'contain.text',
           'but we record your submissions when you upload them',
@@ -101,22 +90,11 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
           expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
 
-          // Verify directional language (after/before and next/previous)
+          // Verify directional language (after/before)
           expect(text).to.match(/(after|before)/);
-          expect(text).to.match(/(next|previous)/);
 
-          // Verify consistent pairing: "after" with "next", "before" with "previous"
-          const hasAfter = text.includes('after');
-          const hasBefore = text.includes('before');
-          const hasNext = text.includes('next');
-          const hasPrevious = text.includes('previous');
-
-          if (hasAfter) {
-            expect(hasNext).to.be.true;
-          }
-          if (hasBefore) {
-            expect(hasPrevious).to.be.true;
-          }
+          // Static message should use "next/previous day's date" NOT specific date
+          expect(text).to.match(/(next|previous) day's date/);
         });
 
       cy.axeCheck();
@@ -128,7 +106,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
       // This test validates that the timezone message appears/disappears
       // based on the actual timezone offset of the test environment.
       // In UTC (offset = 0), no message should appear.
-      // In non-UTC timezones, the message should appear.
+      // In non-UTC timezones, the message should appear with "next/previous day's date".
 
       setupStatusTab();
 
@@ -148,7 +126,7 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           .invoke('text')
           .then(text => {
             expect(text).not.to.include('Files uploaded');
-            expect(text).not.to.include('will show as received on the');
+            expect(text).not.to.include('will show as received on');
           });
 
         // Navigate to Files tab and verify no message there either
@@ -165,10 +143,10 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           .invoke('text')
           .then(text => {
             expect(text).not.to.include('Files uploaded');
-            expect(text).not.to.include('will show as received on the');
+            expect(text).not.to.include('will show as received on');
           });
       } else {
-        // Non-UTC timezone - message SHOULD appear
+        // Non-UTC timezone - message SHOULD appear with "next/previous day's date"
         cy.log(
           `Test running in non-UTC timezone (offset: ${currentOffset}) - verifying message appears`,
         );
@@ -178,7 +156,12 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           .first()
           .should('be.visible')
           .and('contain.text', 'Files uploaded')
-          .and('contain.text', 'will show as received on the');
+          .and('contain.text', 'will show as received on the')
+          .invoke('text')
+          .then(text => {
+            // Static message should use "next/previous day's date"
+            expect(text).to.match(/(next|previous) day's date/);
+          });
 
         // Navigate to Files tab and verify message appears there too
         const trackClaimsPage = new TrackClaimsPageV2();
@@ -193,7 +176,12 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           .first()
           .should('be.visible')
           .and('contain.text', 'Files uploaded')
-          .and('contain.text', 'will show as received on the');
+          .and('contain.text', 'will show as received on the')
+          .invoke('text')
+          .then(text => {
+            // Static message should use "next/previous day's date"
+            expect(text).to.match(/(next|previous) day's date/);
+          });
       }
 
       cy.axeCheck();
@@ -229,12 +217,13 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           if (text.includes('Note:')) {
             // Verify timezone note format and content
             expect(text).to.include('Files uploaded');
-            expect(text).to.include('will show as received on the');
+            expect(text).to.include('will show as received on');
             expect(text).to.include(
               'but we record your submissions when you upload them',
             );
             expect(text).to.match(/(after|before)/);
-            expect(text).to.match(/(next|previous)/);
+            // Verify specific date format appears (Month D, YYYY)
+            expect(text).to.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
 
             // Log that the note appeared (helps with debugging)
             cy.log('Timezone note appeared - upload crossed day boundary');
@@ -324,8 +313,9 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
           if (text.includes('Note:')) {
             expect(text).to.include('Files uploaded');
             expect(text).to.match(/(after|before)/);
-            expect(text).to.include('will show as received on the');
-            expect(text).to.match(/(next|previous)/);
+            expect(text).to.include('will show as received on');
+            // Verify specific date format appears (Month D, YYYY)
+            expect(text).to.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
             expect(text).to.include(
               'but we record your submissions when you upload them',
             );
