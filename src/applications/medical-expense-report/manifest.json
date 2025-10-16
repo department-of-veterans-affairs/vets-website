@@ -1,5 +1,5 @@
 {
-  "appName": "21P-8416 Medical expense report form",
+  "appName": "Submit Medical Expenses To Support A Pension or DIC Claim",
   "entryFile": "./medical-expense-report-entry.jsx",
   "entryName": "medical-expense-report",
   "rootUrl": "/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416",
