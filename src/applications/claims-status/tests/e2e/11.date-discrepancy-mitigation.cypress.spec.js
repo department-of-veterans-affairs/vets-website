@@ -1,18 +1,31 @@
 import TrackClaimsPageV2 from './page-objects/TrackClaimsPageV2';
 import claimsList from './fixtures/mocks/lighthouse/claims-list.json';
 import claimDetailsOpen from './fixtures/mocks/lighthouse/claim-detail-open.json';
+import featureToggleDocumentUploadStatusDisabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-disabled.json';
 
 describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
   const setupStatusTab = () => {
     const trackClaimsPage = new TrackClaimsPageV2();
-    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      false,
+      false,
+      featureToggleDocumentUploadStatusDisabled,
+    );
     trackClaimsPage.verifyInProgressClaim(true);
     cy.injectAxe();
   };
 
   const setupFilesTab = () => {
     const trackClaimsPage = new TrackClaimsPageV2();
-    trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      false,
+      false,
+      featureToggleDocumentUploadStatusDisabled,
+    );
     trackClaimsPage.verifyInProgressClaim(true);
     trackClaimsPage.navigateToFilesTab();
     cy.injectAxe();
@@ -190,7 +203,13 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
   describe('Upload Success Notification - Timezone Note Conditional', () => {
     it('should conditionally include timezone note when upload crosses day boundary', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusDisabled,
+      );
       trackClaimsPage.verifyInProgressClaim(true);
       trackClaimsPage.navigateToFilesTab();
       cy.injectAxe();
@@ -232,7 +251,13 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
   describe('Upload Success Notification', () => {
     it('should display notification with date, time, and timezone in heading', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusDisabled,
+      );
       trackClaimsPage.verifyInProgressClaim(true);
       trackClaimsPage.navigateToFilesTab();
       cy.injectAxe();
@@ -252,7 +277,13 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
 
     it('should display updated notification body message', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusDisabled,
+      );
       trackClaimsPage.verifyInProgressClaim(true);
       trackClaimsPage.navigateToFilesTab();
       cy.injectAxe();
@@ -273,7 +304,13 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
 
     it('should optionally include timezone note in notification body', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusDisabled,
+      );
       trackClaimsPage.verifyInProgressClaim(true);
       trackClaimsPage.navigateToFilesTab();
       cy.injectAxe();
