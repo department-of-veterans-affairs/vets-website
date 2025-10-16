@@ -12,7 +12,7 @@ import {
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
 
-import EmailInformationSection from '../../../components/contact-information/email-addresses/EmailInformationSection';
+import { EmailInformationSection } from '../../../components/contact-information/email-addresses';
 
 const baseState = {
   featureToggles: {
