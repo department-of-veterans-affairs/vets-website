@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   VaModal,
   VaButton,
@@ -7,6 +8,9 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const Mileage = () => {
+  const navigate = useNavigate();
+  const { apptId } = useParams();
+
   // TODO: Remove placeholder data
   const address = {
     addressLine1: '345 Home Address St.',
@@ -47,11 +51,12 @@ const Mileage = () => {
       // eslint-disable-next-line no-console
       console.log('Special case detected - would redirect to different page');
     } else {
-      // TODO: Replace with normal flow redirect logic
-      // Example: navigate('/next-step-page')
-      // eslint-disable-next-line no-console
-      console.log('Normal flow - would continue to next page');
+      navigate(`/file-new-claim/complex/${apptId}/review`);
     }
+  };
+
+  const handleBack = () => {
+    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
   };
 
   return (
@@ -153,7 +158,7 @@ const Mileage = () => {
         continue
         disable-analytics
         onPrimaryClick={handleContinue}
-        onSecondaryClick={() => {}}
+        onSecondaryClick={handleBack}
       />
     </>
   );

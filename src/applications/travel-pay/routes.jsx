@@ -35,6 +35,7 @@ const routes = (
         <Route index element={<>Intro</>} />
         <Route path="choose-expense" element={<ChooseExpenseType />} />
         <Route path="mileage" element={<Mileage />} />
+        <Route path="review" element={<>Review</>} />
         <Route path="confirmation" element={<ConfirmationPage />} />
       </Route>
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
