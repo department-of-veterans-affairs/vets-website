@@ -373,7 +373,7 @@ export const AddressField = ({
           onBlur={() => handleBlur('state')}
         >
           {MILITARY_STATES.map(state => (
-            <va-radio-option
+            <va-radioOption
               key={state.value}
               label={state.label}
               value={state.value}
@@ -526,7 +526,7 @@ export const AddressField = ({
           onBlur={() => handleBlur('city')}
         >
           {MILITARY_CITIES.map(city => (
-            <va-radio-option
+            <va-radioOption
               key={city.value}
               label={city.label}
               value={city.value}

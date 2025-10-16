@@ -1,11 +1,25 @@
 /**
  * Utility functions for working with Zod validation
+ * @module utils/zod-helpers
  */
 
 /**
- * Flattens Zod error issues into a field errors object
+ * Flattens Zod error issues into a field errors object.
+ * Properly handles array indices to create nested array structures for array field errors.
+ * Converts Zod's path-based error format into a nested object/array structure matching the data shape.
+ *
  * @param {import('zod').ZodError} zodError - The Zod error to flatten
- * @returns {Object} Object with field names as keys and error message strings as values
+ * @returns {Object} Object with field names as keys and error message strings/objects/arrays as values
+ *
+ * @example
+ * // For simple field errors:
+ * // Input: { path: ['email'], message: 'Invalid email' }
+ * // Output: { email: 'Invalid email' }
+ *
+ * @example
+ * // For array field errors:
+ * // Input: { path: ['servicePeriods', 0, 'branchOfService'], message: 'Required' }
+ * // Output: { servicePeriods: [{ branchOfService: 'Required' }] }
  */
 export const flattenZodError = zodError => {
   const fieldErrors = {};
@@ -19,17 +33,28 @@ export const flattenZodError = zodError => {
         fieldErrors[fieldName] = issue.message;
       }
     } else {
-      const topLevel = issue.path[0];
+      // Handle nested paths (objects and arrays)
+      let current = fieldErrors;
 
-      if (!fieldErrors[topLevel]) {
-        fieldErrors[topLevel] = {};
+      for (let i = 0; i < issue.path.length - 1; i++) {
+        const key = issue.path[i];
+        const nextKey = issue.path[i + 1];
+
+        // Check if next key is a number (array index)
+        const isNextKeyArray = typeof nextKey === 'number';
+
+        if (!current[key]) {
+          // Initialize as array if next key is a number, otherwise as object
+          current[key] = isNextKeyArray ? [] : {};
+        }
+
+        current = current[key];
       }
 
-      if (typeof fieldErrors[topLevel] === 'object') {
-        const lastKey = issue.path[issue.path.length - 1];
-        if (!fieldErrors[topLevel][lastKey]) {
-          fieldErrors[topLevel][lastKey] = issue.message;
-        }
+      // Set the final value
+      const lastKey = issue.path[issue.path.length - 1];
+      if (!current[lastKey]) {
+        current[lastKey] = issue.message;
       }
     }
   });
@@ -38,10 +63,18 @@ export const flattenZodError = zodError => {
 };
 
 /**
- * Creates a validation error handler for form pages with namespace support
+ * Creates a validation error handler for form pages with namespace support.
+ * Returns a function that validates data against a schema and returns flattened field errors.
+ * Useful for form pages that need to validate a specific section of form data.
+ *
  * @param {import('zod').ZodSchema} schema - The Zod schema to validate against
- * @param {string} [namespace] - Optional namespace for the data section
- * @returns {Function} Function that validates data and returns field errors
+ * @param {string} [namespace] - Optional namespace for the data section (e.g., 'veteranInfo')
+ * @returns {Function} Function that takes form data and returns field errors object
+ *
+ * @example
+ * const validator = createValidationErrorHandler(veteranInfoSchema, 'veteranInfo');
+ * const errors = validator({ veteranInfo: { firstName: '', lastName: 'Smith' } });
+ * // Returns: { firstName: 'First name is required' }
  */
 export const createValidationErrorHandler = (schema, namespace) => {
   return data => {
@@ -55,10 +88,18 @@ export const createValidationErrorHandler = (schema, namespace) => {
 };
 
 /**
- * Creates a page validator for form pages with namespace support
+ * Creates a page validator for form pages with namespace support.
+ * Returns a function that validates data against a schema and returns a boolean.
+ * Useful for checking if a form page is valid before allowing navigation.
+ *
  * @param {import('zod').ZodSchema} schema - The Zod schema to validate against
- * @param {string} [namespace] - Optional namespace for the data section
- * @returns {Function} Function that returns boolean indicating if data is valid
+ * @param {string} [namespace] - Optional namespace for the data section (e.g., 'veteranInfo')
+ * @returns {Function} Function that takes form data and returns true if valid, false otherwise
+ *
+ * @example
+ * const isValid = createPageValidator(veteranInfoSchema, 'veteranInfo');
+ * const canContinue = isValid({ veteranInfo: { firstName: 'John', lastName: 'Smith' } });
+ * // Returns: true or false
  */
 export const createPageValidator = (schema, namespace) => {
   return data => {

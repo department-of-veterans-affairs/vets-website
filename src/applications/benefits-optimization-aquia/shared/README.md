@@ -309,7 +309,7 @@ Domain-specific components and schemas live in their respective applications:
 - Memorial medallion form integration
 - Veteran service information schemas
 - ✅ Enhanced error handling and boundaries (completed)
-- ✅ Production logging system (completed)
+- ✅ Development-only logging system (completed)
 
 ### Planned (Future Phases)
 
@@ -325,7 +325,7 @@ Domain-specific components and schemas live in their respective applications:
 ### Critical Issues
 
 - **Form ID Context** - ✅ Resolved with FormProvider context
-- **Production Logging** - ✅ Implemented environment-aware logging
+- **Development Logging** - ✅ Implemented environment-aware logging (dev-only)
 - **Error Boundaries** - ✅ Added FormErrorBoundary component
 
 ### Quality Improvements

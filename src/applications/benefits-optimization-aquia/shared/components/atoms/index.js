@@ -15,3 +15,10 @@ export { SelectField } from './select-field';
 export { SignatureField } from './signature-field';
 export { SSNField } from './ssn-field';
 export { TextareaField } from './textarea-field';
+export { TextInputField } from './text-input-field';
+
+// Review field components
+export { ReviewAddressField } from './review-address-field';
+export { ReviewDateField } from './review-date-field';
+export { ReviewField } from './review-field';
+export { ReviewFullnameField } from './review-fullname-field';
