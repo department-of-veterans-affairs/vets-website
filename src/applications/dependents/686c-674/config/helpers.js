@@ -77,6 +77,7 @@ export const CancelButton = withRouter(
     isAddChapter = false,
     dependentType = 'dependents',
     dependentButtonType,
+    removePath = '/options-selection/remove-dependents',
     router,
   }) => {
     const buttonRef = useRef(null);
@@ -120,7 +121,7 @@ export const CancelButton = withRouter(
           onPrimaryButtonClick={() => {
             const route = isAddChapter
               ? '/options-selection/add-dependents'
-              : '/options-selection/remove-dependents';
+              : removePath;
             router?.push(route);
           }}
           onSecondaryButtonClick={closeModal}
