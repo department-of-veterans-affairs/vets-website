@@ -11,7 +11,21 @@ export default {
       'Your name',
       'You aren’t required to fill in all fields, but we can review your application faster if you provide more information.',
     ),
-    claimantFullName: fullNameUI(),
+    claimantFullName: {
+      ...fullNameUI(),
+      first: {
+        'ui:title': 'First name',
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+        },
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+        },
+      },
+    },
   },
   schema: {
     type: 'object',
