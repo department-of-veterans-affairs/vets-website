@@ -38,6 +38,8 @@ import {
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+import OhiIntroduction from '../components/FormPages/OhiIntroduction';
+import MedicareIntroduction from '../components/FormPages/MedicareIntroduction';
 import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
@@ -220,6 +222,22 @@ const formConfig = {
     medicareInformation: {
       title: 'Medicare information',
       pages: {
+        ohiIntro: {
+          path: 'medicare-and-other-health-insurance',
+          title: 'Report Medicare and other health insurance',
+          CustomPage: OhiIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        medicareIntro: {
+          path: 'medicare-introduction',
+          title: 'Report Medicare',
+          CustomPage: MedicareIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         ...medicarePages,
         page22: medicareStatusPage,
         page23: medicareProofOfIneligibilityPage,
