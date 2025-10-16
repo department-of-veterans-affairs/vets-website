@@ -4,10 +4,8 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import moment from 'moment';
 
 import { ITEMS_PER_PAGE } from '../../constants';
-import {
-  buildDateFormatter,
-  getTimezoneDiscrepancyMessage,
-} from '../../utils/helpers';
+import { buildDateFormatter } from '../../utils/helpers';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
@@ -111,18 +109,10 @@ function DocumentsFiled({ claim }) {
     [setCurrentPage],
   );
 
-  const timezoneDiscrepancyMessage = getTimezoneDiscrepancyMessage(
-    new Date().getTimezoneOffset(),
-  );
-
   return (
     <div className="documents-filed-container">
       <h3 className="vads-u-margin-top--0">Documents filed</h3>
-      {timezoneDiscrepancyMessage && (
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--3 vads-u-color--gray-medium">
-          {timezoneDiscrepancyMessage}
-        </p>
-      )}
+      <TimezoneDiscrepancyMessage />
       {currentPageItems.length === 0 ? (
         <div>
           <p>You haven’t turned in any documents to the VA.</p>

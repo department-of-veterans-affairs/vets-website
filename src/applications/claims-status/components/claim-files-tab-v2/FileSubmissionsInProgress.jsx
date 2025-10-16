@@ -7,6 +7,7 @@ import {
 
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import TimezoneDiscrepancyMessage from '../TimezoneDiscrepancyMessage';
 
 const formatDate = buildDateFormatter();
 
@@ -49,6 +50,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
       <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
         File submissions in progress
       </h3>
+      <TimezoneDiscrepancyMessage />
       <p>
         Documents you submitted for review using this tool, or the VA: Health
         and Benefits mobile app, that we haven’t received yet. It can take up to
