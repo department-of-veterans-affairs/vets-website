@@ -9,7 +9,7 @@ import allergies from '../fixtures/allergies.json';
 import user from '../fixtures/user.json';
 import { convertAllergy } from '../../reducers/allergies';
 
-describe.skip('Allergies list container', () => {
+describe('Allergies list container', () => {
   const initialState = {
     featureToggles: {
       /* eslint-disable camelcase */
@@ -81,7 +81,7 @@ describe.skip('Allergies list container', () => {
       .exist;
   });
 
-  it('displays a list of records', async () => {
+  it.skip('displays a list of records', async () => {
     const webList = screen.getByTestId('record-list-web');
     const items = await within(webList).findAllByTestId('record-list-item');
     expect(items).to.have.lengthOf(5);
