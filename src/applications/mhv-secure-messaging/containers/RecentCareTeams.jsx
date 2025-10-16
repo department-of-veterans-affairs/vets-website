@@ -96,7 +96,7 @@ const RecentCareTeams = () => {
       // TODO: CURATED LIST handle pushing selected recipient value to reducer
       // For now, just redirect to compose message
       // This is a placeholder for the actual logic to dispatch value to activeDraft redux state
-      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}/`);
+      history.push(`${Paths.COMPOSE}${Paths.START_MESSAGE}`);
     },
     [history, selectedCareTeam],
   );
