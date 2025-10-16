@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import submitForm from './submitForm';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
@@ -13,7 +14,10 @@ import {
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  additionalInstitutionDetailsSummary,
+  additionalInstitutionDetailsItem,
 } from '../pages';
+import { additionalInstitutionDetailsArrayOptions } from '../helpers';
 import transform from './transform';
 
 /** @type {FormConfig} */
@@ -117,6 +121,25 @@ const formConfig = {
             }
           },
         },
+        ...arrayBuilderPages(
+          additionalInstitutionDetailsArrayOptions,
+          pageBuilder => ({
+            additionalInstitutionDetailsSummary: pageBuilder.summaryPage({
+              path: 'additional-institution-details',
+              title: 'Additional institution details',
+              uiSchema: additionalInstitutionDetailsSummary.uiSchema,
+              schema: additionalInstitutionDetailsSummary.schema,
+            }),
+            additionalInstitutionDetailsItem: pageBuilder.itemPage({
+              path: 'additional-institution-details/:index',
+              title:
+                "Enter the VA facility code for the additional location you'd like to add",
+              showPagePerItem: true,
+              uiSchema: additionalInstitutionDetailsItem.uiSchema,
+              schema: additionalInstitutionDetailsItem.schema,
+            }),
+          }),
+        ),
       },
     },
   },
