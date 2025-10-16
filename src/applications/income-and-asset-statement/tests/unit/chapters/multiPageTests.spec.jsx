@@ -166,6 +166,8 @@ export const testOptionsTextCardDescription = (
         capitalGainValue: formatCurrency,
         marketValueAtEstablishment: formatCurrency,
         waivedGrossMonthlyIncome: formatCurrency,
+        annualReceivedIncome: formatCurrency,
+        addedFundsAmount: formatCurrency,
         transferDate: formatDateLong,
         establishedDate: formatDateLong,
       };
