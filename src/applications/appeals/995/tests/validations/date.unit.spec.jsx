@@ -1,12 +1,10 @@
 import { expect } from 'chai';
-
 import {
   validateDate,
   isValidDate,
   validateYMDate,
 } from '../../validations/date';
-import { SC_NEW_FORM_DATA, errorMessages as scErrors } from '../../constants';
-
+import { errorMessages as scErrors } from '../../constants';
 import { parseDate, parseDateWithOffset } from '../../../shared/utils/dates';
 import errorMessages from '../../../shared/content/errorMessages';
 import { MAX_YEARS_PAST } from '../../../shared/constants';
@@ -135,7 +133,7 @@ describe('validateDate & isValidDate', () => {
 });
 
 describe('validateYMDate', () => {
-  const fullData = { [SC_NEW_FORM_DATA]: true };
+  const fullData = {};
   const getYM = date => date.substring(0, 7);
   let errorMessage = [];
   const errors = {
