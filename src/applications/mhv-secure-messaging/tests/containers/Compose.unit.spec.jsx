@@ -360,6 +360,8 @@ describe('Compose container', () => {
               noBlockedRecipients.associatedTriageGroupsQty,
             noAssociations: false,
             allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+            allRecipients: noBlockedRecipients.mockAllowedRecipients,
+            recentRecipients: [noBlockedRecipients.mockAllowedRecipients[0]],
           },
           threadDetails: {
             drafts: [],
@@ -378,7 +380,7 @@ describe('Compose container', () => {
       fireEvent.click(startMessageLink);
 
       await waitFor(() => {
-        expect(history.location.pathname).to.equal('/new-message/recent');
+        expect(history.location.pathname).to.equal(Paths.RECENT_CARE_TEAMS);
       });
     });
 
