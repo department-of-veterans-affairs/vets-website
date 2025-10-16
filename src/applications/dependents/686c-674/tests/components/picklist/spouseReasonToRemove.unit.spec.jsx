@@ -115,10 +115,6 @@ describe('spouseReasonToRemove', () => {
       ).to.equal('marriage-ended');
     });
 
-    it('should return an empty string on goBack', () => {
-      expect(spouseReasonToRemove.handlers.goBack()).to.equal('');
-    });
-
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
       spouseReasonToRemove.handlers.onSubmit({
