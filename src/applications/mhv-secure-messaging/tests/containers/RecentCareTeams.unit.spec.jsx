@@ -412,7 +412,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to start message
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.START_MESSAGE}/`,
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
 
