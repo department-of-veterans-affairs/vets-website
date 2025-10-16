@@ -1,50 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import LoginActions from 'platform/user/authentication/components/LoginActions';
-import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames.json';
-import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-import { getQueryParams } from 'platform/user/authentication/utilities';
-import LoginButton from 'platform/user/authentication/components/LoginButton';
+import ArpLoginActions from '../components/ArpLoginActions';
 import '../sass/login.scss';
-
-const ArpLoginActionsNoIdme = ({ externalApplication, isUnifiedSignIn }) => {
-  const [useOAuth, setOAuth] = useState(false);
-  const { OAuth, clientId, codeChallenge, state } = getQueryParams();
-
-  const { OAuthEnabled } =
-    externalApplicationsConfig[externalApplication] ??
-    externalApplicationsConfig.default;
-
-  const actionLocation = isUnifiedSignIn ? 'usip' : 'modal';
-
-  useEffect(
-    () => {
-      setOAuth(OAuthEnabled && OAuth === 'true');
-    },
-    [OAuth, OAuthEnabled],
-  );
-
-  return (
-    <div className="row">
-      <div className="columns print-full-width sign-in-wrapper">
-        <LoginButton
-          csp="logingov"
-          useOAuth={useOAuth}
-          actionLocation={actionLocation}
-          queryParams={{ clientId, codeChallenge, state }}
-        />
-      </div>
-    </div>
-  );
-};
-
-ArpLoginActionsNoIdme.propTypes = {
-  externalApplication: PropTypes.string,
-  isUnifiedSignIn: PropTypes.bool,
-};
 
 const LoginContainer = () => {
   const [searchParams] = useSearchParams();
@@ -52,11 +9,6 @@ const LoginContainer = () => {
   const errorTitle = searchParams.get('title') || '';
   const errorMessage = searchParams.get('message') || '';
   const errorStatus = searchParams.get('status') || 'error';
-
-  const { useToggleValue } = useFeatureToggle();
-  const idmeEnabled = useToggleValue(
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalIdMe,
-  );
 
   const renderErrorMessage = () => {
     if (!hasError) return null;
@@ -82,17 +34,7 @@ const LoginContainer = () => {
             <h1 className="columns vads-u-margin--0">
               Sign in or create an account
             </h1>
-            {idmeEnabled ? (
-              <LoginActions
-                externalApplication={EXTERNAL_APPS.ARP}
-                isUnifiedSignIn
-              />
-            ) : (
-              <ArpLoginActionsNoIdme
-                externalApplication={EXTERNAL_APPS.ARP}
-                isUnifiedSignIn
-              />
-            )}
+            <ArpLoginActions />
           </div>
         </div>
         <div className="vads-l-row">
