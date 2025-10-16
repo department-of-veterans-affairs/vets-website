@@ -5,7 +5,7 @@ import { paymentRows } from './PaymentViewObjectField';
 
 const ConfirmationPaymentInformation = ({ formData }) => {
   const hasPrefilledBankInfo =
-    Boolean(formData?.['view:bankAccount']?.['view:hasPrefilledBank']) || false;
+    Boolean(formData?.['view:bankAccount']?.['view:hasPrefilledBank']);
   const hasNewBankingInfo = Boolean(
     formData?.['view:bankAccount']?.bankAccountType ||
       formData?.['view:bankAccount']?.bankAccountNumber ||
