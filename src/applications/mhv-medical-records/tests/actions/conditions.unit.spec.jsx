@@ -94,10 +94,8 @@ describe('getConditionsList - isAccelerating feature', () => {
 
   it('should understand status code 404', () => {
     mockApiRequest(error404, false);
-    getConditionsList(false, true)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[2].title).to.equal('"Error"');
-      expect(dispatch.firstCall.args[2].detail).to.equal('Not Found');
-      expect(dispatch.firstCall.args[2].status).to.equal('404');
+    return getConditionsList(false, true)(dispatch).then(() => {
+      expect(dispatch.secondCall.args[0].type).to.equal('error');
     });
   });
 
