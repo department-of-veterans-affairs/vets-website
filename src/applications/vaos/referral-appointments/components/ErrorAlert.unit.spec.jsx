@@ -24,4 +24,11 @@ describe('VAOS Component: ErrorAlert', () => {
       "I'm a custom error body",
     );
   });
+
+  it('should render the error alert with the find community care office link', () => {
+    const screen = render(<ErrorAlert showFindCCFacilityLink />);
+
+    expect(screen.getByTestId('error')).to.exist;
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
+  });
 });
