@@ -2,7 +2,7 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const NeedHelpCopay = () => (
-  <va-need-help id="needHelp" class="vads-u-margin-top--4">
+  <va-need-help data-testid="need-help" class="vads-u-margin-top--4">
     <div slot="content">
       <p>
         You can contact us online through{' '}
