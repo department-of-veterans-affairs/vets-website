@@ -520,7 +520,7 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       uiSchema: veteranSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    royaltiesPagesSpouseSummary: pageBuilder.summaryPage({
+    royaltyPagesSpouseSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'royalties-summary-spouse',
       depends: formData =>
@@ -528,7 +528,7 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       uiSchema: spouseSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    royaltiesPagesChildSummary: pageBuilder.summaryPage({
+    royaltyPagesChildSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'royalties-summary-child',
       depends: formData =>
@@ -536,7 +536,7 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       uiSchema: childSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    royaltiesPagesCustodianSummary: pageBuilder.summaryPage({
+    royaltyPagesCustodianSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'royalties-summary-custodian',
       depends: formData =>
@@ -544,7 +544,7 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       uiSchema: custodianSummaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    royaltiesPagesParentSummary: pageBuilder.summaryPage({
+    royaltyPagesParentSummary: pageBuilder.summaryPage({
       title: summaryPageTitle,
       path: 'royalties-summary-parent',
       depends: formData =>
