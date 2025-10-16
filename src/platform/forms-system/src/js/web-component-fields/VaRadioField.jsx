@@ -26,11 +26,11 @@ import { schemaToEnumOptions } from './helpers';
  * @param {WebComponentFieldProps} props */
 export default function VaRadioField(props) {
   const mappedProps = vaRadioFieldMapping(props);
-  const enumOptions =
-    Array.isArray(props.childrenProps.schema.enum) &&
-    schemaToEnumOptions(props.childrenProps.schema);
+  const enumOptions = Array.isArray(props.childrenProps.schema.enum)
+    ? schemaToEnumOptions(props.childrenProps.schema)
+    : [];
   const labels = props.uiOptions?.labels || {};
-  const descriptions = props.uiOptions.descriptions || {};
+  const descriptions = props.uiOptions?.descriptions || {};
 
   const selectedValue =
     props.childrenProps.formData ?? props.childrenProps.schema.default ?? null;

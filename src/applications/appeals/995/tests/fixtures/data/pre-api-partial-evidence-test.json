@@ -75,22 +75,23 @@
     "privacyAgreementAccepted": true,
     "locations": [
       {
-        "locationAndName": "VAMC Location 1",
-        "issues": [],
+        "locationAndName": "South Texas VA Facility",
+        "issues": ["Tinnitus", "Migraines"],
         "evidenceDates": {
           "from": "",
           "to": ""
-        }
+        },
+        "treatmentDate": "",
+        "noDate": true
       },
       {
-        "locationAndName": "",
-        "issues": [
-          "Test 2"
-        ],
+        "locationAndName": "Midwest Alabama VA Facility",
+        "issues": ["Migraines", "Right Knee Injury"],
         "evidenceDates": {
           "from": "",
           "to": ""
-        }
+        },
+        "treatmentDate": "2000-01"
       }
     ],
     "providerFacility": [
