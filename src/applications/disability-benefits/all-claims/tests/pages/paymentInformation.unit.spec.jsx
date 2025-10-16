@@ -228,8 +228,15 @@ describe('Confirmation view - ui:confirmationField with custom ConfirmationPayme
     const confirmationField = uiSchema['ui:confirmationField']({ formData });
     const { container } = render(confirmationField);
 
+    // Check that new bank info is displayed
     expect(container.textContent).to.contain('New Bank');
+    expect(container.textContent).to.contain('******7890'); // new account number
+    expect(container.textContent).to.contain('*****6789'); // new routing number
+
+    // Check that old bank info is not displayed
     expect(container.textContent).not.to.contain('Old Bank');
+    expect(container.textContent).not.to.contain('******3210'); // old account number
+    expect(container.textContent).not.to.contain('*****4321'); // old routing number
   });
 
   it('should not display if neither prefilled nor new banking info is provided', () => {
@@ -272,6 +279,29 @@ describe('Confirmation view - ui:confirmationField with custom ConfirmationPayme
     const { container } = render(confirmationField);
 
     expect(container.textContent).to.contain('Checking');
+    expect(container.textContent).not.to.contain('******');
+    expect(container.textContent).not.to.contain('*****');
+  });
+
+  it('should render when only bankName is provided', () => {
+    const formData = {
+      'view:bankAccount': {
+        bankName: 'Test Bank Only',
+        // No other banking fields provided
+      },
+    };
+
+    const confirmationField = uiSchema['ui:confirmationField']({ formData });
+    const { container } = render(confirmationField);
+
+    const heading = container.querySelector('h4');
+    expect(heading).to.exist;
+    expect(heading.textContent).to.equal('Payment Information');
+
+    // Bank name should be displayed
+    expect(container.textContent).to.contain('Test Bank Only');
+
+    // Other fields should be empty but not show masked values
     expect(container.textContent).not.to.contain('******');
     expect(container.textContent).not.to.contain('*****');
   });
