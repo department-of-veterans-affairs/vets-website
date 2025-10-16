@@ -15,6 +15,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
@@ -150,6 +151,7 @@ const HTMLStatementPage = ({ match }) => {
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
+        <NeedHelpCopay />
       </article>
     </>
   );

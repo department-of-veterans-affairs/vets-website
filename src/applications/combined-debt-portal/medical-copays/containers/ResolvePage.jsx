@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import DownloadStatement from '../components/DownloadStatement';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import { setPageFocus } from '../../combined/utils/helpers';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -86,18 +86,7 @@ const ResolvePage = ({ match }) => {
         />
         <FinancialHelp showOneThingPerPage />
         <DisputeCharges showOneThingPerPage />
-        <va-need-help id="needHelp">
-          <div slot="content">
-            <p>
-              You can contact us online through{' '}
-              <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
-              Health Resource Center at{' '}
-              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-              <va-telephone contact="711" tty="true" />
-              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
+        <NeedHelpCopay />
       </div>
     </>
   );
