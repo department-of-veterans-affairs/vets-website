@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { getConversationIdKey, getTokenKey } from '../utils/sessionStorage';
 
@@ -26,29 +26,57 @@ export default function useDirectLine(createDirectLine) {
   // below.
   const conversationId = getConversationIdKey();
 
-  // Intentionally keep an empty dependency array to avoid recreating the DirectLine
-  // connection on re-renders. We capture the initial token/domain/conversationId at
-  // mount time to drive the desired reconnect behavior.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // Intentionally keep a stable DirectLine instance across renders
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  return useMemo(
+  const initialOptions = useMemo(
     () => {
-      const options = { token, domain };
-      if (conversationId) {
-        options.conversationId = conversationId;
+      const opts = { token, domain };
+      if (isSessionPersistenceEnabled && conversationId) {
+        opts.conversationId = conversationId;
       }
       if (isSessionPersistenceEnabled) {
-        options.watermark = '0';
+        opts.watermark = '0';
       }
-      return createDirectLine(options);
+      return opts;
     },
-    [
-      token,
-      domain,
-      isSessionPersistenceEnabled,
-      conversationId,
-      createDirectLine,
-    ],
+    [token, domain, isSessionPersistenceEnabled, conversationId],
   );
+
+  const initialInstance = useMemo(() => createDirectLine(initialOptions), [
+    createDirectLine,
+    initialOptions,
+  ]);
+
+  const [directLine, setDirectLine] = useState(initialInstance);
+
+  useEffect(
+    () => {
+      let unsub;
+      const instance = initialInstance;
+      if (
+        instance &&
+        instance.connectionStatus$ &&
+        instance.connectionStatus$.subscribe
+      ) {
+        let attemptedFallback = false;
+        unsub = instance.connectionStatus$.subscribe(status => {
+          if (status === 4 && !attemptedFallback) {
+            attemptedFallback = true;
+            const fallbackOptions = { token, domain };
+            const freshInstance = createDirectLine(fallbackOptions);
+            setDirectLine(freshInstance);
+            if (unsub && typeof unsub.unsubscribe === 'function') {
+              unsub.unsubscribe();
+            }
+          }
+        });
+      }
+      return () => {
+        if (unsub && typeof unsub.unsubscribe === 'function') {
+          unsub.unsubscribe();
+        }
+      };
+    },
+    [initialInstance, createDirectLine, token, domain],
+  );
+
+  return directLine;
 }
