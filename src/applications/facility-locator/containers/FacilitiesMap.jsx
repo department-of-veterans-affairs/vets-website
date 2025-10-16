@@ -45,6 +45,7 @@ import {
   facilityLocatorAutosuggestVAMCServices,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
+  showFacilityLocatorNoticeAboutNonVACare,
 } from '../utils/featureFlagSelectors';
 import { FacilitiesMapTypes } from '../types';
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
@@ -926,6 +927,24 @@ const FacilitiesMap = props => {
           type.
         </p>
       )}
+      {props.showNonVACareWarningBanner && (
+        <Alert
+          displayType="warning"
+          title="Notice about non-VA urgent and emergency care"
+          description={
+            <>
+              Before you go to a non-VA facility, call to confirm hours and
+              available services. We’ve received reports that some non-VA
+              facilities listed as providing urgent or emergency care can’t
+              currently provide those services to Veterans. If you think your
+              health or life is in danger, call 911.
+              <br />
+              <br />
+              Note: This issue isn’t related to the government shutdown.
+            </>
+          }
+        />
+      )}
       {renderView()}
       {mapboxTokenValid && otherToolsLink()}
     </>
@@ -940,6 +959,7 @@ const mapStateToProps = state => ({
   resultTime: state.searchResult.resultTime,
   results: state.searchResult.results,
   searchError: state.searchResult.error,
+  showNonVACareWarningBanner: showFacilityLocatorNoticeAboutNonVACare(state),
   specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),

@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 144,
+  "totalApplications": 145,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -508,12 +508,6 @@
       "rootUrl": "/education/apply-for-gi-bill-form-22-1990"
     },
     {
-      "directoryPath": "src/applications/new-28-1900",
-      "appName": "New 28-1900 Veteran Readiness",
-      "entryName": "new-28-1900-chapter-31",
-      "rootUrl": "/temporary/apply-vre-form-28-1900"
-    },
-    {
       "directoryPath": "src/applications/new-chapter-36-form",
       "appName": "Personalized Career Planning and Guidance/Chapter 36 (VA Form 27-8832)",
       "entryName": "new-chapter-36-form",
@@ -778,6 +772,12 @@
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
     },
     {
+      "directoryPath": "src/applications/survivors-benefits",
+      "appName": "534EZ Survivors benefits",
+      "entryName": "survivors-benefits",
+      "rootUrl": "/supporting-forms-for-claims/apply-form-21p-534ez"
+    },
+    {
       "directoryPath": "src/applications/terms-of-use",
       "appName": "VA online services terms of use",
       "entryName": "terms-of-use",
@@ -848,6 +848,12 @@
       "appName": "28-1900 Veteran Readiness",
       "entryName": "28-1900-chapter-31",
       "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
+      "appName": "VRE CH31 Eligibility &amp; Entitlement",
+      "entryName": "ch31-eligibility-entitlement",
+      "rootUrl": "/careers-employment/your-vre-eligibility"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",
