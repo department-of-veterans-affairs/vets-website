@@ -182,8 +182,8 @@ function hasMatchingClinics(
           return (
             clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId &&
-            (clinic.patientDirectScheduling === true &&
-              !removeFacilityConfigCheck)
+            (removeFacilityConfigCheck ||
+              clinic.patientDirectScheduling === true)
           );
         }
         return (
