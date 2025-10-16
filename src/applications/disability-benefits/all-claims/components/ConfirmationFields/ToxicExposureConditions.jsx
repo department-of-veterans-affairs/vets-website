@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { sippableId } from '../../utils';
+import { sippableId, capitalizeEachWord } from '../../utils';
 
 const ToxicExposureConditions = ({ formData }) => {
   // first, get list of toxic exposure conditions the user has claimed
@@ -14,7 +14,7 @@ const ToxicExposureConditions = ({ formData }) => {
   const conditionsContainer = formData?.newDisabilities || [];
   const finalList = conditionsContainer
     .filter(condition => claimedKeys.includes(sippableId(condition.condition)))
-    .map(condition => condition.condition);
+    .map(condition => capitalizeEachWord(condition.condition));
 
   return (
     <li>
