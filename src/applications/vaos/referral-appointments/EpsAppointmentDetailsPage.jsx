@@ -15,10 +15,8 @@ import Section from '../components/Section';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import ProviderAddress from './components/ProviderAddress';
-import {
-  ClinicOrFacilityPhone,
-  Details,
-} from '../components/layouts/DetailPageLayout';
+import { Details } from '../components/layouts/DetailPageLayout';
+import FacilityPhone from '../components/FacilityPhone';
 
 export default function EpsAppointmentDetailsPage() {
   const { pathname } = useLocation();
@@ -149,24 +147,39 @@ export default function EpsAppointmentDetailsPage() {
             )}
         </Section>
         <Section heading="Provider">
-          <span data-dd-privacy="mask">
-            {`${appointment.provider.location.name ||
-              'Provider information not available'}`}
-          </span>
-          <br />
-          {/* TODO need to figure out if we get treatment specialty from the API */}
+          {appointment.provider?.name && (
+            <>
+              <span data-dd-privacy="mask">{appointment.provider.name}</span>
+              <br />
+            </>
+          )}
+          {appointment.provider?.location?.name && (
+            <>
+              <span data-dd-privacy="mask">
+                {appointment.provider.location.name}
+              </span>
+              <br />
+            </>
+          )}
+          {!appointment.provider?.name &&
+            !appointment.provider?.location?.name && (
+              <>
+                <span>Provider information not available</span>
+                <br />
+              </>
+            )}
           {appointment.provider.location.address && (
             <ProviderAddress
               address={appointment.provider.location.address}
               showDirections
               directionsName={appointment.provider.location.name}
-              phone={appointment.provider.phone}
             />
           )}
-          {/* TODO need to figure out what phone data we get from the API */}
-          <ClinicOrFacilityPhone facilityPhone={appointment.provider.phone} />
+          <FacilityPhone
+            contact={appointment.provider.phone || undefined}
+            ccPhone={appointment.provider.phone}
+          />
         </Section>
-        {/* TODO need to figure out if we get reason and other details from the API */}
         <Details
           reason={appointment.reason}
           otherDetails={appointment.comments}

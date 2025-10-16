@@ -5,12 +5,15 @@ const appointmentData = {
     id: 'QC9S60he',
     status: 'booked',
     start: '2025-10-08T14:00:00Z',
-    past: true,
+    past: false,
     isLatest: true,
     lastRetrieved: '2025-10-14T15:15:07Z',
     modality: 'communityCareEps',
     provider: {
       id: 'KMWjsCY3',
+      name: 'Dr. Smith @ Acme Cardiology - Anywhere, USA',
+      practice: 'Acme Cardiology',
+      phone: '555-555-0001',
       location: {
         name: 'Temple University Hospital - Jeanes Campus',
         address: '7500 CENTRAL AVE, STE 108, PHILADELPHIA, PA 19111-2430',
