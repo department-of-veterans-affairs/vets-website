@@ -11,6 +11,10 @@
 .box-highlight {
   min-width: 648px;
   background-color: var(--vads-color-primary-alt-lightest);
+  padding-left: 1.5rem !important;
+  .checkbox-text{
+    text-indent: -20px;
+  }
   @media (max-width: $small-screen) {
     min-width: 100%;
   }
