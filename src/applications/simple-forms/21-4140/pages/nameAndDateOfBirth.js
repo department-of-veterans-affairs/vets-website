@@ -2,8 +2,8 @@
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
