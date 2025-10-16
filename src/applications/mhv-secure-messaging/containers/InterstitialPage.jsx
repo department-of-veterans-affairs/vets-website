@@ -27,11 +27,11 @@ const InterstitialPage = props => {
 
   useEffect(
     () => {
-      if (allRecipients?.length > 0) {
+      if (allRecipients?.length > 0 && !recentRecipients) {
         dispatch(getRecentRecipients(6));
       }
     },
-    [allRecipients, dispatch],
+    [allRecipients, dispatch, recentRecipients],
   );
 
   useEffect(() => {
