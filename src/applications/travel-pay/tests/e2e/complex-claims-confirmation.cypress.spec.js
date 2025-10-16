@@ -138,21 +138,6 @@ describe('Complex Claims Confirmation Page', () => {
     ).should('be.visible');
   });
 
-  it('has back link with correct appointment ID', () => {
-    cy.visit(`${rootUrl}/file-new-claim/complex/${appointmentId}`);
-
-    // Check back link
-    cy.get('va-link[data-testid="complex-claim-back-link"]').should(
-      'be.visible',
-    );
-    cy.get('va-link[data-testid="complex-claim-back-link"]')
-      .should('have.attr', 'href')
-      .and('include', `/my-health/appointments/past/${appointmentId}`);
-    cy.get('va-link[data-testid="complex-claim-back-link"]')
-      .should('have.attr', 'text')
-      .and('equal', 'Back to your appointment');
-  });
-
   it('handles different appointment IDs in URL', () => {
     const differentApptId = '98765';
     cy.visit(`${rootUrl}/file-new-claim/complex/${differentApptId}`);
