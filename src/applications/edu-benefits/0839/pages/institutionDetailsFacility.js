@@ -7,6 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import InstitutionName from '../components/InstitutionName';
 import InstitutionAddress from '../components/InstitutionAddress';
+import WarningBanner from '../components/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
@@ -31,7 +32,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
     );
   }
 
-  if (notIHL) {
+  if (!notYR && notIHL) {
     errors.addError(
       'This institution is not an IHL. Please see information below.',
     );
@@ -86,28 +87,7 @@ const uiSchema = {
       },
     },
     'view:warningBanner': {
-      'ui:description': formData => {
-        const details = formData?.institutionDetails || {};
-        // const notIHL = details.ihlEligible === false;
-        const notYR = details.yrEligible === false;
-
-        const message = notYR
-          ? 'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.'
-          : 'This institution is unable to participate in the Yellow Ribbon Program.';
-
-        return (
-          <va-alert status="error" visible background-only>
-            <p className="vads-u-margin--0">{message}</p>
-          </va-alert>
-        );
-      },
-      'ui:options': {
-        hideIf: formData => {
-          const notIHL = formData?.institutionDetails?.ihlEligible === false;
-          const notYR = formData?.institutionDetails?.yrEligible === false;
-          return !notYR && !notIHL;
-        },
-      },
+      'ui:field': WarningBanner,
     },
   },
 };
