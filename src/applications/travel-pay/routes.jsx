@@ -6,6 +6,7 @@ import TravelPayStatusApp from './containers/TravelPayStatusApp';
 import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
+import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import App from './containers/App';
 
 const routes = (
@@ -23,6 +24,10 @@ const routes = (
         exact
         path="/file-new-claim"
         element={<Navigate to="/" replace />}
+      />
+      <Route
+        path="/file-new-claim/complex/:apptId"
+        element={<ComplexClaimSubmitFlowWrapper />}
       />
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
