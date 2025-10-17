@@ -106,6 +106,7 @@ export const Locators = {
   RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID: 'recent-care-teams-radio-group',
   RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID:
     'recent-care-teams-continue-button',
+  INTERSTITIAL_CONTINUE_BUTTON: 'continue-button',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: 'va-button[text="Yes, remove this folder"]',
