@@ -12,6 +12,8 @@ const AgreementPage = () => {
   const onSubmit = () => {
     if (!isAgreementChecked) {
       setIsAgreementError(true);
+    } else {
+      setIsAgreementError(false);
       // TODO Add logic for Submitting the claim
     }
   };
@@ -20,10 +22,10 @@ const AgreementPage = () => {
   };
   return (
     <>
-      <h1>Beneficiary travel agreement - test</h1>
-      <h4 className="vads-u-font-family--sans vads-u-display--inline">
+      <h1>Beneficiary travel agreement</h1>
+      <p className="vads-u-font-weight--bold vads-u-font-family--sans vads-u-display--inline">
         Penalty statement:
-      </h4>{' '}
+      </p>{' '}
       <p className="vads-u-display--inline">
         There are severe criminal and civil penalties, including a fine,
         imprisonment, or both, for knowingly submitting a false, fictitious, or
