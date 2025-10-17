@@ -120,8 +120,7 @@ export const processIncomingActivity = ({
   const isFormPostButton = data.value?.type === 'FormPostButton';
   const isCSATSurveyResponse = data.valueType === 'CSATSurveyResponse';
 
-  const isAtBeginningOfConversation = !getIsTrackingUtterances();
-  if (isAtBeginningOfConversation) {
+  if (!getIsTrackingUtterances()) {
     setIsTrackingUtterances(true);
   }
 
