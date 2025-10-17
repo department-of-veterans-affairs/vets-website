@@ -31,10 +31,12 @@
   "claimantEmail": "robert.johnson@email.com",
   "relationshipToDeceased": "spouse",
   "wantsToWaiveSubstitution": false,
-  "hasSpouse": false,
-  "hasChildren": true,
-  "hasParents": false,
-  "hasNone": false,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": true,
+    "hasParents": false,
+    "hasNone": false
+  },
   "survivingRelatives": [
     {
       "fullName": {
@@ -72,7 +74,7 @@
   "claimingReimbursement": false,
   "remarks": "Filing for accrued benefits as the surviving spouse. The deceased had a pending claim for increased disability compensation at the time of death.",
   "veteranIdentification": {
-    "ssn": "123456789",
+    "ssn": "123123123",
     "vaFileNumber": "12345678"
   },
   "claimantIdentification": {

@@ -25,12 +25,21 @@
   "claimantEmail": "patricia.davis@lawfirm.com",
   "relationshipToDeceased": "executor",
   "wantsToWaiveSubstitution": true,
-  "hasSpouse": false,
-  "hasChildren": false,
-  "hasParents": false,
-  "hasNone": true,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": false,
+    "hasNone": true
+  },
   "claimingReimbursement": true,
   "lastIllnessExpenses": 23500,
+  "expenses": [
+    {
+      "provider": "Funeral home",
+      "expenseType": "Funeral",
+      "amount": 100
+    }
+  ],
   "burialExpenses": 12000,
   "totalExpenses": 35500,
   "amountPaidByVA": 0,
