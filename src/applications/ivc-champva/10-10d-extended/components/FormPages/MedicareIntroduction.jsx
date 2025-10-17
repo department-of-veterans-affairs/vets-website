@@ -7,11 +7,8 @@ const MedicareIntroduction = props => {
   return (
     <>
       <h1 className="vads-u-color--black vads-u-margin-top--0 mobile-lg:vads-u-font-size--h2 vads-u-font-size--h3">
-        Submit your Other Health Insurance Certification (VA Form 10-7959c)
-      </h1>
-      <h2 className="mobile-lg:vads-u-font-size--h3 vads-u-font-size--h4">
         Report Medicare
-      </h2>
+      </h1>
       <ul className="vads-u-margin-y--4">
         <li>
           <strong>If you currently have Medicare</strong>, provide your plan
