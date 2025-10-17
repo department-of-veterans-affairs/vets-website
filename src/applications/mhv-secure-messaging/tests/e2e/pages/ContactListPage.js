@@ -27,6 +27,18 @@ class ContactListPage {
       .find(`input`);
   };
 
+  accordianByHeader = name => {
+    return cy.get(`[header="${name}"]`);
+  };
+
+  accordianBySubheader = name => {
+    return cy.get(`[subheader="${name}"]`);
+  };
+
+  verifyAccordianSubheader = name => {
+    this.accordianBySubheader(name).should('be.visible');
+  };
+
   verifySingleCheckBox = (team, value) => {
     cy.get(`[label="${team}"]`).should('have.prop', `checked`, value);
   };
@@ -55,6 +67,12 @@ class ContactListPage {
 
   selectCheckBox = name => {
     this.checkBoxByName(name).click({ force: true });
+  };
+
+  selectFirstCheckBox = name => {
+    this.checkBoxByName(name)
+      .first()
+      .click({ force: true });
   };
 
   validateCheckBoxDoesNotExist = name => {

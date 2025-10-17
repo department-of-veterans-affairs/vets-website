@@ -261,8 +261,9 @@ const EditContactList = () => {
                     <va-accordion-item
                       header={`${facilityName ||
                         'VA Medical Center'} - ${stationNumber || ''}`}
-                      subheader={`${triageTeamCount[stationNumber] ||
-                        0} teams selected`}
+                      subheader={`${triageTeamCount[stationNumber] || 0} team${
+                        triageTeamCount[stationNumber] !== 1 ? 's' : ''
+                      } selected`}
                       key={stationNumber}
                       data-testid="facility-accordion-item"
                       data-dd-action-name="Contact list accordion clicked"
