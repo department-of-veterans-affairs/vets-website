@@ -21,6 +21,7 @@ import React from 'react';
  * @param {import('zod').ZodSchema} [props.schema] - Zod schema for validation (not used by va-text-input but kept for consistency)
  * @param {string} [props.hint] - Additional help text for the user
  * @param {number} [props.maxlength] - Maximum character length allowed
+ * @param {string} [props.type='text'] - Input type (text, email, url, etc.)
  * @returns {JSX.Element} VA text input field
  *
  * @example
@@ -45,6 +46,8 @@ export const TextInputField = ({
   forceShowError = false,
   hint,
   maxlength,
+  type = 'text',
+  ...rest
 }) => {
   const handleChange = event => {
     const newValue = event.target.value;
@@ -57,6 +60,7 @@ export const TextInputField = ({
     <va-text-input
       label={label}
       name={name}
+      type={type}
       value={value || ''}
       onInput={handleChange}
       error={showError ? error : null}
@@ -64,6 +68,7 @@ export const TextInputField = ({
       hint={hint}
       message-aria-describedby={hint ? `${name}-hint` : null}
       maxlength={maxlength}
+      {...rest}
     />
   );
 };
@@ -78,6 +83,7 @@ TextInputField.propTypes = {
   maxlength: PropTypes.number,
   required: PropTypes.bool,
   schema: PropTypes.object,
+  type: PropTypes.string,
   value: PropTypes.string,
 };
 

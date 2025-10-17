@@ -109,7 +109,7 @@ describe('ConfirmationPage', () => {
     );
 
     // Check for next steps heading
-    expect(getByText(/What to expect/i)).to.exist;
+    expect(getByText(/What are my next steps/i)).to.exist;
   });
 
   it('should display print button', () => {

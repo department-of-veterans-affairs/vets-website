@@ -127,6 +127,11 @@ export const IntroductionPage = ({ route }) => {
           }}
         />
       )}
+      <va-omb-info
+        res-burden="15"
+        omb-number="2900-0065"
+        exp-date="08/31/2027"
+      />
     </article>
   );
 };
