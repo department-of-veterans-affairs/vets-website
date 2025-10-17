@@ -111,141 +111,163 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
     });
   });
 
-  describe('Entry point preservation', () => {
-    it('returns to Inbox after clicking back from interstitial page', () => {
-      // User starts from Inbox (default load)
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
-
-      // Click new message to go to interstitial
-      cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
-      cy.location('pathname').should(
-        'equal',
-        `${Paths.UI_MAIN}${Paths.COMPOSE}`,
-      );
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      // Verify sessionStorage captured the entry point
-      cy.window().then(win => {
-        expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
-          Paths.INBOX,
+    describe('Entry point preservation', () => {
+      it('returns to Inbox after clicking back from interstitial page', () => {
+        // User starts from Inbox (default load)
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.INBOX}`,
         );
+
+        // Click new message to go to interstitial
+        cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.COMPOSE}`,
+        );
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+        // Verify sessionStorage captured the entry point
+        cy.window().then(win => {
+          expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+            Paths.INBOX,
+          );
+        });
+
+        // Click back from interstitial
+        SharedComponents.clickBackBreadcrumb();
+
+        // Should return to Inbox
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.INBOX}`,
+        );
+        GeneralFunctionsPage.verifyPageHeader('Inbox');
       });
 
-      // Click back from interstitial
-      SharedComponents.clickBackBreadcrumb();
+      it('returns to entry folder (Sent or Folders) after clicking back from interstitial page', () => {
+        // Test for Sent folder
+        cy.intercept(
+          'GET',
+          `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`,
+          {
+            data: [],
+          },
+        ).as('sentMessages');
+        cy.intercept(
+          'GET',
+          `${Paths.SM_API_BASE + Paths.FOLDERS}/-1*`,
+          mockSentFolderMetadata,
+        ).as('sentFolderMetadata');
 
-      // Should return to Inbox
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
-      GeneralFunctionsPage.verifyPageHeader('Inbox');
+        // Navigate to Sent folder
+        cy.visit(`${Paths.UI_MAIN}${Paths.SENT}`);
+        cy.wait('@sentMessages');
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.SENT}`,
+        );
+        GeneralFunctionsPage.verifyPageHeader('Sent');
+
+        // Click new message from Sent folder
+        cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
+
+        // Verify sessionStorage captured Sent as entry point
+        cy.window().then(win => {
+          expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+            Paths.SENT,
+          );
+        });
+
+        // Click back from interstitial
+        SharedComponents.clickBackBreadcrumb();
+
+        // Should return to Sent folder
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.SENT}`,
+        );
+        GeneralFunctionsPage.verifyPageHeader('Sent');
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+        // Test for Folders page
+        cy.intercept(
+          'GET',
+          `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+          mockFolders,
+        ).as('folders');
+
+        // Navigate to Folders page
+        cy.visit(`${Paths.UI_MAIN}/folders/`);
+        cy.wait('@folders');
+        cy.location('pathname').should('equal', `${Paths.UI_MAIN}/folders/`);
+        GeneralFunctionsPage.verifyPageHeader('More folders');
+
+        // Click new message from Folders page
+        cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
+
+        // Verify sessionStorage captured Folders as entry point
+        cy.window().then(win => {
+          expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
+            '/folders/',
+          );
+        });
+
+        // Click back from interstitial
+        SharedComponents.clickBackBreadcrumb();
+
+        // Should return to Folders page
+        cy.location('pathname').should('equal', `${Paths.UI_MAIN}/folders/`);
+        GeneralFunctionsPage.verifyPageHeader('More folders');
+      });
     });
 
-    it('returns to entry folder (Sent or Folders) after clicking back from interstitial page', () => {
-      // Test for Sent folder
-      cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`, {
-        data: [],
-      }).as('sentMessages');
-      cy.intercept(
-        'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/-1*`,
-        mockSentFolderMetadata,
-      ).as('sentFolderMetadata');
-
-      // Navigate to Sent folder
-      cy.visit(`${Paths.UI_MAIN}${Paths.SENT}`);
-      cy.wait('@sentMessages');
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.SENT}`);
-      GeneralFunctionsPage.verifyPageHeader('Sent');
-
-      // Click new message from Sent folder
-      cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
-
-      // Verify sessionStorage captured Sent as entry point
-      cy.window().then(win => {
-        expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
-          Paths.SENT,
+    describe('Recent care teams integration', () => {
+      beforeEach(() => {
+        // Enable recent recipients feature toggle
+        const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles(
+          [
+            {
+              name: 'mhv_secure_messaging_cerner_pilot',
+              value: true,
+            },
+            {
+              name: 'mhv_secure_messaging_curated_list_flow',
+              value: true,
+            },
+            {
+              name: 'mhv_secure_messaging_recent_recipients',
+              value: true,
+            },
+          ],
         );
+        SecureMessagingSite.login(updatedFeatureToggles);
+        PilotEnvPage.loadInboxMessages();
       });
 
-      // Click back from interstitial
-      SharedComponents.clickBackBreadcrumb();
-
-      // Should return to Sent folder
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.SENT}`);
-      GeneralFunctionsPage.verifyPageHeader('Sent');
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-
-      // Test for Folders page
-      cy.intercept(
-        'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
-        mockFolders,
-      ).as('folders');
-
-      // Navigate to Folders page
-      cy.visit(`${Paths.UI_MAIN}/folders/`);
-      cy.wait('@folders');
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}/folders/`);
-      GeneralFunctionsPage.verifyPageHeader('More folders');
-
-      // Click new message from Folders page
-      cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
-
-      // Verify sessionStorage captured Folders as entry point
-      cy.window().then(win => {
-        expect(win.sessionStorage.getItem('sm_composeEntryUrl')).to.equal(
-          '/folders/',
-        );
-      });
-
-      // Click back from interstitial
-      SharedComponents.clickBackBreadcrumb();
-
-      // Should return to Folders page
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}/folders/`);
-      GeneralFunctionsPage.verifyPageHeader('More folders');
-    });
-  });
-
-  describe('Recent care teams integration', () => {
-    beforeEach(() => {
-      // Enable recent recipients feature toggle
-      const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
-        {
-          name: 'mhv_secure_messaging_cerner_pilot',
-          value: true,
-        },
-        {
-          name: 'mhv_secure_messaging_curated_list_flow',
-          value: true,
-        },
-        {
-          name: 'mhv_secure_messaging_recent_recipients',
-          value: true,
-        },
-      ]);
-      SecureMessagingSite.login(updatedFeatureToggles);
-      PilotEnvPage.loadInboxMessages();
-    });
-
-    it('navigates full flow with recent care teams and returns to entry folder', () => {
-      // Start from Sent folder
-      cy.intercept('GET', `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`, {
-        data: [],
-      }).as('sentMessages');
-      cy.intercept(
-        'GET',
-        `${Paths.SM_API_BASE + Paths.FOLDERS}/-1*`,
-        mockSentFolderMetadata,
-      ).as('sentFolderMetadata');
+      it('navigates full flow with recent care teams and returns to entry folder', () => {
+        // Start from Sent folder
+        cy.intercept(
+          'GET',
+          `${Paths.SM_API_BASE + Paths.FOLDERS}/-1/threads*`,
+          {
+            data: [],
+          },
+        ).as('sentMessages');
+        cy.intercept(
+          'GET',
+          `${Paths.SM_API_BASE + Paths.FOLDERS}/-1*`,
+          mockSentFolderMetadata,
+        ).as('sentFolderMetadata');
 
       cy.visit(`${Paths.UI_MAIN}${Paths.SENT}`);
       cy.wait('@sentMessages');
@@ -259,11 +281,11 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         searchSentFolderResponse,
       ).as('recentRecipients');
 
-      // Start new message from Sent folder
-      cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
+        // Start new message from Sent folder
+        cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
 
       // Wait for recent recipients to load
       cy.wait('@recentRecipients');
@@ -272,27 +294,30 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       PatientInterstitialPage.getStartMessageLink().click();
       GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
-      // Navigate forward to select care team
-      cy.findByLabelText('A different care team').click();
-      cy.findByTestId('recent-care-teams-continue-button').click();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
+        // Navigate forward to select care team
+        cy.findByLabelText('A different care team').click();
+        cy.findByTestId('recent-care-teams-continue-button').click();
+        GeneralFunctionsPage.verifyPageHeader('Select care team');
 
       // Navigate back through the flow
       SharedComponents.clickBackBreadcrumb();
       GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
-      SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
+        SharedComponents.clickBackBreadcrumb();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
 
-      SharedComponents.clickBackBreadcrumb();
+        SharedComponents.clickBackBreadcrumb();
 
-      // Should return to Sent folder (the entry point)
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.SENT}`);
-      GeneralFunctionsPage.verifyPageHeader('Sent');
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-    });
+        // Should return to Sent folder (the entry point)
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.SENT}`,
+        );
+        GeneralFunctionsPage.verifyPageHeader('Sent');
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+      });
 
     it('completes forward and backward navigation through entire curated flow', () => {
       // Start from Inbox
@@ -326,33 +351,33 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
       );
 
-      // Forward: Recent care teams → Select care team
-      cy.findByLabelText('A different care team').click();
-      cy.findByTestId('recent-care-teams-continue-button').click();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+        // Forward: Recent care teams → Select care team
+        cy.findByLabelText('A different care team').click();
+        cy.findByTestId('recent-care-teams-continue-button').click();
+        GeneralFunctionsPage.verifyPageHeader('Select care team');
+        cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
 
-      // Forward: Select care team → Start message
-      PilotEnvPage.selectCareSystem(0);
-      PilotEnvPage.selectTriageGroup(2);
-      cy.intercept('GET', Paths.INTERCEPT.SENT_THREADS, { data: [] }).as(
-        'sentThreads',
-      );
-      cy.findByTestId('continue-button').click();
-      cy.wait('@sentThreads');
-      GeneralFunctionsPage.verifyPageHeader('Start message');
-      cy.location('pathname').should(
-        'equal',
-        `${Paths.UI_MAIN}${Paths.COMPOSE.replace(/\/$/, '')}${
-          Paths.START_MESSAGE
-        }/`,
-      );
-      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+        // Forward: Select care team → Start message
+        PilotEnvPage.selectCareSystem(0);
+        PilotEnvPage.selectTriageGroup(2);
+        cy.intercept('GET', Paths.INTERCEPT.SENT_THREADS, { data: [] }).as(
+          'sentThreads',
+        );
+        cy.findByTestId('continue-button').click();
+        cy.wait('@sentThreads');
+        GeneralFunctionsPage.verifyPageHeader('Start message');
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.COMPOSE.replace(/\/$/, '')}${
+            Paths.START_MESSAGE
+          }/`,
+        );
+        cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
-      // Backward: Start message → Select care team
-      SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader('Select care team');
-      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+        // Backward: Start message → Select care team
+        SharedComponents.clickBackBreadcrumb();
+        GeneralFunctionsPage.verifyPageHeader('Select care team');
+        cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
 
       // Backward: Select care team → Recent care teams
       SharedComponents.clickBackBreadcrumb();
@@ -362,20 +387,24 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         `${Paths.UI_MAIN}${Paths.COMPOSE}${Paths.RECENT_CARE_TEAMS}`,
       );
 
-      // Backward: Recent care teams → Interstitial
-      SharedComponents.clickBackBreadcrumb();
-      GeneralFunctionsPage.verifyPageHeader(
-        'Only use messages for non-urgent needs',
-      );
-      cy.location('pathname').should(
-        'equal',
-        `${Paths.UI_MAIN}${Paths.COMPOSE}`,
-      );
+        // Backward: Recent care teams → Interstitial
+        SharedComponents.clickBackBreadcrumb();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.COMPOSE}`,
+        );
 
-      // Backward: Interstitial → Inbox (entry point)
-      SharedComponents.clickBackBreadcrumb();
-      cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
-      GeneralFunctionsPage.verifyPageHeader('Inbox');
+        // Backward: Interstitial → Inbox (entry point)
+        SharedComponents.clickBackBreadcrumb();
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.INBOX}`,
+        );
+        GeneralFunctionsPage.verifyPageHeader('Inbox');
+      });
     });
   });
 });
