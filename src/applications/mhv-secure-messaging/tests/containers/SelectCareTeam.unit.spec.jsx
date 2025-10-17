@@ -42,18 +42,10 @@ describe('SelectCareTeam', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        vistaFacilities: noBlockedRecipients.mockVistaFacilities,
       },
       threadDetails: {
         draftInProgress: {},
-      },
-    },
-    user: {
-      profile: {
-        facilities: [
-          { facilityId: '662' },
-          { facilityId: '636' },
-          { facilityId: '757' },
-        ],
       },
     },
     drupalStaticData: {
@@ -91,7 +83,6 @@ describe('SelectCareTeam', () => {
               ehr: 'cerner',
             },
           },
-          cernerFacilities: [{ vhaId: '954' }, { vhaId: '834' }],
         },
       },
     },
@@ -592,12 +583,11 @@ describe('SelectCareTeam', () => {
   it('does not show contact list link when user has only Cerner facilities', async () => {
     const customState = {
       ...initialState,
-      user: {
-        profile: {
-          facilities: [
-            { facilityId: '954' }, // Cerner facility
-            { facilityId: '834' }, // Cerner facility
-          ],
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          vistaFacilities: [], // No VistA facilities in recipients
         },
       },
     };

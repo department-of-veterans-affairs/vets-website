@@ -11,7 +11,7 @@ import {
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
+
 import { populatedDraft } from '../selectors';
 import { ErrorMessages, Paths } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
@@ -28,9 +28,9 @@ const SelectCareTeam = () => {
     noAssociations,
     allTriageGroupsBlocked,
     allowedRecipients,
+    vistaFacilities,
   } = useSelector(state => state.sm.recipients);
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-  const patientFacilities = useSelector(selectPatientFacilities);
   const { draftInProgress, acceptInterstitial } = useSelector(
     state => state.sm.threadDetails,
   );
@@ -199,16 +199,10 @@ const SelectCareTeam = () => {
 
   useEffect(
     () => {
-      if (patientFacilities) {
-        const hasVistaFacility = patientFacilities.some(
-          facility => !facility.isCerner,
-        );
-        setShowContactListLink(hasVistaFacility);
-      } else {
-        setShowContactListLink(false);
-      }
+      const hasVistaFacility = vistaFacilities?.length > 0;
+      setShowContactListLink(hasVistaFacility);
     },
-    [patientFacilities],
+    [vistaFacilities],
   );
 
   // updates the available teams in the Care Team combo box
