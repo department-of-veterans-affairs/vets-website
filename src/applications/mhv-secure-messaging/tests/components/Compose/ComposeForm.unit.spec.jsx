@@ -211,15 +211,18 @@ describe('Compose form component', () => {
     );
 
     const deleteButton = await screen.getByTestId('delete-draft-button');
-
     expect(document.querySelector('form.compose-form')).to.exist;
     expect(deleteButton).to.exist;
-    expect(screen.getByTestId('compose-recipient-select')).to.have.value(
-      customDraftMessage.recipientId,
-    );
-    expect(screen.getByTestId('compose-message-categories')).to.have.value(
-      customDraftMessage.category,
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-recipient-select')).to.have.value(
+        customDraftMessage.recipientId,
+      );
+    });
+    await waitFor(() => {
+      expect(screen.getByTestId('compose-message-categories')).to.have.value(
+        customDraftMessage.category,
+      );
+    });
     expect(screen.getByTestId('message-subject-field')).to.have.attribute(
       'value',
       customDraftMessage.subject,
