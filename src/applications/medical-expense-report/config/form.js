@@ -80,31 +80,35 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         claimantRelationship: {
-          title: 'Applicant information',
+          title: 'Your identity',
           path: 'applicant/relationship',
           uiSchema: claimantRelationship.uiSchema,
           schema: claimantRelationship.schema,
         },
         claimantInformation: {
-          title: 'Your information',
+          title: 'Your name',
           path: 'applicant/information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
         mailingAddress: {
-          title: 'Your address',
+          title: 'Your mailing address',
           path: 'applicant/mail-address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
         contactInformation: {
-          title: 'Your contact information',
+          title: 'Your email address and phone number',
           path: 'applicant/contact',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
         },
         veteranInformation: {
-          title: 'Veteran information',
+          title: formData =>
+            formData?.claimantNotVeteran
+              ? 'Veteran information'
+              : 'Your information',
+
           path: 'applicant/veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
