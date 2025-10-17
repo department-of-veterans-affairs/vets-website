@@ -1,18 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import moment from 'moment';
 
 import { SAVED_SEPARATION_DATE } from '../../constants';
 import { UpdateMilitaryHistory } from '../../components/UpdateMilitaryHistory';
 
-const inRangeBddDate = moment()
-  .add(120, 'days')
-  .format('YYYY-MM-DD');
+import { daysFromToday } from '../utils/dates/dateHelper';
 
-const inRangeBddDate2 = moment()
-  .add(100, 'days')
-  .format('YYYY-MM-DD');
+const inRangeBddDate = daysFromToday(120);
+
+const inRangeBddDate2 = daysFromToday(100);
 
 describe('UpdateMilitaryHistory', () => {
   let wrapper;
