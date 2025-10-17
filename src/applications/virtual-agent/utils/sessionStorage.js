@@ -88,7 +88,7 @@ export function setCodeKey(value) {
   setStorageItem(CODE_KEY, value);
 }
 
-// First-connection helpers removed; key retained for backward compatibility
+// First-connection helpers removed; key is still used to preserve the flag during session clears for backward compatibility
 
 export function clearBotSessionStorage(forceClear) {
   const botSessionKeys = Object.keys(sessionStorage);
