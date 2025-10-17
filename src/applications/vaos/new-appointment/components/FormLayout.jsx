@@ -83,9 +83,13 @@ Nav.propTypes = {
   pageTitle: PropTypes.string.isRequired,
 };
 
-export default function FormLayout({ children, isReviewPage, pageTitle }) {
+export default function FormLayout({ children, pageTitle }) {
   const location = useLocation();
   const flow = useSelector(state => getNewAppointmentFlow(state));
+  const featureImmediateCareAlert = useSelector(
+    selectFeatureImmediateCareAlert,
+  );
+
   const typeOfCareUrl = flow.typeOfCare?.url;
 
   return (
@@ -106,7 +110,13 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
         )}
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-            {!isReviewPage && (
+            {featureImmediateCareAlert &&
+              !location.pathname.endsWith('schedule') && (
+                <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
+                  <Title />
+                </span>
+              )}
+            {!featureImmediateCareAlert && (
               <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
                 <Title />
               </span>
@@ -122,6 +132,5 @@ export default function FormLayout({ children, isReviewPage, pageTitle }) {
 
 FormLayout.propTypes = {
   children: PropTypes.object,
-  isReviewPage: PropTypes.bool,
   pageTitle: PropTypes.string,
 };
