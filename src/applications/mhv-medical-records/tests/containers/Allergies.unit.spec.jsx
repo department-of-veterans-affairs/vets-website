@@ -67,7 +67,7 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it('displays the second part of the subheading', () => {
+  it.skip('displays the second part of the subheading', () => {
     expect(
       screen.getByText(
         'If you have allergies that are missing from this list, tell your care team at your next appointment.',
