@@ -112,10 +112,14 @@ describe('IntroductionPage', () => {
     // Check for process list steps using attributes since text is in web component
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
-    expect(processItems[0].getAttribute('header')).to.equal('Prepare');
-    expect(processItems[1].getAttribute('header')).to.equal('Complete');
-    expect(processItems[2].getAttribute('header')).to.equal('Submit');
-    expect(processItems[3].getAttribute('header')).to.equal('Processing');
+    expect(processItems[0].getAttribute('header')).to.equal(
+      'Check your eligibility',
+    );
+    expect(processItems[1].getAttribute('header')).to.equal(
+      'Gather your information',
+    );
+    expect(processItems[2].getAttribute('header')).to.equal('Apply');
+    expect(processItems[3].getAttribute('header')).to.equal('After you apply');
   });
 
   it('should display sign-in alert when user is not logged in', () => {
@@ -180,14 +184,14 @@ describe('IntroductionPage', () => {
   it('should display OMB information', () => {
     const mockStore = createMockStore();
 
-    render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
     // Check for OMB info component
-    const ombInfo = document.querySelector('va-omb-info');
+    const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo.getAttribute('res-burden')).to.equal('15');
     expect(ombInfo.getAttribute('omb-number')).to.equal('2900-0065');

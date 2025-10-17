@@ -484,7 +484,13 @@ describe('useFormSection - Form section state management', () => {
 
       act(() => {
         result.current.handleFieldChange('user.name', 'John');
+      });
+
+      act(() => {
         result.current.handleFieldChange('user.emails', ['john@example.com']);
+      });
+
+      act(() => {
         result.current.handleFieldChange('preferences.theme', 'dark');
       });
 
