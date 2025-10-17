@@ -320,7 +320,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
           ehrDataByVhaId: {
             '668': {
               vhaId: '668',
-              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
               vamcSystemName: 'VA Spokane health care',
               ehr: 'cerner',
             },
@@ -328,7 +329,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
           cernerFacilities: [
             {
               vhaId: '668',
-              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
               vamcSystemName: 'VA Spokane health care',
               ehr: 'cerner',
             },
@@ -380,7 +382,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
           ehrDataByVhaId: {
             '668': {
               vhaId: '668',
-              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
               vamcSystemName: 'VA Spokane health care',
               ehr: 'cerner',
             },
@@ -394,7 +397,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
           cernerFacilities: [
             {
               vhaId: '668',
-              vamcFacilityName: 'Mann-Grandstaff Department of Veterans Affairs Medical Center',
+              vamcFacilityName:
+                'Mann-Grandstaff Department of Veterans Affairs Medical Center',
               vamcSystemName: 'VA Spokane health care',
               ehr: 'cerner',
             },
@@ -436,9 +440,8 @@ describe('DownloadRecordsPage for Cerner users', () => {
         'To get your medical records reports from this facility, go to My VA Health',
       ),
     ).to.exist;
-    expect(
-      screen.getByText('VA Spokane health care', { exact: false }),
-    ).to.exist;
+    expect(screen.getByText('VA Spokane health care', { exact: false })).to
+      .exist;
   });
 
   it('displays correct alert text for multiple Cerner facilities', () => {
@@ -470,9 +473,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    expect(
-      screen.getByText('Go to My VA Health (opens in new tab)'),
-    ).to.exist;
+    expect(screen.getByText('Go to My VA Health (opens in new tab)')).to.exist;
   });
 });
 
@@ -499,7 +500,8 @@ describe('DownloadRecordsPage for non-Cerner users', () => {
           ehrDataByVhaId: {
             '516': {
               vhaId: '516',
-              vamcFacilityName: 'C.W. Bill Young Department of Veterans Affairs Medical Center',
+              vamcFacilityName:
+                'C.W. Bill Young Department of Veterans Affairs Medical Center',
               vamcSystemName: 'VA Bay Pines health care',
               ehr: 'vista',
             },
