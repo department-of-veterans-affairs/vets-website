@@ -82,6 +82,12 @@ h2#pagination-info {
   }
 }
 
+.travel-pay-complex-expense-cancel-btn {
+  @media (max-width: 479px) {
+    width: 100%;
+  }
+}
+
 .travel-pay-download-loading-icon {
   animation: spin 1.5s linear infinite;
   margin: 0 0.2rem 0 0;
