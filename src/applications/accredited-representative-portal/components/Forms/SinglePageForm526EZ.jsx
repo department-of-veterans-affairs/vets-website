@@ -11,6 +11,11 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 // Alias setData to setFormData for clarity and to avoid undefined reference in tests
 import { setData as setFormData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
+import NewDisability from '../NewDisability';
+import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+
+const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 
 /*
  * NOTE: This is an INITIAL SLICE of the full 21-526EZ form for the
@@ -92,41 +97,63 @@ const contactInfoUi = {
   },
 };
 
+// For growable arrays the platform ArrayField currently assumes `schema.items` is
+// an array (tuple style) or falls back to `additionalItems`. A single schema
+// object (RJSF shorthand) results in getItemSchema returning `undefined`, which
+// leads to `toIdSchema` throwing (Cannot use 'in' operator on undefined).
+// Define both an array `items` and matching `additionalItems` so each added row
+// resolves to a concrete item schema.
+const disabilityItemSchema = {
+  type: 'object',
+  properties: {
+    condition,
+  },
+  required: ['condition'],
+};
+
 const disabilitiesSchema = {
   type: 'object',
   properties: {
     newDisabilities: {
       type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          condition: { type: 'string' },
-          cause: { type: 'string', enum: ['NEW', 'WORSENED', 'VA'] },
-        },
-        required: ['condition'],
-      },
       minItems: 1,
+      // Provide first item schema in an array (tuple form) so ArrayField.getItemSchema(index)
+      // returns a defined schema for index 0. Use additionalItems for subsequent entries.
+      items: [disabilityItemSchema],
+      additionalItems: disabilityItemSchema,
     },
   },
 };
 
+const autocompleteUiSchema = { //changed
+  'ui:validations': [],
+  'ui:required': () => true,
+  'ui:errorMessages': {
+    required: "Enter a condition, diagnosis, or short description of your symptoms",
+  },
+  'ui:options': {
+    hideLabelText: true,
+  },
+};
+
 const disabilitiesUi = {
-  'ui:title': 'Claimed conditions',
   newDisabilities: {
-    'ui:title': 'List the conditions you are claiming',
+    'ui:description': 'List the conditions you are claiming', // changed
+    'ui:options': {
+      itemName: 'Condition',
+      itemAriaLabel: data => data.condition,
+      viewField: NewDisability,
+      customTitle: ' ',
+      confirmRemove: true,
+      useDlWrap: true,
+      useVaCards: true,
+      showSave: true,
+      reviewMode: true,
+      keepInPageOnReview: false,
+    },
+    'ui:validations': [], // changed
     items: {
-      condition: { 'ui:title': 'Condition name' },
-      cause: {
-        'ui:title': 'Cause',
-        'ui:widget': 'select',
-        'ui:options': {
-          labels: {
-            NEW: 'New condition',
-            WORSENED: 'Condition worsened',
-            VA: 'Caused by VA care',
-          },
-        },
-      },
+      condition: autocompleteUiSchema,
     },
   },
 };
@@ -407,10 +434,7 @@ export default ConnectedSinglePageForm526EZ;
 /*
  * TODO (future iterations):
  * 1. Replace inline schemas with shared schema fragments allowed within portal context.
- * 2. Integrate autosave using portal draft save endpoint.
- * 3. Add full validation parity with multi-step 526EZ.
- * 4. Add file upload & evidence detail subsections.
- * 5. Implement condition add/remove UI parity (custom array field widgets).
- * 6. Add analytics events for open/close chapter & submission.
- * 7. Accessibility: revisit heading levels after full content expansion.
+ * 2. Add full validation parity with multi-step 526EZ.
+ * 3. Add file upload & evidence detail subsections.
+ * 4. Accessibility: revisit heading levels after full content expansion.
  */
