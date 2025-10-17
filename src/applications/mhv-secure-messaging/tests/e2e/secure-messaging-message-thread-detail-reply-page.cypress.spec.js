@@ -17,7 +17,7 @@ describe('SM REPLY MESSAGE DETAILS', () => {
     PatientMessageDetailsPage.loadSingleThread();
 
     PatientMessageDetailsPage.loadReplyMessageThread();
-    PatientInterstitialPage.getStartMessageLink().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
 
     PatientReplyPage.verifyReplyHeader();
     PatientReplyPage.verifyEditReplyDraftBtn();

@@ -17,7 +17,7 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
 
     PatientReplyPage.getMessageBodyField()
       .clear()
