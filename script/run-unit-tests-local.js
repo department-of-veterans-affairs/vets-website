@@ -60,10 +60,11 @@ if (options.help) {
 
 const preload = path.resolve(__dirname, '../babel-register.cjs');
 const mochaPath = `NODE_OPTIONS=--require=${preload} BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const mochaExtra = '--extension js --extension jsx';
 const coverageReporter = options['coverage-html']
-  ? '--reporter=html mocha --retries 5'
-  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
-const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
+  ? '--reporter=html -- mocha --retries 5'
+  : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+const coveragePath = `NODE_OPTIONS=--require=${preload} BABEL_ENV=test NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';
 
@@ -111,7 +112,7 @@ async function runTests() {
   for (const app of allUnitTestDirs) {
     const command = `shopt -s extglob; LOG_LEVEL=${options[
       'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} "${`${app}/**/*.unit.spec.@(jsx|js)`}"`;
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${mochaExtra} "${`${app}/**/*.unit.spec.@(jsx|js)`}"`;
 
     try {
       /* eslint-disable-next-line no-await-in-loop */
@@ -131,7 +132,7 @@ async function runCommandIndividually(paths) {
   for (const fp of filepaths) {
     const command = `shopt -s extglob; LOG_LEVEL=${options[
       'log-level'
-    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${fp}`;
+    ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${mochaExtra} ${fp}`;
     try {
       /* eslint-disable-next-line no-await-in-loop */
       await runCommandAsync(command);
@@ -145,7 +146,7 @@ if (options.path[0] !== defaultPath) {
   const filepaths = options.path.map(p => addWildcardAndQuote(p));
   const command = `shopt -s extglob; LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${filepaths.join(
+  ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${mochaExtra} ${filepaths.join(
     ' ',
   )}`;
   if (options.legacy) {

@@ -98,8 +98,8 @@ function buildTestCommand(testPaths) {
     ? `--reporter ${options.reporter}`
     : '';
   const coverageReporter = options['coverage-html']
-    ? '--reporter=html mocha --retries 5'
-    : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+    ? '--reporter=html -- mocha --retries 5'
+    : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
   const mochaExtra = '--extension js --extension jsx';
 
