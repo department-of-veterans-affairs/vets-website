@@ -66,12 +66,13 @@ const EditContactList = () => {
   );
 
   const SetStationCount = triageTeams => {
-    const stationNumbers = triageTeams.map(team => team.stationNumber);
+    const teams = triageTeams || [];
+    const stationNumbers = teams.map(team => team.stationNumber);
     const uniqueStationNumbers = [...new Set(stationNumbers)];
     return Object.fromEntries(
       uniqueStationNumbers.map(station => [
         station,
-        triageTeams.filter(
+        teams.filter(
           team => team.stationNumber === station && team.preferredTeam,
         ).length,
       ]),
