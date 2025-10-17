@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 146,
+  "totalApplications": 148,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -158,6 +158,12 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
+    },
+    {
+      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
+      "appName": "N/A",
+      "entryName": "N/A",
+      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
@@ -742,7 +748,7 @@
       "rootUrl": "/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
     },
     {
-      "directoryPath": "src/applications/simple-forms/21P-601",
+      "directoryPath": "src/applications/simple-forms/21p-601",
       "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
       "entryName": "21P-601",
       "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-601"

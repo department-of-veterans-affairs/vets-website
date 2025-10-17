@@ -32,7 +32,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   transformForSubmit,
-  trackingPrefix: '21p-0601-accrued-benefits-',
+  trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
   dev: {
@@ -41,7 +41,7 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21P-0601',
+  formId: '21P-601',
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
@@ -194,10 +194,10 @@ const formConfig = {
           schema: relativesDetails.schema,
           scrollAndFocusTarget: pageFocusScroll(),
           depends: formData =>
-            formData.hasNone !== true &&
-            (formData.hasSpouse === true ||
-              formData.hasChildren === true ||
-              formData.hasParents === true),
+            formData.survivors.hasNone !== true &&
+            (formData.survivors.hasSpouse === true ||
+              formData.survivors.hasChildren === true ||
+              formData.survivors.hasParents === true),
         },
       },
     },
