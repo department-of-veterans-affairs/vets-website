@@ -21,24 +21,9 @@
   text-decoration: none;
 }
 
-.vet360-profile-field-content {
-  &.usa-input-error {
-    margin-top: 0;
-  }
-}
-
 .button-link {
   background: var(--vads-color-white);
   box-shadow: none !important;
-}
-
-.vet360-profile-field-transaction-pending {
-  color: var(--vads-color-primary);
-  border-left: 4px solid var(--vads-color-primary);
-  padding-left: 0.9375rem;
-  position: relative;
-  right: 1.1875rem;
-  font-weight: bold;
 }
 
 .copy-mailing-address-to-residential-address {
