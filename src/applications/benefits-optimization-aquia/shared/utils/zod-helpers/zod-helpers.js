@@ -5,11 +5,11 @@
 
 /**
  * Flattens Zod error issues into a field errors object.
- * Properly handles array indices to create nested array structures for array field errors.
- * Converts Zod's path-based error format into a nested object/array structure matching the data shape.
+ * For nested paths with 2+ levels, intermediate levels are skipped and only the first and last keys are used.
+ * This creates a partially flattened structure ideal for form validation.
  *
  * @param {import('zod').ZodError} zodError - The Zod error to flatten
- * @returns {Object} Object with field names as keys and error message strings/objects/arrays as values
+ * @returns {Object} Object with field names as keys and error message strings/objects as values
  *
  * @example
  * // For simple field errors:
@@ -17,9 +17,14 @@
  * // Output: { email: 'Invalid email' }
  *
  * @example
+ * // For nested field errors (intermediate levels skipped):
+ * // Input: { path: ['user', 'profile', 'bio'], message: 'Required' }
+ * // Output: { user: { bio: 'Required' } }
+ *
+ * @example
  * // For array field errors:
- * // Input: { path: ['servicePeriods', 0, 'branchOfService'], message: 'Required' }
- * // Output: { servicePeriods: [{ branchOfService: 'Required' }] }
+ * // Input: { path: ['items', 1], message: 'Invalid' }
+ * // Output: { items: { '1': 'Invalid' } }
  */
 export const flattenZodError = zodError => {
   const fieldErrors = {};
@@ -33,28 +38,17 @@ export const flattenZodError = zodError => {
         fieldErrors[fieldName] = issue.message;
       }
     } else {
-      // Handle nested paths (objects and arrays)
-      let current = fieldErrors;
+      // Handle nested paths - skip intermediate levels
+      // Only use first and last keys: path [a, b, c, d] becomes { a: { d: 'message' } }
+      const firstKey = issue.path[0];
+      const lastKey = issue.path[issue.path.length - 1];
 
-      for (let i = 0; i < issue.path.length - 1; i++) {
-        const key = issue.path[i];
-        const nextKey = issue.path[i + 1];
-
-        // Check if next key is a number (array index)
-        const isNextKeyArray = typeof nextKey === 'number';
-
-        if (!current[key]) {
-          // Initialize as array if next key is a number, otherwise as object
-          current[key] = isNextKeyArray ? [] : {};
-        }
-
-        current = current[key];
+      if (!fieldErrors[firstKey]) {
+        fieldErrors[firstKey] = {};
       }
 
-      // Set the final value
-      const lastKey = issue.path[issue.path.length - 1];
-      if (!current[lastKey]) {
-        current[lastKey] = issue.message;
+      if (!fieldErrors[firstKey][lastKey]) {
+        fieldErrors[firstKey][lastKey] = issue.message;
       }
     }
   });
