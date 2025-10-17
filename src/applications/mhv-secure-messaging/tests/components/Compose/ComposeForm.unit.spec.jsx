@@ -182,7 +182,7 @@ describe('Compose form component', () => {
     expect(messageInputError).to.equal('Message body cannot be blank.');
   });
 
-  it('displays draft page if path is /draft/:id', async () => {
+  it('displays draft page if path is /thread/:id', async () => {
     const customDraftMessage = {
       ...draftMessage,
       recipientId: 1013155,
@@ -206,7 +206,7 @@ describe('Compose form component', () => {
       {
         initialState: customState,
         reducers: reducer,
-        path: `/draft/${customDraftMessage.id}`,
+        path: `/thread/${customDraftMessage.id}`,
       },
     );
 
@@ -214,6 +214,20 @@ describe('Compose form component', () => {
 
     expect(document.querySelector('form.compose-form')).to.exist;
     expect(deleteButton).to.exist;
+    expect(screen.getByTestId('compose-recipient-select')).to.have.value(
+      customDraftMessage.recipientId,
+    );
+    expect(screen.getByTestId('compose-message-categories')).to.have.value(
+      customDraftMessage.category,
+    );
+    expect(screen.getByTestId('message-subject-field')).to.have.attribute(
+      'value',
+      customDraftMessage.subject,
+    );
+    expect(screen.getByTestId('message-body-field')).to.have.attribute(
+      'value',
+      customDraftMessage.body,
+    );
   });
 
   it('renders without errors on send button click', async () => {
