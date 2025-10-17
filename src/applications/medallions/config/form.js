@@ -30,6 +30,7 @@ import {
   ApplicantNameNote,
   isUserSignedIn,
 } from '../utils/helpers';
+import { servicePeriodsPagesVeteran } from '../pages/servicePeriodsPages';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -193,14 +194,7 @@ const formConfig = {
     },
     veteranServicePeriods: {
       title: 'Veteran service periods',
-      pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
-        },
-      },
+      pages: servicePeriodsPagesVeteran,
     },
     burialInformation: {
       title: 'Burial information',
