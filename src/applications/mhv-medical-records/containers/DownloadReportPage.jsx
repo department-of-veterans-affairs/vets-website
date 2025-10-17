@@ -22,6 +22,7 @@ import {
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
+  CernerAlertContent,
   documentTypes,
   pageTitles,
   refreshExtractTypes,
@@ -31,6 +32,7 @@ import { genAndDownloadCCD } from '../actions/downloads';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { Actions } from '../util/actionTypes';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import useAlerts from '../hooks/use-alerts';
 import TrackedSpinner from '../components/shared/TrackedSpinner';
 import { postRecordDatadogAction } from '../api/MrApi';
@@ -211,6 +213,9 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         Download your VA medical records as a single report (called your VA Blue
         Button® report). Or find other reports to download.
       </p>
+
+      <AcceleratedCernerFacilityAlert {...CernerAlertContent.DOWNLOAD} />
+
       {lastSuccessfulUpdate && (
         <va-card
           class="vads-u-margin-y--2"
