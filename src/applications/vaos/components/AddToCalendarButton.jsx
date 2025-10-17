@@ -21,7 +21,7 @@ function handleClick({ filename, ics }) {
 }
 
 export default function AddToCalendarButton({ appointment, facility }) {
-  const isCC = appointment.vaos.isCommunityCare;
+  const isCC = appointment?.vaos?.isCommunityCare;
   const startUtc = appointment?.start;
   const duration = appointment?.minutesDuration;
   const endUtc = addMinutes(startUtc, duration);

@@ -576,7 +576,7 @@ export function getCalendarData({ appointment, facility }) {
       summary =
         appointment.version === 1
           ? `Appointment at ${providerName || practiceName}`
-          : `Appointment at ${providerName[0] || practiceName}`;
+          : `Appointment at ${(providerName || [])[0] || practiceName}`;
     }
     data = {
       summary,
