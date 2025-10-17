@@ -34,6 +34,63 @@ describe('save draft feature tests', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
+    PatientComposePage.verifyRecipientNameText('TG-7410');
+    PatientComposePage.validateCategorySelectValue('OTHER');
+    PatientComposePage.getMessageSubjectField().should(
+      'have.value',
+      'newSavedDraft',
+    );
+    PatientComposePage.getMessageBodyField().should(
+      'have.value',
+      'new saved draft',
+    );
+
+    PatientComposePage.selectCategory('COVID');
+    PatientComposePage.getMessageSubjectField().type(`-updated`, {
+      force: true,
+    });
+
+    PatientMessageDraftsPage.saveExistingDraft(
+      'COVID',
+      'newSavedDraft-updated',
+    );
+
+    cy.get(Locators.ALERTS.SAVE_ALERT).should(
+      'contain',
+      `message was saved on ${currentDate}`,
+    );
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('re-save existing draft in curated list flow', () => {
+    const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_curated_list_flow',
+        value: true,
+      },
+    ]);
+
+    SecureMessagingSite.login(updatedFeatureToggles);
+    PatientInboxPage.loadInboxMessages();
+
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft();
+
+    PatientComposePage.verifyRecipientNameTitle(
+      'VA Kansas City health care - TG-7410',
+    );
+    PatientComposePage.validateCategorySelectValue('OTHER');
+    PatientComposePage.getMessageSubjectField().should(
+      'have.value',
+      'newSavedDraft',
+    );
+    PatientComposePage.getMessageBodyField().should(
+      'have.value',
+      'new saved draft',
+    );
+
     PatientComposePage.selectCategory('COVID');
     PatientComposePage.getMessageSubjectField().type(`-updated`, {
       force: true,

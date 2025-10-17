@@ -106,11 +106,19 @@ class PatientComposePage {
     comboBox.type('{enter}');
   };
 
+  categorySelect = () => {
+    return cy.findByTestId(Locators.FIELDS.MESSAGE_CATEGORY_DATA_TEST_ID);
+  };
+
   selectCategory = (category = 'OTHER') => {
-    cy.get('[data-testid="compose-message-categories"]')
+    this.categorySelect()
       .shadow()
       .find('select')
       .select(category, { force: true });
+  };
+
+  validateCategorySelectValue = expectedValue => {
+    this.categorySelect().should('have.value', expectedValue);
   };
 
   getMessageSubjectField = () => {
@@ -402,6 +410,12 @@ class PatientComposePage {
       .shadow()
       .find('select')
       .should('contain', mockRecipients.data[0].attributes.name);
+  };
+
+  verifyRecipientNameTitle = expectedName => {
+    cy.findByTestId(
+      Locators.FIELDS.MESSAGE_RECIPIENT_TITLE_DATA_TEST_ID,
+    ).should('contain.text', expectedName);
   };
 
   verifyClickableURLinMessageBody = url => {
