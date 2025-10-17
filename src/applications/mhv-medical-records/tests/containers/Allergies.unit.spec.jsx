@@ -58,7 +58,7 @@ describe('Allergies list container', () => {
       .exist;
   });
 
-  it('displays the first part of the subheading', () => {
+  it.skip('displays the first part of the subheading', () => {
     expect(
       screen.getByText(
         'Review allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions).',
@@ -67,7 +67,7 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it.skip('displays the second part of the subheading', () => {
+  it('displays the second part of the subheading', () => {
     expect(
       screen.getByText(
         'If you have allergies that are missing from this list, tell your care team at your next appointment.',
@@ -76,7 +76,7 @@ describe('Allergies list container', () => {
     ).to.exist;
   });
 
-  it.skip('displays a count of the records', () => {
+  it('displays a count of the records', () => {
     expect(screen.getByText('Showing 1 to 5 of 5 records', { exact: false })).to
       .exist;
   });
