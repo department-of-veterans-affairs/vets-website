@@ -66,7 +66,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescriptionApiError,
     isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId, queryParams);
-  const pharmacyPhone = prescription.pharmacyPhoneNumber;
+  const pharmacyPhone = prescription?.pharmacyPhoneNumber;
 
   const buildMedicationInformationTxt = useCallback(
     information => {
@@ -154,12 +154,20 @@ const PrescriptionDetailsDocumentation = () => {
 
   const printPage = () => window.print();
 
-  useEffect(() => {
-    if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
-      contentRef.current.innerHTML = htmlContent || '';
-    }
-    focusElement(document.querySelector('h1'));
-  }, [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent]);
+  useEffect(
+    () => {
+      if (
+        !isLoadingDoc &&
+        !hasDocApiError &&
+        !isLoadingRx &&
+        contentRef.current
+      ) {
+        contentRef.current.innerHTML = htmlContent || '';
+      }
+      focusElement(document.querySelector('h1'));
+    },
+    [isLoadingDoc, isLoadingRx, hasDocApiError, htmlContent],
+  );
 
   if (hasDocApiError || prescriptionApiError) {
     return (
