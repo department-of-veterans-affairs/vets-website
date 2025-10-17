@@ -213,12 +213,26 @@ div[id^="vaos-appts__detail-"] {
     align-items: center;
     text-align: right;
     min-width: fit-content;
-    max-width: fit-content;
+    max-width: max-content;
   }
   @include media($small-desktop-screen) {
     justify-content: right;
   }
 }
+
+div[id^="vaos-appts__namelocation-"] {
+  @include media($small-screen) {
+    display: flex;
+    align-items: flex-start;
+    text-align: left;
+    min-width: calc(min(151px, 9em));
+  }
+
+  @include media($small-desktop-screen) {
+    justify-content: left;
+  }
+}
+
 
 .vaos-appts__display--table {
   display: table;
