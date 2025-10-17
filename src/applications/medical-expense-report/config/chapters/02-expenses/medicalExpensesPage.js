@@ -51,7 +51,7 @@ const options = {
   nounSingular: 'medical expense',
   nounPlural: 'medical expenses',
   required: false,
-  isItemIncomplete: item => !item?.recipients || !item?.paymentDate,
+  isItemIncomplete: item => !item?.recipient || !item?.paymentDate,
   maxItems: 5,
   text: {
     getItemName: item => item?.provider || 'Provider',
@@ -104,17 +104,17 @@ const recipientPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Medical recipient and provider name',
     ),
-    recipients: radioUI({
+    recipient: radioUI({
       title: 'Who is the expense for?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    recipientName: textUI({
       title: 'Full name of the person who received care',
-      expandUnder: 'recipients',
+      expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
       required: (formData, index) =>
         ['DEPENDENT', 'OTHER'].includes(
-          formData?.medicalExpenses?.[index]?.recipients,
+          formData?.medicalExpenses?.[index]?.recipient,
         ),
     }),
     provider: textUI('Who receives the payment?'),
@@ -122,11 +122,11 @@ const recipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipients: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      recipient: radioSchema(Object.keys(recipientTypeLabels)),
+      recipientName: textSchema,
       provider: textSchema,
     },
-    required: ['recipients', 'provider'],
+    required: ['recipient', 'provider'],
   },
 };
 /** @returns {PageSchema} */
