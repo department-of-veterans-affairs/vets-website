@@ -240,7 +240,9 @@ const testConfig = createTestConfig(
               data.survivingRelatives.forEach((relative, index) => {
                 // Add relative
                 if (index > 0) {
-                  cy.get('va-button[text*="Add another"]').click();
+                  cy.findByText(/Add another relative/i, {
+                    selector: 'button',
+                  }).click();
                 }
 
                 // Fill relative information
@@ -257,8 +259,8 @@ const testConfig = createTestConfig(
                   relative.dateOfBirth,
                 );
                 cy.fillAddressWebComponentPattern(
-                  `survivingRelatives_${index}_address_street`,
-                  relative.address.street,
+                  `survivingRelatives_${index}_address`,
+                  relative.address,
                 );
               });
             }
