@@ -250,7 +250,7 @@ const EditContactList = () => {
       {allTriageTeams?.length > 0 && (
         <>
           <form className="contactListForm">
-            <va-accordion open-single bordered>
+            <va-accordion bordered>
               {vistaFacilities.map((stationNumber, index) => {
                 if (!blockedFacilities.includes(stationNumber)) {
                   const facilityName = getVamcSystemNameFromVhaId(
