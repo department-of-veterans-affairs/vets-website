@@ -22,6 +22,7 @@ import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
 import supportingDocuments from './chapters/03-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
+import GetFormHelp from '../components/GetFormHelp';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -71,7 +72,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  getHelp: GetFormHelp,
   // errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
