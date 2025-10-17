@@ -374,6 +374,17 @@ class PatientMessageDetailsPage {
     ).as('replyThread');
 
     cy.get(Locators.BUTTONS.REPLY).click({ force: true });
+    PatientInterstitialPage.getContinueButton().click();
+  };
+
+  clickReplyButtonCuratedFlow = singleThreadData => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_EXTENDED}/${singleThreadData.data[0].id}/thread*`,
+      singleThreadData,
+    ).as('replyThread');
+
+    cy.get(Locators.BUTTONS.REPLY).click({ force: true });
     PatientInterstitialPage.getStartMessageLink().click();
   };
 
