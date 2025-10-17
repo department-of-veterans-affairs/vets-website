@@ -33,6 +33,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
+    GeneralFunctionsPage.verifyPageTitle(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
       `exist`,
