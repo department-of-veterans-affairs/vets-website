@@ -31,7 +31,7 @@ const response = (poaStatus, poaRequest, poaRequestSubmission) => {
             'Your organization'}{' '}
           accepted this request on{' '}
           {resolutionDate(poaRequest?.resolution?.createdAt, poaStatus.id)}. We
-          processed the request and power of attorney has been established.
+          processed the request and representation has been established.
         </p>
       );
 
