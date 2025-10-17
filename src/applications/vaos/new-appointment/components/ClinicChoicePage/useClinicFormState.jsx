@@ -1,18 +1,22 @@
 import { useSelector } from 'react-redux';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import useFormState from '../../../hooks/useFormState';
-import { getSiteIdFromFacilityId } from '../../../services/location';
 import { getClinicId } from '../../../services/healthcare-service';
+import { getSiteIdFromFacilityId } from '../../../services/location';
 
+import {
+  selectFeatureMentalHealthHistoryFiltering,
+  selectFeatureRemoveFacilityConfigCheck,
+} from '../../../redux/selectors';
+import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import {
   getClinicsForChosenFacility,
   getFormData,
   getTypeOfCare,
   selectChosenFacilityInfo,
+  selectEligibility,
   selectPastAppointments,
 } from '../../redux/selectors';
-import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
-import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
+import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
 
 const initialSchema = {
   type: 'object',
@@ -29,9 +33,14 @@ export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
 
+  const eligibility = useSelector(selectEligibility);
   const selectedTypeOfCare = getTypeOfCare(initialData);
+
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
+  const removeFacilityConfigCheck = useSelector(
+    selectFeatureRemoveFacilityConfigCheck,
+  );
 
   // Retrieves flipper state for mental health history filtering
   const featurePastVisitMHFilter = useSelector(
@@ -51,8 +60,11 @@ export default function useClinicFormState(pageTitle) {
     (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
       featurePastVisitMHFilter) &&
     selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-      ?.patientHistoryRequired === true;
+    (!removeFacilityConfigCheck
+      ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+          ?.patientHistoryRequired === true
+      : eligibility.direct);
+
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
     const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
@@ -80,12 +92,10 @@ export default function useClinicFormState(pageTitle) {
 
   const uiSchema = {
     clinicId: {
-      'ui:widget': 'radio', // Required
-      'ui:webComponentField': VaRadioField,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
-        showFieldLabel: false,
-        ...(filteredClinics.length > 1 && { labelHeaderLevel: '1' }),
+        hideLabelText: filteredClinics.length > 1,
       },
     },
   };

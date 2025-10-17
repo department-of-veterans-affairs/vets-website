@@ -2,8 +2,7 @@ import mockUser from '../fixtures/user.json';
 import vamc from '../fixtures/facilities/vamc-ehr.json';
 import sessionStatus from '../fixtures/session-status.json';
 import createAal from '../fixtures/create-aal.json';
-// import mockNonMRuser from '../fixtures/non_mr_user.json';
-// import mockNonMhvUser from '../fixtures/user-mhv-account-state-none.json';
+import MedicalRecordsLandingPage from '../pages/MedicalRecordsLandingPage';
 
 class MedicalRecordsSite {
   login = (userFixture = mockUser, useDefaultFeatureToggles = true) => {
@@ -24,6 +23,8 @@ class MedicalRecordsSite {
       statusCode: 200,
       body: createAal,
     }).as('aal');
+    cy.intercept('POST', '/v0/datadog_action', {}).as('datadogAction');
+    MedicalRecordsLandingPage.uumIntercept();
     cy.login(userFixture);
   };
 
@@ -77,27 +78,7 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhvMedicalRecordsDisplayDomains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_domains',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_settings_page',
-            value: true,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplaySidenav',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_sidenav',
             value: true,
           },
           {
@@ -125,10 +106,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
-          },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
           },
         ],
       },
@@ -199,7 +176,7 @@ class MedicalRecordsSite {
 
   loadPage = () => {
     cy.visit('my-health/medical-records');
-    cy.wait('@mockUser');
+    cy.wait(['@vamcEhr', '@mockUser', '@featureToggles', '@session']);
   };
 }
 export default MedicalRecordsSite;

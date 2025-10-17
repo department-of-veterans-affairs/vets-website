@@ -1,5 +1,7 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
+import { ssnSchema } from 'platform/forms-system/src/js/web-component-patterns';
+
 import { merge, pick } from 'lodash';
 
 import {
@@ -7,15 +9,10 @@ import {
   nonPreparerFullMaidenNameUI,
   nonPreparerDateOfBirthUI,
   ssnDashesUI,
-  applicantDetailsCityTitle,
-  applicantDetailsStateTitle,
   veteranApplicantDetailsSummary,
 } from '../../utils/helpers';
 
-const {
-  claimant,
-  veteran,
-} = fullSchemaPreNeed.properties.application.properties;
+const { claimant } = fullSchemaPreNeed.properties.application.properties;
 
 export function uiSchema(
   subHeader = veteranApplicantDetailsSubHeader,
@@ -23,8 +20,6 @@ export function uiSchema(
   nameUI = nonPreparerFullMaidenNameUI,
   ssnUI = ssnDashesUI,
   dateOfBirthUI = nonPreparerDateOfBirthUI,
-  cityTitle = applicantDetailsCityTitle,
-  stateTitle = applicantDetailsStateTitle,
 ) {
   return {
     'ui:title': (formContext, formData) =>
@@ -41,14 +36,6 @@ export function uiSchema(
         name: nameUI,
         ssn: ssnUI,
         dateOfBirth: dateOfBirthUI,
-      },
-      veteran: {
-        cityOfBirth: {
-          'ui:title': cityTitle,
-        },
-        stateOfBirth: {
-          'ui:title': stateTitle,
-        },
       },
     },
   };
@@ -71,15 +58,11 @@ export const schema = {
                 properties: {},
               },
             },
-            pick(claimant.properties, ['name', 'ssn', 'dateOfBirth']),
-          ),
-        },
-        veteran: {
-          type: 'object',
-          required: ['cityOfBirth', 'stateOfBirth'],
-          properties: merge(
-            {},
-            pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),
+            pick(claimant.properties, ['name']),
+            {
+              ssn: ssnSchema,
+            },
+            pick(claimant.properties, ['dateOfBirth']),
           ),
         },
       },

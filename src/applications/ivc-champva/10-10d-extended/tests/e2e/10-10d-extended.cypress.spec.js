@@ -6,7 +6,6 @@ import manifest from '../../manifest.json';
 import {
   createSummaryHandler,
   fillAddressAndGoToNext,
-  selectSharedAddressAndGoToNext,
   setupBasicTest,
   startAsGuestUser,
 } from './utils';
@@ -31,9 +30,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'veteran-address': ({ afterHook }) => {
-        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
-      },
       'veteran-mailing-address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -43,9 +39,6 @@ const testConfig = createTestConfig(
       },
       'review-your-applicants': ({ afterHook }) => {
         afterHook(() => handleApplicantSummary());
-      },
-      'applicant-address/:index': ({ afterHook }) => {
-        afterHook(() => selectSharedAddressAndGoToNext('not-shared'));
       },
       'applicant-mailing-address/:index': ({ afterHook, index }) => {
         afterHook(() => {
@@ -70,7 +63,7 @@ const testConfig = createTestConfig(
                   cy.selectVaCheckbox($el, true),
                 );
               });
-            cy.findByText(/submit/i, { selector: 'button' }).click();
+            cy.get('va-button[text*="submit" i]').click();
           });
         });
       },

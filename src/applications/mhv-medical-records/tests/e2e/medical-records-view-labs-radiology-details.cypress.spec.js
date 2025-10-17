@@ -7,15 +7,14 @@ import radiologyRecordsMhv from './fixtures/labs-and-tests/radiologyRecordsMhv.j
 describe('Medical Records Redirect Users to MHV Classic to view images', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('View Radiology Details Page', () => {
-    cy.reload();
-    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
+    LabsAndTestsListPage.clickRadiologyDetailsLink('CHEST 2 VIEWS PA&LAT');
 
     RadiologyDetailsPage.verifyTitle(radiologyRecordsMhv[11].procedureName);
     RadiologyDetailsPage.verifyDate(

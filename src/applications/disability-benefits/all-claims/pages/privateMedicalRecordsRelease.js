@@ -4,7 +4,10 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import { validateDate } from 'platform/forms-system/src/js/validation';
-import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  selectUI,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   recordReleaseDescription,
   limitedConsentTitle,
@@ -65,6 +68,13 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:confirmationField': value => {
+          return {
+            data: value.formData ? 'Yes' : 'No',
+            label:
+              'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+          };
+        },
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',
@@ -98,10 +108,7 @@ export const uiSchema = {
           'state',
           'postalCode',
         ],
-        country: {
-          'ui:title': 'Country',
-          'ui:autocomplete': 'off',
-        },
+        country: selectUI('Country'),
         street: {
           'ui:title': 'Street',
           'ui:autocomplete': 'off',
@@ -114,10 +121,7 @@ export const uiSchema = {
           'ui:title': 'City',
           'ui:autocomplete': 'off',
         },
-        state: {
-          'ui:title': 'State',
-          'ui:autocomplete': 'off',
-        },
+        state: selectUI('State'),
         postalCode: {
           'ui:title': 'Postal code',
           'ui:autocomplete': 'off',

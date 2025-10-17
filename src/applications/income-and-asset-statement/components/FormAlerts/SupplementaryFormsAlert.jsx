@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isReviewAndSubmitPage } from '../../helpers';
+import { isReviewAndSubmitPage, getIncompleteOwnedAssets } from '../../helpers';
 
 const assetTypeAllowlist = ['BUSINESS', 'FARM'];
 
@@ -112,6 +112,56 @@ export default function SupplementaryFormsAlert({ formData, headingLevel }) {
 }
 
 SupplementaryFormsAlert.propTypes = {
+  formData: PropTypes.shape({
+    ownedAssets: PropTypes.array,
+  }),
+  headingLevel: PropTypes.oneOf(['h2', 'h3']),
+};
+
+export function SupplementaryFormsAlertUpdated({ formData, headingLevel }) {
+  const { hasFarm, hasBusiness, missingAssetTypes } = getIncompleteOwnedAssets(
+    formData,
+  );
+
+  const Heading = headingLevel || (isReviewAndSubmitPage() ? 'h3' : 'h2');
+
+  const renderContent = () => {
+    if (hasFarm && hasBusiness) {
+      return (
+        <div>
+          <p>
+            You added a business and a farm, but didn’t upload a{' '}
+            {bodyTextMap.business} and {bodyTextMap.farm}.
+          </p>
+          <p>You’ll need to send them by mail.</p>
+        </div>
+      );
+    }
+
+    return missingAssetTypes.map(assetType => {
+      const assetTypeDisplay = assetType.toLowerCase();
+      const formName = bodyTextMap[assetTypeDisplay];
+
+      return (
+        <div key={assetType}>
+          <p>
+            You added a {assetTypeDisplay} but didn’t upload a {formName} form.
+          </p>
+          <p>You’ll need to send it by mail.</p>
+        </div>
+      );
+    });
+  };
+
+  return (
+    <va-alert status="info" visible>
+      <Heading slot="headline">Additional form needed</Heading>
+      {renderContent()}
+    </va-alert>
+  );
+}
+
+SupplementaryFormsAlertUpdated.propTypes = {
   formData: PropTypes.shape({
     ownedAssets: PropTypes.array,
   }),

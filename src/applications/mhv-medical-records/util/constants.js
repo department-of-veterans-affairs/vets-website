@@ -80,7 +80,8 @@ export const loincCodes = {
   BREATHING_RATE: '9279-1',
   HEIGHT: '8302-2',
   TEMPERATURE: '8310-5',
-  WEIGHT: '29463-7',
+  WEIGHT_1: '29463-7',
+  WEIGHT_2: '3141-9', // common alternate weight LOINC
   SYSTOLIC: '8480-6',
   DIASTOLIC: '8462-4',
   HEART_RATE: '8867-4',
@@ -162,6 +163,7 @@ export const UNKNOWN = 'Unknown';
 
 export const IS_TESTING = false;
 
+// would need to add here
 export const vitalTypes = {
   BLOOD_PRESSURE: ['BLOOD_PRESSURE'],
   PULSE: ['PULSE', 'HEART_RATE'],
@@ -171,6 +173,30 @@ export const vitalTypes = {
   WEIGHT: ['WEIGHT', 'BODY_WEIGHT'],
   HEIGHT: ['HEIGHT', 'BODY_HEIGHT'],
 };
+
+// Grouped LOINC codes for each canonical vital type. This is the single source of truth.
+// Any additions (new LOINC variants) only need to be appended here and will automatically
+// be reflected in loincToVitalType and allowedVitalLoincs.
+export const vitalLoincGroups = {
+  BLOOD_PRESSURE: [loincCodes.BLOOD_PRESSURE],
+  PULSE: [loincCodes.HEART_RATE],
+  RESPIRATION: [loincCodes.BREATHING_RATE],
+  PULSE_OXIMETRY: [loincCodes.PULSE_OXIMETRY_1, loincCodes.PULSE_OXIMETRY_2],
+  TEMPERATURE: [loincCodes.TEMPERATURE],
+  WEIGHT: [loincCodes.WEIGHT_1, loincCodes.WEIGHT_2], // include alternate weight LOINC
+  HEIGHT: [loincCodes.HEIGHT],
+};
+
+// Canonical vital type mapping driven directly by grouped LOINC codes.
+export const loincToVitalType = Object.entries(vitalLoincGroups).reduce(
+  (acc, [type, codes]) => {
+    codes.forEach(code => {
+      acc[code] = type; // map each LOINC variant to its canonical vital type
+    });
+    return acc;
+  },
+  {},
+);
 
 export const vitalTypeDisplayNames = {
   BLOOD_PRESSURE: 'Blood pressure',
@@ -469,6 +495,10 @@ export const CernerAlertContent = {
     linkPath: '/pages/health_record/results',
     pageName: 'vitals',
   },
+  DOWNLOAD: {
+    linkPath: '/pages/health_record/comprehensive_record/health_summaries',
+    pageName: 'medical records reports',
+  },
 };
 
 export const LABS_AND_TESTS_DISPLAY_LABELS = {
@@ -536,14 +566,8 @@ export const radiologyErrors = {
 };
 
 export const allowedVitalLoincs = [
-  loincCodes.BLOOD_PRESSURE,
-  loincCodes.BREATHING_RATE,
-  loincCodes.HEART_RATE,
-  loincCodes.WEIGHT,
-  loincCodes.HEIGHT,
-  loincCodes.TEMPERATURE,
-  loincCodes.PULSE_OXIMETRY_1,
-  loincCodes.PULSE_OXIMETRY_2,
+  // ...existing code removed in favor of dynamic generation below...
+  ...new Set(Object.values(vitalLoincGroups).flat()),
 ];
 
 export const statsdFrontEndActions = {

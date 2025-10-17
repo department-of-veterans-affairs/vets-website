@@ -8,6 +8,7 @@ import reducer from '../../../reducers';
 import RecipientsSelect from '../../../components/ComposeForm/RecipientsSelect';
 import * as Constants from '../../../util/constants';
 import { selectVaSelect } from '../../../util/testUtils';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RecipientsSelect', () => {
   const initialState = {
@@ -46,11 +47,31 @@ describe('RecipientsSelect', () => {
       name: 'Recipient 1',
       stationNumber: '552',
       signatureRequired: true,
+      ohTriageGroup: true,
     },
     {
       id: 2,
       name: 'Recipient 2',
       stationNumber: '402',
+      signatureRequired: false,
+      ohTriageGroup: false,
+    },
+    {
+      id: 3,
+      name: 'VHA 649 Release of Information (ROI)',
+      stationNumber: '649',
+      signatureRequired: true,
+    },
+    {
+      id: 4,
+      name: 'Ohio Columbus Release of Information – Medical Records',
+      stationNumber: '757',
+      signatureRequired: true,
+    },
+    {
+      id: 5,
+      name: 'Regular Cardiology Team',
+      stationNumber: '649',
       signatureRequired: false,
     },
   ];
@@ -85,26 +106,51 @@ describe('RecipientsSelect', () => {
   });
 
   it('calls the onValueChange callback when a recipient is selected', async () => {
+    // NOTE: Component derives alert text from selected recipient (effectiveSignatureRequired),
+    // not just the isSignatureRequired prop. Selecting a signature-required recipient
+    // should immediately show the REQUIRED alert text.
     const onValueChange = sinon.spy();
     const setCheckboxMarked = sinon.spy();
     const setElectronicSignature = sinon.spy();
-    const setAlertDisplayed = sinon.spy();
     const customProps = {
       onValueChange,
       setCheckboxMarked,
       setElectronicSignature,
-      setAlertDisplayed,
     };
     const screen = setup({ props: customProps });
     const val = recipientsList[0].id;
     selectVaSelect(screen.container, val);
-    const select = screen.getByTestId('compose-recipient-select');
 
-    waitFor(() => {
-      expect(setAlertDisplayed).to.be.calledOnce;
-      expect(select).to.have.value(val);
+    await waitFor(() => {
       expect(onValueChange.calledOnce).to.be.true;
       expect(onValueChange.calledWith(recipientsList[0])).to.be.true;
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+    });
+  });
+
+  it('calls the onValueChange callback when a recipient is null', async () => {
+    // NOTE: Component derives alert text from selected recipient (effectiveSignatureRequired),
+    // not just the isSignatureRequired prop. Selecting a signature-required recipient
+    // should immediately show the REQUIRED alert text.
+    const onValueChange = sinon.spy();
+    const setCheckboxMarked = sinon.spy();
+    const setElectronicSignature = sinon.spy();
+    const customProps = {
+      onValueChange,
+      setCheckboxMarked,
+      setElectronicSignature,
+      defaultValue: '1', // Simulate selecting the placeholder (null) option
+    };
+    const screen = setup({ props: customProps });
+    selectVaSelect(screen.container, null);
+
+    await waitFor(() => {
+      expect(onValueChange.calledOnce).to.be.true;
+      expect(onValueChange.calledWith(null)).to.be.true;
     });
   });
 
@@ -117,9 +163,9 @@ describe('RecipientsSelect', () => {
     };
     const { getByTestId } = setup({ props: customProps });
 
-    waitFor(() => {
+    await waitFor(() => {
       const alert = getByTestId('signature-alert');
-      expect(setAlertDisplayed).to.be.calledOnce;
+      // Removed invalid assertion: setAlertDisplayed is not passed to component
       expect(alert).to.exist;
       expect(alert).to.contain.text(
         Constants.Prompts.Compose.SIGNATURE_REQUIRED,
@@ -134,6 +180,65 @@ describe('RecipientsSelect', () => {
     select.value = '2';
 
     expect(select.value).to.equal('2');
+    const alert = screen.queryByTestId('signature-alert');
+    expect(alert).to.be.null;
+  });
+
+  it('displays the signature alert when Oracle Health ROI recipient is selected', async () => {
+    const onValueChange = sinon.spy();
+
+    // Verify that the Oracle Health ROI recipient requires signature
+    const recipient = recipientsList.find(r => r.id === 3); // Oracle Health ROI recipient (ID 3)
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
+    const customProps = {
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 3, // Oracle Health ROI recipient (ID 3)
+    };
+    const screen = setup({ props: customProps });
+
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
+    });
+  });
+
+  it('displays the signature alert when Oracle Health Medical Records recipient is selected', async () => {
+    const onValueChange = sinon.spy();
+
+    const recipient = recipientsList.find(r => r.id === 4); // Oracle Health Medical Records recipient
+    expect(recipient.signatureRequired).to.be.true;
+
+    // Test the component when isSignatureRequired is true (simulating post-selection state)
+    const customProps = {
+      onValueChange,
+      isSignatureRequired: true, // This simulates what happens after selecting a signature-required recipient
+      defaultValue: 4, // Oracle Health Medical Records recipient (ID 4)
+    };
+    const screen = setup({ props: customProps });
+
+    await waitFor(() => {
+      const alert = screen.getByTestId('signature-alert');
+      expect(alert).to.exist;
+      expect(alert).to.contain.text(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+      expect(alert).to.have.attribute('closeable', 'true');
+    });
+  });
+
+  it('does not display the signature alert when regular team (non-Oracle Health) is selected', () => {
+    const screen = setup({});
+    const select = screen.getByTestId('compose-recipient-select');
+    select.value = '5'; // Regular Cardiology Team (matches existing pattern)
+
+    expect(select.value).to.equal('5');
     const alert = screen.queryByTestId('signature-alert');
     expect(alert).to.be.null;
   });
@@ -154,29 +259,32 @@ describe('RecipientsSelect', () => {
   });
 
   it('displays the correct number of optgroups', async () => {
-    const customState = { ...initialState, featureToggles: [] };
-    customState.featureToggles[
-      `${'mhv_secure_messaging_recipient_opt_groups'}`
-    ] = true;
+    const customState = {
+      ...initialState,
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
 
     const screen = setup({ state: customState });
 
-    await screen.findByTestId('compose-recipient-select');
-
     await waitFor(() => {
-      expect(screen.container.querySelectorAll('optgroup')).to.have.lengthOf(2);
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(2);
+      expect(optgroups[0].label).to.equal('VA Facility 402');
+      expect(optgroups[1].label).to.equal('VA Facility 552');
+
+      const optionOne = optgroups[0].querySelector('option');
+      expect(optionOne.value).to.equal('2');
+      expect(optionOne.text).to.equal('Recipient 2');
+
+      const optionTwo = optgroups[1].querySelector('option');
+      expect(optionTwo.value).to.equal('1');
+      expect(optionTwo.text).to.equal('Recipient 1');
     });
-    const optgroups = await screen.container.querySelectorAll('optgroup');
-    expect(optgroups[0].label).to.equal('VA Facility 402');
-    expect(optgroups[1].label).to.equal('VA Facility 552');
-
-    const optionOne = optgroups[0].querySelector('option');
-    expect(optionOne.value).to.equal('2');
-    expect(optionOne.text).to.equal('Recipient 2');
-
-    const optionTwo = optgroups[1].querySelector('option');
-    expect(optionTwo.value).to.equal('1');
-    expect(optionTwo.text).to.equal('Recipient 1');
   });
 
   it('displays correct content in pilot environment OH facility', () => {
@@ -200,9 +308,16 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
   });
 
   it('displays correct content in pilot environment vista facility', () => {
@@ -226,8 +341,106 @@ describe('RecipientsSelect', () => {
     expect(comboBox).to.exist;
 
     const options = comboBox.querySelectorAll('option');
-    expect(options).to.have.lengthOf(2);
-    expect(options[0].textContent).to.equal('Recipient 1');
-    expect(options[1].textContent).to.equal('Recipient 2');
+    expect(options).to.have.lengthOf(5);
+    expect(options[0].textContent).to.equal(
+      'Ohio Columbus Release of Information – Medical Records',
+    );
+    expect(options[1].textContent).to.equal('Recipient 1');
+    expect(options[2].textContent).to.equal('Recipient 2');
+    expect(options[3].textContent).to.equal('Regular Cardiology Team');
+    expect(options[4].textContent).to.equal(
+      'VHA 649 Release of Information (ROI)',
+    );
+  });
+  it('renders recent recipients optgroup first when curated list & opt groups enabled', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        recipients: {
+          recentRecipients: [
+            {
+              triageTeamId: 2,
+              name: 'Recipient 2',
+              stationNumber: '402',
+            },
+            {
+              triageTeamId: 1,
+              name: 'Recipient 1',
+              stationNumber: '552',
+            },
+          ],
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
+    const screen = setup({ state: customState });
+    await waitFor(() => {
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
+
+      // recent group + 2 facility groups
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(3);
+      expect(optgroups[0].getAttribute('label')).to.equal('Recent care teams');
+      expect(optgroups[0].querySelectorAll('option').length).to.equal(2);
+      expect(optgroups[0].querySelectorAll('option')[0].textContent).to.equal(
+        'Recipient 2',
+      );
+    });
+  });
+
+  it('does not render recent recipients optgroup when list is empty', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        recipients: {
+          recentRecipients: [],
+        },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingCuratedListFlow]: true,
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRecipientOptGroups]: true,
+      },
+    };
+    const screen = setup({ state: customState });
+    await waitFor(() => {
+      const comboBox = screen.getByTestId('compose-recipient-combobox');
+      expect(comboBox).to.exist;
+      const optgroups = comboBox.querySelectorAll('optgroup');
+      expect(optgroups.length).to.equal(2);
+      expect(optgroups[0].getAttribute('label')).to.equal('VA Facility 402');
+    });
+  });
+
+  it('dispatches selected recipient to state on selection', () => {
+    const sandbox = sinon.createSandbox();
+    const threadDetailsSpy = sandbox.spy(
+      threadDetailsActions,
+      'updateDraftInProgress',
+    );
+    const screen = setup({});
+    selectVaSelect(screen.container, '1');
+
+    waitFor(() => {
+      expect(threadDetailsSpy.calledOnce).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: true,
+        recipientId: 1,
+        recipientName: 'Recipient 1',
+      });
+    });
+    selectVaSelect(screen.container, '2');
+    waitFor(() => {
+      expect(threadDetailsSpy.calledTwice).to.be.true;
+      expect(threadDetailsSpy.lastCall.args[0]).to.deep.equal({
+        ohTriageGroup: false,
+        recipientId: 2,
+        recipientName: 'Recipient 2',
+      });
+    });
+    sandbox.restore();
   });
 });

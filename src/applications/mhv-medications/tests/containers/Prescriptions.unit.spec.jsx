@@ -10,6 +10,7 @@ import * as prescriptionsApiModule from '../../api/prescriptionsApi';
 import { stubAllergiesApi, stubPrescriptionsListApi } from '../testing-utils';
 import Prescriptions from '../../containers/Prescriptions';
 import emptyPrescriptionsList from '../e2e/fixtures/empty-prescriptions-list.json';
+import { MEDS_BY_MAIL_FACILITY_ID } from '../../util/constants';
 
 let sandbox;
 let logUniqueUserMetricsEventsStub;
@@ -145,22 +146,6 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox, error: true });
-    stubPrescriptionsListApi({ sandbox });
-    const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-all-button');
-    await waitFor(() => {
-      fireEvent.click(pdfButton);
-    });
-    expect(screen);
-    waitFor(() => {
-      expect(screen.getByText('We can’t print your records right now')).to
-        .exist;
-    });
-  });
-
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
@@ -184,16 +169,6 @@ describe('Medications Prescriptions container', () => {
     );
   });
 
-  it('Simulates print all button click', async () => {
-    const screen = setup();
-    const button = await screen.findByTestId('download-print-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.text('Print all medications');
-    await waitFor(() => {
-      button.click();
-    });
-  });
-
   it('Simulates print button click', async () => {
     if (!window.print) {
       window.print = () => {};
@@ -202,7 +177,7 @@ describe('Medications Prescriptions container', () => {
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
-    expect(button).to.have.text('Print this page of the list');
+    expect(button).to.have.text('Print');
     fireEvent.click(button);
     await waitFor(() => {
       fireEvent.click(button);
@@ -220,5 +195,48 @@ describe('Medications Prescriptions container', () => {
   it('displays filter accordion', async () => {
     const screen = setup();
     expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+
+  it('displays Meds by Mail content for Meds by Mail users', async () => {
+    const screen = setup({
+      ...initialState,
+      user: {
+        profile: {
+          userFullName: { first: 'test', last: 'last', suffix: 'jr' },
+          dob: '2000-01-01',
+          facilities: [{ facilityId: MEDS_BY_MAIL_FACILITY_ID }],
+        },
+      },
+    });
+
+    expect(
+      screen.queryByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).not.to.exist;
+
+    expect(screen.getByTestId('meds-by-mail-header')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-top-level-text')).to.exist;
+    expect(screen.getByTestId('meds-by-mail-additional-info')).to.exist;
+  });
+
+  it('does not display Meds by Mail content for non-Meds by Mail users', async () => {
+    const screen = setup();
+
+    expect(
+      screen.getByText(
+        /If you use Meds by Mail, you can also call your servicing center and ask them to update your records\./,
+        {
+          selector: 'p',
+        },
+      ),
+    ).to.exist;
+
+    expect(screen.queryByTestId('meds-by-mail-header')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-top-level-text')).not.to.exist;
+    expect(screen.queryByTestId('meds-by-mail-additional-info')).not.to.exist;
   });
 });

@@ -7,6 +7,8 @@ import sinon from 'sinon';
 import RecentCareTeams from '../../containers/RecentCareTeams';
 import reducer from '../../reducers';
 import * as Constants from '../../util/constants';
+import { selectVaRadio } from '../../util/testUtils';
+import * as threadDetailsActions from '../../actions/threadDetails';
 
 const { Paths } = Constants;
 
@@ -203,6 +205,63 @@ describe('RecentCareTeams component', () => {
       // Component should still render
       expect(screen.getByText('Recent care teams')).to.exist;
     });
+
+    it('should dispatch ohTriageGroup attribute for care system', async () => {
+      const customState = {
+        ...defaultState,
+        sm: {
+          ...defaultState.sm,
+          recipients: {
+            recentRecipients: [
+              {
+                triageTeamId: 123,
+                name: 'VA Boston',
+                healthCareSystemName: 'Test Facility 1',
+                stationNumber: '636',
+                ohTriageGroup: true,
+              },
+              {
+                triageTeamId: 456,
+                name: 'VA Seattle',
+                healthCareSystemName: 'Test Facility 2',
+                stationNumber: '662',
+                ohTriageGroup: false,
+              },
+            ],
+          },
+        },
+      };
+      const updateDraftInProgressStub = sandbox.stub(
+        threadDetailsActions,
+        'updateDraftInProgress',
+      );
+      const screen = renderComponent(customState);
+      expect(screen.getByText('Recent care teams')).to.exist;
+      selectVaRadio(screen.container, 123);
+      await waitFor(() => {
+        const callArgs = updateDraftInProgressStub.lastCall.args[0];
+        expect(callArgs).to.include({
+          recipientId: 123,
+          recipientName: 'VA Boston',
+          careSystemVhaId: '636',
+          careSystemName: 'Test Facility 1',
+          ohTriageGroup: true,
+        });
+      });
+
+      selectVaRadio(screen.container, 456);
+      await waitFor(() => {
+        const callArgs = updateDraftInProgressStub.lastCall.args[0];
+
+        expect(callArgs).to.include({
+          careSystemName: 'Test Facility 2',
+          careSystemVhaId: '662',
+          ohTriageGroup: false,
+          recipientId: 456,
+          recipientName: 'VA Seattle',
+        });
+      });
+    });
   });
 
   describe('Navigation Behavior', () => {
@@ -240,7 +299,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -261,7 +320,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -282,7 +341,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -330,7 +389,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to select care team
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       );
     });
 
@@ -353,7 +412,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to start message
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.START_MESSAGE}/`,
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
 
@@ -452,7 +511,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });

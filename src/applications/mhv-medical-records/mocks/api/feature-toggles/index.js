@@ -4,11 +4,6 @@ const { snakeCase } = require('lodash');
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
   mhvMedicalRecordsAllowTxtDownloads: true,
-  mhvMedicalRecordsDisplayDomains: true,
-  mhvMedicalRecordsDisplaySidenav: true,
-  mhvMedicalRecordsDisplaySettingsPage: true,
-  mhvMedicalRecordsToVaGovRelease: true,
-  mhvMedicalRecordsMarch17Updates: true,
 
   // OH integration work
   mhvMedicationsToVaGovRelease: true,
@@ -19,7 +14,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvAcceleratedDeliveryVaccinesEnabled: true,
   mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   mhvAcceleratedDeliveryCareNotesEnabled: true,
-  mhvMedicalRecordsMilestoneTwo: true,
 });
 
 const generateFeatureToggles = ({

@@ -6,15 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getAppointmentCreateStatus,
   getSelectedSlotStartTime,
-  getCachedDraftAppointmentInfo,
 } from './redux/selectors';
+import { setFormCurrentPage, setSelectedSlotStartTime } from './redux/actions';
 import {
-  setFormCurrentPage,
-  setSelectedSlotStartTime,
-  cacheDraftReferralAppointment,
-} from './redux/actions';
-import {
-  usePostDraftReferralAppointmentMutation,
+  useGetDraftReferralAppointmentQuery,
   usePostReferralAppointmentMutation,
 } from '../redux/api/vaosApi';
 
@@ -28,39 +23,40 @@ import {
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
 import { stripDST } from '../utils/timezone';
-import ProviderAddress from './components/ProviderAddress';
+import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = props => {
   const { attributes: currentReferral } = props.currentReferral;
   const dispatch = useDispatch();
   const history = useHistory();
-  const draftAppointmentInfo = useSelector(state =>
-    getCachedDraftAppointmentInfo(state),
-  );
   const selectedSlot = useSelector(state => getSelectedSlotStartTime(state));
-  const [
-    postDraftReferralAppointment,
-    {
-      data: draftAppointmentData,
-      isError: isDraftError,
-      isLoading: isDraftLoading,
-      isUninitialized: isDraftUninitialized,
-      isSuccess: isDraftSuccess,
-    },
-  ] = usePostDraftReferralAppointmentMutation();
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [skipDraft, setSkipDraft] = useState(false);
   const [createFailed, setCreateFailed] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
+  const savedSelectedSlot = sessionStorage.getItem(
+    getReferralSlotKey(currentReferral.uuid),
+  );
+  const {
+    data: draftAppointmentInfo,
+    isLoading: isDraftLoading,
+    isError: isDraftError,
+    isSuccess: isDraftSuccess,
+    isUninitialized: isDraftUninitialized,
+  } = useGetDraftReferralAppointmentQuery(
+    {
+      referralNumber: currentReferral.referralNumber,
+      referralConsultId: currentReferral.referralConsultId,
+    },
+    { skip: skipDraft },
+  );
   const slotDetails = getSlotByDate(
     draftAppointmentInfo?.attributes?.slots,
     selectedSlot,
-  );
-  const savedSelectedSlot = sessionStorage.getItem(
-    getReferralSlotKey(currentReferral.uuid),
   );
   const [
     postReferralAppointment,
@@ -88,18 +84,12 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (draftAppointmentInfo?.attributes && !isDraftLoading) {
+      if (!isDraftLoading && !isDraftUninitialized) {
         setLoading(false);
-      } else if (isDraftUninitialized) {
-        postDraftReferralAppointment({
-          referralNumber: currentReferral.referralNumber,
-          referralConsultId: currentReferral.referralConsultId,
-        });
-      } else if (isDraftSuccess) {
-        dispatch(cacheDraftReferralAppointment(draftAppointmentData));
-      } else if (isDraftError) {
+        setSkipDraft(true);
+      }
+      if (isDraftError) {
         setFailed(true);
-        setLoading(false);
       }
     },
     [
@@ -108,10 +98,8 @@ const ReviewAndConfirm = props => {
       dispatch,
       isDraftError,
       isDraftSuccess,
-      isDraftUninitialized,
-      postDraftReferralAppointment,
-      draftAppointmentData,
       isDraftLoading,
+      isDraftUninitialized,
       currentReferral.referralConsultId,
     ],
   );
@@ -176,7 +164,7 @@ const ReviewAndConfirm = props => {
       isAppointmentError,
       appointmentCreateStatus,
       appointmentInfo?.id,
-      draftAppointmentInfo.id,
+      draftAppointmentInfo?.id,
       currentReferral.uuid,
       isDraftSuccess,
       history,
@@ -185,7 +173,7 @@ const ReviewAndConfirm = props => {
     ],
   );
 
-  if (loading || isDraftLoading) {
+  if (isDraftLoading) {
     return (
       <ReferralLayout
         hasEyebrow
@@ -329,19 +317,16 @@ const ReviewAndConfirm = props => {
               class="vads-u-margin-top--4"
             >
               <h3>We couldn’t schedule this appointment</h3>
-              <p>
-                We’re sorry. Something went wrong when we tried to submit your
-                appointment. You can try again later, or call your referring VA
-                facility to help with your appointment.
+              <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
+                We’re sorry. Something went wrong when we tried to schedule your
+                appointment. Try again later, or call this provider to schedule
+                an appointment. If you have questions about scheduling an
+                appointment, or about how many appointments you have left, call
+                your facility’s community care office.
               </p>
-              <strong>{currentReferral.referringFacility.name}</strong>
-              <br />
-              <ProviderAddress
-                address={currentReferral.referringFacility.address}
-                phone={currentReferral.referringFacility.phone}
-                showDirections
-                directionsName={currentReferral.referringFacility.name}
-              />
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                <FindCommunityCareOfficeLink />
+              </p>
             </va-alert>
           )}
       </div>

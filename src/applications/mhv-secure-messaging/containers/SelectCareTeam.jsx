@@ -76,12 +76,13 @@ const SelectCareTeam = () => {
       if (String(selectedCareTeamId) !== String(newId)) {
         setSelectedCareTeamId(newId);
 
-        if (recipient.id && recipient.id !== '0') {
+        if (newId && newId !== '0') {
           setCareTeamError('');
           dispatch(
             updateDraftInProgress({
               recipientId: recipient.id,
               recipientName: recipient.suggestedNameDisplay || recipient.name,
+              ohTriageGroup: recipient.ohTriageGroup,
             }),
           );
           if (
@@ -102,11 +103,12 @@ const SelectCareTeam = () => {
               }),
             );
           }
-        } else if (!recipient.id) {
+        } else if (!newId || newId === '0') {
           dispatch(
             updateDraftInProgress({
               recipientId: null,
               recipientName: null,
+              ohTriageGroup: null,
             }),
           );
           setSelectedCareTeamId(null);
@@ -138,6 +140,7 @@ const SelectCareTeam = () => {
             careSystemName: careSystem?.vamcSystemName,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -161,6 +164,7 @@ const SelectCareTeam = () => {
             careSystemName: null,
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setRecipientsSelectKey(prevKey => prevKey + 1);
@@ -174,6 +178,7 @@ const SelectCareTeam = () => {
           updateDraftInProgress({
             recipientId: null,
             recipientName: null,
+            ohTriageGroup: null,
           }),
         );
         setSelectedCareTeamId(null);
@@ -265,7 +270,7 @@ const SelectCareTeam = () => {
 
       const selectedRecipientStationNumber = allowedRecipients.find(
         recipient => recipient.id === +selectedCareTeamId,
-      ).stationNumber;
+      )?.stationNumber;
 
       if (
         !draftInProgress.careSystemVhaId ||
@@ -377,7 +382,11 @@ const SelectCareTeam = () => {
     <div className="choose-va-health-care-system">
       <h1 className="vads-u-margin-bottom--2">Select care team</h1>
       <EmergencyNote dropDownFlag />
-      <RouteLeavingGuard saveDraftHandler={saveDraftHandler} type="compose" />
+      <RouteLeavingGuard
+        saveDraftHandler={saveDraftHandler}
+        type="compose"
+        persistDraftPaths={[Paths.CONTACT_LIST, Paths.CARE_TEAM_HELP]}
+      />
       <div>
         {renderCareSystems()}
 

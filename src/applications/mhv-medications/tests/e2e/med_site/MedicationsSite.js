@@ -6,11 +6,12 @@ import cernerUser from '../fixtures/cerner-user.json';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
 import { Paths } from '../utils/constants';
 import prescriptions from '../fixtures/prescriptions.json';
+import exportList from '../fixtures/exportList.json';
 import { medicationsUrls } from '../../../util/constants';
 import listOfprescriptions from '../fixtures/listOfPrescriptions.json';
 
 class MedicationsSite {
-  login = (isMedicationsUser = true) => {
+  login = (isMedicationsUser = true, user = mockUser) => {
     this.mockFeatureToggles();
     this.mockVamcEhr();
 
@@ -21,12 +22,18 @@ class MedicationsSite {
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
+      cy.intercept(
+        'GET',
+        '/my_health/v1/prescriptions?&sort=alphabetical-status',
+        exportList,
+      ).as('exportList');
+
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
 
       // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
       // window.localStorage.setItem('isLoggedIn', true);
       // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-      cy.login(mockUser);
+      cy.login(user);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);

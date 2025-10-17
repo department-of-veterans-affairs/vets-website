@@ -19,12 +19,16 @@ import { VaCheckboxField } from 'platform/forms-system/src/js/web-component-fiel
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
   careTypeLabels,
+  careTypeLabelsOld,
   careFrequencyLabels,
   recipientTypeLabels,
 } from '../../../labels';
 import { childNameRequired } from './helpers';
-import { formatCurrency, showMultiplePageResponse } from '../../../helpers';
-
+import {
+  formatCurrency,
+  showMultiplePageResponse,
+  showPdfFormAlignment,
+} from '../../../helpers';
 // eslint-disable-next-line no-unused-vars
 const { ONE_TIME, ...careFrequencyLabelsWithoutOneTime } = careFrequencyLabels;
 
@@ -72,6 +76,17 @@ const options = {
           </li>
         </ul>
       ),
+    cancelAddTitle: 'Cancel adding this care expense',
+    alertItemUpdated: 'Your care expense information has been updated',
+    alertItemDeleted: 'Your care expense information has been deleted',
+    cancelAddYes: 'Yes, cancel adding this care expense',
+    cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this care expense',
+    cancelEditYes: 'Yes, cancel editing this care expense',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this care expense',
+    deleteNo: 'No',
   },
 };
 
@@ -145,12 +160,23 @@ const careExpenseProvider = {
 };
 
 /** @returns {PageSchema} */
-const careExpenseTypePage = {
+export const careExpenseTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Care type'),
     careType: radioUI({
       title: 'Choose the type of care:',
       labels: careTypeLabels,
+      updateSchema: () => ({
+        type: 'string',
+        enum: Object.keys(
+          showPdfFormAlignment() ? careTypeLabels : careTypeLabelsOld,
+        ),
+      }),
+      updateUiSchema: () => ({
+        'ui:options': {
+          labels: showPdfFormAlignment() ? careTypeLabels : careTypeLabelsOld,
+        },
+      }),
     }),
     ratePerHour: currencyUI(
       'If this is an in-home provider, what is the rate per hour?',

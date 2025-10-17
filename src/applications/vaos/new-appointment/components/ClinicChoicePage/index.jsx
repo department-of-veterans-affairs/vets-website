@@ -58,7 +58,9 @@ export default function ClinicChoicePage() {
 
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
-    data.clinicId === 'NONE' && !eligibility?.request;
+    data.clinicId === 'NONE' &&
+    (!eligibility?.request || eligibility.request.disabled);
+
   const usingPastClinics =
     typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
@@ -85,7 +87,7 @@ export default function ClinicChoicePage() {
 
   return (
     <div className="vaos-form__radio-field">
-      {schema.properties.clinicId.enum.length === 2 && (
+      {schema.properties.clinicId.enum.length === 2 ? (
         <>
           <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
           {usingPastClinics && (
@@ -104,6 +106,13 @@ export default function ClinicChoicePage() {
           </div>
           <br />
         </>
+      ) : (
+        <h1 className="vaos__dynamic-font-size--h2">
+          {pageTitle}
+          <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-weight--normal">
+            (*Required)
+          </span>
+        </h1>
       )}
       <SchemaForm
         name="Clinic choice"

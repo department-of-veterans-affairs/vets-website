@@ -57,7 +57,7 @@ describe('Medications List component', () => {
     const paginationInfo = screen.getByTestId('page-total-info');
 
     expect(paginationInfo).to.contain.text(
-      'Showing 1 - 20 of 113  medications, alphabetically by status',
+      'Showing 1 - 10 of 113  medications, alphabetically by status',
     );
   });
 
@@ -70,6 +70,16 @@ describe('Medications List component', () => {
       rxListSortingOptions.lastFilledFirst.LABEL.toLowerCase(),
     );
   });
+
+  it('applies correct aria-label for accessibility', () => {
+    const screen = setup();
+    const paginationInfo = screen.getByTestId('page-total-info');
+    expect(paginationInfo).to.have.attribute(
+      'aria-label',
+      'Showing 1 - 10 of 113 medications, alphabetically by status',
+    );
+  });
+
   it('shows "Showing 0-0" when an empty list is passed', () => {
     const screen = renderWithStoreAndRouterV6(
       <MedicationsList

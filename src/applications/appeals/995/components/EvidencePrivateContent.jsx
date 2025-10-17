@@ -4,14 +4,13 @@ import readableList from 'platform/forms-system/src/js/utilities/data/readableLi
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
-import { content as limitContent } from '../content/evidencePrivateLimitation';
+import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION,
-  EVIDENCE_LIMITATION_PATH,
-  EVIDENCE_LIMITATION_PATH1,
-  EVIDENCE_LIMITATION_PATH2,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
 } from '../constants';
 import {
@@ -25,7 +24,7 @@ import { formatDate } from '../utils/evidence';
 /**
  * Build private evidence list
  * @param {Object[]} list - Private medical evidence array
- * @param {String} limitContent - Private evidence limitation
+ * @param {String} limitedConsentContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
  * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
@@ -42,12 +41,12 @@ export const EvidencePrivateContent = ({
   privacyAgreementAccepted,
   testing,
   showListOnly = false,
-  showScNewForm = false,
-  showLimitedConsentYN = false,
+  limitedConsentResponse,
 }) => {
   if (!list?.length) {
     return null;
   }
+
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -78,85 +77,85 @@ export const EvidencePrivateContent = ({
       </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
-        {showScNewForm && (
-          <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
-                showListOnly,
-              )}`}
-            >
-              {title4142WithId}
-            </SubHeader>
-            <div>
-              {privacyAgreementAccepted ? (
-                AUTHORIZATION_LABEL
-              ) : (
-                // including non-empty error attribute for focus management
-                <span className="usa-input-error-message" error="error">
-                  You must give us authorization for us to get your non-VA
-                  medical records
-                </span>
-              )}
+        <li className={listClassNames(!showListOnly)}>
+          <SubHeader
+            className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {title4142WithId}
+          </SubHeader>
+          <div>
+            {privacyAgreementAccepted ? (
+              AUTHORIZATION_LABEL
+            ) : (
+              // including non-empty error attribute for focus management
+              <span className="usa-input-error-message" error="error">
+                You must give us authorization for us to get your non-VA medical
+                records
+              </span>
+            )}
+          </div>
+          {!reviewMode && (
+            <div className="vads-u-margin-top--1p5">
+              <BasicLink
+                disableAnalytics
+                id="edit-private-authorization"
+                className="edit-item"
+                aria-label={`edit ${title4142WithId}`}
+                data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_URL : null}
+                path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`}
+                text={content.edit}
+              />
             </div>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-private-authorization"
-                  className="edit-item"
-                  aria-label={`edit ${title4142WithId}`}
-                  data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
-                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
-                  text={content.edit}
-                />
-              </div>
-            )}
-          </li>
-        )}
-        {showScNewForm && (
-          <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
-                showListOnly,
-              )}`}
-            >
-              {limitContent.title}
-            </SubHeader>
-            <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-limitation-y-n"
-                  className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH1}`}
-                  aria-label={`${content.edit} ${limitContent.title} `}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
-                  text={content.edit}
-                />
-              </div>
-            )}
-          </li>
-        )}
-        {showLimitedConsentYN && (
+          )}
+        </li>
+        <li className={listClassNames(!showListOnly)}>
+          <SubHeader
+            className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {limitedConsentContent.promptQuestion}
+          </SubHeader>
+          <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
+          {!reviewMode && (
+            <div className="vads-u-margin-top--1p5">
+              <BasicLink
+                disableAnalytics
+                id="edit-limitation-y-n"
+                className="edit-item"
+                path={`/${LIMITED_CONSENT_PROMPT_URL}`}
+                aria-label={`${content.edit} ${
+                  limitedConsentContent.promptQuestion
+                } `}
+                data-link={testing ? LIMITED_CONSENT_PROMPT_URL : null}
+                text={content.edit}
+              />
+            </div>
+          )}
+        </li>
+        {limitedConsentResponse && (
           <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
             <SubHeader
               className={`private-limitation
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
             >
-              {limitContent.textAreaTitle}
+              {limitedConsentContent.detailsQuestion}
             </SubHeader>
-            <div>{limitedConsent}</div>
+            <p>{limitedConsent}</p>
             {!reviewMode && (
               <div className="vads-u-margin-top--1p5">
                 <BasicLink
                   disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH2}`}
-                  aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
+                  path={`/${LIMITED_CONSENT_DETAILS_URL}`}
+                  aria-label={`${content.edit} ${
+                    limitedConsentContent.detailsQuestion
+                  }`}
+                  data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
                   text={content.edit}
                 />
               </div>
@@ -170,7 +169,7 @@ export const EvidencePrivateContent = ({
             providerFacilityAddress = {},
             treatmentDateRange = {},
           } = facility || {};
-          const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+          const path = `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`;
 
           const fromDate = formatDate(treatmentDateRange.from);
           const toDate = formatDate(treatmentDateRange.to);
@@ -189,6 +188,7 @@ export const EvidencePrivateContent = ({
             to: toDate ? '' : content.missing.to,
             dates: !fromDate && !toDate ? content.missing.dates : '',
           };
+
           const hasErrors = Object.values(errors).join('');
 
           return (
@@ -253,42 +253,6 @@ export const EvidencePrivateContent = ({
             </li>
           );
         })}
-        {!showScNewForm && (
-          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-limitation vads-u-margin-y--0
-                ${confirmationPageLabel(showListOnly)}`}
-            >
-              {limitContent.title}
-            </SubHeader>
-
-            <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
-
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-limitation"
-                  className="edit-item"
-                  path={`/${EVIDENCE_LIMITATION_PATH}`}
-                  aria-label={`${content.edit} ${limitContent.name}`}
-                  data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-                  text={content.edit}
-                />
-                {limitedConsent.length ? (
-                  <va-button
-                    data-type={LIMITATION_KEY}
-                    onClick={handlers.showModal}
-                    class={removeButtonClass}
-                    label={`${content.remove} ${limitContent.name}`}
-                    text={content.remove}
-                    secondary
-                  />
-                ) : null}
-              </div>
-            )}
-          </li>
-        )}
       </ul>
     </>
   );
@@ -298,11 +262,10 @@ EvidencePrivateContent.propTypes = {
   handlers: PropTypes.shape({}),
   isOnReviewPage: PropTypes.bool,
   limitedConsent: PropTypes.string,
+  limitedConsentResponse: PropTypes.bool,
   list: PropTypes.array,
   privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
-  showLimitedConsentYN: PropTypes.bool,
   showListOnly: PropTypes.bool,
-  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };

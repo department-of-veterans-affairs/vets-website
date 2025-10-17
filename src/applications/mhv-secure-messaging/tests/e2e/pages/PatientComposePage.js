@@ -15,21 +15,26 @@ class PatientComposePage {
   messageBodyText = 'testBody';
 
   sendMessage = (mockRequest, mockResponse = mockDraftMessage) => {
-    cy.intercept('POST', Paths.SM_API_EXTENDED, mockResponse).as('message');
+    cy.intercept('POST', `${Paths.SM_API_EXTENDED}*`, mockResponse).as(
+      'message',
+    );
     // Note that we don't need specific event names in the response
     cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.get(Locators.BUTTONS.SEND)
       .contains('Send')
       .click({ force: true });
-    cy.wait('@message')
-      .its('request.body')
-      .then(request => {
+    return cy
+      .wait('@message')
+      .its('request')
+      .then(req => {
+        const request = req.body;
         if (mockRequest) {
           expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
           expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
+        return req;
       });
   };
 
@@ -98,6 +103,7 @@ class PatientComposePage {
     const comboBox = this.getComboBox();
     comboBox.clear();
     comboBox.type(text, { waitForAnimations: true });
+    comboBox.type('{enter}');
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -109,7 +115,7 @@ class PatientComposePage {
 
   getMessageSubjectField = () => {
     return cy
-      .get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inPutField`);
   };
@@ -126,7 +132,7 @@ class PatientComposePage {
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
       .find(`#inputField`)
       .type(text, { force: true });
@@ -251,7 +257,9 @@ class PatientComposePage {
   };
 
   closeAlertModal = () => {
-    cy.get(`.first-focusable-child`).click({ force: true });
+    cy.get('va-modal[status="warning"]')
+      .find('button.va-modal-close')
+      .click({ force: true });
   };
 
   closeAttachmentErrorModal = () => {
@@ -269,11 +277,53 @@ class PatientComposePage {
       .click({ force: true });
   };
 
+  attachFileButton = () => {
+    return cy.findByTestId(Locators.BUTTONS.ATTACH_FILE);
+  };
+
   attachMessageFromFile = (filename = Data.TEST_IMAGE) => {
     const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
     cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
       force: true,
     });
+  };
+
+  attachFakeFile = (fileConfig, { verify = false } = {}) => {
+    const content = 'x'.repeat(fileConfig.size);
+
+    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
+      {
+        contents: Cypress.Buffer.from(content),
+        fileName: fileConfig.fileName,
+        mimeType: fileConfig.mimeType,
+      },
+      { force: true },
+    );
+
+    // Wait for file processing
+    if (verify) cy.findByText(fileConfig.fileName).should('exist');
+  };
+
+  attachFakeFilesByCount = (numberOfFiles, { verify = false } = {}) => {
+    for (let i = 0; i < numberOfFiles; i += 1) {
+      // const fileConfig = Data[`FAKE_FILE_${i + 1}KB`];
+      const content = 'x'.repeat(100 * 1024);
+
+      cy.get(Locators.ATTACH_FILE_INPUT).selectFile(
+        {
+          contents: Cypress.Buffer.from(content),
+          fileName: `FAKE_FILE_${i + 1}.pdf`,
+          mimeType: 'application/pdf',
+        },
+        { force: true },
+      );
+    }
+
+    // Wait for file processing
+    if (verify)
+      for (let i = 0; i < numberOfFiles; i += 1) {
+        cy.findByText(`FAKE_FILE_${i + 1}.pdf`).should('exist');
+      }
   };
 
   attachFewFiles = list => {
@@ -284,12 +334,12 @@ class PatientComposePage {
 
   verifyAttachmentButtonText = (numberOfAttachments = 0) => {
     if (numberOfAttachments < 1) {
-      cy.get(Locators.BUTTONS.ATTACH_FILE)
+      this.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.BUTTONS.ATTACH_FILE);
     } else {
-      cy.get(Locators.BUTTONS.ATTACH_FILE)
+      this.attachFileButton()
         .shadow()
         .find('[type="button"]')
         .should('contain', Data.ATTACH_ADDITIONAL_FILE);
@@ -308,7 +358,7 @@ class PatientComposePage {
   };
 
   verifyAttachButtonHasFocus = () => {
-    cy.get(Locators.BUTTONS.ATTACH_FILE).should(`be.focused`);
+    this.attachFileButton().should(`be.focused`);
   };
 
   clickDeleteDraftModalButton = () => {
@@ -335,7 +385,7 @@ class PatientComposePage {
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
     this.verifyRecipientNameText();
-    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+    cy.findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .invoke(`val`)
       .should(`contain`, this.messageSubjectText);
     cy.get(Locators.FIELDS.MESSAGE_BODY)
@@ -445,9 +495,7 @@ class PatientComposePage {
   };
 
   verifyElectronicSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Electronic signature');
+    cy.findByText('Electronic signature').should('be.visible');
   };
 
   verifyElectronicSignatureRequired = () => {
@@ -502,24 +550,18 @@ class PatientComposePage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`[status="warning"]`)
+    cy.get(`va-modal[status="warning"]`)
       .find(`h2`)
       .should('be.visible')
-      .and(`have.text`, alertText);
+      .and(`contain.text`, alertText);
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${firstBtnText}']`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`have.text`, firstBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${firstBtnText}']`)
+      .should('be.visible');
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='${secondBtnText}']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .should('be.visible')
-      .and(`have.text`, secondBtnText);
+    cy.get(`va-modal[status="warning"]`)
+      .find(`va-button[text='${secondBtnText}']`)
+      .should('be.visible');
   };
 
   verifyAttchedFilesList = listLength => {
@@ -530,7 +572,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsQuantityInGroup = (index, quantity) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .find('option')
@@ -538,7 +580,7 @@ class PatientComposePage {
   };
 
   verifyRecipientsGroupName = (index, text) => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.findByTestId('compose-recipient-combobox')
       .find(`optgroup`)
       .eq(index)
       .invoke('attr', 'label')
@@ -546,8 +588,10 @@ class PatientComposePage {
   };
 
   verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
-    cy.contains(recipientName)
-      .parent()
+    cy.findByTestId('compose-recipient-combobox')
+      .find('optgroup')
+      .contains(recipientName)
+      .parent('optgroup')
       .should('have.attr', 'label', facilityName);
   };
 

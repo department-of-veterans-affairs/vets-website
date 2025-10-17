@@ -13,23 +13,19 @@ import { selectVaRadio, selectVaSelect } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
 
 describe('SelectCareTeam', () => {
+  let sandbox;
   let updateDraftInProgressSpy;
 
   beforeEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-    }
-    updateDraftInProgressSpy = sinon.spy(
+    sandbox = sinon.createSandbox();
+    updateDraftInProgressSpy = sandbox.spy(
       threadDetailsActions,
       'updateDraftInProgress',
     );
   });
 
   afterEach(() => {
-    if (updateDraftInProgressSpy && updateDraftInProgressSpy.restore) {
-      updateDraftInProgressSpy.restore();
-      updateDraftInProgressSpy = null;
-    }
+    sandbox.restore();
     cleanup();
   });
 
@@ -55,32 +51,32 @@ describe('SelectCareTeam', () => {
       vamcEhrData: {
         data: {
           ehrDataByVhaId: {
-            '662': {
+            662: {
               vhaId: '662',
               vamcSystemName: 'Test Facility 1',
               ehr: 'vista',
             },
-            '636': {
+            636: {
               vhaId: '636',
               vamcSystemName: 'Test Facility 2',
               ehr: 'vista',
             },
-            '587': {
+            587: {
               vhaId: '587',
               vamcSystemName: 'Test Facility 3',
               ehr: 'vista',
             },
-            '321': {
+            321: {
               vhaId: '321',
               vamcSystemName: 'Test Facility 4',
               ehr: 'vista',
             },
-            '954': {
+            954: {
               vhaId: '954',
               vamcSystemName: 'Test Facility 5',
               ehr: 'cerner',
             },
-            '834': {
+            834: {
               vhaId: '834',
               vamcSystemName: 'Test Facility 6',
               ehr: 'cerner',
@@ -128,9 +124,11 @@ describe('SelectCareTeam', () => {
     });
     expect(screen.getByTestId('care-system-636')).to.exist; // VA Boston
     expect(screen.getByTestId('care-system-662')).to.exist; // VA Seattle
+    expect(screen.getByTestId('care-system-757')).to.exist; // VA Seattle
+
     // Check the number of radio options
     const radioOptions = screen.container.querySelectorAll('va-radio-option');
-    expect(radioOptions.length).to.equal(2);
+    expect(radioOptions.length).to.equal(3);
   });
 
   it('displays health care system facilities as select dropdown when 6 or more', async () => {
@@ -219,7 +217,7 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       const careTeamSelect = screen.getByTestId('compose-recipient-select');
       const careTeamOptions = careTeamSelect.querySelectorAll('option');
-      expect(careTeamOptions).to.have.lengthOf(5);
+      expect(careTeamOptions).to.have.lengthOf(7);
     });
   });
 
@@ -331,19 +329,55 @@ describe('SelectCareTeam', () => {
       path: Paths.SELECT_CARE_TEAM,
     });
 
+    const val = customState.sm.recipients.allowedRecipients[0].id;
+    selectVaSelect(screen.container, val);
+
+    const continueButton = screen.getByTestId('continue-button');
     await waitFor(() => {
-      const val = customState.sm.recipients.allowedRecipients[0].id;
-      selectVaSelect(screen.container, val);
-
-      const continueButton = screen.getByTestId('continue-button');
       fireEvent.click(continueButton);
-
-      sinon.assert.calledWith(updateDraftInProgressSpy);
-      const callArgs = updateDraftInProgressSpy.lastCall.args[0];
-
-      expect(callArgs).to.include({
+    });
+    waitFor(() => {
+      expect(updateDraftInProgressSpy.lastCall.args[0]).to.include({
         careSystemVhaId: '662',
         careSystemName: 'Test Facility 1',
+      });
+    });
+  });
+
+  it('dispatches ohTriageGroup attribute for care system', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        threadDetails: {
+          draftInProgress: {
+            recipientId: initialState.sm.recipients.allowedRecipients[0].id,
+            recipientName: initialState.sm.recipients.allowedRecipients[0].name,
+            careSystemName: null,
+            careSystemVhaId: null,
+          },
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    const val = customState.sm.recipients.allowedRecipients.find(
+      r => r.ohTriageGroup === true,
+    ).id;
+    await waitFor(() => {
+      selectVaSelect(screen.container, val);
+    });
+
+    waitFor(() => {
+      const callArgs = updateDraftInProgressSpy.args;
+      const validArg = callArgs.find(arg => arg[0].ohTriageGroup === true);
+      expect(validArg[0]).to.include({
+        ohTriageGroup: true,
       });
     });
   });
@@ -377,7 +411,7 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      sinon.assert.calledWith(updateDraftInProgressSpy);
+      expect(updateDraftInProgressSpy.calledOnce).to.be.true;
     });
     const callArgs = updateDraftInProgressSpy.lastCall.args[0];
 
@@ -488,11 +522,6 @@ describe('SelectCareTeam', () => {
   });
 
   it('redirects users to interstitial page if interstitial not accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
-
     const customState = {
       ...initialState,
       sm: {
@@ -513,8 +542,6 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       expect(history.location.pathname).to.equal('/new-message/');
     });
-
-    global.window.location = oldLocation;
   });
 
   it('wont redirect users if interstitial accepted', async () => {
@@ -536,7 +563,7 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal('select-care-team');
+      expect(history.location.pathname).to.equal('select-care-team/');
     });
   });
 });

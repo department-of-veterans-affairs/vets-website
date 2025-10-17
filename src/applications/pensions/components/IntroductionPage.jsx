@@ -3,12 +3,16 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { FormReactivationAlert } from './FormAlerts';
 
 const IntroductionPage = props => {
   const { route } = props;
   const { formConfig, pageList } = route;
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   useEffect(
     () => {
@@ -35,7 +39,7 @@ const IntroductionPage = props => {
       </p>
       <va-link
         href="https://www.va.gov/resources/how-are-pension-benefits-and-disability-compensation-different/"
-        text="Learn about the different types of pensions"
+        text="Learn about the differences between pension benefits and disability compensation"
       />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
@@ -171,6 +175,7 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         formConfig={formConfig}
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}

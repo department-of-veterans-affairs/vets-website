@@ -65,7 +65,7 @@ export const ServerErrorAlert = (
 );
 
 export const certificateNotice = () => (
-  <p className="vads-u-font-size--base vads-u-margin-top--neg3">
+  <p className="vads-u-font-size--base">
     You’ll need to submit a copy of your marriage certificate or a church record
     of your marriage. We’ll ask you to submit this document at the end of the
     form
@@ -77,6 +77,7 @@ export const CancelButton = withRouter(
     isAddChapter = false,
     dependentType = 'dependents',
     dependentButtonType,
+    removePath = '/options-selection/remove-dependents',
     router,
   }) => {
     const buttonRef = useRef(null);
@@ -120,7 +121,7 @@ export const CancelButton = withRouter(
           onPrimaryButtonClick={() => {
             const route = isAddChapter
               ? '/options-selection/add-dependents'
-              : '/options-selection/remove-dependents';
+              : removePath;
             router?.push(route);
           }}
           onSecondaryButtonClick={closeModal}

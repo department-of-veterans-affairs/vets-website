@@ -8,6 +8,7 @@ import { ErrorMessages } from '../../../util/constants';
 import reducer from '../../../reducers';
 import Navigation from '../../../components/Navigation';
 import inbox from '../../fixtures/folder-inbox-metadata.json';
+import * as threadDetailsActions from '../../../actions/threadDetails';
 
 describe('RouteLeavingGuard component', () => {
   let saveDraftHandlerSpy;
@@ -620,6 +621,38 @@ describe('RouteLeavingGuard component', () => {
       expect(screen.history.location.pathname).to.equal(`/thread/${messageId}`);
     });
 
+    it('allows navigation to recent care teams path for compose type', async () => {
+      const navigationError = {
+        title: 'Navigation Test',
+        p1: 'Should not see this',
+        confirmButtonText: 'Leave',
+        cancelButtonText: 'Stay',
+      };
+
+      // Set up component with type='compose' starting at an allowed path
+      const screen = setup(
+        { type: 'compose' },
+        { navigationError },
+        '/new-message/select-care-team',
+      );
+
+      const modal = screen.getByTestId('navigation-warning-modal');
+      expect(modal.getAttribute('visible')).to.equal('false');
+
+      // Navigate to recent care teams path - should be allowed
+      act(() => {
+        screen.history.push('/new-message/recent');
+      });
+
+      await waitFor(() => {
+        // Modal should still not be visible because navigation was allowed
+        expect(modal.getAttribute('visible')).to.equal('false');
+      });
+
+      // Verify we navigated successfully
+      expect(screen.history.location.pathname).to.equal('/new-message/recent');
+    });
+
     it('tests allowed paths logic without navigation for reply type', () => {
       // This test verifies the allowed paths logic without relying on React Router navigation
       const navigationError = {
@@ -875,6 +908,86 @@ describe('RouteLeavingGuard component', () => {
       });
 
       // This verifies the useEffect works with different pathname values
+    });
+
+    it('clears draft when last path is not on the list ', async () => {
+      const clearDraftInProgressSpy = sinon.spy(
+        threadDetailsActions,
+        'clearDraftInProgress',
+      );
+
+      const navigationError = {
+        title: 'Navigation Test 2',
+        p1: 'Confirming navigation',
+        confirmButtonText: 'Continue',
+        cancelButtonText: 'Cancel',
+      };
+
+      const screen = setup({}, { navigationError }, '/compose');
+
+      act(() => {
+        screen.history.push('/drafts');
+      });
+
+      await waitFor(() => {
+        const modal = screen.getByTestId('navigation-warning-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      const confirmButton = screen.container.querySelector(
+        'va-button[text="Continue"]',
+      );
+
+      act(() => {
+        fireEvent.click(confirmButton);
+      });
+
+      await waitFor(() => {
+        expect(clearDraftInProgressSpy.calledOnce).to.be.true;
+        clearDraftInProgressSpy.restore();
+      });
+    });
+
+    it('does not clear draft when last path is on the list ', async () => {
+      const clearDraftInProgressSpy = sinon.spy(
+        threadDetailsActions,
+        'clearDraftInProgress',
+      );
+
+      const navigationError = {
+        title: 'Navigation Test 2',
+        p1: 'Confirming navigation',
+        confirmButtonText: 'Continue',
+        cancelButtonText: 'Cancel',
+      };
+
+      const screen = setup(
+        { persistDraftPaths: ['/drafts'] },
+        { navigationError },
+        '/compose',
+      );
+
+      act(() => {
+        screen.history.push('/drafts');
+      });
+
+      await waitFor(() => {
+        const modal = screen.getByTestId('navigation-warning-modal');
+        expect(modal.getAttribute('visible')).to.equal('true');
+      });
+
+      const confirmButton = screen.container.querySelector(
+        'va-button[text="Continue"]',
+      );
+
+      act(() => {
+        fireEvent.click(confirmButton);
+      });
+
+      await waitFor(() => {
+        expect(clearDraftInProgressSpy.calledOnce).to.be.false;
+        clearDraftInProgressSpy.restore();
+      });
     });
 
     it('does not execute useEffect when confirmedNavigation is false', async () => {

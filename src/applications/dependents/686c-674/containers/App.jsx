@@ -48,7 +48,11 @@ function App({
     useToggleValue,
     TOGGLE_NAMES,
   } = useFeatureToggle();
-  useFormFeatureToggleSync(['vaDependentsNetWorthAndPension']);
+  useFormFeatureToggleSync([
+    'vaDependentsNetWorthAndPension',
+    'vaDependentsDuplicateModals',
+    'vaDependentsV3',
+  ]);
   const dependentsModuleEnabled = useToggleValue(
     TOGGLE_NAMES.dependentsModuleEnabled,
   );

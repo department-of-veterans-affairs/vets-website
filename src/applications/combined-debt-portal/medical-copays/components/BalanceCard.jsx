@@ -118,31 +118,35 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       {showCDPOneThingPerPage ? (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <VaLink
-            active
-            data-testid={`detail-link-${id}`}
-            onClick={event => {
-              event.preventDefault();
-              recordEvent({ event: 'cta-link-click-copay-balance-card' });
-              history.push(`/copay-balances/${id}/detail`);
-            }}
-            href={`/copay-balances/${id}/detail`}
-            text="Review details"
-            aria-label={`Review details for ${facility}`}
-          />
+          <p className="vads-u-margin--0">
+            <VaLink
+              active
+              data-testid={`detail-link-${id}`}
+              onClick={event => {
+                event.preventDefault();
+                recordEvent({ event: 'cta-link-click-copay-balance-card' });
+                history.push(`/copay-balances/${id}/detail`);
+              }}
+              href={`/copay-balances/${id}/detail`}
+              text="Review details"
+              label={`Review details for ${facility}`}
+            />
+          </p>
 
-          <VaLink
-            active
-            data-testid={`resolve-link-${id}`}
-            onClick={event => {
-              event.preventDefault();
-              recordEvent({ event: 'cta-link-click-copay-balance-card' });
-              history.push(`/copay-balances/${id}/resolve`);
-            }}
-            href={`/copay-balances/${id}/resolve`}
-            text="Resolve this bill"
-            aria-label={`Resolve this bill for ${facility}`}
-          />
+          <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+            <VaLink
+              active
+              data-testid={`resolve-link-${id}`}
+              onClick={event => {
+                event.preventDefault();
+                recordEvent({ event: 'cta-link-click-copay-balance-card' });
+                history.push(`/copay-balances/${id}/detail/resolve`);
+              }}
+              href={`/copay-balances/${id}/detail/resolve`}
+              text="Resolve this bill"
+              label={`Resolve this bill for ${facility}`}
+            />
+          </p>
         </div>
       ) : (
         <Link

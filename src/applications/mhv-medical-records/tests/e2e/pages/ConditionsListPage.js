@@ -18,10 +18,7 @@ class ConditionsListPage extends BaseListPage {
   //   }
   // };
 
-  gotoConditionsListPage = (
-    conditions = defaultConditions,
-    waitForConditions = false,
-  ) => {
+  gotoConditionsListPage = (conditions = defaultConditions) => {
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/conditions',
@@ -29,9 +26,7 @@ class ConditionsListPage extends BaseListPage {
     ).as('ConditionsList');
     // cy.get('[href="/my-health/medical-records/conditions"]').click();
     cy.visit('my-health/medical-records/conditions');
-    if (waitForConditions) {
-      cy.wait('@ConditionsList');
-    }
+    cy.wait('@ConditionsList');
   };
 
   verifyConditionsPageTitle = () => {
@@ -40,7 +35,7 @@ class ConditionsListPage extends BaseListPage {
   };
 
   clickConditionsDetailsLink = (_conditionIndex = 0) => {
-    cy.get('[data-testid="record-list-item"]')
+    cy.findAllByTestId('record-list-item')
       .find('a')
       .eq(_conditionIndex)
       .click();

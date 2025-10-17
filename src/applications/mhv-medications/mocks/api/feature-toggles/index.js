@@ -1,12 +1,13 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
     mhvLandingPagePersonalization = true,
-    mhvMedicationsDisplayGrouping = true,
+    mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent = true,
     mhvMedicationsDontIncrementIpeCount = true,
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
   } = toggles;
 
   return {
@@ -18,8 +19,8 @@ const generateFeatureToggles = (toggles = {}) => {
           value: mhvLandingPagePersonalization,
         },
         {
-          name: 'mhv_medications_display_grouping',
-          value: mhvMedicationsDisplayGrouping,
+          name: 'mhv_medications_display_documentation_content',
+          value: mhvMedicationsDisplayDocumentationContent,
         },
         {
           name: 'mhv_medications_display_pending_meds',
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
+        },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
       ],
     },

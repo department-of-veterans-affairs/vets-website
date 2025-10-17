@@ -14,6 +14,7 @@ import formConfig from '../../../../config/form';
 import careExpenses, {
   CareExpenseView,
 } from '../../../../config/chapters/05-financial-information/careExpenses';
+import { careExpenseTypePage } from '../../../../config/chapters/05-financial-information/careExpensesPages';
 
 const { schema, uiSchema } = careExpenses;
 
@@ -72,9 +73,36 @@ describe('Unreimbursed care expenses pension page', () => {
       'va-memorable-date': 2,
       'va-checkbox': 1,
       'va-radio': 3,
+      'va-radio-option': 7,
     },
     pageTitle,
   );
+
+  context('care type feature toggle options', () => {
+    const uiOptions = careExpenseTypePage.uiSchema.careType['ui:options'];
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.setItem('showPdfFormAlignment', 'true');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
+      expect(updatedSchema?.enum).to.have.lengthOf(4);
+      expect(
+        Object.keys(updatedUiSchema?.['ui:options']?.labels),
+      ).to.have.lengthOf(4);
+    });
+
+    it('should have correct number of care type options', () => {
+      global.window.sessionStorage.removeItem('showPdfFormAlignment');
+      const updatedSchema = uiOptions.updateSchema();
+      const updatedUiSchema = uiOptions.updateUiSchema();
+
+      expect(updatedSchema.enum).to.have.lengthOf(2);
+      expect(
+        Object.keys(updatedUiSchema['ui:options'].labels),
+      ).to.have.lengthOf(2);
+    });
+  });
 
   describe('CareExpenseView', () => {
     it('should render a list view', () => {

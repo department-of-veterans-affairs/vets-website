@@ -14,7 +14,7 @@ import {
   updateFormData,
 } from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
-import SimpleRadioWidget from './SimpleRadioWidget';
+import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 
 const facilityTypesValues = Object.values(FACILITY_TYPES);
 
@@ -38,7 +38,7 @@ export default function TypeOfFacilityPage() {
   const uiSchema = {
     facilityType: {
       'ui:title': pageTitle,
-      'ui:widget': SimpleRadioWidget,
+      'ui:widget': AppointmentsRadioWidget,
       'ui:options': {
         classNames: 'vads-u-margin-top--neg2',
         hideLabelText: true,

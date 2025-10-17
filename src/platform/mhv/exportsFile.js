@@ -1,4 +1,5 @@
 export { useBackToTop } from './hooks/useBackToTop';
+export { default as useAcceleratedData } from './hooks/useAcceleratedData';
 export { default as MHVDown } from './downtime/components/MHVDown';
 export {
   default as MHVDowntimeApproaching,
@@ -21,6 +22,7 @@ export {
 export { default as usePrintTitle } from './hooks/usePrintTitle';
 export {
   formatName,
+  formatBirthDate,
   generatePdfScaffold,
   updatePageTitle,
   openCrisisModal,
@@ -49,3 +51,7 @@ export {
   logUniqueUserMetricsEvents,
   EVENT_REGISTRY,
 } from './unique_user_metrics';
+export {
+  default as MhvAlertConfirmEmail,
+  ProfileAlertConfirmEmail,
+} from './components/MhvAlertConfirmEmail';

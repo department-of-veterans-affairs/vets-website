@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import {
   FIELD_NONE_NOTED,
   imageRootUri,
-  medicationsUrls,
   NO_PROVIDER_NAME,
   dispStatusObj,
 } from '../../util/constants';
@@ -18,7 +17,6 @@ import {
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
-  createBreadcrumbs,
   pharmacyPhoneNumber,
   sanitizeKramesHtmlStr,
   hasCmopNdcNumber,
@@ -341,73 +339,6 @@ describe('fromToNumbs', () => {
   });
 });
 
-describe('createBreadcrumbs', () => {
-  const locationMock = pathname => ({ pathname });
-
-  const defaultBreadcrumbs = [
-    {
-      href: medicationsUrls.VA_HOME,
-      label: 'VA.gov home',
-    },
-    {
-      href: medicationsUrls.MHV_HOME,
-      label: 'My HealtheVet',
-    },
-  ];
-
-  it('should return empty array for an unknown path', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock('/unknown/path'),
-      null,
-      1,
-    );
-    expect(breadcrumbs).to.deep.equal([]);
-  });
-
-  it('should return breadcrumbs for the BASE path', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.BASE),
-      2,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumbs,
-      {
-        href: `${medicationsUrls.MEDICATIONS_URL}?page=2`,
-        label: 'Medications',
-      },
-    ]);
-  });
-
-  it('should return breadcrumbs for the BASE path with empty currentPage', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.BASE),
-      null,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumbs,
-      {
-        href: `${medicationsUrls.MEDICATIONS_URL}?page=1`,
-        label: 'Medications',
-      },
-    ]);
-  });
-
-  it('should return breadcrumbs for the REFILL path', () => {
-    const breadcrumbs = createBreadcrumbs(
-      locationMock(medicationsUrls.subdirectories.REFILL),
-      1,
-    );
-    expect(breadcrumbs).to.deep.equal([
-      ...defaultBreadcrumbs,
-      { href: medicationsUrls.MEDICATIONS_URL, label: 'Medications' },
-      {
-        href: medicationsUrls.MEDICATIONS_REFILL,
-        label: 'Refill prescriptions',
-      },
-    ]);
-  });
-});
-
 describe('pharmacyPhoneNumber function', () => {
   const rx = {
     cmopDivisionPhone: '4436366919',
@@ -553,6 +484,25 @@ describe('sanitizeKramesHtmlStr function', () => {
     expect(outputHtml).to.include(
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
+  });
+
+  it('should remove all pilcrows (¶) from the HTML string', () => {
+    const inputHtml = `<div>
+                      <strong>
+                      <p>¶This branded product is no longer on the market.</p>
+                      </strong>
+                      <ul>
+                      <li>¶BrandName1</li>
+                      <li>¶BrandName2</li>
+                      </ul>
+                      </div>`;
+    const outputHtml = sanitizeKramesHtmlStr(inputHtml);
+    expect(outputHtml).to.not.include('¶');
+    expect(outputHtml).to.include(
+      'This branded product is no longer on the market.',
+    );
+    expect(outputHtml).to.include('BrandName1');
+    expect(outputHtml).to.include('BrandName2');
   });
 });
 

@@ -323,6 +323,10 @@ export function addressUI(options = {}) {
   /** @type {UISchemaOptions} */
   const uiSchema = {
     'ui:validations': [],
+    'ui:options': {
+      classNames:
+        'vads-web-component-pattern vads-web-component-pattern-address',
+    },
   };
 
   function validateMilitaryBaseZipCode(errors, addr) {
@@ -360,6 +364,8 @@ export function addressUI(options = {}) {
         'I live on a U.S. military base outside of the United States.',
       'ui:webComponentField': VaCheckboxField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
       },
     };
@@ -393,6 +399,8 @@ export function addressUI(options = {}) {
         required: 'Select a country',
       },
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         /**
          * This is needed because the country dropdown needs to be set to USA and disabled if a
          * user selects that they live on a military base outside the US.
@@ -438,6 +446,8 @@ export function addressUI(options = {}) {
       },
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         replaceSchema: (_, schema) => {
           return {
             ...schema,
@@ -454,6 +464,8 @@ export function addressUI(options = {}) {
       'ui:required': requiredFunc('street2', false),
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
         updateSchema: (formData, schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path);
@@ -479,6 +491,8 @@ export function addressUI(options = {}) {
       'ui:autocomplete': 'address-line3',
       'ui:required': requiredFunc('street3', false),
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
         updateSchema: (formData, schema, _uiSchema, _index, path) => {
           const addressPath = getAddressPath(path);
@@ -507,6 +521,8 @@ export function addressUI(options = {}) {
       'ui:errorMessages': CITY_ERROR_MESSAGES_DEFAULT,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         /**
          * replaceSchema:
          * Necessary because military addresses require strict options.
@@ -567,6 +583,8 @@ export function addressUI(options = {}) {
       'ui:errorMessages': STATE_ERROR_MESSAGES_DEFAULT,
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         hideEmptyValueInReview: true,
         /**
          * replaceSchema:
@@ -655,6 +673,8 @@ export function addressUI(options = {}) {
       'ui:autocomplete': 'postal-code',
       'ui:webComponentField': VaTextInputField,
       'ui:options': {
+        classNames:
+          'vads-web-component-pattern-field vads-web-component-pattern-address',
         widgetClassNames: 'usa-input-medium',
         replaceSchema: (formData, _schema, _uiSchema, index, path) => {
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']

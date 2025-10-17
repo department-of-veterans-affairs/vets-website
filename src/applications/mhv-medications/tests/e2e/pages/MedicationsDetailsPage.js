@@ -69,10 +69,9 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]').should(
-      'have.text',
-      'April 14, 2023',
-    );
+    cy.get('[data-testid="ordered-date"]')
+      .first()
+      .should('have.text', 'April 14, 2023');
   };
 
   verifyPrescriptionsfacilityName = PrescriptionsfacilityName => {
@@ -203,6 +202,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="status-dropdown"]').should('exist');
     cy.get('[data-testid="status-dropdown"]').click({
       waitForAnimations: true,
+      multiple: true,
     });
   };
 
@@ -482,21 +482,22 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .click({ force: true });
+      .click({ force: true, multiple: true });
   };
 
   verifyAccordionCollapsedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'false');
+      .should('have.attr', 'aria-pressed', 'false');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'true');
+      .first()
+      .should('have.attr', 'aria-pressed', 'true');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
@@ -663,11 +664,13 @@ class MedicationsDetailsPage {
   };
 
   verifyQuantityNotAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+    cy.get('[data-testid="rx-quantity"]')
+      .first()
+      .should('have.text', text);
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="order-date"]').should('contain', text);
+    cy.get('[data-testid="ordered-date"]').should('contain', text);
   };
 
   verifyProviderNameNotAvailableOnDetailsPage = text => {
@@ -684,6 +687,10 @@ class MedicationsDetailsPage {
 
   verifyReasonForUseOnDetailsPage = text => {
     cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyPrescriptionQuantityOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
   };
 
   verifyInstructionsOnDetailsPage = text => {

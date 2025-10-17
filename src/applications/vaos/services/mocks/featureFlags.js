@@ -7,6 +7,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingRequests', value: true },
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
+  { name: 'vaOnlineSchedulingCCDirectSchedulingChiropractic', value: true },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: true },
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: true },
   { name: 'vaOnlineSchedulingOhRequest', value: true },
@@ -17,4 +18,9 @@ module.exports = [
   { name: 'travelPaySubmitMileageExpense', value: true },
   { name: 'vaOnlineSchedulingMentalHealthHistoryFiltering', value: true },
   { name: 'vaOnlineSchedulingAddSubstanceUseDisorder', value: true },
+  { name: 'vaOnlineSchedulingListViewClinicInfo', value: true },
+  { name: 'vaOnlineSchedulingAddOhAvs', value: true },
+  { name: 'vaOnlineSchedulingImmediateCareAlert', value: true },
+  { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
+  { name: 'vaOnlineSchedulingUseBrowserTimezone', value: true },
 ];

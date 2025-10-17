@@ -176,7 +176,7 @@ export const getVitalsList = async () => {
   });
 };
 
-export const getAcceleratedVitals = async vitalsDate => {
+export const getVitalsWithOHData = async vitalsDate => {
   const from = `&from=${vitalsDate}`;
   const to = `&to=${vitalsDate}`;
   return apiRequest(
@@ -205,10 +205,25 @@ export const getAcceleratedConditions = async () => {
   });
 };
 
+export const getAcceleratedCondition = async id => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/conditions/${id}`, {
+    headers,
+  });
+};
+
 export const getAllergies = async () => {
   return apiRequest(`${apiBasePath}/medical_records/allergies`, {
     headers,
   });
+};
+
+export const getAllergiesWithOHData = async () => {
+  return apiRequest(
+    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    {
+      headers,
+    },
+  );
 };
 
 export const getAllergy = id => {
@@ -218,8 +233,14 @@ export const getAllergy = id => {
 };
 
 export const getAcceleratedAllergies = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies`, {
+    headers,
+  });
+};
+
+export const getAllergyWithOHData = id => {
   return apiRequest(
-    `${apiBasePath}/medical_records/allergies?use_oh_data_path=1`,
+    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
     {
       headers,
     },
@@ -227,12 +248,9 @@ export const getAcceleratedAllergies = async () => {
 };
 
 export const getAcceleratedAllergy = id => {
-  return apiRequest(
-    `${apiBasePath}/medical_records/allergies/${id}?use_oh_data_path=1`,
-    {
-      headers,
-    },
-  );
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/allergies/${id}`, {
+    headers,
+  });
 };
 
 /**

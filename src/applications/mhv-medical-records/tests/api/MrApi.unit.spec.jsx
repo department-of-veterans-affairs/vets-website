@@ -48,11 +48,12 @@ import {
   getPatient,
   getAcceleratedAllergies,
   getAcceleratedAllergy,
-  getAcceleratedVitals,
+  getVitalsWithOHData,
   getAcceleratedLabsAndTests,
   getAcceleratedImmunizations,
   getAcceleratedImmunization,
   getAcceleratedConditions,
+  getAcceleratedCondition,
   postRecordDatadogAction,
   getAcceleratedNotes,
 } from '../../api/MrApi';
@@ -375,13 +376,19 @@ describe('Accelerated OH API calls', () => {
       });
     });
   });
-  describe('getAcceleratedVitals', () => {
+  describe('getVitalsWithOHData', () => {
     it('should make an api call to get all vitals', () => {
       const mockData = { mock: 'data' };
+      const mockDate = '2023-01';
       mockApiRequest(mockData);
 
-      return getAcceleratedVitals().then(res => {
+      return getVitalsWithOHData(mockDate).then(res => {
         expect(res.mock).to.equal('data');
+        // expect fetch to be called with the correct date
+        const expectedUrl = `${
+          environment.API_URL
+        }/my_health/v1/medical_records/vitals?use_oh_data_path=1&from=${mockDate}&to=${mockDate}`;
+        expect(global.fetch.firstCall.args[0]).to.equal(expectedUrl);
       });
     });
   });
@@ -442,7 +449,16 @@ describe('Accelerated OH API calls', () => {
     });
   });
 });
+describe('getAcceleratedCondition', () => {
+  it('should make an api call to get a single condition', () => {
+    const mockData = { mock: 'data' };
+    mockApiRequest(mockData);
 
+    return getAcceleratedCondition('123').then(res => {
+      expect(res.mock).to.equal('data');
+    });
+  });
+});
 describe('postRecordDatadogAction', () => {
   const endpoint = `${environment.API_URL}/v0/datadog_action`;
 

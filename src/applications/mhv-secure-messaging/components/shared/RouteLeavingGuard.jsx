@@ -11,7 +11,11 @@ import {
 import { ErrorMessages, Paths } from '../../util/constants';
 import useBeforeUnloadGuard from '../../hooks/useBeforeUnloadGuard';
 
-export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
+export const RouteLeavingGuard = ({
+  saveDraftHandler,
+  type,
+  persistDraftPaths = [],
+}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -91,6 +95,7 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
       let allowedPaths = [];
       if (type === 'compose') {
         allowedPaths = [
+          `${Paths.RECENT_CARE_TEAMS}`,
           `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
           `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
           `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
@@ -104,12 +109,13 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
 
       // Allow navigation between specified paths without guard
       const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedAllowedPaths = allowedPaths.map(normalizePath);
       const normalizedCurrentPath = normalizePath(currentPath);
       const normalizedNextPath = normalizePath(nextPath);
 
       if (
-        allowedPaths.includes(normalizedCurrentPath) &&
-        allowedPaths.includes(normalizedNextPath)
+        normalizedAllowedPaths.includes(normalizedCurrentPath) &&
+        normalizedAllowedPaths.includes(normalizedNextPath)
       ) {
         return true;
       }
@@ -163,12 +169,20 @@ export const RouteLeavingGuard = ({ saveDraftHandler, type }) => {
   useEffect(
     () => {
       if (confirmedNavigation && lastLocation?.pathname) {
-        dispatch(clearDraftInProgress());
+        if (!persistDraftPaths.includes(lastLocation?.pathname)) {
+          dispatch(clearDraftInProgress());
+        }
         navigate(lastLocation.pathname);
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation, dispatch, lastLocation?.pathname, navigate],
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
   );
 
   useEffect(
@@ -232,6 +246,7 @@ RouteLeavingGuard.propTypes = {
   navigate: PropTypes.func,
   p1: PropTypes.string,
   p2: PropTypes.any,
+  persistDraftPaths: PropTypes.array,
   saveDraftHandler: PropTypes.func,
   saveError: PropTypes.object,
   savedDraft: PropTypes.bool,

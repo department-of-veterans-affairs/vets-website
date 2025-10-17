@@ -1,0 +1,21 @@
+{
+  "data": {
+    "veteranFullName": {
+      "first": "James",
+      "middle": "Robert",
+      "last": "Thompson"
+    },
+    "veteranIdentification": {
+      "ssn": "434353346"
+    },
+    "recipientName": {
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
+    },
+    "hasRemarried": false,
+    "signature": "Jane M Spouse",
+    "primaryPhone": "703-555-1234",
+    "emailAddress": "mary.johnson@example.com"
+  }
+}

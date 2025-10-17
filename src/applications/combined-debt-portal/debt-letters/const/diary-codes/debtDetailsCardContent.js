@@ -4,19 +4,24 @@ import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
   <>
-    <va-telephone contact={CONTACTS.DMC} /> (or{' '}
-    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-    overseas)
+    <va-telephone contact={CONTACTS.DMC} /> (
+    <va-telephone contact="711" tty="true" />
+    ). If you’re outside the U.S., call{' '}
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />
   </>
 );
 
 const createPaymentReminderText = endDateText => (
-  <p>
-    We’ll send you a letter with our decision. Please continue to make payments
-    monthly while we complete our review. <br />
-    <br />
-    <strong>Your next payment is due by {endDateText}.</strong>
-  </p>
+  <>
+    <p>
+      We’ll send you a letter with our decision. Please continue to make
+      payments monthly while we complete our review.
+    </p>
+    <p>
+      {' '}
+      <strong>Your next payment is due by {endDateText}.</strong>
+    </p>
+  </>
 );
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
   const endDateText = endDate(dateOfLetter, debt.diaryCode);
@@ -26,10 +31,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: 'Contact us to verify your military status',
         status: 'info',
-        showIcon: false,
         showLinks: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Please contact us online through{' '}
             <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
             to verify your military status. We’re here Monday through Friday,
@@ -41,7 +45,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your balance now or request help by ${endDateText} to avoid more interest charges`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -58,7 +61,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance in full or request help by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -75,7 +77,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -91,10 +92,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: 'Contact us to update your address',
         status: 'info',
-        showIcon: false,
         showLinks: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Please contact us online through{' '}
             <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
             to update your address. We’re here Monday through Friday, 7:30 a.m.
@@ -106,7 +106,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your one time payment as part of your compromise agreement by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -124,7 +123,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: 'We’ve paused collection on this debt as you requested',
         status: 'info',
-        showIcon: true,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -140,7 +138,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         headerText:
           'Continue making monthly payments while we review your compromise offer',
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -150,12 +147,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: 'We’re processing your compromise payment',
         status: 'info',
-        showIcon: true,
         showLinks: false,
-        showMakePayment: false,
-        showRequestHelp: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Please check your debt balance again soon. If it isn’t adjusted to
             reflect your payment within 30 days, call us at <ContactDMC />,
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -169,12 +163,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re updating your account`,
         status: 'info',
-        showIcon: true,
         showLinks: false,
-        showMakePayment: false,
-        showRequestHelp: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Please check back in 1 week for updates. If your account shows the
             same information then call us at <ContactDMC />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -191,12 +182,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re updating your account`,
         status: 'info',
-        showIcon: true,
         showLinks: false,
-        showMakePayment: false,
-        showRequestHelp: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Please check back in 30 days for updates. If your account shows the
             same information then call us at <ContactDMC />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -211,12 +199,9 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Contact the U.S. Department of the Treasury to pay this ${amountDue} debt`,
         status: 'warning',
-        showIcon: false,
-        showLinks: true,
-        showMakePayment: true,
-        showRequestHelp: true,
+        showLinks: false,
         bodyText: (
-          <p>
+          <p className="vads-u-margin-bottom--0">
             Call the U.S. Department of the Treasury’s Debt Management Services
             at{' '}
             <va-telephone
@@ -236,7 +221,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re referring this debt to the U.S. Department of the Treasury today`,
         status: `warning`,
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -258,7 +242,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -276,24 +259,23 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re reducing your education benefits each month until your debt is paid`,
         status: 'info',
-        showIcon: true,
-        showLinks: false,
+        showLinks: true,
         showMakePayment: false,
-        showRequestHelp: false,
+        showRequestHelp: true,
         bodyText: (
-          <p>
-            If you’d like to pay in full now, call us first to ensure you don’t
-            overpay. If you stop receiving VA benefits, call us to set up a new
-            payment plan. We can be reached at{' '}
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
-            <br />
-            If reduced payments are causing you hardship, you can{' '}
-            <a href="/manage-va-debt/request-debt-help-form-5655">
-              request help with your debt
-            </a>
-            .
-          </p>
+          <>
+            <p>
+              If you’d like to pay in full now, call us first to ensure you
+              don’t overpay. If you stop receiving VA benefits, call us to set
+              up a new payment plan. We can be reached at <ContactDMC />. We’re
+              here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+            <p>
+              {' '}
+              If reduced payments are causing you hardship, you can request help
+              with your debt.
+            </p>
+          </>
         ),
       };
     case '450':
@@ -309,31 +291,29 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re reducing your benefit payments each month until your debt is paid`,
         status: 'info',
-        showIcon: true,
-        showLinks: false,
+        showLinks: true,
         showMakePayment: false,
-        showRequestHelp: false,
+        showRequestHelp: true,
         bodyText: (
-          <p>
-            If you’d like to pay in full now, call us first to ensure you don’t
-            overpay. If you stop receiving VA benefits, call us to set up a new
-            payment plan. We can be reached at{' '}
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
-            <br />
-            If reduced payments are causing you hardship, you can{' '}
-            <a href="/manage-va-debt/request-debt-help-form-5655">
-              request help with your debt
-            </a>
-            .
-          </p>
+          <>
+            <p>
+              If you’d like to pay in full now, call us first to ensure you
+              don’t overpay. If you stop receiving VA benefits, call us to set
+              up a new payment plan. We can be reached at <ContactDMC />. We’re
+              here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+            <p>
+              {' '}
+              If reduced payments are causing you hardship, you can request help
+              with your debt.
+            </p>
+          </>
         ),
       };
     case '449':
       return {
         headerText: `Pay your balance now or request help by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -350,7 +330,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your balance now or request help by ${endDateText}`,
         status: 'warning',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -369,7 +348,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         headerText:
           'Continue making monthly payments until your balance is paid',
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -380,7 +358,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Make a payment on your ${amountDue} balance now or request help by ${endDateText}`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -398,9 +375,8 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         headerText:
           'Submit a Financial Status Report so that we can make a decision on your request',
         status: 'info',
-        showIcon: false,
         showLinks: true,
-        showMakePayment: true,
+        showMakePayment: false,
         showRequestHelp: true,
         bodyText: (
           <p>
@@ -414,7 +390,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance now or request help`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
@@ -430,7 +405,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `The U.S. Department of the Treasury is reducing your federal payments until your debt is paid`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: false,
         showRequestHelp: true,
@@ -438,13 +412,10 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             If you’d like to pay in full now, call the U.S. Department of the
             Treasury’s Debt. Management Services at{' '}
-            <va-telephone
-              className="vads-u-color--base "
-              contact={CONTACTS.TREASURY_DMS}
-            />
-            , 8:30 a.m. to 6:30 p.m. ET. Don’t send us a payment directly. This
-            will delay posting the payment to your account and the Treasury
-            Department may continue adding fees and interest.
+            <va-telephone contact={CONTACTS.TREASURY_DMS} />, 8:30 a.m. to 6:30
+            p.m. ET. Don’t send us a payment directly. This will delay posting
+            the payment to your account and the Treasury Department may continue
+            adding fees and interest.
           </p>
         ),
       };
@@ -457,7 +428,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Continue making monthly payments while we review your waiver request`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -467,7 +437,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Continue making monthly payments while we review your dispute`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -477,7 +446,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Continue making monthly payments while we review your request for a hearing`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -487,7 +455,6 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Continue making monthly payments while we review your Notice of Disagreement`,
         status: 'info',
-        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
@@ -501,11 +468,12 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `We’re reviewing your account`,
         status: 'info',
-        showIcon: true,
         showLinks: false,
-        showMakePayment: false,
-        showRequestHelp: false,
-        bodyText: <p>You don’t need to do anything at this time.</p>,
+        bodyText: (
+          <p className="vads-u-margin-bottom--0">
+            You don’t need to do anything at this time.
+          </p>
+        ),
       };
   }
 };

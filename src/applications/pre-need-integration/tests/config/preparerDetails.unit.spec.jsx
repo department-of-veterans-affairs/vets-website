@@ -2,12 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-
-import {
-  DefinitionTester,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
 describe('Pre-need preparer Details info', () => {
@@ -16,7 +12,12 @@ describe('Pre-need preparer Details info', () => {
     uiSchema,
   } = formConfig.chapters.preparerInformation.pages.preparerDetails;
 
-  it('should render name input field', () => {
+  beforeEach(() => {
+    uiSchema.application.applicant.name.first['ui:required'] = () => true;
+    uiSchema.application.applicant.name.last['ui:required'] = () => true;
+  });
+
+  it('should render name input fields', () => {
     const form = mount(
       <DefinitionTester
         schema={schema}
@@ -24,59 +25,59 @@ describe('Pre-need preparer Details info', () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-text-input').length).to.equal(2);
     form.unmount();
   });
 
   it('should not submit empty form', async () => {
     const onSubmit = sinon.spy();
-    uiSchema.application.applicant.name.first['ui:required'] = () => true;
-    uiSchema.application.applicant.name.last['ui:required'] = () => true;
 
     const { container } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
         uiSchema={uiSchema}
+        onSubmit={onSubmit}
       />,
     );
+
     fireEvent.submit(container.querySelector('form'));
 
     await waitFor(() => {
-      const errorElements = container.querySelectorAll('.usa-input-error');
-      expect(errorElements.length).to.equal(2);
+      const vaInputs = container.querySelectorAll('va-text-input');
+      expect(vaInputs.length).to.equal(2);
       expect(onSubmit.called).to.be.false;
     });
   });
 
   it('should submit with required fields filled in', () => {
     const onSubmit = sinon.spy();
+
+    // Directly provide the filled data
     const form = mount(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
         uiSchema={uiSchema}
+        data={{
+          application: {
+            applicant: {
+              name: {
+                first: 'Jane',
+                last: 'Smith',
+              },
+            },
+          },
+        }}
+        onSubmit={onSubmit}
       />,
     );
-    uiSchema.application.applicant.name.first['ui:required'] = () => true;
-    uiSchema.application.applicant.name.last['ui:required'] = () => true;
 
-    fillData(
-      form,
-      'input[name="root_application_applicant_name_first"]',
-      'Jane',
-    );
-    fillData(
-      form,
-      'input[name="root_application_applicant_name_last"]',
-      'Smith',
-    );
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(0);
+    const vaInputs = form.find('va-text-input');
+    const errors = vaInputs.filterWhere(node => node.prop('error'));
+    expect(errors.length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });

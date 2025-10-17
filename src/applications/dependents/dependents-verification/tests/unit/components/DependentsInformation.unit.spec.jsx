@@ -8,6 +8,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { DependentsInformation } from '../../../components/DependentsInformation';
 import { defaultData } from './dependent-data';
+import { calculateAge } from '../../../../shared/utils';
 
 function renderPage({
   data = defaultData,
@@ -41,6 +42,18 @@ function renderPage({
 }
 
 describe('DependentsInformation', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    if (sandbox) {
+      sandbox.restore();
+    }
+  });
+
   it('should render no dependents found message', () => {
     // You shouldn't be able to see this because we don't allow starting the
     // form without
@@ -50,6 +63,7 @@ describe('DependentsInformation', () => {
 
   it('renders all sections with prefilled data', () => {
     const { container } = renderPage();
+    const child1 = calculateAge(defaultData.dependents[0].dateOfBirth);
 
     const cards = $$('va-card', container);
     expect(cards).to.have.lengthOf(2);
@@ -57,14 +71,14 @@ describe('DependentsInformation', () => {
     expect($('h4', cards[0]).textContent).to.include('Morty Smith');
     expect(firstList[0].textContent).to.include('Relationship:\u00a0Child');
     expect(firstList[1].textContent).to.include(
-      'Date of birth:\u00a0January 4, 2011',
+      `Date of birth:\u00a0${child1.dobStr}`,
     );
-    expect(firstList[2].textContent).to.include('Age:\u00a014 years old');
+    expect(firstList[2].textContent).to.include('Age:\u00a011 months old');
     expect(firstList[3].textContent).to.include('SSN:\u00a0●●●–●●-6791');
 
     expect($('h4', cards[1]).textContent).to.include('Summer Smith');
     expect($('.removal-date', cards[1]).textContent).to.include(
-      'Automatic removal date:\u00a0August 1, 2026',
+      `Automatic removal date:\u00a0${defaultData.dependents[1].removalDate}`,
     );
     expect($('va-alert[status="info"]', cards[1]));
 
@@ -75,7 +89,7 @@ describe('DependentsInformation', () => {
   });
 
   it('should set form data with radio choice', async () => {
-    const setFormDataSpy = sinon.spy();
+    const setFormDataSpy = sandbox.spy();
     const { container } = renderPage({
       data: { dependents: defaultData.dependents },
       setFormData: setFormDataSpy,
@@ -101,8 +115,8 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates forward to review page when "No" is selected', async () => {
-    const goToPathSpy = sinon.spy();
-    const goForwardSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
+    const goForwardSpy = sandbox.spy();
     const { container } = renderPage({
       data: { hasDependentsStatusChanged: 'N' },
       goToPath: goToPathSpy,
@@ -117,8 +131,8 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates to exit page when "Yes" is selected', async () => {
-    const goToPathSpy = sinon.spy();
-    const goForwardSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
+    const goForwardSpy = sandbox.spy();
     const { container } = renderPage({
       data: { hasDependentsStatusChanged: 'Y' },
       goToPath: goToPathSpy,
@@ -134,7 +148,7 @@ describe('DependentsInformation', () => {
   });
 
   it('navigates back to Veteran info page', async () => {
-    const goToPathSpy = sinon.spy();
+    const goToPathSpy = sandbox.spy();
     const { container } = renderPage({ data: {}, goToPath: goToPathSpy });
 
     await waitFor(() => {

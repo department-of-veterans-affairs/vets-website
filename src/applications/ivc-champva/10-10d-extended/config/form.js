@@ -3,14 +3,12 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
-import GetFormHelp from '../../shared/components/GetFormHelp';
-import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
-import { sponsorWording } from '../../10-10D/helpers/utilities';
+import FormFooter from '../components/FormFooter';
+import content from '../locales/en/content.json';
 
 import {
   certifierRoleSchema,
@@ -36,22 +34,22 @@ import {
 import { applicantPages } from '../chapters/applicantInformation';
 import {
   medicarePages,
-  missingMedicarePage,
-  proofOfIneligibilityUploadPage,
+  medicareStatusPage,
+  medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
+import AddressSelectionPage, {
+  NOT_SHARED,
+} from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
+  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
-  // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // TODO: when we have the submitUrl up and running, remove this dummy response:
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -65,10 +63,15 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submissionError: SubmissionError,
+  footerContent: FormFooter,
   customText: { appType: 'form' },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
+    filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({
     breadcrumbList: [
@@ -109,8 +112,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA application (includes 10-7959c).',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
+  title: content['form-title'],
+  subTitle: content['form-subtitle'],
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -181,37 +184,25 @@ const formConfig = {
         },
         page10b0: {
           path: 'veteran-address',
-          title: formData => `${sponsorWording(formData)} address selection`,
-          // Only show if we have addresses to pull from:
+          title: 'Veteran’s address',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
             get('street', formData?.certifierAddress),
           CustomPage: props => {
-            const extraProps = {
-              ...props,
-              customAddressKey: 'sponsorAddress',
-              customTitle: `${sponsorWording(props.data)} address selection`,
-              customDescription:
-                'We\u2019ll send any important information about this form to this address.',
-              customSelectText: `Does ${sponsorWording(
-                props.data,
-                false,
-                false,
-              )} live at a previously entered address?`,
-              positivePrefix: 'Yes, their address is',
-              negativePrefix: 'No, they have a different address',
-            };
-            return ApplicantAddressCopyPage(extraProps);
+            const opts = { ...props, dataKey: 'sponsorAddress' };
+            return AddressSelectionPage(opts);
           },
-          CustomPageReview: null,
+          CustomPageReview: AddressSelectionReviewPage,
           uiSchema: {},
           schema: blankSchema,
         },
         page10: {
           path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
-          depends: formData => !get('sponsorIsDeceased', formData),
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('view:sharesAddressWith', formData) === NOT_SHARED,
           ...sponsorAddress,
         },
         page11: {
@@ -230,8 +221,8 @@ const formConfig = {
       title: 'Medicare information',
       pages: {
         ...medicarePages,
-        page22: missingMedicarePage,
-        page23: proofOfIneligibilityUploadPage,
+        page22: medicareStatusPage,
+        page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {
@@ -239,7 +230,6 @@ const formConfig = {
       pages: healthInsurancePages,
     },
   },
-  footerContent: GetFormHelp,
 };
 
 export default formConfig;

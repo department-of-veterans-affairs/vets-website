@@ -17,7 +17,6 @@ import {
   hasCmopNdcNumber,
   isRefillTakingLongerThanExpected,
   pharmacyPhoneNumber,
-  validateField,
   validateIfAvailable,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
@@ -26,7 +25,6 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
-  selectGroupingFlag,
   selectPartialFillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
@@ -38,7 +36,6 @@ import ProcessList from '../shared/ProcessList';
 import { landMedicationDetailsAal } from '../../api/rxApi';
 
 const VaPrescription = prescription => {
-  const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const refillHistory = getRefillHistory(prescription);
@@ -60,25 +57,36 @@ const VaPrescription = prescription => {
     Date.parse(latestTrackingStatus?.completeDateTime) > fourteenDaysAgoDate;
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
-  useEffect(() => {
-    const userLanded = async () => {
-      if (prescription) {
-        try {
-          await landMedicationDetailsAal(prescription);
-        } catch (e) {
-          if (window.DD_RUM) {
-            const error = new Error(
-              `Error submitting AAL on Medication Details landing. ${e
-                ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
-            );
-            window.DD_RUM.addError(error);
+  useEffect(
+    () => {
+      const userLanded = async () => {
+        if (prescription) {
+          // Check if AAL has already been called for this prescription in this session
+          const sessionKey = `aal_called_${prescription.prescriptionId}`;
+          const aalAlreadyCalled = sessionStorage.getItem(sessionKey);
+
+          if (!aalAlreadyCalled) {
+            try {
+              await landMedicationDetailsAal(prescription);
+              // Mark that AAL has been called for this prescription in this session
+              sessionStorage.setItem(sessionKey, 'true');
+            } catch (e) {
+              if (window.DD_RUM) {
+                const error = new Error(
+                  `Error submitting AAL on Medication Details landing. ${e
+                    ?.errors?.[0] && JSON.stringify(e?.errors?.[0])}`,
+                );
+                window.DD_RUM.addError(error);
+              }
+            }
           }
         }
-      }
-    };
+      };
 
-    userLanded();
-  }, []);
+      userLanded();
+    },
+    [prescription?.prescriptionId],
+  );
 
   const determineStatus = () => {
     if (pendingRenewal) {
@@ -156,159 +164,120 @@ const VaPrescription = prescription => {
     if (prescription) {
       return (
         <>
-          {/* TODO: clean after grouping flag is gone */}
           <div
-            className={`${
-              !showGroupingContent
-                ? 'vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 '
-                : ''
-            }medication-details-div vads-u-margin-bottom--3`}
+            className="medication-details-div vads-u-margin-bottom--3"
             data-testid="va-prescription-container"
             data-dd-privacy="mask"
           >
-            {/* TODO: clean after grouping flag is gone */}
-            {!showGroupingContent && (
-              <>
-                {displayTrackingAlert()}
-                <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2">
-                  About your prescription
-                </h2>
-                {prescription && <ExtraDetails {...prescription} />}
-              </>
-            )}
             {/* TODO: clean after refill progress content flag is gone */}
             {!showRefillProgressContent && (
               <>
                 {prescription?.isRefillable ? (
                   <Link
-                    // TODO: clean after grouping flag is gone
-                    className={`${
-                      !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
-                    }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
+                    className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
                     to="refill"
                     data-testid="refill-nav-link"
                     data-dd-action-name={
                       dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
                     }
                   >
-                    {/* TODO: clean after grouping flag is gone */}
-                    {!showGroupingContent &&
-                      `${
-                        hasBeenDispensed ? 'Refill' : 'Fill'
-                      } this prescription`}
-                    {showGroupingContent &&
-                      `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                    {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
                   </Link>
                 ) : (
                   <FillRefillButton {...prescription} />
                 )}
               </>
             )}
-            {/* TODO: clean after grouping flag is gone */}
-            {showGroupingContent && (
-              <>
-                {displayTrackingAlert()}
+            <>
+              {displayTrackingAlert()}
 
-                {isRefillRunningLate && (
-                  <h2
-                    className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
-                    data-testid="check-status-text"
-                    data-dd-privacy="mask"
-                  >
-                    {getPrescriptionStatusHeading()}
-                  </h2>
-                )}
-
-                {showRefillProgressContent &&
-                  isRefillRunningLate && (
-                    <VaAlert
-                      data-testid="rx-details-refill-alert"
-                      status="warning"
-                      className="vads-u-margin-bottom--2"
-                      uswds
-                    >
-                      <h3
-                        slot="headline"
-                        className="vads-u-margin-top--0 vads-u-margin-bottom--1"
-                      >
-                        Your refill request for this medication is taking longer
-                        than expected
-                      </h3>
-                      <p>
-                        Call your VA pharmacy{' '}
-                        {pharmacyPhone && (
-                          <CallPharmacyPhone
-                            cmopDivisionPhone={pharmacyPhone}
-                            page={pageType.DETAILS}
-                          />
-                        )}{' '}
-                        to check on your refill, if you haven’t received it in
-                        the mail yet.
-                      </p>
-                    </VaAlert>
-                  )}
-                {showRefillProgressContent && (
-                  <>
-                    <ProcessList stepGuideProps={stepGuideProps} />
-                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
-                  </>
-                )}
+              {isRefillRunningLate && (
                 <h2
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--4"
-                  data-testid="recent-rx"
+                  className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                  data-testid="check-status-text"
+                  data-dd-privacy="mask"
                 >
-                  {pendingMed || pendingRenewal ? (
-                    <>About this prescription</>
-                  ) : (
-                    <>Most recent prescription</>
-                  )}
+                  {getPrescriptionStatusHeading()}
                 </h2>
-                {/* TODO: clean after refill progress content flag is gone */}
-                {showRefillProgressContent && (
+              )}
+
+              {showRefillProgressContent &&
+                isRefillRunningLate && (
+                  <VaAlert
+                    data-testid="rx-details-refill-alert"
+                    status="warning"
+                    className="vads-u-margin-bottom--2"
+                    uswds
+                  >
+                    <h3
+                      slot="headline"
+                      className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                    >
+                      Your refill request for this medication is taking longer
+                      than expected
+                    </h3>
+                    <p>
+                      Call your VA pharmacy{' '}
+                      {pharmacyPhone && (
+                        <CallPharmacyPhone
+                          cmopDivisionPhone={pharmacyPhone}
+                          page={pageType.DETAILS}
+                        />
+                      )}{' '}
+                      to check on your refill, if you haven’t received it in the
+                      mail yet.
+                    </p>
+                  </VaAlert>
+                )}
+              {showRefillProgressContent && (
+                <>
+                  <ProcessList stepGuideProps={stepGuideProps} />
+                  <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                </>
+              )}
+              <h2
+                className="vads-u-margin-top--0 vads-u-margin-bottom--4"
+                data-testid="recent-rx"
+              >
+                {pendingMed || pendingRenewal ? (
+                  <>About this prescription</>
+                ) : (
+                  <>Most recent prescription</>
+                )}
+              </h2>
+              {/* TODO: clean after refill progress content flag is gone */}
+              {showRefillProgressContent && (
+                <>
+                  {prescription?.isRefillable ? (
+                    <Link
+                      className="vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3"
+                      to="/refill"
+                      data-testid="refill-nav-link"
+                      data-dd-action-name={
+                        dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                      }
+                    >
+                      {`Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                    </Link>
+                  ) : (
+                    <FillRefillButton {...prescription} />
+                  )}
+                </>
+              )}
+
+              {prescription && <ExtraDetails {...prescription} />}
+              {!pendingMed &&
+                !pendingRenewal && (
                   <>
-                    {prescription?.isRefillable ? (
-                      <Link
-                        // TODO: clean after grouping flag is gone
-                        className={`${
-                          !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
-                        }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                        to="/refill"
-                        data-testid="refill-nav-link"
-                        data-dd-action-name={
-                          dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                        }
-                      >
-                        {/* TODO: clean after grouping flag is gone */}
-                        {!showGroupingContent &&
-                          `${
-                            hasBeenDispensed ? 'Refill' : 'Fill'
-                          } this prescription`}
-                        {showGroupingContent &&
-                          `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-                      </Link>
-                    ) : (
-                      <FillRefillButton {...prescription} />
-                    )}
+                    <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                      Prescription number
+                    </h3>
+                    <p data-testid="prescription-number" data-dd-privacy="mask">
+                      {prescription.prescriptionNumber}
+                    </p>
                   </>
                 )}
-
-                {prescription && <ExtraDetails {...prescription} />}
-                {!pendingMed &&
-                  !pendingRenewal && (
-                    <>
-                      <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                        Prescription number
-                      </h3>
-                      <p
-                        data-testid="prescription-number"
-                        data-dd-privacy="mask"
-                      >
-                        {prescription.prescriptionNumber}
-                      </p>
-                    </>
-                  )}
-              </>
-            )}
+            </>
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
@@ -337,39 +306,6 @@ const VaPrescription = prescription => {
                   </p>
                 </>
               )}
-            {/* TODO: clean after grouping flag is gone */}
-            {!showGroupingContent && (
-              <>
-                <h3
-                  className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans"
-                  data-dd-privacy="mask"
-                >
-                  Prescription number
-                </h3>
-                <p data-testid="prescription-number" data-dd-privacy="mask">
-                  {prescription.prescriptionNumber}
-                </p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Prescribed on
-                </h3>
-                <p datat-testid="ordered-date">
-                  {dateFormat(
-                    prescription.orderedDate,
-                    'MMMM D, YYYY',
-                    'Date not available',
-                  )}
-                </p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Prescribed by
-                </h3>
-                <p>
-                  {displayProviderName(
-                    prescription?.providerFirstName,
-                    prescription?.providerLastName,
-                  )}
-                </p>
-              </>
-            )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Facility
             </h3>
@@ -392,138 +328,81 @@ const VaPrescription = prescription => {
                 validateIfAvailable('Pharmacy phone number')
               )}
             </div>
-            {/* TODO: clean after grouping flag is gone */}
-            {showGroupingContent && (
-              <>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Instructions
-                </h3>
-                <p data-testid="rx-instructions">
-                  {validateIfAvailable('Instructions', prescription?.sig)}
-                </p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Reason for use
-                </h3>
-                <p data-testid="rx-reason-for-use">
-                  {validateIfAvailable(
-                    'Reason for use',
-                    prescription?.indicationForUse,
-                  )}
-                </p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Quantity
-                </h3>
-                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Prescribed on
-                </h3>
-                <p datat-testid="ordered-date">
-                  {dateFormat(
-                    prescription.orderedDate,
-                    'MMMM D, YYYY',
-                    'Date not available',
-                  )}
-                </p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Prescribed by
-                </h3>
-                <p data-testid="prescribed-by">
-                  {displayProviderName(
-                    prescription?.providerFirstName,
-                    prescription?.providerLastName,
-                  )}
-                </p>
-              </>
-            )}
-          </div>
-          {/* TODO: clean after grouping flag is gone */}
-          {!showGroupingContent && (
-            <>
-              <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-y--3">
-                <h2 className="vads-u-margin-top--3">
-                  About this medication or supply
-                </h2>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Instructions
-                </h3>
-                <p>{validateField(prescription?.sig)}</p>
-                <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
-                  Reason for use
-                </h3>
-                <p>{validateField(prescription?.indicationForUse)}</p>
-                <h3
-                  className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans"
-                  data-testid="rx-quantity"
-                >
-                  Quantity
-                </h3>
-                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
-                {// Any of the Rx's NDC's will work here. They should all show the same information
-                hasCmopNdcNumber(refillHistory) && (
-                  <Link
-                    to={`/prescription/${
-                      prescription.prescriptionId
-                    }/documentation`}
-                    data-testid="va-prescription-documentation-link"
-                    className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
-                    }
-                  >
-                    Learn more about this medication
-                  </Link>
-                )}
-              </div>
-            </>
-          )}
 
-          {/* TODO: clean after grouping flag is gone */}
-          {showGroupingContent && (
             <>
-              <div className="medication-details-div vads-u-margin-bottom--3">
-                {// Any of the Rx's NDC's will work here. They should all show the same information
-                hasCmopNdcNumber(refillHistory) && (
-                  <Link
-                    to={`/prescription/${
-                      prescription.prescriptionId
-                    }/documentation`}
-                    data-testid="va-prescription-documentation-link"
-                    // TODO: clean after grouping flag is gone
-                    className={`${
-                      !showGroupingContent ? 'vads-u-margin-top--1 ' : ''
-                    }vads-u-display--inline-block vads-u-font-weight--bold`}
-                    data-dd-action-name={
-                      dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
-                    }
-                  >
-                    Learn more about this medication
-                  </Link>
+              <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                Instructions
+              </h3>
+              <p data-testid="rx-instructions">
+                {validateIfAvailable('Instructions', prescription?.sig)}
+              </p>
+              <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                Reason for use
+              </h3>
+              <p data-testid="rx-reason-for-use">
+                {validateIfAvailable(
+                  'Reason for use',
+                  prescription?.indicationForUse,
                 )}
-              </div>
+              </p>
+              <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                Quantity
+              </h3>
+              <p data-testid="rx-quantity">
+                {validateIfAvailable('Quantity', prescription.quantity)}
+              </p>
+              <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                Prescribed on
+              </h3>
+              <p data-testid="ordered-date">
+                {dateFormat(
+                  prescription.orderedDate,
+                  'MMMM D, YYYY',
+                  'Date not available',
+                )}
+              </p>
+              <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
+                Prescribed by
+              </h3>
+              <p data-testid="prescribed-by">
+                {displayProviderName(
+                  prescription?.providerFirstName,
+                  prescription?.providerLastName,
+                )}
+              </p>
             </>
-          )}
+          </div>
+
+          <>
+            <div className="medication-details-div vads-u-margin-bottom--3">
+              {// Any of the Rx's NDC's will work here. They should all show the same information
+              hasCmopNdcNumber(refillHistory) && (
+                <Link
+                  to={`/prescription/${
+                    prescription.prescriptionId
+                  }/documentation`}
+                  data-testid="va-prescription-documentation-link"
+                  className="vads-u-display--inline-block vads-u-font-weight--bold"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                  }
+                >
+                  Learn more about this medication
+                </Link>
+              )}
+            </div>
+          </>
           {!pendingMed && (
             <div>
               {!pendingRenewal &&
                 showRefillHistory && (
                   <>
-                    {/* TODO: clean after grouping flag is gone */}
-                    {!showGroupingContent && (
-                      <h2
-                        className="vads-u-margin-top--3"
-                        data-testid="refill-History"
-                      >
-                        Refill history
-                      </h2>
-                    )}
-                    {showGroupingContent && (
-                      <h3
-                        className="vads-u-margin-top--3"
-                        data-testid="refill-History"
-                      >
-                        Refill history
-                      </h3>
-                    )}
+                    <h3
+                      className="vads-u-margin-top--3"
+                      data-testid="refill-History"
+                    >
+                      Refill history
+                    </h3>
                     {refillHistory?.length >= 1 &&
                       hasCmopNdcNumber(refillHistory) && (
                         <p
@@ -538,280 +417,167 @@ const VaPrescription = prescription => {
                           <VaPharmacyText phone={pharmacyPhone} />.
                         </p>
                       )}
-                    {/* TODO: clean after grouping flag is gone */}
-                    {!showGroupingContent &&
-                      refillHistory.map((entry, i) => {
-                        const {
-                          shape,
-                          color,
-                          backImprint,
-                          frontImprint,
-                        } = entry;
-                        const refillPosition = refillHistory.length - i - 1;
-                        const refillLabelId = `rx-refill-${refillPosition}`;
-                        return (
-                          <div
-                            key={i}
-                            className={
-                              i + 1 < refillHistory.length
-                                ? 'vads-u-margin-bottom--3 refill-entry'
-                                : 'refill-entry'
-                            }
-                          >
-                            <h3
-                              className="vads-u-margin-y--2 vads-u-font-size--lg vads-u-font-family--sans vads-u-margin-bottom--2"
-                              data-testid="rx-refill"
-                              id={refillLabelId}
-                            >
-                              {i + 1 === refillHistory.length
-                                ? 'Original fill'
-                                : `Refill ${refillPosition}`}
-                            </h3>
-                            <h4
-                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                              data-testid="fill-date"
-                            >
-                              Filled by pharmacy on
-                            </h4>
-                            <p
-                              className="vads-u-margin--0 vads-u-margin-bottom--1"
-                              data-testid="dispensedDate"
-                            >
-                              {dateFormat(
+
+                    <>
+                      <p
+                        className="vads-u-margin-top--2 vads-u-margin-bottom--0"
+                        data-testid="refill-history-info"
+                      >
+                        {`Showing ${refillHistory.length} fill${
+                          refillHistory.length > 1
+                            ? 's, from newest to oldest'
+                            : ''
+                        }`}
+                      </p>
+                      <VaAccordion
+                        bordered
+                        data-testid="refill-history-accordion"
+                        uswds
+                        onAccordionItemToggled={handleAccordionItemToggle}
+                      >
+                        {refillHistory.map((entry, i) => {
+                          const {
+                            shape,
+                            color,
+                            backImprint,
+                            frontImprint,
+                          } = entry;
+                          const refillPosition = refillHistory.length - i - 1;
+                          const refillLabelId = `rx-refill-${refillPosition}`;
+                          const isPartialFill =
+                            entry.prescriptionSource === 'PF';
+                          const refillLabel = determineRefillLabel(
+                            isPartialFill,
+                            refillHistory,
+                            i,
+                          );
+                          return (
+                            <va-accordion-item
+                              data-testid="accordion-fill-date-info"
+                              bordered="true"
+                              key={i}
+                              subHeader={dateFormat(
                                 entry.dispensedDate,
                                 'MMMM D, YYYY',
                                 'Date not available',
+                                'Filled on ',
                               )}
-                            </p>
-                            <h4
-                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                              data-testid="shipped-date"
                             >
-                              Shipped on
-                            </h4>
-                            <p
-                              className="vads-u-margin--0 vads-u-margin-bottom--1"
-                              data-testid="shipped-on"
-                            >
-                              {dateFormat(
-                                entry?.trackingList
-                                  ? entry.trackingList[0]?.completeDateTime
-                                  : null,
-                                'MMMM D, YYYY',
-                                'Date not available',
-                              )}
-                            </p>
-                            <h4
-                              className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                              data-testid="med-image"
-                              aria-hidden="true"
-                            >
-                              Image
-                            </h4>
-                            <div className="no-print" aria-hidden="true">
-                              {entry.cmopNdcNumber ? (
-                                <>
-                                  <img
-                                    alt=""
-                                    className="vads-u-margin-top--1"
-                                    data-testid="rx-image"
-                                    src={getImageUri(entry.cmopNdcNumber)}
-                                    width="350"
-                                    height="350"
-                                  />
-                                </>
-                              ) : (
-                                <p
-                                  className="vads-u-margin--0"
-                                  data-testid="no-image"
-                                >
-                                  Image not available
-                                </p>
-                              )}
-                            </div>
-                            <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0">
-                              Medication description
-                            </h4>
-                            <div data-testid="rx-description">
-                              <MedicationDescription
-                                shape={shape}
-                                color={color}
-                                frontImprint={frontImprint}
-                                backImprint={backImprint}
-                                pharmacyPhone={pharmacyPhone}
-                              />
-                            </div>
-                          </div>
-                        );
-                      })}
-                    {showGroupingContent && (
-                      <>
-                        <p
-                          className="vads-u-margin-top--2 vads-u-margin-bottom--0"
-                          data-testid="refill-history-info"
-                        >
-                          {`Showing ${refillHistory.length} fill${
-                            refillHistory.length > 1
-                              ? 's, from newest to oldest'
-                              : ''
-                          }`}
-                        </p>
-                        <VaAccordion
-                          bordered
-                          data-testid="refill-history-accordion"
-                          uswds
-                          onAccordionItemToggled={handleAccordionItemToggle}
-                        >
-                          {refillHistory.map((entry, i) => {
-                            const {
-                              shape,
-                              color,
-                              backImprint,
-                              frontImprint,
-                            } = entry;
-                            const refillPosition = refillHistory.length - i - 1;
-                            const refillLabelId = `rx-refill-${refillPosition}`;
-                            const isPartialFill =
-                              entry.prescriptionSource === 'PF';
-                            const refillLabel = determineRefillLabel(
-                              isPartialFill,
-                              refillHistory,
-                              i,
-                            );
-                            return (
-                              <va-accordion-item
-                                data-testid="accordion-fill-date-info"
-                                bordered="true"
-                                key={i}
-                                subHeader={dateFormat(
-                                  entry.dispensedDate,
-                                  'MMMM D, YYYY',
-                                  'Date not available',
-                                  'Filled on ',
-                                )}
+                              <h4
+                                className="vads-u-font-size--h6"
+                                data-testid="rx-refill"
+                                id={refillLabelId}
+                                slot="headline"
+                                aria-label="refill label"
                               >
-                                <h4
-                                  className="vads-u-font-size--h6"
-                                  data-testid="rx-refill"
-                                  id={refillLabelId}
-                                  slot="headline"
-                                  aria-label="refill label"
-                                >
-                                  {refillLabel}
-                                </h4>
-                                {showPartialFillContent &&
-                                  isPartialFill && (
-                                    <>
-                                      <p data-testid="partial-fill-text">
-                                        This fill has a smaller quantity on
-                                        purpose.
-                                      </p>
-                                      <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0">
-                                        Quantity
-                                      </h4>
-                                      <p
-                                        data-testid="rx-quantity-partial"
-                                        className="vads-u-margin--0 vads-u-margin-bottom--1"
-                                      >
-                                        {validateIfAvailable(
-                                          'Quantity',
-                                          entry.quantity,
-                                        )}
-                                      </p>
-                                    </>
-                                  )}
-                                {i === 0 &&
-                                  !isPartialFill && (
-                                    <>
-                                      <h4
-                                        className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0"
-                                        data-testid="shipped-date"
-                                      >
-                                        Shipped on
-                                      </h4>
-                                      <p
-                                        className="vads-u-margin--0 vads-u-margin-bottom--1"
-                                        data-testid="shipped-on"
-                                      >
-                                        {dateFormat(
-                                          prescription?.trackingList
-                                            ? prescription.trackingList[0]
-                                                ?.completeDateTime
-                                            : null,
-                                          'MMMM D, YYYY',
-                                          'Date not available',
-                                        )}
-                                      </p>
-                                    </>
-                                  )}
-                                {!isPartialFill && (
+                                {refillLabel}
+                              </h4>
+                              {showPartialFillContent &&
+                                isPartialFill && (
                                   <>
-                                    <h4
-                                      className={`${
-                                        i === 0 ? 'vads-u-margin-top--2 ' : ''
-                                      }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
-                                      data-testid="med-image"
-                                      aria-hidden="true"
-                                    >
-                                      Image
+                                    <p data-testid="partial-fill-text">
+                                      This fill has a smaller quantity on
+                                      purpose.
+                                    </p>
+                                    <h4 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0">
+                                      Quantity
                                     </h4>
-                                    <div
-                                      className="no-print"
-                                      aria-hidden="true"
+                                    <p
+                                      data-testid="rx-quantity-partial"
+                                      className="vads-u-margin--0 vads-u-margin-bottom--1"
                                     >
-                                      {entry.cmopNdcNumber ? (
-                                        <>
-                                          <img
-                                            alt=""
-                                            className="vads-u-margin-top--1"
-                                            data-testid="rx-image"
-                                            src={getImageUri(
-                                              entry.cmopNdcNumber,
-                                            )}
-                                            width="350"
-                                            height="350"
-                                          />
-                                        </>
-                                      ) : (
-                                        <p
-                                          className="vads-u-margin--0"
-                                          data-testid="no-image"
-                                        >
-                                          Image not available
-                                        </p>
+                                      {validateIfAvailable(
+                                        'Quantity',
+                                        entry.quantity,
                                       )}
-                                    </div>
-                                    <h4
-                                      className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
-                                      data-testid="med-description"
-                                    >
-                                      Medication description
-                                    </h4>
-                                    <div data-testid="rx-description">
-                                      <MedicationDescription
-                                        shape={shape}
-                                        color={color}
-                                        frontImprint={frontImprint}
-                                        backImprint={backImprint}
-                                        pharmacyPhone={pharmacyPhone}
-                                      />
-                                    </div>
+                                    </p>
                                   </>
                                 )}
-                              </va-accordion-item>
-                            );
-                          })}
-                        </VaAccordion>
-                      </>
-                    )}
+                              {i === 0 &&
+                                !isPartialFill && (
+                                  <>
+                                    <h4
+                                      className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0"
+                                      data-testid="shipped-date"
+                                    >
+                                      Shipped on
+                                    </h4>
+                                    <p
+                                      className="vads-u-margin--0 vads-u-margin-bottom--1"
+                                      data-testid="shipped-on"
+                                    >
+                                      {dateFormat(
+                                        prescription?.trackingList
+                                          ? prescription.trackingList[0]
+                                              ?.completeDateTime
+                                          : null,
+                                        'MMMM D, YYYY',
+                                        'Date not available',
+                                      )}
+                                    </p>
+                                  </>
+                                )}
+                              {!isPartialFill && (
+                                <>
+                                  <h4
+                                    className={`${
+                                      i === 0 ? 'vads-u-margin-top--2 ' : ''
+                                    }vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin--0`}
+                                    data-testid="med-image"
+                                    aria-hidden="true"
+                                  >
+                                    Image
+                                  </h4>
+                                  <div className="no-print" aria-hidden="true">
+                                    {entry.cmopNdcNumber ? (
+                                      <>
+                                        <img
+                                          alt=""
+                                          className="vads-u-margin-top--1"
+                                          data-testid="rx-image"
+                                          src={getImageUri(entry.cmopNdcNumber)}
+                                          width="350"
+                                          height="350"
+                                        />
+                                      </>
+                                    ) : (
+                                      <p
+                                        className="vads-u-margin--0"
+                                        data-testid="no-image"
+                                      >
+                                        Image not available
+                                      </p>
+                                    )}
+                                  </div>
+                                  <h4
+                                    className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
+                                    data-testid="med-description"
+                                  >
+                                    Medication description
+                                  </h4>
+                                  <div data-testid="rx-description">
+                                    <MedicationDescription
+                                      shape={shape}
+                                      color={color}
+                                      frontImprint={frontImprint}
+                                      backImprint={backImprint}
+                                      pharmacyPhone={pharmacyPhone}
+                                    />
+                                  </div>
+                                </>
+                              )}
+                            </va-accordion-item>
+                          );
+                        })}
+                      </VaAccordion>
+                    </>
                   </>
                 )}
-              {showGroupingContent &&
-                prescription?.groupedMedications?.length > 0 && (
-                  <GroupedMedications
-                    groupedMedicationsList={prescription.groupedMedications}
-                  />
-                )}
+              {prescription?.groupedMedications?.length > 0 && (
+                <GroupedMedications
+                  groupedMedicationsList={prescription.groupedMedications}
+                />
+              )}
             </div>
           )}
         </>
