@@ -17,13 +17,13 @@ import {
   FIELD_NOT_AVAILABLE,
 } from './constants';
 
-const nl = (n = 1) => '\n'.repeat(n);
-const joinLines = (...lines) => lines.filter(Boolean).join(nl(2));
+const newLine = (n = 1) => '\n'.repeat(n);
+const joinLines = (...lines) => lines.filter(Boolean).join(newLine(2));
 const joinBlocks = (...blocks) =>
   blocks
     .filter(Boolean)
     .map(b => b.trimEnd())
-    .join(nl(2)) + nl();
+    .join(newLine(2)) + newLine();
 const fieldLine = (label, value) =>
   `${label}: ${validateIfAvailable(label, value)}`;
 const SEPARATOR =
@@ -34,8 +34,10 @@ const SEPARATOR =
  */
 export const buildNonVAPrescriptionTXT = (prescription, options) => {
   const { includeSeparators = true } = options ?? {};
-  const header = includeSeparators ? `${SEPARATOR}${nl(2)}` : '';
-  const footer = includeSeparators ? `${nl(2)}${SEPARATOR}${nl(2)}` : nl(2);
+  const header = includeSeparators ? `${SEPARATOR}${newLine(2)}` : '';
+  const footer = includeSeparators
+    ? `${newLine(2)}${SEPARATOR}${newLine(2)}`
+    : newLine(2);
 
   const body = joinBlocks(
     prescription?.prescriptionName || prescription?.orderableItem,
@@ -44,7 +46,7 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
       fieldLine('Reason for use', prescription.indicationForUse),
       `Status: ${validateField(
         prescription.dispStatus?.toString(),
-      )}${nl()}A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.`,
+      )}${newLine()}A VA provider added this medication record in your VA medical records. But this isn’t a prescription you filled through a VA pharmacy. This could be sample medications, over-the-counter medications, supplements or herbal remedies. You can’t request refills or manage this medication through this online tool. If you aren't taking this medication, ask your provider to remove it at your next appointment.`,
     ),
     joinLines(
       `When you started taking this medication: ${dateFormat(
@@ -83,7 +85,7 @@ export const buildPrescriptionsTXT = prescriptions => {
       return [String(item.value).trim()];
     });
 
-    return lines.join(nl()).trimEnd();
+    return lines.join(newLine()).trimEnd();
   };
 
   const mostRecentRxRefillLine = rx => {
@@ -101,7 +103,7 @@ export const buildPrescriptionsTXT = prescriptions => {
       newest.prescriptionNumber
     }, last filled on ${filledDate}`;
   };
-  const header = `${nl()}${SEPARATOR}${nl(3)}`;
+  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
 
   const body = (prescriptions || []).map(rx => {
     if (rx?.prescriptionSource === 'NV') {
@@ -160,7 +162,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     return joinBlocks(title, fillandRxBlock, attributes, mostRecent).trimEnd();
   });
 
-  return `${header}${body.join(nl(3))}${nl(2)}`;
+  return `${header}${body.join(newLine(3))}${newLine(2)}`;
 };
 
 /**
@@ -168,19 +170,19 @@ export const buildPrescriptionsTXT = prescriptions => {
  */
 export const buildAllergiesTXT = allergies => {
   if (!allergies) {
-    return `${nl(2)}Allergies and reactions${nl(
+    return `${newLine(2)}Allergies and reactions${newLine(
       2,
-    )}We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.${nl()}`;
+    )}We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.${newLine()}`;
   }
 
   if (allergies && allergies.length === 0) {
-    return `${nl(2)}Allergies and reactions${nl(
+    return `${newLine(2)}Allergies and reactions${newLine(
       2,
-    )}There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.${nl()}`;
+    )}There are no allergies or reactions in your VA medical records. If you have allergies or reactions that are missing from your records, tell your care team at your next appointment.${newLine()}`;
   }
 
-  const header = `${nl()}${SEPARATOR}${nl(3)}`;
-  const footer = `${nl(2)}${SEPARATOR}${nl()}`;
+  const header = `${newLine()}${SEPARATOR}${newLine(3)}`;
+  const footer = `${newLine(2)}${SEPARATOR}${newLine()}`;
 
   const body = joinBlocks(
     'Allergies and reactions',
@@ -193,7 +195,7 @@ export const buildAllergiesTXT = allergies => {
   const items = allergies
     .map(item =>
       joinBlocks(
-        nl(),
+        newLine(),
         item.name,
         joinLines(
           `Signs and symptoms: ${processList(
@@ -205,9 +207,9 @@ export const buildAllergiesTXT = allergies => {
         ),
       ).trimEnd(),
     )
-    .join(nl());
+    .join(newLine());
 
-  return `${header}${body}${nl()}${items}${footer}`;
+  return `${header}${body}${newLine()}${items}${footer}`;
 };
 
 /**
