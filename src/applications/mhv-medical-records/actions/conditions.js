@@ -72,10 +72,3 @@ export const clearConditionDetails = () => async dispatch => {
 export const reloadRecords = () => async dispatch => {
   dispatch({ type: Actions.Conditions.COPY_UPDATED_LIST });
 };
-
-export const resetFetchingState = () => async dispatch => {
-  dispatch({
-    type: Actions.Conditions.UPDATE_LIST_STATE,
-    payload: Constants.loadStates.PRE_FETCH,
-  });
-};

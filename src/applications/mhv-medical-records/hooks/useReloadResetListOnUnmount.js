@@ -8,15 +8,13 @@ import { loadStates } from '../util/constants';
  *    shows the normal initial state instead of a stale spinner.
  *
  * Implementation notes:
- * - listState is tracked via a ref so the cleanup sees the *final* state at real unmount
- *   without re-registering the cleanup on each state change.
- * - Effect dependencies exclude listState to avoid premature cleanup firing during
- *   FETCHING -> FETCHED transitions (which would cause refetch loops).
+ * - listState is tracked via a ref so the cleanup sees the *final* state at unmount
+ *   without re-registering the cleanup on each state change (eg. FETCHING -> FETCHED)
  */
 const useReloadResetListOnUnmount = ({
   listState,
   dispatch,
-  updateListStateAction,
+  updateListActionType,
   reloadRecordsAction,
 }) => {
   // Latest listState snapshot kept in a ref (write each render; read at unmount).
@@ -31,17 +29,20 @@ const useReloadResetListOnUnmount = ({
 
   useEffect(
     () => {
-      // Single unmount cleanup (not re-run on state transitions).
+      // Unmount cleanup
       return () => {
         if (reloadRecordsAction) {
           dispatch(reloadRecordsAction());
         }
         if (latestStateRef.current === loadStates.FETCHING) {
-          dispatch(updateListStateAction(loadStates.PRE_FETCH));
+          dispatch({
+            type: updateListActionType,
+            payload: loadStates.PRE_FETCH,
+          });
         }
       };
     },
-    [dispatch, reloadRecordsAction, updateListStateAction],
+    [dispatch, reloadRecordsAction, updateListActionType],
   );
 };
 export default useReloadResetListOnUnmount;

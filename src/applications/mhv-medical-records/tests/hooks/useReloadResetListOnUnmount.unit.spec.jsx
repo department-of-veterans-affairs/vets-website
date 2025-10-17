@@ -1,32 +1,44 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import useReloadResetListOnUnmount from '../../hooks/useReloadResetListOnUnmount';
 import { loadStates } from '../../util/constants';
 
+// Minimal harness component to exercise the hook's unmount behavior.
 function TestComponent(props) {
-  const { listState, dispatch, updateListStateAction } = props; // eslint-disable-line react/prop-types
+  // test-only component
+  const {
+    listState,
+    dispatch,
+    updateListActionType,
+    reloadRecordsAction,
+  } = props;
   useReloadResetListOnUnmount({
     listState,
     dispatch,
-    updateListStateAction,
+    updateListActionType,
+    reloadRecordsAction,
   });
   return <></>;
 }
 
 const renderWith = (override = {}) => {
   const dispatch = sinon.spy();
-  const updateListStateAction =
-    override.updateListStateAction || (p => ({ type: 'UPDATE', payload: p }));
-  const { listState } = override;
+  // eslint-disable-next-line prettier/prettier
+  const updateListActionType = override.updateListActionType || 'FETCHED';
+
+  const { listState, reloadRecordsAction } = override;
+
   const utils = render(
     <TestComponent
       listState={listState}
       dispatch={dispatch}
-      updateListStateAction={updateListStateAction}
+      updateListActionType={updateListActionType}
+      reloadRecordsAction={reloadRecordsAction}
     />,
   );
-  return { dispatch, updateListStateAction, listState, ...utils };
+  return { dispatch, updateListActionType, listState, ...utils };
 };
 
 describe('useReloadResetListOnUnmount', () => {
@@ -42,15 +54,13 @@ describe('useReloadResetListOnUnmount', () => {
       1,
       'Expected one dispatch when state was FETCHING at unmount',
     );
-    const anyMatch = dispatch.args.some(
+    const resetAction = dispatch.args.find(
       args => args[0] && args[0].payload === loadStates.PRE_FETCH,
     );
     sinon.assert.match(
-      anyMatch,
+      !!resetAction,
       true,
-      `Dispatch did not include PRE_FETCH reset: ${JSON.stringify(
-        dispatch.args,
-      )}`,
+      `No PRE_FETCH reset action found: ${JSON.stringify(dispatch.args)}`,
     );
   });
 
@@ -74,12 +84,11 @@ describe('useReloadResetListOnUnmount', () => {
 
   it('does not reset if state changed from FETCHING to FETCHED before unmount', () => {
     const dispatch = sinon.spy();
-    const updateListStateAction = p => ({ type: 'UPDATE', payload: p });
     const { rerender, unmount } = render(
       <TestComponent
         listState={loadStates.FETCHING}
         dispatch={dispatch}
-        updateListStateAction={updateListStateAction}
+        updateListActionType="FETCHED"
       />,
     );
     // Transition to FETCHED before unmount
@@ -87,7 +96,7 @@ describe('useReloadResetListOnUnmount', () => {
       <TestComponent
         listState={loadStates.FETCHED}
         dispatch={dispatch}
-        updateListStateAction={updateListStateAction}
+        updateListActionType="FETCHED"
       />,
     );
     const pre = dispatch.callCount;

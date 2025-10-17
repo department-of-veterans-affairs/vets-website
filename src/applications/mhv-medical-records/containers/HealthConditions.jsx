@@ -7,11 +7,7 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import RecordList from '../components/RecordList/RecordList';
-import {
-  getConditionsList,
-  reloadRecords,
-  resetFetchingState,
-} from '../actions/conditions';
+import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
   recordType,
   pageTitles,
@@ -30,6 +26,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const HealthConditions = () => {
   const ABOUT_THE_CODES_LABEL = 'About the codes in some condition names';
@@ -70,7 +67,7 @@ const HealthConditions = () => {
   useReloadResetListOnUnmount({
     listState,
     dispatch,
-    updateListStateAction: resetFetchingState,
+    updateListActionType: Actions.Conditions.UPDATE_LIST_STATE,
     reloadRecordsAction: reloadRecords,
   });
 
