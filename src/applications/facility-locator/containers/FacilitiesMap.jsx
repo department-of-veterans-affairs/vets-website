@@ -11,6 +11,7 @@ import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 
 // Components
 import Alert from '../components/Alert';
+import CommunityCareWarningBanner from '../components/CommunityCareWarningBanner';
 import ControlResultsHolder from '../components/ControlResultsHolder';
 import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
 import EmergencyCareAlert from '../components/EmergencyCareAlert';
@@ -927,24 +928,7 @@ const FacilitiesMap = props => {
           type.
         </p>
       )}
-      {props.showNonVACareWarningBanner && (
-        <Alert
-          displayType="warning"
-          title="Notice about non-VA urgent and emergency care"
-          description={
-            <>
-              Before you go to a non-VA facility, call to confirm hours and
-              available services. We’ve received reports that some non-VA
-              facilities listed as providing urgent or emergency care can’t
-              currently provide those services to Veterans. If you think your
-              health or life is in danger, call 911.
-              <br />
-              <br />
-              Note: This issue isn’t related to the government shutdown.
-            </>
-          }
-        />
-      )}
+      <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
       {mapboxTokenValid && otherToolsLink()}
     </>
@@ -959,7 +943,7 @@ const mapStateToProps = state => ({
   resultTime: state.searchResult.resultTime,
   results: state.searchResult.results,
   searchError: state.searchResult.error,
-  showNonVACareWarningBanner: showFacilityLocatorNoticeAboutNonVACare(state),
+  showCommunityCareBanner: showFacilityLocatorNoticeAboutNonVACare(state),
   specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
