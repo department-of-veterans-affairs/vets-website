@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 const semver = require('semver');
-const packageJson = require('../package.json');
 const chalk = require('chalk');
+const packageJson = require('../package.json');
 
 const version = packageJson.engines.node;
 

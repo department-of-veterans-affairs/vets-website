@@ -12,7 +12,7 @@ import 'classlist-polyfill'; // DOM element classList support.
 /*
  * This section is all of the core-js polyfills we need.
  *
- * To recreate this list: 
+ * To recreate this list:
  *
  * 1. Switch the list of browsers in babelrc to the full, older list
  * 2. Set debug to true in babelrc

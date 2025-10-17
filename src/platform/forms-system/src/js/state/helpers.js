@@ -32,7 +32,6 @@ export function updateRequiredFields(
   formData,
   index = null,
   fullData,
-  path = [],
 ) {
   if (!uiSchema) {
     return schema;
@@ -43,12 +42,7 @@ export function updateRequiredFields(
       (requiredArray, nextProp) => {
         const field = uiSchema[nextProp];
         if (field && field['ui:required']) {
-          const isRequired = field['ui:required'](
-            formData,
-            index,
-            fullData,
-            path.concat(nextProp),
-          );
+          const isRequired = field['ui:required'](formData, index, fullData);
           const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
           if (arrayHasField && !isRequired) {
@@ -75,7 +69,6 @@ export function updateRequiredFields(
             formData,
             index,
             fullData,
-            path.concat(nextProp),
           );
           if (nextSchema !== currentSchema.properties[nextProp]) {
             return set(['properties', nextProp], nextSchema, currentSchema);
@@ -101,14 +94,7 @@ export function updateRequiredFields(
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = schema.items.map((item, idx) =>
-      updateRequiredFields(
-        item,
-        uiSchema.items,
-        formData,
-        idx,
-        fullData,
-        path.concat(idx),
-      ),
+      updateRequiredFields(item, uiSchema.items, formData, idx, fullData),
     );
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return set('items', newItemSchemas, schema);
@@ -184,7 +170,7 @@ export function setHiddenFields(
     );
   }
 
-  if (hideIf && hideIf(formData, index, fullData, path)) {
+  if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = set('ui:hidden', true, updatedSchema);
     }
@@ -698,7 +684,6 @@ export function updateSchemasAndData(
     formData,
     index,
     fullData,
-    [], // path
   );
 
   // Update the schema with any fields that are now hidden because of the data change

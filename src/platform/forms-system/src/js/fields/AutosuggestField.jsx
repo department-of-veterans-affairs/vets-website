@@ -217,18 +217,19 @@ export default class AutosuggestField extends React.Component {
     const caseInsensitiveMatch = new RegExp(`(${escapeRegExp(value)})`, 'i');
     const highLightMatchingText = query => {
       if (value.length > 2) {
-        return query
-          .split(caseInsensitiveMatch)
-          .map(
-            str =>
-              str.toLowerCase() === value ? (
-                <span className="vads-u-background-color--gold autosuggest-highlight">
-                  {str}
-                </span>
-              ) : (
-                str
-              ),
-          );
+        return query.split(caseInsensitiveMatch).map(
+          (str, idx) =>
+            str.toLowerCase() === value ? (
+              <span
+                key={`${str}-${idx}`}
+                className="vads-u-background-color--gold autosuggest-highlight"
+              >
+                {str}
+              </span>
+            ) : (
+              str
+            ),
+        );
       }
       return query;
     };
@@ -252,11 +253,7 @@ export default class AutosuggestField extends React.Component {
 
     return (
       <>
-        {hint && (
-          <span id={`${id}-hint`} className="usa-hint">
-            {hint}
-          </span>
-        )}
+        {hint && <div className="usa-hint">{hint}</div>}
         <Downshift
           onChange={this.handleChange}
           onInputValueChange={this.handleInputValueChange}
@@ -284,7 +281,6 @@ export default class AutosuggestField extends React.Component {
                   id,
                   name: id,
                   className: 'autosuggest-input',
-                  'aria-describedby': hint ? `${id}-hint` : undefined, // Associate hint text
                   onBlur: isOpen ? undefined : this.handleBlur,
                   onKeyDown: this.handleKeyDown,
                   ...inputProps,

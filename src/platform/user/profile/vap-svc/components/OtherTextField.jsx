@@ -54,8 +54,8 @@ OtherTextField.propTypes = {
    */
   options: PropTypes.shape({
     /*
-    * input's autocomplete attribute value
-    */
+     * input's autocomplete attribute value
+     */
     autocomplete: PropTypes.string,
     /**
      * input's aria-describedby attribute

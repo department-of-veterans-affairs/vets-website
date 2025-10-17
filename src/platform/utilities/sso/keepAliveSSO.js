@@ -75,13 +75,13 @@ export const generateAuthnContext = (
 
 export default async function keepAlive() {
   /* Return a TTL and authn values from the IAM keepalive endpoint that
-  * 1) indicates how long the user's current SSOe session will be alive for,
-  * 2) and the AuthN context the user used when authenticating.
-  * Any positive TTL value means the user currently has a session, a TTL of 0
-  * means they don't have an active session, and a TTL of undefined means there
-  * was a problem calling the endpoint and we can't determine if they have a
-  * session or not
-  */
+   * 1) indicates how long the user's current SSOe session will be alive for,
+   * 2) and the AuthN context the user used when authenticating.
+   * Any positive TTL value means the user currently has a session, a TTL of 0
+   * means they don't have an active session, and a TTL of undefined means there
+   * was a problem calling the endpoint and we can't determine if they have a
+   * session or not
+   */
   try {
     const resp = await fetch(SSO_KEEP_ALIVE_ENDPOINT, {
       method: 'HEAD',

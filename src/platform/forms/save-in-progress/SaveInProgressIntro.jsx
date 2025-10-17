@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-import {
-  VaButton,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import {
@@ -90,8 +87,6 @@ class SaveInProgressIntro extends React.Component {
     // You can continue applying now for planning and career guidance, or...
     const appContinuing = formConfig?.customText?.appContinuing || '';
 
-    const Header = `h${this.props.headingLevel}`;
-
     if (login.currentlyLoggedIn) {
       if (savedForm) {
         /**
@@ -116,6 +111,7 @@ class SaveInProgressIntro extends React.Component {
         const isExpired = isBefore(expiresAt, new Date());
         const inProgressMessage = getInProgressMessage(formConfig);
 
+        const Header = `h${this.props.headingLevel}`;
         if (!isExpired) {
           const lastSavedDateTime =
             savedAt && format(savedAt, "MMMM d, yyyy', at' h:mm aaaa z");
@@ -170,9 +166,7 @@ class SaveInProgressIntro extends React.Component {
         alert = (
           <div>
             <va-alert status="info" visible>
-              <Header slot="headline">
-                We’ve prefilled some of your information
-              </Header>
+              <h3>We've prefilled some of your information</h3>
               Since you’re signed in, we can prefill part of your {appType}{' '}
               based on your profile details. You can also save your {appType} in
               progress and come back later to finish filling it out.
@@ -203,31 +197,6 @@ class SaveInProgressIntro extends React.Component {
         unauthStartText,
       } = this.props;
       const CustomLink = this.props.customLink;
-      const unauthStartLink = this.props.formConfig?.formOptions
-        ?.useWebComponentForNavigation ? (
-        <p>
-          <VaLink
-            onClick={this.handleClickAndReroute}
-            href={this.getStartPage()}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            // aria-describedby={ariaDescribedby}
-            text={`Start your ${appType} without signing in`}
-          />
-        </p>
-      ) : (
-        <p>
-          <Link
-            onClick={this.handleClick}
-            to={this.getStartPage}
-            className="schemaform-start-button"
-            aria-label={ariaLabel}
-            aria-describedby={ariaDescribedby}
-          >
-            Start your {appType} without signing in
-          </Link>
-        </p>
-      );
       const unauthStartButton = CustomLink ? (
         <CustomLink
           href="#start"
@@ -250,7 +219,19 @@ class SaveInProgressIntro extends React.Component {
       alert = buttonOnly ? (
         <>
           {unauthStartButton}
-          {!this.props.hideUnauthedStartLink && unauthStartLink}
+          {!this.props.hideUnauthedStartLink && (
+            <p>
+              <Link
+                onClick={this.handleClick}
+                to={this.getStartPage}
+                className="schemaform-start-button"
+                aria-label={ariaLabel}
+                aria-describedby={ariaDescribedby}
+              >
+                Start your {appType} without signing in
+              </Link>
+            </p>
+          )}
         </>
       ) : (
         <va-alert-sign-in
@@ -266,7 +247,19 @@ class SaveInProgressIntro extends React.Component {
         >
           <span slot="SignInButton">
             {unauthStartButton}
-            {!this.props.hideUnauthedStartLink && unauthStartLink}
+            {!this.props.hideUnauthedStartLink && (
+              <p>
+                <Link
+                  onClick={this.handleClick}
+                  to={this.getStartPage}
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                >
+                  Start your {appType} without signing in
+                </Link>
+              </p>
+            )}
           </span>
         </va-alert-sign-in>
       );
@@ -303,12 +296,6 @@ class SaveInProgressIntro extends React.Component {
 
   handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
-  };
-
-  handleClickAndReroute = event => {
-    event.preventDefault();
-    recordEvent({ event: 'no-login-start-form' });
-    this.props.router.push(this.getStartPage());
   };
 
   openLoginModal = () => {
@@ -424,6 +411,12 @@ class SaveInProgressIntro extends React.Component {
 }
 
 SaveInProgressIntro.propTypes = {
+  fetchInProgressForm: PropTypes.func.isRequired,
+  formId: PropTypes.string.isRequired,
+  pageList: PropTypes.array.isRequired,
+  removeInProgressForm: PropTypes.func.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
   afterButtonContent: PropTypes.element,
   alertTitle: PropTypes.string,
   ariaDescribedby: PropTypes.string,
@@ -438,7 +431,6 @@ SaveInProgressIntro.propTypes = {
   }),
   displayNonVeteranMessaging: PropTypes.bool,
   downtime: PropTypes.object,
-  fetchInProgressForm: PropTypes.func,
   formConfig: PropTypes.shape({
     signInHelpList: PropTypes.func,
     customText: PropTypes.shape({
@@ -447,12 +439,8 @@ SaveInProgressIntro.propTypes = {
       appContinuing: PropTypes.string,
     }),
     requiresVerifiedUser: PropTypes.bool,
-    formOptions: PropTypes.shape({
-      useWebComponentForNavigation: PropTypes.bool,
-    }),
   }),
   formData: PropTypes.object,
-  formId: PropTypes.string,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
@@ -460,24 +448,17 @@ SaveInProgressIntro.propTypes = {
   lastSavedDate: PropTypes.number,
   messages: PropTypes.object,
   migrations: PropTypes.array,
-  pageList: PropTypes.array,
   pathname: PropTypes.string,
   prefillEnabled: PropTypes.bool,
   prefillTransformer: PropTypes.func,
-  removeInProgressForm: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   retentionPeriodStart: PropTypes.string,
   returnUrl: PropTypes.string,
-  router: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
-  toggleLoginModal: PropTypes.func,
   unauthStartText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
-  user: PropTypes.object,
   verifiedPrefillAlert: PropTypes.element,
   verifyRequiredPrefill: PropTypes.bool,
 };
@@ -513,60 +494,60 @@ const mapDispatchToProps = {
 
 /**
  * @type {React.FC<{
- *   fetchInProgressForm?: any,
- *   formId?: string,
- *   pageList?: any[],
- *   removeInProgressForm?: any,
- *   toggleLoginModal?: any,
- *   user?: any,
- *   afterButtonContent?: any,
- *   alertTitle?: string,
- *   ariaDescribedby?: string,
- *   ariaLabel?: string,
- *   buttonAriaDescribedby?: string,
- *   buttonOnly?: boolean,
- *   children?: any,
- *   customLink?: any,
- *   devOnly?: {
- *     forceShowFormControls?: boolean,
+ *   fetchInProgressForm: any,
+ *   formId: string,
+ *   pageList: any[],
+ *   removeInProgressForm: any,
+ *   toggleLoginModal: any,
+ *   user: any,
+ *   afterButtonContent: any,
+ *   alertTitle: string,
+ *   ariaDescribedby: string,
+ *   ariaLabel: string,
+ *   buttonAriaDescribedby: string,
+ *   buttonOnly: boolean,
+ *   children: any,
+ *   customLink: any,
+ *   devOnly: {
+ *     forceShowFormControls: boolean,
  *   },
- *   displayNonVeteranMessaging?: boolean,
- *   downtime?: any,
- *   formConfig?: {
- *     signInHelpList?: any,
- *     customText?: {
- *       appType?: string,
- *       appAction?: string,
- *       appContinuing?: string,
+ *   displayNonVeteranMessaging: boolean,
+ *   downtime: any,
+ *   formConfig: {
+ *     signInHelpList: any,
+ *     customText: {
+ *       appType: string,
+ *       appAction: string,
+ *       appContinuing: string,
  *     },
- *    requiresVerifiedUser?: any
+ *    requiresVerifiedUser: any
  *   },
- *   formData?: any,
- *   gaStartEventName?: string,
- *   headingLevel?: number,
- *   hideUnauthedStartLink?: boolean,
- *   isLoggedIn?: boolean,
- *   lastSavedDate?: number,
- *   messages?: any,
- *   migrations?: any[],
- *   pathname?: string,
- *   prefillEnabled?: boolean,
- *   prefillTransformer?: any,
- *   resumeOnly?: boolean,
- *   retentionPeriod?: string,
- *   retentionPeriodStart?: string,
- *   returnUrl?: string,
- *   startMessageOnly?: boolean,
- *   startText?: string,
- *   unauthStartText?: string,
- *   unverifiedPrefillAlert?: any,
- *   verifiedPrefillAlert?: any,
- *   verifyRequiredPrefill?: boolean,
+ *   formData: any,
+ *   gaStartEventName: string,
+ *   headingLevel: number,
+ *   hideUnauthedStartLink: boolean,
+ *   isLoggedIn: boolean,
+ *   lastSavedDate: number,
+ *   messages: any,
+ *   migrations: any[],
+ *   pathname: string,
+ *   prefillEnabled: bullion,
+ *   prefillTransformer: any,
+ *   resumeOnly: boolean,
+ *   retentionPeriod: string,
+ *   retentionPeriodStart: string,
+ *   returnUrl: string,
+ *   startMessageOnly: boolean,
+ *   startText: string,
+ *   unauthStartText: string,
+ *   unverifiedPrefillAlert: any,
+ *   verifiedPrefillAlert: any,
+ *   verifyRequiredPrefill: boolean,
  * }>}
  */
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(SaveInProgressIntro));
+)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };

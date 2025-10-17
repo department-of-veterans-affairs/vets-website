@@ -3,7 +3,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Element } from 'platform/utilities/scroll';
-import { isMinimalHeaderApp } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import classNames from 'classnames';
 import get from '../../../../utilities/data/get';
@@ -208,13 +207,10 @@ class ReviewCollapsibleChapter extends React.Component {
       // Remove bottom margin when the div content is empty
       'vads-u-margin-bottom--0': !pageSchema && arrayFields.length === 0,
     });
-
     const title = page.reviewTitle || page.title || '';
-    const labelTitle = pageUiSchema['ui:options']?.itemAriaLabel || title;
-    const ariaText =
-      typeof labelTitle === 'function' ? labelTitle(pageData) : labelTitle;
-    const ariaLabel = `Update ${ariaText || 'page'}`;
-    const formOptions = this.props.formOptions || {};
+    const ariaLabel = `Update ${(typeof title === 'function'
+      ? title(pageData)
+      : title) || 'page'}`;
 
     const visibleFields =
       pageSchema &&
@@ -271,7 +267,7 @@ class ReviewCollapsibleChapter extends React.Component {
           }
           uploadFile={this.props.uploadFile}
           reviewMode={!editing}
-          formContext={{ ...formContext, formOptions }}
+          formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
           {!editing ? (
@@ -290,9 +286,6 @@ class ReviewCollapsibleChapter extends React.Component {
               buttonText="Update page"
               buttonClass="usa-button-primary"
               ariaLabel={ariaLabel}
-              useWebComponents={
-                this.props.formOptions?.useWebComponentForNavigation
-              }
             />
           )}
         </SchemaForm>
@@ -304,7 +297,7 @@ class ReviewCollapsibleChapter extends React.Component {
               arrayData={get(arrayField.path, form.data)}
               formData={form.data}
               appStateData={page.appStateData}
-              formContext={{ ...formContext, formOptions }}
+              formContext={formContext}
               pageConfig={page}
               onBlur={this.props.onBlur}
               schema={arrayField.schema}
@@ -396,7 +389,6 @@ class ReviewCollapsibleChapter extends React.Component {
             name={page.pageKey}
             title={page.title}
             data={props.form.data}
-            fullData={props.form.data}
             pagePerItemIndex={page.index}
             goToPath={this.goToPath}
             recalculateErrors={this.hasValidationError}
@@ -461,11 +453,7 @@ class ReviewCollapsibleChapter extends React.Component {
           bordered
           uswds
         >
-          {isMinimalHeaderApp() ? (
-            <h2 slot="headline">{chapterTitle}</h2>
-          ) : (
-            <h3 slot="headline">{chapterTitle}</h3>
-          )}
+          <h3 slot="headline">{chapterTitle}</h3>
           {this.props.hasUnviewedPages && (
             <va-icon slot="icon" icon="error" class="vads-u-color--secondary" />
           )}
@@ -492,9 +480,6 @@ ReviewCollapsibleChapter.propTypes = {
   setData: PropTypes.func.isRequired,
   setFormErrors: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  formOptions: PropTypes.shape({
-    useWebComponentForNavigation: PropTypes.bool,
-  }),
   location: PropTypes.shape({
     pathname: PropTypes.string,
   }),

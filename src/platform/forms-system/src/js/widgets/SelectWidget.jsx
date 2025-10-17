@@ -5,7 +5,8 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys';
 function processValue({ type }, value) {
   if (type === 'boolean') {
     return value === 'true';
-  } else if (type === 'number') {
+  }
+  if (type === 'number') {
     return asNumber(value);
   }
   return value === '' ? undefined : value;

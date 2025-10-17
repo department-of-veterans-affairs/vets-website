@@ -64,7 +64,7 @@ export function fullNameReducer(fullNameString) {
   return fullNameString?.replaceAll(' ', '').toLowerCase();
 }
 
-export function statementOfTruthBodyElement(formData, statementOfTruthBody) {
+function statementOfTruthBodyElement(formData, statementOfTruthBody) {
   switch (typeof statementOfTruthBody) {
     case 'function':
       if (typeof statementOfTruthBody(formData) === 'string') {
@@ -79,10 +79,10 @@ export function statementOfTruthBodyElement(formData, statementOfTruthBody) {
 }
 
 /*
-*  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
-*  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
-*  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
-*/
+ *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
+ *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
+ *  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
+ */
 
 export function PreSubmitSection(props) {
   const {
@@ -135,7 +135,6 @@ export function PreSubmitSection(props) {
           formData={form?.data}
           preSubmitInfo={preSubmit}
           showError={showPreSubmitError}
-          user={user}
           onSectionComplete={value => setPreSubmit(preSubmit?.field, value)}
         />
         {saveFormLink}

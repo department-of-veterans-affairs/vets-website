@@ -1,6 +1,5 @@
 import get from 'platform/utilities/data/get';
 import { makeMinimalPNG } from '../form-tester/utilities';
-
 const FORCE_OPTION = { force: true };
 const DELAY_OPTION = { force: true, delay: 100 };
 

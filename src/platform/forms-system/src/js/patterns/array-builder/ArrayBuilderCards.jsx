@@ -104,7 +104,6 @@ const DuplicateLabel = ({ text }) => (
     <span className="usa-label">{text || 'DUPLICATE'}</span>
   </div>
 );
-
 /**
  * @param {{
  *   arrayPath: string,

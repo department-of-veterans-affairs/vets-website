@@ -120,7 +120,7 @@ export default function FieldTemplate(props) {
   // submit page
   const showLabel =
     !uiOptions?.hideLabelText &&
-    (typeof label !== 'string' || (requiredSpan || label.trim()));
+    (typeof label !== 'string' || requiredSpan || label.trim());
 
   if (typeof WebComponentField === 'function') {
     return (

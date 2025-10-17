@@ -241,39 +241,39 @@ MegaMenu.propTypes = {
     }),
   ).isRequired,
   /**
-   * Function to update currentSection in state
+   * Function to update if the MegaMenu is displayed or not
    */
-  updateCurrentSection: PropTypes.func.isRequired,
+  toggleDisplayHidden: PropTypes.func.isRequired,
   /**
    * Function to update currentDropdown in state
    */
   toggleDropDown: PropTypes.func.isRequired,
   /**
-   * Function to update if the MegaMenu is displayed or not
+   * Function to update currentSection in state
    */
-  toggleDisplayHidden: PropTypes.func.isRequired,
+  updateCurrentSection: PropTypes.func.isRequired,
+  /**
+   * Optional function to intercept links clicked at column three
+   */
+  columnThreeLinkClicked: PropTypes.func,
   /**
    * String value of current dropdown
    */
   currentDropdown: PropTypes.string,
+
   /**
    * String value of current dropdown section
    */
   currentSection: PropTypes.string,
 
+  display: PropTypes.shape({
+    hidden: PropTypes.bool,
+  }),
+
   /**
    * Optional function to intercept links clicked
    */
   linkClicked: PropTypes.func,
-
-  /**
-   * Optional function to intercept links clicked at column three
-   */
-  columnThreeLinkClicked: PropTypes.func,
-
-  display: PropTypes.shape({
-    hidden: PropTypes.bool,
-  }),
 };
 
 MegaMenu.defaultProps = {

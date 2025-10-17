@@ -42,7 +42,6 @@ const HealthCareEntry = ({
     () => {
       getFlipperData();
     },
-
     [getFlipperData, caregiverSIGIEnabled],
   );
 

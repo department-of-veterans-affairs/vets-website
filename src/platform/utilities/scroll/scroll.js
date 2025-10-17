@@ -51,10 +51,10 @@ export const scrollToElement = async (el, scrollOptions) =>
 
 /**
  * Scroll to top of the page
- * @param {String|Number|Element} [position='topScrollElement'] - top scroll element, or
+ * @param {String|Number|Element} el='topScrollElement' - top scroll element, or
  *  selector, id, name, class name, number, or DOM element to position
- * @param {ScrollOptions} [scrollOptions] - settings & overrides
- * @returns {Promise<void>}
+ * @param {ScrollOptions} scrollOptions - settings & overrides
+ * @returns Promise
  */
 export const scrollToTop = async (
   position = `top${SCROLL_ELEMENT_SUFFIX}`,
@@ -130,13 +130,8 @@ export const scrollToFirstError = async (options = {}) => {
         const position = getElementPosition(el);
         scrollTo(position - 10, options);
 
-        if (focusOnAlertRole) {
-          // Adding a delay so that the shadow DOM needs to render and attach
-          // before we try to focus on the element; without the setTimeout,
-          // focus ends up staying on the "Continue" button
-          requestAnimationFrame(() => {
-            focusElement('[role="alert"]', {}, el?.shadowRoot);
-          });
+        if (focusOnAlertRole && el.tagName.startsWith('VA-')) {
+          focusElement('[role="alert"]', {}, el.shadowRoot);
         } else {
           focusElement(el);
         }

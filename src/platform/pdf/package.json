@@ -5,7 +5,7 @@
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "exports": {
-    "." :"./exportsFile.js"
+    ".": "./exportsFile.js"
   },
   "dependencies": {
     "blob-stream": "^0.1.3",
@@ -20,6 +20,6 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "pdfjs-dist": "2.16.105"
+    "pdfjs-dist": "^4.10.38"
   }
 }

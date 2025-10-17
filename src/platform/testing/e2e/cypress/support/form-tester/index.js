@@ -199,63 +199,6 @@ const performPageActions = (pathname, _13647Exception = false) => {
   });
 };
 
-const captureValidationErrors = () => {
-  try {
-    const errors = [];
-    const $body = Cypress.$('body');
-
-    ERROR_SELECTORS.forEach(selector => {
-      const elements = $body.find(selector);
-      elements.each((index, element) => {
-        const $el = Cypress.$(element);
-        const tagName = element.tagName.toLowerCase();
-
-        let text = '';
-
-        if (tagName.startsWith('va-') && $el.attr('error')) {
-          text = $el.attr('error');
-        } else {
-          text = $el.text().trim();
-          text = text.replace(/^Error\s+/, '');
-        }
-
-        if (text && $el.is(':visible')) {
-          let fieldName = $el.attr('name') || $el.attr('id') || '';
-
-          // When directly selecting '.usa-input-error-message'
-          // remove the '-error-message' to refer to the actual field
-          if (fieldName.endsWith('-error-message')) {
-            fieldName = fieldName.replace('-error-message', '');
-          }
-
-          /**
-           * Examples:
-           * fieldName = "root_veteran_fullName_first"
-           * tagName = "va-text-input"
-           * text = "Please enter a first name"
-           *
-           * Example outputs web components:
-           * "  • root_veteran_fullName_first" (va-text-input): "Please enter a first name"
-           * "  • root_veteran_dateOfBirth" (va-memorable-date): "Please provide the date of birth"
-           *
-           * Example outputs non-web components:
-           * "  • root_veteranFullName_first": "Please enter a first name"
-           */
-          const fieldPrefix = fieldName ? `"${fieldName}" ` : '';
-          const tagNameSuffix = tagName.startsWith('va-') ? `(${tagName})` : '';
-          errors.push(`  • ${fieldPrefix}${tagNameSuffix}: "${text}"`);
-        }
-      });
-    });
-
-    return errors;
-  } catch (error) {
-    // If error capture fails, return empty array to avoid breaking the test
-    // The original navigation error will still be thrown
-    return [];
-  }
-};
-
 /**
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.

@@ -111,7 +111,12 @@ export { default as DelayedRender } from './ui/DelayedRender';
 export {
   displayFileSize,
   focusElement,
+  getScrollOptions,
+  scrollToFirstError,
+  scrollAndFocus,
   isReactComponent,
   displayPercent,
   formatSSN,
 } from './ui/index';
+export { scrollTo } from './scroll/index';
+export { scrollToTop } from './scroll/index';

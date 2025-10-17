@@ -8,8 +8,8 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 function createDefaultData() {
   return {
     attributes: {
-      userAccount: {
-        id: 'user-1234',
+      account: {
+        accountUuid: 'user-1234',
       },
       profile: {
         sign_in: {
@@ -73,11 +73,11 @@ describe('Profile utilities', () => {
   describe('mapRawUserDataToState', () => {
     // This url change is to work around the VA Profile Service data mocking
     beforeEach(() => {
-      oldLocation = document.location.href;
-      global.dom.reconfigure({ url: 'https://www.va.gov' });
+      oldLocation = document.location;
+      global.window.location.href = 'https://www.va.gov';
     });
     afterEach(() => {
-      global.dom.reconfigure({ url: oldLocation });
+      global.window.location = oldLocation;
     });
     it('should map profile', () => {
       const data = createDefaultData();
@@ -101,7 +101,7 @@ describe('Profile utilities', () => {
       });
 
       expect(mappedData.accountUuid).to.deep.equal(
-        data.attributes.userAccount.id,
+        data.attributes.account.accountUuid,
       );
     });
 

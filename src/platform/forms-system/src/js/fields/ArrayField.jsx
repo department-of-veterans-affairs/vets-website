@@ -13,7 +13,8 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { Element, getScrollOptions, scrollTo } from 'platform/utilities/scroll';
+import { Element, scrollTo } from 'platform/utilities/scroll';
+
 import set from 'platform/utilities/data/set';
 import {
   scrollToFirstError,
@@ -22,7 +23,7 @@ import {
 } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
-import { isReactComponent } from '../../../../utilities/ui';
+import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 /* Non-review growable table (array) field */
@@ -365,9 +366,6 @@ export default class ArrayField extends React.Component {
       'rjsf-array-field': true,
     });
 
-    const useWebComponents = this.props.formContext?.formOptions
-      ?.useWebComponentForNavigation;
-
     return (
       <div className={containerClassNames}>
         {hasTitleOrDescription && (
@@ -554,27 +552,16 @@ export default class ArrayField extends React.Component {
            improve accessibility by removing unnecessary elements from the DOM when they are not relevant
            or interactable. */}
           {showAddAnotherButton && (
-            <>
-              {useWebComponents ? (
-                <VaButton
-                  secondary
-                  class="va-growable-add-btn"
-                  onClick={this.handleAdd}
-                  text={`Add another ${uiItemName}`}
-                />
-              ) : (
-                <button
-                  type="button"
-                  className={classNames(
-                    'usa-button-secondary',
-                    'va-growable-add-btn',
-                  )}
-                  onClick={this.handleAdd}
-                >
-                  Add another {uiItemName}
-                </button>
+            <button
+              type="button"
+              className={classNames(
+                'usa-button-secondary',
+                'va-growable-add-btn',
               )}
-            </>
+              onClick={this.handleAdd}
+            >
+              Add another {uiItemName}
+            </button>
           )}
           {/* Show an alert when no more items can be added */}
           {!showAddAnotherButton && (
@@ -591,11 +578,6 @@ export default class ArrayField extends React.Component {
 }
 
 ArrayField.propTypes = {
-  formContext: PropTypes.shape({
-    formOptions: PropTypes.shape({
-      useWebComponentForNavigation: PropTypes.bool,
-    }),
-  }).isRequired,
   schema: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
@@ -609,6 +591,7 @@ ArrayField.propTypes = {
     ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
+    formContext: PropTypes.object.isRequired,
   }),
   requiredSchema: PropTypes.object,
   uiSchema: PropTypes.object,

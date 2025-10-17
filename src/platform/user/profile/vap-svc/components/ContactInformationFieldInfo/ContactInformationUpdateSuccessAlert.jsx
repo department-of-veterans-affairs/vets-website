@@ -1,23 +1,21 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const id = `${fieldName}-alert`;
 
   useEffect(
     () => {
-      if (fieldName) {
-        // Focus on the va-alert element itself
-        waitForRenderThenFocus(
-          `[data-field-name=${fieldName}] va-alert`,
-          document,
-          50,
-        );
+      const editButton = document
+        .querySelector(`[data-field-name=${fieldName}]`)
+        ?.querySelector("[data-action='edit']");
+      if (editButton) {
+        focusElement(editButton);
       }
     },
-    [fieldName],
+    [fieldName, id],
   );
 
   return (
@@ -32,9 +30,13 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         full-width
         slim
         uswds
-        role="alert"
       >
-        <p className="vads-u-margin-y--0" id={id}>
+        <p
+          className="vads-u-margin-y--0"
+          role="alert"
+          aria-live="polite"
+          id={id}
+        >
           Update saved.
         </p>
       </va-alert>

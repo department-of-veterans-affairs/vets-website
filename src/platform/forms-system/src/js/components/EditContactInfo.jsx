@@ -28,7 +28,6 @@ export const BuildPage = ({
   goToPath,
   contactPath,
   editContactInfoHeadingLevel,
-  allowInternationalPhones = false,
 }) => {
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
@@ -93,7 +92,6 @@ export const BuildPage = ({
           cancelCallback={handlers.cancel}
           successCallback={handlers.success}
           saveButtonText="Update"
-          allowInternationalPhones={allowInternationalPhones}
         />
       </InitializeVAPServiceID>
     </div>
@@ -101,7 +99,6 @@ export const BuildPage = ({
 };
 
 BuildPage.propTypes = {
-  allowInternationalPhones: PropTypes.bool,
   contactPath: PropTypes.string,
   editContactInfoHeadingLevel: PropTypes.string,
   field: PropTypes.string,

@@ -8,7 +8,7 @@ import {
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
-import { waitForRenderThenFocus } from 'platform/utilities/ui/focus';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { format, isValid } from 'date-fns';
 import PropTypes from 'prop-types';
 import { scrollTo } from 'platform/utilities/scroll';
@@ -243,8 +243,6 @@ export const SavePdfDownload = ({
   trackingPrefix,
   className,
   formId,
-  title,
-  content,
 }) => {
   const onClick = () => {
     recordEvent({
@@ -260,11 +258,8 @@ export const SavePdfDownload = ({
         className || 'vads-u-margin-bottom--4',
       )}
     >
-      <h2>{title || 'Save a copy of your form'}</h2>
-      <p>
-        {content ||
-          'If you’d like a copy of your completed form, you can download it.'}
-      </p>
+      <h2>Save a copy of your form</h2>
+      <p>If you’d like a copy of your completed form, you can download it.</p>
       <va-link
         download
         filetype="PDF"
@@ -281,11 +276,9 @@ SavePdfDownload.propTypes = {
   formId: PropTypes.string,
   pdfUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
 };
 
-export const SavePdfDownloadWithContext = ({ className, title, content }) => {
+export const SavePdfDownloadWithContext = ({ className }) => {
   const { pdfUrl, formConfig } = useConfirmation();
 
   return (
@@ -294,16 +287,12 @@ export const SavePdfDownloadWithContext = ({ className, title, content }) => {
       trackingPrefix={formConfig.trackingPrefix}
       className={className}
       formId={formConfig.formId}
-      title={title}
-      content={content}
     />
   );
 };
 
 SavePdfDownloadWithContext.propTypes = {
   className: PropTypes.string,
-  title: PropTypes.string,
-  content: PropTypes.string,
 };
 
 export const PrintOnlyHeader = () => {
@@ -472,9 +461,8 @@ export const ChapterSectionCollectionWithContext = ({
   header,
   className,
   collapsible,
-  showPageTitles,
 }) => {
-  const { formConfig, chapterSectionCollection } = useConfirmation();
+  const { formConfig } = useConfirmation();
 
   return (
     <ChapterSectionCollection
@@ -482,9 +470,6 @@ export const ChapterSectionCollectionWithContext = ({
       header={header}
       className={className}
       collapsible={collapsible}
-      showPageTitles={
-        showPageTitles || chapterSectionCollection?.showPageTitles
-      }
     />
   );
 };
@@ -493,7 +478,6 @@ ChapterSectionCollectionWithContext.propTypes = {
   className: PropTypes.string,
   collapsible: PropTypes.bool,
   header: PropTypes.string,
-  showPageTitles: PropTypes.bool,
 };
 
 export { ChapterSectionCollection } from './ChapterSectionCollection';

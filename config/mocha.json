@@ -1,6 +1,5 @@
 {
   "require": [
-    "@babel/register",
     "core-js/stable",
     "regenerator-runtime/runtime",
     "blob-polyfill",
@@ -12,5 +11,7 @@
   ],
   "reporter": "progress",
   "timeout": 10000,
-  "slow": 0
+  "slow": 0,
+  "recursive": true,
+  "exit": true
 }
