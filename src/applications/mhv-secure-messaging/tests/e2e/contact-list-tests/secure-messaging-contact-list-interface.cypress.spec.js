@@ -67,22 +67,22 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.verifyHeaders();
 
     ContactListPage.verifyAllCheckboxes(true);
-    ContactListPage.verifyAccordianSubheader('4 teams selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
 
     ContactListPage.selectFirstCheckBox('Select all 4 teams');
-    ContactListPage.verifyAccordianSubheader('0 teams selected');
-    ContactListPage.verifyAccordianSubheader('4 teams selected');
+    ContactListPage.verifyAccordionSubheader('0 teams selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
 
     ContactListPage.selectCheckBox('TG-7410');
     ContactListPage.verifySingleCheckBox('TG-7410', true);
-    ContactListPage.verifyAccordianSubheader('1 team selected');
-    ContactListPage.verifyAccordianSubheader('4 teams selected');
+    ContactListPage.verifyAccordionSubheader('1 team selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
 
-    ContactListPage.accordianByHeader('VA Indiana health care - 583').click();
+    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
     ContactListPage.selectCheckBox('SLC4 PCMM');
     ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
-    ContactListPage.verifyAccordianSubheader('1 team selected');
-    ContactListPage.verifyAccordianSubheader('3 teams selected');
+    ContactListPage.verifyAccordionSubheader('1 team selected');
+    ContactListPage.verifyAccordionSubheader('3 teams selected');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });

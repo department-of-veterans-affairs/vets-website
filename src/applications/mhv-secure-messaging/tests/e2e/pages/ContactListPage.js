@@ -27,16 +27,16 @@ class ContactListPage {
       .find(`input`);
   };
 
-  accordianByHeader = name => {
+  accordionByHeader = name => {
     return cy.get(`[header="${name}"]`);
   };
 
-  accordianBySubheader = name => {
+  accordionBySubheader = name => {
     return cy.get(`[subheader="${name}"]`);
   };
 
-  verifyAccordianSubheader = name => {
-    this.accordianBySubheader(name).should('be.visible');
+  verifyAccordionSubheader = name => {
+    this.accordionBySubheader(name).should('be.visible');
   };
 
   verifySingleCheckBox = (team, value) => {
