@@ -25,10 +25,12 @@
   "claimantEmail": "mwilson@email.com",
   "relationshipToDeceased": "parent",
   "wantsToWaiveSubstitution": false,
-  "hasSpouse": false,
-  "hasChildren": false,
-  "hasParents": false,
-  "hasNone": false,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": true,
+    "hasNone": false
+  },
   "survivingRelatives": [
     {
       "fullName": {

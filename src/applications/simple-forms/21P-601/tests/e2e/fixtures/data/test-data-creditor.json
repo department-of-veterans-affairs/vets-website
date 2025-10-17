@@ -25,11 +25,20 @@
   "claimantEmail": "billing@funeralhome.com",
   "relationshipToDeceased": "creditor",
   "wantsToWaiveSubstitution": true,
-  "hasSpouse": false,
-  "hasChildren": false,
-  "hasParents": false,
-  "hasNone": true,
+  "survivors": {
+    "hasSpouse": false,
+    "hasChildren": false,
+    "hasParents": false,
+    "hasNone": true
+  },
   "claimingReimbursement": true,
+  "expenses": [
+    {
+      "provider": "Funeral home",
+      "expenseType": "Funeral",
+      "amount": 100
+    }
+  ],
   "lastIllnessExpenses": 5000,
   "burialExpenses": 10000,
   "totalExpenses": 15000,

@@ -7,7 +7,7 @@ export default function prefillTransformer(pages, _formData, metadata, state) {
     claimantFullName: profile.userFullName || {},
     claimantIdentification: {
       ssn: profile.ssn || '',
-      vaFileNumber: profile.vaFileNumber || '',
+      vaFileNumber: profile.vaFileNumber,
     },
     claimantDateOfBirth: profile.dob || '',
     claimantAddress: {
@@ -26,7 +26,6 @@ export default function prefillTransformer(pages, _formData, metadata, state) {
     veteranFullName: {},
     veteranIdentification: {
       ssn: '',
-      vaFileNumber: '',
     },
   };
 

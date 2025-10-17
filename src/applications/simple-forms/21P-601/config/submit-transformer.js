@@ -145,10 +145,10 @@ function transformForSubmit(formConfig, form) {
     inReplyReferTo,
     // Section 2: Surviving Relatives (Questions 13-14)
     survivingRelatives: {
-      hasSpouse: transformedData.hasSpouse || false,
-      hasChildren: transformedData.hasChildren || false,
-      hasParents: transformedData.hasParents || false,
-      hasNone: transformedData.hasNone || false,
+      hasSpouse: transformedData.survivors.hasSpouse || false,
+      hasChildren: transformedData.survivors.hasChildren || false,
+      hasParents: transformedData.survivors.hasParents || false,
+      hasNone: transformedData.survivors.hasNone || false,
       wantsToWaiveSubstitution:
         transformedData.wantsToWaiveSubstitution || false,
       relatives: (transformedData.survivingRelatives || []).map(relative => ({

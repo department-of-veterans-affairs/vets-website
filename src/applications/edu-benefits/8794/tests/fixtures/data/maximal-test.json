@@ -13,6 +13,7 @@
       "title": "Certifying Official",
       "phoneType": "us",
       "phoneNumber": "1112223333",
+      "internationalPhoneNumber": "4445556666",
       "emailAddress": "bob.smith@test.com"
     },
     "institutionDetails": {
@@ -34,6 +35,7 @@
       "title": "President",
       "phoneType": "us",
       "phoneNumber": "1234567890",
+      "internationalPhoneNumber": "4445556666",
       "emailAddress": "john.doe@test.com"
     },
     "view:description": {},
@@ -55,7 +57,27 @@
           "phoneNumber": "1231231234",
           "emailAddress": "certifying.official@test.com"
         }
-      }
+      },
+        {
+          "additionalOfficialBenefitStatus": {
+            "hasVaEducationBenefits": false
+          },
+          "additionalOfficialTraining": {
+            "trainingExempt": true
+          },
+          "additionalOfficialDetails": {
+            "fullName": {
+              "first": "Another",
+              "middle": "Test",
+              "last": "Official"
+            },
+            "title": "Principal Certifying Official",
+            "phoneType": "us",
+            "phoneNumber": "1231231234",
+            "internationalPhoneNumber": "4445556666",
+            "emailAddress": "certifying.official2@test.com"
+          }
+        }
     ],
     "readOnlyCertifyingOfficials": [
       { "fullName": { "first": "Read", "middle": "Only", "last": "Official" } }
