@@ -101,7 +101,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
       cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click({
         waitForAnimations: true,
       });
-      cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE).click({
+      cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click({
         waitForAnimations: true,
       });
       cy.get(Locators.ALERTS.REPT_SELECT).should(

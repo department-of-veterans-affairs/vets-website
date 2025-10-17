@@ -10,7 +10,7 @@ describe('Validate the category', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
     GeneralFunctionsPage.verifyHeaderFocused();
 
     cy.tabToElement('[data-testid="compose-message-categories"]');
