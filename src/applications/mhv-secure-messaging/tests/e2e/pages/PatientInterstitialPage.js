@@ -22,7 +22,7 @@ class PatientInterstitialPage {
   };
 
   getStartMessageLink = () => {
-    return cy.findByTestId('start-message-link');
+    return cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE);
   };
 
   continueToRecentRecipients = (
