@@ -12,6 +12,7 @@ import {
   reloadRecords,
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
   CernerAlertContent,
@@ -28,6 +29,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
+import { Actions } from '../util/actionTypes';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -67,17 +69,13 @@ const CareSummariesAndNotes = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
