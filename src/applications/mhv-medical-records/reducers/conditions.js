@@ -163,7 +163,7 @@ export const conditionReducer = (state = initialState, action) => {
       let newList;
       if (action.response.resourceType) {
         newList =
-          action.response.entry
+          action?.response?.entry
             ?.map(record => {
               const condition = record.resource;
               return convertCondition(condition);

@@ -33,7 +33,6 @@ export const getConditionsList = (
     });
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
   }
 };
 
