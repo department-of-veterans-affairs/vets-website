@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import MockReferralListResponse from '../../../tests/fixtures/MockReferralListResponse';
 
 const referralUtil = require('../../utils/referrals');
 
@@ -10,53 +11,46 @@ describe('VAOS referral generator', () => {
       expect(referral.expirationDate).to.equal('2025-04-30');
     });
   });
-  describe('createReferrals', () => {
-    it('Create specified number of referrals', () => {
-      const referrals = referralUtil.createReferrals(2);
-      expect(referrals.length).to.equal(2);
-    });
-    it('Creates referrals with extra error referrals when specified', () => {
-      const referrals = referralUtil.createReferrals(2, null, null, true);
-      expect(referrals.length).to.equal(8);
-    });
-    it('Creates each referral on day later', () => {
-      const referrals = referralUtil.createReferrals(2, '2025-10-11');
-      expect(referrals[0].attributes.expirationDate).to.equal('2026-04-11');
-      expect(referrals[1].attributes.expirationDate).to.equal('2026-04-12');
-    });
-  });
   describe('getReferralSlotKey', () => {
     expect(referralUtil.getReferralSlotKey('111')).to.equal(
       'selected-slot-referral-111',
     );
   });
   describe('filterReferrals', () => {
-    let referrals = referralUtil.createReferrals(1);
-    const physicalTherapyReferral = referralUtil.createReferralById(
-      '2024-10-30',
-      'uid',
-      '111',
-      'physical-therapy',
-    );
-    const missingCategoryReferral = referralUtil.createReferralById(
-      '2024-10-30',
-      'uid2',
-      '111',
-      'OPTOMETRY',
-    );
+    // Create referrals using the fixture
+    const optometryReferral = MockReferralListResponse.createReferral({
+      id: 'test-optometry',
+      categoryOfCare: 'OPTOMETRY',
+    });
+    const chiropracticReferral = MockReferralListResponse.createReferral({
+      id: 'test-chiropractic',
+      categoryOfCare: 'CHIROPRACTIC',
+    });
+    const physicalTherapyReferral = MockReferralListResponse.createReferral({
+      id: 'test-physical-therapy',
+      categoryOfCare: 'physical-therapy',
+    });
 
-    referrals = [
+    const referrals = [
       physicalTherapyReferral,
-      missingCategoryReferral,
-      ...referrals,
+      optometryReferral,
+      chiropracticReferral,
     ];
-
-    it('Filters out physical therapy referrals', () => {
+    it('Filters out disallowed categories of care', () => {
       const filteredReferrals = referralUtil.filterReferrals(referrals);
       expect(filteredReferrals.length).to.equal(1);
       expect(filteredReferrals[0].attributes.categoryOfCare).to.equal(
         'OPTOMETRY',
       );
+    });
+    it('Includes chiropractic when feature is enabled', () => {
+      const filteredReferrals = referralUtil.filterReferrals(referrals, true);
+      expect(filteredReferrals.length).to.equal(2);
+      const categories = filteredReferrals.map(
+        referral => referral.attributes.categoryOfCare,
+      );
+      expect(categories).to.include('OPTOMETRY');
+      expect(categories).to.include('CHIROPRACTIC');
     });
   });
   describe('getAddressString', () => {
