@@ -19,9 +19,6 @@ export default {
         N:
           'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
       },
-      errorMessages: {
-        required: 'Select which best describes you',
-      },
     }),
   },
   schema: {
