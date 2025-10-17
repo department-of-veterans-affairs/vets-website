@@ -13,7 +13,7 @@ import { transformClinicsV2 } from './transformers';
  * @param {TypeOfCare} params.typeOfCare The type of care to check for the chosen organization
  * @param {string} params.systemId The VistA 3 digit site id
  *
- * @returns {Array<HealthCareService>} An a collection of HealthcareService objects.
+ * @returns {Promise<Array<HealthCareService>>} A collection of HealthcareService objects.
  */
 export async function getAvailableHealthcareServices({
   facilityId,

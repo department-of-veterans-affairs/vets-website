@@ -9,7 +9,7 @@ const delay = require('mocker-api/lib/delay');
 
 const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
-const mockMaxData = require('./e2e/fixtures/maximal.json');
+const mockMaxData = require('./e2e/fixtures/picklist.json');
 
 const returnUrl = '/review-and-submit';
 
@@ -97,6 +97,8 @@ const responses = {
       features: [
         { name: 'vaDependentsV2', value: true },
         { name: 'va_dependents_v2', value: true },
+        { name: 'vaDependentsV3', value: true },
+        { name: 'va_dependents_v3', value: true },
         { name: 'vaDependentsNetWorthAndPension', value: true },
         { name: 'va_dependents_net_worth_and_pension', value: true },
         { name: 'vaDependentsDuplicateModals', value: true },

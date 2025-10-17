@@ -13,9 +13,10 @@ import {
   buildDateFormatter,
   getUploadErrorMessage,
 } from '../utils/helpers';
+import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-import { canUseMocks } from '../constants';
+import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
@@ -32,6 +33,9 @@ import {
   FETCH_STEM_CLAIMS_ERROR,
   FETCH_STEM_CLAIMS_PENDING,
   FETCH_STEM_CLAIMS_SUCCESS,
+  FETCH_FAILED_UPLOADS_ERROR,
+  FETCH_FAILED_UPLOADS_PENDING,
+  FETCH_FAILED_UPLOADS_SUCCESS,
   GET_CLAIM_DETAIL,
   RECORD_NOT_FOUND_ERROR,
   RESET_UPLOADS,
@@ -290,7 +294,12 @@ export function clearAdditionalEvidenceNotification() {
 }
 
 // Document upload function using Lighthouse endpoint
-export function submitFiles(claimId, trackedItem, files) {
+export function submitFiles(
+  claimId,
+  trackedItem,
+  files,
+  showDocumentUploadStatus = false,
+) {
   let filesComplete = 0;
   let bytesComplete = 0;
   let hasError = false;
@@ -346,18 +355,41 @@ export function submitFiles(claimId, trackedItem, files) {
                 dispatch({
                   type: DONE_UPLOADING,
                 });
-                dispatch(
-                  setNotification({
-                    title: `We received your file upload on ${uploadDate}`,
-                    body: (
-                      <span>
-                        If your uploaded file doesn’t appear in the Documents
-                        Filed section on this page, please try refreshing the
-                        page.
-                      </span>
-                    ),
-                  }),
-                );
+
+                // Show different notification based on feature toggle
+                const notificationMessage = showDocumentUploadStatus
+                  ? {
+                      title: `Document submission started on ${uploadDate}`,
+                      body: (
+                        <>
+                          <span>
+                            Your submission is in progress. It can take up to 2
+                            days for us to receive your files.
+                          </span>
+                          <va-link
+                            class="vads-u-display--block"
+                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
+                            text="Check the status of your submission"
+                            onClick={e => {
+                              e.preventDefault();
+                              setPageFocus(e.target.href);
+                            }}
+                          />
+                        </>
+                      ),
+                    }
+                  : {
+                      title: `We received your file upload on ${uploadDate}`,
+                      body: (
+                        <span>
+                          If your uploaded file doesn’t appear in the Documents
+                          Filed section on this page, please try refreshing the
+                          page.
+                        </span>
+                      ),
+                    };
+
+                dispatch(setNotification(notificationMessage));
               } else {
                 recordEvent({
                   event: 'claims-upload-failure',
@@ -502,5 +534,26 @@ export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page,
+  };
+}
+
+export function fetchFailedUploads() {
+  return async dispatch => {
+    dispatch({ type: FETCH_FAILED_UPLOADS_PENDING });
+
+    try {
+      const response = await apiRequest(
+        '/benefits_claims/failed_upload_evidence_submissions',
+      );
+      dispatch({
+        type: FETCH_FAILED_UPLOADS_SUCCESS,
+        data: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: FETCH_FAILED_UPLOADS_ERROR,
+        error: error.message || 'Failed to fetch failed uploads',
+      });
+    }
   };
 }

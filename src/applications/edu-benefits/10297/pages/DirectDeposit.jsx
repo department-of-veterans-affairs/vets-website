@@ -35,8 +35,9 @@ const bankInfoHelpText = (
 
 const EligibilityRegulationNote = () => (
   <p>
-    Direct deposit information is not required to determine eligibility.
-    However, benefits cannot be paid without this information per U.S. Treasury
+    Please provide the following information to enroll in direct deposit. Direct
+    deposit information is not required to determine eligibility. However,
+    benefits cannot be paid without this information per U.S. Treasury
     regulation 31 C.F.R. § 208.3.
   </p>
 );
@@ -85,6 +86,7 @@ export default function createDirectDepositPage() {
       bankAccount: {
         ...baseSchema,
         properties: bankAccountProperties,
+        required: [],
       },
     },
   };
@@ -101,7 +103,6 @@ export default function createDirectDepositPage() {
 
       accountType: {
         ...baseBankAccountUI.accountType,
-        'ui:errorMessages': { required: 'Select an account type' },
       },
 
       'view:checkGuideDetails': {
@@ -115,7 +116,6 @@ export default function createDirectDepositPage() {
         'ui:validations': [validateRoutingNumber],
         'ui:webComponentField': MaskedBankAccountInfo,
         'ui:errorMessages': {
-          required: 'Enter a 9-digit routing number',
           pattern: 'Please enter a valid 9 digit routing number',
         },
       },
@@ -123,7 +123,6 @@ export default function createDirectDepositPage() {
       accountNumber: {
         ...baseBankAccountUI.accountNumber,
         'ui:webComponentField': MaskedBankAccountInfo,
-        'ui:errorMessages': { required: 'Enter your account number' },
       },
 
       'view:bankInfoHelpText': {
