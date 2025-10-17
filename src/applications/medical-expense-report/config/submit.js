@@ -40,7 +40,7 @@ export function transform(formConfig, form) {
 export async function submit(
   form,
   formConfig,
-  apiPath = '/v0/api/medical_expense_reports',
+  apiPath = '/medical_expense_reports/v0/form8416',
 ) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
