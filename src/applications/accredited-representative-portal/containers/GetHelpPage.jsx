@@ -161,8 +161,9 @@ const GetHelpPage = title => {
                 >
                   Find a Representative tool (VA.gov)
                 </Link>
-                If you have an email on file with OGC, it will be displayed
-                there. .<br />
+                . If you have an email on file with OGC, it will be displayed
+                there.
+                <br />
                 <br />
                 If you aren’t able to find yourself using the Find a
                 Representative tool, try using the{' '}
@@ -188,7 +189,7 @@ const GetHelpPage = title => {
               </p>
               <Link
                 className="content-link"
-                to=" https://login.gov/help/create-account/how-do-i-create-an-account/"
+                to="https://login.gov/help/create-account/how-do-i-create-an-account/"
               >
                 Learn how to create your Login.gov account
               </Link>
@@ -210,7 +211,7 @@ const GetHelpPage = title => {
               </p>
               <Link
                 className="content-link"
-                to=" https://www.login.gov/help/manage-your-account/change-your-email-address/"
+                to="https://www.login.gov/help/manage-your-account/change-your-email-address/"
               >
                 Learn how to add an email to your Login.gov account
               </Link>
