@@ -7,7 +7,11 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 
 import RecordList from '../components/RecordList/RecordList';
-import { getConditionsList, reloadRecords } from '../actions/conditions';
+import {
+  getConditionsList,
+  reloadRecords,
+  resetFetchingState,
+} from '../actions/conditions';
 import {
   recordType,
   pageTitles,
@@ -21,6 +25,7 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
@@ -61,17 +66,13 @@ const HealthConditions = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListStateAction: resetFetchingState,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
