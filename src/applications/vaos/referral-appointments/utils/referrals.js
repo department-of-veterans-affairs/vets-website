@@ -13,8 +13,8 @@ const errorUUIDs = [
   'eps-error-appointment-id',
 ];
 
-export const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
-export const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
+const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
+const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
 
 /**
  * Creates a referral list object relative to a start date.
