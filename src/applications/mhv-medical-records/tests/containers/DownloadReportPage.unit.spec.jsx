@@ -473,7 +473,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    expect(screen.getByText('Go to My VA Health (opens in new tab)')).to.exist;
+    expect(screen.getByText('Go to My VA Health')).to.exist;
   });
 });
 
