@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import LoginActions from 'platform/user/authentication/components/LoginActions';
-import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
+import ArpLoginActions from '../components/ArpLoginActions';
 import '../sass/login.scss';
 
 const LoginContainer = () => {
@@ -35,10 +34,7 @@ const LoginContainer = () => {
             <h1 className="columns vads-u-margin--0">
               Sign in or create an account
             </h1>
-            <LoginActions
-              externalApplication={EXTERNAL_APPS.ARP}
-              isUnifiedSignIn
-            />
+            <ArpLoginActions />
           </div>
         </div>
         <div className="vads-l-row">
