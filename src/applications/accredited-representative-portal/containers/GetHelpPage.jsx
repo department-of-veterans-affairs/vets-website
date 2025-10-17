@@ -225,16 +225,10 @@ const GetHelpPage = title => {
                 Step 4: Sign in to the portal
               </h3>
               <p>
-                Sign in to the portal at{' '}
-                <Link
-                  className="content-link"
-                  to="https://www.va.gov/representative"
-                >
-                  va.gov/representative
-                </Link>
-                . If you receive a message saying that we can’t verify you’re an
-                accredited representative, refer to the commonly asked questions
-                in this section for next steps.
+                Sign in to the portal at va.gov/representative . If you receive
+                a message saying that we can’t verify you’re an accredited
+                representative, refer to the commonly asked questions in this
+                section for next steps.
               </p>
             </va-accordion-item>
             <va-accordion-item
@@ -246,7 +240,10 @@ const GetHelpPage = title => {
                 We can help guide you to fix some common issues as you create
                 your account and verify your identity.
               </p>
-              <Link className="content-link" to="https://login.gov/help/">
+              <Link
+                className="content-link"
+                to="https://www.va.gov/resources/support-for-common-logingov-and-idme-issues/"
+              >
                 Get support for common Login.gov and ID.me issues
               </Link>
               <br />
@@ -258,43 +255,9 @@ const GetHelpPage = title => {
                 Go to the Login.gov help center
               </Link>
               <br />
-              <Link className="content-link" to="https://login.gov/help/">
+              <Link className="content-link" to="https://help.id.me/hc/en-us">
                 Go to the ID.me support section
               </Link>
-            </va-accordion-item>
-            <va-accordion-item
-              header="What if I don’t have an email address on file with OGC, or I no longer use the email address that I have on file?"
-              id="section-five"
-              level="3"
-            >
-              <p>
-                If you’re a Veteran Service Organization (VSO) representative,
-                reach out to the certifying official at your Veteran Service
-                Organization who handles the accreditation process. Ask them to
-                request that OGC add an email to your file or update your
-                existing email. If your contact information or physical address
-                is outdated, request that OGC update it as well. We recommend
-                against using a PO Box, since this will prevent your record from
-                appearing in the Find a Representative tool.
-              </p>
-              <p>
-                If you’re unsure who your certifying official is, contact your
-                supervisor for guidance. Once the update is complete, add the
-                new email address to your Login.gov account and try signing in
-                to the portal.
-              </p>
-              <p>
-                If you’re an accredited attorney or claims agent, follow the
-                instructions on the PDF fact sheet, Process for Attorney and
-                Claims Agent Contact Change Requests, provided by OGC. You can
-                find this fact sheet on the{' '}
-                <Link
-                  className="content-link"
-                  to="https://www.va.gov/ogc/accreditation.asp"
-                >
-                  OGC Accreditation webpage.
-                </Link>
-              </p>
             </va-accordion-item>
             <va-accordion-item
               header="What if I don’t have an email on file with OGC, or the email is incorrect?"
@@ -320,8 +283,10 @@ const GetHelpPage = title => {
                 signing in to the portal.
               </p>
               <p>
-                If you’re an accredited attorney or claims agent, follow the
-                instructions on the PDF fact sheet,
+                <strong>
+                  If you’re an accredited attorney or claims agent
+                </strong>
+                , follow the instructions on the PDF fact sheet,{' '}
                 <Link
                   className="content-link"
                   to="https://www.va.gov/OGC/docs/Accred/FactSheet_OBI-21-03.pdf"
@@ -380,6 +345,7 @@ const GetHelpPage = title => {
                 Learn how to set up your PIV card on an existing Login.gov
                 account
               </Link>
+              <br />
               <br />
               <p>
                 <strong>Note:</strong> We are exploring direct sign-in with PIV
