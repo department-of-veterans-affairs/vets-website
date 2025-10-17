@@ -2,17 +2,12 @@ import React from 'react';
 import moment from 'moment/moment';
 import IntroductionPage from './containers/IntroductionPage';
 import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
+import IntroductionPageRedirect from './containers/IntroductionPageRedirect';
 import { convertToggle } from '../utils/helpers';
 
 export const isProductionOfTestProdEnv = automatedTest => {
   const toggle = convertToggle();
   return toggle || automatedTest || global?.window?.isProd;
-};
-
-export const introductionPage = (automatedTest = false) => {
-  return isProductionOfTestProdEnv(automatedTest)
-    ? IntroductionPage
-    : IntroductionPageUpdate;
 };
 
 export const sponsorInformationTitle = (automatedTest = false) => {
@@ -122,6 +117,20 @@ export const showRudisill1995 = () => {
 
 export const isMeb1995ReRouteEnabled = () => {
   return sessionStorage.getItem('meb1995ReRoute') === 'true';
+};
+
+export const getLastBenefitUsed = () => {
+  return sessionStorage.getItem('meb1995LastBenefitUsed');
+};
+
+export const introductionPage = (automatedTest = false) => {
+  if (!isProductionOfTestProdEnv(automatedTest) && isMeb1995ReRouteEnabled()) {
+    return IntroductionPageRedirect;
+  }
+
+  return isProductionOfTestProdEnv(automatedTest)
+    ? IntroductionPage
+    : IntroductionPageUpdate;
 };
 
 export const SeventeenOrOlder = birthday => {
