@@ -1,6 +1,5 @@
 {
   "require": [
-    "@babel/register",
     "core-js/stable",
     "regenerator-runtime/runtime",
     "blob-polyfill",

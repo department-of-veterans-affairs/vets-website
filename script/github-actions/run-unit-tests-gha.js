@@ -101,7 +101,7 @@ function buildTestCommand(testPaths) {
     ? '--reporter=html mocha --retries 5'
     : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
-  const mochaExtra = '--extension js --extension jsx --require @babel/register';
+  const mochaExtra = '--extension js --extension jsx';
 
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
