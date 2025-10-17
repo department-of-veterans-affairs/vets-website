@@ -56,13 +56,9 @@ const PageTemplateWithHook = ({
 
 PageTemplateWithHook.propTypes = {
   data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
-  dataProcessor: PropTypes.func,
   defaultData: PropTypes.object,
-  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
@@ -70,6 +66,10 @@ PageTemplateWithHook.propTypes = {
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+  dataProcessor: PropTypes.func,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   updatePage: PropTypes.func,
 };
 
@@ -185,16 +185,16 @@ const PageTemplateBase = ({
 
 PageTemplateBase.propTypes = {
   formSectionProps: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
   shouldUseHook: PropTypes.bool.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
-  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   updatePage: PropTypes.func,
 };
 
@@ -314,13 +314,9 @@ export const PageTemplate = ({
 
 PageTemplate.propTypes = {
   data: PropTypes.object.isRequired,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
-  dataProcessor: PropTypes.func,
   defaultData: PropTypes.object,
-  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
@@ -328,6 +324,10 @@ PageTemplate.propTypes = {
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  updatePage: PropTypes.func,
   useFormSectionHook: PropTypes.bool,
+  dataProcessor: PropTypes.func,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  updatePage: PropTypes.func,
 };

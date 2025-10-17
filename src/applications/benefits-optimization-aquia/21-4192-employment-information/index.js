@@ -17,14 +17,6 @@ export {
   ConfirmationPage,
 } from '@bio-aquia/21-4192-employment-information/containers';
 
-/** @exports Pages - Form page configurations */
-export {
-  identificationInformation,
-  mailingAddress,
-  nameAndDateOfBirth,
-  phoneAndEmailAddress,
-} from '@bio-aquia/21-4192-employment-information/pages';
-
 /** @exports Config - Form configuration object */
 export { formConfig } from '@bio-aquia/21-4192-employment-information/config';
 
