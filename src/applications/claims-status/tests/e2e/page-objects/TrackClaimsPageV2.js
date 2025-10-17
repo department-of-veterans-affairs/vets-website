@@ -268,21 +268,64 @@ class TrackClaimsPageV2 {
     cy.get('.tabs li:nth-child(2) > a')
       .click()
       .then(() => {
-        let fipText = '';
+        cy.get('.file-submissions-in-progress-container').should('be.visible');
+
         if (numFilesInProgress === 0) {
-          fipText =
+          // Verify empty state message
+          const emptyMessage =
             numSupportingDocs === 0
               ? 'You don’t have any file submissions in progress.'
               : 'We’ve received all the files you’ve uploaded.';
+          cy.get(
+            '.file-submissions-in-progress-container [data-testid="file-submissions-in-progress-cards"]',
+          ).should('contain', emptyMessage);
         } else {
-          fipText = `Placeholder for ${numFilesInProgress} in progress items`;
+          // Verify cards are rendered
+          cy.get('[data-testid^="file-in-progress-card-"]').should(
+            'have.length',
+            numFilesInProgress,
+          );
+
+          // Verify each card has all required elements
+          cy.get('[data-testid^="file-in-progress-card-"]').each($card => {
+            cy.wrap($card).within(() => {
+              // 1. Each card should have a status badge
+              cy.get('.file-status-badge').should('exist');
+
+              // 2. Each card should have a filename (or "File name unknown")
+              cy.get('.filename-title').should('exist');
+
+              // 3. Each card should have a submitted date
+              cy.get('.file-submitted-date').should('exist');
+            });
+          });
         }
-        cy.get('.file-submissions-in-progress-container').should('be.visible');
-        cy.get(
-          '.file-submissions-in-progress-container [data-testid="file-submissions-in-progress-cards"]',
-        ).should('contain', fipText);
+
         cy.injectAxeThenAxeCheck();
       });
+  }
+
+  clickShowMoreFilesInProgress() {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    )
+      .shadow()
+      .find('button')
+      .click();
+  }
+
+  verifyShowMoreFilesInProgressButtonText(text) {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    )
+      .should('exist')
+      .and('have.attr', 'text', text);
+  }
+
+  verifyShowMoreFilesInProgressButtonNotExists() {
+    cy.get(
+      '.file-submissions-in-progress-container [data-testid="show-more-in-progress-button"]',
+    ).should('not.exist');
   }
 
   verifyClaimEvidence(nthEvidenceSubmission, claimStatus) {
@@ -358,7 +401,7 @@ class TrackClaimsPageV2 {
     cy.axeCheck();
   }
 
-  submitFilesForReview() {
+  submitFilesForReview(showDocumentUploadStatus = false) {
     cy.intercept('POST', `/v0/benefits_claims/189685/benefits_documents`, {
       body: {},
     }).as('documents');
@@ -398,8 +441,11 @@ class TrackClaimsPageV2 {
         /\/(document-request|needed-from-you|needed-from-others)\/(\d+)/,
       );
 
-      // Click submit button
-      cy.get('va-button[text="Submit documents for review"]')
+      // Click submit button - use different text based on feature toggle
+      const buttonText = showDocumentUploadStatus
+        ? 'Submit files for review'
+        : 'Submit documents for review';
+      cy.get(`.add-files-form va-button[text="${buttonText}"]`)
         .shadow()
         .find('button')
         .click();
@@ -426,12 +472,18 @@ class TrackClaimsPageV2 {
       });
     });
 
-    cy.get('va-alert h2').should('contain', 'We received your file upload');
+    const alertHeading = showDocumentUploadStatus
+      ? 'Document submission started on'
+      : 'We received your file upload';
+    cy.get('va-alert h2').should('contain', alertHeading);
   }
 
-  submitFilesShowsError() {
+  submitFilesShowsError(showDocumentUploadStatus = false) {
     // Click submit without selecting any files to trigger validation error
-    cy.get('va-button[text="Submit documents for review"]')
+    const buttonText = showDocumentUploadStatus
+      ? 'Submit files for review'
+      : 'Submit documents for review';
+    cy.get(`va-button[text="${buttonText}"]`)
       .shadow()
       .find('button')
       .click();

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
+import {
+  VaMemorableDate,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { EVIDENCE_PRIVATE_DETAILS_URL } from '../constants';
 import { content } from '../content/evidencePrivateRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
-
 import {
   validatePrivateName,
   validateCountry,
@@ -19,11 +20,10 @@ import {
   isEmptyPrivateEntry,
 } from '../validations/evidence';
 import { focusEvidence } from '../../shared/utils/focus';
-import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
 import { EvidenceFacilityAddress } from './EvidenceFacilityAddress';
-import { EvidenceIssueAndDates } from './EvidenceIssueAndDates';
+import { EvidenceHeaderAndModal } from './EvidenceHeaderAndModal';
+import EvidenceIssues from './evidence/EvidenceIssues';
 import { EvidencePageNavigation } from './EvidencePageNavigation';
-
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { checkValidations } from '../../shared/validations';
 import { customPageProps995 } from '../../shared/props';
@@ -342,7 +342,6 @@ const EvidencePrivateRecords = ({
           content={content}
           handlers={handlers}
         />
-
         <VaTextInput
           id="add-facility-name"
           name="name"
@@ -356,24 +355,47 @@ const EvidencePrivateRecords = ({
           error={showError('name') || errors.unique || null}
           autocomplete="section-provider name"
         />
-
         <EvidenceFacilityAddress
           currentData={currentData}
           content={content}
           handlers={handlers}
           showError={showError}
         />
-
-        <EvidenceIssueAndDates
-          currentData={currentData}
+        <EvidenceIssues
           availableIssues={availableIssues}
           content={content}
+          currentData={currentData}
           handlers={handlers}
           showError={showError}
-          isInvalid={isInvalid}
-          dateRangeKey="treatmentDateRange"
         />
-
+        <VaMemorableDate
+          id="from-date"
+          name="from"
+          label={content.dateStart}
+          required
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData.treatmentDateRange?.from}
+          error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
+          month-select={false}
+        />
+        <VaMemorableDate
+          id="to-date"
+          name="to"
+          label={content.dateEnd}
+          required
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData.treatmentDateRange?.to}
+          error={showError('to')}
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
+          month-select={false}
+        />
         <EvidencePageNavigation
           path={`${PRIVATE_PATH}?index=${currentIndex + 1}`}
           content={{
