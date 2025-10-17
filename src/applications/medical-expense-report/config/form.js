@@ -27,7 +27,7 @@ import uploadDocuments from './chapters/03-additional-information/uploadDocument
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/api/medical_expense_reports`,
   submit,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,

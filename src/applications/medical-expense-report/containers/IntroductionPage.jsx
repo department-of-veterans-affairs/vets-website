@@ -138,14 +138,14 @@ export const IntroductionPage = props => {
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <p>
+      <p className="va-introtext">
         Use our online tool to report medical or dental expenses that you have
         paid for yourself or for a family member living in your household. These
         must be expenses you weren’t reimbursed for and don’t expect to be
         reimbursed for.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for medical expense.
+      <h2 className="vad-u-margin-top--0">
+        Follow these steps to get started:
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
@@ -156,7 +156,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start your 21P-8416"
           devOnly={{
             forceShowFormControls: true,
           }}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { generateSEIPdf } from '@department-of-veterans-affairs/mhv/exports';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   GET_SEI_PDF,
@@ -15,12 +14,6 @@ const DownloadSeiPdf = () => {
   const {
     user: { profile: userProfile },
   } = useSelector(state => state);
-  const useUnifiedSelfEnteredAPI = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
-      ],
-  );
   const pdfSeiLoading = useSelector(seiLoading);
 
   const handleGeneratePdf = e => {
@@ -28,7 +21,7 @@ const DownloadSeiPdf = () => {
     dispatch({
       type: GET_SEI_PDF,
     });
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, false)
+    generateSEIPdf(userProfile, false)
       .then(response => {
         if (response.success) {
           const { failedDomains } = response;
