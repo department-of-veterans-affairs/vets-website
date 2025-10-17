@@ -58,7 +58,8 @@ if (options.help) {
   process.exit(0);
 }
 
-const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const preload = path.resolve(__dirname, '../babel-register.cjs');
+const mochaPath = `NODE_OPTIONS=--require=${preload} BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 const coverageReporter = options['coverage-html']
   ? '--reporter=html mocha --retries 5'
   : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
