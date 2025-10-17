@@ -36,6 +36,7 @@ const AgreementPage = () => {
       </p>
       <TravelAgreementContent />
       <VaCheckbox
+        data-testid="agreement-checkbox"
         className="vads-u-margin-x--1 vads-u-margin-y--2"
         checked={isAgreementChecked}
         name="accept-agreement"
@@ -51,6 +52,7 @@ const AgreementPage = () => {
         required
       />
       <VaButtonPair
+        data-testid="agreement-button-pair"
         className="vads-u-margin-top--2"
         continue
         disable-analytics
