@@ -4,153 +4,410 @@ import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import {
-  EVIDENCE_PRIVATE_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
+  AUTHORIZATION_LABEL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_DETAILS_URL,
+  LIMITED_CONSENT_PROMPT_URL,
 } from '../../constants';
 import { content } from '../../content/evidenceSummary';
+import { content as limitedConsentContent } from '../../content/limitedConsent';
 import { EvidencePrivateContent } from '../../components/EvidencePrivateContent';
 import { records } from '../data/evidence-records';
+import { title4142WithId } from '../../content/title';
+import {
+  verifyHeader,
+  verifyLink,
+  verifyProviderPrivate,
+  verifyResponse,
+} from '../unit-test-helpers';
 
-describe('buildPrivateContent', () => {
-  it('should render editable private content', () => {
-    const privateEvidence = records().providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent="test"
-        privacyAgreementAccepted
-        showScNewForm
-        limitedConsentResponse
-        testing
-      />,
+const limitedConsentDetails = 'Testing limited consent content';
+
+const verifyEvidenceHeader = container => {
+  expect($('.private-title', container).textContent).to.contain(
+    content.privateTitle,
+  );
+};
+
+const verifyAuthorization = (headers, listItems, reviewMode = false) => {
+  verifyHeader(headers, 0, title4142WithId);
+  verifyResponse(listItems, 0, AUTHORIZATION_LABEL);
+
+  if (!reviewMode) {
+    verifyLink(
+      '#edit-private-authorization',
+      `/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`,
     );
-    expect($('.private-title', container).textContent).to.contain(
-      content.privateTitle,
-    );
-    expect($$('ul[role="list"]', container).length).to.eq(1);
-    expect($$('li', container).length).to.eq(5);
-    expect($$('.private-facility', container).length).to.eq(2);
-    expect($$('.private-limitation', container).length).to.eq(1);
-    expect($$('.edit-item', container).length).to.eq(5);
-    expect($$('.remove-item', container).length).to.eq(2);
-    // check Datadog classes
-    expect(
-      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.eq(6); // 3 x 2 entries
+  }
+};
+
+const verifyLimitedConsentPrompt = (headers, listItems, reviewMode = false) => {
+  verifyHeader(headers, 1, limitedConsentContent.promptQuestion);
+  verifyResponse(listItems, 1, 'Yes');
+
+  if (!reviewMode) {
+    verifyLink('#edit-limitation-y-n', `/${LIMITED_CONSENT_PROMPT_URL}`);
+  }
+};
+
+const verifyLimitedConsentDetails = (
+  headers,
+  listItems,
+  reviewMode = false,
+) => {
+  verifyHeader(headers, 2, limitedConsentContent.detailsQuestion);
+  verifyResponse(listItems, 2, limitedConsentDetails);
+
+  if (!reviewMode) {
+    verifyLink('#edit-limitation', `/${LIMITED_CONSENT_DETAILS_URL}`);
+  }
+};
+
+describe('EvidencePrivateContent', () => {
+  describe('when no private evidence is provided', () => {
+    it('should render nothing', () => {
+      const { container } = render(<EvidencePrivateContent list={[]} />);
+
+      expect(container.innerHTML).to.be.empty;
+    });
   });
 
-  it('should render nothing when no data is passed in', () => {
-    const { container } = render(
-      <div>
-        <EvidencePrivateContent testing />
-      </div>,
-    );
+  describe('when on the evidence review page', () => {
+    it('should render the proper content', () => {
+      const { container } = render(
+        <EvidencePrivateContent
+          list={records().providerFacility}
+          limitedConsent={limitedConsentDetails}
+          isOnReviewPage={undefined}
+          reviewMode={false}
+          handlers={{ showModal: () => {} }}
+          privacyAgreementAccepted
+          testing={false}
+          showListOnly={false}
+          limitedConsentResponse
+        />,
+      );
 
-    expect(container.innerHTML).to.eq('<div></div>');
+      verifyEvidenceHeader();
+
+      const listItems = $$('li', container);
+      const headers = $$('h5', container);
+
+      verifyAuthorization(headers, listItems);
+      verifyLimitedConsentPrompt(headers, listItems);
+      verifyLimitedConsentDetails(headers, listItems);
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider One',
+          issues: 'Hypertension, Right Knee Injury, and Migraines',
+          dates: 'May 6, 2015 – May 8, 2015',
+        },
+        3,
+        0,
+        false,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Two',
+          issues: 'Right Knee Injury and Migraines',
+          dates: 'Dec 13, 2010 – Dec 15, 2010',
+        },
+        4,
+        1,
+        false,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Three',
+          issues: 'Hypertension and Right Knee Injury',
+          dates: 'Mar 13, 2018 – May 26, 2020',
+        },
+        5,
+        2,
+        false,
+      );
+    });
   });
 
-  it('should render review-only private content', () => {
-    const privateEvidence = records().providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent="test"
-        limitedConsentResponse
-        reviewMode
-        testing
-      />,
-    );
+  describe('when on the app review page', () => {
+    it('should render the proper content', () => {
+      const { container } = render(
+        <EvidencePrivateContent
+          list={records().providerFacility}
+          limitedConsent={limitedConsentDetails}
+          isOnReviewPage
+          reviewMode
+          handlers={{ showModal: () => {} }}
+          privacyAgreementAccepted
+          testing={false}
+          showListOnly={false}
+          limitedConsentResponse
+        />,
+      );
 
-    expect($('.private-title', container).textContent).to.contain(
-      content.privateTitle,
-    );
-    expect($$('ul', container).length).to.eq(1);
-    expect($$('li', container).length).to.eq(4);
-    expect($$('.private-facility', container).length).to.eq(2);
-    expect($$('.private-limitation', container).length).to.eq(1);
-    expect($$('.edit-item', container).length).to.eq(0);
-    expect($$('.remove-item', container).length).to.eq(0);
+      verifyEvidenceHeader();
+
+      const listItems = $$('li', container);
+      const headers = $$('h6', container);
+
+      verifyAuthorization(headers, listItems, true);
+      verifyLimitedConsentPrompt(headers, listItems, true);
+      verifyLimitedConsentDetails(headers, listItems, true);
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider One',
+          issues: 'Hypertension, Right Knee Injury, and Migraines',
+          dates: 'May 6, 2015 – May 8, 2015',
+        },
+        3,
+        0,
+        true,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Two',
+          issues: 'Right Knee Injury and Migraines',
+          dates: 'Dec 13, 2010 – Dec 15, 2010',
+        },
+        4,
+        1,
+        true,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Three',
+          issues: 'Hypertension and Right Knee Injury',
+          dates: 'Mar 13, 2018 – May 26, 2020',
+        },
+        5,
+        2,
+        true,
+      );
+    });
   });
 
-  it('should render list only for confirmation page content', () => {
-    const privateEvidence = records().providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent="test"
-        limitedConsentResponse
-        reviewMode
-        showListOnly
-        testing
-      />,
-    );
+  describe('when on the confirmation page', () => {
+    it('should render the proper content', () => {
+      const { container } = render(
+        <EvidencePrivateContent
+          list={records().providerFacility}
+          limitedConsent={limitedConsentDetails}
+          isOnReviewPage={false}
+          reviewMode
+          handlers={{ showModal: () => {} }}
+          privacyAgreementAccepted
+          testing={false}
+          showListOnly
+          limitedConsentResponse
+        />,
+      );
 
-    expect($('.private-title', container).textContent).to.contain(
-      content.privateTitle,
-    );
-    expect($$('ul', container).length).to.eq(1);
-    expect($$('li', container).length).to.eq(4);
-    expect($$('.private-facility', container).length).to.eq(2);
-    expect($$('.private-limitation', container).length).to.eq(1);
-    expect($$('.edit-item', container).length).to.eq(0);
-    expect($$('.remove-item', container).length).to.eq(0);
+      verifyEvidenceHeader();
+
+      const listItems = $$('li', container);
+      const headers = $$('h5', container);
+
+      verifyAuthorization(headers, listItems, true);
+      verifyLimitedConsentPrompt(headers, listItems, true);
+      verifyLimitedConsentDetails(headers, listItems, true);
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider One',
+          issues: 'Hypertension, Right Knee Injury, and Migraines',
+          dates: 'May 6, 2015 – May 8, 2015',
+          address: [
+            '123 Main Street',
+            'Street address 2',
+            'San Antonio, TX 78258',
+          ],
+        },
+        3,
+        0,
+        true,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Two',
+          issues: 'Right Knee Injury and Migraines',
+          dates: 'Dec 13, 2010 – Dec 15, 2010',
+          address: ['456 Elm Street', 'Tallahassee, FL 87582'],
+        },
+        4,
+        1,
+        true,
+      );
+
+      verifyProviderPrivate(
+        headers,
+        listItems,
+        {
+          providerName: 'Provider Three',
+          issues: 'Hypertension and Right Knee Injury',
+          dates: 'Mar 13, 2018 – May 26, 2020',
+          address: ['987 Oak Street', 'Madison, AL 18375'],
+        },
+        5,
+        2,
+        true,
+      );
+    });
   });
 
-  it('should show missing facility message', () => {
-    const { container } = render(
-      <EvidencePrivateContent list={['']} limitedConsent="" testing />,
-    );
+  describe('when parts of the data are missing', () => {
+    const fullData = {
+      providerFacilityName: 'Provider Three',
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '987 Oak Street',
+        street2: '',
+        city: 'Madison',
+        state: 'AL',
+        postalCode: '18375',
+      },
+      issues: ['Hypertension', 'Right Knee Injury'],
+      treatmentDateRange: {
+        from: '2018-03-13',
+        to: '2020-05-26',
+      },
+    };
 
-    const ul = $('ul', container);
-    expect(ul.textContent).to.contain('Missing provider name');
-    expect(ul.textContent).to.contain('Missing condition');
-    expect(ul.textContent).to.contain('Incomplete address');
-    expect(ul.textContent).to.contain('Missing treatment dates');
-  });
+    const getContainer = partialData => {
+      return render(
+        <EvidencePrivateContent
+          list={[partialData]}
+          limitedConsent={limitedConsentDetails}
+          isOnReviewPage={false}
+          reviewMode
+          handlers={{ showModal: () => {} }}
+          privacyAgreementAccepted
+          testing={false}
+          showListOnly
+          limitedConsentResponse
+        />,
+      );
+    };
 
-  it('should show missing issues message', () => {
-    const privateEvidence = records({ emptyIssue: true }).providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent
-        list={privateEvidence}
-        limitedConsent=""
-        testing
-      />,
-    );
+    describe('when the provider name is missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = { ...fullData, providerFacilityName: '' };
+        getContainer(partialData);
 
-    const li = $$('li', container);
-    expect(li[0].textContent).to.contain(
-      'Do you want to limit the information we can request?No',
-    );
-    expect(li[1].textContent).to.contain('Missing condition');
-    expect(li[2].textContent).to.contain('Test 1, Test 2, and Tinnitus');
-  });
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Missing provider name');
+      });
+    });
 
-  it('should have edit links pointing to the appropriate private indexed page or limitation page', () => {
-    const privateEvidence = records().providerFacility;
-    const { container } = render(
-      <EvidencePrivateContent list={privateEvidence} testing />,
-    );
+    describe('when the issues are missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = { ...fullData, issues: [] };
+        getContainer(partialData);
 
-    const links = $$('.edit-item', container);
-    expect(links[0].getAttribute('data-link')).to.contain(
-      LIMITED_CONSENT_PROMPT_PATH,
-    );
-    expect(links[1].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=0`,
-    );
-    expect(links[2].getAttribute('data-link')).to.contain(
-      `${EVIDENCE_PRIVATE_PATH}?index=1`,
-    );
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Missing condition');
+      });
+    });
+
+    describe('when part of the address is missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = {
+          ...fullData,
+          providerFacilityAddress: {
+            ...fullData.providerFacilityAddress,
+            city: '',
+          },
+        };
+
+        getContainer(partialData);
+
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Incomplete address');
+      });
+    });
+
+    describe('when the fromDate is missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = {
+          ...fullData,
+          treatmentDateRange: {
+            ...fullData.treatmentDateRange,
+            from: undefined,
+          },
+        };
+
+        getContainer(partialData);
+
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Missing start date');
+      });
+    });
+
+    describe('when the toDate is missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = {
+          ...fullData,
+          treatmentDateRange: {
+            ...fullData.treatmentDateRange,
+            to: '',
+          },
+        };
+
+        getContainer(partialData);
+
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Missing end date');
+      });
+    });
+
+    describe('when both dates are missing', () => {
+      it('should render the proper errors', () => {
+        const partialData = {
+          ...fullData,
+          treatmentDateRange: {
+            ...fullData.treatmentDateRange,
+            from: '',
+            to: '',
+          },
+        };
+
+        getContainer(partialData);
+
+        const error = $$('.usa-input-error-message')[0];
+        expect(error.textContent).to.contain('Missing treatment dates');
+      });
+    });
   });
 
   it('should execute callback when removing an entry', () => {
     const removeSpy = sinon.spy();
-    const privateEvidence = records().providerFacility;
     const handlers = { showModal: removeSpy };
+
     const { container } = render(
       <EvidencePrivateContent
-        list={privateEvidence}
+        list={records().providerFacility}
         handlers={handlers}
         testing
       />,

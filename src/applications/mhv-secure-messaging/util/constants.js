@@ -16,11 +16,11 @@ export const Paths = {
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
   CONTACT_LIST: '/contact-list/',
-  RECENT_CARE_TEAMS: '/new-message/recent',
-  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system',
-  SELECT_CARE_TEAM: 'select-care-team',
-  START_MESSAGE: 'start-message',
-  CARE_TEAM_HELP: '/new-message/care-team-help',
+  RECENT_CARE_TEAMS: '/new-message/recent/',
+  SELECT_HEALTH_CARE_SYSTEM: 'select-health-care-system/',
+  SELECT_CARE_TEAM: 'select-care-team/',
+  START_MESSAGE: 'start-message/',
+  CARE_TEAM_HELP: '/new-message/care-team-help/',
 };
 
 export const DefaultFolders = {

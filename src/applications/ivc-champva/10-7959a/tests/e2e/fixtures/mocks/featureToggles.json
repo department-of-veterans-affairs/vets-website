@@ -2,8 +2,7 @@
   "data": {
     "type": "feature_toggles",
     "features": [
-      { "name": "form107959a", "value": true },
-      { "name": "champva_enable_claim_resubmit_question", "value": true}
+      { "name": "champvaEnableClaimResubmitQuestion", "value": true }
     ]
   }
 }

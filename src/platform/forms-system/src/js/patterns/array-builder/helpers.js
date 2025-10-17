@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import {
+  getUrlPathIndex,
+  stringifyUrlParams,
+} from 'platform/forms-system/src/js/helpers';
+import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
@@ -164,15 +168,65 @@ export function onNavForwardKeepUrlParams({ goNextPath, urlParams }) {
 }
 
 /**
- * Usage:
- * ```
- * uiSchema: ...
- * schema: ...
- * onNavBack: onNavBackKeepUrlParams,
- * ```
+ * Navigate back while preserving URL query params.
+ *
+ * If currently on a per-item page, uses the default `goPreviousPath(urlParams)`.
+ * Otherwise, when backing from outside a per-item loop, it searches backward to
+ * the nearest array summary page and navigates there (keeping params). On error
+ * or if no target is found, falls back to `goPreviousPath(urlParams)`.
+ *
+ * @param {Object} args
+ * @param {Object} args.formData - Current form data used to resolve eligible pages.
+ * @param {(path:string)=>void} args.goPath - Function to navigate to a specific path.
+ * @param {(params?:Object)=>any} args.goPreviousPath - Function to navigate to the previous path.
+ * @param {Array<Object>} args.pageList - Ordered list of page configs for the flow.
+ * @param {string} args.pathname - Current route pathname.
+ * @param {Record<string, string | number | boolean | (string|number|boolean)[]>} args.urlParams - URL params to preserve.
+ * @returns {any} Whatever the navigation function returns (often `void`).
+ *
+ * @example // Usage in a page config
+ * const page = {
+ *   uiSchema,
+ *   schema,
+ *   onNavBack: onNavBackKeepUrlParams,
+ * };
  */
-export function onNavBackKeepUrlParams({ goPreviousPath, urlParams }) {
-  goPreviousPath(urlParams);
+export function onNavBackKeepUrlParams({
+  formData,
+  goPath,
+  goPreviousPath,
+  pageList,
+  pathname,
+  urlParams,
+}) {
+  try {
+    const { pages, pageIndex } = getEligiblePages(pageList, formData, pathname);
+    if (pageIndex > 0) {
+      const isPerItem = p =>
+        !!(p?.showPagePerItem || p?.pageConfig?.showPagePerItem);
+
+      const current = pages[pageIndex];
+      const prev = pages[pageIndex - 1];
+
+      // we're inside the loop, use the default behavior
+      if (isPerItem(current)) return goPreviousPath(urlParams);
+
+      // we're outside the loop, find the nearest page that is not a per-item page
+      if (isPerItem(prev)) {
+        let i = pageIndex - 1;
+        while (i >= 0 && !pages[i]?.isArrayBuilderSummary) i -= 1;
+
+        if (i >= 0 && pages[i]?.path) {
+          const params = stringifyUrlParams(urlParams);
+          return goPath(pages[i].path + (params || ''));
+        }
+      }
+    }
+  } catch {
+    /* ignore and fall back */
+  }
+
+  return goPreviousPath(urlParams);
 }
 
 /**

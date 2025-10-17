@@ -10,11 +10,8 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { add, compareAsc } from 'date-fns';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import NeedHelpSection from '../components/DownloadRecords/NeedHelpSection';
-import ExternalLink from '../components/shared/ExternalLink';
 import {
   getFailedDomainList,
   getLastSuccessfulUpdate,
@@ -60,24 +57,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     },
   } = useSelector(state => state);
 
-  const fullState = useSelector(state => state);
-
-  const selectMilestoneTwoFlag = useSelector(
-    state =>
-      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsMilestoneTwo],
-  );
-
   const ccdExtendedFileTypeFlag = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsCcdExtendedFileTypes
-      ],
-  );
-
-  const useUnifiedSelfEnteredAPI = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUseUnifiedSeiApi
       ],
   );
 
@@ -203,7 +186,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const handleDownloadSelfEnteredPdf = e => {
     e.preventDefault();
     setSelfEnteredPdfLoading(true);
-    generateSEIPdf(userProfile, useUnifiedSelfEnteredAPI, runningUnitTest)
+    generateSEIPdf(userProfile, runningUnitTest)
       .then(res => {
         if (res.success) {
           const { failedDomains } = res;
@@ -345,10 +328,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </h3>
           <p className="vads-u-margin--0">
             This report includes all the health information you entered yourself
-            in the previous version of My HealtheVet.
-            {selectMilestoneTwoFlag &&
-              ` You can no longer enter or
-            edit health information in My HealtheVet.`}
+            in the previous version of My HealtheVet. You can no longer enter or
+            edit health information in My HealtheVet.
           </p>
           <p>
             Your VA health care team can’t access this self-entered information
@@ -372,24 +353,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
-          )}
-          {!selectMilestoneTwoFlag && (
-            <>
-              <p>
-                <strong>Note:</strong> Self-entered My Goals are no longer
-                available on My HealtheVet and not included in this report. To
-                download your historical goals you can go to the previous
-                version of My HealtheVet.
-              </p>
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'va-blue-button',
-                )}
-                text="Go to the previous version of My HealtheVet to download historical
-                goals"
-              />
-            </>
           )}
         </va-accordion-item>
       </va-accordion>
