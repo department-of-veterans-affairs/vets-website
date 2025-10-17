@@ -1,7 +1,5 @@
 // import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../utils/constants';
@@ -30,7 +28,7 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
   submit,
   trackingPrefix: 'med-expense-8416',
-  v3SegmentedProgressBar: true,
+  // v3SegmentedProgressBar: true,
   dev: {
     // disableWindowUnloadInCI: true,
     showNavLinks: true,
@@ -40,8 +38,8 @@ const formConfig = {
   //   dependencies: [externalServices.icmhs],
   // },
   formId: VA_FORM_IDS.FORM_21P_8416,
-  // useCustomScrollAndFocus: false,
-  defaultDefinitions: commonDefinitions,
+  useCustomScrollAndFocus: false,
+  defaultDefinitions: {},
   prefillEnabled: true,
   saveInProgress: {
     messages: {
@@ -56,6 +54,9 @@ const formConfig = {
   savedFormMessages: {
     notFound: 'Please start over to submit a medical expense report.',
     noAuth: 'Please sign in again to resume your medical expense report.',
+  },
+  formOptions: {
+    useWebComponentForNavigation: true,
   },
   preSubmitInfo: {
     statementOfTruth: {
