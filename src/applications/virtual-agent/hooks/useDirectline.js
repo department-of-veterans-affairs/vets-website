@@ -8,11 +8,11 @@ const getDirectLineDomain = () =>
     : 'https://northamerica.directline.botframework.com/v3/directline';
 
 // Connection logic:
-// - Production DirectLine (websocket) does not replay history with watermark.
-//   To guarantee greeting and avoid blank chat on reload, always start a NEW
-//   conversation (omit conversationId/watermark) in production.
-// - Local mock supports watermark-based replay: include conversationId and
-//   watermark=0 to request full transcript.
+// - If session persistence is enabled, both production DirectLine (websocket)
+//   and local mock will attempt to replay history using conversationId and
+//   watermark=0 to request the full transcript.
+// - If session persistence is not enabled, a NEW conversation is started
+//   (conversationId and watermark are omitted).
 export default function useDirectLine(createDirectLine) {
   const token = getTokenKey();
   const domain = getDirectLineDomain();
