@@ -13,6 +13,8 @@ import {
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
+  pdfDefaultPendingMedDefinition,
+  pdfDefaultPendingRenewalDefinition,
   nonVAMedicationTypes,
   FIELD_NOT_AVAILABLE,
 } from './constants';
@@ -86,6 +88,20 @@ export const buildPrescriptionsTXT = prescriptions => {
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'NewOrder';
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
+    let statusDefinition;
+    if (pendingMed) {
+      statusDefinition = pdfDefaultPendingMedDefinition;
+    } else if (pendingRenewal) {
+      statusDefinition = pdfDefaultPendingRenewalDefinition;
+    } else {
+      statusDefinition =
+        pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition;
+    }
+    const statusText = statusDefinition.reduce(
+      (fullStatus, item) =>
+        fullStatus + item.value + (item.continued ? ' ' : '\n'),
+      '',
+    );
     result += `
 ${rx.prescriptionName}
 
@@ -110,12 +126,7 @@ Prescription number: ${rx.prescriptionNumber}
 `
         : ''
     }
-Status: ${rx.dispStatus || 'Unknown'}
-${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
-    )}
+Status: ${statusText}
 Refills left: ${validateIfAvailable(
       'Number of refills left',
       rx.refillRemaining,
@@ -220,6 +231,22 @@ export const buildVAPrescriptionTXT = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
+
+  let statusDefinition;
+  if (pendingMed) {
+    statusDefinition = pdfDefaultPendingMedDefinition;
+  } else if (pendingRenewal) {
+    statusDefinition = pdfDefaultPendingRenewalDefinition;
+  } else {
+    statusDefinition =
+      pdfStatusDefinitions[prescription.refillStatus] ||
+      pdfDefaultStatusDefinition;
+  }
+  const statusText = statusDefinition.reduce(
+    (fullStatus, item) =>
+      fullStatus + item.value + (item.continued ? ' ' : '\n'),
+    '',
+  );
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -248,15 +275,7 @@ Prescription number: ${prescription.prescriptionNumber}
 `
       : ''
   }
-Status: ${prescription.dispStatus || 'Unknown'}
-${(
-    pdfStatusDefinitions[prescription.refillStatus] ||
-    pdfDefaultStatusDefinition
-  ).reduce(
-    (fullStatus, item) =>
-      fullStatus + item.value + (item.continued ? ' ' : '\n'),
-    '',
-  )}
+Status: ${statusText}
 Refills left: ${validateIfAvailable(
     'Number of refills left',
     prescription.refillRemaining,

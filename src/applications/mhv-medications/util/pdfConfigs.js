@@ -13,6 +13,8 @@ import {
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
+  pdfDefaultPendingMedDefinition,
+  pdfDefaultPendingRenewalDefinition,
   nonVAMedicationTypes,
   FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
@@ -146,6 +148,20 @@ export const buildPrescriptionsPDFList = prescriptions => {
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
 
+    let statusDefinition;
+    if (pendingMed) {
+      statusDefinition = pdfDefaultPendingMedDefinition;
+    } else if (pendingRenewal) {
+      statusDefinition = pdfDefaultPendingRenewalDefinition;
+    } else {
+      statusDefinition =
+        pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition;
+    }
+    const statusText = statusDefinition?.reduce(
+      (fullStatus, item) =>
+        fullStatus + item.value + (item.continued ? ' ' : '\n'),
+      '',
+    );
     return {
       header: rx.prescriptionName,
       sections: [
@@ -177,15 +193,13 @@ export const buildPrescriptionsPDFList = prescriptions => {
               : []),
             {
               title: 'Status',
-              value: validateField(rx.dispStatus),
+              value: validateField(statusText),
               inline: true,
               indent: 32,
             },
             {
               isRich: true,
-              value:
-                pdfStatusDefinitions[rx.refillStatus] ||
-                pdfDefaultStatusDefinition,
+              value: validateField(rx.dispStatus),
               indent: 32,
             },
             {
@@ -392,6 +406,21 @@ export const buildVAPrescriptionPDFList = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
+  let statusDefinition;
+  if (pendingMed) {
+    statusDefinition = pdfDefaultPendingMedDefinition;
+  } else if (pendingRenewal) {
+    statusDefinition = pdfDefaultPendingRenewalDefinition;
+  } else {
+    statusDefinition =
+      pdfStatusDefinitions[prescription.refillStatus] ||
+      pdfDefaultStatusDefinition;
+  }
+  const statusText = statusDefinition?.reduce(
+    (fullStatus, item) =>
+      fullStatus + item.value + (item.continued ? ' ' : '\n'),
+    '',
+  );
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
@@ -420,14 +449,8 @@ export const buildVAPrescriptionPDFList = prescription => {
               : []),
             {
               title: 'Status',
-              value: prescription.dispStatus || 'Unknown',
+              value: validateField(statusText),
               inline: true,
-            },
-            {
-              isRich: true,
-              value:
-                pdfStatusDefinitions[prescription.refillStatus] ||
-                pdfDefaultStatusDefinition,
             },
             {
               title: 'Refills left',
