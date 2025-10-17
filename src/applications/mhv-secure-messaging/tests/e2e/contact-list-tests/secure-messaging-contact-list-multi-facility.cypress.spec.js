@@ -23,6 +23,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
 
   it('verify empty contact list alerts', () => {
+    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
     ContactListPage.selectAllCheckBox();
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();

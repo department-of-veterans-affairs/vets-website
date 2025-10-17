@@ -24,7 +24,7 @@ const FacilityCheckboxGroup = props => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
     triageTeams.map(team =>
-      updatePreferredTeam(team.triageTeamId, newSelectAll),
+      updatePreferredTeam(team.triageTeamId, newSelectAll, team.stationNumber),
     );
   };
 
@@ -69,7 +69,11 @@ const FacilityCheckboxGroup = props => {
                 label={team.suggestedNameDisplay || team.name}
                 checked={team.preferredTeam}
                 onVaChange={() => {
-                  updatePreferredTeam(team.triageTeamId, null);
+                  updatePreferredTeam(
+                    team.triageTeamId,
+                    null,
+                    team.stationNumber,
+                  );
                 }}
                 data-dd-action-name="Individual team - checkbox"
               />

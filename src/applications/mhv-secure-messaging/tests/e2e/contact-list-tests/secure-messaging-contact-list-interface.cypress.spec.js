@@ -54,6 +54,39 @@ describe('SM CONTACT LIST', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
+  it(`tracks selected team count in accordion`, () => {
+    SecureMessagingSite.login(
+      mockToggles,
+      mockEhrData,
+      true,
+      mockMixedCernerFacilitiesUser,
+      mockFacilities,
+    );
+    ContactListPage.loadContactList(mockMixRecipients);
+
+    ContactListPage.verifyHeaders();
+
+    ContactListPage.verifyAllCheckboxes(true);
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
+
+    ContactListPage.selectFirstCheckBox('Select all 4 teams');
+    ContactListPage.verifyAccordionSubheader('0 teams selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
+
+    ContactListPage.selectCheckBox('TG-7410');
+    ContactListPage.verifySingleCheckBox('TG-7410', true);
+    ContactListPage.verifyAccordionSubheader('1 team selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
+
+    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
+    ContactListPage.selectCheckBox('SLC4 PCMM');
+    ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
+    ContactListPage.verifyAccordionSubheader('1 team selected');
+    ContactListPage.verifyAccordionSubheader('3 teams selected');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
   it(`verify contact list wit plain TG names`, () => {
     const updatedMockRecipientsResponse = GeneralFunctionsPage.updateTGSuggestedName(
       mockRecipients,
