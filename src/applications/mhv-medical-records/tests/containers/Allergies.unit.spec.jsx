@@ -53,7 +53,7 @@ describe('Allergies list container', () => {
     });
   });
 
-  it.skip('renders without errors', () => {
+  it('renders without errors', () => {
     expect(screen.getByText('Allergies and reactions', { exact: true })).to
       .exist;
   });
