@@ -114,7 +114,6 @@ describe('MyVA Dashboard - Appointments Error States', () => {
         cy.login(mockUser4);
         cy.visit('my-va/');
 
-        cy.findByTestId('dashboard-section-health-care').should('not.exist');
         cy.findByTestId('dashboard-section-health-care').should('exist');
         cy.findByTestId('no-healthcare-text').should('exist');
         cy.findByTestId('view-manage-appointments-link-from-error').should(
