@@ -157,6 +157,13 @@ const appealData1 = {
         description: 'Post traumatic stress disorder (PTSD) is granted.',
         diagnosticCode: '9411',
       },
+      {
+        active: true,
+        lastAction: null,
+        date: '2024-10-25',
+        description: null,
+        diagnosticCode: '9411',
+      },
     ],
     events: [
       {
@@ -166,6 +173,133 @@ const appealData1 = {
     ],
     evidence: [],
   },
+};
+
+const appealData = {
+  data: [
+    appealData1,
+    {
+      id: '2765759',
+      type: 'legacyAppeal',
+      attributes: {
+        appealIds: ['2765759'],
+        updated: '2021-03-04T19:55:21-05:00',
+        incompleteHistory: false,
+        type: 'original',
+        // this determines if the appeal is open or closed
+        active: true,
+        description: 'Benefits as a result of VA error (Section 1151)',
+        aod: false,
+        location: 'bva',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: { type: 'on_docket', details: {} },
+        alerts: [],
+        docket: {
+          front: false,
+          total: 140135,
+          ahead: 101381,
+          ready: 16432,
+          month: '2012-04-01',
+          docketMonth: '2011-01-01',
+          eta: null,
+        },
+        issues: [
+          {
+            description: 'Benefits as a result of VA error (Section 1151)',
+            diagnosticCode: null,
+            active: true,
+            lastAction: 'withdrawn',
+            date: new Date().toISOString(),
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: 'withdrawn',
+            date: new Date().toISOString(),
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: 'Benefits as a result of VA error (Section 1151)',
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+        ],
+        events: [
+          { type: 'nod', date: '2012-02-02' },
+          { type: 'soc', date: '2012-03-03' },
+          { type: 'form9', date: '2012-04-04' },
+          { type: 'hearing_held', date: '2023-01-11' },
+        ],
+        evidence: [],
+      },
+    },
+    {
+      id: 'HLR4196',
+      type: 'higherLevelReview',
+      attributes: {
+        appealIds: ['HLR4196'],
+        updated: '2025-09-26T10:48:46-04:00',
+        incompleteHistory: false,
+        active: true,
+        description: '1 medical issue and 1 non-rated issue',
+        location: 'aoj',
+        aoj: 'vha',
+        programArea: 'medical',
+        status: {
+          type: 'hlr_received',
+          details: {},
+        },
+        alerts: [],
+        issues: [
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: 'Beneficiary Travel - This is a test',
+            diagnosticCode: null,
+          },
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: null,
+            diagnosticCode: null,
+          },
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: null,
+            diagnosticCode: null,
+          },
+        ],
+        events: [
+          {
+            type: 'hlr_request',
+            date: '2023-01-11',
+          },
+        ],
+        evidence: [],
+      },
+    },
+  ],
 };
 
 const baseClaims = [
@@ -1330,16 +1464,8 @@ const responses = {
   'GET /v0/benefits_claims/9': getClaimDataById('9'),
   'GET /v0/benefits_claims/10': getClaimDataById('10'),
 
-  'GET /v0/appeals': {
-    data: [appealData1],
-    meta: {
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalPages: 1,
-        totalEntries: 1,
-      },
-    },
+  'GET /v0/appeals': (_req, res) => {
+    return res.status(200).json(appealData);
   },
 
   'GET /v0/appeals/1': {
@@ -1376,6 +1502,33 @@ const responses = {
         { name: 'cst_show_document_upload_status', value: true },
       ],
     },
+  },
+
+  // Mock POST handler for file upload
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
+    // Simulate successful file upload
+    // In a real scenario, this would process the multipart form data
+    const { claimId } = req.params;
+
+    // Extract form data if available (for more realistic mocking)
+    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
+    const documentType = req.body?.document_type || 'Medical records';
+
+    // Simulate a slight delay like a real upload
+    setTimeout(() => {
+      res.status(200).json({
+        data: {
+          success: true,
+          jobId: `job-${Date.now()}`,
+          claimId,
+          document: {
+            fileName,
+            documentType,
+            uploadDate: new Date().toISOString(),
+          },
+        },
+      });
+    }, 500); // 500ms delay to simulate upload processing
   },
 };
 

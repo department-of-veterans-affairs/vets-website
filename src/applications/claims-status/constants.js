@@ -219,6 +219,7 @@ export const CONTACT_INFO = {
 
 export const ANCHOR_LINKS = {
   otherWaysToSendDocuments: 'other-ways-to-send',
+  fileSubmissionsInProgress: 'file-submissions-in-progress',
 };
 
 export const LINKS = {

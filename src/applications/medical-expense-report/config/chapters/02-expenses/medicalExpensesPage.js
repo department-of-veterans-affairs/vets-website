@@ -19,6 +19,7 @@ import {
   careFrequencyLabels,
   recipientTypeLabels,
 } from '../../../utils/labels';
+import { transformDate } from './helpers';
 
 function introDescription() {
   return (
@@ -53,8 +54,8 @@ const options = {
   isItemIncomplete: item => !item?.recipients || !item?.paymentDate,
   maxItems: 5,
   text: {
-    getItemName: item => item?.recipients || '',
-    cardDescription: item => item?.paymentDate || '',
+    getItemName: item => item?.provider || 'Provider',
+    cardDescription: item => transformDate(item?.paymentDate) || '',
   },
 };
 

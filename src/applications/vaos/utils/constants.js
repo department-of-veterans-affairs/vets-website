@@ -412,6 +412,15 @@ export const ELIGIBILITY_REASONS = {
   error: 'error',
 };
 
+// https://coderepo.mobilehealth.va.gov/projects/VAR/repos/vaos-service/browse/vaos-service/src/main/resources/swagger.json?useDefaultHandler=true
+// VaosIneligibilityReasonValueSet
+export const INELIGIBILITY_CODES_VAOS = {
+  PATIENT_HISTORY_INSUFFICIENT: 'patient-history-insufficient',
+  REQUEST_LIMIT_EXCEEDED: 'facility-request-limit-exceeded',
+  DIRECT_SCHEDULING_DISABLED: 'facility-cs-direct-disabled',
+  REQUEST_SCHEDULING_DISABLED: 'facility-cs-request-disabled',
+};
+
 export const CANCELLATION_REASONS = {
   patient: 'pat',
   provider: 'prov',
