@@ -73,3 +73,33 @@ export const parseDateWithOffset = (
  */
 export const getReadableDate = dateString =>
   parseDate(dateString, FORMAT_READABLE_DATE_FNS, FORMAT_YMD_DATE_FNS);
+
+/**
+ * Get tomorrow's date formatted for display to users
+ * @returns {string} Tomorrow's date in "Month Day, Year" format
+ */
+export const getTomorrowFormatted = () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  });
+};
+
+/**
+ * Get the current timezone abbreviation (e.g., "PST", "EST")
+ * @returns {string} Timezone abbreviation or empty string if not available
+ */
+export const getCurrentTimeZoneAbbr = () => {
+  const date = new Date();
+  return (
+    new Intl.DateTimeFormat('en-US', {
+      timeZoneName: 'short',
+    })
+      .formatToParts(date)
+      .find(part => part.type === 'timeZoneName')?.value || ''
+  );
+};

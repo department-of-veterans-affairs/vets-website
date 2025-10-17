@@ -1,10 +1,71 @@
-import { isValid, isToday, isAfter, startOfToday } from 'date-fns';
+import { isValid } from 'date-fns';
 
 import { parseISODate } from '~/platform/forms-system/src/js/helpers';
 
 import { FORMAT_YMD_DATE_FNS } from '../constants';
 import { parseDateToDateObj } from '../utils/dates';
 import { fixDateFormat } from '../utils/replace';
+
+/**
+ * Get current UTC date at start of day (midnight)
+ * @returns {Date} - Current UTC date at start of day
+ */
+const getCurrentUTCStartOfDay = () => {
+  const now = new Date();
+  return new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate(),
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+};
+
+/**
+ * Convert any date to UTC start of day (preserving calendar date)
+ * @param {Date} date - The date to convert
+ * @returns {Date} - UTC date at start of day
+ */
+const toUTCStartOfDay = date => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+  );
+};
+
+/**
+ * Check if a date is the same day as the current UTC date
+ * Used for API-pulled issues: shows same-day issues with warning but allows future issues
+ * This ensures consistency with backend validation which uses UTC
+ * @param {Date} date - The date to check
+ * @returns {boolean} - True if the date is the same as today in UTC
+ */
+export const isSameDayAsUTC = date => {
+  if (!date || !isValid(date)) return false;
+
+  const utcToday = getCurrentUTCStartOfDay();
+  const inputDateUTC = toUTCStartOfDay(date);
+
+  return inputDateUTC.getTime() === utcToday.getTime();
+};
+
+/**
+ * Check if a date is today or in the future relative to UTC
+ * Used for manual issue validation: blocks both today and future dates
+ * @param {Date} date - The date to check
+ * @returns {boolean} - True if date is today or future in UTC
+ */
+export const isTodayOrInFutureUTC = date => {
+  if (!date || !isValid(date)) return false;
+
+  const utcToday = getCurrentUTCStartOfDay();
+  const inputDateUTC = toUTCStartOfDay(date);
+
+  return inputDateUTC.getTime() >= utcToday.getTime();
+};
 
 const buildDatePartErrors = (month, day, year) => {
   // get last day of the month (month is zero based, so we're +1 month, day 0);
@@ -22,12 +83,15 @@ const buildDatePartErrors = (month, day, year) => {
 const isInvalidDateString = (year, day, month, dateString) => {
   return (
     !year ||
+    // eslint-disable-next-line no-restricted-globals
     isNaN(year) ||
     // minimum year is 1900; no need to check if year === '0'
     !day ||
+    // eslint-disable-next-line no-restricted-globals
     isNaN(day) ||
     day === '0' ||
     !month ||
+    // eslint-disable-next-line no-restricted-globals
     isNaN(month) ||
     month === '0' ||
     dateString?.length < FORMAT_YMD_DATE_FNS.length
@@ -51,7 +115,7 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isToday(dateObj) || isAfter(dateObj, startOfToday()),
+    isTodayOrInFuture: isTodayOrInFutureUTC(dateObj), // Use UTC-based validation
   };
 };
 
@@ -68,8 +132,9 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
     date.errors.other = true; // other part error
     return true;
   }
-  if (date.isTodayOrInFuture) {
+  if (date.isTodayOrInFutureUTC) {
     // Lighthouse won't accept same day (as submission) decision date
+    // Using UTC-based validation to match backend behavior
     errors.addError(errorMessages.decisions.pastDate);
     // eslint-disable-next-line no-param-reassign
     date.errors.year = true; // only the year is invalid at this point

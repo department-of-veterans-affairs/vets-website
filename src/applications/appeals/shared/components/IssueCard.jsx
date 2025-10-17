@@ -42,6 +42,9 @@ export const IssueCard = ({
   const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
+  const isBlocked = item.isBlockedSameDay || false;
+  const isFirstNonBlockedAfterBlocked =
+    options?.isFirstNonBlockedAfterBlocked || false;
 
   const wrapperClass = [
     'widget-wrapper',
@@ -50,8 +53,13 @@ export const IssueCard = ({
     'vads-u-padding-top--2',
     'vads-u-padding-right--3',
     'vads-u-margin-bottom--0',
-    'vads-u-border-bottom--1px',
-    'vads-u-border-color--gray-light',
+    // Remove bottom border for blocked issues to make them appear grouped
+    isBlocked ? '' : 'vads-u-border-bottom--1px',
+    isBlocked ? '' : 'vads-u-border-color--gray-light',
+    // Add top border to first non-blocked issue after blocked issues for visual separation
+    isFirstNonBlockedAfterBlocked
+      ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--2'
+      : '',
   ].join(' ');
 
   const titleClass = [
@@ -104,9 +112,15 @@ export const IssueCard = ({
   const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
-    <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
+    <li
+      id={`issue-${index}`}
+      name={`issue-${index}`}
+      key={index}
+      className={isBlocked ? 'blocked-issue-item' : undefined}
+      aria-label={isBlocked ? `Blocked issue: ${issueName}` : undefined}
+    >
       <div className={wrapperClass}>
-        {showCheckbox ? (
+        {showCheckbox && !isBlocked ? (
           <VaCheckbox
             checked={itemIsSelected}
             data-dd-action-name="Issue Name"
@@ -114,6 +128,7 @@ export const IssueCard = ({
             label={issueName}
             name={elementId}
             onVaChange={handlers.onChange}
+            aria-label={issueName}
           >
             <div slot="internal-description">
               <IssueCardContent id={`issue-${index}-description`} {...item} />
@@ -121,7 +136,7 @@ export const IssueCard = ({
             </div>
           </VaCheckbox>
         ) : (
-          <>
+          <div className={isBlocked ? 'vads-u-margin-left--4' : ''}>
             <Header
               className={titleClass}
               data-dd-action-name="rated issue name"
@@ -130,7 +145,7 @@ export const IssueCard = ({
             </Header>
             <IssueCardContent id={`issue-${index}-description`} {...item} />
             {editControls}
-          </>
+          </div>
         )}
       </div>
     </li>

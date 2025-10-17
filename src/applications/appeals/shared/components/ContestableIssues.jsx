@@ -10,7 +10,10 @@ import ActionLink from './web-component-wrappers/ActionLink';
 import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
-import { removeModalContent } from '../content/contestableIssues';
+import {
+  removeModalContent,
+  getBlockedMessage,
+} from '../content/contestableIssues';
 import { ContestableIssuesLegend } from './ContestableIssuesLegend';
 import { MaxSelectionsAlert } from './MaxSelectionsAlert';
 import { NoneSelectedAlert } from './NoneSelectedAlert';
@@ -79,8 +82,12 @@ const ContestableIssues = props => {
     .map(item => ({
       ...item?.attributes,
       [SELECTED]: item?.[SELECTED],
+      isBlockedSameDay: item?.isBlockedSameDay, // Preserve the blocking flag
     }))
     .concat(formData.additionalIssues || []);
+
+  // eslint-disable-next-line no-console
+  console.log('🎯 ContestableIssues items with blocking flags:', items);
 
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
@@ -178,16 +185,33 @@ const ContestableIssues = props => {
     },
   };
 
-  const content = items.map((item, index) => {
+  // Check if we have any blocked issues for the alert
+  const hasBlockedIssues = items.some(item => item.isBlockedSameDay);
+
+  // Only filter blocked issues if we need to show the alert
+  const blockedIssues = hasBlockedIssues
+    ? items.filter(item => item.isBlockedSameDay)
+    : [];
+
+  const blockedMessage = getBlockedMessage(blockedIssues.length);
+
+  const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
+    // Check if this is the first non-blocked issue after blocked issues
+    const isFirstNonBlockedAfterBlocked =
+      !item.isBlockedSameDay && index > 0 && items[index - 1]?.isBlockedSameDay;
 
     const cardProps = {
       id,
       index,
       item,
       key: index,
-      options,
+      options: {
+        ...options,
+        isFirstNonBlockedAfterBlocked, // Pass this flag to IssueCard
+      },
       showCheckbox,
       onReviewPage,
       // props.testChange for testing
@@ -198,6 +222,26 @@ const ContestableIssues = props => {
     // Don't show un-selected ratings in review mode
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
+
+  const content = (
+    <>
+      {hasBlockedIssues && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+          class="vads-u-margin-top--3 vads-u-margin-bottom--2"
+          id="blocked-issues-alert"
+        >
+          <React.Fragment key=".1">
+            <p className="vads-u-margin-y--0">{blockedMessage}</p>
+            {/* Screen reader only: List of blocked condition names */}
+          </React.Fragment>
+        </va-alert>
+      )}
+      {issueCards}
+    </>
+  );
 
   return (
     <>
