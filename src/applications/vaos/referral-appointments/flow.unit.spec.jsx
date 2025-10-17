@@ -5,6 +5,11 @@ describe('Referral Appointments Flow', () => {
   describe('getReferralUrlLabel', () => {
     const tests = [
       {
+        currentPage: 'error',
+        categoryOfCare: 'Primary Care',
+        expected: 'Back to appointments',
+      },
+      {
         currentPage: 'appointments',
         categoryOfCare: 'Primary Care',
         expected: 'Appointments',
