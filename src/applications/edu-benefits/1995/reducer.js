@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from './config/form';
 import {
@@ -38,7 +37,7 @@ const dataReducer = (state = initialDataState, action) => {
   }
 };
 
-export default combineReducers({
+export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: dataReducer,
-});
+};

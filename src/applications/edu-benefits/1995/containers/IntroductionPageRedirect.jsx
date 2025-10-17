@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { fetchClaimantInfo } from '../actions';
 
 export const IntroductionPageRedirect = ({ route }) => {
@@ -11,6 +12,8 @@ export const IntroductionPageRedirect = ({ route }) => {
   const claimant = useSelector(
     state => state.data?.claimantInfo?.data?.attributes?.claimant,
   );
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const rerouteEnabled = useToggleValue(TOGGLE_NAMES.meb1995ReReoute);
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
@@ -35,13 +38,19 @@ export const IntroductionPageRedirect = ({ route }) => {
 
   useEffect(
     () => {
-      dispatch(fetchClaimantInfo());
+      if (rerouteEnabled) {
+        dispatch(fetchClaimantInfo());
+      }
     },
-    [dispatch],
+    [dispatch, rerouteEnabled],
   );
 
   useEffect(
     () => {
+      if (!rerouteEnabled) {
+        return;
+      }
+
       const lastBenefitUsed = claimant?.benefitUsage?.lastBenefitType;
       if (lastBenefitUsed) {
         sessionStorage.setItem('meb1995LastBenefitUsed', lastBenefitUsed);
@@ -49,8 +58,12 @@ export const IntroductionPageRedirect = ({ route }) => {
         sessionStorage.removeItem('meb1995LastBenefitUsed');
       }
     },
-    [claimant?.benefitUsage?.lastBenefitType],
+    [rerouteEnabled, claimant?.benefitUsage?.lastBenefitType],
   );
+
+  if (!rerouteEnabled) {
+    return null;
+  }
 
   return (
     <div
