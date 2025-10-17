@@ -15,7 +15,6 @@ import {
   generateMedicationsPDF,
   generateTextFile,
   getErrorTypeFromFormat,
-  pharmacyPhoneNumber,
   hasCmopNdcNumber,
   getRefillHistory,
 } from '../util/helpers';
@@ -377,12 +376,12 @@ const PrescriptionDetails = () => {
           </p>
           <p>
             If you need this prescription now, call your VA pharmacy
-            {pharmacyPhoneNumber(prescription) && (
+            {prescription.pharmacyPhoneNumber && (
               <>
                 {' '}
                 at{' '}
                 <va-telephone
-                  contact={pharmacyPhoneNumber(prescription)}
+                  contact={prescription.pharmacyPhoneNumber}
                   not-clickable
                 />{' '}
                 (<va-telephone tty contact="711" not-clickable />)

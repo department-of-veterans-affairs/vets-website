@@ -9,7 +9,6 @@ import {
   generateTextFile,
   generateMedicationsPDF,
   convertHtmlForDownload,
-  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
@@ -67,7 +66,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescriptionApiError,
     isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId, queryParams);
-  const pharmacyPhone = pharmacyPhoneNumber(prescription);
+  const pharmacyPhone = prescription?.pharmacyPhoneNumber;
 
   const buildMedicationInformationTxt = useCallback(
     information => {
@@ -157,7 +156,12 @@ const PrescriptionDetailsDocumentation = () => {
 
   useEffect(
     () => {
-      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
+      if (
+        !isLoadingDoc &&
+        !hasDocApiError &&
+        !isLoadingRx &&
+        contentRef.current
+      ) {
         contentRef.current.innerHTML = htmlContent || '';
       }
       focusElement(document.querySelector('h1'));

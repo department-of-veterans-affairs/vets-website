@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
-import {
-  dateFormat,
-  pharmacyPhoneNumber,
-  rxSourceIsNonVA,
-} from '../../util/helpers';
+import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
-  const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const pharmacyPhone = rx.pharmacyPhoneNumber;
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;

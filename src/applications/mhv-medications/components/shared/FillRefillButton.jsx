@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
-import { pharmacyPhoneNumber } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const FillRefillButton = rx => {
@@ -13,7 +12,7 @@ const FillRefillButton = rx => {
 
   const hasBeenDispensed =
     dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
-  const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const pharmacyPhone = rx.pharmacyPhoneNumber;
 
   if (isRefillable) {
     return (

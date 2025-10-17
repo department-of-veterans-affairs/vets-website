@@ -16,7 +16,6 @@ import {
   getShowRefillHistory,
   hasCmopNdcNumber,
   isRefillTakingLongerThanExpected,
-  pharmacyPhoneNumber,
   validateIfAvailable,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
@@ -40,7 +39,7 @@ const VaPrescription = prescription => {
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  const pharmacyPhone = pharmacyPhoneNumber(prescription);
+  const pharmacyPhone = prescription.pharmacyPhoneNumber;
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'NewOrder';
@@ -85,7 +84,7 @@ const VaPrescription = prescription => {
 
       userLanded();
     },
-    [prescription?.prescriptionId],
+    [prescription, prescription?.prescriptionId],
   );
 
   const determineStatus = () => {

@@ -25,7 +25,6 @@ export { isArrayAndHasItems } from './isArrayAndHasItems';
 export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';
-export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';

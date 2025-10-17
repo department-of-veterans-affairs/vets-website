@@ -9,7 +9,6 @@ import {
 import {
   validateField,
   dateFormat,
-  pharmacyPhoneNumber,
   determineRefillLabel,
   getShowRefillHistory,
   displayProviderName,
@@ -22,7 +21,7 @@ import { selectPendingMedsFlag } from '../../util/selectors';
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  const pharmacyPhone = pharmacyPhoneNumber(rx);
+  const pharmacyPhone = rx.pharmacyPhoneNumber;
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =
