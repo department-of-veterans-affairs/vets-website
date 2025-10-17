@@ -299,7 +299,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -320,7 +320,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -341,7 +341,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -389,7 +389,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to select care team
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       );
     });
 
@@ -412,7 +412,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to start message
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.START_MESSAGE}/`,
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
 
@@ -511,7 +511,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });

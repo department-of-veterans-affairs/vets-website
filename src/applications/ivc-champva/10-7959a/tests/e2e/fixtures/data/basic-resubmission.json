@@ -1,6 +1,7 @@
 {
   "description": "Resubmission, military base sponsor address, pharmacy claim",
   "data": {
+    "view:sharesAddressWith": "na",
     "claimStatus": "resubmission",
     "pdiOrClaimNumber": "PDI number",
     "identifyingNumber": "va12345678",

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { ProfileAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 
 import {
   optionalNumberBetween,
@@ -167,6 +168,7 @@ export const ProfileInfoSection = ({
   level = 3,
   data,
   asList = false,
+  enableAlertConfirmEmail = false,
 }) => {
   const secondaryLevel = level + 1;
 
@@ -179,6 +181,8 @@ export const ProfileInfoSection = ({
       >
         {title}
       </HeadingLevel>
+
+      {enableAlertConfirmEmail && <ProfileAlertConfirmEmail />}
 
       <div className="vads-u-margin-top--1">
         {Array.isArray(data) ? (
@@ -196,6 +200,7 @@ ProfileInfoSection.propTypes = {
     .isRequired,
   asList: PropTypes.bool,
   className: PropTypes.string,
+  enableAlertConfirmEmail: PropTypes.bool,
   level: optionalNumberBetween(1, 5),
   namedAnchor: PropTypes.string,
   title: PropTypes.string,
