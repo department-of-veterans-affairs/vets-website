@@ -58,7 +58,7 @@ describe('Allergies list container', () => {
       .exist;
   });
 
-  it.skip('displays the first part of the subheading', () => {
+  it('displays the first part of the subheading', () => {
     expect(
       screen.getByText(
         'Review allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions).',
