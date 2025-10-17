@@ -15,6 +15,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
@@ -63,14 +64,14 @@ const HTMLStatementPage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${prevPage}`,
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail/statement`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}/statement`,
             label: `${title}`,
           },
         ]}
@@ -150,6 +151,7 @@ const HTMLStatementPage = ({ match }) => {
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
+        <NeedHelpCopay />
       </article>
     </>
   );

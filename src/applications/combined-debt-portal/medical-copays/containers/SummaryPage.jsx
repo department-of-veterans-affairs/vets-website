@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   setPageFocus,
   sortStatementsByDate,
@@ -17,6 +16,7 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
+import NeedHelpCopay from '../components/NeedHelpCopay';
 import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -104,7 +104,7 @@ const OverviewPage = () => {
   const statementsEmpty = statements?.length === 0;
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
-  const title = 'Current copay balances';
+  const title = 'Copay balances';
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -144,20 +144,7 @@ const OverviewPage = () => {
           showVHAPaymentHistory={showVHAPaymentHistory}
         />
         {renderOtherVA(debts?.length, debtError)}
-        <div className="vads-u-margin-top--4" data-testid="need-help">
-          <va-need-help id="needHelp">
-            <div slot="content">
-              <p>
-                You can contact us online through{' '}
-                <va-link text="Ask VA" href="https://ask.va.gov" /> or call the
-                VA Health Resource Center at{' '}
-                <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
-                <va-telephone contact="711" tty="true" />
-                ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-              </p>
-            </div>
-          </va-need-help>
-        </div>
+        <NeedHelpCopay />
       </article>
     ) : (
       <article className="vads-u-padding-x--0">
@@ -189,7 +176,7 @@ const OverviewPage = () => {
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
         ]}
         label="Breadcrumb"
