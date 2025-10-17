@@ -15,7 +15,6 @@ import {
   capitalizeEachWord,
   fieldsHaveInput,
   formatFullName,
-  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
   hasNewPtsdDisability,
@@ -57,6 +56,7 @@ import {
   formatDateRange,
   formatDate,
   parseDate,
+  formatMonthYearDate,
 } from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 

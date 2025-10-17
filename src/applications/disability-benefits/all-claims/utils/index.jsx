@@ -780,24 +780,6 @@ export const formSubtitle = subtitle => (
 );
 
 /**
- * Formats a raw date using month and year only. For example: 'January 2000'
- *
- * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
- * @returns {string} A friendly date string if a valid date. Empty string otherwise.
- */
-export const formatMonthYearDate = (rawDate = '') => {
-  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'long',
-    },
-  );
-
-  return date === 'Invalid Date' ? '' : date;
-};
-
-/**
  * Creates a consistent checkbox group UI configuration for conditions
  */
 export function makeConditionsUI({

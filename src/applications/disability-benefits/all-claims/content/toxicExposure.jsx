@@ -3,13 +3,14 @@ import {
   capitalizeEachWord,
   formSubtitle,
   formTitle,
-  formatMonthYearDate,
   isClaimingNew,
   makeConditionsSchema,
   sippableId,
   validateConditions,
 } from '../utils';
 import { NULL_CONDITION_STRING } from '../constants';
+
+import { formatMonthYearDate } from '../utils/dates';
 
 /* ---------- content ----------*/
 export const conditionsPageTitle = 'Toxic exposure';
