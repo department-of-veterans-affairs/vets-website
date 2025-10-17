@@ -10,6 +10,9 @@ export const fillVeteranIncome = (testData, clearInput = false) => {
     clearVeteranIncome();
   }
 
+  cy.get(
+    'va-text-input[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
+  ).should('not.be.disabled');
   fillTextWebComponent(
     'view:veteranGrossIncome_veteranGrossIncome',
     testData['view:veteranGrossIncome'].veteranGrossIncome,
