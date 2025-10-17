@@ -24,7 +24,7 @@ describe('SM DELETE REPLY DRAFT', () => {
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
 
     FolderManagementPage.selectFolderFromModal();
     FolderManagementPage.confirmMovingMessageToFolder();

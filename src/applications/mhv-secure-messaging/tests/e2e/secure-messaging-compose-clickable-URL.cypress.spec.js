@@ -19,7 +19,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     PatientComposePage.interceptSentFolder();
     cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
     cy.wait('@sentFolder');
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory(requestBodyUpdated.category);
     PatientComposePage.getMessageSubjectField().type(
