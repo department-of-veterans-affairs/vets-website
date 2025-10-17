@@ -281,17 +281,35 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         searchSentFolderResponse,
       ).as('recentRecipients');
 
+        // Set up intercept for recent recipients search
+        // (this happens when interstitial page loads)
+        cy.intercept(
+          'POST',
+          Paths.INTERCEPT.SENT_SEARCH,
+          searchSentFolderResponse,
+        ).as('recentRecipients');
+
         // Start new message from Sent folder
         cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
         GeneralFunctionsPage.verifyPageHeader(
           'Only use messages for non-urgent needs',
         );
 
+<<<<<<< HEAD
       // Wait for recent recipients to load
       cy.wait('@recentRecipients');
 
       // Click the start message link to continue
       PatientInterstitialPage.getStartMessageLink().click();
+=======
+        // Wait for recent recipients to load
+        cy.wait('@recentRecipients');
+
+      // Continue to recent care teams
+      PatientInterstitialPage.continueToRecentRecipients(
+        searchSentFolderResponse,
+      );
+>>>>>>> 91d4505d1f (updated existing e2e tests)
       GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
         // Navigate forward to select care team
@@ -323,6 +341,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       // Start from Inbox
       cy.location('pathname').should('equal', `${Paths.UI_MAIN}${Paths.INBOX}`);
 
+<<<<<<< HEAD
       // Set up intercept for recent recipients search
       cy.intercept(
         'POST',
@@ -342,6 +361,27 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
 
       // Wait for recent recipients to load
       cy.wait('@recentRecipients');
+=======
+        // Set up intercept for recent recipients search
+        cy.intercept(
+          'POST',
+          Paths.INTERCEPT.SENT_SEARCH,
+          searchSentFolderResponse,
+        ).as('recentRecipients');
+
+        // Forward: Inbox → Interstitial
+        cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
+        GeneralFunctionsPage.verifyPageHeader(
+          'Only use messages for non-urgent needs',
+        );
+        cy.location('pathname').should(
+          'equal',
+          `${Paths.UI_MAIN}${Paths.COMPOSE}`,
+        );
+>>>>>>> 91d4505d1f (updated existing e2e tests)
+
+        // Wait for recent recipients to load
+        cy.wait('@recentRecipients');
 
       // Forward: Interstitial → Recent care teams
       PatientInterstitialPage.getStartMessageLink().click();
