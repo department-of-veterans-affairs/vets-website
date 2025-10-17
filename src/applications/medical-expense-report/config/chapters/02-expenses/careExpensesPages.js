@@ -81,9 +81,9 @@ const options = {
       !item?.recipientName) ||
     !item?.provider ||
     !item?.careDate?.from ||
-    !item?.monthlyPayment ||
+    !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
-      (!item?.hourlyRate || !item?.hoursPerWeek)),
+      (!item?.hourlyRate || !item?.weeklyHours)),
   maxItems: 5,
   text: {
     getItemName: item =>
