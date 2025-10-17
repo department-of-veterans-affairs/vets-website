@@ -15,6 +15,14 @@ import ErrorText from '../components/ErrorText';
 import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
+import applicantInformation from './chapters/01-applicant-information';
+import militaryHistory from './chapters/02-military-history/militaryHistory';
+import servicePeriod from './chapters/02-military-history/servicePeriod';
+import nationalGuardService from './chapters/02-military-history/nationalGuardService';
+import nationalGuardServicePeriod from './chapters/02-military-history/nationalGuardServicePeriod';
+import nationalGuardUnitAddress from './chapters/02-military-history/nationalGuardUnitAddress';
+import serviceNames from './chapters/02-military-history/serviceNames';
+import otherServiceNames from './chapters/02-military-history/otherServiceNames';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -96,6 +104,61 @@ const formConfig = {
           path: 'claim-information/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+      },
+    },
+    // Chapter 1
+    applicantInformation,
+    militaryHistory: {
+      title: 'Military history',
+      pages: {
+        militaryHistory: {
+          path: 'veteran/military-history',
+          title: 'Military history',
+          uiSchema: militaryHistory.uiSchema,
+          schema: militaryHistory.schema,
+        },
+        servicePeriod: {
+          path: 'veteran/service-period',
+          title: 'Veteran information',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
+        },
+        nationalGuardService: {
+          path: 'veteran/national-guard-service',
+          title: 'National Guard service',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: nationalGuardService.uiSchema,
+          schema: nationalGuardService.schema,
+        },
+        nationalGuardServicePeriod: {
+          path: 'veteran/national-guard-service-period',
+          title: 'National Guard service period',
+          depends: formData => formData.nationalGuardActivated === true,
+          uiSchema: nationalGuardServicePeriod.uiSchema,
+          schema: nationalGuardServicePeriod.schema,
+        },
+        nationalGuardUnitAddress: {
+          path: 'veteran/national-guard-unit-address',
+          title: 'National Guard unit address',
+          // depends: formData => formData.nationalGuardActivated === true,
+          uiSchema: nationalGuardUnitAddress.uiSchema,
+          schema: nationalGuardUnitAddress.schema,
+        },
+        serviceNames: {
+          path: 'veteran/service-names',
+          title: 'Service names',
+          // depends: formData => formData.receivedBenefits === false,
+          uiSchema: serviceNames.uiSchema,
+          schema: serviceNames.schema,
+        },
+        otherServiceNames: {
+          path: 'veteran/other-service-names',
+          title: 'Other service names',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: otherServiceNames.uiSchema,
+          schema: otherServiceNames.schema,
         },
       },
     },
