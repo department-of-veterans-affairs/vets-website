@@ -30,26 +30,24 @@ const LoginContainer = () => {
       {hasError && renderErrorMessage()}
       <div className="arp-container">
         <div className="vads-l-row">
-          <div className="vads-l-col--12 vads-u-padding-y--5">
-            <h1 className="columns vads-u-margin--0">
-              Sign in or create an account
-            </h1>
+          <div className="vads-l-col--12 vads-u-padding-top--7 vads-u-padding-bottom--4">
+            <h1 className="columns">Sign in or create an account</h1>
             <ArpLoginActions />
           </div>
         </div>
         <div className="vads-l-row">
-          <div className="columns vads-l-col--12 vads-u-padding-bottom--5">
+          <div className="columns vads-l-col--12">
             <h2 className="vads-u-margin-top--0">Help and support</h2>
 
-            <ul className="vads-u-padding-bottom--3">
-              <li className="vads-u-margin--0">
-                <a href="/resources/verifying-your-identity-on-vagov/">
-                  Verifying your identity
-                </a>
-              </li>
+            <ul>
               <li className="vads-u-margin--0">
                 <a href="/resources/can-i-delete-my-logingov-or-idme-account">
                   Deleting your account
+                </a>
+              </li>
+              <li className="vads-u-margin--0">
+                <a href="/resources/verifying-your-identity-on-vagov/">
+                  Verifying your identity
                 </a>
               </li>
               <li className="vads-u-margin--0">
