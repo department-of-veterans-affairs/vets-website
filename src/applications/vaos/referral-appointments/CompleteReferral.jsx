@@ -170,7 +170,10 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
               data-testid="appointment-date-container"
             >
-              <AppointmentDate date={attributes.start} />
+              <AppointmentDate
+                date={attributes.start}
+                timezone={attributes.provider.location.timezone}
+              />
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
