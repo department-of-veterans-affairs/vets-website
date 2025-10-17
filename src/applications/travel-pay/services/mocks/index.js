@@ -41,6 +41,7 @@ const responses = {
           name: `${TOGGLE_NAMES.travelPayClaimsManagementDecisionReason}`,
           value: true,
         },
+        { name: `${TOGGLE_NAMES.travelPayEnableComplexClaims}`, value: true },
       ],
     },
   },
