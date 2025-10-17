@@ -146,7 +146,7 @@ const Mileage = () => {
         secondary
         text="Cancel adding this expense"
         onClick={handleOpenModal}
-        className="vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
+        className="vads-u-display--flex vads-u-margin-y--2 travel-pay-complex-expense-cancel-btn"
       />
       <VaButtonPair
         class="vads-u-margin-y--2"
