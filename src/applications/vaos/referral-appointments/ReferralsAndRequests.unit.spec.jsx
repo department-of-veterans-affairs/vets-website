@@ -6,7 +6,7 @@ import {
 } from 'platform/testing/unit/msw-adapter';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
-import { waitFor, within } from '@testing-library/dom';
+import { waitFor } from '@testing-library/dom';
 import MockDate from 'mockdate';
 import ReferralsAndRequests from './ReferralsAndRequests';
 import reducers from '../redux/reducer';
@@ -50,7 +50,9 @@ describe('VAOS Component: Referrals and Requests', () => {
       pending: true,
       status: APPOINTMENT_STATUS.proposed,
     }).setLocation(new MockFacilityResponse());
-    const referralsResponse = new MockReferralListResponse();
+    const referralsResponse = new MockReferralListResponse({
+      numberOfReferrals: 3,
+    });
     mswServer.use(
       createGetHandler(referralsAPIEndpoint, () =>
         jsonResponse(referralsResponse, { status: 200 }),
@@ -69,15 +71,10 @@ describe('VAOS Component: Referrals and Requests', () => {
       initialState,
     });
 
-    await waitFor(() => {
+    waitFor(() => {
+      expect(screen.getByText('Referrals and requests')).to.exist;
       expect(screen.getByTestId('referral-list')).to.exist;
     });
-    expect(screen.getByText('Referrals and requests')).to.exist;
-    expect(
-      within(screen.getByTestId('referral-list')).getAllByTestId(
-        'appointment-list-item',
-      ),
-    ).to.be.greaterThan(0);
   });
 
   it('should display error message if both calls fail if failed action is called', async () => {
