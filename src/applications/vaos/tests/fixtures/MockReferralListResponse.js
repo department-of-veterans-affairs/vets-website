@@ -1,4 +1,4 @@
-import { format, addMonths } from 'date-fns';
+const { format, addMonths } = require('date-fns');
 
 /**
  * Class to create mock referral list responses for Cypress tests
@@ -30,12 +30,13 @@ class MockReferralListResponse {
     categoryOfCare = 'OPTOMETRY',
     referralNumber = `VA${Math.floor(1000 + Math.random() * 9000)}`,
     expirationDate = format(addMonths(new Date(), 6), 'yyyy-MM-dd'),
+    stationId = '659',
   } = {}) {
     return {
       id,
       type: 'referrals',
       attributes: {
-        stationId: '659BY',
+        stationId,
         categoryOfCare,
         referralNumber,
         uuid: id,
@@ -68,9 +69,64 @@ class MockReferralListResponse {
       }),
       MockReferralListResponse.createReferral({
         id: 'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+        categoryOfCare: 'CHIROPRACTIC',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'out-of-pilot-station',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
+        stationId: '123',
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'appointment-submit-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'appointment-submit-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'poll-retry-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'poll-retry-error',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'poll-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'poll-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'draft-no-slots-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'draft-no-slots-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'referral-without-provider-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(addMonths(today, 5), formatStr),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-not-found-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-not-found-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'details-error',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'details-error',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+      }),
+      MockReferralListResponse.createReferral({
+        id: 'expired-uuid',
+        categoryOfCare: 'OPTOMETRY',
+        referralNumber: 'VA0000007123',
+        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
       }),
     ];
   }
@@ -84,6 +140,7 @@ class MockReferralListResponse {
   static getRandomReferrals(count = 3) {
     const referrals = [];
     for (let i = 0; i < count; i++) {
+      // Use OPTOMETRY and CHIROPRACTIC to test chiro flipper
       const categoryOfCare = i % 2 === 0 ? 'OPTOMETRY' : 'CHIROPRACTIC';
       referrals.push(
         MockReferralListResponse.createReferral({ categoryOfCare }),
@@ -163,4 +220,5 @@ class MockReferralListResponse {
   }
 }
 
-export default MockReferralListResponse;
+// export default MockReferralListResponse;
+module.exports = MockReferralListResponse;
