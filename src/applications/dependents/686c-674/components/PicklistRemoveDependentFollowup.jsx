@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
@@ -35,7 +34,6 @@ const PicklistRemoveDependentFollowup = ({
     scrollToTop();
     focusElement('h3');
   };
-
   // Dynamically updated picklist paths to help with navigating backward
   const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
   // Get last path is flow if navigating back from review & submit page
@@ -125,6 +123,7 @@ const PicklistRemoveDependentFollowup = ({
     onSubmit: event => {
       event.preventDefault();
       setFormSubmitted(true);
+      setFormData({ ...data, [PICKLIST_PATHS]: getPicklistRoutes(data) });
 
       pageToRender?.page.handlers.onSubmit({
         event,
@@ -147,7 +146,16 @@ const PicklistRemoveDependentFollowup = ({
         itemData={currentDependent}
       />
       {contentBeforeButtons}
-      <FormNavButtons goBack={navigation.goBack} submitToContinue />
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <va-button back full-width onClick={navigation.goBack} />
+        </div>
+        <div className="small-6 medium-5 end columns">
+          {!pageToRender.page.hasExitLink && (
+            <va-button continue full-width submit="prevent" />
+          )}
+        </div>
+      </div>
       {contentAfterButtons}
     </form>
   );

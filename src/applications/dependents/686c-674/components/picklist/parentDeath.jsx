@@ -10,7 +10,7 @@ import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { SelectCountry, SelectState, getValue } from './helpers';
 
-const spouseDeath = {
+const parentDeath = {
   handlers: {
     // Return "DONE" when we're done with this flow
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
@@ -18,10 +18,10 @@ const spouseDeath = {
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
       if (
-        !itemData.marriageEndDeathDate ||
-        !itemData.marriageEndCity ||
-        (!itemData.marriageEndOutsideUS && !itemData.marriageEndState) ||
-        (itemData.marriageEndOutsideUS && !itemData.marriageEndCountry)
+        !itemData.parentDeathDate ||
+        !itemData.parentDeathCity ||
+        (!itemData.parentDeathOutsideUS && !itemData.parentDeathState) ||
+        (itemData.parentDeathOutsideUS && !itemData.parentDeathCountry)
       ) {
         setTimeout(scrollToFirstError);
       } else {
@@ -35,7 +35,7 @@ const spouseDeath = {
    * @typedef {object} ItemData
    * @property {string} dateOfBirth Dependent's date of birth
    * @property {string} relationshipToVeteran Dependent's relationship
-   * @property {string} marriageEndType Dependent's removal reason
+   * @property {string} parentDeathType Dependent's removal reason
    */
   /**
    * handlers object
@@ -66,74 +66,74 @@ const spouseDeath = {
         </h3>
         <h4>When was the death?</h4>
         <VaMemorableDate
-          name="marriageEndDeathDate"
+          name="parentDeathDate"
           label="Date of death"
           error={
-            formSubmitted && !itemData.marriageEndDeathDate
+            formSubmitted && !itemData.parentDeathDate
               ? 'Provide a date of death'
               : null
           }
           monthSelect
-          value={itemData.marriageEndDeathDate || ''}
+          value={itemData.parentDeathDate || ''}
           // use onDateBlur to ensure month & day are zero-padded
           onDateBlur={onChange}
           required
         />
 
-        <h4>Where did the death happen?</h4>
+        <h4>Where was the death?</h4>
         <VaCheckbox
-          name="marriageEndOutsideUS"
+          name="parentDeathOutsideUS"
           label="The death happened outside the United States"
-          checked={itemData.marriageEndOutsideUS || false}
+          checked={itemData.parentDeathOutsideUS || false}
           onVaChange={onChange}
         />
         <VaTextInput
           class="vads-u-margin-top--4"
-          name="marriageEndCity"
-          label={`City${itemData.marriageEndOutsideUS ? '' : ' or county'}`}
+          name="parentDeathCity"
+          label={`City${itemData.parentDeathOutsideUS ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.marriageEndCity
+            formSubmitted && !itemData.parentDeathCity
               ? `Enter a city${
-                  itemData.marriageEndOutsideUS ? '' : ' or county'
+                  itemData.parentDeathOutsideUS ? '' : ' or county'
                 }`
               : null
           }
-          value={itemData.marriageEndCity || ''}
+          value={itemData.parentDeathCity || ''}
           onVaInput={onChange}
           required
         />
-        {itemData.marriageEndOutsideUS ? (
+        {itemData.parentDeathOutsideUS ? (
           <>
             <VaTextInput
               class="vads-u-margin-top--4"
-              name="marriageEndProvince"
+              name="parentDeathProvince"
               label="Province, region or territory"
               onVaInput={onChange}
-              value={itemData.marriageEndProvince || ''}
+              value={itemData.parentDeathProvince || ''}
             />
             <SelectCountry
-              name="marriageEndCountry"
+              name="parentDeathCountry"
               label="Country"
               error={
-                formSubmitted && !itemData.marriageEndCountry
+                formSubmitted && !itemData.parentDeathCountry
                   ? 'Select a country'
                   : null
               }
               onChange={onChange}
-              value={itemData.marriageEndCountry || ''}
+              value={itemData.parentDeathCountry || ''}
             />
           </>
         ) : (
           <SelectState
             label="State"
-            name="marriageEndState"
+            name="parentDeathState"
             error={
-              formSubmitted && !itemData.marriageEndState
+              formSubmitted && !itemData.parentDeathState
                 ? 'Select a state'
                 : null
             }
             onChange={onChange}
-            value={itemData.marriageEndState || ''}
+            value={itemData.parentDeathState || ''}
           />
         )}
       </>
@@ -141,11 +141,11 @@ const spouseDeath = {
   },
 };
 
-spouseDeath.propTypes = {
+parentDeath.propTypes = {
   Component: PropTypes.func,
 };
 
-spouseDeath.Component.propTypes = {
+parentDeath.Component.propTypes = {
   firstName: PropTypes.string,
   formSubmitted: PropTypes.bool,
   fullName: PropTypes.string,
@@ -155,15 +155,15 @@ spouseDeath.Component.propTypes = {
     onSubmit: PropTypes.func,
   }),
   itemData: PropTypes.shape({
-    marriageEndCity: PropTypes.string,
-    marriageEndCountry: PropTypes.string,
-    marriageEndDeathDate: PropTypes.string,
-    marriageEndOutsideUS: PropTypes.bool,
-    marriageEndProvince: PropTypes.string,
-    marriageEndState: PropTypes.string,
-    marriageEndType: PropTypes.string,
+    parentDeathCity: PropTypes.string,
+    parentDeathCountry: PropTypes.string,
+    parentDeathDate: PropTypes.string,
+    parentDeathOutsideUS: PropTypes.bool,
+    parentDeathProvince: PropTypes.string,
+    parentDeathState: PropTypes.string,
+    parentDeathType: PropTypes.string,
     relationshipToVeteran: PropTypes.string,
   }),
 };
 
-export default spouseDeath;
+export default parentDeath;
