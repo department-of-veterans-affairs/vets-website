@@ -120,7 +120,7 @@ const HealthCareContent = ({
                 'links-list-section-header': 'Health care',
               })
             }
-            testId="view-manage-appointments-link-from-error"
+            data-testid="view-manage-appointments-link-from-error"
           />
         </va-alert>
       </div>
