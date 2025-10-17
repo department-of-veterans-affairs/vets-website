@@ -353,7 +353,7 @@ class PatientInboxPage {
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
-    PatientInterstitialPage.getStartMessageLink().click({ force: true });
+    PatientInterstitialPage.getContinueButton().click({ force: true });
   };
 
   navigateToComposePageCuratedFlow = () => {
@@ -374,7 +374,7 @@ class PatientInboxPage {
 
     this.clickCreateNewMessage();
     // Continue through interstitial
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
 
     // Wait for recent recipients check and redirect to select care team
     cy.wait('@recentRecipients');

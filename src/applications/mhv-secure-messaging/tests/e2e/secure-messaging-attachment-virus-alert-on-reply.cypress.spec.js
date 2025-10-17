@@ -17,7 +17,7 @@ describe('SM ATTACHMENT WITH VIRUS ON REPLY', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
     PatientReplyPage.getMessageBodyField()
       .focus()
       .clear()
