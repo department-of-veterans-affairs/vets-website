@@ -15,15 +15,15 @@ const SupportingDocumentsContent = (
     <ul>
       <li>
         <va-link
-          href="#"
-          text="Residential Care, Adult Daycare, or a Similar Facility worksheet (opens in a new tab)"
+          href="https://www.va.gov/find-forms/about-form-21p-8416/"
+          text="Residential Care, Adult Daycare, or a Similar Facility worksheet"
           external
         />
       </li>
       <li>
         <va-link
-          href="#"
-          text="In-Home Attendant Expenses worksheet (opens in a new tab)"
+          href="https://www.va.gov/find-forms/about-form-21p-8416/"
+          text="In-Home Attendant Expenses worksheet"
           external
         />
       </li>
@@ -40,7 +40,7 @@ const SupportingDocumentsContent = (
         and Attendance (
         <va-link
           href="https://www.va.gov/find-forms/about-form-21-0779/"
-          text="VA Form 21-0779 (opens in a new tab)"
+          text="VA Form 21-0779"
           external
         />
         )
@@ -50,7 +50,7 @@ const SupportingDocumentsContent = (
         Attendance form (
         <va-link
           href="https://www.va.gov/find-forms/about-form-21-2680/"
-          text="VA Form 21-2680 (opens in a new tab)"
+          text="VA Form 21-2680"
           external
         />
         )
