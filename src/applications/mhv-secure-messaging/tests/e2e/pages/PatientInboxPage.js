@@ -328,7 +328,23 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.REPLY).click({
       waitForAnimations: true,
     });
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).click();
+    PatientInterstitialPage.getContinueButton().click();
+  };
+
+  replyToMessageCuratedFlow = () => {
+    cy.intercept(
+      'GET',
+      'my_health/v1/messaging/messages/7192838/thread?full_body=true',
+      mockThread,
+    ).as('threadAgain');
+    cy.intercept('GET', 'my_health/v1/messaging/messages/7192838', {
+      data: mockThread.data[0],
+    }).as('messageAgain');
+
+    cy.get(Locators.BUTTONS.REPLY).click({
+      waitForAnimations: true,
+    });
+    PatientInterstitialPage.getStartMessageLink().click();
   };
 
   clickCreateNewMessage = () => {
@@ -374,7 +390,7 @@ class PatientInboxPage {
 
     this.clickCreateNewMessage();
     // Continue through interstitial
-    PatientInterstitialPage.getContinueButton().click({ force: true });
+    PatientInterstitialPage.getStartMessageLink().click({ force: true });
 
     // Wait for recent recipients check and redirect to select care team
     cy.wait('@recentRecipients');

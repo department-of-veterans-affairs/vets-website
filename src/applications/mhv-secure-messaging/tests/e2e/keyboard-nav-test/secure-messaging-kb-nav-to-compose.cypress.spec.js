@@ -13,9 +13,8 @@ describe('SM KEYBOARD NAVIGATION TO COMPOSE', () => {
     cy.realPress(['Enter']);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    cy.findByTestId(Locators.BUTTONS.CONTINUE).then($el => {
-      cy.tabToElement($el);
-    });
+    cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).should('be.visible');
+    cy.tabToElement(`[data-testid=${Locators.INTERSTITIAL_CONTINUE_BUTTON}]`);
     cy.realPress(['Enter']);
     cy.get(Locators.ALERTS.PAGE_TITLE)
       .should('be.focused')

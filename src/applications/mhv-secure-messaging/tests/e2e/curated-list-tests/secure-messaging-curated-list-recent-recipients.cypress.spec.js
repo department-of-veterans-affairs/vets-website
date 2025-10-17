@@ -6,7 +6,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import searchSentFolderResponse from '../fixtures/searchResponses/search-sent-folder-response.json';
 
-describe('SM CURATED LIST MAIN FLOW', () => {
+describe('SM CURATED LIST MAIN FLOW WITH RECENT RECIPIENTS', () => {
   beforeEach(() => {
     const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
@@ -30,9 +30,14 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   ];
 
   it('verify recent recipients list with maximum recipients', () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      searchSentFolderResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    // cy.wait(100000); // wait for recent recipients to load
-    PatientInterstitialPage.continueToRecentRecipients();
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
@@ -62,8 +67,14 @@ describe('SM CURATED LIST MAIN FLOW', () => {
         item.attributes.recipientName === '###ABC_XYZ_TRIAGE_TEAM###' ||
         item.attributes.recipientName === 'TG-7410',
     );
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      modifiedSearchResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.continueToRecentRecipients(modifiedSearchResponse);
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
@@ -89,8 +100,14 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   });
 
   it('validate selection error', () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      searchSentFolderResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.continueToRecentRecipients();
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
 
     cy.findByTestId(
@@ -103,15 +120,23 @@ describe('SM CURATED LIST MAIN FLOW', () => {
       .should('exist');
 
     // validate the first va-radio-option is focused
-    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
-      'have.focus',
-    );
+    // Give the focus action time to complete after error shows
+    cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`)
+      .should('exist')
+      .and('be.visible')
+      .should('have.focus');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 
   it('validate selecting different care team option', () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      searchSentFolderResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.continueToRecentRecipients();
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
 
     cy.findByLabelText('A different care team').click();
@@ -127,8 +152,14 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
   it('validate redirecting to Select Care Team page when no recent recipients available', () => {
     const modifiedSearchResponse = { data: [] };
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/folders/-1/search*',
+      modifiedSearchResponse,
+    ).as('recentRecipients');
     PatientInboxPage.clickCreateNewMessage();
-    PatientInterstitialPage.continueToRecentRecipients(modifiedSearchResponse);
+    cy.wait('@recentRecipients');
+    PatientInterstitialPage.getStartMessageLink().click();
     GeneralFunctionsPage.verifyPageHeader(`Select care team`);
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
