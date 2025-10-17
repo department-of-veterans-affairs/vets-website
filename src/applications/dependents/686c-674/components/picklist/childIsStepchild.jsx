@@ -1,5 +1,4 @@
 import React from 'react';
-// import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -15,7 +14,10 @@ import { calculateAge } from '../../../shared/utils';
 const childIsStepchild = {
   handlers: {
     // Return "DONE" when we're done with this flow
-    goForward: (/* { itemData, index, fullData } */) => 'DONE',
+    goForward: (/* { itemData, index, fullData } */) =>
+      'child-reason-to-remove',
+    // return empty path to go to first child page
+    // goBack: (/* { itemData, index, fullData } */) => '',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
@@ -55,7 +57,7 @@ const childIsStepchild = {
       const { field, value } = getValue(event);
       handlers.onChange({ ...itemData, [field]: value });
     };
-    const { labeledAge } = calculateAge(itemData.dateOfBirth, {
+    const { age } = calculateAge(itemData.dateOfBirth, {
       dateInFormat: 'yyyy-MM-dd',
     });
 
@@ -67,7 +69,7 @@ const childIsStepchild = {
           error={
             formSubmitted && !itemData.isStepchild ? 'Select an option' : null
           }
-          label={`Is ${fullName} (age ${labeledAge}) a stepchild?`}
+          label={`Is ${fullName} (age ${age}) your stepchild?`}
           labelHeaderLevel="3"
           onVaValueChange={onChange}
           required
