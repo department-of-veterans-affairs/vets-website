@@ -1,7 +1,6 @@
 import React from 'react';
 import { getTimezoneDiscrepancyMessage } from '../utils/helpers';
 
-// Displays timezone warning message for file uploads near midnight
 export default function TimezoneDiscrepancyMessage() {
   const message = getTimezoneDiscrepancyMessage(new Date().getTimezoneOffset());
 
