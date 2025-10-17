@@ -34,6 +34,9 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     // cy.wait(100000); // wait for recent recipients to load
     PatientInterstitialPage.continueToRecentRecipients();
     GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageTitle(
+      'Recent care teams | Veterans Affairs',
+    );
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
       `exist`,
