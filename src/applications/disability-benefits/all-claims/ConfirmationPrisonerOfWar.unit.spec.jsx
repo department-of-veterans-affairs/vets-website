@@ -9,7 +9,7 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.firstChild).to.be.null;
   });
 
-  it('should render "No" for non-POW status', () => {
+  it('should render "No" when POW status is false', () => {
     const formData = {
       'view:powStatus': false,
     };
@@ -23,7 +23,7 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.textContent).to.contain('No');
   });
 
-  it('should render complete POW information with multiple confinements and disabilities', () => {
+  it('should render complete POW information with multiple confinements periods and disabilities', () => {
     const formData = {
       'view:powStatus': true,
       'view:isPow': {
