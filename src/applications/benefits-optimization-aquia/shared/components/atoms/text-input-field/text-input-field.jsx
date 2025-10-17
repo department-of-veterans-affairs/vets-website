@@ -74,9 +74,8 @@ export const TextInputField = ({
 };
 
 TextInputField.propTypes = {
-  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
@@ -85,6 +84,7 @@ TextInputField.propTypes = {
   schema: PropTypes.object,
   type: PropTypes.string,
   value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default TextInputField;

@@ -76,9 +76,8 @@ export const NumberField = ({
 };
 
 NumberField.propTypes = {
-  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
@@ -88,6 +87,7 @@ NumberField.propTypes = {
   required: PropTypes.bool,
   schema: PropTypes.object,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func.isRequired,
 };
 
 export default NumberField;
