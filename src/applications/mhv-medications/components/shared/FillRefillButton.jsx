@@ -25,29 +25,30 @@ const FillRefillButton = rx => {
             </p>
           </va-alert>
         )}
-        {error && !isLoading && (
-          <>
-            <va-alert
-              status="error"
-              setFocus
-              id="fill-error-alert"
-              data-testid="error-alert"
-              aria-live="polite"
-              uswds
-            >
-              <p className="vads-u-margin-y--0" data-testid="error-message">
-                We didn’t get your request. Try again.
+        {error &&
+          !isLoading && (
+            <>
+              <va-alert
+                status="error"
+                setFocus
+                id="fill-error-alert"
+                data-testid="error-alert"
+                aria-live="polite"
+                uswds
+              >
+                <p className="vads-u-margin-y--0" data-testid="error-message">
+                  We didn’t get your request. Try again.
+                </p>
+              </va-alert>
+              <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
+                If it still doesn’t work, call your VA pharmacy
+                <CallPharmacyPhone
+                  cmopDivisionPhone={pharmacyPhone}
+                  page={pageType.LIST}
+                />
               </p>
-            </va-alert>
-            <p className="vads-u-margin-bottom--1 vads-u-margin-top--2">
-              If it still doesn’t work, call your VA pharmacy
-              <CallPharmacyPhone
-                cmopDivisionPhone={pharmacyPhone}
-                page={pageType.LIST}
-              />
-            </p>
-          </>
-        )}
+            </>
+          )}
         {isLoading && (
           <va-loading-indicator
             message="Submitting your request..."
