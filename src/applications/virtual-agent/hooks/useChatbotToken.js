@@ -50,7 +50,7 @@ export default function useChatbotToken() {
 
   useEffect(
     () => {
-      // Intentionally run once on mount: prevents duplicate fetches on re-renders
+      // Runs on mount and whenever isSessionPersistenceEnabled changes: prevents duplicate fetches on re-renders
       clearBotSessionStorage();
 
       // When persistence is OFF, force fresh token/conversationId.
