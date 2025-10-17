@@ -69,7 +69,7 @@ class MockReferralListResponse {
       }),
       MockReferralListResponse.createReferral({
         id: 'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-        categoryOfCare: 'OPTOMETRY',
+        categoryOfCare: 'CHIROPRACTIC',
         referralNumber: 'VA0000007123',
         expirationDate: format(addMonths(today, 5), formatStr),
       }),
@@ -140,6 +140,7 @@ class MockReferralListResponse {
   static getRandomReferrals(count = 3) {
     const referrals = [];
     for (let i = 0; i < count; i++) {
+      // Use OPTOMETRY and CHIROPRACTIC to test chiro flipper
       const categoryOfCare = i % 2 === 0 ? 'OPTOMETRY' : 'CHIROPRACTIC';
       referrals.push(
         MockReferralListResponse.createReferral({ categoryOfCare }),
