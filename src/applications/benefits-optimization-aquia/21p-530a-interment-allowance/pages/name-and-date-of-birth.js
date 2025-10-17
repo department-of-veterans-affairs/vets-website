@@ -24,7 +24,7 @@ export const nameAndDateOfBirth = {
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
       dateOfBirth: dateOfBirthSchema,
     },
     required: ['fullName', 'dateOfBirth'],
