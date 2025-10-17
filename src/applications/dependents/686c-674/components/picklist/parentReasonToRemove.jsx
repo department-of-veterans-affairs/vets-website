@@ -14,8 +14,6 @@ const parentReasonToRemove = {
   handlers: {
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
     // itemData.removalReason === 'parentDied' ? 'parent-died' : 'parent-other',
-    // return empty path to go to first parent page
-    goBack: (/* { itemData, index, fullData } */) => '',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

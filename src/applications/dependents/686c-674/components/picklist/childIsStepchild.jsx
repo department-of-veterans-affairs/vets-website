@@ -16,8 +16,6 @@ const childIsStepchild = {
   handlers: {
     // Return "DONE" when we're done with this flow
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
-    // return empty path to go to first child page
-    goBack: (/* { itemData, index, fullData } */) => '',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

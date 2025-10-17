@@ -63,7 +63,7 @@ const testConfig = createTestConfig(
                   cy.selectVaCheckbox($el, true),
                 );
               });
-            cy.findByText(/submit/i, { selector: 'button' }).click();
+            cy.get('va-button[text*="submit" i]').click();
           });
         });
       },

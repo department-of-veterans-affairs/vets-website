@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 144,
+  "totalApplications": 147,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -742,6 +742,12 @@
       "rootUrl": "/supporting-forms-for-claims/substitute-claimant-form-21P-0847"
     },
     {
+      "directoryPath": "src/applications/simple-forms/21P-601",
+      "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
+      "entryName": "21P-601",
+      "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-601"
+    },
+    {
       "directoryPath": "src/applications/simple-forms/26-4555",
       "appName": "26-4555 Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant",
       "entryName": "4555-adapted-housing",
@@ -788,6 +794,12 @@
       "appName": "Survivor and Dependent Benefits 22-5490",
       "entryName": "survivor-dependent-education-benefit-22-5490",
       "rootUrl": "/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490"
+    },
+    {
+      "directoryPath": "src/applications/survivors-benefits",
+      "appName": "534EZ Survivors benefits",
+      "entryName": "survivors-benefits",
+      "rootUrl": "/supporting-forms-for-claims/apply-form-21p-534ez"
     },
     {
       "directoryPath": "src/applications/terms-of-use",
@@ -860,6 +872,12 @@
       "appName": "28-1900 Veteran Readiness",
       "entryName": "28-1900-chapter-31",
       "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
+    },
+    {
+      "directoryPath": "src/applications/vre/ch31-eligibility-entitlement",
+      "appName": "VRE CH31 Eligibility &amp; Entitlement",
+      "entryName": "ch31-eligibility-entitlement",
+      "rootUrl": "/careers-employment/your-vre-eligibility"
     },
     {
       "directoryPath": "src/applications/yellow-ribbon",

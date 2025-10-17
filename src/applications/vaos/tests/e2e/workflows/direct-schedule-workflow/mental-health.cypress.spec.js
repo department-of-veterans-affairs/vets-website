@@ -27,7 +27,8 @@ import {
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -63,12 +64,42 @@ function mockExistingAppointments(hasPast = false) {
   });
 }
 
-function mocksBase(typeOfCareId, requiresPast = false) {
-  const mockEligibilityResponse = new MockEligibilityResponse({
+/**
+ *
+ * @param {string} typeOfCareId
+ * @param {boolean} directRequiresPast, defaults to false
+ * @param {boolean} requestDisabled, defaults to false
+ * @returns {void}
+ */
+function mocksBase(
+  typeOfCareId,
+  directRequiresPast = false,
+  requestDisabled = false,
+  override = false,
+) {
+  const mockEligibilityResponseDirect = new MockEligibilityResponse({
     facilityId: '983',
     typeOfCareId,
+    isEligible: !directRequiresPast,
     type: 'direct',
-    isEligible: true,
+    ineligibilityReason: directRequiresPast
+      ? MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT
+      : undefined,
+  });
+  const mockEligibilityResponseRequest = new MockEligibilityResponse({
+    facilityId: '983',
+    typeOfCareId,
+    isEligible: !requestDisabled,
+    type: 'request',
+    ineligibilityReason: requestDisabled
+      ? MockEligibilityResponse.REQUEST_DISABLED
+      : undefined,
+  });
+  mockEligibilityDirectApi({
+    response: mockEligibilityResponseDirect,
+  });
+  mockEligibilityRequestApi({
+    response: mockEligibilityResponseRequest,
   });
 
   const response = new MockAppointmentResponse({
@@ -80,14 +111,13 @@ function mocksBase(typeOfCareId, requiresPast = false) {
 
   mockAppointmentCreateApi({ response });
   mockAppointmentGetApi({ response });
-  mockEligibilityApi({ response: mockEligibilityResponse });
   mockFacilitiesApi({ response: [new MockFacilityResponse()] });
   mockSchedulingConfigurationApi({
     facilityIds: ['983'],
     typeOfCareId,
     isDirect: true,
     isRequest: true,
-    overrideDirect: requiresPast
+    overrideDirect: override
       ? {
           patientHistoryRequired: true,
         }
@@ -113,8 +143,8 @@ describe('VAOS direct schedule flow - Mental health', () => {
 
       describe('And patient has no history and one facility supports direct scheduling with no history required', () => {
         const setup = () => {
-          mockExistingAppointments();
-          mocksBase(typeOfCareId);
+          mockExistingAppointments(true);
+          mocksBase(typeOfCareId, false);
         };
         // Not testing for appointment flow completeness, just that filtering MH
         // are correct.
@@ -200,7 +230,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
       describe('And patient has history and one facility requires past history to schedule', () => {
         const setup = () => {
           mockExistingAppointments(true);
-          mocksBase(typeOfCareId, true);
+          mocksBase(typeOfCareId); // would not return requires past hx if has history
         };
         beforeEach(setup);
         it('should submit form', () => {
@@ -291,7 +321,7 @@ describe('VAOS direct schedule flow - Mental health', () => {
       describe('And patient has history and one facility requires past history to schedule', () => {
         const setup = () => {
           mockExistingAppointments(true);
-          mocksBase(typeOfCareId, true);
+          mocksBase(typeOfCareId, false, false, true);
         };
         beforeEach(setup);
         it('should submit form', () => {

@@ -1,6 +1,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import submitForm from './submitForm';
+import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
@@ -14,7 +15,6 @@ import {
   acknowledgements,
   institutionDetailsFacility,
 } from '../pages';
-import transform from './transform';
 
 /** @type {FormConfig} */
 const formConfig = {

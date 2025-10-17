@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { ArrayAddress } from '../components/viewElements';
 
-/** @type {PageSchema}  */
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Web component Address'),

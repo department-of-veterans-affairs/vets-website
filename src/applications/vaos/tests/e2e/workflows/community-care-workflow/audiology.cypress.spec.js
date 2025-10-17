@@ -26,8 +26,9 @@ import {
   mockAppointmentsGetApi,
   mockCCProvidersApi,
   mockClinicsApi,
-  mockEligibilityApi,
   mockEligibilityCCApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -50,13 +51,27 @@ describe('VAOS community care flow - Audiology', () => {
 
   describe('When veteran is not CC eligible', () => {
     beforeEach(() => {
-      const mockEligibilityResponse = new MockEligibilityResponse({
+      const mockEligibilityResponseDirect = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
         isEligible: false,
+        type: 'direct',
+        ineligibilityReason:
+          MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
+      });
+      const mockEligibilityResponseRequest = new MockEligibilityResponse({
+        facilityId: '983',
+        typeOfCareId,
+        isEligible: true,
+        type: 'request',
+      });
+      mockEligibilityDirectApi({
+        response: mockEligibilityResponseDirect,
+      });
+      mockEligibilityRequestApi({
+        response: mockEligibilityResponseRequest,
       });
 
-      mockEligibilityApi({ response: mockEligibilityResponse });
       mockEligibilityCCApi({ cceType, isEligible: false });
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({

@@ -1,14 +1,24 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { currentOrPastDateSchema } from '~/platform/forms-system/src/js/web-component-patterns/datePatterns';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
+import VaMemorableDateField from 'platform/forms-system/src/js/web-component-fields/VaMemorableDateField';
 
 const uiSchema = {
   ...titleUI('Your active duty release date'),
   dateReleasedFromActiveDuty: {
-    ...dateUI(
+    'ui:title':
       'Please provide the date you were or will be released from active duty.',
-    ),
+    'ui:webComponentField': VaMemorableDateField,
+    'ui:required': () => true,
+    'ui:errorMessages': {
+      required: 'You must provide an answer',
+      pattern: 'Please enter a year between 1900 and 2125',
+    },
+    'ui:options': {
+      monthSelect: false,
+      hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
+      classNames: 'va-memorable-date-field',
+    },
   },
   'view:releaseDateNote': {
     'ui:description': (

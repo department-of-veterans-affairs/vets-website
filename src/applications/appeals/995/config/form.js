@@ -41,8 +41,8 @@ import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
-import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
-import evidenceVaRecords from '../pages/evidenceVaRecords';
+import evidenceVaPrompt from '../pages/evidenceVaPrompt';
+import evidenceVaDetails from '../pages/evidenceVaDetails';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
 import limitedConsentPromptPage from '../pages/limitedConsentPrompt';
 import limitedConsentDetailsPage from '../pages/limitedConsentDetails';
@@ -74,7 +74,6 @@ import {
   LIMITED_CONSENT_PROMPT_URL,
   EVIDENCE_ADDITIONAL_URL,
   EVIDENCE_UPLOAD_URL,
-  SC_NEW_FORM_DATA,
 } from '../constants';
 import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
@@ -104,8 +103,6 @@ import {
   mayHaveLegacyAppeals,
   appStateSelector,
 } from '../../shared/utils/issues';
-
-import { clearRedirect } from '../utils/toggle';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -171,7 +168,6 @@ const formConfig = {
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
           scrollAndFocusTarget: focusAlertOrRadio,
-          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',
@@ -271,24 +267,21 @@ const formConfig = {
           schema: facilityTypes.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecordsRequest: {
-          title: 'Request VA medical records',
+        evidenceVaPrompt: {
+          title: 'VA medical records prompt',
           path: EVIDENCE_VA_PROMPT_URL,
-          uiSchema: evidenceVaRecordsRequest.uiSchema,
-          schema: evidenceVaRecordsRequest.schema,
+          uiSchema: evidenceVaPrompt.uiSchema,
+          schema: evidenceVaPrompt.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
-        evidenceVaRecords: {
-          title: 'VA medical records',
+        evidenceVaDetails: {
+          title: 'VA medical records details',
           path: EVIDENCE_VA_DETAILS_URL,
           depends: hasVAEvidence,
-          appStateSelector: state => ({
-            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
-          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
-          uiSchema: evidenceVaRecords.uiSchema,
-          schema: evidenceVaRecords.schema,
+          uiSchema: evidenceVaDetails.uiSchema,
+          schema: evidenceVaDetails.schema,
           hideHeaderRow: true,
           scrollAndFocusTarget: focusEvidence,
         },

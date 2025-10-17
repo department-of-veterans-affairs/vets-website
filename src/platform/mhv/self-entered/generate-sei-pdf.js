@@ -11,8 +11,8 @@ import {
   makePdf,
 } from '../util/helpers';
 import { generateSelfEnteredData } from './generate-pdf-data';
-import { getAllSelfEnteredData, getSelfEnteredData } from './data-fetcher';
-import { convertSeiRecords, processAllDomainResponse } from './data-converters';
+import { getAllSelfEnteredData } from './data-fetcher';
+import { processAllDomainResponse } from './data-converters';
 
 /**
  * Returns a formatted list of failed health domains using display names.
@@ -75,32 +75,11 @@ const generatePdf = (userProfile, seiRecords, failed, runningUnitTest) => {
     });
 };
 
-export const generateSEIPdf = async (
-  userProfile,
-  useUnifiedSelfEnteredAPI,
-  runningUnitTest,
-) => {
+export const generateSEIPdf = async (userProfile, runningUnitTest) => {
   try {
-    let data;
-    let failedDomains;
-    let seiRecords;
-    if (useUnifiedSelfEnteredAPI) {
-      const res = await getAllSelfEnteredData();
-      ({ seiRecords, failedDomains } = processAllDomainResponse(res));
-    } else {
-      data = await getSelfEnteredData();
-      failedDomains = [];
-      seiRecords = {};
-      data.forEach(domain => {
-        if (domain.status === 'fulfilled') {
-          const { key, response } = domain.value;
-          seiRecords[key] = convertSeiRecords(key, response);
-        } else {
-          const { key } = domain.reason;
-          failedDomains.push(SEI_DOMAIN_DISPLAY_MAP[key]);
-        }
-      });
-    }
+    const res = await getAllSelfEnteredData();
+    const { seiRecords = {}, failedDomains = [] } =
+      processAllDomainResponse(res) || {};
     const success = failedDomains.length < SEI_DOMAINS.length;
     if (success) {
       generatePdf(userProfile, seiRecords, failedDomains, runningUnitTest);

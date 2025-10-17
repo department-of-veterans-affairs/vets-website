@@ -24,18 +24,14 @@ import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
 import { HeaderSectionProvider } from '../context/HeaderSectionContext';
 
-import {
-  flagsLoadedAndMhvEnabled,
-  selectBypassDowntime,
-} from '../util/selectors';
+import { selectBypassDowntime } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
 
-  const { featureTogglesLoading } = useSelector(
-    flagsLoadedAndMhvEnabled,
-    state => state.featureToggles,
+  const featureTogglesLoading = useSelector(
+    state => state?.featureToggles?.loading,
   );
 
   const bypassDowntime = useSelector(selectBypassDowntime);

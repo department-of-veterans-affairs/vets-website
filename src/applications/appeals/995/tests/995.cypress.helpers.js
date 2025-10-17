@@ -27,7 +27,6 @@ import {
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {
   mockContestableIssues,
-  mockContestableIssuesWithLegacyAppeals,
   getRandomDate,
 } from '../../shared/tests/cypress.helpers';
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
@@ -50,7 +49,7 @@ export const EVIDENCE_SUMMARY_PATH =
   chapters.evidence.pages.evidenceSummary.path;
 export const FACILITY_TYPES_PATH = chapters.evidence.pages.facilityTypes.path;
 export const EVIDENCE_VA_RECORDS_DETAILS_PATH =
-  chapters.evidence.pages.evidenceVaRecords.path;
+  chapters.evidence.pages.evidenceVaDetails.path;
 export const MST_PATH = chapters.vhaIndicator.pages.optionForMst.path;
 export const MST_OPTION_PATH = chapters.vhaIndicator.pages.optionIndicator.path;
 export const REVIEW_PATH = '/review-and-submit';
@@ -211,13 +210,10 @@ export const setupPerTest = (_testData, toggles = []) => {
   });
 
   // Include legacy appeals to mock data for maximal test
-  const dataSet = Cypress.currentTest.titlePath[1];
   cy.intercept(
     'GET',
     `${CONTESTABLE_ISSUES_API}/compensation`,
-    dataSet === 'maximal-test'
-      ? mockContestableIssuesWithLegacyAppeals
-      : mockContestableIssues,
+    mockContestableIssues,
   ).as('getIssues');
 
   cy.intercept('POST', SUBMIT_URL, mockSubmit);
@@ -313,7 +309,7 @@ export const pageHooks = {
   [EVIDENCE_VA_DETAILS_URL]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('@testData').then(({ locations = [], showScNewForm }) => {
+      cy.get('@testData').then(({ locations = [] }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
@@ -326,17 +322,8 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            if (showScNewForm) {
-              cy.fillVaDate('txdate', location.treatmentDate, true);
-              cy.selectVaCheckbox('nodate', location.noDate);
-            } else {
-              cy.fillVaMemorableDate(
-                'from',
-                location.evidenceDates?.from,
-                false,
-              );
-              cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
-            }
+            cy.fillVaDate('txdate', location.treatmentDate, true);
+            cy.selectVaCheckbox('nodate', location.noDate);
             cy.axeCheck();
 
             // Add another
@@ -345,6 +332,7 @@ export const pageHooks = {
             }
           }
         });
+
         clickContinue();
       });
     });

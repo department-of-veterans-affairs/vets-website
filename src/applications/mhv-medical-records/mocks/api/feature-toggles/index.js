@@ -4,7 +4,6 @@ const { snakeCase } = require('lodash');
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
   mhvMedicalRecordsAllowTxtDownloads: true,
-  mhvMedicalRecordsToVaGovRelease: true,
 
   // OH integration work
   mhvMedicationsToVaGovRelease: true,

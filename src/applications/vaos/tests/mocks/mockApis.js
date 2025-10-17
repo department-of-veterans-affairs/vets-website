@@ -582,13 +582,35 @@ export function mockEligibilityFetches({
   typeOfCareId,
   limit = false,
   requestPastVisits = false,
+  requestsDisabled = false,
   directPastVisits = false,
+  directDisabled = false,
   matchingClinics = null,
   clinics = [],
   pastClinics = false,
 }) {
   const directReasons = [];
   const requestReasons = [];
+
+  if (directDisabled) {
+    directReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-direct-disabled',
+        },
+      ],
+    });
+  }
+
+  if (requestsDisabled) {
+    requestReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-request-disabled',
+        },
+      ],
+    });
+  }
 
   if (!directPastVisits && typeOfCareId !== 'primaryCare') {
     directReasons.push({

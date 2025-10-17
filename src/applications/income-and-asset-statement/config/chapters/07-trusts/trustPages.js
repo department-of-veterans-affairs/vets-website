@@ -26,6 +26,8 @@ import {
   isDefined,
   monthlyMedicalReimbursementAmountRequired,
   requireExpandedArrayField,
+  sharedYesNoOptionsBase,
+  showUpdatedContent,
 } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -43,10 +45,11 @@ export const options = {
     typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
     typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
   text: {
+    summaryTitle: 'Review trusts',
     summaryDescription: TrustSupplementaryFormsAlert,
     getItemName: item =>
       isDefined(item?.establishedDate) &&
-      `Trust established on ${formatDateLong(item.establishedDate)}`,
+      `Trust created on ${formatDateLong(item.establishedDate)}`,
     cardDescription: item =>
       isDefined(item?.marketValueAtEstablishment) && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
@@ -57,9 +60,21 @@ export const options = {
             </span>
           </li>
           <li>
-            Market value when established:{' '}
+            Fair market value when created:{' '}
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.marketValueAtEstablishment)}
+            </span>
+          </li>
+          <li>
+            Yearly income:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.annualReceivedIncome)}
+            </span>
+          </li>
+          <li>
+            Money added to trust:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.addedFundsAmount)}
             </span>
           </li>
         </ul>
@@ -82,6 +97,19 @@ export const options = {
   },
 };
 
+// We support multiple summary pages (one per claimant type).
+// These constants centralize shared text so each summary page stays consistent.
+// Important: only one summary page should ever be displayed at a time.
+
+// Shared summary page text
+const updatedTitleNoItems = 'Do you or your dependents have access to a trust?';
+const updatedTitleWithItems = 'Do you have another trust to report?';
+const summaryPageTitle = 'Trusts';
+const yesNoOptionLabels = {
+  Y: 'Yes, I have a trust to report',
+  N: 'No, I don’t have a trust to report',
+};
+
 /**
  * Cards are populated on this page above the uiSchema if items are present
  *
@@ -102,10 +130,7 @@ const summaryPage = {
       },
       {
         title: 'Do you have more trusts to report?',
-        labels: {
-          Y: 'Yes',
-          N: 'No',
-        },
+        ...sharedYesNoOptionsBase,
       },
     ),
   },
@@ -119,6 +144,103 @@ const summaryPage = {
       'view:isAddingTrusts': arrayBuilderYesNoSchema,
     },
     required: ['view:isAddingTrusts'],
+  },
+};
+
+/** @returns {PageSchema} */
+const veteranSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const spouseSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: 'Your dependents include children who you financially support. ',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const childSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint: null,
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+const parentSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
+  },
+};
+
+/** @returns {PageSchema} */
+const custodianSummaryPage = {
+  uiSchema: {
+    'view:isAddingTrusts': arrayBuilderYesNoUI(
+      options,
+      {
+        title: updatedTitleNoItems,
+        hint:
+          'Your dependents include your spouse, including a same-sex and common-law partner and the Veteran’s children who you financially support.',
+        ...sharedYesNoOptionsBase,
+        labels: yesNoOptionLabels,
+      },
+      {
+        title: updatedTitleWithItems,
+        ...sharedYesNoOptionsBase,
+      },
+    ),
   },
 };
 
@@ -291,8 +413,49 @@ const addedFundsPage = {
 };
 
 export const trustPages = arrayBuilderPages(options, pageBuilder => ({
+  trustPagesVeteranSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-veteran',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'VETERAN',
+    uiSchema: veteranSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedSpouseSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-spouse',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'SPOUSE',
+    uiSchema: spouseSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedChildSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-child',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CHILD',
+    uiSchema: childSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedCustodianSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-custodian',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'CUSTODIAN',
+    uiSchema: custodianSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  trustPagesUpdatedParentSummary: pageBuilder.summaryPage({
+    title: summaryPageTitle,
+    path: 'trusts-summary-parent',
+    depends: formData =>
+      showUpdatedContent() && formData.claimantType === 'PARENT',
+    uiSchema: parentSummaryPage.uiSchema,
+    schema: summaryPage.schema,
+  }),
+  // Ensure MVP summary page is listed last so it’s not accidentally overridden by claimantType-specific summary pages
   trustPagesSummary: pageBuilder.summaryPage({
-    title: 'Income not associated with accounts or assets',
+    title: summaryPageTitle,
     path: 'trusts-summary',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,

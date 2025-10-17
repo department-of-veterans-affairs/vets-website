@@ -9,11 +9,13 @@ import { focusElement } from 'platform/utilities/ui';
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import {
+  ssnUI,
+  currentOrPastDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { countries } from 'platform/forms/address';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -800,21 +802,19 @@ export function transform(formConfig, form) {
 }
 
 export const fullMaidenNameUI = merge({}, fullNameUI, {
-  first: {
-    'ui:title': 'First name',
-  },
+  first: { 'ui:title': 'First name', 'ui:webComponentField': VaTextInputField },
   middle: {
     'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
   },
-  last: {
-    'ui:title': 'Last name',
-  },
+  last: { 'ui:title': 'Last name', 'ui:webComponentField': VaTextInputField },
   suffix: {
     'ui:webComponentField': VaSelectField,
     'ui:options': { classNames: 'form-select-medium' },
   },
   maiden: {
     'ui:title': 'Maiden name',
+    'ui:webComponentField': VaTextInputField,
   },
   'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
 });
@@ -843,11 +843,13 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
 );
 
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = ssnUI;
+export const ssnDashesUI = ssnUI();
 
-export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
-  'ui:title': 'Applicant’s Social Security number',
-});
+export const preparerSsnDashesUI = ssnUI('Applicant’s Social Security number');
+
+export const sponsorDetailsSsnDashesUI = ssnUI(
+  'Sponsor’s Social Security number',
+);
 
 export const VAClaimNumberAdditionalInfo = (
   <va-additional-info trigger="What is a “VA claim number”?">
@@ -1555,4 +1557,11 @@ export const isNotLoggedInVeteranPreparer = formData => {
   const isVet = isVeteran(formData);
   const isAgent = isAuthorizedAgent(formData);
   return isAgent && isVet && !isLoggedIn;
+};
+
+// Helper function to check if user is logged in and not an authorized agent
+export const isLoggedInUser = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isLoggedIn;
 };

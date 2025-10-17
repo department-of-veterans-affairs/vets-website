@@ -68,3 +68,17 @@ export const RoyaltiesSummaryDescription = () => {
     </>
   );
 };
+
+export const AssetTransfersSummaryDescription = () => {
+  return (
+    <>
+      <p>Asset transfers could include these types of transactions:</p>
+      <ul>
+        <li>Sale: For monetary benefit</li>
+        <li>Trade: For an alternative property</li>
+        <li>Giveaway: For no benefit</li>
+        <li>Conveyed: Through a legal process</li>
+      </ul>
+    </>
+  );
+};

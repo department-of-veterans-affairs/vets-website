@@ -10,7 +10,7 @@ const ClaimIdentificationInfo = (
     </p>
     <p>
       <strong>For control numbers</strong> include all of the numbers listed
-      under “Control Number” on the CHAMPVA Explanation of benefits.
+      under “Control Number” on the CHAMPVA Explanation of Benefits.
     </p>
 
     <va-additional-info
@@ -25,10 +25,9 @@ const ClaimIdentificationInfo = (
         </p>
         <p className="vads-u-margin-bottom--0">
           If you can’t find the PDI number, call us at{' '}
-          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />{' '}
-          <va-telephone contact="711" tty />
-          {'. '}
-          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
+          <va-telephone contact={CHAMPVA_PHONE_NUMBER} /> (
+          <va-telephone contact="711" tty />){'. '}
+          We’re here Monday through Friday, 8:05 a.m. to 7:30 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>
@@ -48,10 +47,9 @@ const ClaimIdentificationInfo = (
         </p>
         <p className="vads-u-margin-bottom--0">
           If you can’t find the control number, call us at{' '}
-          <va-telephone contact={CHAMPVA_PHONE_NUMBER} />
-          <va-telephone contact="711" tty />
-          {'. '}
-          We’re here Monday through Friday, 8:05a.m. to 7:30 p.m.{' '}
+          <va-telephone contact={CHAMPVA_PHONE_NUMBER} /> (
+          <va-telephone contact="711" tty />){'. '}
+          We’re here Monday through Friday, 8:05 a.m. to 7:30 p.m.{' '}
           <dfn>
             <abbr title="Eastern Time">ET</abbr>
           </dfn>

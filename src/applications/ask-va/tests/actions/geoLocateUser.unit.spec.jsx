@@ -17,11 +17,20 @@ describe('geoLocateUser Action Creator', () => {
 
   beforeEach(() => {
     store = mockStore({});
-    global.navigator = {
-      geolocation: {
+
+    if (!global.navigator) {
+      Object.defineProperty(global, 'navigator', {
+        value: {},
+        writable: true,
+      });
+    }
+
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: {
         getCurrentPosition: sinon.stub(),
       },
-    };
+      writable: true,
+    });
   });
 
   it('should dispatch GEOLOCATE_USER and GEOCODE_COMPLETE on successful geolocation', async () => {
@@ -57,7 +66,10 @@ describe('geoLocateUser Action Creator', () => {
   });
 
   it('should dispatch GEOCODE_FAILED if geolocation is not supported', async () => {
-    delete global.navigator.geolocation;
+    Object.defineProperty(global.navigator, 'geolocation', {
+      value: undefined,
+      writable: true,
+    });
 
     await store.dispatch(geoLocateUser());
 

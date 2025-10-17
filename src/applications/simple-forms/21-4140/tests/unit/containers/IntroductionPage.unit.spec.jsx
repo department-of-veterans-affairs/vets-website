@@ -15,54 +15,67 @@ const props = {
   userIdVerified: true,
 };
 
-const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        loa: {
-          current: 3,
-          highest: 3,
+function getMockStore(showVerifyIdentify = false) {
+  return {
+    getState: () => ({
+      user: {
+        login: {
+          currentlyLoggedIn: showVerifyIdentify,
         },
-        verified: true,
-        dob: '2000-01-01',
-        claims: {
-          appeals: false,
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
+          loa: {
+            current: showVerifyIdentify ? null : 3,
+            highest: 3,
+          },
+          verified: true,
+          dob: '2000-01-01',
+          claims: {
+            appeals: false,
+          },
         },
       },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
+      form: {
+        formId: formConfig.formId,
+        loadedStatus: 'success',
+        savedStatus: '',
+        loadedData: {
+          metadata: {},
+        },
+        data: {},
       },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+      scheduledDowntime: {
+        globalDowntime: null,
+        isReady: true,
+        isPending: false,
+        serviceMap: { get() {} },
+        dismissedDowntimeWarnings: [],
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  };
+}
 
 describe('IntroductionPage', () => {
   it('should render', () => {
+    const store = getMockStore();
     const { container } = render(
-      <Provider store={mockStore}>
+      <Provider store={store}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect(container).to.exist;
+    expect(container.querySelector('va-alert-sign-in')).to.exist;
+  });
+
+  it('should render sign in if not logged in', () => {
+    const store = getMockStore(true);
+    const { container } = render(
+      <Provider store={store}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(container.querySelector('va-alert-sign-in')).not.to.exist;
   });
 });

@@ -1,14 +1,18 @@
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema.json';
 
 import { merge, pick } from 'lodash';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  currentOrPastDateUI,
+  ssnSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import fullNameUI from 'platform/forms/definitions/fullName';
 import {
   veteranUI,
   sponsorDetailsSubHeader,
-  ssnDashesUI,
+  sponsorDetailsSsnDashesUI,
   sponsorDetailsGuidingText,
 } from '../../utils/helpers';
 
@@ -28,12 +32,15 @@ export const uiSchema = {
       currentName: merge({}, fullNameUI, {
         first: {
           'ui:title': 'Sponsor’s first name',
+          'ui:webComponentField': VaTextInputField,
         },
         last: {
           'ui:title': 'Sponsor’s last name',
+          'ui:webComponentField': VaTextInputField,
         },
         middle: {
           'ui:title': 'Sponsor’s middle name',
+          'ui:webComponentField': VaTextInputField,
         },
         suffix: {
           'ui:title': 'Sponsor’s suffix',
@@ -42,19 +49,19 @@ export const uiSchema = {
         },
         maiden: {
           'ui:title': 'Sponsor’s maiden name',
+          'ui:webComponentField': VaTextInputField,
         },
         'ui:order': ['first', 'middle', 'last', 'suffix', 'maiden'],
       }),
-      ssn: {
-        ...ssnDashesUI,
-        'ui:title': 'Sponsor’s Social Security number',
-      },
+      ssn: sponsorDetailsSsnDashesUI,
       dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
       cityOfBirth: {
         'ui:title': 'Sponsor’s birth city',
+        'ui:webComponentField': VaTextInputField,
       },
       stateOfBirth: {
         'ui:title': 'Sponsor’s birth state',
+        'ui:webComponentField': VaTextInputField,
       },
     }),
   },
@@ -77,9 +84,11 @@ export const schema = {
                 properties: {},
               },
             },
+            pick(veteran.properties, ['currentName']),
+            {
+              ssn: ssnSchema,
+            },
             pick(veteran.properties, [
-              'currentName',
-              'ssn',
               'dateOfBirth',
               'cityOfBirth',
               'stateOfBirth',

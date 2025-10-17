@@ -1,3 +1,4 @@
+import { differenceInYears, format, isMatch, parse } from 'date-fns';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 
 // Only show address dropdown if we're not the certifier
@@ -55,3 +56,45 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
   }
   return modifiedFormData;
 }
+
+/**
+ * Returns the integer age in full years as of a given date.
+ *
+ * Accepts birthdates in either `yyyy-MM-dd` (ISO) or `MM-dd-yyyy` formats.
+ * Parsing is explicit via date-fns; both the DOB and the "as of" date are
+ * normalized to UTC midnight to avoid timezone/DST edge cases.
+ *
+ * @param {string} dateStr - Birthdate string in `yyyy-MM-dd` or `MM-dd-yyyy` format.
+ * @param {Date} [asOf=new Date()] - The date on which to calculate age.
+ * @returns {number} Age in full years, or `NaN` if the input is invalid.
+ *
+ * @example
+ * getAgeInYears('1958-01-01');       // -> 67 (depending on today's date)
+ * getAgeInYears('01-01-1958');       // -> 67
+ * getAgeInYears('not-a-date');       // -> NaN
+ */
+export const getAgeInYears = (dateStr, asOf = new Date()) => {
+  if (typeof dateStr !== 'string' || dateStr.length < 10) return NaN;
+  let parsed;
+
+  // accept & enforce either ISO `yyyy-MM-dd` or US `MM-dd-yyyy` format
+  if (isMatch(dateStr, 'yyyy-MM-dd')) {
+    parsed = parse(dateStr, 'yyyy-MM-dd', new Date());
+    if (format(parsed, 'yyyy-MM-dd') !== dateStr) return NaN;
+  } else if (isMatch(dateStr, 'MM-dd-yyyy')) {
+    parsed = parse(dateStr, 'MM-dd-yyyy', new Date());
+    if (format(parsed, 'MM-dd-yyyy') !== dateStr) return NaN;
+  } else {
+    return NaN;
+  }
+
+  // normalize both to UTC midnight to avoid TZ/DST edge cases
+  const dobUTC = new Date(
+    Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()),
+  );
+  const asOfUTC = new Date(
+    Date.UTC(asOf.getUTCFullYear(), asOf.getUTCMonth(), asOf.getUTCDate()),
+  );
+
+  return differenceInYears(asOfUTC, dobUTC);
+};

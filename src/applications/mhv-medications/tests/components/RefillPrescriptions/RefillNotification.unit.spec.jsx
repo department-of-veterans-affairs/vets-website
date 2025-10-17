@@ -2,20 +2,11 @@ import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import RefillNotification from '../../../components/RefillPrescriptions/RefillNotification';
-import reducer from '../../../reducers';
 import refillableList from '../../fixtures/refillablePrescriptionsList.json';
 
-describe('Refill Notification Component', () => {
-  const initSuccessfulMeds = [
-    refillableList[0],
-    refillableList[1],
-    refillableList[2],
-  ];
-  const initFailedMeds = [
-    refillableList[3],
-    refillableList[4],
-    refillableList[5],
-  ];
+describe('RefillNotification', () => {
+  const initSuccessfulMeds = refillableList.slice(0, 3);
+  const initFailedMeds = refillableList.slice(3, 6);
   const initRefillStatus = 'finished';
 
   const setup = (
@@ -31,7 +22,7 @@ describe('Refill Notification Component', () => {
       />,
       {
         initialState: {},
-        reducers: reducer,
+        reducers: {},
         initialEntries: ['/refill'],
       },
     );
@@ -42,84 +33,54 @@ describe('Refill Notification Component', () => {
     expect(screen);
   });
 
-  it('should render items', () => {
-    const screen = setup();
-    const successfulList = screen.getAllByTestId(
-      'medication-requested-successful',
+  it('should display error message when refill request fails', () => {
+    const screen = setup(initRefillStatus, [], initFailedMeds);
+
+    expect(screen.getByTestId('error-refill-title')).to.include.text(
+      'Request not submitted',
     );
-    const failedList = screen.getAllByTestId('medication-requested-failed');
-    expect(successfulList.length + failedList.length).to.eq(6);
-  });
-
-  it('All refill requests have failed', async () => {
-    const screen = setup(
-      initRefillStatus,
-      [],
-      [refillableList[3], refillableList[4], refillableList[5]],
+    expect(screen.getByTestId('error-refill-description')).to.include.text(
+      'We’re sorry. There’s a problem with our system.',
     );
-
-    const failedAlert = screen.getByTestId('failed-refill');
-    const errorAlert = screen.getByTestId('error-refill');
-    const partialAlert = screen.getByTestId('partial-refill');
-    const successAlert = screen.getByTestId('success-refill');
-
-    expect(screen.getByTestId('failed-request-suggestion')).to.include.text(
+    expect(screen.getByTestId('error-refill-suggestion')).to.include.text(
       'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
-
-    expect(failedAlert).to.have.attribute('visible', 'false');
-    expect(errorAlert).to.have.attribute('visible', 'true');
-    expect(partialAlert).to.have.attribute('visible', 'false');
-    expect(successAlert).to.have.attribute('visible', 'false');
   });
 
-  it('Part of the refill requests are successful', () => {
-    const screen = setup();
-
-    const failedAlert = screen.getByTestId('failed-refill');
-    const errorAlert = screen.getByTestId('error-refill');
-    const partialAlert = screen.getByTestId('partial-refill');
-    const successAlert = screen.getByTestId('success-refill');
-
-    expect(failedAlert).to.have.attribute('visible', 'false');
-    expect(errorAlert).to.have.attribute('visible', 'false');
-    expect(partialAlert).to.have.attribute('visible', 'true');
-    expect(successAlert).to.have.attribute('visible', 'true');
-  });
-
-  it('All refill requests are successful', () => {
-    const screen = setup(
-      initRefillStatus,
-      [refillableList[0], refillableList[1], refillableList[2]],
-      [],
-    );
-
-    const failedAlert = screen.getByTestId('failed-refill');
-    const errorAlert = screen.getByTestId('error-refill');
-    const partialAlert = screen.getByTestId('partial-refill');
-    const successAlert = screen.getByTestId('success-refill');
-
-    expect(failedAlert).to.have.attribute('visible', 'false');
-    expect(errorAlert).to.have.attribute('visible', 'false');
-    expect(partialAlert).to.have.attribute('visible', 'false');
-    expect(successAlert).to.have.attribute('visible', 'true');
-  });
-
-  it('The request was not submitted', () => {
+  it('should display error message when refill request is not submitted', () => {
     const screen = setup(initRefillStatus, [], []);
 
-    const failedAlert = screen.getByTestId('failed-refill');
-    const errorAlert = screen.getByTestId('error-refill');
-    const partialAlert = screen.getByTestId('partial-refill');
-    const successAlert = screen.getByTestId('success-refill');
-
-    expect(screen.getByTestId('not-submitted-suggestion')).to.include.text(
+    expect(screen.getByTestId('error-refill-title')).to.include.text(
+      'Request not submitted',
+    );
+    expect(screen.getByTestId('error-refill-description')).to.include.text(
+      'We’re sorry. There’s a problem with our system.',
+    );
+    expect(screen.getByTestId('error-refill-suggestion')).to.include.text(
       'Try requesting your refills again. If it still doesn’t work, contact your VA pharmacy.',
     );
+  });
 
-    expect(failedAlert).to.have.attribute('visible', 'true');
-    expect(errorAlert).to.have.attribute('visible', 'false');
-    expect(partialAlert).to.have.attribute('visible', 'false');
-    expect(successAlert).to.have.attribute('visible', 'false');
+  it('should display partial success message when some refill requests fail', () => {
+    const screen = setup(initRefillStatus, initSuccessfulMeds, initFailedMeds);
+
+    expect(screen.getByTestId('partial-refill-title')).to.include.text(
+      'Only part of your request was submitted',
+    );
+    expect(screen.getByTestId('partial-refill-description')).to.include.text(
+      'We’re sorry. There’s a problem with our system. We couldn’t submit these refill requests:',
+    );
+    expect(screen.getByTestId('failed-medication-list')).to.exist;
+    expect(screen.getByTestId('partial-refill-suggestion')).to.include.text(
+      'Try requesting these refills again. If it still doesn’t work, call your VA pharmacy.',
+    );
+    expect(screen.getByTestId('success-refill-title')).to.include.text(
+      'Refills requested',
+    );
+    expect(screen.getByTestId('successful-medication-list')).to.exist;
+    expect(screen.getByTestId('success-refill-description')).to.include.text(
+      'To check the status of your refill requests, go to your medications list and filter by "recently requested."',
+    );
+    expect(screen.getByTestId('back-to-medications-page-link')).to.exist;
   });
 });

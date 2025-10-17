@@ -48,18 +48,22 @@
     }
   }
 }
+
 .statement-wrapper {
   background-color: var(--vads-color-base-lightest);
   padding: 1px 24px 24px 24px;
   margin-block: 24px;
 }
+
 .privacy-agreement {
   white-space: nowrap;
 }
+
 .numbered-list {
   counter-reset: my-counter;
   list-style: none;
 }
+
 .numbered-list li {
   counter-increment: my-counter;
   margin-left: 1rem;
@@ -68,7 +72,12 @@
   font-size: 16.96px;
   font-family: "source-sans-pro";
 }
+
 .numbered-list li::before {
   content: counter(my-counter) ". ";
   margin-right: 5px;
+}
+
+.va-memorable-date-field::part(legend) {
+  width: 100vw;
 }

@@ -135,6 +135,7 @@ import reviewErrors from '../reviewErrors';
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import getPreSubmitInfo from '../content/preSubmitInfo';
+import ConfirmationAncillaryFormsWizard from '../components/ConfirmationAncillaryFormsWizard';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -503,6 +504,7 @@ const formConfig = {
                 'Do you want to answer questions to determine if you may be eligible for additional benefits?',
               'ui:widget': 'yesNo',
             },
+            'ui:confirmationField': ConfirmationAncillaryFormsWizard,
           },
           schema: {
             type: 'object',

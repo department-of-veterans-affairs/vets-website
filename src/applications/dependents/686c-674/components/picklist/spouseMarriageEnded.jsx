@@ -17,9 +17,6 @@ const spouseMarriageEnded = {
   handlers: {
     // Return "DONE" when we're done with this flow
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
-    // return empty path to go to first spouse page
-    goBack: (/* { _itemData, _index, _fullData } */) =>
-      'marriage-reason-to-remove',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

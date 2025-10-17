@@ -361,8 +361,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
@@ -496,8 +496,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
@@ -544,8 +544,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
@@ -727,6 +727,130 @@ describe('VA Medical Records', () => {
         expect(form.find('.usa-input-error-message').length).to.equal(0);
         expect(onSubmit.calledOnce).to.be.true;
         form.unmount();
+      });
+    });
+  });
+
+  describe('confirmation page display formatting', () => {
+    describe('treatment date confirmation field', () => {
+      const confirmationField =
+        uiSchema.vaTreatmentFacilities.items.treatmentDateRange.from[
+          'ui:confirmationField'
+        ];
+
+      it('formats partial dates with XX placeholders as readable month/year', () => {
+        const result = confirmationField({ formData: '2008-01-XX' });
+        expect(result.data).to.equal('January 2008');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('displays "Unknown" for missing or empty dates', () => {
+        expect(confirmationField({ formData: null }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: undefined }).data).to.equal(
+          'Unknown',
+        );
+        expect(confirmationField({ formData: '' }).data).to.equal('Unknown');
+      });
+
+      it('formats complete dates as full date with day', () => {
+        const result = confirmationField({ formData: '2010-04-01' });
+        expect(result.data).to.equal('April 1, 2010');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('formats year-only dates when month is XX', () => {
+        const result = confirmationField({ formData: '2010-XX-XX' });
+        expect(result.data).to.equal('2010');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('formats year-only dates when month is XX', () => {
+        const result = confirmationField({ formData: '2015-XX-XX' });
+        expect(result.data).to.equal('2015');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('formats month-year dates when day is XX', () => {
+        const result = confirmationField({ formData: '2020-12-XX' });
+        expect(result.data).to.equal('December 2020');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('handles different valid months correctly', () => {
+        expect(confirmationField({ formData: '2021-02-XX' }).data).to.equal(
+          'February 2021',
+        );
+        expect(confirmationField({ formData: '2021-06-XX' }).data).to.equal(
+          'June 2021',
+        );
+        expect(confirmationField({ formData: '2021-11-XX' }).data).to.equal(
+          'November 2021',
+        );
+      });
+
+      it('formats full dates with day correctly', () => {
+        expect(confirmationField({ formData: '2021-02-15' }).data).to.equal(
+          'February 15, 2021',
+        );
+        expect(confirmationField({ formData: '2021-06-05' }).data).to.equal(
+          'June 5, 2021',
+        );
+        expect(confirmationField({ formData: '2021-11-22' }).data).to.equal(
+          'November 22, 2021',
+        );
+      });
+
+      it('returns Unknown for invalid year (XXXX)', () => {
+        const result = confirmationField({ formData: 'XXXX-01-01' });
+        expect(result.data).to.equal('Unknown');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('returns Unknown for completely unknown date', () => {
+        const result = confirmationField({ formData: 'XXXX-XX-XX' });
+        expect(result.data).to.equal('Unknown');
+        expect(result.label).to.equal(
+          'When did you first visit this facility?',
+        );
+      });
+
+      it('handles edge case with non-string input types', () => {
+        expect(confirmationField({ formData: 123 }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: {} }).data).to.equal('Unknown');
+        expect(confirmationField({ formData: [] }).data).to.equal('Unknown');
+      });
+    });
+
+    describe('traumatic event treatment confirmation field', () => {
+      const confirmationField =
+        uiSchema.vaTreatmentFacilities.items.treatmentLocation0781Related[
+          'ui:confirmationField'
+        ];
+
+      it('displays "Yes" or "No" based on boolean response', () => {
+        const resultTrue = confirmationField({ formData: true });
+        expect(resultTrue.data).to.equal('Yes');
+        expect(resultTrue.label).to.equal(
+          'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        );
+
+        const resultFalse = confirmationField({ formData: false });
+        expect(resultFalse.data).to.equal('No');
+        expect(resultFalse.label).to.equal(
+          'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+        );
       });
     });
   });

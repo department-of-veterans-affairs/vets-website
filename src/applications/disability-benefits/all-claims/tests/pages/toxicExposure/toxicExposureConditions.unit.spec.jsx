@@ -13,12 +13,55 @@ import {
   noneAndConditionError,
 } from '../../../content/toxicExposure';
 import formConfig from '../../../config/form';
+import ToxicExposureConditions from '../../../components/ConfirmationFields/ToxicExposureConditions';
 
 describe('Toxic Exposure Conditions', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.disabilities.pages.toxicExposureConditions;
+
+  it('renders "None claimed" when no toxic exposure conditions are selected', () => {
+    const formData = {
+      toxicExposure: {
+        conditions: {
+          none: true,
+        },
+      },
+      newDisabilities: [{ condition: 'Asthma' }, { condition: 'COPD' }],
+    };
+    const { getByRole, queryByText } = render(
+      <ToxicExposureConditions formData={formData} />,
+    );
+    expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
+    expect(queryByText(/none claimed/i)).to.exist;
+    expect(queryByText(/asthma/i)).to.be.null;
+    expect(queryByText(/copd/i)).to.be.null;
+  });
+
+  it('renders claimed toxic exposure conditions', () => {
+    const formData = {
+      toxicExposure: {
+        conditions: {
+          asthma: true,
+          copd: true,
+        },
+      },
+      newDisabilities: [
+        { condition: 'Asthma' },
+        { condition: 'COPD' },
+        { condition: 'Sleep Apnea' },
+      ],
+    };
+    const { getByRole, queryByText, getByText } = render(
+      <ToxicExposureConditions formData={formData} />,
+    );
+    expect(getByRole('heading', { name: /toxic exposure/i })).to.exist;
+    expect(getByText(/asthma/i)).to.exist;
+    expect(getByText(/copd/i)).to.exist;
+    expect(queryByText(/sleep apnea/i)).to.be.null;
+    expect(queryByText(/none claimed/i)).to.be.null;
+  });
 
   it('should render conditions page with multiple conditions', async () => {
     const formData = {

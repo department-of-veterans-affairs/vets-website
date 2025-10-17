@@ -38,7 +38,10 @@ import {
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
-import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionPage, {
+  NOT_SHARED,
+} from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -67,6 +70,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formOptions: {
+    useWebComponentForNavigation: true,
     filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({
@@ -180,7 +184,7 @@ const formConfig = {
         },
         page10b0: {
           path: 'veteran-address',
-          title: 'Veteran’s address selection',
+          title: 'Veteran’s address',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
@@ -189,14 +193,16 @@ const formConfig = {
             const opts = { ...props, dataKey: 'sponsorAddress' };
             return AddressSelectionPage(opts);
           },
-          CustomPageReview: null,
+          CustomPageReview: AddressSelectionReviewPage,
           uiSchema: {},
           schema: blankSchema,
         },
         page10: {
           path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
-          depends: formData => !get('sponsorIsDeceased', formData),
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('view:sharesAddressWith', formData) === NOT_SHARED,
           ...sponsorAddress,
         },
         page11: {

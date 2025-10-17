@@ -46,7 +46,7 @@ import Alert from '../components/shared/Alert';
 import { selectRefillProgressFlag } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import RefillAlert from '../components/shared/RefillAlert';
@@ -746,11 +746,11 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
           </>
         ) : (
           <>
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
             {renderRefillAlert()}
             {renderMedicationsContent()}
           </>

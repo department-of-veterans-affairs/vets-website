@@ -105,10 +105,6 @@ describe('parentReasonToRemove', () => {
       expect(parentReasonToRemove.handlers.goForward()).to.equal('DONE');
     });
 
-    it('should return an empty string on goBack', () => {
-      expect(parentReasonToRemove.handlers.goBack()).to.equal('');
-    });
-
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
       parentReasonToRemove.handlers.onSubmit({

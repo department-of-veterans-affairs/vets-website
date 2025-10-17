@@ -18,6 +18,8 @@ import {
   mockClinicsApi,
   mockEligibilityApi,
   mockEligibilityCCApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFeatureToggles,
   mockSchedulingConfigurationApi,
@@ -52,7 +54,11 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityApi({ response: mockEligibilityResponse });
+
+      mockEligibilityApi({
+        response: mockEligibilityResponse,
+      });
+
       mockEligibilityCCApi({ cceType, isEligible: false });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
@@ -211,18 +217,32 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
 
   describe('When direct is enabled and request is disabled', () => {
     beforeEach(() => {
-      const mockEligibilityResponse = new MockEligibilityResponse({
-        facilityId: '983',
-        typeOfCareId,
-        isEligible: true,
-      });
-
       mockFacilitiesApi({
         response: MockFacilityResponse.createResponses({
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityApi({ response: mockEligibilityResponse });
+      const mockEligibilityResponseDirect = new MockEligibilityResponse({
+        facilityId: '983',
+        typeOfCareId,
+        isEligible: true,
+        type: 'direct',
+      });
+      const mockEligibilityResponseRequest = new MockEligibilityResponse({
+        facilityId: '983',
+        typeOfCareId,
+        isEligible: false,
+        type: 'request',
+        ineligibilityReason:
+          MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
+      });
+
+      mockEligibilityDirectApi({
+        response: mockEligibilityResponseDirect,
+      });
+      mockEligibilityRequestApi({
+        response: mockEligibilityResponseRequest,
+      });
       mockEligibilityCCApi({ cceType, isEligible: false });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],

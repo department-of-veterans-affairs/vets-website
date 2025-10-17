@@ -90,7 +90,7 @@ Getting custom navigation to work within the form system isn't easy. Current kno
 
 - Find the file for the page that will have the new page added after it, e.g. `spouseMarriageEnded.js`
 - Copy the code from this file into a new file, and name it something like `spouseNextPage.js`
-- Open the `routing.js` file in the same folder as this read me
+- Open the `routes.js` file in the same folder as this read me
   - Import the new file, e.g. `import spouseNextPage from './spouseNextPage';`
   - Add a new object the array for the appropriate dependent type (Spouse, Child, or Parent). This capitalization is based on the value from `relationshipToVeteran` in the data.
   - For example, add `{ path: 'marriage-next-page', page: spouseNextPage }`
@@ -100,15 +100,13 @@ Getting custom navigation to work within the form system isn't easy. Current kno
   - The callback is provided the `itemData`, `index` of the dependent, and `fullData` (all form data)
 - Now edit the `spouseNextPage.js` file:
   - Edit the `goForward` handler to either return `'DONE'` if it is the last page of the flow, or return the path of the next page
-  - Edit the `goBack` handler so that it points to the previous page correctly
-  - E.g. `goBack: () => 'marriage-next-page'`
   - Modify the `onSubmit` callback to check required `itemData` and either focus on the error or call `goForward`
   - Update the `Component` with the fields needed to match design
 - Test to make sure the routing is working as expected.
 
 #### Follow these steps to add a page to the flow
 
-- Open the `routing.js` file in this folder and remove the page from the array
-- Now make sure to edit the page before & after (if it's in the middle of the flow) that page by updating the `goForward` and `goBack` handlers to point to the appropriate pages
+- Open the `routes.js` file in this folder and remove the page from the array
+- Now make sure to edit the page before & after (if it's in the middle of the flow) that page by updating the `goForward` handler to point to the appropriate pages
 - In the `goForward` handler, return `'DONE'` if it the last follow up page.
 - Test to make sure the routing is working as expected.

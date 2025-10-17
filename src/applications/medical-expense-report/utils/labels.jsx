@@ -1,63 +1,23 @@
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
-export const relationshipLabels = {
-  CHILD: 'Child',
-  PARENT: 'Parent',
-};
-
-export const childRelationshipLabels = {
-  BIOLOGICAL: "They're my biological child",
-  ADOPTED: "They're my adopted child",
-  STEP_CHILD: "They're my stepchild",
-};
-
-export const marriageTypeLabels = {
-  CEREMONY:
-    'In a civil or religious ceremony with an officiant who signed my marriage license',
-  OTHER: 'Some other way',
-};
 
 export const recipientTypeLabels = {
   VETERAN: 'Veteran',
   SPOUSE: 'Veteran’s spouse',
   DEPENDENT: 'Veteran’s child',
-};
-
-export const travelerTypeLabels = {
-  VETERAN: 'Veteran',
-  SPOUSE: 'Veteran’s spouse',
-  DEPENDENT: 'Veteran’s child',
   OTHER: 'Other',
 };
 
-export const separationTypeLabels = {
-  DEATH: 'Spouse’s death',
-  DIVORCE: 'Divorce',
+export const travelLocationLabels = {
+  HOSPITAL: 'Hospital',
+  CLINIC: 'Clinic',
+  PHARMACY: 'Pharmacy',
   OTHER: 'Other',
-};
-
-export const serviceBranchLabels = {
-  army: 'Army',
-  navy: 'Navy',
-  airForce: 'Air Force',
-  coastGuard: 'Coast Guard',
-  marineCorps: 'Marine Corps',
-  spaceForce: 'Space Force',
-  usphs: 'USPHS',
-  noaa: 'NOAA',
-};
-
-export const typeOfIncomeLabels = {
-  SOCIAL_SECURITY: 'Social Security',
-  INTEREST_DIVIDEND: 'Interest or dividend income',
-  CIVIL_SERVICE: 'Civil Service',
-  PENSION_RETIREMENT: 'Pension or retirement income',
-  OTHER: 'Other income',
 };
 
 export const careTypeLabels = {
-  CARE_FACILITY: 'Care facility',
-  IN_HOME_CARE_PROVIDER: 'In-home care provider',
+  RESIDENTIAL: 'Residential care facility',
+  IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
 };
 
 export const careFrequencyLabels = {

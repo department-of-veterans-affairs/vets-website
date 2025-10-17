@@ -17,7 +17,7 @@ import {
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import * as h from './995.cypress.helpers';
-import mockData from './fixtures/data/keyboard-test.json';
+import mockData from './fixtures/data/pre-api-comprehensive-test.json';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
@@ -31,11 +31,6 @@ describe('Supplemental Claim keyboard only navigation', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, h.fetchItf());
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        features: [{ name: 'sc_new_form', value: true }],
-      },
-    });
 
     cy.get('@testData').then(data => {
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -67,8 +62,8 @@ describe('Supplemental Claim keyboard only navigation', () => {
       h.verifyUrl(h.VETERAN_INFO_PATH);
       cy.tabToContinueForm();
 
-      // Feature toggles are flaky in the Cypress env for some reason
-      // Adding this here until we completely remove the SC new toggle (as this page depends on it)
+      // This test is flaky and sometimes the button clicks don't work
+      // Adding this here as it's not clear why it's not working yet
       cy.url().then(url => {
         if (url.includes(h.HOMELESSNESS_PATH)) {
           // *** Homelessness page
@@ -76,28 +71,28 @@ describe('Supplemental Claim keyboard only navigation', () => {
           cy.tabToElement('[name="root_housingRisk"]');
           cy.chooseRadio('Y');
           cy.tabToContinueForm();
+
+          // *** Living situation page
+          h.verifyUrl(h.LIVING_SITUATION_PATH);
+          cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
+          cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
+          cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
+
+          // ** Other Housing Risk page
+          h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
+          cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
+          cy.realType('Testing content');
+          cy.tabToContinueForm();
+
+          // ** Point of contact page
+          h.verifyUrl(h.HOUSING_CONTACT_PATH);
+          cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
+          cy.realType('Ted Mosby');
+          cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
+          cy.realType('2105550123');
+          cy.tabToContinueForm();
         }
       });
-
-      // *** Living situation page
-      h.verifyUrl(h.LIVING_SITUATION_PATH);
-      cy.setCheckboxFromData(h.LIVING_SITUATION_SHELTER_CHECKBOX, true);
-      cy.setCheckboxFromData(h.LIVING_SITUATION_OTHER_CHECKBOX, true);
-      cy.tabToContinueForm(h.POINT_OF_CONTACT_NAME_INPUT);
-
-      // ** Other Housing Risk page
-      h.verifyUrl(h.OTHER_HOUSING_RISK_PATH);
-      cy.tabToElement(h.OTHER_HOUSING_RISK_INPUT);
-      cy.realType('Testing content');
-      cy.tabToContinueForm();
-
-      // ** Point of contact page
-      h.verifyUrl(h.HOUSING_CONTACT_PATH);
-      cy.tabToElement(h.POINT_OF_CONTACT_NAME_INPUT);
-      cy.realType('Ted Mosby');
-      cy.tabToElement(h.POINT_OF_CONTACT_PHONE_INPUT);
-      cy.realType('2105550123');
-      cy.tabToContinueForm();
 
       // *** Contact info page
       h.verifyUrl(CONTACT_INFO_URL);
@@ -128,9 +123,9 @@ describe('Supplemental Claim keyboard only navigation', () => {
       cy.tabToElement('[name="issue-name"]');
       cy.realType(newIssue.issue);
 
-      const issueDate = newIssue.decisionDate
-        .split('-')
-        .map(v => parseInt(v, 10).toString());
+      // Simplified date because Cypress keyboard typing converts to key "codes"
+      // and was confused by a double-digit number for the date
+      const issueDate = ['2024', '1', '1'];
       cy.tabToElement('[name="decision-dateMonth"]');
       cy.realPress(issueDate[1]); // month
       cy.realPress('Tab');

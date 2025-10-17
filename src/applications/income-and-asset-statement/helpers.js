@@ -90,9 +90,6 @@ export const otherGeneratedIncomeTypeExplanationRequired = (form, index) =>
     form,
   ) === 'OTHER';
 
-export const otherNewOwnerRelationshipExplanationRequired = (form, index) =>
-  get(['assetTransfers', index, 'originalOwnerRelationship'], form) === 'OTHER';
-
 export const otherTransferMethodExplanationRequired = (form, index) =>
   get(['assetTransfers', index, 'transferMethod'], form) === 'OTHER';
 
@@ -154,13 +151,17 @@ export const sharedRecipientRelationshipBase = {
  * Returns a reusable UI schema config for the "otherRecipientRelationshipType" field.
  *
  * @param {string} arrayKey - The array key this field belongs to (e.g., 'unassociatedIncomes')
+ * @param {string} otherRecipientRelationshipTypeKey - The field key this field belongs
  */
-export function otherRecipientRelationshipTypeUI(arrayKey) {
+export function otherRecipientRelationshipTypeUI(
+  arrayKey,
+  otherRecipientRelationshipTypeKey = 'recipientRelationship',
+) {
   return {
     'ui:title': 'Describe their relationship to the Veteran',
     'ui:webComponentField': VaTextInputField,
     'ui:options': {
-      expandUnder: 'recipientRelationship',
+      expandUnder: otherRecipientRelationshipTypeKey,
       expandUnderCondition: 'OTHER',
       expandedContentFocus: true,
     },

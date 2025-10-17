@@ -1,0 +1,11 @@
+{
+  "hasAlreadyFiled": false,
+  "hasUnpaidCreditors": true,
+  "veteranFullName": {
+    "first": "Test",
+    "last": "Creditor"
+  },
+  "veteranIdentification": {
+    "ssn": "345678901"
+  }
+}

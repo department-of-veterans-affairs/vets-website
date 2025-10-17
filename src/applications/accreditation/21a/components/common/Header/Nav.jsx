@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { SIGN_IN_URL_21A } from '../../../constants';
 import UserNav from './UserNav';
 import { selectUserProfile } from '../../../selectors/user';
@@ -78,22 +77,14 @@ export const Nav = () => {
             >
               Submissions
             </a>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp
-              }
+            <a
+              href="/representative/get-help"
+              className="nav__btn desktop"
+              data-testid="desktop-help-link"
+              data-eventname="nav-link-click"
             >
-              <Toggler.Enabled>
-                <a
-                  href="/representative/get-help"
-                  className="nav__btn desktop"
-                  data-testid="desktop-help-link"
-                  data-eventname="nav-link-click"
-                >
-                  Get Help
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
+              Get Help
+            </a>
           </div>
         </div>
       )}

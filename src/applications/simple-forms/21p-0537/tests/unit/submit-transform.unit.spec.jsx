@@ -297,4 +297,86 @@ describe('21P-0537 submit transformer', () => {
       expect(result.recipient.signature).to.equal('');
     });
   });
+
+  describe('recipient full name parsing', () => {
+    it('should parse signature into structured name components', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+
+      // Test single name
+      testData.data.signature = 'Jane';
+      let result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: '',
+        last: '',
+      });
+
+      // Test first and last name
+      testData.data.signature = 'Jane Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: '',
+        last: 'Smith',
+      });
+
+      // Test first, middle initial, and last name
+      testData.data.signature = 'Jane M Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'M',
+        last: 'Smith',
+      });
+
+      // Test first, middle, and last name
+      testData.data.signature = 'Jane Marie Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'Marie',
+        last: 'Smith',
+      });
+
+      // Test complex name with multiple middle names
+      testData.data.signature = 'Jane Marie Louise Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'Marie Louise',
+        last: 'Smith',
+      });
+    });
+
+    it('should handle edge cases in signature parsing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+
+      // Test empty signature
+      testData.data.signature = '';
+      let result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'User',
+        middle: '',
+        last: '',
+      });
+
+      // Test undefined signature
+      delete testData.data.signature;
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'User',
+        middle: '',
+        last: '',
+      });
+
+      // Test signature with extra spaces
+      testData.data.signature = '  Jane   M   Smith  ';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'M',
+        last: 'Smith',
+      });
+    });
+  });
 });

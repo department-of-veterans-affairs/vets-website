@@ -53,10 +53,10 @@ describe('trust list and loop pages', () => {
   });
 
   describe('text getItemName function', () => {
-    it('should return "Trust established on `establishedDate`', () => {
+    it('should return "Trust created on `establishedDate`', () => {
       const item = testData.data.trusts[0];
       expect(options.text.getItemName(item)).to.equal(
-        'Trust established on March 15, 2020',
+        'Trust created on March 15, 2020',
       );
     });
   });
@@ -67,9 +67,7 @@ describe('trust list and loop pages', () => {
       establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
-      annualReceivedIncome,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,
@@ -86,9 +84,7 @@ describe('trust list and loop pages', () => {
       establishedDate,
       addedFundsAfterEstablishment,
       addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
-      annualReceivedIncome,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,
