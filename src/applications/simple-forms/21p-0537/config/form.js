@@ -45,6 +45,7 @@ const formConfig = {
   trackingPrefix: '21p-0537-dic-marital-status-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
