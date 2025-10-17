@@ -89,6 +89,28 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
       GeneralFunctionsPage.verifyPageHeader('Select care team');
       cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
     });
+
+    it('navigates from select care team to contact list page and back', () => {
+      // Navigate to select care team page
+      PilotEnvPage.navigateToSelectCareTeamPage();
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+
+      // Click "Update your contact list" link
+      cy.findByText('Update your contact list').click();
+
+      // Verify contact list page loads
+      GeneralFunctionsPage.verifyPageHeader('Messages: Contact list');
+      cy.location('pathname').should('equal', Data.LINKS.CONTACT_LIST);
+      cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+
+      // Click back button
+      SharedComponents.clickBackBreadcrumb();
+
+      // Verify return to select care team page
+      GeneralFunctionsPage.verifyPageHeader('Select care team');
+      cy.location('pathname').should('equal', Data.LINKS.SELECT_CARE_TEAM);
+    });
   });
 
   describe('Entry point preservation', () => {

@@ -42,6 +42,7 @@ describe('SelectCareTeam', () => {
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        vistaFacilities: noBlockedRecipients.mockVistaFacilities,
       },
       threadDetails: {
         draftInProgress: {},
@@ -564,6 +565,41 @@ describe('SelectCareTeam', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal('select-care-team/');
+    });
+  });
+
+  it('shows contact list link when user has VistA facilities', async () => {
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Update your contact list')).to.exist;
+    });
+  });
+
+  it('does not show contact list link when user has only Cerner facilities', async () => {
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          vistaFacilities: [], // No VistA facilities in recipients
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: customState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Update your contact list')).to.not.exist;
     });
   });
 });
