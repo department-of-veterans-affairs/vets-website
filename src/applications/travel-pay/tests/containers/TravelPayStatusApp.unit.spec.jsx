@@ -17,7 +17,6 @@ describe('TravelPayStatusApp', () => {
   const oldLocation = global.window.location;
   const getData = ({
     areFeatureTogglesLoading = true,
-    hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
     hasSmocFeatureFlag = false,
     loadingClaims = false,
@@ -27,7 +26,6 @@ describe('TravelPayStatusApp', () => {
       featureToggles: {
         loading: areFeatureTogglesLoading,
         /* eslint-disable camelcase */
-        travel_pay_power_switch: hasFeatureFlag,
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
         travel_pay_submit_mileage_expense: hasSmocFeatureFlag,
         /* eslint-enable camelcase */
@@ -55,18 +53,6 @@ describe('TravelPayStatusApp', () => {
   afterEach(() => {
     global.window.location = oldLocation;
     MockDate.reset();
-  });
-
-  it('should redirect if feature flag is off', () => {
-    renderWithStoreAndRouter(<TravelPayStatusApp />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: false,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-    expect(window.location.replace.called).to.be.true;
   });
 
   it('should redirect the root path / to /claims/ and render the app.', () => {
@@ -102,7 +88,6 @@ describe('TravelPayStatusApp', () => {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasSmocFeatureFlag: true,
-        hasFeatureFlag: true,
         loadingClaims: false,
         claimsData: {
           pastThreeMonths: {
@@ -128,7 +113,6 @@ describe('TravelPayStatusApp', () => {
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -166,7 +150,6 @@ describe('TravelPayStatusApp', () => {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasSmocFeatureFlag: true,
-        hasFeatureFlag: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -182,7 +165,6 @@ describe('TravelPayStatusApp', () => {
     renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -208,7 +190,6 @@ describe('TravelPayStatusApp', () => {
       initialState: {
         ...getData({
           areFeatureTogglesLoading: false,
-          hasFeatureFlag: true,
         }),
         scheduledDowntime: {
           globalDowntime: null,
