@@ -20,7 +20,7 @@ describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
 
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getStartMessageLink().click();
+    PatientInterstitialPage.getContinueButton().click();
   });
 
   it('navigate away with no data', () => {

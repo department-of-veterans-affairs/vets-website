@@ -40,7 +40,7 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         'sentThreads',
       );
 
-      cy.findByTestId(Locators.LINKS.START_NEW_MESSAGE).click();
+      cy.findByTestId(Locators.INTERSTITIAL_CONTINUE_BUTTON).click();
       cy.wait('@sentThreads');
 
       GeneralFunctionsPage.verifyPageHeader('Start message');
@@ -236,16 +236,25 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
         cy.wait('@sentMessages');
         GeneralFunctionsPage.verifyPageHeader('Sent');
 
+        // Set up intercept for recent recipients search
+        // (this happens when interstitial page loads)
+        cy.intercept(
+          'POST',
+          Paths.INTERCEPT.SENT_SEARCH,
+          searchSentFolderResponse,
+        ).as('recentRecipients');
+
         // Start new message from Sent folder
         cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
         GeneralFunctionsPage.verifyPageHeader(
           'Only use messages for non-urgent needs',
         );
 
+        // Wait for recent recipients to load
+        cy.wait('@recentRecipients');
+
         // Continue to recent care teams
-        PatientInterstitialPage.continueToRecentRecipients(
-          searchSentFolderResponse,
-        );
+        PatientInterstitialPage.getStartMessageLink().click();
         GeneralFunctionsPage.verifyPageHeader('Recent care teams');
 
         // Navigate forward to select care team
@@ -280,6 +289,13 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
           `${Paths.UI_MAIN}${Paths.INBOX}`,
         );
 
+        // Set up intercept for recent recipients search
+        cy.intercept(
+          'POST',
+          Paths.INTERCEPT.SENT_SEARCH,
+          searchSentFolderResponse,
+        ).as('recentRecipients');
+
         // Forward: Inbox → Interstitial
         cy.findByTestId(Locators.LINKS.CREATE_NEW_MESSAGE_DATA_TEST_ID).click();
         GeneralFunctionsPage.verifyPageHeader(
@@ -290,10 +306,11 @@ describe('SM CURATED LIST BREADCRUMBS', () => {
           `${Paths.UI_MAIN}${Paths.COMPOSE}`,
         );
 
+        // Wait for recent recipients to load
+        cy.wait('@recentRecipients');
+
         // Forward: Interstitial → Recent care teams
-        PatientInterstitialPage.continueToRecentRecipients(
-          searchSentFolderResponse,
-        );
+        PatientInterstitialPage.getStartMessageLink().click();
         GeneralFunctionsPage.verifyPageHeader('Recent care teams');
         cy.location('pathname').should(
           'equal',
