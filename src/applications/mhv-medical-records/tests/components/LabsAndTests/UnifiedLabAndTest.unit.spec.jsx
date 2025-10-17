@@ -29,10 +29,6 @@ describe('UnifiedLabsAndTests Component', () => {
         labsAndTestsDetails: mockRecord,
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
 
   it('renders the component with provided props -- all the properties -- no observations', () => {

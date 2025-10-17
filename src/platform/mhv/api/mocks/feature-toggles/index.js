@@ -14,7 +14,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDontIncrementIpeCount,
 
     // medical records
-    mhvMedicalRecordsAllowTxtDownloads = true,
 
     // OH integration work
     mhvAcceleratedDeliveryEnabled = false,
@@ -122,10 +121,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
-        },
-        {
-          name: 'mhv_medical_records_allow_txt_downloads',
-          value: mhvMedicalRecordsAllowTxtDownloads,
         },
 
         // secure messaging

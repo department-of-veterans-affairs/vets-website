@@ -13,7 +13,6 @@ describe('Allergies list container', () => {
   const initialState = {
     featureToggles: {
       /* eslint-disable camelcase */
-      mhv_medical_records_allow_txt_downloads: true,
       mhv_accelerated_delivery_enabled: false,
       mhv_accelerated_delivery_allergies_enabled: false,
       /* eslint-enable camelcase */
