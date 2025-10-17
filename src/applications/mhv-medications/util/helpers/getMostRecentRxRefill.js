@@ -7,7 +7,7 @@
  *   The newest `GroupedMedication` object, or `''` when none exist.
  */
 export const getMostRecentRxRefill = rx => {
-  const list = rx?.groupedMedications || [];
+  const list = rx?.groupedMedications ?? [];
   if (!list.length) return '';
 
   return [...list].sort(
