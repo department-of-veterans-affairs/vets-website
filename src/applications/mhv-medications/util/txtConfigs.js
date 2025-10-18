@@ -9,13 +9,9 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
-import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
-  nonVAMedicationTypes,
-  FIELD_NOT_AVAILABLE,
-} from './constants';
+import { nonVAMedicationTypes, FIELD_NOT_AVAILABLE } from './constants';
 
 /**
  * Return Non-VA prescription TXT
@@ -110,12 +106,7 @@ Prescription number: ${rx.prescriptionNumber}
 `
         : ''
     }
-Status: ${rx.dispStatus || 'Unknown'}
-${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
-      (fullStatus, item) =>
-        fullStatus + item.value + (item.continued ? ' ' : '\n'),
-      '',
-    )}
+Status: ${prescriptionMedAndRenewalStatus(rx, 'print')}
 Refills left: ${validateIfAvailable(
       'Number of refills left',
       rx.refillRemaining,
@@ -220,6 +211,7 @@ export const buildVAPrescriptionTXT = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
+
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -248,15 +240,7 @@ Prescription number: ${prescription.prescriptionNumber}
 `
       : ''
   }
-Status: ${prescription.dispStatus || 'Unknown'}
-${(
-    pdfStatusDefinitions[prescription.refillStatus] ||
-    pdfDefaultStatusDefinition
-  ).reduce(
-    (fullStatus, item) =>
-      fullStatus + item.value + (item.continued ? ' ' : '\n'),
-    '',
-  )}
+Status: ${prescriptionMedAndRenewalStatus(prescription, 'print')}
 Refills left: ${validateIfAvailable(
     'Number of refills left',
     prescription.refillRemaining,
