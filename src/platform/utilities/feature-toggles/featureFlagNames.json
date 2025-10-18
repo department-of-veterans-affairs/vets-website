@@ -341,6 +341,7 @@
   "virtualAgentShowAiDisclaimer": "virtual_agent_show_ai_disclaimer",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
+  "virtualAgentChatbotSessionPersistenceEnabled": "virtual_agent_chatbot_session_persistence_enabled",
   "vreModularApi": "vre_modular_api",
   "vreCutoverNotice": "vre_cutover_notice",
   "vyeLoginWidget": "vye_login_widget",

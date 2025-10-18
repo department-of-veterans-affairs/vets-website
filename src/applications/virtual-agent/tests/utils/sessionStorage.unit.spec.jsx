@@ -25,6 +25,8 @@ describe('sessionStorage', () => {
     sandbox = sinon.sandbox.create();
   });
 
+  // firstConnection helpers removed; key retained for backward compatibility
+
   afterEach(() => {
     sandbox.restore();
     sessionStorage.clear();
@@ -154,6 +156,34 @@ describe('sessionStorage', () => {
       const itemToNotClear = sessionStorage.getItem('va-bot.itemToNotClear');
 
       expect(itemToNotClear).to.be.equal('strawberry');
+    });
+
+    it('should preserve firstConnection (raw), conversationId and token by default and clear other keys', () => {
+      // Ensure default clearing path triggers (both not 'true')
+      sessionStorage.removeItem('va-bot.loggedInFlow');
+      sessionStorage.removeItem('va-bot.inAuthExperience');
+
+      // Set critical keys (should persist)
+      sessionStorage.setItem('va-bot.firstConnection', 'false');
+      setConversationIdKey('abc');
+      setTokenKey('def');
+
+      // Set other bot-prefixed keys (should be cleared)
+      sessionStorage.setItem('va-bot.itemToClear', 'banana');
+      setRecentUtterances(['x']);
+
+      clearBotSessionStorage(false);
+
+      // Critical keys remain
+      expect(sessionStorage.getItem('va-bot.firstConnection')).to.equal(
+        'false',
+      );
+      expect(getConversationIdKey()).to.equal('abc');
+      expect(getTokenKey()).to.equal('def');
+
+      // Others cleared
+      expect(sessionStorage.getItem('va-bot.itemToClear')).to.be.null;
+      expect(getRecentUtterances()).to.be.null;
     });
   });
 
