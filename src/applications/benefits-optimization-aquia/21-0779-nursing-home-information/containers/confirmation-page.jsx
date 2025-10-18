@@ -10,6 +10,13 @@ export const ConfirmationPage = ({ route }) => {
   const submitDate = submission?.timestamp || '';
   const confirmationNumber = submission?.response?.confirmationNumber || '';
 
+  const submissionAlertContent = (
+    <p>
+      Thank you for helping to support a claim. We’ll review your form and
+      contact you if we need any additional information.
+    </p>
+  );
+
   return (
     <ConfirmationView
       formConfig={route?.formConfig}
@@ -20,7 +27,12 @@ export const ConfirmationPage = ({ route }) => {
         showButtons: true,
       }}
     >
-      <ConfirmationView.SubmissionAlert />
+      {/* actions={<p />} removes the link to myVA */}
+      <ConfirmationView.SubmissionAlert
+        title="You've submitted your nursing home information"
+        content={submissionAlertContent}
+        actions={<p />}
+      />
       <ConfirmationView.SavePdfDownload />
       <ConfirmationView.ChapterSectionCollection />
       <ConfirmationView.PrintThisPage />
