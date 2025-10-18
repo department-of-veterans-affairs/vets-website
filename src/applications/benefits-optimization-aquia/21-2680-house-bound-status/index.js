@@ -17,6 +17,14 @@ export {
   ConfirmationPage,
 } from '@bio-aquia/21-2680-house-bound-status/containers';
 
+/** @exports Pages - Form page configurations */
+export {
+  identificationInformation,
+  mailingAddress,
+  nameAndDateOfBirth,
+  phoneAndEmailAddress,
+} from '@bio-aquia/21-2680-house-bound-status/pages';
+
 /** @exports Config - Form configuration object */
 export { formConfig } from '@bio-aquia/21-2680-house-bound-status/config';
 
