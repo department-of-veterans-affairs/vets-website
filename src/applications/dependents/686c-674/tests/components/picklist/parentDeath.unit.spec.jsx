@@ -5,18 +5,18 @@ import sinon from 'sinon';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import spouseDeath from '../../../components/picklist/spouseDeath';
+import parentDeath from '../../../components/picklist/parentDeath';
 
 import { createDoB } from '../../test-helpers';
 
-describe('spouseDeath', () => {
+describe('parentDeath', () => {
   const defaultData = {
     fullName: {
-      first: 'SPOUSY',
+      first: 'PETER',
       last: 'FOSTER',
     },
-    dateOfBirth: createDoB(45),
-    relationshipToVeteran: 'Spouse',
+    dateOfBirth: createDoB(82),
+    relationshipToVeteran: 'Parent',
     selected: true,
     awardIndicator: 'Y',
   };
@@ -30,10 +30,10 @@ describe('spouseDeath', () => {
   } = {}) =>
     render(
       <form onSubmit={onSubmit}>
-        <spouseDeath.Component
+        <parentDeath.Component
           itemData={data}
-          fullName="SPOUSY FOSTER"
-          firstName="SPOUSY"
+          fullName="PETER FOSTER"
+          firstName="PETER"
           formSubmitted={formSubmitted}
           handlers={{ goForward, goBack, onChange, onSubmit }}
         />
@@ -44,11 +44,11 @@ describe('spouseDeath', () => {
     const { container } = renderComponent();
 
     expect($('h3', container).textContent).to.equal(
-      'Information about the death of SPOUSY',
+      'Information about the death of PETER',
     );
     expect($$('h4', container).map(el => el.textContent)).to.deep.equal([
       'When was the death?',
-      'Where did the death happen?',
+      'Where was the death?',
     ]);
 
     expect($('va-memorable-date', container)).to.exist;
@@ -70,7 +70,7 @@ describe('spouseDeath', () => {
 
   it('should render country & province fields when outside US checkbox is checked', () => {
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, parentDeathOutsideUS: true },
     });
 
     expect($('va-checkbox', container).checked).to.be.true;
@@ -111,13 +111,13 @@ describe('spouseDeath', () => {
   it('should show error messages if submitted without filling in fields (non-US)', async () => {
     const goForward = sinon.spy();
     const { container } = renderComponent({
-      data: { ...defaultData, marriageEndOutsideUS: true },
+      data: { ...defaultData, parentDeathOutsideUS: true },
       formSubmitted: true,
       goForward,
     });
 
     $('va-checkbox', container).__events.vaChange({
-      target: { name: 'marriageEndOutsideUS', tagName: 'VA-CHECKBOX' },
+      target: { name: 'parentDeathOutsideUS', tagName: 'VA-CHECKBOX' },
       detail: { checked: true },
     });
 
@@ -142,9 +142,9 @@ describe('spouseDeath', () => {
       onSubmit,
       data: {
         ...defaultData,
-        marriageEndDeathDate: '2000-01-01',
-        marriageEndCity: 'Test',
-        marriageEndState: 'AK',
+        parentDeathDate: '2000-01-01',
+        parentDeathCity: 'Test',
+        parentDeathState: 'AK',
       },
     });
 
@@ -155,18 +155,18 @@ describe('spouseDeath', () => {
     });
   });
 
-  context('spouseDeath handlers', () => {
-    it('should return "marriage-ended" on goForward', () => {
-      expect(spouseDeath.handlers.goForward()).to.equal('DONE');
+  context('parentDeath handlers', () => {
+    it('should return "DONE" on goForward', () => {
+      expect(parentDeath.handlers.goForward()).to.equal('DONE');
     });
 
     it('should call goForward when all form values (US) are set on submit', () => {
       const goForward = sinon.spy();
-      spouseDeath.handlers.onSubmit({
+      parentDeath.handlers.onSubmit({
         itemData: {
-          marriageEndDeathDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndState: 'AK',
+          parentDeathDate: '2000-01-01',
+          parentDeathCity: 'Test',
+          parentDeathState: 'AK',
         },
         goForward,
       });
@@ -175,12 +175,12 @@ describe('spouseDeath', () => {
 
     it('should call goForward when all form values (non-US) are set on submit', () => {
       const goForward = sinon.spy();
-      spouseDeath.handlers.onSubmit({
+      parentDeath.handlers.onSubmit({
         itemData: {
-          marriageEndOutsideUS: true,
-          marriageEndDeathDate: '2000-01-01',
-          marriageEndCity: 'Test',
-          marriageEndCountry: 'TTT',
+          parentDeathOutsideUS: true,
+          parentDeathDate: '2000-01-01',
+          parentDeathCity: 'Test',
+          parentDeathCountry: 'TTT',
         },
         goForward,
       });
@@ -189,7 +189,7 @@ describe('spouseDeath', () => {
 
     it('should not call goForward when a form value is. missing on submit', () => {
       const goForward = sinon.spy();
-      spouseDeath.handlers.onSubmit({
+      parentDeath.handlers.onSubmit({
         itemData: {},
         goForward,
       });
