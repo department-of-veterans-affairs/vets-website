@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/browser';
-// import { isValid } from 'date-fns';
 
 export const transform = (formConfig, form) => {
   const {
@@ -17,21 +16,21 @@ export const transform = (formConfig, form) => {
     medicaidStartDateInfo,
     monthlyCosts,
     nursingOfficialInformation,
-  } = form.data;
+  } = form?.data;
 
   const { nursingHomeName, nursingHomeAddress } = nursingHomeDetails || {};
   const nursingOfficialName = `${nursingOfficialInformation?.firstName?.trim() ||
     ''} ${nursingOfficialInformation?.lastName?.trim() || ''}`.trim();
 
   // No claimant info if veteran is the patient
-  const claimantIsVeteran = claimantQuestion.patientType === 'veteran';
+  const claimantIsVeteran = claimantQuestion?.patientType === 'veteran';
   const claimantInformation = claimantIsVeteran
     ? null
     : {
         ...claimantPersonalInfo?.claimantFullName,
         dateOfBirth: claimantPersonalInfo?.claimantDateOfBirth,
         veteranId: {
-          ssn: claimantIdentificationInfo.claimantSsn,
+          ssn: claimantIdentificationInfo?.claimantSsn,
           vaFileNumber: claimantIdentificationInfo?.claimantVaFileNumber,
         },
       };
@@ -39,8 +38,8 @@ export const transform = (formConfig, form) => {
   try {
     const submissionObj = {
       veteranInformation: {
-        ...veteranPersonalInfo.fullName,
-        dateOfBirth: veteranPersonalInfo.dateOfBirth,
+        ...veteranPersonalInfo?.fullName,
+        dateOfBirth: veteranPersonalInfo?.dateOfBirth,
         veteranId: {
           ...veteranIdentificationInfo,
         },
