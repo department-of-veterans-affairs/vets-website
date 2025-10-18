@@ -1,166 +1,346 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
-import cloneDeep from 'lodash/cloneDeep';
-import set from 'lodash/set';
-import { waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
-import vapService from '@@vap-svc/reducers';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
-
+import { ProfileAlertConfirmEmail } from '../../components/MhvAlertConfirmEmail';
 import {
-  CSP_IDS,
-  SERVICE_PROVIDERS,
-} from '~/platform/user/authentication/constants';
+  dismissAlertViaCookie,
+  resetDismissAlertViaCookie,
+  DATE_THRESHOLD,
+} from '../../components/MhvAlertConfirmEmail/selectors';
 
-// 'import as alias' to clear the following Node 22 CI failure
-// Exception during run: SyntaxError: src/applications/.../EmailInformationSection.unit.spec.jsx:
-//   Identifier 'EmailInformationSection' has already been declared.
-// https://github.com/department-of-veterans-affairs/vets-website/actions/runs/18567037132/job/52931122599?pr=39261#step:11:33
-import { EmailInformationSection as ComponentUnderTest } from '../../../components/contact-information/email-addresses';
+// vap-svc actions to stub
+import * as vapActions from 'src/platform/user/profile/vap-svc/actions';
 
-const baseState = {
+const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
+
+// default state for specs is feature enabled, email confirmed -- not alerting
+const stateFn = ({
+  confirmationDate = '2025-09-30T12:00:00.000+00:00',
+  emailAddress = 'vet@va.gov',
+  featureTogglesLoading = false,
+  mhvEmailConfirmation = true,
+  updatedAt = '2025-09-30T12:00:00.000+00:00',
+  userProfileLoading = false,
+  vaPatient = true,
+} = {}) => ({
   featureToggles: {
-    loading: false,
-    mhvEmailConfirmation: true,
+    loading: featureTogglesLoading,
+    mhvEmailConfirmation,
   },
   user: {
     profile: {
-      vaPatient: true,
+      loading: userProfileLoading,
+      vaPatient,
       vapContactInfo: {
         email: {
-          confirmationDate: '2025-09-30T12:00:00.000+00:00',
-          emailAddress: 'myemail72585885@unattended.com',
-          updatedAt: '2025-09-30T12:00:00.000+00:00',
+          confirmationDate,
+          emailAddress,
+          updatedAt,
         },
       },
     },
   },
-};
+});
 
-const setSignInServiceName = (state, signInServiceName) => {
-  return set(
-    cloneDeep(state),
-    'user.profile.signIn.serviceName',
-    signInServiceName,
-  );
-};
-
-describe('EmailInformationSection', () => {
-  it('should render Contact email section', () => {
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: baseState,
-      reducers: { vapService },
+describe('<ProfileAlertConfirmEmail />', () => {
+  it('renders nothing when alert has been dismissed', async () => {
+    dismissAlertViaCookie();
+    const initialState = stateFn({ emailAddress: null });
+    const { container } = render(<ProfileAlertConfirmEmail />, {
+      initialState,
     });
-
-    const baseEmailUsername = baseState.user.profile.vapContactInfo.email.emailAddress.split(
-      '@',
-    )[0];
-
-    expect(view.getByTestId('email')).to.exist;
-    expect(view.getByTestId('email')).to.contain.text(baseEmailUsername);
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
+    resetDismissAlertViaCookie();
   });
 
-  it('should render Sign In email section for ID.me', () => {
-    const state = setSignInServiceName(baseState, CSP_IDS.ID_ME);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: state,
-      reducers: { vapService },
+  it('renders nothing when featureToggles.loading', async () => {
+    const initialState = stateFn({
+      emailAddress: null,
+      featureTogglesLoading: true,
     });
-
-    const { label } = SERVICE_PROVIDERS[CSP_IDS.ID_ME];
-
-    expect(view.getByTestId('sign-in-email-link')).to.contain.text(label);
+    const { container } = render(<ProfileAlertConfirmEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
   });
 
-  it('should render Sign In email section for LOGIN.GOV', () => {
-    const state = setSignInServiceName(baseState, CSP_IDS.LOGIN_GOV);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: state,
-      reducers: { vapService },
+  it('renders nothing when !featureToggles.mhvEmailConfirmation', async () => {
+    const initialState = stateFn({
+      emailAddress: null,
+      mhvEmailConfirmation: false,
     });
-
-    const { label } = SERVICE_PROVIDERS[CSP_IDS.LOGIN_GOV];
-
-    expect(view.getByTestId('sign-in-email-link')).to.contain.text(label);
+    const { container } = render(<ProfileAlertConfirmEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
   });
 
-  it('should not render Sign In email section for MHV', () => {
-    const state = setSignInServiceName(baseState, CSP_IDS.MHV);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: state,
-      reducers: { vapService },
+  it('renders nothing when user.profile.loading', async () => {
+    const initialState = stateFn({
+      emailAddress: null,
+      userProfileLoading: true,
     });
-
-    expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
+    const { container } = render(<ProfileAlertConfirmEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
   });
 
-  it('should not render Sign In email section for DS LOGON', () => {
-    const state = setSignInServiceName(baseState, CSP_IDS.DS_LOGON);
-    const view = renderInReduxProvider(<ComponentUnderTest />, {
-      initialState: state,
-      reducers: { vapService },
+  it('renders nothing when !user.profile.vaPatient', async () => {
+    const initialState = stateFn({
+      emailAddress: null,
+      vaPatient: false,
     });
-
-    expect(view.queryByTestId('sign-in-email-link')).not.to.exist;
+    const { container } = render(<ProfileAlertConfirmEmail />, {
+      initialState,
+    });
+    await waitFor(() => {
+      expect(container).to.be.empty;
+    });
   });
 
-  describe('ProfileAlertConfirmEmail component', () => {
-    it('renders <AlertConfirmContactEmail /> when email.updatedAt is before the threshold value', async () => {
-      const state = set(
-        cloneDeep(baseState),
-        'user.profile.vapContactInfo.email.updatedAt',
-        '2024-01-01T12:00:00.000+00:00',
+  describe('<AlertConfirmContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByRole, getByTestId } = render(
+        <ProfileAlertConfirmEmail />,
+        { initialState },
       );
-      const { getByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: state,
-        reducers: { vapService },
-      });
       await waitFor(() => {
-        expect(getByTestId('profile-alert--confirm-contact-email')).to.exist;
+        getByTestId('profile-alert--confirm-contact-email');
+        getByRole('heading', { name: /^Confirm your contact email$/ });
+
+        // getByRole('button', { name: /^Confirm contact email$/ });
+        const buttonSelector = 'va-button[text="Confirm contact email"]';
+        const button = container.querySelector(buttonSelector);
+        expect(button).to.exist;
       });
     });
 
-    it('renders <AlertAddContactEmail /> when !emailAddress', async () => {
-      const state = set(
-        cloneDeep(baseState),
-        'user.profile.vapContactInfo.email.emailAddress',
-        '',
+    it('reports a load event to analytics', async () => {
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail {...props} />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--confirm-contact-email');
+        expect(props.recordEvent.calledWith('Confirm contact email'));
+      });
+    });
+
+    it('renders when !confirmationDate', async () => {
+      const initialState = stateFn({ confirmationDate: null });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--confirm-contact-email');
+      });
+    });
+
+    it(`renders when confirmationDate is before ${DATE_STRING}`, async () => {
+      const confirmationDate = '2025-01-01T12:00:00.000+00:00';
+      const initialState = stateFn({ confirmationDate });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--confirm-contact-email');
+      });
+    });
+
+    it(`renders nothing when confirmationDate is after ${DATE_STRING}`, async () => {
+      const confirmationDate = '2025-09-30T12:00:00.000+00:00';
+      const initialState = stateFn({ confirmationDate });
+      const { container } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+    });
+
+    it('renders when !updatedAt', async () => {
+      const initialState = stateFn({ updatedAt: null });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--confirm-contact-email');
+      });
+    });
+
+    it(`renders when updatedAt is before ${DATE_STRING}`, async () => {
+      const updatedAt = '2025-01-01T12:00:00.000+00:00';
+      const initialState = stateFn({ updatedAt });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--confirm-contact-email');
+      });
+    });
+
+    it(`renders nothing when updatedAt is after ${DATE_STRING}`, async () => {
+      const updatedAt = '2025-09-30T12:00:00.000+00:00';
+      const initialState = stateFn({ updatedAt });
+      const { container } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+    });
+
+    it(`renders success when 'Confirm...' button clicked, calls recordEvent`, async () => {
+      // stub vap-svc createTransaction and fetchTransactions to simulate success
+      const createTxStub = sinon
+        .stub(vapActions, 'createTransaction')
+        .returns(() => Promise.resolve({ data: { attributes: { transaction_status: 'RECEIVED' } } }));
+      const fetchTxStub = sinon.stub(vapActions, 'fetchTransactions').returns(() => Promise.resolve());
+
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId, queryByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
       );
-      const { getByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: state,
-        reducers: { vapService },
-      });
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      const button = 'va-button[text="Confirm contact email"]';
+      fireEvent.click(container.querySelector(button));
       await waitFor(() => {
-        expect(getByTestId('profile-alert--add-contact-email')).to.exist;
+        getByTestId('mhv-alert--confirm-success');
+        expect(queryByTestId('profile-alert--confirm-contact-email')).to.be
+          .null;
+        const headline = 'Thank you for confirming your contact email address';
+        expect(props.recordEvent.calledWith(headline));
       });
+
+      createTxStub.restore();
+      fetchTxStub.restore();
     });
 
-    it('suppresses <ProfileAlertContactEmail /> when email.updatedAt is after the threshold value', async () => {
-      const { queryByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: baseState,
-        reducers: { vapService },
-      });
-      await waitFor(() => {
-        expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
-          .exist;
-        expect(queryByTestId('profile-alert--add-contact-email')).to.not.exist;
-      });
-    });
+    it(`renders error when 'Confirm...' button clicked, calls recordEvent`, async () => {
+      // stub vap-svc createTransaction to simulate failure (createTransaction returns null on failure)
+      const createTxStub = sinon
+        .stub(vapActions, 'createTransaction')
+        .returns(() => Promise.resolve(null));
 
-    it('suppresses <ProfileAlertContactEmail /> when !featureToggles.mhvEmailConfirmation', async () => {
-      const state = set(
-        cloneDeep(baseState),
-        'featureToggles.mhvEmailConfirmation',
-        false,
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ confirmationDate: null });
+      const { container, getByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
       );
-      const { queryByTestId } = renderInReduxProvider(<ComponentUnderTest />, {
-        initialState: state,
-        reducers: { vapService },
+      await waitFor(() => getByTestId('profile-alert--confirm-contact-email'));
+      const button = 'va-button[text="Confirm contact email"]';
+      fireEvent.click(container.querySelector(button));
+      await waitFor(() => {
+        getByTestId('mhv-alert--confirm-error');
+        getByTestId('profile-alert--confirm-contact-email');
+        const headline = 'We couldn’t confirm your contact email';
+        expect(props.recordEvent.calledWith(headline));
+      });
+
+      createTxStub.restore();
+    });
+  });
+
+  describe('<AlertAddContactEmail />', () => {
+    it('renders', async () => {
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByRole, getByTestId } = render(
+        <ProfileAlertConfirmEmail />,
+        { initialState },
+      );
+      await waitFor(() => {
+        getByTestId('profile-alert--add-contact-email');
+        getByRole('heading', { name: /^Add a contact email$/ });
+
+        // getByRole('button', { name: /^Skip adding an email$/ });
+        const buttonSelector = 'va-button[text="Skip adding email"]';
+        const button = container.querySelector(buttonSelector);
+        expect(button).to.exist;
+      });
+    });
+
+    it('reports a load event to analytics', async () => {
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ emailAddress: null });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail {...props} />, {
+        initialState,
       });
       await waitFor(() => {
-        expect(queryByTestId('profile-alert--confirm-contact-email')).to.not
-          .exist;
-        expect(queryByTestId('profile-alert--add-contact-email')).to.not.exist;
+        getByTestId('profile-alert--add-contact-email');
+        expect(props.recordEvent.calledWith('Add a contact email'));
+      });
+    });
+
+    it(`renders when !emailAddress`, async () => {
+      const initialState = stateFn({ emailAddress: null });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--add-contact-email');
+      });
+    });
+
+    it(`renders when emailAddress === ''`, async () => {
+      const initialState = stateFn({ emailAddress: '' });
+      const { getByTestId } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        getByTestId('profile-alert--add-contact-email');
+      });
+    });
+
+    it('renders nothing when !emailAddress and alert has been dismissed', async () => {
+      dismissAlertViaCookie();
+      const initialState = stateFn({ emailAddress: null });
+      const { container } = render(<ProfileAlertConfirmEmail />, {
+        initialState,
+      });
+      await waitFor(() => {
+        expect(container).to.be.empty;
+      });
+      resetDismissAlertViaCookie();
+    });
+
+    it(`renders success when 'Skip...' button clicked, calls recordEvent`, async () => {
+      const props = { recordEvent: sinon.spy() };
+      const initialState = stateFn({ emailAddress: null });
+      const { container, getByTestId, queryByTestId } = render(
+        <ProfileAlertConfirmEmail {...props} />,
+        {
+          initialState,
+        },
+      );
+      await waitFor(() => getByTestId('profile-alert--add-contact-email'));
+      const button = 'va-button[text="Skip adding email"]';
+      fireEvent.click(container.querySelector(button));
+      await waitFor(() => {
+        getByTestId('mhv-alert--skip-success');
+        expect(queryByTestId('profile-alert--add-contact-email')).to.be.null;
+        const headline = 'Okay, we’ll skip adding a contact email for now';
+        expect(props.recordEvent.calledWith(headline));
       });
     });
   });
