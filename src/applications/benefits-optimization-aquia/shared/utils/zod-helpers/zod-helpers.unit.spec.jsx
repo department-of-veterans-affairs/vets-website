@@ -127,7 +127,6 @@ describe('Zod Helpers - Form validation utilities', () => {
       expect(result.success).to.be.false;
 
       const errors = flattenZodError(result.error);
-      expect(errors).to.have.property('level1');
       expect(errors.level1).to.have.property('level3', 'Deep field required');
     });
   });

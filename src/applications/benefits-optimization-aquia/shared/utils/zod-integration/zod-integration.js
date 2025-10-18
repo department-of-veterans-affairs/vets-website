@@ -18,14 +18,12 @@ import { z } from 'zod';
 function handleStringValidation(issue) {
   const { validation, message } = issue;
 
-  if (validation === 'email')
-    return message || 'Please enter a valid email address';
-  if (validation === 'url') return message || 'Please enter a valid URL';
-  if (validation === 'regex') return message || 'Invalid format';
-  if (validation === 'uuid') return message || 'Invalid UUID format';
-  if (validation === 'cuid') return message || 'Invalid CUID format';
-  if (validation === 'datetime')
-    return message || 'Please enter a valid date and time';
+  if (validation === 'email') return 'Please enter a valid email address';
+  if (validation === 'url') return 'Please enter a valid URL';
+  if (validation === 'regex') return 'Invalid format';
+  if (validation === 'uuid') return 'Invalid UUID format';
+  if (validation === 'cuid') return 'Invalid CUID format';
+  if (validation === 'datetime') return 'Please enter a valid date and time';
 
   return message || 'Invalid text format';
 }
@@ -61,7 +59,7 @@ function handleSizeValidation(issue, type) {
     }
   }
 
-  if (typeof exact === 'number') {
+  if (exact !== undefined) {
     return `Must be exactly ${exact} characters`;
   }
 

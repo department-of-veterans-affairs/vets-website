@@ -4,22 +4,19 @@ import React from 'react';
 import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import {
-  benefitEntitlementSchema,
-  benefitsInformationSchema,
-} from '../schemas';
+import { dutyStatusSchema, reserveOrGuardStatusSchema } from '../schemas';
 
 /**
- * Benefits Information page component
- * This page collects information about benefit entitlements
+ * Duty Status page component
+ * This page collects Reserve or National Guard duty status information
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
  * @param {Function} props.goBack - Function to go to previous page
- * @returns {JSX.Element} Benefits information form page
+ * @returns {JSX.Element} Duty status form page
  */
-export const BenefitsInformationPage = ({
+export const DutyStatusPage = ({
   data,
   setFormData,
   goForward,
@@ -32,32 +29,32 @@ export const BenefitsInformationPage = ({
 
   return (
     <PageTemplate
-      title="Benefits information"
+      title="Duty status"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={benefitsInformationSchema}
-      sectionName="benefitsInformation"
+      schema={dutyStatusSchema}
+      sectionName="dutyStatus"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        benefitEntitlement: '',
+        reserveOrGuardStatus: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <h3 className="vads-u-margin-top--0">
-            Benefit entitlement and/or payments
+            Reserve or National Guard duty status
           </h3>
 
           <RadioField
-            name="benefitEntitlement"
-            label="Is the Veteran receiving or entitled to receive, as a result of his/her employment with you, sick, retirement or other benefits?"
-            schema={benefitEntitlementSchema}
-            value={localData.benefitEntitlement}
+            name="reserveOrGuardStatus"
+            label="Is the Veteran currently in the Reserve or National Guard?"
+            schema={reserveOrGuardStatusSchema}
+            value={localData.reserveOrGuardStatus}
             onChange={handleFieldChange}
-            error={errors.benefitEntitlement}
+            error={errors.reserveOrGuardStatus}
             forceShowError={formSubmitted}
             options={[
               { value: 'yes', label: 'Yes' },
@@ -70,7 +67,7 @@ export const BenefitsInformationPage = ({
   );
 };
 
-BenefitsInformationPage.propTypes = {
+DutyStatusPage.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
@@ -79,4 +76,4 @@ BenefitsInformationPage.propTypes = {
   updatePage: PropTypes.func,
 };
 
-export default BenefitsInformationPage;
+export default DutyStatusPage;

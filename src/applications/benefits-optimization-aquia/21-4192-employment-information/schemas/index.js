@@ -6,8 +6,6 @@
  */
 
 // Import individual schemas when created
-// import { employerInformationSchema } from './employer-information';
-// import { veteranInformationSchema } from './veteran-information';
 // import { employmentDetailsSchema } from './employment-details';
 // import { terminationInformationSchema } from './termination-information';
 // import { benefitsInformationSchema } from './benefits-information';
@@ -18,35 +16,75 @@
  * Section I - Identification schemas
  * @description Schemas for validating employer and veteran identification
  */
-// export {
-//   employerInformationSchema,
-//   veteranInformationSchema,
-// };
+export {
+  dateOfBirthSchema,
+  firstNameSchema,
+  fullNameSchema,
+  lastNameSchema,
+  middleNameSchema,
+  ssnSchema,
+  vaFileNumberSchema,
+  veteranInformationSchema,
+} from './veteran-information';
+export {
+  employerAddressSchema,
+  employerInformationSchema,
+  employerNameSchema,
+  phoneNumberSchema,
+} from './employer-information';
 
 /**
  * Section II - Employment Information schemas
  * @description Schemas for validating employment history and termination details
  */
-// export {
-//   employmentDetailsSchema,
-//   terminationInformationSchema,
-// };
+export {
+  amountEarnedSchema,
+  beginningDateSchema,
+  dailyHoursSchema,
+  employmentDatesDetailsSchema,
+  endingDateSchema,
+  timeLostSchema,
+  typeOfWorkSchema,
+  weeklyHoursSchema,
+} from './employment-dates-details';
+export {
+  concessionsSchema,
+  employmentConcessionsSchema,
+} from './employment-concessions';
+export {
+  dateLastWorkedSchema,
+  employmentTerminationSchema,
+  terminationReasonSchema,
+} from './employment-termination';
+export {
+  dateOfLastPaymentSchema,
+  datePaidSchema,
+  employmentLastPaymentSchema,
+  grossAmountLastPaymentSchema,
+  grossAmountPaidSchema,
+  lumpSumPaymentSchema,
+} from './employment-last-payment';
 
 /**
  * Section III - Reserve/Guard schemas
  * @description Schemas for validating Reserve or National Guard status
  */
-// export {
-//   reserveGuardStatusSchema,
-// };
+export { dutyStatusSchema, reserveOrGuardStatusSchema } from './duty-status';
 
 /**
  * Section IV - Benefits schemas
  * @description Schemas for validating employment-related benefits information
  */
-// export {
-//   benefitsInformationSchema,
-// };
+export {
+  benefitEntitlementSchema,
+  benefitsInformationSchema,
+} from './benefits-information';
+
+/**
+ * Section V - Remarks schemas
+ * @description Schemas for validating additional remarks or comments
+ */
+export { remarksFieldSchema, remarksSchema } from './remarks';
 
 /**
  * Certification schemas

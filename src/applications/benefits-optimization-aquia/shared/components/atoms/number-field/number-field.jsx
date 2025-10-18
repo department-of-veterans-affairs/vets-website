@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
- * Text input field component using VA Design System.
- * Uses va-text-input web component for basic single-line text input.
- * Provides standard text entry for names, labels, short descriptions, and other textual data.
+ * Number input field component using VA Design System.
+ * Uses va-text-input web component with inputmode="numeric" for proper numeric keyboard on mobile devices.
+ * Ideal for collecting numeric data like hours, counts, or identification numbers.
  *
  * @component
  * @see [VA Text Input Component](https://design.va.gov/components/form/text-input)
@@ -13,30 +13,32 @@ import React from 'react';
  * @param {Object} props - Component props
  * @param {string} props.name - Field name for form identification
  * @param {string} props.label - Label text displayed above the field
- * @param {string} props.value - Current field value
+ * @param {string|number} props.value - Current field value
  * @param {Function} props.onChange - Change handler function (name, value) => void
  * @param {string} [props.error] - External error message to display
  * @param {boolean} [props.required=false] - Whether the field is required
  * @param {boolean} [props.forceShowError=false] - Force display of validation errors even if untouched
  * @param {import('zod').ZodSchema} [props.schema] - Zod schema for validation (not used by va-text-input but kept for consistency)
  * @param {string} [props.hint] - Additional help text for the user
- * @param {number} [props.maxlength] - Maximum character length allowed
- * @param {string} [props.type='text'] - Input type (text, email, url, etc.)
- * @returns {JSX.Element} VA text input field
+ * @param {number} [props.min] - Minimum allowed value
+ * @param {number} [props.max] - Maximum allowed value
+ * @param {string} [props.inputmode='numeric'] - Input mode for mobile keyboards (numeric, decimal, tel)
+ * @returns {JSX.Element} VA number input field
  *
  * @example
  * ```jsx
- * <TextInputField
- *   name="employerName"
- *   label="Employer's name"
- *   value={formData.employerName}
+ * <NumberField
+ *   name="dailyHours"
+ *   label="Number of hours worked (daily)"
+ *   value={formData.dailyHours}
  *   onChange={handleFieldChange}
- *   required={true}
- *   maxlength={100}
+ *   hint="Enter the number of hours worked per day"
+ *   min={0}
+ *   max={24}
  * />
  * ```
  */
-export const TextInputField = ({
+export const NumberField = ({
   name,
   label,
   value,
@@ -45,9 +47,9 @@ export const TextInputField = ({
   required = false,
   forceShowError = false,
   hint,
-  maxlength,
-  type = 'text',
-  ...rest
+  min,
+  max,
+  inputmode = 'numeric',
 }) => {
   const handleChange = event => {
     const newValue = event.target.value;
@@ -60,31 +62,32 @@ export const TextInputField = ({
     <va-text-input
       label={label}
       name={name}
-      type={type}
       value={value || ''}
       onInput={handleChange}
       error={showError ? error : null}
       required={required}
       hint={hint}
       message-aria-describedby={hint ? `${name}-hint` : null}
-      maxlength={maxlength}
-      {...rest}
+      inputmode={inputmode}
+      min={min}
+      max={max}
     />
   );
 };
 
-TextInputField.propTypes = {
+NumberField.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   error: PropTypes.string,
   forceShowError: PropTypes.bool,
   hint: PropTypes.string,
-  maxlength: PropTypes.number,
+  inputmode: PropTypes.string,
+  max: PropTypes.number,
+  min: PropTypes.number,
   required: PropTypes.bool,
   schema: PropTypes.object,
-  type: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
 };
 
-export default TextInputField;
+export default NumberField;

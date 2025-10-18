@@ -103,21 +103,82 @@ export const useFormSection = ({
   );
 
   /**
+   * Safely sets a nested property value without prototype pollution.
+   * Uses Array.reduceRight to build object immutably from inside-out,
+   * avoiding dynamic property traversal that could enable prototype pollution.
+   *
+   * This approach satisfies CodeQL security requirements by never assigning
+   * properties through a chain derived from user input.
+   *
+   * @param {Object} obj - The object to update
+   * @param {string[]} pathParts - Array of property names forming the path (already validated)
+   * @param {*} value - The value to set
+   * @returns {Object} New object with the updated value
+   */
+  const setNestedProperty = (obj, pathParts, value) => {
+    // For single-level paths, use simple spread
+    if (pathParts.length === 1) {
+      return { ...obj, [pathParts[0]]: value };
+    }
+
+    // Build object from innermost to outermost using reduceRight
+    // This creates a new object tree without mutating or traversing the original
+    const updateAtPath = pathParts.reduceRight((accum, key, index) => {
+      // For the innermost level, just return the value
+      if (index === pathParts.length - 1) {
+        return { [key]: value };
+      }
+
+      // For intermediate levels, wrap the accumulator
+      // Get reference to existing object at this path for merging
+      const getExistingAtPath = (source, keys) => {
+        let current = source;
+        for (let i = 0; i <= index; i++) {
+          if (!current || typeof current !== 'object') return null;
+          current = current[keys[i]];
+        }
+        return current;
+      };
+
+      const existing = getExistingAtPath(obj, pathParts);
+      const isPlainObject =
+        existing &&
+        typeof existing === 'object' &&
+        !Array.isArray(existing) &&
+        existing !== null;
+
+      return {
+        [key]: {
+          ...(isPlainObject ? existing : {}),
+          ...accum,
+        },
+      };
+    }, {});
+
+    // Merge with root object
+    return {
+      ...obj,
+      ...updateAtPath,
+    };
+  };
+
+  /**
    * Handle field changes with automatic namespacing
    */
   const handleFieldChange = useCallback(
     (fieldPath, value) => {
+      // Prevent prototype pollution via dangerous property names
+      const dangerousKeys = Object.freeze([
+        '__proto__',
+        'constructor',
+        'prototype',
+      ]);
+
       const processedValue = Array.isArray(value) ? value : value ?? '';
 
       let updatedData;
       if (fieldPath.includes('.')) {
         const parts = fieldPath.split('.');
-        // Prevent prototype pollution via dangerous property names
-        const dangerousKeys = Object.freeze([
-          '__proto__',
-          'constructor',
-          'prototype',
-        ]);
 
         // Check all parts for dangerous keys before processing
         if (parts.some(part => dangerousKeys.includes(part))) {
@@ -125,33 +186,10 @@ export const useFormSection = ({
           return;
         }
 
-        updatedData = { ...localData };
-
-        let current = updatedData;
-        for (let i = 0; i < parts.length - 1; i++) {
-          const key = parts[i];
-          // Additional safety: only create plain objects
-          if (
-            !current[key] ||
-            typeof current[key] !== 'object' ||
-            Array.isArray(current[key])
-          ) {
-            current[key] = Object.create(null);
-          }
-          current = current[key];
-        }
-
-        const finalKey = parts[parts.length - 1];
-        // Use Object.defineProperty for safer property assignment
-        Object.defineProperty(current, finalKey, {
-          value: processedValue,
-          writable: true,
-          enumerable: true,
-          configurable: true,
-        });
+        // Use helper function to safely set nested property
+        updatedData = setNestedProperty(localData, parts, processedValue);
       } else {
-        // Also check for dangerous keys in simple paths
-        const dangerousKeys = ['__proto__', 'constructor', 'prototype'];
+        // Check for dangerous keys in simple paths
         if (dangerousKeys.includes(fieldPath)) {
           // Silently block dangerous fields to prevent prototype pollution
           return;

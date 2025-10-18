@@ -1,25 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { RadioField } from '@bio-aquia/shared/components/atoms';
+import { TextareaField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import {
-  benefitEntitlementSchema,
-  benefitsInformationSchema,
-} from '../schemas';
+import { concessionsSchema, employmentConcessionsSchema } from '../schemas';
 
 /**
- * Benefits Information page component
- * This page collects information about benefit entitlements
+ * Employment Concessions page component
+ * This page collects information about concessions made to the employee
  * @param {Object} props - Component props
  * @param {Object} props.data - Initial form data
  * @param {Function} props.setFormData - Function to update form data
  * @param {Function} props.goForward - Function to proceed to next page
  * @param {Function} props.goBack - Function to go to previous page
- * @returns {JSX.Element} Benefits information form page
+ * @returns {JSX.Element} Employment concessions form page
  */
-export const BenefitsInformationPage = ({
+export const EmploymentConcessionsPage = ({
   data,
   setFormData,
   goForward,
@@ -32,37 +29,33 @@ export const BenefitsInformationPage = ({
 
   return (
     <PageTemplate
-      title="Benefits information"
+      title="Employment information"
       data={formDataToUse}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={benefitsInformationSchema}
-      sectionName="benefitsInformation"
+      schema={employmentConcessionsSchema}
+      sectionName="employmentConcessions"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        benefitEntitlement: '',
+        concessions: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <h3 className="vads-u-margin-top--0">
-            Benefit entitlement and/or payments
-          </h3>
+          <h3 className="vads-u-margin-top--0">Concessions</h3>
 
-          <RadioField
-            name="benefitEntitlement"
-            label="Is the Veteran receiving or entitled to receive, as a result of his/her employment with you, sick, retirement or other benefits?"
-            schema={benefitEntitlementSchema}
-            value={localData.benefitEntitlement}
+          <TextareaField
+            name="concessions"
+            label="Concessions (if any) made to employee by reason of age or disability"
+            schema={concessionsSchema}
+            value={localData.concessions}
             onChange={handleFieldChange}
-            error={errors.benefitEntitlement}
+            error={errors.concessions}
             forceShowError={formSubmitted}
-            options={[
-              { value: 'yes', label: 'Yes' },
-              { value: 'no', label: 'No' },
-            ]}
+            rows={5}
+            maxLength={1000}
           />
         </>
       )}
@@ -70,7 +63,7 @@ export const BenefitsInformationPage = ({
   );
 };
 
-BenefitsInformationPage.propTypes = {
+EmploymentConcessionsPage.propTypes = {
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
@@ -79,4 +72,4 @@ BenefitsInformationPage.propTypes = {
   updatePage: PropTypes.func,
 };
 
-export default BenefitsInformationPage;
+export default EmploymentConcessionsPage;
