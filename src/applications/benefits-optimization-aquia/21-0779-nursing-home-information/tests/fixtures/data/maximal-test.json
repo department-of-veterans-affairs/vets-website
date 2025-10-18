@@ -1,8 +1,8 @@
 {
   "data": {
     "nursingOfficialInformation": {
-      "firstName": "Craig",
-      "lastName": "Brown",
+      "firstName": "Andrew",
+      "lastName": "Green",
       "jobTitle": "Head Nurse",
       "phoneNumber": "3121114321"
     },
@@ -10,7 +10,7 @@
       "nursingHomeName": "Best Nursing Home",
       "nursingHomeAddress": {
         "street": "1060 W Addison St",
-        "street2": "",
+        "street2": "Suite 12",
         "street3": "",
         "city": "Chicago",
         "state": "IL",
@@ -22,37 +22,52 @@
       }
     },
     "claimantQuestion": {
-      "patientType": "veteran"
+      "patientType": "spouseOrParent"
+    },
+    "claimantPersonalInfo": {
+      "claimantFullName": {
+        "first": "Rosemary",
+        "middle": "M",
+        "last": "Woodhouse"
+      },
+      "claimantDateOfBirth": "1945-02-09"
+    },
+    "claimantIdentificationInfo": {
+      "claimantSsn": "111-11-1111",
+      "claimantVaFileNumber": "12345678"
     },
     "veteranPersonalInfo": {
       "fullName": {
-        "first": "Rosemary",
-        "middle": "",
+        "first": "Doug",
+        "middle": "P",
         "last": "Woodhouse"
       },
-      "dateOfBirth": "1945-02-09"
+      "dateOfBirth": "1945-10-15"
     },
     "veteranIdentificationInfo": {
-      "ssn": "111-11-1111",
-      "vaFileNumber": ""
+      "ssn": "222-22-2222",
+      "vaFileNumber": "987654321"
     },
     "certificationLevelOfCare": {
-      "levelOfCare": "intermediate"
+      "levelOfCare": "skilled"
     },
     "admissionDateInfo": {
       "admissionDate": "2022-10-19"
     },
     "medicaidFacility": {
-      "isMedicaidApproved": "no"
+      "isMedicaidApproved": "yes"
     },
     "medicaidApplication": {
-      "hasAppliedForMedicaid": "no"
+      "hasAppliedForMedicaid": "yes"
     },
     "medicaidStatus": {
-      "currentlyCoveredByMedicaid": "no"
+      "currentlyCoveredByMedicaid": "yes"
+    },
+    "medicaidStartDateInfo": {
+      "medicaidStartDate": "2021-12-13"
     },
     "monthlyCosts": {
-      "monthlyOutOfPocket": "1234"
+      "monthlyOutOfPocket": "2134"
     }
   }
 }
