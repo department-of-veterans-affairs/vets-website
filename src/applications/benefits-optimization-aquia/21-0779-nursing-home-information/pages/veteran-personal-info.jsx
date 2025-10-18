@@ -37,10 +37,8 @@ export const VeteranPersonalInfoPage = ({
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
   // Conditionals for veteran information content display
-  // i.e. "Tell us about the Veteran who is connected to the patient"
-  //    vs "Tell us about the veteran in the nursing home"
   const { claimantQuestion } = formDataToUse;
-  const veteranIsPatient = claimantQuestion === 'veteran';
+  const veteranIsPatient = claimantQuestion?.patientType === 'veteran';
 
   return (
     <PageTemplate

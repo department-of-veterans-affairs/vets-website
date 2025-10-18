@@ -66,28 +66,26 @@ export const CertificationLevelOfCarePage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <RadioField
-            name="levelOfCare"
-            label={dynamicRadioLabel}
-            schema={levelOfCareFieldSchema}
-            value={localData.levelOfCare}
-            onChange={handleFieldChange}
-            options={[
-              {
-                label: 'Skilled nursing care',
-                value: 'skilled',
-              },
-              {
-                label: 'Intermediate nursing care',
-                value: 'intermediate',
-              },
-            ]}
-            required
-            error={errors.levelOfCare}
-            forceShowError={formSubmitted}
-          />
-        </>
+        <RadioField
+          name="levelOfCare"
+          label={dynamicRadioLabel}
+          schema={levelOfCareFieldSchema}
+          value={localData.levelOfCare}
+          onChange={handleFieldChange}
+          options={[
+            {
+              label: 'Skilled nursing care',
+              value: 'skilled',
+            },
+            {
+              label: 'Intermediate nursing care',
+              value: 'intermediate',
+            },
+          ]}
+          required
+          error={errors.levelOfCare}
+          forceShowError={formSubmitted}
+        />
       )}
     </PageTemplate>
   );
