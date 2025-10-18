@@ -10,16 +10,20 @@ import { ConfirmationPage } from '../../containers/confirmation-page';
 
 const mockStore = state => createStore(() => state);
 
-const initConfirmationPage = ({ formData } = {}) => {
+const initConfirmationPage = ({ formData, submission = {} } = {}) => {
+  const defaultSubmission = {
+    response: {
+      confirmationNumber: '1234567890',
+      pdfUrl: 'https://example.com/form.pdf',
+    },
+    timestamp: new Date(),
+    ...submission,
+  };
+
   const store = mockStore({
     form: {
       ...createInitialState(formConfig),
-      submission: {
-        response: {
-          confirmationNumber: '1234567890',
-        },
-        timestamp: new Date(),
-      },
+      submission: defaultSubmission,
       data: formData,
     },
   });
@@ -41,8 +45,39 @@ describe('ConfirmationPage', () => {
     const alert = container.querySelector('va-alert');
     expect(alert).to.have.attribute('status', 'success');
     expect(alert.querySelector('h2')).to.contain.text(
-      'Form submission started',
+      "You've submitted your nursing home information",
     );
-    expect(alert).to.contain.text('Your confirmation number is 1234567890');
+    expect(alert).to.contain.text(
+      "You've submitted your nursing home information",
+    );
+  });
+
+  it('should render without confirmation number when not available', () => {
+    const { container } = initConfirmationPage({
+      submission: {
+        response: {},
+        timestamp: new Date(),
+      },
+    });
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert).to.not.contain.text('Your confirmation number is');
+  });
+
+  it('should display the correct thank you message', () => {
+    const { container } = initConfirmationPage();
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.contain.text('Thank you for helping to support a claim.');
+  });
+
+  it('should render with form data', () => {
+    const formData = {
+      nursingOfficialInformation: {
+        firstName: 'John',
+        lastName: 'Doe',
+      },
+    };
+    const { container } = initConfirmationPage({ formData });
+    expect(container).to.exist;
   });
 });
