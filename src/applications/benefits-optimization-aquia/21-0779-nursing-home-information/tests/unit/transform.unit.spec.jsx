@@ -1,73 +1,11 @@
 import { expect } from 'chai';
 import { transform } from '../../config/transform';
+import formData from '../fixtures/data/maximal-test.json';
 
 describe('Transform Function', () => {
   const createMockFormData = (overrides = {}) => ({
     data: {
-      veteranPersonalInfo: {
-        fullName: {
-          first: 'John',
-          middle: 'M',
-          last: 'Doe',
-        },
-        dateOfBirth: '1950-01-01',
-      },
-      veteranIdentificationInfo: {
-        ssn: '123456789',
-        vaFileNumber: 'V12345678',
-      },
-      claimantQuestion: {
-        patientType: 'veteran',
-      },
-      claimantPersonalInfo: {
-        claimantFullName: {
-          first: 'Jane',
-          last: 'Doe',
-        },
-        claimantDateOfBirth: '1952-01-01',
-      },
-      claimantIdentificationInfo: {
-        claimantSsn: '987654321',
-        claimantVaFileNumber: 'V87654321',
-      },
-      nursingHomeDetails: {
-        nursingHomeName: 'Test Nursing Home',
-        nursingHomeAddress: {
-          street: '123 Main St',
-          street2: 'Apt 1',
-          city: 'Anytown',
-          state: 'CA',
-          country: 'USA',
-          postalCode: '12345',
-        },
-      },
-      certificationLevelOfCare: {
-        levelOfCare: 'skilled',
-      },
-      admissionDateInfo: {
-        admissionDate: '2023-01-01',
-      },
-      medicaidFacility: {
-        isMedicaidApproved: 'yes',
-      },
-      medicaidApplication: {
-        hasAppliedForMedicaid: 'no',
-      },
-      medicaidStatus: {
-        currentlyCoveredByMedicaid: 'yes',
-      },
-      medicaidStartDateInfo: {
-        medicaidStartDate: '2023-02-01',
-      },
-      monthlyCosts: {
-        monthlyOutOfPocket: 500,
-      },
-      nursingOfficialInformation: {
-        firstName: 'Official',
-        lastName: 'Name',
-        jobTitle: 'Administrator',
-        phoneNumber: '555-1234',
-      },
+      ...formData.data,
       ...overrides,
     },
   });
@@ -79,14 +17,14 @@ describe('Transform Function', () => {
 
     expect(parsedResult).to.have.property('veteranInformation');
     expect(parsedResult.veteranInformation).to.deep.include({
-      first: 'John',
-      middle: 'M',
-      last: 'Doe',
-      dateOfBirth: '1950-01-01',
+      first: 'Doug',
+      middle: 'P',
+      last: 'Woodhouse',
+      dateOfBirth: '1945-10-15',
     });
     expect(parsedResult.veteranInformation.veteranId).to.deep.equal({
-      ssn: '123456789',
-      vaFileNumber: 'V12345678',
+      ssn: '222-22-2222',
+      vaFileNumber: '987654321',
     });
   });
 
@@ -109,13 +47,14 @@ describe('Transform Function', () => {
 
     expect(parsedResult.claimantInformation).to.not.be.null;
     expect(parsedResult.claimantInformation).to.include({
-      first: 'Jane',
-      last: 'Doe',
-      dateOfBirth: '1952-01-01',
+      first: 'Rosemary',
+      middle: 'M',
+      last: 'Woodhouse',
+      dateOfBirth: '1945-02-09',
     });
     expect(parsedResult.claimantInformation.veteranId).to.deep.equal({
-      ssn: '987654321',
-      vaFileNumber: 'V87654321',
+      ssn: '111-11-1111',
+      vaFileNumber: '12345678',
     });
   });
 
@@ -125,14 +64,14 @@ describe('Transform Function', () => {
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.nursingHomeInformation).to.deep.equal({
-      nursingHomeName: 'Test Nursing Home',
+      nursingHomeName: 'Best Nursing Home',
       nursingHomeAddress: {
-        street: '123 Main St',
-        street2: 'Apt 1',
-        city: 'Anytown',
-        state: 'CA',
+        street: '1060 W Addison St',
+        street2: 'Suite 12',
+        city: 'Chicago',
+        state: 'IL',
         country: 'USA',
-        postalCode: '12345',
+        postalCode: '60613',
       },
     });
   });
@@ -143,16 +82,16 @@ describe('Transform Function', () => {
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation).to.include({
-      admissionDate: '2023-01-01',
+      admissionDate: '2022-10-19',
       medicaidFacility: true,
-      medicaidApplication: false,
+      medicaidApplication: true,
       patientMedicaidCovered: true,
-      medicaidStartDate: '2023-02-01',
-      monthlyCosts: 500,
+      medicaidStartDate: '2021-12-13',
+      monthlyCosts: '2134',
       certificationLevelOfCare: true,
-      nursingOfficialName: 'Official Name',
-      nursingOfficialTitle: 'Administrator',
-      nursingOfficialPhoneNumber: '555-1234',
+      nursingOfficialName: 'Andrew Green',
+      nursingOfficialTitle: 'Head Nurse',
+      nursingOfficialPhoneNumber: '3121114321',
     });
   });
 
@@ -179,16 +118,16 @@ describe('Transform Function', () => {
   it('should handle partial nursing official name', () => {
     const mockForm = createMockFormData({
       nursingOfficialInformation: {
-        firstName: 'Official',
+        firstName: 'Andrew',
         lastName: '',
-        jobTitle: 'Administrator',
+        jobTitle: 'Head Nurse',
       },
     });
     const result = transform({}, mockForm);
     const parsedResult = JSON.parse(result);
 
     expect(parsedResult.generalInformation.nursingOfficialName).to.equal(
-      'Official',
+      'Andrew',
     );
   });
 
