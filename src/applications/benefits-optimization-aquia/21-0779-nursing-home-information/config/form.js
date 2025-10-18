@@ -33,6 +33,7 @@ import {
   MedicaidStartDatePage,
   MonthlyCostsPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
+import { ClaimantQuestionReview } from '@bio-aquia/21-0779-nursing-home-information/reviews';
 import {
   certificationLevelOfCareSchema,
   claimantQuestionSchema,
@@ -136,7 +137,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: ClaimantQuestionPage,
-          CustomPageReview: null,
+          CustomPageReview: ClaimantQuestionReview,
           verifyItemValues: values =>
             createPageValidator(claimantQuestionSchema)(values),
           onErrorChange: createValidationErrorHandler('claimantQuestion'),
