@@ -3,14 +3,16 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { renderInReduxProvider as render } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
+import * as vapActions from '@@vap-svc/actions';
 import { ProfileAlertConfirmEmail } from '../../components/MhvAlertConfirmEmail';
 import {
   dismissAlertViaCookie,
   resetDismissAlertViaCookie,
   DATE_THRESHOLD,
 } from '../../components/MhvAlertConfirmEmail/selectors';
+
+// vap-svc actions to stub
 
 const DATE_STRING = new Date(DATE_THRESHOLD).toLocaleDateString('en-US');
 
@@ -203,7 +205,18 @@ describe('<ProfileAlertConfirmEmail />', () => {
     });
 
     it(`renders success when 'Confirm...' button clicked, calls recordEvent`, async () => {
-      mockApiRequest();
+      // stub vap-svc createTransaction and fetchTransactions to simulate success
+      const createTxStub = sinon
+        .stub(vapActions, 'createTransaction')
+        .returns(() =>
+          Promise.resolve({
+            data: { attributes: { transactionStatus: 'RECEIVED' } },
+          }),
+        );
+      const fetchTxStub = sinon
+        .stub(vapActions, 'fetchTransactions')
+        .returns(() => Promise.resolve());
+
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
       const { container, getByTestId, queryByTestId } = render(
@@ -222,10 +235,17 @@ describe('<ProfileAlertConfirmEmail />', () => {
         const headline = 'Thank you for confirming your contact email address';
         expect(props.recordEvent.calledWith(headline));
       });
+
+      createTxStub.restore();
+      fetchTxStub.restore();
     });
 
     it(`renders error when 'Confirm...' button clicked, calls recordEvent`, async () => {
-      mockApiRequest({}, false);
+      // stub vap-svc createTransaction to simulate failure (createTransaction returns null on failure)
+      const createTxStub = sinon
+        .stub(vapActions, 'createTransaction')
+        .returns(() => Promise.resolve(null));
+
       const props = { recordEvent: sinon.spy() };
       const initialState = stateFn({ confirmationDate: null });
       const { container, getByTestId } = render(
@@ -243,6 +263,8 @@ describe('<ProfileAlertConfirmEmail />', () => {
         const headline = 'We couldn’t confirm your contact email';
         expect(props.recordEvent.calledWith(headline));
       });
+
+      createTxStub.restore();
     });
   });
 
