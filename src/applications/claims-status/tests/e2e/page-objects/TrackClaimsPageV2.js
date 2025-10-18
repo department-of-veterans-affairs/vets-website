@@ -1,10 +1,9 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // START lighthouse_migration
+import Timeouts from 'platform/testing/e2e/timeouts';
 import featureToggleClaimDetailV2Enabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-detail-v2-enabled.json';
 import featureToggleClaimPhasesEnabled from '../fixtures/mocks/lighthouse/feature-toggle-claim-phases-enabled.json';
 // END lighthouse_migration
-
-const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 /* eslint-disable class-methods-use-this */
 class TrackClaimsPageV2 {
@@ -876,6 +875,11 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/files');
   }
 
+  navigateToStatusTab() {
+    cy.get('#tabOverview').click();
+    cy.url().should('contain', '/your-claims/189685/status');
+  }
+
   verifyNeedToMailDocuments() {
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
@@ -923,13 +927,56 @@ class TrackClaimsPageV2 {
     cy.assertChildText(
       '@friendlyMessage',
       'h2',
-      'What we’re notifying you about',
+      "What we're notifying you about",
     );
     cy.assertChildText(
       '@friendlyMessage',
       'div.optional-upload > p',
       'This is just a notice. No action is needed by you. But, if you have documents related to this request, uploading them on this page may help speed up the evidence review for your claim.',
     );
+  }
+
+  verifyUploadType2ErrorAlert() {
+    cy.get('va-alert[status="error"]').should('be.visible');
+    cy.get('va-alert[status="error"]')
+      .find('h3')
+      .should('contain', 'We need you to submit files by mail or in person');
+  }
+
+  verifyUploadType2ErrorAlertNotPresent() {
+    cy.get('va-alert[status="error"]').should('not.exist');
+  }
+
+  verifyUploadType2ErrorAlertFileName(fileName) {
+    cy.get('va-alert[status="error"]').should('contain', fileName);
+  }
+
+  verifyUploadType2ErrorAlertMultipleFilesMessage(count) {
+    cy.get('va-alert[status="error"]').should(
+      'contain',
+      `And ${count} more within the last 30 days`,
+    );
+  }
+
+  verifyUploadType2ErrorAlertLink() {
+    cy.get('va-alert[status="error"]')
+      .find('va-link-action')
+      .should('exist')
+      .shadow()
+      .find('a')
+      .should(
+        'have.attr',
+        'href',
+        '/track-claims/your-claims/files-we-couldnt-receive',
+      );
+  }
+
+  clickUploadType2ErrorAlertLink() {
+    cy.get('va-alert[status="error"]')
+      .find('va-link-action')
+      .shadow()
+      .find('a')
+      .click();
   }
 }
 

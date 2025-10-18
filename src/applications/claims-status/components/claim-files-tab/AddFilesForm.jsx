@@ -355,7 +355,8 @@ const AddFilesForm = ({ fileTab, onSubmit, uploading, progress, onCancel }) => {
           accept={FILE_TYPES.map(type => `.${type}`).join(',')}
           ref={fileInputRef}
           hint={HINT_TEXT}
-          label={toggleValue ? '' : LABEL_TEXT}
+          label={LABEL_TEXT}
+          labelClass={toggleValue ? 'vads-u-visibility--screen-reader' : ''}
           onVaMultipleChange={handleFileChange}
           errors={errors}
           encrypted={encrypted}

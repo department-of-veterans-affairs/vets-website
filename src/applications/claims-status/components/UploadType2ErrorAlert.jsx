@@ -1,12 +1,26 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLinkAction,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-function UploadType2ErrorAlert({ claim }) {
-  const { evidenceSubmissions } = claim.attributes;
-  const failedFiles = evidenceSubmissions.filter(
-    submission => submission.uploadStatus === 'FAILED',
-  );
+function UploadType2ErrorAlert({ failedSubmissions }) {
+  // Don't render anything if there are no failed submissions
+  if (!failedSubmissions || failedSubmissions.length === 0) {
+    return null;
+  }
+
+  // Sort submissions by failedDate (most recent first)
+  const sortedSubmissions = [...failedSubmissions].sort((a, b) => {
+    const dateA = new Date(a.failedDate || 0);
+    const dateB = new Date(b.failedDate || 0);
+    return dateB - dateA;
+  });
+
+  // Determine how many items to display
+  const itemsToShow =
+    sortedSubmissions.length > 2 ? 1 : sortedSubmissions.length;
 
   const body = (
     <>
@@ -21,27 +35,39 @@ function UploadType2ErrorAlert({ claim }) {
       </p>
       <strong>All files we couldn’t process:</strong>
       <ul>
-        {failedFiles.map(submission => (
+        {sortedSubmissions.slice(0, itemsToShow).map(submission => (
           <li key={submission.id}>
             <span>
               <strong>{submission.fileName}</strong>
             </span>
             <br />
             <span>File type: {submission.documentType}</span>
-            {submission.trackedItemDisplayName && (
-              <>
-                <br />
-                <span>Request type: {submission.trackedItemDisplayName}</span>
-              </>
+            <br />
+            {submission.trackedItemDisplayName ? (
+              <span>Request type: {submission.trackedItemDisplayName}</span>
+            ) : (
+              <span>You submitted this file as additional evidence</span>
             )}
           </li>
         ))}
-        {failedFiles.length > 2 && (
-          <li>And {failedFiles.length - 2} more within the last 30 days</li>
+
+        {sortedSubmissions.length > 2 && (
+          <li>
+            <strong>
+              And {sortedSubmissions.length - 1} more within the last 30 days
+            </strong>
+          </li>
         )}
       </ul>
-      If you’ve already submitted these files another way, you can ignore this
-      message. We’ll remove these alerts 30 days after the upload failed.
+      <p>
+        If you’ve already submitted these files another way, you can ignore this
+        message. We’ll remove these alerts 30 days after the upload failed.
+      </p>
+      <VaLinkAction
+        href="/track-claims/your-claims/files-we-couldnt-receive"
+        text="Review files we couldn't process and learn other ways to send your documents"
+        type="secondary"
+      />
     </>
   );
 
@@ -56,9 +82,9 @@ function UploadType2ErrorAlert({ claim }) {
         status="error"
         visible
       >
-        <h2 slot="headline">
+        <h3 className="usa-alert-heading">
           We need you to submit files by mail or in person
-        </h2>
+        </h3>
         <div className="vads-u-margin-y--0">{body}</div>
       </VaAlert>
     </>
@@ -66,7 +92,7 @@ function UploadType2ErrorAlert({ claim }) {
 }
 
 UploadType2ErrorAlert.propTypes = {
-  claim: PropTypes.object,
+  failedSubmissions: PropTypes.array,
 };
 
 export default UploadType2ErrorAlert;
