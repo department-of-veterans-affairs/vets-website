@@ -1,13 +1,13 @@
-/**
- * @module utils/index
- * @description Barrel export file for utility functions
- * This file will be populated with utility function exports as they are created
- */
+import { isValid } from 'date-fns';
+import { formatDateShort } from 'platform/utilities/date';
 
-/**
- * @example
- * // Future utility exports will follow this pattern:
- * export { formatDate } from './date-helpers';
- * export { validateSSN } from './validation-helpers';
- * export { transformFormData } from './data-transformers';
- */
+export const formatDate = dateString => {
+  if (!dateString) return 'Not provided';
+
+  try {
+    const birthDate = new Date(dateString.replace(/-/g, '/'));
+    return isValid(birthDate) ? formatDateShort(birthDate) : 'Not provided';
+  } catch (error) {
+    return dateString || 'Not provided';
+  }
+};

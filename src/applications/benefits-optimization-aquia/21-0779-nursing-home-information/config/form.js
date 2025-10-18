@@ -33,7 +33,22 @@ import {
   MedicaidStartDatePage,
   MonthlyCostsPage,
 } from '@bio-aquia/21-0779-nursing-home-information/pages';
-import { ClaimantQuestionReview } from '@bio-aquia/21-0779-nursing-home-information/reviews';
+import {
+  AdmissionDateReview,
+  CertificationLevelOfCareReview,
+  ClaimantIdentificationInfoReview,
+  ClaimantPersonalInfoReview,
+  ClaimantQuestionReview,
+  MedicaidApplicationReview,
+  MedicaidFacilityReview,
+  MedicaidStartDateReview,
+  MedicaidStatusReview,
+  MonthlyCostsReview,
+  NursingHomeDetailsReview,
+  NursingOfficialInformationReview,
+  VeteranIdentificationInfoReview,
+  VeteranPersonalInfoReview,
+} from '@bio-aquia/21-0779-nursing-home-information/reviews';
 import {
   certificationLevelOfCareSchema,
   claimantQuestionSchema,
@@ -103,7 +118,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: NursingOfficialInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: NursingOfficialInformationReview,
           verifyItemValues: values =>
             createPageValidator(nursingOfficialInformationSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -121,7 +136,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: NursingHomeDetailsPage,
-          CustomPageReview: null,
+          CustomPageReview: NursingHomeDetailsReview,
           verifyItemValues: values =>
             createPageValidator(nursingHomeDetailsSchema)(values),
           onErrorChange: createValidationErrorHandler('nursingHomeDetails'),
@@ -148,7 +163,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: ClaimantPersonalInfoPage,
-          CustomPageReview: null,
+          CustomPageReview: ClaimantPersonalInfoReview,
           depends: formData =>
             formData?.claimantQuestion?.patientType === 'spouseOrParent',
           verifyItemValues: values =>
@@ -161,7 +176,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: ClaimantIdentificationInfoPage,
-          CustomPageReview: null,
+          CustomPageReview: ClaimantIdentificationInfoReview,
           depends: formData =>
             formData?.claimantQuestion?.patientType === 'spouseOrParent',
           verifyItemValues: values =>
@@ -176,7 +191,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranPersonalInfoPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranPersonalInfoReview,
           verifyItemValues: values =>
             createPageValidator(veteranPersonalInfoSchema)(values),
           onErrorChange: createValidationErrorHandler('veteranPersonalInfo'),
@@ -187,7 +202,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranIdentificationInfoPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranIdentificationInfoReview,
           verifyItemValues: values =>
             createPageValidator(veteranIdentificationInfoSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -205,7 +220,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: CertificationLevelOfCarePage,
-          CustomPageReview: null,
+          CustomPageReview: CertificationLevelOfCareReview,
           verifyItemValues: values =>
             createPageValidator(certificationLevelOfCareSchema)(values),
           onErrorChange: createValidationErrorHandler(
@@ -218,7 +233,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: AdmissionDatePage,
-          CustomPageReview: null,
+          CustomPageReview: AdmissionDateReview,
           verifyItemValues: values =>
             createPageValidator(admissionDateInfoSchema)(values),
           onErrorChange: createValidationErrorHandler('admissionDateInfo'),
@@ -234,7 +249,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MedicaidFacilityPage,
-          CustomPageReview: null,
+          CustomPageReview: MedicaidFacilityReview,
           verifyItemValues: values =>
             createPageValidator(medicaidFacilitySchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidFacility'),
@@ -245,7 +260,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MedicaidApplicationPage,
-          CustomPageReview: null,
+          CustomPageReview: MedicaidApplicationReview,
           verifyItemValues: values =>
             createPageValidator(medicaidApplicationSchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidApplication'),
@@ -256,7 +271,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MedicaidStatusPage,
-          CustomPageReview: null,
+          CustomPageReview: MedicaidStatusReview,
           verifyItemValues: values =>
             createPageValidator(currentMedicaidStatusSchema)(values),
           onErrorChange: createValidationErrorHandler('medicaidStatus'),
@@ -267,7 +282,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MedicaidStartDatePage,
-          CustomPageReview: null,
+          CustomPageReview: MedicaidStartDateReview,
           depends: formData =>
             formData?.medicaidStatus?.currentlyCoveredByMedicaid === 'yes',
           verifyItemValues: values =>
@@ -285,7 +300,7 @@ const formConfig = {
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: MonthlyCostsPage,
-          CustomPageReview: null,
+          CustomPageReview: MonthlyCostsReview,
           verifyItemValues: values =>
             createPageValidator(monthlyCostsSchema)(values),
           onErrorChange: createValidationErrorHandler('monthlyCosts'),
