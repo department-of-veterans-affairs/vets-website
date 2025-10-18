@@ -9,6 +9,7 @@ import {
 import ConfirmationPage from '@bio-aquia/21-0779-nursing-home-information/containers/confirmation-page';
 import IntroductionPage from '@bio-aquia/21-0779-nursing-home-information/containers/introduction-page';
 import manifest from '@bio-aquia/21-0779-nursing-home-information/manifest.json';
+import { transform } from '@bio-aquia/21-0779-nursing-home-information/config/transform';
 import {
   createPageValidator,
   createValidationErrorHandler,
@@ -58,7 +59,8 @@ const defaultSchema = {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/form21_0779`,
+  submitUrl: `${environment.API_URL}/v0/form210779`,
+  transformForSubmit: transform,
   trackingPrefix: '21-0779-nursing-home-information-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
