@@ -455,9 +455,9 @@
     },
     {
       "directoryPath": "src/applications/medical-expense-report",
-      "appName": "21P-8416 Medical expense report form",
+      "appName": "Submit Medical Expenses To Support A Pension or DIC Claim",
       "entryName": "medical-expense-report",
-      "rootUrl": "/pension/medical-expense-report-form-21p-8416"
+      "rootUrl": "/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416"
     },
     {
       "directoryPath": "src/applications/messages",

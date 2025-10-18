@@ -9,21 +9,41 @@ import { addStatusToIssues } from '../../../utils/appeals-v2-helpers';
 import { mockData } from '../../../utils/helpers';
 
 describe('<Issues/>', () => {
-  const emptyIssues = { issues: addStatusToIssues([]), isAppeal: true };
+  const emptyIssues = { issues: addStatusToIssues([]), appealType: 'appeal' };
   const oneOpenIssue = {
     issues: addStatusToIssues(mockData.data[1].attributes.issues),
-    isAppeal: true,
+    appealType: 'legacy appeal',
   };
   const oneClosedIssue = {
     issues: addStatusToIssues([mockData.data[2].attributes.issues[3]]),
-    isAppeal: true,
+    appealType: 'appeal',
   };
   const manyIssues = {
     issues: addStatusToIssues(mockData.data[2].attributes.issues),
-    isAppeal: true,
+    appealType: 'appeal',
   };
 
-  const nonAppealIssues = { issues: addStatusToIssues([]), isAppeal: false };
+  const nonAppealIssues = {
+    issues: addStatusToIssues([]),
+    appealType: 'supplemental claim',
+  };
+  const appealIssuesWithoutDescription = {
+    issues: addStatusToIssues([
+      { lastAction: null, description: '' },
+      { lastAction: null, description: null },
+      { lastAction: null, description: null },
+      { lastAction: 'field_grant', description: null },
+      { lastAction: 'field_grant', description: 'Valid description' },
+    ]),
+    appealType: 'appeal',
+  };
+  const higherLevelReviewIssuesWithoutDescription = {
+    issues: addStatusToIssues([
+      { lastAction: 'denied', description: null },
+      { lastAction: 'denied', description: 'Valid description' },
+    ]),
+    appealType: 'higher-level review',
+  };
 
   it('should render', () => {
     const wrapper = shallow(<Issues {...emptyIssues} />);
@@ -76,7 +96,7 @@ describe('<Issues/>', () => {
   it('should render a list of open items when open items exist', () => {
     const props = {
       issues: [{ status: 'open', description: 'test open issue' }],
-      isAppeal: true,
+      appealType: 'appeal',
     };
     const wrapper = mount(<Issues {...props} />);
     const panel = wrapper.find('va-accordion-item');
@@ -135,7 +155,7 @@ describe('<Issues/>', () => {
   });
 
   it('should use the word "review" if a Supplemental Claim or Higher-Level Review', () => {
-    const props = set('isAppeal', false, oneOpenIssue);
+    const props = set('appealType', 'supplemental claim', oneOpenIssue);
     const wrapper = shallow(<Issues {...props} />);
     const activePanel = wrapper.find('va-accordion-item');
     expect(activePanel.find('h3').text()).to.equal('Currently on review');
@@ -148,5 +168,48 @@ describe('<Issues/>', () => {
       'mask',
     );
     wrapper.unmount();
+  });
+
+  context('when there are issues without a description', () => {
+    context('when the appeal type is appeal', () => {
+      it('should render a list item for issues without a description in the necessary section and with the correct appeal type', () => {
+        const wrapper = mount(<Issues {...appealIssuesWithoutDescription} />);
+        // Should render a list item for 3 issues without description in the open section
+        const openPanel = wrapper.find('va-accordion-item').first();
+        expect(
+          openPanel
+            .find('li')
+            .last()
+            .text(),
+        ).to.equal("We're unable to show 3 issues on appeal");
+        // Should render a list item for 1 issue without a description in the granted section
+        const closedPanel = wrapper.find('va-accordion-item').at(1);
+        expect(
+          closedPanel
+            .find('li')
+            .last()
+            .text(),
+        ).to.equal("We're unable to show 1 issue on appeal");
+
+        wrapper.unmount();
+      });
+    });
+    context('when the appeal type is higher-level review', () => {
+      it('should render a list item for issues without a description in the necessary section and with the correct appeal type', () => {
+        const wrapper = shallow(
+          <Issues {...higherLevelReviewIssuesWithoutDescription} />,
+        );
+        // Should render a list item for 1 issue without description in the open section
+        const openPanel = wrapper.find('va-accordion-item').first();
+        expect(
+          openPanel
+            .find('li')
+            .last()
+            .text(),
+        ).to.equal("We're unable to show 1 issue on your Higher-Level Review");
+
+        wrapper.unmount();
+      });
+    });
   });
 });

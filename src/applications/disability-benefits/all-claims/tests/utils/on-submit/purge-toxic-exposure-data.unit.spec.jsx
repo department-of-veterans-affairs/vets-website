@@ -11,7 +11,7 @@ import {
  * opt out of sections in the disability compensation form.
  *
  * Key behaviors tested:
- * 1. Feature flag control - processes when disability526ToxicExposureOptOutDataPurge is true
+ * 1. Feature flag control - processes when either disability526ToxicExposureOptOutDataPurge OR disability526ToxicExposureOptOutDataPurgeByUser is true
  * 2. "None" condition handling - keeps only conditions.none when selected alone
  * 3. Orphaned data removal - removes details without corresponding selections
  * 4. Detail retention - preserves details only for locations marked as true
@@ -21,9 +21,10 @@ import {
  */
 describe('purgeToxicExposureData', () => {
   describe('when feature flag is disabled', () => {
-    it('should not purge when flag is false', () => {
+    it('should not purge when both flags are false', () => {
       const formData = {
         disability526ToxicExposureOptOutDataPurge: false,
+        disability526ToxicExposureOptOutDataPurgeByUser: false,
         toxicExposure: {
           conditions: { none: true },
           gulfWar1990: { bahrain: true },
@@ -34,7 +35,7 @@ describe('purgeToxicExposureData', () => {
       expect(result).to.deep.equal(formData);
     });
 
-    it('should not purge when flag is undefined', () => {
+    it('should not purge when both flags are undefined', () => {
       const formData = {
         toxicExposure: {
           conditions: { none: true },
@@ -44,6 +45,65 @@ describe('purgeToxicExposureData', () => {
 
       const result = purgeToxicExposureData(formData);
       expect(result).to.deep.equal(formData);
+    });
+  });
+
+  describe('when either feature flag is enabled', () => {
+    it('should purge when disability526ToxicExposureOptOutDataPurge is true', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
+        disability526ToxicExposureOptOutDataPurgeByUser: false,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+          },
+        },
+      };
+
+      const result = purgeToxicExposureData(formData);
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { none: true },
+      });
+    });
+
+    it('should purge when disability526ToxicExposureOptOutDataPurgeByUser is true', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: false,
+        disability526ToxicExposureOptOutDataPurgeByUser: true,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+          },
+        },
+      };
+
+      const result = purgeToxicExposureData(formData);
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { none: true },
+      });
+    });
+
+    it('should purge when both flags are true', () => {
+      const formData = {
+        disability526ToxicExposureOptOutDataPurge: true,
+        disability526ToxicExposureOptOutDataPurgeByUser: true,
+        toxicExposure: {
+          conditions: { none: true },
+          gulfWar1990: { bahrain: true },
+          gulfWar1990Details: {
+            bahrain: { startDate: '1991-01-01', endDate: '1991-12-31' },
+          },
+        },
+      };
+
+      const result = purgeToxicExposureData(formData);
+      expect(result.toxicExposure).to.deep.equal({
+        conditions: { none: true },
+      });
     });
   });
 

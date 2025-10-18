@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import parentReasonToRemove from '../../../components/picklist/parentReasonToRemove';
+import { PICKLIST_DATA } from '../../../config/constants';
 
 import { createDoB } from '../../test-helpers';
 
@@ -100,24 +101,72 @@ describe('parentReasonToRemove', () => {
   });
 
   context('parentReasonToRemove handlers', () => {
-    it('should return "DONE" on goForward', () => {
-      // This will change once more parent pages are added
-      expect(parentReasonToRemove.handlers.goForward()).to.equal('DONE');
+    const { handlers } = parentReasonToRemove;
+    it('should return "parent-death" on goForward', () => {
+      const itemData = {
+        relationshipToVeteran: 'Parent',
+        removalReason: 'parentDied',
+      };
+      expect(handlers.goForward({ itemData })).to.equal('parent-death');
     });
 
     it('should call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
-      parentReasonToRemove.handlers.onSubmit({
-        itemData: { removalReason: 'parentOther' },
+      handlers.onSubmit({
+        itemData: {
+          relationshipToVeteran: 'Parent',
+          removalReason: 'parentOther',
+        },
         goForward,
       });
       expect(goForward.calledOnce).to.be.true;
     });
 
+    it('should return "parent-other" on goForward when other dependent types are selected', () => {
+      const itemData = { removalReason: 'parentOther' };
+      const fullData = {
+        [PICKLIST_DATA]: [
+          {
+            selected: true,
+            relationshipToVeteran: 'Parent',
+            removalReason: 'parentOther',
+          },
+          { selected: true, relationshipToVeteran: 'Spouse' },
+        ],
+      };
+      expect(handlers.goForward({ itemData, fullData })).to.equal(
+        'parent-other',
+      );
+    });
+
+    it('should return "parent-other" on first parent-other dependent type and "parent-exit" on the second parent-other on goForward when 2 parents are selected', () => {
+      const itemData = { removalReason: 'parentOther' };
+      const fullData = {
+        [PICKLIST_DATA]: [
+          {
+            selected: true,
+            relationshipToVeteran: 'Parent',
+            removalReason: 'parentOther',
+          },
+          {
+            selected: true,
+            relationshipToVeteran: 'Parent',
+            removalReason: 'parentOther',
+          },
+        ],
+      };
+      expect(handlers.goForward({ itemData, index: 0, fullData })).to.equal(
+        'parent-other',
+      );
+      expect(handlers.goForward({ itemData, index: 1, fullData })).to.equal(
+        'parent-exit',
+      );
+    });
+
     it('should not call goForward when reason to remove value is set on submit', () => {
       const goForward = sinon.spy();
-      parentReasonToRemove.handlers.onSubmit({
-        itemData: { parentOther: undefined },
+      handlers.onSubmit({
+        itemData: { removalReason: undefined },
         goForward,
       });
       expect(goForward.calledOnce).to.be.false;

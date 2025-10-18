@@ -88,10 +88,15 @@ const spouseDeath = {
           onVaChange={onChange}
         />
         <VaTextInput
+          class="vads-u-margin-top--4"
           name="marriageEndCity"
-          label="City"
+          label={`City${itemData.marriageEndOutsideUS ? '' : ' or county'}`}
           error={
-            formSubmitted && !itemData.marriageEndCity ? 'Enter a city' : null
+            formSubmitted && !itemData.marriageEndCity
+              ? `Enter a city${
+                  itemData.marriageEndOutsideUS ? '' : ' or county'
+                }`
+              : null
           }
           value={itemData.marriageEndCity || ''}
           onVaInput={onChange}
@@ -100,6 +105,7 @@ const spouseDeath = {
         {itemData.marriageEndOutsideUS ? (
           <>
             <VaTextInput
+              class="vads-u-margin-top--4"
               name="marriageEndProvince"
               label="Province, region or territory"
               onVaInput={onChange}
