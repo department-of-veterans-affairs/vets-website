@@ -33,38 +33,78 @@ const OMB_EXP_DATE = '10/31/2027';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
+      <va-process-list-item header="Check your eligibility">
+        <p>
+          Make sure you meet our eligibility requirements before you apply.{' '}
+          <a href="/burials-memorials/veterans-burial-allowance/">
+            Find out if you’re eligible for a Veterans burial allowance and
+            transportation benefits
+          </a>
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Gather your information">
+        <p>
+          <strong>
+            You’ll need this information about the deceased Veteran:
+          </strong>
+        </p>
         <ul>
-          <li>Social Security number (required)</li>
+          <li>Social Security number or VA file number</li>
+          <li>Date and place of birth</li>
+          <li>Date of death</li>
+          <li>Military service history</li>
+          <li>Date of burial</li>
+          <li>Final resting place</li>
         </ul>
         <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
+          And we’ll ask for your organization’s information. This includes your
+          organization’s cemetery name, location, mailing address, and contact
+          information.
+        </p>
+        <p>
+          <strong>
+            You may also need to provide copies of these documents:
+          </strong>
+        </p>
+        <ul>
+          <li>The Veteran’s death certificate including the cause of death</li>
+          <li>
+            An itemized receipt for transportation costs (only if you paid
+            transportation costs for the Veteran’s remains)
+          </li>
+        </ul>
+        <p>
+          We also recommend providing a copy of the Veteran’s DD214 or other
+          separation documents including all their service periods.
+        </p>
+        <p>
+          If you don’t have their DD214 or other separation documents, you can
+          request these documents now.{' '}
+          <a href="/records/get-military-service-records/">
+            Learn more about requesting military service records
+          </a>
+        </p>
+        <p>
+          <strong>What if I need help with my application?</strong>
+        </p>
+        <p>
+          An accredited representative, like a Veterans Service Organization
+          (VSO), can help you fill out your application.{' '}
+          <a href="/get-help-from-accredited-representative/">
+            Learn more about getting help from an accredited representative
           </a>
         </p>
       </va-process-list-item>
       <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
         <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
+          We’ll take you through each step of the process. This application
+          should take about 30 minutes.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="VA Review">
+      <va-process-list-item header="After you apply">
         <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
+          We’ll contact you by mail if we need more information. Once we process
+          your application, we’ll mail you a letter with our decision.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -95,7 +135,7 @@ export const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for benefits.
+        Follow these steps to apply for a burial allowance
       </h2>
       <ProcessList />
       {showVerifyIdentify ? (
@@ -106,7 +146,7 @@ export const IntroductionPage = ({ route }) => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start the state and tribal organization burial allowance benefits application"
           devOnly={{
             forceShowFormControls: true,
           }}

@@ -32,9 +32,10 @@ Request for employment information in connection with disability benefit claims.
 
 ### Form 21P-530A: Interment Allowance
 
-Application for burial allowance and related benefits (under development).
+State or tribal organization application for burial allowances and related benefits for deceased Veterans.
 
 - **Path**: `21p-530a-interment-allowance/`
+- **Documentation**: [21P-530A README](./21p-530a-interment-allowance/README.md)
 
 ## Shared Utilities
 
@@ -184,6 +185,7 @@ See individual application READMEs for detailed architecture and implementation 
 - [Form 21-0779: Nursing Home Information](./21-0779-nursing-home-information/README.md)
 - [Form 21-2680: Housebound Status Examination](./21-2680-house-bound-status/README.md)
 - [Form 21-4192: Employment Information](./21-4192-employment-information/README.md)
+- [Form 21P-530A: Interment Allowance](./21p-530a-interment-allowance/README.md)
 - [Shared Utilities](./shared/README.md)
 
 ### External Resources

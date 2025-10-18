@@ -7,29 +7,36 @@ import {
   TITLE,
   TRACKING_PREFIX,
 } from '@bio-aquia/21p-530a-interment-allowance/constants';
-import ConfirmationPage from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
-import IntroductionPage from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
+import { ConfirmationPage } from '@bio-aquia/21p-530a-interment-allowance/containers/confirmation-page';
+import { IntroductionPage } from '@bio-aquia/21p-530a-interment-allowance/containers/introduction-page';
 import manifest from '@bio-aquia/21p-530a-interment-allowance/manifest.json';
-import {
-  createPageValidator,
-  createValidationErrorHandler,
-} from '@bio-aquia/shared/utils';
-
-import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
-import GetHelpFooter from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
+import { GetHelp as GetHelpFooter } from '@bio-aquia/21p-530a-interment-allowance/components/get-help';
 import PreSubmitInfo from '@bio-aquia/21p-530a-interment-allowance/components/pre-submit-info';
+import prefillTransformer from '@bio-aquia/21p-530a-interment-allowance/config/prefill-transformer';
 import {
-  CemeteryInformationPage,
-  OfficialSignaturePage,
+  AdditionalRemarksPage,
+  BurialBenefitsRecipientPage,
+  MailingAddressPage,
+  OrganizationInformationPage,
+  ServicePeriodsPage,
+  VeteranBirthInformationPage,
+  VeteranBurialInformationPage,
   VeteranIdentificationPage,
-  VeteranServicePage,
+  VeteranPreviousNamesPage,
+  VeteranServedUnderDifferentNamePage,
 } from '@bio-aquia/21p-530a-interment-allowance/pages';
-import {
-  cemeteryInformationSchema,
-  officialSignatureSchema,
-  veteranIdentificationSchema,
-  veteranServiceSchema,
-} from '@bio-aquia/21p-530a-interment-allowance/schemas';
+
+// Import review pages
+import { AdditionalRemarksReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/additional-remarks/additional-remarks-review';
+import { BurialBenefitsRecipientReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/burial-benefits-recipient/burial-benefits-recipient-review';
+import { MailingAddressReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/mailing-address/mailing-address-review';
+import { OrganizationInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/organization-information/organization-information-review';
+import { ServicePeriodsReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/service-periods/service-periods-review';
+import { VeteranBirthInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-birth-information/veteran-birth-information-review';
+import { VeteranBurialInformationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-burial-information/veteran-burial-information-review';
+import { VeteranIdentificationReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-identification/veteran-identification-review';
+import { VeteranPreviousNamesReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-previous-names/veteran-previous-names-review';
+import { VeteranServedUnderDifferentNameReviewPage } from '@bio-aquia/21p-530a-interment-allowance/pages/veteran-served-under-different-name/veteran-served-under-different-name-review';
 
 const defaultSchema = {
   type: 'object',
@@ -38,7 +45,6 @@ const defaultSchema = {
 
 /**
  * Form configuration for VA Form 21P-530a - State or Tribal Organization Application for Interment Allowance
- * @type {FormConfig}
  */
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -79,66 +85,116 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
+    organizationInformationChapter: {
+      title: "Your organization's information",
+      pages: {
+        organizationInformation: {
+          path: 'organization-information',
+          title: "Your organization's information",
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: OrganizationInformationPage,
+          CustomPageReview: OrganizationInformationReviewPage,
+          pagePerItemIndex: 0,
+        },
+        burialBenefitsRecipient: {
+          path: 'burial-benefits-recipient',
+          title: 'Burial benefits recipient',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: BurialBenefitsRecipientPage,
+          CustomPageReview: BurialBenefitsRecipientReviewPage,
+          pagePerItemIndex: 0,
+        },
+        mailingAddress: {
+          path: 'mailing-address',
+          title: 'Mailing address',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: MailingAddressPage,
+          CustomPageReview: MailingAddressReviewPage,
+          pagePerItemIndex: 0,
+        },
+      },
+    },
     veteranInformationChapter: {
-      title: 'Deceased veteran information',
+      title: 'Deceased Veteran information',
       pages: {
         veteranIdentification: {
-          path: 'veteran-identification',
-          title: 'Veteran identification',
+          path: 'identification',
+          title: 'Identification',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranIdentificationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranIdentificationReviewPage,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranIdentificationSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranIdentification'),
         },
-        veteranService: {
-          path: 'veteran-service',
-          title: 'Veteran service information',
+        veteranBirthInformation: {
+          path: 'birth-information',
+          title: 'Birth information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: VeteranServicePage,
-          CustomPageReview: null,
+          CustomPage: VeteranBirthInformationPage,
+          CustomPageReview: VeteranBirthInformationReviewPage,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(veteranServiceSchema)(values),
-          onErrorChange: createValidationErrorHandler('veteranService'),
         },
-      },
-    },
-    cemeteryChapter: {
-      title: 'Cemetery and organization',
-      pages: {
-        cemeteryInformation: {
-          path: 'cemetery-information',
-          title: 'Cemetery information',
+        veteranBurialInformation: {
+          path: 'burial-information',
+          title: 'Burial information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: CemeteryInformationPage,
-          CustomPageReview: null,
+          CustomPage: VeteranBurialInformationPage,
+          CustomPageReview: VeteranBurialInformationReviewPage,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(cemeteryInformationSchema)(values),
-          onErrorChange: createValidationErrorHandler('cemeteryInformation'),
         },
       },
     },
-    certificationChapter: {
-      title: 'Certification',
+    militaryHistoryChapter: {
+      title: 'Military history',
       pages: {
-        officialSignature: {
-          path: 'official-signature',
-          title: 'Official signature',
+        servicePeriods: {
+          path: 'service-periods',
+          title: 'Service periods',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: OfficialSignaturePage,
-          CustomPageReview: null,
+          CustomPage: ServicePeriodsPage,
+          CustomPageReview: ServicePeriodsReviewPage,
           pagePerItemIndex: 0,
-          verifyItemValues: values =>
-            createPageValidator(officialSignatureSchema)(values),
-          onErrorChange: createValidationErrorHandler('officialSignature'),
+        },
+        veteranServedUnderDifferentName: {
+          path: 'served-under-different-name',
+          title: 'Previous names',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranServedUnderDifferentNamePage,
+          CustomPageReview: VeteranServedUnderDifferentNameReviewPage,
+          pagePerItemIndex: 0,
+        },
+        veteranPreviousNames: {
+          path: 'previous-names',
+          title: 'Previous names',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranPreviousNamesPage,
+          CustomPageReview: VeteranPreviousNamesReviewPage,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.veteranServedUnderDifferentName
+              ?.veteranServedUnderDifferentName === 'yes',
+        },
+      },
+    },
+    additionalRemarksChapter: {
+      title: 'Additional remarks',
+      pages: {
+        additionalRemarks: {
+          path: 'additional-remarks',
+          title: 'Additional remarks',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: AdditionalRemarksPage,
+          CustomPageReview: AdditionalRemarksReviewPage,
+          pagePerItemIndex: 0,
         },
       },
     },

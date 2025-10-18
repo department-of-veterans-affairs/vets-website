@@ -114,16 +114,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column">
-      <va-alert status="warning" show-icon class="vads-u-margin-bottom--4">
-        <h3 slot="headline">Certification required</h3>
-        <p>
-          This form must be certified by an authorized state or tribal official
-          with delegated responsibility to apply for federal funds. By signing
-          below, you certify that all information provided in this form is
-          accurate and complete.
-        </p>
-      </va-alert>
-
       <p
         id="interment-allowance-declaration"
         className="vads-u-margin-bottom--4"
@@ -135,15 +125,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
       <div aria-describedby="interment-allowance-declaration">
         {statementOfTruth}
       </div>
-
-      <va-alert status="info" show-icon class="vads-u-margin-top--4">
-        <h3 slot="headline">Legal authority</h3>
-        <p>
-          This certification is made pursuant to 38 U.S.C. § 2303(b) and 38
-          C.F.R. § 3.1707 for the purpose of claiming the interment allowance
-          for eligible veterans buried in state or tribal veterans cemeteries.
-        </p>
-      </va-alert>
 
       <p className="vads-u-margin-top--4 vads-u-margin-bottom--6">
         <strong>Note:</strong> This signature certifies all information provided
