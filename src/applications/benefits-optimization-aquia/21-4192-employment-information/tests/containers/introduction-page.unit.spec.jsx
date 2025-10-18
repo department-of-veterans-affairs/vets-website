@@ -84,16 +84,20 @@ describe('IntroductionPage', () => {
   it('should render the form title and subtitle', () => {
     const mockStore = createMockStore();
 
-    const { getByRole, getByText } = render(
+    const { getByTestId } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    // Check for form title using text content
-    expect(getByRole('heading', { level: 1 })).to.exist;
-    expect(getByText(/Employment Information/i)).to.exist;
-    expect(getByText(/VA Form 21-4192/i)).to.exist;
+    // Check for form title and subtitle using test IDs to avoid multiple matches
+    const title = getByTestId('form-title');
+    expect(title).to.exist;
+    expect(title.textContent).to.include('Employment Information');
+
+    const subtitle = getByTestId('form-subtitle');
+    expect(subtitle).to.exist;
+    expect(subtitle.textContent).to.equal('VA Form 21-4192');
   });
 
   it('should render the process list with steps', () => {
@@ -109,22 +113,23 @@ describe('IntroductionPage', () => {
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
     expect(processItems[0].getAttribute('header')).to.equal('Prepare');
-    expect(processItems[1].getAttribute('header')).to.equal('Apply');
-    expect(processItems[2].getAttribute('header')).to.equal('VA Review');
-    expect(processItems[3].getAttribute('header')).to.equal('Decision');
+    expect(processItems[1].getAttribute('header')).to.equal('Complete');
+    expect(processItems[2].getAttribute('header')).to.equal('Submit');
+    expect(processItems[3].getAttribute('header')).to.equal('Processing');
   });
 
-  it('should display SaveInProgressIntro when user is not logged in', () => {
+  it('should display sign-in alert when user is not logged in', () => {
     const mockStore = createMockStore();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    // Check for save in progress content
-    expect(getByText(/Start your/)).to.exist;
+    // Check for sign-in alert component
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
   });
 
   it('should display verify identity message when user is logged in but not verified', () => {

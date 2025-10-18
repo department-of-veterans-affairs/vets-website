@@ -1,18 +1,38 @@
 /**
  * @module pages/index
- * @description Barrel export file for form page configurations
+ * @description Barrel export file for all form page components
  */
 
-/** @exports {PageSchema} identificationInformation - SSN/VA file number page */
+// Section I - Identification
 export {
-  default as identificationInformation,
-} from './identification-information';
+  default as EmployerInformationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employer-information';
+export {
+  default as VeteranInformationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
 
-/** @exports {PageSchema} mailingAddress - Mailing address page */
-export { default as mailingAddress } from './mailing-address';
+// Section II - Employment Information
+export {
+  default as EmploymentDetailsPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-details';
+export {
+  default as TerminationInformationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/termination-information';
 
-/** @exports {PageSchema} nameAndDateOfBirth - Name and DOB page */
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
+// Section III - Reserve or National Guard
+export {
+  default as ReserveGuardQuestionPage,
+} from '@bio-aquia/21-4192-employment-information/pages/reserve-guard-question';
+export {
+  default as ReserveGuardStatusPage,
+} from '@bio-aquia/21-4192-employment-information/pages/reserve-guard-status';
 
-/** @exports {PageSchema} phoneAndEmailAddress - Contact information page */
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
+// Section IV - Benefits Information
+export {
+  default as BenefitsInformationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
+
+// Certification
+export {
+  default as CertificationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/certification';

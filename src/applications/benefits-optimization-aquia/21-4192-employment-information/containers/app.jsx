@@ -1,29 +1,21 @@
-/**
- * @module containers/App
- * @description Main application container component for VA Form 21-4192
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { formConfig } from '@bio-aquia/21-4192-employment-information/config';
+import formConfig from '@bio-aquia/21-4192-employment-information/config/form';
 
 /**
- * Root application component that wraps the form with save-in-progress functionality
- * @param {Object} props - Component properties
- * @param {Object} props.location - React Router location object
- * @param {React.ReactNode} props.children - Child components to render
- * @returns {React.ReactElement} Routed savable application wrapper
+ * Main application container component for VA Form 21-4192
+ * @module containers/app
  */
-export default function App({ location, children }) {
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
-  );
-}
+export const App = ({ location, children }) => (
+  <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    {children}
+  </RoutedSavableApp>
+);
 
 App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
 };
+
+export default App;

@@ -1,9 +1,10 @@
-import React from 'react';
-import { expect } from 'chai';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { cleanup, render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
 import formConfig from '../../config/form';
 import { ConfirmationPage } from '../../containers/confirmation-page';
 

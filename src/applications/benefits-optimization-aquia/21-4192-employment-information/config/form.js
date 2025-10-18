@@ -6,119 +6,175 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+// Commented out until schemas are implemented
+// import {
+//   createPageValidator,
+//   createValidationErrorHandler,
+// } from '@bio-aquia/shared/utils';
 import {
   TITLE,
   SUBTITLE,
 } from '@bio-aquia/21-4192-employment-information/constants';
-import { IntroductionPage } from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
-import { ConfirmationPage } from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
+import ConfirmationPage from '@bio-aquia/21-4192-employment-information/containers/confirmation-page';
+import IntroductionPage from '@bio-aquia/21-4192-employment-information/containers/introduction-page';
+import manifest from '@bio-aquia/21-4192-employment-information/manifest.json';
+import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/get-help';
+
+// Import page components
 import {
-  nameAndDateOfBirth,
-  identificationInformation,
-  mailingAddress,
-  phoneAndEmailAddress,
+  EmployerInformationPage,
+  VeteranInformationPage,
+  EmploymentDetailsPage,
+  TerminationInformationPage,
+  BenefitsInformationPage,
+  ReserveGuardQuestionPage,
+  ReserveGuardStatusPage,
+  CertificationPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
-import manifest from '../manifest.json';
 
-/**
- * @typedef {Object} FormConfig
- * @property {string} rootUrl - Base URL for the form
- * @property {string} urlPrefix - URL prefix for form pages
- * @property {string} submitUrl - API endpoint for form submission
- * @property {Function} submit - Form submission handler
- * @property {string} trackingPrefix - Analytics tracking prefix
- * @property {React.Component} introduction - Introduction page component
- * @property {React.Component} confirmation - Confirmation page component
- * @property {Object} dev - Development settings
- * @property {string} formId - Unique form identifier
- * @property {Object} saveInProgress - Save-in-progress configuration
- * @property {number} version - Form version number
- * @property {boolean} prefillEnabled - Enable prefilling from user profile
- * @property {Object} savedFormMessages - Custom messages for saved forms
- * @property {string} title - Form title
- * @property {string} subTitle - Form subtitle
- * @property {Object} defaultDefinitions - Default schema definitions
- * @property {Object} chapters - Form chapters configuration
- * @property {React.Component|string} footerContent - Footer content component
- */
+const defaultSchema = {
+  type: 'object',
+  properties: {},
+};
 
-/**
- * Main form configuration object for VA Form 21-4192
- * @type {FormConfig}
- */
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: '/v0/form21_4192',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '21-4192-employment-information-',
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  footerContent,
+  getHelp: GetHelpFooter,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_21_4192,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-4192) is in progress.',
-    //   expired: 'Your saved benefits application (21-4192) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your employment information form (21-4192) is in progress.',
+      expired:
+        'Your saved employment information form (21-4192) has expired. If you want to submit your information, please start a new form.',
+      saved: 'Your employment information form has been saved.',
+    },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
-    notFound: 'Please start over to apply for benefits.',
-    noAuth: 'Please sign in again to continue your application for benefits.',
+    notFound: 'Please start over to submit your employment information.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    personalInformationChapter: {
-      title: 'Your personal information',
+    identificationChapter: {
+      title: 'Section I - Identification Information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        employerInformation: {
+          path: 'employer-information',
+          title: 'Employer information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmployerInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
         },
-        identificationInformation: {
-          path: 'identification-information',
-          title: 'Identification information',
-          uiSchema: identificationInformation.uiSchema,
-          schema: identificationInformation.schema,
-        },
-      },
-    },
-    mailingAddressChapter: {
-      title: 'Mailing address',
-      pages: {
-        mailingAddress: {
-          path: 'mailing-address',
-          title: 'Mailing address',
-          uiSchema: mailingAddress.uiSchema,
-          schema: mailingAddress.schema,
+        veteranInformation: {
+          path: 'veteran-information',
+          title: 'Veteran identification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: VeteranInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
         },
       },
     },
-    contactInformationChapter: {
-      title: 'Contact information',
+    employmentInformationChapter: {
+      title: 'Section II - Employment Information',
       pages: {
-        phoneAndEmailAddress: {
-          path: 'phone-and-email-address',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+        employmentDetails: {
+          path: 'employment-details',
+          title: 'Employment details',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentDetailsPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        terminationInformation: {
+          path: 'termination-information',
+          title: 'Termination information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: TerminationInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData =>
+            formData?.employmentEndDate !== undefined &&
+            formData?.employmentEndDate !== '',
+        },
+      },
+    },
+    reserveGuardChapter: {
+      title: 'Section III - Reserve or National Guard',
+      pages: {
+        reserveGuardQuestion: {
+          path: 'reserve-guard-question',
+          title: 'Military service status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ReserveGuardQuestionPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+        reserveGuardStatus: {
+          path: 'reserve-guard-status',
+          title: 'Reserve or National Guard status',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: ReserveGuardStatusPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+          depends: formData => formData?.isReserveOrGuard === 'yes',
+        },
+      },
+    },
+    benefitsChapter: {
+      title: 'Section IV - Benefit Information',
+      pages: {
+        benefitsInformation: {
+          path: 'benefits-information',
+          title: 'Benefits and payments',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: BenefitsInformationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
+        },
+      },
+    },
+    certificationChapter: {
+      title: 'Certification',
+      pages: {
+        certification: {
+          path: 'certification',
+          title: 'Employer certification',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: CertificationPage,
+          CustomPageReview: null,
+          pagePerItemIndex: 0,
         },
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;

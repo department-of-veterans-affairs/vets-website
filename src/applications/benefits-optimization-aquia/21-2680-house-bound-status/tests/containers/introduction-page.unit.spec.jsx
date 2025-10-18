@@ -109,22 +109,26 @@ describe('IntroductionPage', () => {
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
     expect(processItems[0].getAttribute('header')).to.equal('Prepare');
-    expect(processItems[1].getAttribute('header')).to.equal('Apply');
-    expect(processItems[2].getAttribute('header')).to.equal('VA Review');
-    expect(processItems[3].getAttribute('header')).to.equal('Decision');
+    expect(processItems[1].getAttribute('header')).to.equal(
+      'Complete the form',
+    );
+    expect(processItems[2].getAttribute('header')).to.equal('Submit');
+    expect(processItems[3].getAttribute('header')).to.equal('VA Review');
   });
 
   it('should display SaveInProgressIntro when user is not logged in', () => {
     const mockStore = createMockStore();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    // Check for save in progress content
-    expect(getByText(/Start your/)).to.exist;
+    // Check for save in progress content - the sign-in alert component
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.equal('signInOptional');
   });
 
   it('should display verify identity message when user is logged in but not verified', () => {
