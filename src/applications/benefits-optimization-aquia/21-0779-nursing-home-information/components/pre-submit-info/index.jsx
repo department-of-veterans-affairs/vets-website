@@ -65,15 +65,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         `I, ${officialName}, confirm that the identifying information in this form is accurate and has been represented correctly.`,
       ];
 
-      const federalLawNote = (
-        <p>
-          <strong>Note:</strong> According to federal law, there are criminal
-          penalties, including a fine and/or imprisonment for up to 5 years, for
-          withholding information or for providing incorrect information (See 18
-          U.S.C. 1001).
-        </p>
-      );
-
       return (
         <StatementOfTruthItem
           hasCheckboxError={hasCheckboxError}
@@ -82,7 +73,6 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
           signature={signature}
           setSignatures={setSignatures}
           statementText={statementText}
-          additionalChildComponent={federalLawNote}
         />
       );
     },
@@ -95,8 +85,10 @@ const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
         id="nursing-home-statements-declaration"
         className="vads-u-margin-bottom--4"
       >
-        Please review the information entered in this application. The nursing
-        home official must sign the section below to certify the information.
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information (See 18
+        U.S.C. 1001).
       </p>
 
       <div aria-describedby="nursing-home-statements-declaration">

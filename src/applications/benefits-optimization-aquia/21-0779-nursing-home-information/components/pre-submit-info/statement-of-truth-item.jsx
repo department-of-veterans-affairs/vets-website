@@ -20,12 +20,10 @@ const ERROR_MSG_INPUT_OFFICIAL =
  * @param {Function} props.setSignatures - Function to update signatures state
  * @param {Object} props.signature - Current signature state
  * @param {Array} props.statementText - Text paragraphs for the statement
- * @param {React.ReactNode} props.additionalChildComponent - Optional additional content to display after statement text
  * @returns {JSX.Element} Statement of truth component
  */
 const StatementOfTruthItem = props => {
   const {
-    additionalChildComponent,
     hasCheckboxError,
     hasInputError,
     label,
@@ -103,13 +101,11 @@ const StatementOfTruthItem = props => {
       {statementText.map((text, index) => (
         <p key={index}>{text}</p>
       ))}
-      {additionalChildComponent || null}
     </VaStatementOfTruth>
   );
 };
 
 StatementOfTruthItem.propTypes = {
-  additionalChildComponent: PropTypes.node,
   hasCheckboxError: PropTypes.bool,
   hasInputError: PropTypes.bool,
   label: PropTypes.string,
