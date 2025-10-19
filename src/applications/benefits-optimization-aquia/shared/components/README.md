@@ -26,7 +26,14 @@ components/
 │       ├── page-template.jsx
 │       ├── page-template.unit.spec.jsx
 │       └── index.js
-├── error-boundary.jsx    # React error boundary for error handling
+├── error-boundary/       # React error boundary wrapper
+│   ├── error-boundary.jsx
+│   ├── error-boundary.unit.spec.jsx
+│   └── index.js
+├── save-in-progress-wrapper/ # Save-in-progress resume controls
+│   ├── save-in-progress-wrapper.jsx
+│   ├── save-in-progress-wrapper.unit.spec.jsx
+│   └── index.js
 └── index.js              # Barrel exports
 ```
 
@@ -65,6 +72,15 @@ Field-level components that integrate VA web components with form validation. Ea
 - `ssn-field/` - Social Security Number input with masking
 - `textarea-field/` - Multi-line text input with character count
 
+### Review Components
+
+Field-level components for displaying data in review mode:
+
+- `review-field/` - Generic field display with optional formatting
+- `review-fullname-field/` - Formats name objects (first, middle, last, suffix)
+- `review-date-field/` - Displays dates in long or short format
+- `review-address-field/` - Multi-line address display (US, international, military)
+
 ## Molecules
 
 Composite components combining multiple atoms. Each molecule is organized in its own directory:
@@ -86,8 +102,19 @@ Page-level templates for consistent form structure:
   - Render props pattern for complex logic
   - Title and subtitle support
   - Responsive button layout with flexbox
+  - Review mode support with Save button
+
+- `ReviewPageTemplate` - Review page wrapper with:
+  - Platform review page styling (`form-review-panel-page`, `dl.review`)
+  - Title and Edit button header
+  - Mobile-responsive layout
+  - Integration with CustomPageReview pattern
+  - Support for render props to access section data
+  - Automatic section data extraction
 
 ### PageTemplate Usage
+
+**Edit Mode:**
 
 ```javascript
 // Simple usage
@@ -98,6 +125,8 @@ Page-level templates for consistent form structure:
   setFormData={setFormData}
   goForward={goForward}
   goBack={goBack}
+  onReviewPage={onReviewPage}
+  updatePage={updatePage}
   schema={validationSchema}
   sectionName="sectionName"
 >
@@ -112,6 +141,8 @@ Page-level templates for consistent form structure:
   setFormData={setFormData}
   goForward={goForward}
   goBack={goBack}
+  onReviewPage={onReviewPage}
+  updatePage={updatePage}
   schema={validationSchema}
   sectionName="complexSection"
 >
@@ -143,9 +174,68 @@ Page-level templates for consistent form structure:
 </PageTemplate>
 ```
 
-## Error Boundary
+### ReviewPageTemplate Usage
 
-- `FormErrorBoundary` - React error boundary that catches JavaScript errors and displays user-friendly error messages
+**Review Mode:**
+
+```javascript
+// Simple usage with review field components
+import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates';
+import { ReviewField, ReviewDateField, ReviewFullnameField } from '@bio-aquia/shared/components/atoms';
+
+export const PersonalInfoReviewPage = ({ data, editPage, title }) => (
+  <ReviewPageTemplate
+    title={title}
+    data={data}
+    editPage={editPage}
+    sectionName="personalInfo"
+  >
+    <ReviewFullnameField label="Full name" value={data?.personalInfo?.fullName} />
+    <ReviewDateField label="Date of birth" value={data?.personalInfo?.dateOfBirth} />
+    <ReviewField label="Email" value={data?.personalInfo?.email} />
+  </ReviewPageTemplate>
+);
+
+// With render props for conditional display
+export const AddressReviewPage = ({ data, editPage, title }) => (
+  <ReviewPageTemplate
+    title={title}
+    data={data}
+    editPage={editPage}
+    sectionName="mailingAddress"
+  >
+    {(sectionData) => (
+      <>
+        <ReviewAddressField label="Mailing address" value={sectionData.address} />
+        {sectionData.hasAlternateAddress && (
+          <ReviewAddressField label="Alternate address" value={sectionData.alternateAddress} />
+        )}
+      </>
+    )}
+  </ReviewPageTemplate>
+);
+```
+
+## Infrastructure Components
+
+### Error Boundary
+
+- `error-boundary/` - React error boundary component
+  - Catches JavaScript errors in child component tree
+  - Displays user-friendly error messages
+  - Logs errors to monitoring in development only
+  - Shows contact information for support
+  - Comprehensive unit tests with 100% coverage
+
+### Save-in-Progress Wrapper
+
+- `save-in-progress-wrapper/` - Form resume controls component
+  - Detects saved form data on page refresh
+  - Displays resume controls when user navigates directly to form page
+  - Integrates with VA.gov save-in-progress system
+  - Handles expired form detection
+  - Shows loading states during data fetch
+  - Preserves breadcrumbs during transitions
 
 ## Usage
 

@@ -56,9 +56,13 @@ const PageTemplateWithHook = ({
 
 PageTemplateWithHook.propTypes = {
   data: PropTypes.object.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
+  dataProcessor: PropTypes.func,
   defaultData: PropTypes.object,
+  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
@@ -66,10 +70,6 @@ PageTemplateWithHook.propTypes = {
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  dataProcessor: PropTypes.func,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
   updatePage: PropTypes.func,
 };
 
@@ -152,30 +152,47 @@ const PageTemplateBase = ({
 
         {!hideNavigation && (
           <div className="vads-u-margin-y--2 vads-u-display--flex vads-u-justify-content--space-between">
-            <div>
-              {goBack && (
+            {onReviewPage ? (
+              // Review page mode - show Save button (right-aligned)
+              <div style={{ marginLeft: 'auto' }}>
                 <va-button
-                  secondary
-                  onClick={goBack}
-                  text="Back"
-                  {...navigationProps?.backButtonProps || {}}
+                  onClick={e => {
+                    e.preventDefault();
+                    formSectionProps.handleContinue(() => {
+                      if (updatePage) {
+                        updatePage();
+                      }
+                    });
+                  }}
+                  text="Save"
+                  {...navigationProps?.updateButtonProps || {}}
                 />
-              )}
-            </div>
-            <div>
-              <va-button
-                onClick={e => {
-                  e.preventDefault();
-                  if (onReviewPage && updatePage) {
-                    formSectionProps.handleContinue(updatePage);
-                  } else {
-                    formSectionProps.handleContinue(goForward);
-                  }
-                }}
-                text={onReviewPage ? 'Save' : 'Continue'}
-                {...navigationProps?.continueButtonProps || {}}
-              />
-            </div>
+              </div>
+            ) : (
+              // Normal page mode - show Back/Continue buttons
+              <>
+                <div>
+                  {goBack && (
+                    <va-button
+                      secondary
+                      onClick={goBack}
+                      text="Back"
+                      {...navigationProps?.backButtonProps || {}}
+                    />
+                  )}
+                </div>
+                <div>
+                  <va-button
+                    onClick={e => {
+                      e.preventDefault();
+                      formSectionProps.handleContinue(goForward);
+                    }}
+                    text="Continue"
+                    {...navigationProps?.continueButtonProps || {}}
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
       </form>
@@ -185,16 +202,16 @@ const PageTemplateBase = ({
 
 PageTemplateBase.propTypes = {
   formSectionProps: PropTypes.object.isRequired,
+  goForward: PropTypes.func.isRequired,
   shouldUseHook: PropTypes.bool.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
+  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
   updatePage: PropTypes.func,
 };
 
@@ -221,6 +238,8 @@ PageTemplateBase.propTypes = {
  * @param {Object} [props.navigationProps] - Additional props for navigation buttons
  * @param {string} [props.className] - Additional CSS classes for the wrapper
  * @param {boolean} [props.useFormSectionHook=true] - Whether to use form section logic
+ * @param {boolean} [props.onReviewPage=false] - Whether page is in review mode (shows Update button instead of Continue)
+ * @param {Function} [props.updatePage] - Function to call when Update button is clicked (for review page)
  * @returns {JSX.Element} Form page with navigation
  */
 export const PageTemplate = ({
@@ -314,9 +333,13 @@ export const PageTemplate = ({
 
 PageTemplate.propTypes = {
   data: PropTypes.object.isRequired,
+  goForward: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   className: PropTypes.string,
+  dataProcessor: PropTypes.func,
   defaultData: PropTypes.object,
+  goBack: PropTypes.func,
   hideNavigation: PropTypes.bool,
   navigationProps: PropTypes.object,
   onReviewPage: PropTypes.bool,
@@ -324,10 +347,6 @@ PageTemplate.propTypes = {
   sectionName: PropTypes.string,
   subtitle: PropTypes.string,
   title: PropTypes.string,
-  useFormSectionHook: PropTypes.bool,
-  dataProcessor: PropTypes.func,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
   updatePage: PropTypes.func,
+  useFormSectionHook: PropTypes.bool,
 };

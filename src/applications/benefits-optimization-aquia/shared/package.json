@@ -4,6 +4,9 @@
   "description": "Shared utilities for Benefits Intake Optimization Aquia",
   "main": "index.js",
   "private": true,
+  "devDependencies": {
+    "openapi-zod": "^0.2.7"
+  },
   "dependencies": {
     "zod": "^3.22.4"
   }
