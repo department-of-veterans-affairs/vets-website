@@ -7,8 +7,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import formConfig from '../../config/form';
-import IntroductionPage from './introduction-page';
+import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
+import { IntroductionPage } from './introduction-page';
 
 const props = {
   route: {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import StatementOfTruthItem from './statement-of-truth-item';
+import { StatementOfTruthItem } from './statement-of-truth-item';
 
 /**
  * Default signature state for new signatures
@@ -24,7 +24,11 @@ const DEFAULT_SIGNATURE_STATE = {
  * @param {Function} props.onSectionComplete - Callback when section is complete
  * @returns {JSX.Element} PreSubmit signature component
  */
-const PreSubmitCheckboxGroup = ({ formData, showError, onSectionComplete }) => {
+export const PreSubmitCheckboxGroup = ({
+  formData,
+  showError,
+  onSectionComplete,
+}) => {
   const submission = useSelector(state => state.form.submission);
   const dispatch = useDispatch();
   const hasSubmittedForm = Boolean(submission.status);

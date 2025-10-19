@@ -5,7 +5,7 @@ import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { recipientAddressSchema } from '../../schemas';
+import { recipientAddressSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 /**
  * Schema for mailing address page

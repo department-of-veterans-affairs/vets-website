@@ -1,2 +1,3 @@
 export { default } from './pre-submit-checkbox-group';
-export { default as StatementOfTruthItem } from './statement-of-truth-item';
+export { PreSubmitCheckboxGroup } from './pre-submit-checkbox-group';
+export { StatementOfTruthItem } from './statement-of-truth-item';

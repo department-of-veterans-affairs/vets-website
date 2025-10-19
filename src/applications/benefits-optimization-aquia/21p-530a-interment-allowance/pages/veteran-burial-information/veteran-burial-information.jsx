@@ -14,8 +14,8 @@ import {
   cemeteryLocationSchema,
   cemeteryNameSchema,
   dateOfBurialSchema,
-} from '../../schemas/burial-information';
-import { dateOfDeathSchema } from '../../schemas/veteran-identification';
+} from '@bio-aquia/21p-530a-interment-allowance/schemas/burial-information';
+import { dateOfDeathSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas/veteran-identification';
 
 /**
  * Schema for veteran burial information page

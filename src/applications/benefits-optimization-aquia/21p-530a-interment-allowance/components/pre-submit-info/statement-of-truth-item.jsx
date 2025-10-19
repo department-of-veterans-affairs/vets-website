@@ -22,7 +22,7 @@ const ERROR_MSG_INPUT_OFFICIAL =
  * @param {Array} props.statementText - Text paragraphs for the statement
  * @returns {JSX.Element} Statement of truth component
  */
-const StatementOfTruthItem = props => {
+export const StatementOfTruthItem = props => {
   const {
     hasCheckboxError,
     hasInputError,
@@ -118,5 +118,3 @@ StatementOfTruthItem.propTypes = {
   }),
   statementText: PropTypes.arrayOf(PropTypes.string),
 };
-
-export default StatementOfTruthItem;

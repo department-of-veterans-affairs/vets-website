@@ -42,5 +42,3 @@ App.propTypes = {
   location: PropTypes.object,
   router: PropTypes.object,
 };
-
-export default App;

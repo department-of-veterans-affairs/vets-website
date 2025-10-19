@@ -5,7 +5,10 @@ import { PhoneField, TextInputField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { recipientNameSchema, recipientPhoneSchema } from '../../schemas';
+import {
+  recipientNameSchema,
+  recipientPhoneSchema,
+} from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 /**
  * Schema for burial benefits recipient page

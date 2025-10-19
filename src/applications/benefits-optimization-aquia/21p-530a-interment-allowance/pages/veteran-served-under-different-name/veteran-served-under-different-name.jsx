@@ -5,7 +5,7 @@ import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { hasAlternateNamesSchema } from '../../schemas';
+import { hasAlternateNamesSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 /**
  * Schema for veteran served under different name page

@@ -5,7 +5,7 @@ import { TextareaField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import { z } from 'zod';
-import { remarksSchema } from '../../schemas';
+import { remarksSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 /**
  * Schema for additional remarks page

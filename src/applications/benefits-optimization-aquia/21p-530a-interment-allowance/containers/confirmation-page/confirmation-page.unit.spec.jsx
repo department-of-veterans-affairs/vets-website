@@ -9,7 +9,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
-import formConfig from '../../config/form';
+import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 import { ConfirmationPage } from './confirmation-page';
 
 const mockStore = state => createStore(() => state);
