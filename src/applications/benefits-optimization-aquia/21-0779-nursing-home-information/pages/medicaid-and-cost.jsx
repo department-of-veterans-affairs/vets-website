@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 // Force webpack rebuild - using React bindings
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   RadioField,
 } from '@bio-aquia/shared/components/atoms';
@@ -144,7 +144,7 @@ export const MedicaidAndCostPage = ({
             </p>
           </va-additional-info>
 
-          <FormField
+          <TextInputField
             name="monthlyOutOfPocket"
             label="Monthly out-of-pocket amount paid to nursing home ($)"
             schema={monthlyOutOfPocketFieldSchema}

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   PhoneField,
   SignatureField,
@@ -67,7 +67,7 @@ export const OfficialInfoAndSignaturePage = ({
             official certifying this form.
           </p>
 
-          <FormField
+          <TextInputField
             name="officialName"
             label="Official's full name"
             value={localData.officialName}
@@ -77,7 +77,7 @@ export const OfficialInfoAndSignaturePage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="officialTitle"
             label="Official's title"
             value={localData.officialTitle}

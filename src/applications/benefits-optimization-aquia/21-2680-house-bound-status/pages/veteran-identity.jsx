@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
 import { SSNField } from '@bio-aquia/shared/components/atoms/ssn-field';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms/memorable-date-field';
-import { FormField } from '@bio-aquia/shared/components/atoms/form-field';
+import { TextInputField } from '@bio-aquia/shared/components/atoms/text-input-field';
 import { FullnameField } from '@bio-aquia/shared/components/molecules/fullname-field';
 import {
   veteranSSNSchema,
@@ -80,7 +80,7 @@ const VeteranIdentityPage = ({ data, goBack, goForward, updatePage }) => {
         />
 
         {/* Item 3 - VA file number */}
-        <FormField
+        <TextInputField
           label="VA file number (if applicable)"
           name="veteranFileNumber"
           value={localData.veteranFileNumber || ''}
@@ -91,7 +91,7 @@ const VeteranIdentityPage = ({ data, goBack, goForward, updatePage }) => {
         />
 
         {/* Item 4 - Service number */}
-        <FormField
+        <TextInputField
           label="Service number (if applicable)"
           name="veteranServiceNumber"
           value={localData.veteranServiceNumber || ''}

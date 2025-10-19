@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   RadioField,
   SSNField,
@@ -139,7 +139,7 @@ export const ClaimantIdentificationPage = ({
                 forceShowError={formSubmitted}
               />
 
-              <FormField
+              <TextInputField
                 name="claimantVaFileNumber"
                 label="Claimant's VA file number (if known)"
                 schema={vaFileNumberSchema}

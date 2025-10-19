@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
-import { FormField } from '@bio-aquia/shared/components/atoms/form-field';
+import { TextInputField } from '@bio-aquia/shared/components/atoms/text-input-field';
 import { PhoneField } from '@bio-aquia/shared/components/atoms/phone-field';
 import { SelectField } from '@bio-aquia/shared/components/atoms/select-field';
 import { AddressField } from '@bio-aquia/shared/components/molecules/address-field';
@@ -63,7 +63,7 @@ const ExaminerIdentificationPage = ({
         </p>
 
         {/* Item 16 - Examiner name */}
-        <FormField
+        <TextInputField
           label="Examiner's full name"
           name="examinerName"
           value={localData.examinerName || ''}
@@ -96,7 +96,7 @@ const ExaminerIdentificationPage = ({
         />
 
         {/* Item 18 - NPI Number */}
-        <FormField
+        <TextInputField
           label="National Provider Identifier (NPI) number"
           name="examinerNPI"
           value={localData.examinerNPI || ''}
@@ -121,7 +121,7 @@ const ExaminerIdentificationPage = ({
         {/* Item 19B - Facility information */}
         <h4>Practice/Facility information</h4>
 
-        <FormField
+        <TextInputField
           label="Facility/Practice name"
           name="facilityPracticeName"
           value={localData.facilityPracticeName || ''}

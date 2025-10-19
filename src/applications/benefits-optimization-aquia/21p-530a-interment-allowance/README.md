@@ -126,7 +126,7 @@ export const OrganizationInformationPage = ({
     sectionName="organizationInformation"
   >
     {({ localData, handleFieldChange, errors, formSubmitted }) => (
-      <FormField
+      <TextInputField
         name="organizationName"
         label="Organization name"
         value={localData.organizationName}
@@ -195,7 +195,7 @@ Schemas are validated client-side in `PageTemplate` and integrated with platform
 
 Leverages BIO-AQ shared components for consistency:
 
-- **Form Fields**: `FormField`, `SelectField`, `SSNField`, `MemorableDateField`
+- **Form Fields**: `TextInputField`, `SelectField`, `SSNField`, `MemorableDateField`
 - **Composite Fields**: `FullNameField`, `AddressField`, `PhoneField`
 - **Array Fields**: `ArrayField` for repeating data (service periods, previous names)
 - **Review Components**: Full suite of review display components
@@ -326,7 +326,7 @@ mkdir src/applications/benefits-optimization-aquia/21p-530a-interment-allowance/
 
 ```javascript
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { FormField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { newPageSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
 
 export const NewPage = ({
@@ -349,7 +349,7 @@ export const NewPage = ({
     sectionName="newPage"
   >
     {({ localData, handleFieldChange, errors, formSubmitted }) => (
-      <FormField
+      <TextInputField
         name="fieldName"
         label="Field Label"
         value={localData.fieldName}

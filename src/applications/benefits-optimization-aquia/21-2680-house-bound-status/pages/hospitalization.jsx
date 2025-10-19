@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useFormSection } from '@bio-aquia/shared/hooks';
 import { MemorableDateField } from '@bio-aquia/shared/components/atoms/memorable-date-field';
 import { AddressField } from '@bio-aquia/shared/components/molecules/address-field';
-import { FormField } from '@bio-aquia/shared/components/atoms/form-field';
+import { TextInputField } from '@bio-aquia/shared/components/atoms/text-input-field';
 import {
   admissionDateSchema,
   facilityNameSchema,
@@ -76,7 +76,7 @@ const HospitalizationPage = ({ data, goBack, goForward, updatePage }) => {
             />
 
             {/* Item 14C - Facility name */}
-            <FormField
+            <TextInputField
               label="Name of hospital or nursing home"
               name="facilityName"
               value={localData.facilityName || ''}

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   SSNField,
 } from '@bio-aquia/shared/components/atoms';
@@ -98,7 +98,7 @@ export const VeteranIdentificationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="vaFileNumber"
             label="VA file number (if known)"
             schema={vaFileNumberSchema}

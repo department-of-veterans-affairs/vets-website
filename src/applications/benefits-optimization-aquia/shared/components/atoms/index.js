@@ -3,7 +3,6 @@ export { CheckboxGroupField } from './checkbox-group-field';
 export { CurrencyField } from './currency-field';
 export { DateField } from './date-field';
 export { FileUploadField } from './file-upload-field';
-export { FormField } from './form-field';
 export { InputMessageField } from './input-message-field';
 export { LabelField } from './label-field';
 export { MemorableDateField } from './memorable-date-field';

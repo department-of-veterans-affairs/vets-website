@@ -102,7 +102,7 @@ yarn test:unit src/applications/benefits-optimization-aquia/shared/
 
 ```bash
 # Examples
-form-field.jsx
+text-input-field.jsx
 use-form-section.js
 veteran-identification.jsx
 ```
@@ -111,18 +111,18 @@ veteran-identification.jsx
 
 ```javascript
 // ✅ Correct
-export const FormField = ({ name, value }) => { /* ... */ };
+export const TextInputField = ({ name, value }) => { /* ... */ };
 export const useFormSection = (options) => { /* ... */ };
 
 // ❌ Avoid
-export default FormField;
+export default TextInputField;
 ```
 
 **Imports**: Use absolute paths with `@bio-aquia` alias (avoid relative imports)
 
 ```javascript
 // ✅ Correct - Absolute imports from shared utilities
-import { FormField, SSNField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, SSNField } from '@bio-aquia/shared/components/atoms';
 import { useFormSection } from '@bio-aquia/shared/hooks';
 import { personalInfoSchema } from '@bio-aquia/shared/schemas';
 
@@ -130,7 +130,7 @@ import { personalInfoSchema } from '@bio-aquia/shared/schemas';
 import { formConfig } from '@bio-aquia/21-0779-nursing-home-information/config';
 
 // ❌ Avoid - Relative imports
-import { FormField } from '../../../shared/components/atoms/form-field';
+import { TextInputField } from '../../../shared/components/atoms/text-input-field';
 import { formConfig } from './config/form';
 ```
 
@@ -139,9 +139,9 @@ import { formConfig } from './config/form';
 ```bash
 # Module structure with colocation
 shared/components/atoms/
-├── form-field/
-│   ├── form-field.jsx           # Component implementation
-│   ├── form-field.unit.spec.jsx # Tests colocated with component
+├── text-input-field/
+│   ├── text-input-field.jsx           # Component implementation
+│   ├── text-input-field.unit.spec.jsx # Tests colocated with component
 │   └── index.js                  # Barrel export
 ├── ssn-field/
 │   ├── ssn-field.jsx
@@ -152,17 +152,17 @@ shared/components/atoms/
 
 ```javascript
 // ✅ Correct - Relative imports allowed in barrel files for tree-shaking
-// shared/components/atoms/form-field/index.js
-export { FormField } from './form-field';
+// shared/components/atoms/text-input-field/index.js
+export { TextInputField } from './text-input-field';
 
 // shared/components/atoms/index.js
-export { FormField } from './form-field/form-field';
+export { TextInputField } from './text-input-field/text-input-field';
 export { SSNField } from './ssn-field/ssn-field';
 export { DateField } from './date-field/date-field';
 
 // ✅ Correct - Application code imports from barrel using absolute path
 // veteran-identification.jsx
-import { FormField, SSNField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, SSNField } from '@bio-aquia/shared/components/atoms';
 ```
 
 **Colocation Benefits**:

@@ -5,7 +5,7 @@ import { PhoneField } from '@bio-aquia/shared/components/atoms/phone-field';
 import { SelectField } from '@bio-aquia/shared/components/atoms/select-field';
 import { AddressField } from '@bio-aquia/shared/components/molecules/address-field';
 import { FullnameField } from '@bio-aquia/shared/components/molecules/fullname-field';
-import { FormField } from '@bio-aquia/shared/components/atoms/form-field';
+import { TextInputField } from '@bio-aquia/shared/components/atoms/text-input-field';
 import {
   claimantPhoneSchema,
   claimantRelationshipSchema,
@@ -136,7 +136,7 @@ const ClaimantIdentityPage = ({ data, goBack, goForward, updatePage }) => {
         />
 
         {localData.claimantRelationship === 'other' && (
-          <FormField
+          <TextInputField
             label="Please specify relationship"
             name="claimantRelationshipOther"
             value={localData.claimantRelationshipOther || ''}

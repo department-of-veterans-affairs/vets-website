@@ -3,7 +3,7 @@ import React from 'react';
 import constants from 'vets-json-schema/dist/constants.json';
 
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   SelectField,
 } from '@bio-aquia/shared/components/atoms';
@@ -86,7 +86,7 @@ export const VeteranBirthInformationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="placeOfBirth.city"
             label="City of birth"
             value={localData.placeOfBirth?.city}

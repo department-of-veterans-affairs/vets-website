@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField, SSNField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, SSNField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
@@ -102,7 +102,7 @@ export const VeteranPersonalInformationPage = ({
             schema={ssnSchema}
           />
 
-          <FormField
+          <TextInputField
             name="serviceNumber"
             label="VA service number"
             value={localData.serviceNumber}
@@ -113,7 +113,7 @@ export const VeteranPersonalInformationPage = ({
             hint="Enter this number only if it's different than their Social Security number"
           />
 
-          <FormField
+          <TextInputField
             name="vaFileNumber"
             label="VA file number"
             value={localData.vaFileNumber}

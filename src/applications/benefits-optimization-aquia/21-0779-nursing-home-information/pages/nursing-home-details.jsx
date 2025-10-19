@@ -3,7 +3,7 @@ import React from 'react';
 
 import { z } from 'zod';
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
 } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
@@ -67,7 +67,7 @@ export const NursingHomeDetailsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="nursingHomeName"
             label="Name of nursing home"
             schema={nursingHomeNameSchema}
