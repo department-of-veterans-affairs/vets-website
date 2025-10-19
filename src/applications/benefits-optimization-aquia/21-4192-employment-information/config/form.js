@@ -6,11 +6,10 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-// Commented out until schemas are implemented
-// import {
-//   createPageValidator,
-//   createValidationErrorHandler,
-// } from '@bio-aquia/shared/utils';
+import {
+  createPageValidator,
+  createValidationErrorHandler,
+} from '@bio-aquia/shared/utils';
 import {
   TITLE,
   SUBTITLE,
@@ -22,15 +21,42 @@ import GetHelpFooter from '@bio-aquia/21-4192-employment-information/components/
 
 // Import page components
 import {
-  EmployerInformationPage,
   VeteranInformationPage,
-  EmploymentDetailsPage,
-  TerminationInformationPage,
+  EmployerInformationPage,
+  EmploymentDatesDetailsPage,
+  EmploymentConcessionsPage,
+  EmploymentTerminationPage,
+  EmploymentLastPaymentPage,
+  DutyStatusPage,
   BenefitsInformationPage,
-  ReserveGuardQuestionPage,
-  ReserveGuardStatusPage,
-  CertificationPage,
+  RemarksPage,
 } from '@bio-aquia/21-4192-employment-information/pages';
+
+// Import review components
+import {
+  VeteranInformationReview,
+  EmployerInformationReview,
+  EmploymentDatesDetailsReview,
+  EmploymentConcessionsReview,
+  EmploymentTerminationReview,
+  EmploymentLastPaymentReview,
+  DutyStatusReview,
+  BenefitsInformationReview,
+  RemarksReview,
+} from '@bio-aquia/21-4192-employment-information/reviews';
+
+// Import schemas
+import {
+  benefitsInformationSchema,
+  dutyStatusSchema,
+  employerInformationSchema,
+  employmentConcessionsSchema,
+  employmentDatesDetailsSchema,
+  employmentLastPaymentSchema,
+  employmentTerminationSchema,
+  remarksSchema,
+  veteranInformationSchema,
+} from '@bio-aquia/21-4192-employment-information/schemas';
 
 const defaultSchema = {
   type: 'object',
@@ -73,104 +99,141 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    identificationChapter: {
-      title: 'Section I - Identification Information',
+    veteranInformationChapter: {
+      title: 'Veteran Information',
       pages: {
-        employerInformation: {
-          path: 'employer-information',
-          title: 'Employer information',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: EmployerInformationPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-        },
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran identification',
+          title: 'Veteran Information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: VeteranInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: VeteranInformationReview,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(veteranInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('veteranInformation'),
+        },
+      },
+    },
+    employerInformationChapter: {
+      title: 'Employers Information',
+      pages: {
+        employerInformation: {
+          path: 'employer-information',
+          title: 'Employers Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmployerInformationPage,
+          CustomPageReview: EmployerInformationReview,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employerInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('employerInformation'),
         },
       },
     },
     employmentInformationChapter: {
-      title: 'Section II - Employment Information',
+      title: 'Employment Information',
       pages: {
-        employmentDetails: {
-          path: 'employment-details',
-          title: 'Employment details',
+        employmentDatesDetails: {
+          path: 'employment-dates-details',
+          title: 'Employment Information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: EmploymentDetailsPage,
-          CustomPageReview: null,
+          CustomPage: EmploymentDatesDetailsPage,
+          CustomPageReview: EmploymentDatesDetailsReview,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentDatesDetailsSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentDatesDetails'),
         },
-        terminationInformation: {
-          path: 'termination-information',
-          title: 'Termination information',
+        employmentConcessions: {
+          path: 'employment-concessions',
+          title: 'Employment Information',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: TerminationInformationPage,
-          CustomPageReview: null,
+          CustomPage: EmploymentConcessionsPage,
+          CustomPageReview: EmploymentConcessionsReview,
           pagePerItemIndex: 0,
-          depends: formData =>
-            formData?.employmentEndDate !== undefined &&
-            formData?.employmentEndDate !== '',
+          verifyItemValues: values =>
+            createPageValidator(employmentConcessionsSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentConcessions'),
+        },
+        employmentTermination: {
+          path: 'employment-termination',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentTerminationPage,
+          CustomPageReview: EmploymentTerminationReview,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentTerminationSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentTermination'),
+        },
+        employmentLastPayment: {
+          path: 'employment-last-payment',
+          title: 'Employment Information',
+          uiSchema: {},
+          schema: defaultSchema,
+          CustomPage: EmploymentLastPaymentPage,
+          CustomPageReview: EmploymentLastPaymentReview,
+          pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(employmentLastPaymentSchema)(values),
+          onErrorChange: createValidationErrorHandler('employmentLastPayment'),
         },
       },
     },
-    reserveGuardChapter: {
-      title: 'Section III - Reserve or National Guard',
+    dutyStatusChapter: {
+      title: 'Duty Status',
       pages: {
-        reserveGuardQuestion: {
-          path: 'reserve-guard-question',
-          title: 'Military service status',
+        dutyStatus: {
+          path: 'duty-status',
+          title: 'Duty Status',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: ReserveGuardQuestionPage,
-          CustomPageReview: null,
+          CustomPage: DutyStatusPage,
+          CustomPageReview: DutyStatusReview,
           pagePerItemIndex: 0,
-        },
-        reserveGuardStatus: {
-          path: 'reserve-guard-status',
-          title: 'Reserve or National Guard status',
-          uiSchema: {},
-          schema: defaultSchema,
-          CustomPage: ReserveGuardStatusPage,
-          CustomPageReview: null,
-          pagePerItemIndex: 0,
-          depends: formData => formData?.isReserveOrGuard === 'yes',
+          verifyItemValues: values =>
+            createPageValidator(dutyStatusSchema)(values),
+          onErrorChange: createValidationErrorHandler('dutyStatus'),
         },
       },
     },
-    benefitsChapter: {
-      title: 'Section IV - Benefit Information',
+    benefitsInformationChapter: {
+      title: 'Benefits Information',
       pages: {
         benefitsInformation: {
           path: 'benefits-information',
-          title: 'Benefits and payments',
+          title: 'Benefits Information',
           uiSchema: {},
           schema: defaultSchema,
           CustomPage: BenefitsInformationPage,
-          CustomPageReview: null,
+          CustomPageReview: BenefitsInformationReview,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(benefitsInformationSchema)(values),
+          onErrorChange: createValidationErrorHandler('benefitsInformation'),
         },
       },
     },
-    certificationChapter: {
-      title: 'Certification',
+    remarksChapter: {
+      title: 'Remarks',
       pages: {
-        certification: {
-          path: 'certification',
-          title: 'Employer certification',
+        remarks: {
+          path: 'remarks',
+          title: 'Remarks',
           uiSchema: {},
           schema: defaultSchema,
-          CustomPage: CertificationPage,
-          CustomPageReview: null,
+          CustomPage: RemarksPage,
+          CustomPageReview: RemarksReview,
           pagePerItemIndex: 0,
+          verifyItemValues: values =>
+            createPageValidator(remarksSchema)(values),
+          onErrorChange: createValidationErrorHandler('remarks'),
         },
       },
     },

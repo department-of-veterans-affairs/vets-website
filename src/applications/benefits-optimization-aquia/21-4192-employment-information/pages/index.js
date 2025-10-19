@@ -3,36 +3,30 @@
  * @description Barrel export file for all form page components
  */
 
-// Section I - Identification
 export {
-  default as EmployerInformationPage,
+  VeteranInformationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
+export {
+  EmployerInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
 export {
-  default as VeteranInformationPage,
-} from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
-
-// Section II - Employment Information
+  EmploymentDatesDetailsPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-dates-details';
 export {
-  default as EmploymentDetailsPage,
-} from '@bio-aquia/21-4192-employment-information/pages/employment-details';
+  EmploymentConcessionsPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
 export {
-  default as TerminationInformationPage,
-} from '@bio-aquia/21-4192-employment-information/pages/termination-information';
-
-// Section III - Reserve or National Guard
+  EmploymentTerminationPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
 export {
-  default as ReserveGuardQuestionPage,
-} from '@bio-aquia/21-4192-employment-information/pages/reserve-guard-question';
+  EmploymentLastPaymentPage,
+} from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
 export {
-  default as ReserveGuardStatusPage,
-} from '@bio-aquia/21-4192-employment-information/pages/reserve-guard-status';
-
-// Section IV - Benefits Information
+  DutyStatusPage,
+} from '@bio-aquia/21-4192-employment-information/pages/duty-status';
 export {
-  default as BenefitsInformationPage,
+  BenefitsInformationPage,
 } from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
-
-// Certification
 export {
-  default as CertificationPage,
-} from '@bio-aquia/21-4192-employment-information/pages/certification';
+  RemarksPage,
+} from '@bio-aquia/21-4192-employment-information/pages/remarks';
