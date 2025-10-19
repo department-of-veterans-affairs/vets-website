@@ -229,14 +229,14 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            vaFileNumber: 'R2D23PO',
+            vaFileNumber: '22387563',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.vaFileNumber).to.equal('R2D23PO');
+      expect(result.formData.personalInfo.vaFileNumber).to.equal('22387563');
     });
 
     it('should handle missing VA file number', () => {
@@ -491,7 +491,7 @@ describe('Prefill Transformer', () => {
             },
             dob: '19650525',
             ssn: '212774881',
-            vaFileNumber: 'D2R24C3',
+            vaFileNumber: '21277488',
             homePhone: '5552127748',
             email: 'senator.organa@alderaan.gov',
             mailingAddress: {
@@ -516,7 +516,7 @@ describe('Prefill Transformer', () => {
         },
         dateOfBirth: '1965-05-25',
         ssn: '212-77-4881',
-        vaFileNumber: 'D2R24C3',
+        vaFileNumber: '21277488',
       });
 
       expect(result.formData.contactInfo).to.deep.equal({

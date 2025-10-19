@@ -49,7 +49,7 @@ describe('VeteranPersonalInformationReviewPage', () => {
           },
           ssn: '501-66-7138',
           serviceNumber: 'JT87563',
-          vaFileNumber: 'R2D23PO',
+          vaFileNumber: '22387563',
         },
       };
 
