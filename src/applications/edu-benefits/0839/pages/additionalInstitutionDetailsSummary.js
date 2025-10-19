@@ -24,7 +24,7 @@ const schema = {
   properties: {
     hasAdditionalInstitutionDetails: arrayBuilderYesNoSchema,
   },
-  // required: [hasAdditionalInstitutionDetails],
+  required: ['hasAdditionalInstitutionDetails'],
 };
 
 export { uiSchema, schema };
