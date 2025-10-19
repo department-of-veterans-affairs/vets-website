@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import constants from 'vets-json-schema/dist/constants.json';
 
 /**
  * Veteran service information schemas for 21P-530a form
@@ -7,30 +8,32 @@ import { z } from 'zod';
 
 /**
  * Schema for branch of service
+ * Matches constants.branchesServed from vets-json-schema
  */
-export const branchOfServiceSchema = z.enum(
-  [
-    'army',
-    'navy',
-    'marines',
-    'air_force',
-    'space_force',
-    'coast_guard',
-    'national_guard',
-    'reserves',
-  ],
-  {
-    errorMap: (issue, ctx) => {
-      if (
-        issue.code === 'invalid_enum_value' ||
-        issue.code === 'invalid_type'
-      ) {
-        return { message: 'Please select a branch of service' };
-      }
-      return { message: ctx.defaultError };
+export const branchOfServiceSchema = z
+  .string()
+  .min(1, 'Please select a branch of service')
+  .refine(
+    val =>
+      [
+        'air force',
+        'army',
+        'coast guard',
+        'marine corps',
+        'merchant seaman',
+        'navy',
+        'noaa',
+        'space force',
+        'usphs',
+        'f.commonwealth',
+        'f.guerilla',
+        'f.scouts new',
+        'f.scouts old',
+      ].includes(val),
+    {
+      message: 'Please select a branch of service',
     },
-  },
-);
+  );
 
 /**
  * Schema for service entry date
@@ -48,8 +51,9 @@ export const dateEnteredServiceSchema = z
  */
 export const placeEnteredServiceSchema = z
   .string()
-  .min(1, 'Place entered service is required')
-  .max(100, 'Place must be less than 100 characters');
+  .max(100, 'Place must be less than 100 characters')
+  .optional()
+  .or(z.literal(''));
 
 /**
  * Schema for service separation date
@@ -67,16 +71,83 @@ export const dateSeparatedSchema = z
  */
 export const placeSeparatedSchema = z
   .string()
-  .min(1, 'Place separated from service is required')
-  .max(100, 'Place must be less than 100 characters');
+  .max(100, 'Place must be less than 100 characters')
+  .optional()
+  .or(z.literal(''));
 
 /**
  * Schema for rank at separation
  */
 export const rankSchema = z
   .string()
-  .min(1, 'Rank at separation is required')
-  .max(50, 'Rank must be less than 50 characters');
+  .max(50, 'Rank must be less than 50 characters')
+  .optional()
+  .or(z.literal(''));
+
+/**
+ * Schema for yes/no question about alternate names
+ */
+export const hasAlternateNamesSchema = z.enum(['yes', 'no'], {
+  errorMap: (issue, ctx) => {
+    if (issue.code === 'invalid_enum_value' || issue.code === 'invalid_type') {
+      return {
+        message: 'Please select yes or no',
+      };
+    }
+    return { message: ctx.defaultError };
+  },
+});
+
+/**
+ * Schema for a single previous name item
+ */
+export const previousNameItemSchema = z.object({
+  firstName: z
+    .string()
+    .min(1, 'First name is required')
+    .max(50, 'First name must be less than 50 characters'),
+  middleName: z
+    .string()
+    .max(50, 'Middle name must be less than 50 characters')
+    .optional()
+    .or(z.literal('')),
+  lastName: z
+    .string()
+    .min(1, 'Last name is required')
+    .max(50, 'Last name must be less than 50 characters'),
+});
+
+/**
+ * Schema for previous names array
+ */
+export const previousNamesSchema = z
+  .array(previousNameItemSchema)
+  .min(1, 'At least one previous name is required');
+
+/**
+ * Helper function to check if a previous name is empty
+ * @param {Object} name - Previous name object
+ * @returns {boolean} True if the name has no data
+ */
+export const isPreviousNameEmpty = name => {
+  return !name.firstName && !name.middleName && !name.lastName;
+};
+
+/**
+ * Helper function to format previous name summary for display
+ * @param {Object} name - Previous name object
+ * @returns {string} Formatted name or empty string if name is empty
+ */
+export const formatPreviousNameSummary = name => {
+  if (isPreviousNameEmpty(name)) {
+    return '';
+  }
+
+  const parts = [name.firstName, name.middleName, name.lastName].filter(
+    Boolean,
+  );
+  return parts.join(' ');
+};
 
 /**
  * Schema for alternate service name (optional)
@@ -113,6 +184,100 @@ export const alternateNameSchema = z
       path: ['alternateName'],
     },
   );
+
+/**
+ * Schema for a single service period item
+ */
+export const servicePeriodItemSchema = z
+  .object({
+    branchOfService: branchOfServiceSchema,
+    dateFrom: dateEnteredServiceSchema,
+    dateTo: dateSeparatedSchema,
+    placeOfEntry: placeEnteredServiceSchema.optional(),
+    placeOfSeparation: placeSeparatedSchema.optional(),
+    rank: rankSchema.optional(),
+  })
+  .refine(
+    data => {
+      // Ensure service start date is before end date
+      if (!data.dateFrom || !data.dateTo) return true;
+      const startDate = new Date(data.dateFrom);
+      const endDate = new Date(data.dateTo);
+      return startDate < endDate;
+    },
+    {
+      message: 'Service start date must be before end date',
+      path: ['dateFrom'],
+    },
+  );
+
+/**
+ * Schema for service periods array
+ */
+export const servicePeriodsSchema = z
+  .array(servicePeriodItemSchema)
+  .min(1, 'At least one service period is required');
+
+/**
+ * Helper function to check if a service period is empty/not filled out
+ * @param {Object} period - Service period object
+ * @returns {boolean} True if the period has no data
+ */
+export const isServicePeriodEmpty = period => {
+  return (
+    !period.branchOfService &&
+    !period.dateFrom &&
+    !period.dateTo &&
+    !period.placeOfEntry &&
+    !period.placeOfSeparation &&
+    !period.rank
+  );
+};
+
+/**
+ * Helper function to format service period summary for display
+ * Used in confirmation modals and summaries
+ * @param {Object} period - Service period object
+ * @returns {string} Formatted summary or empty string if period is empty
+ */
+export const formatServicePeriodSummary = period => {
+  // Don't return summary for empty periods
+  if (isServicePeriodEmpty(period)) {
+    return '';
+  }
+
+  // Find matching branch label from constants
+  const branchOption = constants.branchesServed.find(
+    branch => branch.value === period.branchOfService,
+  );
+  const branchLabel = branchOption
+    ? branchOption.label
+    : period.branchOfService || '';
+
+  const from = period.dateFrom
+    ? new Date(period.dateFrom).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : '';
+  const to = period.dateTo
+    ? new Date(period.dateTo).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })
+    : '';
+
+  // Build summary based on what's filled out
+  const parts = [];
+  if (branchLabel) parts.push(branchLabel);
+  if (from || to) {
+    parts.push(`${from || 'Unknown'} to ${to || 'Unknown'}`);
+  }
+
+  return parts.join(', ');
+};
 
 /**
  * Complete veteran service schema
