@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 146,
+  "totalApplications": 147,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -107,7 +107,7 @@
     },
     {
       "directoryPath": "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
-      "appName": "21-2680 House Bound Status",
+      "appName": "21-2680 Examination for Housebound Status or Aid & Attendance",
       "entryName": "21-2680-house-bound-status",
       "rootUrl": "/21-2680-house-bound-status"
     },
