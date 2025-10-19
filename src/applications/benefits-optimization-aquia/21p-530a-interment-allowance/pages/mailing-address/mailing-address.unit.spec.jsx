@@ -51,12 +51,12 @@ describe('MailingAddressPage', () => {
     it('should render with existing address data', () => {
       const existingData = {
         recipientAddress: {
-          street: '123 Main St',
-          street2: 'Apt 4B',
-          city: 'Arlington',
-          state: 'VA',
+          street: '1138 Temple Way',
+          street2: 'High Council Chambers',
+          city: 'Coruscant City',
+          state: 'DC',
           country: 'USA',
-          postalCode: '22201',
+          postalCode: '20001',
           isMilitary: false,
         },
       };

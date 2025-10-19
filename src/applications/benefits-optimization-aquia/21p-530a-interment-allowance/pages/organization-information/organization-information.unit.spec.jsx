@@ -48,7 +48,7 @@ describe('OrganizationInformationPage', () => {
   describe('Data Handling', () => {
     it('should render with existing organization data', () => {
       const existingData = {
-        organizationName: 'State Cemetery of Virginia',
+        organizationName: 'Jedi Temple Memorial Services',
       };
 
       const { container } = render(

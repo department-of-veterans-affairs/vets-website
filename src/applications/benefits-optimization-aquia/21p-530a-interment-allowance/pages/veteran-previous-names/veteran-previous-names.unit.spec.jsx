@@ -78,9 +78,9 @@ describe('VeteranPreviousNamesPage', () => {
       const existingData = {
         previousNames: [
           {
-            firstName: 'John',
-            middleName: 'M',
-            lastName: 'Doe',
+            firstName: 'Darth',
+            middleName: '',
+            lastName: 'Vader',
           },
         ],
       };
@@ -100,8 +100,8 @@ describe('VeteranPreviousNamesPage', () => {
     it('should handle multiple previous names', () => {
       const existingData = {
         previousNames: [
-          { firstName: 'John', middleName: 'M', lastName: 'Doe' },
-          { firstName: 'Jane', middleName: '', lastName: 'Smith' },
+          { firstName: 'Darth', middleName: '', lastName: 'Vader' },
+          { firstName: 'Ani', middleName: '', lastName: 'Skywalker' },
         ],
       };
 

@@ -67,13 +67,13 @@ describe('VeteranPersonalInformationPage', () => {
     it('should render with existing personal data', () => {
       const existingData = {
         fullName: {
-          first: 'John',
-          middle: 'M',
-          last: 'Smith',
+          first: 'Anakin',
+          middle: '',
+          last: 'Skywalker',
         },
-        ssn: '123-45-6789',
-        serviceNumber: 'ABC123456',
-        vaFileNumber: '12345678',
+        ssn: '501-66-7138',
+        serviceNumber: 'JT87563',
+        vaFileNumber: 'R2D23PO',
       };
 
       const { container } = render(

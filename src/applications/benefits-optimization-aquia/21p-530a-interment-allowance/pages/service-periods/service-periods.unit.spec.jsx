@@ -85,11 +85,11 @@ describe('ServicePeriodsPage', () => {
         servicePeriods: [
           {
             branchOfService: 'army',
-            dateFrom: '2010-01-01',
-            dateTo: '2014-12-31',
-            placeOfEntry: 'Fort Benning, GA',
-            placeOfSeparation: 'Fort Hood, TX',
-            rank: 'Sergeant',
+            dateFrom: '1962-01-01',
+            dateTo: '1965-05-19',
+            placeOfEntry: 'Coruscant Jedi Temple',
+            placeOfSeparation: 'Mustafar',
+            rank: 'Jedi Knight / General',
           },
         ],
       };

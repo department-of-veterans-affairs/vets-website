@@ -57,11 +57,11 @@ describe('ServicePeriodsReviewPage', () => {
           servicePeriods: [
             {
               branchOfService: 'army',
-              dateFrom: '2010-01-01',
-              dateTo: '2014-12-31',
-              placeOfEntry: 'Fort Benning, GA',
-              placeOfSeparation: 'Fort Hood, TX',
-              rank: 'Sergeant',
+              dateFrom: '1962-01-01',
+              dateTo: '1965-05-19',
+              placeOfEntry: 'Coruscant Jedi Temple',
+              placeOfSeparation: 'Mustafar',
+              rank: 'Jedi Knight / General',
             },
           ],
         },
@@ -76,8 +76,8 @@ describe('ServicePeriodsReviewPage', () => {
       );
 
       expect(container.textContent).to.include('army');
-      expect(container.textContent).to.include('Fort Benning, GA');
-      expect(container.textContent).to.include('Sergeant');
+      expect(container.textContent).to.include('Coruscant Jedi Temple');
+      expect(container.textContent).to.include('Jedi Knight / General');
     });
 
     it('should display multiple service periods', () => {
@@ -86,13 +86,13 @@ describe('ServicePeriodsReviewPage', () => {
           servicePeriods: [
             {
               branchOfService: 'army',
-              dateFrom: '2010-01-01',
-              dateTo: '2014-12-31',
+              dateFrom: '1962-01-01',
+              dateTo: '1965-05-19',
             },
             {
               branchOfService: 'navy',
-              dateFrom: '2015-01-01',
-              dateTo: '2019-12-31',
+              dateFrom: '1965-05-20',
+              dateTo: '1984-05-04',
             },
           ],
         },

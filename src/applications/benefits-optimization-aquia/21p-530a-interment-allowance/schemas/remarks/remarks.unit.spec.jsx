@@ -18,7 +18,7 @@ describe('Remarks Schema', () => {
 
   it('should validate valid remarks', () => {
     const result = remarksSchema.safeParse(
-      'This is a valid remark about the claim.',
+      'May the Force be with him. General Skywalker served the Republic with honor and distinction during the Clone Wars.',
     );
     expect(result.success).to.be.true;
   });

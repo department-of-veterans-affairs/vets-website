@@ -42,10 +42,10 @@ describe('VeteranBirthInformationReviewPage', () => {
     it('should display birth information', () => {
       const data = {
         veteranBirthInformation: {
-          dateOfBirth: '1950-05-15',
+          dateOfBirth: '1941-05-04',
           placeOfBirth: {
-            city: 'Arlington',
-            state: 'VA',
+            city: 'Mos Espa',
+            state: 'AZ',
           },
         },
       };
@@ -58,7 +58,7 @@ describe('VeteranBirthInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Arlington');
+      expect(container.textContent).to.include('Mos Espa');
     });
 
     it('should handle empty data gracefully', () => {

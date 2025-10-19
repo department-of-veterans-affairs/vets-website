@@ -34,7 +34,7 @@ const mockStore = {
           highest: 3,
         },
         verified: true,
-        dob: '2000-01-01',
+        dob: '1957-03-25',
         claims: {
           appeals: false,
         },

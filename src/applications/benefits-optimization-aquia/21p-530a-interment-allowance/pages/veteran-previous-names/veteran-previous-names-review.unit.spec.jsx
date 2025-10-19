@@ -44,9 +44,9 @@ describe('VeteranPreviousNamesReviewPage', () => {
         veteranPreviousNames: {
           previousNames: [
             {
-              firstName: 'John',
-              middleName: 'M',
-              lastName: 'Doe',
+              firstName: 'Darth',
+              middleName: '',
+              lastName: 'Vader',
             },
           ],
         },
@@ -60,8 +60,8 @@ describe('VeteranPreviousNamesReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('John');
-      expect(container.textContent).to.include('Doe');
+      expect(container.textContent).to.include('Darth');
+      expect(container.textContent).to.include('Vader');
     });
 
     it('should handle empty data gracefully', () => {

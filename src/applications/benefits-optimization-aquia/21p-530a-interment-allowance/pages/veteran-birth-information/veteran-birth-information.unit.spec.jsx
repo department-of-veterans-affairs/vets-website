@@ -50,10 +50,10 @@ describe('VeteranBirthInformationPage', () => {
   describe('Data Handling', () => {
     it('should render with existing birth data', () => {
       const existingData = {
-        dateOfBirth: '1950-05-15',
+        dateOfBirth: '1941-05-04',
         placeOfBirth: {
-          city: 'Arlington',
-          state: 'VA',
+          city: 'Mos Espa',
+          state: 'AZ',
         },
       };
 

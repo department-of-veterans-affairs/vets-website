@@ -43,10 +43,10 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'John',
-              middle: 'M',
-              last: 'Smith',
-              suffix: 'Jr',
+              first: 'Anakin',
+              middle: '',
+              last: 'Skywalker',
+              suffix: 'General',
             },
           },
         },
@@ -55,10 +55,10 @@ describe('Prefill Transformer', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
       expect(result.formData.personalInfo.fullName).to.deep.equal({
-        first: 'John',
-        middle: 'M',
-        last: 'Smith',
-        suffix: 'Jr',
+        first: 'Anakin',
+        middle: '',
+        last: 'Skywalker',
+        suffix: 'General',
       });
     });
 
@@ -67,8 +67,8 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'John',
-              last: 'Smith',
+              first: 'Anakin',
+              last: 'Skywalker',
             },
           },
         },
@@ -77,9 +77,9 @@ describe('Prefill Transformer', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
       expect(result.formData.personalInfo.fullName).to.deep.equal({
-        first: 'John',
+        first: 'Anakin',
         middle: '',
-        last: 'Smith',
+        last: 'Skywalker',
         suffix: '',
       });
     });
@@ -102,57 +102,57 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            dob: '19800515',
+            dob: '19410504',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1980-05-15');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1941-05-04');
     });
 
     it('should use already formatted date', () => {
       const state = {
         user: {
           profile: {
-            dob: '1980-05-15',
+            dob: '1941-05-04',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1980-05-15');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1941-05-04');
     });
 
     it('should use birthDate field if dob is not present', () => {
       const state = {
         user: {
           profile: {
-            birthDate: '19800515',
+            birthDate: '19410504',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1980-05-15');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1941-05-04');
     });
 
     it('should prefer dob over birthDate', () => {
       const state = {
         user: {
           profile: {
-            dob: '19800515',
-            birthDate: '19900101',
+            dob: '19410504',
+            birthDate: '19420101',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('1980-05-15');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1941-05-04');
     });
 
     it('should handle missing date of birth', () => {
@@ -173,42 +173,42 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            ssn: '123456789',
+            ssn: '501667138',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
+      expect(result.formData.personalInfo.ssn).to.equal('501-66-7138');
     });
 
     it('should remove existing SSN formatting before reformatting', () => {
       const state = {
         user: {
           profile: {
-            ssn: '123-45-6789',
+            ssn: '501-66-7138',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
+      expect(result.formData.personalInfo.ssn).to.equal('501-66-7138');
     });
 
     it('should handle SSN with spaces', () => {
       const state = {
         user: {
           profile: {
-            ssn: '123 45 6789',
+            ssn: '501 66 7138',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
+      expect(result.formData.personalInfo.ssn).to.equal('501-66-7138');
     });
 
     it('should handle missing SSN', () => {
@@ -229,14 +229,14 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            vaFileNumber: 'C12345678',
+            vaFileNumber: 'R2D23PO',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.vaFileNumber).to.equal('C12345678');
+      expect(result.formData.personalInfo.vaFileNumber).to.equal('R2D23PO');
     });
 
     it('should handle missing VA file number', () => {
@@ -257,17 +257,17 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            homePhone: '5551234567',
-            email: 'john.smith@example.com',
+            homePhone: '5550138666',
+            email: 'memorial@jedicouncil.coruscant',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.contactInfo.phone).to.equal('5551234567');
+      expect(result.formData.contactInfo.phone).to.equal('5550138666');
       expect(result.formData.contactInfo.email).to.equal(
-        'john.smith@example.com',
+        'memorial@jedicouncil.coruscant',
       );
     });
 
@@ -275,29 +275,29 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            homePhone: '5551234567',
-            mobilePhone: '5559876543',
+            homePhone: '5550138666',
+            mobilePhone: '5552127748',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.contactInfo.phone).to.equal('5551234567');
+      expect(result.formData.contactInfo.phone).to.equal('5550138666');
     });
 
     it('should use mobile phone if home phone is not available', () => {
       const state = {
         user: {
           profile: {
-            mobilePhone: '5559876543',
+            mobilePhone: '5552127748',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.contactInfo.phone).to.equal('5559876543');
+      expect(result.formData.contactInfo.phone).to.equal('5552127748');
     });
 
     it('should handle missing contact information', () => {
@@ -320,11 +320,11 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             mailingAddress: {
-              addressLine1: '123 Main St',
-              addressLine2: 'Apt 4B',
-              city: 'Springfield',
-              stateCode: 'IL',
-              zipCode: '62701',
+              addressLine1: '1138 Temple Way',
+              addressLine2: 'High Council Chambers',
+              city: 'Coruscant City',
+              stateCode: 'DC',
+              zipCode: '20001',
             },
           },
         },
@@ -333,11 +333,11 @@ describe('Prefill Transformer', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
       expect(result.formData.contactInfo.mailingAddress).to.deep.equal({
-        street: '123 Main St',
-        street2: 'Apt 4B',
-        city: 'Springfield',
-        state: 'IL',
-        postalCode: '62701',
+        street: '1138 Temple Way',
+        street2: 'High Council Chambers',
+        city: 'Coruscant City',
+        state: 'DC',
+        postalCode: '20001',
       });
     });
 
@@ -346,10 +346,10 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             mailingAddress: {
-              addressLine1: '123 Main St',
-              city: 'Springfield',
-              state: 'Illinois',
-              zipCode: '62701',
+              addressLine1: '1138 Temple Way',
+              city: 'Coruscant City',
+              state: 'District of Coruscant',
+              zipCode: '20001',
             },
           },
         },
@@ -358,7 +358,7 @@ describe('Prefill Transformer', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
       expect(result.formData.contactInfo.mailingAddress.state).to.equal(
-        'Illinois',
+        'District of Coruscant',
       );
     });
 
@@ -367,10 +367,10 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             mailingAddress: {
-              addressLine1: '123 Main St',
-              city: 'Springfield',
-              stateCode: 'IL',
-              zipCode: '62701',
+              addressLine1: '1138 Temple Way',
+              city: 'Coruscant City',
+              stateCode: 'DC',
+              zipCode: '20001',
             },
           },
         },
@@ -405,8 +405,8 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'John',
-              last: 'Smith',
+              first: 'Anakin',
+              last: 'Skywalker',
             },
           },
         },
@@ -431,7 +431,7 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            email: 'john.smith@example.com',
+            email: 'memorial@jedicouncil.coruscant',
           },
         },
       };
@@ -445,7 +445,7 @@ describe('Prefill Transformer', () => {
 
       expect(result.formData.someField).to.equal('value');
       expect(result.formData.contactInfo.email).to.equal(
-        'john.smith@example.com',
+        'memorial@jedicouncil.coruscant',
       );
     });
   });
@@ -484,22 +484,22 @@ describe('Prefill Transformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'Mary',
-              middle: 'Jane',
-              last: 'Williams',
-              suffix: 'Sr',
+              first: 'Leia',
+              middle: 'Amidala',
+              last: 'Organa Solo',
+              suffix: 'Senator',
             },
-            dob: '19600910',
-            ssn: '321654987',
-            vaFileNumber: 'C98765432',
-            homePhone: '5551112222',
-            email: 'mary.williams@example.com',
+            dob: '19650525',
+            ssn: '212774881',
+            vaFileNumber: 'D2R24C3',
+            homePhone: '5552127748',
+            email: 'senator.organa@alderaan.gov',
             mailingAddress: {
-              addressLine1: '456 Oak Ave',
+              addressLine1: '2187 Royal Palace Drive',
               addressLine2: 'Suite 100',
-              city: 'Chicago',
-              stateCode: 'IL',
-              zipCode: '60601',
+              city: 'Aldera',
+              stateCode: 'NY',
+              zipCode: '10001',
             },
           },
         },
@@ -509,25 +509,25 @@ describe('Prefill Transformer', () => {
 
       expect(result.formData.personalInfo).to.deep.equal({
         fullName: {
-          first: 'Mary',
-          middle: 'Jane',
-          last: 'Williams',
-          suffix: 'Sr',
+          first: 'Leia',
+          middle: 'Amidala',
+          last: 'Organa Solo',
+          suffix: 'Senator',
         },
-        dateOfBirth: '1960-09-10',
-        ssn: '321-65-4987',
-        vaFileNumber: 'C98765432',
+        dateOfBirth: '1965-05-25',
+        ssn: '212-77-4881',
+        vaFileNumber: 'D2R24C3',
       });
 
       expect(result.formData.contactInfo).to.deep.equal({
-        phone: '5551112222',
-        email: 'mary.williams@example.com',
+        phone: '5552127748',
+        email: 'senator.organa@alderaan.gov',
         mailingAddress: {
-          street: '456 Oak Ave',
+          street: '2187 Royal Palace Drive',
           street2: 'Suite 100',
-          city: 'Chicago',
-          state: 'IL',
-          postalCode: '60601',
+          city: 'Aldera',
+          state: 'NY',
+          postalCode: '10001',
         },
       });
     });

@@ -13,7 +13,9 @@ import {
 describe('Organization Information Schemas', () => {
   describe('organizationNameSchema', () => {
     it('should validate a valid organization name', () => {
-      const result = organizationNameSchema.safeParse('Funeral Home Inc.');
+      const result = organizationNameSchema.safeParse(
+        'Jedi Temple Memorial Services',
+      );
       expect(result.success).to.be.true;
     });
 
@@ -34,7 +36,7 @@ describe('Organization Information Schemas', () => {
 
   describe('recipientNameSchema', () => {
     it('should validate a valid recipient name', () => {
-      const result = recipientNameSchema.safeParse('John Doe');
+      const result = recipientNameSchema.safeParse('Obi-Wan Kenobi');
       expect(result.success).to.be.true;
     });
 
@@ -78,11 +80,11 @@ describe('Organization Information Schemas', () => {
   describe('recipientAddressSchema', () => {
     it('should validate a valid address', () => {
       const validAddress = {
-        street: '123 Main St',
-        city: 'Arlington',
-        state: 'VA',
+        street: '1138 Temple Way',
+        city: 'Coruscant City',
+        state: 'DC',
         country: 'USA',
-        postalCode: '22201',
+        postalCode: '20001',
       };
       const result = recipientAddressSchema.safeParse(validAddress);
       expect(result.success).to.be.true;
@@ -90,13 +92,13 @@ describe('Organization Information Schemas', () => {
 
     it('should validate address with optional fields', () => {
       const validAddress = {
-        street: '123 Main St',
-        street2: 'Apt 4B',
+        street: '1138 Temple Way',
+        street2: 'High Council Chambers',
         street3: 'Building C',
-        city: 'Arlington',
-        state: 'VA',
+        city: 'Coruscant City',
+        state: 'DC',
         country: 'USA',
-        postalCode: '22201',
+        postalCode: '20001',
         isMilitary: false,
       };
       const result = recipientAddressSchema.safeParse(validAddress);
@@ -105,11 +107,11 @@ describe('Organization Information Schemas', () => {
 
     it('should accept extended ZIP code format', () => {
       const validAddress = {
-        street: '123 Main St',
-        city: 'Arlington',
-        state: 'VA',
+        street: '1138 Temple Way',
+        city: 'Coruscant City',
+        state: 'DC',
         country: 'USA',
-        postalCode: '22201-1234',
+        postalCode: '20001-1234',
       };
       const result = recipientAddressSchema.safeParse(validAddress);
       expect(result.success).to.be.true;
@@ -118,10 +120,10 @@ describe('Organization Information Schemas', () => {
     it('should require street address', () => {
       const invalidAddress = {
         street: '',
-        city: 'Arlington',
-        state: 'VA',
+        city: 'Coruscant City',
+        state: 'DC',
         country: 'USA',
-        postalCode: '22201',
+        postalCode: '20001',
       };
       const result = recipientAddressSchema.safeParse(invalidAddress);
       expect(result.success).to.be.false;
@@ -129,11 +131,11 @@ describe('Organization Information Schemas', () => {
 
     it('should require city', () => {
       const invalidAddress = {
-        street: '123 Main St',
+        street: '1138 Temple Way',
         city: '',
-        state: 'VA',
+        state: 'DC',
         country: 'USA',
-        postalCode: '22201',
+        postalCode: '20001',
       };
       const result = recipientAddressSchema.safeParse(invalidAddress);
       expect(result.success).to.be.false;
@@ -141,11 +143,11 @@ describe('Organization Information Schemas', () => {
 
     it('should require state as 2-letter code', () => {
       const invalidAddress = {
-        street: '123 Main St',
-        city: 'Arlington',
-        state: 'Virginia',
+        street: '1138 Temple Way',
+        city: 'Coruscant City',
+        state: 'District of Columbia',
         country: 'USA',
-        postalCode: '22201',
+        postalCode: '20001',
       };
       const result = recipientAddressSchema.safeParse(invalidAddress);
       expect(result.success).to.be.false;
@@ -153,9 +155,9 @@ describe('Organization Information Schemas', () => {
 
     it('should reject invalid postal code format', () => {
       const invalidAddress = {
-        street: '123 Main St',
-        city: 'Arlington',
-        state: 'VA',
+        street: '1138 Temple Way',
+        city: 'Coruscant City',
+        state: 'DC',
         country: 'USA',
         postalCode: '123',
       };

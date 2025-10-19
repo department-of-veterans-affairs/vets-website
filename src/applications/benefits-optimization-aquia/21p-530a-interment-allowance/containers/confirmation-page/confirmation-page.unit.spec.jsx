@@ -20,7 +20,7 @@ const initConfirmationPage = ({ formData } = {}) => {
       ...createInitialState(formConfig),
       submission: {
         response: {
-          confirmationNumber: '1234567890',
+          confirmationNumber: 'JT87563-R2D2',
         },
         timestamp: new Date(),
       },
@@ -48,6 +48,6 @@ describe('ConfirmationPage', () => {
     expect(heading.textContent).to.include(
       'submitted your application for a burial allowance',
     );
-    expect(container).to.contain.text('1234567890');
+    expect(container).to.contain.text('JT87563-R2D2');
   });
 });

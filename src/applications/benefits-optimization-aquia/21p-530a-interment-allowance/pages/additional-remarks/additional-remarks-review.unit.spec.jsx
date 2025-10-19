@@ -42,7 +42,8 @@ describe('AdditionalRemarksReviewPage', () => {
     it('should display remarks when provided', () => {
       const data = {
         additionalRemarks: {
-          additionalRemarks: 'This is a test remark',
+          additionalRemarks:
+            'May the Force be with him. General Skywalker served the Republic with honor and distinction.',
         },
       };
 
@@ -54,7 +55,7 @@ describe('AdditionalRemarksReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('This is a test remark');
+      expect(container.textContent).to.include('May the Force be with him');
     });
 
     it('should handle empty data gracefully', () => {

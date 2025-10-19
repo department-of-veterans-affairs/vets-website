@@ -42,12 +42,12 @@ describe('VeteranBurialInformationReviewPage', () => {
     it('should display burial information', () => {
       const data = {
         veteranBurialInformation: {
-          dateOfDeath: '2023-01-15',
-          dateOfBurial: '2023-01-20',
-          cemeteryName: 'Arlington National Cemetery',
+          dateOfDeath: '1984-05-04',
+          dateOfBurial: '1984-05-05',
+          cemeteryName: 'Endor Forest Sanctuary',
           cemeteryLocation: {
-            city: 'Arlington',
-            state: 'VA',
+            city: 'Bright Tree Village',
+            state: 'CA',
           },
         },
       };
@@ -60,7 +60,7 @@ describe('VeteranBurialInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Arlington National Cemetery');
+      expect(container.textContent).to.include('Endor Forest Sanctuary');
     });
 
     it('should handle empty data gracefully', () => {

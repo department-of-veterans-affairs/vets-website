@@ -61,7 +61,8 @@ describe('AdditionalRemarksPage', () => {
   describe('Data Handling', () => {
     it('should render with existing remarks', () => {
       const existingData = {
-        additionalRemarks: 'This is a test remark',
+        additionalRemarks:
+          'May the Force be with him. General Skywalker served the Republic with honor.',
       };
 
       const { container } = render(

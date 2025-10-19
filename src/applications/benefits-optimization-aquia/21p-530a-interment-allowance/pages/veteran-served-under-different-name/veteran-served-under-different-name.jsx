@@ -4,8 +4,8 @@ import React from 'react';
 import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import { z } from 'zod';
 import { hasAlternateNamesSchema } from '@bio-aquia/21p-530a-interment-allowance/schemas';
+import { z } from 'zod';
 
 /**
  * Schema for veteran served under different name page
@@ -89,7 +89,7 @@ VeteranServedUnderDifferentNamePage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   goBack: PropTypes.func,
-  onReviewPage: PropTypes.bool,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };

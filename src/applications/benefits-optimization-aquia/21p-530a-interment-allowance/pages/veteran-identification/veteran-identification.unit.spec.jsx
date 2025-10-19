@@ -114,19 +114,19 @@ describe('VeteranIdentificationPage', () => {
     it('should render with existing veteran data', () => {
       const existingData = {
         fullName: {
-          first: 'John',
-          middle: 'M',
-          last: 'Smith',
+          first: 'Anakin',
+          middle: '',
+          last: 'Skywalker',
         },
-        ssn: '123-45-6789',
-        serviceNumber: 'ABC123456',
-        vaFileNumber: '12345678',
-        dateOfBirth: '1950-05-15',
+        ssn: '501-66-7138',
+        serviceNumber: 'JT87563',
+        vaFileNumber: 'R2D23PO',
+        dateOfBirth: '1941-05-04',
         placeOfBirth: {
-          city: 'Arlington',
-          state: 'VA',
+          city: 'Mos Espa',
+          state: 'AZ',
         },
-        dateOfDeath: '2023-01-15',
+        dateOfDeath: '1984-05-04',
       };
 
       const { container } = render(

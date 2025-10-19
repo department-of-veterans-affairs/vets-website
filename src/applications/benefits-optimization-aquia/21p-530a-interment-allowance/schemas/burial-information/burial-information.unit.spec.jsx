@@ -32,9 +32,7 @@ describe('Burial Information Schemas', () => {
 
   describe('cemeteryNameSchema', () => {
     it('should validate a valid cemetery name', () => {
-      const result = cemeteryNameSchema.safeParse(
-        'Arlington National Cemetery',
-      );
+      const result = cemeteryNameSchema.safeParse('Endor Forest Sanctuary');
       expect(result.success).to.be.true;
     });
 
@@ -59,8 +57,8 @@ describe('Burial Information Schemas', () => {
   describe('cemeteryLocationSchema', () => {
     it('should validate a valid location', () => {
       const validLocation = {
-        city: 'Arlington',
-        state: 'VA',
+        city: 'Bright Tree Village',
+        state: 'CA',
       };
       const result = cemeteryLocationSchema.safeParse(validLocation);
       expect(result.success).to.be.true;
@@ -69,7 +67,7 @@ describe('Burial Information Schemas', () => {
     it('should require city', () => {
       const invalidLocation = {
         city: '',
-        state: 'VA',
+        state: 'CA',
       };
       const result = cemeteryLocationSchema.safeParse(invalidLocation);
       expect(result.success).to.be.false;
@@ -77,7 +75,7 @@ describe('Burial Information Schemas', () => {
 
     it('should require state', () => {
       const invalidLocation = {
-        city: 'Arlington',
+        city: 'Bright Tree Village',
         state: '',
       };
       const result = cemeteryLocationSchema.safeParse(invalidLocation);
@@ -86,8 +84,8 @@ describe('Burial Information Schemas', () => {
 
     it('should require 2-letter state code', () => {
       const invalidLocation = {
-        city: 'Arlington',
-        state: 'Virginia',
+        city: 'Bright Tree Village',
+        state: 'California',
       };
       const result = cemeteryLocationSchema.safeParse(invalidLocation);
       expect(result.success).to.be.false;
@@ -99,7 +97,7 @@ describe('Burial Information Schemas', () => {
     it('should reject city over 50 characters', () => {
       const invalidLocation = {
         city: 'a'.repeat(51),
-        state: 'VA',
+        state: 'CA',
       };
       const result = cemeteryLocationSchema.safeParse(invalidLocation);
       expect(result.success).to.be.false;

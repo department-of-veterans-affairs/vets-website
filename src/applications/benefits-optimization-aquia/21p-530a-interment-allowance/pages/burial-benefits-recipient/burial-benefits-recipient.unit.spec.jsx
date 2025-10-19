@@ -62,8 +62,8 @@ describe('BurialBenefitsRecipientPage', () => {
   describe('Data Handling', () => {
     it('should render with existing recipient data', () => {
       const existingData = {
-        recipientOrganizationName: 'Funeral Home Inc.',
-        recipientPhone: '5551234567',
+        recipientOrganizationName: 'New Republic Veterans Affairs Office',
+        recipientPhone: '5550138666',
       };
 
       const { container } = render(

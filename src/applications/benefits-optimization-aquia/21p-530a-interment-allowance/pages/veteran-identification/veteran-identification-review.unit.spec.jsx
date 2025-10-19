@@ -45,19 +45,19 @@ describe('VeteranIdentificationReviewPage', () => {
       const data = {
         veteranIdentification: {
           fullName: {
-            first: 'John',
-            middle: 'M',
-            last: 'Smith',
+            first: 'Anakin',
+            middle: '',
+            last: 'Skywalker',
           },
-          ssn: '123-45-6789',
-          serviceNumber: 'ABC123456',
-          vaFileNumber: '12345678',
-          dateOfBirth: '1950-05-15',
+          ssn: '501-66-7138',
+          serviceNumber: 'JT87563',
+          vaFileNumber: 'R2D23PO',
+          dateOfBirth: '1941-05-04',
           placeOfBirth: {
-            city: 'Arlington',
-            state: 'VA',
+            city: 'Mos Espa',
+            state: 'AZ',
           },
-          dateOfDeath: '2023-01-15',
+          dateOfDeath: '1984-05-04',
         },
       };
 
@@ -69,9 +69,9 @@ describe('VeteranIdentificationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('John');
-      expect(container.textContent).to.include('Smith');
-      expect(container.textContent).to.include('Arlington, VA');
+      expect(container.textContent).to.include('Anakin');
+      expect(container.textContent).to.include('Skywalker');
+      expect(container.textContent).to.include('Mos Espa, AZ');
     });
 
     it('should handle empty data gracefully', () => {

@@ -26,13 +26,13 @@ describe('PreSubmitCheckboxGroup', () => {
   const mockFormData = {
     veteranIdentification: {
       fullName: {
-        first: 'John',
-        middle: 'M',
-        last: 'Smith',
+        first: 'Anakin',
+        middle: '',
+        last: 'Skywalker',
       },
     },
     cemeteryInformation: {
-      cemeteryName: 'Arlington National Cemetery',
+      cemeteryName: 'Endor Forest Sanctuary',
     },
   };
 
@@ -102,7 +102,7 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('John M Smith');
+      expect(container.textContent).to.include('Anakin Skywalker');
     });
 
     it('should include cemetery name in statement', () => {
@@ -117,7 +117,7 @@ describe('PreSubmitCheckboxGroup', () => {
         </Provider>,
       );
 
-      expect(container.textContent).to.include('Arlington National Cemetery');
+      expect(container.textContent).to.include('Endor Forest Sanctuary');
     });
 
     it('should include interment allowance rate', () => {

@@ -119,11 +119,11 @@ describe('VeteranServicePage', () => {
     it('should render with existing data', () => {
       const existingData = {
         branchOfService: 'army',
-        dateEnteredService: '2010-01-01',
-        dateSeparated: '2014-12-31',
-        placeEnteredService: 'Fort Benning, GA',
-        placeSeparated: 'Fort Hood, TX',
-        rankAtSeparation: 'Sergeant',
+        dateEnteredService: '1962-01-01',
+        dateSeparated: '1965-05-19',
+        placeEnteredService: 'Coruscant Jedi Temple',
+        placeSeparated: 'Mustafar',
+        rankAtSeparation: 'Jedi Knight / General',
       };
 
       const { container } = render(

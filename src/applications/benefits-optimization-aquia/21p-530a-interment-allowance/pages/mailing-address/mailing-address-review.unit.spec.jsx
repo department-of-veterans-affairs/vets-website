@@ -43,10 +43,10 @@ describe('MailingAddressReviewPage', () => {
       const data = {
         mailingAddress: {
           address: {
-            street: '123 Main St',
-            city: 'Arlington',
-            state: 'VA',
-            postalCode: '22201',
+            street: '1138 Temple Way',
+            city: 'Coruscant City',
+            state: 'DC',
+            postalCode: '20001',
           },
         },
       };
@@ -59,8 +59,8 @@ describe('MailingAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('Arlington');
+      expect(container.textContent).to.include('1138 Temple Way');
+      expect(container.textContent).to.include('Coruscant City');
     });
 
     it('should handle empty data gracefully', () => {

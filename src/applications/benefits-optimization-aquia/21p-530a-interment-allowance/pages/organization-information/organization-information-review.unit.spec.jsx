@@ -42,11 +42,11 @@ describe('OrganizationInformationReviewPage', () => {
     it('should display organization information', () => {
       const data = {
         organizationInformation: {
-          organizationName: 'State Cemetery of Virginia',
-          representativeName: 'John Doe',
-          representativeTitle: 'Director',
-          phoneNumber: '5551234567',
-          emailAddress: 'john@example.com',
+          organizationName: 'Jedi Temple Memorial Services',
+          representativeName: 'Obi-Wan Kenobi',
+          representativeTitle: 'Jedi Master',
+          phoneNumber: '5550138666',
+          emailAddress: 'memorial@jedicouncil.coruscant',
         },
       };
 
@@ -58,8 +58,8 @@ describe('OrganizationInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('State Cemetery of Virginia');
-      expect(container.textContent).to.include('John Doe');
+      expect(container.textContent).to.include('Jedi Temple Memorial Services');
+      expect(container.textContent).to.include('Obi-Wan Kenobi');
     });
 
     it('should handle empty data gracefully', () => {

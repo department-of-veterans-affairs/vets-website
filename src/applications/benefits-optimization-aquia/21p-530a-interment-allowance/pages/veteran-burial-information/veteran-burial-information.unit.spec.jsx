@@ -64,12 +64,12 @@ describe('VeteranBurialInformationPage', () => {
   describe('Data Handling', () => {
     it('should render with existing burial data', () => {
       const existingData = {
-        dateOfDeath: '2023-01-15',
-        dateOfBurial: '2023-01-20',
-        cemeteryName: 'Arlington National Cemetery',
+        dateOfDeath: '1984-05-04',
+        dateOfBurial: '1984-05-05',
+        cemeteryName: 'Endor Forest Sanctuary',
         cemeteryLocation: {
-          city: 'Arlington',
-          state: 'VA',
+          city: 'Bright Tree Village',
+          state: 'CA',
         },
       };
 
