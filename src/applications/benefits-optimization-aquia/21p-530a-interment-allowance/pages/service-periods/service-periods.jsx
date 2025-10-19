@@ -15,7 +15,7 @@ import { z } from 'zod';
 import {
   formatServicePeriodSummary,
   isServicePeriodEmpty,
-  servicePeriodItemSchema,
+  servicePeriodBase,
   servicePeriodsSchema,
 } from '../../schemas';
 
@@ -33,13 +33,21 @@ const servicePeriodsPageSchema = z.object({
  * @returns {Object} Form data with dates transformed to strings
  */
 const ensureDateStrings = formData => {
-  if (!formData.servicePeriods) return formData;
+  if (
+    !formData ||
+    !formData.servicePeriods ||
+    !Array.isArray(formData.servicePeriods)
+  ) {
+    return formData;
+  }
 
   return {
     ...formData,
-    servicePeriods: formData.servicePeriods.map(period =>
-      transformDates(period, ['dateFrom', 'dateTo']),
-    ),
+    servicePeriods: formData.servicePeriods.map(period => {
+      // Skip null/undefined items
+      if (!period) return period;
+      return transformDates(period, ['dateFrom', 'dateTo']);
+    }),
   };
 };
 
@@ -54,6 +62,8 @@ const ensureDateStrings = formData => {
  * @param {Function} [props.goBack] - Function to navigate to the previous page
  * @param {Function} props.goForward - Function to navigate to the next page
  * @param {Function} [props.setFormData] - Function to update the form data in the form system
+ * @param {boolean} [props.onReviewPage] - Whether the page is being displayed in review mode
+ * @param {Function} [props.updatePage] - Function to update the page in review mode
  * @returns {JSX.Element} Service periods form page
  *
  * @example
@@ -128,89 +138,96 @@ export const ServicePeriodsPage = ({
             isItemEmpty={isServicePeriodEmpty}
             errors={errors.servicePeriods}
             required
-            renderItem={(item, index, handleItemChange, itemErrors) => (
-              <>
-                <SelectField
-                  name="branchOfService"
-                  label="Branch of service"
-                  value={item.branchOfService}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  required
-                  error={itemErrors.branchOfService}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.branchOfService}
-                  options={constants.branchesServed}
-                />
+            renderItem={(item, index, handleItemChange, itemErrors) => {
+              // Safety check: ensure item exists
+              if (!item) {
+                return null;
+              }
 
-                <MemorableDateField
-                  name="dateFrom"
-                  label="Service start date"
-                  value={item.dateFrom}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  required
-                  error={itemErrors.dateFrom}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.dateFrom}
-                  hint="If you don't know the exact date, enter your best guess"
-                />
+              return (
+                <>
+                  <SelectField
+                    name="branchOfService"
+                    label="Branch of service"
+                    value={item?.branchOfService || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    required
+                    error={itemErrors?.branchOfService}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.branchOfService}
+                    options={constants.branchesServed}
+                  />
 
-                <MemorableDateField
-                  name="dateTo"
-                  label="Service end date"
-                  value={item.dateTo}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  required
-                  error={itemErrors.dateTo}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.dateTo}
-                  hint="If you don't know the exact date, enter your best guess"
-                />
+                  <MemorableDateField
+                    name="dateFrom"
+                    label="Service start date"
+                    value={item?.dateFrom || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    required
+                    error={itemErrors?.dateFrom}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.dateFrom}
+                    hint="If you don't know the exact date, enter your best guess"
+                  />
 
-                <TextInputField
-                  name="placeOfEntry"
-                  label="Place of entry"
-                  value={item.placeOfEntry}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  error={itemErrors.placeOfEntry}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.placeOfEntry}
-                  hint="Enter the city and state or name of the military base"
-                />
+                  <MemorableDateField
+                    name="dateTo"
+                    label="Service end date"
+                    value={item?.dateTo || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    required
+                    error={itemErrors?.dateTo}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.dateTo}
+                    hint="If you don't know the exact date, enter your best guess"
+                  />
 
-                <TextInputField
-                  name="placeOfSeparation"
-                  label="Place of separation"
-                  value={item.placeOfSeparation}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  error={itemErrors.placeOfSeparation}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.placeOfSeparation}
-                  hint="Enter the city and state or name of the military base"
-                />
+                  <TextInputField
+                    name="placeOfEntry"
+                    label="Place of entry"
+                    value={item?.placeOfEntry || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    error={itemErrors?.placeOfEntry}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.placeOfEntry}
+                    hint="Enter the city and state or name of the military base"
+                  />
 
-                <TextInputField
-                  name="rank"
-                  label="Grade, rank, or rating"
-                  value={item.rank}
-                  onChange={(name, value) =>
-                    handleItemChange(index, name, value)
-                  }
-                  error={itemErrors.rank}
-                  forceShowError={formSubmitted}
-                  schema={servicePeriodItemSchema.shape.rank}
-                />
-              </>
-            )}
+                  <TextInputField
+                    name="placeOfSeparation"
+                    label="Place of separation"
+                    value={item?.placeOfSeparation || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    error={itemErrors?.placeOfSeparation}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.placeOfSeparation}
+                    hint="Enter the city and state or name of the military base"
+                  />
+
+                  <TextInputField
+                    name="rank"
+                    label="Grade, rank, or rating"
+                    value={item?.rank || ''}
+                    onChange={(name, value) =>
+                      handleItemChange(index, name, value)
+                    }
+                    error={itemErrors?.rank}
+                    forceShowError={formSubmitted}
+                    schema={servicePeriodBase.shape.rank}
+                  />
+                </>
+              );
+            }}
           />
         </>
       )}
@@ -219,10 +236,10 @@ export const ServicePeriodsPage = ({
 };
 
 ServicePeriodsPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  goBack: PropTypes.func,
   onReviewPage: PropTypes.bool,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };

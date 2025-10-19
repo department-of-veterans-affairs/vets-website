@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import { cleanup, render } from '@testing-library/react';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../config/form';
-import { ConfirmationPage } from '../../containers/confirmation-page';
+import { ConfirmationPage } from './confirmation-page';
 
 const mockStore = state => createStore(() => state);
 

@@ -186,30 +186,34 @@ export const alternateNameSchema = z
   );
 
 /**
+ * Base schema for service period fields
+ * Export this separately so we can access .shape property
+ */
+export const servicePeriodBase = z.object({
+  branchOfService: branchOfServiceSchema,
+  dateFrom: dateEnteredServiceSchema,
+  dateTo: dateSeparatedSchema,
+  placeOfEntry: placeEnteredServiceSchema.optional(),
+  placeOfSeparation: placeSeparatedSchema.optional(),
+  rank: rankSchema.optional(),
+});
+
+/**
  * Schema for a single service period item
  */
-export const servicePeriodItemSchema = z
-  .object({
-    branchOfService: branchOfServiceSchema,
-    dateFrom: dateEnteredServiceSchema,
-    dateTo: dateSeparatedSchema,
-    placeOfEntry: placeEnteredServiceSchema.optional(),
-    placeOfSeparation: placeSeparatedSchema.optional(),
-    rank: rankSchema.optional(),
-  })
-  .refine(
-    data => {
-      // Ensure service start date is before end date
-      if (!data.dateFrom || !data.dateTo) return true;
-      const startDate = new Date(data.dateFrom);
-      const endDate = new Date(data.dateTo);
-      return startDate < endDate;
-    },
-    {
-      message: 'Service start date must be before end date',
-      path: ['dateFrom'],
-    },
-  );
+export const servicePeriodItemSchema = servicePeriodBase.refine(
+  data => {
+    // Ensure service start date is before or equal to end date
+    if (!data.dateFrom || !data.dateTo) return true;
+    const startDate = new Date(data.dateFrom);
+    const endDate = new Date(data.dateTo);
+    return startDate <= endDate;
+  },
+  {
+    message: 'Service start date must be before end date',
+    path: ['dateFrom'],
+  },
+);
 
 /**
  * Schema for service periods array

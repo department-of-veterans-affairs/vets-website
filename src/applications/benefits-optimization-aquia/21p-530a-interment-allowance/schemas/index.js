@@ -44,6 +44,7 @@ export {
   previousNameItemSchema,
   previousNamesSchema,
   rankSchema,
+  servicePeriodBase,
   servicePeriodItemSchema,
   servicePeriodsSchema,
   veteranServiceSchema,
