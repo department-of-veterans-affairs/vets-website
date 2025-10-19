@@ -137,4 +137,143 @@ describe('MailingAddressPage', () => {
       expect(continueButton).to.not.exist;
     });
   });
+
+  describe('Data Validation', () => {
+    it('should handle null data prop', () => {
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={null}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+
+    it('should handle undefined data prop', () => {
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={undefined}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+
+    it('should handle array data prop', () => {
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={[]}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+
+    it('should handle function data prop', () => {
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={() => {}}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+  });
+
+  describe('Military Address', () => {
+    it('should render with military address data', () => {
+      const militaryData = {
+        recipientAddress: {
+          street: 'Death Star Command',
+          street2: 'Level 1138',
+          street3: 'Section B',
+          city: 'APO',
+          state: 'AE',
+          country: 'USA',
+          postalCode: '09012',
+          isMilitary: true,
+        },
+      };
+
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={militaryData}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+  });
+
+  describe('Default Data', () => {
+    it('should use default data when no data provided', () => {
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+  });
+
+  describe('Address Components', () => {
+    it('should handle address with street3', () => {
+      const addressWithStreet3 = {
+        recipientAddress: {
+          street: 'Jedi Temple',
+          street2: 'Council Chamber',
+          street3: 'Upper Level',
+          city: 'Coruscant',
+          state: 'DC',
+          country: 'USA',
+          postalCode: '20001',
+          isMilitary: false,
+        },
+      };
+
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={addressWithStreet3}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+
+    it('should handle minimal address data', () => {
+      const minimalAddress = {
+        recipientAddress: {
+          street: 'Tatooine',
+          city: 'Mos Eisley',
+          state: 'AZ',
+          country: 'USA',
+          postalCode: '85001',
+        },
+      };
+
+      const { container } = render(
+        <MailingAddressPage
+          goForward={mockGoForward}
+          data={minimalAddress}
+          setFormData={mockSetFormData}
+        />,
+      );
+
+      expect(container.querySelector('va-text-input')).to.exist;
+    });
+  });
 });

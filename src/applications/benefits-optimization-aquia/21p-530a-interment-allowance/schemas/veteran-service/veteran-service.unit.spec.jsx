@@ -5,11 +5,24 @@
 
 import { expect } from 'chai';
 import {
+  alternateNameSchema,
+  branchOfServiceSchema,
+  dateEnteredServiceSchema,
+  dateSeparatedSchema,
+  formatPreviousNameSummary,
   formatServicePeriodSummary,
+  hasAlternateNamesSchema,
+  isPreviousNameEmpty,
   isServicePeriodEmpty,
+  placeEnteredServiceSchema,
+  placeSeparatedSchema,
+  previousNameItemSchema,
+  previousNamesSchema,
+  rankSchema,
   servicePeriodBase,
   servicePeriodItemSchema,
   servicePeriodsSchema,
+  veteranServiceSchema,
 } from './veteran-service';
 
 describe('Service Period Schemas', () => {
@@ -276,5 +289,464 @@ describe('Service Period Schemas', () => {
       const result = servicePeriodItemSchema.safeParse(period);
       expect(result.success).to.be.true;
     });
+  });
+});
+
+describe('Branch of Service Schema', () => {
+  it('should validate all valid branches', () => {
+    const validBranches = [
+      'air force',
+      'army',
+      'coast guard',
+      'marine corps',
+      'merchant seaman',
+      'navy',
+      'noaa',
+      'space force',
+      'usphs',
+      'f.commonwealth',
+      'f.guerilla',
+      'f.scouts new',
+      'f.scouts old',
+    ];
+
+    validBranches.forEach(branch => {
+      const result = branchOfServiceSchema.safeParse(branch);
+      expect(result.success).to.be.true;
+    });
+  });
+
+  it('should reject empty string', () => {
+    const result = branchOfServiceSchema.safeParse('');
+    expect(result.success).to.be.false;
+  });
+
+  it('should reject invalid branch', () => {
+    const result = branchOfServiceSchema.safeParse('starfleet');
+    expect(result.success).to.be.false;
+  });
+});
+
+describe('Date Schemas', () => {
+  describe('dateEnteredServiceSchema', () => {
+    it('should validate valid date', () => {
+      const result = dateEnteredServiceSchema.safeParse('1962-01-01');
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject empty string', () => {
+      const result = dateEnteredServiceSchema.safeParse('');
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject invalid date', () => {
+      const result = dateEnteredServiceSchema.safeParse('not-a-date');
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject invalid date format', () => {
+      const result = dateEnteredServiceSchema.safeParse('13/45/2020');
+      expect(result.success).to.be.false;
+    });
+  });
+
+  describe('dateSeparatedSchema', () => {
+    it('should validate valid date', () => {
+      const result = dateSeparatedSchema.safeParse('1984-05-04');
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject empty string', () => {
+      const result = dateSeparatedSchema.safeParse('');
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject invalid date', () => {
+      const result = dateSeparatedSchema.safeParse('invalid');
+      expect(result.success).to.be.false;
+    });
+  });
+});
+
+describe('Place Schemas', () => {
+  describe('placeEnteredServiceSchema', () => {
+    it('should validate valid place', () => {
+      const result = placeEnteredServiceSchema.safeParse(
+        'Coruscant Jedi Temple',
+      );
+      expect(result.success).to.be.true;
+    });
+
+    it('should accept empty string', () => {
+      const result = placeEnteredServiceSchema.safeParse('');
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject string over 100 characters', () => {
+      const longString = 'a'.repeat(101);
+      const result = placeEnteredServiceSchema.safeParse(longString);
+      expect(result.success).to.be.false;
+    });
+
+    it('should accept string at 100 characters', () => {
+      const maxString = 'a'.repeat(100);
+      const result = placeEnteredServiceSchema.safeParse(maxString);
+      expect(result.success).to.be.true;
+    });
+  });
+
+  describe('placeSeparatedSchema', () => {
+    it('should validate valid place', () => {
+      const result = placeSeparatedSchema.safeParse('Mustafar');
+      expect(result.success).to.be.true;
+    });
+
+    it('should accept empty string', () => {
+      const result = placeSeparatedSchema.safeParse('');
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject string over 100 characters', () => {
+      const longString = 'b'.repeat(101);
+      const result = placeSeparatedSchema.safeParse(longString);
+      expect(result.success).to.be.false;
+    });
+  });
+});
+
+describe('Rank Schema', () => {
+  it('should validate valid rank', () => {
+    const result = rankSchema.safeParse('Jedi Knight');
+    expect(result.success).to.be.true;
+  });
+
+  it('should accept empty string', () => {
+    const result = rankSchema.safeParse('');
+    expect(result.success).to.be.true;
+  });
+
+  it('should reject string over 50 characters', () => {
+    const longRank = 'a'.repeat(51);
+    const result = rankSchema.safeParse(longRank);
+    expect(result.success).to.be.false;
+  });
+
+  it('should accept string at 50 characters', () => {
+    const maxRank = 'a'.repeat(50);
+    const result = rankSchema.safeParse(maxRank);
+    expect(result.success).to.be.true;
+  });
+});
+
+describe('Has Alternate Names Schema', () => {
+  it('should validate "yes"', () => {
+    const result = hasAlternateNamesSchema.safeParse('yes');
+    expect(result.success).to.be.true;
+  });
+
+  it('should validate "no"', () => {
+    const result = hasAlternateNamesSchema.safeParse('no');
+    expect(result.success).to.be.true;
+  });
+
+  it('should reject invalid value', () => {
+    const result = hasAlternateNamesSchema.safeParse('maybe');
+    expect(result.success).to.be.false;
+  });
+
+  it('should have custom error message', () => {
+    const result = hasAlternateNamesSchema.safeParse('invalid');
+    expect(result.success).to.be.false;
+    if (!result.success) {
+      expect(result.error.issues[0].message).to.equal(
+        'Please select yes or no',
+      );
+    }
+  });
+});
+
+describe('Previous Name Schemas', () => {
+  describe('previousNameItemSchema', () => {
+    it('should validate complete name', () => {
+      const name = {
+        firstName: 'Anakin',
+        middleName: '',
+        lastName: 'Skywalker',
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.true;
+    });
+
+    it('should require firstName', () => {
+      const name = {
+        firstName: '',
+        lastName: 'Skywalker',
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.false;
+    });
+
+    it('should require lastName', () => {
+      const name = {
+        firstName: 'Anakin',
+        lastName: '',
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.false;
+    });
+
+    it('should accept name without middleName', () => {
+      const name = {
+        firstName: 'Luke',
+        lastName: 'Skywalker',
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject firstName over 50 characters', () => {
+      const name = {
+        firstName: 'a'.repeat(51),
+        lastName: 'Skywalker',
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.false;
+    });
+
+    it('should reject lastName over 50 characters', () => {
+      const name = {
+        firstName: 'Anakin',
+        lastName: 'b'.repeat(51),
+      };
+      const result = previousNameItemSchema.safeParse(name);
+      expect(result.success).to.be.false;
+    });
+  });
+
+  describe('previousNamesSchema', () => {
+    it('should validate array with one name', () => {
+      const names = [
+        {
+          firstName: 'Darth',
+          middleName: '',
+          lastName: 'Vader',
+        },
+      ];
+      const result = previousNamesSchema.safeParse(names);
+      expect(result.success).to.be.true;
+    });
+
+    it('should validate array with multiple names', () => {
+      const names = [
+        { firstName: 'Anakin', lastName: 'Skywalker' },
+        { firstName: 'Darth', lastName: 'Vader' },
+      ];
+      const result = previousNamesSchema.safeParse(names);
+      expect(result.success).to.be.true;
+    });
+
+    it('should reject empty array', () => {
+      const result = previousNamesSchema.safeParse([]);
+      expect(result.success).to.be.false;
+    });
+  });
+
+  describe('isPreviousNameEmpty', () => {
+    it('should return true for completely empty name', () => {
+      const name = { firstName: '', middleName: '', lastName: '' };
+      expect(isPreviousNameEmpty(name)).to.be.true;
+    });
+
+    it('should return false when firstName is present', () => {
+      const name = { firstName: 'Anakin', middleName: '', lastName: '' };
+      expect(isPreviousNameEmpty(name)).to.be.false;
+    });
+
+    it('should return false when middleName is present', () => {
+      const name = { firstName: '', middleName: 'Danger', lastName: '' };
+      expect(isPreviousNameEmpty(name)).to.be.false;
+    });
+
+    it('should return false when lastName is present', () => {
+      const name = { firstName: '', middleName: '', lastName: 'Skywalker' };
+      expect(isPreviousNameEmpty(name)).to.be.false;
+    });
+  });
+
+  describe('formatPreviousNameSummary', () => {
+    it('should format full name with middle name', () => {
+      const name = {
+        firstName: 'Leia',
+        middleName: 'Amidala',
+        lastName: 'Organa',
+      };
+      const summary = formatPreviousNameSummary(name);
+      expect(summary).to.equal('Leia Amidala Organa');
+    });
+
+    it('should format name without middle name', () => {
+      const name = { firstName: 'Luke', middleName: '', lastName: 'Skywalker' };
+      const summary = formatPreviousNameSummary(name);
+      expect(summary).to.equal('Luke Skywalker');
+    });
+
+    it('should return empty string for empty name', () => {
+      const name = { firstName: '', middleName: '', lastName: '' };
+      const summary = formatPreviousNameSummary(name);
+      expect(summary).to.equal('');
+    });
+
+    it('should filter out empty parts', () => {
+      const name = {
+        firstName: 'Anakin',
+        middleName: undefined,
+        lastName: 'Skywalker',
+      };
+      const summary = formatPreviousNameSummary(name);
+      expect(summary).to.equal('Anakin Skywalker');
+    });
+  });
+});
+
+describe('Alternate Name Schema', () => {
+  it('should validate when hasAlternateName is no', () => {
+    const data = {
+      hasAlternateName: 'no',
+    };
+    const result = alternateNameSchema.safeParse(data);
+    expect(result.success).to.be.true;
+  });
+
+  it('should validate when hasAlternateName is yes with complete data', () => {
+    const data = {
+      hasAlternateName: 'yes',
+      alternateName: 'Darth Vader',
+      alternateServiceInfo: 'Served as Supreme Commander of Imperial Forces',
+    };
+    const result = alternateNameSchema.safeParse(data);
+    expect(result.success).to.be.true;
+  });
+
+  it('should reject when hasAlternateName is yes but alternateName is missing', () => {
+    const data = {
+      hasAlternateName: 'yes',
+      alternateServiceInfo: 'Some info',
+    };
+    const result = alternateNameSchema.safeParse(data);
+    expect(result.success).to.be.false;
+  });
+
+  it('should reject when hasAlternateName is yes but alternateServiceInfo is missing', () => {
+    const data = {
+      hasAlternateName: 'yes',
+      alternateName: 'Darth Vader',
+    };
+    const result = alternateNameSchema.safeParse(data);
+    expect(result.success).to.be.false;
+  });
+
+  it('should have custom error message for enum validation', () => {
+    const data = {
+      hasAlternateName: 'maybe',
+    };
+    const result = alternateNameSchema.safeParse(data);
+    expect(result.success).to.be.false;
+    if (!result.success) {
+      expect(result.error.issues[0].message).to.include(
+        'Please indicate if veteran served under another name',
+      );
+    }
+  });
+});
+
+describe('Veteran Service Schema', () => {
+  it('should validate complete veteran service data', () => {
+    const data = {
+      branchOfService: 'army',
+      dateEnteredService: '1962-01-01',
+      placeEnteredService: 'Coruscant',
+      rankAtSeparation: 'General',
+      dateSeparated: '1965-05-19',
+      placeSeparated: 'Mustafar',
+      alternateNameInfo: {
+        hasAlternateName: 'no',
+      },
+    };
+    const result = veteranServiceSchema.safeParse(data);
+    expect(result.success).to.be.true;
+  });
+
+  it('should reject when entry date is after separation date', () => {
+    const data = {
+      branchOfService: 'army',
+      dateEnteredService: '1984-05-04',
+      placeEnteredService: '',
+      rankAtSeparation: '',
+      dateSeparated: '1962-01-01',
+      placeSeparated: '',
+      alternateNameInfo: {
+        hasAlternateName: 'no',
+      },
+    };
+    const result = veteranServiceSchema.safeParse(data);
+    expect(result.success).to.be.false;
+    if (!result.success) {
+      expect(result.error.issues[0].message).to.include(
+        'Service entry date must be before separation date',
+      );
+    }
+  });
+
+  it('should require all mandatory fields', () => {
+    const data = {};
+    const result = veteranServiceSchema.safeParse(data);
+    expect(result.success).to.be.false;
+  });
+});
+
+describe('Additional formatServicePeriodSummary Edge Cases', () => {
+  it('should handle period with only dateFrom', () => {
+    const period = {
+      branchOfService: 'navy',
+      dateFrom: '2010-01-15',
+      dateTo: '',
+    };
+    const summary = formatServicePeriodSummary(period);
+    expect(summary).to.include('Navy');
+    expect(summary).to.include('Unknown');
+  });
+
+  it('should handle period with only dateTo', () => {
+    const period = {
+      branchOfService: 'air force',
+      dateFrom: '',
+      dateTo: '2014-12-31',
+    };
+    const summary = formatServicePeriodSummary(period);
+    expect(summary).to.include('Air Force');
+    expect(summary).to.include('Unknown');
+  });
+
+  it('should handle unknown branch gracefully', () => {
+    const period = {
+      branchOfService: 'unknown_branch',
+      dateFrom: '2010-01-01',
+      dateTo: '2014-12-31',
+    };
+    const summary = formatServicePeriodSummary(period);
+    expect(summary).to.include('unknown_branch');
+  });
+
+  it('should handle period with only rank', () => {
+    const period = {
+      branchOfService: '',
+      dateFrom: '',
+      dateTo: '',
+      placeOfEntry: '',
+      placeOfSeparation: '',
+      rank: 'Captain',
+    };
+    const summary = formatServicePeriodSummary(period);
+    expect(summary).to.equal('');
   });
 });

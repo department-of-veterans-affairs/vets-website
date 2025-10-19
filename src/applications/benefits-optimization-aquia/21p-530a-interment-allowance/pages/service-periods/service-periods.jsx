@@ -32,7 +32,7 @@ const servicePeriodsPageSchema = z.object({
  * @param {Object} formData - The complete form data object
  * @returns {Object} Form data with dates transformed to strings
  */
-const ensureDateStrings = formData => {
+export const ensureDateStrings = formData => {
   if (
     !formData ||
     !formData.servicePeriods ||
