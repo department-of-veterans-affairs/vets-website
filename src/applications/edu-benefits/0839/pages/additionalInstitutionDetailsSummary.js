@@ -5,7 +5,7 @@ import {
 import { additionalInstitutionDetailsArrayOptions } from '../helpers';
 
 const uiSchema = {
-  'view:hasAdditionalInstitutionDetails': arrayBuilderYesNoUI(
+  hasAdditionalInstitutionDetails: arrayBuilderYesNoUI(
     additionalInstitutionDetailsArrayOptions,
     {
       title:
@@ -22,9 +22,9 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    'view:hasAdditionalInstitutionDetails': arrayBuilderYesNoSchema,
+    hasAdditionalInstitutionDetails: arrayBuilderYesNoSchema,
   },
-  required: ['view:hasAdditionalInstitutionDetails'],
+  // required: [hasAdditionalInstitutionDetails],
 };
 
 export { uiSchema, schema };

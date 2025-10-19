@@ -5,6 +5,10 @@ const InstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
   const institutionAddress =
     formData?.institutionDetails?.institutionAddress || {};
+  const details = formData?.institutionDetails || {};
+  const notYR = details.yrEligible === false;
+  const notIHL = details.ihlEligible === false;
+  const showWarningBanner = notYR || notIHL;
 
   const {
     street,
@@ -49,21 +53,23 @@ const InstitutionAddress = () => {
             {country}
           </p>
 
-          <va-additional-info trigger="What to do if this name or address looks incorrect">
-            <p>
-              After you have verified the facility code is correctly entered, if
-              either the facility name or address is incorrect, please contact
-              your State Approving Agency (SAA) to have your approval
-              updated.&nbsp;
-              <a
-                href="https://nasaa-vetseducation.com/nasaa-contacts/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Go here to find your SAA’s email address (opens in new tab).
-              </a>
-            </p>
-          </va-additional-info>
+          {!showWarningBanner && (
+            <va-additional-info trigger="What to do if this name or address looks incorrect">
+              <p>
+                After you have verified the facility code is correctly entered,
+                if either the facility name or address is incorrect, please
+                contact your State Approving Agency (SAA) to have your approval
+                updated.&nbsp;
+                <a
+                  href="https://nasaa-vetseducation.com/nasaa-contacts/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Go here to find your SAA’s email address (opens in new tab).
+                </a>
+              </p>
+            </va-additional-info>
+          )}
         </>
       ) : (
         <span

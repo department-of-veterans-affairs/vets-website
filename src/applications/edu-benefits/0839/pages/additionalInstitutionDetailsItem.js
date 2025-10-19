@@ -5,9 +5,9 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../components/InstitutionName';
-import InstitutionAddress from '../components/InstitutionAddress';
-import WarningBanner from '../components/WarningBanner';
+import InstitutionName from '../containers/InstitutionName';
+import InstitutionAddress from '../containers/InstitutionAddress';
+import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details =
@@ -123,7 +123,7 @@ const schema = {
         state: addressSchema().properties.state,
         postalCode: addressSchema().properties.postalCode,
       },
-      required: ['street', 'city', 'state', 'postalCode', 'country'],
+      // required: ['street', 'city', 'state', 'postalCode', 'country'], // TODO:
     },
     'view:warningBanner': {
       type: 'object',
