@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import SaveInProgressWrapper from '@bio-aquia/shared/components/save-in-progress-wrapper';
+import { SaveInProgress } from '@bio-aquia/shared/components';
 
 import formConfig from '@bio-aquia/21p-530a-interment-allowance/config/form';
 
@@ -22,11 +22,7 @@ const breadcrumbList = [
 
 export const App = ({ location, router, children }) => {
   return (
-    <SaveInProgressWrapper
-      formConfig={formConfig}
-      location={location}
-      router={router}
-    >
+    <SaveInProgress formConfig={formConfig} location={location} router={router}>
       <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
         <VaBreadcrumbs breadcrumbList={breadcrumbList} />
         <RoutedSavableApp
@@ -37,7 +33,7 @@ export const App = ({ location, router, children }) => {
           {children}
         </RoutedSavableApp>
       </div>
-    </SaveInProgressWrapper>
+    </SaveInProgress>
   );
 };
 

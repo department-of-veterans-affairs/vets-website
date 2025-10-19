@@ -10,9 +10,10 @@ import {
 } from 'platform/forms/save-in-progress/actions';
 
 /**
- * Wrapper component that checks for saved form data and displays resume controls
+ * Save-in-progress component that checks for saved form data and displays resume controls
  * when a user refreshes or directly navigates to a form page.
  *
+ * @component
  * @param {Object} props - Component props
  * @param {Object} props.formConfig - Form configuration object
  * @param {React.ReactNode} props.children - Form page content to render
@@ -24,7 +25,7 @@ import {
  * @param {Object} props.router - React router instance
  * @returns {React.ReactElement} Form page with save-in-progress controls or normal content
  */
-const SaveInProgressWrapper = ({
+const SaveInProgress = ({
   formConfig,
   children,
   isLoggedIn,
@@ -191,7 +192,7 @@ const SaveInProgressWrapper = ({
   return children;
 };
 
-SaveInProgressWrapper.propTypes = {
+SaveInProgress.propTypes = {
   children: PropTypes.node.isRequired,
   fetchInProgressFormAction: PropTypes.func.isRequired,
   formConfig: PropTypes.object.isRequired,
@@ -236,11 +237,11 @@ const mapDispatchToProps = {
 };
 
 // Export unwrapped component for testing
-export { SaveInProgressWrapper };
+export { SaveInProgress };
 
 export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SaveInProgressWrapper),
+  )(SaveInProgress),
 );

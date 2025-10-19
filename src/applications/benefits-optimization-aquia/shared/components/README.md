@@ -30,9 +30,9 @@ components/
 │   ├── error-boundary.jsx
 │   ├── error-boundary.unit.spec.jsx
 │   └── index.js
-├── save-in-progress-wrapper/ # Save-in-progress resume controls
-│   ├── save-in-progress-wrapper.jsx
-│   ├── save-in-progress-wrapper.unit.spec.jsx
+├── save-in-progress/ # Save-in-progress resume controls
+│   ├── save-in-progress.jsx
+│   ├── save-in-progress.unit.spec.jsx
 │   └── index.js
 └── index.js              # Barrel exports
 ```
@@ -229,7 +229,7 @@ export const AddressReviewPage = ({ data, editPage, title }) => (
 
 ### Save-in-Progress Wrapper
 
-- `save-in-progress-wrapper/` - Form resume controls component
+- `save-in-progress/` - Form resume controls component
   - Detects saved form data on page refresh
   - Displays resume controls when user navigates directly to form page
   - Integrates with VA.gov save-in-progress system

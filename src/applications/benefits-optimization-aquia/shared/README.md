@@ -60,9 +60,9 @@ src/applications/benefits-optimization-aquia/shared/
 │   │   ├── error-boundary.jsx
 │   │   ├── error-boundary.unit.spec.jsx
 │   │   └── index.js
-│   ├── save-in-progress-wrapper/ # Save-in-progress resume controls
-│   │   ├── save-in-progress-wrapper.jsx
-│   │   ├── save-in-progress-wrapper.unit.spec.jsx
+│   ├── save-in-progress/ # Save-in-progress resume controls
+│   │   ├── save-in-progress.jsx
+│   │   ├── save-in-progress.unit.spec.jsx
 │   │   └── index.js
 │   └── index.js         # Barrel exports
 ├── forms/               # Data processing utilities

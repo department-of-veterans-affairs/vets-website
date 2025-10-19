@@ -9,4 +9,4 @@ export * from './templates';
 
 // Export infrastructure components
 export { FormErrorBoundary } from './error-boundary';
-export { SaveInProgressWrapper } from './save-in-progress-wrapper';
+export { SaveInProgress } from './save-in-progress';

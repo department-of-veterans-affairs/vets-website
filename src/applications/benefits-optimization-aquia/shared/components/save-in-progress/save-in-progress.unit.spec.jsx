@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 
-import { SaveInProgressWrapper } from './save-in-progress-wrapper';
+import { SaveInProgress } from './save-in-progress';
 
-describe('SaveInProgressWrapper', () => {
+describe('SaveInProgress', () => {
   let defaultFormConfig;
   let defaultLocation;
   let defaultRouter;
@@ -47,14 +47,14 @@ describe('SaveInProgressWrapper', () => {
   describe('rendering children', () => {
     it('renders children when no special conditions', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Form page content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -64,7 +64,7 @@ describe('SaveInProgressWrapper', () => {
 
     it('renders complex children structure', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
@@ -74,7 +74,7 @@ describe('SaveInProgressWrapper', () => {
             <nav>Breadcrumbs</nav>
             <main>Form content</main>
           </div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const nav = container.querySelector('nav');
@@ -89,14 +89,14 @@ describe('SaveInProgressWrapper', () => {
       const introLocation = { pathname: '/test-form/introduction' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={introLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Intro content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -112,14 +112,14 @@ describe('SaveInProgressWrapper', () => {
       );
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           {children}
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const breadcrumbs = container.querySelector(
@@ -140,14 +140,14 @@ describe('SaveInProgressWrapper', () => {
       );
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           {children}
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const breadcrumbs = container.querySelector(
@@ -160,14 +160,14 @@ describe('SaveInProgressWrapper', () => {
   describe('resume controls display', () => {
     it('does not show resume controls when not logged in', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Form content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -178,14 +178,14 @@ describe('SaveInProgressWrapper', () => {
       const introLocation = { pathname: '/test-form/introduction' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={introLocation}
           router={defaultRouter}
         >
           <div data-testid="intro-content">Intro content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="intro-content"]');
@@ -196,14 +196,14 @@ describe('SaveInProgressWrapper', () => {
       const confirmLocation = { pathname: '/test-form/confirmation' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={confirmLocation}
           router={defaultRouter}
         >
           <div data-testid="confirm-content">Confirmation</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector(
@@ -214,14 +214,14 @@ describe('SaveInProgressWrapper', () => {
 
     it('does not show resume controls when form data already loaded', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Form content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -238,14 +238,14 @@ describe('SaveInProgressWrapper', () => {
       const errorLocation = { pathname: '/test-form/error' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={errorLocation}
           router={defaultRouter}
         >
           <div data-testid="error-content">Error page</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="error-content"]');
@@ -256,14 +256,14 @@ describe('SaveInProgressWrapper', () => {
       const resumeLocation = { pathname: '/test-form/resume' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={resumeLocation}
           router={defaultRouter}
         >
           <div data-testid="resume-content">Resume page</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="resume-content"]');
@@ -274,14 +274,14 @@ describe('SaveInProgressWrapper', () => {
   describe('edge cases', () => {
     it('handles empty savedForms array', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Form content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -290,14 +290,14 @@ describe('SaveInProgressWrapper', () => {
 
     it('handles different form ID in saved forms', () => {
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={defaultLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Form content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
@@ -308,14 +308,14 @@ describe('SaveInProgressWrapper', () => {
       const rootLocation = { pathname: '/' };
 
       const { container } = render(
-        <SaveInProgressWrapper
+        <SaveInProgress
           {...defaultProps}
           formConfig={defaultFormConfig}
           location={rootLocation}
           router={defaultRouter}
         >
           <div data-testid="form-content">Root content</div>
-        </SaveInProgressWrapper>,
+        </SaveInProgress>,
       );
 
       const content = container.querySelector('[data-testid="form-content"]');
