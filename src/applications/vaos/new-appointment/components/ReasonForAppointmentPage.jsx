@@ -7,7 +7,11 @@ import FormButtons from '../../components/FormButtons';
 import InfoAlert from '../../components/InfoAlert';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import TextareaWidget from '../../components/TextareaWidget';
-import { FACILITY_TYPES, PURPOSE_TEXT_V2 } from '../../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  PURPOSE_TEXT_V2,
+} from '../../utils/constants';
 import { focusFormHeader } from '../../utils/scrollAndFocus';
 import { getPageTitle } from '../newAppointmentFlow';
 import {
@@ -16,7 +20,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
-import { getFormPageInfo } from '../redux/selectors';
+import { getFlowType, getFormPageInfo } from '../redux/selectors';
 import AppointmentsRadioWidget from './AppointmentsRadioWidget';
 import UrgentCareLinks from './UrgentCareLinks';
 
@@ -66,6 +70,7 @@ const pageKey = 'reasonForAppointment';
 
 export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const flowType = useSelector(state => getFlowType(state));
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
@@ -99,8 +104,9 @@ export default function ReasonForAppointmentPage() {
         },
         'ui:validations': [validComment],
         'ui:errorMessages': {
-          required:
-            'Provide more information about why you are requesting this appointment',
+          required: `Provide more information about why you are ${
+            flowType === FLOW_TYPES.DIRECT ? 'scheduling' : 'requesting'
+          } this appointment`,
         },
       },
     },
