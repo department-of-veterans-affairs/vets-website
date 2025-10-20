@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaSelect,
+  VaDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const CUSTOM_RANGE_VALUE = -1;
 
-const DateRangeDropdown = ({ currentRange, onChange, options, onCustomDateChange, customStartDate, isLoadingData }) => {
+const DateRangeDropdown = ({
+  currentRange,
+  onChange,
+  options,
+  onCustomDateChange,
+  customStartDate,
+  isLoadingData,
+}) => {
   const [dateRangeIndex, updateDateRangeIndex] = useState(currentRange);
-  const [showCustomPicker, setShowCustomPicker] = useState(currentRange === CUSTOM_RANGE_VALUE);
+  const [showCustomPicker, setShowCustomPicker] = useState(
+    currentRange === CUSTOM_RANGE_VALUE,
+  );
 
   const handleSelectChange = e => {
     const selectedValue = Number(e.detail.value);
     updateDateRangeIndex(selectedValue);
-    
+
     if (selectedValue === CUSTOM_RANGE_VALUE) {
       setShowCustomPicker(true);
     } else {
@@ -60,7 +71,7 @@ const DateRangeDropdown = ({ currentRange, onChange, options, onCustomDateChange
       >
         {selectOptions}
       </VaSelect>
-      
+
       {showCustomPicker && (
         <div className="vads-u-margin-top--2">
           <VaDate
@@ -86,11 +97,11 @@ const DateRangeDropdown = ({ currentRange, onChange, options, onCustomDateChange
 
 DateRangeDropdown.propTypes = {
   currentRange: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.array.isRequired,
   customStartDate: PropTypes.string,
   isLoadingData: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
   onCustomDateChange: PropTypes.func,
-  options: PropTypes.array.isRequired,
 };
 
 export default DateRangeDropdown;

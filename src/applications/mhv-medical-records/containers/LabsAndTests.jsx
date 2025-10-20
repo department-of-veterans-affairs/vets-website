@@ -29,10 +29,7 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
-import {
-  getLabsAndTestsDateRanges,
-  formatDateRange,
-} from '../util/helpers';
+import { getLabsAndTestsDateRanges, formatDateRange } from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -91,19 +88,13 @@ const LabsAndTests = () => {
   // Get the current range index from URL or default to 0 (last 90 days)
   const urlRangeIndex = new URLSearchParams(location.search).get('rangeIndex');
   const urlCustomDate = new URLSearchParams(location.search).get('customDate');
-  const initialRangeIndex = urlRangeIndex
-    ? parseInt(urlRangeIndex, 10)
-    : 0;
+  const initialRangeIndex = urlRangeIndex ? parseInt(urlRangeIndex, 10) : 0;
 
   const [selectedRangeIndex, setSelectedRangeIndex] = useState(
     initialRangeIndex,
   );
-  const [displayRangeIndex, setDisplayRangeIndex] = useState(
-    initialRangeIndex,
-  );
-  const [customStartDate, setCustomStartDate] = useState(
-    urlCustomDate || '',
-  );
+  const [displayRangeIndex, setDisplayRangeIndex] = useState(initialRangeIndex);
+  const [customStartDate, setCustomStartDate] = useState(urlCustomDate || '');
 
   // Get the current date range parameters
   const timeFrameApiParameters = useMemo(
@@ -117,16 +108,19 @@ const LabsAndTests = () => {
           endDate: dateFnsFormat(endDate, 'yyyy-MM-dd'),
         };
       }
-      
+
       // Handle predefined ranges
-      if (selectedRangeIndex >= 0 && selectedRangeIndex < dateRangeOptions.length) {
+      if (
+        selectedRangeIndex >= 0 &&
+        selectedRangeIndex < dateRangeOptions.length
+      ) {
         const selectedRange = dateRangeOptions[selectedRangeIndex];
         return {
           startDate: selectedRange.startDate,
           endDate: selectedRange.endDate,
         };
       }
-      
+
       // Default to first range
       return {
         startDate: dateRangeOptions[0].startDate,
@@ -211,14 +205,14 @@ const LabsAndTests = () => {
 
     const searchParams = new URLSearchParams(location.search);
     searchParams.set('rangeIndex', index.toString());
-    
+
     // Add custom date to URL if using custom range
     if (index === -1 && customStartDate) {
       searchParams.set('customDate', customStartDate);
     } else {
       searchParams.delete('customDate');
     }
-    
+
     history.push({
       pathname: location.pathname,
       search: searchParams.toString(),
@@ -232,6 +226,15 @@ const LabsAndTests = () => {
 
   const handleCustomDateChange = dateString => {
     setCustomStartDate(dateString);
+  };
+
+  // Calculate the display time frame for no records message
+  const getDisplayTimeFrame = () => {
+    if (!isAcceleratingLabsAndTests) return '';
+    if (selectedRangeIndex === -1 && customStartDate) {
+      return formatDateRange(timeFrameApiParameters);
+    }
+    return formatDateRange(dateRangeOptions[displayRangeIndex]);
   };
 
   return (
@@ -332,26 +335,19 @@ const LabsAndTests = () => {
                   domainOptions={{
                     isAccelerating: isAcceleratingLabsAndTests,
                     rangeIndex: selectedRangeIndex,
-                    customDate: selectedRangeIndex === -1 ? customStartDate : null,
+                    customDate:
+                      selectedRangeIndex === -1 ? customStartDate : null,
                     displayTimeFrame:
                       selectedRangeIndex === -1 && customStartDate
                         ? formatDateRange(timeFrameApiParameters)
-                        : formatDateRange(
-                            dateRangeOptions[displayRangeIndex],
-                          ),
+                        : formatDateRange(dateRangeOptions[displayRangeIndex]),
                   }}
                 />
               </>
             ) : (
               <NoRecordsMessage
                 type={recordType.LABS_AND_TESTS}
-                timeFrame={
-                  isAcceleratingLabsAndTests
-                    ? selectedRangeIndex === -1 && customStartDate
-                      ? formatDateRange(timeFrameApiParameters)
-                      : formatDateRange(dateRangeOptions[displayRangeIndex])
-                    : ''
-                }
+                timeFrame={getDisplayTimeFrame()}
               />
             )}
           </>

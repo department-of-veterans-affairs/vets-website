@@ -7,7 +7,7 @@ import { sendDataDogAction } from '../../util/helpers';
 const LabsAndTestsListItem = props => {
   const { record, options = {} } = props;
   const { isAccelerating, rangeIndex, customDate } = options;
-  
+
   // Build query string for detail page link
   let queryString = '';
   if (isAccelerating) {
@@ -16,7 +16,7 @@ const LabsAndTestsListItem = props => {
       queryString += `&customDate=${customDate}`;
     }
   }
-  
+
   return (
     <va-card
       background

@@ -755,20 +755,20 @@ export const getLabsAndTestsDateRanges = () => {
   const now = new Date();
   const today = dateFnsFormat(now, 'yyyy-MM-dd');
   const ranges = [];
-  
+
   // Generate 90-day ranges going back approximately 10 years
   // This provides reasonable coverage while maintaining good UX
   // 10 years * 365.25 days / 90 days ≈ 40 ranges
   const totalRanges = 40;
-  
+
   for (let i = 0; i < totalRanges; i += 1) {
     const rangeEndDaysAgo = i * 90;
     const rangeStartDaysAgo = (i + 1) * 90;
-    
+
     // Use date-fns subDays for reliable date calculations
     const endDate = subDays(now, rangeEndDaysAgo);
     const startDate = subDays(now, rangeStartDaysAgo);
-    
+
     // Format the label based on the range
     let label;
     if (i === 0) {
@@ -778,7 +778,7 @@ export const getLabsAndTestsDateRanges = () => {
       const endFormatted = dateFnsFormat(endDate, 'MMM d, yyyy');
       label = `${startFormatted} to ${endFormatted}`;
     }
-    
+
     ranges.push({
       value: i,
       label,
@@ -786,7 +786,7 @@ export const getLabsAndTestsDateRanges = () => {
       endDate: i === 0 ? today : dateFnsFormat(endDate, 'yyyy-MM-dd'),
     });
   }
-  
+
   return ranges;
 };
 
