@@ -11,4 +11,4 @@ export {
   BRANCH_OF_SERVICE,
   CURRENT_ALLOWANCE_RATE,
   SUBMISSION_ADDRESS,
-} from './constants';
+} from './constants.js';
