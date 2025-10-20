@@ -27,7 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      thirdPartyPreparerFullName: fullNameNoSuffixSchema,
+      thirdPartyPreparerFullName: fullNameNoSuffixSchema(),
     },
   },
 };

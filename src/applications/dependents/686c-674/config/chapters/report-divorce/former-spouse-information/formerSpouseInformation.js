@@ -14,7 +14,7 @@ export const schema = {
     reportDivorce: {
       type: 'object',
       properties: {
-        fullName: fullNameNoSuffixSchema,
+        fullName: fullNameNoSuffixSchema(),
         birthDate: currentOrPastDateSchema,
         'view:cancelDivorce': {
           type: 'object',

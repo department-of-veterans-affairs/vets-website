@@ -262,7 +262,7 @@
       "uiSchemaType": "function",
       "uiSchemaDescription": "uiSchema for `first`, `middle`, and `last name`",
       "schema": "fullNameNoSuffixSchema",
-      "schemaType": "object",
+      "schemaType": "function",
       "schemaDescription": "schema for `fullNameNoSuffixUI`"
     },
     {

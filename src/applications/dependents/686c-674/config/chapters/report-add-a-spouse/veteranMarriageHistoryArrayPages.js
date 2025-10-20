@@ -105,7 +105,7 @@ export const vetFormerMarriagePersonalInfoPage = {
     type: 'object',
     required: ['fullName'],
     properties: {
-      fullName: fullNameNoSuffixSchema,
+      fullName: fullNameNoSuffixSchema(),
     },
   },
 };

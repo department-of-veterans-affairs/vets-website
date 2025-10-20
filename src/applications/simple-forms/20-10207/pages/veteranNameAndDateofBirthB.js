@@ -22,7 +22,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      veteranFullName: fullNameNoSuffixSchema,
+      veteranFullName: fullNameNoSuffixSchema(),
       veteranDateOfBirth: dateOfBirthSchema,
     },
     required: ['veteranFullName', 'veteranDateOfBirth'],
