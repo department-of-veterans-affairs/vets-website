@@ -26,6 +26,7 @@ const AlertConfirmContactEmail = ({
       status="warning"
       dataTestid="mhv-alert--confirm-contact-email"
       className="vads-u-margin-y--2"
+      fullWidth={false}
     >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">

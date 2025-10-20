@@ -25,7 +25,11 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--confirm-contact-email">
+    <VaAlert
+      status="warning"
+      dataTestid="profile-alert--confirm-contact-email"
+      fullWidth={false}
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>
@@ -62,7 +66,11 @@ const AlertAddContactEmail = ({ recordEvent, onClick }) => {
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
 
   return (
-    <VaAlert status="warning" dataTestid="profile-alert--add-contact-email">
+    <VaAlert
+      status="warning"
+      dataTestid="profile-alert--add-contact-email"
+      fullWidth={false}
+    >
       <h2 slot="headline">{headline}</h2>
       <React.Fragment key=".1">
         <p>

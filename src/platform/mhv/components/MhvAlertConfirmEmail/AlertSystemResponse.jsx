@@ -39,6 +39,7 @@ const AlertSystemResponse = ({
       status={status}
       dataTestid={dataTestid}
       className="vads-u-margin-y--2"
+      fullWidth={false}
     >
       <h2 slot="headline">{headline}</h2>
       <p className="vads-u-margin-y--0">{content}</p>
