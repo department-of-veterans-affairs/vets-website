@@ -76,7 +76,7 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
       <VaAlert
         data-testid="notification"
         close-btn-aria-label="Close notification"
-        className="claims-alert"
+        className="evidence-submission-type-2-alert"
         closeable={false}
         onCloseEvent={() => {}}
         status="error"
