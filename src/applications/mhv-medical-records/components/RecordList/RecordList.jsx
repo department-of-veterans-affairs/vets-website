@@ -30,12 +30,6 @@ const RecordList = props => {
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
-
-    // calculate height of "showing records" and scrolls to it.
-    const showRecordsHeight = document
-      .querySelector('#showingRecords')
-      .getBoundingClientRect();
-    window.scrollTo({ top: showRecordsHeight.top + window.scrollY, left: 0 });
   };
 
   // tracks url param
@@ -60,11 +54,20 @@ const RecordList = props => {
 
   useEffect(
     () => {
-      if (currentPage > 1 && records?.length) {
+      if (paramPage && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
+
+        // calculate height of "showing records" and scrolls to it.
+        const showRecordsHeight = document
+          .querySelector('#showingRecords')
+          .getBoundingClientRect();
+        window.scrollTo({
+          top: showRecordsHeight.top + window.scrollY,
+          left: 0,
+        });
       }
     },
-    [currentPage, records],
+    [currentPage, paramPage, records],
   );
 
   return (
