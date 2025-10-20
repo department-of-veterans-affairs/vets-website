@@ -4,7 +4,7 @@ import { renderWithReduxAndRouter } from '../../utils';
 import WhatYouNeedToDo from '../../../components/claim-status-tab/WhatYouNeedToDo';
 
 const nothingNeededText =
-  "There's nothing we need from you right now. We'll let you know when there's an update.";
+  'There’s nothing we need from you right now. We’ll let you know when there’s an update.';
 // cst_show_document_upload_status false for old behavior
 const defaultReduxState = {
   initialState: {
