@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { isLoggedIn } from 'platform/user/selectors';
 
@@ -10,6 +11,9 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 export const IntroductionPage = ({ route }) => {
   const loggedIn = useSelector(isLoggedIn);
   const { formConfig, pageList } = route;
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const pbbFormsRequireLoa3 = useToggleValue(TOGGLE_NAMES.pbbFormsRequireLoa3);
 
   const renderIfVeteranContent = authenticated => {
     const prefix = authenticated ? 'You’ll' : 'If you’re the Veteran, you’ll';
@@ -167,6 +171,7 @@ export const IntroductionPage = ({ route }) => {
       </va-additional-info>
 
       <SaveInProgressIntro
+        hideUnauthedStartLink={pbbFormsRequireLoa3}
         headingLevel={2}
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}

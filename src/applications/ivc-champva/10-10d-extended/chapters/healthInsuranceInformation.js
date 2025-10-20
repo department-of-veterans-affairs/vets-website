@@ -91,8 +91,6 @@ export const healthInsuranceOptions = {
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
   text: {
-    summaryTitle: 'Report other health insurance',
-    summaryTitleWithoutItems: 'Report other health insurance',
     getItemName: item => item?.provider,
     cardDescription: item => (
       <ul className="no-bullets">
@@ -235,6 +233,26 @@ const employer = {
   },
 };
 
+const prescriptionCoverage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) => `${formData?.provider} prescription coverage`,
+    ),
+    eob: yesNoUI({
+      title: 'Does the applicant(s) health insurance cover prescriptions?',
+      hint:
+        'You may find this information on the front of your health insurance card. You can also contact the phone number listed on the back of the card.',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['eob'],
+    properties: {
+      eob: yesNoSchema,
+    },
+  },
+};
+
 const additionalComments = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -339,6 +357,11 @@ export const healthInsurancePages = arrayBuilderPages(
       path: 'health-insurance-employer-sponsorship/:index',
       title: 'Type of insurance - through employer',
       ...employer,
+    }),
+    prescriptionCoverage: pageBuilder.itemPage({
+      path: 'health-insurance-prescription-coverage/:index',
+      title: 'Prescription coverage',
+      ...prescriptionCoverage,
     }),
     comments: pageBuilder.itemPage({
       path: 'health-insurance-additional-comments/:index',

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { SIGN_OUT_URL } from '../../../utilities/constants';
 import NavDropdown from './NavDropdown';
 
@@ -36,22 +35,17 @@ const UserHelpLinks = () => {
           Submissions
         </a>
       </li>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalHelp}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--white"
-              href="/representative/get-help"
-              data-eventname="nav-link-click"
-            >
-              Get Help
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
+
+      <li>
+        <a
+          data-testid="user-nav-help-link"
+          className="vads-u-color--white"
+          href="/representative/get-help"
+          data-eventname="nav-link-click"
+        >
+          Get Help
+        </a>
+      </li>
     </>
   );
 };
@@ -59,22 +53,6 @@ const UserHelpLinks = () => {
 const UserNavLinks = () => {
   return (
     <>
-      <Toggler
-        toggleName={Toggler.TOGGLE_NAMES.accreditedRepresentativePortalProfile}
-      >
-        <Toggler.Enabled>
-          <li>
-            <a
-              data-testid="user-nav-profile-link"
-              className="vads-u-color--black"
-              href="/representative/profile"
-              data-eventname="nav-link-click"
-            >
-              Profile
-            </a>
-          </li>
-        </Toggler.Enabled>
-      </Toggler>
       <li>
         <a
           data-testid="user-nav-sign-out-link"
