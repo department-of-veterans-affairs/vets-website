@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 148,
+  "totalApplications": 146,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -158,12 +158,6 @@
       "appName": "Claims Status",
       "entryName": "claims-status",
       "rootUrl": "/track-claims"
-    },
-    {
-      "directoryPath": "src/applications/claims-status/node_modules/@stencil/core/screenshot/compare",
-      "appName": "N/A",
-      "entryName": "N/A",
-      "rootUrl": "N/A"
     },
     {
       "directoryPath": "src/applications/combined-debt-portal/combined",
