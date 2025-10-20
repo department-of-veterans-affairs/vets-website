@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import DateRangeDropdown from '../../../components/shared/DateRangeDropdown';
@@ -69,7 +69,7 @@ describe('DateRangeDropdown', () => {
     );
 
     const dropdown = screen.getByTestId('date-range-dropdown');
-    fireEvent.vaSelect(dropdown, { detail: { value: '2' } });
+    dropdown.__events.vaSelect({ detail: { value: '2' } });
 
     sinon.assert.calledOnce(mockOnChange);
     sinon.assert.calledWith(mockOnChange, 2);
@@ -86,7 +86,7 @@ describe('DateRangeDropdown', () => {
     );
 
     const dropdown = screen.getByTestId('date-range-dropdown');
-    fireEvent.vaSelect(dropdown, { detail: { value: '-1' } });
+    dropdown.__events.vaSelect({ detail: { value: '-1' } });
 
     expect(screen.getByTestId('custom-date-picker')).to.exist;
     expect(screen.getByTestId('custom-date-submit-button')).to.exist;
