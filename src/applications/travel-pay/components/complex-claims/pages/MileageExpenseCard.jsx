@@ -11,6 +11,7 @@ const TripTypeLabels = {
 const MileageExpenseCard = ({ expense }) => {
   const editExpense = () => {
     // TODO Add logic for this function, it will open the expense in edit mode
+    // eslint-disable-next-line no-console
     console.log('Edit clicked');
   };
 
