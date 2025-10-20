@@ -157,7 +157,7 @@ const NotificationSettings = ({
         {shouldShowLoadingIndicator && (
           <VaLoadingIndicator
             data-testid="loading-indicator"
-            message="We're loading your information."
+            message="We’re loading your information."
           />
         )}
         {shouldShowAPIError && <LoadFail />}
