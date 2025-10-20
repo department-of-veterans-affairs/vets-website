@@ -18,7 +18,7 @@ export default {
     required: ['email', 'primaryPhone'],
     properties: {
       email: emailSchema,
-      primaryPhone: internationalPhoneSchema(),
+      primaryPhone: internationalPhoneSchema({ required: true }),
     },
   },
 };
