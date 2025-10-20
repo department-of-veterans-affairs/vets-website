@@ -104,9 +104,9 @@ const travelerPage = {
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
+      required: (fullData, index) =>
         ['DEPENDENT', 'OTHER'].includes(
-          formData?.mileageExpenses?.[index]?.traveler,
+          fullData?.mileageExpenses?.[index]?.traveler,
         ),
     }),
   },
@@ -135,8 +135,8 @@ const destinationPage = {
       title: 'Tell us where you traveled',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
+      required: (fullData, index) =>
+        fullData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
     }),
     travelMilesTraveled: numberUI('How many miles did you travel?'),
     travelDate: currentOrPastDateUI({
@@ -168,8 +168,8 @@ const reimbursementPage = {
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelReimbursed === true,
+      'ui:required': (fullData, index) =>
+        fullData?.mileageExpenses?.[index]?.travelReimbursed === true,
     },
   },
   schema: {
