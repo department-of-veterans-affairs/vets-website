@@ -130,10 +130,10 @@ export const EmploymentLastPaymentPage = ({
 };
 
 EmploymentLastPaymentPage.propTypes = {
+  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
-  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };
