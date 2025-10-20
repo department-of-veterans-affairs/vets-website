@@ -22,7 +22,7 @@ const EducationBenefits = ({ setPageState, state = {} }) => {
       event: `howToWizard-formChange`,
       'form-field-type': 'form-radio-buttons',
       'form-field-label':
-        'Do you have VA education benefits available for school?',
+        'Are you currently eligible for VA education benefits?',
       'form-field-value': value,
     });
     setPageState({ selected: value }, value);
@@ -31,7 +31,7 @@ const EducationBenefits = ({ setPageState, state = {} }) => {
     <VaRadio
       id="VAEducationBenefits"
       class="vads-u-margin-y--2"
-      label="Do you have VA education benefits available for school?"
+      label="Are you currently eligible for VA education benefits?"
       onVaValueChange={handleValueChange}
     >
       {options.map(option => (
