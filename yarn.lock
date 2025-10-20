@@ -16823,6 +16823,21 @@ open@^8.4.0, open@~8.4.0:
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
 
+openapi-typescript@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/openapi-typescript/-/openapi-typescript-4.5.0.tgz#e64ef8281ee9b7ffab87bda612f64c565158f230"
+  integrity sha512-++gWZLTKmbZP608JHMerllAs84HzULWfVjfH7otkWBLrKxUvzHMFqI6R4JSW1LoNDZnS4KKiRTZW66Fxyp6z4Q==
+  dependencies:
+    hosted-git-info "^3.0.8"
+    js-yaml "^4.1.0"
+    kleur "^4.1.4"
+    meow "^9.0.0"
+    mime "^3.0.0"
+    node-fetch "^2.6.6"
+    prettier "^2.5.1"
+    slash "^3.0.0"
+    tiny-glob "^0.2.9"
+
 openapi-zod@^0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/openapi-zod/-/openapi-zod-0.2.7.tgz#5c114809fbfc78c47b0c29bfe94e379837e5b4d1"
@@ -23183,7 +23198,7 @@ yaml@^1.10.0, yaml@^1.10.2:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yargs-parser@13.1.2, yargs-parser@20.2.4, yargs-parser@^11.1.1, yargs-parser@^13.1.2, yargs-parser@^18.1.2, yargs-parser@^20.2.2, yargs-parser@^20.2.3, yargs-parser@^20.2.9, yargs-parser@^21.0.0, yargs-parser@^21.1.1:
+yargs-parser@13.1.2, yargs-parser@20.2.4, yargs-parser@^11.1.1, yargs-parser@^18.1.2, yargs-parser@^20.2.2, yargs-parser@^20.2.3, yargs-parser@^20.2.9, yargs-parser@^21.0.0, yargs-parser@^21.1.1:
   version "13.1.2"
   resolved "https://registry.npmjs.org/yargs-parser/-/yargs-parser-13.1.2.tgz#130f09702ebaeef2650d54ce6e3e5706f7a4fb38"
   integrity sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==
