@@ -84,13 +84,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: {
-      ...ssnUI(),
-      'ui:errorMessages': {
-        required:
-          'Please enter a valid 9 digit Social Security number (dashes allowed)',
-      },
-    },
+    veteranSocialSecurityNumber: ssnUI(),
     vaFileNumber: {
       ...vaFileNumberUI('VA file number'),
       'ui:options': {
