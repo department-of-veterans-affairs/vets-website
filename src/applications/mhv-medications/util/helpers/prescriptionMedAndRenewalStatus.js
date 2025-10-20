@@ -7,6 +7,7 @@ import {
   pdfDefaultStatusDefinition,
   pdfDefaultPendingMedDefinition,
   pdfDefaultPendingRenewalDefinition,
+  medStatusDisplayTypes,
 } from '../constants';
 
 const determineStatus = (
@@ -16,7 +17,7 @@ const determineStatus = (
   prescription,
 ) => {
   switch (displayType) {
-    case 'VaPrescription':
+    case medStatusDisplayTypes.VA_PRESCRIPTION:
       if (pendingRenewal) {
         return (
           <p data-testid="pending-renewal-status">
@@ -28,7 +29,7 @@ const determineStatus = (
         return <p>{pdfDefaultPendingMedDefinition}</p>;
       }
       return <StatusDropdown status={prescription?.dispStatus} />;
-    case 'print': {
+    case medStatusDisplayTypes.PRINT: {
       if (pendingMed) {
         return pdfDefaultPendingMedDefinition;
       }

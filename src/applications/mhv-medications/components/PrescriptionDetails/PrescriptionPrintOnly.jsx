@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { FIELD_NONE_NOTED } from '../../util/constants';
+import { FIELD_NONE_NOTED, medStatusDisplayTypes } from '../../util/constants';
 import {
   validateField,
   dateFormat,
@@ -118,7 +118,7 @@ const PrescriptionPrintOnly = props => {
               )}
             <p>
               <strong>Status: </strong>
-              {prescriptionMedAndRenewalStatus(rx, 'print')}
+              {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
             </p>
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}

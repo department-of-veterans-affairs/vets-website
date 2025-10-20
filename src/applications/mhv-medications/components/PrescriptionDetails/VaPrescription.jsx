@@ -20,6 +20,7 @@ import {
   validateIfAvailable,
   prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
+import { medStatusDisplayTypes } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
 import ExtraDetails from '../shared/ExtraDetails';
@@ -261,7 +262,10 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
-            {prescriptionMedAndRenewalStatus(prescription, 'VaPrescription')}
+            {prescriptionMedAndRenewalStatus(
+              prescription,
+              medStatusDisplayTypes.VA_PRESCRIPTION,
+            )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left
             </h3>

@@ -186,6 +186,11 @@ export const pdfDefaultPendingMedDefinition =
 export const pdfDefaultPendingRenewalDefinition =
   'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.\n';
 
+export const medStatusDisplayTypes = {
+  VA_PRESCRIPTION: 'VaPrescription',
+  PRINT: 'print',
+};
+
 export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
 * Over-the-counter medications, supplements, and herbal remedies
 * Sample medications a provider gave you
