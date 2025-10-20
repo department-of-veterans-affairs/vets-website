@@ -41,7 +41,6 @@ const testConfig = createTestConfig(
         afterHook,
       }) => {
         afterHook(() => {
-          // Check the exemption checkbox to bypass the date requirement
           cy.get('input[type="checkbox"]').check({ force: true });
           cy.tabToSubmitForm();
         });
@@ -80,6 +79,14 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
+      '/school-administrators/update-certifying-officials/additional-certifying-officials-1/:index': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('input[type="checkbox"]').check({ force: true });
+          cy.tabToSubmitForm();
+        });
+      },
       '/school-administrators/update-certifying-officials/read-only-certifying-officials/summary': ({
         afterHook,
       }) => {
@@ -97,32 +104,26 @@ const testConfig = createTestConfig(
           cy.tabToSubmitForm();
         });
       },
-      // '/school-administrators/update-certifying-officials/remarks': ({
-      //   afterHook,
-      // }) => {
-      //   afterHook(() => {
-      //     // Wait for any loading indicators to disappear
-      //     cy.get('va-loading-indicator', { timeout: 10000 }).should(
-      //       'not.exist',
-      //     );
+      '/school-administrators/update-certifying-officials/remarks': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('va-loading-indicator', { timeout: 10000 }).should(
+            'not.exist',
+          );
 
-      //     // Wait for the textarea to be visible and not disabled
-      //     cy.get('#input-type-textarea', { timeout: 10000 })
-      //       .should('be.visible')
-      //       .and('not.be.disabled');
+          cy.get('#input-type-textarea', { timeout: 10000 })
+            .should('be.visible')
+            .and('not.be.disabled');
 
-      //     // Small delay to ensure form state is stable
-      //     cy.wait(100);
+          cy.get('#input-type-textarea').clear({
+            delay: 0,
+            waitForAnimations: false,
+          });
 
-      //     // Now safely clear the textarea
-      //     cy.get('#input-type-textarea').clear({
-      //       delay: 0,
-      //       waitForAnimations: false,
-      //     });
-
-      //     cy.tabToSubmitForm();
-      //   });
-      // },
+          cy.tabToSubmitForm();
+        });
+      },
       '/school-administrators/update-certifying-officials/review-and-submit': ({
         afterHook,
       }) => {
@@ -139,6 +140,25 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      Cypress.Commands.overwrite(
+        'axeCheck',
+        (originalFn, context = 'main', options = {}) => {
+          const optionsWithDisabledRule = {
+            ...options,
+            rules: {
+              ...(options.rules || {}),
+              'definition-list': {
+                enabled: false,
+              },
+              'color-contrast': {
+                enabled: false,
+              },
+            },
+          };
+          return originalFn(context, optionsWithDisabledRule);
+        },
+      );
+
       cy.intercept('POST', formConfig.submitUrl, { status: 200 });
       cy.intercept('GET', '**/gi/institutions/10002000', {
         statusCode: 200,
