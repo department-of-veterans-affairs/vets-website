@@ -163,10 +163,13 @@ const recipientPage = {
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (fullData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          fullData?.careExpenses?.[index]?.recipient,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const careExpenses = formData.careExpenses ?? fullData.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(careExpense?.recipient);
+      },
     }),
     provider: textUI('What’s the name of the care provider?'),
   },
@@ -217,27 +220,32 @@ const costPage = {
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
-        hideIf: (formData, index, fullData) =>
-          fullData?.careExpenses?.[index]?.typeOfCare !==
-          'IN_HOME_CARE_ATTENDANT',
+        hideIf: (formData, index, fullData) => {
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
+        },
       }),
-      'ui:required': (formData, index, fullData) =>
-        fullData?.careExpenses?.[index]?.typeOfCare ===
-        'IN_HOME_CARE_ATTENDANT',
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
     },
     weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) => {
-          return (
-            fullData?.careExpenses?.[index]?.typeOfCare !==
-            'IN_HOME_CARE_ATTENDANT'
-          );
+          const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+          const careExpense = careExpenses?.[index];
+          return careExpense?.typeOfCare !== 'IN_HOME_CARE_ATTENDANT';
         },
       }),
-      'ui:required': (formData, index, fullData) =>
-        fullData?.careExpenses?.[index]?.typeOfCare ===
-        'IN_HOME_CARE_ATTENDANT',
+      'ui:required': (formData, index, fullData) => {
+        const careExpenses = formData?.careExpenses ?? fullData?.careExpenses;
+        const careExpense = careExpenses?.[index];
+        return careExpense?.typeOfCare === 'IN_HOME_CARE_ATTENDANT';
+      },
     },
   },
   schema: {

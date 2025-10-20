@@ -104,10 +104,14 @@ const travelerPage = {
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (fullData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          fullData?.mileageExpenses?.[index]?.traveler,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(mileageExpense?.traveler);
+      },
     }),
   },
   schema: {
@@ -135,8 +139,12 @@ const destinationPage = {
       title: 'Tell us where you traveled',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (fullData, index) =>
-        fullData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
+      required: (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelLocation === 'OTHER';
+      },
     }),
     travelMilesTraveled: numberUI('How many miles did you travel?'),
     travelDate: currentOrPastDateUI({
@@ -168,8 +176,12 @@ const reimbursementPage = {
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (fullData, index) =>
-        fullData?.mileageExpenses?.[index]?.travelReimbursed === true,
+      'ui:required': (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelReimbursed === true;
+      },
     },
   },
   schema: {
