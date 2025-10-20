@@ -5,14 +5,6 @@ import { VaDate } from '@department-of-veterans-affairs/component-library/dist/r
 
 const CUSTOM_RANGE_VALUE = -1;
 
-function handleChange({ updateDateRangeIndex, callback }) {
-  return e => {
-    const dateRange = Number(e.detail.value);
-    updateDateRangeIndex(dateRange);
-    callback(dateRange);
-  };
-}
-
 const DateRangeDropdown = ({ currentRange, onChange, options, onCustomDateChange, customStartDate, isLoadingData }) => {
   const [dateRangeIndex, updateDateRangeIndex] = useState(currentRange);
   const [showCustomPicker, setShowCustomPicker] = useState(currentRange === CUSTOM_RANGE_VALUE);
