@@ -8,6 +8,26 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { VeteranIdentificationPage } from './veteran-identification';
 
+/**
+ * Helper function to find web component by tag and label attribute
+ * Works around Node 22 limitation with CSS attribute selectors on custom elements
+ */
+const findByLabel = (container, tagName, labelText) => {
+  return Array.from(container.querySelectorAll(tagName)).find(
+    el => el.getAttribute('label') === labelText,
+  );
+};
+
+/**
+ * Helper function to find web component by tag and text attribute
+ * Works around Node 22 limitation with CSS attribute selectors on custom elements
+ */
+const findByText = (container, tagName, textValue) => {
+  return Array.from(container.querySelectorAll(tagName)).find(
+    el => el.getAttribute('text') === textValue,
+  );
+};
+
 describe('VeteranIdentificationPage', () => {
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -40,39 +60,42 @@ describe('VeteranIdentificationPage', () => {
       );
 
       await waitFor(() => {
-        expect(container.querySelector('va-text-input[label="First name"]')).to
-          .exist;
-        expect(container.querySelector('va-text-input[label="Middle name"]')).to
-          .exist;
-        expect(container.querySelector('va-text-input[label="Last name"]')).to
-          .exist;
+        expect(findByLabel(container, 'va-text-input', 'First name')).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Middle name')).to.exist;
+        expect(findByLabel(container, 'va-text-input', 'Last name')).to.exist;
 
         expect(
-          container.querySelector(
-            'va-text-input[label="Veteran\'s Social Security Number"]',
+          findByLabel(
+            container,
+            'va-text-input',
+            "Veteran's Social Security Number",
           ),
         ).to.exist;
 
         expect(
-          container.querySelector(
-            'va-text-input[label="Veteran\'s service number (if different from SSN)"]',
+          findByLabel(
+            container,
+            'va-text-input',
+            "Veteran's service number (if different from SSN)",
           ),
         ).to.exist;
 
         expect(
-          container.querySelector(
-            'va-text-input[label="Veteran\'s VA file number"]',
-          ),
+          findByLabel(container, 'va-text-input', "Veteran's VA file number"),
         ).to.exist;
 
         expect(
-          container.querySelector(
-            'va-memorable-date[label="Veteran\'s date of birth"]',
+          findByLabel(
+            container,
+            'va-memorable-date',
+            "Veteran's date of birth",
           ),
         ).to.exist;
         expect(
-          container.querySelector(
-            'va-memorable-date[label="Veteran\'s date of death"]',
+          findByLabel(
+            container,
+            'va-memorable-date',
+            "Veteran's date of death",
           ),
         ).to.exist;
       });
@@ -88,8 +111,8 @@ describe('VeteranIdentificationPage', () => {
       );
 
       expect(container.textContent).to.include('Place of birth');
-      expect(container.querySelector('va-text-input[label="City"]')).to.exist;
-      expect(container.querySelector('va-text-input[label="State"]')).to.exist;
+      expect(findByLabel(container, 'va-text-input', 'City')).to.exist;
+      expect(findByLabel(container, 'va-text-input', 'State')).to.exist;
     });
 
     it('should show instruction text', () => {
@@ -160,9 +183,7 @@ describe('VeteranIdentificationPage', () => {
         />,
       );
 
-      const continueButton = container.querySelector(
-        'va-button[text="Continue"]',
-      );
+      const continueButton = findByText(container, 'va-button', 'Continue');
       expect(continueButton).to.exist;
     });
 
@@ -176,7 +197,7 @@ describe('VeteranIdentificationPage', () => {
         />,
       );
 
-      const backButton = container.querySelector('va-button[text="Back"]');
+      const backButton = findByText(container, 'va-button', 'Back');
       expect(backButton).to.exist;
     });
   });
@@ -193,10 +214,8 @@ describe('VeteranIdentificationPage', () => {
         />,
       );
 
-      const saveButton = container.querySelector('va-button[text="Save"]');
-      const continueButton = container.querySelector(
-        'va-button[text="Continue"]',
-      );
+      const saveButton = findByText(container, 'va-button', 'Save');
+      const continueButton = findByText(container, 'va-button', 'Continue');
 
       expect(saveButton).to.exist;
       expect(continueButton).to.not.exist;

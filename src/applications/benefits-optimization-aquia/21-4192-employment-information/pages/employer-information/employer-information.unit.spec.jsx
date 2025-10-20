@@ -8,6 +8,26 @@ import { expect } from 'chai';
 import React from 'react';
 import { EmployerInformationPage } from './employer-information';
 
+/**
+ * Helper function to find web component by tag and label attribute
+ * Works around Node 22 limitation with CSS attribute selectors on custom elements
+ */
+const findByLabel = (container, tagName, labelText) => {
+  return Array.from(container.querySelectorAll(tagName)).find(
+    el => el.getAttribute('label') === labelText,
+  );
+};
+
+/**
+ * Helper function to find web component by tag and text attribute
+ * Works around Node 22 limitation with CSS attribute selectors on custom elements
+ */
+const findByText = (container, tagName, textValue) => {
+  return Array.from(container.querySelectorAll(tagName)).find(
+    el => el.getAttribute('text') === textValue,
+  );
+};
+
 describe('EmployerInformationPage', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
@@ -51,14 +71,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        expect(
-          container.querySelector('va-text-input[label="Employer\'s name"]'),
-        ).to.exist;
-      });
+      await waitFor(
+        () => {
+          const element = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(element).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should render address fields', () => {
+    it('should render address fields', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -68,15 +94,19 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input[label="Street address"]'))
-        .to.exist;
-      expect(
-        container.querySelector('va-text-input[label="Street address line 2"]'),
-      ).to.exist;
-      expect(container.querySelector('va-text-input[label="City"]')).to.exist;
-      expect(container.querySelector('va-select[label="State"]')).to.exist;
-      expect(container.querySelector('va-text-input[label="ZIP code"]')).to
-        .exist;
+      await waitFor(
+        () => {
+          expect(findByLabel(container, 'va-text-input', 'Street address')).to
+            .exist;
+          expect(
+            findByLabel(container, 'va-text-input', 'Street address line 2'),
+          ).to.exist;
+          expect(findByLabel(container, 'va-text-input', 'City')).to.exist;
+          expect(findByLabel(container, 'va-select', 'State')).to.exist;
+          expect(findByLabel(container, 'va-text-input', 'ZIP code')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should render phone number field', async () => {
@@ -89,16 +119,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        expect(
-          container.querySelector(
-            'va-telephone-input[label="Employer\'s phone number"]',
-          ),
-        ).to.exist;
-      });
+      await waitFor(
+        () => {
+          const element = findByLabel(
+            container,
+            'va-telephone-input',
+            "Employer's phone number",
+          );
+          expect(element).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should render continue button', () => {
+    it('should render continue button', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -108,13 +142,16 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const continueButton = container.querySelector(
-        'va-button[text="Continue"]',
+      await waitFor(
+        () => {
+          const continueButton = findByText(container, 'va-button', 'Continue');
+          expect(continueButton).to.exist;
+        },
+        { timeout: 3000 },
       );
-      expect(continueButton).to.exist;
     });
 
-    it('should render back button', () => {
+    it('should render back button', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -124,8 +161,13 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const backButton = container.querySelector('va-button[text="Back"]');
-      expect(backButton).to.exist;
+      await waitFor(
+        () => {
+          const backButton = findByText(container, 'va-button', 'Back');
+          expect(backButton).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
@@ -155,32 +197,42 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput).to.exist;
-        expect(employerNameInput.getAttribute('value')).to.equal(
-          'Bounty Hunters Guild',
-        );
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Bounty Hunters Guild',
+          );
 
-        const streetInput = container.querySelector(
-          'va-text-input[label="Street address"]',
-        );
-        expect(streetInput.getAttribute('value')).to.equal(
-          'Guild Headquarters',
-        );
+          const streetInput = findByLabel(
+            container,
+            'va-text-input',
+            'Street address',
+          );
+          expect(streetInput).to.exist;
+          expect(streetInput.getAttribute('value')).to.equal(
+            'Guild Headquarters',
+          );
 
-        const cityInput = container.querySelector(
-          'va-text-input[label="City"]',
-        );
-        expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
+          const cityInput = findByLabel(container, 'va-text-input', 'City');
+          expect(cityInput).to.exist;
+          expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
 
-        const phoneInput = container.querySelector(
-          'va-telephone-input[label="Employer\'s phone number"]',
-        );
-        expect(phoneInput.getAttribute('value')).to.equal('4155551234');
-      });
+          const phoneInput = findByLabel(
+            container,
+            'va-telephone-input',
+            "Employer's phone number",
+          );
+          expect(phoneInput).to.exist;
+          expect(phoneInput.getAttribute('value')).to.equal('4155551234');
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should display Slave I employer data', async () => {
@@ -207,12 +259,18 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should display Mos Eisley Cantina employer data', async () => {
@@ -239,14 +297,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal(
-          'Mos Eisley Cantina',
-        );
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Mos Eisley Cantina',
+          );
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should handle empty employer data', () => {
@@ -293,7 +357,7 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Data Handling Edge Cases', () => {
-    it('should handle null data prop', () => {
+    it('should handle null data prop', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={null}
@@ -303,10 +367,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input')).to.exist;
+      await waitFor(
+        () => {
+          expect(container.querySelector('va-text-input')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should handle undefined data prop', () => {
+    it('should handle undefined data prop', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={undefined}
@@ -316,10 +385,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input')).to.exist;
+      await waitFor(
+        () => {
+          expect(container.querySelector('va-text-input')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should handle array data prop', () => {
+    it('should handle array data prop', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={[]}
@@ -329,10 +403,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input')).to.exist;
+      await waitFor(
+        () => {
+          expect(container.querySelector('va-text-input')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should handle empty data object', () => {
+    it('should handle empty data object', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -342,7 +421,12 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input')).to.exist;
+      await waitFor(
+        () => {
+          expect(container.querySelector('va-text-input')).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should handle partial employer data', async () => {
@@ -361,17 +445,23 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal(
-          'Black Sun Syndicate',
-        );
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Black Sun Syndicate',
+          );
+        },
+        { timeout: 3000 },
+      );
     });
 
-    it('should handle partial address data', () => {
+    it('should handle partial address data', async () => {
       const data = {
         employerInformation: {
           employerName: 'Pyke Syndicate',
@@ -390,10 +480,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const streetInput = container.querySelector(
-        'va-text-input[label="Street address"]',
+      await waitFor(
+        () => {
+          const streetInput = findByLabel(
+            container,
+            'va-text-input',
+            'Street address',
+          );
+          expect(streetInput).to.exist;
+          expect(streetInput.getAttribute('value')).to.equal(
+            '456 Security Blvd',
+          );
+        },
+        { timeout: 3000 },
       );
-      expect(streetInput.getAttribute('value')).to.equal('456 Security Blvd');
     });
   });
 
@@ -426,7 +526,7 @@ describe('EmployerInformationPage', () => {
       expect(container).to.exist;
     });
 
-    it('should show update button in review mode', () => {
+    it('should show update button in review mode', async () => {
       const data = {
         employerInformation: {
           employerName: 'Bounty Hunters Guild',
@@ -444,8 +544,13 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const updateButton = container.querySelector('va-button[text="Save"]');
-      expect(updateButton).to.exist;
+      await waitFor(
+        () => {
+          const updateButton = findByText(container, 'va-button', 'Save');
+          expect(updateButton).to.exist;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
@@ -460,12 +565,18 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.hasAttribute('required')).to.be.true;
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.hasAttribute('required')).to.be.true;
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should mark phone number as required', async () => {
@@ -478,12 +589,18 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const phoneInput = container.querySelector(
-          'va-telephone-input[label="Employer\'s phone number"]',
-        );
-        expect(phoneInput.hasAttribute('required')).to.be.true;
-      });
+      await waitFor(
+        () => {
+          const phoneInput = findByLabel(
+            container,
+            'va-telephone-input',
+            "Employer's phone number",
+          );
+          expect(phoneInput).to.exist;
+          expect(phoneInput.hasAttribute('required')).to.be.true;
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
@@ -498,12 +615,18 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('maxlength')).to.equal('100');
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('maxlength')).to.equal('100');
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
@@ -546,7 +669,7 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Address Field with All Lines', () => {
-    it('should display all three street address lines', () => {
+    it('should display all three street address lines', async () => {
       const data = {
         employerInformation: {
           employerName: 'Bounty Hunters Guild',
@@ -570,20 +693,34 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const street1 = container.querySelector(
-        'va-text-input[label="Street address"]',
-      );
-      expect(street1.getAttribute('value')).to.equal('Building 1');
+      await waitFor(
+        () => {
+          const street1 = findByLabel(
+            container,
+            'va-text-input',
+            'Street address',
+          );
+          expect(street1).to.exist;
+          expect(street1.getAttribute('value')).to.equal('Building 1');
 
-      const street2 = container.querySelector(
-        'va-text-input[label="Street address line 2"]',
-      );
-      expect(street2.getAttribute('value')).to.equal('Suite 100');
+          const street2 = findByLabel(
+            container,
+            'va-text-input',
+            'Street address line 2',
+          );
+          expect(street2).to.exist;
+          expect(street2.getAttribute('value')).to.equal('Suite 100');
 
-      const street3 = container.querySelector(
-        'va-text-input[label="Street address line 3"]',
+          const street3 = findByLabel(
+            container,
+            'va-text-input',
+            'Street address line 3',
+          );
+          expect(street3).to.exist;
+          expect(street3.getAttribute('value')).to.equal('Floor 5');
+        },
+        { timeout: 3000 },
       );
-      expect(street3.getAttribute('value')).to.equal('Floor 5');
     });
   });
 
@@ -611,14 +748,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal(
-          'Mandalorian Training Corps',
-        );
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Mandalorian Training Corps',
+          );
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should display Hutt Cartel', async () => {
@@ -644,12 +787,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal('Hutt Cartel');
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Hutt Cartel',
+          );
+        },
+        { timeout: 3000 },
+      );
     });
 
     it('should display Crimson Dawn', async () => {
@@ -675,14 +826,20 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      await waitFor(() => {
-        const employerNameInput = container.querySelector(
-          'va-text-input[label="Employer\'s name"]',
-        );
-        expect(employerNameInput.getAttribute('value')).to.equal(
-          'Crimson Dawn',
-        );
-      });
+      await waitFor(
+        () => {
+          const employerNameInput = findByLabel(
+            container,
+            'va-text-input',
+            "Employer's name",
+          );
+          expect(employerNameInput).to.exist;
+          expect(employerNameInput.getAttribute('value')).to.equal(
+            'Crimson Dawn',
+          );
+        },
+        { timeout: 3000 },
+      );
     });
   });
 
