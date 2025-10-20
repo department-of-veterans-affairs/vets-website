@@ -10,16 +10,15 @@ import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAdd
 import AdditionalInstitutionWarningBanner from '../containers/AdditionalInstitutionWarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
-  const details =
-    formData?.additionalInstitutionDetails?.[formData?.currentItemIndex] || {};
+  // In array builder item pages, formData is scoped to the current item
   const code = (fieldData || '').trim();
 
-  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
-  const notFound = details.institutionName === 'not found';
-  const notIHL = details.ihlEligible === false;
-  const notYR = details.yrEligible === false;
+  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const notFound = formData?.institutionName === 'not found';
+  const notIHL = formData?.ihlEligible === false;
+  const notYR = formData?.yrEligible === false;
 
-  const thirdChar = code.charAt(2).toUpperCase();
+  const thirdChar = code?.charAt(2).toUpperCase();
 
   if (badFormat || notFound) {
     errors.addError(

@@ -8,13 +8,34 @@ export default function AdditionalInstitutionWarningBanner() {
   const index = getArrayIndexFromPathName();
 
   const currentItem = formData?.additionalInstitutionDetails?.[index] || {};
+  const notYR = currentItem.yrEligible === false;
   const notIHL = currentItem.ihlEligible === false;
 
   let message = '';
+  const code = currentItem?.facilityCode;
+  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const thirdChar = code?.charAt(2).toUpperCase();
 
-  if (notIHL) {
+  if (!notYR && !notIHL) {
+    return null;
+  }
+
+  if (notYR) {
+    message =
+      'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.';
+  }
+
+  if (!notYR && notIHL) {
     message =
       'This institution is unable to participate in the Yellow Ribbon Program.';
+  }
+
+  const hasXInThirdPosition =
+    code?.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (hasXInThirdPosition) {
+    message =
+      "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
   }
 
   return (
