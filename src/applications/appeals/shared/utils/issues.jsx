@@ -101,6 +101,12 @@ export const hasDuplicates = (data = {}) => {
 export const processContestableIssues = contestableIssues => {
   const processDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(REGEXP.DASH, '');
+
+  // Check if any issues have blocked flags (indicates we need blocked-first sorting)
+  const hasBlockedFlags = (contestableIssues || []).some(issue =>
+    Object.prototype.hasOwnProperty.call(issue, 'isBlockedSameDay'),
+  );
+
   // remove issues with no title & sort by date - see
   // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
   const result = (contestableIssues || [])
@@ -119,6 +125,13 @@ export const processContestableIssues = contestableIssues => {
       };
     })
     .sort((a, b) => {
+      // If blocked flags are present, sort blocked issues first
+      if (hasBlockedFlags) {
+        if (a.isBlockedSameDay && !b.isBlockedSameDay) return -1;
+        if (!a.isBlockedSameDay && b.isBlockedSameDay) return 1;
+      }
+
+      // Then sort by decision date descending (most recent first)
       const dateA = processDate(a);
       const dateB = processDate(b);
       if (dateA === dateB) {
@@ -252,22 +265,6 @@ export const getEligibleContestableIssues = (issues, options = {}) => {
         ...issue,
         isBlockedSameDay, // Add blocking flag for UI to use
       };
-    })
-    .sort((a, b) => {
-      // Sort blocked issues first, then by decision date (most recent first)
-      if (a.isBlockedSameDay && !b.isBlockedSameDay) return -1;
-      if (!a.isBlockedSameDay && b.isBlockedSameDay) return 1;
-
-      // Then sort by decision date descending (most recent first)
-      const dateA = parseDateToDateObj(
-        a.attributes?.approxDecisionDate,
-        FORMAT_YMD_DATE_FNS,
-      );
-      const dateB = parseDateToDateObj(
-        b.attributes?.approxDecisionDate,
-        FORMAT_YMD_DATE_FNS,
-      );
-      return dateB.getTime() - dateA.getTime();
     });
 
   return processContestableIssues(result);
@@ -315,21 +312,4 @@ export const mayHaveLegacyAppeals = ({
     );
     return isBefore(decisionDate, amaCutoff);
   });
-};
-
-/**
- * Generate blocked message text for UI display
- * @param {number} blockedCount - Number of blocked issues
- * @param {string} tomorrowFormatted - Formatted tomorrow date
- * @param {string} timeZoneAbbr - Timezone abbreviation
- * @returns {string} Formatted blocked message
- */
-export const generateBlockedMessage = (
-  blockedCount,
-  tomorrowFormatted,
-  timeZoneAbbr,
-) => {
-  return blockedCount === 1
-    ? `We're sorry. This issue isn't available to add to your appeal yet. You can come back and select it after ${tomorrowFormatted}, 12:01 a.m. ${timeZoneAbbr}.`
-    : `We're sorry. These issues aren't available to add to your appeal yet. You can come back and select them after ${tomorrowFormatted}, 12:01 a.m. ${timeZoneAbbr}.`;
 };
