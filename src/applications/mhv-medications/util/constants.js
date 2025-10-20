@@ -180,17 +180,11 @@ export const pdfDefaultStatusDefinition = [
   },
 ];
 
-export const pdfDefaultPendingMedDefinition = [
-  {
-    value: `This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.`,
-  },
-];
+export const pdfDefaultPendingMedDefinition =
+  'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.\n';
 
-export const pdfDefaultPendingRenewalDefinition = [
-  {
-    value: `This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.`,
-  },
-];
+export const pdfDefaultPendingRenewalDefinition =
+  'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.\n';
 
 export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
 * Over-the-counter medications, supplements, and herbal remedies
