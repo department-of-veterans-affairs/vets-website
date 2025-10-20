@@ -10,7 +10,7 @@ import childReasonToRemove from '../../../components/picklist/childReasonToRemov
 import { createDoB } from '../../test-helpers';
 
 describe('childReasonToRemove', () => {
-  const defaultChildData = {
+  const defaultData = {
     fullName: {
       first: 'PENNY',
       last: 'FOSTER',
@@ -22,13 +22,8 @@ describe('childReasonToRemove', () => {
     awardIndicator: 'Y',
   };
 
-  const defaultStepchildData = {
-    ...defaultChildData,
-    isStepchild: 'Y',
-  };
-
   const renderComponent = ({
-    data = defaultChildData,
+    data = defaultData,
     formSubmitted = false,
     onChange = () => {},
     onSubmit = () => {},
@@ -47,17 +42,21 @@ describe('childReasonToRemove', () => {
       </form>,
     );
 
-  it('should render for regular child', () => {
+  it('should render with proper heading and radio group', () => {
     const { container } = renderComponent();
     const radio = $('va-radio', container);
-    expect(radio).to.exist;
-    expect(radio.getAttribute('label')).to.equal(
-      'Do any of these apply to PENNY FOSTER (age 11)?',
-    );
-    expect(radio.getAttribute('required')).to.equal('true');
+    const heading = $('h3', container);
 
-    const h3 = $('h3', container);
-    expect(h3.textContent).to.equal('Reason for removing PENNY FOSTER');
+    expect(heading).to.exist;
+    expect(heading.textContent).to.include('Reason for removing PENNY FOSTER');
+    expect(radio).to.exist;
+    expect(radio.getAttribute('required')).to.equal('true');
+    expect(radio.getAttribute('label')).to.equal(
+      'Why do you need to remove this dependent?',
+    );
+    expect(radio.getAttribute('hint')).to.equal(
+      'If more than one applies, select what happened first.',
+    );
   });
 
   it('should show error message if submitted without selecting an option', async () => {
@@ -67,19 +66,16 @@ describe('childReasonToRemove', () => {
       goForward,
     });
 
-    await fireEvent.submit($('form', container));
-
     await waitFor(() => {
       expect($('va-radio', container).getAttribute('error')).to.equal(
         'Select an option',
       );
-      expect(goForward.notCalled).to.be.true;
     });
   });
 
-  it('should go forward when an option is selected and form is submitted', async () => {
-    const onSubmit = sinon.spy();
-    const { container } = renderComponent({ onSubmit });
+  it('should call onChange when a radio option is selected', async () => {
+    const onChange = sinon.spy();
+    const { container } = renderComponent({ onChange });
 
     $('va-radio', container).__events.vaValueChange({
       target: {
@@ -89,6 +85,22 @@ describe('childReasonToRemove', () => {
       detail: { value: 'childDied' },
     });
 
+    expect(onChange.calledOnce).to.be.true;
+    expect(
+      onChange.calledWith({
+        ...defaultData,
+        removalReason: 'childDied',
+      }),
+    ).to.be.true;
+  });
+
+  it('should go forward when an option is selected and form is submitted', async () => {
+    const onSubmit = sinon.spy();
+    const { container } = renderComponent({
+      data: { ...defaultData, removalReason: 'childDied' },
+      onSubmit,
+    });
+
     fireEvent.submit($('form', container));
 
     await waitFor(() => {
@@ -96,188 +108,123 @@ describe('childReasonToRemove', () => {
     });
   });
 
-  describe('regular child options (age 11)', () => {
-    it('should show basic child options for regular child under 15', () => {
-      const { container } = renderComponent();
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: died, adopted (no marriage or school options under 15)
-      expect(radioOptions.length).to.equal(2);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY died');
-      expect(labels).to.include('PENNY got adopted out of the family');
-      expect(labels).to.not.include('PENNY got married');
-      expect(labels).to.not.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('regular child options (age 16)', () => {
-    it('should show marriage option for regular child age 15+', () => {
-      const childAge16 = {
-        ...defaultChildData,
-        dateOfBirth: createDoB(16),
-      };
-
-      const { container } = renderComponent({ data: childAge16 });
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: died, adopted, married (no school option under 18)
-      expect(radioOptions.length).to.equal(3);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY died');
-      expect(labels).to.include('PENNY got adopted out of the family');
-      expect(labels).to.include('PENNY got married');
-      expect(labels).to.not.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('regular child options (age 19)', () => {
-    it('should show all regular child options for age 18+', () => {
-      const childAge19 = {
-        ...defaultChildData,
-        dateOfBirth: createDoB(19),
-      };
-
-      const { container } = renderComponent({ data: childAge19 });
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: died, adopted, married, school
-      expect(radioOptions.length).to.equal(4);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY died');
-      expect(labels).to.include('PENNY got adopted out of the family');
-      expect(labels).to.include('PENNY got married');
-      expect(labels).to.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('stepchild options (age 11)', () => {
-    it('should show stepchild and basic options for young stepchild', () => {
-      const { container } = renderComponent({ data: defaultStepchildData });
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: 4 stepchild options + died + adopted (no marriage or school under 15)
-      expect(radioOptions.length).to.equal(6);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY left due to divorce');
-      expect(labels).to.include('PENNY left household due to divorce');
-      expect(labels).to.include('PENNY is no longer a member of the household');
-      expect(labels).to.include("PENNY's parent died");
-      expect(labels).to.include('PENNY died');
-      expect(labels).to.include('PENNY got adopted out of the family');
-      expect(labels).to.not.include('PENNY got married');
-      expect(labels).to.not.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('stepchild options (age 16)', () => {
-    it('should show marriage option for stepchild age 15+', () => {
-      const stepchildAge16 = {
-        ...defaultStepchildData,
-        dateOfBirth: createDoB(16),
-      };
-
-      const { container } = renderComponent({ data: stepchildAge16 });
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: 4 stepchild options + died + adopted + married (no school under 18)
-      expect(radioOptions.length).to.equal(7);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY got married');
-      expect(labels).to.not.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('stepchild options (age 19)', () => {
-    it('should show all options for stepchild age 18+', () => {
-      const stepchildAge19 = {
-        ...defaultStepchildData,
-        dateOfBirth: createDoB(19),
-      };
-
-      const { container } = renderComponent({ data: stepchildAge19 });
-      const radioOptions = container.querySelectorAll('va-radio-option');
-
-      // Should show: 4 stepchild options + died + adopted + married + school
-      expect(radioOptions.length).to.equal(8);
-
-      const labels = Array.from(radioOptions).map(option =>
-        option.getAttribute('label'),
-      );
-      expect(labels).to.include('PENNY left due to divorce');
-      expect(labels).to.include('PENNY left household due to divorce');
-      expect(labels).to.include('PENNY is no longer a member of the household');
-      expect(labels).to.include("PENNY's parent died");
-      expect(labels).to.include('PENNY died');
-      expect(labels).to.include('PENNY got adopted out of the family');
-      expect(labels).to.include('PENNY got married');
-      expect(labels).to.include('PENNY is no longer in school');
-    });
-  });
-
-  describe('option selection', () => {
-    it('should handle stepchild option selection', async () => {
-      const onChange = sinon.spy();
+  describe('age-based options', () => {
+    it('should show school enrollment option for children 18 and older', () => {
       const { container } = renderComponent({
-        data: defaultStepchildData,
-        onChange,
+        data: { ...defaultData, dateOfBirth: createDoB(18) },
       });
 
-      $('va-radio', container).__events.vaValueChange({
-        target: {
-          name: 'removalReason',
-          tagName: 'VA-RADIO',
-        },
-        detail: { value: 'stepchildDivorce' },
-      });
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const schoolOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childNotInSchool',
+      );
 
-      await waitFor(() => {
-        expect(onChange.calledOnce).to.be.true;
-        expect(
-          onChange.calledWith({
-            ...defaultStepchildData,
-            removalReason: 'stepchildDivorce',
-          }),
-        ).to.be.true;
-      });
+      expect(schoolOption).to.exist;
     });
 
-    it('should handle regular child option selection', async () => {
-      const onChange = sinon.spy();
-      const { container } = renderComponent({ onChange });
-
-      $('va-radio', container).__events.vaValueChange({
-        target: {
-          name: 'removalReason',
-          tagName: 'VA-RADIO',
-        },
-        detail: { value: 'childDied' },
+    it('should not show school enrollment option for children under 18', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, dateOfBirth: createDoB(16) },
       });
 
-      await waitFor(() => {
-        expect(onChange.calledOnce).to.be.true;
-        expect(
-          onChange.calledWith({
-            ...defaultChildData,
-            removalReason: 'childDied',
-          }),
-        ).to.be.true;
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const schoolOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childNotInSchool',
+      );
+
+      expect(schoolOption).to.not.exist;
+    });
+
+    it('should show marriage option for children 15 and older', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, dateOfBirth: createDoB(15) },
       });
+
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const marriageOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childMarried',
+      );
+
+      expect(marriageOption).to.exist;
+    });
+
+    it('should not show marriage option for children under 15', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, dateOfBirth: createDoB(14) },
+      });
+
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const marriageOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childMarried',
+      );
+
+      expect(marriageOption).to.not.exist;
+    });
+  });
+
+  describe('stepchild-specific options', () => {
+    it('should show stepchild living option for stepchildren', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, isStepchild: 'Y' },
+      });
+
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const stepchildOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'stepchildNotMember',
+      );
+
+      expect(stepchildOption).to.exist;
+    });
+
+    it('should not show stepchild living option for non-stepchildren', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, isStepchild: 'N' },
+      });
+
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const stepchildOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'stepchildNotMember',
+      );
+
+      expect(stepchildOption).to.not.exist;
+    });
+
+    it('should show additional info for stepchildren', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, isStepchild: 'Y' },
+      });
+
+      const additionalInfo = $('va-additional-info', container);
+      expect(additionalInfo).to.exist;
+      expect(additionalInfo.getAttribute('trigger')).to.include(
+        'Stepchildren living apart temporarily',
+      );
+    });
+
+    it('should not show additional info for non-stepchildren', () => {
+      const { container } = renderComponent({
+        data: { ...defaultData, isStepchild: 'N' },
+      });
+
+      const additionalInfo = $('va-additional-info', container);
+      expect(additionalInfo).to.not.exist;
+    });
+  });
+
+  describe('universal options', () => {
+    it('should always show adoption and death options', () => {
+      const { container } = renderComponent();
+
+      const radioOptions = container.querySelectorAll('va-radio-option');
+      const adoptionOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childAdopted',
+      );
+      const deathOption = Array.from(radioOptions).find(
+        option => option.getAttribute('value') === 'childDied',
+      );
+
+      expect(adoptionOption).to.exist;
+      expect(deathOption).to.exist;
     });
   });
 

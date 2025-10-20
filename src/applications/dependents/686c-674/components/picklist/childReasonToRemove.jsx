@@ -7,68 +7,52 @@ import {
 
 import { scrollToFirstError } from 'platform/utilities/ui';
 
-import { CancelButton } from '../../config/helpers';
 import { calculateAge } from '../../../shared/utils';
 
 /**
  * Get available removal reasons for child based on age and stepchild status
  * @param {boolean} isStepchild Whether the child is a stepchild
  * @param {number} age Child's age in years
- * @param {string} firstName Child's first name for personalization
+ * @param {string} _firstName Child's first name for personalization
  * @returns {Array} Array of radio option configurations
  */
-const getChildRemovalOptions = (isStepchild, age, firstName) => {
+const getChildRemovalOptions = (isStepchild, age, _firstName) => {
   const options = [];
 
-  // Stepchild-specific options (all ages)
-  if (isStepchild) {
-    options.push(
-      {
-        value: 'stepchildDivorce',
-        label: `${firstName} left due to divorce`,
-      },
-      {
-        value: 'stepchildLeftHousehold',
-        label: `${firstName} left household due to divorce`,
-      },
-      {
-        value: 'stepchildNotMember',
-        label: `${firstName} is no longer a member of the household`,
-      },
-      {
-        value: 'stepchildParentDied',
-        label: `${firstName}'s parent died`,
-      },
-    );
+  // Child no longer in school (ages 18+)
+  if (age >= 18) {
+    options.push({
+      value: 'childNotInSchool',
+      label: 'They’re no longer enrolled in school',
+    });
   }
 
-  // Child died (all ages, both child and stepchild)
-  options.push({
-    value: 'childDied',
-    label: `${firstName} died`,
-  });
+  if (isStepchild) {
+    options.push({
+      value: 'stepchildNotMember',
+      label: 'They no longer live with you',
+    });
+  }
 
   // Child got adopted (all ages, both child and stepchild)
   options.push({
     value: 'childAdopted',
-    label: `${firstName} got adopted out of the family`,
+    label: 'They were adopted by another family',
   });
 
   // Child got married (ages 15+)
   if (age >= 15) {
     options.push({
       value: 'childMarried',
-      label: `${firstName} got married`,
+      label: 'They got married',
     });
   }
 
-  // Child no longer in school (ages 18+)
-  if (age >= 18) {
-    options.push({
-      value: 'childNotInSchool',
-      label: `${firstName} is no longer in school`,
-    });
-  }
+  // Child died (all ages, both child and stepchild)
+  options.push({
+    value: 'childDied',
+    label: 'They died',
+  });
 
   return options;
 };
@@ -76,8 +60,6 @@ const getChildRemovalOptions = (isStepchild, age, firstName) => {
 const childReasonToRemove = {
   handlers: {
     goForward: (/* { itemData, index, fullData } */) => 'DONE',
-    // return empty path to go to first child page
-    // goBack: (/* { itemData, index, fullData } */) => '',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
@@ -138,8 +120,8 @@ const childReasonToRemove = {
           error={
             formSubmitted && !itemData.removalReason ? 'Select an option' : null
           }
-          label={`Do any of these apply to ${fullName} (age ${age})?`}
-          hint="Select the event that happened first"
+          label="Why do you need to remove this dependent?"
+          hint="If more than one applies, select what happened first."
           onVaValueChange={onChange}
           required
         >
@@ -150,15 +132,34 @@ const childReasonToRemove = {
               label={option.label}
               checked={itemData.removalReason === option.value}
               value={option.value}
-              tile
+              // tile
             />
           ))}
         </VaRadio>
 
-        <CancelButton
-          dependentType={itemData.relationshipToVeteran?.toLowerCase()}
-          removePath="options-selection/remove-active-dependents"
-        />
+        {isStepchild && (
+          <va-additional-info
+            className="vads-u-margin-bottom--4"
+            trigger="Stepchildren living apart temporarily"
+          >
+            <span>
+              A stepchild can stay on your benefits in these situations:{' '}
+            </span>
+            <ul>
+              <li>They’re away at school or college</li>
+              <li>They live with their other parent part of the time</li>
+              <li>
+                They’re temporarily away for military deployment, medical care,
+                or incarceration
+              </li>
+              <li>They’re away in any other short-term situation</li>
+            </ul>
+          </va-additional-info>
+        )}
+        {/* <CancelButton */}
+        {/*  dependentType={itemData.relationshipToVeteran?.toLowerCase()} */}
+        {/*  removePath="options-selection/remove-active-dependents" */}
+        {/* /> */}
       </>
     );
   },

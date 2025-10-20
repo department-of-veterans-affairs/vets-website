@@ -49,8 +49,7 @@ const PicklistRemoveDependentFollowup = ({
   const page = indexParam ? queryParams.get('page') || '' : lastPath.path || '';
 
   const currentDependent = data[PICKLIST_DATA]?.[index] || {};
-  // const dependentType = currentDependent.relationshipToVeteran;
-  const dependentType = 'Child';
+  const dependentType = currentDependent.relationshipToVeteran;
   const dependentFullName =
     getFullName(currentDependent.fullName) ||
     `${currentDependent.relationshipToVeteran} dependent`;
