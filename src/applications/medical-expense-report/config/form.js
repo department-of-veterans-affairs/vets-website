@@ -24,24 +24,7 @@ import supportingDocuments from './chapters/03-additional-information/supporting
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
 import expensesReview from './chapters/02-expenses/expensesReview';
 import GetFormHelp from '../components/GetFormHelp';
-
-// Helper function to check if no expenses have been added
-const hasNoExpenses = formData => {
-  const careExpenses = formData.careExpenses || [];
-  const medicalExpenses = formData.medicalExpenses || [];
-  const mileageExpenses = formData.mileageExpenses || [];
-  return (
-    careExpenses.length === 0 &&
-    medicalExpenses.length === 0 &&
-    mileageExpenses.length === 0
-  );
-};
-
-// Helper function to check if user has care expenses
-const hasCareExpenses = formData => {
-  const careExpenses = formData.careExpenses || [];
-  return careExpenses.length > 0;
-};
+import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -168,7 +151,6 @@ const formConfig = {
         uploadDocuments: {
           title: 'Upload documents',
           path: 'expenses/additional-information/upload-documents',
-          depends: formData => !hasNoExpenses(formData),
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },
