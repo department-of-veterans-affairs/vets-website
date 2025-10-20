@@ -8,9 +8,9 @@ export default function WarningBanner() {
   const notIHL = details.ihlEligible === false;
 
   let message = '';
-  const code = details.facilityCode;
-  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
-  const thirdChar = code.charAt(2).toUpperCase();
+  const code = details?.facilityCode;
+  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const thirdChar = code?.charAt(2).toUpperCase();
 
   if (!notYR && !notIHL) {
     return null;

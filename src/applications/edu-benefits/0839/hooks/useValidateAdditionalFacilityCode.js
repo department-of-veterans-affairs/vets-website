@@ -26,7 +26,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
               },
             },
           );
-          // console.log('response', response);
           const attrs = response.data.attributes;
 
           const programTypes = Array.isArray(attrs.programTypes)
@@ -65,11 +64,9 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             }),
           );
         } catch (error) {
-          // console.log('error', error);
           setInstitutionData({});
           setLoader(false);
 
-          // Update the specific item in the additionalInstitutionDetails array with error state
           const updatedDetails = [
             ...(formData.additionalInstitutionDetails || []),
           ];
@@ -88,8 +85,6 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
           );
         }
       };
-
-      // Only fetch if we have a valid 8-character facility code and valid index
       if (facilityCode?.length === 8 && index !== undefined) {
         fetchInstitutionInfo();
       }

@@ -39,31 +39,99 @@ export const validateInitials = (inputValue, firstName, lastName) => {
   return '';
 };
 
+export const formatAddress = str => {
+  if (typeof str !== 'string' || str.trim().length === 0) {
+    return str;
+  }
+
+  const exceptionsList = ['NW', 'NE', 'SW', 'SE', 'PO'];
+  const exceptions = exceptionsList.map(item => item.toUpperCase());
+
+  return str
+    .trim()
+    .split(/\s+/)
+    .map(word => {
+      const subWords = word.split('-');
+      const formattedSubWords = subWords.map(subWord => {
+        const upperSubWord = subWord.toUpperCase();
+
+        if (exceptions.includes(upperSubWord)) {
+          return upperSubWord;
+        }
+
+        const matchingException = exceptions.find(ex =>
+          upperSubWord.startsWith(ex),
+        );
+        if (matchingException) {
+          return matchingException + subWord.slice(matchingException.length);
+        }
+
+        if (/^\d+[A-Z]+$/.test(subWord)) {
+          return subWord;
+        }
+
+        const numberLetterMatch = subWord.match(/^(\d+)([a-zA-Z]+)$/);
+        if (numberLetterMatch) {
+          const numbers = numberLetterMatch[1];
+          const letters = numberLetterMatch[2];
+          return `${numbers}${letters}`;
+        }
+
+        return subWord.charAt(0).toUpperCase() + subWord.slice(1).toLowerCase();
+      });
+
+      return formattedSubWords.join('-');
+    })
+    .join(' ');
+};
+
+export const toTitleCase = str => {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const trimmedStr = str.trim();
+
+  if (!trimmedStr) {
+    return '';
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  const titled = words.map(word => {
+    const parts = word.split('-').map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    });
+    return parts.join('-');
+  });
+
+  return titled.join(' ');
+};
+
 export const getCardDescription = item => {
   return item ? (
     <>
       <p>
-        <strong>Facility Code: </strong>
+        <strong>VA facility code: </strong>
         {item.facilityCode}
       </p>
-      <p>
-        <strong>Institution: </strong>
-        {item.institutionName}
-      </p>
       {item.institutionAddress && (
-        <p>
-          <strong>Address: </strong>
-          {[
-            item.institutionAddress.street,
-            item.institutionAddress.street2,
-            item.institutionAddress.street3,
-            item.institutionAddress.city,
-            item.institutionAddress.state,
-            item.institutionAddress.postalCode,
-          ]
-            .filter(Boolean)
-            .join(', ')}
-        </p>
+        <>
+          <p className="vads-u-margin-bottom--0">
+            {[
+              formatAddress(item.institutionAddress.street),
+              formatAddress(item.institutionAddress.street2),
+              formatAddress(item.institutionAddress.street3),
+            ]
+              .filter(Boolean)
+              .join(', ')}
+          </p>
+          <p className="vads-u-margin-top--0">
+            {toTitleCase(item.institutionAddress.city)}{' '}
+            {item.institutionAddress.state},{' '}
+            {item.institutionAddress.postalCode}
+          </p>
+        </>
       )}
     </>
   ) : null;
@@ -72,7 +140,9 @@ export const getCardDescription = item => {
 export const getCardTitle = item => {
   if (!item) return 'Institution Details';
 
-  return item.institutionName || `Facility Code: ${item.facilityCode}`;
+  return (
+    toTitleCase(item.institutionName) || `Facility Code: ${item.facilityCode}`
+  );
 };
 
 export const additionalInstitutionDetailsArrayOptions = {
