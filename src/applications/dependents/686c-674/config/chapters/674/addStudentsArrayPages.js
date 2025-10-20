@@ -160,7 +160,7 @@ export const studentInformationPage = {
 /** @returns {PageSchema} */
 export const studentIDInformationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s TITLE'),
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s information'),
     ssn: {
       ...ssnUI('Student’s Social Security number'),
       'ui:required': () => true,
