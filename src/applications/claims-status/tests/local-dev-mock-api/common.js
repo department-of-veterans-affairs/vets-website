@@ -596,7 +596,6 @@ const baseClaims = [
           name: 'Service connection for tinnitus',
         },
       ],
-      trackedItems: [],
     },
     false,
   ),

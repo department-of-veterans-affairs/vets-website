@@ -280,9 +280,11 @@ describe('When feature toggle cst_claim_phases enabled', () => {
 });
 
 describe('Upload Type 2 Error Alert on Status Tab', () => {
-  const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-  const oldDate = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
-  const oldestDate = new Date(
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const fiveDaysAgo = new Date(
+    Date.now() - 5 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const tenDaysAgo = new Date(
     Date.now() - 10 * 24 * 60 * 60 * 1000,
   ).toISOString();
 
@@ -300,8 +302,8 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
                 .slice(0, 2)
                 .map(submission => ({
                   ...submission,
-                  failedDate: oldDate,
-                  acknowledgementDate: futureDate,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
                 })),
             },
           },
@@ -338,8 +340,8 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
                 .slice(0, 2)
                 .map(submission => ({
                   ...submission,
-                  failedDate: oldestDate,
-                  acknowledgementDate: futureDate,
+                  failedDate: tenDaysAgo,
+                  acknowledgementDate: tomorrow,
                 })),
             },
           },
@@ -376,8 +378,8 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
                 .slice(0, 2)
                 .map(submission => ({
                   ...submission,
-                  failedDate: oldDate,
-                  acknowledgementDate: futureDate,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
                 })),
             },
           },

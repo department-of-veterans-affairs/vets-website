@@ -170,12 +170,14 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
 });
 
 describe('Upload Type 2 Error Alert', () => {
-  const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-  const oldDate = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
-  const olderDate = new Date(
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const twoDaysAgo = new Date(
+    Date.now() - 2 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const fiveDaysAgo = new Date(
     Date.now() - 5 * 24 * 60 * 60 * 1000,
   ).toISOString();
-  const oldestDate = new Date(
+  const tenDaysAgo = new Date(
     Date.now() - 10 * 24 * 60 * 60 * 1000,
   ).toISOString();
 
@@ -193,8 +195,8 @@ describe('Upload Type 2 Error Alert', () => {
                 .slice(0, 2)
                 .map(submission => ({
                   ...submission,
-                  failedDate: olderDate,
-                  acknowledgementDate: futureDate,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
                 })),
             },
           },
@@ -231,8 +233,8 @@ describe('Upload Type 2 Error Alert', () => {
                 .slice(0, 2)
                 .map(submission => ({
                   ...submission,
-                  failedDate: oldDate,
-                  acknowledgementDate: futureDate,
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
                 })),
             },
           },
@@ -273,23 +275,23 @@ describe('Upload Type 2 Error Alert', () => {
                 {
                   ...claimDetailsOpenWithFailedSubmissions.data.attributes
                     .evidenceSubmissions[0],
-                  fileName: 'old-file.pdf',
-                  failedDate: oldDate,
-                  acknowledgementDate: futureDate,
+                  fileName: 'file-1.pdf',
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
                 },
                 {
                   ...claimDetailsOpenWithFailedSubmissions.data.attributes
                     .evidenceSubmissions[1],
-                  fileName: 'oldest-file.pdf',
-                  failedDate: oldestDate,
-                  acknowledgementDate: futureDate,
+                  fileName: 'file-3.pdf',
+                  failedDate: tenDaysAgo,
+                  acknowledgementDate: tomorrow,
                 },
                 {
                   ...claimDetailsOpenWithFailedSubmissions.data.attributes
                     .evidenceSubmissions[2],
-                  fileName: 'older-file.pdf',
-                  failedDate: olderDate,
-                  acknowledgementDate: futureDate,
+                  fileName: 'file-2.pdf',
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
                 },
               ],
             },
@@ -310,7 +312,7 @@ describe('Upload Type 2 Error Alert', () => {
         // Verify alert is visible
         trackClaimsPage.verifyUploadType2ErrorAlert();
         // Verify the most recent file (by failedDate) is displayed
-        trackClaimsPage.verifyUploadType2ErrorAlertFileName('old-file.pdf');
+        trackClaimsPage.verifyUploadType2ErrorAlertFileName('file-1.pdf');
         // Verify "And X more" message
         trackClaimsPage.verifyUploadType2ErrorAlertMultipleFilesMessage(2);
         cy.axeCheck();

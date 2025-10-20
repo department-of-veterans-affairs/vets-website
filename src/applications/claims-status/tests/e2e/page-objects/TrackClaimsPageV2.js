@@ -875,11 +875,6 @@ class TrackClaimsPageV2 {
     cy.url().should('contain', '/your-claims/189685/files');
   }
 
-  navigateToStatusTab() {
-    cy.get('#tabOverview').click();
-    cy.url().should('contain', '/your-claims/189685/status');
-  }
-
   verifyNeedToMailDocuments() {
     cy.get('.additional-evidence-container va-additional-info')
       .shadow()
@@ -927,7 +922,7 @@ class TrackClaimsPageV2 {
     cy.assertChildText(
       '@friendlyMessage',
       'h2',
-      "What we're notifying you about",
+      'What we’re notifying you about',
     );
     cy.assertChildText(
       '@friendlyMessage',
@@ -969,14 +964,6 @@ class TrackClaimsPageV2 {
         'href',
         '/track-claims/your-claims/files-we-couldnt-receive',
       );
-  }
-
-  clickUploadType2ErrorAlertLink() {
-    cy.get('va-alert[status="error"]')
-      .find('va-link-action')
-      .shadow()
-      .find('a')
-      .click();
   }
 }
 

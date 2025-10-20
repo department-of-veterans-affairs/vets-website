@@ -121,11 +121,11 @@ describe('<WhatYouNeedToDo>', () => {
   );
 
   describe('UploadType2ErrorAlert', () => {
-    const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-    const oldDate = new Date(
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+    const fiveDaysAgo = new Date(
       Date.now() - 5 * 24 * 60 * 60 * 1000,
     ).toISOString();
-    const oldestDate = new Date(
+    const tenDaysAgo = new Date(
       Date.now() - 10 * 24 * 60 * 60 * 1000,
     ).toISOString();
 
@@ -134,7 +134,7 @@ describe('<WhatYouNeedToDo>', () => {
       fileName: 'failed-document.pdf',
       documentType: 'L023',
       uploadStatus: 'FAILED',
-      acknowledgementDate: futureDate,
+      acknowledgementDate: tomorrow,
       ...overrides,
     });
 
@@ -187,15 +187,16 @@ describe('<WhatYouNeedToDo>', () => {
             evidenceWaiverSubmitted5103: true,
             evidenceSubmissions: [
               createEvidenceSubmission({
+                id: 1,
                 fileName: 'first-file.pdf',
-                failedDate: oldDate,
+                failedDate: fiveDaysAgo,
                 trackedItemId: 1,
                 trackedItemDisplayName: 'Medical records',
               }),
               createEvidenceSubmission({
                 id: 2,
                 fileName: 'second-file.pdf',
-                failedDate: oldestDate,
+                failedDate: tenDaysAgo,
               }),
             ],
           });
@@ -229,7 +230,7 @@ describe('<WhatYouNeedToDo>', () => {
               }),
               createEvidenceSubmission({
                 id: 2,
-                acknowledgementDate: oldDate,
+                acknowledgementDate: fiveDaysAgo,
               }),
             ],
           });
@@ -248,7 +249,7 @@ describe('<WhatYouNeedToDo>', () => {
           const claim = createClaim({
             evidenceWaiverSubmitted5103: true,
             evidenceSubmissions: [
-              createEvidenceSubmission({ acknowledgementDate: oldDate }),
+              createEvidenceSubmission({ acknowledgementDate: fiveDaysAgo }),
             ],
           });
           const { container, getByText } = renderWithReduxAndRouter(

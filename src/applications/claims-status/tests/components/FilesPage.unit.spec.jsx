@@ -427,13 +427,13 @@ describe('<FilesPage>', () => {
         });
 
         it('should render alert when there are failed submissions within the last 30 days', () => {
-          const oldDate = new Date(
+          const tenDaysAgo = new Date(
             Date.now() - 10 * 24 * 60 * 60 * 1000,
           ).toISOString();
-          const oldestDate = new Date(
+          const fiveDaysAgo = new Date(
             Date.now() - 5 * 24 * 60 * 60 * 1000,
           ).toISOString();
-          const recentDate = new Date(
+          const yesterday = new Date(
             Date.now() - 1 * 24 * 60 * 60 * 1000,
           ).toISOString();
 
@@ -441,27 +441,27 @@ describe('<FilesPage>', () => {
           // Create submissions in non-chronological order to verify sorting
           claim.attributes.evidenceSubmissions = [
             {
-              id: 1,
-              fileName: 'middle-file.pdf',
+              id: 3,
+              fileName: 'file-1.pdf',
               documentType: 'L034',
               uploadStatus: 'FAILED',
-              failedDate: oldestDate,
+              failedDate: tenDaysAgo,
               acknowledgementDate: tomorrow,
             },
             {
               id: 2,
-              fileName: 'most-recent-file.pdf',
+              fileName: 'file-2.pdf',
               documentType: 'L107',
               uploadStatus: 'FAILED',
-              failedDate: recentDate,
+              failedDate: fiveDaysAgo,
               acknowledgementDate: tomorrow,
             },
             {
-              id: 3,
-              fileName: 'oldest-file.pdf',
+              id: 1,
+              fileName: 'file-3.pdf',
               documentType: 'L023',
               uploadStatus: 'FAILED',
-              failedDate: oldDate,
+              failedDate: yesterday,
               acknowledgementDate: tomorrow,
             },
           ];
@@ -478,10 +478,10 @@ describe('<FilesPage>', () => {
           expect(container.querySelector('va-alert[status="error"]')).to.exist;
           getByText('We need you to submit files by mail or in person');
           // Should display the most recent file (by failedDate)
-          getByText('most-recent-file.pdf');
+          getByText('file-1.pdf');
           // Other files should not be visible in the main alert display
-          expect(queryByText('middle-file.pdf')).to.not.exist;
-          expect(queryByText('oldest-file.pdf')).to.not.exist;
+          expect(queryByText('file-2.pdf')).to.not.exist;
+          expect(queryByText('file-3.pdf')).to.not.exist;
         });
       },
     );

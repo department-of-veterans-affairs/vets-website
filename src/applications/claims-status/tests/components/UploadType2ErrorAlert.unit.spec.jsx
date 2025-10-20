@@ -4,12 +4,14 @@ import { render } from '@testing-library/react';
 import UploadType2ErrorAlert from '../../components/UploadType2ErrorAlert';
 
 describe('<UploadType2ErrorAlert>', () => {
-  const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-  const oldDate = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
-  const olderDate = new Date(
-    Date.now() - 7 * 24 * 60 * 60 * 1000,
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const yesterday = new Date(
+    Date.now() - 1 * 24 * 60 * 60 * 1000,
   ).toISOString();
-  const oldestDate = new Date(
+  const fiveDaysAgo = new Date(
+    Date.now() - 5 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const tenDaysAgo = new Date(
     Date.now() - 10 * 24 * 60 * 60 * 1000,
   ).toISOString();
 
@@ -18,7 +20,7 @@ describe('<UploadType2ErrorAlert>', () => {
     fileName: 'test-document.pdf',
     documentType: 'L023',
     uploadStatus: 'FAILED',
-    acknowledgementDate: futureDate,
+    acknowledgementDate: tomorrow,
     ...overrides,
   });
 
@@ -46,13 +48,13 @@ describe('<UploadType2ErrorAlert>', () => {
           createFailedSubmission({
             id: 1,
             fileName: 'first-document.pdf',
-            failedDate: oldestDate,
+            failedDate: tenDaysAgo,
           }),
           createFailedSubmission({
             id: 2,
             fileName: 'second-document.pdf',
             documentType: 'L034',
-            failedDate: oldDate,
+            failedDate: fiveDaysAgo,
           }),
         ];
 
@@ -77,21 +79,21 @@ describe('<UploadType2ErrorAlert>', () => {
       it('should render alert showing only the most recent failed submission and then text showing the count for the remaining failed submissions', () => {
         const failedSubmissions = [
           createFailedSubmission({
-            id: 1,
-            fileName: 'first-document.pdf',
-            failedDate: olderDate,
+            id: 3,
+            fileName: 'file-3.pdf',
+            failedDate: tenDaysAgo,
           }),
           createFailedSubmission({
             id: 2,
-            fileName: 'second-document.pdf',
+            fileName: 'file-2.pdf',
             documentType: 'L034',
-            failedDate: oldestDate,
+            failedDate: fiveDaysAgo,
           }),
           createFailedSubmission({
-            id: 3,
-            fileName: 'third-document.pdf',
+            id: 1,
+            fileName: 'file-1.pdf',
             documentType: 'L107',
-            failedDate: oldDate,
+            failedDate: yesterday,
           }),
         ];
 
@@ -102,10 +104,10 @@ describe('<UploadType2ErrorAlert>', () => {
 
         expect(alert).to.exist;
         // Should show most recent item (by failedDate)
-        getByText('third-document.pdf');
+        getByText('file-1.pdf');
         // Should not show other items
-        expect(queryByText('second-document.pdf')).to.not.exist;
-        expect(queryByText('first-document.pdf')).to.not.exist;
+        expect(queryByText('file-2.pdf')).to.not.exist;
+        expect(queryByText('file-3.pdf')).to.not.exist;
         // Should show count message
         getByText('And 2 more within the last 30 days');
       });
