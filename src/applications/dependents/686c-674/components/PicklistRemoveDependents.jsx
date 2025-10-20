@@ -10,7 +10,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from '~/platform/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
-import { PICKLIST_DATA } from '../config/constants';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
+import { getPicklistRoutes } from './picklist/routes';
 
 import { getFullName, calculateAge } from '../../shared/utils';
 
@@ -63,6 +64,7 @@ const RemoveDependentsPicklist = ({
       event.preventDefault();
       setFormSubmitted(true);
       if (atLeastOneChecked()) {
+        setFormData({ ...data, [PICKLIST_PATHS]: getPicklistRoutes(data) });
         const firstSelectedIndex = picklistChoices.findIndex(
           item => item.selected,
         );
@@ -131,7 +133,7 @@ const RemoveDependentsPicklist = ({
       </va-additional-info>
 
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons goBack={goBack} useWebComponents submitToContinue />
       {contentAfterButtons}
     </form>
   );

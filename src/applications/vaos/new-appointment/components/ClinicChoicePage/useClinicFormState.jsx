@@ -3,13 +3,17 @@ import useFormState from '../../../hooks/useFormState';
 import { getClinicId } from '../../../services/healthcare-service';
 import { getSiteIdFromFacilityId } from '../../../services/location';
 
-import { selectFeatureMentalHealthHistoryFiltering } from '../../../redux/selectors';
+import {
+  selectFeatureMentalHealthHistoryFiltering,
+  selectFeatureRemoveFacilityConfigCheck,
+} from '../../../redux/selectors';
 import { TYPE_OF_CARE_IDS } from '../../../utils/constants';
 import {
   getClinicsForChosenFacility,
   getFormData,
   getTypeOfCare,
   selectChosenFacilityInfo,
+  selectEligibility,
   selectPastAppointments,
 } from '../../redux/selectors';
 import AppointmentsRadioWidget from '../AppointmentsRadioWidget';
@@ -29,9 +33,14 @@ export default function useClinicFormState(pageTitle) {
   const initialData = useSelector(getFormData);
   const location = useSelector(selectChosenFacilityInfo);
 
+  const eligibility = useSelector(selectEligibility);
   const selectedTypeOfCare = getTypeOfCare(initialData);
+
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
+  const removeFacilityConfigCheck = useSelector(
+    selectFeatureRemoveFacilityConfigCheck,
+  );
 
   // Retrieves flipper state for mental health history filtering
   const featurePastVisitMHFilter = useSelector(
@@ -51,8 +60,11 @@ export default function useClinicFormState(pageTitle) {
     (selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||
       featurePastVisitMHFilter) &&
     selectedTypeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
-    location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
-      ?.patientHistoryRequired === true;
+    (!removeFacilityConfigCheck
+      ? location?.legacyVAR?.settings?.[selectedTypeOfCare.id]?.direct
+          ?.patientHistoryRequired === true
+      : eligibility.direct);
+
   if (isCheckTypeOfCare) {
     const pastAppointmentDateMap = new Map();
     const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
