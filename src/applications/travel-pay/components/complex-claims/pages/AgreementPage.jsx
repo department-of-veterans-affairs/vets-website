@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
+import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TravelAgreementContent from '../../TravelAgreementContent';
 
-const AgreementPage = () => {
+const AgreementPage = ({ onBack }) => {
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
   const onSubmit = () => {
@@ -17,9 +18,7 @@ const AgreementPage = () => {
       // TODO Add logic for Submitting the claim
     }
   };
-  const onBack = () => {
-    // TODO Add logic to go to previous Review Page
-  };
+
   return (
     <>
       <h1>Beneficiary travel agreement</h1>
@@ -63,6 +62,10 @@ const AgreementPage = () => {
       />
     </>
   );
+};
+
+AgreementPage.propTypes = {
+  onBack: PropTypes.func,
 };
 
 export default AgreementPage;
