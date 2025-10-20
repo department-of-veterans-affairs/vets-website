@@ -8,7 +8,7 @@ describe('getRoutes', () => {
     it('should return the direct deposit path`', () => {
       const allRoutes = getRoutes();
       const hasDirectDepositRoute = allRoutes.some(
-        route => route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+        route => route.name === PROFILE_PATH_NAMES.DIRECT_DEPOSIT_INFORMATION,
       );
 
       expect(hasDirectDepositRoute).to.be.true;

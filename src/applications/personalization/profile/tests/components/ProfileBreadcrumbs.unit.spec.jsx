@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom';
+import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { ProfileBreadcrumbs } from '../../components/ProfileBreadcrumbs';
 import { PROFILE_PATHS } from '../../constants';
-import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 const setup = path => {
   const view = renderInReduxProvider(
@@ -64,7 +64,7 @@ describe('<ProfileBreadcrumbs />', () => {
 
       expect(breadcrumbList[0].label).to.equal('Home');
       expect(breadcrumbList[1].label).to.equal('Profile');
-      expect(breadcrumbList[2].label).to.equal('Direct deposit information');
+      expect(breadcrumbList[2].label).to.equal('Direct deposit');
     });
 
     it('renders notification settings breadcrumb', () => {
