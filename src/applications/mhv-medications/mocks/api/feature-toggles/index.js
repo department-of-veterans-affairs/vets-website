@@ -9,6 +9,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDontIncrementIpeCount = true,
     mhvAcceleratedDeliveryEnabled = true,
     mhvAcceleratedDeliveryAllergiesEnabled = true,
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
   } = toggles;
 
   return {
@@ -50,6 +51,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_accelerated_delivery_allergies_enabled',
           value: mhvAcceleratedDeliveryAllergiesEnabled,
+        },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
       ],
     },

@@ -72,7 +72,7 @@ const HowDoIPay = ({ userData }) => {
 
       <va-accordion open-single>
         <va-accordion-item
-          header="Review what these terms mean:"
+          header="Review what these terms mean"
           id="first"
           bordered
         >
@@ -83,8 +83,8 @@ const HowDoIPay = ({ userData }) => {
             </li>
             <li>
               <strong>Payee Number</strong> tells us whether the debtor is a
-              veteran or service member, a child, a spouse, a vendee, or parent
-              of the veteran.
+              Veteran, a service member, a child, a spouse, a vendee, or a
+              parent of the Veteran.
             </li>
             <li>
               <strong>Person Entitled</strong> is the first initial, middle

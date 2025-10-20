@@ -106,7 +106,18 @@ describe('PicklistRemoveDependentFollowup', () => {
     expect(radioWrap).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
     expect($('#before', container)).to.exist;
+    expect($('va-button[back]', container)).to.exist;
+    expect($('va-button[continue]', container)).to.exist;
     expect($('#after', container)).to.exist;
+  });
+
+  it('should not render continue button on exit page', () => {
+    const { container } = renderComponent({
+      testUrl: '?index=3&page=parent-exit',
+    });
+
+    expect($('va-button[back]', container)).to.exist;
+    expect($('va-button[continue]', container)).to.not.exist;
   });
 
   it('should update PICKLIST_DATA in form data on change', () => {
@@ -249,7 +260,7 @@ describe('PicklistRemoveDependentFollowup', () => {
       testUrl: '?index=0',
     });
 
-    fireEvent.click($('.usa-button-secondary, va-button[back]', container));
+    fireEvent.click($('va-button[back]', container));
 
     expect(goToPath.notCalled).to.be.true;
     expect(goBack.calledOnce).to.be.true;
@@ -259,23 +270,25 @@ describe('PicklistRemoveDependentFollowup', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=3',
+      testUrl: '?index=3&page=parent-reason-to-remove',
     });
 
-    fireEvent.click($('.usa-button-secondary, va-button[back]', container));
+    fireEvent.click($('va-button[back]', container));
 
     expect(goToPath.calledOnce).to.be.true;
-    expect(goToPath.firstCall.args[0]).to.equal('remove-dependent?index=2');
+    expect(goToPath.firstCall.args[0]).to.equal(
+      'remove-dependent?index=2&page=marriage-death',
+    );
   });
 
   it('should navigate back to spouse reason to remove page', () => {
     const goToPath = sinon.spy();
     const { container } = renderComponent({
       goToPath,
-      testUrl: '?index=2&page=marriage-ended',
+      testUrl: '?index=2&page=marriage-death',
     });
 
-    fireEvent.click($('.usa-button-secondary, va-button[back]', container));
+    fireEvent.click($('va-button[back]', container));
 
     expect(goToPath.calledOnce).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
@@ -283,11 +296,33 @@ describe('PicklistRemoveDependentFollowup', () => {
     );
   });
 
+  it('should render last spouse marriage ended page when the url doesnt have any parameters (navigating back from review & submit)', () => {
+    const goToPath = sinon.spy();
+    const goForward = sinon.spy();
+    const { container } = renderComponent({
+      goToPath,
+      goForward,
+      testUrl: '?',
+      data: defaultData(
+        {
+          removalReason: 'marriageEnded',
+          marriageEndType: 'divorce',
+          marriageEndDate: '2020-1-1',
+          marriageEndCity: 'Test',
+          marriageEndState: 'AK',
+        },
+        false, // unselect parent
+      ),
+    });
+
+    expect($('h3', container).textContent).to.contain('end of your marriage');
+  });
+
   it('should redirect back to the main picklist page if the URL is invalid', () => {
     const goToPath = sinon.spy();
-    renderComponent({ goToPath, testUrl: '' });
+    renderComponent({ goToPath, testUrl: '?index=12&page=something' });
 
-    expect(goToPath.calledOnce).to.be.true;
+    expect(goToPath.called).to.be.true;
     expect(goToPath.firstCall.args[0]).to.equal(
       'options-selection/remove-active-dependents',
     );

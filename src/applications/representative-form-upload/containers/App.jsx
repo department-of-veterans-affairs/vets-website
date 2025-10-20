@@ -33,7 +33,7 @@ const App = ({ children }) => {
   const formNumber = getFormNumber();
 
   useEffect(() => {
-    document.title = `Submit VA Form ${formNumber}  | Veterans Affairs`;
+    document.title = `Submit VA Form ${formNumber} | Accredited Representative Portal | Veterans Affairs`;
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(

@@ -78,10 +78,6 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_support_backend_pagination_allergy',
             value: false,
           },
@@ -106,10 +102,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
-          },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
           },
         ],
       },

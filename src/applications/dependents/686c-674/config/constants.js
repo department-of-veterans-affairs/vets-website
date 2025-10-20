@@ -37,3 +37,4 @@ export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 export const V2_LAUNCH_DATE = 'July 28th, 2025';
 
 export const PICKLIST_DATA = 'view:removeDependentPickList';
+export const PICKLIST_PATHS = 'view:removeDependentPaths';

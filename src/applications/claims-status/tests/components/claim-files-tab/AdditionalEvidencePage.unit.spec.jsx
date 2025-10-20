@@ -314,6 +314,42 @@ describe('<AdditionalEvidencePage>', () => {
       expect(titleElement).to.exist;
       expect(titleElement.textContent).to.equal(customTitle);
     });
+
+    it('should pass showDocumentUploadStatus toggle to submitFiles when toggle is enabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: true,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, true)).to.be.true;
+    });
+
+    it('should pass showDocumentUploadStatus as false to submitFiles when toggle is disabled', () => {
+      const submitFiles = sinon.spy();
+
+      const page = new AdditionalEvidencePage({
+        ...fileFormProps,
+        claim,
+        submitFiles,
+        showDocumentUploadStatus: false,
+      });
+
+      const files = [
+        { file: {}, docType: { value: 'test' }, password: { value: '' } },
+      ];
+      page.onSubmitFiles(claim.id, files);
+
+      expect(submitFiles.calledWith(claim.id, null, files, false)).to.be.true;
+    });
   });
 
   context('when claim is open with automated 5103 and standard 5103', () => {

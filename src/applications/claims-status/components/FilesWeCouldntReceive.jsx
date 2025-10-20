@@ -140,14 +140,14 @@ const FilesWeCouldntReceive = () => {
                           className="vads-u-margin-y--3"
                           data-testid={`failed-file-${file.id}`}
                         >
-                          <h4
+                          <h3
                             className="filename-title vads-u-margin-y--0 vads-u-margin-bottom--2"
                             data-dd-privacy="mask"
                             data-dd-action-name="document filename"
                           >
                             File name:
                             {file.fileName}
-                          </h4>
+                          </h3>
                           <div>Request type: {file.trackedItemDisplayName}</div>
                           <div>Date failed: {formatDate(file.failedDate)}</div>
                           <div>File type: {file.documentType}</div>
@@ -157,6 +157,9 @@ const FilesWeCouldntReceive = () => {
                               file.claimId
                             }/status`}
                             text="Go to claim this file was uploaded for"
+                            label={`Go to the claim this file was uploaded for: ${
+                              file.fileName
+                            }`}
                           />
                         </VaCard>
                       </li>
