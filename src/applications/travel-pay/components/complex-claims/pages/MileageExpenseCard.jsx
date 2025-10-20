@@ -2,6 +2,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 const TripTypeLabels = {
   OneWay: 'One Way',
   RoundTrip: 'Round Trip',
@@ -9,9 +10,10 @@ const TripTypeLabels = {
 
 const MileageExpenseCard = ({ expense }) => {
   const editExpense = () => {
-    // TODO this function will open the expense in edit mode
-    console.log('Edit expense clicked');
+    // TODO Add logic for this function, it will open the expense in edit mode
   };
+
+  const { address = {}, tripType } = expense;
 
   return (
     <>
@@ -29,30 +31,26 @@ const MileageExpenseCard = ({ expense }) => {
           />
         </div>
       </div>
-      <dl>
-        <div>
+      <dl className="review">
+        <div className="review-row">
           <dt>Which address did you depart from?</dt>
           <dd>
-            {' '}
             <span>
-              {expense.address.addressLine1} {expense.address.addressLine2}{' '}
-              {expense.address.addressLine3}
-              <br />
+              {address.addressLine1}
+              {address.addressLine2 && <div>{address.addressLine2}</div>}
+              {address.addressLine3 && <div>{address.addressLine3}</div>}
               {expense.address.city}, {expense.address.stateCode}{' '}
               {expense.address.zipCode}
             </span>
           </dd>
         </div>
-      </dl>
-      <dl>
-        <div>
+        <div className="review-row">
           <dt>Was your trip round trip or one way?</dt>
           <dd>
-            <span>{TripTypeLabels[expense.tripType] || expense.tripType}</span>
+            <span>{TripTypeLabels[tripType] || tripType}</span>
           </dd>
         </div>
       </dl>
-      <p>Which address did you depart from?</p>
     </>
   );
 };
