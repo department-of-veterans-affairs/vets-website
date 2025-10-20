@@ -299,13 +299,13 @@ Provider notes: ${vital.notes}\n\n`,
           )}
 
           {downloadStarted && <DownloadSuccessAlert />}
+          <DownloadingRecordsInfo description={ddDisplayName} />
           <PrintDownload
             description={ddDisplayName}
             downloadPdf={generateVitalsPdf}
             downloadTxt={generateVitalsTxt}
             list
           />
-          <DownloadingRecordsInfo description={ddDisplayName} />
 
           <HeaderSection
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
