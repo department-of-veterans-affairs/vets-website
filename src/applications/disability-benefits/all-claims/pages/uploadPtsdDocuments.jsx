@@ -1,22 +1,29 @@
-import React from 'react';
-import { UploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils/schemas';
 
 const PTSD_781_ATTACHMENT_ID = 'L228';
 
-export const uiSchema = {
-  'ui:title': ptsd781NameTitle,
-  'ui:description': <UploadDescription uploadTitle="Upload VA Form 21-0781" />,
-  'ui:confirmationField': ({ formData }) => ({
-    data: formData?.map(item => item.name || item.fileName),
-    label: 'Uploaded file(s)',
-  }),
-  form781Upload: ancillaryFormUploadUi('', 'PTSD 781 form', {
+const fileUploadUi = ancillaryFormUploadUi(
+  ptsd781NameTitle,
+  'Upload VA Form 21-0781',
+  {
     attachmentId: PTSD_781_ATTACHMENT_ID,
-    customClasses: 'upload-completed-form',
+    addAnotherLabel: 'upload-completed-form',
     isDisabled: true,
-  }),
+    buttonText: 'Upload file(s)',
+  },
+);
+
+export const uiSchema = {
+  form781Upload: {
+    ...fileUploadUi,
+    'ui:options': { ...fileUploadUi['ui:options'] },
+    'ui:description': 'Upload VA Form 21-0781',
+    'ui:confirmationField': ({ formData }) => ({
+      data: formData?.map(item => item.name || item.fileName),
+      label: 'Uploaded file(s)',
+    }),
+  },
 };
 
 export const schema = {
