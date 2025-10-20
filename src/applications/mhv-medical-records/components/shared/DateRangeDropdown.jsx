@@ -97,10 +97,10 @@ const DateRangeDropdown = ({
 
 DateRangeDropdown.propTypes = {
   currentRange: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
   customStartDate: PropTypes.string,
   isLoadingData: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
   onCustomDateChange: PropTypes.func,
 };
 

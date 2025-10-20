@@ -18,11 +18,9 @@ import {
   extractContainedResource,
   formatDate,
   formatDateInLocalTimezone,
-  formatDateRange,
   formatNameFirstToLast,
   getActiveLinksStyle,
   getAppointmentsDateRange,
-  getLabsAndTestsDateRanges,
   getLastUpdatedText,
   getMonthFromSelectedDate,
   getObservationValueWithUnits,
@@ -1141,7 +1139,9 @@ describe('errorForUnequalBirthDates (no sinon)', () => {
 
 describe('formatDateRange', () => {
   it('formats a date range correctly', () => {
-    const { formatDateRange: formatDateRangeFn } = require('../../util/helpers');
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
     const dateRange = {
       startDate: '2024-01-01',
       endDate: '2024-03-31',
@@ -1151,7 +1151,9 @@ describe('formatDateRange', () => {
   });
 
   it('returns null for invalid start date', () => {
-    const { formatDateRange: formatDateRangeFn } = require('../../util/helpers');
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
     const dateRange = {
       startDate: 'invalid-date',
       endDate: '2024-03-31',
@@ -1161,7 +1163,9 @@ describe('formatDateRange', () => {
   });
 
   it('returns null for missing dates', () => {
-    const { formatDateRange: formatDateRangeFn } = require('../../util/helpers');
+    const {
+      formatDateRange: formatDateRangeFn,
+    } = require('../../util/helpers');
     const formattedRange = formatDateRangeFn({});
     expect(formattedRange).to.be.null;
   });
