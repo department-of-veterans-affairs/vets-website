@@ -1,4 +1,3 @@
-// @ts-check
 import {
   dateOfBirthSchema,
   currentOrPastDateUI,
@@ -46,7 +45,7 @@ export default {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
-        formData.claimantNotVeteran
+        formData?.claimantNotVeteran
           ? 'Veteran information'
           : 'Your information',
     ),
@@ -56,7 +55,7 @@ export default {
         'ui:title': 'First name',
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Enter a first name',
+          required: 'Please enter a first name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -72,7 +71,7 @@ export default {
         'ui:title': 'Last name',
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
-          required: 'Enter a last name',
+          required: 'Please enter a last name',
         },
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
@@ -85,14 +84,7 @@ export default {
         },
       },
     },
-    veteranSocialSecurityNumber: {
-      ...ssnUI('Social Security number'),
-      'ui:errorMessages': {
-        pattern:
-          'Please enter a valid 9 digit Social Security number (dashes allowed)',
-        required: 'Enter a Social Security number',
-      },
-    },
+    veteranSocialSecurityNumber: ssnUI(),
     vaFileNumber: {
       ...vaFileNumberUI('VA file number'),
       'ui:options': {
@@ -102,9 +94,6 @@ export default {
     veteranDateOfBirth: currentOrPastDateUI({
       title: 'Date of birth',
       monthSelect: false,
-      errorMessages: {
-        required: 'Enter a date of birth',
-      },
     }),
   },
   schema: {
