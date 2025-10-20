@@ -26,7 +26,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      nonVeteranFullName: fullNameNoSuffixSchema,
+      nonVeteranFullName: fullNameNoSuffixSchema(),
       nonVeteranDateOfBirth: dateOfBirthSchema,
     },
     required: ['nonVeteranFullName', 'nonVeteranDateOfBirth'],
