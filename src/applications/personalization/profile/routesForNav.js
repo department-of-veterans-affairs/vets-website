@@ -116,7 +116,7 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
     requiresLOA3: true,
     requiresMVI: true,
-    hasSubnavChildren: true,
+    hasSubnav: true,
   },
   {
     component: PersonalHealthCareContacts,
@@ -140,7 +140,7 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
     requiresMVI: true,
-    hasSubnavChildren: true,
+    hasSubnav: true,
   },
   {
     component: DirectDeposit,
@@ -156,7 +156,7 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
     requiresMVI: true,
-    hasSubnavChildren: true,
+    hasSubnav: true,
   },
   {
     component: VeteranStatus,
@@ -172,7 +172,7 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.COMMUNICATIONS_SETTINGS,
     requiresLOA3: true,
     requiresMVI: true,
-    hasSubnavChildren: true,
+    hasSubnav: true,
   },
   {
     component: NotificationSettings,
@@ -188,7 +188,7 @@ const routesForProfile2Nav = [
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,
     requiresMVI: false,
-    hasSubnavChildren: true,
+    hasSubnav: true,
   },
   {
     component: AccountSecurity,

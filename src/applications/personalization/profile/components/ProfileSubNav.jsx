@@ -69,7 +69,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
           if (route.subnavParent) {
             return false;
           }
-          if (route.hasSubnavChildren) {
+          if (route.hasSubnav) {
             const subnavChildren = filteredRoutes.filter(
               subnavRoute => subnavRoute.subnavParent === route.name,
             );
