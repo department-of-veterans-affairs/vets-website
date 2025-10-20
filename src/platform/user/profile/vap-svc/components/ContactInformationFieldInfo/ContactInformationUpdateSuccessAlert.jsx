@@ -30,6 +30,8 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
         full-width
         slim
         uswds
+        role="alert"
+        data-testid="update-success-alert"
       >
         <p
           className="vads-u-margin-y--0"
