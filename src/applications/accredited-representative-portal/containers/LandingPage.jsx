@@ -145,8 +145,8 @@ const LandingPage = title => {
               />
               <p>
                 If you’re a VSO manager and you’d like access to the
-                representation requests feature for your organization,
-                email us at{' '}
+                representation requests feature for your organization, email us
+                at{' '}
                 <va-link
                   class="hp__link hp__link--email"
                   reverse
