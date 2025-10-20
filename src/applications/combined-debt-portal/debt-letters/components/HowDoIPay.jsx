@@ -72,7 +72,7 @@ const HowDoIPay = ({ userData }) => {
 
       <va-accordion open-single>
         <va-accordion-item
-          header="Review what these terms mean:"
+          header="Review what these terms mean"
           id="first"
           bordered
         >
@@ -83,8 +83,8 @@ const HowDoIPay = ({ userData }) => {
             </li>
             <li>
               <strong>Payee Number</strong> tells us whether the debtor is a
-              veteran or service member, a child, a spouse, a vendee, or parent
-              of the veteran.
+              Veteran, a service member, a child, a spouse, a vendee, or a
+              parent of the Veteran.
             </li>
             <li>
               <strong>Person Entitled</strong> is the first initial, middle
@@ -112,9 +112,10 @@ const HowDoIPay = ({ userData }) => {
       <h3>Pay by phone</h3>
       <p>
         Call us at <va-telephone contact={CONTACTS.DMC} /> (
-        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-        overseas) (<va-telephone contact="711" tty="true" />
-        ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        <va-telephone contact="711" tty="true" />
+        ). If you’re outside the U.S., call{' '}
+        <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re
+        here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
 
       <h3>Pay by mail</h3>

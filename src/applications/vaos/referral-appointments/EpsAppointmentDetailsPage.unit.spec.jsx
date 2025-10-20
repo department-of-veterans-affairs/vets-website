@@ -149,7 +149,14 @@ describe('EpsAppointmentDetailsPage', () => {
   });
 
   it('should render appointment details when appointment is loaded', async () => {
-    requestStub.resolves({ data: referralAppointmentInfo });
+    const referralAppointmentFuture = {
+      ...referralAppointmentInfo,
+      attributes: {
+        ...referralAppointmentInfo.attributes,
+        past: false,
+      },
+    };
+    requestStub.resolves({ data: referralAppointmentFuture });
     const { container, getByText, getByTestId } = renderWithStoreAndRouter(
       <EpsAppointmentDetailsPage />,
       {
@@ -170,7 +177,7 @@ describe('EpsAppointmentDetailsPage', () => {
     );
 
     // Check heading
-    expect(getByText('Community Care Appointment')).to.exist;
+    expect(getByText('Community care appointment')).to.exist;
 
     // Check sections exist
     expect(getByText('When')).to.exist;
@@ -302,6 +309,6 @@ describe('EpsAppointmentDetailsPage', () => {
 
     const description = container.getByTestId('appointment-time-description');
     expect(description).to.exist;
-    expect(description.textContent).to.include('Eastern Standard Time'); // Full timezone description
+    expect(description.textContent).to.include('Eastern time (ET)'); // Full timezone description
   });
 });

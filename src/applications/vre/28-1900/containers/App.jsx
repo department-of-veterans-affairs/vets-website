@@ -6,17 +6,21 @@ import {
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import formConfig from '../config/form';
+// import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function App({ location, children }) {
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      <DowntimeNotification
-        appTitle="28-1900"
-        dependencies={[externalServices.chapter31]}
-      >
-        {children}
-      </DowntimeNotification>
-    </RoutedSavableApp>
+    <>
+      {/* <Breadcrumbs /> */}
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <DowntimeNotification
+          appTitle="28-1900"
+          dependencies={[externalServices.chapter31]}
+        >
+          {children}
+        </DowntimeNotification>
+      </RoutedSavableApp>
+    </>
   );
 }
 

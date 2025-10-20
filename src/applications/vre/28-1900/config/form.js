@@ -70,6 +70,7 @@ const formConfig = {
     requiredForPrefill: true,
     dependencies: [externalServices.vre],
   },
+  useCustomScrollAndFocus: true,
   preSubmitInfo,
   chapters: {
     yourInformationChapter: {

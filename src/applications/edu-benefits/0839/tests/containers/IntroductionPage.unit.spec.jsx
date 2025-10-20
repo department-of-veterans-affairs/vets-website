@@ -94,7 +94,7 @@ describe('22-0839 <IntroductionPage>', () => {
     expect(getByText('How do I submit my Yellow Ribbon Agreement?')).to.exist;
   });
 
-  it('should render process list with two items', () => {
+  it('should render process list with three items', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
@@ -102,7 +102,7 @@ describe('22-0839 <IntroductionPage>', () => {
     );
     expect(container.querySelectorAll('va-process-list').length).to.equal(1);
     expect(container.querySelectorAll('va-process-list-item').length).to.equal(
-      2,
+      3,
     );
   });
 

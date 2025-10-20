@@ -54,6 +54,7 @@ const baseClaim = {
     status: 'INITIAL_REVIEW',
     supportingDocuments: [],
     trackedItems: [],
+    evidenceSubmissions: [],
   },
 };
 
@@ -364,8 +365,11 @@ describe('<FilesPage>', () => {
       expect(getByText('How to confirm we\u2019ve received your documents')).to
         .exist;
 
-      // Should NOT render old components
-      expect(() => getByTestId('additional-evidence-page')).to.throw();
+      // Should render new components that are only present when toggle is enabled
+      expect(getByTestId('file-submissions-in-progress')).to.exist;
+
+      // AdditionalEvidencePage should still be present (it's rendered in both toggle states)
+      expect(getByTestId('additional-evidence-page')).to.exist;
     });
 
     it('should render old content when feature toggle is disabled', () => {

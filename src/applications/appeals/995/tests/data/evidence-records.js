@@ -1,38 +1,66 @@
-const providerFacilityAddress = {
-  country: 'USA',
-  street: '123 main',
-  city: 'city',
-  state: 'AK',
-  postalCode: '90210',
-};
-
 export const records = ({ emptyIssue = false } = {}) => ({
   locations: [
     {
-      locationAndName: 'VAMC Location 1',
-      issues: emptyIssue ? [] : ['Test 1'],
-      treatmentDate: '2011-01',
+      locationAndName: 'South Texas VA Facility',
+      issues: emptyIssue ? [] : ['Hypertension'],
+      treatmentDate: '2000-02',
       noDate: false,
     },
     {
-      locationAndName: 'VAMC Location 2',
-      issues: ['Test 1', 'Test 2'],
+      locationAndName: 'Midwest Alabama VA Facility',
+      issues: ['Hypertension', 'Gluten Intolerance'],
       treatmentDate: '',
       noDate: true,
     },
   ],
   providerFacility: [
     {
-      providerFacilityName: 'Private Doctor',
-      providerFacilityAddress,
-      issues: emptyIssue ? [] : ['Test 1', 'Test 2'],
-      treatmentDateRange: { from: '2022-04-01', to: '2022-07-01' },
+      providerFacilityName: 'Provider One',
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '123 Main Street',
+        street2: 'Street address 2',
+        city: 'San Antonio',
+        state: 'TX',
+        postalCode: '78258',
+      },
+      issues: ['Hypertension', 'Right Knee Injury', 'Migraines'],
+      treatmentDateRange: {
+        from: '2015-05-06',
+        to: '2015-05-08',
+      },
     },
     {
-      providerFacilityName: 'Private Hospital',
-      providerFacilityAddress,
-      issues: ['Test 1', 'Test 2', 'Tinnitus'],
-      treatmentDateRange: { from: '2022-09-20', to: '2022-09-30' },
+      providerFacilityName: 'Provider Two',
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '456 Elm Street',
+        street2: '',
+        city: 'Tallahassee',
+        state: 'FL',
+        postalCode: '87582',
+      },
+      issues: ['Right Knee Injury', 'Migraines'],
+      treatmentDateRange: {
+        from: '2010-12-13',
+        to: '2010-12-15',
+      },
+    },
+    {
+      providerFacilityName: 'Provider Three',
+      providerFacilityAddress: {
+        country: 'USA',
+        street: '987 Oak Street',
+        street2: '',
+        city: 'Madison',
+        state: 'AL',
+        postalCode: '18375',
+      },
+      issues: ['Hypertension', 'Right Knee Injury'],
+      treatmentDateRange: {
+        from: '2018-03-13',
+        to: '2020-05-26',
+      },
     },
   ],
   additionalDocuments: [

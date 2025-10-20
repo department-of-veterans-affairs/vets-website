@@ -12,6 +12,15 @@ import {
 
 import { NULL_CONDITION_STRING, CHAR_LIMITS } from '../constants';
 
+const getNewDisabilitiesProps = schema => {
+  const nd = schema?.definitions?.newDisabilities?.items;
+  // New (refactored)526 schema shape: items.anyOf[0] = “full NEW/SECONDARY/WORSENED/VA” branch
+  if (nd?.anyOf?.[0]?.properties) return nd.anyOf[0].properties;
+  // Original 526EZ shape (pre-refactor)
+  if (nd?.properties) return nd.properties;
+  return {};
+};
+
 const {
   cause,
   causedByDisability,
@@ -22,7 +31,7 @@ const {
   worsenedEffects,
   vaMistreatmentDescription,
   vaMistreatmentLocation,
-} = fullSchema.definitions.newDisabilities.items.properties;
+} = getNewDisabilitiesProps(fullSchema);
 
 const getDisabilitiesList = createSelector(
   formData => formData.ratedDisabilities,
@@ -56,6 +65,7 @@ const causesWithoutSecondary = allCauses.filter(
 
 export const uiSchema = {
   'ui:title': 'Disability details',
+  'ui:confirmationField': null,
   newDisabilities: {
     items: {
       'ui:title': disabilityNameTitle,

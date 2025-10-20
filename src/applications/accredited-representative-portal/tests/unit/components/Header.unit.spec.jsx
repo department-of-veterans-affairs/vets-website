@@ -19,11 +19,7 @@ const getStore = () =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
-      accredited_representative_portal_custom_login: true,
-      // eslint-disable-next-line camelcase
       accredited_representative_portal_search: true,
-      // eslint-disable-next-line camelcase
-      accredited_representative_portal_help: true,
       // eslint-disable-next-line camelcase
       accredited_representative_portal_profile: true,
     },
@@ -65,8 +61,6 @@ describe('Header', () => {
     );
     fireEvent.click(getByTestId('account_circle-toggle-dropdown-desktop'));
     expect(getByTestId('account_circle-toggle-dropdown-desktop-list')).to.exist;
-    const profileLink = getByTestId('user-nav-profile-link');
-    expect(profileLink).to.exist;
     const signOutLink = getByTestId('user-nav-sign-out-link');
     expect(signOutLink).to.exist;
     fireEvent.mouseDown(document);

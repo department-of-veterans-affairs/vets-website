@@ -128,3 +128,6 @@ export const selectFeatureImmediateCareAlert = state =>
 
 export const selectFeatureRemoveFacilityConfigCheck = state =>
   toggleValues(state).vaOnlineSchedulingRemoveFacilityConfigCheck;
+
+export const selectFeatureUseBrowserTimezone = state =>
+  toggleValues(state).vaOnlineSchedulingUseBrowserTimezone;

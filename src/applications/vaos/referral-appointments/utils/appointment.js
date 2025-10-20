@@ -7,7 +7,8 @@ const appointmentData = {
     start: '2024-11-18T13:30:00Z',
     isLatest: false,
     lastRetrieved: '2025-01-29T16:30:25Z',
-    modality: 'OV',
+    modality: 'communityCareEps',
+    past: true,
     provider: {
       id: 'DBKQ-123',
       location: {

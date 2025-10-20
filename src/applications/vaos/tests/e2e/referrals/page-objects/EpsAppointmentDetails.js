@@ -6,7 +6,7 @@ class AppointmentDetails {
    * Validates that the user is on the appointment details page
    */
   validate() {
-    cy.findByText('Community Care Appointment').should('exist');
+    cy.findByText('Community care appointment').should('exist');
     cy.findByTestId('appointment-card').should('exist');
     return this;
   }

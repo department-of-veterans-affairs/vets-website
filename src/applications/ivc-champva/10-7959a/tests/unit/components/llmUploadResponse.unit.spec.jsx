@@ -14,7 +14,7 @@ describe('llmUploadWarning', () => {
   const ctxSuccess = {
     formContext: {
       data: {
-        champvaClaimsLlmValidation: true,
+        'view:champvaClaimsLlmValidation': true,
       },
       fullData: {
         medicalUpload: [
@@ -34,7 +34,7 @@ describe('llmUploadWarning', () => {
 
   const ctxFailure = {
     formContext: {
-      data: { champvaClaimsLlmValidation: true },
+      data: { 'view:champvaClaimsLlmValidation': true },
       fullData: {
         medicalUpload: [{ name: 'file.png' }],
       },
@@ -48,7 +48,7 @@ describe('llmUploadWarning', () => {
 
   const ctxMissing = {
     formContext: {
-      data: { champvaClaimsLlmValidation: true },
+      data: { 'view:champvaClaimsLlmValidation': true },
       fullData: {
         medicalUpload: [
           {
@@ -104,7 +104,7 @@ describe('llmUploadWarning', () => {
 
   describe('when champvaClaimsLlmValidation feature flag is false', () => {
     const ctx = {
-      formContext: { data: { champvaClaimsLlmValidation: false } },
+      formContext: { data: { 'view:champvaClaimsLlmValidation': false } },
     };
 
     it('should not render', () => {
