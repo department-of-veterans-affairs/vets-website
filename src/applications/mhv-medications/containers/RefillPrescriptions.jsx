@@ -13,6 +13,7 @@ import {
   EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import useAcceleratedData from '~/platform/mhv/hooks/useAcceleratedData';
 import {
   useGetRefillablePrescriptionsQuery,
   useBulkRefillPrescriptionsMutation,
@@ -88,11 +89,15 @@ const RefillPrescriptions = () => {
 
   // Selectors
   const selectedSortOption = useSelector(selectSortOption);
+  const { isAcceleratingAllergies, isCerner } = useAcceleratedData();
 
   // Get refillable list from RTK Query result
   const fullRefillList = refillableData?.prescriptions || [];
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
-  const { data: allergies, error: allergiesError } = useGetAllergiesQuery();
+  const { data: allergies, error: allergiesError } = useGetAllergiesQuery({
+    isAcceleratingAllergies,
+    isCerner,
+  });
   const userName = useSelector(selectUserFullName);
   const dob = useSelector(selectUserDob);
 
