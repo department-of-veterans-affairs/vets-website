@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { NarrativeAssessmentPage } from './narrative-assessment';
 
-describe('NarrativeAssessmentPage', () => {
+describe('Clinical Narrative Assessment Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -88,7 +88,7 @@ describe('NarrativeAssessmentPage', () => {
     });
   });
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <NarrativeAssessmentPage
@@ -177,7 +177,6 @@ describe('NarrativeAssessmentPage', () => {
         />,
       );
 
-      // Check for all individual checkboxes
       expect(container.querySelector('va-checkbox[name="locomotionNone"]')).to
         .exist;
       expect(container.querySelector('va-checkbox[name="locomotionCane"]')).to
@@ -208,7 +207,6 @@ describe('NarrativeAssessmentPage', () => {
         />,
       );
 
-      // Check for va-select element for walking distance
       const selectField = container.querySelector(
         'va-select[name="walkingDistance"]',
       );
@@ -820,7 +818,6 @@ describe('NarrativeAssessmentPage', () => {
       );
       expect(selectField).to.exist;
 
-      // The component should have these options based on the JSX
       const expectedOptions = [
         'unable',
         'less_10',
@@ -831,8 +828,6 @@ describe('NarrativeAssessmentPage', () => {
         'unlimited',
       ];
 
-      // Note: We can't directly inspect options in va-select without DOM inspection
-      // but we can test that different values are accepted
       expectedOptions.forEach(option => {
         const { container: testContainer } = render(
           <NarrativeAssessmentPage
@@ -880,7 +875,6 @@ describe('NarrativeAssessmentPage', () => {
         />,
       );
 
-      // Verify all checkboxes are checked
       const checkboxNames = [
         'locomotionNone',
         'locomotionCane',
@@ -898,7 +892,6 @@ describe('NarrativeAssessmentPage', () => {
         expect(checkbox.hasAttribute('checked')).to.be.true;
       });
 
-      // Also verify other description field is shown
       const otherInput = container.querySelector(
         'va-text-input[name="locomotionOtherDescription"]',
       );

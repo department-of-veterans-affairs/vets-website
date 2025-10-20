@@ -15,7 +15,7 @@ import {
   hospitalizationSchema,
 } from './hospitalization';
 
-describe('Hospitalization Schemas', () => {
+describe('Hospitalization Information Validation Schemas', () => {
   describe('isCurrentlyHospitalizedSchema', () => {
     it('should validate yes', () => {
       const result = isCurrentlyHospitalizedSchema.safeParse('yes');
@@ -89,7 +89,7 @@ describe('Hospitalization Schemas', () => {
 
   describe('facilityNameSchema', () => {
     it('should validate valid facility name', () => {
-      const result = facilityNameSchema.safeParse('VA Medical Center');
+      const result = facilityNameSchema.safeParse('Lothal Medical Center');
       expect(result.success).to.be.true;
     });
 

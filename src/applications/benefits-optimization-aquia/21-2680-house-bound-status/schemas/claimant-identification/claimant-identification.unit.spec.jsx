@@ -19,20 +19,20 @@ import {
   claimantIdentificationSchema,
 } from './claimant-identification';
 
-describe('Claimant Identification Schemas', () => {
+describe('Claimant Identification Validation Schemas', () => {
   describe('claimantFirstNameSchema', () => {
     it('should validate valid first name', () => {
-      const result = claimantFirstNameSchema.safeParse('Cad');
+      const result = claimantFirstNameSchema.safeParse('Ahsoka');
       expect(result.success).to.be.true;
     });
 
     it('should validate first name with hyphen', () => {
-      const result = claimantFirstNameSchema.safeParse('Mary-Jane');
+      const result = claimantFirstNameSchema.safeParse('Ahsoka-Tano');
       expect(result.success).to.be.true;
     });
 
     it('should validate first name with apostrophe', () => {
-      const result = claimantFirstNameSchema.safeParse("O'Brien");
+      const result = claimantFirstNameSchema.safeParse("Kal'El");
       expect(result.success).to.be.true;
     });
 
@@ -55,7 +55,7 @@ describe('Claimant Identification Schemas', () => {
 
   describe('claimantMiddleNameSchema', () => {
     it('should validate valid middle name', () => {
-      const result = claimantMiddleNameSchema.safeParse('Marie');
+      const result = claimantMiddleNameSchema.safeParse('Fulcrum');
       expect(result.success).to.be.true;
     });
 
@@ -77,12 +77,12 @@ describe('Claimant Identification Schemas', () => {
 
   describe('claimantLastNameSchema', () => {
     it('should validate valid last name', () => {
-      const result = claimantLastNameSchema.safeParse('Bane');
+      const result = claimantLastNameSchema.safeParse('Tano');
       expect(result.success).to.be.true;
     });
 
     it('should validate last name with hyphen', () => {
-      const result = claimantLastNameSchema.safeParse('Smith-Jones');
+      const result = claimantLastNameSchema.safeParse('Organa-Solo');
       expect(result.success).to.be.true;
     });
 

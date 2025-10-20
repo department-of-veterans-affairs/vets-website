@@ -8,14 +8,14 @@ import { expect } from 'chai';
 import React from 'react';
 import { VeteranIdentityPage } from './veteran-identity';
 
-describe('VeteranIdentityPage', () => {
+describe('Veteran Identification Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Initial Rendering', () => {
-    it('should render without errors', () => {
+  describe('Form Initialization', () => {
+    it('should initialize empty form for new applications', () => {
       const { container } = render(
         <VeteranIdentityPage
           data={{}}
@@ -76,6 +76,9 @@ describe('VeteranIdentityPage', () => {
       const data = {
         veteranIdentification: {
           isVeteranClaimant: 'yes',
+          veteranFirstName: 'Rex',
+          veteranLastName: 'Fives',
+          veteranServiceNumber: 'CT-7567',
         },
       };
 
@@ -124,8 +127,9 @@ describe('VeteranIdentityPage', () => {
     it('should render in review mode', () => {
       const data = {
         veteranIdentification: {
-          veteranFirstName: 'John',
-          veteranLastName: 'Doe',
+          veteranFirstName: 'Rex',
+          veteranLastName: 'Fives',
+          veteranServiceNumber: 'CT-7567',
           isVeteranClaimant: 'yes',
         },
       };

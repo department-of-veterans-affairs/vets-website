@@ -8,13 +8,13 @@ import { expect } from 'chai';
 import React from 'react';
 import { ADLAssessmentPage } from './adl-assessment';
 
-describe('ADLAssessmentPage', () => {
+describe('Activities of Daily Living Assessment Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <ADLAssessmentPage
@@ -68,7 +68,6 @@ describe('ADLAssessmentPage', () => {
         />,
       );
 
-      // Check for 7 va-radio elements (one for each ADL activity)
       const radioGroups = container.querySelectorAll('va-radio');
       expect(radioGroups.length).to.equal(7);
     });

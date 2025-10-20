@@ -18,10 +18,10 @@ import {
   examinerIdentificationSchema,
 } from './examiner-identification';
 
-describe('Examiner Identification Schemas', () => {
+describe('Medical Examiner Identification Validation Schemas', () => {
   describe('examinerNameSchema', () => {
     it('should validate valid examiner name', () => {
-      const result = examinerNameSchema.safeParse('Dr. Beverly Crusher');
+      const result = examinerNameSchema.safeParse('Dr. Nala Se Kalani');
       expect(result.success).to.be.true;
     });
 
@@ -89,12 +89,12 @@ describe('Examiner Identification Schemas', () => {
 
   describe('examinerNPISchema', () => {
     it('should validate 10-digit NPI', () => {
-      const result = examinerNPISchema.safeParse('1234567890');
+      const result = examinerNPISchema.safeParse('5019328476');
       expect(result.success).to.be.true;
     });
 
     it('should validate NPI with dashes', () => {
-      const result = examinerNPISchema.safeParse('123-456-7890');
+      const result = examinerNPISchema.safeParse('501-932-8476');
       expect(result.success).to.be.true;
     });
 

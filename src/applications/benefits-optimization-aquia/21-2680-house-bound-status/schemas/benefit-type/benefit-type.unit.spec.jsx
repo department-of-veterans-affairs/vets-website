@@ -7,7 +7,7 @@ import { expect } from 'chai';
 import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 import { benefitTypeSchema, benefitTypePageSchema } from './benefit-type';
 
-describe('Benefit Type Schemas', () => {
+describe('Benefit Type Validation Schemas', () => {
   describe('benefitTypeSchema', () => {
     it('should validate SMC benefit type', () => {
       const result = benefitTypeSchema.safeParse(BENEFIT_TYPES.SMC);

@@ -8,7 +8,7 @@
 export {
   benefitTypeSchema,
   benefitTypePageSchema,
-} from '@bio-aquia/21-2680-house-bound-status/schemas/benefit-type';
+} from './benefit-type/benefit-type';
 
 // Veteran identification schemas
 export {
@@ -22,7 +22,7 @@ export {
   veteranDOBSchema,
   isVeteranClaimantSchema,
   veteranIdentificationSchema,
-} from './veteran-identification';
+} from './veteran-identification/veteran-identification';
 
 // Claimant identification schemas
 export {
@@ -38,7 +38,7 @@ export {
   claimantRelationshipSchema,
   claimantRelationshipOtherSchema,
   claimantIdentificationSchema,
-} from './claimant-identification';
+} from './claimant-identification/claimant-identification';
 
 // Hospitalization schemas
 export {
@@ -50,7 +50,7 @@ export {
   facilityStateSchema,
   facilityZipSchema,
   hospitalizationSchema,
-} from './hospitalization';
+} from './hospitalization/hospitalization';
 
 // Examiner identification schemas
 export {
@@ -65,7 +65,7 @@ export {
   examinerStateSchema,
   examinerZipSchema,
   examinerIdentificationSchema,
-} from './examiner-identification';
+} from './examiner-identification/examiner-identification';
 
 // Signature schemas
 export {
@@ -76,4 +76,4 @@ export {
   examinerSignatureDateSchema,
   claimantSignaturePageSchema,
   examinerSignaturePageSchema,
-} from './signatures';
+} from './signatures/signatures';

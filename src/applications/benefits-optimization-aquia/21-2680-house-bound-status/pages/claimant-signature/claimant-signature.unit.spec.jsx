@@ -8,13 +8,13 @@ import { expect } from 'chai';
 import React from 'react';
 import { ClaimantSignaturePage } from './claimant-signature';
 
-describe('ClaimantSignaturePage', () => {
+describe('Claimant Certification and Signature Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <ClaimantSignaturePage

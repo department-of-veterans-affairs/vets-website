@@ -8,13 +8,13 @@ import { expect } from 'chai';
 import React from 'react';
 import { ClaimantIdentityPage } from './claimant-identity';
 
-describe('ClaimantIdentityPage', () => {
+describe('Claimant Information Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors when not veteran claimant', () => {
       const { container } = render(
         <ClaimantIdentityPage
@@ -191,9 +191,9 @@ describe('ClaimantIdentityPage', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantFirstName: 'John',
-          claimantMiddleName: 'Michael',
-          claimantLastName: 'Smith',
+          claimantFirstName: 'Ahsoka',
+          claimantMiddleName: '',
+          claimantLastName: 'Tano',
         },
       };
 
@@ -216,20 +216,20 @@ describe('ClaimantIdentityPage', () => {
         'va-text-input[name="fullName.last"]',
       );
 
-      expect(firstNameInput.getAttribute('value')).to.equal('John');
-      expect(middleNameInput.getAttribute('value')).to.equal('Michael');
-      expect(lastNameInput.getAttribute('value')).to.equal('Smith');
+      expect(firstNameInput.getAttribute('value')).to.equal('Ahsoka');
+      expect(middleNameInput.getAttribute('value')).to.equal('');
+      expect(lastNameInput.getAttribute('value')).to.equal('Tano');
     });
 
     it('should display claimant address values', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantStreetAddress: '456 Oak Street',
-          claimantUnitNumber: 'Apt 2B',
-          claimantCity: 'Chicago',
-          claimantState: 'IL',
-          claimantZip: '60601',
+          claimantStreetAddress: '77 Fulcrum Station',
+          claimantUnitNumber: 'Level 5',
+          claimantCity: 'Coruscant',
+          claimantState: 'CA',
+          claimantZip: '94105',
         },
       };
 
@@ -258,18 +258,18 @@ describe('ClaimantIdentityPage', () => {
         'va-text-input[name="claimantAddress.postalCode"]',
       );
 
-      expect(streetInput.getAttribute('value')).to.equal('456 Oak Street');
-      expect(unitInput.getAttribute('value')).to.equal('Apt 2B');
-      expect(cityInput.getAttribute('value')).to.equal('Chicago');
-      expect(stateSelect.getAttribute('value')).to.equal('IL');
-      expect(zipInput.getAttribute('value')).to.equal('60601');
+      expect(streetInput.getAttribute('value')).to.equal('77 Fulcrum Station');
+      expect(unitInput.getAttribute('value')).to.equal('Level 5');
+      expect(cityInput.getAttribute('value')).to.equal('Coruscant');
+      expect(stateSelect.getAttribute('value')).to.equal('CA');
+      expect(zipInput.getAttribute('value')).to.equal('94105');
     });
 
     it('should display phone number value', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantPhone: '312-555-0123',
+          claimantPhone: '415-555-7567',
         },
       };
 
@@ -283,14 +283,14 @@ describe('ClaimantIdentityPage', () => {
       );
 
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput.getAttribute('value')).to.equal('312-555-0123');
+      expect(phoneInput.getAttribute('value')).to.equal('415-555-7567');
     });
 
     it('should display claimant relationship selection', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantRelationship: 'spouse',
+          claimantRelationship: 'other',
         },
       };
 
@@ -306,7 +306,7 @@ describe('ClaimantIdentityPage', () => {
       const relationshipSelect = container.querySelector(
         'va-select[name="claimantRelationship"]',
       );
-      expect(relationshipSelect.getAttribute('value')).to.equal('spouse');
+      expect(relationshipSelect.getAttribute('value')).to.equal('other');
     });
 
     it('should handle various relationship values', () => {
@@ -446,9 +446,9 @@ describe('ClaimantIdentityPage', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantFirstName: 'Jane',
-          claimantLastName: 'Doe',
-          claimantRelationship: 'spouse',
+          claimantFirstName: 'Ahsoka',
+          claimantLastName: 'Tano',
+          claimantRelationship: 'other',
         },
       };
 
@@ -588,7 +588,7 @@ describe('ClaimantIdentityPage', () => {
         isVeteranClaimant: 'no',
         claimantIdentification: {
           claimantRelationship: 'other',
-          claimantRelationshipOther: 'Legal Guardian',
+          claimantRelationshipOther: 'Former Padawan',
         },
       };
 
@@ -604,23 +604,23 @@ describe('ClaimantIdentityPage', () => {
       const textInput = container.querySelector(
         'va-text-input[name="claimantRelationshipOther"]',
       );
-      expect(textInput.getAttribute('value')).to.equal('Legal Guardian');
+      expect(textInput.getAttribute('value')).to.equal('Former Padawan');
     });
 
     it('should render with various field values populated', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantFirstName: 'Jane',
-          claimantMiddleName: 'Marie',
-          claimantLastName: 'Doe',
-          claimantStreetAddress: '123 Main St',
-          claimantCity: 'Springfield',
-          claimantState: 'IL',
-          claimantZip: '62701',
-          claimantPhone: '555-123-4567',
+          claimantFirstName: 'Ahsoka',
+          claimantMiddleName: '',
+          claimantLastName: 'Tano',
+          claimantStreetAddress: '77 Fulcrum Station',
+          claimantCity: 'Coruscant',
+          claimantState: 'CA',
+          claimantZip: '94105',
+          claimantPhone: '415-555-7567',
           claimantRelationship: 'other',
-          claimantRelationshipOther: 'Power of Attorney',
+          claimantRelationshipOther: 'Former Padawan',
         },
       };
 
@@ -638,7 +638,7 @@ describe('ClaimantIdentityPage', () => {
         'va-text-input[name="claimantRelationshipOther"]',
       );
       expect(otherInput).to.exist;
-      expect(otherInput.getAttribute('value')).to.equal('Power of Attorney');
+      expect(otherInput.getAttribute('value')).to.equal('Former Padawan');
     });
   });
 
@@ -681,16 +681,16 @@ describe('ClaimantIdentityPage', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantFirstName: 'Elizabeth',
-          claimantMiddleName: 'Anne',
-          claimantLastName: 'Johnson',
-          claimantStreetAddress: '789 Park Avenue',
-          claimantUnitNumber: 'Suite 300',
-          claimantCity: 'New York',
-          claimantState: 'NY',
-          claimantZip: '10001',
-          claimantPhone: '212-555-9876',
-          claimantRelationship: 'child',
+          claimantFirstName: 'Padmé',
+          claimantMiddleName: 'Naberrie',
+          claimantLastName: 'Amidala',
+          claimantStreetAddress: '500 Royal Palace',
+          claimantUnitNumber: 'Throne Room',
+          claimantCity: 'Theed',
+          claimantState: 'CA',
+          claimantZip: '94102',
+          claimantPhone: '415-555-9876',
+          claimantRelationship: 'spouse',
         },
       };
 
@@ -703,7 +703,6 @@ describe('ClaimantIdentityPage', () => {
         />,
       );
 
-      // Verify all fields are populated
       const firstNameInput = container.querySelector(
         'va-text-input[name="fullName.first"]',
       );
@@ -717,20 +716,20 @@ describe('ClaimantIdentityPage', () => {
         'va-select[name="claimantRelationship"]',
       );
 
-      expect(firstNameInput.getAttribute('value')).to.equal('Elizabeth');
-      expect(middleNameInput.getAttribute('value')).to.equal('Anne');
-      expect(lastNameInput.getAttribute('value')).to.equal('Johnson');
-      expect(relationshipSelect.getAttribute('value')).to.equal('child');
+      expect(firstNameInput.getAttribute('value')).to.equal('Padmé');
+      expect(middleNameInput.getAttribute('value')).to.equal('Naberrie');
+      expect(lastNameInput.getAttribute('value')).to.equal('Amidala');
+      expect(relationshipSelect.getAttribute('value')).to.equal('spouse');
     });
 
     it('should handle partial claimant information', () => {
       const data = {
         isVeteranClaimant: 'no',
         claimantIdentification: {
-          claimantFirstName: 'Robert',
-          claimantLastName: 'Williams',
-          claimantCity: 'Dallas',
-          claimantState: 'TX',
+          claimantFirstName: 'Bail',
+          claimantLastName: 'Organa',
+          claimantCity: 'Alderaan',
+          claimantState: 'CA',
           claimantRelationship: 'fiduciary',
         },
       };
@@ -754,9 +753,9 @@ describe('ClaimantIdentityPage', () => {
         'va-select[name="claimantAddress.state"]',
       );
 
-      expect(firstNameInput.getAttribute('value')).to.equal('Robert');
-      expect(cityInput.getAttribute('value')).to.equal('Dallas');
-      expect(stateSelect.getAttribute('value')).to.equal('TX');
+      expect(firstNameInput.getAttribute('value')).to.equal('Bail');
+      expect(cityInput.getAttribute('value')).to.equal('Alderaan');
+      expect(stateSelect.getAttribute('value')).to.equal('CA');
     });
   });
 });

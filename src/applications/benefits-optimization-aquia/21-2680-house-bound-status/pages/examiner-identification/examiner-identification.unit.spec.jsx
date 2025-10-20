@@ -8,13 +8,13 @@ import { expect } from 'chai';
 import React from 'react';
 import { ExaminerIdentificationPage } from './examiner-identification';
 
-describe('ExaminerIdentificationPage', () => {
+describe('Medical Examiner Identification Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
   const mockUpdatePage = () => {};
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <ExaminerIdentificationPage
@@ -76,7 +76,7 @@ describe('ExaminerIdentificationPage', () => {
     it('should display examiner information', () => {
       const data = {
         examinerIdentification: {
-          examinerName: 'Dr. Smith',
+          examinerName: 'Dr. Kalani',
           examinerTitle: 'md',
         },
       };
@@ -189,9 +189,9 @@ describe('ExaminerIdentificationPage', () => {
     it('should render in review mode', () => {
       const data = {
         examinerIdentification: {
-          examinerName: 'Dr. Smith',
+          examinerName: 'Dr. Kalani',
           examinerTitle: 'md',
-          examinerNPI: '1234567890',
+          examinerNPI: '5019328476',
         },
       };
 
@@ -362,7 +362,7 @@ describe('ExaminerIdentificationPage', () => {
     it('should display examiner name value', () => {
       const data = {
         examinerIdentification: {
-          examinerName: 'Dr. John Doe',
+          examinerName: 'Dr. Nala Se Kalani',
         },
       };
 
@@ -378,7 +378,7 @@ describe('ExaminerIdentificationPage', () => {
       const nameInput = container.querySelector(
         'va-text-input[name="examinerName"]',
       );
-      expect(nameInput.getAttribute('value')).to.equal('Dr. John Doe');
+      expect(nameInput.getAttribute('value')).to.equal('Dr. Nala Se Kalani');
     });
 
     it('should display examiner title value', () => {
@@ -428,7 +428,7 @@ describe('ExaminerIdentificationPage', () => {
     it('should display phone number value', () => {
       const data = {
         examinerIdentification: {
-          examinerPhone: '202-555-0123',
+          examinerPhone: '415-555-0501',
         },
       };
 
@@ -442,13 +442,13 @@ describe('ExaminerIdentificationPage', () => {
       );
 
       const phoneInput = container.querySelector('va-telephone-input');
-      expect(phoneInput.getAttribute('value')).to.equal('202-555-0123');
+      expect(phoneInput.getAttribute('value')).to.equal('415-555-0501');
     });
 
     it('should display facility name value', () => {
       const data = {
         examinerIdentification: {
-          facilityPracticeName: 'VA Medical Center',
+          facilityPracticeName: 'Kamino Medical Research Center',
         },
       };
 
@@ -464,17 +464,19 @@ describe('ExaminerIdentificationPage', () => {
       const facilityInput = container.querySelector(
         'va-text-input[name="facilityPracticeName"]',
       );
-      expect(facilityInput.getAttribute('value')).to.equal('VA Medical Center');
+      expect(facilityInput.getAttribute('value')).to.equal(
+        'Kamino Medical Research Center',
+      );
     });
 
     it('should display address field values', () => {
       const data = {
         examinerIdentification: {
-          examinerStreetAddress: '789 Medical Drive',
-          examinerUnitNumber: 'Building C',
-          examinerCity: 'Arlington',
-          examinerState: 'VA',
-          examinerZip: '22202',
+          examinerStreetAddress: '1138 Clone Research Facility',
+          examinerUnitNumber: 'Wing Delta',
+          examinerCity: 'Tipoca City',
+          examinerState: 'CA',
+          examinerZip: '94111',
         },
       };
 
@@ -503,11 +505,13 @@ describe('ExaminerIdentificationPage', () => {
         'va-text-input[name="examinerAddress.postalCode"]',
       );
 
-      expect(streetInput.getAttribute('value')).to.equal('789 Medical Drive');
-      expect(unitInput.getAttribute('value')).to.equal('Building C');
-      expect(cityInput.getAttribute('value')).to.equal('Arlington');
-      expect(stateSelect.getAttribute('value')).to.equal('VA');
-      expect(zipInput.getAttribute('value')).to.equal('22202');
+      expect(streetInput.getAttribute('value')).to.equal(
+        '1138 Clone Research Facility',
+      );
+      expect(unitInput.getAttribute('value')).to.equal('Wing Delta');
+      expect(cityInput.getAttribute('value')).to.equal('Tipoca City');
+      expect(stateSelect.getAttribute('value')).to.equal('CA');
+      expect(zipInput.getAttribute('value')).to.equal('94111');
     });
 
     it('should render with various professional titles', () => {
@@ -539,16 +543,16 @@ describe('ExaminerIdentificationPage', () => {
     it('should render with complete examiner information', () => {
       const data = {
         examinerIdentification: {
-          examinerName: 'Dr. Jane Smith',
+          examinerName: 'Dr. Nala Se Kalani',
           examinerTitle: 'md',
-          examinerNPI: '1234567890',
-          examinerPhone: '555-123-4567',
-          facilityPracticeName: 'Memorial Hospital',
-          examinerStreetAddress: '456 Medical Plaza',
-          examinerUnitNumber: 'Suite 200',
-          examinerCity: 'Boston',
-          examinerState: 'MA',
-          examinerZip: '02101',
+          examinerNPI: '5019328476',
+          examinerPhone: '415-555-0501',
+          facilityPracticeName: 'Kamino Medical Research Center',
+          examinerStreetAddress: '1138 Clone Research Facility',
+          examinerUnitNumber: 'Wing Delta',
+          examinerCity: 'Tipoca City',
+          examinerState: 'CA',
+          examinerZip: '94111',
         },
       };
 
@@ -571,9 +575,9 @@ describe('ExaminerIdentificationPage', () => {
       const npiInput = container.querySelector(
         'va-text-input[name="examinerNPI"]',
       );
-      expect(nameInput.getAttribute('value')).to.equal('Dr. Jane Smith');
+      expect(nameInput.getAttribute('value')).to.equal('Dr. Nala Se Kalani');
       expect(titleSelect.getAttribute('value')).to.equal('md');
-      expect(npiInput.getAttribute('value')).to.equal('1234567890');
+      expect(npiInput.getAttribute('value')).to.equal('5019328476');
     });
   });
 

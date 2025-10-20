@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { MedicalDiagnosisPage } from './medical-diagnosis';
 
-describe('MedicalDiagnosisPage', () => {
+describe('Medical Diagnosis Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -88,7 +88,7 @@ describe('MedicalDiagnosisPage', () => {
     });
   });
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <MedicalDiagnosisPage
@@ -287,7 +287,8 @@ describe('MedicalDiagnosisPage', () => {
     it('should display medical diagnoses value', async () => {
       const data = {
         medicalDiagnosis: {
-          medicalDiagnoses: 'COPD, Diabetes Type 2, Hypertension',
+          medicalDiagnoses:
+            'Accelerated Clone Aging Syndrome, Combat-related PTSD, Chronic arthritis in multiple joints',
         },
       };
 
@@ -305,7 +306,7 @@ describe('MedicalDiagnosisPage', () => {
           'va-textarea[name="medicalDiagnoses"]',
         );
         expect(textarea.getAttribute('value')).to.equal(
-          'COPD, Diabetes Type 2, Hypertension',
+          'Accelerated Clone Aging Syndrome, Combat-related PTSD, Chronic arthritis in multiple joints',
         );
       });
     });
@@ -511,7 +512,8 @@ describe('MedicalDiagnosisPage', () => {
     it('should render in review mode', () => {
       const data = {
         medicalDiagnosis: {
-          medicalDiagnoses: 'Test diagnosis',
+          medicalDiagnoses:
+            'Accelerated Clone Aging Syndrome, Combat-related PTSD',
           isPermanentlyDisabled: 'no',
         },
       };
@@ -983,7 +985,6 @@ describe('MedicalDiagnosisPage', () => {
         />,
       );
 
-      // Verify all checkboxes are checked
       const checkboxNames = [
         'lossOfUseNone',
         'lossOfUseBothFeet',

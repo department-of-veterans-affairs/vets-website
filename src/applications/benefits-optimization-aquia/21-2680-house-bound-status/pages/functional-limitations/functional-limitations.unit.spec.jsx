@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { FunctionalLimitationsPage } from './functional-limitations';
 
-describe('FunctionalLimitationsPage', () => {
+describe('Functional Limitations Assessment Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -88,7 +88,7 @@ describe('FunctionalLimitationsPage', () => {
     });
   });
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <FunctionalLimitationsPage
@@ -125,10 +125,7 @@ describe('FunctionalLimitationsPage', () => {
         />,
       );
 
-      // The component should render instruction text
       expect(container).to.exist;
-      // Just verify the component renders without checking specific text
-      // as the text might be rendered differently in the test environment
     });
 
     it('should render balance assessment radio buttons', () => {
@@ -991,7 +988,6 @@ describe('FunctionalLimitationsPage', () => {
         />,
       );
 
-      // Verify all checkboxes are checked
       const checkboxNames = [
         'assistanceNone',
         'assistanceMedication',

@@ -279,7 +279,7 @@ describe('Prefill Transformer', () => {
       const state = {
         user: {
           profile: {
-            email: 'test@example.com',
+            email: 'rex.ct7567@grandarmyvets.org',
           },
         },
       };
@@ -290,7 +290,9 @@ describe('Prefill Transformer', () => {
         state,
       );
       expect(result.formData.existingField).to.equal('existing');
-      expect(result.formData.contactInfo.email).to.equal('test@example.com');
+      expect(result.formData.contactInfo.email).to.equal(
+        'rex.ct7567@grandarmyvets.org',
+      );
     });
   });
 });

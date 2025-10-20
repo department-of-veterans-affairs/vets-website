@@ -20,7 +20,6 @@ describe('App', () => {
     });
 
     it('should have a length property indicating number of required props', () => {
-      // React function components have a length property
       expect(App).to.have.property('length');
       expect(App.length).to.be.a('number');
     });

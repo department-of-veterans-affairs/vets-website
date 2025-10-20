@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { HospitalizationPage } from './hospitalization';
 
-describe('HospitalizationPage', () => {
+describe('Hospitalization Information Form', () => {
   const mockSetFormData = () => {};
   const mockGoForward = () => {};
   const mockGoBack = () => {};
@@ -76,7 +76,7 @@ describe('HospitalizationPage', () => {
     });
   });
 
-  describe('Initial Rendering', () => {
+  describe('Form Initialization', () => {
     it('should render without errors', () => {
       const { container } = render(
         <HospitalizationPage
@@ -252,7 +252,7 @@ describe('HospitalizationPage', () => {
       const data = {
         hospitalization: {
           isCurrentlyHospitalized: 'yes',
-          facilityName: 'VA Medical Center',
+          facilityName: 'Lothal Medical Center',
         },
       };
 
@@ -269,17 +269,19 @@ describe('HospitalizationPage', () => {
         'va-text-input[name="facilityName"]',
       );
       expect(facilityInput).to.exist;
-      expect(facilityInput.getAttribute('value')).to.equal('VA Medical Center');
+      expect(facilityInput.getAttribute('value')).to.equal(
+        'Lothal Medical Center',
+      );
     });
 
     it('should display facility address', () => {
       const data = {
         hospitalization: {
           isCurrentlyHospitalized: 'yes',
-          facilityStreetAddress: '123 Main St',
-          facilityCity: 'Washington',
-          facilityState: 'DC',
-          facilityZip: '20001',
+          facilityStreetAddress: '7677 Capital Square',
+          facilityCity: 'Lothal',
+          facilityState: 'CA',
+          facilityZip: '94107',
         },
       };
 

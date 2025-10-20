@@ -17,25 +17,25 @@ import {
   veteranIdentificationSchema,
 } from './veteran-identification';
 
-describe('Veteran Identification Schemas', () => {
+describe('Veteran Identification Validation Schemas', () => {
   describe('veteranFirstNameSchema', () => {
     it('should validate valid first name', () => {
-      const result = veteranFirstNameSchema.safeParse('Boba');
+      const result = veteranFirstNameSchema.safeParse('Rex');
       expect(result.success).to.be.true;
     });
 
     it('should validate first name with hyphen', () => {
-      const result = veteranFirstNameSchema.safeParse('Jean-Luc');
+      const result = veteranFirstNameSchema.safeParse('Obi-Wan');
       expect(result.success).to.be.true;
     });
 
     it('should validate first name with apostrophe', () => {
-      const result = veteranFirstNameSchema.safeParse("O'Brien");
+      const result = veteranFirstNameSchema.safeParse("Ka'haral");
       expect(result.success).to.be.true;
     });
 
     it('should validate first name with space', () => {
-      const result = veteranFirstNameSchema.safeParse('Mary Jane');
+      const result = veteranFirstNameSchema.safeParse('Ahsoka Tano');
       expect(result.success).to.be.true;
     });
 
@@ -66,7 +66,7 @@ describe('Veteran Identification Schemas', () => {
 
   describe('veteranMiddleNameSchema', () => {
     it('should validate valid middle name', () => {
-      const result = veteranMiddleNameSchema.safeParse('Tiberius');
+      const result = veteranMiddleNameSchema.safeParse('Fives');
       expect(result.success).to.be.true;
     });
 

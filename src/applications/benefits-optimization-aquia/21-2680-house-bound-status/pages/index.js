@@ -8,6 +8,20 @@ export {
   BenefitTypePage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/benefit-type';
 
+// Pre-fill Pages - Veteran Personal Information
+export {
+  identificationInformation,
+} from '@bio-aquia/21-2680-house-bound-status/pages/identification-information';
+export {
+  mailingAddress,
+} from '@bio-aquia/21-2680-house-bound-status/pages/mailing-address';
+export {
+  nameAndDateOfBirth,
+} from '@bio-aquia/21-2680-house-bound-status/pages/name-and-date-of-birth';
+export {
+  phoneAndEmailAddress,
+} from '@bio-aquia/21-2680-house-bound-status/pages/phone-and-email-address';
+
 // Section I - Veteran Information
 export {
   VeteranIdentityPage,
@@ -46,8 +60,8 @@ export {
 
 // Section VIII - Narrative Assessment
 export {
-  NarrativeAssessmentPage,
-} from '@bio-aquia/21-2680-house-bound-status/pages/narrative-assessment';
-export {
   ExaminerSignaturePage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/examiner-signature';
+export {
+  NarrativeAssessmentPage,
+} from '@bio-aquia/21-2680-house-bound-status/pages/narrative-assessment';

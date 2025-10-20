@@ -14,10 +14,10 @@ import {
   examinerSignaturePageSchema,
 } from './signatures';
 
-describe('Signature Schemas', () => {
+describe('Signature Validation Schemas', () => {
   describe('claimantSignatureSchema', () => {
     it('should validate valid signature', () => {
-      const result = claimantSignatureSchema.safeParse('Boba Fett');
+      const result = claimantSignatureSchema.safeParse('Ahsoka Tano');
       expect(result.success).to.be.true;
     });
 
@@ -41,12 +41,12 @@ describe('Signature Schemas', () => {
     });
 
     it('should validate signature with spaces', () => {
-      const result = claimantSignatureSchema.safeParse('John Doe Jr.');
+      const result = claimantSignatureSchema.safeParse('Rex Fives Jr.');
       expect(result.success).to.be.true;
     });
 
     it('should validate signature with special characters', () => {
-      const result = claimantSignatureSchema.safeParse("O'Brien-Smith");
+      const result = claimantSignatureSchema.safeParse("Kal'El-Organa");
       expect(result.success).to.be.true;
     });
   });
