@@ -146,22 +146,6 @@ describe('Medications Prescriptions container', () => {
     });
   });
 
-  it('should show the allergy error alert when printing all meds', async () => {
-    sandbox.restore();
-    stubAllergiesApi({ sandbox, error: true });
-    stubPrescriptionsListApi({ sandbox });
-    const screen = setup();
-    const pdfButton = screen.getByTestId('download-print-all-button');
-    await waitFor(() => {
-      fireEvent.click(pdfButton);
-    });
-    expect(screen);
-    waitFor(() => {
-      expect(screen.getByText('We can’t print your records right now')).to
-        .exist;
-    });
-  });
-
   it('should show the allergy error alert when downloading txt', async () => {
     sandbox.restore();
     stubAllergiesApi({ sandbox, error: true });
@@ -185,16 +169,6 @@ describe('Medications Prescriptions container', () => {
     );
   });
 
-  it('Simulates print all button click', async () => {
-    const screen = setup();
-    const button = await screen.findByTestId('download-print-all-button');
-    expect(button).to.exist;
-    expect(button).to.have.text('Print all medications');
-    await waitFor(() => {
-      button.click();
-    });
-  });
-
   it('Simulates print button click', async () => {
     if (!window.print) {
       window.print = () => {};
@@ -203,7 +177,7 @@ describe('Medications Prescriptions container', () => {
     const screen = setup();
     const button = await screen.findByTestId('download-print-button');
     expect(button).to.exist;
-    expect(button).to.have.text('Print this page of the list');
+    expect(button).to.have.text('Print');
     fireEvent.click(button);
     await waitFor(() => {
       fireEvent.click(button);

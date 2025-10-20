@@ -62,6 +62,7 @@ const createClaim = (
     evidenceSubmissions = [],
     contentions = [],
     previousPhases = {},
+    trackedItems = null,
   },
   withTrackedItems = true,
 ) => ({
@@ -98,24 +99,26 @@ const createClaim = (
       ],
       issues,
       evidence,
-      trackedItems: withTrackedItems
-        ? [
-            {
-              id: 1,
-              displayName: '21-4142/21-4142a',
-              status: 'NEEDED_FROM_YOU',
-              suspenseDate: '2024-12-01',
-              type: 'other',
-            },
-            {
-              id: 2,
-              displayName: 'Private medical records',
-              status: 'NEEDED_FROM_OTHERS',
-              suspenseDate: '2024-12-10',
-              type: 'other',
-            },
-          ]
-        : [],
+      trackedItems:
+        trackedItems ||
+        (withTrackedItems
+          ? [
+              {
+                id: 1,
+                displayName: '21-4142/21-4142a',
+                status: 'NEEDED_FROM_YOU',
+                suspenseDate: '2024-12-01',
+                type: 'other',
+              },
+              {
+                id: 2,
+                displayName: 'Private medical records',
+                status: 'NEEDED_FROM_OTHERS',
+                suspenseDate: '2024-12-10',
+                type: 'other',
+              },
+            ]
+          : []),
     },
   },
 });
@@ -154,6 +157,13 @@ const appealData1 = {
         description: 'Post traumatic stress disorder (PTSD) is granted.',
         diagnosticCode: '9411',
       },
+      {
+        active: true,
+        lastAction: null,
+        date: '2024-10-25',
+        description: null,
+        diagnosticCode: '9411',
+      },
     ],
     events: [
       {
@@ -163,6 +173,133 @@ const appealData1 = {
     ],
     evidence: [],
   },
+};
+
+const appealData = {
+  data: [
+    appealData1,
+    {
+      id: '2765759',
+      type: 'legacyAppeal',
+      attributes: {
+        appealIds: ['2765759'],
+        updated: '2021-03-04T19:55:21-05:00',
+        incompleteHistory: false,
+        type: 'original',
+        // this determines if the appeal is open or closed
+        active: true,
+        description: 'Benefits as a result of VA error (Section 1151)',
+        aod: false,
+        location: 'bva',
+        aoj: 'vba',
+        programArea: 'compensation',
+        status: { type: 'on_docket', details: {} },
+        alerts: [],
+        docket: {
+          front: false,
+          total: 140135,
+          ahead: 101381,
+          ready: 16432,
+          month: '2012-04-01',
+          docketMonth: '2011-01-01',
+          eta: null,
+        },
+        issues: [
+          {
+            description: 'Benefits as a result of VA error (Section 1151)',
+            diagnosticCode: null,
+            active: true,
+            lastAction: 'withdrawn',
+            date: new Date().toISOString(),
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: 'withdrawn',
+            date: new Date().toISOString(),
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: null,
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+          {
+            description: 'Benefits as a result of VA error (Section 1151)',
+            diagnosticCode: null,
+            active: false,
+            lastAction: null,
+            date: null,
+          },
+        ],
+        events: [
+          { type: 'nod', date: '2012-02-02' },
+          { type: 'soc', date: '2012-03-03' },
+          { type: 'form9', date: '2012-04-04' },
+          { type: 'hearing_held', date: '2023-01-11' },
+        ],
+        evidence: [],
+      },
+    },
+    {
+      id: 'HLR4196',
+      type: 'higherLevelReview',
+      attributes: {
+        appealIds: ['HLR4196'],
+        updated: '2025-09-26T10:48:46-04:00',
+        incompleteHistory: false,
+        active: true,
+        description: '1 medical issue and 1 non-rated issue',
+        location: 'aoj',
+        aoj: 'vha',
+        programArea: 'medical',
+        status: {
+          type: 'hlr_received',
+          details: {},
+        },
+        alerts: [],
+        issues: [
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: 'Beneficiary Travel - This is a test',
+            diagnosticCode: null,
+          },
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: null,
+            diagnosticCode: null,
+          },
+          {
+            active: true,
+            lastAction: null,
+            date: null,
+            description: null,
+            diagnosticCode: null,
+          },
+        ],
+        events: [
+          {
+            type: 'hlr_request',
+            date: '2023-01-11',
+          },
+        ],
+        evidence: [],
+      },
+    },
+  ],
 };
 
 const baseClaims = [
@@ -533,6 +670,432 @@ const baseClaims = [
     },
     false,
   ),
+  // Claim to exercise FilesReceived component
+  createClaim('9', {
+    baseEndProductCode: '020',
+    claimDate: '2024-10-09',
+    phaseType: 'GATHERING_OF_EVIDENCE',
+    claimType: 'Compensation',
+    claimTypeCode: '020CPHLP',
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    documentsNeeded: false,
+    developmentLetterSent: true,
+    evidenceWaiverSubmitted5103: true,
+    issues: [],
+    evidence: [],
+    evidenceSubmissions: [],
+    supportingDocuments: [
+      // Documents with trackedItemId=null will show "No review status available"
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0200}',
+        'Photographs',
+        'additional_evidence_photo_1.pdf',
+        null,
+        '2025-09-28',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0201}',
+        'Birth Certificate',
+        'additional_evidence_birth_cert.pdf',
+        null,
+        '2025-09-27',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0202}',
+        'Medical Record',
+        'additional_evidence_medical.pdf',
+        null,
+        '2025-09-26',
+      ),
+      createSupportingDocument(
+        '{A8A7A709-E3FD-44FA-99C9-C3B772AD0203}',
+        'DD214',
+        'additional_evidence_dd214.pdf',
+        null,
+        '2025-09-25',
+      ),
+      // Documents for tracked item 101 - "Reviewed by VA"
+      createSupportingDocument(
+        '{DOC-101-1}',
+        'Medical Treatment Records',
+        'hospital_a_records.pdf',
+        101,
+        '2025-09-24',
+      ),
+      // Documents for tracked item 102 - "Reviewed by VA" (ACCEPTED)
+      createSupportingDocument(
+        '{DOC-102-1}',
+        'Military Personnel Record',
+        'service_records.pdf',
+        102,
+        '2025-09-23',
+      ),
+      // Documents for tracked item 103 - "Pending review"
+      createSupportingDocument(
+        '{DOC-103-1}',
+        'Medical Treatment Records',
+        'private_clinic_records.pdf',
+        103,
+        '2025-09-22',
+      ),
+      createSupportingDocument(
+        '{DOC-103-2}',
+        'Medical Treatment Records',
+        'doctor_notes.pdf',
+        103,
+        '2025-09-22',
+      ),
+      // Documents for tracked item 104 - "No longer needed"
+      createSupportingDocument(
+        '{DOC-104-1}',
+        'Buddy/Lay Statement',
+        'buddy_statement.pdf',
+        104,
+        '2025-09-21',
+      ),
+      // Documents for tracked item 105 - "Pending review"
+      createSupportingDocument(
+        '{DOC-105-1}',
+        'Dental Records',
+        'dental_xrays.pdf',
+        105,
+        '2025-09-20',
+      ),
+      // Documents for tracked item 106 - "Reviewed by VA"
+      createSupportingDocument(
+        '{DOC-106-1}',
+        'Medical Records',
+        'lab_results_2024.pdf',
+        106,
+        '2025-09-19',
+      ),
+      // Documents for tracked item 107 - "Reviewed by VA" (ACCEPTED)
+      createSupportingDocument(
+        '{DOC-107-1}',
+        'VA Form 21-0781',
+        'ptsd_statement.pdf',
+        107,
+        '2025-09-17',
+      ),
+      // Documents for tracked item 108 - "Pending review"
+      createSupportingDocument(
+        '{DOC-108-1}',
+        'Medical Records',
+        'therapy_records.pdf',
+        108,
+        '2025-09-16',
+      ),
+    ],
+    // Tracked items WITHOUT embedded documents (serializer will add them)
+    trackedItems: [
+      // Tracked item with NO documents - will show "File name unknown"
+      {
+        id: 109,
+        displayName: 'Employment records',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-30',
+        closedDate: null,
+        suspenseDate: '2024-12-15',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Reviewed by VA"
+      {
+        id: 101,
+        displayName: 'Medical records - Hospital A',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-24',
+        closedDate: null,
+        suspenseDate: '2024-12-01',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Reviewed by VA" (ACCEPTED)
+      {
+        id: 102,
+        displayName: 'Service Personnel Records',
+        status: 'ACCEPTED',
+        receivedDate: '2025-09-23',
+        closedDate: null,
+        suspenseDate: '2024-12-01',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "Pending review"
+      {
+        id: 103,
+        displayName: 'Private medical records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-10',
+        type: 'still_need_from_you_list',
+      },
+      // Status: "No longer needed"
+      {
+        id: 104,
+        displayName: 'Buddy statement',
+        status: 'NO_LONGER_REQUIRED',
+        receivedDate: null,
+        closedDate: '2025-09-21',
+        suspenseDate: '2024-12-15',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Pending review"
+      {
+        id: 105,
+        displayName: 'Dental records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-20',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Reviewed by VA"
+      {
+        id: 106,
+        displayName: 'Lab results',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        receivedDate: '2025-09-19',
+        closedDate: null,
+        suspenseDate: '2024-12-25',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Reviewed by VA" (ACCEPTED)
+      {
+        id: 107,
+        displayName: 'PTSD Statement',
+        status: 'ACCEPTED',
+        receivedDate: '2025-09-17',
+        closedDate: null,
+        suspenseDate: '2024-12-28',
+        type: 'still_need_from_you_list',
+      },
+      // Another "Pending review"
+      {
+        id: 108,
+        displayName: 'Therapy records',
+        status: 'SUBMITTED_AWAITING_REVIEW',
+        receivedDate: null,
+        closedDate: null,
+        suspenseDate: '2024-12-30',
+        type: 'still_need_from_you_list',
+      },
+    ],
+    contentions: [
+      {
+        name: 'Service connection for tinnitus',
+      },
+    ],
+  }),
+  // Claim with 12 evidence submissions in progress to exercise FileSubmissionsInProgress component
+  createClaim(
+    '10',
+    {
+      baseEndProductCode: '020',
+      claimDate: '2024-10-08',
+      phaseType: 'GATHERING_OF_EVIDENCE',
+      claimType: 'Compensation',
+      claimTypeCode: '020CPHLP',
+      status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+      closeDate: null,
+      documentsNeeded: false,
+      developmentLetterSent: true,
+      evidenceWaiverSubmitted5103: true,
+      issues: [],
+      evidence: [],
+      evidenceSubmissions: [
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-30T14:30:00.000Z',
+          deleteDate: '2025-11-29T23:59:59.999Z',
+          documentType: 'Medical Treatment Records',
+          failedDate: null,
+          fileName: 'hospital_records_2024.pdf',
+          id: 201,
+          lighthouseUpload: true,
+          trackedItemId: 201,
+          trackedItemDisplayName: 'Medical records from Hospital A',
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-29T10:15:00.000Z',
+          deleteDate: '2025-11-28T23:59:59.999Z',
+          documentType: 'X-rays',
+          failedDate: null,
+          fileName: 'spine_xray_march_2024.pdf',
+          id: 202,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'PROCESSING',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-28T16:45:00.000Z',
+          deleteDate: '2025-11-27T23:59:59.999Z',
+          documentType: 'Buddy/Lay Statement',
+          failedDate: null,
+          fileName: 'buddy_statement_john_smith.pdf',
+          id: 203,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-27T09:20:00.000Z',
+          deleteDate: '2025-11-26T23:59:59.999Z',
+          documentType: 'VA Form 21-4142',
+          failedDate: '2025-09-27T09:25:00.000Z',
+          fileName: 'authorization_form.pdf',
+          id: 204,
+          lighthouseUpload: true,
+          trackedItemId: 202,
+          trackedItemDisplayName: 'Authorization to release medical records',
+          uploadStatus: 'FAILED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-26T13:10:00.000Z',
+          deleteDate: '2025-11-25T23:59:59.999Z',
+          documentType: 'Dental Records',
+          failedDate: null,
+          fileName: 'dental_exam_2023.pdf',
+          id: 205,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'PROCESSING',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-25T11:00:00.000Z',
+          deleteDate: '2025-11-24T23:59:59.999Z',
+          documentType: 'Military Personnel Record',
+          failedDate: null,
+          fileName: 'service_records_1990_2010.pdf',
+          id: 206,
+          lighthouseUpload: true,
+          trackedItemId: 203,
+          trackedItemDisplayName: 'Military service records',
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-24T08:30:00.000Z',
+          deleteDate: '2025-11-23T23:59:59.999Z',
+          documentType: 'Photographs',
+          failedDate: null,
+          fileName: 'injury_photos_leg.jpg',
+          id: 207,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-23T15:45:00.000Z',
+          deleteDate: '2025-11-22T23:59:59.999Z',
+          documentType: 'Medical Treatment Records',
+          failedDate: null,
+          fileName: 'private_clinic_notes_2024.pdf',
+          id: 208,
+          lighthouseUpload: true,
+          trackedItemId: 204,
+          trackedItemDisplayName: 'Private clinic treatment records',
+          uploadStatus: 'PROCESSING',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-22T12:20:00.000Z',
+          deleteDate: '2025-11-21T23:59:59.999Z',
+          documentType: 'Correspondence',
+          failedDate: null,
+          fileName: 'doctor_letter_disability.pdf',
+          id: 209,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-21T10:05:00.000Z',
+          deleteDate: '2025-11-20T23:59:59.999Z',
+          documentType: 'VA Form 21-0781',
+          failedDate: null,
+          fileName: 'ptsd_statement_form.pdf',
+          id: 210,
+          lighthouseUpload: true,
+          trackedItemId: 205,
+          trackedItemDisplayName: 'PTSD personal statement',
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-20T14:50:00.000Z',
+          deleteDate: '2025-11-19T23:59:59.999Z',
+          documentType: 'Lab Results',
+          failedDate: null,
+          fileName: 'blood_test_results_june_2024.pdf',
+          id: 211,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'PROCESSING',
+          vaNotifyStatus: null,
+        },
+        {
+          acknowledgementDate: null,
+          claimId: 10,
+          createdAt: '2025-09-19T09:15:00.000Z',
+          deleteDate: '2025-11-18T23:59:59.999Z',
+          documentType: 'Prescription Records',
+          failedDate: null,
+          fileName: 'pharmacy_records_2024.pdf',
+          id: 212,
+          lighthouseUpload: true,
+          trackedItemId: null,
+          trackedItemDisplayName: null,
+          uploadStatus: 'QUEUED',
+          vaNotifyStatus: null,
+        },
+      ],
+      supportingDocuments: [],
+      contentions: [
+        {
+          name: 'Service connection for back injury',
+        },
+        {
+          name: 'Service connection for PTSD',
+        },
+      ],
+    },
+    false,
+  ),
 ];
 
 function getClaimDataById(id) {
@@ -584,7 +1147,7 @@ function generateMockClaims(count, startId = 100) {
 }
 
 // Toggle this flag to switch between just baseClaims or baseClaims + manyClaims
-const USE_MANY_CLAIMS = false;
+const USE_MANY_CLAIMS = true;
 
 const claimsToUse = (() => {
   if (USE_MANY_CLAIMS) {
@@ -898,17 +1461,11 @@ const responses = {
   'GET /v0/benefits_claims/6': getClaimDataById('6'),
   'GET /v0/benefits_claims/7': getClaimDataById('7'),
   'GET /v0/benefits_claims/8': getClaimDataById('8'),
+  'GET /v0/benefits_claims/9': getClaimDataById('9'),
+  'GET /v0/benefits_claims/10': getClaimDataById('10'),
 
-  'GET /v0/appeals': {
-    data: [appealData1],
-    meta: {
-      pagination: {
-        currentPage: 1,
-        perPage: 10,
-        totalPages: 1,
-        totalEntries: 1,
-      },
-    },
+  'GET /v0/appeals': (_req, res) => {
+    return res.status(200).json(appealData);
   },
 
   'GET /v0/appeals/1': {
@@ -945,6 +1502,33 @@ const responses = {
         { name: 'cst_show_document_upload_status', value: true },
       ],
     },
+  },
+
+  // Mock POST handler for file upload
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
+    // Simulate successful file upload
+    // In a real scenario, this would process the multipart form data
+    const { claimId } = req.params;
+
+    // Extract form data if available (for more realistic mocking)
+    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
+    const documentType = req.body?.document_type || 'Medical records';
+
+    // Simulate a slight delay like a real upload
+    setTimeout(() => {
+      res.status(200).json({
+        data: {
+          success: true,
+          jobId: `job-${Date.now()}`,
+          claimId,
+          document: {
+            fileName,
+            documentType,
+            uploadDate: new Date().toISOString(),
+          },
+        },
+      });
+    }, 500); // 500ms delay to simulate upload processing
   },
 };
 

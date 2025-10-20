@@ -1,11 +1,12 @@
 // @ts-check
+import { formatDateLong } from 'platform/utilities/date';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateSchema,
-  currentOrPastDateUI,
+  currentOrPastDateRangeSchema,
+  currentOrPastDateRangeUI,
   textUI,
   textSchema,
   addressUI,
@@ -18,20 +19,27 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',
   required: false,
-  isItemIncomplete: item => !item?.employerName || !item?.employmentStartDate,
+  isItemIncomplete: item => !item?.employerName || !item?.employmentDates?.from,
   maxItems: 4,
   text: {
     getItemName: (item, index) => item?.employerName || `Employer ${index + 1}`,
-    cardDescription: ({ itemData }) => {
-      if (itemData?.employmentStartDate && itemData?.employmentEndDate) {
-        return `${itemData.employmentStartDate} to ${
-          itemData.employmentEndDate
-        }`;
+    cardDescription: itemData => {
+      if (itemData?.employmentDates?.from && itemData?.employmentDates?.to) {
+        try {
+          const startDate = formatDateLong(itemData.employmentDates?.from);
+          const endDate = formatDateLong(itemData.employmentDates?.to);
+          return `${startDate} to ${endDate}`;
+        } catch (error) {
+          // Fallback to raw dates if formatting fails
+          return `${itemData.employmentDates?.from} to ${
+            itemData.employmentDates?.to
+          }`;
+        }
       }
       return '';
     },
@@ -91,6 +99,7 @@ const employerNameAndAddressPage = {
         errorMessages: {
           required: 'Enter name of employer',
         },
+        charcount: true,
       }),
     },
     employerAddress: addressUI({
@@ -100,7 +109,7 @@ const employerNameAndAddressPage = {
   schema: {
     type: 'object',
     properties: {
-      employerName: textSchema,
+      employerName: { ...textSchema, maxLength: 125 },
       employerAddress: addressSchema({
         omit: ['street2', 'street3', 'isMilitary'],
       }),
@@ -118,30 +127,28 @@ const employmentDatesPage = {
           ? `Dates you were employed at ${formData.employerName}`
           : 'Employment dates',
     ),
-    employmentStartDate: {
-      ...currentOrPastDateUI({
+    employmentDates: currentOrPastDateRangeUI(
+      {
         title: 'Employment start date',
         errorMessages: {
           required: 'Enter start date of employment',
         },
-      }),
-    },
-    employmentEndDate: {
-      ...currentOrPastDateUI({
+      },
+      {
         title: 'Employment end date',
         errorMessages: {
           required: 'Enter end date of employment',
         },
-      }),
-    },
+      },
+      'End date must be after start date',
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      employmentStartDate: currentOrPastDateSchema,
-      employmentEndDate: currentOrPastDateSchema,
+      employmentDates: currentOrPastDateRangeSchema,
     },
-    required: ['employmentStartDate', 'employmentEndDate'],
+    required: ['employmentDates'],
   },
 };
 
@@ -156,11 +163,13 @@ const employmentDetailsPage = {
     ),
     typeOfWork: {
       ...textUI({
-        title: 'Type of work',
-        hint: 'If self-employed enter "Self"',
+        title: 'Describe the kind of work you did',
+        hint:
+          'For example: cashier at a grocery store, part-time landscaper, or office assistant',
         errorMessages: {
-          required: 'Enter type of work',
+          required: 'Enter the kind of work you did',
         },
+        charcount: true,
       }),
     },
     hoursPerWeek: {
@@ -173,18 +182,18 @@ const employmentDetailsPage = {
     },
     lostTimeFromIllness: {
       ...numberUI({
-        title: 'Lost time from service-connected disabilities',
+        title: 'Hours of work you missed in the past 12 months',
         hint: 'Total hours',
         errorMessages: {
-          required: 'Enter total hours during your entire time of illness',
+          required: 'Enter the number of hours of work you missed',
         },
       }),
     },
     highestGrossIncomePerMonth: {
       ...currencyUI({
-        title: 'Highest monthly gross income',
+        title: 'Highest monthly income (before taxes)',
         errorMessages: {
-          required: 'Enter highest gross income per month',
+          required: 'Enter your highest monthly income',
         },
       }),
     },
@@ -192,7 +201,7 @@ const employmentDetailsPage = {
   schema: {
     type: 'object',
     properties: {
-      typeOfWork: textSchema,
+      typeOfWork: { ...textSchema, maxLength: 35 },
       hoursPerWeek: numberSchema,
       lostTimeFromIllness: numberSchema,
       highestGrossIncomePerMonth: currencySchema,

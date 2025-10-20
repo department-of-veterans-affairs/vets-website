@@ -78,23 +78,7 @@ class MedicalRecordsSite {
             value: false,
           },
           {
-            name: 'mhvMedicalRecordsDisplayDomains',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_domains',
-            value: true,
-          },
-          {
             name: 'mhv_medical_records_allow_txt_downloads',
-            value: true,
-          },
-          {
-            name: 'mhvMedicalRecordsDisplaySidenav',
-            value: true,
-          },
-          {
-            name: 'mhv_medical_records_display_sidenav',
             value: true,
           },
           {
@@ -122,10 +106,6 @@ class MedicalRecordsSite {
           {
             name: 'mhv_medical_records_support_backend_pagination_vital',
             value: false,
-          },
-          {
-            name: 'mhv_medical_records_use_unified_sei_api',
-            value: true,
           },
         ],
       },

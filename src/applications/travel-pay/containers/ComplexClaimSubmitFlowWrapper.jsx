@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom-v5-compat';
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-import ConfirmationPage from '../components/complex-claims/pages/ConfirmationPage';
+import AgreementPage from '../components/complex-claims/pages/AgreementPage';
 
 const ComplexClaimSubmitFlowWrapper = () => {
   const { apptId } = useParams();
@@ -33,7 +33,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <ConfirmationPage />
+          <AgreementPage />
         </div>
       </article>
     </Element>

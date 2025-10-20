@@ -33,7 +33,17 @@ function combatOnlySelection(formData) {
  *     - returns false
  */
 export function showForm0781Pages(formData) {
-  return formData?.syncModern0781Flow === true && isClaimingNew(formData);
+  const hasValidNewCondition =
+    Array.isArray(formData?.newDisabilities) &&
+    formData.newDisabilities.some(
+      d => typeof d?.condition === 'string' && d.condition.trim().length > 0,
+    );
+
+  return (
+    formData?.syncModern0781Flow === true &&
+    isClaimingNew(formData) &&
+    hasValidNewCondition
+  );
 }
 
 export function showManualUpload0781Page(formData) {

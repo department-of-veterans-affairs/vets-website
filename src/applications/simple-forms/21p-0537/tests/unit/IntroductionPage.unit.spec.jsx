@@ -111,20 +111,7 @@ describe('21P-0537 IntroductionPage', () => {
       </Provider>,
     );
 
-    getByText(/Marital Status Questionnaire for DIC Recipients/i);
-  });
-
-  it('renders the time-sensitive warning alert', () => {
-    const { container } = render(
-      <Provider store={mockStore()}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    const alert = container.querySelector('va-alert[status="warning"]');
-    expect(alert).to.exist;
-    expect(alert.textContent).to.include('Time-sensitive response required');
-    expect(alert.textContent).to.include('60 days');
+    getByText(/Verify your marital status for DIC benefits/i);
   });
 
   it('renders the what to know section', () => {
@@ -135,9 +122,6 @@ describe('21P-0537 IntroductionPage', () => {
     );
 
     getByText(/What to know before you fill out this form/i);
-    getByText(/Why we need this information/i);
-    getByText(/What happens after you submit this form/i);
-    getByText(/Your rights/i);
   });
 
   it('renders DIC eligibility information', () => {
@@ -151,25 +135,6 @@ describe('21P-0537 IntroductionPage', () => {
     expect(container.textContent).to.include(
       'Dependency and Indemnity Compensation',
     );
-    expect(container.textContent).to.include('began after age 57');
-    expect(container.textContent).to.include('remarriage has ended');
-  });
-
-  it('renders need help section with VA telephone components', () => {
-    const { getByText, container } = render(
-      <Provider store={mockStore()}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    getByText(/Need help\?/i);
-
-    // Should use va-telephone components, not plain text
-    const telephoneComponents = container.querySelectorAll('va-telephone');
-    expect(telephoneComponents.length).to.be.greaterThan(0);
-
-    // Should NOT have anchor tags
-    expect(container.querySelector('a[href="https://iris.va.gov"]')).to.be.null;
   });
 
   it('renders OMB info', () => {
@@ -183,7 +148,7 @@ describe('21P-0537 IntroductionPage', () => {
     expect(ombInfo).to.exist;
     expect(ombInfo).to.have.attr('res-burden', '5');
     expect(ombInfo).to.have.attr('omb-number', '2900-0495');
-    expect(ombInfo).to.have.attr('exp-date', '12/31/2027');
+    expect(ombInfo).to.have.attr('exp-date', '8/31/2025');
   });
 
   it('renders SaveInProgressIntro component', () => {
@@ -194,7 +159,7 @@ describe('21P-0537 IntroductionPage', () => {
     );
 
     // Check that the start button text is rendered
-    expect(container.textContent).to.include('Start the questionnaire');
+    expect(container.textContent).to.include('Verify your marital status');
   });
 
   it('calls focusElement on mount', () => {

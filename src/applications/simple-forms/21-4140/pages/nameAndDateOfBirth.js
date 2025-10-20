@@ -2,8 +2,8 @@
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameSchema,
-  fullNameUI,
+  fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -11,15 +11,15 @@ import {
 export default {
   uiSchema: {
     ...titleUI('Your name and date of birth'),
-    fullName: fullNameUI(),
+    fullName: fullNameNoSuffixUI(),
     dateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameSchema,
+      fullName: fullNameNoSuffixSchema,
       dateOfBirth: dateOfBirthSchema,
     },
-    required: ['fullName'],
+    required: ['fullName', 'dateOfBirth'],
   },
 };

@@ -12,15 +12,26 @@ import { showMultiplePageResponse } from '../../../helpers';
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'federalMedicalCenters',
-  nounSingular: 'federal medical center',
-  nounPlural: 'federal medical centers',
+  nounSingular: 'federal medical facility',
+  nounPlural: 'federal medical facilities',
   required: false,
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
     getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from federal medical facilities',
+    alertItemUpdated:
+      'Your federal medical facility information has been updated',
+    alertItemDeleted:
+      'Your federal medical facility information has been deleted',
+    cancelAddTitle: 'Cancel adding this federal medical facility',
+    cancelAddYes: 'Yes, cancel adding this federal medical facility',
+    cancelAddNo: 'No',
     cancelEditTitle: 'Cancel editing this federal medical facility',
-    deleteTitle: 'Delete federal medical facility',
+    cancelEditYes: 'Yes, cancel editing this federal medical facility',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this federal medical facility',
+    deleteNo: 'No',
   },
 };
 
@@ -52,11 +63,11 @@ const summaryPage = {
 const federalMedicalCenterPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Federal medical center',
+      title: 'Federal medical facility',
       nounSingular: options.nounSingular,
       hasMultipleItemPages: false,
     }),
-    medicalCenter: textUI('Federal medical center'),
+    medicalCenter: textUI('Federal medical facility'),
   },
   schema: {
     type: 'object',
@@ -78,7 +89,7 @@ export const federalMedicalCentersPages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     federalMedicalCenterPage: pageBuilder.itemPage({
-      title: 'Federal medical center',
+      title: 'Federal medical facility',
       path: 'medical/history/federal-medical-centers/:index/medical-center',
       depends: () => showMultiplePageResponse(),
       uiSchema: federalMedicalCenterPage.uiSchema,

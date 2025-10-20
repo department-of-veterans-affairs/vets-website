@@ -47,8 +47,8 @@ describe('21P-0537 submit transformer', () => {
         prefix: '123',
         lineNumber: '4567',
       });
-      expect(result.recipient.email).to.equal('jennifer.doe@example.com');
-      expect(result.recipient.signature).to.equal('Jennifer Marie Doe');
+      expect(result.recipient.email).to.equal('jane.spouse@example.com');
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
 
       // Should prioritize SSN for inReplyReferTo
       expect(result.inReplyReferTo).to.equal('434353347');
@@ -206,7 +206,7 @@ describe('21P-0537 submit transformer', () => {
       });
 
       // Test recipient signature
-      expect(result.recipient.signature).to.equal('Jane Doe');
+      expect(result.recipient.signature).to.equal('Jane M Spouse');
     });
   });
 
@@ -295,6 +295,88 @@ describe('21P-0537 submit transformer', () => {
       const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
 
       expect(result.recipient.signature).to.equal('');
+    });
+  });
+
+  describe('recipient full name parsing', () => {
+    it('should parse signature into structured name components', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+
+      // Test single name
+      testData.data.signature = 'Jane';
+      let result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: '',
+        last: '',
+      });
+
+      // Test first and last name
+      testData.data.signature = 'Jane Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: '',
+        last: 'Smith',
+      });
+
+      // Test first, middle initial, and last name
+      testData.data.signature = 'Jane M Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'M',
+        last: 'Smith',
+      });
+
+      // Test first, middle, and last name
+      testData.data.signature = 'Jane Marie Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'Marie',
+        last: 'Smith',
+      });
+
+      // Test complex name with multiple middle names
+      testData.data.signature = 'Jane Marie Louise Smith';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'Marie Louise',
+        last: 'Smith',
+      });
+    });
+
+    it('should handle edge cases in signature parsing', () => {
+      const testData = JSON.parse(JSON.stringify(testDataComplete));
+
+      // Test empty signature
+      testData.data.signature = '';
+      let result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'User',
+        middle: '',
+        last: '',
+      });
+
+      // Test undefined signature
+      delete testData.data.signature;
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'User',
+        middle: '',
+        last: '',
+      });
+
+      // Test signature with extra spaces
+      testData.data.signature = '  Jane   M   Smith  ';
+      result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+      expect(result.recipient.fullName).to.deep.equal({
+        first: 'Jane',
+        middle: 'M',
+        last: 'Smith',
+      });
     });
   });
 });

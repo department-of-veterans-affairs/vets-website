@@ -11,16 +11,14 @@ import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFl
 describe('ComplexClaimSubmitFlowWrapper', () => {
   const oldLocation = global.window.location;
 
-  const getData = ({ complexClaimsEnabled = true } = {}) => {
-    return {
-      featureToggles: {
-        loading: false,
-        /* eslint-disable camelcase */
-        travel_pay_enable_complex_claims: complexClaimsEnabled,
-        /* eslint-enable camelcase */
-      },
-    };
-  };
+  const getData = ({ complexClaimsEnabled = true } = {}) => ({
+    featureToggles: {
+      loading: false,
+      /* eslint-disable camelcase */
+      travel_pay_enable_complex_claims: complexClaimsEnabled,
+      /* eslint-enable camelcase */
+    },
+  });
 
   beforeEach(() => {
     global.window.location = {};
@@ -104,14 +102,32 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(screen.getByRole('heading', { level: 1 })).to.exist;
     });
 
+    it('renders the AgreementPage component', () => {
+      const initialState = getData({ complexClaimsEnabled: true });
+      const screen = renderWithStoreAndRouterHelper('12345', initialState);
+
+      expect(screen.getByTestId('travel-agreement-content')).to.exist;
+      expect(screen.getByTestId('agreement-checkbox')).to.exist;
+      expect(screen.getByTestId('agreement-button-pair')).to.exist;
+    });
+
     it('handles different appointment IDs in the URL', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      renderWithStoreAndRouterHelper('67890', initialState);
+      const testIds = ['abc123', '12345-67890', 'uuid-format-12345'];
 
-      const backLink = $('va-link[data-testid="complex-claim-back-link"]');
-      expect(backLink.getAttribute('href')).to.equal(
-        '/my-health/appointments/past/67890',
-      );
+      testIds.forEach(apptId => {
+        const { container } = renderWithStoreAndRouterHelper(
+          apptId,
+          initialState,
+        );
+
+        const backLink = container.querySelector(
+          'va-link[data-testid="complex-claim-back-link"]',
+        );
+        expect(backLink.getAttribute('href')).to.equal(
+          `/my-health/appointments/past/${apptId}`,
+        );
+      });
     });
 
     it('renders with proper scroll element name', () => {

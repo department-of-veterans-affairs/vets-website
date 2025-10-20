@@ -14,7 +14,7 @@ import {
   getTimeZone,
 } from '../../shared/utils/submit';
 
-export function transform(formConfig, form) {
+export function transform(form) {
   // https://developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   // match supplemental claims schema here
   const mainTransform = formData => {
