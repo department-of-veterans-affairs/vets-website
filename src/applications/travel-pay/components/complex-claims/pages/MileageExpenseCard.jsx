@@ -17,8 +17,8 @@ const MileageExpenseCard = ({ expense }) => {
 
   return (
     <>
-      <div className="form-header-row">
-        <p className="form-header vads-u-font-weight--bold vads-u-font-family--sans vads-u-display--inline">
+      <div className="review-header-row">
+        <p className="review-header vads-u-font-weight--bold vads-u-font-family--sans vads-u-display--inline">
           About your route
         </p>
         <div className="vads-u-justify-content--flex-end">
