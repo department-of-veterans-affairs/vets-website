@@ -4,19 +4,16 @@ import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transact
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 import { mockFeatureToggles } from '../helpers';
 
-const setup = ({
-  profileShowPaperlessDelivery = false,
-  mobile = false,
-} = {}) => {
+const setup = ({ profile2Enabled = false, mobile = false } = {}) => {
   if (mobile) {
     cy.viewportPreset('va-top-mobile-1');
   }
 
   cy.login(mockUser);
-  if (profileShowPaperlessDelivery) {
+  if (profile2Enabled) {
     cy.intercept('GET', 'v0/feature_toggles*', {
       data: {
-        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+        features: [{ name: 'profile_2_enabled', value: true }],
       },
     });
   } else {
@@ -322,8 +319,8 @@ describe('when moving to other profile pages', () => {
     cy.axeCheck();
   });
 
-  it('should exit edit mode if opened (profileShowPaperlessDelivery)', () => {
-    setup({ profileShowPaperlessDelivery: true });
+  it('should exit edit mode if opened (profile2Enabled)', () => {
+    setup({ profile2Enabled: true });
 
     const sectionName = 'Contact email address';
 

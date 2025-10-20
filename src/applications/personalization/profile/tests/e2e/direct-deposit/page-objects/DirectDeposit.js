@@ -42,10 +42,10 @@ class DirectDepositPage {
   }
 
   confirmDirectDepositInSubnav = ({
-    profileShowPaperlessDelivery = false,
+    profile2Enabled = false,
     visitPage = true,
   } = {}) => {
-    if (profileShowPaperlessDelivery) {
+    if (profile2Enabled) {
       cy.get(
         `va-sidenav-item[label="${PROFILE_PATH_NAMES.DIRECT_DEPOSIT}"]`,
       ).should('exist');
@@ -53,16 +53,18 @@ class DirectDepositPage {
       // the DD item should exist in the sub nav
       cy.findByRole('navigation', { name: /profile/i }).within(() => {
         cy.findByRole('link', {
-          name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+          name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT_INFORMATION,
         }).should('exist');
       });
     }
     if (visitPage) {
       // going directly to DD should work
-      cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+      cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT_INFORMATION);
       cy.url().should(
         'eq',
-        `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
+        `${Cypress.config().baseUrl}${
+          PROFILE_PATHS.DIRECT_DEPOSIT_INFORMATION
+        }`,
       );
     }
   };
