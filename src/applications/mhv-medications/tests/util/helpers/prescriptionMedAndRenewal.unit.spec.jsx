@@ -14,6 +14,23 @@ describe('Prescription Med and Renewal Status function', () => {
       prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
     ).to.equal(null);
   });
+  it('should return null when displayType is not recognized', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+    expect(prescriptionMedAndRenewalStatus(rxDetails, 'PDF')).to.equal(null);
+  });
+  it('should return pdfDefaultStatusDefinition when pdfStatusDefinitions[prescription.refillStatus] is unknown', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'NV';
+    rxDetails.refillStatus = 'UnknownStatus';
+    expect(
+      prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
+    ).to.equal(
+      'We can’t access information about this prescription right now.\n',
+    );
+  });
   it('should return pdfStatusDefinitions[prescription.refillStatus] when prescription Source is not PD', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispStatus = 'Renew';
@@ -54,8 +71,22 @@ describe('Prescription Med and Renewal Status function', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispStatus = 'NewOrder';
     rxDetails.prescriptionSource = 'PD';
-    expect(
-      prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
-    ).to.equal(pdfDefaultPendingMedDefinition);
+    const component = prescriptionMedAndRenewalStatus(
+      rxDetails,
+      medStatusDisplayTypes.VA_PRESCRIPTION,
+    );
+    expect(component.props.children).to.equal(pdfDefaultPendingMedDefinition);
+  });
+  it('should return pdfDefaultPendingMedDefinition when dispStatus is Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+    const component = prescriptionMedAndRenewalStatus(
+      rxDetails,
+      medStatusDisplayTypes.VA_PRESCRIPTION,
+    );
+    expect(component.props.children).to.equal(
+      pdfDefaultPendingRenewalDefinition,
+    );
   });
 });

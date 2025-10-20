@@ -131,8 +131,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
     const pendingRenewal =
       rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
     const isPending = pendingMed || pendingRenewal;
-    // const pdfStatusDefinition =
-    //   pdfStatusDefinitions?.[rx.refillStatus] ?? pdfDefaultStatusDefinition;
+
     const mostRecentRxRefillLine = () => {
       const newest = getMostRecentRxRefill(rx);
 
