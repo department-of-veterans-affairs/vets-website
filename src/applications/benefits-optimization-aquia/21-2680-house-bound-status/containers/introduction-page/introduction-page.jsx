@@ -53,7 +53,7 @@ const ProcessList = () => {
           <li>NPI number and facility information</li>
         </ul>
       </va-process-list-item>
-      <va-process-list-item header="Complete the form">
+      <va-process-list-item header="Apply">
         <p>
           <strong>Claimant completes first:</strong> Fill out Sections I-V,
           including benefit type selection (SMC or SMP) and sign.
@@ -63,18 +63,22 @@ const ProcessList = () => {
           Assistant, or Advanced Practice Registered Nurse must complete the
           examination sections (VI-VIII).
         </p>
-      </va-process-list-item>
-      <va-process-list-item header="Submit">
-        <p>Once both sections are complete, submit the form to VA.</p>
         <p>
-          If the form indicates nursing home care is needed, you may also need
-          to submit VA Form 21-0779.
+          Once both sections are complete, submit the form to VA. If the form
+          indicates nursing home care is needed, you may also need to submit VA
+          Form 21-0779.
         </p>
       </va-process-list-item>
       <va-process-list-item header="VA Review">
         <p>
           VA will review the examination to determine eligibility for Aid and
           Attendance or Housebound benefits.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Decision">
+        <p>
+          VA will notify you of their decision. If approved, you’ll receive
+          information about your benefits.
         </p>
       </va-process-list-item>
     </va-process-list>
