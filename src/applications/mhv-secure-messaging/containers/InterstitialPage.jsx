@@ -73,7 +73,6 @@ const InterstitialPage = props => {
   // This is used for both the href attribute AND the programmatic navigation
   const getDestinationPath = useCallback(
     (includeRootUrl = false) => {
-      // Check if we have recent recipients to show
       const hasRecentRecipients =
         Array.isArray(recentRecipients) && recentRecipients.length > 0;
 
