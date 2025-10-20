@@ -2,7 +2,9 @@
   "data": {
     "attributes": {
       "profile": {
-        "sign_in": {},
+        "sign_in": {
+          "service_name": "idme"
+        },
         "email": "memorial@jedicouncil.coruscant",
         "loa": { "current": 3 },
         "first_name": "Obi-Wan",
