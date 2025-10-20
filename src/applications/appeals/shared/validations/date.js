@@ -83,15 +83,12 @@ const buildDatePartErrors = (month, day, year) => {
 const isInvalidDateString = (year, day, month, dateString) => {
   return (
     !year ||
-    // eslint-disable-next-line no-restricted-globals
     isNaN(year) ||
     // minimum year is 1900; no need to check if year === '0'
     !day ||
-    // eslint-disable-next-line no-restricted-globals
     isNaN(day) ||
     day === '0' ||
     !month ||
-    // eslint-disable-next-line no-restricted-globals
     isNaN(month) ||
     month === '0' ||
     dateString?.length < FORMAT_YMD_DATE_FNS.length
@@ -115,7 +112,7 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isTodayOrInFuture(dateObj), // Use UTC-based validation
+    isTodayOrInFuture: isTodayOrInFuture(dateObj),
   };
 };
 

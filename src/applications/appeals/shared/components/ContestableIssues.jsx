@@ -86,9 +86,6 @@ const ContestableIssues = props => {
     }))
     .concat(formData.additionalIssues || []);
 
-  // eslint-disable-next-line no-console
-  console.log('🎯 ContestableIssues items with blocking flags:', items);
-
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
   const showAlert = !hasIssues && !hasSelected && !submitted && !onReviewPage;
@@ -185,7 +182,6 @@ const ContestableIssues = props => {
     },
   };
 
-  // Check if we have any blocked issues for the alert
   const hasBlockedIssues = items.some(item => item.isBlockedSameDay);
 
   // Only filter blocked issues if we need to show the alert
@@ -199,8 +195,8 @@ const ContestableIssues = props => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
 
-    // Check if this is the first non-blocked issue after blocked issues
-    const isFirstNonBlockedAfterBlocked =
+    // Shows visual separator between blocked and non-blocked groups
+    const showSeparator =
       !item.isBlockedSameDay && index > 0 && items[index - 1]?.isBlockedSameDay;
 
     const cardProps = {
@@ -208,12 +204,10 @@ const ContestableIssues = props => {
       index,
       item,
       key: index,
-      options: {
-        ...options,
-        isFirstNonBlockedAfterBlocked, // Pass this flag to IssueCard
-      },
+      options,
       showCheckbox,
       onReviewPage,
+      showSeparator,
       // props.testChange for testing
       onChange: props.testChange || handlers.onChange,
       onRemove: handlers.onShowRemoveModal,

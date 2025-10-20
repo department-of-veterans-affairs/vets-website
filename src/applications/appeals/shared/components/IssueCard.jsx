@@ -20,6 +20,7 @@ import BasicLink from './web-component-wrappers/BasicLink';
  * @param {func} onRemove - remove issue callback
  *  page when not in edit mode
  * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} showSeparator - Shows visual separator between blocked and non-blocked issues
  * @return {JSX.Element}
  */
 export const IssueCard = ({
@@ -31,6 +32,7 @@ export const IssueCard = ({
   showCheckbox,
   onRemove,
   onReviewPage,
+  showSeparator = false,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -43,8 +45,6 @@ export const IssueCard = ({
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
   const isBlocked = item.isBlockedSameDay || false;
-  const isFirstNonBlockedAfterBlocked =
-    options?.isFirstNonBlockedAfterBlocked || false;
 
   const wrapperClass = [
     'widget-wrapper',
@@ -57,7 +57,7 @@ export const IssueCard = ({
     isBlocked ? '' : 'vads-u-border-bottom--1px',
     isBlocked ? '' : 'vads-u-border-color--gray-light',
     // Add top border to first non-blocked issue after blocked issues for visual separation
-    isFirstNonBlockedAfterBlocked
+    showSeparator
       ? 'vads-u-border-top--1px vads-u-border-color--gray-medium vads-u-margin-top--2'
       : '',
   ].join(' ');
@@ -168,6 +168,7 @@ IssueCard.propTypes = {
     appendId: PropTypes.string,
   }),
   showCheckbox: PropTypes.bool,
+  showSeparator: PropTypes.bool,
   onChange: PropTypes.func,
   onRemove: PropTypes.func,
   onReviewPage: PropTypes.bool,
