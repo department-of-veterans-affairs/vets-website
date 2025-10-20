@@ -26,7 +26,9 @@ const RecordList = props => {
 
   const onPageChange = page => {
     sendDataDogAction(`Pagination - ${type}`);
-    const newURL = `${history.location.pathname}?page=${page}`;
+    const searchParams = new URLSearchParams(history.location.search);
+    searchParams.set('page', page);
+    const newURL = `${history.location.pathname}?${searchParams.toString()}`;
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
