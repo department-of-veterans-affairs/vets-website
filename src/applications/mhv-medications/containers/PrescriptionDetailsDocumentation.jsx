@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  pharmacyPhoneNumber,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -66,7 +69,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescriptionApiError,
     isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId, queryParams);
-  const pharmacyPhone = prescription?.pharmacyPhoneNumber;
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
 
   const buildMedicationInformationTxt = useCallback(
     information => {

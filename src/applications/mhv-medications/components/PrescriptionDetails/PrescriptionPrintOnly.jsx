@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
@@ -21,7 +22,7 @@ import { selectPendingMedsFlag } from '../../util/selectors';
 const PrescriptionPrintOnly = props => {
   const { rx, refillHistory, isDetailsRx } = props;
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  const pharmacyPhone = rx.pharmacyPhoneNumber;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const showPendingMedsContent = useSelector(selectPendingMedsFlag);
   const pendingMed =

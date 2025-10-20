@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { useRefillPrescriptionMutation } from '../../api/prescriptionsApi';
 import CallPharmacyPhone from './CallPharmacyPhone';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
@@ -12,7 +13,7 @@ const FillRefillButton = rx => {
 
   const hasBeenDispensed =
     dispensedDate || rx.rxRfRecords?.find(record => record.dispensedDate);
-  const pharmacyPhone = rx.pharmacyPhoneNumber;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
 
   if (isRefillable) {
     return (

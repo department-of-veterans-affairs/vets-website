@@ -7,6 +7,7 @@ import {
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
   dateFormat,
   determineRefillLabel,
@@ -39,7 +40,7 @@ const VaPrescription = prescription => {
   const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const refillHistory = getRefillHistory(prescription);
   const showRefillHistory = getShowRefillHistory(refillHistory);
-  const pharmacyPhone = prescription.pharmacyPhoneNumber;
+  const pharmacyPhone = pharmacyPhoneNumber(prescription);
   const pendingMed =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'NewOrder';
@@ -264,7 +265,9 @@ const VaPrescription = prescription => {
                 </>
               )}
 
-              {prescription && <ExtraDetails {...prescription} />}
+              {prescription && (
+                <ExtraDetails {...prescription} page={pageType.DETAILS} />
+              )}
               {!pendingMed &&
                 !pendingRenewal && (
                   <>

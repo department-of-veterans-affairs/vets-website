@@ -8,6 +8,7 @@ import {
   reportGeneratedBy,
   usePrintTitle,
   MhvPageNotFoundContent,
+  pharmacyPhoneNumber,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintOnlyPage from './PrintOnlyPage';
 import {
@@ -376,12 +377,12 @@ const PrescriptionDetails = () => {
           </p>
           <p>
             If you need this prescription now, call your VA pharmacy
-            {prescription.pharmacyPhoneNumber && (
+            {pharmacyPhoneNumber(prescription) && (
               <>
                 {' '}
                 at{' '}
                 <va-telephone
-                  contact={prescription.pharmacyPhoneNumber}
+                  contact={pharmacyPhoneNumber(prescription)}
                   not-clickable
                 />{' '}
                 (<va-telephone tty contact="711" not-clickable />)

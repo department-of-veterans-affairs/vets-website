@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
+import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import { dateFormat, rxSourceIsNonVA } from '../../util/helpers';
 import { dispStatusObj } from '../../util/constants';
 import CallPharmacyPhone from './CallPharmacyPhone';
@@ -8,7 +9,7 @@ import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const ExtraDetails = rx => {
   const { dispStatus, refillRemaining } = rx;
-  const pharmacyPhone = rx.pharmacyPhoneNumber;
+  const pharmacyPhone = pharmacyPhoneNumber(rx);
   let noRefillRemaining = false;
   if (refillRemaining === 0 && dispStatus === 'Active') {
     noRefillRemaining = true;
@@ -159,9 +160,13 @@ const ExtraDetails = rx => {
 };
 
 ExtraDetails.propTypes = {
-  rx: PropTypes.shape({
-    dispStatus: PropTypes.string,
-  }),
+  dispStatus: PropTypes.string,
+  page: PropTypes.string,
+  pharmacyPhoneNumber: PropTypes.string,
+  prescriptionId: PropTypes.number,
+  refillDate: PropTypes.string,
+  refillRemaining: PropTypes.number,
+  refillSubmitDate: PropTypes.string,
 };
 
 export default ExtraDetails;
