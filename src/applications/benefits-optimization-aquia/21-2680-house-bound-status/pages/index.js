@@ -5,49 +5,49 @@
 
 // Benefit Selection
 export {
-  default as BenefitTypePage,
+  BenefitTypePage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/benefit-type';
 
 // Section I - Veteran Information
 export {
-  default as VeteranIdentityPage,
+  VeteranIdentityPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/veteran-identity';
 
 // Section II - Claimant Information
 export {
-  default as ClaimantIdentityPage,
+  ClaimantIdentityPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/claimant-identity';
 
 // Section IV - Hospitalization
 export {
-  default as HospitalizationPage,
+  HospitalizationPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/hospitalization';
 
 // Section V - Claimant Signature
 export {
-  default as ClaimantSignaturePage,
+  ClaimantSignaturePage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/claimant-signature';
 
 // Section VI - Medical Examiner
 export {
-  default as ExaminerIdentificationPage,
+  ExaminerIdentificationPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/examiner-identification';
 export {
-  default as MedicalDiagnosisPage,
+  MedicalDiagnosisPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/medical-diagnosis';
 
 // Section VII - Functional Assessment
 export {
-  default as ADLAssessmentPage,
+  ADLAssessmentPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/adl-assessment';
 export {
-  default as FunctionalLimitationsPage,
+  FunctionalLimitationsPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/functional-limitations';
 
 // Section VIII - Narrative Assessment
 export {
-  default as NarrativeAssessmentPage,
+  NarrativeAssessmentPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/narrative-assessment';
 export {
-  default as ExaminerSignaturePage,
+  ExaminerSignaturePage,
 } from '@bio-aquia/21-2680-house-bound-status/pages/examiner-signature';

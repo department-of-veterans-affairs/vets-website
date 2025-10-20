@@ -16,7 +16,7 @@ import {
  * Collects veteran's phone numbers and email for contact purposes
  * @type {PageSchema}
  */
-export default {
+export const phoneAndEmailAddress = {
   uiSchema: {
     ...titleUI('Phone and email address'),
     homePhone: phoneUI('Home phone number'),

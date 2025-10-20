@@ -14,7 +14,7 @@ import {
  * Collects either Social Security Number or VA File Number
  * @type {PageSchema}
  */
-export default {
+export const identificationInformation = {
   uiSchema: {
     ...titleUI(
       'Identification information',

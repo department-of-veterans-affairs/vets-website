@@ -22,7 +22,7 @@ import {
  * Name and date of birth page configuration
  * @type {PageSchema}
  */
-export default {
+export const nameAndDateOfBirth = {
   uiSchema: {
     ...titleUI('Name and date of birth'),
     fullName: fullNameNoSuffixUI(),

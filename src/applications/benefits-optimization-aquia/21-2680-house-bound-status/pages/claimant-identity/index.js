@@ -1,2 +1,1 @@
-export * from './claimant-identity';
-export { default } from './claimant-identity';
+export { ClaimantIdentityPage } from './claimant-identity';

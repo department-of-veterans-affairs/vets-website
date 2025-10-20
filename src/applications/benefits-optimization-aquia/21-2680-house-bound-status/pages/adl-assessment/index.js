@@ -1,2 +1,1 @@
-export * from './adl-assessment';
-export { default } from './adl-assessment';
+export { ADLAssessmentPage } from './adl-assessment';

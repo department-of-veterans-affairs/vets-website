@@ -3,9 +3,9 @@
  * @description Unit tests for EmployerInformationPage component
  */
 
-import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
 import { EmployerInformationPage } from './employer-information';
 
 describe('EmployerInformationPage', () => {
@@ -41,7 +41,7 @@ describe('EmployerInformationPage', () => {
       expect(container.textContent).to.include('Employers Information');
     });
 
-    it('should render employer name field', () => {
+    it('should render employer name field', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -51,8 +51,11 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(container.querySelector('va-text-input[label="Employer\'s name"]'))
-        .to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector('va-text-input[label="Employer\'s name"]'),
+        ).to.exist;
+      });
     });
 
     it('should render address fields', () => {
@@ -78,7 +81,7 @@ describe('EmployerInformationPage', () => {
         .exist;
     });
 
-    it('should render phone number field', () => {
+    it('should render phone number field', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -88,11 +91,13 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      expect(
-        container.querySelector(
-          'va-telephone-input[label="Employer\'s phone number"]',
-        ),
-      ).to.exist;
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            'va-telephone-input[label="Employer\'s phone number"]',
+          ),
+        ).to.exist;
+      });
     });
 
     it('should render continue button', () => {
@@ -127,7 +132,7 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Data Display', () => {
-    it('should display employer data', () => {
+    it('should display employer data', async () => {
       const data = {
         employerInformation: {
           employerName: 'Bounty Hunters Guild',
@@ -152,29 +157,35 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput).to.exist;
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Bounty Hunters Guild',
-      );
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput).to.exist;
+        expect(employerNameInput.getAttribute('value')).to.equal(
+          'Bounty Hunters Guild',
+        );
 
-      const streetInput = container.querySelector(
-        'va-text-input[label="Street address"]',
-      );
-      expect(streetInput.getAttribute('value')).to.equal('Guild Headquarters');
+        const streetInput = container.querySelector(
+          'va-text-input[label="Street address"]',
+        );
+        expect(streetInput.getAttribute('value')).to.equal(
+          'Guild Headquarters',
+        );
 
-      const cityInput = container.querySelector('va-text-input[label="City"]');
-      expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
+        const cityInput = container.querySelector(
+          'va-text-input[label="City"]',
+        );
+        expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
 
-      const phoneInput = container.querySelector(
-        'va-telephone-input[label="Employer\'s phone number"]',
-      );
-      expect(phoneInput.getAttribute('value')).to.equal('4155551234');
+        const phoneInput = container.querySelector(
+          'va-telephone-input[label="Employer\'s phone number"]',
+        );
+        expect(phoneInput.getAttribute('value')).to.equal('4155551234');
+      });
     });
 
-    it('should display Slave I employer data', () => {
+    it('should display Slave I employer data', async () => {
       const data = {
         employerInformation: {
           employerName: 'Slave I',
@@ -198,13 +209,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
+      });
     });
 
-    it('should display Mos Eisley Cantina employer data', () => {
+    it('should display Mos Eisley Cantina employer data', async () => {
       const data = {
         employerInformation: {
           employerName: 'Mos Eisley Cantina',
@@ -228,12 +241,14 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Mos Eisley Cantina',
-      );
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal(
+          'Mos Eisley Cantina',
+        );
+      });
     });
 
     it('should handle empty employer data', () => {
@@ -332,7 +347,7 @@ describe('EmployerInformationPage', () => {
       expect(container.querySelector('va-text-input')).to.exist;
     });
 
-    it('should handle partial employer data', () => {
+    it('should handle partial employer data', async () => {
       const data = {
         employerInformation: {
           employerName: 'Black Sun Syndicate',
@@ -348,12 +363,14 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Black Sun Syndicate',
-      );
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal(
+          'Black Sun Syndicate',
+        );
+      });
     });
 
     it('should handle partial address data', () => {
@@ -435,7 +452,7 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Required Fields', () => {
-    it('should mark employer name as required', () => {
+    it('should mark employer name as required', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -445,13 +462,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.hasAttribute('required')).to.be.true;
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.hasAttribute('required')).to.be.true;
+      });
     });
 
-    it('should mark phone number as required', () => {
+    it('should mark phone number as required', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -461,15 +480,17 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const phoneInput = container.querySelector(
-        'va-telephone-input[label="Employer\'s phone number"]',
-      );
-      expect(phoneInput.hasAttribute('required')).to.be.true;
+      await waitFor(() => {
+        const phoneInput = container.querySelector(
+          'va-telephone-input[label="Employer\'s phone number"]',
+        );
+        expect(phoneInput.hasAttribute('required')).to.be.true;
+      });
     });
   });
 
   describe('Field Constraints', () => {
-    it('should set maxlength for employer name', () => {
+    it('should set maxlength for employer name', async () => {
       const { container } = render(
         <EmployerInformationPage
           data={{}}
@@ -479,10 +500,12 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('maxlength')).to.equal('100');
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('maxlength')).to.equal('100');
+      });
     });
   });
 
@@ -567,7 +590,7 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Multiple Employer Scenarios', () => {
-    it('should display Mandalorian Training Corps', () => {
+    it('should display Mandalorian Training Corps', async () => {
       const data = {
         employerInformation: {
           employerName: 'Mandalorian Training Corps',
@@ -590,15 +613,17 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Mandalorian Training Corps',
-      );
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal(
+          'Mandalorian Training Corps',
+        );
+      });
     });
 
-    it('should display Hutt Cartel', () => {
+    it('should display Hutt Cartel', async () => {
       const data = {
         employerInformation: {
           employerName: 'Hutt Cartel',
@@ -621,13 +646,15 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal('Hutt Cartel');
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal('Hutt Cartel');
+      });
     });
 
-    it('should display Crimson Dawn', () => {
+    it('should display Crimson Dawn', async () => {
       const data = {
         employerInformation: {
           employerName: 'Crimson Dawn',
@@ -650,10 +677,14 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      const employerNameInput = container.querySelector(
-        'va-text-input[label="Employer\'s name"]',
-      );
-      expect(employerNameInput.getAttribute('value')).to.equal('Crimson Dawn');
+      await waitFor(() => {
+        const employerNameInput = container.querySelector(
+          'va-text-input[label="Employer\'s name"]',
+        );
+        expect(employerNameInput.getAttribute('value')).to.equal(
+          'Crimson Dawn',
+        );
+      });
     });
   });
 

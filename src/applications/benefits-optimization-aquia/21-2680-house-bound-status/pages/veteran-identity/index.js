@@ -1,2 +1,1 @@
-export * from './veteran-identity';
-export { default } from './veteran-identity';
+export { VeteranIdentityPage } from './veteran-identity';

@@ -9,9 +9,9 @@ import './sass/21-2680-house-bound-status.scss';
 
 import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import routes from '@bio-aquia/21-2680-house-bound-status/routes';
-import reducer from '@bio-aquia/21-2680-house-bound-status/reducers';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
+import reducer from '@bio-aquia/21-2680-house-bound-status/reducers';
+import routes from '@bio-aquia/21-2680-house-bound-status/routes';
 
 /**
  * Initialize and start the application

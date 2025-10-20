@@ -1,2 +1,1 @@
-export * from './medical-diagnosis';
-export { default } from './medical-diagnosis';
+export { MedicalDiagnosisPage } from './medical-diagnosis';

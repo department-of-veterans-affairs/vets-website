@@ -1,2 +1,1 @@
-export * from './examiner-identification';
-export { default } from './examiner-identification';
+export { ExaminerIdentificationPage } from './examiner-identification';

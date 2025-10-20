@@ -192,5 +192,3 @@ ExaminerIdentificationPage.propTypes = {
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };
-
-export default ExaminerIdentificationPage;

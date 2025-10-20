@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { VeteranIdentificationPage } from './veteran-identification';
 
@@ -30,7 +30,7 @@ describe('VeteranIdentificationPage', () => {
       );
     });
 
-    it('should render all identification fields', () => {
+    it('should render all identification fields', async () => {
       const { container } = render(
         <VeteranIdentificationPage
           goForward={mockGoForward}
@@ -39,46 +39,48 @@ describe('VeteranIdentificationPage', () => {
         />,
       );
 
-      // Check for name fields (from FullnameField component)
-      expect(container.querySelector('va-text-input[label="First name"]')).to
-        .exist;
-      expect(container.querySelector('va-text-input[label="Middle name"]')).to
-        .exist;
-      expect(container.querySelector('va-text-input[label="Last name"]')).to
-        .exist;
+      await waitFor(() => {
+        // Check for name fields (from FullnameField component)
+        expect(container.querySelector('va-text-input[label="First name"]')).to
+          .exist;
+        expect(container.querySelector('va-text-input[label="Middle name"]')).to
+          .exist;
+        expect(container.querySelector('va-text-input[label="Last name"]')).to
+          .exist;
 
-      // Check for SSN field
-      expect(
-        container.querySelector(
-          'va-text-input[label="Veteran\'s Social Security Number"]',
-        ),
-      ).to.exist;
+        // Check for SSN field
+        expect(
+          container.querySelector(
+            'va-text-input[label="Veteran\'s Social Security Number"]',
+          ),
+        ).to.exist;
 
-      // Check for service number field
-      expect(
-        container.querySelector(
-          'va-text-input[label="Veteran\'s service number (if different from SSN)"]',
-        ),
-      ).to.exist;
+        // Check for service number field
+        expect(
+          container.querySelector(
+            'va-text-input[label="Veteran\'s service number (if different from SSN)"]',
+          ),
+        ).to.exist;
 
-      // Check for VA file number field
-      expect(
-        container.querySelector(
-          'va-text-input[label="Veteran\'s VA file number"]',
-        ),
-      ).to.exist;
+        // Check for VA file number field
+        expect(
+          container.querySelector(
+            'va-text-input[label="Veteran\'s VA file number"]',
+          ),
+        ).to.exist;
 
-      // Check for date fields
-      expect(
-        container.querySelector(
-          'va-memorable-date[label="Veteran\'s date of birth"]',
-        ),
-      ).to.exist;
-      expect(
-        container.querySelector(
-          'va-memorable-date[label="Veteran\'s date of death"]',
-        ),
-      ).to.exist;
+        // Check for date fields
+        expect(
+          container.querySelector(
+            'va-memorable-date[label="Veteran\'s date of birth"]',
+          ),
+        ).to.exist;
+        expect(
+          container.querySelector(
+            'va-memorable-date[label="Veteran\'s date of death"]',
+          ),
+        ).to.exist;
+      });
     });
 
     it('should render place of birth fields', () => {

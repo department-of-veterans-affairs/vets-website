@@ -17,5 +17,3 @@ App.propTypes = {
   children: PropTypes.node,
   location: PropTypes.object,
 };
-
-export default App;

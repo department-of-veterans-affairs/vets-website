@@ -158,5 +158,3 @@ ClaimantSignaturePage.propTypes = {
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };
-
-export default ClaimantSignaturePage;

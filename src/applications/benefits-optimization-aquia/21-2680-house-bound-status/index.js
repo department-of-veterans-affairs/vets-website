@@ -6,15 +6,15 @@
 
 /** @exports Constants - Application-wide constants */
 export {
-  TITLE,
   SUBTITLE,
+  TITLE,
 } from '@bio-aquia/21-2680-house-bound-status/constants';
 
 /** @exports Containers - React container components */
 export {
   App,
-  IntroductionPage,
   ConfirmationPage,
+  IntroductionPage,
 } from '@bio-aquia/21-2680-house-bound-status/containers';
 
 /** @exports Pages - Form page configurations */

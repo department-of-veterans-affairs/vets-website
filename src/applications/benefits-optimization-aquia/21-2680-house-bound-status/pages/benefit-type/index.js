@@ -1,2 +1,1 @@
-export * from './benefit-type';
-export { default } from './benefit-type';
+export { BenefitTypePage } from './benefit-type';

@@ -1,2 +1,1 @@
-export * from './claimant-signature';
-export { default } from './claimant-signature';
+export { ClaimantSignaturePage } from './claimant-signature';

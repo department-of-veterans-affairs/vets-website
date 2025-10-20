@@ -1,2 +1,1 @@
-export * from './functional-limitations';
-export { default } from './functional-limitations';
+export { FunctionalLimitationsPage } from './functional-limitations';

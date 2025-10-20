@@ -151,5 +151,3 @@ IntroductionPage.propTypes = {
     pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
 };
-
-export default IntroductionPage;
