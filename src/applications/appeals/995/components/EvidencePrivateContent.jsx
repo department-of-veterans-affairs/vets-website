@@ -7,10 +7,10 @@ import { content } from '../content/evidenceSummary';
 import { content as limitedConsentContent } from '../content/limitedConsent';
 import {
   AUTHORIZATION_LABEL,
-  EVIDENCE_PRIVATE_PATH,
-  EVIDENCE_PRIVATE_AUTHORIZATION_PATH,
-  LIMITED_CONSENT_PROMPT_PATH,
-  LIMITED_CONSENT_DETAILS_PATH,
+  EVIDENCE_PRIVATE_DETAILS_URL,
+  EVIDENCE_PRIVATE_AUTHORIZATION_URL,
+  LIMITED_CONSENT_PROMPT_URL,
+  LIMITED_CONSENT_DETAILS_URL,
   LIMITATION_KEY,
 } from '../constants';
 import {
@@ -41,12 +41,12 @@ export const EvidencePrivateContent = ({
   privacyAgreementAccepted,
   testing,
   showListOnly = false,
-  showScNewForm = false,
   limitedConsentResponse,
 }) => {
   if (!list?.length) {
     return null;
   }
+
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -77,50 +77,46 @@ export const EvidencePrivateContent = ({
       </Header>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
-        {showScNewForm && (
-          <li className={listClassNames(!showListOnly)}>
-            <SubHeader
-              className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
-                showListOnly,
-              )}`}
-            >
-              {title4142WithId}
-            </SubHeader>
-            <div>
-              {privacyAgreementAccepted ? (
-                AUTHORIZATION_LABEL
-              ) : (
-                // including non-empty error attribute for focus management
-                <span className="usa-input-error-message" error="error">
-                  You must give us authorization for us to get your non-VA
-                  medical records
-                </span>
-              )}
-            </div>
-            {!reviewMode && (
-              <div className="vads-u-margin-top--1p5">
-                <BasicLink
-                  disableAnalytics
-                  id="edit-private-authorization"
-                  className="edit-item"
-                  aria-label={`edit ${title4142WithId}`}
-                  data-link={
-                    testing ? EVIDENCE_PRIVATE_AUTHORIZATION_PATH : null
-                  }
-                  path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_PATH}`}
-                  text={content.edit}
-                />
-              </div>
+        <li className={listClassNames(!showListOnly)}>
+          <SubHeader
+            className={`private-authorization vads-u-margin-y--0 ${confirmationPageLabel(
+              showListOnly,
+            )}`}
+          >
+            {title4142WithId}
+          </SubHeader>
+          <div>
+            {privacyAgreementAccepted ? (
+              AUTHORIZATION_LABEL
+            ) : (
+              // including non-empty error attribute for focus management
+              <span className="usa-input-error-message" error="error">
+                You must give us authorization for us to get your non-VA medical
+                records
+              </span>
             )}
-          </li>
-        )}
+          </div>
+          {!reviewMode && (
+            <div className="vads-u-margin-top--1p5">
+              <BasicLink
+                disableAnalytics
+                id="edit-private-authorization"
+                className="edit-item"
+                aria-label={`edit ${title4142WithId}`}
+                data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION_URL : null}
+                path={`/${EVIDENCE_PRIVATE_AUTHORIZATION_URL}`}
+                text={content.edit}
+              />
+            </div>
+          )}
+        </li>
         <li className={listClassNames(!showListOnly)}>
           <SubHeader
             className={`private-limitation-yn vads-u-margin-y--0 ${confirmationPageLabel(
               showListOnly,
             )}`}
           >
-            {limitedConsentContent.title}
+            {limitedConsentContent.promptQuestion}
           </SubHeader>
           <p>{limitedConsentResponse ? 'Yes' : 'No'}</p>
           {!reviewMode && (
@@ -129,9 +125,11 @@ export const EvidencePrivateContent = ({
                 disableAnalytics
                 id="edit-limitation-y-n"
                 className="edit-item"
-                path={`/${LIMITED_CONSENT_PROMPT_PATH}`}
-                aria-label={`${content.edit} ${limitedConsentContent.title} `}
-                data-link={testing ? LIMITED_CONSENT_PROMPT_PATH : null}
+                path={`/${LIMITED_CONSENT_PROMPT_URL}`}
+                aria-label={`${content.edit} ${
+                  limitedConsentContent.promptQuestion
+                } `}
+                data-link={testing ? LIMITED_CONSENT_PROMPT_URL : null}
                 text={content.edit}
               />
             </div>
@@ -144,7 +142,7 @@ export const EvidencePrivateContent = ({
                 vads-u-margin-y--0
                 ${confirmationPageLabel(showListOnly)}`}
             >
-              {limitedConsentContent.textAreaTitle}
+              {limitedConsentContent.detailsQuestion}
             </SubHeader>
             <p>{limitedConsent}</p>
             {!reviewMode && (
@@ -153,11 +151,11 @@ export const EvidencePrivateContent = ({
                   disableAnalytics
                   id="edit-limitation"
                   className="edit-item"
-                  path={`/${LIMITED_CONSENT_DETAILS_PATH}`}
+                  path={`/${LIMITED_CONSENT_DETAILS_URL}`}
                   aria-label={`${content.edit} ${
-                    limitedConsentContent.textAreaTitle
+                    limitedConsentContent.detailsQuestion
                   }`}
-                  data-link={testing ? LIMITED_CONSENT_DETAILS_PATH : null}
+                  data-link={testing ? LIMITED_CONSENT_DETAILS_URL : null}
                   text={content.edit}
                 />
               </div>
@@ -171,7 +169,7 @@ export const EvidencePrivateContent = ({
             providerFacilityAddress = {},
             treatmentDateRange = {},
           } = facility || {};
-          const path = `/${EVIDENCE_PRIVATE_PATH}?index=${index}`;
+          const path = `/${EVIDENCE_PRIVATE_DETAILS_URL}?index=${index}`;
 
           const fromDate = formatDate(treatmentDateRange.from);
           const toDate = formatDate(treatmentDateRange.to);
@@ -190,6 +188,7 @@ export const EvidencePrivateContent = ({
             to: toDate ? '' : content.missing.to,
             dates: !fromDate && !toDate ? content.missing.dates : '',
           };
+
           const hasErrors = Object.values(errors).join('');
 
           return (
@@ -268,6 +267,5 @@ EvidencePrivateContent.propTypes = {
   privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
-  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };

@@ -26,6 +26,7 @@ import {
   processList,
   generateTextFile,
   asyncErrorForUnequalBirthDates,
+  itemListWrapper,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -179,8 +180,13 @@ Lab comments: ${entry.labComments}\n`,
               testId="chem-hem-collecting-location"
               data-dd-action-name="[lab and tests - location]"
             />
-            <LabelValue label="Lab comments" />
-            <ItemList list={record.comments} />
+            <LabelValue
+              label="Lab comments"
+              element={itemListWrapper(record?.comments)}
+              testId="chem-hem-lab-comments"
+            >
+              <ItemList list={record.comments} />
+            </LabelValue>
           </HeaderSection>
         </div>
         {/*         RESULTS CARDS            */}

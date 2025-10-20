@@ -15,13 +15,15 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile } from '../util/helpers';
+import { generateTextFile, itemListWrapper } from '../util/helpers';
 import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
@@ -36,7 +38,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const AllergyDetails = props => {
@@ -52,7 +53,7 @@ const AllergyDetails = props => {
       ],
   );
 
-  const { isAcceleratingAllergies, isLoading } = useAcceleratedData();
+  const { isLoading, isCerner } = useAcceleratedData();
 
   const { allergyId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -66,21 +67,19 @@ const AllergyDetails = props => {
       }
       return {
         ...allergy,
-        isOracleHealthData: isAcceleratingAllergies,
+        isOracleHealthData: isCerner,
       };
     },
-    [allergy, isAcceleratingAllergies],
+    [allergy, isCerner],
   );
 
   useEffect(
     () => {
       if (allergyId && !isLoading) {
-        dispatch(
-          getAllergyDetails(allergyId, allergyList, isAcceleratingAllergies),
-        );
+        dispatch(getAllergyDetails(allergyId, allergyList, isCerner));
       }
     },
-    [allergyId, allergyList, dispatch, isAcceleratingAllergies, isLoading],
+    [allergyId, allergyList, dispatch, isLoading, isCerner],
   );
 
   useEffect(
@@ -126,7 +125,7 @@ const AllergyDetails = props => {
   };
 
   const generateAllergyTextContent = () => {
-    if (isAcceleratingAllergies) {
+    if (allergyData.isOracleHealthData) {
       return `
       ${crisisLineHeader}\n\n
       ${allergyData.name}\n
@@ -211,7 +210,11 @@ Provider notes: ${allergyData.notes} \n`;
               className="max-80 vads-u-margin-top--4"
               data-testid="allergy-reaction"
             >
-              <LabelValue label="Signs and symptoms">
+              <LabelValue
+                label="Signs and symptoms"
+                element={itemListWrapper(allergyData?.reaction)}
+                testId="allergy-signs-symptoms"
+              >
                 <ItemList list={allergyData.reaction} />
               </LabelValue>
               <LabelValue
@@ -240,7 +243,7 @@ Provider notes: ${allergyData.notes} \n`;
                 <LabelValue
                   label="Recorded by"
                   value={allergyData.provider}
-                  testId="allergy-observed"
+                  testId="allergy-recorded-by"
                   actionName="[allergy recorded by]"
                 />
               )}

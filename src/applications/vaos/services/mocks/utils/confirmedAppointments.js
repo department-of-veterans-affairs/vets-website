@@ -369,6 +369,7 @@ const appointmentTemplates = {
           id: appointmentId,
           status: 'booked',
           patientIcn: null,
+          modality: 'communityCareEps',
           created: formatAppointmentDate(new Date()),
           locationId: 'sandbox-network-5vuTac8v',
           clinic: '9L5WE4aN',

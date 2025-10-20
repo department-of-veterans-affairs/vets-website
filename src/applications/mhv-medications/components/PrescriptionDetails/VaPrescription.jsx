@@ -348,11 +348,13 @@ const VaPrescription = prescription => {
               <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                 Quantity
               </h3>
-              <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
+              <p data-testid="rx-quantity">
+                {validateIfAvailable('Quantity', prescription.quantity)}
+              </p>
               <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                 Prescribed on
               </h3>
-              <p datat-testid="ordered-date">
+              <p data-testid="ordered-date">
                 {dateFormat(
                   prescription.orderedDate,
                   'MMMM D, YYYY',

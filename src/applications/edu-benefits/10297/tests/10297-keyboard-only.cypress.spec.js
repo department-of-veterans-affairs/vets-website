@@ -95,15 +95,17 @@ describe('10297 Keyboard Only Tests', () => {
       releaseMonth,
       releaseDay,
     ] = maximalData.data.dateReleasedFromActiveDuty.split('-');
-    cy.get('select[name="root_dateReleasedFromActiveDutyMonth"]').select(
-      parseInt(releaseMonth, 10),
-    );
-    cy.realPress('Tab');
-    cy.get('select[name="root_dateReleasedFromActiveDutyDay"]')
+    cy.get('input[name="root_dateReleasedFromActiveDutyMonth"]')
       .focus()
-      .select(parseInt(releaseDay, 10));
+      .realType(releaseMonth);
     cy.realPress('Tab');
-    cy.typeInFocused(releaseYear);
+    cy.get('input[name="root_dateReleasedFromActiveDutyDay"]')
+      .focus()
+      .realType(releaseDay);
+    cy.realPress('Tab');
+    cy.get('input[name="root_dateReleasedFromActiveDutyYear"]')
+      .focus()
+      .realType(releaseYear);
     cy.tabToContinueForm();
     cy.url().should(
       'include',

@@ -9,6 +9,8 @@ import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvid
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 import OtherWaysToSendYourDocuments from '../components/claim-files-tab-v2/OtherWaysToSendYourDocuments';
+import FileSubmissionsInProgress from '../components/claim-files-tab-v2/FileSubmissionsInProgress';
+import FilesReceived from '../components/claim-files-tab-v2/FilesReceived';
 import withRouter from '../utils/withRouter';
 
 import {
@@ -85,6 +87,12 @@ class FilesPage extends React.Component {
         <ClaimFileHeader isOpen={isOpen} />
         <Toggler toggleName={Toggler.TOGGLE_NAMES.cstShowDocumentUploadStatus}>
           <Toggler.Enabled>
+            <AdditionalEvidencePage additionalEvidenceTitle="Upload additional evidence" />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FileSubmissionsInProgress claim={claim} />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
+            <FilesReceived claim={claim} />
+            <div className="vads-u-margin-y--6 vads-u-border--1px vads-u-border-color--gray-light" />
             <OtherWaysToSendYourDocuments />
           </Toggler.Enabled>
           <Toggler.Disabled>

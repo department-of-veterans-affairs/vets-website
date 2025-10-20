@@ -13,17 +13,22 @@ class ContactListPage {
   };
 
   verifyHeaders = () => {
-    cy.get(`h1`)
-      .should(`be.visible`)
-      .and(`have.text`, `Messages: Contact list`);
+    cy.findByText('Messages: Contact list', { selector: 'h1' }).should(
+      'be.visible',
+    );
 
-    cy.get(`.contactListForm`)
-      .find(`h2`)
-      .should(`have.text`, `Need help?`);
+    cy.findByText(`Need help?`, { selector: 'h2' }).should('be.visible');
+  };
+
+  checkBoxByName = name => {
+    return cy
+      .get(`[label="${name}"]`)
+      .shadow()
+      .find(`input`);
   };
 
   verifySingleCheckBox = (team, value) => {
-    cy.get(`[label*=${team}]`).should('have.prop', `checked`, value);
+    cy.get(`[label="${team}"]`).should('have.prop', `checked`, value);
   };
 
   verifyAllCheckboxes = value => {
@@ -49,10 +54,11 @@ class ContactListPage {
   };
 
   selectCheckBox = name => {
-    cy.get(`[label*=${name}]`)
-      .shadow()
-      .find(`input`)
-      .click({ force: true });
+    this.checkBoxByName(name).click({ force: true });
+  };
+
+  validateCheckBoxDoesNotExist = name => {
+    cy.get(`[label="${name}"]`).should('not.exist');
   };
 
   verifyButtons = () => {
@@ -62,13 +68,13 @@ class ContactListPage {
       .should(`be.visible`)
       .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
-    cy.get(Locators.BUTTONS.CL_GO_BACK)
+    cy.findByTestId(Locators.BUTTONS.CL_GO_BACK)
       .should(`be.visible`)
-      .and(`include.text`, Data.BUTTONS.GO_BACK);
+      .and(`have.prop`, `text`, Data.BUTTONS.GO_BACK);
   };
 
   clickGoBackButton = () => {
-    cy.get(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
+    cy.findByTestId(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
   };
 
   verifySaveAlert = () => {

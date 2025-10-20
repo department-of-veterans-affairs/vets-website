@@ -18,16 +18,12 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-const PRESCRIPTION_NOTIFICATION_TEXT =
-  'Prescription shipment and tracking updates';
-
-const APPOINTMENT_NOTIFICATION_TEXT = 'Appointment reminders';
-
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
@@ -48,13 +44,13 @@ describe('Updating Notification Settings', () => {
         statusCode: 200,
         body: mockPostSuccessShippingUpdates,
         delay: 100,
-      });
+      }).as('savePreference');
 
       // checkbox will start off unchecked because of the mocked
       // response from mockCommunicationPreferences
 
-      cy.findByText(PRESCRIPTION_NOTIFICATION_TEXT)
-        .closest('fieldset')
+      // Prescription shipment and tracking updates
+      cy.get('[data-testid="checkbox-group-item4"]')
         .find('va-checkbox')
         .as('prescriptionCheckbox');
 
@@ -67,10 +63,13 @@ describe('Updating Notification Settings', () => {
       cy.get('@prescriptionCheckbox').should('have.attr', 'checked', 'checked');
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving.../).should('exist');
+      cy.get('[data-testid="loading-channel4-1"]')
+        .as('savingButton')
+        .should('exist');
       // after the POST call resolves:
-      cy.findByText(/^Saving.../).should('not.exist');
-      cy.findByText(/update saved/i).should('exist');
+      cy.wait('@savePreference');
+      cy.get('@savingButton').should('not.exist');
+      cy.get('[data-testid="success-channel4-1"]').should('exist');
 
       cy.get('@prescriptionCheckbox').should('have.attr', 'checked', 'checked');
 
@@ -90,8 +89,9 @@ describe('Updating Notification Settings', () => {
 
       // checkbox will start off checked because of the
       // mocked response from mockCommunicationPreferences
-      cy.findByText(APPOINTMENT_NOTIFICATION_TEXT)
-        .closest('fieldset')
+
+      // Appointment Reminders
+      cy.get('[data-testid="checkbox-group-item3"]')
         .find('va-checkbox')
         .as('appointmentCheckbox');
 
@@ -110,12 +110,14 @@ describe('Updating Notification Settings', () => {
         .click({ force: true });
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving/).should('exist');
+      cy.get('[data-testid="loading-channel3-1"]')
+        .as('savingButton')
+        .should('exist');
+
       // Wait for the PATCH request to complete
       cy.wait('@savePreference');
-      // after the PATCH call resolves:
-      cy.findByText(/^Saving/).should('not.exist');
-      cy.findByText(/update saved/i).should('exist');
+      cy.get('@savingButton').should('not.exist');
+      cy.get('[data-testid="success-channel3-1"]').should('exist');
 
       // checkbox should now be unchecked
       cy.get('@appointmentCheckboxShadow')
@@ -138,8 +140,7 @@ describe('Updating Notification Settings', () => {
 
     // checkbox will start off checked because of the
     // mocked response from mockCommunicationPreferences
-    cy.findByText(APPOINTMENT_NOTIFICATION_TEXT)
-      .closest('fieldset')
+    cy.get('[data-testid="checkbox-group-item3"]')
       .find('va-checkbox')
       .as('appointmentCheckbox');
 
@@ -158,12 +159,14 @@ describe('Updating Notification Settings', () => {
       .click({ force: true });
 
     // we should now see a saving indicator
-    cy.findByText(/^Saving.../).should('exist');
+    cy.get('[data-testid="loading-channel3-1"]')
+      .as('savingButton')
+      .should('exist');
+
     // Wait for the PATCH request to complete
     cy.wait('@savePreference');
-    // after the PATCH call resolves:
-    cy.findByText(/^Saving.../).should('not.exist');
-    cy.findByText(/update saved/i).should('exist');
+    cy.get('@savingButton').should('not.exist');
+    cy.get('[data-testid="success-channel3-1"]').should('exist');
 
     // checkbox should now be unchecked
     cy.get('@appointmentCheckboxShadow')

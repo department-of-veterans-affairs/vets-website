@@ -1,111 +1,64 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-function IntroductionPage({ route }) {
-  const { formConfig, pageList } = route;
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-  }, []);
+import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
 
+const content = {
+  formTitle: 'Verify your marital status for DIC benefits',
+  formSubTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
+  authStartFormText: 'Verify your marital status',
+  unauthStartText: 'Sign in to verify your marital status',
+  displayNonVeteranMessaging: true,
+};
+
+const ombInfo = {
+  resBurden: '5',
+  ombNumber: '2900-0495',
+  expDate: '8/31/2025',
+};
+
+const childContent = (
+  <>
+    <p>
+      Use this form to verify your marital status and maintain your eligibility
+      for Dependency and Indemnity Compensation (DIC) benefits.
+    </p>
+    <h2>What to know before you fill out this form</h2>
+    <ul>
+      <li>
+        It’s important to report any changes to your marital status if you
+        receive DIC benefits
+      </li>
+      <li>
+        If we sent you a letter asking you to verify your marital status, you
+        must complete and submit this form within 60 days from the date on the
+        letter
+      </li>
+      <li>
+        Your state must recognize your marriage. This could be the state where
+        you both lived when you got married. Or it could also be the state you
+        lived when you filed your first claim or became eligible for benefits.
+      </li>
+    </ul>
+  </>
+);
+
+export const IntroductionPage = ({ route }) => {
   return (
-    <article className="schemaform-intro">
-      <FormTitle
-        title="Marital Status Questionnaire for DIC Recipients"
-        subtitle="VA Form 21P-0537"
-      />
-
-      <p className="va-introtext">
-        Use this form to verify your marital status and maintain your
-        eligibility for Dependency and Indemnity Compensation (DIC) benefits.
-      </p>
-
-      <h2>What to know before you fill out this form</h2>
-
-      <va-alert status="warning" uswds>
-        <h3 slot="headline">Time-sensitive response required</h3>
-        <p>
-          You must complete and submit this form within 60 days to avoid
-          potential loss of your DIC benefits.
-        </p>
-      </va-alert>
-
-      <h3>Why we need this information</h3>
-      <p>
-        As a recipient of Dependency and Indemnity Compensation (DIC), you're
-        required to report any changes in your marital status. Generally, a
-        surviving spouse's entitlement to DIC ends with remarriage. However,
-        entitlement may continue if:
-      </p>
-      <ul>
-        <li>The marriage began after age 57, or</li>
-        <li>The remarriage has ended</li>
-      </ul>
-
-      <h3>What happens after you submit this form</h3>
-      <p>
-        We'll review your response to verify your continued eligibility for DIC
-        benefits. If you have remarried and are not eligible to continue
-        receiving benefits, we may propose to terminate your DIC benefits.
-      </p>
-
-      <h3>Your rights</h3>
-      <p>You have the right to:</p>
-      <ul>
-        <li>Submit additional information at any time</li>
-        <li>Have a personal hearing to explain or clarify your statements</li>
-        <li>
-          Be represented at the hearing by a representative of your choice
-        </li>
-      </ul>
-
-      <SaveInProgressIntro
-        headingLevel={2}
-        prefillEnabled={formConfig.prefillEnabled}
-        messages={formConfig.savedFormMessages}
-        pageList={pageList}
-        startText="Start the questionnaire"
-        formConfig={formConfig}
-      />
-
-      <h2>Have questions about this form?</h2>
-      <p>Contact us if you need assistance:</p>
-      <ul>
-        <li>
-          <strong>Call us:</strong> 1-877-294-6380 (TTY: 711)
-        </li>
-        <li>
-          <strong>Submit an inquiry online:</strong>{' '}
-          <a
-            href="https://iris.va.gov"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            https://iris.va.gov
-          </a>
-        </li>
-        <li>
-          <strong>Write to us:</strong> Include your full name and VA file
-          number in your correspondence
-        </li>
-      </ul>
-
-      <va-omb-info
-        res-burden={5}
-        omb-number="2900-0495"
-        exp-date="12/31/2027"
-      />
-    </article>
+    <IntroductionPageView
+      route={route}
+      content={content}
+      ombInfo={ombInfo}
+      childContent={childContent}
+    />
   );
-}
+};
 
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
-      savedFormMessages: PropTypes.object,
+      savedFormMessages: PropTypes.shape({}),
     }),
     pageList: PropTypes.array,
   }),

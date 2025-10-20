@@ -3,12 +3,12 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
-import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionError from '../../shared/components/SubmissionError';
-import GetFormHelp from '../../shared/components/GetFormHelp';
+import FormFooter from '../components/FormFooter';
+import content from '../locales/en/content.json';
 
 import {
   certifierRoleSchema,
@@ -38,19 +38,21 @@ import {
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
-import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import OhiIntroduction from '../components/FormPages/OhiIntroduction';
+import MedicareIntroduction from '../components/FormPages/MedicareIntroduction';
+import OtherHealthInsuranceInformation from '../components/FormPages/OtherHealthInsuranceInformation';
+import AddressSelectionPage, {
+  NOT_SHARED,
+} from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  showReviewErrors: true, // May want to hide in prod later, but for now keeping in due to complexity of this form
+  showReviewErrors: true,
   transformForSubmit,
   submitUrl: `${environment.API_URL}/ivc_champva/v1/forms/10-10d-ext`,
-  // submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
-  // TODO: when we have the submitUrl up and running, remove this dummy response:
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -64,12 +66,14 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   submissionError: SubmissionError,
+  footerContent: FormFooter,
   customText: { appType: 'form' },
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
   formOptions: {
+    useWebComponentForNavigation: true,
     filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({
@@ -111,8 +115,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA application (includes 10-7959c).',
   },
-  title: TITLE,
-  subTitle: SUBTITLE,
+  title: content['form-title'],
+  subTitle: content['form-subtitle'],
   defaultDefinitions: {},
   chapters: {
     certifierInformation: {
@@ -183,7 +187,7 @@ const formConfig = {
         },
         page10b0: {
           path: 'veteran-address',
-          title: 'Veteran’s address selection',
+          title: 'Veteran’s address',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
@@ -192,14 +196,16 @@ const formConfig = {
             const opts = { ...props, dataKey: 'sponsorAddress' };
             return AddressSelectionPage(opts);
           },
-          CustomPageReview: null,
+          CustomPageReview: AddressSelectionReviewPage,
           uiSchema: {},
           schema: blankSchema,
         },
         page10: {
           path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
-          depends: formData => !get('sponsorIsDeceased', formData),
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('view:sharesAddressWith', formData) === NOT_SHARED,
           ...sponsorAddress,
         },
         page11: {
@@ -215,19 +221,45 @@ const formConfig = {
       pages: applicantPages,
     },
     medicareInformation: {
-      title: 'Medicare information',
+      title: 'Other Health Insurance Certification: Medicare information',
       pages: {
+        ohiIntro: {
+          path: 'medicare-and-other-health-insurance',
+          title: 'Report Medicare and other health insurance',
+          CustomPage: OhiIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        medicareIntro: {
+          path: 'medicare-introduction',
+          title: 'Report Medicare',
+          CustomPage: MedicareIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         ...medicarePages,
         page22: medicareStatusPage,
         page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {
-      title: 'Health insurance information',
-      pages: healthInsurancePages,
+      title:
+        'Other Health Insurance Certification: Health insurance information',
+      pages: {
+        healthInsuranceIntro: {
+          path: 'other-health-insurance-introduction',
+          title: 'Report other health insurance',
+          CustomPage: OtherHealthInsuranceInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        ...healthInsurancePages,
+      },
     },
   },
-  footerContent: GetFormHelp,
 };
 
 export default formConfig;

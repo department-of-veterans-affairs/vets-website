@@ -120,7 +120,6 @@ export {
   isAuthenticatedWithSSOe,
   isAuthenticatedWithOAuth,
   ssoeTransactionId,
-  termsOfUseEnabled,
 } from './authentication/selectors';
 export { externalApplicationsConfig } from './authentication/usip-config';
 export { OAuthEnabledApplications } from './authentication/config/constants';

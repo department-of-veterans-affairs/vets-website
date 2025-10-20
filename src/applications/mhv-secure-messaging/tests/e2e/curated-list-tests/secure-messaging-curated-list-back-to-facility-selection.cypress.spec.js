@@ -1,5 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
@@ -229,7 +229,6 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
     cy.findByText(/Select a different care team/i).click();
     cy.findByTestId(`compose-recipient-combobox`).click();
-
     PatientComposePage.selectComboBoxRecipient('###ABC_XYZ_TRIAGE_TEAM###');
 
     cy.findByText(/Update your contact list/i).click();
@@ -240,7 +239,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .find(`va-button[text="Save changes"]`)
       .click();
 
-    cy.findByText(/Go back/i).click();
+    cy.findByTestId(Locators.BUTTONS.CL_GO_BACK).click();
 
     PatientComposePage.getComboBox().should(
       'have.value',

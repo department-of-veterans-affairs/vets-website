@@ -132,6 +132,28 @@ describe('RecipientsSelect', () => {
     });
   });
 
+  it('calls the onValueChange callback when a recipient is null', async () => {
+    // NOTE: Component derives alert text from selected recipient (effectiveSignatureRequired),
+    // not just the isSignatureRequired prop. Selecting a signature-required recipient
+    // should immediately show the REQUIRED alert text.
+    const onValueChange = sinon.spy();
+    const setCheckboxMarked = sinon.spy();
+    const setElectronicSignature = sinon.spy();
+    const customProps = {
+      onValueChange,
+      setCheckboxMarked,
+      setElectronicSignature,
+      defaultValue: '1', // Simulate selecting the placeholder (null) option
+    };
+    const screen = setup({ props: customProps });
+    selectVaSelect(screen.container, null);
+
+    await waitFor(() => {
+      expect(onValueChange.calledOnce).to.be.true;
+      expect(onValueChange.calledWith(null)).to.be.true;
+    });
+  });
+
   it('displays the signature alert when a recipient with signatureRequired is selected', async () => {
     const setAlertDisplayed = sinon.spy();
     const customProps = {

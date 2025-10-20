@@ -14,6 +14,7 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
@@ -28,12 +29,12 @@ import {
 } from '../../shared/utilities';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { validateMedicarePartDDates } from '../helpers/validations';
-
 import {
   selectMedicareParticipantPage,
   SelectMedicareParticipantPage,
 } from './SelectMedicareParticipantsPage';
 import MedicarePartCAddtlInfo from '../components/FormDescriptions/MedicarePartCAddtlInfo';
+import ProofOfMedicareAlert from '../components/FormAlerts/ProofOfMedicareAlert';
 
 // declare static content constants
 const MEDICARE_TYPE_LABELS = {
@@ -455,30 +456,29 @@ const medicarePartADenialPage = dataKey => {
   };
   return {
     uiSchema: {
-      ...arrayBuilderItemSubsequentPageTitleUI(
-        pageTitle,
-        <va-alert
-          status="info"
-          class="vads-u-margin-bottom--3"
-          background-color="true"
-        >
-          Applicants that don’t have Medicare Parts A and B or proof of
-          ineligibility may not be eligible for CHAMPVA.
-        </va-alert>,
-      ),
-      [dataKey]: {
-        ...yesNoUI({
-          title:
-            'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
-          hint: ADDITIONAL_FILES_HINT,
-        }),
+      'view:addtlInfo': { ...descriptionUI(ProofOfMedicareAlert) },
+      [`view:${dataKey}`]: {
+        ...arrayBuilderItemSubsequentPageTitleUI(pageTitle),
+        [dataKey]: {
+          ...yesNoUI({
+            title:
+              'Does the applicant have a notice of disallowance, denial, or other proof of ineligibility for Medicare Part A?',
+            hint: ADDITIONAL_FILES_HINT,
+          }),
+        },
       },
     },
     schema: {
       type: 'object',
-      required: [dataKey],
       properties: {
-        [dataKey]: yesNoSchema,
+        'view:addtlInfo': blankSchema,
+        [`view:${dataKey}`]: {
+          type: 'object',
+          required: [dataKey],
+          properties: {
+            [dataKey]: yesNoSchema,
+          },
+        },
       },
     },
   };
@@ -491,8 +491,8 @@ const medicarePartADenialProofUploadPage = dataKey => {
         return (
           <>
             <p>
-              {privWrapper(generateParticipantName(formData))} is 65 years old.
-              And you selected that they don’t have Medicare Part A.
+              {privWrapper(generateParticipantName(formData))} is age 65 or
+              older. And you selected that they don’t have Medicare Part A.
             </p>
             <p>
               You’ll need to submit a copy of a letter from the Social Security
@@ -757,16 +757,14 @@ export const medicareStatusPage = {
     const excluded = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     return excluded.some(a => getAgeInYears(a.applicantDob) >= 65);
   },
-  onNavBack: ({ goPath }) => {
-    goPath('/report-medicare-plans');
-  },
   ...medicarePartADenialPage('hasProofMultipleApplicants'),
 };
 
 export const medicareProofOfIneligibilityPage = {
   path: 'medicare-proof-of-ineligibility',
   title: 'Proof of Medicare ineligibility',
-  depends: formData => formData?.hasProofMultipleApplicants,
+  depends: formData =>
+    formData?.['view:hasProofMultipleApplicants']?.hasProofMultipleApplicants,
   CustomPage: FileFieldCustom,
   ...medicarePartADenialProofUploadPage('proofOfIneligibilityUpload'),
 };
@@ -829,7 +827,8 @@ export const medicarePages = arrayBuilderPages(
       path: 'medicare-proof-of-part-a-denial/:index',
       title: 'Upload proof of Medicare ineligibility',
       depends: ({ applicants, medicare }, index) => {
-        const hasProof = medicare?.[index]?.hasPartADenial;
+        const hasProof =
+          medicare?.[index]?.['view:hasPartADenial']?.hasPartADenial;
         const over65 = !getIsUnder65(applicants, medicare, index);
         return hasPartB({ medicare }, index) && hasProof && over65;
       },

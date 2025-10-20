@@ -15,7 +15,7 @@ const uiSchema = {
         <p>
           If you’re on active duty while enrolled in the program, you will not
           get a Monthly Housing Allowance (MHA) from VA since you will be
-          receiving a Basic Housing Allowance (BHA) from the military.
+          receiving a Basic Allowance for Housing (BAH) from the military.
         </p>
       </va-alert>
     ),

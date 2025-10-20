@@ -4,7 +4,6 @@ import {
   createGetHandler,
   jsonResponse,
   setupServer,
-  delayedJsonResponse,
 } from 'platform/testing/unit/msw-adapter';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -692,8 +691,8 @@ describe('<DashboardCards>', () => {
     before(() => {
       server = setupServer(
         createGetHandler(`${apiRequestWithUrl}`, () => {
-          // Use the adapter's delayedResponse helper instead of manual Promise
-          return delayedJsonResponse(
+          // Use the adapter's jsonResponse helper instead of manual Promise
+          return jsonResponse(
             {
               data: [
                 {
@@ -710,7 +709,7 @@ describe('<DashboardCards>', () => {
                 },
               ],
             },
-            100, // delay in milliseconds
+            { status: 200 },
           );
         }),
       );

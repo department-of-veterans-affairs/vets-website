@@ -410,6 +410,28 @@ export const findBlockedFacilities = recipients => {
   return { fullyBlockedFacilities, allFacilities };
 };
 
+export const findAllowedFacilities = recipients => {
+  const allowedVistaFacilities = new Set();
+  const allowedOracleFacilities = new Set();
+
+  recipients.forEach(recipient => {
+    const { stationNumber, blockedStatus, ohTriageGroup } = recipient;
+
+    if (blockedStatus === false) {
+      if (ohTriageGroup === true) {
+        allowedOracleFacilities.add(stationNumber);
+      } else {
+        allowedVistaFacilities.add(stationNumber);
+      }
+    }
+  });
+
+  return {
+    allowedVistaFacilities: [...allowedVistaFacilities],
+    allowedOracleFacilities: [...allowedOracleFacilities],
+  };
+};
+
 export const getStationNumberFromRecipientId = (recipientId, recipients) => {
   const recipient = recipients.find(item => item.triageTeamId === recipientId);
   return recipient?.stationNumber || null;
