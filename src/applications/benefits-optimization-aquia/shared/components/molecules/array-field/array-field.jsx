@@ -280,6 +280,8 @@ export const ArrayField = ({
 
 ArrayField.propTypes = {
   name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  renderItem: PropTypes.func.isRequired,
   addButtonText: PropTypes.string,
   defaultItem: PropTypes.object,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
@@ -290,6 +292,4 @@ ArrayField.propTypes = {
   value: PropTypes.array,
   getItemSummary: PropTypes.func,
   isItemEmpty: PropTypes.func,
-  onChange: PropTypes.func.isRequired,
-  renderItem: PropTypes.func.isRequired,
 };
