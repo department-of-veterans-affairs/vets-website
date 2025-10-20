@@ -30,11 +30,8 @@ describe('Medical Records View Lab and Tests', () => {
 
     LabsAndTests.goToLabAndTestPage();
 
-    const today = mockDate;
-    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}`;
-    LabsAndTests.checkUrl({ timeFrame });
+    // Check for initial rangeIndex=0 (Last 90 days)
+    LabsAndTests.checkUrl({ rangeIndex: '0' });
 
     cy.injectAxeThenAxeCheck();
 

@@ -33,7 +33,7 @@ describe('Medical Records View Lab and Tests', () => {
     const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
       .toString()
       .padStart(2, '0')}`;
-    LabsAndTests.checkUrl({ timeFrame });
+    LabsAndTests.checkUrl({ rangeIndex: '0' });
 
     cy.injectAxeThenAxeCheck();
 
