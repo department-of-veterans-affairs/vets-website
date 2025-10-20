@@ -6,6 +6,7 @@ import DateRangeDropdown from '../../../components/shared/DateRangeDropdown';
 
 describe('DateRangeDropdown', () => {
   let mockOnChange;
+  let mockOnCustomDateChange;
   const options = [
     { value: 0, label: 'Last 90 days' },
     { value: 1, label: '91 to 180 days ago' },
@@ -15,6 +16,7 @@ describe('DateRangeDropdown', () => {
 
   beforeEach(() => {
     mockOnChange = sinon.spy();
+    mockOnCustomDateChange = sinon.spy();
   });
 
   it('renders the dropdown correctly', () => {
@@ -29,7 +31,7 @@ describe('DateRangeDropdown', () => {
     expect(screen.getByTestId('date-range-dropdown')).to.exist;
   });
 
-  it('displays all options', () => {
+  it('displays all options including custom range', () => {
     const screen = render(
       <DateRangeDropdown
         currentRange={0}
@@ -40,7 +42,8 @@ describe('DateRangeDropdown', () => {
 
     const dropdown = screen.getByTestId('date-range-dropdown');
     const optionElements = dropdown.querySelectorAll('option');
-    expect(optionElements).to.have.lengthOf(4);
+    // 4 predefined options + 1 custom option
+    expect(optionElements).to.have.lengthOf(5);
   });
 
   it('has the correct selected value', () => {
@@ -70,5 +73,37 @@ describe('DateRangeDropdown', () => {
 
     sinon.assert.calledOnce(mockOnChange);
     sinon.assert.calledWith(mockOnChange, 2);
+  });
+
+  it('shows custom date picker when custom range is selected', () => {
+    const screen = render(
+      <DateRangeDropdown
+        currentRange={0}
+        onChange={mockOnChange}
+        options={options}
+        onCustomDateChange={mockOnCustomDateChange}
+      />,
+    );
+
+    const dropdown = screen.getByTestId('date-range-dropdown');
+    fireEvent.vaSelect(dropdown, { detail: { value: '-1' } });
+
+    expect(screen.getByTestId('custom-date-picker')).to.exist;
+    expect(screen.getByTestId('custom-date-submit-button')).to.exist;
+  });
+
+  it('shows custom date picker when currentRange is -1', () => {
+    const screen = render(
+      <DateRangeDropdown
+        currentRange={-1}
+        onChange={mockOnChange}
+        options={options}
+        onCustomDateChange={mockOnCustomDateChange}
+        customStartDate="2024-01-01"
+      />,
+    );
+
+    expect(screen.getByTestId('custom-date-picker')).to.exist;
+    expect(screen.getByTestId('custom-date-submit-button')).to.exist;
   });
 });

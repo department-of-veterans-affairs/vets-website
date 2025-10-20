@@ -29,6 +29,7 @@ import {
   getLabsAndTestsDateRanges,
   formatDateRange,
 } from '../util/helpers';
+import { format as dateFnsFormat, addDays, parseISO as dateFnsParseISO } from 'date-fns';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -86,6 +87,7 @@ const LabsAndTests = () => {
 
   // Get the current range index from URL or default to 0 (last 90 days)
   const urlRangeIndex = new URLSearchParams(location.search).get('rangeIndex');
+  const urlCustomDate = new URLSearchParams(location.search).get('customDate');
   const initialRangeIndex = urlRangeIndex
     ? parseInt(urlRangeIndex, 10)
     : 0;
@@ -96,17 +98,39 @@ const LabsAndTests = () => {
   const [displayRangeIndex, setDisplayRangeIndex] = useState(
     initialRangeIndex,
   );
+  const [customStartDate, setCustomStartDate] = useState(
+    urlCustomDate || '',
+  );
 
   // Get the current date range parameters
   const timeFrameApiParameters = useMemo(
     () => {
-      const selectedRange = dateRangeOptions[selectedRangeIndex];
+      // Handle custom date range (-1 index)
+      if (selectedRangeIndex === -1 && customStartDate) {
+        const startDate = dateFnsParseISO(customStartDate);
+        const endDate = addDays(startDate, 90);
+        return {
+          startDate: dateFnsFormat(startDate, 'yyyy-MM-dd'),
+          endDate: dateFnsFormat(endDate, 'yyyy-MM-dd'),
+        };
+      }
+      
+      // Handle predefined ranges
+      if (selectedRangeIndex >= 0 && selectedRangeIndex < dateRangeOptions.length) {
+        const selectedRange = dateRangeOptions[selectedRangeIndex];
+        return {
+          startDate: selectedRange.startDate,
+          endDate: selectedRange.endDate,
+        };
+      }
+      
+      // Default to first range
       return {
-        startDate: selectedRange.startDate,
-        endDate: selectedRange.endDate,
+        startDate: dateRangeOptions[0].startDate,
+        endDate: dateRangeOptions[0].endDate,
       };
     },
-    [selectedRangeIndex, dateRangeOptions],
+    [selectedRangeIndex, dateRangeOptions, customStartDate],
   );
 
   const dispatchAction = useMemo(
@@ -184,6 +208,14 @@ const LabsAndTests = () => {
 
     const searchParams = new URLSearchParams(location.search);
     searchParams.set('rangeIndex', index.toString());
+    
+    // Add custom date to URL if using custom range
+    if (index === -1 && customStartDate) {
+      searchParams.set('customDate', customStartDate);
+    } else {
+      searchParams.delete('customDate');
+    }
+    
     history.push({
       pathname: location.pathname,
       search: searchParams.toString(),
@@ -193,6 +225,10 @@ const LabsAndTests = () => {
       type: Actions.LabsAndTests.UPDATE_LIST_STATE,
       payload: loadStates.PRE_FETCH,
     });
+  };
+
+  const handleCustomDateChange = dateString => {
+    setCustomStartDate(dateString);
   };
 
   return (
@@ -243,6 +279,9 @@ const LabsAndTests = () => {
                 currentRange={selectedRangeIndex}
                 onChange={onDateRangeChange}
                 options={dateRangeOptions}
+                onCustomDateChange={handleCustomDateChange}
+                customStartDate={customStartDate}
+                isLoadingData={isLoadingAcceleratedData}
               />
             </div>
           </>
@@ -290,9 +329,13 @@ const LabsAndTests = () => {
                   domainOptions={{
                     isAccelerating: isAcceleratingLabsAndTests,
                     rangeIndex: selectedRangeIndex,
-                    displayTimeFrame: formatDateRange(
-                      dateRangeOptions[displayRangeIndex],
-                    ),
+                    customDate: selectedRangeIndex === -1 ? customStartDate : null,
+                    displayTimeFrame:
+                      selectedRangeIndex === -1 && customStartDate
+                        ? formatDateRange(timeFrameApiParameters)
+                        : formatDateRange(
+                            dateRangeOptions[displayRangeIndex],
+                          ),
                   }}
                 />
               </>
@@ -301,7 +344,9 @@ const LabsAndTests = () => {
                 type={recordType.LABS_AND_TESTS}
                 timeFrame={
                   isAcceleratingLabsAndTests
-                    ? formatDateRange(dateRangeOptions[displayRangeIndex])
+                    ? selectedRangeIndex === -1 && customStartDate
+                      ? formatDateRange(timeFrameApiParameters)
+                      : formatDateRange(dateRangeOptions[displayRangeIndex])
                     : ''
                 }
               />

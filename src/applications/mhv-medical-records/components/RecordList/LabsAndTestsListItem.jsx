@@ -6,7 +6,17 @@ import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating, rangeIndex } = options;
+  const { isAccelerating, rangeIndex, customDate } = options;
+  
+  // Build query string for detail page link
+  let queryString = '';
+  if (isAccelerating) {
+    queryString = `?rangeIndex=${rangeIndex}`;
+    if (customDate && rangeIndex === -1) {
+      queryString += `&customDate=${customDate}`;
+    }
+  }
+  
   return (
     <va-card
       background
@@ -15,9 +25,7 @@ const LabsAndTestsListItem = props => {
     >
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
-          to={`/labs-and-tests/${record.id}${
-            isAccelerating ? `?rangeIndex=${rangeIndex}` : ''
-          }`}
+          to={`/labs-and-tests/${record.id}${queryString}`}
           data-dd-privacy="mask"
           data-dd-action-name="Lab and Test Results Detail Link"
           onClick={() => {
@@ -63,6 +71,7 @@ LabsAndTestsListItem.propTypes = {
     signedBy: PropTypes.string,
   }).isRequired,
   options: PropTypes.shape({
+    customDate: PropTypes.string,
     isAccelerating: PropTypes.bool,
     rangeIndex: PropTypes.number,
   }),
