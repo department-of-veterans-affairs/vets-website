@@ -124,7 +124,7 @@ describe('Delete email address', () => {
     removeEmailAddress();
     // Confirm modal closes & success alert appears
     cy.get('va-modal').should('not.exist');
-    cy.get('[data-testid="update-success-alert"]').should('be.visible');
+    cy.get('[data-testid="update-success-alert"]').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
