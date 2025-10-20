@@ -51,6 +51,20 @@ const RecentCareTeams = () => {
     [acceptInterstitial, history],
   );
 
+  // TODO don't hardcode this, set it from the actual h1 element
+  useEffect(() => {
+    document.title = `Recent care teams ${
+      Constants.PageTitles.DEFAULT_PAGE_TITLE_TAG
+    }`;
+  }, []);
+
+  // useEffect(
+  //     () => {
+  //       const headerText = document.querySelector('h1').textContent;
+  //       document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  //     }, []
+  //   );
+
   useEffect(
     () => {
       if (allRecipients?.length > 0) {
