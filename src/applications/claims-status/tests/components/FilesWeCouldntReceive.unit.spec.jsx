@@ -165,35 +165,35 @@ describe('<FilesWeCouldntReceive>', () => {
   });
 
   describe('Failed Files Display', () => {
-    it('should render failed files in sorted order and with proper accessibility', () => {
-      const mockFailedFiles = [
-        {
-          id: 1,
-          fileName: 'document1.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-15T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '123',
-        },
-        {
-          id: 2,
-          fileName: 'document2.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-22T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '456',
-        },
-        {
-          id: 3,
-          fileName: 'document3.pdf',
-          trackedItemDisplayName: '21-4142',
-          failedDate: '2025-01-10T10:35:00.000Z',
-          documentType: 'VA Form 21-4142',
-          claimId: '789',
-        },
-      ];
+    const mockFailedFilesWithSorting = [
+      {
+        id: 1,
+        fileName: 'document1.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-15T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '123',
+      },
+      {
+        id: 2,
+        fileName: 'document2.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-22T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '456',
+      },
+      {
+        id: 3,
+        fileName: 'document3.pdf',
+        trackedItemDisplayName: '21-4142',
+        failedDate: '2025-01-10T10:35:00.000Z',
+        documentType: 'VA Form 21-4142',
+        claimId: '789',
+      },
+    ];
 
-      const store = createMockStore(mockFailedFiles);
+    it('should render failed files in sorted order with proper structure', () => {
+      const store = createMockStore(mockFailedFilesWithSorting);
       const { container, getAllByTestId } = renderWithCustomStore(
         <FilesWeCouldntReceive />,
         store,
@@ -241,6 +241,33 @@ describe('<FilesWeCouldntReceive>', () => {
         expect(card.tagName.toLowerCase()).to.equal('va-card');
         // The parent should be an li element
         expect(card.parentElement.tagName.toLowerCase()).to.equal('li');
+      });
+    });
+
+    it('should render VaLink components with proper aria-labels for accessibility', () => {
+      const store = createMockStore(mockFailedFilesWithSorting);
+      const { container } = renderWithCustomStore(
+        <FilesWeCouldntReceive />,
+        store,
+      );
+
+      const vaLinks = container.querySelectorAll(
+        'ul[data-testid="failed-files-list"] va-link',
+      );
+      expect(vaLinks).to.have.length(3);
+
+      // Files are sorted by date (most recent first)
+      const expectedFileOrder = [
+        'document2.pdf', // 2025-01-22 (most recent)
+        'document1.pdf', // 2025-01-15 (middle)
+        'document3.pdf', // 2025-01-10 (oldest)
+      ];
+
+      vaLinks.forEach((link, index) => {
+        const expectedLabel = `Go to the claim this file was uploaded for: ${
+          expectedFileOrder[index]
+        }`;
+        expect(link).to.have.attribute('label', expectedLabel);
       });
     });
   });

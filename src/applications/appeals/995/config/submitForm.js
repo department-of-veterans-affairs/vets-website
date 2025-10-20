@@ -7,7 +7,7 @@ export const buildEventData = () => {};
 
 const submitForm = (form, formConfig) => {
   const { submitUrl, trackingPrefix } = formConfig;
-  const body = transform(formConfig, form);
+  const body = transform(form);
 
   const url = `${environment.API_URL}${submitUrl}`;
 

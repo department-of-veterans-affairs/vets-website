@@ -8,14 +8,46 @@ import {
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { CancelButton } from '../../config/helpers';
+import { PICKLIST_DATA } from '../../config/constants';
 import { calculateAge } from '../../../shared/utils';
 
 const parentReasonToRemove = {
   handlers: {
-    goForward: (/* { itemData, index, fullData } */) => 'DONE',
-    // itemData.removalReason === 'parentDied' ? 'parent-died' : 'parent-other',
-    // return empty path to go to first parent page
-    goBack: (/* { itemData, index, fullData } */) => '',
+    goForward: ({ itemData, index, fullData }) => {
+      if (itemData.removalReason === 'parentDied') {
+        return 'parent-death';
+      }
+
+      const selectedItems = fullData[PICKLIST_DATA].filter(
+        item => item.selected,
+      );
+      const allParentOther = selectedItems.filter(
+        item =>
+          item.relationshipToVeteran === 'Parent' &&
+          item.removalReason === 'parentOther',
+      );
+
+      // If there are multiple selected dependents to remove and not all are
+      // parents, then don't show the parent exit page
+      if (
+        selectedItems.length > 1 &&
+        allParentOther.length !== selectedItems.length
+      ) {
+        return 'parent-other';
+      }
+
+      // Check for multiple parent "other" choices & only show the exit page if
+      // displaying the last parent
+      const result = fullData[PICKLIST_DATA].filter(
+        (item, itemIndex) =>
+          itemIndex > index &&
+          item.relationshipToVeteran === 'Parent' &&
+          item.selected &&
+          item.removalReason === 'parentOther',
+      );
+
+      return result.length > 0 ? 'parent-other' : 'parent-exit';
+    },
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
@@ -94,14 +126,12 @@ const parentReasonToRemove = {
             label={`${firstName} died`}
             checked={itemData.removalReason === 'parentDied'}
             value="parentDied"
-            tile
           />
           <VaRadioOption
             name="removalReason"
             label={`Something else happened to ${firstName}`}
             checked={itemData.removalReason === 'parentOther'}
             value="parentOther"
-            tile
           />
         </VaRadio>
 

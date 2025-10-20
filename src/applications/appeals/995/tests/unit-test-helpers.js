@@ -16,10 +16,12 @@ const clickEvent = new MouseEvent('click', {
   bubbles: true,
   cancelable: true,
 });
+
 const clickContinue = container => {
   const pair = $('va-button-pair', container);
   pair.__events.primaryClick(clickEvent);
 };
+
 const clickBack = container => {
   const pair = $('va-button-pair', container);
   pair.__events.secondaryClick(clickEvent);

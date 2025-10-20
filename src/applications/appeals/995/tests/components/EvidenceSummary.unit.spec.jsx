@@ -13,24 +13,12 @@ import {
   EVIDENCE_OTHER,
   LIMITED_CONSENT_RESPONSE,
 } from '../../constants';
-
-const verifyHeader = (headers, index, expectedContent) => {
-  expect(headers[index].textContent).to.eq(expectedContent);
-};
-
-const verifyLink = (selector, expectedPath) => {
-  const link = $$(selector)?.[0];
-  expect(link).to.exist;
-  expect(link.href).to.eq(expectedPath);
-};
-
-const clickContinue = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-primary', container));
-};
-
-const clickBack = container => {
-  fireEvent.click($('.form-progress-buttons .usa-button-secondary', container));
-};
+import {
+  clickBack,
+  clickContinue,
+  verifyHeader,
+  verifyLink,
+} from '../unit-test-helpers';
 
 const clickUpdatePage = container => {
   fireEvent.click($('.form-nav-buttons va-button', container));
@@ -42,7 +30,6 @@ const setupSummary = ({
   other = true,
   limit,
   privacy = true,
-  toggle = true,
   goBack = () => {},
   goForward = () => {},
   setFormData = () => {},
@@ -61,7 +48,6 @@ const setupSummary = ({
           privacyAgreementAccepted: privacy,
           [LIMITED_CONSENT_RESPONSE]: limit?.length > 0,
           limitedConsent: limit,
-          showScNewForm: toggle,
         }}
         goBack={goBack}
         goForward={goForward}
@@ -88,7 +74,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
@@ -218,7 +203,6 @@ describe('EvidenceSummary', () => {
             privacyAgreementAccepted: true,
             [LIMITED_CONSENT_RESPONSE]: true,
             limitedConsent: 'Limited consent details',
-            showScNewForm: true,
           }}
           goBack={() => {}}
           goForward={() => {}}
