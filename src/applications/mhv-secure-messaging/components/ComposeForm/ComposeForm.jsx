@@ -546,6 +546,39 @@ const ComposeForm = props => {
     ],
   );
 
+  const constructFormData = useMemo(
+    () => {
+      return {
+        recipientId: draftInProgress.recipientId,
+        category: draftInProgress.category,
+        subject: draftInProgress.subject,
+        body: draftInProgress.body,
+      };
+    },
+    [draftInProgress],
+  );
+
+  const constructNewFieldsString = useMemo(
+    () => {
+      return JSON.stringify({
+        rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
+        cat: debouncedCategory || category,
+        sub: debouncedSubject || subject,
+        bod: debouncedMessageBody || messageBody,
+      });
+    },
+    [
+      category,
+      debouncedCategory,
+      debouncedMessageBody,
+      debouncedRecipient,
+      debouncedSubject,
+      draftInProgress.recipientId,
+      messageBody,
+      subject,
+    ],
+  );
+
   const saveDraftHandler = useCallback(
     async (type, e) => {
       const {
@@ -609,19 +642,9 @@ const ComposeForm = props => {
       }
 
       const draftId = draft?.messageId;
-      const formData = {
-        recipientId: draftInProgress.recipientId,
-        category: draftInProgress.category,
-        subject: draftInProgress.subject,
-        body: draftInProgress.body,
-      };
+      const formData = constructFormData;
 
-      const newFieldsString = JSON.stringify({
-        rec: parseInt(debouncedRecipient || draftInProgress.recipientId, 10),
-        cat: debouncedCategory || category,
-        sub: debouncedSubject || subject,
-        bod: debouncedMessageBody || messageBody,
-      });
+      const newFieldsString = constructNewFieldsString;
 
       if (type === 'auto') {
         if (!messageValid || newFieldsString === fieldsString) {
@@ -641,22 +664,19 @@ const ComposeForm = props => {
       }
     },
     [
+      attachments.length,
       checkMessageValidity,
-      validMessageType.SAVE,
+      constructFormData,
+      constructNewFieldsString,
+      dispatch,
       draft?.messageId,
-      selectedRecipientId,
-      category,
-      subject,
-      messageBody,
-      debouncedRecipient,
-      debouncedCategory,
-      debouncedSubject,
-      debouncedMessageBody,
-      attachments,
-      isSignatureRequired,
       electronicSignature,
       fieldsString,
-      dispatch,
+      isSignatureRequired,
+      setNavigationError,
+      setSavedDraft,
+      setSaveError,
+      validMessageType.SAVE,
     ],
   );
 

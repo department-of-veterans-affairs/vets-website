@@ -99,7 +99,7 @@ export const threadDetailsReducer = (state = initialState, action) => {
       return {
         ...state,
         drafts: state.drafts.map(d => {
-          if (d.messageId === action.payload.messageId) {
+          if (d.messageId === action.payload?.messageId) {
             return {
               ...d,
               isSaving: false,
