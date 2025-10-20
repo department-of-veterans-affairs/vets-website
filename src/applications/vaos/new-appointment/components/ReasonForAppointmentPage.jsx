@@ -70,7 +70,7 @@ const pageKey = 'reasonForAppointment';
 
 export default function ReasonForAppointmentPage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const flowType = useSelector(state => getFlowType(state));
+  const flowType = useSelector(getFlowType);
 
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
