@@ -7,7 +7,7 @@ import {
   middleNameSchema,
   suffixSchema,
 } from '../../../schemas/name';
-import { FormField } from '../../atoms';
+import { TextInputField } from '../../atoms';
 
 /**
  * Full name field component for capturing person's complete name.
@@ -16,7 +16,7 @@ import { FormField } from '../../atoms';
  *
  * @component
  * @see [VA Text Input](https://design.va.gov/components/form/text-input)
- * @see [Form Field Component](../atoms/form-field.jsx)
+ * @see [Text Input Field Component](../atoms/text-input-field.jsx)
  *
  * @param {Object} props - Component props
  * @param {Object} props.value - Current name value object
@@ -84,7 +84,7 @@ export const FullnameField = ({
         {label || legend}
       </legend>
 
-      <FormField
+      <TextInputField
         name="fullName.first"
         label="First name"
         schema={firstNameSchema}
@@ -95,7 +95,7 @@ export const FullnameField = ({
         forceShowError={forceShowError}
       />
 
-      <FormField
+      <TextInputField
         name="fullName.middle"
         label="Middle name"
         schema={middleNameSchema}
@@ -105,7 +105,7 @@ export const FullnameField = ({
         forceShowError={forceShowError}
       />
 
-      <FormField
+      <TextInputField
         name="fullName.last"
         label="Last name"
         schema={lastNameSchema}
@@ -117,7 +117,7 @@ export const FullnameField = ({
       />
 
       {showSuffix && (
-        <FormField
+        <TextInputField
           name="fullName.suffix"
           label="Suffix"
           schema={suffixSchema}

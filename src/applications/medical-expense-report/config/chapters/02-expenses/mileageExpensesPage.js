@@ -100,7 +100,7 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    travelerName: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
@@ -114,7 +114,7 @@ const travelerPage = {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      travelerName: textSchema,
     },
     required: ['traveler'],
   },

@@ -11,7 +11,7 @@ import {
   vaFileNumberSchema,
 } from '../../../schemas/personal-info';
 import {
-  FormField,
+  TextInputField,
   MemorableDateField,
   PhoneField,
   SSNField,
@@ -101,7 +101,7 @@ export const PersonalInfo = ({
           </div>
 
           <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-            <FormField
+            <TextInputField
               label="VA file number (if known)"
               name="vaFileNumber"
               value={safeValue.vaFileNumber || ''}
@@ -171,7 +171,7 @@ export const PersonalInfo = ({
 
             {showEmail && (
               <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-                <FormField
+                <TextInputField
                   label="Email address"
                   name="email"
                   type="email"

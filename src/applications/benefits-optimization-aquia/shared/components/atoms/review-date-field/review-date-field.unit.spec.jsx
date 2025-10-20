@@ -8,79 +8,79 @@ describe('ReviewDateField', () => {
   describe('ISO string format', () => {
     it('should render date in long format by default', () => {
       const { container } = render(
-        <ReviewDateField label="Birth Date" value="1990-01-15" />,
+        <ReviewDateField label="Birth Date" value="1977-05-25" />,
       );
 
       expect(container.textContent).to.include('Birth Date');
-      expect(container.textContent).to.include('January 15, 1990');
+      expect(container.textContent).to.include('May 25, 1977');
     });
 
     it('should render date in short format', () => {
       const { container } = render(
         <ReviewDateField
           label="Birth Date"
-          value="1990-01-15"
+          value="1977-05-25"
           format="short"
         />,
       );
 
-      expect(container.textContent).to.include('01/15/1990');
+      expect(container.textContent).to.include('05/25/1977');
     });
   });
 
   describe('Object format', () => {
     it('should render date object in long format', () => {
       const dateObj = {
-        month: '01',
-        day: '15',
-        year: '1990',
+        month: '05',
+        day: '25',
+        year: '1977',
       };
 
       const { container } = render(
         <ReviewDateField label="Birth Date" value={dateObj} />,
       );
 
-      expect(container.textContent).to.include('January 15, 1990');
+      expect(container.textContent).to.include('May 25, 1977');
     });
 
     it('should render date object in short format', () => {
       const dateObj = {
-        month: '01',
-        day: '15',
-        year: '1990',
+        month: '05',
+        day: '25',
+        year: '1977',
       };
 
       const { container } = render(
         <ReviewDateField label="Birth Date" value={dateObj} format="short" />,
       );
 
-      expect(container.textContent).to.include('01/15/1990');
+      expect(container.textContent).to.include('05/25/1977');
     });
 
     it('should render date without day', () => {
       const dateObj = {
-        month: '01',
-        year: '1990',
+        month: '05',
+        year: '1980',
       };
 
       const { container } = render(
         <ReviewDateField label="Service Date" value={dateObj} />,
       );
 
-      expect(container.textContent).to.include('January 1990');
+      expect(container.textContent).to.include('May 1980');
     });
 
     it('should render date without day in short format', () => {
       const dateObj = {
-        month: '01',
-        year: '1990',
+        month: '05',
+        year: '1980',
       };
 
       const { container } = render(
         <ReviewDateField label="Service Date" value={dateObj} format="short" />,
       );
 
-      expect(container.textContent).to.include('01/01/1990');
+      expect(container.textContent).to.include('05/01/1980');
     });
   });
 
@@ -126,31 +126,31 @@ describe('ReviewDateField', () => {
     it('should handle single-digit months and days', () => {
       const dateObj = {
         month: '3',
-        day: '5',
-        year: '2000',
+        day: '4',
+        year: '1980',
       };
 
       const { container } = render(
         <ReviewDateField label="Date" value={dateObj} />,
       );
 
-      expect(container.textContent).to.include('March 5, 2000');
+      expect(container.textContent).to.include('March 4, 1980');
     });
 
     it('should handle December dates', () => {
       const { container } = render(
-        <ReviewDateField label="Date" value="2000-12-31" />,
+        <ReviewDateField label="Date" value="1977-12-31" />,
       );
 
-      expect(container.textContent).to.include('December 31, 2000');
+      expect(container.textContent).to.include('December 31, 1977');
     });
 
     it('should handle leap year dates', () => {
       const { container } = render(
-        <ReviewDateField label="Date" value="2000-02-29" />,
+        <ReviewDateField label="Date" value="1980-02-29" />,
       );
 
-      expect(container.textContent).to.include('February 29, 2000');
+      expect(container.textContent).to.include('February 29, 1980');
     });
   });
 });
