@@ -58,7 +58,7 @@ export const isSameDayAsUTC = date => {
  * @param {Date} date - The date to check
  * @returns {boolean} - True if date is today or future in UTC
  */
-export const isTodayOrInFutureUTC = date => {
+export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;
 
   const utcToday = getCurrentUTCStartOfDay();
@@ -115,7 +115,7 @@ export const createDateObject = rawDateString => {
       datePartErrors.year ||
       invalidDate,
     dateObj,
-    isTodayOrInFuture: isTodayOrInFutureUTC(dateObj), // Use UTC-based validation
+    isTodayOrInFuture: isTodayOrInFuture(dateObj), // Use UTC-based validation
   };
 };
 
@@ -132,7 +132,7 @@ export const addDateErrorMessages = (errors, errorMessages, date) => {
     date.errors.other = true; // other part error
     return true;
   }
-  if (date.isTodayOrInFutureUTC) {
+  if (date.isTodayOrInFuture) {
     // Lighthouse won't accept same day (as submission) decision date
     // Using UTC-based validation to match backend behavior
     errors.addError(errorMessages.decisions.pastDate);
