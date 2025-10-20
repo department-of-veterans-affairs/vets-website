@@ -21,8 +21,6 @@ describe('addDependentOptions', () => {
       addDisabledChild: {
         title:
           'An unmarried child of any age who has a permanent mental or physical disability',
-        description:
-          'This child can be added as early as 90 days prior to their 18th birthday',
       },
     });
   });
