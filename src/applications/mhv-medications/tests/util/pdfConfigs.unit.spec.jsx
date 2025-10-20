@@ -42,7 +42,7 @@ describe('Prescriptions List Config', () => {
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
     expect(pdfList[0].sections[0].items[3].value).to.equal(FIELD_NONE_NOTED);
     expect(pdfList[0].sections[0].items[2].value).to.equal(
-      `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
+      `${pdfDefaultStatusDefinition[0].value}\n`,
     );
   });
 
