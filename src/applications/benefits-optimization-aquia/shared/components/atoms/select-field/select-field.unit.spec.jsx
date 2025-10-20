@@ -13,9 +13,9 @@ describe('SelectField', () => {
       name: 'testSelect',
       label: 'Test Select',
       options: [
-        { value: 'option1', label: 'Option 1' },
-        { value: 'option2', label: 'Option 2' },
-        { value: 'option3', label: 'Option 3' },
+        { value: 'option1', label: 'Red Squadron' },
+        { value: 'option2', label: 'Gold Squadron' },
+        { value: 'option3', label: 'Rogue Squadron' },
       ],
       value: '',
       onChange: sinon.spy(),

@@ -412,7 +412,7 @@ export const sanitizeFormData = (formData) => {
 ```javascript
 import { useFormSection } from '@bio-aquia/shared/hooks';
 import { personalInfoSchema } from '@bio-aquia/shared/schemas';
-import { FormField, NavigationButtons } from '@bio-aquia/shared/components';
+import { TextInputField, NavigationButtons } from '@bio-aquia/shared/components';
 
 export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
   const {
@@ -431,7 +431,7 @@ export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
 
   return (
     <div>
-      <FormField
+      <TextInputField
         name="firstName"
         label="First Name"
         value={localData.firstName}
