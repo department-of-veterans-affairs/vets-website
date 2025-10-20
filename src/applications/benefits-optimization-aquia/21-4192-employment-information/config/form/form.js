@@ -33,17 +33,15 @@ import {
 } from '@bio-aquia/21-4192-employment-information/pages';
 
 // Import review components
-import {
-  VeteranInformationReview,
-  EmployerInformationReview,
-  EmploymentDatesDetailsReview,
-  EmploymentConcessionsReview,
-  EmploymentTerminationReview,
-  EmploymentLastPaymentReview,
-  DutyStatusReview,
-  BenefitsInformationReview,
-  RemarksReview,
-} from '@bio-aquia/21-4192-employment-information/reviews';
+import { VeteranInformationReview } from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
+import { EmployerInformationReview } from '@bio-aquia/21-4192-employment-information/pages/employer-information';
+import { EmploymentDatesDetailsReview } from '@bio-aquia/21-4192-employment-information/pages/employment-dates-details';
+import { EmploymentConcessionsReview } from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
+import { EmploymentTerminationReview } from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
+import { EmploymentLastPaymentReview } from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
+import { DutyStatusReview } from '@bio-aquia/21-4192-employment-information/pages/duty-status';
+import { BenefitsInformationReview } from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
+import { RemarksReview } from '@bio-aquia/21-4192-employment-information/pages/remarks';
 
 // Import schemas
 import {
