@@ -100,18 +100,16 @@ export default function prefillTransformer(pages, formData, metadata, state) {
   // Format date of birth from profile
   // Handles multiple date formats and converts YYYYMMDD to YYYY-MM-DD
   let dateOfBirth = '';
-  if (profile.dob || profile.birthDate) {
-    const dobString = profile.dob || profile.birthDate || vaProfile.birthDate;
-    if (dobString) {
-      // Convert YYYYMMDD format to YYYY-MM-DD format for form compatibility
-      if (/^\d{8}$/.test(dobString)) {
-        dateOfBirth = `${dobString.slice(0, 4)}-${dobString.slice(
-          4,
-          6,
-        )}-${dobString.slice(6, 8)}`;
-      } else {
-        dateOfBirth = dobString;
-      }
+  const dobString = profile.dob || profile.birthDate || vaProfile.birthDate;
+  if (dobString) {
+    // Convert YYYYMMDD format to YYYY-MM-DD format for form compatibility
+    if (/^\d{8}$/.test(dobString)) {
+      dateOfBirth = `${dobString.slice(0, 4)}-${dobString.slice(
+        4,
+        6,
+      )}-${dobString.slice(6, 8)}`;
+    } else {
+      dateOfBirth = dobString;
     }
   }
 

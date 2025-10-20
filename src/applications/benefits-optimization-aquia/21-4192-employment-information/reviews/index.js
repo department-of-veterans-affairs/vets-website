@@ -1,32 +1,33 @@
 /**
  * @module reviews/index
  * @description Barrel export file for all review page components
+ * Review components are now colocated with their corresponding page components
  */
 
 export {
   VeteranInformationReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/veteran-information/veteran-information-review';
+} from '@bio-aquia/21-4192-employment-information/pages/veteran-information';
 export {
   EmployerInformationReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/employer-information/employer-information-review';
+} from '@bio-aquia/21-4192-employment-information/pages/employer-information';
 export {
   EmploymentDatesDetailsReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/employment-information/employment-dates-details-review';
+} from '@bio-aquia/21-4192-employment-information/pages/employment-dates-details';
 export {
   EmploymentConcessionsReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/employment-information/employment-concessions-review';
+} from '@bio-aquia/21-4192-employment-information/pages/employment-concessions';
 export {
   EmploymentTerminationReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/employment-information/employment-termination-review';
+} from '@bio-aquia/21-4192-employment-information/pages/employment-termination';
 export {
   EmploymentLastPaymentReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/employment-information/employment-last-payment-review';
+} from '@bio-aquia/21-4192-employment-information/pages/employment-last-payment';
 export {
   DutyStatusReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/duty-status/duty-status-review';
+} from '@bio-aquia/21-4192-employment-information/pages/duty-status';
 export {
   BenefitsInformationReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/benefits-information/benefits-information-review';
+} from '@bio-aquia/21-4192-employment-information/pages/benefits-information';
 export {
   RemarksReview,
-} from '@bio-aquia/21-4192-employment-information/reviews/remarks/remarks-review';
+} from '@bio-aquia/21-4192-employment-information/pages/remarks';
