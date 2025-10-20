@@ -1529,3 +1529,10 @@ export const ApplicantDetailsHeader = () => {
     </h3>
   );
 };
+
+// Helper function to check if user is logged in and not an authorized agent
+export const isLoggedInUser = formData => {
+  const isLoggedIn = formData?.['view:loginState']?.isLoggedIn || false;
+  const isAgent = isAuthorizedAgent(formData);
+  return !isAgent && isLoggedIn;
+};
