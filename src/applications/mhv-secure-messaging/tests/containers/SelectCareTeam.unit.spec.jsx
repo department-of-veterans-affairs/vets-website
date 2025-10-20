@@ -568,7 +568,7 @@ describe('SelectCareTeam', () => {
     });
   });
 
-  it('shows contact list link when user has VistA facilities', async () => {
+  it('shows contact list link when user has Vista facilities', async () => {
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
       initialState,
       reducers: reducer,
