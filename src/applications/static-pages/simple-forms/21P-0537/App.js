@@ -24,9 +24,12 @@ const App = ({ formEnabled }) => {
           your marital status, you’ll need to fill out a Marital Status
           Questionnaire (VA Form 21P-0537).
         </p>
-        <a className="vads-c-action-link--green" href={manifest.rootUrl}>
-          Verify your marital status for DIC benefits
-        </a>
+
+        <va-link-action
+          href={manifest.rootUrl}
+          text="Verify your marital status for DIC benefits"
+          type="primary"
+        />
       </>
     );
   }
