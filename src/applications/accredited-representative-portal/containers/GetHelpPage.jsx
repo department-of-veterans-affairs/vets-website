@@ -139,121 +139,186 @@ const GetHelpPage = title => {
           </va-accordion>
           <h2 id="creating-your-account">Creating your account</h2>
           <p>
-            Before using the Accredited Representative Portal (ARP) you will
-            need to create a Login.gov account and associate it with your email
-            on file with the VA’s Office of General Counsel (OGC).
+            To use the Accredited Representative Portal, you need to create a
+            Login.gov or an ID.me account and associate it with your email on
+            file with the VA’s Office of General Counsel (OGC).
           </p>
           <va-accordion>
             <va-accordion-item
-              header="Steps for setting up your account"
+              header="Setting up your account"
               id="section-three"
               level="3"
             >
-              <h4>Step 1: Identify the email you have on file with OGC.</h4>
-              If you’re unsure which email you have on file with OGC, start by
-              looking yourself up using the{' '}
+              <h3 className="vads-u-font-size--h4">
+                Step 1: Identify the email you have on file with OGC
+              </h3>
+              <p>
+                If you’re unsure which email you have on file with OGC, look
+                yourself up using the{' '}
+                <Link
+                  className="content-link"
+                  to="https://www.va.gov/get-help-from-accredited-representative/find-rep/"
+                >
+                  Find a Representative tool (VA.gov)
+                </Link>
+                . If you have an email on file with OGC, it will be displayed
+                there.
+                <br />
+                <br />
+                If you aren’t able to find yourself using the Find a
+                Representative tool, try using the{' '}
+                <Link
+                  className="content-link"
+                  to="https://www.va.gov/get-help-from-accredited-representative/find-rep/"
+                >
+                  OGC accreditation search tool
+                </Link>
+                . If you are found in the OGC tool but not the Find a
+                Representative tool, it likely means VA doesn’t have a valid
+                physical address on file for you.
+              </p>
+              <h3 className="vads-u-font-size--h4">
+                Step 2: Create a Login.gov or ID.me account
+              </h3>
+              <p>
+                Login.gov and ID.me are secure ways to sign in to many
+                government websites using just one account. When creating your
+                account, it’s recommended to use a personal email you’ll always
+                have access to. Follow the provider’s instructions to create
+                your account.
+              </p>
               <Link
                 className="content-link"
-                to="https://www.va.gov/get-help-from-accredited-representative/find-rep/"
+                to="https://login.gov/help/create-account/how-do-i-create-an-account/"
               >
-                {' '}
-                Find a Representative tool on VA.gov
+                Learn how to create your Login.gov account
               </Link>
-              . If you don’t appear there, try using the{' '}
+              <br />
               <Link
                 className="content-link"
-                to="https://www.va.gov/ogc/apps/accreditation/index.asp"
+                to="https://help.id.me/hc/en-us/articles/202673924-Create-your-ID-me-account"
               >
-                {' '}
-                OGC accreditation search tool
+                Learn how to create your ID.me account
               </Link>
-              . If your record appears in the OGC tool but not in the Find a
-              Representative tool, it likely means VA doesn’t have a valid
-              physical address on file for you.
-              <h4>Step 2: Create a Login.gov account</h4>
-              Login.gov is a secure way to sign in to many government websites
-              with one account. Follow the instructions on Login.gov to create
-              an account. Login.gov recommends that you use a personal email
-              you’ll always have access to. You can use your work email instead
-              if you prefer.
-              <h4>
-                Step 3: Associate your OGC email with your Login.gov account
-              </h4>
-              If you created your Login.gov account with your personal email,
-              you’ll need to add the email address you have on file with OGC.
-              While signed in to Login.gov, go to the “Your Account” menu and
-              select “Add email address.” Enter your OGC email address and
-              follow the prompts to confirm it.
-              <h4>Step 4: Sign in to the portal</h4>
-              Sign in to the portal at{' '}
+              <h3 className="vads-u-font-size--h4">
+                Step 3: Associate your OGC email with your account
+              </h3>
+              <p>
+                If you created your Login.gov or ID.me account using your
+                personal email, you’ll need to add the email address you have on
+                file with OGC. Follow the provider’s instructions to add an
+                email to your account.
+              </p>
               <Link
                 className="content-link"
-                to="https://www.va.gov/representative"
+                to="https://www.login.gov/help/manage-your-account/change-your-email-address/"
               >
-                va.gov/representative
+                Learn how to add an email to your Login.gov account
               </Link>
-              . If you receive a message saying that we can’t verify you’re an
-              accredited representative, refer to the commonly asked questions
-              in this section for next steps.
+              <br />
+              <Link
+                className="content-link"
+                to="https://help.id.me/hc/en-us/articles/19679310213271-Add-a-work-or-business-email-to-your-ID-me-account"
+              >
+                Learn how to add an email to your ID.me account
+              </Link>
+              <h3 className="vads-u-font-size--h4">
+                Step 4: Sign in to the portal
+              </h3>
+              <p>
+                Sign in to the portal at va.gov/representative . If you receive
+                a message saying that we can’t verify you’re an accredited
+                representative, refer to the commonly asked questions in this
+                section for next steps.
+              </p>
             </va-accordion-item>
             <va-accordion-item
-              header="What if I have issues creating my Login.gov account?"
+              header="What if I’m having trouble creating my account?"
               id="section-four"
               level="3"
             >
-              If you’re having trouble creating your Login.gov account, visit{' '}
+              <p>
+                We can help guide you to fix some common issues as you create
+                your account and verify your identity.
+              </p>
+              <Link
+                className="content-link"
+                to="https://www.va.gov/resources/support-for-common-logingov-and-idme-issues/"
+              >
+                Get support for common Login.gov and ID.me issues
+              </Link>
+              <br />
+              <br />
+              <p>
+                Or you can get more help on each account provider’s website.
+              </p>
               <Link className="content-link" to="https://login.gov/help/">
-                Login.gov’s help resources
-              </Link>{' '}
-              for guidance.
+                Go to the Login.gov help center
+              </Link>
+              <br />
+              <Link className="content-link" to="https://help.id.me/hc/en-us">
+                Go to the ID.me support section
+              </Link>
             </va-accordion-item>
             <va-accordion-item
-              header="What if I don’t have an email address on file with OGC, or I no longer use the email address that I have on file?"
-              id="section-five"
+              header="What if I don’t have an email on file with OGC, or the email is incorrect?"
+              id="section-six"
               level="3"
             >
               <p>
-                If you’re a Veteran Service Organization (VSO) representative,
-                reach out to the certifying official at your Veteran Service
-                Organization who handles the accreditation process. Ask them to
-                request that OGC add an email to your file or update your
-                existing email. If your contact information or physical address
-                is outdated, request that OGC update it as well. We recommend
-                against using a PO Box, since this will prevent your record from
-                appearing in the Find a Representative tool.
+                <strong>
+                  If you’re a Veteran Service Organization (VSO) representative
+                </strong>
+                , reach out to the certifying official at your VSO who handles
+                the accreditation process. Ask them to request that OGC add an
+                email to your file or update your existing email. If your
+                contact information or physical address is outdated, request
+                that OGC update it as well. We recommend against using a PO Box,
+                since this will prevent your record from appearing in the Find a
+                Representative tool.
               </p>
               <p>
                 If you’re unsure who your certifying official is, contact your
-                supervisor for guidance. Once the update is complete, add the
-                new email address to your Login.gov account and try signing in
-                to the portal.
+                supervisor for guidance. Once the OGC update is complete, add
+                the updated email address to your Login.gov account and try
+                signing in to the portal.
               </p>
               <p>
-                If you’re an accredited attorney or claims agent, follow the
-                instructions on the PDF fact sheet, Process for Attorney and
-                Claims Agent Contact Change Requests, provided by OGC. You can
-                find this fact sheet on the{' '}
+                <strong>
+                  If you’re an accredited attorney or claims agent
+                </strong>
+                , follow the instructions on the PDF fact sheet,{' '}
+                <Link
+                  className="content-link"
+                  to="https://www.va.gov/OGC/docs/Accred/FactSheet_OBI-21-03.pdf"
+                >
+                  Process for Attorney and Claims Agent Contact Change Requests
+                </Link>
+                , found on the{' '}
                 <Link
                   className="content-link"
                   to="https://www.va.gov/ogc/accreditation.asp"
                 >
-                  OGC Accreditation webpage.
+                  OGC Accreditation webpage
                 </Link>
+                .
               </p>
             </va-accordion-item>
             <va-accordion-item
               header="What if I’ve associated my OGC email and still can’t sign in to the portal?"
-              id="section-six"
+              id="section-eight"
               level="3"
             >
-              Make sure the email address you have on file with OGC is unique to
-              you. If you’re using a shared organization email that other
-              representatives also use, the portal won’t grant you access. In
-              that case, you’ll need to update your OGC email to one that only
-              you use.
+              <p>
+                Make sure the email address you have on file with OGC is unique
+                to you. If you’re using a shared organization email that other
+                representatives also use, the portal won’t grant you access. In
+                that case, you’ll need to update your OGC email to one that only
+                you use.
+              </p>
             </va-accordion-item>
             <va-accordion-item
-              header="What if I’ve tried everything and still can’t sign in?"
+              header="What if I've tried everything and still can’t sign in?"
               id="section-seven"
               level="3"
             >
@@ -262,44 +327,47 @@ const GetHelpPage = title => {
               <va-telephone contact="8552250709" />.
             </va-accordion-item>
             <va-accordion-item
-              header="Can I use ID.me instead of Login.gov?"
-              id="section-eight"
-              level="3"
-            >
-              The portal doesn’t currently support sign in using ID.me. If you
-              have previously used ID.me to sign in to Stakeholder Enterprise
-              Portal (SEP), you will be able to use the same ID.me account for
-              the portal once we have added the ID.me sign-in option.
-            </va-accordion-item>
-            <va-accordion-item
               header="Can I sign in with my PIV?"
               id="section-ten"
               level="3"
             >
+              <p>Yes, but only if you’re using Login.gov.</p>
               <p>
-                You can set up your Login.gov account to enable authentication
-                with your PIV card. After creating your Login.gov account and
-                associating it with the email on file with OGC, add your PIV
-                card as an authentication method under “Add your government
-                employee ID.” Next time you sign in, select the “Sign in with
-                your government ID” option on the sign-in screen.
+                After creating your Login.gov account and associating it with
+                your email on file with OGC, you can add your PIV card as an
+                authentication method. After you add your PIV card to your
+                account, select the “Sign in with your government ID” option the
+                next time you sign in.
               </p>
+              <Link
+                className="content-link"
+                to="https://www.login.gov/help/create-account/authentication-methods/piv-cac/"
+              >
+                Learn how to set up your PIV card on an existing Login.gov
+                account
+              </Link>
+              <br />
+              <br />
               <p>
-                We are exploring direct sign-in with PIV as a future
-                enhancement.
+                <strong>Note:</strong> We are exploring direct sign-in with PIV
+                as a future enhancement.
               </p>
             </va-accordion-item>
             <va-accordion-item
-              header="I’m both a Veteran and an accredited representative. Is the portal separate from VA.gov and will my usage of the portal impact benefits I receive as a Veteran?"
+              header="I’m also a Veteran. Will my Veteran benefits be impacted by my usage of the portal?"
               id="section-eleven"
               level="3"
             >
-              The benefits you receive as a Veteran won’t be affected when you
-              use this portal. VA.gov uses your Veteran profile, while the
-              portal uses a separate representative profile. There is no co-
-              mingling of information between the two systems. If you are signed
-              in to VA.gov and then sign in to the Accredited Representative
-              Portal, you will be logged out of your VA.gov Veteran account.
+              <p>
+                No, the benefits you receive as a Veteran won’t be affected by
+                using the portal.
+              </p>
+
+              <p>
+                VA.gov uses your Veteran profile, while the portal uses a
+                separate representative profile. There is no co-mingling of
+                information between the two systems.
+              </p>
             </va-accordion-item>
           </va-accordion>
           <h2 id="establishing-representation">Establishing representation</h2>
@@ -502,7 +570,7 @@ const GetHelpPage = title => {
               <p>
                 Email the Accredited Representative Portal team at{' '}
                 {EmailHelpLink()}
-                 if you are a VSO manager or certifying official and would like
+                 if you’re a VSO manager or certifying official and you’d like
                 access to the Representation Request feature for your
                 organization.
               </p>

@@ -19,6 +19,7 @@ export const getValue = event => {
 
 export const SelectState = ({ name, label, onChange, error, value }) => (
   <VaSelect
+    class="vads-u-margin-top--4"
     name={name}
     label={label}
     value={value}
@@ -44,6 +45,7 @@ SelectState.propTypes = {
 
 export const SelectCountry = ({ name, label, onChange, error, value }) => (
   <VaSelect
+    class="vads-u-margin-top--4"
     name={name}
     label={label}
     value={value}

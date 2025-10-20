@@ -22,12 +22,15 @@ import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
 import supportingDocuments from './chapters/03-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
+import expensesReview from './chapters/02-expenses/expensesReview';
+import GetFormHelp from '../components/GetFormHelp';
+import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/medical_expense_reports/v0/form8416`,
   submit,
   trackingPrefix: 'med-expense-8416',
   v3SegmentedProgressBar: true,
@@ -71,7 +74,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
-  // getHelp: GetFormHelp,
+  getHelp: GetFormHelp,
   // errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
@@ -79,31 +82,35 @@ const formConfig = {
       title: 'Applicant information',
       pages: {
         claimantRelationship: {
-          title: 'Applicant information',
+          title: 'Your identity',
           path: 'applicant/relationship',
           uiSchema: claimantRelationship.uiSchema,
           schema: claimantRelationship.schema,
         },
         claimantInformation: {
-          title: 'Your information',
+          title: 'Your name',
           path: 'applicant/information',
           uiSchema: claimantInformation.uiSchema,
           schema: claimantInformation.schema,
         },
         mailingAddress: {
-          title: 'Your address',
+          title: 'Your mailing address',
           path: 'applicant/mail-address',
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
         },
         contactInformation: {
-          title: 'Your contact information',
+          title: 'Your email address and phone number',
           path: 'applicant/contact',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
         },
         veteranInformation: {
-          title: 'Veteran information',
+          title: formData =>
+            formData?.claimantNotVeteran
+              ? 'Veteran information'
+              : 'Your information',
+
           path: 'applicant/veteran-information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
@@ -122,6 +129,13 @@ const formConfig = {
         ...careExpensesPages,
         ...medicalExpensesPages,
         ...mileageExpensesPages,
+        expensesReview: {
+          title: 'Review expenses',
+          path: 'expenses/review',
+          depends: formData => hasNoExpenses(formData),
+          uiSchema: expensesReview.uiSchema,
+          schema: expensesReview.schema,
+        },
       },
     },
     additionalInformation: {
@@ -130,6 +144,7 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'expenses/additional-information/supporting-documents',
+          depends: formData => hasCareExpenses(formData),
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
