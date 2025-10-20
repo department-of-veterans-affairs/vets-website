@@ -22,7 +22,9 @@ import { medicalExpensesPages } from './chapters/02-expenses/medicalExpensesPage
 import { mileageExpensesPages } from './chapters/02-expenses/mileageExpensesPage';
 import supportingDocuments from './chapters/03-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/03-additional-information/uploadDocuments';
+import expensesReview from './chapters/02-expenses/expensesReview';
 import GetFormHelp from '../components/GetFormHelp';
+import { hasNoExpenses, hasCareExpenses } from './chapters/02-expenses/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -127,6 +129,13 @@ const formConfig = {
         ...careExpensesPages,
         ...medicalExpensesPages,
         ...mileageExpensesPages,
+        expensesReview: {
+          title: 'Review expenses',
+          path: 'expenses/review',
+          depends: formData => hasNoExpenses(formData),
+          uiSchema: expensesReview.uiSchema,
+          schema: expensesReview.schema,
+        },
       },
     },
     additionalInformation: {
@@ -135,6 +144,7 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting documents',
           path: 'expenses/additional-information/supporting-documents',
+          depends: formData => hasCareExpenses(formData),
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
