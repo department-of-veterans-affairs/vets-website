@@ -289,13 +289,13 @@ const Vaccines = props => {
 
         {vaccines?.length ? (
           <>
+            <DownloadingRecordsInfo description="Vaccines" />
             <PrintDownload
               description="Vaccines - List"
               list
               downloadPdf={generateVaccinesPdf}
               downloadTxt={generateVaccinesTxt}
             />
-            <DownloadingRecordsInfo description="Vaccines" />
             {useBackendPagination && vaccines ? (
               <RecordListNew
                 records={vaccines?.map(vaccine => ({
