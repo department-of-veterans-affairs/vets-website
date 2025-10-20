@@ -19,17 +19,17 @@ describe('Veteran Information Schemas', () => {
   describe('firstNameSchema', () => {
     describe('Valid Names', () => {
       it('should validate basic first name', () => {
-        const result = firstNameSchema.safeParse('James');
+        const result = firstNameSchema.safeParse('Boba');
         expect(result.success).to.be.true;
       });
 
       it('should validate hyphenated first name', () => {
-        const result = firstNameSchema.safeParse('Jean-Luc');
+        const result = firstNameSchema.safeParse('Cad-Bane');
         expect(result.success).to.be.true;
       });
 
       it('should validate name with apostrophe', () => {
-        const result = firstNameSchema.safeParse("O'Brien");
+        const result = firstNameSchema.safeParse("O'Reilly");
         expect(result.success).to.be.true;
       });
 
@@ -69,12 +69,12 @@ describe('Veteran Information Schemas', () => {
       });
 
       it('should reject names with numbers', () => {
-        const result = firstNameSchema.safeParse('James123');
+        const result = firstNameSchema.safeParse('Boba123');
         expect(result.success).to.be.false;
       });
 
       it('should reject names with special characters', () => {
-        const result = firstNameSchema.safeParse('James@Kirk');
+        const result = firstNameSchema.safeParse('Boba@Fett');
         expect(result.success).to.be.false;
       });
     });
@@ -83,7 +83,7 @@ describe('Veteran Information Schemas', () => {
   describe('middleNameSchema', () => {
     describe('Valid Middle Names', () => {
       it('should validate basic middle name', () => {
-        const result = middleNameSchema.safeParse('Tiberius');
+        const result = middleNameSchema.safeParse('Hunter');
         expect(result.success).to.be.true;
       });
 
@@ -115,7 +115,7 @@ describe('Veteran Information Schemas', () => {
       });
 
       it('should reject names with numbers', () => {
-        const result = middleNameSchema.safeParse('Tiberius3');
+        const result = middleNameSchema.safeParse('Hunter3');
         expect(result.success).to.be.false;
       });
     });
@@ -124,17 +124,17 @@ describe('Veteran Information Schemas', () => {
   describe('lastNameSchema', () => {
     describe('Valid Last Names', () => {
       it('should validate basic last name', () => {
-        const result = lastNameSchema.safeParse('Kirk');
+        const result = lastNameSchema.safeParse('Fett');
         expect(result.success).to.be.true;
       });
 
       it('should validate hyphenated last name', () => {
-        const result = lastNameSchema.safeParse('Crusher-Picard');
+        const result = lastNameSchema.safeParse('Bane-Duros');
         expect(result.success).to.be.true;
       });
 
       it('should validate name with apostrophe', () => {
-        const result = lastNameSchema.safeParse("O'Brien");
+        const result = lastNameSchema.safeParse("D'Asta");
         expect(result.success).to.be.true;
       });
 
@@ -164,7 +164,7 @@ describe('Veteran Information Schemas', () => {
       });
 
       it('should reject names with numbers', () => {
-        const result = lastNameSchema.safeParse('Kirk123');
+        const result = lastNameSchema.safeParse('Fett123');
         expect(result.success).to.be.false;
       });
     });
@@ -174,36 +174,36 @@ describe('Veteran Information Schemas', () => {
     describe('Valid Full Names', () => {
       it('should validate complete name with all fields', () => {
         const result = fullNameSchema.safeParse({
-          first: 'James',
-          middle: 'Tiberius',
-          last: 'Kirk',
+          first: 'Boba',
+          middle: '',
+          last: 'Fett',
         });
         expect(result.success).to.be.true;
       });
 
       it('should validate name without middle name', () => {
         const result = fullNameSchema.safeParse({
-          first: 'Spock',
+          first: 'Jango',
           middle: '',
-          last: 'Vulcan',
+          last: 'Fett',
         });
         expect(result.success).to.be.true;
       });
 
       it('should validate name with undefined middle name', () => {
         const result = fullNameSchema.safeParse({
-          first: 'Worf',
-          last: 'Mogh',
+          first: 'Cad',
+          last: 'Bane',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Star Trek characters', () => {
+      it('should validate multiple characters', () => {
         const characters = [
-          { first: 'Jean-Luc', last: 'Picard' },
-          { first: 'Benjamin', middle: 'Lafayette', last: 'Sisko' },
-          { first: 'Kathryn', last: 'Janeway' },
-          { first: 'Miles', middle: "O'Brien", last: 'Chief' },
+          { first: 'Bossk', last: 'Trandoshan' },
+          { first: 'Zam', middle: '', last: 'Wesell' },
+          { first: 'Aurra', last: 'Sing' },
+          { first: 'Cad', middle: '', last: 'Bane' },
         ];
 
         characters.forEach(name => {
@@ -216,8 +216,8 @@ describe('Veteran Information Schemas', () => {
     describe('Invalid Full Names', () => {
       it('should reject missing first name', () => {
         const result = fullNameSchema.safeParse({
-          middle: 'Tiberius',
-          last: 'Kirk',
+          middle: '',
+          last: 'Fett',
         });
         expect(result.success).to.be.false;
       });
@@ -225,22 +225,22 @@ describe('Veteran Information Schemas', () => {
       it('should reject empty first name', () => {
         const result = fullNameSchema.safeParse({
           first: '',
-          last: 'Kirk',
+          last: 'Fett',
         });
         expect(result.success).to.be.false;
       });
 
       it('should reject missing last name', () => {
         const result = fullNameSchema.safeParse({
-          first: 'James',
-          middle: 'Tiberius',
+          first: 'Boba',
+          middle: '',
         });
         expect(result.success).to.be.false;
       });
 
       it('should reject empty last name', () => {
         const result = fullNameSchema.safeParse({
-          first: 'James',
+          first: 'Boba',
           last: '',
         });
         expect(result.success).to.be.false;
@@ -248,8 +248,8 @@ describe('Veteran Information Schemas', () => {
 
       it('should reject invalid first name with numbers', () => {
         const result = fullNameSchema.safeParse({
-          first: 'James123',
-          last: 'Kirk',
+          first: 'Boba123',
+          last: 'Fett',
         });
         expect(result.success).to.be.false;
       });
@@ -275,7 +275,7 @@ describe('Veteran Information Schemas', () => {
         }
       });
 
-      it('should validate various Star Trek SSNs', () => {
+      it('should validate various valid SSNs', () => {
         const ssns = [
           '111-22-3333',
           '222-33-4444',
@@ -399,8 +399,8 @@ describe('Veteran Information Schemas', () => {
 
   describe('dateOfBirthSchema', () => {
     describe('Valid Dates', () => {
-      it('should validate Star Trek date', () => {
-        const result = dateOfBirthSchema.safeParse('2233-03-22');
+      it('should validate birth date', () => {
+        const result = dateOfBirthSchema.safeParse('1985-03-22');
         expect(result.success).to.be.true;
       });
 
@@ -415,13 +415,13 @@ describe('Veteran Information Schemas', () => {
         expect(result.success).to.be.true;
       });
 
-      it('should validate various Star Trek character birthdates', () => {
+      it('should validate various birthdates', () => {
         const dates = [
-          '2230-01-06', // Spock
-          '2227-01-20', // McCoy
-          '2305-07-13', // Picard
-          '2332-05-02', // Sisko
-          '2336-05-20', // Janeway
+          '1958-01-06', // Jango
+          '1962-07-13', // Cad Bane
+          '1971-05-02', // Bossk
+          '1979-04-18', // Zam Wesell
+          '1983-11-29', // Aurra Sing
         ];
 
         dates.forEach(date => {
@@ -470,13 +470,13 @@ describe('Veteran Information Schemas', () => {
       it('should validate complete veteran information', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: {
-            first: 'James',
-            middle: 'Tiberius',
-            last: 'Kirk',
+            first: 'Boba',
+            middle: '',
+            last: 'Fett',
           },
-          dateOfBirth: '2233-03-22',
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
-          vaFileNumber: '12345678',
+          vaFileNumber: '22113800',
         });
         expect(result.success).to.be.true;
       });
@@ -484,12 +484,12 @@ describe('Veteran Information Schemas', () => {
       it('should validate veteran without middle name', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: {
-            first: 'Spock',
-            last: 'Vulcan',
+            first: 'Jango',
+            last: 'Fett',
           },
-          dateOfBirth: '2230-01-06',
+          dateOfBirth: '1958-01-06',
           ssn: '987-65-4321',
-          vaFileNumber: '87654321',
+          vaFileNumber: '19580100',
         });
         expect(result.success).to.be.true;
       });
@@ -497,11 +497,11 @@ describe('Veteran Information Schemas', () => {
       it('should validate veteran without VA file number', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: {
-            first: 'Leonard',
-            middle: 'Horatio',
-            last: 'McCoy',
+            first: 'Cad',
+            middle: '',
+            last: 'Bane',
           },
-          dateOfBirth: '2227-01-20',
+          dateOfBirth: '1962-07-13',
           ssn: '111-22-3333',
           vaFileNumber: '',
         });
@@ -511,52 +511,52 @@ describe('Veteran Information Schemas', () => {
       it('should validate veteran with undefined VA file number', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: {
-            first: 'Nyota',
-            last: 'Uhura',
+            first: 'Zam',
+            last: 'Wesell',
           },
-          dateOfBirth: '2239-01-19',
+          dateOfBirth: '1979-04-18',
           ssn: '222-33-4444',
         });
         expect(result.success).to.be.true;
       });
     });
 
-    describe('Multiple Star Trek Veterans', () => {
-      it('should validate Jean-Luc Picard', () => {
+    describe('Multiple Veteran Profiles', () => {
+      it('should validate Bossk Trandoshan', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Jean-Luc', last: 'Picard' },
-          dateOfBirth: '2305-07-13',
+          fullName: { first: 'Bossk', last: 'Trandoshan' },
+          dateOfBirth: '1971-05-02',
           ssn: '555-66-7777',
-          vaFileNumber: '13071305',
+          vaFileNumber: '19710500',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Benjamin Sisko', () => {
+      it('should validate Aurra Sing', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Benjamin', middle: 'Lafayette', last: 'Sisko' },
-          dateOfBirth: '2332-05-02',
+          fullName: { first: 'Aurra', middle: '', last: 'Sing' },
+          dateOfBirth: '1983-11-29',
           ssn: '333-44-5555',
-          vaFileNumber: '02053332',
+          vaFileNumber: '19831100',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Kathryn Janeway', () => {
+      it('should validate Greedo', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Kathryn', last: 'Janeway' },
-          dateOfBirth: '2336-05-20',
+          fullName: { first: 'Greedo', last: 'Rodian' },
+          dateOfBirth: '1965-08-14',
           ssn: '444-55-6666',
         });
         expect(result.success).to.be.true;
       });
 
-      it("should validate Miles O'Brien", () => {
+      it('should validate Bossk', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'Miles', middle: 'Edward', last: "O'Brien" },
-          dateOfBirth: '2328-09-01',
+          fullName: { first: 'Bossk', middle: '', last: 'Trandoshan' },
+          dateOfBirth: '1977-09-21',
           ssn: '666-77-8888',
-          vaFileNumber: '01092328',
+          vaFileNumber: '19770900',
         });
         expect(result.success).to.be.true;
       });
@@ -565,7 +565,7 @@ describe('Veteran Information Schemas', () => {
     describe('Invalid Veteran Information', () => {
       it('should reject missing fullName', () => {
         const result = veteranInformationSchema.safeParse({
-          dateOfBirth: '2233-03-22',
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
         });
         expect(result.success).to.be.false;
@@ -573,7 +573,7 @@ describe('Veteran Information Schemas', () => {
 
       it('should reject missing dateOfBirth', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           ssn: '123-45-6789',
         });
         expect(result.success).to.be.false;
@@ -581,16 +581,16 @@ describe('Veteran Information Schemas', () => {
 
       it('should reject missing ssn', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
         });
         expect(result.success).to.be.false;
       });
 
       it('should reject invalid SSN format', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-678', // Too short
         });
         expect(result.success).to.be.false;
@@ -598,8 +598,8 @@ describe('Veteran Information Schemas', () => {
 
       it('should reject invalid VA file number format', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
           vaFileNumber: '123', // Too short
         });
@@ -608,8 +608,8 @@ describe('Veteran Information Schemas', () => {
 
       it('should reject invalid first name', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James123', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba123', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
         });
         expect(result.success).to.be.false;
@@ -619,10 +619,10 @@ describe('Veteran Information Schemas', () => {
     describe('Data Transformation', () => {
       it('should transform SSN by removing dashes', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
-          vaFileNumber: '12345678',
+          vaFileNumber: '22113800',
         });
         if (result.success) {
           expect(result.data.ssn).to.equal('123456789');
@@ -631,10 +631,10 @@ describe('Veteran Information Schemas', () => {
 
       it('should preserve SSN without dashes', () => {
         const result = veteranInformationSchema.safeParse({
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Jango', last: 'Fett' },
+          dateOfBirth: '1958-01-06',
           ssn: '123456789',
-          vaFileNumber: '12345678',
+          vaFileNumber: '19580100',
         });
         if (result.success) {
           expect(result.data.ssn).to.equal('123456789');
@@ -669,11 +669,11 @@ describe('Veteran Information Schemas', () => {
       it('should handle hyphenated and apostrophe names', () => {
         const result = veteranInformationSchema.safeParse({
           fullName: {
-            first: 'Jean-Pierre',
-            middle: "O'Malley-Smith",
-            last: "D'Arcy-Johnson",
+            first: 'Din-Djarin',
+            middle: "O'Reilly-Smith",
+            last: "D'Asta-Kryze",
           },
-          dateOfBirth: '2300-01-01',
+          dateOfBirth: '1990-10-15',
           ssn: '123456789',
         });
         expect(result.success).to.be.true;

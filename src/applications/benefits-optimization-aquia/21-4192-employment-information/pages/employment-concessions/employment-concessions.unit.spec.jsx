@@ -3,9 +3,9 @@
  * @description Unit tests for Employment Concessions page component
  */
 
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
 import { EmploymentConcessionsPage } from './employment-concessions';
 
 describe('EmploymentConcessionsPage', () => {

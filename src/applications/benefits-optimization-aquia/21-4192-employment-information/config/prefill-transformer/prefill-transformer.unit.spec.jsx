@@ -11,14 +11,14 @@ describe('prefillTransformer', () => {
   const mockMetadata = { formId: '21-4192' };
 
   describe('Full Name Transformation', () => {
-    it('should transform complete Star Trek name', () => {
+    it('should transform complete complete name', () => {
       const state = {
         user: {
           profile: {
             userFullName: {
-              first: 'James',
-              middle: 'Tiberius',
-              last: 'Kirk',
+              first: 'Boba',
+              middle: 'Jaster',
+              last: 'Fett',
               suffix: 'Captain',
             },
           },
@@ -27,9 +27,9 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.fullName.first).to.equal('James');
-      expect(result.formData.personalInfo.fullName.middle).to.equal('Tiberius');
-      expect(result.formData.personalInfo.fullName.last).to.equal('Kirk');
+      expect(result.formData.personalInfo.fullName.first).to.equal('Boba');
+      expect(result.formData.personalInfo.fullName.middle).to.equal('Jaster');
+      expect(result.formData.personalInfo.fullName.last).to.equal('Fett');
       expect(result.formData.personalInfo.fullName.suffix).to.equal('Captain');
     });
 
@@ -38,8 +38,8 @@ describe('prefillTransformer', () => {
         user: {
           profile: {
             userFullName: {
-              first: 'Spock',
-              last: 'Vulcan',
+              first: 'Cad',
+              last: 'Bane',
             },
           },
         },
@@ -47,9 +47,9 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.fullName.first).to.equal('Spock');
+      expect(result.formData.personalInfo.fullName.first).to.equal('Cad');
       expect(result.formData.personalInfo.fullName.middle).to.equal('');
-      expect(result.formData.personalInfo.fullName.last).to.equal('Vulcan');
+      expect(result.formData.personalInfo.fullName.last).to.equal('Bane');
     });
 
     it('should handle missing userFullName', () => {
@@ -66,46 +66,46 @@ describe('prefillTransformer', () => {
   });
 
   describe('Date of Birth Transformation', () => {
-    it('should transform YYYYMMDD Star Trek date format', () => {
+    it('should transform YYYYMMDD date format', () => {
       const state = {
         user: {
           profile: {
-            dob: '22330322',
+            dob: '19850322',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('2233-03-22');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1985-03-22');
     });
 
     it('should preserve YYYY-MM-DD format', () => {
       const state = {
         user: {
           profile: {
-            dob: '2233-03-22',
+            dob: '1985-03-22',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('2233-03-22');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1985-03-22');
     });
 
     it('should use birthDate when dob is not available', () => {
       const state = {
         user: {
           profile: {
-            birthDate: '22300106',
+            birthDate: '19580106',
           },
         },
       };
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('2230-01-06');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1958-01-06');
     });
 
     it('should use vaProfile birthDate as fallback', () => {
@@ -113,7 +113,7 @@ describe('prefillTransformer', () => {
         user: {
           profile: {
             vaProfile: {
-              birthDate: '23050713',
+              birthDate: '19620713',
             },
           },
         },
@@ -121,7 +121,7 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('2305-07-13');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1962-07-13');
     });
 
     it('should handle missing date of birth', () => {
@@ -251,7 +251,7 @@ describe('prefillTransformer', () => {
       expect(result.formData.contactInfo.phone).to.equal('4155559876');
     });
 
-    it('should extract email from Starfleet account', () => {
+    it('should extract email from Guild account', () => {
       const state = {
         user: {
           profile: {
@@ -282,12 +282,12 @@ describe('prefillTransformer', () => {
   });
 
   describe('Mailing Address Transformation', () => {
-    it('should transform complete Starfleet address', () => {
+    it('should transform complete Guild address', () => {
       const state = {
         user: {
           profile: {
             mailingAddress: {
-              addressLine1: 'Starfleet Headquarters',
+              addressLine1: 'Guild Headquarters',
               addressLine2: 'Building One',
               city: 'San Francisco',
               stateCode: 'CA',
@@ -300,7 +300,7 @@ describe('prefillTransformer', () => {
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
       expect(result.formData.contactInfo.mailingAddress.street).to.equal(
-        'Starfleet Headquarters',
+        'Guild Headquarters',
       );
       expect(result.formData.contactInfo.mailingAddress.street2).to.equal(
         'Building One',
@@ -368,24 +368,24 @@ describe('prefillTransformer', () => {
     });
   });
 
-  describe('Complete Star Trek Profile', () => {
-    it('should transform Captain Kirk complete profile', () => {
+  describe('Complete Profile', () => {
+    it('should transform Boba Fett complete profile', () => {
       const state = {
         user: {
           profile: {
             userFullName: {
-              first: 'James',
+              first: 'Boba',
               middle: 'Tiberius',
-              last: 'Kirk',
+              last: 'Fett',
             },
-            dob: '22330322',
+            dob: '19850322',
             ssn: '123456789',
             vaFileNumber: '12345678',
             email: 'james.kirk@starfleet.fed',
             homePhone: '4155551701',
             mailingAddress: {
-              addressLine1: 'USS Enterprise NCC-1701',
-              city: 'Deep Space',
+              addressLine1: 'Slave I',
+              city: 'Nar Shaddaa',
               stateCode: 'CA',
               zipCode: '90210',
             },
@@ -395,8 +395,8 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(mockPages, {}, mockMetadata, state);
 
-      expect(result.formData.personalInfo.fullName.first).to.equal('James');
-      expect(result.formData.personalInfo.dateOfBirth).to.equal('2233-03-22');
+      expect(result.formData.personalInfo.fullName.first).to.equal('Boba');
+      expect(result.formData.personalInfo.dateOfBirth).to.equal('1985-03-22');
       expect(result.formData.personalInfo.ssn).to.equal('123-45-6789');
       expect(result.formData.personalInfo.vaFileNumber).to.equal('12345678');
       expect(result.formData.contactInfo.email).to.equal(
@@ -404,7 +404,7 @@ describe('prefillTransformer', () => {
       );
       expect(result.formData.contactInfo.phone).to.equal('4155551701');
       expect(result.formData.contactInfo.mailingAddress.street).to.equal(
-        'USS Enterprise NCC-1701',
+        'Slave I',
       );
     });
   });
@@ -418,7 +418,7 @@ describe('prefillTransformer', () => {
       const state = {
         user: {
           profile: {
-            userFullName: { first: 'James', last: 'Kirk' },
+            userFullName: { first: 'Boba', last: 'Fett' },
           },
         },
       };

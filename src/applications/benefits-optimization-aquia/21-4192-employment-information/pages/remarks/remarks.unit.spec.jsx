@@ -86,11 +86,11 @@ describe('RemarksPage', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Star Trek mission remarks', () => {
+    it('should display mission remarks', () => {
       const data = {
         remarks: {
           remarks:
-            'Captain Kirk was instrumental in the successful completion of the five-year mission to explore strange new worlds.',
+            'Boba Fett was instrumental in the successful completion of the five-year contract across the Outer Rim.',
         },
       };
 
@@ -105,15 +105,15 @@ describe('RemarksPage', () => {
 
       const textarea = container.querySelector('va-textarea[label="Remarks"]');
       expect(textarea).to.exist;
-      expect(textarea.getAttribute('value')).to.include('Captain Kirk');
-      expect(textarea.getAttribute('value')).to.include('five-year mission');
+      expect(textarea.getAttribute('value')).to.include('Boba Fett');
+      expect(textarea.getAttribute('value')).to.include('five-year contract');
     });
 
     it('should display Vulcan philosophy remarks', () => {
       const data = {
         remarks: {
           remarks:
-            'The needs of the many outweigh the needs of the few. - Spock',
+            'The needs of the many outweigh the needs of the few. - Cad Bane',
         },
       };
 
@@ -247,7 +247,7 @@ describe('RemarksPage', () => {
     it('should show update button in review mode', () => {
       const data = {
         remarks: {
-          remarks: 'Live long and prosper.',
+          remarks: 'This is the way.',
         },
       };
 
@@ -321,7 +321,7 @@ describe('RemarksPage', () => {
     it('should render with all props', () => {
       const data = {
         remarks: {
-          remarks: 'Make it so.',
+          remarks: 'The job is done.',
         },
       };
 
@@ -366,7 +366,7 @@ describe('RemarksPage', () => {
       const data = {
         remarks: {
           remarks:
-            'Space: the final frontier.\nThese are the voyages of the starship Enterprise.\nIts continuing mission: to explore strange new worlds.',
+            'The Code is the Way.\nThese are the voyages of the bounty ship Slave I.\nOur mission: to track targets across the galaxy.',
         },
       };
 
@@ -380,18 +380,16 @@ describe('RemarksPage', () => {
       );
 
       const textarea = container.querySelector('va-textarea[label="Remarks"]');
-      expect(textarea.getAttribute('value')).to.include(
-        'Space: the final frontier',
-      );
+      expect(textarea.getAttribute('value')).to.include('The Code is the Way');
     });
   });
 
-  describe('Star Trek Themed Remarks', () => {
-    it('should display Prime Directive remark', () => {
+  describe('Themed Remarks', () => {
+    it('should display Guild Code remark', () => {
       const data = {
         remarks: {
           remarks:
-            'Adhered to Starfleet General Order 1 (Prime Directive) throughout the mission, respecting the natural development of pre-warp civilizations.',
+            'Adhered to Guild Code of Conduct throughout the mission, respecting the natural development of primitive civilizations.',
         },
       };
 
@@ -405,7 +403,7 @@ describe('RemarksPage', () => {
       );
 
       const textarea = container.querySelector('va-textarea[label="Remarks"]');
-      expect(textarea.getAttribute('value')).to.include('Prime Directive');
+      expect(textarea.getAttribute('value')).to.include('Guild Code');
     });
 
     it('should display commendation remark', () => {

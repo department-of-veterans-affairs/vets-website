@@ -127,14 +127,14 @@ describe('EmployerInformationPage', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Starfleet Command employer data', () => {
+    it('should display employer data', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
-            street: 'Starfleet Headquarters',
+            street: 'Guild Headquarters',
             street2: 'Building One',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             country: 'USA',
             postalCode: '94102',
@@ -157,18 +157,16 @@ describe('EmployerInformationPage', () => {
       );
       expect(employerNameInput).to.exist;
       expect(employerNameInput.getAttribute('value')).to.equal(
-        'Starfleet Command',
+        'Bounty Hunters Guild',
       );
 
       const streetInput = container.querySelector(
         'va-text-input[label="Street address"]',
       );
-      expect(streetInput.getAttribute('value')).to.equal(
-        'Starfleet Headquarters',
-      );
+      expect(streetInput.getAttribute('value')).to.equal('Guild Headquarters');
 
       const cityInput = container.querySelector('va-text-input[label="City"]');
-      expect(cityInput.getAttribute('value')).to.equal('San Francisco');
+      expect(cityInput.getAttribute('value')).to.equal('Mos Eisley');
 
       const phoneInput = container.querySelector(
         'va-telephone-input[label="Employer\'s phone number"]',
@@ -176,13 +174,13 @@ describe('EmployerInformationPage', () => {
       expect(phoneInput.getAttribute('value')).to.equal('4155551234');
     });
 
-    it('should display USS Enterprise employer data', () => {
+    it('should display Slave I employer data', () => {
       const data = {
         employerInformation: {
-          employerName: 'USS Enterprise (NCC-1701)',
+          employerName: 'Slave I',
           employerAddress: {
-            street: 'Starbase 11',
-            city: 'Deep Space',
+            street: 'Nar Shaddaa Sector 11',
+            city: 'Nar Shaddaa',
             state: 'CA',
             country: 'USA',
             postalCode: '90210',
@@ -203,17 +201,15 @@ describe('EmployerInformationPage', () => {
       const employerNameInput = container.querySelector(
         'va-text-input[label="Employer\'s name"]',
       );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'USS Enterprise (NCC-1701)',
-      );
+      expect(employerNameInput.getAttribute('value')).to.equal('Slave I');
     });
 
-    it('should display Deep Space Nine employer data', () => {
+    it('should display Mos Eisley Cantina employer data', () => {
       const data = {
         employerInformation: {
-          employerName: 'Deep Space Nine',
+          employerName: 'Mos Eisley Cantina',
           employerAddress: {
-            street: 'Bajoran Sector',
+            street: 'Outer Rim Sector',
             city: 'Bajor',
             state: 'NY',
             country: 'USA',
@@ -236,7 +232,7 @@ describe('EmployerInformationPage', () => {
         'va-text-input[label="Employer\'s name"]',
       );
       expect(employerNameInput.getAttribute('value')).to.equal(
-        'Deep Space Nine',
+        'Mos Eisley Cantina',
       );
     });
 
@@ -260,10 +256,10 @@ describe('EmployerInformationPage', () => {
     it('should handle missing address fields', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Academy',
+          employerName: 'Kamino Cloning Facility',
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -339,7 +335,7 @@ describe('EmployerInformationPage', () => {
     it('should handle partial employer data', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Medical',
+          employerName: 'Black Sun Syndicate',
         },
       };
 
@@ -356,14 +352,14 @@ describe('EmployerInformationPage', () => {
         'va-text-input[label="Employer\'s name"]',
       );
       expect(employerNameInput.getAttribute('value')).to.equal(
-        'Starfleet Medical',
+        'Black Sun Syndicate',
       );
     });
 
     it('should handle partial address data', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Security',
+          employerName: 'Pyke Syndicate',
           employerAddress: {
             street: '456 Security Blvd',
           },
@@ -390,10 +386,10 @@ describe('EmployerInformationPage', () => {
     it('should render in review mode', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
-            street: 'Starfleet HQ',
-            city: 'San Francisco',
+            street: 'Guild Headquarters',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -418,7 +414,7 @@ describe('EmployerInformationPage', () => {
     it('should show update button in review mode', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
         },
       };
 
@@ -502,7 +498,7 @@ describe('EmployerInformationPage', () => {
     it('should render with all props', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: 'HQ',
             city: 'SF',
@@ -532,12 +528,12 @@ describe('EmployerInformationPage', () => {
     it('should display all three street address lines', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: 'Building 1',
             street2: 'Suite 100',
             street3: 'Floor 5',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -570,11 +566,11 @@ describe('EmployerInformationPage', () => {
     });
   });
 
-  describe('Different Star Trek Employers', () => {
-    it('should display Vulcan Science Academy', () => {
+  describe('Multiple Employer Scenarios', () => {
+    it('should display Mandalorian Training Corps', () => {
       const data = {
         employerInformation: {
-          employerName: 'Vulcan Science Academy',
+          employerName: 'Mandalorian Training Corps',
           employerAddress: {
             street: 'Mount Seleya',
             city: 'ShiKahr',
@@ -598,14 +594,14 @@ describe('EmployerInformationPage', () => {
         'va-text-input[label="Employer\'s name"]',
       );
       expect(employerNameInput.getAttribute('value')).to.equal(
-        'Vulcan Science Academy',
+        'Mandalorian Training Corps',
       );
     });
 
-    it('should display Klingon Defense Force', () => {
+    it('should display Hutt Cartel', () => {
       const data = {
         employerInformation: {
-          employerName: 'Klingon Defense Force',
+          employerName: 'Hutt Cartel',
           employerAddress: {
             street: 'First City',
             city: "Qo'noS",
@@ -628,15 +624,13 @@ describe('EmployerInformationPage', () => {
       const employerNameInput = container.querySelector(
         'va-text-input[label="Employer\'s name"]',
       );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Klingon Defense Force',
-      );
+      expect(employerNameInput.getAttribute('value')).to.equal('Hutt Cartel');
     });
 
-    it('should display Romulan Imperial Fleet', () => {
+    it('should display Crimson Dawn', () => {
       const data = {
         employerInformation: {
-          employerName: 'Romulan Imperial Fleet',
+          employerName: 'Crimson Dawn',
           employerAddress: {
             street: 'Imperial Palace',
             city: 'Romulus',
@@ -659,9 +653,7 @@ describe('EmployerInformationPage', () => {
       const employerNameInput = container.querySelector(
         'va-text-input[label="Employer\'s name"]',
       );
-      expect(employerNameInput.getAttribute('value')).to.equal(
-        'Romulan Imperial Fleet',
-      );
+      expect(employerNameInput.getAttribute('value')).to.equal('Crimson Dawn');
     });
   });
 

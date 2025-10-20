@@ -70,7 +70,7 @@ describe('BenefitsInformationPage', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Yes selection for Starfleet benefits', () => {
+    it('should display Yes selection for Guild benefits', () => {
       const data = {
         benefitsInformation: {
           benefitEntitlement: 'yes',

@@ -55,13 +55,13 @@ describe('VeteranInformationReview', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'James',
-            middle: 'Tiberius',
-            last: 'Kirk',
+            first: 'Boba',
+            middle: '',
+            last: 'Fett',
           },
           ssn: '123-45-6789',
-          vaFileNumber: '12345678',
-          dateOfBirth: '2233-03-22',
+          vaFileNumber: '22113800',
+          dateOfBirth: '1985-03-22',
         },
       };
 
@@ -73,21 +73,21 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('James Tiberius Kirk');
+      expect(container.textContent).to.include('Boba Fett');
       expect(container.textContent).to.include('123-45-6789');
-      expect(container.textContent).to.include('12345678');
-      expect(container.textContent).to.include('March 22, 2233');
+      expect(container.textContent).to.include('22113800');
+      expect(container.textContent).to.include('March 22, 1985');
     });
 
     it('should display veteran information without middle name', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Spock',
-            last: 'Vulcan',
+            first: 'Jango',
+            last: 'Fett',
           },
           ssn: '987-65-4321',
-          dateOfBirth: '2230-01-06',
+          dateOfBirth: '1958-01-06',
         },
       };
 
@@ -99,21 +99,21 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Spock Vulcan');
+      expect(container.textContent).to.include('Jango Fett');
       expect(container.textContent).to.include('987-65-4321');
-      expect(container.textContent).to.include('January 6, 2230');
+      expect(container.textContent).to.include('January 6, 1958');
     });
 
     it('should display veteran with suffix', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Jean-Luc',
-            last: 'Picard',
-            suffix: 'Sr.',
+            first: 'Cad',
+            last: 'Bane',
+            suffix: '',
           },
           ssn: '111-22-3333',
-          dateOfBirth: '2305-07-13',
+          dateOfBirth: '1962-07-13',
         },
       };
 
@@ -125,22 +125,22 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Jean-Luc Picard Sr.');
+      expect(container.textContent).to.include('Cad Bane');
       expect(container.textContent).to.include('111-22-3333');
-      expect(container.textContent).to.include('July 13, 2305');
+      expect(container.textContent).to.include('July 13, 1962');
     });
 
     it('should display all name components when all present', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Benjamin',
-            middle: 'Lafayette',
-            last: 'Sisko',
-            suffix: 'Jr.',
+            first: 'Bossk',
+            middle: '',
+            last: 'Trandoshan',
+            suffix: '',
           },
           ssn: '222-33-4444',
-          dateOfBirth: '2332-05-02',
+          dateOfBirth: '1971-05-02',
         },
       };
 
@@ -152,9 +152,9 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Benjamin Lafayette Sisko Jr.');
+      expect(container.textContent).to.include('Bossk Trandoshan');
       expect(container.textContent).to.include('222-33-4444');
-      expect(container.textContent).to.include('May 2, 2332');
+      expect(container.textContent).to.include('May 2, 1971');
     });
 
     it('should handle empty data gracefully', () => {
@@ -222,7 +222,7 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include("Veteran's full name");
+      expect(container.textContent).to.match(/Veteran.s full name/);
       expect(container.textContent).to.include('Social Security number');
       expect(container.textContent).to.include('VA file number');
       expect(container.textContent).to.include('Date of birth');
@@ -254,7 +254,7 @@ describe('VeteranInformationReview', () => {
     it('should show not provided for missing SSN', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
         },
       };
 
@@ -274,7 +274,7 @@ describe('VeteranInformationReview', () => {
     it('should show not provided for missing VA file number', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           ssn: '123-45-6789',
         },
       };
@@ -295,7 +295,7 @@ describe('VeteranInformationReview', () => {
     it('should show not provided for missing date of birth', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           ssn: '123-45-6789',
         },
       };
@@ -318,8 +318,8 @@ describe('VeteranInformationReview', () => {
     it('should format valid dates correctly', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Boba', last: 'Fett' },
+          dateOfBirth: '1985-03-22',
         },
       };
 
@@ -331,14 +331,14 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('March 22, 2233');
+      expect(container.textContent).to.include('March 22, 1985');
     });
 
     it('should handle different date formats', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'Leonard', last: 'McCoy' },
-          dateOfBirth: '2227-01-20',
+          fullName: { first: 'Embo', last: '' },
+          dateOfBirth: '1955-01-20',
         },
       };
 
@@ -350,13 +350,13 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('January 20, 2227');
+      expect(container.textContent).to.include('January 20, 1955');
     });
 
     it('should handle invalid date strings', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           dateOfBirth: 'invalid-date',
         },
       };
@@ -376,7 +376,7 @@ describe('VeteranInformationReview', () => {
     it('should handle empty date string', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           dateOfBirth: '',
         },
       };
@@ -397,7 +397,7 @@ describe('VeteranInformationReview', () => {
     it('should handle null date', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           dateOfBirth: null,
         },
       };
@@ -421,7 +421,7 @@ describe('VeteranInformationReview', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Worf',
+            first: 'Greedo',
           },
         },
       };
@@ -434,14 +434,14 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Worf');
+      expect(container.textContent).to.include('Greedo');
     });
 
     it('should format last name only', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            last: 'Data',
+            last: 'IG-88',
           },
         },
       };
@@ -454,16 +454,16 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Data');
+      expect(container.textContent).to.include('IG-88');
     });
 
     it('should skip empty name parts', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Nyota',
+            first: 'Zam',
             middle: '',
-            last: 'Uhura',
+            last: 'Wesell',
             suffix: '',
           },
         },
@@ -477,7 +477,7 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Nyota Uhura');
+      expect(container.textContent).to.include('Zam Wesell');
       // Should not have extra spaces
       expect(container.textContent).to.not.include('  ');
     });
@@ -486,9 +486,9 @@ describe('VeteranInformationReview', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Hikaru',
+            first: 'Aurra',
             middle: null,
-            last: 'Sulu',
+            last: 'Sing',
             suffix: null,
           },
         },
@@ -502,7 +502,7 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Hikaru Sulu');
+      expect(container.textContent).to.include('Aurra Sing');
     });
   });
 
@@ -576,10 +576,10 @@ describe('VeteranInformationReview', () => {
     it('should have correct number of review rows', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           ssn: '123-45-6789',
-          vaFileNumber: '12345678',
-          dateOfBirth: '2233-03-22',
+          vaFileNumber: '22113800',
+          dateOfBirth: '1985-03-22',
         },
       };
 
@@ -598,7 +598,7 @@ describe('VeteranInformationReview', () => {
     it('should have dt and dd elements for each row', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
         },
       };
 
@@ -645,16 +645,16 @@ describe('VeteranInformationReview', () => {
   });
 
   describe('Different Veteran Profiles', () => {
-    it('should display profile for Kathryn Janeway', () => {
+    it('should display profile for Aurra Sing', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'Kathryn',
-            last: 'Janeway',
+            first: 'Aurra',
+            last: 'Sing',
           },
           ssn: '555-66-7777',
           vaFileNumber: '87654321',
-          dateOfBirth: '2336-05-20',
+          dateOfBirth: '1983-05-20',
         },
       };
 
@@ -666,22 +666,21 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Kathryn Janeway');
+      expect(container.textContent).to.include('Aurra Sing');
       expect(container.textContent).to.include('555-66-7777');
       expect(container.textContent).to.include('87654321');
-      expect(container.textContent).to.include('May 20, 2336');
+      expect(container.textContent).to.include('May 20, 1983');
     });
 
-    it('should display profile for William Riker', () => {
+    it('should display profile for Greedo', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'William',
-            middle: 'Thomas',
-            last: 'Riker',
+            first: 'Greedo',
+            last: 'Rodian',
           },
           ssn: '999-88-7777',
-          dateOfBirth: '2335-08-19',
+          dateOfBirth: '1968-08-19',
         },
       };
 
@@ -693,9 +692,9 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('William Thomas Riker');
+      expect(container.textContent).to.include('Greedo Rodian');
       expect(container.textContent).to.include('999-88-7777');
-      expect(container.textContent).to.include('August 19, 2335');
+      expect(container.textContent).to.include('August 19, 1968');
     });
   });
 });

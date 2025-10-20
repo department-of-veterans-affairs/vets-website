@@ -195,9 +195,9 @@ describe('Form Configuration', () => {
         formConfig.chapters.veteranInformationChapter.pages.veteranInformation;
       const validData = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Boba', last: 'Fett' },
           ssn: '123-45-6789',
-          dateOfBirth: '2233-03-22',
+          dateOfBirth: '1985-03-22',
         },
       };
       const result = page.verifyItemValues(validData);
@@ -210,7 +210,7 @@ describe('Form Configuration', () => {
           .employerInformation;
       const validData = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
             city: 'San Francisco',
@@ -304,7 +304,7 @@ describe('Form Configuration', () => {
       const page = formConfig.chapters.remarksChapter.pages.remarks;
       const validData = {
         remarks: {
-          remarks: 'Make it so.',
+          remarks: 'The job is done.',
         },
       };
       const result = page.verifyItemValues(validData);

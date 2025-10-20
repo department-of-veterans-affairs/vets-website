@@ -278,9 +278,9 @@ describe('ConfirmationPage', () => {
         formData: {
           veteranInformation: {
             fullName: {
-              first: 'James',
+              first: 'Boba',
               middle: 'Tiberius',
-              last: 'Kirk',
+              last: 'Fett',
             },
           },
         },
@@ -293,7 +293,7 @@ describe('ConfirmationPage', () => {
       );
 
       // Name appears twice - in "Who submitted" and "Deceased Veteran"
-      const nameElements = getAllByText(/James Kirk/);
+      const nameElements = getAllByText(/Boba Fett/);
       expect(nameElements).to.have.lengthOf(2);
     });
 
@@ -302,8 +302,8 @@ describe('ConfirmationPage', () => {
         formData: {
           veteranInformation: {
             fullName: {
-              first: 'Spock',
-              last: 'Vulcan',
+              first: 'Cad',
+              last: 'Bane',
             },
           },
         },
@@ -315,7 +315,7 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      const nameElements = getAllByText(/Spock Vulcan/);
+      const nameElements = getAllByText(/Cad Bane/);
       expect(nameElements).to.have.lengthOf(2);
     });
 
@@ -357,7 +357,7 @@ describe('ConfirmationPage', () => {
         formData: {
           veteranInformation: {
             fullName: {
-              last: 'Picard',
+              last: 'Bossk',
             },
           },
         },
@@ -369,7 +369,7 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      const nameElements = getAllByText(/Picard/);
+      const nameElements = getAllByText(/Bossk/);
       expect(nameElements.length).to.be.at.least(1);
     });
 

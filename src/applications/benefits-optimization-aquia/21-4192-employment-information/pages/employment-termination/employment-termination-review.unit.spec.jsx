@@ -100,11 +100,11 @@ describe('EmploymentTerminationReview', () => {
       expect(text).to.include('2020');
     });
 
-    it('should display Star Trek themed termination reason', () => {
+    it('should display themed termination reason', () => {
       const data = {
         employmentTermination: {
           terminationReason:
-            'Medical discharge from Starfleet due to service-related injuries',
+            'Medical discharge from Guild due to service-related injuries',
         },
       };
       const { container } = render(
@@ -115,14 +115,14 @@ describe('EmploymentTerminationReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Medical discharge from Starfleet');
+      expect(text).to.include('Medical discharge from Guild');
     });
 
     it('should display all employment termination data', () => {
       const data = {
         employmentTermination: {
           terminationReason:
-            'Honorable medical discharge from Starfleet Command',
+            'Honorable medical discharge from Bounty Hunters Guild',
           dateLastWorked: '2020-10-15',
         },
       };
@@ -362,12 +362,12 @@ describe('EmploymentTerminationReview', () => {
     });
   });
 
-  describe('Star Trek Themed Test Cases', () => {
-    it('should display Starfleet medical retirement', () => {
+  describe('Additional Test Cases', () => {
+    it('should display Guild medical retirement', () => {
       const data = {
         employmentTermination: {
           terminationReason:
-            'Honorable medical discharge from Starfleet after sustaining injuries during diplomatic mission',
+            'Honorable medical discharge from Guild after sustaining injuries during diplomatic mission',
           dateLastWorked: '2020-11-30',
         },
       };
@@ -379,7 +379,7 @@ describe('EmploymentTerminationReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Starfleet');
+      expect(text).to.include('Guild');
       expect(text).to.include('November');
       expect(text).to.include('30');
       expect(text).to.include('2020');
@@ -389,7 +389,7 @@ describe('EmploymentTerminationReview', () => {
       const data = {
         employmentTermination: {
           terminationReason:
-            'Retired after 30 years of service in Starfleet Command',
+            'Retired after 30 years of service in Bounty Hunters Guild',
           dateLastWorked: '2020-12-31',
         },
       };
@@ -402,7 +402,7 @@ describe('EmploymentTerminationReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('30 years');
-      expect(text).to.include('Starfleet Command');
+      expect(text).to.include('Bounty Hunters Guild');
     });
   });
 });

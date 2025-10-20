@@ -3,9 +3,9 @@
  * @description Unit tests for VeteranInformationPage component
  */
 
-import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import React from 'react';
 import {
   VeteranInformationPage,
   ensureDateStrings,
@@ -118,13 +118,13 @@ describe('VeteranInformationPage', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'James',
-            middle: 'Tiberius',
-            last: 'Kirk',
+            first: 'Boba',
+            middle: '',
+            last: 'Fett',
           },
-          dateOfBirth: '2233-03-22',
+          dateOfBirth: '1985-03-22',
           ssn: '123-45-6789',
-          vaFileNumber: '12345678',
+          vaFileNumber: '22113800',
         },
       };
 
@@ -141,26 +141,26 @@ describe('VeteranInformationPage', () => {
         'va-text-input[label="First name"]',
       );
       expect(firstNameInput).to.exist;
-      expect(firstNameInput.getAttribute('value')).to.equal('James');
+      expect(firstNameInput.getAttribute('value')).to.equal('Boba');
 
       const middleNameInput = container.querySelector(
         'va-text-input[label="Middle name"]',
       );
       expect(middleNameInput).to.exist;
-      expect(middleNameInput.getAttribute('value')).to.equal('Tiberius');
+      expect(middleNameInput.getAttribute('value')).to.equal('');
 
       const lastNameInput = container.querySelector(
         'va-text-input[label="Last name"]',
       );
       expect(lastNameInput).to.exist;
-      expect(lastNameInput.getAttribute('value')).to.equal('Kirk');
+      expect(lastNameInput.getAttribute('value')).to.equal('Fett');
     });
 
     it('should display date of birth', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', middle: 'Tiberius', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Jango', middle: '', last: 'Fett' },
+          dateOfBirth: '1958-01-06',
         },
       };
 
@@ -177,13 +177,13 @@ describe('VeteranInformationPage', () => {
         'va-memorable-date[label="Date of birth"]',
       );
       expect(dobField).to.exist;
-      expect(dobField.getAttribute('value')).to.equal('2233-03-22');
+      expect(dobField.getAttribute('value')).to.equal('1958-01-06');
     });
 
     it('should display SSN', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Cad', last: 'Bane' },
           ssn: '123-45-6789',
         },
       };
@@ -207,8 +207,8 @@ describe('VeteranInformationPage', () => {
     it('should display VA file number', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
-          vaFileNumber: '12345678',
+          fullName: { first: 'Bossk', last: 'Trandoshan' },
+          vaFileNumber: '77992000',
         },
       };
 
@@ -225,7 +225,7 @@ describe('VeteranInformationPage', () => {
         'va-text-input[label="VA file number (if applicable)"]',
       );
       expect(vaFileNumberField).to.exist;
-      expect(vaFileNumberField.getAttribute('value')).to.equal('12345678');
+      expect(vaFileNumberField.getAttribute('value')).to.equal('77992000');
     });
 
     it('should handle empty fullName object', () => {
@@ -322,7 +322,7 @@ describe('VeteranInformationPage', () => {
       const data = {
         veteranInformation: {
           fullName: {
-            first: 'James',
+            first: 'Greedo',
           },
         },
       };
@@ -339,7 +339,7 @@ describe('VeteranInformationPage', () => {
       const firstNameInput = container.querySelector(
         'va-text-input[label="First name"]',
       );
-      expect(firstNameInput.getAttribute('value')).to.equal('James');
+      expect(firstNameInput.getAttribute('value')).to.equal('Greedo');
     });
   });
 
@@ -347,8 +347,8 @@ describe('VeteranInformationPage', () => {
     it('should render in review mode', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
-          dateOfBirth: '2233-03-22',
+          fullName: { first: 'Zam', last: 'Wesell' },
+          dateOfBirth: '1979-04-18',
         },
       };
 
@@ -369,7 +369,7 @@ describe('VeteranInformationPage', () => {
     it('should show update button in review mode', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Aurra', last: 'Sing' },
         },
       };
 
@@ -492,7 +492,7 @@ describe('VeteranInformationPage', () => {
     it('should render with all props', () => {
       const data = {
         veteranInformation: {
-          fullName: { first: 'James', last: 'Kirk' },
+          fullName: { first: 'Embo', last: '' },
         },
       };
 
@@ -516,44 +516,44 @@ describe('ensureDateStrings', () => {
   describe('Date Transformation', () => {
     it('should transform Date object to ISO string for dateOfBirth', () => {
       const formData = {
-        dateOfBirth: new Date('2233-03-22'),
-        fullName: { first: 'James', last: 'Kirk' },
+        dateOfBirth: new Date('1985-03-22'),
+        fullName: { first: 'Boba', last: 'Fett' },
       };
 
       const result = ensureDateStrings(formData);
 
       expect(result.dateOfBirth).to.be.a('string');
-      expect(result.dateOfBirth).to.include('2233-03-22');
+      expect(result.dateOfBirth).to.include('1985-03-22');
     });
 
     it('should preserve string dates', () => {
       const formData = {
-        dateOfBirth: '2233-03-22',
-        fullName: { first: 'James', last: 'Kirk' },
+        dateOfBirth: '1958-01-06',
+        fullName: { first: 'Jango', last: 'Fett' },
       };
 
       const result = ensureDateStrings(formData);
 
-      expect(result.dateOfBirth).to.equal('2233-03-22');
+      expect(result.dateOfBirth).to.equal('1958-01-06');
     });
 
     it('should preserve other fields unchanged', () => {
       const formData = {
-        dateOfBirth: '2233-03-22',
-        fullName: { first: 'James', middle: 'Tiberius', last: 'Kirk' },
+        dateOfBirth: '1962-07-13',
+        fullName: { first: 'Cad', middle: '', last: 'Bane' },
         ssn: '123-45-6789',
-        vaFileNumber: '12345678',
+        vaFileNumber: '33771100',
       };
 
       const result = ensureDateStrings(formData);
 
       expect(result.fullName).to.deep.equal({
-        first: 'James',
-        middle: 'Tiberius',
-        last: 'Kirk',
+        first: 'Cad',
+        middle: '',
+        last: 'Bane',
       });
       expect(result.ssn).to.equal('123-45-6789');
-      expect(result.vaFileNumber).to.equal('12345678');
+      expect(result.vaFileNumber).to.equal('33771100');
     });
   });
 
@@ -575,20 +575,20 @@ describe('ensureDateStrings', () => {
 
     it('should handle formData without dateOfBirth', () => {
       const formData = {
-        fullName: { first: 'James', last: 'Kirk' },
+        fullName: { first: 'IG-88', last: '' },
       };
 
       const result = ensureDateStrings(formData);
 
       expect(result).to.deep.equal({
-        fullName: { first: 'James', last: 'Kirk' },
+        fullName: { first: 'IG-88', last: '' },
       });
     });
 
     it('should handle empty dateOfBirth string', () => {
       const formData = {
         dateOfBirth: '',
-        fullName: { first: 'James', last: 'Kirk' },
+        fullName: { first: 'Dengar', last: '' },
       };
 
       const result = ensureDateStrings(formData);
@@ -599,7 +599,7 @@ describe('ensureDateStrings', () => {
     it('should handle invalid date object', () => {
       const formData = {
         dateOfBirth: new Date('invalid'),
-        fullName: { first: 'James', last: 'Kirk' },
+        fullName: { first: '4-LOM', last: '' },
       };
 
       const result = ensureDateStrings(formData);
@@ -611,9 +611,9 @@ describe('ensureDateStrings', () => {
   describe('Multiple Date Fields', () => {
     it('should only transform dateOfBirth field', () => {
       const formData = {
-        dateOfBirth: new Date('2233-03-22'),
-        otherDate: new Date('2250-01-01'),
-        fullName: { first: 'James', last: 'Kirk' },
+        dateOfBirth: new Date('1985-03-22'),
+        otherDate: new Date('2024-01-01'),
+        fullName: { first: 'Boba', last: 'Fett' },
       };
 
       const result = ensureDateStrings(formData);
@@ -627,8 +627,8 @@ describe('ensureDateStrings', () => {
   describe('Return Value', () => {
     it('should return a new object', () => {
       const formData = {
-        dateOfBirth: '2233-03-22',
-        fullName: { first: 'James', last: 'Kirk' },
+        dateOfBirth: '1971-05-02',
+        fullName: { first: 'Bossk', last: 'Trandoshan' },
       };
 
       const result = ensureDateStrings(formData);
@@ -638,8 +638,8 @@ describe('ensureDateStrings', () => {
 
     it('should return object with same structure', () => {
       const formData = {
-        dateOfBirth: '2233-03-22',
-        fullName: { first: 'James', last: 'Kirk' },
+        dateOfBirth: '1983-11-29',
+        fullName: { first: 'Sugi', last: '' },
         ssn: '123-45-6789',
       };
 

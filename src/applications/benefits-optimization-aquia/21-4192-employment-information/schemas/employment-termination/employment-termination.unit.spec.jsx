@@ -35,7 +35,7 @@ describe('Employment Termination Schemas', () => {
       expect(terminationReasonSchema.safeParse(undefined).success).to.be.true;
     });
 
-    it('should validate Star Trek themed reason', () => {
+    it('should validate themed reason', () => {
       expect(
         terminationReasonSchema.safeParse(
           'Medical discharge due to injuries sustained during deep space exploration mission',
@@ -46,7 +46,7 @@ describe('Employment Termination Schemas', () => {
     it('should validate retirement reason', () => {
       expect(
         terminationReasonSchema.safeParse(
-          'Retired after 30 years of service in Starfleet Command',
+          'Retired after 30 years of service in Bounty Hunters Guild',
         ).success,
       ).to.be.true;
     });
@@ -54,7 +54,7 @@ describe('Employment Termination Schemas', () => {
     it('should validate detailed reason', () => {
       expect(
         terminationReasonSchema.safeParse(
-          'Honorable medical discharge from Starfleet due to service-related injuries sustained in the line of duty',
+          'Honorable medical discharge from Guild due to service-related injuries sustained in the line of duty',
         ).success,
       ).to.be.true;
     });
@@ -79,7 +79,7 @@ describe('Employment Termination Schemas', () => {
     });
 
     it('should reject malformed date', () => {
-      expect(dateLastWorkedSchema.safeParse('2265-13-45').success).to.be.false;
+      expect(dateLastWorkedSchema.safeParse('2015-13-45').success).to.be.false;
     });
 
     it('should reject future date', () => {
@@ -127,10 +127,10 @@ describe('Employment Termination Schemas', () => {
       expect(employmentTerminationSchema.safeParse(data).success).to.be.true;
     });
 
-    it('should validate Star Trek themed data', () => {
+    it('should validate themed data', () => {
       const data = {
         terminationReason:
-          'Medical discharge from Starfleet due to service-related injuries',
+          'Medical discharge from Guild due to service-related injuries',
         dateLastWorked: '2020-10-15',
       };
       expect(employmentTerminationSchema.safeParse(data).success).to.be.true;
@@ -180,7 +180,7 @@ describe('Employment Termination Schemas', () => {
     it('should validate long detailed termination reason', () => {
       const data = {
         terminationReason:
-          'Honorable medical discharge from Starfleet Command after sustaining injuries during a critical diplomatic mission in the Neutral Zone, resulting in permanent disability requiring ongoing medical treatment at Starfleet Medical',
+          'Honorable medical discharge from Bounty Hunters Guild after sustaining injuries during a high-risk bounty acquisition in the Outer Rim, resulting in permanent disability requiring ongoing medical treatment at Coruscant Medical Center',
         dateLastWorked: '2020-11-30',
       };
       expect(employmentTerminationSchema.safeParse(data).success).to.be.true;

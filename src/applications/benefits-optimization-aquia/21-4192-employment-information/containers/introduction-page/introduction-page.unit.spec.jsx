@@ -25,7 +25,7 @@ const createMockStore = (initialState = {}) => ({
           highest: 3,
         },
         verified: true,
-        dob: '2233-03-22',
+        dob: '1985-03-22',
         claims: {
           appeals: false,
         },

@@ -35,7 +35,7 @@ describe('EmploymentConcessionsReview', () => {
       expect(text).to.include('Flexible duty shifts due to medical needs');
     });
 
-    it('should display Star Trek themed concessions', () => {
+    it('should display themed concessions', () => {
       const data = {
         employmentConcessions: {
           concessions: 'Reduced bridge duty hours accommodating rehabilitation',
@@ -137,12 +137,12 @@ describe('EmploymentConcessionsReview', () => {
     });
   });
 
-  describe('Star Trek Themed Test Cases', () => {
-    it('should display Starfleet disability accommodation', () => {
+  describe('Additional Test Cases', () => {
+    it('should display Guild disability accommodation', () => {
       const data = {
         employmentConcessions: {
           concessions:
-            'Allowed to perform duties from sickbay workstation when needed',
+            'Allowed to perform duties from medical bay workstation when needed',
         },
       };
       const { container } = render(
@@ -150,7 +150,7 @@ describe('EmploymentConcessionsReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include(
-        'Allowed to perform duties from sickbay workstation when needed',
+        'Allowed to perform duties from medical bay workstation when needed',
       );
     });
 

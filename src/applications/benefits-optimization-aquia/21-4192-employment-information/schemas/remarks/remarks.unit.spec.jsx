@@ -21,14 +21,14 @@ describe('Remarks Schemas', () => {
 
       it('should validate short remark', () => {
         const result = remarksFieldSchema.safeParse(
-          'Captain Kirk performed admirably.',
+          'Boba Fett performed admirably.',
         );
         expect(result.success).to.be.true;
       });
 
-      it('should validate Star Trek mission remark', () => {
+      it('should validate mission remark', () => {
         const result = remarksFieldSchema.safeParse(
-          'Captain Kirk was instrumental in the successful completion of the five-year mission to explore strange new worlds.',
+          'Boba Fett was instrumental in the successful completion of the five-year contract across the Outer Rim.',
         );
         expect(result.success).to.be.true;
       });
@@ -40,21 +40,21 @@ describe('Remarks Schemas', () => {
 
       it('should validate multiline remark', () => {
         const result = remarksFieldSchema.safeParse(
-          'Space: the final frontier.\nThese are the voyages of the starship Enterprise.',
+          'The Code is the Way.\nThis is the way of the Bounty Hunters Guild.',
         );
         expect(result.success).to.be.true;
       });
 
       it('should validate remark with special characters', () => {
         const result = remarksFieldSchema.safeParse(
-          'The needs of the many outweigh the needs of the few. - Spock',
+          'I take on any job - for the right price. - Cad Bane',
         );
         expect(result.success).to.be.true;
       });
 
       it('should validate remark with numbers', () => {
         const result = remarksFieldSchema.safeParse(
-          'USS Enterprise NCC-1701 completed mission on Stardate 2258.42',
+          'Slave I completed mission on Contract Year 2258',
         );
         expect(result.success).to.be.true;
       });
@@ -118,8 +118,7 @@ describe('Remarks Schemas', () => {
 
       it('should validate Prime Directive remark', () => {
         const result = remarksSchema.safeParse({
-          remarks:
-            'Adhered to Starfleet General Order 1 (Prime Directive) throughout the mission.',
+          remarks: 'Adhered to Guild Code of Conduct throughout the mission.',
         });
         expect(result.success).to.be.true;
       });
@@ -127,7 +126,7 @@ describe('Remarks Schemas', () => {
       it('should validate commendation remark', () => {
         const result = remarksSchema.safeParse({
           remarks:
-            'Officer demonstrated exceptional leadership during first contact with the Horta species.',
+            'Hunter demonstrated exceptional tracking skills during high-value target acquisition on Tatooine.',
         });
         expect(result.success).to.be.true;
       });
@@ -135,14 +134,14 @@ describe('Remarks Schemas', () => {
       it('should validate medical remark', () => {
         const result = remarksSchema.safeParse({
           remarks:
-            "Treated for Vulcan nerve pinch recovery. - Dr. Leonard 'Bones' McCoy",
+            'Treated for blaster wounds sustained during target extraction on Nar Shaddaa.',
         });
         expect(result.success).to.be.true;
       });
 
       it('should validate long detailed remark', () => {
         const longRemark =
-          'Throughout the five-year mission aboard the USS Enterprise, Captain James T. Kirk demonstrated exemplary leadership qualities, successfully negotiating peace treaties with multiple alien species, averting galactic conflicts, and upholding Starfleet values of exploration and diplomacy. His crew showed unwavering loyalty and his decisions saved countless lives across the Federation.';
+          'Throughout the five-year contract period, Boba Fett demonstrated exceptional bounty hunting skills, successfully capturing high-value targets across the Outer Rim, maintaining a perfect Guild safety record, and upholding the Guild Code of Conduct. His tactical expertise and professionalism resulted in the successful completion of all assigned contracts without collateral incidents.';
         const result = remarksSchema.safeParse({
           remarks: longRemark,
         });
@@ -173,46 +172,45 @@ describe('Remarks Schemas', () => {
       });
     });
 
-    describe('Star Trek Themed Remarks', () => {
-      it('should validate Spock quote', () => {
+    describe('Themed Remarks', () => {
+      it('should validate Cad Bane quote', () => {
         const result = remarksSchema.safeParse({
-          remarks: 'The needs of the many outweigh the needs of the few.',
+          remarks: 'I take on any job - for the right price.',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Kirk quote', () => {
+      it('should validate Boba Fett quote', () => {
         const result = remarksSchema.safeParse({
-          remarks: 'Risk is our business.',
+          remarks: 'Bounty hunting is a complicated profession.',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate McCoy quote', () => {
+      it('should validate Aurra Sing quote', () => {
         const result = remarksSchema.safeParse({
-          remarks: "I'm a doctor, not a bricklayer!",
+          remarks: 'Credits are the only thing that matters.',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Scotty quote', () => {
+      it('should validate Jango Fett quote', () => {
         const result = remarksSchema.safeParse({
-          remarks:
-            "I'm givin' her all she's got, Captain! The engines cannae take much more!",
+          remarks: 'Always a pleasure to meet a Guild member.',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Picard quote', () => {
+      it('should validate Bossk quote', () => {
         const result = remarksSchema.safeParse({
-          remarks: 'Make it so.',
+          remarks: 'The job is done.',
         });
         expect(result.success).to.be.true;
       });
 
-      it('should validate Data quote', () => {
+      it('should validate professional remark', () => {
         const result = remarksSchema.safeParse({
-          remarks: 'I am fully functional, programmed in multiple techniques.',
+          remarks: 'Contract fulfilled according to Guild specifications.',
         });
         expect(result.success).to.be.true;
       });

@@ -16,7 +16,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should render the component', () => {
       const data = {
         employmentLastPayment: {
-          dateOfLastPayment: '2265-12-15',
+          dateOfLastPayment: '2015-12-15',
           grossAmountLastPayment: '5000',
           lumpSumPayment: 'no',
           grossAmountPaid: '',
@@ -70,7 +70,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should display formatted date of last payment', () => {
       const data = {
         employmentLastPayment: {
-          dateOfLastPayment: '2265-12-15',
+          dateOfLastPayment: '2015-12-15',
         },
       };
       const { container } = render(
@@ -82,7 +82,7 @@ describe('EmploymentLastPaymentReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('Date of last payment');
-      expect(text).to.include('2265');
+      expect(text).to.include('2015');
     });
 
     it('should display gross amount of last payment', () => {
@@ -159,7 +159,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should display formatted date paid', () => {
       const data = {
         employmentLastPayment: {
-          datePaid: '2265-12-31',
+          datePaid: '2015-12-31',
         },
       };
       const { container } = render(
@@ -171,17 +171,17 @@ describe('EmploymentLastPaymentReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('Date paid');
-      expect(text).to.include('2265');
+      expect(text).to.include('2015');
     });
 
-    it('should display all Star Trek themed payment data', () => {
+    it('should display all themed payment data', () => {
       const data = {
         employmentLastPayment: {
-          dateOfLastPayment: '2293-12-25',
+          dateOfLastPayment: '2020-12-25',
           grossAmountLastPayment: '7500',
           lumpSumPayment: 'yes',
           grossAmountPaid: '75000',
-          datePaid: '2293-12-31',
+          datePaid: '2020-12-31',
         },
       };
       const { container } = render(
@@ -280,7 +280,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should handle partial data', () => {
       const data = {
         employmentLastPayment: {
-          dateOfLastPayment: '2265-12-15',
+          dateOfLastPayment: '2015-12-15',
         },
       };
       const { container } = render(
@@ -291,7 +291,7 @@ describe('EmploymentLastPaymentReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('2265');
+      expect(text).to.include('2015');
       expect(text).to.include('Not provided');
     });
   });
@@ -300,7 +300,7 @@ describe('EmploymentLastPaymentReview', () => {
     it('should format date in US locale', () => {
       const data = {
         employmentLastPayment: {
-          dateOfLastPayment: '2265-12-15',
+          dateOfLastPayment: '2015-12-15',
         },
       };
       const { container } = render(
@@ -313,13 +313,13 @@ describe('EmploymentLastPaymentReview', () => {
       const text = container.textContent;
       expect(text).to.include('December');
       expect(text).to.include('15');
-      expect(text).to.include('2265');
+      expect(text).to.include('2015');
     });
 
-    it('should format Star Trek era dates', () => {
+    it('should format dates correctly', () => {
       const data = {
         employmentLastPayment: {
-          datePaid: '2293-12-31',
+          datePaid: '2020-12-31',
         },
       };
       const { container } = render(
@@ -332,7 +332,7 @@ describe('EmploymentLastPaymentReview', () => {
       const text = container.textContent;
       expect(text).to.include('December');
       expect(text).to.include('31');
-      expect(text).to.include('2293');
+      expect(text).to.include('2020');
     });
 
     it('should handle invalid date gracefully', () => {

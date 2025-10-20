@@ -20,12 +20,12 @@ describe('Employment Last Payment Schemas', () => {
     });
 
     it('should validate valid date', () => {
-      expect(dateOfLastPaymentSchema.safeParse('2265-12-15').success).to.be
+      expect(dateOfLastPaymentSchema.safeParse('2015-12-15').success).to.be
         .true;
     });
 
-    it('should validate Star Trek date', () => {
-      expect(dateOfLastPaymentSchema.safeParse('2293-12-25').success).to.be
+    it('should validate date', () => {
+      expect(dateOfLastPaymentSchema.safeParse('2020-12-25').success).to.be
         .true;
     });
 
@@ -39,7 +39,7 @@ describe('Employment Last Payment Schemas', () => {
     });
 
     it('should reject malformed date', () => {
-      expect(dateOfLastPaymentSchema.safeParse('2265-13-45').success).to.be
+      expect(dateOfLastPaymentSchema.safeParse('2015-13-45').success).to.be
         .false;
     });
   });
@@ -78,7 +78,7 @@ describe('Employment Last Payment Schemas', () => {
         .true;
     });
 
-    it('should validate Star Trek themed amount', () => {
+    it('should validate themed amount', () => {
       expect(grossAmountLastPaymentSchema.safeParse('7500').success).to.be.true;
     });
   });
@@ -141,7 +141,7 @@ describe('Employment Last Payment Schemas', () => {
       expect(grossAmountPaidSchema.safeParse(undefined).success).to.be.true;
     });
 
-    it('should validate Star Trek themed lump sum', () => {
+    it('should validate themed lump sum', () => {
       expect(grossAmountPaidSchema.safeParse('75000').success).to.be.true;
     });
   });
@@ -152,11 +152,11 @@ describe('Employment Last Payment Schemas', () => {
     });
 
     it('should validate valid date', () => {
-      expect(datePaidSchema.safeParse('2265-12-31').success).to.be.true;
+      expect(datePaidSchema.safeParse('2015-12-31').success).to.be.true;
     });
 
-    it('should validate Star Trek date', () => {
-      expect(datePaidSchema.safeParse('2293-12-31').success).to.be.true;
+    it('should validate date', () => {
+      expect(datePaidSchema.safeParse('2020-12-31').success).to.be.true;
     });
 
     it('should validate undefined', () => {
@@ -168,25 +168,25 @@ describe('Employment Last Payment Schemas', () => {
     });
 
     it('should reject malformed date', () => {
-      expect(datePaidSchema.safeParse('2265-15-99').success).to.be.false;
+      expect(datePaidSchema.safeParse('2015-15-99').success).to.be.false;
     });
   });
 
   describe('employmentLastPaymentSchema', () => {
     it('should validate complete schema', () => {
       const data = {
-        dateOfLastPayment: '2265-12-15',
+        dateOfLastPayment: '2015-12-15',
         grossAmountLastPayment: '5000',
         lumpSumPayment: 'yes',
         grossAmountPaid: '50000',
-        datePaid: '2265-12-31',
+        datePaid: '2015-12-31',
       };
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
 
     it('should validate with lumpSumPayment as "no"', () => {
       const data = {
-        dateOfLastPayment: '2265-12-15',
+        dateOfLastPayment: '2015-12-15',
         grossAmountLastPayment: '5000',
         lumpSumPayment: 'no',
         grossAmountPaid: '',
@@ -197,7 +197,7 @@ describe('Employment Last Payment Schemas', () => {
 
     it('should validate partial data', () => {
       const data = {
-        dateOfLastPayment: '2265-12-15',
+        dateOfLastPayment: '2015-12-15',
         grossAmountLastPayment: '',
         lumpSumPayment: '',
         grossAmountPaid: '',
@@ -211,13 +211,13 @@ describe('Employment Last Payment Schemas', () => {
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
 
-    it('should validate Star Trek themed data', () => {
+    it('should validate themed data', () => {
       const data = {
-        dateOfLastPayment: '2293-12-25',
+        dateOfLastPayment: '2020-12-25',
         grossAmountLastPayment: '7500',
         lumpSumPayment: 'yes',
         grossAmountPaid: '75000',
-        datePaid: '2293-12-31',
+        datePaid: '2020-12-31',
       };
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
@@ -257,7 +257,7 @@ describe('Employment Last Payment Schemas', () => {
 
     it('should validate with only date of last payment filled', () => {
       const data = {
-        dateOfLastPayment: '2265-12-15',
+        dateOfLastPayment: '2015-12-15',
       };
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });
@@ -266,7 +266,7 @@ describe('Employment Last Payment Schemas', () => {
       const data = {
         lumpSumPayment: 'yes',
         grossAmountPaid: '50000',
-        datePaid: '2265-12-31',
+        datePaid: '2015-12-31',
       };
       expect(employmentLastPaymentSchema.safeParse(data).success).to.be.true;
     });

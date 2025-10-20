@@ -48,7 +48,7 @@ describe('EmploymentDatesDetailsPage', () => {
   it('should display type of work data', () => {
     const data = {
       employmentDatesDetails: {
-        typeOfWork: 'Commanding officer of USS Enterprise',
+        typeOfWork: 'Commanding officer of Slave I',
       },
     };
     const { container } = render(
@@ -61,7 +61,7 @@ describe('EmploymentDatesDetailsPage', () => {
 
     const textarea = container.querySelector('va-textarea');
     expect(textarea.getAttribute('value')).to.equal(
-      'Commanding officer of USS Enterprise',
+      'Commanding officer of Slave I',
     );
   });
 

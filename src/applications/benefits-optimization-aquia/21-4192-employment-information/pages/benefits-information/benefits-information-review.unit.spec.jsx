@@ -51,7 +51,7 @@ describe('BenefitsInformationReview', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Yes for Starfleet benefits entitlement', () => {
+    it('should display Yes for Guild benefits entitlement', () => {
       const data = {
         benefitsInformation: {
           benefitEntitlement: 'yes',

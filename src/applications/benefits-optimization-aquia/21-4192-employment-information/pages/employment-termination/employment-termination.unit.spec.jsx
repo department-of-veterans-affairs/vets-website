@@ -54,7 +54,7 @@ describe('EmploymentTerminationPage', () => {
   it('should display termination reason data', () => {
     const data = {
       employmentTermination: {
-        terminationReason: 'Medical discharge from Starfleet',
+        terminationReason: 'Medical discharge from Guild',
       },
     };
     const { container } = render(
@@ -67,7 +67,7 @@ describe('EmploymentTerminationPage', () => {
 
     const textarea = container.querySelector('va-textarea');
     expect(textarea.getAttribute('value')).to.equal(
-      'Medical discharge from Starfleet',
+      'Medical discharge from Guild',
     );
   });
 

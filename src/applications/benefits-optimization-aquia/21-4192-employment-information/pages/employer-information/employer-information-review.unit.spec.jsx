@@ -51,14 +51,14 @@ describe('EmployerInformationReview', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Starfleet Command employer information', () => {
+    it('should display complete employer information', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
-            street: 'Starfleet Headquarters',
+            street: 'Guild Headquarters',
             street2: 'Building One',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -74,21 +74,21 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Starfleet Command');
-      expect(container.textContent).to.include('Starfleet Headquarters');
+      expect(container.textContent).to.include('Bounty Hunters Guild');
+      expect(container.textContent).to.include('Guild Headquarters');
       expect(container.textContent).to.include('Building One');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('CA 94102');
       expect(container.textContent).to.include('415-555-1234');
     });
 
-    it('should display USS Enterprise employer information', () => {
+    it('should display Slave I employer information', () => {
       const data = {
         employerInformation: {
-          employerName: 'USS Enterprise (NCC-1701)',
+          employerName: 'Slave I',
           employerAddress: {
-            street: 'Starbase 11',
-            city: 'Deep Space',
+            street: 'Nar Shaddaa Sector 11',
+            city: 'Nar Shaddaa',
             state: 'CA',
             postalCode: '90210',
           },
@@ -104,18 +104,18 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('USS Enterprise (NCC-1701)');
-      expect(container.textContent).to.include('Starbase 11');
-      expect(container.textContent).to.include('Deep Space');
+      expect(container.textContent).to.include('Slave I');
+      expect(container.textContent).to.include('Nar Shaddaa Sector 11');
+      expect(container.textContent).to.include('Nar Shaddaa');
       expect(container.textContent).to.include('555-170-1234');
     });
 
     it('should display address without street2', () => {
       const data = {
         employerInformation: {
-          employerName: 'Deep Space Nine',
+          employerName: 'Mos Eisley Cantina',
           employerAddress: {
-            street: 'Bajoran Sector',
+            street: 'Outer Rim Sector',
             city: 'Bajor',
             state: 'NY',
             postalCode: '10001',
@@ -132,8 +132,8 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Deep Space Nine');
-      expect(container.textContent).to.include('Bajoran Sector');
+      expect(container.textContent).to.include('Mos Eisley Cantina');
+      expect(container.textContent).to.include('Outer Rim Sector');
       expect(container.textContent).to.include('Bajor');
       expect(container.textContent).to.include('NY 10001');
     });
@@ -215,7 +215,7 @@ describe('EmployerInformationReview', () => {
         employerInformation: {
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -238,7 +238,7 @@ describe('EmployerInformationReview', () => {
     it('should show not provided for missing address', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
         },
       };
 
@@ -258,10 +258,10 @@ describe('EmployerInformationReview', () => {
     it('should show not provided for missing phone number', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -286,11 +286,11 @@ describe('EmployerInformationReview', () => {
     it('should format complete address with all fields', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: 'Building 1',
             street2: 'Suite 100',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -307,7 +307,7 @@ describe('EmployerInformationReview', () => {
 
       expect(container.textContent).to.include('Building 1');
       expect(container.textContent).to.include('Suite 100');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('CA 94102');
     });
 
@@ -316,7 +316,7 @@ describe('EmployerInformationReview', () => {
         employerInformation: {
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -332,7 +332,7 @@ describe('EmployerInformationReview', () => {
       );
 
       expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('CA 94102');
     });
 
@@ -361,7 +361,7 @@ describe('EmployerInformationReview', () => {
         employerInformation: {
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
           },
         },
@@ -376,7 +376,7 @@ describe('EmployerInformationReview', () => {
       );
 
       expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('CA');
     });
 
@@ -385,7 +385,7 @@ describe('EmployerInformationReview', () => {
         employerInformation: {
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             postalCode: '94102',
           },
         },
@@ -400,7 +400,7 @@ describe('EmployerInformationReview', () => {
       );
 
       expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('Mos Eisley');
       expect(container.textContent).to.include('94102');
     });
 
@@ -475,7 +475,7 @@ describe('EmployerInformationReview', () => {
     it('should handle null employerAddress', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: null,
         },
       };
@@ -496,7 +496,7 @@ describe('EmployerInformationReview', () => {
     it('should have correct number of review rows', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: 'HQ',
             city: 'SF',
@@ -522,7 +522,7 @@ describe('EmployerInformationReview', () => {
     it('should have dt and dd elements for each row', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
         },
       };
 
@@ -568,11 +568,11 @@ describe('EmployerInformationReview', () => {
     });
   });
 
-  describe('Different Star Trek Employers', () => {
-    it('should display Vulcan Science Academy', () => {
+  describe('Multiple Employer Scenarios', () => {
+    it('should display Mandalorian Training Corps', () => {
       const data = {
         employerInformation: {
-          employerName: 'Vulcan Science Academy',
+          employerName: 'Mandalorian Training Corps',
           employerAddress: {
             street: 'Mount Seleya',
             city: 'ShiKahr',
@@ -591,15 +591,15 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Vulcan Science Academy');
+      expect(container.textContent).to.include('Mandalorian Training Corps');
       expect(container.textContent).to.include('Mount Seleya');
       expect(container.textContent).to.include('ShiKahr');
     });
 
-    it('should display Klingon Defense Force', () => {
+    it('should display Hutt Cartel', () => {
       const data = {
         employerInformation: {
-          employerName: 'Klingon Defense Force',
+          employerName: 'Hutt Cartel',
           employerAddress: {
             street: 'First City',
             city: "Qo'noS",
@@ -618,19 +618,19 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Klingon Defense Force');
+      expect(container.textContent).to.include('Hutt Cartel');
       expect(container.textContent).to.include('First City');
       expect(container.textContent).to.include("Qo'noS");
     });
 
-    it('should display Starfleet Academy', () => {
+    it('should display Kamino Cloning Facility', () => {
       const data = {
         employerInformation: {
-          employerName: 'Starfleet Academy',
+          employerName: 'Kamino Cloning Facility',
           employerAddress: {
             street: 'Academy Grounds',
             street2: 'Cadet Quarters',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -646,7 +646,7 @@ describe('EmployerInformationReview', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Starfleet Academy');
+      expect(container.textContent).to.include('Kamino Cloning Facility');
       expect(container.textContent).to.include('Academy Grounds');
       expect(container.textContent).to.include('Cadet Quarters');
     });

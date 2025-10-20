@@ -39,11 +39,11 @@ describe('RemarksReview', () => {
   });
 
   describe('Data Display', () => {
-    it('should display Star Trek mission remarks', () => {
+    it('should display mission remarks', () => {
       const data = {
         remarks: {
           remarks:
-            'Captain Kirk was instrumental in the successful completion of the five-year mission to explore strange new worlds.',
+            'Boba Fett was instrumental in the successful completion of the five-year contract across the Outer Rim.',
         },
       };
 
@@ -51,15 +51,14 @@ describe('RemarksReview', () => {
         <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
       );
 
-      expect(container.textContent).to.include('Captain Kirk');
-      expect(container.textContent).to.include('five-year mission');
+      expect(container.textContent).to.include('Boba Fett');
+      expect(container.textContent).to.include('five-year contract');
     });
 
-    it('should display Prime Directive remark', () => {
+    it('should display Guild Code remark', () => {
       const data = {
         remarks: {
-          remarks:
-            'Adhered to Starfleet General Order 1 (Prime Directive) throughout the mission.',
+          remarks: 'Adhered to Guild Code of Conduct throughout the mission.',
         },
       };
 
@@ -67,13 +66,13 @@ describe('RemarksReview', () => {
         <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
       );
 
-      expect(container.textContent).to.include('Prime Directive');
+      expect(container.textContent).to.include('Guild Code');
     });
 
     it('should display short remark', () => {
       const data = {
         remarks: {
-          remarks: 'Make it so.',
+          remarks: 'The job is done.',
         },
       };
 
@@ -81,14 +80,14 @@ describe('RemarksReview', () => {
         <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
       );
 
-      expect(container.textContent).to.include('Make it so.');
+      expect(container.textContent).to.include('The job is done.');
     });
 
     it('should display multiline remarks', () => {
       const data = {
         remarks: {
           remarks:
-            'Space: the final frontier.\nThese are the voyages of the starship Enterprise.',
+            'The Code is the Way.\nThese are the voyages of the bounty ship Slave I.',
         },
       };
 
@@ -96,8 +95,8 @@ describe('RemarksReview', () => {
         <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
       );
 
-      expect(container.textContent).to.include('Space: the final frontier');
-      expect(container.textContent).to.include('starship Enterprise');
+      expect(container.textContent).to.include('The Code is the Way');
+      expect(container.textContent).to.include('bounty ship Slave I');
     });
 
     it('should handle empty data gracefully', () => {
@@ -221,7 +220,7 @@ describe('RemarksReview', () => {
     it('should have one review row', () => {
       const data = {
         remarks: {
-          remarks: 'Live long and prosper.',
+          remarks: 'This is the way.',
         },
       };
 
@@ -271,7 +270,7 @@ describe('RemarksReview', () => {
   describe('Long Remarks Display', () => {
     it('should display long remarks', () => {
       const longRemark =
-        'Throughout the five-year mission aboard the USS Enterprise, Captain James T. Kirk demonstrated exemplary leadership qualities, successfully negotiating peace treaties with multiple alien species, averting galactic conflicts, and upholding Starfleet values of exploration and diplomacy.';
+        'Throughout the five-year contract aboard the Slave I, Captain Boba Fett demonstrated exemplary leadership qualities, successfully negotiating peace treaties with multiple alien species, averting galactic conflicts, and upholding Guild code of exploration and diplomacy.';
       const data = {
         remarks: {
           remarks: longRemark,
@@ -282,7 +281,7 @@ describe('RemarksReview', () => {
         <RemarksReview data={data} editPage={mockEditPage} title={mockTitle} />,
       );
 
-      expect(container.textContent).to.include('five-year mission');
+      expect(container.textContent).to.include('five-year contract');
       expect(container.textContent).to.include('exemplary leadership');
     });
 
@@ -302,8 +301,8 @@ describe('RemarksReview', () => {
     });
   });
 
-  describe('Star Trek Quotes', () => {
-    it('should display Spock quote', () => {
+  describe('Character Quotes', () => {
+    it('should display Cad Bane quote', () => {
       const data = {
         remarks: {
           remarks: 'The needs of the many outweigh the needs of the few.',
@@ -317,7 +316,7 @@ describe('RemarksReview', () => {
       expect(container.textContent).to.include('needs of the many');
     });
 
-    it('should display Kirk quote', () => {
+    it('should display Fett quote', () => {
       const data = {
         remarks: {
           remarks: 'Risk is our business.',

@@ -22,11 +22,11 @@ describe('Employment Dates and Details Schemas', () => {
     });
 
     it('should validate valid date', () => {
-      expect(beginningDateSchema.safeParse('2250-01-01').success).to.be.true;
+      expect(beginningDateSchema.safeParse('2010-01-01').success).to.be.true;
     });
 
-    it('should validate Star Trek date', () => {
-      expect(beginningDateSchema.safeParse('2233-03-22').success).to.be.true;
+    it('should validate date', () => {
+      expect(beginningDateSchema.safeParse('1985-03-22').success).to.be.true;
     });
 
     it('should validate undefined', () => {
@@ -38,7 +38,7 @@ describe('Employment Dates and Details Schemas', () => {
     });
 
     it('should reject malformed date', () => {
-      expect(beginningDateSchema.safeParse('2250-13-45').success).to.be.false;
+      expect(beginningDateSchema.safeParse('2010-13-45').success).to.be.false;
     });
   });
 
@@ -48,11 +48,11 @@ describe('Employment Dates and Details Schemas', () => {
     });
 
     it('should validate valid date', () => {
-      expect(endingDateSchema.safeParse('2265-12-31').success).to.be.true;
+      expect(endingDateSchema.safeParse('2015-12-31').success).to.be.true;
     });
 
-    it('should validate Star Trek date', () => {
-      expect(endingDateSchema.safeParse('2293-12-31').success).to.be.true;
+    it('should validate date', () => {
+      expect(endingDateSchema.safeParse('2020-12-31').success).to.be.true;
     });
 
     it('should validate undefined', () => {
@@ -76,7 +76,7 @@ describe('Employment Dates and Details Schemas', () => {
     it('should validate long work description', () => {
       expect(
         typeOfWorkSchema.safeParse(
-          'Commanding officer of USS Enterprise, responsible for crew of 430 personnel',
+          'Commanding officer of Slave I, responsible for crew of 430 personnel',
         ).success,
       ).to.be.true;
     });
@@ -93,7 +93,7 @@ describe('Employment Dates and Details Schemas', () => {
       expect(typeOfWorkSchema.safeParse(undefined).success).to.be.true;
     });
 
-    it('should validate Star Trek themed work', () => {
+    it('should validate themed work', () => {
       expect(
         typeOfWorkSchema.safeParse(
           'Bridge operations, tactical analysis, diplomatic missions',
@@ -158,8 +158,8 @@ describe('Employment Dates and Details Schemas', () => {
       expect(timeLostSchema.safeParse(undefined).success).to.be.true;
     });
 
-    it('should validate Star Trek themed time lost', () => {
-      expect(timeLostSchema.safeParse('2 weeks sickbay recovery').success).to.be
+    it('should validate themed time lost', () => {
+      expect(timeLostSchema.safeParse('2 weeks medical recovery').success).to.be
         .true;
     });
   });
@@ -227,8 +227,8 @@ describe('Employment Dates and Details Schemas', () => {
   describe('employmentDatesDetailsSchema', () => {
     it('should validate complete schema', () => {
       const data = {
-        beginningDate: '2250-01-01',
-        endingDate: '2265-12-31',
+        beginningDate: '2010-01-01',
+        endingDate: '2015-12-31',
         typeOfWork: 'Starship Command',
         amountEarned: '75000',
         timeLost: '30 days',
@@ -240,7 +240,7 @@ describe('Employment Dates and Details Schemas', () => {
 
     it('should validate partial data', () => {
       const data = {
-        beginningDate: '2250-01-01',
+        beginningDate: '2010-01-01',
         endingDate: '',
         typeOfWork: '',
         amountEarned: '',
@@ -256,13 +256,13 @@ describe('Employment Dates and Details Schemas', () => {
       expect(employmentDatesDetailsSchema.safeParse(data).success).to.be.true;
     });
 
-    it('should validate Star Trek themed data', () => {
+    it('should validate themed data', () => {
       const data = {
-        beginningDate: '2233-03-22',
-        endingDate: '2293-12-31',
-        typeOfWork: 'Commanding officer of USS Enterprise',
+        beginningDate: '1985-03-22',
+        endingDate: '2020-12-31',
+        typeOfWork: 'Commanding officer of Slave I',
         amountEarned: '125000',
-        timeLost: '2 weeks sickbay',
+        timeLost: '2 weeks medical bay',
         dailyHours: '10',
         weeklyHours: '50',
       };
@@ -297,8 +297,8 @@ describe('Employment Dates and Details Schemas', () => {
 
     it('should validate with only required fields filled', () => {
       const data = {
-        beginningDate: '2250-01-01',
-        endingDate: '2265-12-31',
+        beginningDate: '2010-01-01',
+        endingDate: '2015-12-31',
         typeOfWork: 'Bridge operations',
       };
       expect(employmentDatesDetailsSchema.safeParse(data).success).to.be.true;

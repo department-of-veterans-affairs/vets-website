@@ -14,20 +14,18 @@ import {
 describe('Employer Information Schemas', () => {
   describe('employerNameSchema', () => {
     describe('Valid Employer Names', () => {
-      it('should validate Starfleet Command', () => {
-        const result = employerNameSchema.safeParse('Starfleet Command');
+      it('should validate employer name', () => {
+        const result = employerNameSchema.safeParse('Bounty Hunters Guild');
         expect(result.success).to.be.true;
       });
 
       it('should validate name with special characters', () => {
-        const result = employerNameSchema.safeParse(
-          'USS Enterprise (NCC-1701)',
-        );
+        const result = employerNameSchema.safeParse('Slave I');
         expect(result.success).to.be.true;
       });
 
       it('should validate name with numbers', () => {
-        const result = employerNameSchema.safeParse('Starbase 11');
+        const result = employerNameSchema.safeParse('Nar Shaddaa Sector 11');
         expect(result.success).to.be.true;
       });
 
@@ -41,14 +39,14 @@ describe('Employer Information Schemas', () => {
         expect(result.success).to.be.true;
       });
 
-      it('should validate various Star Trek organizations', () => {
+      it('should validate various organizations', () => {
         const employers = [
-          'Starfleet Academy',
-          'Deep Space Nine',
-          'Vulcan Science Academy',
-          'Klingon Defense Force',
-          'Romulan Imperial Fleet',
-          'Federation Council',
+          'Kamino Cloning Facility',
+          'Mos Eisley Cantina',
+          'Mandalorian Training Corps',
+          'Hutt Cartel',
+          'Crimson Dawn',
+          'Guild Council',
         ];
 
         employers.forEach(name => {
@@ -159,10 +157,10 @@ describe('Employer Information Schemas', () => {
     describe('Valid Addresses', () => {
       it('should validate complete address', () => {
         const result = employerAddressSchema.safeParse({
-          street: 'Starfleet Headquarters',
+          street: 'Guild Headquarters',
           street2: 'Building One',
           street3: 'Floor 5',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           country: 'USA',
           postalCode: '94102',
@@ -173,8 +171,8 @@ describe('Employer Information Schemas', () => {
 
       it('should validate address without optional fields', () => {
         const result = employerAddressSchema.safeParse({
-          street: 'Starfleet HQ',
-          city: 'San Francisco',
+          street: 'Guild Headquarters',
+          city: 'Mos Eisley',
           state: 'CA',
           country: 'USA',
           postalCode: '94102',
@@ -185,7 +183,7 @@ describe('Employer Information Schemas', () => {
       it('should validate address with 5-digit ZIP', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           country: 'USA',
           postalCode: '94102',
@@ -196,7 +194,7 @@ describe('Employer Information Schemas', () => {
       it('should validate address with 9-digit ZIP', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           country: 'USA',
           postalCode: '94102-1234',
@@ -207,7 +205,7 @@ describe('Employer Information Schemas', () => {
       it('should default country to USA', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -216,7 +214,7 @@ describe('Employer Information Schemas', () => {
         }
       });
 
-      it('should validate various Star Trek locations', () => {
+      it('should validate various locations', () => {
         const addresses = [
           {
             street: 'Mount Seleya',
@@ -231,7 +229,7 @@ describe('Employer Information Schemas', () => {
             postalCode: '10001',
           },
           {
-            street: 'Bajoran Sector',
+            street: 'Outer Rim Sector',
             city: 'Bajor',
             state: 'TX',
             postalCode: '75001',
@@ -248,7 +246,7 @@ describe('Employer Information Schemas', () => {
     describe('Invalid Addresses', () => {
       it('should reject missing street', () => {
         const result = employerAddressSchema.safeParse({
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -258,7 +256,7 @@ describe('Employer Information Schemas', () => {
       it('should reject empty street', () => {
         const result = employerAddressSchema.safeParse({
           street: '',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -287,7 +285,7 @@ describe('Employer Information Schemas', () => {
       it('should reject missing state', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           postalCode: '94102',
         });
         expect(result.success).to.be.false;
@@ -296,7 +294,7 @@ describe('Employer Information Schemas', () => {
       it('should reject missing postal code', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
         });
         expect(result.success).to.be.false;
@@ -305,7 +303,7 @@ describe('Employer Information Schemas', () => {
       it('should reject invalid postal code format', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '1234',
         });
@@ -315,7 +313,7 @@ describe('Employer Information Schemas', () => {
       it('should reject postal code with letters', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: 'ABCDE',
         });
@@ -327,7 +325,7 @@ describe('Employer Information Schemas', () => {
       it('should accept undefined street2', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -338,7 +336,7 @@ describe('Employer Information Schemas', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
           street2: '',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -348,7 +346,7 @@ describe('Employer Information Schemas', () => {
       it('should accept undefined isMilitary', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
         });
@@ -358,7 +356,7 @@ describe('Employer Information Schemas', () => {
       it('should accept isMilitary as true', () => {
         const result = employerAddressSchema.safeParse({
           street: '123 Main St',
-          city: 'San Francisco',
+          city: 'Mos Eisley',
           state: 'CA',
           postalCode: '94102',
           isMilitary: true,
@@ -370,13 +368,13 @@ describe('Employer Information Schemas', () => {
 
   describe('employerInformationSchema', () => {
     describe('Complete Employer Information', () => {
-      it('should validate Starfleet Command', () => {
+      it('should validate complete employer information', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
-            street: 'Starfleet Headquarters',
+            street: 'Guild Headquarters',
             street2: 'Building One',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             country: 'USA',
             postalCode: '94102',
@@ -386,12 +384,12 @@ describe('Employer Information Schemas', () => {
         expect(result.success).to.be.true;
       });
 
-      it('should validate USS Enterprise', () => {
+      it('should validate Slave I', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'USS Enterprise (NCC-1701)',
+          employerName: 'Slave I',
           employerAddress: {
-            street: 'Starbase 11',
-            city: 'Deep Space',
+            street: 'Nar Shaddaa Sector 11',
+            city: 'Nar Shaddaa',
             state: 'CA',
             postalCode: '90210',
           },
@@ -400,11 +398,11 @@ describe('Employer Information Schemas', () => {
         expect(result.success).to.be.true;
       });
 
-      it('should validate Deep Space Nine', () => {
+      it('should validate Mos Eisley Cantina', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Deep Space Nine',
+          employerName: 'Mos Eisley Cantina',
           employerAddress: {
-            street: 'Bajoran Sector',
+            street: 'Outer Rim Sector',
             city: 'Bajor',
             state: 'NY',
             country: 'USA',
@@ -415,9 +413,9 @@ describe('Employer Information Schemas', () => {
         expect(result.success).to.be.true;
       });
 
-      it('should validate Vulcan Science Academy', () => {
+      it('should validate Mandalorian Training Corps', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Vulcan Science Academy',
+          employerName: 'Mandalorian Training Corps',
           employerAddress: {
             street: 'Mount Seleya',
             city: 'ShiKahr',
@@ -435,7 +433,7 @@ describe('Employer Information Schemas', () => {
         const result = employerInformationSchema.safeParse({
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -446,7 +444,7 @@ describe('Employer Information Schemas', () => {
 
       it('should reject missing employerAddress', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerPhone: '4155551234',
         });
         expect(result.success).to.be.false;
@@ -454,10 +452,10 @@ describe('Employer Information Schemas', () => {
 
       it('should reject missing employerPhone', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -467,10 +465,10 @@ describe('Employer Information Schemas', () => {
 
       it('should reject invalid phone number', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -481,7 +479,7 @@ describe('Employer Information Schemas', () => {
 
       it('should reject invalid address', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
             // Missing city, state, postalCode
@@ -517,7 +515,7 @@ describe('Employer Information Schemas', () => {
           employerName: 'A'.repeat(100),
           employerAddress: {
             street: '123 Main St',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -528,12 +526,12 @@ describe('Employer Information Schemas', () => {
 
       it('should handle all address lines filled', () => {
         const result = employerInformationSchema.safeParse({
-          employerName: 'Starfleet Command',
+          employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: 'Building 1',
             street2: 'Suite 100',
             street3: 'Floor 5',
-            city: 'San Francisco',
+            city: 'Mos Eisley',
             state: 'CA',
             country: 'USA',
             postalCode: '94102-1234',

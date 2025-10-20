@@ -16,8 +16,8 @@ describe('EmploymentDatesDetailsReview', () => {
     it('should render the component', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2250-01-01',
-          endingDate: '2265-12-31',
+          beginningDate: '2010-01-01',
+          endingDate: '2015-12-31',
           typeOfWork: 'Starship Command',
           amountEarned: '75000',
           timeLost: '30 days',
@@ -72,7 +72,7 @@ describe('EmploymentDatesDetailsReview', () => {
     it('should display formatted beginning date', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2250-01-01',
+          beginningDate: '2010-01-01',
         },
       };
       const { container } = render(
@@ -84,13 +84,13 @@ describe('EmploymentDatesDetailsReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('Beginning date');
-      expect(text).to.include('2250');
+      expect(text).to.include('2010');
     });
 
     it('should display formatted ending date', () => {
       const data = {
         employmentDatesDetails: {
-          endingDate: '2265-12-31',
+          endingDate: '2015-12-31',
         },
       };
       const { container } = render(
@@ -102,13 +102,13 @@ describe('EmploymentDatesDetailsReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('Ending date');
-      expect(text).to.include('2265');
+      expect(text).to.include('2015');
     });
 
     it('should display type of work', () => {
       const data = {
         employmentDatesDetails: {
-          typeOfWork: 'Commanding officer of USS Enterprise',
+          typeOfWork: 'Commanding officer of Slave I',
         },
       };
       const { container } = render(
@@ -120,7 +120,7 @@ describe('EmploymentDatesDetailsReview', () => {
       );
       const text = container.textContent;
       expect(text).to.include('Type of work');
-      expect(text).to.include('Commanding officer of USS Enterprise');
+      expect(text).to.include('Commanding officer of Slave I');
     });
 
     it('should display amount earned', () => {
@@ -195,14 +195,14 @@ describe('EmploymentDatesDetailsReview', () => {
       expect(text).to.include('40');
     });
 
-    it('should display all Star Trek themed employment data', () => {
+    it('should display all themed employment data', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2233-03-22',
-          endingDate: '2293-12-31',
-          typeOfWork: 'Starfleet Command Operations',
+          beginningDate: '1985-03-22',
+          endingDate: '2020-12-31',
+          typeOfWork: 'Bounty Hunters Guild Operations',
           amountEarned: '125000',
-          timeLost: '2 weeks sickbay recovery',
+          timeLost: '2 weeks medical recovery',
           dailyHours: '10',
           weeklyHours: '50',
         },
@@ -215,9 +215,9 @@ describe('EmploymentDatesDetailsReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('Starfleet Command Operations');
+      expect(text).to.include('Bounty Hunters Guild Operations');
       expect(text).to.include('125000');
-      expect(text).to.include('2 weeks sickbay recovery');
+      expect(text).to.include('2 weeks medical recovery');
       expect(text).to.include('10');
       expect(text).to.include('50');
     });
@@ -288,7 +288,7 @@ describe('EmploymentDatesDetailsReview', () => {
     it('should handle partial data', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2250-01-01',
+          beginningDate: '2010-01-01',
         },
       };
       const { container } = render(
@@ -299,7 +299,7 @@ describe('EmploymentDatesDetailsReview', () => {
         />,
       );
       const text = container.textContent;
-      expect(text).to.include('2250');
+      expect(text).to.include('2010');
       expect(text).to.include('Not provided');
     });
   });
@@ -308,7 +308,7 @@ describe('EmploymentDatesDetailsReview', () => {
     it('should format date in US locale', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2250-01-15',
+          beginningDate: '2010-01-15',
         },
       };
       const { container } = render(
@@ -321,13 +321,13 @@ describe('EmploymentDatesDetailsReview', () => {
       const text = container.textContent;
       expect(text).to.include('January');
       expect(text).to.include('15');
-      expect(text).to.include('2250');
+      expect(text).to.include('2010');
     });
 
-    it('should handle Star Trek birth date formatting', () => {
+    it('should handle birth date formatting', () => {
       const data = {
         employmentDatesDetails: {
-          beginningDate: '2233-03-22',
+          beginningDate: '1985-03-22',
         },
       };
       const { container } = render(
@@ -340,7 +340,7 @@ describe('EmploymentDatesDetailsReview', () => {
       const text = container.textContent;
       expect(text).to.include('March');
       expect(text).to.include('22');
-      expect(text).to.include('2233');
+      expect(text).to.include('1985');
     });
 
     it('should handle invalid date gracefully', () => {
