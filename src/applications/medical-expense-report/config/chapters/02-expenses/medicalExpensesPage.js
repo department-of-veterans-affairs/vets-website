@@ -112,9 +112,9 @@ const recipientPage = {
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
+      required: (fullData, index) =>
         ['DEPENDENT', 'OTHER'].includes(
-          formData?.medicalExpenses?.[index]?.recipient,
+          fullData?.medicalExpenses?.[index]?.recipient,
         ),
     }),
     provider: textUI('Who receives the payment?'),
