@@ -13,7 +13,10 @@ import {
   isAddingDependents,
   isRemovingDependents,
   isVisiblePicklistPage,
+  hasSelectedPicklistItems,
 } from '../../config/utilities/data';
+
+import { PICKLIST_DATA } from '../../config/constants';
 
 describe('Utilities', () => {
   it('parses forms', () => {
@@ -539,7 +542,7 @@ describe('isVisiblePicklistPage', () => {
   const getData = ({ flag = true, remove = true, list = [] }) => ({
     vaDependentsV3: flag,
     'view:addOrRemoveDependents': { remove },
-    'view:removeDependentPickList': list,
+    [PICKLIST_DATA]: list,
   });
 
   it('should return false if no picklist items', () => {
@@ -579,5 +582,28 @@ describe('isVisiblePicklistPage', () => {
     expect(isVisiblePicklistPage(formData, 'Spouse')).to.be.true;
     expect(isVisiblePicklistPage(formData, 'Child')).to.be.true;
     expect(isVisiblePicklistPage(formData, 'Parent')).to.be.true;
+  });
+});
+
+describe('hasSelectedPicklistItems', () => {
+  const getData = (spouse = false, child = false) => ({
+    [PICKLIST_DATA]: [
+      { relationshipToVeteran: 'Spouse', selected: spouse },
+      { relationshipToVeteran: 'Child', selected: child },
+    ],
+  });
+
+  it('should return false if no picklist items', () => {
+    expect(hasSelectedPicklistItems({})).to.be.false;
+  });
+
+  it('should return false if no picklist items are selected', () => {
+    expect(hasSelectedPicklistItems(getData())).to.be.false;
+  });
+
+  it('should return true if any picklist items are selected', () => {
+    expect(hasSelectedPicklistItems(getData(false, true))).to.be.true;
+
+    expect(hasSelectedPicklistItems(getData(true, true))).to.be.true;
   });
 });

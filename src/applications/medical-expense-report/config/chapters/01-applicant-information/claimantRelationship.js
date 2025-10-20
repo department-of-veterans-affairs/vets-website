@@ -6,8 +6,6 @@ import UnauthenticatedWarningAlert from '../../../components/UnauthenticatedWarn
 
 /** @type {PageSchema} */
 export default {
-  title: 'Claimant information',
-  path: 'applicant/claimant',
   uiSchema: {
     ...titleUI('Your identity'),
     'view:warningAlert': {
@@ -20,6 +18,9 @@ export default {
         Y: 'I’m a Veteran, and I want to report unreimbursed medical expenses',
         N:
           'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
+      },
+      errorMessages: {
+        required: 'Select which best describes you',
       },
     }),
   },

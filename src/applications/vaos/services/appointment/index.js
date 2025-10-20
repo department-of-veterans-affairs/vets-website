@@ -734,11 +734,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
 export function groupAppointmentByDay(appointments) {
   return appointments.reduce((previous, current) => {
-    const key = formatInTimeZone(
-      current.start,
-      appointments.timezone,
-      'yyyy-MM-dd',
-    );
+    const key = formatInTimeZone(current.start, current.timezone, 'yyyy-MM-dd');
     // eslint-disable-next-line no-param-reassign
     previous[key] = previous[key] || [];
     previous[key].push(current);

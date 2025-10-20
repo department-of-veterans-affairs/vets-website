@@ -269,8 +269,8 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "53.1.0",
-    "@department-of-veterans-affairs/css-library": "^0.25.0",
+    "@department-of-veterans-affairs/component-library": "53.2.0",
+    "@department-of-veterans-affairs/css-library": "^0.26.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
@@ -345,7 +345,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e8c4e4b4acbc8c17543abccdeff50a048d99655",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#14254416545e9d35bc4f4924248d0d564360dd2e",
     "web-vitals": "^4.2.4"
   },
   "resolutions": {
@@ -412,7 +412,12 @@
       "src/applications/vaos",
       "src/applications/claims-status",
       "src/applications/accredited-representative-portal",
-      "src/applications/_mock-form-ae-design-patterns"
+      "src/applications/_mock-form-ae-design-patterns",
+      "src/applications/benefits-optimization-aquia/shared",
+      "src/applications/benefits-optimization-aquia/21-0779-nursing-home-information",
+      "src/applications/benefits-optimization-aquia/21-2680-house-bound-status",
+      "src/applications/benefits-optimization-aquia/21-4192-employment-information",
+      "src/applications/benefits-optimization-aquia/21p-530a-interment-allowance"
     ],
     "nohoist": [
       "**/applications-accredited-representative-portal/react-router-dom",

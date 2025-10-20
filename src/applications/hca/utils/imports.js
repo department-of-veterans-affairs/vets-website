@@ -7,7 +7,6 @@ const STATES_50_AND_DC = SCHEMA_CONSTANTS.states50AndDC;
 
 export {
   VaCheckbox,
-  VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 

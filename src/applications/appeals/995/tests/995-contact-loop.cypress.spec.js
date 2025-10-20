@@ -3,7 +3,7 @@ import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import { BASE_URL, CONTACT_INFO_URL } from '../constants';
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 
-import mockV2Data from './fixtures/data/maximal-test.json';
+import mockV2Data from './fixtures/data/pre-api-comprehensive-test.json';
 import { getPastItf, fetchItf } from './995.cypress.helpers';
 
 import cypressSetup from '../../shared/tests/cypress.setup';

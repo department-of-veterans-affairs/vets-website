@@ -212,8 +212,6 @@ Documents.propTypes = {
 };
 
 export default {
-  title: 'Supporting documents',
-  path: 'expenses/additional-information/supporting-documents',
   uiSchema: {
     ...titleUI(
       'Supporting documents',

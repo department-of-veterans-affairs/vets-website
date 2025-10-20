@@ -6,7 +6,6 @@ import {
   fileInputMultipleSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default {
   uiSchema: {
@@ -49,14 +48,6 @@ export default {
             submit this application, such as your computer, tablet, or mobile
             phone. You can upload your file from there.
           </p>
-
-          <VaAdditionalInfo trigger="Document upload instructions">
-            <ul>
-              <li>You can upload a .pdf, .jpeg, or .png file</li>
-              <li>Maximum file size: 25MB</li>
-            </ul>
-          </VaAdditionalInfo>
-
           <p>
             <em>
               A 1MB file equals about 500 pages of text. A photo is usually
@@ -67,10 +58,31 @@ export default {
         </div>
       ),
     }),
+    'ui:confirmationField': ({ formData }) => {
+      return !formData ||
+        !formData.supportingEvidence ||
+        !Array.isArray(formData.supportingEvidence) ||
+        formData.supportingEvidence.length === 0 ? (
+        <li>No evidence was uploaded</li>
+      ) : (
+        <li>
+          <div className="vads-u-color--gray">Supporting evidence uploaded</div>
+          {formData.supportingEvidence.map(file => (
+            <ul key={file.name}>
+              <li>{file.name}</li>
+              <li>{file.size}B</li>
+              <li>{file.type}</li>
+            </ul>
+          ))}
+        </li>
+      );
+    },
     supportingEvidence: fileInputMultipleUI({
       title: 'Upload your supporting evidence',
       required: false,
       accept: '.pdf,.jpeg,.jpg,.png',
+      hint:
+        'You can upload a .pdf, .jpeg, or .png file. Your files must not be larger than 25MB',
       disallowEncryptedPdfs: true,
       maxFileSize: 26214400, // 25MB in bytes
       fileUploadUrl: `${

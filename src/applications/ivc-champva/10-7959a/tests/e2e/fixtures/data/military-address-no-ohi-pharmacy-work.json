@@ -1,6 +1,7 @@
 {
   "description": "Military base sponsor address, no OHI, pharmacy claim, work related, NOT auto related",
   "data": {
+    "view:sharesAddressWith": "na",
     "claimStatus": "new",
     "view:hasPolicies": false,
     "pharmacyUpload": [

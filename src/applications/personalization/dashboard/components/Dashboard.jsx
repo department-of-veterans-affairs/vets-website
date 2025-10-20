@@ -7,10 +7,12 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 import {
   VaAlert,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { MhvAlertConfirmEmail } from '@department-of-veterans-affairs/mhv/exports';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -73,7 +75,12 @@ import { getAppeals as getAppealsAction } from '../actions/appeals';
 import { getClaims as getClaimsAction } from '../actions/claims';
 import { fetchFormStatuses } from '../actions/form-status';
 
-const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
+const DashboardHeader = ({
+  isLOA3,
+  showConfirmEmail,
+  showNotifications,
+  user,
+}) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -133,6 +140,7 @@ const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
           });
         }}
       />
+      {showConfirmEmail && <MhvAlertConfirmEmail />}
       {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
@@ -222,6 +230,7 @@ const LOA1Content = ({
 
 DashboardHeader.propTypes = {
   isLOA3: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -448,9 +457,20 @@ const Dashboard = ({
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
                 isLOA3={isLOA3}
+                showConfirmEmail={props.showConfirmEmail}
                 showNotifications={showNotifications}
                 user={props.user}
               />
+
+              <Toggler
+                toggleName={
+                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
+                }
+              >
+                <Toggler.Enabled>
+                  <NewMyVaToggle />
+                </Toggler.Enabled>
+              </Toggler>
 
               {showMPIConnectionError && (
                 <div className="vads-l-row">
@@ -477,15 +497,6 @@ const Dashboard = ({
                   user={user}
                 />
               )}
-              <Toggler
-                toggleName={
-                  Toggler.TOGGLE_NAMES.myVaAuthExpRedesignAvailableToOptIn
-                }
-              >
-                <Toggler.Enabled>
-                  <NewMyVaToggle />
-                </Toggler.Enabled>
-              </Toggler>
 
               {/* LOA3 user experience */}
               {props.showClaimsAndAppeals && (
@@ -671,6 +682,11 @@ const mapStateToProps = state => {
   const showNotifications =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
+  const showConfirmEmail =
+    selectVAPContactInfoField(state, 'email')?.emailAddress &&
+    selectVAPContactInfoField(state, 'mailingAddress')?.addressLine1 &&
+    selectVAPContactInfoField(state, 'mobilePhone')?.phoneNumber;
+
   const canAccessAppeals = canAccess(state)[API_NAMES.APPEALS] !== undefined;
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
@@ -694,6 +710,7 @@ const mapStateToProps = state => {
     canAccessRatingInfo,
     isLOA3,
     isLOA1,
+    showConfirmEmail,
     showLoader,
     showValidateIdentityAlert,
     showClaimsAndAppeals,
@@ -736,6 +753,7 @@ Dashboard.propTypes = {
     }),
   ),
   showClaimsAndAppeals: PropTypes.bool,
+  showConfirmEmail: PropTypes.bool,
   showHealthCare: PropTypes.bool,
   showLoader: PropTypes.bool,
   showMPIConnectionError: PropTypes.bool,

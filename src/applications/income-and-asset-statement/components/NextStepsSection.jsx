@@ -31,7 +31,10 @@ const NextStepsSection = ({ loggedIn }) => {
         If you submitted this form as part of your DIC application, you can
         submit your completed DIC application by mail or in person.
       </p>
-      <va-link href="" text="Apply for DIC compensation" />
+      <va-link
+        href="https://www.va.gov/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/"
+        text="Apply for DIC compensation"
+      />
     </>
   );
 
