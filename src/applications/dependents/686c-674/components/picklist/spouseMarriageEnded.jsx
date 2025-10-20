@@ -17,9 +17,6 @@ const spouseMarriageEnded = {
   handlers: {
     // Return "DONE" when we're done with this flow
     goForward: (/* { _itemData, _index, _fullData } */) => 'DONE',
-    // return empty path to go to first spouse page
-    goBack: (/* { _itemData, _index, _fullData } */) =>
-      'marriage-reason-to-remove',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called
@@ -145,6 +142,7 @@ const spouseMarriageEnded = {
           onVaChange={onChange}
         />
         <VaTextInput
+          class="vads-u-margin-top--4"
           name="marriageEndCity"
           label={itemData.marriageEndOutsideUS ? 'City' : 'City or county'}
           error={
@@ -159,6 +157,7 @@ const spouseMarriageEnded = {
         {itemData.marriageEndOutsideUS ? (
           <>
             <VaTextInput
+              class="vads-u-margin-top--4"
               name="marriageEndProvince"
               label="Province, region or territory"
               value={itemData.marriageEndProvince || ''}

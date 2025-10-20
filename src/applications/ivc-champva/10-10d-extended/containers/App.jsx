@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -28,8 +28,10 @@ const App = ({ location, children }) => {
     [isLoadingFeatureFlags, isLoadingProfile],
   );
 
+  const [routeChecked, setRouteChecked] = useState(false);
+
   // redirect to standalone form if feature is disabled or if user has in-progress standalone form
-  useEffect(
+  useLayoutEffect(
     () => {
       if (isAppLoading) return;
       const hasSavedForm = savedForms.some(
@@ -37,13 +39,16 @@ const App = ({ location, children }) => {
           form === VA_FORM_IDS.FORM_10_10D && !isExpired(metaData?.expiresAt),
       );
       if (!isMergedFormEnabled || hasSavedForm) {
-        window.location(getAppUrl('10-10D'));
+        window.location.replace(getAppUrl('10-10D'));
+        return;
       }
+      setRouteChecked(true);
     },
     [isAppLoading, isMergedFormEnabled, savedForms],
   );
 
-  return isAppLoading ? (
+  const showLoadingIndicator = isAppLoading || !routeChecked;
+  return showLoadingIndicator ? (
     <va-loading-indicator
       message="Loading application..."
       class="vads-u-margin-y--4"

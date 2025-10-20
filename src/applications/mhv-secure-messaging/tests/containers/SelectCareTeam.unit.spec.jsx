@@ -563,7 +563,7 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal('select-care-team');
+      expect(history.location.pathname).to.equal('select-care-team/');
     });
   });
 });

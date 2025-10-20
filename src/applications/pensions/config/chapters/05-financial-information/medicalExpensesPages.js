@@ -62,6 +62,8 @@ const options = {
           </li>
         </ul>
       ),
+    alertItemUpdated: 'Your medical expense information has been updated',
+    alertItemDeleted: 'Your medical expense information has been deleted',
     cancelAddTitle: 'Cancel adding this medical expense',
     cancelAddYes: 'Yes, cancel adding this medical expense',
     cancelAddNo: 'No',
