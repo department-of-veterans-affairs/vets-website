@@ -18,9 +18,11 @@ import {
   extractContainedResource,
   formatDate,
   formatDateInLocalTimezone,
+  formatDateRange,
   formatNameFirstToLast,
   getActiveLinksStyle,
   getAppointmentsDateRange,
+  getLabsAndTestsDateRanges,
   getLastUpdatedText,
   getMonthFromSelectedDate,
   getObservationValueWithUnits,
@@ -1134,5 +1136,69 @@ describe('errorForUnequalBirthDates (no sinon)', () => {
     expect(() => errorForUnequalBirthDates('anything', deps)).to.throw(
       /Invalid birth date via formatBirthDate/,
     );
+  });
+});
+
+describe('formatDateRange', () => {
+  it('formats a date range correctly', () => {
+    const { formatDateRange } = require('../../util/helpers');
+    const dateRange = {
+      startDate: '2024-01-01',
+      endDate: '2024-03-31',
+    };
+    const formattedRange = formatDateRange(dateRange);
+    expect(formattedRange).to.eq('January 1, 2024 to March 31, 2024');
+  });
+
+  it('returns null for invalid start date', () => {
+    const { formatDateRange } = require('../../util/helpers');
+    const dateRange = {
+      startDate: 'invalid-date',
+      endDate: '2024-03-31',
+    };
+    const formattedRange = formatDateRange(dateRange);
+    expect(formattedRange).to.be.null;
+  });
+
+  it('returns null for missing dates', () => {
+    const { formatDateRange } = require('../../util/helpers');
+    const formattedRange = formatDateRange({});
+    expect(formattedRange).to.be.null;
+  });
+});
+
+describe('getLabsAndTestsDateRanges', () => {
+  it('generates 4 date ranges', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    expect(ranges).to.have.lengthOf(4);
+  });
+
+  it('generates correct labels for date ranges', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    expect(ranges[0].label).to.eq('Last 90 days');
+    expect(ranges[1].label).to.eq('91 to 180 days ago');
+    expect(ranges[2].label).to.eq('181 to 270 days ago');
+    expect(ranges[3].label).to.eq('271 to 365 days ago');
+  });
+
+  it('generates valid date formats', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    
+    ranges.forEach(range => {
+      expect(range.startDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+      expect(range.endDate).to.match(/^\d{4}-\d{2}-\d{2}$/);
+    });
+  });
+
+  it('has sequential value indices', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    
+    ranges.forEach((range, index) => {
+      expect(range.value).to.eq(index);
+    });
   });
 });

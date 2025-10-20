@@ -30,11 +30,8 @@ describe('Medical Records View Lab and Tests', () => {
 
     LabsAndTests.goToLabAndTestPage();
 
-    const today = mockDate;
-    const timeFrame = `${today.getFullYear()}-${(today.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}`;
-    LabsAndTests.checkUrl({ timeFrame });
+    // Check for initial rangeIndex=0 (Last 90 days)
+    LabsAndTests.checkUrl({ rangeIndex: '0' });
 
     cy.injectAxeThenAxeCheck();
 
@@ -46,11 +43,9 @@ describe('Medical Records View Lab and Tests', () => {
     cy.get("[data-testid='filter-display-message']").should('be.visible');
     cy.get("[data-testid='filter-display-message']").should('not.be.empty');
 
-    LabsAndTests.selectMonthAndYear({
-      month: 'January',
-      year: '2020',
-    });
-    LabsAndTests.checkUrl({ timeFrame: '2020-01' });
+    // Select a different date range
+    LabsAndTests.selectDateRange({ rangeIndex: 1 });
+    LabsAndTests.checkUrl({ rangeIndex: '1' });
 
     // go to a specific lab
     LabsAndTests.selectLabAndTest({
@@ -60,14 +55,14 @@ describe('Medical Records View Lab and Tests', () => {
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .should('have.attr', 'href')
-      .and('include', 'timeFrame=2020-01');
+      .and('include', 'rangeIndex=1');
 
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .contains('Back')
       .click();
 
-    // Maintaining the same timeFrame across page clicks
-    LabsAndTests.checkUrl({ timeFrame: '2020-01' });
+    // Maintaining the same rangeIndex across page clicks
+    LabsAndTests.checkUrl({ rangeIndex: '1' });
   });
 });
