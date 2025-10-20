@@ -13,7 +13,7 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 
 import { populatedDraft } from '../selectors';
-import { ErrorMessages, Paths } from '../util/constants';
+import { ErrorMessages, Paths, PageTitles } from '../util/constants';
 import RecipientsSelect from '../components/ComposeForm/RecipientsSelect';
 import EmergencyNote from '../components/EmergencyNote';
 import { updateDraftInProgress } from '../actions/threadDetails';
@@ -69,6 +69,17 @@ const SelectCareTeam = () => {
     },
     [draftInProgress.recipientId],
   );
+
+  useEffect(() => {
+    document.title = `Select care team ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  }, []);
+
+  // useEffect(
+  //     () => {
+  //       const headerText = document.querySelector('h1').textContent;
+  //       document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  //     }, []
+  //   );
 
   const careTeamHandler = useCallback(
     recipient => {
