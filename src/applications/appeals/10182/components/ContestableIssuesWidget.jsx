@@ -16,6 +16,7 @@ import ContestableIssues from '../../shared/components/ContestableIssues';
  * @param {Boolean} autofocus - should auto focus
  * @param {Boolean} disabled -  is disabled?
  * @param {Object} formContext -  state
+ * @param {Object} formData - form data (when used as field)
  * @param {String} id - ID base for form elements
  * @param {String} label - label text
  * @param {func} onBlur - blur callback
@@ -30,16 +31,22 @@ import ContestableIssues from '../../shared/components/ContestableIssues';
  * @param {Object} contestableIssues - API status & loaded issues
  * @param {func} getContestableIssues - API action
  * @param {Object} formData - full form data
+ * @param {Object} uiSchema - ui schema
+ * @param {Object[]} value - array value (when used as widget)
  * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
   const {
     getContestableIssues,
     contestableIssues,
+    onChange,
+    schema,
     setFormData,
     formData = {},
+    value,
+    uiSchema,
+    ...restProps
   } = props;
-
   const hasAttempted = useRef(false);
 
   useEffect(
@@ -71,7 +78,16 @@ const ContestableIssuesWidget = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <ContestableIssues {...props} appName={APP_NAME} />;
+  return (
+    <ContestableIssues
+      {...restProps}
+      schema={schema}
+      options={uiSchema?.['ui:options'] || props.options}
+      value={formData || value}
+      onChange={onChange}
+      appName={APP_NAME}
+    />
+  );
 };
 
 ContestableIssuesWidget.propTypes = {
@@ -83,7 +99,12 @@ ContestableIssuesWidget.propTypes = {
     contestedIssues: PropTypes.array,
   }),
   getContestableIssues: PropTypes.func,
+  options: PropTypes.object,
+  schema: PropTypes.object,
   setFormData: PropTypes.func,
+  uiSchema: PropTypes.object,
+  value: PropTypes.array,
+  onChange: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
