@@ -15,6 +15,7 @@ import {
   endOfDay,
   parseISO,
   isValid,
+  subDays,
 } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import {
@@ -746,7 +747,7 @@ export const formatDateRange = ({ startDate, endDate }) => {
 
 /**
  * Generate 90-day date range options for the labs and tests date range dropdown
- * Creates ranges covering the last 100 years (approximately 405 ranges)
+ * Creates ranges covering the last 100 years (406 ranges total)
  * @returns {Array} Array of date range objects with value, label, startDate, endDate
  */
 export const getLabsAndTestsDateRanges = () => {
@@ -762,11 +763,9 @@ export const getLabsAndTestsDateRanges = () => {
     const rangeEndDaysAgo = i * 90;
     const rangeStartDaysAgo = (i + 1) * 90;
     
-    const endDate = new Date(now);
-    endDate.setDate(now.getDate() - rangeEndDaysAgo);
-    
-    const startDate = new Date(now);
-    startDate.setDate(now.getDate() - rangeStartDaysAgo);
+    // Use date-fns subDays for more reliable date calculations
+    const endDate = subDays(now, rangeEndDaysAgo);
+    const startDate = subDays(now, rangeStartDaysAgo);
     
     // Format the label based on the range
     let label;
