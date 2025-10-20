@@ -58,7 +58,7 @@ class LabsAndTests {
   };
 
   checkUrl = ({ rangeIndex }) => {
-    cy.url().should('include', `?rangeIndex=${rangeIndex}`);
+    cy.url().should('include', `rangeIndex=${rangeIndex}`);
   };
 
   selectDateRange = ({ rangeIndex }) => {
@@ -66,6 +66,9 @@ class LabsAndTests {
       .shadow()
       .find('select')
       .select(rangeIndex.toString());
+    
+    // Wait for the URL to update
+    cy.url().should('include', `rangeIndex=${rangeIndex}`);
   };
 
   selectMonthAndYear = ({ month, year, submit = true }) => {
