@@ -112,12 +112,12 @@ ${record.results} \n`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
+        <DownloadingRecordsInfo description="L&TR Detail" />
         <PrintDownload
           description="L&TR Detail"
           downloadPdf={generatePathologyPdf}
           downloadTxt={generatePathologyTxt}
         />
-        <DownloadingRecordsInfo description="L&TR Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
