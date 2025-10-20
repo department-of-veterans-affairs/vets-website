@@ -4,6 +4,8 @@
       "first": "John",
       "last": "Doe"
     },
-    "dateOfBirth": "1980-01-01"
+    "dateOfBirth": "1980-01-01";,
+    "ssn": "123-45-6789";,
+    "vaFileNumber": "12345678"
   }
 }
