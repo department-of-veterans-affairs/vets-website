@@ -215,13 +215,14 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 
         {allergies?.length ? (
           <>
+            <DownloadingRecordsInfo description="Allergies" />
             <PrintDownload
               description="Allergies - List"
               list
               downloadPdf={generateAllergiesPdf}
               downloadTxt={generateAllergiesTxt}
             />
-            <DownloadingRecordsInfo description="Allergies" />
+
             <RecordList
               records={allergies?.map(allergy => ({
                 ...allergy,
