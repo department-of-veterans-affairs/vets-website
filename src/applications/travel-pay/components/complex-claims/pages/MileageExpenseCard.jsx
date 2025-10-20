@@ -11,6 +11,7 @@ const TripTypeLabels = {
 const MileageExpenseCard = ({ expense }) => {
   const editExpense = () => {
     // TODO Add logic for this function, it will open the expense in edit mode
+    console.log('Edit clicked');
   };
 
   const { address = {}, tripType } = expense;
