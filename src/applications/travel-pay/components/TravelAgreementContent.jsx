@@ -3,7 +3,7 @@ import React from 'react';
 const TravelAgreementContent = () => {
   return (
     <>
-      <ul>
+      <ul data-testid="travel-agreement-content">
         <li>I have incurred a cost in relation to the travel claim.</li>
         <li>
           I have neither obtained transportation at Government expense nor
