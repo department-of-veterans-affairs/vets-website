@@ -102,7 +102,9 @@ describe('Travel Pay – AgreementPage', () => {
   });
 
   it('should handle Back button click without errors', () => {
-    renderWithStoreAndRouter(<AgreementPage />, {
+    const onBackSpy = sinon.spy();
+
+    renderWithStoreAndRouter(<AgreementPage onBack={onBackSpy} />, {
       initialState: getData(),
       reducers: reducer,
     });
@@ -112,5 +114,6 @@ describe('Travel Pay – AgreementPage', () => {
 
     buttonPair.__events.secondaryClick();
     expect(true).to.be.true; // no crash, no exception
+    expect(onBackSpy.calledOnce).to.be.true;
   });
 });

@@ -116,7 +116,7 @@ const ReviewPage = ({ claim, message, onNext }) => {
   };
 
   return (
-    <>
+    <div data-testid="review-page">
       <h1>Your unsubmitted expenses</h1>
       <ReviewPageAlert
         header={overriddenMessage.title}
@@ -151,7 +151,7 @@ const ReviewPage = ({ claim, message, onNext }) => {
         text="Sign agreement"
         onClick={signAgreement}
       />
-    </>
+    </div>
   );
 };
 

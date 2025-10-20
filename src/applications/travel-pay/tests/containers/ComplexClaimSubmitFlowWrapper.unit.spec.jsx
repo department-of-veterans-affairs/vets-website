@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
@@ -95,13 +96,34 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(backLink.hasAttribute('disable-analytics')).to.be.true;
     });
 
-    it('renders the AgreementPage component', () => {
+    it('renders the ReviewPage component', () => {
       const initialState = getData({ complexClaimsEnabled: true });
       const screen = renderWithStoreAndRouterHelper('12345', initialState);
 
-      expect(screen.getByTestId('travel-agreement-content')).to.exist;
-      expect(screen.getByTestId('agreement-checkbox')).to.exist;
-      expect(screen.getByTestId('agreement-button-pair')).to.exist;
+      expect(screen.getByTestId('review-page')).to.exist;
+    });
+
+    it('shows the ReviewPage first, and after clicking Sign Agreement navigates to the AgreementPage', async () => {
+      const initialState = getData({ complexClaimsEnabled: true });
+      const {
+        getByTestId,
+        container,
+        queryByTestId,
+      } = renderWithStoreAndRouterHelper('12345', initialState);
+
+      // Page 1 should render first (AgreementPage)
+      expect(getByTestId('review-page')).to.exist;
+
+      // Click the Sign Agreement button
+      const signButton = $('#sign-agreement-button', container);
+
+      fireEvent.click(signButton);
+
+      // Wait for the next page (page 2) to appear
+      expect(getByTestId('travel-agreement-content')).to.exist;
+
+      // Optional: ensure the ReviewPage is no longer visible
+      expect(queryByTestId('review-page')).to.be.null;
     });
 
     it('handles different appointment IDs in the URL', () => {
