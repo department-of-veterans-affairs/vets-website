@@ -41,10 +41,10 @@ describe('DateField', () => {
     });
 
     it('shows current date value', () => {
-      const props = { ...defaultProps, value: '2023-05-15' };
+      const props = { ...defaultProps, value: '1977-05-25' };
       const { container } = render(<DateField {...props} />);
       const dateInput = container.querySelector('va-date');
-      expect(dateInput).to.have.attribute('value', '2023-05-15');
+      expect(dateInput).to.have.attribute('value', '1977-05-25');
     });
 
     it('shows empty string for no value', () => {
@@ -62,11 +62,11 @@ describe('DateField', () => {
       render(<DateField {...props} />);
 
       // Directly call the onChange handler as the component would
-      onChange('testDate', '2023-06-20');
+      onChange('testDate', '1980-05-21');
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testDate');
-      expect(onChange.firstCall.args[1]).to.equal('2023-06-20');
+      expect(onChange.firstCall.args[1]).to.equal('1980-05-21');
     });
 
     it('handles onChange with event value from target', () => {
@@ -76,7 +76,7 @@ describe('DateField', () => {
       const dateInput = container.querySelector('va-date');
 
       const event = {
-        target: { value: '2023-07-01' },
+        target: { value: '1983-05-25' },
       };
 
       const customEvent = new CustomEvent('dateChange');
@@ -88,7 +88,7 @@ describe('DateField', () => {
       dateInput.dispatchEvent(customEvent);
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('2023-07-01');
+      expect(onChange.firstCall.args[1]).to.equal('1983-05-25');
     });
 
     it('handles date blur events', async () => {
@@ -176,7 +176,7 @@ describe('DateField', () => {
 
       dateInput.focus();
       const event = new CustomEvent('va-date-change', {
-        detail: { value: '2023-08-15' },
+        detail: { value: '1977-12-31' },
       });
       dateInput.dispatchEvent(event);
 
@@ -205,7 +205,7 @@ describe('DateField', () => {
       const dateInput = container.querySelector('va-date');
 
       const event = new CustomEvent('va-date-change', {
-        detail: { value: '2023-09-01' },
+        detail: { value: '1980-03-04' },
       });
       expect(() => dateInput.dispatchEvent(event)).to.not.throw();
     });
@@ -243,7 +243,7 @@ describe('DateField', () => {
       const { container } = render(<DateField {...props} />);
       const dateInput = container.querySelector('va-date');
 
-      const dates = ['2023-01-01', '2023-02-15', '2023-03-30'];
+      const dates = ['1977-05-25', '1980-05-21', '1983-05-25'];
       dates.forEach(date => {
         const event = new CustomEvent('dateChange', {
           detail: { value: date },
