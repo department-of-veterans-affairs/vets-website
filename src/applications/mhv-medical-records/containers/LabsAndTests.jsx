@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
+import {
+  format as dateFnsFormat,
+  addDays,
+  parseISO as dateFnsParseISO,
+} from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -29,7 +33,6 @@ import {
   getLabsAndTestsDateRanges,
   formatDateRange,
 } from '../util/helpers';
-import { format as dateFnsFormat, addDays, parseISO as dateFnsParseISO } from 'date-fns';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
