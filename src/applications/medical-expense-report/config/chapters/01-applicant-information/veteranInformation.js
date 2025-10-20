@@ -9,6 +9,10 @@ import {
   vaFileNumberUI,
   vaFileNumberSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VaTextInputField,
+  VaSelectField,
+} from 'platform/forms-system/src/js/web-component-fields';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import { isSameOrAfter } from '../../../utils/helpers';
 
@@ -53,6 +57,7 @@ export default {
       ...fullNameUI(),
       first: {
         'ui:title': 'First name',
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
           required: 'Please enter a first name',
@@ -63,12 +68,14 @@ export default {
       },
       middle: {
         'ui:title': 'Middle name',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
         },
       },
       last: {
         'ui:title': 'Last name',
+        'ui:webComponentField': VaTextInputField,
         'ui:required': formData => formData.claimantNotVeteran === true,
         'ui:errorMessages': {
           required: 'Please enter a last name',
@@ -79,6 +86,7 @@ export default {
       },
       suffix: {
         'ui:title': 'Suffix',
+        'ui:webComponentField': VaSelectField,
         'ui:options': {
           hideIf: formData => formData.claimantNotVeteran === false,
         },
