@@ -369,7 +369,6 @@ describe('VeteranInformationReview', () => {
         />,
       );
 
-      // Should display the original string or "Not provided"
       expect(container).to.exist;
     });
 
@@ -478,7 +477,6 @@ describe('VeteranInformationReview', () => {
       );
 
       expect(container.textContent).to.include('Zam Wesell');
-      // Should not have extra spaces
       expect(container.textContent).to.not.include('  ');
     });
 

@@ -40,7 +40,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Check all fields are rendered using web component selectors
       expect(container.querySelector('va-select[label="Branch of service"]')).to
         .exist;
       expect(
@@ -121,7 +120,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should filter out null/undefined and render default empty item
       const servicePeriodItems = container.querySelectorAll(
         '.array-field-item',
       );
@@ -135,7 +133,6 @@ describe('ServicePeriodsPage', () => {
             branchOfService: 'army',
             dateFrom: '1962-01-01',
             dateTo: '1965-05-19',
-            // placeOfEntry, placeOfSeparation, rank are undefined
           },
         ],
       };
@@ -190,7 +187,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should render with default empty item
       expect(container.querySelector('va-select')).to.exist;
     });
 
@@ -464,7 +460,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // ArrayField may collapse items - just verify it renders
       const servicePeriodItems = container.querySelectorAll(
         '.array-field-item',
       );
@@ -509,12 +504,10 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should render without errors and show array field items
       expect(container).to.exist;
       const arrayFieldItems = container.querySelectorAll('.array-field-item');
       expect(arrayFieldItems).to.have.length.of.at.least(1);
 
-      // Should have the add button for more periods
       const addButton = container.querySelector(
         'va-button[text="Add another service period"]',
       );
@@ -597,7 +590,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Check for form fields using web component selectors
       expect(container.querySelector('va-select[label="Branch of service"]')).to
         .exist;
       expect(
@@ -798,7 +790,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Branch, dateFrom, and dateTo are required
       expect(container.querySelector('va-select[required]')).to.exist;
       expect(
         container.querySelectorAll('va-memorable-date[required]').length,
@@ -814,11 +805,9 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Date fields have hints
       const dateFields = container.querySelectorAll('va-memorable-date');
       expect(dateFields.length).to.be.at.least(2);
 
-      // Place fields have hints
       const placeFields = container.querySelectorAll(
         'va-text-input[label*="Place"]',
       );
@@ -834,7 +823,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Optional fields: placeOfEntry, placeOfSeparation, rank
       expect(container.querySelector('va-text-input[label="Place of entry"]'))
         .to.exist;
       expect(
@@ -889,7 +877,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // ArrayField should display "service period" text
       expect(container.textContent).to.include('Service period');
     });
 
@@ -902,7 +889,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should render with default empty structure
       expect(container.querySelector('va-select')).to.exist;
       expect(container.querySelector('va-memorable-date')).to.exist;
     });
@@ -929,7 +915,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should render without errors (summary function is used internally)
       expect(container).to.exist;
     });
 
@@ -955,7 +940,6 @@ describe('ServicePeriodsPage', () => {
         />,
       );
 
-      // Should render without errors (empty detection function is used internally)
       expect(container).to.exist;
     });
   });
@@ -1194,9 +1178,7 @@ describe('ensureDateStrings', () => {
       const originalDateFrom = formData.servicePeriods[0].dateFrom;
       const result = ensureDateStrings(formData);
 
-      // Original should still be Date object
       expect(formData.servicePeriods[0].dateFrom).to.equal(originalDateFrom);
-      // Result should be string
       expect(result.servicePeriods[0].dateFrom).to.be.a('string');
     });
   });

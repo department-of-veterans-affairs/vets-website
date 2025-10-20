@@ -37,7 +37,6 @@ describe('MailingAddressPage', () => {
         />,
       );
 
-      // AddressField component renders multiple fields
       expect(container.querySelector('va-text-input[label="Street address"]'))
         .to.exist;
       expect(

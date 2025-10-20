@@ -28,7 +28,6 @@ import {
 describe('Service Period Schemas', () => {
   describe('servicePeriodBase', () => {
     it('should have a shape property with field schemas', () => {
-      // This test verifies the fix for the bug where servicePeriodItemSchema.shape was undefined
       expect(servicePeriodBase).to.exist;
       expect(servicePeriodBase.shape).to.exist;
       expect(servicePeriodBase.shape.branchOfService).to.exist;
@@ -85,7 +84,6 @@ describe('Service Period Schemas', () => {
         branchOfService: 'navy',
         dateFrom: '2015-01-01',
         dateTo: '2019-12-31',
-        // placeOfEntry, placeOfSeparation, and rank are optional
       };
 
       const result = servicePeriodBase.safeParse(minimalPeriod);
@@ -95,8 +93,6 @@ describe('Service Period Schemas', () => {
 
   describe('servicePeriodItemSchema', () => {
     it('should NOT have a shape property (uses .refine)', () => {
-      // This verifies that servicePeriodItemSchema doesn't have .shape
-      // because it's wrapped by .refine() which returns ZodEffects
       expect(servicePeriodItemSchema).to.exist;
       expect(servicePeriodItemSchema.shape).to.be.undefined;
     });
@@ -192,8 +188,6 @@ describe('Service Period Schemas', () => {
 
         const summary = formatServicePeriodSummary(period);
         expect(summary).to.include('Army');
-        // Date format is: month (long), day, year
-        // Note: Date conversion may have timezone issues, so check both possibilities
         expect(summary).to.match(/January (14|15), 2010/);
         expect(summary).to.match(/December (30|31), 2014/);
       });
@@ -265,9 +259,6 @@ describe('Service Period Schemas', () => {
 
   describe('Schema Compatibility', () => {
     it('should use servicePeriodBase.shape for individual field validation', () => {
-      // This test documents the correct pattern for using these schemas
-
-      // For field-level schemas in forms, use servicePeriodBase.shape
       const branchSchema = servicePeriodBase.shape.branchOfService;
       expect(branchSchema).to.exist;
 
@@ -279,7 +270,6 @@ describe('Service Period Schemas', () => {
     });
 
     it('should use servicePeriodItemSchema for complete validation', () => {
-      // For validating complete service period objects, use servicePeriodItemSchema
       const period = {
         branchOfService: 'coast guard',
         dateFrom: '2020-01-01',

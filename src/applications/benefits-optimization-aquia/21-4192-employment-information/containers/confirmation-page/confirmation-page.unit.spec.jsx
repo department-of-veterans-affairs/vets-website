@@ -42,14 +42,12 @@ describe('ConfirmationPage', () => {
   let focusElementStub;
 
   beforeEach(() => {
-    // Create stubs for platform utilities
     const uiUtils = require('platform/utilities/ui');
     scrollToTopStub = sinon.stub(uiUtils, 'scrollToTop');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
   });
 
   afterEach(() => {
-    // Restore all stubs
     scrollToTopStub.restore();
     focusElementStub.restore();
   });
@@ -63,11 +61,9 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for success alert using VA web component
     const alert = container.querySelector('va-alert[status="success"]');
     expect(alert).to.exist;
 
-    // Check for confirmation number
     expect(getByText(/1234567890/)).to.exist;
   });
 
@@ -80,7 +76,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for form title - the confirmation page shows it in the alert
     expect(getByText(/January 15, 2024/)).to.exist;
   });
 
@@ -93,8 +88,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // The component calls these functions via useEffect
-    // Check that stubs exist (component may or may not call them)
     expect(scrollToTopStub).to.exist;
     expect(focusElementStub).to.exist;
   });
@@ -108,7 +101,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for next steps heading
     expect(getByText(/What are my next steps/i)).to.exist;
   });
 
@@ -121,7 +113,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for print button using attribute since it's a web component
     const printButton = container.querySelector('va-button');
     expect(printButton).to.exist;
     expect(printButton.getAttribute('text')).to.include('Print');
@@ -136,7 +127,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for submission date (formatted)
     expect(getByText(/January 15, 2024/i)).to.exist;
   });
 
@@ -157,7 +147,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Check for confirmation content
     expect(getByText(/confirmation number/i)).to.exist;
   });
 
@@ -175,7 +164,6 @@ describe('ConfirmationPage', () => {
       </Provider>,
     );
 
-    // Should still show success alert but without confirmation number
     const alert = container.querySelector('va-alert[status="success"]');
     expect(alert).to.exist;
     expect(queryByText(/1234567890/)).to.not.exist;
@@ -230,7 +218,6 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      // Should still render without errors, using current date
       const alert = container.querySelector('va-alert[status="success"]');
       expect(alert).to.exist;
     });
@@ -249,7 +236,6 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      // Should fall back to current date without errors
       const alert = container.querySelector('va-alert[status="success"]');
       expect(alert).to.exist;
     });
@@ -292,7 +278,6 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      // Name appears twice - in "Who submitted" and "Deceased Veteran"
       const nameElements = getAllByText(/Boba Fett/);
       expect(nameElements).to.have.lengthOf(2);
     });
@@ -332,7 +317,6 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      // Should show default organization title
       expect(getByText(/Organization title/i)).to.exist;
     });
 
@@ -409,7 +393,6 @@ describe('ConfirmationPage', () => {
         </Provider>,
       );
 
-      // Should render without errors
       expect(container).to.exist;
     });
   });

@@ -27,14 +27,11 @@ describe('App', () => {
     });
 
     it('should have a length property', () => {
-      // React functional components have a length property for parameter count
       expect(App).to.have.property('length');
       expect(App.length).to.be.a('number');
     });
 
     it('should accept parameters', () => {
-      // The component accepts destructured props (location, children)
-      // This is reflected in the function signature
       expect(App.length).to.equal(1);
     });
   });

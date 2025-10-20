@@ -69,14 +69,12 @@ describe('IntroductionPage', () => {
   let focusElementStub;
 
   beforeEach(() => {
-    // Create stubs for platform utilities
     const uiUtils = require('platform/utilities/ui');
     scrollToTopStub = sinon.stub(uiUtils, 'scrollToTop');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
   });
 
   afterEach(() => {
-    // Restore all stubs
     scrollToTopStub.restore();
     focusElementStub.restore();
   });
@@ -90,7 +88,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for form title and subtitle using test IDs to avoid multiple matches
     const title = getByTestId('form-title');
     expect(title).to.exist;
     expect(title.textContent).to.include('Employment Information');
@@ -109,7 +106,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for process list steps using attributes since text is in web component
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
     expect(processItems[0].getAttribute('header')).to.equal(
@@ -131,7 +127,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for sign-in alert component
     const signInAlert = container.querySelector('va-alert-sign-in');
     expect(signInAlert).to.exist;
   });
@@ -160,7 +155,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Since we show an empty div for verify identity, check that SaveInProgressIntro is not shown
     const startButton = queryByText(/Start your/);
     expect(startButton).to.not.exist;
   });
@@ -174,9 +168,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // The component calls these functions via useEffect
-    // They may not be called if the component doesn't have the effect
-    // For now, we'll just check if the stubs were created successfully
     expect(scrollToTopStub).to.exist;
     expect(focusElementStub).to.exist;
   });
@@ -190,7 +181,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for OMB info component
     const ombInfo = container.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo.getAttribute('res-burden')).to.equal('15');

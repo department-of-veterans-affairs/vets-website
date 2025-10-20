@@ -68,7 +68,6 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      // Address field contains multiple inputs
       expect(container.querySelector('va-text-input[label="Street address"]'))
         .to.exist;
       expect(
@@ -76,7 +75,6 @@ describe('EmployerInformationPage', () => {
       ).to.exist;
       expect(container.querySelector('va-text-input[label="City"]')).to.exist;
       expect(container.querySelector('va-select[label="State"]')).to.exist;
-      // USA addresses use "ZIP code" not "Postal code"
       expect(container.querySelector('va-text-input[label="ZIP code"]')).to
         .exist;
     });
@@ -699,7 +697,6 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      // The default country is set in defaultData
       expect(container).to.exist;
     });
 
@@ -713,7 +710,6 @@ describe('EmployerInformationPage', () => {
         />,
       );
 
-      // The default isMilitary is set in defaultData
       expect(container).to.exist;
     });
   });

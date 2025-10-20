@@ -37,7 +37,6 @@ describe('VeteranPersonalInformationPage', () => {
         />,
       );
 
-      // Check for name fields (from FullnameField component)
       expect(container.querySelector('va-text-input[label="First name"]')).to
         .exist;
       expect(container.querySelector('va-text-input[label="Middle name"]')).to
@@ -45,19 +44,16 @@ describe('VeteranPersonalInformationPage', () => {
       expect(container.querySelector('va-text-input[label="Last name"]')).to
         .exist;
 
-      // Check for SSN field
       expect(
         container.querySelector(
           'va-text-input[label="Social Security number"]',
         ),
       ).to.exist;
 
-      // Check for service number field
       expect(
         container.querySelector('va-text-input[label="VA service number"]'),
       ).to.exist;
 
-      // Check for VA file number field
       expect(container.querySelector('va-text-input[label="VA file number"]'))
         .to.exist;
     });

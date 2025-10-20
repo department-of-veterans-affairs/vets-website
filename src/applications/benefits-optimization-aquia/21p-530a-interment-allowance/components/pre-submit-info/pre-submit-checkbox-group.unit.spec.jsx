@@ -9,7 +9,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import PreSubmitInfo from './pre-submit-checkbox-group';
 
-// Create a mock Redux store
 const createMockStore = (submissionStatus = null) => ({
   getState: () => ({
     form: {

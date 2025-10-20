@@ -179,12 +179,10 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      // Should display all three branches
       expect(container.textContent).to.include('army');
       expect(container.textContent).to.include('navy');
       expect(container.textContent).to.include('space force');
 
-      // Should display period numbers
       expect(container.textContent).to.include('Branch of service 1');
       expect(container.textContent).to.include('Branch of service 2');
       expect(container.textContent).to.include('Branch of service 3');
@@ -211,7 +209,6 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      // Should not have period number for single period
       expect(container.textContent).to.not.include('Branch of service 1');
       expect(container.textContent).to.include('Branch of service');
     });
@@ -242,7 +239,6 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      // Should have divider div between periods
       const dividers = container.querySelectorAll(
         '.vads-u-border-top--1px.vads-u-border-color--gray-light',
       );
@@ -312,7 +308,6 @@ describe('ServicePeriodsReviewPage', () => {
         />,
       );
 
-      // Should show required fields
       expect(container.textContent).to.include('army');
       expect(container.textContent).to.include('Branch of service');
     });
@@ -349,7 +344,6 @@ describe('ServicePeriodsReviewPage', () => {
               branchOfService: 'marine corps',
               dateFrom: '1995-01-01',
               dateTo: '1999-12-31',
-              // placeOfEntry, placeOfSeparation, rank are undefined
             },
           ],
         },

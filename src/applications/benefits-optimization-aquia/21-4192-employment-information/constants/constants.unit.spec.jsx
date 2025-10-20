@@ -199,7 +199,6 @@ describe('Constants', () => {
       expect(Object.keys(SUBMISSION_STATUS)).to.have.lengthOf(
         originalLength + 1,
       );
-      // Clean up
       delete SUBMISSION_STATUS.NEW_STATUS;
     });
 

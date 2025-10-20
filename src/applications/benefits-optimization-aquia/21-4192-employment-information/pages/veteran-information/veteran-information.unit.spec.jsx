@@ -54,7 +54,6 @@ describe('VeteranInformationPage', () => {
         />,
       );
 
-      // Check for fullname fields
       expect(container.querySelector('va-text-input[label="First name"]')).to
         .exist;
       expect(container.querySelector('va-text-input[label="Middle name"]')).to
@@ -62,19 +61,16 @@ describe('VeteranInformationPage', () => {
       expect(container.querySelector('va-text-input[label="Last name"]')).to
         .exist;
 
-      // Check for date of birth
       expect(
         container.querySelector('va-memorable-date[label="Date of birth"]'),
       ).to.exist;
 
-      // Check for SSN
       expect(
         container.querySelector(
           'va-text-input[label="Social security number"]',
         ),
       ).to.exist;
 
-      // Check for VA file number (renders as va-text-input with inputmode="numeric")
       expect(
         container.querySelector(
           'va-text-input[label="VA file number (if applicable)"]',
@@ -619,7 +615,6 @@ describe('ensureDateStrings', () => {
       const result = ensureDateStrings(formData);
 
       expect(result.dateOfBirth).to.be.a('string');
-      // otherDate should remain a Date object since only dateOfBirth is transformed
       expect(result.otherDate).to.be.instanceof(Date);
     });
   });

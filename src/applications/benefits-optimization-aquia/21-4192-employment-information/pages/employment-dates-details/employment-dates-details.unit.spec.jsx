@@ -35,7 +35,6 @@ describe('EmploymentDatesDetailsPage', () => {
 
     const dateFields = container.querySelectorAll('va-memorable-date');
     const textareas = container.querySelectorAll('va-textarea');
-    // NumberField renders as va-text-input with inputmode="numeric"
     const numberFields = container.querySelectorAll(
       'va-text-input[inputmode="numeric"]',
     );

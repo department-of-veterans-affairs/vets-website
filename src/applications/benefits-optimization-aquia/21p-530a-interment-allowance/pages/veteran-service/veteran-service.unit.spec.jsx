@@ -36,11 +36,9 @@ describe('VeteranServicePage', () => {
         />,
       );
 
-      // Check for branch of service radio field
       expect(container.querySelector('va-radio[label="Branch of service"]')).to
         .exist;
 
-      // Check for date fields
       expect(
         container.querySelector(
           'va-memorable-date[label="Date entered active service"]',
@@ -52,7 +50,6 @@ describe('VeteranServicePage', () => {
         ),
       ).to.exist;
 
-      // Check for text input fields
       expect(
         container.querySelector(
           'va-text-input[label="Place entered active service"]',
@@ -110,7 +107,6 @@ describe('VeteranServicePage', () => {
       );
 
       const radioFields = container.querySelectorAll('va-radio');
-      // Should have at least 2 radio fields (branch of service + alternate name)
       expect(radioFields.length).to.be.at.least(2);
     });
   });

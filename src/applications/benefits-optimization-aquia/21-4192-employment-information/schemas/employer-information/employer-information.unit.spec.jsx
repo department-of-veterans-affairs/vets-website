@@ -482,7 +482,6 @@ describe('Employer Information Schemas', () => {
           employerName: 'Bounty Hunters Guild',
           employerAddress: {
             street: '123 Main St',
-            // Missing city, state, postalCode
           },
           employerPhone: '4155551234',
         });
