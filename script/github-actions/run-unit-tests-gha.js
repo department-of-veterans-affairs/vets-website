@@ -104,7 +104,7 @@ function buildTestCommand(testPaths) {
   const mochaExtra = '--extension js --extension jsx --require @babel/register';
 
   const testRunner = options.coverage
-    ? `NODE_ENV=test nyc --require @babel/register --all ${coverageInclude} ${coverageReporter}`
+    ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`
     : `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
 
   return `${baseEnv} ${testRunner} --max-old-space-size=${MAX_MEMORY} --config ${
