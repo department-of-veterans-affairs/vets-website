@@ -38,48 +38,40 @@ const ChooseExpenseType = () => {
   };
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-x--2p5">
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          <h1 className="vads-u-margin-bottom--2">
-            What type of expense do you want to add?
-          </h1>
-          <p>
-            Start with one expense. You’ll be able to add other expenses later.
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            To request reimbursement for air fare, lodging, and meals, you’ll
-            need a pre-approval letter.
-          </p>
-          <VaRadio
-            label="Choose an expense type"
-            required
-            class="vads-u-margin-top--0"
-            onVaValueChange={event =>
-              setSelectedExpenseType(event.detail.value)
-            }
-          >
-            {expenseOptions.map(option => (
-              <va-radio-option
-                tile
-                key={option.value}
-                label={option.label}
-                value={option.value}
-                checked={selectedExpenseType === option.value}
-              />
-            ))}
-          </VaRadio>
-
-          <VaButtonPair
-            class="vads-u-margin-y--2"
-            continue
-            disable-analytics
-            onPrimaryClick={handleContinue}
-            onSecondaryClick={handleBack}
+    <>
+      <h1 className="vads-u-margin-bottom--2">
+        What type of expense do you want to add?
+      </h1>
+      <p>Start with one expense. You’ll be able to add other expenses later.</p>
+      <p className="vads-u-margin-bottom--0">
+        To request reimbursement for air fare, lodging, and meals, you’ll need a
+        pre-approval letter.
+      </p>
+      <VaRadio
+        label="Choose an expense type"
+        required
+        class="vads-u-margin-top--0"
+        onVaValueChange={event => setSelectedExpenseType(event.detail.value)}
+      >
+        {expenseOptions.map(option => (
+          <va-radio-option
+            tile
+            key={option.value}
+            label={option.label}
+            value={option.value}
+            checked={selectedExpenseType === option.value}
           />
-        </div>
-      </div>
-    </div>
+        ))}
+      </VaRadio>
+
+      <VaButtonPair
+        class="vads-u-margin-y--2"
+        continue
+        disable-analytics
+        onPrimaryClick={handleContinue}
+        onSecondaryClick={handleBack}
+      />
+    </>
   );
 };
 
