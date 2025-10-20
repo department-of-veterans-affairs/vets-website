@@ -12,10 +12,3 @@ export { EmploymentLastPaymentPage } from './employment-last-payment';
 export { DutyStatusPage } from './duty-status';
 export { BenefitsInformationPage } from './benefits-information';
 export { RemarksPage } from './remarks';
-
-export { default as nameAndDateOfBirth } from './name-and-date-of-birth';
-export {
-  default as identificationInformation,
-} from './identification-information';
-export { default as mailingAddress } from './mailing-address';
-export { default as phoneAndEmailAddress } from './phone-and-email-address';
