@@ -22,6 +22,29 @@
   flex: 1;
 }
 
+.review {
+  display: block;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--vads-color-base-light);
+  margin: 16 px;
+}
+
+.review-row {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  border-top: 1px solid var(--vads-color-base-light);
+
+  dd {
+    margin: 0;
+    font-weight: bold;
+    align-items: flex-end;
+  }
+}
+
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
