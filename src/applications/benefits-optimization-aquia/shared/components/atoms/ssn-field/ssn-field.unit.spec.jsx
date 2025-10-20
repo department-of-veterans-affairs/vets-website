@@ -56,10 +56,10 @@ describe('SSNField', () => {
     });
 
     it('shows current SSN value', () => {
-      const props = { ...defaultProps, value: '123-45-6789' };
+      const props = { ...defaultProps, value: '227-501-138' };
       const { container } = render(<SSNField {...props} />);
       const textInput = container.querySelector('va-text-input');
-      expect(textInput).to.have.attribute('value', '123-45-6789');
+      expect(textInput).to.have.attribute('value', '227-501-138');
     });
 
     it('shows empty string for no value', () => {
@@ -90,16 +90,16 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Test progressive formatting
-      onChange('testSSN', '123');
-      expect(onChange.firstCall.args[1]).to.equal('123');
+      onChange('testSSN', '227');
+      expect(onChange.firstCall.args[1]).to.equal('227');
 
       onChange.reset();
-      onChange('testSSN', '123-45');
-      expect(onChange.firstCall.args[1]).to.equal('123-45');
+      onChange('testSSN', '227-501');
+      expect(onChange.firstCall.args[1]).to.equal('227-501');
 
       onChange.reset();
-      onChange('testSSN', '123-45-6789');
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      onChange('testSSN', '227-501-138');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
 
     it('handles input with existing dashes', () => {
@@ -108,10 +108,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSSN', '123-45-6789');
+      onChange('testSSN', '227-501-138');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
 
     it('strips non-numeric characters except dashes', () => {
@@ -120,11 +120,11 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler
-      // The SSNField component should format this to 123-45-6789
-      onChange('testSSN', '123-45-6789');
+      // The SSNField component should format this to 227-501-138
+      onChange('testSSN', '227-501-138');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
 
     it('limits input to 9 digits maximum', () => {
@@ -133,10 +133,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler with expected formatted value
-      onChange('testSSN', '123-45-6789');
+      onChange('testSSN', '227-501-138');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
 
     it('handles partial SSN formatting', () => {
@@ -146,10 +146,10 @@ describe('SSNField', () => {
 
       // 6 digits should format as XXX-XX-X
       // Directly call the onChange handler
-      onChange('testSSN', '123-45-6');
+      onChange('testSSN', '227-501-1');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-1');
     });
 
     it('handles empty input', () => {
@@ -172,11 +172,11 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSSN', '555-12-3456');
+      onChange('testSSN', '312-415-800');
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testSSN');
-      expect(onChange.firstCall.args[1]).to.equal('555-12-3456');
+      expect(onChange.firstCall.args[1]).to.equal('312-415-800');
     });
 
     it('handles onChange with target value', () => {
@@ -185,10 +185,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSSN', '987-65-4321');
+      onChange('testSSN', '501-138-004');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('987-65-4321');
+      expect(onChange.firstCall.args[1]).to.equal('501-138-004');
     });
 
     it('handles onBlur events', async () => {
@@ -210,10 +210,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSSN', '123-45-6789');
+      onChange('testSSN', '227-501-138');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
   });
 
@@ -369,10 +369,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Directly call the onChange handler with expected formatted value
-      onChange('testSSN', '123-45-6789');
+      onChange('testSSN', '227-501-138');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-6789');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-138');
     });
 
     it('handles rapid typing', () => {
@@ -385,11 +385,11 @@ describe('SSNField', () => {
         '12',
         '123',
         '123-4',
-        '123-45',
-        '123-45-6',
-        '123-45-67',
-        '123-45-678',
-        '123-45-6789',
+        '227-501',
+        '227-501-1',
+        '227-501-17',
+        '227-501-178',
+        '227-501-138',
       ];
 
       expectedOutputs.forEach(output => {
@@ -401,14 +401,14 @@ describe('SSNField', () => {
 
     it('handles backspacing through formatted SSN', () => {
       const onChange = sinon.spy();
-      const props = { ...defaultProps, onChange, value: '123-45-6789' };
+      const props = { ...defaultProps, onChange, value: '227-501-138' };
       render(<SSNField {...props} />);
 
       // Simulate backspacing to remove last digit
-      onChange('testSSN', '123-45-678');
+      onChange('testSSN', '227-501-178');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('123-45-678');
+      expect(onChange.firstCall.args[1]).to.equal('227-501-178');
     });
 
     it('handles paste operations with various formats', () => {
@@ -417,10 +417,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       // Test pasting unformatted SSN
-      onChange('testSSN', '987-65-4321');
+      onChange('testSSN', '501-138-004');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('987-65-4321');
+      expect(onChange.firstCall.args[1]).to.equal('501-138-004');
     });
   });
 
@@ -444,7 +444,7 @@ describe('SSNField', () => {
 
       const testCases = [
         { input: '1234', expected: '123-4' },
-        { input: '12345', expected: '123-45' },
+        { input: '12345', expected: '227-501' },
       ];
 
       testCases.forEach(({ expected }) => {
@@ -460,10 +460,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       const testCases = [
-        { input: '123456', expected: '123-45-6' },
-        { input: '1234567', expected: '123-45-67' },
-        { input: '12345678', expected: '123-45-678' },
-        { input: '123456789', expected: '123-45-6789' },
+        { input: '123456', expected: '227-501-1' },
+        { input: '1234567', expected: '227-501-17' },
+        { input: '12345678', expected: '227-501-178' },
+        { input: '123456789', expected: '227-501-138' },
       ];
 
       testCases.forEach(({ expected }) => {
@@ -479,10 +479,10 @@ describe('SSNField', () => {
       render(<SSNField {...props} />);
 
       const testCases = [
-        { input: 'abc123def456ghi789', expected: '123-45-6789' },
-        { input: '   1 2 3 - - - 4 5 6 7 8 9   ', expected: '123-45-6789' },
-        { input: '123.45.6789', expected: '123-45-6789' },
-        { input: '123/45/6789', expected: '123-45-6789' },
+        { input: 'abc123def456ghi789', expected: '227-501-138' },
+        { input: '   1 2 3 - - - 4 5 6 7 8 9   ', expected: '227-501-138' },
+        { input: '123.45.6789', expected: '227-501-138' },
+        { input: '123/45/6789', expected: '227-501-138' },
       ];
 
       testCases.forEach(({ expected }) => {
