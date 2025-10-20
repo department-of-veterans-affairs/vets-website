@@ -188,12 +188,12 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
+            <DownloadingRecordsInfo description="Allergy Detail" />
             <PrintDownload
               description="Allergies Detail"
               downloadPdf={generateAllergyPdf}
               downloadTxt={generateAllergyTxt}
             />
-            <DownloadingRecordsInfo description="Allergy Detail" />
 
             <div
               className="max-80 vads-u-margin-top--4"
