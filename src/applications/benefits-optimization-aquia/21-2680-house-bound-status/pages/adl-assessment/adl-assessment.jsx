@@ -115,9 +115,9 @@ export const ADLAssessmentPage = ({
 };
 
 ADLAssessmentPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   onReviewPage: PropTypes.bool,
+  goForward: PropTypes.func.isRequired,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
