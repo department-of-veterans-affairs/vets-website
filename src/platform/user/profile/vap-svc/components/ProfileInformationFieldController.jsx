@@ -52,6 +52,7 @@ import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';
 import ConfirmRemoveModal from './ContactInformationFieldInfo/ConfirmRemoveModal';
 import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
+import GenericErrorAlert from './GenericErrorAlert';
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
@@ -68,6 +69,10 @@ const classes = {
   wrapper: wrapperClasses.join(' '),
   buttons:
     'vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto',
+};
+
+const hasError = (transaction, transactionRequest) => {
+  return transactionRequest?.isFailed || isFailedTransaction(transaction);
 };
 
 class ProfileInformationFieldController extends React.Component {
@@ -116,6 +121,17 @@ class ProfileInformationFieldController extends React.Component {
     if (this.transactionJustFailed(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
     }
+
+    // Exit the remove modal if the delete transaction failed
+    if (
+      prevProps.showRemoveModal &&
+      this.props.showRemoveModal &&
+      this.transactionJustFailed(prevProps, this.props)
+    ) {
+      clearTimeout(this.closeModalTimeoutID);
+      this.closeModal();
+    }
+
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
@@ -233,7 +249,6 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
     this.onDelete();
-    this.closeModal();
   };
 
   clearErrors = () => {
@@ -254,12 +269,15 @@ class ProfileInformationFieldController extends React.Component {
   };
 
   transactionJustFailed = (prevProps, props) => {
-    const previousTransaction = prevProps.transaction;
-    const currentTransaction = props.transaction;
-    return (
-      !isFailedTransaction(previousTransaction) &&
-      isFailedTransaction(currentTransaction)
+    const hadPreviousError = hasError(
+      prevProps.transaction,
+      prevProps.transactionRequest,
     );
+    const hasCurrentError = hasError(
+      props.transaction,
+      props.transactionRequest,
+    );
+    return !hadPreviousError && hasCurrentError;
   };
 
   closeModal = () => {
@@ -270,6 +288,8 @@ class ProfileInformationFieldController extends React.Component {
     if (this.props.blockEditMode) {
       this.setState({ showCannotEditModal: true });
     } else {
+      // Clear errors on open to prevent showing an alert from a previous transaction
+      this.clearErrors();
       this.props.openModal(this.props.fieldName);
     }
   };
@@ -279,6 +299,8 @@ class ProfileInformationFieldController extends React.Component {
       this.setState({ showCannotEditModal: true });
       return;
     }
+    // Clear errors on open to prevent showing an alert from a previous transaction
+    this.clearErrors();
     this.props.openModal(`remove-${this.props.fieldName}`);
   };
 
@@ -296,8 +318,6 @@ class ProfileInformationFieldController extends React.Component {
       'profile-section': this.props.analyticsSectionName,
     });
   };
-
-  isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
 
   handleDeleteInitiated = () => {
     recordEvent({
@@ -401,6 +421,8 @@ class ProfileInformationFieldController extends React.Component {
       isEnrolledInVAHealthCare,
       ariaDescribedBy,
       CustomConfirmCancelModal,
+      showUpdateSuccessAlert,
+      showErrorAlert,
     } = this.props;
 
     const activeSection = VAP_SERVICE.FIELD_TITLES[
@@ -432,14 +454,17 @@ class ProfileInformationFieldController extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        {this.props.showUpdateSuccessAlert ? (
-          <div
-            data-testid="update-success-alert"
-            className="vads-u-width--full"
-          >
+        {showErrorAlert && (
+          <div className="vads-u-width--full">
+            <GenericErrorAlert fieldName={fieldName} />
+          </div>
+        )}
+
+        {showUpdateSuccessAlert && (
+          <div className="vads-u-width--full">
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
-        ) : null}
+        )}
 
         <ProfileInformationView
           data={data}
@@ -449,7 +474,7 @@ class ProfileInformationFieldController extends React.Component {
         />
         <div className="vads-u-width--full">
           <div>
-            {this.isEditLinkVisible() && (
+            {!isLoading && (
               <va-button
                 text="Edit"
                 label={`Edit ${title}`}
@@ -463,6 +488,7 @@ class ProfileInformationFieldController extends React.Component {
               />
             )}
             {data &&
+              !isLoading &&
               !isDeleteDisabled &&
               fieldName !== FIELD_NAMES.MAILING_ADDRESS && (
                 <va-button
@@ -508,11 +534,7 @@ class ProfileInformationFieldController extends React.Component {
       (isFailedTransaction(transaction) ? {} : null);
 
     return (
-      <div
-        className="vet360-profile-field"
-        data-field-name={fieldName}
-        data-testid={fieldName}
-      >
+      <div data-field-name={fieldName} data-testid={fieldName}>
         {CustomConfirmCancelModal ? (
           <CustomConfirmCancelModal
             activeSection={activeSection}
@@ -569,6 +591,14 @@ const shouldShowUpdateSuccessAlert = (state, field) => {
     : mostRecentSaveField === field;
 };
 
+const shouldShowErrorAlert = (state, field) => {
+  const { transaction, transactionRequest } = selectVAPServiceTransaction(
+    state,
+    field,
+  );
+  return hasError(transaction, transactionRequest);
+};
+
 ProfileInformationFieldController.defaultProps = {
   isDeleteDisabled: false,
 };
@@ -612,6 +642,7 @@ ProfileInformationFieldController.propTypes = {
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
   shouldFocusCancelButton: PropTypes.bool,
+  showErrorAlert: PropTypes.bool,
   showRemoveModal: PropTypes.bool,
   showUpdateSuccessAlert: PropTypes.bool,
   successCallback: PropTypes.func,
@@ -688,6 +719,7 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     isEnrolledInVAHealthCare,
     showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
+    showErrorAlert: shouldShowErrorAlert(state, fieldName),
   };
 };
 
