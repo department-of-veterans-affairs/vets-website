@@ -5,7 +5,7 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
 import ReviewPageAlert from './ReviewPageAlert';
 import MileageExpenseCard from './MileageExpenseCard';
 
-const ReviewPage = ({ claim, message }) => {
+const ReviewPage = ({ claim, message, onNext }) => {
   // For now, we will override the claim to have some expenses
   // If message is not provided, use default values
   const overriddenClaim = claim || [
@@ -107,8 +107,12 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
-    // Logic to add more expenses goes here
-    console.log('Add more expenses button clicked');
+    // TODO Add logic to add more expenses
+  };
+
+  const signAgreement = () => {
+    // TODO Add logic to sign the agreement
+    onNext();
   };
 
   return (
@@ -141,6 +145,12 @@ const ReviewPage = ({ claim, message }) => {
           </va-accordion-item>
         ))}
       </va-accordion>
+      <VaButton
+        id="sign-agreement-button"
+        className="vads-u-display--flex vads-u-margin-y--2"
+        text="Sign agreement"
+        onClick={signAgreement}
+      />
     </>
   );
 };
@@ -152,6 +162,7 @@ ReviewPage.propTypes = {
     body: PropTypes.string,
     type: PropTypes.string,
   }),
+  onNext: PropTypes.func,
 };
 
 export default ReviewPage;
