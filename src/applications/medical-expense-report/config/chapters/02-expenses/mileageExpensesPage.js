@@ -22,6 +22,7 @@ import {
   recipientTypeLabels,
   travelLocationLabels,
 } from '../../../utils/labels';
+import { transformDate } from './helpers';
 
 function introDescription() {
   return (
@@ -47,8 +48,8 @@ const options = {
   isItemIncomplete: item => !item?.travelLocation || !item?.travelDate,
   maxItems: 5,
   text: {
-    getItemName: item => item?.travelLocation || '',
-    cardDescription: item => item?.travelDate || '',
+    getItemName: item => travelLocationLabels[(item?.travelLocation)] || '',
+    cardDescription: item => transformDate(item?.travelDate) || '',
   },
 };
 
@@ -99,8 +100,8 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
-      title: 'Full name of the person who received care',
+    travelerName: textUI({
+      title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
       required: (formData, index) =>
@@ -113,7 +114,7 @@ const travelerPage = {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      travelerName: textSchema,
     },
     required: ['traveler'],
   },
@@ -121,7 +122,7 @@ const travelerPage = {
 /** @returns {PageSchema} */
 const destinationPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Expense purpose and date'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Expense destination and date'),
     travelLocation: radioUI({
       title: 'Who is the expense for?',
       labels: travelLocationLabels,
@@ -137,7 +138,7 @@ const destinationPage = {
       required: (formData, index) =>
         formData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
     }),
-    travelMilesTraveled: numberUI('Miles traveled'),
+    travelMilesTraveled: numberUI('How many miles did you travel?'),
     travelDate: currentOrPastDateUI({
       title: 'What’s the date of your travel?',
       monthSelect: false,
@@ -158,7 +159,7 @@ const destinationPage = {
 /** @returns {PageSchema} */
 const reimbursementPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Expense reimbursement'),
     travelReimbursed: yesNoUI('Were you reimbursed from another source?'),
     // Required doesn't seem to work set directly on currencyUI.
     travelReimbursementAmount: {

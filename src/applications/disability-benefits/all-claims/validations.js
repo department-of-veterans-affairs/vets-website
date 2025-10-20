@@ -587,8 +587,16 @@ export const validateAge = (
   _currentIndex,
   appStateData,
 ) => {
-  const dob = parseDate(appStateData.dob).add(13, 'years');
-  if (parseDate(dateString).isSameOrBefore(dob)) {
+  const dob = parseDate(appStateData?.dob);
+  const start = parseDate(dateString);
+
+  // Bail if either date is missing/invalid
+  if (!dob || !dob.isValid?.() || !start || !start.isValid?.()) {
+    return;
+  }
+
+  const minStart = dob.clone().add(13, 'years');
+  if (start.isSameOrBefore(minStart)) {
     errors.addError('Your start date must be after your 13th birthday');
   }
 };
