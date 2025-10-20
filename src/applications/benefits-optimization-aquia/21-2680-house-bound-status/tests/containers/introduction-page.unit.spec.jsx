@@ -69,14 +69,12 @@ describe('IntroductionPage', () => {
   let focusElementStub;
 
   beforeEach(() => {
-    // Create stubs for platform utilities
     const uiUtils = require('platform/utilities/ui');
     scrollToTopStub = sinon.stub(uiUtils, 'scrollToTop');
     focusElementStub = sinon.stub(uiUtils, 'focusElement');
   });
 
   afterEach(() => {
-    // Restore all stubs
     scrollToTopStub.restore();
     focusElementStub.restore();
   });
@@ -90,7 +88,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for form title using text content
     expect(getByRole('heading', { level: 1 })).to.exist;
     expect(getByText(/Housebound Status/i)).to.exist;
     expect(getByText(/VA Form 21-2680/i)).to.exist;
@@ -105,26 +102,28 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for process list steps using attributes since text is in web component
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
     expect(processItems[0].getAttribute('header')).to.equal('Prepare');
-    expect(processItems[1].getAttribute('header')).to.equal('Apply');
-    expect(processItems[2].getAttribute('header')).to.equal('VA Review');
-    expect(processItems[3].getAttribute('header')).to.equal('Decision');
+    expect(processItems[1].getAttribute('header')).to.equal(
+      'Complete the form',
+    );
+    expect(processItems[2].getAttribute('header')).to.equal('Submit');
+    expect(processItems[3].getAttribute('header')).to.equal('VA Review');
   });
 
   it('should display SaveInProgressIntro when user is not logged in', () => {
     const mockStore = createMockStore();
 
-    const { getByText } = render(
+    const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...defaultProps} />
       </Provider>,
     );
 
-    // Check for save in progress content
-    expect(getByText(/Start your/)).to.exist;
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.equal('signInOptional');
   });
 
   it('should display verify identity message when user is logged in but not verified', () => {
@@ -151,7 +150,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Since we show an empty div for verify identity, check that SaveInProgressIntro is not shown
     const startButton = queryByText(/Start your/);
     expect(startButton).to.not.exist;
   });
@@ -165,9 +163,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // The component calls these functions via useEffect
-    // They may not be called if the component doesn't have the effect
-    // For now, we'll just check if the stubs were created successfully
     expect(scrollToTopStub).to.exist;
     expect(focusElementStub).to.exist;
   });
@@ -181,7 +176,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    // Check for OMB info component
     const ombInfo = document.querySelector('va-omb-info');
     expect(ombInfo).to.exist;
     expect(ombInfo.getAttribute('res-burden')).to.equal('30');

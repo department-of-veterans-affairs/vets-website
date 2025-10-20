@@ -1,9 +1,12 @@
 {
   "data": {
     "fullName": {
-      "first": "John",
-      "last": "Doe"
+      "first": "James",
+      "middle": "Tiberius",
+      "last": "Kirk"
     },
-    "dateOfBirth": "1980-01-01"
+    "dateOfBirth": "2233-03-22",
+    "ssn": "123-45-6789",
+    "vaFileNumber": "12345678"
   }
 }

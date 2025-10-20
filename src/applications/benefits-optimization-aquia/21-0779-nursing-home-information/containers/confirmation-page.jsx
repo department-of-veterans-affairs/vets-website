@@ -1,9 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
+
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-export const ConfirmationPage = props => {
+export const ConfirmationPage = ({ route }) => {
   const form = useSelector(state => state.form || {});
   const submission = form?.submission || {};
   const submitDate = submission?.timestamp || '';
@@ -11,7 +12,7 @@ export const ConfirmationPage = props => {
 
   return (
     <ConfirmationView
-      formConfig={props.route?.formConfig}
+      formConfig={route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       pdfUrl={submission.response?.pdfUrl}
@@ -44,3 +45,5 @@ ConfirmationPage.propTypes = {
     formConfig: PropTypes.object,
   }),
 };
+
+export default ConfirmationPage;
