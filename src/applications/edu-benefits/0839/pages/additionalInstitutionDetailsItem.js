@@ -5,9 +5,9 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import InstitutionName from '../containers/InstitutionName';
-import InstitutionAddress from '../containers/InstitutionAddress';
-import WarningBanner from '../containers/WarningBanner';
+import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
+import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
+import AdditionalInstitutionWarningBanner from '../containers/AdditionalInstitutionWarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details =
@@ -77,21 +77,21 @@ const uiSchema = {
   },
   institutionName: {
     'ui:title': 'Institution name and address',
-    'ui:field': InstitutionName,
+    'ui:field': AdditionalInstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
     },
   },
   institutionAddress: {
     'ui:title': '',
-    'ui:field': InstitutionAddress,
+    'ui:field': AdditionalInstitutionAddress,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
     },
   },
   'view:warningBanner': {
-    'ui:field': WarningBanner,
+    'ui:field': AdditionalInstitutionWarningBanner,
   },
 };
 

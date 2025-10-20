@@ -1,14 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 const AdditionalInstitutionAddress = () => {
   const formData = useSelector(state => state.form?.data);
-  const institutionAddress =
-    formData?.institutionDetails?.institutionAddress || {}; // Use institutionDetails from currrent list and loop iteration
-  const details = formData?.institutionDetails || {}; // Use institutionDetails from currrent list and loop iteration
-  const notYR = details.yrEligible === false;
-  const notIHL = details.ihlEligible === false;
-  const showWarningBanner = notYR || notIHL;
+
+  const index = getArrayIndexFromPathName();
+
+  const currentItem = formData?.additionalInstitutionDetails?.[index] || {};
+  const institutionAddress = currentItem?.institutionAddress || {};
+  const notIHL = currentItem.ihlEligible === false;
+  const showWarningBanner = notIHL;
 
   const {
     street,

@@ -18,8 +18,6 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const notIHL = details.ihlEligible === false;
   const notYR = details.yrEligible === false;
 
-  const thirdChar = code.charAt(2).toUpperCase();
-
   if (badFormat || notFound) {
     errors.addError(
       'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
@@ -35,15 +33,6 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   if (!notYR && notIHL) {
     errors.addError(
       'This institution is not an IHL. Please see information below.',
-    );
-  }
-
-  const hasXInThirdPosition =
-    code.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (hasXInThirdPosition) {
-    errors.addError(
-      "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
     );
   }
 };

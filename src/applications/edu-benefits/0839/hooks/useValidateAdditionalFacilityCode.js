@@ -3,10 +3,14 @@ import { useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-export const useValidateAdditionalFacilityCode = formData => {
+export const useValidateAdditionalFacilityCode = (formData, index) => {
   const [loader, setLoader] = useState(false);
   const [institutionData, setInstitutionData] = useState(null);
   const dispatch = useDispatch();
+
+  // Get the current item from the additionalInstitutionDetails array
+  const currentItem = formData?.additionalInstitutionDetails?.[index] || {};
+  const facilityCode = currentItem?.facilityCode;
 
   useEffect(
     () => {
@@ -14,7 +18,7 @@ export const useValidateAdditionalFacilityCode = formData => {
         setLoader(true);
         try {
           const response = await apiRequest(
-            `/gi/institutions/${formData?.institutionDetails.facilityCode}`, // Use institutionDetails for currrent list and loop iteration
+            `/gi/institutions/${facilityCode}`,
             {
               method: 'GET',
               headers: {
@@ -24,15 +28,6 @@ export const useValidateAdditionalFacilityCode = formData => {
           );
           // console.log('response', response);
           const attrs = response.data.attributes;
-
-          // Use institutionDetails for currrent list and loop iteration
-          const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
-          const secondDigit = formData.institutionDetails.facilityCode.charAt(
-            1,
-          );
-          const yrEligible =
-            ['1', '2', '3'].includes(firstDigit) &&
-            ['1', '2', '3', '4'].includes(secondDigit);
 
           const programTypes = Array.isArray(attrs.programTypes)
             ? attrs.programTypes
@@ -50,43 +45,58 @@ export const useValidateAdditionalFacilityCode = formData => {
 
           setInstitutionData(response?.data);
           setLoader(false);
+
+          // Update the specific item in the additionalInstitutionDetails array
+          const updatedDetails = [
+            ...(formData.additionalInstitutionDetails || []),
+          ];
+          updatedDetails[index] = {
+            ...updatedDetails[index],
+            institutionName: response?.data?.attributes?.name,
+            institutionAddress,
+            ihlEligible,
+            // yrEligible,
+          };
+
           dispatch(
             setData({
               ...formData,
-              // Use institutionDetails for currrent list and loop iteration
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName: response?.data?.attributes?.name,
-                institutionAddress,
-                ihlEligible,
-                yrEligible,
-              },
+              additionalInstitutionDetails: updatedDetails,
             }),
           );
         } catch (error) {
+          // console.log('error', error);
           setInstitutionData({});
           setLoader(false);
+
+          // Update the specific item in the additionalInstitutionDetails array with error state
+          const updatedDetails = [
+            ...(formData.additionalInstitutionDetails || []),
+          ];
+          updatedDetails[index] = {
+            ...updatedDetails[index],
+            institutionName: 'not found',
+            institutionAddress: {},
+            ihlEligible: null,
+          };
+
           dispatch(
             setData({
               ...formData,
-              // Use institutionDetails for currrent list and loop iteration
-              institutionDetails: {
-                ...formData.institutionDetails,
-                institutionName: 'not found',
-                institutionAddress: {},
-                ihlEligible: null,
-              },
+              additionalInstitutionDetails: updatedDetails,
             }),
           );
         }
       };
-      // Use institutionDetails for currrent list and loop iteration
-      if (formData?.institutionDetails?.facilityCode?.length === 8) {
+
+      // Only fetch if we have a valid 8-character facility code and valid index
+      if (facilityCode?.length === 8 && index !== undefined) {
         fetchInstitutionInfo();
       }
     },
-    [formData?.institutionDetails?.facilityCode],
+    [facilityCode, index],
   );
+
   const attrs = institutionData?.attributes || {};
   const institutionAddress = {
     street: attrs.address1 || '',

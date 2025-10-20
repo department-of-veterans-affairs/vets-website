@@ -8,6 +8,9 @@ export default function WarningBanner() {
   const notIHL = details.ihlEligible === false;
 
   let message = '';
+  const code = details.facilityCode;
+  const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const thirdChar = code.charAt(2).toUpperCase();
 
   if (!notYR && !notIHL) {
     return null;
@@ -22,6 +25,14 @@ export default function WarningBanner() {
   if (!notYR && notIHL) {
     message =
       'This institution is unable to participate in the Yellow Ribbon Program.';
+  }
+
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (hasXInThirdPosition) {
+    message =
+      "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
   }
 
   return (
