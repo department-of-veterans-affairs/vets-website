@@ -1168,10 +1168,10 @@ describe('formatDateRange', () => {
 });
 
 describe('getLabsAndTestsDateRanges', () => {
-  it('generates 406 date ranges covering 100 years', () => {
+  it('generates 40 date ranges covering approximately 10 years', () => {
     const { getLabsAndTestsDateRanges } = require('../../util/helpers');
     const ranges = getLabsAndTestsDateRanges();
-    expect(ranges).to.have.lengthOf(406);
+    expect(ranges).to.have.lengthOf(40);
   });
 
   it('generates correct label for first range', () => {
@@ -1206,17 +1206,17 @@ describe('getLabsAndTestsDateRanges', () => {
     });
   });
 
-  it('covers approximately 100 years of data', () => {
+  it('covers approximately 10 years of data', () => {
     const { getLabsAndTestsDateRanges } = require('../../util/helpers');
     const ranges = getLabsAndTestsDateRanges();
     const lastRange = ranges[ranges.length - 1];
     
-    // The last range should be approximately 36,540 days ago (100 years * 365.4 days)
+    // The last range should be approximately 3,600 days ago (10 years * 360 days approximate)
     const lastRangeStartDate = new Date(lastRange.startDate);
     const now = new Date();
     const daysDiff = Math.floor((now - lastRangeStartDate) / (1000 * 60 * 60 * 24));
     
-    // Allow some variance (100 years = 36,525 days for leap years)
-    expect(daysDiff).to.be.within(36400, 36600);
+    // Allow some variance (40 ranges * 90 days = 3,600 days)
+    expect(daysDiff).to.be.within(3500, 3700);
   });
 });
