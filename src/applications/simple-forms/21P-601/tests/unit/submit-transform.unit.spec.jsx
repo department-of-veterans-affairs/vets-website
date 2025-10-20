@@ -265,6 +265,17 @@ describe('21P-601 submit transformer', () => {
         year: '2024',
       });
     });
+
+    it('should handle date with different format', () => {
+      const testData = { data: JSON.parse(JSON.stringify(testDataMinimal)) };
+      testData.data.claimantDateOfBirth = '1990-12-25';
+
+      const result = JSON.parse(transformForSubmit(mockFormConfig, testData));
+
+      expect(result.claimant.dateOfBirth.month).to.equal('12');
+      expect(result.claimant.dateOfBirth.day).to.equal('25');
+      expect(result.claimant.dateOfBirth.year).to.equal('1990');
+    });
   });
 
   describe('helper functions', () => {

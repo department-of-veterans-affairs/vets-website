@@ -198,6 +198,17 @@ describe('21P-601 form config', () => {
       expect(dependsFn(formData)).to.be.true;
     });
 
+    it('should be visible when multiple survivor types are true', () => {
+      const formData = {
+        survivors: {
+          hasSpouse: true,
+          hasChildren: true,
+          hasNone: false,
+        },
+      };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
     it('should be hidden when hasNone is true', () => {
       const formData = {
         survivors: { hasNone: true, hasSpouse: true },
@@ -211,6 +222,17 @@ describe('21P-601 form config', () => {
           hasSpouse: false,
           hasChildren: false,
           hasParents: false,
+        },
+      };
+      expect(dependsFn(formData)).to.be.false;
+    });
+
+    it('should be hidden when flags are undefined', () => {
+      const formData = {
+        survivors: {
+          hasSpouse: undefined,
+          hasChildren: undefined,
+          hasParents: undefined,
         },
       };
       expect(dependsFn(formData)).to.be.false;
