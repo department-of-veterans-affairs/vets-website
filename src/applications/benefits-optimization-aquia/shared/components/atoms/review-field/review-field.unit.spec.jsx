@@ -7,11 +7,11 @@ import { ReviewField } from './review-field';
 describe('ReviewField', () => {
   it('should render label and value', () => {
     const { container } = render(
-      <ReviewField label="Test Label" value="Test Value" />,
+      <ReviewField label="Test Label" value="Alliance Command" />,
     );
 
     expect(container.textContent).to.include('Test Label');
-    expect(container.textContent).to.include('Test Value');
+    expect(container.textContent).to.include('Alliance Command');
   });
 
   it('should render empty text when value is null', () => {
@@ -90,7 +90,7 @@ describe('ReviewField', () => {
 
   it('should have proper structure with dt and dd elements', () => {
     const { container } = render(
-      <ReviewField label="Test Label" value="Test Value" />,
+      <ReviewField label="Test Label" value="Alliance Command" />,
     );
 
     const reviewRow = container.querySelector('.review-row');

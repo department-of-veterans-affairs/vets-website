@@ -1,11 +1,12 @@
 export { CheckboxField } from './checkbox-field';
 export { CheckboxGroupField } from './checkbox-group-field';
+export { CurrencyField } from './currency-field';
 export { DateField } from './date-field';
 export { FileUploadField } from './file-upload-field';
-export { FormField } from './form-field';
 export { InputMessageField } from './input-message-field';
 export { LabelField } from './label-field';
 export { MemorableDateField } from './memorable-date-field';
+export { NumberField } from './number-field';
 export { PhoneField } from './phone-field';
 export { PrivacyAgreementField } from './privacy-agreement-field';
 export { ProgressBarField } from './progress-bar-field';
