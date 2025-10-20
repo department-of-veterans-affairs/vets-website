@@ -63,8 +63,14 @@ export const ArrayField = ({
   const [showRemoveModal, setShowRemoveModal] = useState(false);
   const [itemToRemove, setItemToRemove] = useState(null);
 
-  // Ensure we always have at least minItems
-  const items = value.length >= minItems ? value : [defaultItem];
+  // Ensure we always have at least minItems and filter out any undefined/null values
+  // Also ensure value is an array before filtering
+  const inputValue = Array.isArray(value) ? value : [];
+  const validItems = inputValue.filter(
+    item => item !== null && item !== undefined,
+  );
+  const items =
+    validItems.length >= minItems ? validItems : [{ ...defaultItem }];
 
   /**
    * Handles adding a new item to the array
@@ -186,31 +192,41 @@ export const ArrayField = ({
       )}
 
       <div className="array-field-items">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className="array-field-item vads-u-border--1px vads-u-border-color--gray-lighter vads-u-padding--3 vads-u-margin-bottom--2"
-          >
-            <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--2">
-              <h4 className="vads-u-margin--0">
-                {itemName.charAt(0).toUpperCase() + itemName.slice(1)}{' '}
-                {index + 1}
-              </h4>
-              {items.length > minItems && (
-                <va-button
-                  secondary
-                  text="Remove"
-                  onClick={() => handleRemoveClick(index)}
-                  aria-label={`Remove ${itemName} ${index + 1}`}
-                />
-              )}
-            </div>
+        {items.map((item, index) => {
+          // Ensure item exists before rendering
+          const safeItem = item || { ...defaultItem };
 
-            <div className="array-field-item-content">
-              {renderItem(item, index, handleItemChange, errors[index] || {})}
+          return (
+            <div
+              key={index}
+              className="array-field-item vads-u-border--1px vads-u-border-color--gray-lighter vads-u-padding--3 vads-u-margin-bottom--2"
+            >
+              <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--2">
+                <h4 className="vads-u-margin--0">
+                  {itemName.charAt(0).toUpperCase() + itemName.slice(1)}{' '}
+                  {index + 1}
+                </h4>
+                {items.length > minItems && (
+                  <va-button
+                    secondary
+                    text="Remove"
+                    onClick={() => handleRemoveClick(index)}
+                    aria-label={`Remove ${itemName} ${index + 1}`}
+                  />
+                )}
+              </div>
+
+              <div className="array-field-item-content">
+                {renderItem(
+                  safeItem,
+                  index,
+                  handleItemChange,
+                  errors[index] || {},
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <va-button
@@ -264,16 +280,16 @@ export const ArrayField = ({
 
 ArrayField.propTypes = {
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  renderItem: PropTypes.func.isRequired,
   addButtonText: PropTypes.string,
   defaultItem: PropTypes.object,
   errors: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  getItemSummary: PropTypes.func,
-  isItemEmpty: PropTypes.func,
   itemName: PropTypes.string,
   label: PropTypes.string,
   minItems: PropTypes.number,
   required: PropTypes.bool,
   value: PropTypes.array,
+  getItemSummary: PropTypes.func,
+  isItemEmpty: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  renderItem: PropTypes.func.isRequired,
 };

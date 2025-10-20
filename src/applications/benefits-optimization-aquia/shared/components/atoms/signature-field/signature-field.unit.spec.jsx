@@ -63,10 +63,10 @@ describe('SignatureField', () => {
     });
 
     it('shows current signature value', () => {
-      const props = { ...defaultProps, value: 'John Doe' };
+      const props = { ...defaultProps, value: 'Wedge Antilles' };
       const { container } = render(<SignatureField {...props} />);
       const textInput = container.querySelector('va-text-input');
-      expect(textInput).to.have.attribute('value', 'John Doe');
+      expect(textInput).to.have.attribute('value', 'Wedge Antilles');
     });
 
     it('shows empty string for no value', () => {
@@ -98,12 +98,12 @@ describe('SignatureField', () => {
 
   describe('full name display', () => {
     it('displays full name when provided', () => {
-      const props = { ...defaultProps, fullName: 'Jane Smith' };
+      const props = { ...defaultProps, fullName: 'Mon Mothma' };
       const { container } = render(<SignatureField {...props} />);
       const nameDisplay = container.querySelector('.vads-u-color--gray-medium');
       expect(nameDisplay).to.exist;
       expect(nameDisplay.textContent).to.include(
-        'Your name on file: Jane Smith',
+        'Your name on file: Mon Mothma',
       );
     });
 
@@ -130,17 +130,15 @@ describe('SignatureField', () => {
     it('displays complex full names correctly', () => {
       const props = {
         ...defaultProps,
-        fullName: 'Mary Elizabeth Johnson-Smith',
+        fullName: 'Leia Amidala Organa-Solo',
       };
       const { container } = render(<SignatureField {...props} />);
       const nameDisplay = container.querySelector('.vads-u-color--gray-medium');
-      expect(nameDisplay.textContent).to.include(
-        'Mary Elizabeth Johnson-Smith',
-      );
+      expect(nameDisplay.textContent).to.include('Leia Amidala Organa-Solo');
     });
 
     it('uses proper typography classes for name display', () => {
-      const props = { ...defaultProps, fullName: 'John Doe' };
+      const props = { ...defaultProps, fullName: 'Wedge Antilles' };
       const { container } = render(<SignatureField {...props} />);
       const nameDisplay = container.querySelector('.vads-u-color--gray-medium');
       expect(nameDisplay).to.have.class('vads-u-margin-top--0p5');
@@ -154,11 +152,11 @@ describe('SignatureField', () => {
       render(<SignatureField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSignature', 'John Smith');
+      onChange('testSignature', 'Bail Organa');
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testSignature');
-      expect(onChange.firstCall.args[1]).to.equal('John Smith');
+      expect(onChange.firstCall.args[1]).to.equal('Bail Organa');
     });
 
     it('handles onChange with target value', () => {
@@ -167,10 +165,10 @@ describe('SignatureField', () => {
       render(<SignatureField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testSignature', 'Jane Doe');
+      onChange('testSignature', 'Leia Organa');
 
       expect(onChange.calledOnce).to.be.true;
-      expect(onChange.firstCall.args[1]).to.equal('Jane Doe');
+      expect(onChange.firstCall.args[1]).to.equal('Leia Organa');
     });
 
     it('handles onBlur events for validation', async () => {
@@ -205,7 +203,7 @@ describe('SignatureField', () => {
 
     it('triggers validation on blur', async () => {
       const schema = z.string().min(1, 'Signature required');
-      const props = { ...defaultProps, schema, value: 'John Doe' };
+      const props = { ...defaultProps, schema, value: 'Wedge Antilles' };
       const { container } = render(<SignatureField {...props} />);
       const textInput = container.querySelector('va-text-input');
 
@@ -220,8 +218,8 @@ describe('SignatureField', () => {
     it('validates signature against full name when provided', async () => {
       const props = {
         ...defaultProps,
-        fullName: 'John Smith',
-        value: 'Jane Doe', // Different from full name
+        fullName: 'Bail Organa',
+        value: 'Leia Organa', // Different from full name
       };
       const { container } = render(<SignatureField {...props} />);
       const textInput = container.querySelector('va-text-input');
@@ -238,8 +236,8 @@ describe('SignatureField', () => {
     it('accepts signature that matches full name', async () => {
       const props = {
         ...defaultProps,
-        fullName: 'John Smith',
-        value: 'John Smith', // Matches full name
+        fullName: 'Bail Organa',
+        value: 'Bail Organa', // Matches full name
       };
       const { container } = render(<SignatureField {...props} />);
       const textInput = container.querySelector('va-text-input');
@@ -256,7 +254,7 @@ describe('SignatureField', () => {
     it('handles case-insensitive name matching', async () => {
       const props = {
         ...defaultProps,
-        fullName: 'John Smith',
+        fullName: 'Bail Organa',
         value: 'JOHN SMITH', // Different case
       };
       const { container } = render(<SignatureField {...props} />);
@@ -275,7 +273,7 @@ describe('SignatureField', () => {
       const props = {
         ...defaultProps,
         fullName: 'John   Smith',
-        value: '  John Smith  ', // Extra whitespace
+        value: '  Bail Organa  ', // Extra whitespace
       };
       const { container } = render(<SignatureField {...props} />);
       const textInput = container.querySelector('va-text-input');
@@ -332,7 +330,7 @@ describe('SignatureField', () => {
 
       textInput.focus();
       const event = new CustomEvent('input', {
-        detail: { value: 'John Doe' },
+        detail: { value: 'Wedge Antilles' },
       });
       textInput.dispatchEvent(event);
 
@@ -373,7 +371,7 @@ describe('SignatureField', () => {
       const textInput = container.querySelector('va-text-input');
 
       const event = new CustomEvent('input', {
-        detail: { value: 'John Doe' },
+        detail: { value: 'Wedge Antilles' },
       });
       expect(() => textInput.dispatchEvent(event)).to.not.throw();
     });
@@ -487,7 +485,7 @@ describe('SignatureField', () => {
     it('handles partial name matches correctly', async () => {
       const props = {
         ...defaultProps,
-        fullName: 'John Smith',
+        fullName: 'Bail Organa',
         value: 'John', // Partial match should fail
       };
       const { container } = render(<SignatureField {...props} />);
@@ -505,7 +503,7 @@ describe('SignatureField', () => {
     it('validates without value when no signature provided', async () => {
       const props = {
         ...defaultProps,
-        fullName: 'John Smith',
+        fullName: 'Bail Organa',
         value: '',
       };
       const { container } = render(<SignatureField {...props} />);
@@ -568,7 +566,7 @@ describe('SignatureField', () => {
     });
 
     it('styles full name display appropriately', () => {
-      const props = { ...defaultProps, fullName: 'John Doe' };
+      const props = { ...defaultProps, fullName: 'Wedge Antilles' };
       const { container } = render(<SignatureField {...props} />);
       const nameDisplay = container.querySelector('.vads-u-color--gray-medium');
       expect(nameDisplay).to.have.class('vads-u-margin-top--0p5');

@@ -30,9 +30,9 @@ components/
 │   ├── error-boundary.jsx
 │   ├── error-boundary.unit.spec.jsx
 │   └── index.js
-├── save-in-progress-wrapper/ # Save-in-progress resume controls
-│   ├── save-in-progress-wrapper.jsx
-│   ├── save-in-progress-wrapper.unit.spec.jsx
+├── save-in-progress/ # Save-in-progress resume controls
+│   ├── save-in-progress.jsx
+│   ├── save-in-progress.unit.spec.jsx
 │   └── index.js
 └── index.js              # Barrel exports
 ```
@@ -59,7 +59,7 @@ Field-level components that integrate VA web components with form validation. Ea
 - `checkbox-group-field/` - Multiple checkboxes with group validation
 - `date-field/` - Date input with formatting validation
 - `file-upload-field/` - File upload with size and type validation
-- `form-field/` - Text input with advanced validation
+- `text-input-field/` - Text input with advanced validation
 - `input-message-field/` - Input with additional message display
 - `label-field/` - Standalone label component
 - `memorable-date-field/` - Month/Day/Year date inputs
@@ -130,8 +130,8 @@ Page-level templates for consistent form structure:
   schema={validationSchema}
   sectionName="sectionName"
 >
-  <FormField name="field1" label="Field 1" />
-  <FormField name="field2" label="Field 2" />
+  <TextInputField name="field1" label="Field 1" />
+  <TextInputField name="field2" label="Field 2" />
 </PageTemplate>
 
 // With render props for complex logic
@@ -152,7 +152,7 @@ Page-level templates for consistent form structure:
 
     return (
       <>
-        <FormField
+        <TextInputField
           name="field1"
           value={localData.field1}
           onChange={handleFieldChange}
@@ -160,7 +160,7 @@ Page-level templates for consistent form structure:
           forceShowError={formSubmitted}
         />
         {showExtraField && (
-          <FormField
+          <TextInputField
             name="extraField"
             value={localData.extraField}
             onChange={handleFieldChange}
@@ -229,7 +229,7 @@ export const AddressReviewPage = ({ data, editPage, title }) => (
 
 ### Save-in-Progress Wrapper
 
-- `save-in-progress-wrapper/` - Form resume controls component
+- `save-in-progress/` - Form resume controls component
   - Detects saved form data on page refresh
   - Displays resume controls when user navigates directly to form page
   - Integrates with VA.gov save-in-progress system
@@ -244,7 +244,7 @@ Import components using barrel exports:
 ```javascript
 // Import Share Utility components
 import {
-  FormField,
+  TextInputField,
   DateField,
   AddressField,
   PageTemplate,
@@ -252,12 +252,12 @@ import {
 } from '@bio-aquia/shared/components';
 
 // Or import from specific subdirectories (recommended for tree-shaking)
-import { FormField, DateField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, DateField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 // Import directly from component directories
-import { FormField } from '@bio-aquia/shared/components/atoms/form-field';
+import { TextInputField } from '@bio-aquia/shared/components/atoms/text-input-field';
 import { AddressField } from '@bio-aquia/shared/components/molecules/address-field';
 import { PageTemplate } from '@bio-aquia/shared/components/templates/page-template';
 ```
