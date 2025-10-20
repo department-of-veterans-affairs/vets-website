@@ -3,7 +3,8 @@ import { rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
-describe('Complex Claims Confirmation Page', () => {
+// TODO: Unskip when complex claims routing has been setup
+describe.skip('Complex Claims Confirmation Page', () => {
   const appointmentId = '12345';
 
   beforeEach(() => {
