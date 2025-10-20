@@ -6,7 +6,7 @@ import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
   const { record, options = {} } = props;
-  const { isAccelerating, timeFrame } = options;
+  const { isAccelerating, rangeIndex } = options;
   return (
     <va-card
       background
@@ -16,7 +16,7 @@ const LabsAndTestsListItem = props => {
       <div className="vads-u-font-weight--bold vads-u-margin-bottom--0p5">
         <Link
           to={`/labs-and-tests/${record.id}${
-            isAccelerating ? `?timeFrame=${timeFrame}` : ''
+            isAccelerating ? `?rangeIndex=${rangeIndex}` : ''
           }`}
           data-dd-privacy="mask"
           data-dd-action-name="Lab and Test Results Detail Link"
@@ -64,6 +64,6 @@ LabsAndTestsListItem.propTypes = {
   }).isRequired,
   options: PropTypes.shape({
     isAccelerating: PropTypes.bool,
-    timeFrame: PropTypes.string,
+    rangeIndex: PropTypes.number,
   }),
 };

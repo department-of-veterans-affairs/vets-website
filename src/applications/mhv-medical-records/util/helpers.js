@@ -728,6 +728,54 @@ export const getMonthFromSelectedDate = ({ date, mask = 'MMMM yyyy' }) => {
   return `${formatted}`;
 };
 
+/**
+ * @param {Object} dateRange an object containing startDate and endDate
+ * @param {string} dateRange.startDate the start date in YYYY-MM-DD format
+ * @param {string} dateRange.endDate the end date in YYYY-MM-DD format
+ * @returns {String} formatted date range string
+ */
+export const formatDateRange = ({ startDate, endDate }) => {
+  if (!startDate || !endDate) return null;
+  const start = parseISO(startDate);
+  const end = parseISO(endDate);
+  if (!isValid(start) || !isValid(end)) return null;
+  const formattedStart = dateFnsFormat(start, 'MMMM d, yyyy');
+  const formattedEnd = dateFnsFormat(end, 'MMMM d, yyyy');
+  return `${formattedStart} to ${formattedEnd}`;
+};
+
+/**
+ * Generate 90-day date range options for the labs and tests date range dropdown
+ * @returns {Array} Array of date range objects with value, label, startDate, endDate
+ */
+export const getLabsAndTestsDateRanges = () => {
+  const now = new Date();
+  const today = dateFnsFormat(now, 'yyyy-MM-dd');
+
+  // Calculate ranges: 0-90 days, 91-180 days, 181-270 days, 271-365 days ago
+  const ranges = [
+    { start: 0, end: 90, label: 'Last 90 days' },
+    { start: 91, end: 180, label: '91 to 180 days ago' },
+    { start: 181, end: 270, label: '181 to 270 days ago' },
+    { start: 271, end: 365, label: '271 to 365 days ago' },
+  ];
+
+  return ranges.map((range, index) => {
+    const endDate = new Date(now);
+    endDate.setDate(now.getDate() - range.start);
+    
+    const startDate = new Date(now);
+    startDate.setDate(now.getDate() - range.end);
+
+    return {
+      value: index,
+      label: range.label,
+      startDate: dateFnsFormat(startDate, 'yyyy-MM-dd'),
+      endDate: index === 0 ? today : dateFnsFormat(endDate, 'yyyy-MM-dd'),
+    };
+  });
+};
+
 export const sendDataDogAction = actionName => {
   datadogRum.addAction(actionName);
 };

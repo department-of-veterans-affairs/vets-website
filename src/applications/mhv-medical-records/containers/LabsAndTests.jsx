@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import {
@@ -25,14 +25,17 @@ import {
   loadStates,
   statsdFrontEndActions,
 } from '../util/constants';
-import { getMonthFromSelectedDate } from '../util/helpers';
+import {
+  getLabsAndTestsDateRanges,
+  formatDateRange,
+} from '../util/helpers';
 
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-import DatePicker from '../components/shared/DatePicker';
+import DateRangeDropdown from '../components/shared/DateRangeDropdown';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
 import JobCompleteAlert from '../components/shared/JobsCompleteAlert';
@@ -78,28 +81,32 @@ const LabsAndTests = () => {
 
   const { isAcceleratingLabsAndTests } = useAcceleratedData();
 
-  const urlTimeFrame = new URLSearchParams(location.search).get('timeFrame');
+  // Get date range options
+  const dateRangeOptions = useMemo(() => getLabsAndTestsDateRanges(), []);
 
-  // for the dropdown
-  const [acceleratedLabsAndTestDate, setAcceleratedLabsAndTestDate] = useState(
-    urlTimeFrame || format(new Date(), 'yyyy-MM'),
+  // Get the current range index from URL or default to 0 (last 90 days)
+  const urlRangeIndex = new URLSearchParams(location.search).get('rangeIndex');
+  const initialRangeIndex = urlRangeIndex
+    ? parseInt(urlRangeIndex, 10)
+    : 0;
+
+  const [selectedRangeIndex, setSelectedRangeIndex] = useState(
+    initialRangeIndex,
   );
-  // for the display message
-  const [displayDate, setDisplayDate] = useState(acceleratedLabsAndTestDate);
+  const [displayRangeIndex, setDisplayRangeIndex] = useState(
+    initialRangeIndex,
+  );
 
-  // for the api call
+  // Get the current date range parameters
   const timeFrameApiParameters = useMemo(
     () => {
-      // set end date to the last day of the month
-      const [year, month] = acceleratedLabsAndTestDate.split('-');
-      const lastDayOfMonth = new Date(year, month, 0).getDate();
-      const formattedMonth = month.padStart(2, '0');
+      const selectedRange = dateRangeOptions[selectedRangeIndex];
       return {
-        startDate: `${year}-${formattedMonth}-01`,
-        endDate: `${year}-${formattedMonth}-${lastDayOfMonth}`,
+        startDate: selectedRange.startDate,
+        endDate: selectedRange.endDate,
       };
     },
-    [acceleratedLabsAndTestDate],
+    [selectedRangeIndex, dateRangeOptions],
   );
 
   const dispatchAction = useMemo(
@@ -149,11 +156,13 @@ const LabsAndTests = () => {
   useEffect(
     () => {
       if (isAcceleratingLabsAndTests) {
-        // Only update if there is no time frame. This is only for on initial page load.
-        const timeFrame = new URLSearchParams(location.search).get('timeFrame');
-        if (!timeFrame) {
+        // Only update if there is no range index. This is only for on initial page load.
+        const rangeIndex = new URLSearchParams(location.search).get(
+          'rangeIndex',
+        );
+        if (!rangeIndex) {
           const searchParams = new URLSearchParams(location.search);
-          searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+          searchParams.set('rangeIndex', selectedRangeIndex.toString());
           history.push({
             pathname: location.pathname,
             search: searchParams.toString(),
@@ -162,29 +171,24 @@ const LabsAndTests = () => {
       }
     },
     [
-      acceleratedLabsAndTestDate,
+      selectedRangeIndex,
       history,
       isAcceleratingLabsAndTests,
       location.pathname,
       location.search,
     ],
   );
-  const updateDate = event => {
-    const [year, month] = event.target.value.split('-');
-    // Ignore transient date changes.
-    if (year?.length === 4 && month?.length === 2) {
-      setAcceleratedLabsAndTestDate(`${year}-${month}`);
-    }
-  };
+  const onDateRangeChange = index => {
+    setSelectedRangeIndex(index);
+    setDisplayRangeIndex(index);
 
-  const triggerApiUpdate = () => {
     const searchParams = new URLSearchParams(location.search);
-    searchParams.set('timeFrame', acceleratedLabsAndTestDate);
+    searchParams.set('rangeIndex', index.toString());
     history.push({
       pathname: location.pathname,
       search: searchParams.toString(),
     });
-    setDisplayDate(acceleratedLabsAndTestDate);
+
     dispatch({
       type: Actions.LabsAndTests.UPDATE_LIST_STATE,
       payload: loadStates.PRE_FETCH,
@@ -235,13 +239,10 @@ const LabsAndTests = () => {
         {isAcceleratingLabsAndTests && (
           <>
             <div className="vads-u-margin-bottom--2">
-              <DatePicker
-                {...{
-                  updateDate,
-                  triggerApiUpdate,
-                  isLoadingAcceleratedData,
-                  dateValue: acceleratedLabsAndTestDate,
-                }}
+              <DateRangeDropdown
+                currentRange={selectedRangeIndex}
+                onChange={onDateRangeChange}
+                options={dateRangeOptions}
               />
             </div>
           </>
@@ -288,10 +289,10 @@ const LabsAndTests = () => {
                   }))}
                   domainOptions={{
                     isAccelerating: isAcceleratingLabsAndTests,
-                    timeFrame: acceleratedLabsAndTestDate,
-                    displayTimeFrame: getMonthFromSelectedDate({
-                      date: displayDate,
-                    }),
+                    rangeIndex: selectedRangeIndex,
+                    displayTimeFrame: formatDateRange(
+                      dateRangeOptions[displayRangeIndex],
+                    ),
                   }}
                 />
               </>
@@ -300,9 +301,7 @@ const LabsAndTests = () => {
                 type={recordType.LABS_AND_TESTS}
                 timeFrame={
                   isAcceleratingLabsAndTests
-                    ? getMonthFromSelectedDate({
-                        date: displayDate,
-                      })
+                    ? formatDateRange(dateRangeOptions[displayRangeIndex])
                     : ''
                 }
               />
