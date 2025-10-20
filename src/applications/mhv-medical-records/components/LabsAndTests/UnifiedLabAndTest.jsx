@@ -75,13 +75,12 @@ const UnifiedLabsAndTests = props => {
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-
+        <DownloadingRecordsInfo description="L&TR Detail" />
         <PrintDownload
           description="L&TR Detail"
           downloadPdf={generatePdf}
           downloadTxt={generateTxt}
         />
-        <DownloadingRecordsInfo description="L&TR Detail" />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
