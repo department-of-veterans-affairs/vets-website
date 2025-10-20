@@ -24,10 +24,13 @@ const InterstitialPage = props => {
     focusElement(document.querySelector('h1'));
   }, []);
 
-  useEffect(() => {
-    const headerText = document.querySelector('h1').textContent;
-    document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  }, []);
+  const headerText = document.querySelector('h1')?.textContent;
+  useEffect(
+    () => {
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [headerText],
+  );
 
   const handleContinueButton = useCallback(
     () => {
