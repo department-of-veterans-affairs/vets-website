@@ -2,6 +2,10 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
 import { toHash } from '../../../../shared/utilities';
+import {
+  NOT_SHARED,
+  FIELD_NAME as SHARED_ADDRESS_FIELD_NAME,
+} from '../../../components/FormPages/AddressSelectionPage';
 
 const APPLICANT_SSN = '345345345';
 const SSN_HASH = toHash(APPLICANT_SSN);
@@ -87,12 +91,7 @@ describe('10-10d-extended transform for submit', () => {
   });
 
   it('should set `hasApplicantOver65` to false if all applicants are under 65', () => {
-    const testData = {
-      data: {
-        applicants: [{ applicantDob: '2003-01-01' }],
-      },
-    };
-
+    const testData = { data: { applicants: [{ applicantDob: '2003-01-01' }] } };
     const transformed = JSON.parse(transformForSubmit(formConfig, testData));
     expect(transformed.hasApplicantOver65).to.be.false;
   });
@@ -349,6 +348,7 @@ describe('10-10d-extended transform for submit', () => {
     it('should properly format sponsor address fields', () => {
       const testData = {
         data: {
+          [SHARED_ADDRESS_FIELD_NAME]: NOT_SHARED,
           sponsorAddress: {
             street: '123 Main Street',
             street2: 'Apartment 4B',

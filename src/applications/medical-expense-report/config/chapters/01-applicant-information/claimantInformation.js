@@ -1,20 +1,31 @@
 import {
   titleUI,
   fullNameSchema,
+  fullNameUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { prefixedFullNameUI } from '../../definitions';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Your information',
-  path: 'applicant/claimant/information',
-  // depends: formData => formData.claimantNotVeteran === true,
   uiSchema: {
     ...titleUI(
-      'Your information',
+      'Your name',
       'You aren’t required to fill in all fields, but we can review your application faster if you provide more information.',
     ),
-    claimantFullName: prefixedFullNameUI({ label: 'Your' }),
+    claimantFullName: {
+      ...fullNameUI(),
+      first: {
+        'ui:title': 'First name',
+        'ui:errorMessages': {
+          required: 'Enter a first name',
+        },
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:errorMessages': {
+          required: 'Enter a last name',
+        },
+      },
+    },
   },
   schema: {
     type: 'object',

@@ -26,10 +26,9 @@ describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
   it('navigate away with no data', () => {
     FolderLoadPage.backToParentFolder();
 
-    GeneralFunctionsPage.verifyUrl(`thread`);
-    GeneralFunctionsPage.verifyPageHeader(
-      `${updatedSingleThreadResponse.data[0].attributes.subject}`,
-    );
+    // when you're replying, you can see the message thread already.
+    // back button will navigate back to the folder you came from. In this case, inbox.
+    GeneralFunctionsPage.verifyUrl(`inbox`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

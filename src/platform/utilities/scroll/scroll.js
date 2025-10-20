@@ -178,7 +178,7 @@ export const scrollAndFocus = (target, options) =>
   new Promise(resolve => {
     if (target) {
       scrollTo(target, options);
-      focusElement(target);
+      focusElement(target, { preventScroll: true });
     }
     resolve();
   });

@@ -51,32 +51,32 @@ describe('SelectCareTeam', () => {
       vamcEhrData: {
         data: {
           ehrDataByVhaId: {
-            '662': {
+            662: {
               vhaId: '662',
               vamcSystemName: 'Test Facility 1',
               ehr: 'vista',
             },
-            '636': {
+            636: {
               vhaId: '636',
               vamcSystemName: 'Test Facility 2',
               ehr: 'vista',
             },
-            '587': {
+            587: {
               vhaId: '587',
               vamcSystemName: 'Test Facility 3',
               ehr: 'vista',
             },
-            '321': {
+            321: {
               vhaId: '321',
               vamcSystemName: 'Test Facility 4',
               ehr: 'vista',
             },
-            '954': {
+            954: {
               vhaId: '954',
               vamcSystemName: 'Test Facility 5',
               ehr: 'cerner',
             },
-            '834': {
+            834: {
               vhaId: '834',
               vamcSystemName: 'Test Facility 6',
               ehr: 'cerner',
@@ -522,11 +522,6 @@ describe('SelectCareTeam', () => {
   });
 
   it('redirects users to interstitial page if interstitial not accepted', async () => {
-    const oldLocation = global.window.location;
-    global.window.location = {
-      replace: sandbox.spy(),
-    };
-
     const customState = {
       ...initialState,
       sm: {
@@ -547,8 +542,6 @@ describe('SelectCareTeam', () => {
     await waitFor(() => {
       expect(history.location.pathname).to.equal('/new-message/');
     });
-
-    global.window.location = oldLocation;
   });
 
   it('wont redirect users if interstitial accepted', async () => {
@@ -570,7 +563,7 @@ describe('SelectCareTeam', () => {
     });
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal('select-care-team');
+      expect(history.location.pathname).to.equal('select-care-team/');
     });
   });
 });

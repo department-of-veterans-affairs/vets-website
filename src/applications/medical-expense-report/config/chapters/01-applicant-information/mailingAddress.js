@@ -6,11 +6,9 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Your address',
-  path: 'applicant/mail-address',
   uiSchema: {
-    ...titleUI('Your address'),
-    claimantAddress: addressUI({
+    ...titleUI('Your mailing address'),
+    veteranAddress: addressUI({
       labels: {
         militaryCheckbox:
           'I receive mail outside of the United States on a U.S. military base',
@@ -20,9 +18,9 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['claimantAddress'],
+    required: ['veteranAddress'],
     properties: {
-      claimantAddress: addressSchema({ omit: ['street3'] }),
+      veteranAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };
