@@ -1,6 +1,8 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE, SUBTITLE } from '../constants';
+import submitForm from './submitForm';
+import transform from './submit-transformer';
+import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -10,15 +12,16 @@ import {
   agreementType,
   institutionDetailsFacility,
   authorizingOfficial,
+  poeCommitment,
+  newAuthorizingOfficial,
 } from '../pages';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: SUBMIT_URL,
+  submit: submitForm,
   trackingPrefix: 'edu-10275-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -56,6 +59,7 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   defaultDefinitions: {},
+  transformForSubmit: transform,
   chapters: {
     agreementTypeChapter: {
       title: 'Agreement type',
@@ -95,6 +99,18 @@ const formConfig = {
         },
       },
     },
+    associatedOfficialsChapter: {
+      title: 'Associated officials',
+      pages: {
+        authorizingOfficialNew: {
+          path: 'new-commitment-authorizing-official',
+          title: 'Your information',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: newAuthorizingOfficial.uiSchema,
+          schema: newAuthorizingOfficial.schema,
+        },
+      },
+    },
     withdrawalChapter: {
       title: 'Institution details',
       pages: {
@@ -104,6 +120,18 @@ const formConfig = {
           depends: data => data?.agreementType === 'withdrawal',
           uiSchema: institutionDetailsFacility.uiSchema,
           schema: institutionDetailsFacility.schema,
+        },
+      },
+    },
+    principlesOfExcellenceCommitmentChapter: {
+      title: 'The Principles of Excellence',
+      pages: {
+        poeCommitment: {
+          path: 'principles-of-excellence',
+          title: 'The Principles of Excellence',
+          depends: data => data?.agreementType === 'newCommitment',
+          uiSchema: poeCommitment.uiSchema,
+          schema: poeCommitment.schema,
         },
       },
     },

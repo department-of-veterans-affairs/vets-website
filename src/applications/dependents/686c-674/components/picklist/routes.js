@@ -7,6 +7,9 @@ import spouseDeath from './spouseDeath';
 import childIsStepChild from './childIsStepchild';
 
 import parentReasonToRemove from './parentReasonToRemove';
+import parentDeath from './parentDeath';
+import parentOther from './parentOther';
+import parentOtherExit from './parentOtherExit';
 import childReasonToRemove from './childReasonToRemove';
 
 /**
@@ -29,7 +32,12 @@ export const routing = {
     { path: 'child-reason-to-remove', page: childReasonToRemove },
   ],
 
-  Parent: [{ path: 'parent-reason-to-remove', page: parentReasonToRemove }],
+  Parent: [
+    { path: 'parent-reason-to-remove', page: parentReasonToRemove },
+    { path: 'parent-death', page: parentDeath },
+    { path: 'parent-other', page: parentOther },
+    { path: 'parent-exit', page: parentOtherExit },
+  ],
 };
 
 /**

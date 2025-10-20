@@ -1,8 +1,8 @@
-// @ts-check
 import {
-  dateOfBirthUI,
   dateOfBirthSchema,
+  currentOrPastDateUI,
   fullNameSchema,
+  fullNameUI,
   ssnUI,
   ssnSchema,
   titleUI,
@@ -11,9 +11,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import { isSameOrAfter } from '../../../utils/helpers';
-import { conditionalVeteranNameUI } from './helpers';
-
-// const { vaClaimsHistory } = fullSchemaPensions.properties;
 
 export function isOver65(formData, currentDate) {
   const today = currentDate || new Date();
@@ -46,17 +43,56 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 export default {
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    ...titleUI('Veteran information'),
-    veteranFullName: conditionalVeteranNameUI(title => `Veteran's ${title}`),
-    veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
+    ...titleUI(
+      ({ formData }) =>
+        formData?.claimantNotVeteran
+          ? 'Veteran information'
+          : 'Your information',
+    ),
+    veteranFullName: {
+      ...fullNameUI(),
+      first: {
+        'ui:title': 'First name',
+        'ui:required': formData => formData.claimantNotVeteran === true,
+        'ui:errorMessages': {
+          required: 'Please enter a first name',
+        },
+        'ui:options': {
+          hideIf: formData => formData.claimantNotVeteran === false,
+        },
+      },
+      middle: {
+        'ui:title': 'Middle name',
+        'ui:options': {
+          hideIf: formData => formData.claimantNotVeteran === false,
+        },
+      },
+      last: {
+        'ui:title': 'Last name',
+        'ui:required': formData => formData.claimantNotVeteran === true,
+        'ui:errorMessages': {
+          required: 'Please enter a last name',
+        },
+        'ui:options': {
+          hideIf: formData => formData.claimantNotVeteran === false,
+        },
+      },
+      suffix: {
+        'ui:title': 'Suffix',
+        'ui:options': {
+          hideIf: formData => formData.claimantNotVeteran === false,
+        },
+      },
+    },
+    veteranSocialSecurityNumber: ssnUI(),
     vaFileNumber: {
-      ...vaFileNumberUI('Veteran’s VA file number'),
+      ...vaFileNumberUI('VA file number'),
       'ui:options': {
         hint: 'Enter your VA file number if it doesn’t match your SSN',
       },
     },
-    veteranDateOfBirth: dateOfBirthUI({
-      title: 'Veteran’s date of birth',
+    veteranDateOfBirth: currentOrPastDateUI({
+      title: 'Date of birth',
       monthSelect: false,
     }),
   },
