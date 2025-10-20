@@ -15,8 +15,6 @@ const spouseReasonToRemove = {
       itemData.removalReason === 'marriageEnded'
         ? 'marriage-ended'
         : 'marriage-death',
-    // return empty path to go to first spouse page
-    goBack: (/* { _itemData, _index, _fullData } */) => '',
 
     onSubmit: ({ /* event, */ itemData, goForward }) => {
       // event.preventDefault(); // executed before this function is called

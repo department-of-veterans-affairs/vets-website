@@ -266,7 +266,9 @@ describe('CareTeamHelp', () => {
     const { history } = setup(customState);
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal('/new-message/care-team-help');
+      expect(history.location.pathname).to.equal(
+        '/new-message/care-team-help/',
+      );
     });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -114,6 +115,33 @@ export class LetterList extends React.Component {
             {letterItems}
           </va-accordion>
         )}
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.emptyStateBenefitLetters}>
+          <Toggler.Enabled>
+            {letterItems.length === 0 &&
+              !eligibilityMessage && (
+                <div className="vads-u-margin-top--2">
+                  <h3>
+                    You don't have any benefit letters or documents available.
+                  </h3>
+                  <p>
+                    Most Veterans find benefit letters and documents here such
+                    as:
+                  </p>
+                  <ul>
+                    <li>Benefit Summary and Service Verification Letter</li>
+                    <li>Proof of Service Card</li>
+                    <li>Civil Service Preference Letter</li>
+                  </ul>
+                  <p>
+                    If you think you should have a benefit letter and document
+                    that's not here, call the VA benefits hotline at{' '}
+                    <va-telephone contact="8008271000" /> (
+                    <va-telephone contact="711" tty />) for help.
+                  </p>
+                </div>
+              )}
+          </Toggler.Enabled>
+        </Toggler>
         {eligibilityMessage}
       </div>
     );

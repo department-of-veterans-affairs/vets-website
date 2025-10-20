@@ -69,4 +69,9 @@ export const NAV_MENU_DROPDOWN = [
     URL: '/submissions',
     TEST_ID: 'submissions-link',
   },
+  {
+    LABEL: 'Help',
+    URL: '/get-help',
+    TEST_ID: 'user-nav-help-link',
+  },
 ];

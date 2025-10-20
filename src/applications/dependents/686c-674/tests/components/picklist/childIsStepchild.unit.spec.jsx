@@ -92,10 +92,6 @@ describe('childIsStepchild', () => {
       expect(childIsStepchild.handlers.goForward()).to.equal('DONE');
     });
 
-    it('should return an empty string on goBack', () => {
-      expect(childIsStepchild.handlers.goBack()).to.equal('');
-    });
-
     it('should call goForward when stepchild value is set on submit', () => {
       const goForward = sinon.spy();
       childIsStepchild.handlers.onSubmit({
