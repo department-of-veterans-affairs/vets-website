@@ -126,10 +126,10 @@ export const MailingAddressPage = ({
 };
 
 MailingAddressPage.propTypes = {
-  goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  goBack: PropTypes.func,
   onReviewPage: PropTypes.bool,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
 };
