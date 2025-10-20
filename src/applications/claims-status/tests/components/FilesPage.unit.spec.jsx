@@ -478,10 +478,10 @@ describe('<FilesPage>', () => {
           expect(container.querySelector('va-alert[status="error"]')).to.exist;
           getByText('We need you to submit files by mail or in person');
           // Should display the most recent file (by failedDate)
-          getByText('file-1.pdf');
+          getByText('file-3.pdf');
           // Other files should not be visible in the main alert display
+          expect(queryByText('file-1.pdf')).to.not.exist;
           expect(queryByText('file-2.pdf')).to.not.exist;
-          expect(queryByText('file-3.pdf')).to.not.exist;
         });
       },
     );
