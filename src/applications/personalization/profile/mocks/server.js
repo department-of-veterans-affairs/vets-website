@@ -297,15 +297,33 @@ const responses = {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
     }
     return res.status(200).json(phoneNumber.transactions.received);
+    // return res.status(500).json(genericErrors.error500);
   },
   'POST /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
+  },
+  'DELETE /v0/profile/telephones': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(phoneNumber.transactions.received),
+      // () => res.status(500).json(genericErrors.error500),
+      secondsOfDelay,
+    );
   },
   'POST /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);
   },
   'PUT /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);
+    // return res.status(500).json(genericErrors.error500);
+  },
+  'DELETE /v0/profile/email_addresses': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.status(200).json(emailAddress.transactions.received),
+      // () => res.status(500).json(genericErrors.error500),
+      secondsOfDelay,
+    );
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
@@ -343,6 +361,7 @@ const responses = {
 
     // default response
     return res.json(address.homeAddressUpdateReceived);
+    // return res.status(500).json(genericErrors.error500);
   },
   'POST /v0/profile/addresses': (req, res) => {
     return res.json(address.homeAddressUpdateReceived);
@@ -351,6 +370,7 @@ const responses = {
     const secondsOfDelay = 1;
     delaySingleResponse(
       () => res.status(200).json(address.homeAddressDeleteReceived),
+      // () => res.status(500).json(genericErrors.error500),
       secondsOfDelay,
     );
   },
