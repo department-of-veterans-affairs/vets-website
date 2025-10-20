@@ -131,12 +131,12 @@ ${record.summary}`;
         </p>
 
         {downloadStarted && <DownloadSuccessAlert />}
+        <DownloadingRecordsInfo description="CS&N Detail" />
         <PrintDownload
           description="CS&N Detail"
           downloadPdf={generateCareNotesPDF}
           downloadTxt={generateCareNotesTxt}
         />
-        <DownloadingRecordsInfo description="CS&N Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details">
