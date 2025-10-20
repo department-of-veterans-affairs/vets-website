@@ -587,7 +587,7 @@ describe('SelectCareTeam', () => {
         ...initialState.sm,
         recipients: {
           ...initialState.sm.recipients,
-          vistaFacilities: [], // No VistA facilities in recipients
+          vistaFacilities: [], // No Vista facilities in recipients
         },
       },
     };
