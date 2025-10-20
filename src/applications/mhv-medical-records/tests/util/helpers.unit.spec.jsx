@@ -1168,19 +1168,23 @@ describe('formatDateRange', () => {
 });
 
 describe('getLabsAndTestsDateRanges', () => {
-  it('generates 4 date ranges', () => {
+  it('generates 406 date ranges covering 100 years', () => {
     const { getLabsAndTestsDateRanges } = require('../../util/helpers');
     const ranges = getLabsAndTestsDateRanges();
-    expect(ranges).to.have.lengthOf(4);
+    expect(ranges).to.have.lengthOf(406);
   });
 
-  it('generates correct labels for date ranges', () => {
+  it('generates correct label for first range', () => {
     const { getLabsAndTestsDateRanges } = require('../../util/helpers');
     const ranges = getLabsAndTestsDateRanges();
     expect(ranges[0].label).to.eq('Last 90 days');
-    expect(ranges[1].label).to.eq('91 to 180 days ago');
-    expect(ranges[2].label).to.eq('181 to 270 days ago');
-    expect(ranges[3].label).to.eq('271 to 365 days ago');
+  });
+
+  it('generates date-based labels for subsequent ranges', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    // Check that ranges 1+ have formatted date labels
+    expect(ranges[1].label).to.match(/^[A-Z][a-z]{2} \d{1,2}, \d{4} to [A-Z][a-z]{2} \d{1,2}, \d{4}$/);
   });
 
   it('generates valid date formats', () => {
@@ -1200,5 +1204,19 @@ describe('getLabsAndTestsDateRanges', () => {
     ranges.forEach((range, index) => {
       expect(range.value).to.eq(index);
     });
+  });
+
+  it('covers approximately 100 years of data', () => {
+    const { getLabsAndTestsDateRanges } = require('../../util/helpers');
+    const ranges = getLabsAndTestsDateRanges();
+    const lastRange = ranges[ranges.length - 1];
+    
+    // The last range should be approximately 36,540 days ago (100 years * 365.4 days)
+    const lastRangeStartDate = new Date(lastRange.startDate);
+    const now = new Date();
+    const daysDiff = Math.floor((now - lastRangeStartDate) / (1000 * 60 * 60 * 24));
+    
+    // Allow some variance (100 years = 36,525 days for leap years)
+    expect(daysDiff).to.be.within(36400, 36600);
   });
 });

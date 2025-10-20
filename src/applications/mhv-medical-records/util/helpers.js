@@ -746,34 +746,47 @@ export const formatDateRange = ({ startDate, endDate }) => {
 
 /**
  * Generate 90-day date range options for the labs and tests date range dropdown
+ * Creates ranges covering the last 100 years (approximately 405 ranges)
  * @returns {Array} Array of date range objects with value, label, startDate, endDate
  */
 export const getLabsAndTestsDateRanges = () => {
   const now = new Date();
   const today = dateFnsFormat(now, 'yyyy-MM-dd');
-
-  // Calculate ranges: 0-90 days, 91-180 days, 181-270 days, 271-365 days ago
-  const ranges = [
-    { start: 0, end: 90, label: 'Last 90 days' },
-    { start: 91, end: 180, label: '91 to 180 days ago' },
-    { start: 181, end: 270, label: '181 to 270 days ago' },
-    { start: 271, end: 365, label: '271 to 365 days ago' },
-  ];
-
-  return ranges.map((range, index) => {
+  const ranges = [];
+  
+  // Generate 90-day ranges going back 100 years
+  // 100 years * 365.25 days / 90 days ≈ 406 ranges
+  const totalRanges = 406;
+  
+  for (let i = 0; i < totalRanges; i += 1) {
+    const rangeEndDaysAgo = i * 90;
+    const rangeStartDaysAgo = (i + 1) * 90;
+    
     const endDate = new Date(now);
-    endDate.setDate(now.getDate() - range.start);
+    endDate.setDate(now.getDate() - rangeEndDaysAgo);
     
     const startDate = new Date(now);
-    startDate.setDate(now.getDate() - range.end);
-
-    return {
-      value: index,
-      label: range.label,
+    startDate.setDate(now.getDate() - rangeStartDaysAgo);
+    
+    // Format the label based on the range
+    let label;
+    if (i === 0) {
+      label = 'Last 90 days';
+    } else {
+      const startFormatted = dateFnsFormat(startDate, 'MMM d, yyyy');
+      const endFormatted = dateFnsFormat(endDate, 'MMM d, yyyy');
+      label = `${startFormatted} to ${endFormatted}`;
+    }
+    
+    ranges.push({
+      value: i,
+      label,
       startDate: dateFnsFormat(startDate, 'yyyy-MM-dd'),
-      endDate: index === 0 ? today : dateFnsFormat(endDate, 'yyyy-MM-dd'),
-    };
-  });
+      endDate: i === 0 ? today : dateFnsFormat(endDate, 'yyyy-MM-dd'),
+    });
+  }
+  
+  return ranges;
 };
 
 export const sendDataDogAction = actionName => {
