@@ -44,7 +44,7 @@ describe('YellowRibbonProgramDescription', () => {
       'Tell us about your Yellow Ribbon Program contributions (U.S. schools)',
     );
     expect($('.yellow-ribbon-title', container)).to.not.include.text(
-      'Foreign schools',
+      'foreign schools',
     );
   });
 
@@ -67,7 +67,7 @@ describe('YellowRibbonProgramDescription', () => {
       'U.S. schools',
     );
     expect($('.yellow-ribbon-title', container)).to.include.text(
-      'Foreign schools',
+      'foreign schools',
     );
   });
 });

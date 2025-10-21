@@ -9,7 +9,7 @@ const YellowRibbonProgramTitle = () => {
 
   const title = isUsaSchool
     ? 'Tell us about your Yellow Ribbon Program contributions (U.S. schools)'
-    : 'Tell us about your Yellow Ribbon Program contributions (Foreign schools)';
+    : 'Tell us about your Yellow Ribbon Program contributions (foreign schools)';
 
   return (
     <legend className="schemaform-block-title yellow-ribbon-title vads-u-font-size--h3 vads-u-margin-top--0">
