@@ -11,10 +11,12 @@ const NeedHelp = () => (
         TTY: <va-telephone contact={CONTACTS['711']} tty />.
       </p>
       <p>
-        You can also call MYVA411 main information line{' '}
+        You can also call MyVA411 main information line{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> available 24/7 or{' '}
-        <va-link href="https://ask.va.gov/" text="contact us online" />{' '}
-        <va-link href="https://ask.va.gov/" text="through ASK VA" />.
+        <va-link
+          href="https://ask.va.gov/"
+          text="contact us online through Ask VA"
+        />
       </p>
     </div>
   </va-need-help>

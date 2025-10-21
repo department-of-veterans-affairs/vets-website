@@ -125,9 +125,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               onClick={event => {
                 event.preventDefault();
                 recordEvent({ event: 'cta-link-click-copay-balance-card' });
-                history.push(`/copay-balances/${id}/detail`);
+                history.push(`/copay-balances/${id}`);
               }}
-              href={`/copay-balances/${id}/detail`}
+              href={`/copay-balances/${id}`}
               text="Review details"
               label={`Review details for ${facility}`}
             />
@@ -140,9 +140,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
               onClick={event => {
                 event.preventDefault();
                 recordEvent({ event: 'cta-link-click-copay-balance-card' });
-                history.push(`/copay-balances/${id}/detail/resolve`);
+                history.push(`/copay-balances/${id}/resolve`);
               }}
-              href={`/copay-balances/${id}/detail/resolve`}
+              href={`/copay-balances/${id}/resolve`}
               text="Resolve this bill"
               label={`Resolve this bill for ${facility}`}
             />
@@ -151,7 +151,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       ) : (
         <Link
           className="vads-u-font-weight--bold"
-          to={`/copay-balances/${id}/detail`}
+          to={`/copay-balances/${id}`}
           data-testid={`detail-link-${id}`}
           aria-label={`Check details and resolve this bill for ${facility}`}
           onClick={() => {

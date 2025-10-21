@@ -13,8 +13,11 @@
   "form-title": "Apply for CHAMPVA benefits",
   "form-subtitle": "Application for CHAMPVA benefits (VA Form 10-10d)",
   "form-start-text": "Start the form",
+  "health-insurance--intro-title": "Report other health insurance",
+  "medicare--intro-title": "Report Medicare",
   "noun--applicant": "applicant",
   "noun--veteran-singular": "Veteran",
   "noun--veteran-possessive": "Veteran\u2019s",
+  "ohi--section-title": "Submit your Other Health Insurance Certification (VA Form 10-7959c)",
   "review--no-option": "No"
 }
