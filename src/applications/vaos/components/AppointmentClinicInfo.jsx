@@ -13,10 +13,14 @@ function AppointmentClinicInfo({
     return null;
   }
   return (
-    <div id={`vaos-appts__clinic-namelocation-${apptId}`}>
+    <div
+      id={`vaos-appts__clinic-namelocation-${apptId}`}
+      data-testid={`vaos-appts__clinic-namelocation-${apptId}`}
+    >
       {clinicLocationInfo.name && (
         <div
           id={`vaos-appts__clinic-name-${apptId}`}
+          data-testid={`vaos-appts__clinic-name-${apptId}`}
           className={classNames({
             'small-desktop-screen:vads-u-margin-bottom--1': !!clinicLocationInfo.location,
           })}
@@ -28,6 +32,7 @@ function AppointmentClinicInfo({
       {clinicLocationInfo.location && (
         <div
           id={`vaos-appts__clinic-location-${apptId}`}
+          data-testid={`vaos-appts__clinic-location-${apptId}`}
           style={{ textDecoration: isCanceled ? 'line-through' : 'none' }}
         >
           Location: {clinicLocationInfo.location}
