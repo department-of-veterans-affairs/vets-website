@@ -50,6 +50,12 @@ const {
 } = require('./endpoints/status');
 const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
 
+// VA Profile initialization simulation setup
+// The loa3UserNeedsVapInit user has 'vet360' service available and will trigger initialization
+// console.log(
+//   '✓ VA Profile initialization simulation enabled - user will need to initialize VA Profile ID when visiting notification settings',
+// );
+
 // use one of these to provide a generic error for any endpoint
 const genericErrors = {
   error500,
@@ -129,7 +135,7 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    return res.json(user.loa3UserNeedsVapInit); // LOA3 user that needs VA Profile initialization
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
@@ -381,6 +387,24 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
+  },
+  'POST /v0/profile/initialize_vet360_id': (req, res) => {
+    // Simulate VA Profile initialization transaction
+    const transactionId = `init-vap-${new Date().getTime()}`;
+    const initializationTransaction = {
+      data: {
+        type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+        attributes: {
+          transactionId,
+          transactionStatus: 'RECEIVED',
+          type: 'AsyncTransaction::VAProfile::InitializePersonTransaction',
+          metadata: [],
+        },
+      },
+    };
+
+    // Return the transaction immediately - status will be checked via status endpoint
+    return res.json(initializationTransaction);
   },
   'GET /v0/profile/communication_preferences': (req, res) => {
     if (req?.query?.error === 'true') {
