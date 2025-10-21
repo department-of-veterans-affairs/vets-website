@@ -1505,31 +1505,84 @@ const responses = {
   },
 
   // Mock POST handler for file upload
-  'POST /v0/benefits_claims/:claimId/benefits_documents': (req, res) => {
-    // Simulate successful file upload
-    // In a real scenario, this would process the multipart form data
-    const { claimId } = req.params;
+  'POST /v0/benefits_claims/:claimId/benefits_documents': (() => {
+    let uploadCount = 0;
 
-    // Extract form data if available (for more realistic mocking)
-    const fileName = req.body?.file?.name || 'uploaded_document.pdf';
-    const documentType = req.body?.document_type || 'Medical records';
+    return (req, res) => {
+      uploadCount += 1;
+      const { claimId } = req.params;
+      const fileName = req.body?.file?.name || 'uploaded_document.pdf';
+      const documentType = req.body?.document_type || 'Medical records';
 
-    // Simulate a slight delay like a real upload
-    setTimeout(() => {
-      res.status(200).json({
-        data: {
-          success: true,
-          jobId: `job-${Date.now()}`,
-          claimId,
-          document: {
-            fileName,
-            documentType,
-            uploadDate: new Date().toISOString(),
+      // CHANGE THIS ARRAY TO TEST DIFFERENT SCENARIOS:
+      // Options: null (success), 'duplicate' (known error), 'invalid_claimant' (known error), 'unknown' (unknown error)
+      // const errorPattern = ['duplicate', 'unknown', 'invalid_claimant'];
+      const errorPattern = ['unknown'];
+      // const errorPattern = ['null'];
+
+      const mockError = errorPattern[(uploadCount - 1) % errorPattern.length];
+
+      // Simulate a slight delay like a real upload
+      setTimeout(() => {
+        // Type 1 KNOWN Error: Duplicate file
+        if (mockError === 'duplicate') {
+          return res.status(422).json({
+            errors: [
+              {
+                title: 'Unprocessable Entity',
+                detail: 'DOC_UPLOAD_DUPLICATE',
+                code: '422',
+                status: '422',
+                source: 'BenefitsDocuments::Service',
+              },
+            ],
+          });
+        }
+
+        // Type 1 KNOWN Error: Invalid claimant
+        if (mockError === 'invalid_claimant') {
+          return res.status(422).json({
+            errors: [
+              {
+                title: 'Unprocessable Entity',
+                detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+                code: '422',
+                status: '422',
+                source: 'BenefitsDocuments::Service',
+              },
+            ],
+          });
+        }
+
+        // Type 1 UNKNOWN Error: Internal server error
+        if (mockError === 'unknown') {
+          return res.status(500).json({
+            errors: [
+              {
+                title: 'Internal Server Error',
+                code: '500',
+                status: '500',
+              },
+            ],
+          });
+        }
+
+        // Success - Simulate successful file upload
+        return res.status(200).json({
+          data: {
+            success: true,
+            jobId: `job-${Date.now()}`,
+            claimId,
+            document: {
+              fileName,
+              documentType,
+              uploadDate: new Date().toISOString(),
+            },
           },
-        },
-      });
-    }, 500); // 500ms delay to simulate upload processing
-  },
+        });
+      }, 500); // 500ms delay to simulate upload processing
+    };
+  })(),
 };
 
 module.exports = responses;
