@@ -1392,6 +1392,15 @@ describe('<RecentActivity>', () => {
   );
 
   context('Timezone-aware message display', () => {
+    let timezoneStub;
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
     it('should display timezone message below Recent activity heading', () => {
       const { getByText } = renderWithRouter(
         <Provider store={getStore(true)}>
@@ -1422,9 +1431,7 @@ describe('<RecentActivity>', () => {
 
     it('should NOT display message when in UTC timezone', () => {
       // Mock timezone offset to return 0 (UTC)
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { queryByText } = renderWithRouter(
         <Provider store={getStore(true)}>
@@ -1438,15 +1445,10 @@ describe('<RecentActivity>', () => {
       // Message should NOT exist
       expect(queryByText(/Files uploaded/)).to.not.exist;
       expect(queryByText(/will show as received/)).to.not.exist;
-
-      // Restore original method
-      timezoneStub.restore();
     });
 
     it('should not render message paragraph element when timezone offset is 0', () => {
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { container } = renderWithRouter(
         <Provider store={getStore(true)}>
@@ -1468,8 +1470,6 @@ describe('<RecentActivity>', () => {
       paragraphs.forEach(p => {
         expect(p.textContent).to.not.include('Files uploaded');
       });
-
-      timezoneStub.restore();
     });
 
     it('should conditionally render message based on timezone offset', () => {
@@ -1487,9 +1487,7 @@ describe('<RecentActivity>', () => {
       expect(messageParagraph.textContent).to.include('Files uploaded');
 
       // Mock UTC and re-render
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       // Force re-render by remounting component
       rerender(
@@ -1503,8 +1501,6 @@ describe('<RecentActivity>', () => {
       expect(messageParagraph?.textContent || '').to.not.include(
         'Files uploaded',
       );
-
-      timezoneStub.restore();
     });
   });
 });

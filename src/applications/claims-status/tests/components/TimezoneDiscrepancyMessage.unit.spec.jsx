@@ -6,6 +6,15 @@ import sinon from 'sinon';
 import TimezoneDiscrepancyMessage from '../../components/TimezoneDiscrepancyMessage';
 
 describe('<TimezoneDiscrepancyMessage>', () => {
+  let timezoneStub;
+
+  afterEach(() => {
+    if (timezoneStub) {
+      timezoneStub.restore();
+      timezoneStub = null;
+    }
+  });
+
   it('should render message with correct text', () => {
     const { getByText } = render(<TimezoneDiscrepancyMessage />);
 
@@ -41,17 +50,13 @@ describe('<TimezoneDiscrepancyMessage>', () => {
   });
 
   it('should NOT display message when in UTC timezone', () => {
-    const timezoneStub = sinon
-      .stub(Date.prototype, 'getTimezoneOffset')
-      .returns(0);
+    timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
     const { queryByText } = render(<TimezoneDiscrepancyMessage />);
 
     // Message should NOT exist
     expect(queryByText(/Files uploaded/)).to.not.exist;
     expect(queryByText(/will show as received/)).to.not.exist;
-
-    timezoneStub.restore();
   });
 
   it('should conditionally render message based on timezone offset', () => {
@@ -63,16 +68,12 @@ describe('<TimezoneDiscrepancyMessage>', () => {
     expect(getByText(/Files uploaded/)).to.exist;
 
     // Mock UTC timezone
-    const timezoneStub = sinon
-      .stub(Date.prototype, 'getTimezoneOffset')
-      .returns(0);
+    timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
     // Re-render component
     rerender(<TimezoneDiscrepancyMessage />);
 
     // Message should NOT exist after timezone change
     expect(queryByText(/Files uploaded/)).to.not.exist;
-
-    timezoneStub.restore();
   });
 });

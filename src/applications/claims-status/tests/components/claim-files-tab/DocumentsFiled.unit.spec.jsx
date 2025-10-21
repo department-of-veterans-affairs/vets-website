@@ -474,6 +474,15 @@ describe('<DocumentsFiled>', () => {
   });
 
   context('Timezone-aware message display', () => {
+    let timezoneStub;
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
     const claim = {
       type: 'claim',
       attributes: {
@@ -503,22 +512,16 @@ describe('<DocumentsFiled>', () => {
     });
 
     it('should NOT display message when in UTC timezone', () => {
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { queryByText } = render(<DocumentsFiled claim={claim} />);
 
       expect(queryByText('Documents filed')).to.exist;
       expect(queryByText(/Files uploaded/)).to.not.exist;
-
-      timezoneStub.restore();
     });
 
     it('should not render message paragraph element when timezone offset is 0', () => {
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { container } = render(<DocumentsFiled claim={claim} />);
 
@@ -530,8 +533,6 @@ describe('<DocumentsFiled>', () => {
       paragraphs.forEach(p => {
         expect(p.textContent).to.not.include('Files uploaded');
       });
-
-      timezoneStub.restore();
     });
 
     it('should conditionally render message based on timezone offset', () => {
@@ -542,17 +543,13 @@ describe('<DocumentsFiled>', () => {
       );
       expect(messageParagraph).to.exist;
 
-      const timezoneStub = sinon
-        .stub(Date.prototype, 'getTimezoneOffset')
-        .returns(0);
+      timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       rerender(<DocumentsFiled claim={claim} />);
       messageParagraph = container.querySelector('.vads-u-color--gray-medium');
       expect(messageParagraph?.textContent || '').to.not.include(
         'Files uploaded',
       );
-
-      timezoneStub.restore();
     });
   });
 });
