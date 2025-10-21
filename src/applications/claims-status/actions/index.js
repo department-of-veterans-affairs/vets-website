@@ -383,7 +383,7 @@ export function submitFiles(
                             </div>
                           )}
                           <va-link
-                            class="vads-u-display--block"
+                            class="vads-u-display--block vads-u-margin-top--2"
                             href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
                             text="Check the status of your submission"
                             onClick={e => {
