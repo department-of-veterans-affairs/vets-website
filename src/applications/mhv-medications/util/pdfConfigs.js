@@ -183,6 +183,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
             {
               isRich: true,
               value:
+                !pendingMed &&
+                !pendingRenewal &&
                 pdfStatusDefinitions?.[rx.refillStatus]?.length > 1
                   ? pdfStatusDefinitions[rx.refillStatus].slice(1)
                   : [],
@@ -396,6 +398,8 @@ export const buildVAPrescriptionPDFList = prescription => {
             {
               isRich: true,
               value:
+                !pendingMed &&
+                !pendingRenewal &&
                 pdfStatusDefinitions?.[prescription.refillStatus]?.length > 1
                   ? pdfStatusDefinitions[prescription.refillStatus].slice(1)
                   : [],
