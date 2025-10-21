@@ -7,7 +7,6 @@ const content = {
   formTitle: 'Verify your marital status for DIC benefits',
   formSubTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
   authStartFormText: 'Verify your marital status',
-  unauthStartText: 'Sign in to verify your marital status',
   displayNonVeteranMessaging: true,
 };
 

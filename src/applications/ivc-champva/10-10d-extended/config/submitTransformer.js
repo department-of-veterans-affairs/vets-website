@@ -2,11 +2,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   adjustYearString,
-  concatStreets,
   getObjectsWithAttachmentId,
   toHash,
 } from '../../shared/utilities';
-import { getAgeInYears } from '../helpers/utilities';
+import { concatStreets, getAgeInYears } from '../helpers/utilities';
 
 /**
  * Formats a date string from YYYY-MM-DD to MM-DD-YYYY
