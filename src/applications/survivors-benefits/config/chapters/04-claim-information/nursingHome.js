@@ -20,7 +20,7 @@ const uiSchema = {
   }),
   needRegularAssistance: radioUI({
     title:
-      'Are you claiming special monthly pension or special monthly D.I.C. because you need the regular assistance of another person, have severe visual problems, or are generally confined to your immediate premises? (*Required)',
+      'Are you claiming special monthly pension or special monthly D.I.C. because you need the regular assistance of another person, have severe visual problems, or are generally confined to your immediate premises?',
     classNames: 'vads-u-margin-bottom--2',
     'ui:options': {
       expandUnder: 'needRegularAssistanceAlert',
@@ -35,7 +35,7 @@ const uiSchema = {
     },
   },
   inNursingHome: radioUI({
-    title: 'Are you in a nursing home? (*Required)',
+    title: 'Are you in a nursing home?',
     'ui:options': {
       expandUnder: 'inNursingHomeAlert',
       expandUnderCondition: value => isYes(value),
