@@ -280,17 +280,21 @@ describe('<FilesReceived>', () => {
         },
       };
 
-      it('should render card with no longer needed status', () => {
+      it('should render card with on file status', () => {
         const { container, getByText } = render(
           <FilesReceived claim={claim} />,
         );
 
         expect($('.files-received-container', container)).to.exist;
-        expect(getByText('No longer needed')).to.exist;
+        expect(getByText('On File')).to.exist;
         expect(getByText('file.pdf')).to.exist;
         expectMaskedFilenames(container);
         expect(getByText('Document type: Correspondence')).to.exist;
-        expect(getByText('Request type: Request 1')).to.exist;
+        expect(
+          getByText(
+            'We received this file for a closed evidence request (Request 1).',
+          ),
+        ).to.exist;
         expect(getByText('Received on January 2, 2024')).to.exist;
       });
     },
@@ -467,7 +471,7 @@ describe('<FilesReceived>', () => {
 
       expect(getAllByText('Pending review')).to.have.lengthOf(2);
       expect(getByText('Reviewed by VA')).to.exist;
-      expect(getByText('No longer needed')).to.exist;
+      expect(getByText('On File')).to.exist;
 
       expect(getByText('file1.pdf')).to.exist;
       expect(getByText('file2.pdf')).to.exist;
@@ -548,11 +552,11 @@ context('when claim has supporting documents (additional evidence)', () => {
     },
   };
 
-  it('should render card with no review status available badge', () => {
+  it('should render card with on file badge', () => {
     const { container, getByText } = render(<FilesReceived claim={claim} />);
 
     expect($('.files-received-container', container)).to.exist;
-    expect(getByText('No review status available')).to.exist;
+    expect(getByText('On File')).to.exist;
     expect(getByText('additional-evidence.pdf')).to.exist;
     expect(getByText('Document type: Additional Evidence')).to.exist;
     expect(getByText('You submitted this file as additional evidence.')).to

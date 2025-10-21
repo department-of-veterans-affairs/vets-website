@@ -53,4 +53,5 @@ export {
 } from './unique_user_metrics';
 export {
   default as MhvAlertConfirmEmail,
+  ProfileAlertConfirmEmail,
 } from './components/MhvAlertConfirmEmail';

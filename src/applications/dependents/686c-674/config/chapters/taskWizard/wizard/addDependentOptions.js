@@ -10,7 +10,7 @@ export const uiSchema = {
   'view:addDependentOptions': {
     ...checkboxGroupUI({
       title: 'Who do you want to add as a dependent?',
-      description: 'Check everyone you want to add.',
+      description: 'Select all that apply.',
       required: () => true,
       labels: {
         addSpouse: addDependentOptions.addSpouse,

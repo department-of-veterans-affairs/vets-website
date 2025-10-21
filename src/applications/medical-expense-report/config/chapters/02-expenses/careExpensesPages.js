@@ -76,14 +76,14 @@ const options = {
   required: false,
   isItemIncomplete: item =>
     !item?.typeOfCare ||
-    !item?.recipients ||
-    ((item.recipients === 'DEPENDENT' || item.recipients === 'OTHER') &&
-      !item?.childName) ||
+    !item?.recipient ||
+    ((item.recipient === 'DEPENDENT' || item.recipient === 'OTHER') &&
+      !item?.recipientName) ||
     !item?.provider ||
     !item?.careDate?.from ||
-    !item?.monthlyPayment ||
+    !item?.monthlyAmount ||
     (item?.typeOfCare === 'IN_HOME_CARE_ATTENDANT' &&
-      (!item?.hourlyRate || !item?.hoursPerWeek)),
+      (!item?.hourlyRate || !item?.weeklyHours)),
   maxItems: 5,
   text: {
     getItemName: item =>
@@ -155,17 +155,17 @@ const recipientPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       'Care recipient and provider name',
     ),
-    recipients: radioUI({
+    recipient: radioUI({
       title: 'Who is the expense for?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    recipientName: textUI({
       title: 'Full name of the person who received care',
-      expandUnder: 'recipients',
+      expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
       required: (formData, index) =>
         ['DEPENDENT', 'OTHER'].includes(
-          formData?.careExpenses?.[index]?.recipients,
+          formData?.careExpenses?.[index]?.recipient,
         ),
     }),
     provider: textUI('What’s the name of the care provider?'),
@@ -173,11 +173,11 @@ const recipientPage = {
   schema: {
     type: 'object',
     properties: {
-      recipients: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      recipient: radioSchema(Object.keys(recipientTypeLabels)),
+      recipientName: textSchema,
       provider: textSchema,
     },
-    required: ['recipients', 'provider'],
+    required: ['recipient', 'provider'],
   },
 };
 /** @returns {PageSchema} */
@@ -213,7 +213,7 @@ const datePage = {
 const costPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI('Cost of care'),
-    monthlyPayment: currencyUI('How much is each monthly payment?'),
+    monthlyAmount: currencyUI('How much is each monthly payment?'),
     hourlyRate: {
       ...currencyUI({
         title: 'What is the care provider’s hourly rate?',
@@ -225,7 +225,7 @@ const costPage = {
         fullData?.careExpenses?.[index]?.typeOfCare ===
         'IN_HOME_CARE_ATTENDANT',
     },
-    hoursPerWeek: {
+    weeklyHours: {
       ...numberUI({
         title: 'How many hours per week does the care provider work?',
         hideIf: (formData, index, fullData) => {
@@ -243,11 +243,11 @@ const costPage = {
   schema: {
     type: 'object',
     properties: {
-      monthlyPayment: currencySchema,
+      monthlyAmount: currencySchema,
       hourlyRate: currencySchema,
-      hoursPerWeek: numberSchema,
+      weeklyHours: numberSchema,
     },
-    required: ['monthlyPayment'],
+    required: ['monthlyAmount'],
   },
 };
 

@@ -63,10 +63,16 @@ describe('TextareaField', () => {
     });
 
     it('displays current value', () => {
-      const props = { ...defaultProps, value: 'Test content' };
+      const props = {
+        ...defaultProps,
+        value: 'Mission briefing for Echo Base',
+      };
       const { container } = render(<TextareaField {...props} />);
       const textarea = container.querySelector('va-textarea');
-      expect(textarea).to.have.attribute('value', 'Test content');
+      expect(textarea).to.have.attribute(
+        'value',
+        'Mission briefing for Echo Base',
+      );
     });
   });
 
@@ -77,11 +83,13 @@ describe('TextareaField', () => {
       render(<TextareaField {...props} />);
 
       // Directly call the onChange handler
-      onChange('testTextarea', 'New text content');
+      onChange('testTextarea', 'Updated attack plan for Death Star');
 
       expect(onChange.calledOnce).to.be.true;
       expect(onChange.firstCall.args[0]).to.equal('testTextarea');
-      expect(onChange.firstCall.args[1]).to.equal('New text content');
+      expect(onChange.firstCall.args[1]).to.equal(
+        'Updated attack plan for Death Star',
+      );
     });
 
     it('handles empty input', () => {
