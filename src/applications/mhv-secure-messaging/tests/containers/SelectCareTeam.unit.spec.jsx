@@ -568,9 +568,44 @@ describe('SelectCareTeam', () => {
     });
   });
 
-  it('shows contact list link when user has VistA facilities', async () => {
+  it('shows contact list link when user has only VistA facilities', async () => {
+    const vistaOnlyState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          allRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+          ],
+          vistaFacilities: ['636'],
+        },
+      },
+    };
+
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState,
+      initialState: vistaOnlyState,
       reducers: reducer,
       path: Paths.SELECT_CARE_TEAM,
     });
@@ -581,25 +616,116 @@ describe('SelectCareTeam', () => {
   });
 
   it('does not show contact list link when user has only Cerner facilities', async () => {
-    const customState = {
+    const cernerOnlyState = {
       ...initialState,
       sm: {
         ...initialState.sm,
         recipients: {
           ...initialState.sm.recipients,
-          vistaFacilities: [], // No VistA facilities in recipients
+          allRecipients: [
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          vistaFacilities: [],
         },
       },
     };
 
     const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
-      initialState: customState,
+      initialState: cernerOnlyState,
       reducers: reducer,
       path: Paths.SELECT_CARE_TEAM,
     });
 
     await waitFor(() => {
       expect(screen.queryByText('Update your contact list')).to.not.exist;
+    });
+  });
+
+  it('shows contact list link when user has both VistA and Cerner facilities', async () => {
+    const bothState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        recipients: {
+          ...initialState.sm.recipients,
+          allRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          allowedRecipients: [
+            {
+              id: 1013155,
+              triageTeamId: 1013155,
+              name: 'Vista Team',
+              stationNumber: '636',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: false,
+            },
+            {
+              id: 2710522,
+              triageTeamId: 2710522,
+              name: 'Cerner Team',
+              stationNumber: '757',
+              blockedStatus: false,
+              preferredTeam: true,
+              relationshipType: 'PATIENT',
+              ohTriageGroup: true,
+            },
+          ],
+          vistaFacilities: ['636'],
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(<SelectCareTeam />, {
+      initialState: bothState,
+      reducers: reducer,
+      path: Paths.SELECT_CARE_TEAM,
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Update your contact list')).to.exist;
     });
   });
 });
