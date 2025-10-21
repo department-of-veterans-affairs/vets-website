@@ -366,5 +366,9 @@
   "vreEligibilityStatusUpdates": "vre_eligibility_status_updates",
   "champvaForm1010d2027": "champva_form_10_10d_2027",
   "authExpEmailVerificationEnabled": "auth_exp_email_verification_enabled",
-  "disability526SidenavEnabled": "sidenav_526ez_enabled"
+  "disability526SidenavEnabled": "sidenav_526ez_enabled",
+  "form0779Enabled": "form_0779_enabled",
+  "form530aEnabled": "form_530a_enabled",
+  "form4192Enabled": "form_4192_enabled",
+  "form2680Enabled": "form_2680_enabled"
 }
