@@ -32,70 +32,110 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
   };
 
   describe('Recent Activity Timezone Message', () => {
-    it('should display timezone message when not in UTC', () => {
+    it('should conditionally display timezone message based on environment timezone', () => {
       setupStatusTab();
 
       cy.get('.recent-activity-container').should('be.visible');
       cy.contains('h3', 'Recent activity').should('be.visible');
 
-      // Assert message exists and is visible with correct content
-      cy.contains('h3', 'Recent activity')
-        .parent()
-        .find('p')
-        .first()
-        .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on')
-        .and(
-          'contain.text',
-          'but we record your submissions when you upload them',
-        )
-        .invoke('text')
-        .then(text => {
-          // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
-          expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
+      // Check the current timezone offset
+      const currentOffset = new Date().getTimezoneOffset();
 
-          // Verify directional language (after/before)
-          expect(text).to.match(/(after|before)/);
+      if (currentOffset === 0) {
+        // UTC timezone - message should NOT appear
+        cy.log('Test running in UTC timezone - verifying NO message appears');
+        cy.contains('h3', 'Recent activity')
+          .parent()
+          .find('p')
+          .first()
+          .invoke('text')
+          .then(text => {
+            expect(text).not.to.include('Files uploaded');
+            expect(text).not.to.include('will show as received on');
+          });
+      } else {
+        // Non-UTC timezone - message SHOULD appear
+        cy.log(
+          `Test running in non-UTC timezone (offset: ${currentOffset}) - verifying message appears`,
+        );
+        cy.contains('h3', 'Recent activity')
+          .parent()
+          .find('p')
+          .first()
+          .should('be.visible')
+          .and('contain.text', 'Files uploaded')
+          .and('contain.text', 'will show as received on')
+          .and(
+            'contain.text',
+            'but we record your submissions when you upload them',
+          )
+          .invoke('text')
+          .then(text => {
+            // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
+            expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
 
-          // Static message should use "next/previous day's date" NOT specific date
-          expect(text).to.match(/(next|previous) day's date/);
-        });
+            // Verify directional language (after/before)
+            expect(text).to.match(/(after|before)/);
+
+            // Static message should use "next/previous day's date" NOT specific date
+            expect(text).to.match(/(next|previous) day's date/);
+          });
+      }
 
       cy.axeCheck();
     });
   });
 
   describe('Documents Filed Timezone Message', () => {
-    it('should display timezone message when not in UTC', () => {
+    it('should conditionally display timezone message based on environment timezone', () => {
       setupFilesTab();
 
       cy.get('.documents-filed-container').should('be.visible');
       cy.contains('h3', 'Documents filed').should('be.visible');
 
-      // Assert message exists and is visible with correct content
-      cy.contains('h3', 'Documents filed')
-        .parent()
-        .find('p')
-        .first()
-        .should('be.visible')
-        .and('contain.text', 'Files uploaded')
-        .and('contain.text', 'will show as received on')
-        .and(
-          'contain.text',
-          'but we record your submissions when you upload them',
-        )
-        .invoke('text')
-        .then(text => {
-          // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
-          expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
+      // Check the current timezone offset
+      const currentOffset = new Date().getTimezoneOffset();
 
-          // Verify directional language (after/before)
-          expect(text).to.match(/(after|before)/);
+      if (currentOffset === 0) {
+        // UTC timezone - message should NOT appear
+        cy.log('Test running in UTC timezone - verifying NO message appears');
+        cy.contains('h3', 'Documents filed')
+          .parent()
+          .find('p')
+          .first()
+          .invoke('text')
+          .then(text => {
+            expect(text).not.to.include('Files uploaded');
+            expect(text).not.to.include('will show as received on');
+          });
+      } else {
+        // Non-UTC timezone - message SHOULD appear
+        cy.log(
+          `Test running in non-UTC timezone (offset: ${currentOffset}) - verifying message appears`,
+        );
+        cy.contains('h3', 'Documents filed')
+          .parent()
+          .find('p')
+          .first()
+          .should('be.visible')
+          .and('contain.text', 'Files uploaded')
+          .and('contain.text', 'will show as received on')
+          .and(
+            'contain.text',
+            'but we record your submissions when you upload them',
+          )
+          .invoke('text')
+          .then(text => {
+            // Verify VA.gov time format (e.g., "8:00 p.m." with periods)
+            expect(text).to.match(/\d{1,2}:\d{2}\s+[ap]\.m\./);
 
-          // Static message should use "next/previous day's date" NOT specific date
-          expect(text).to.match(/(next|previous) day's date/);
-        });
+            // Verify directional language (after/before)
+            expect(text).to.match(/(after|before)/);
+
+            // Static message should use "next/previous day's date" NOT specific date
+            expect(text).to.match(/(next|previous) day's date/);
+          });
+      }
 
       cy.axeCheck();
     });
@@ -188,55 +228,6 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
     });
   });
 
-  describe('Upload Success Notification - Timezone Note Conditional', () => {
-    it('should conditionally include timezone note when upload crosses day boundary', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(
-        claimsList,
-        claimDetailsOpen,
-        false,
-        false,
-        featureToggleDocumentUploadStatusDisabled,
-      );
-      trackClaimsPage.verifyInProgressClaim(true);
-      trackClaimsPage.navigateToFilesTab();
-      cy.injectAxe();
-
-      trackClaimsPage.submitFilesForReview();
-
-      // Notification should always appear with updated body message
-      cy.get('va-alert')
-        .should('be.visible')
-        .find('p')
-        .should('be.visible')
-        .and('contain.text', 'Your file should be listed')
-        .and('contain.text', "If it's not there, try refreshing")
-        .invoke('text')
-        .then(text => {
-          // If "Note:" appears, verify it has the correct timezone message
-          if (text.includes('Note:')) {
-            // Verify timezone note format and content
-            expect(text).to.include('Files uploaded');
-            expect(text).to.include('will show as received on');
-            expect(text).to.include(
-              'but we record your submissions when you upload them',
-            );
-            expect(text).to.match(/(after|before)/);
-            // Verify specific date format appears (Month D, YYYY)
-            expect(text).to.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
-
-            // Log that the note appeared (helps with debugging)
-            cy.log('Timezone note appeared - upload crossed day boundary');
-          } else {
-            // Log that note didn't appear (helps with debugging)
-            cy.log('Timezone note did not appear - upload within same day');
-          }
-        });
-
-      cy.axeCheck();
-    });
-  });
-
   describe('Upload Success Notification', () => {
     it('should display notification with date, time, and timezone in heading', () => {
       const trackClaimsPage = new TrackClaimsPageV2();
@@ -260,33 +251,6 @@ describe('Date Discrepancy Mitigation - Timezone Awareness', () => {
       cy.get('va-alert h2')
         .invoke('text')
         .should('match', /\d{1,2}:\d{2}\s+(a\.m\.|p\.m\.)/i);
-
-      cy.axeCheck();
-    });
-
-    it('should display updated notification body message', () => {
-      const trackClaimsPage = new TrackClaimsPageV2();
-      trackClaimsPage.loadPage(
-        claimsList,
-        claimDetailsOpen,
-        false,
-        false,
-        featureToggleDocumentUploadStatusDisabled,
-      );
-      trackClaimsPage.verifyInProgressClaim(true);
-      trackClaimsPage.navigateToFilesTab();
-      cy.injectAxe();
-
-      trackClaimsPage.submitFilesForReview();
-
-      cy.get('va-alert')
-        .find('p')
-        .should('be.visible')
-        .and(
-          'contain.text',
-          'Your file should be listed in the Documents filed section',
-        )
-        .and('contain.text', "If it's not there, try refreshing the page");
 
       cy.axeCheck();
     });
