@@ -69,7 +69,7 @@ const EditContactList = () => {
     [allTriageTeams],
   );
 
-  const SetStationCount = triageTeams => {
+  const setStationCount = triageTeams => {
     const teams = triageTeams || [];
     const stationNumbers = teams.map(team => team.stationNumber);
     const uniqueStationNumbers = [...new Set(stationNumbers)];
@@ -103,7 +103,7 @@ const EditContactList = () => {
           : team,
     );
     setAllTriageTeams(updatedTriageTeams);
-    setTriageTeamCount(SetStationCount(updatedTriageTeams));
+    setTriageTeamCount(setStationCount(updatedTriageTeams));
   };
 
   const navigateBack = useCallback(
@@ -153,7 +153,7 @@ const EditContactList = () => {
   useEffect(
     () => {
       setAllTriageTeams(vistaRecipients);
-      setTriageTeamCount(SetStationCount(vistaRecipients));
+      setTriageTeamCount(setStationCount(vistaRecipients));
     },
     [vistaRecipients],
   );
