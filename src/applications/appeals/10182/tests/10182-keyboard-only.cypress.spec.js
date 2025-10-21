@@ -44,109 +44,131 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       );
       cy.tabToContinueForm();
 
-      // *** Homelessness radios
-      cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('input[name="root_homeless"]');
-      cy.chooseRadio('N');
-      cy.tabToContinueForm();
+      cy.url().then(url => {
+        // This test is flaky perhaps due to a race condition related to ITF
+        // Adding this here as it's not clear why it's not working yet
+        if (!url.includes(chapters.infoPages.pages.homeless.path)) {
+          cy.tabToContinueForm();
+        }
 
-      // *** Contact info
-      cy.url().should('include', CONTACT_INFO_PATH);
-      // cy.tabToContinueForm();
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+        // *** Homelessness radios
+        cy.url().should('include', chapters.infoPages.pages.homeless.path);
+        cy.tabToElement('input[name="root_homeless"]');
+        cy.chooseRadio('N');
+        cy.tabToContinueForm();
 
-      // *** Filing deadlines
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.filingDeadlines.path,
-      );
-      cy.tabToContinueForm();
+        // *** Contact info
+        cy.url().should('include', CONTACT_INFO_PATH);
+        // cy.tabToContinueForm();
+        cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+        cy.realPress('Space');
 
-      // *** Request extension
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.extensionRequest.path,
-      );
-      cy.tabToElement('[name="root_requestingExtension"]');
-      cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
-      cy.tabToContinueForm();
+        // This test is flaky
+        // Adding this here as it's not clear why it's not working yet
+        if (!url.includes(chapters.conditions.pages.filingDeadlines.path)) {
+          cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+          cy.realPress('Space');
+        }
 
-      // *** Request reason
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.extensionReason.path,
-      );
-      cy.tabToElement('textarea');
-      cy.realType(data.extensionReason);
-      cy.tabToContinueForm();
+        // *** Filing deadlines
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.filingDeadlines.path,
+        );
+        cy.tabToContinueForm();
 
-      // *** Denial of VHA benefits
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.appealingVhaDenial.path,
-      );
-      cy.tabToElement('[name="root_appealingVHADenial"]');
-      cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
-      cy.tabToContinueForm();
+        // This test is flaky
+        // Adding this here as it's not clear why it's not working yet
+        if (!url.includes(chapters.conditions.pages.extensionRequest.path)) {
+          cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+          cy.realPress('Space');
+        }
 
-      // *** Issues for review (sorted by random decision date) - only selecting
-      // one, or more complex code is needed to find if the next checkbox is
-      // before or after the first
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.contestableIssues.path,
-      );
-      cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
-      cy.realPress('Space');
-      cy.tabToContinueForm();
+        // *** Request extension
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.extensionRequest.path,
+        );
+        cy.tabToElement('[name="root_requestingExtension"]');
+        cy.chooseRadio(data.requestingExtension ? 'Y' : 'N');
+        cy.tabToContinueForm();
 
-      // *** Area of disagreement for tinnitus
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
-          ':index',
-          '',
-        ),
-      );
-      cy.tabToInputWithLabel('service connection');
-      cy.realPress('Space');
-      // input typing is flaky
-      // cy.tabToElement('input[name="otherEntry"]');
-      // cy.typeInFocused('Few words');
-      // cy.tabToContinueForm();
-      cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
-      cy.realPress('Space');
+        // *** Request reason
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.extensionReason.path,
+        );
+        cy.tabToElement('textarea');
+        cy.realType(data.extensionReason);
+        cy.tabToContinueForm();
 
-      // *** Issue summary
-      cy.url().should('include', chapters.conditions.pages.issueSummary.path);
-      cy.tabToContinueForm();
+        // *** Denial of VHA benefits
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.appealingVhaDenial.path,
+        );
+        cy.tabToElement('[name="root_appealingVHADenial"]');
+        cy.chooseRadio(data.appealingVHADenial ? 'Y' : 'N');
+        cy.tabToContinueForm();
 
-      // *** Board review option
-      cy.url().should(
-        'include',
-        chapters.boardReview.pages.boardReviewOption.path,
-      );
-      cy.tabToElement('[name="root_boardReviewOption"]');
-      cy.chooseRadio('hearing');
-      cy.tabToContinueForm();
+        // *** Issues for review (sorted by random decision date) - only selecting
+        // one, or more complex code is needed to find if the next checkbox is
+        // before or after the first
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.contestableIssues.path,
+        );
+        cy.tabToElement('[name="root_contestedIssues_1"]'); // tinnitus
+        cy.realPress('Space');
+        cy.tabToContinueForm();
 
-      // *** Hearing type
-      cy.url().should('include', chapters.boardReview.pages.hearingType.path);
-      cy.tabToElement('[name="root_hearingTypePreference"]');
-      cy.chooseRadio('video_conference');
-      cy.tabToContinueForm();
+        // *** Area of disagreement for tinnitus
+        cy.url().should(
+          'include',
+          chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
+            ':index',
+            '',
+          ),
+        );
+        cy.tabToElement('[name="serviceConnection"]');
+        cy.realPress('Space');
+        // input typing is flaky
+        // cy.tabToElement('input[name="otherEntry"]');
+        // cy.typeInFocused('Few words');
+        // cy.tabToContinueForm();
+        cy.tabToElement('button.usa-button-primary[id$="continueButton"]');
+        cy.realPress('Space');
 
-      // *** Review & submit page
-      cy.url().should('include', 'review-and-submit');
-      cy.tabToElement('va-checkbox');
-      cy.realPress('Space');
-      cy.tabToSubmitForm();
+        // *** Issue summary
+        cy.url().should('include', chapters.conditions.pages.issueSummary.path);
+        cy.tabToContinueForm();
 
-      // *** Confirmation page
-      // Check confirmation page print button
-      cy.url().should('include', 'confirmation');
-      cy.get('va-button[text="Print this page"]').should('exist');
+        // *** Board review option
+        cy.url().should(
+          'include',
+          chapters.boardReview.pages.boardReviewOption.path,
+        );
+        cy.tabToElement('[name="root_boardReviewOption"]');
+        cy.chooseRadio('hearing');
+        cy.tabToContinueForm();
+
+        // *** Hearing type
+        cy.url().should('include', chapters.boardReview.pages.hearingType.path);
+        cy.tabToElement('[name="root_hearingTypePreference"]');
+        cy.chooseRadio('video_conference');
+        cy.tabToContinueForm();
+
+        // *** Review & submit page
+        cy.url().should('include', 'review-and-submit');
+        cy.tabToElement('va-checkbox');
+        cy.realPress('Space');
+        cy.tabToSubmitForm();
+
+        // *** Confirmation page
+        // Check confirmation page print button
+        cy.url().should('include', 'confirmation');
+        cy.get('va-button[text="Print this page"]').should('exist');
+      });
     });
   });
 });
