@@ -96,7 +96,7 @@ export const generateParticipantName = item => {
       app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
     );
     const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? `${name}'s` : 'applicant';
+    return name.length > 0 ? `${name}’s` : 'Applicant';
   }
   return 'No participant';
 };
