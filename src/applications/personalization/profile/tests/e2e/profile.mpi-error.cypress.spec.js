@@ -9,10 +9,10 @@ import {
 } from './helpers';
 
 /**
- * @param {boolean} profileShowPaperlessDelivery - feature
+ * @param {boolean} profile2Enabled - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  */
-function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
+function test({ profile2Enabled = false, mobile = false } = {}) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -32,10 +32,10 @@ function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
   cy.get('va-loading-indicator').should('not.exist');
 
   // should redirect to profile/account-security on load
-  cy.url().should(
-    'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-  );
+  const expectedUrl = profile2Enabled
+    ? `${Cypress.config().baseUrl}${PROFILE_PATHS.SIGNIN_INFORMATION}`
+    : `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`;
+  cy.url().should('eq', expectedUrl);
 
   // Should show an error alert about not being able to connect to MPI
   cy.findByText(/We can’t access your records/i)
@@ -49,9 +49,9 @@ function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
     .closest('va-alert[status="warning"]')
     .should('exist');
 
-  subNavOnlyContainsAccountSecurity({ profileShowPaperlessDelivery, mobile });
+  subNavOnlyContainsAccountSecurity({ profile2Enabled, mobile });
 
-  onlyAccountSecuritySectionIsAccessible();
+  onlyAccountSecuritySectionIsAccessible({ profile2Enabled });
 }
 
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
@@ -75,7 +75,7 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
   });
 });
 
-describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profileShowPaperlessDelivery is true', () => {
+describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profile2Enabled is true', () => {
   beforeEach(() => {
     cy.login(mockMPIErrorUser);
     mockGETEndpoints([
@@ -88,14 +88,14 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and 
     ]);
     cy.intercept('GET', 'v0/feature_toggles*', {
       data: {
-        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+        features: [{ name: 'profile_2_enabled', value: true }],
       },
     });
   });
   it('should only have access to the Account Security section at desktop size', () => {
-    test({ profileShowPaperlessDelivery: true });
+    test({ profile2Enabled: true });
   });
   it('should only have access to the Account Security section at mobile size', () => {
-    test({ profileShowPaperlessDelivery: true, mobile: true });
+    test({ profile2Enabled: true, mobile: true });
   });
 });

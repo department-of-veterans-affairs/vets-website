@@ -174,7 +174,11 @@ class Profile extends Component {
                   return (
                     <Redirect
                       from={route.path}
-                      to={PROFILE_PATHS.ACCOUNT_SECURITY}
+                      to={
+                        this.props.shouldShowProfile2
+                          ? PROFILE_PATHS.SIGNIN_INFORMATION
+                          : PROFILE_PATHS.ACCOUNT_SECURITY
+                      }
                       key={route.path}
                     />
                   );

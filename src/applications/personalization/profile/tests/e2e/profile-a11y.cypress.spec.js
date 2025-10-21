@@ -132,11 +132,8 @@ function checkSubNavFocus({ profile2Enabled = false, mobile = false } = {}) {
   cy.title().should('eq', 'Veteran Status Card | Veterans Affairs');
   cy.axeCheck();
 
-  const directDepositName = profile2Enabled
-    ? 'Direct deposit'
-    : 'Direct deposit information';
   // make the a11y and focus management check on the Direct Deposit section
-  clickSubNavButton(directDepositName, mobile, profile2Enabled);
+  clickSubNavButton('Direct deposit information', mobile, profile2Enabled);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
