@@ -1,7 +1,7 @@
 {
   "title": "VA.gov Applications Manifest Catalog",
   "description": "Catalog of all applications in src/applications with their manifest.json metadata for reference",
-  "totalApplications": 146,
+  "totalApplications": 147,
   "applications": [
     {
       "directoryPath": "src/applications/_mock-form",
@@ -715,7 +715,7 @@
       "directoryPath": "src/applications/simple-forms/21-4140",
       "appName": "Income Verification for Disability Benefits",
       "entryName": "21-4140-income-verification",
-      "rootUrl": "/disability/eligibility/special-claims/unemployability/employment-questionnaire-form-21-4140"
+      "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4142",
