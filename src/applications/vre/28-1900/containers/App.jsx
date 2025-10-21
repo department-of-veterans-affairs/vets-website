@@ -15,7 +15,7 @@ export default function App({ location, children }) {
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <DowntimeNotification
           appTitle="Veteran Readiness"
-          dependencies={[externalServices.chapter31]}
+          dependencies={[externalServices.vre]}
         >
           {children}
         </DowntimeNotification>
