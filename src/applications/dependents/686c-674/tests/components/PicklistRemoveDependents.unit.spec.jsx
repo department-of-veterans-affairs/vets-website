@@ -115,7 +115,7 @@ describe('PicklistRemoveDependents', () => {
       'Spouse, 45 years old',
       'Child, 11 years old',
       'Child, 3 months old',
-      'Parent, 82 years oldNote: A parent dependent can only be removed if they have died',
+      'Parent, 82 years oldNote: You can only remove a dependent parent if they have died.',
     ]);
     expect($('va-additional-info', container)).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
