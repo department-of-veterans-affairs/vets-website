@@ -28,7 +28,7 @@ describe('Prescription Med and Renewal Status function', () => {
     expect(
       prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
     ).to.equal(
-      'Renew - We can’t access information about this prescription right now.\n',
+      'Renew - We can’t access information about this prescription right now.',
     );
   });
   it('should return pdfStatusDefinitions[prescription.refillStatus] when prescription Source is not PD', () => {
@@ -38,7 +38,7 @@ describe('Prescription Med and Renewal Status function', () => {
     expect(
       prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
     ).to.equal(
-      'Renew - We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription.\n',
+      'Renew - We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription.',
     );
   });
   it('should return pdfStatusDefinitions[prescription.refillStatus] when dispStatus is not Renew or NewOrder', () => {
@@ -48,7 +48,7 @@ describe('Prescription Med and Renewal Status function', () => {
     expect(
       prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.PRINT),
     ).to.equal(
-      'In Progress - We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription.\n',
+      'In Progress - We’re processing a fill or refill for this prescription. We’ll update the status here when we ship your prescription.',
     );
   });
   it('should return pdfDefaultPendingRenewalDefinition when dispStatus is Renew', () => {

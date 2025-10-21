@@ -10,6 +10,8 @@ import {
   medStatusDisplayTypes,
 } from '../constants';
 
+import { validateField } from './validateField';
+
 const determineStatus = (
   displayType,
   pendingMed,
@@ -39,15 +41,38 @@ const determineStatus = (
       const statusDefinition =
         pdfStatusDefinitions[prescription.refillStatus] ||
         pdfDefaultStatusDefinition;
+      return `${`${validateField(prescription.dispStatus)} - `}${
+        statusDefinition?.[0]?.value
+      }`;
+    }
+    case medStatusDisplayTypes.TXT: {
+      if (pendingMed) {
+        return pdfDefaultPendingMedDefinition;
+      }
+      if (pendingRenewal) {
+        return pdfDefaultPendingRenewalDefinition;
+      }
+      const newLine = (n = 1) => '\n'.repeat(n);
+      const statusParagraph = statusKey => {
+        const pdfStatusDefinition =
+          pdfStatusDefinitions[statusKey] || pdfDefaultStatusDefinition;
+
+        const lines = pdfStatusDefinition.flatMap(item => {
+          if (Array.isArray(item.value)) {
+            // each sub-item becomes a bullet line
+            return item.value.map(value => `- ${String(value).trim()}`);
+          }
+          // normal single line
+          return [String(item.value).trim()];
+        });
+
+        return lines.join(newLine()).trimEnd();
+      };
       return `${
         prescription.dispStatus
           ? `${prescription.dispStatus.toString()} - `
           : ''
-      }${statusDefinition.reduce(
-        (fullStatus, item) =>
-          fullStatus + item.value + (item.continued ? ' ' : '\n'),
-        '',
-      )}`;
+      }${statusParagraph(prescription.refillStatus)}`;
     }
     default:
       return null;

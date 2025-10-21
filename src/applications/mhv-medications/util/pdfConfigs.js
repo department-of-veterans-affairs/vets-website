@@ -16,6 +16,7 @@ import {
   medStatusDisplayTypes,
   FIELD_NOT_AVAILABLE,
   ACTIVE_NON_VA,
+  pdfStatusDefinitions,
 } from './constants';
 
 /**
@@ -181,8 +182,10 @@ export const buildPrescriptionsPDFList = prescriptions => {
             },
             {
               isRich: true,
-              value: validateField(rx.dispStatus),
-              indent: 32,
+              value:
+                pdfStatusDefinitions?.[rx.refillStatus]?.length > 1
+                  ? pdfStatusDefinitions[rx.refillStatus].slice(1)
+                  : [],
             },
             {
               title: 'Refills left',
@@ -389,6 +392,13 @@ export const buildVAPrescriptionPDFList = prescription => {
                 ),
               ),
               inline: true,
+            },
+            {
+              isRich: true,
+              value:
+                pdfStatusDefinitions?.[prescription.refillStatus]?.length > 1
+                  ? pdfStatusDefinitions[prescription.refillStatus].slice(1)
+                  : [],
             },
             {
               title: 'Refills left',

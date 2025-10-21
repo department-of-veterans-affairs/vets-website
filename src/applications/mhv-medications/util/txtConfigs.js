@@ -115,7 +115,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     const attributes = joinLines(
       `Status: ${prescriptionMedAndRenewalStatus(
         rx,
-        medStatusDisplayTypes.PRINT,
+        medStatusDisplayTypes.TXT,
       )}`,
       fieldLine('Refills left', rx.refillRemaining),
       `Request refills by this prescription expiration date: ${dateFormat(
@@ -237,7 +237,7 @@ Prescription number: ${prescription.prescriptionNumber}
   }
 Status: ${prescriptionMedAndRenewalStatus(
     prescription,
-    medStatusDisplayTypes.PRINT,
+    medStatusDisplayTypes.TXT,
   )}
 Refills left: ${validateIfAvailable(
     'Number of refills left',

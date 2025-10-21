@@ -189,6 +189,7 @@ export const pdfDefaultPendingRenewalDefinition =
 export const medStatusDisplayTypes = {
   VA_PRESCRIPTION: 'VaPrescription',
   PRINT: 'print',
+  TXT: 'txt',
 };
 
 export const nonVAMedicationTypes = `* Prescriptions you filled through a non-VA pharmacy
