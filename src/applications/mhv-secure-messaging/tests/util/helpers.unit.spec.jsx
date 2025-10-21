@@ -39,6 +39,9 @@ import {
   getStationNumberFromRecipientId,
   findActiveDraftFacility,
   sortTriageList,
+  scrollTo,
+  scrollToTop,
+  scrollIfFocusedAndNotInView,
 } from '../../util/helpers';
 import {
   DefaultFolders as Folders,
@@ -901,6 +904,67 @@ describe('MHV Secure Messaging helpers', () => {
 
     it('should handle empty list', () => {
       expect(sortTriageList([])).to.eql([]);
+    });
+  });
+
+  describe('scrollTo', () => {
+    it('should not throw error when element is null', () => {
+      expect(() => {
+        scrollTo(null);
+      }).to.not.throw();
+    });
+
+    it('should not throw error when element is undefined', () => {
+      expect(() => {
+        scrollTo(undefined);
+      }).to.not.throw();
+    });
+
+    it('should accept behavior parameter', () => {
+      const element = document.createElement('div');
+      expect(() => {
+        scrollTo(element, 'auto');
+      }).to.not.throw();
+    });
+  });
+
+  describe('scrollToTop', () => {
+    it('should not throw error when called', () => {
+      expect(() => {
+        scrollToTop();
+      }).to.not.throw();
+    });
+  });
+
+  describe('scrollIfFocusedAndNotInView', () => {
+    it('should not throw error when no element is focused', () => {
+      expect(() => {
+        scrollIfFocusedAndNotInView();
+      }).to.not.throw();
+    });
+
+    it('should accept offset parameter', () => {
+      const element = document.createElement('div');
+      document.body.appendChild(element);
+      element.focus();
+
+      expect(() => {
+        scrollIfFocusedAndNotInView(100);
+      }).to.not.throw();
+
+      document.body.removeChild(element);
+    });
+
+    it('should handle when element is in view', () => {
+      const element = document.createElement('button');
+      document.body.appendChild(element);
+      element.focus();
+
+      expect(() => {
+        scrollIfFocusedAndNotInView(0);
+      }).to.not.throw();
+
+      document.body.removeChild(element);
     });
   });
 });
