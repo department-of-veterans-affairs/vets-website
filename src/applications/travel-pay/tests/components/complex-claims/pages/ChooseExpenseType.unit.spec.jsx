@@ -1,16 +1,18 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import ChooseExpenseType from '../../../../components/complex-claims/pages/ChooseExpenseType';
+import reducer from '../../../../redux/reducer';
 
 describe('ChooseExpenseType', () => {
   const defaultApptId = '12345';
 
   const renderComponent = (apptId = defaultApptId) => {
-    return render(
+    return renderWithStoreAndRouter(
       <MemoryRouter
         initialEntries={[`/file-new-claim/complex/${apptId}/expense-type`]}
       >
@@ -21,6 +23,10 @@ describe('ChooseExpenseType', () => {
           />
         </Routes>
       </MemoryRouter>,
+      {
+        initialState: {},
+        reducers: reducer,
+      },
     );
   };
 
