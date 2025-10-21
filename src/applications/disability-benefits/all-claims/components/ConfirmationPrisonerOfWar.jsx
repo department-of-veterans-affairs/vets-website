@@ -1,17 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { reviewEntry } from 'platform/forms-system/src/js/components/ConfirmationView/ChapterSectionCollection';
-import { formatDate, capitalizeEachWord } from '../utils';
+import { formatDate, capitalizeEachWord, sippableId } from '../utils';
 
 const ConfirmationPrisonerOfWar = ({ formData }) => {
   const powStatus = formData?.['view:powStatus'];
   const confinements = formData?.['view:isPow']?.confinements || [];
-  const powDisabilities = formData?.['view:isPow']?.powDisabilities || {};
 
   // Return null if powStatus is undefined
   if (powStatus === undefined) {
     return null;
   }
+
+  // first, get list of POW conditions the user has claimed
+  // then, cross-check that with the list of conditions they checked
+  // and display the readable (non-Sippable) names of those conditions
+  const powDisabilities = formData?.['view:isPow']?.powDisabilities || {};
+  const claimedKeys = Object.keys(powDisabilities).filter(
+    key => key !== 'none' && powDisabilities[key],
+  );
+
+  const conditionsContainer = formData?.newDisabilities || [];
+  const finalList = conditionsContainer
+    .filter(condition => claimedKeys.includes(sippableId(condition.condition)))
+    .map(condition => capitalizeEachWord(condition.condition));
 
   const powEntries = {
     powStatus: {
@@ -31,12 +43,7 @@ const ConfirmationPrisonerOfWar = ({ formData }) => {
     },
     powDisabilities: {
       label: 'Which of your conditions is connected to your POW experience?',
-      data: Object.entries(powDisabilities).length
-        ? Object.entries(powDisabilities)
-            .filter(([_, value]) => value === true)
-            .map(([key]) => capitalizeEachWord(key))
-            .join('\n')
-        : 'None selected',
+      data: finalList.length ? finalList : 'None selected',
     },
   };
 
