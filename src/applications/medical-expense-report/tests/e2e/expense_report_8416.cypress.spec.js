@@ -2,7 +2,7 @@ import fixtureData from '../fixtures/mocks/user.json';
 import 'cypress-axe';
 
 const loginWithLocalStorage = () => {
-  cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
+  //cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
   cy.injectAxeThenAxeCheck()
   cy.window().then((win) => {
      win.localStorage.setItem('hasSession', true)
@@ -13,11 +13,16 @@ const loginWithLocalStorage = () => {
  * Start the application process while not logged in.
  */
 const startApplicationWithoutLogin = () => {
-  cy.log("starting a new test");
-  cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
+  // cy.log("starting a new test");
+  // cy.visit('pension/medical-expense-report-form-21p-8416/introduction');
+  cy.visit('https://staging.va.gov/supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416');
+
   cy.injectAxeThenAxeCheck()
 
-  cy.get('a[class="schemaform-start-button"][href="/pension/medical-expense-report-form-21p-8416/applicant/relationship"]')
+  cy.get('va-alert-sign-in')
+    //.shadow()
+    //.get('a[href="supporting-forms-for-claims/submit-medical-expense-report-form-21p-8416/applicant/relationship"]')
+    .get('a[class="schemaform-start-button"]')
     .click();
 
 };
@@ -41,22 +46,23 @@ const fillInNameFromFixture = () => {
  * Fill in Address data from fixture data.
  */
 const fillInFullAddressFromFixutre = () => {
-  cy.get('select[name="root_claimantAddress_country"]')
+  //cy.get('select[name="root_claimantAddress_country"]')
+  cy.get('select[name="root_veteranAddress_country"]')
     .select(fixtureData.data.attributes.veteran_address.country)
 
-  cy.get('input[name="root_claimantAddress_street"')
+  cy.get('input[name="root_veteranAddress_street"')
     .type(fixtureData.data.attributes.veteran_address.street);
-  cy.get('input[name="root_claimantAddress_street2"]')
+  cy.get('input[name="root_veteranAddress_street2"]')
     .type(fixtureData.data.attributes.veteran_address.street2);
 
   cy.get('.vads-web-component-pattern-address')
-    .fillVaTextInput("root_claimantAddress_city",
+    .fillVaTextInput("root_veteranAddress_city",
       fixtureData.data.attributes.veteran_address.city);
 
   cy.get('va-select').shadow()
-    .get('select[name="root_claimantAddress_state"]')
+    .get('select[name="root_veteranAddress_state"]')
     .select(fixtureData.data.attributes.veteran_address.state); 
-  cy.get('input[name="root_claimantAddress_postalCode"]')
+  cy.get('input[name="root_veteranAddress_postalCode"]')
     .type(fixtureData.data.attributes.veteran_address.zip);
 
   cy.contains('button', 'Continue').click()
@@ -379,100 +385,100 @@ describe('Medical Expense Report Form 8416', () => {
   });
 
   
-  // describe('Spouse or Child of Veteran medical expenses path', () => {
-  //   before(() => {
-  //     startApplicationWithoutLogin();
-  //   });
+  describe('Spouse or Child of Veteran medical expenses path', () => {
+    before(() => {
+      startApplicationWithoutLogin();
+    });
 
-  //   it('tests Veteran Spouse reporting medical expenses path', () => {
-  //     cy.selectRadio("root_claimantNotVeteran", "N");
-  //     checkAxeAndClickContinueButton();
+    it('tests Veteran Spouse reporting medical expenses path', () => {
+      cy.selectRadio("root_claimantNotVeteran", "N");
+      checkAxeAndClickContinueButton();
 
-  //     fillInNameFromFixture(fixtureData.veteranFullName);
-  //     fillInFullAddressFromFixutre();
+      fillInNameFromFixture(fixtureData.veteranFullName);
+      fillInFullAddressFromFixutre();
 
-  //     fillInEmailAndPhoneFromFixture();
+      fillInEmailAndPhoneFromFixture();
 
-  //     fillInVetInfoWithNameSSNFromFixture();
+      fillInVetInfoWithNameSSNFromFixture();
       
-  //     // reporting period
-  //     cy.selectRadio("root_firstTimeReporting","Y");
-  //     checkAxeAndClickContinueButton();
+      // reporting period
+      cy.selectRadio("root_firstTimeReporting","Y");
+      checkAxeAndClickContinueButton();
 
-  //     fillInCareExpensesFromFixture();
+      fillInCareExpensesFromFixture();
 
-  //     cy.selectRadio("root_view:careExpensesList", "N");
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio("root_view:careExpensesList", "N");
+      checkAxeAndClickContinueButton();
 
-  //     //Medical expenses
-  //     fillInMedicalExpensesFromFixture();
+      //Medical expenses
+      fillInMedicalExpensesFromFixture();
 
-  //     cy.selectRadio('root_view:medicalExpensesList', 'N');
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio('root_view:medicalExpensesList', 'N');
+      checkAxeAndClickContinueButton();
 
-  //     //Milage expenses
-  //     fillInMilageExpensesFromFixture()
+      //Milage expenses
+      fillInMilageExpensesFromFixture()
 
-  //     cy.selectRadio("root_view:mileageExpensesList", "N");
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio("root_view:mileageExpensesList", "N");
+      checkAxeAndClickContinueButton();
 
-  //     checkAxeAndClickContinueButton();
+      checkAxeAndClickContinueButton();
 
-  //     cy.contains("Submit your supporting documents");
-  //     // No supporting documents yet
-  //     checkAxeAndClickContinueButton();
+      cy.contains("Submit your supporting documents");
+      // No supporting documents yet
+      checkAxeAndClickContinueButton();
 
-  //     //Statement of Truth
-  //     fillInStatementOfTruthFromFixture();
+      //Statement of Truth
+      fillInStatementOfTruthFromFixture();
       
-  //   });
-  // });
+    });
+  });
 
-  // describe('Veteran reporting medical expenses path on foreign base', () => {
-  //   before(() => {
-  //     startApplicationWithoutLogin();
-  //   });
+  describe('Veteran reporting medical expenses path on foreign base', () => {
+    before(() => {
+      startApplicationWithoutLogin();
+    });
 
-  //   it('tests Veteran reporting medical expenses path', () => {
-  //     cy.selectRadio("root_claimantNotVeteran", "N");
-  //     checkAxeAndClickContinueButton();
+    it('tests Veteran reporting medical expenses path', () => {
+      cy.selectRadio("root_claimantNotVeteran", "N");
+      checkAxeAndClickContinueButton();
 
-  //     fillInNameFromFixture(fixtureData.veteranFullName);
-  //     fillInMilBaseAddressFromFixutre(fixtureData.claimantAddress);
+      fillInNameFromFixture(fixtureData.veteranFullName);
+      fillInMilBaseAddressFromFixutre(fixtureData.claimantAddress);
 
-  //     fillInEmailAndPhoneFromFixture();
+      fillInEmailAndPhoneFromFixture();
 
-  //     fillInVetInfoWithNameSSNFromFixture();
+      fillInVetInfoWithNameSSNFromFixture();
       
-  //     // reporting period
-  //     cy.selectRadio("root_firstTimeReporting","Y");
-  //     checkAxeAndClickContinueButton();
+      // reporting period
+      cy.selectRadio("root_firstTimeReporting","Y");
+      checkAxeAndClickContinueButton();
 
-  //     fillInCareExpensesFromFixture();
+      fillInCareExpensesFromFixture();
 
-  //     cy.selectRadio("root_view:careExpensesList", "N");
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio("root_view:careExpensesList", "N");
+      checkAxeAndClickContinueButton();
 
-  //     //Medical expenses
-  //     fillInMedicalExpensesFromFixture();
+      //Medical expenses
+      fillInMedicalExpensesFromFixture();
 
-  //     cy.selectRadio('root_view:medicalExpensesList', 'N');
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio('root_view:medicalExpensesList', 'N');
+      checkAxeAndClickContinueButton();
 
-  //     //Milage expenses
-  //     fillInMilageExpensesFromFixture()
+      //Milage expenses
+      fillInMilageExpensesFromFixture()
 
-  //     cy.selectRadio("root_view:mileageExpensesList", "N");
-  //     checkAxeAndClickContinueButton();
+      cy.selectRadio("root_view:mileageExpensesList", "N");
+      checkAxeAndClickContinueButton();
 
-  //     checkAxeAndClickContinueButton();
+      checkAxeAndClickContinueButton();
 
-  //     cy.contains("Submit your supporting documents");
-  //     // No supporting documents yet
-  //     checkAxeAndClickContinueButton();
+      cy.contains("Submit your supporting documents");
+      // No supporting documents yet
+      checkAxeAndClickContinueButton();
 
-  //     //Statement of Truth
-  //     fillInStatementOfTruthFromFixture();
-  //   });
-  // });
+      //Statement of Truth
+      fillInStatementOfTruthFromFixture();
+    });
+  });
 });
