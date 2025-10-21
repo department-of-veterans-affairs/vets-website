@@ -116,7 +116,7 @@ export const getAgeInYears = (dateStr, asOf = new Date()) => {
  * // => { street: '123 Main', street2: 'Apt 4B', streetCombined: '123 Main Apt 4B' }
  *
  * @example
- * concatStreets({ Street: '123 Main', street2: '', street3: null }, true);
+ * concatStreets({ Street: '123 Main', street2: '', street3: null }, { newLines: true });
  * // => { Street: '123 Main', street2: '', street3: null, streetCombined: '123 Main' }
  */
 export const concatStreets = (addr = {}, options = {}) => {
