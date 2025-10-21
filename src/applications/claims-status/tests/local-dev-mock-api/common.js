@@ -683,7 +683,7 @@ const baseClaims = [
           deleteDate: null,
           documentType: 'VA Form 21-686c - Declaration of Status of Dependents',
           failedDate: new Date(
-            Date.now() + 5 * 24 * 60 * 60 * 1000,
+            Date.now() - 5 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           fileName: '686c-declaration-of-status-of-dependents.pdf',
           id: 111,
@@ -699,13 +699,13 @@ const baseClaims = [
           ).toISOString(),
           claimId: 8,
           createdAt: new Date(
-            Date.now() - 3 * 24 * 60 * 60 * 1000,
+            Date.now() - 2 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           deleteDate: null,
           documentType:
             'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
           failedDate: new Date(
-            Date.now() + 3 * 24 * 60 * 60 * 1000,
+            Date.now() - 3 * 24 * 60 * 60 * 1000,
           ).toISOString(),
           fileName: 'my-car-claim-form-2.pdf',
           id: 115,
