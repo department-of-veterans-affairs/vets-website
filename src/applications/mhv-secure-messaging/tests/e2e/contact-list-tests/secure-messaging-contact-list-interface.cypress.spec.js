@@ -8,6 +8,7 @@ import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
+import mockSomeBlockedRecipients from '../fixtures/multi-facilities-some-blocked-recipients-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
 
@@ -82,6 +83,35 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.selectCheckBox('SLC4 PCMM');
     ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
     ContactListPage.verifyAccordionSubheader('1 team selected');
+    ContactListPage.verifyAccordionSubheader('3 teams selected');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it(`tracks selected team count when blocked`, () => {
+    SecureMessagingSite.login(
+      mockToggles,
+      mockEhrData,
+      true,
+      mockMixedCernerFacilitiesUser,
+      mockFacilities,
+    );
+    ContactListPage.loadContactList(mockSomeBlockedRecipients);
+
+    ContactListPage.verifyHeaders();
+
+    ContactListPage.verifyAllCheckboxes(true);
+    ContactListPage.verifyAccordionSubheader('3 teams selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
+
+    ContactListPage.selectFirstCheckBox('Select all 3 teams');
+    ContactListPage.verifyAccordionSubheader('0 teams selected');
+    ContactListPage.verifyAccordionSubheader('4 teams selected');
+
+    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
+    ContactListPage.selectCheckBox('SLC4 PCMM');
+    ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
+    ContactListPage.verifyAccordionSubheader('0 teams selected');
     ContactListPage.verifyAccordionSubheader('3 teams selected');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);

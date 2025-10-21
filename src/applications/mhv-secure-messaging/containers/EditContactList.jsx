@@ -77,7 +77,10 @@ const EditContactList = () => {
       uniqueStationNumbers.map(station => [
         station,
         teams.filter(
-          team => team.stationNumber === station && team.preferredTeam,
+          team =>
+            team.stationNumber === station &&
+            team.preferredTeam &&
+            !team.blockedStatus,
         ).length,
       ]),
     );
