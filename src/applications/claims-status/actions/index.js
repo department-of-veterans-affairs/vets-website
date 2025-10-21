@@ -86,12 +86,13 @@ export function setType1UnknownErrors(errorFiles) {
 function handleType1Errors(
   dispatch,
   errorFiles,
+  hasError,
   claimId,
   showDocumentUploadStatus,
 ) {
   if (!showDocumentUploadStatus || errorFiles.length === 0) {
     // Old behavior for single file or feature flag off
-    const errorMessage = getUploadErrorMessage(errorFiles[0] || {}, claimId);
+    const errorMessage = getUploadErrorMessage(hasError, claimId);
     dispatch(setAdditionalEvidenceNotification(errorMessage));
     return;
   }
@@ -457,6 +458,7 @@ export function submitFiles(
                 handleType1Errors(
                   dispatch,
                   errorFiles,
+                  hasError,
                   claimId,
                   showDocumentUploadStatus,
                 );
