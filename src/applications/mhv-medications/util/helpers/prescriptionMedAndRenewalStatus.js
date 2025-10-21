@@ -39,7 +39,11 @@ const determineStatus = (
       const statusDefinition =
         pdfStatusDefinitions[prescription.refillStatus] ||
         pdfDefaultStatusDefinition;
-      return `${prescription.dispStatus?.toString()} - ${statusDefinition.reduce(
+      return `${
+        prescription.dispStatus
+          ? `${prescription.dispStatus.toString()} - `
+          : ''
+      }${statusDefinition.reduce(
         (fullStatus, item) =>
           fullStatus + item.value + (item.continued ? ' ' : '\n'),
         '',
