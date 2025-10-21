@@ -1,19 +1,11 @@
-import {
-  isVAPhoneAppointment,
-  isClinicVideoAppointment,
-  isAtlasVideoAppointment,
-  isVideoAtHome,
-  isInPersonVisit,
-} from '../services/appointment';
-
 export const appointmentIcon = appointment => {
-  const isPhone = isVAPhoneAppointment(appointment);
+  const isPhone = appointment.isVAPhoneAppointment;
   const {
     isCommunityCare,
     isCompAndPenAppointment,
     isCOVIDVaccine,
     isPendingAppointment,
-  } = appointment.vaos;
+  } = appointment;
 
   if (isPhone && !isPendingAppointment) {
     return 'phone';
@@ -24,16 +16,16 @@ export const appointmentIcon = appointment => {
   }
 
   if (
-    (isInPersonVisit(appointment) && !isPendingAppointment) ||
+    (appointment.isInPersonVisit && !isPendingAppointment) ||
     isCOVIDVaccine ||
     isCompAndPenAppointment ||
-    isClinicVideoAppointment(appointment) ||
-    isAtlasVideoAppointment(appointment)
+    appointment.isClinicVideoAppointment ||
+    appointment.isAtlasVideoAppointment
   ) {
     return 'location_city';
   }
 
-  if (isVideoAtHome(appointment)) {
+  if (appointment.isVideoAtHome) {
     return 'videocam';
   }
   return 'calendar_today';

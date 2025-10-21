@@ -38,6 +38,10 @@ import MockSchedulingConfigurationResponse, {
   MockServiceConfiguration,
 } from '../fixtures/MockSchedulingConfigurationResponse';
 import TypeOfMentalHealthPage from '../../new-appointment/components/TypeOfMentalHealthPage';
+import appointmentSlice from '../../services/appointment/apiSlice';
+// import healthCareSlice from '../../services/healthcare-service/apiSlice';
+import schedulingCofigurationSlice from '../../services/scheduling-configuration/apiSlice';
+import locationSlice from '../../services/location/apiSlice';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -54,9 +58,21 @@ export function createTestStore(initialState) {
       newAppointment: newAppointmentReducer,
       covid19Vaccine: covid19VaccineReducer,
       [vaosApi.reducerPath]: vaosApi.reducer,
+      [appointmentSlice.reducerPath]: appointmentSlice.reducer,
+      // [healthCareSlice.reducerPath]: slice.reducer,
+      [locationSlice.reducerPath]: locationSlice.reducer,
+      [schedulingCofigurationSlice.reducerPath]:
+        schedulingCofigurationSlice.reducer,
     }),
     initialState,
-    applyMiddleware(thunk, vaosApi.middleware),
+    applyMiddleware(
+      thunk,
+      vaosApi.middleware,
+      appointmentSlice.middleware,
+      locationSlice.middleware,
+      // healthCareSlice.middleware,
+      schedulingCofigurationSlice.middleware,
+    ),
   );
 }
 

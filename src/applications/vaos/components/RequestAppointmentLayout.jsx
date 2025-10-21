@@ -2,14 +2,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  selectAppointmentLocality,
-  selectApptDetailAriaText,
-  selectIsCanceled,
-  selectIsCommunityCare,
-  selectModalityIcon,
-  selectTypeOfCareName,
-} from '../appointment-list/redux/selectors';
 import { selectFeatureCCDirectScheduling } from '../redux/selectors';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
@@ -17,22 +9,18 @@ import AppointmentRow from './AppointmentRow';
 import ListItem from './ListItem';
 
 export default function RequestAppointmentLayout({ appointment, index }) {
-  const appointmentLocality = useSelector(() =>
-    selectAppointmentLocality(appointment, true),
-  );
+  const { appointmentLocality } = appointment;
   const first = index === 0;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-  const isCanceled = useSelector(() => selectIsCanceled(appointment));
-  const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
+  const { isCanceled } = appointment;
+  const { isCommunityCare } = appointment.vaos;
   const modality = isCommunityCare
     ? 'Community care'
     : appointment?.preferredModality;
-  const modalityIcon = useSelector(() => selectModalityIcon(appointment));
-  const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
+  const { modalityIcon } = appointment;
+  const { typeOfCareName } = appointment;
 
-  const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(appointment, true),
-  );
+  const detailAriaLabel = appointment.appointmentDetailAriaText;
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),

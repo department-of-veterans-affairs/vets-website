@@ -55,6 +55,9 @@ export function transformFacilityV2(facility) {
         facility.physical_address?.postalCode,
     },
     website: facility.website,
+    get facilityPhone() {
+      return this.telecom[0]?.value;
+    },
   };
 }
 

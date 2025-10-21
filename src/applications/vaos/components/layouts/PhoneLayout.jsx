@@ -1,8 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   Details,
   What,
@@ -28,6 +25,8 @@ import {
 import ClinicName from './ClinicName';
 
 export default function PhoneLayout({ data: appointment }) {
+  if (!appointment) return null;
+
   const {
     clinicName,
     clinicPhone,
@@ -39,10 +38,7 @@ export default function PhoneLayout({ data: appointment }) {
     startDate,
     status,
     typeOfCareName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
+  } = appointment;
 
   const { reasonForAppointment, patientComments } = appointment || {};
 
@@ -58,7 +54,7 @@ export default function PhoneLayout({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

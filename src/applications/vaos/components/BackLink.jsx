@@ -9,11 +9,8 @@ import { closeCancelAppointment } from '../appointment-list/redux/actions';
 import { GA_PREFIX } from '../utils/constants';
 
 export default function BackLink({ appointment }) {
-  const {
-    isPastAppointment,
-    isPendingAppointment,
-    isUpcomingAppointment,
-  } = appointment.vaos;
+  const { isPendingAppointment } = appointment;
+  const { isPastAppointment, isUpcomingAppointment } = appointment;
 
   const location = useLocation();
   const history = useHistory();

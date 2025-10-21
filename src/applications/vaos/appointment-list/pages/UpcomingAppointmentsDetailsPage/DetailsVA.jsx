@@ -2,8 +2,6 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { shallowEqual } from 'recompose';
 import BackLink from '../../../components/BackLink';
 import FacilityAddress from '../../../components/FacilityAddress';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -12,19 +10,13 @@ import InPersonLayout from '../../../components/layouts/InPersonLayout';
 import PhoneLayout from '../../../components/layouts/PhoneLayout';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
+import { selectCancelInfo } from '../../../services/appointment/apiSlice';
 import { FETCH_STATUS } from '../../../utils/constants';
 import CancelConfirmationPage from '../CancelAppointmentPage/CancelConfirmationPage';
 import CancelWarningPage from '../CancelAppointmentPage/CancelWarningPage';
-import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 export default function DetailsVA({ appointment, facilityData }) {
-  const { id } = useParams();
-  const { cancelInfo, isCC } = useSelector(
-    state => getConfirmedAppointmentDetailsInfo(state, id),
-    shallowEqual,
-  );
-
-  if (appointment === 'undefined' || !appointment) return null;
+  const cancelInfo = useSelector(selectCancelInfo);
 
   const locationId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[locationId];
@@ -32,22 +24,21 @@ export default function DetailsVA({ appointment, facilityData }) {
     appointment,
     cancelInfo,
     facilityData,
-    isCC,
+    isCC: appointment.isCommunityCare,
   };
 
-  if (cancelInfo.showCancelModal === false) {
-    const { isCompAndPenAppointment, isPhoneAppointment } =
-      appointment?.vaos || {};
+  if (cancelInfo?.showCancelModal === false) {
+    const { isCompAndPenAppointment, isPhoneAppointment } = appointment;
 
     if (isCompAndPenAppointment) return <ClaimExamLayout data={appointment} />;
     if (isPhoneAppointment) return <PhoneLayout data={appointment} />;
     return <InPersonLayout data={appointment} />;
   }
 
-  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
+  if (cancelInfo?.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return <CancelWarningPage {...data} />;
   }
-  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading) {
+  if (cancelInfo?.cancelAppointmentStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
@@ -57,7 +48,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       </FullWidthLayout>
     );
   }
-  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
+  if (cancelInfo?.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
       <CancelConfirmationPage
         appointment={appointment}
@@ -65,7 +56,7 @@ export default function DetailsVA({ appointment, facilityData }) {
       />
     );
   }
-  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
+  if (cancelInfo?.cancelAppointmentStatus === FETCH_STATUS.failed) {
     return (
       <>
         <BackLink appointment={appointment} />
@@ -78,7 +69,7 @@ export default function DetailsVA({ appointment, facilityData }) {
             </p>
             <br />
             <br />
-            {isCC && (
+            {appointment.isCommunityCare && (
               <>
                 <strong>{facility?.name}</strong>
                 <br />
@@ -90,7 +81,7 @@ export default function DetailsVA({ appointment, facilityData }) {
               </>
             )}
             {!!facility &&
-              !isCC && (
+              !appointment.isCommunityCare && (
                 <VAFacilityLocation
                   facility={facility}
                   facilityName={facility?.name}
@@ -107,64 +98,6 @@ export default function DetailsVA({ appointment, facilityData }) {
 }
 
 DetailsVA.propTypes = {
-  appointment: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    start: PropTypes.instanceOf(Date).isRequired,
-    comment: PropTypes.string,
-    status: PropTypes.string.isRequired,
-    vaos: PropTypes.shape({
-      isPastAppointment: PropTypes.bool,
-      isUpcomingAppointment: PropTypes.bool,
-      isPendingAppointment: PropTypes.bool,
-      isCompAndPenAppointment: PropTypes.bool,
-      isCOVIDVaccine: PropTypes.bool,
-      isPhoneAppointment: PropTypes.bool,
-      isCancellable: PropTypes.bool,
-    }),
-    location: PropTypes.shape({
-      vistaId: PropTypes.string.isRequired,
-      clinicId: PropTypes.string,
-      stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string,
-      clinicPhysicalLocation: PropTypes.string,
-    }),
-  }),
-  facilityData: PropTypes.shape({
-    locationId: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      vistaId: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
-  }),
-};
-
-DetailsVA.defaultProps = {
-  appointment: {
-    id: '',
-    start: '',
-    comment: '',
-    vaos: {
-      isPastAppointment: false,
-      isUpcomingAppointment: false,
-      isPendingAppointment: false,
-      isVideo: false,
-      isAtlas: false,
-      extension: { patientHasMobileGfe: false },
-      kind: '',
-    },
-    location: {
-      vistaId: '',
-      clinicId: '',
-      stationId: '',
-      clinicName: '',
-      clinicPhysicalLocation: '',
-    },
-  },
-  facilityData: {
-    locationId: {
-      id: '',
-      vistaId: '',
-      name: '',
-    },
-  },
+  appointment: PropTypes.object.isRequired,
+  facilityData: PropTypes.object,
 };

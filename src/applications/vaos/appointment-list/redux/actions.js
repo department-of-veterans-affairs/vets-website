@@ -23,8 +23,6 @@ import {
   fetchRequestById,
   getAppointmentRequests,
   getVAAppointmentLocationId,
-  isAtlasVideoAppointment,
-  isVideoAtHome,
 } from '../../services/appointment';
 
 import {
@@ -182,12 +180,12 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved('upcoming', data?.length);
       recordItemsRetrieved(
         'video_home',
-        data?.filter(appt => isVideoAtHome(appt)).length,
+        data?.filter(appt => appt.isVideoAtHome).length,
       );
 
       recordItemsRetrieved(
         'video_atlas',
-        data?.filter(appt => isAtlasVideoAppointment(appt)).length,
+        data?.filter(appt => appt.isAtlasVideoAppointment).length,
       );
 
       recordItemsRetrieved(

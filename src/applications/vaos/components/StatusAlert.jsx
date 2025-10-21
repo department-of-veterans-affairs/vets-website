@@ -111,9 +111,9 @@ export default function StatusAlert({ appointment, facility }) {
     let linkText;
     if (appointment.type === 'COMMUNITY_CARE_APPOINTMENT') {
       message = `${who} canceled this appointment. If you still want this appointment, call your community care provider to schedule.`;
-    } else if (appointment.vaos.isCompAndPenAppointment) {
+    } else if (appointment.isCompAndPenAppointment) {
       message = `${who} canceled this appointment. If you still want this appointment, call your VA health facility’s compensation and pension office to schedule.`;
-    } else if (appointment.vaos.isPendingAppointment) {
+    } else if (appointment.isPendingAppointment) {
       message = `${who} canceled this request. If you still want this appointment, call your VA health facility or submit another request online.`;
       linkText = 'Request a new appointment';
     } else {

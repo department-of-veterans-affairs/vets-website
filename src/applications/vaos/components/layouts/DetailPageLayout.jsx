@@ -1,24 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import BackLink from '../BackLink';
-import AppointmentCard from '../AppointmentCard';
-import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
-import AfterVisitSummary from '../AfterVisitSummary';
-import { selectIsPast } from '../../appointment-list/redux/selectors';
 import {
-  selectFeatureTravelPayViewClaimDetails,
   selectFeatureTravelPaySubmitMileageExpense,
+  selectFeatureTravelPayViewClaimDetails,
 } from '../../redux/selectors';
-import StatusAlert from '../StatusAlert';
-import FacilityPhone from '../FacilityPhone';
-import TravelReimbursementSection from '../TravelReimbursementSection';
+import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
+import AfterVisitSummary from '../AfterVisitSummary';
+import AppointmentCard from '../AppointmentCard';
 import AppointmentTasksSection from '../AppointmentTasksSection';
-import Section from '../Section';
+import BackLink from '../BackLink';
 import ErrorAlert from '../ErrorAlert';
+import FacilityPhone from '../FacilityPhone';
+import Section from '../Section';
+import StatusAlert from '../StatusAlert';
+import TravelReimbursementSection from '../TravelReimbursementSection';
 
 export function When({ children, level = 2 }) {
   return (
@@ -151,8 +150,7 @@ ClinicOrFacilityPhone.propTypes = {
 
 function CancelButton({ appointment }) {
   const dispatch = useDispatch();
-  const { status, vaos } = appointment;
-  const { isCancellable, isPastAppointment } = vaos;
+  const { status, isCancellable, isPastAppointment } = appointment;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -196,7 +194,7 @@ export default function DetailPageLayout({
 
   if (!appointment) return null;
 
-  const isPastAppointment = selectIsPast(appointment);
+  const { isPastAppointment } = appointment;
   const isNotCanceledAppointment =
     APPOINTMENT_STATUS.cancelled !== appointment.status;
 

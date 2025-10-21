@@ -226,50 +226,6 @@ export async function fetchBookedAppointment({
 }
 
 /**
- * Returns whether or not the appointment is VA phone appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment is by phone
- */
-export function isVAPhoneAppointment(appointment) {
-  return appointment?.vaos.isPhoneAppointment;
-}
-
-/**
- * Returns true if the appointment is a video appointment
- * where the Veteran needs to go to a clinic, rather than stay at home
- *
- * @export
- * @param {Appointment} appointment
- * @returns {boolean} True if appointment is a clinic or store forward appointment
- */
-export function isClinicVideoAppointment(appointment) {
-  return appointment?.vaos.isVideoAtVA;
-}
-
-/**
- * Returns true if the appointment is a video appointment
- * at an ATLAS location
- *
- * @export
- * @param {Appointment} appointment
- * @returns {boolean} True if appointment is a video appointment at ATLAS location
- */
-export function isAtlasVideoAppointment(appointment) {
-  return appointment?.vaos?.isAtlas;
-}
-
-/**
- * Method to check for home video appointment
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {boolean} Returns whether or not the appointment is a home video appointment.
- */
-export function isVideoAtHome(appointment) {
-  return appointment?.vaos?.isVideoAtHome;
-}
-
-/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -280,9 +236,9 @@ export function getVAAppointmentLocationId(appointment) {
   if (appointment === undefined) return null;
 
   if (
-    appointment?.vaos.isVideo &&
+    appointment.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    !isClinicVideoAppointment(appointment) &&
+    !appointment.isClinicVideoAppointment &&
     appointment.location.vistaId === '612'
   ) {
     // 612 doesn't exist in the facilities api, but it's a valid VistA site
@@ -347,22 +303,6 @@ export function isValidPastAppointment(appt) {
 }
 
 /**
- * Returns cancelled and pending requests, which should be visible to users
- *
- * @export
- * @param {Appointment} appt The appointment to check
- * @returns {Boolean} If the appointment should be shown or not
- */
-export function isPendingOrCancelledRequest(appt) {
-  return (
-    !appt.vaos?.isExpressCare &&
-    (appt.status === APPOINTMENT_STATUS.proposed ||
-      appt.status === APPOINTMENT_STATUS.pending ||
-      appt.status === APPOINTMENT_STATUS.cancelled)
-  );
-}
-
-/**
  * Returns true if the given Appointment is a confirmed appointment
  *
  * @export
@@ -371,10 +311,10 @@ export function isPendingOrCancelledRequest(appt) {
  *  appointment
  */
 export function isUpcomingAppointment(appt) {
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.appointmentType)) {
     return (
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      appt.vaos.isUpcomingAppointment
+      appt.isUpcomingAppointment
     );
   }
 
@@ -521,10 +461,6 @@ export async function cancelAppointment({
   }
 }
 
-export function isInPersonVisit(appointment) {
-  return appointment?.vaos?.isInPersonVisit;
-}
-
 /**
  * Get scheduled appointment information needed for generating
  * an .ics file.
@@ -536,11 +472,11 @@ export function isInPersonVisit(appointment) {
  */
 export function getCalendarData({ appointment, facility }) {
   let data = {};
-  const isAtlas = isAtlasVideoAppointment(appointment);
-  const isHome = isVideoAtHome(appointment);
-  const isVideo = appointment?.vaos.isVideo;
-  const isCommunityCare = appointment?.vaos.isCommunityCare;
-  const isPhone = isVAPhoneAppointment(appointment);
+  const isAtlas = appointment.isAtlasVideoAppointment;
+  const isHome = appointment.isVideoAtHome;
+  const { isVideo } = appointment;
+  const isCommunityCare = appointment?.isCommunityCare;
+  const isPhone = appointment.isVAPhoneAppointment;
   const signinText =
     'Sign in to https://va.gov/my-health/appointments/ to get details about this appointment';
 
@@ -557,7 +493,7 @@ export function getCalendarData({ appointment, facility }) {
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
-  } else if (isInPersonVisit(appointment)) {
+  } else if (appointment.isInPersonVisit) {
     data = {
       summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),
@@ -622,7 +558,7 @@ export function getCalendarData({ appointment, facility }) {
         if (providerName)
           data.additionalText.push(`You'll be meeting with ${providerName}`);
       }
-    } else if (isClinicVideoAppointment(appointment)) {
+    } else if (appointment.isClinicVideoAppointment) {
       data = {
         summary: `VA Video Connect appointment at ${facility?.name ||
           'a VA location'}`,
@@ -763,19 +699,14 @@ export function getPractitionerName(appointment) {
 }
 
 export function getVideoAppointmentLocationText(appointment) {
-  const isAtlas = isAtlasVideoAppointment(appointment);
+  const isAtlas = appointment.isAtlasVideoAppointment;
   let desc = 'Video appointment at home';
 
   if (isAtlas) {
     desc = 'Video appointment at an ATLAS location';
-  } else if (isClinicVideoAppointment(appointment)) {
+  } else if (appointment.isClinicVideoAppointment) {
     desc = 'Video appointment at a VA location';
   }
 
   return desc;
-}
-
-// TODO: Verify if isCanceledConfirmed can be used
-export function isCanceled(appointment) {
-  return appointment.status === APPOINTMENT_STATUS.cancelled;
 }

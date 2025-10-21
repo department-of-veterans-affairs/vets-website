@@ -221,10 +221,11 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
 
-    const appointments = confirmedAppointmentsV3.data.concat(
-      requestsV2.data,
-      mockAppts,
-    );
+    const appointments = confirmedV2.data;
+    // const appointments = confirmedAppointmentsv3.data.concat(
+    //   requestsV2.data,
+    //   mockAppts,
+    // );
     for (const appointment of appointments) {
       if (
         appointment.attributes.start &&
@@ -298,11 +299,12 @@ const responses = {
   // },
 
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    const appointments = {
-      data: requestsV2.data
-        .concat(confirmedAppointmentsV3.data)
-        .concat(mockAppts),
-    };
+    const appointments = confirmedV2;
+    // const appointments = {
+    //   data: requestsV2.data
+    //     .concat(confirmedAppointmentsv3.data)
+    //     .concat(mockAppts),
+    // };
     const appointment = appointments.data.find(
       appt => appt.id === req.params.id,
     );

@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
 import NewTabAnchor from './NewTabAnchor';
 import { ClinicOrFacilityPhone } from './layouts/DetailPageLayout';
-import { selectConfirmedAppointmentData } from '../appointment-list/redux/selectors';
 
 export default function VideoLink({ appointment }) {
   const { url } = appointment.videoData;
-  const { clinicPhone, clinicPhoneExtension, facilityPhone } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
+  const { clinicPhone, clinicPhoneExtension, facilityPhone } = appointment;
   const displayVideoLink = appointment.videoData.displayLink;
 
   return (
@@ -64,20 +58,5 @@ export default function VideoLink({ appointment }) {
 }
 
 VideoLink.propTypes = {
-  appointment: PropTypes.shape({
-    start: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    videoData: PropTypes.shape({
-      url: PropTypes.string,
-      displayLink: PropTypes.bool,
-    }),
-  }),
-};
-VideoLink.defaultProps = {
-  appointment: {
-    start: '',
-    videoData: {
-      url: '',
-    },
-  },
+  appointment: PropTypes.object.isRequired,
 };

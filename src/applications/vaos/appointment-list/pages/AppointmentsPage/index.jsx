@@ -26,7 +26,8 @@ import AppointmentListNavigation from '../../components/AppointmentListNavigatio
 import PageLayout from '../../components/PageLayout';
 import ScheduleNewAppointment from '../../components/ScheduleNewAppointment';
 import PastAppointmentsPage from '../PastAppointmentsPage';
-import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
+import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage';
+// import UpcomingAppointmentsPage from '../UpcomingAppointmentsPage/UpcomingAppointmentsPage';
 
 function renderWarningNotification() {
   return (props, childContent) => {

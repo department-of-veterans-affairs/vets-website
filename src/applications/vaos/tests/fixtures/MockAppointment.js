@@ -96,27 +96,27 @@ export class MockAppointment {
   }
 
   setIsInPersonVisit(value) {
-    this.vaos.isInPersonVisit = value;
+    this.isInPersonVisit = value;
     return this;
   }
 
   setIsPastAppointment(value) {
-    this.vaos.isPastAppointment = value;
+    this.isPastAppointment = value;
     return this;
   }
 
   setIsUpcomingAppointment(value) {
-    this.vaos.isUpcomingAppointment = value;
+    this.isUpcomingAppointment = value;
     return this;
   }
 
   setIsPendingAppointment(value) {
-    this.vaos.isPendingAppointment = value;
+    this.isPendingAppointment = value;
     return this;
   }
 
   setIsCompAndPenAppointment(value) {
-    this.vaos.isCompAndPenAppointment = value;
+    this.isCompAndPenAppointment = value;
     return this;
   }
 

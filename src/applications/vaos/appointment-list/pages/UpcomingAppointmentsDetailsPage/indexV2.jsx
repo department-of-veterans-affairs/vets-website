@@ -1,44 +1,67 @@
 import { formatInTimeZone } from 'date-fns-tz';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import InfoAlert from '../../../components/InfoAlert';
 import CCLayout from '../../../components/layouts/CCLayout';
 import VideoLayout from '../../../components/layouts/VideoLayout';
 import { selectFeatureUseBrowserTimezone } from '../../../redux/selectors';
-import { DATE_FORMATS, FETCH_STATUS } from '../../../utils/constants';
+import { useGetAppointmentQuery } from '../../../services/appointment/apiSlice';
+import { DATE_FORMATS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDetailsErrorMessage from '../../components/AppointmentDetailsErrorMessage';
 import PageLayout from '../../components/PageLayout';
-import {
-  closeCancelAppointment,
-  fetchConfirmedAppointmentDetails,
-} from '../../redux/actions';
+import { closeCancelAppointment } from '../../redux/actions';
 import DetailsVA from './DetailsVA';
+import { useGetFacilityQuery } from '../../../services/location/apiSlice';
 
-export default function UpcomingAppointmentsDetailsPage({ appointment }) {
+export default function UpcomingAppointmentsDetailsPage() {
+  const [skip, setSkip] = useState(true);
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
-    appointmentDetailsStatus,
-    isBadAppointmentId,
-    facilityData,
-  } = appointment;
-  const featureUseBrowserTimezone = useSelector(
-    selectFeatureUseBrowserTimezone,
-  );
-  const isInPerson = appointment.isInPersonVisit;
-  const isPast = appointment.isPastAppointment;
-  const { isCanceled, isVideo, isCommunityCare } = appointment;
-  const isVA = !isVideo && !isCommunityCare;
-
-  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
+    isLoading: isLoadingAppointment,
+    isSuccess,
+    isError,
+    data: appointment,
+  } = useGetAppointmentQuery({
+    id,
+  });
 
   useEffect(
     () => {
-      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      if (appointment) {
+        setSkip(false);
+      }
+    },
+    [appointment],
+  );
+
+  const { isLoading: isLoadingFacility, data: facility } = useGetFacilityQuery(
+    {
+      id: appointment?.locationId,
+    },
+    { skip },
+  );
+
+  const featureUseBrowserTimezone = useSelector(
+    selectFeatureUseBrowserTimezone,
+  );
+
+  // const {
+  //   isCanceled,
+  //   isVideo,
+  //   isCommunityCare,
+  //   isPastAppointment,
+  //   isInPersonVisit,
+  // } = appointment;
+  const isVA = !appointment?.isVideo && !appointment?.isCommunityCare;
+
+  const appointmentTypePrefix = appointment?.isCommunityCare ? 'cc' : 'va';
+
+  useEffect(
+    () => {
       scrollAndFocus();
       return () => {
         dispatch(closeCancelAppointment());
@@ -52,25 +75,25 @@ export default function UpcomingAppointmentsDetailsPage({ appointment }) {
       let pageTitle = 'VA appointment on';
       let prefix = 'Upcoming';
 
-      if (isCanceled) prefix = 'Canceled';
-      else if (isPast) prefix = 'Past';
+      if (appointment?.isCanceled) prefix = 'Canceled';
+      else if (appointment?.isPastAppointment) prefix = 'Past';
 
-      if (isCommunityCare)
+      if (appointment?.isCommunityCare)
         pageTitle = `${prefix} Community Care Appointment On`;
-      if (isInPerson) {
+      if (appointment?.isInPersonVisit) {
         if (appointment?.isCompAndPenAppointment)
           pageTitle = `${prefix} Claim Exam Appointment On`;
         else pageTitle = `${prefix} In-person Appointment On`;
       }
-      if (isVideo) {
+      if (appointment?.isVideo) {
         pageTitle = `${prefix} Video Appointment On`;
-        if (appointment.isClinicVideoAppointment) {
+        if (appointment?.isClinicVideoAppointment) {
           pageTitle = `${prefix} Video Appointment At A VA Location On`;
         }
-        if (appointment.isAtlasVideoAppointment) {
+        if (appointment?.isAtlasVideoAppointment) {
           pageTitle = `${prefix} Video Appointment At An ATLAS Location On`;
         }
-      } else if (appointment.isVAPhoneAppointment) {
+      } else if (appointment?.isVAPhoneAppointment) {
         pageTitle = `${prefix} Phone Appointment On`;
       }
 
@@ -83,21 +106,19 @@ export default function UpcomingAppointmentsDetailsPage({ appointment }) {
         scrollAndFocus();
       }
     },
-    [appointment, isCommunityCare, isCanceled, isInPerson, isPast, isVideo],
+    [appointment],
   );
 
   useEffect(
     () => {
-      if (
-        appointmentDetailsStatus === FETCH_STATUS.failed ||
-        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-      ) {
+      if (isError || (isSuccess && !appointment)) {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus, appointment],
+    [appointment, isError, isSuccess],
   );
-  if (appointmentDetailsStatus === FETCH_STATUS.failed && isBadAppointmentId) {
+
+  if (isError && appointment?.isBadAppointmentId) {
     return (
       <PageLayout showNeedHelp>
         <br />
@@ -121,17 +142,14 @@ export default function UpcomingAppointmentsDetailsPage({ appointment }) {
       </PageLayout>
     );
   }
-  if (
-    appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-  ) {
+  if (isError || (isSuccess && !appointment)) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
         <AppointmentDetailsErrorMessage />
       </PageLayout>
     );
   }
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (isLoadingAppointment || isLoadingFacility) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
@@ -141,14 +159,11 @@ export default function UpcomingAppointmentsDetailsPage({ appointment }) {
 
   return (
     <PageLayout showNeedHelp>
-      {isVA && (
-        <DetailsVA appointment={appointment} facilityData={facilityData} />
+      {isVA && <DetailsVA appointment={appointment} facilityData={facility} />}
+      {appointment.isCommunityCare && <CCLayout data={appointment} />}
+      {appointment.isVideo && (
+        <VideoLayout data={appointment} facility={facility} />
       )}
-      {isCommunityCare && <CCLayout data={appointment} />}
-      {isVideo && <VideoLayout data={appointment} />}
     </PageLayout>
   );
 }
-UpcomingAppointmentsDetailsPage.propTypes = {
-  appointment: PropTypes.object.isRequired,
-};

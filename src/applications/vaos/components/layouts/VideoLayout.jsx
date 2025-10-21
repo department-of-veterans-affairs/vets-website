@@ -1,14 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { shallowEqual } from 'recompose';
 import VideoLayoutAtlas from './VideoLayoutAtlas';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
-import {
-  isClinicVideoAppointment,
-  isAtlasVideoAppointment,
-} from '../../services/appointment';
 import DetailPageLayout, {
   What,
   When,
@@ -32,45 +25,45 @@ import {
 } from '../../utils/events';
 import ClinicName from './ClinicName';
 
-export default function VideoLayout({ data: appointment }) {
+export default function VideoLayout({ data: appointment, facility }) {
+  if (!appointment) return null;
+
   const {
     clinicName,
     clinicPhone,
     clinicPhoneExtension,
-    facility,
-    facilityPhone,
+    isAtlasVideo,
+    isCerner,
+    isClinicVideo,
     isCanceledAppointment,
     isPastAppointment,
+    modality,
     startDate,
     status,
+    timezone,
+    type,
     typeOfCareName,
     // videoProviderAddress,
     videoProviderName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
-
-  const isAtlasVideo = useSelector(() => isAtlasVideoAppointment(appointment));
-  const isClinicVideo = isClinicVideoAppointment(appointment);
+  } = appointment;
 
   if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
   if (isClinicVideo) return <VideoLayoutVA data={appointment} />;
 
-  const address = facility?.address;
+  const { address, facilityPhone } = facility || { address: {} };
   let heading = 'Video appointment';
   if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled video appointment';
   else if (isPastAppointment) heading = 'Past video appointment';
 
-  if (!appointment.modality) {
+  if (!modality) {
     captureMissingModalityLogs(appointment);
   }
   recordAppointmentDetailsNullStates(
     {
-      type: appointment.type,
-      modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      type,
+      modality,
+      isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
@@ -90,12 +83,9 @@ export default function VideoLayout({ data: appointment }) {
           </Section>
         )}
       <When>
-        <AppointmentDate date={startDate} timezone={appointment.timezone} />
+        <AppointmentDate date={startDate} timezone={timezone} />
         <br />
-        <AppointmentTime
-          appointment={appointment}
-          timezone={appointment.timezone}
-        />
+        <AppointmentTime appointment={appointment} timezone={timezone} />
         <br />
         {APPOINTMENT_STATUS.cancelled !== status &&
           !isPastAppointment && (
@@ -196,4 +186,5 @@ export default function VideoLayout({ data: appointment }) {
 }
 VideoLayout.propTypes = {
   data: PropTypes.object,
+  facility: PropTypes.object,
 };

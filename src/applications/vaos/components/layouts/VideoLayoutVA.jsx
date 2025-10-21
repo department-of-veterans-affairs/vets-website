@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
 import DetailPageLayout, {
   What,
@@ -12,7 +10,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -30,6 +27,8 @@ import ClinicPhysicalLocation from './ClinicPhysicalLocation';
 import ClinicName from './ClinicName';
 
 export default function VideoLayoutVA({ data: appointment }) {
+  if (!appointment) return null;
+
   const {
     clinicName,
     clinicPhysicalLocation,
@@ -43,10 +42,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     status,
     typeOfCareName,
     videoProviderName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
+  } = appointment;
 
   let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
@@ -61,7 +57,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

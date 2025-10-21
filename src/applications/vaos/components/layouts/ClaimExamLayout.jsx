@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
 import {
   AppointmentDate,
   AppointmentTime,
 } from '../../appointment-list/components/AppointmentDateTime';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import DetailPageLayout, {
   When,
   What,
@@ -32,6 +29,8 @@ import ClinicPhysicalLocation from './ClinicPhysicalLocation';
 import ClinicName from './ClinicName';
 
 export default function ClaimExamLayout({ data: appointment }) {
+  if (!appointment) return null;
+
   const {
     clinicName,
     clinicPhysicalLocation,
@@ -45,12 +44,7 @@ export default function ClaimExamLayout({ data: appointment }) {
     startDate,
     status,
     typeOfCareName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
-
-  if (!appointment) return null;
+  } = appointment;
 
   let heading = 'Claim exam';
   const facilityId = locationId;
@@ -64,7 +58,7 @@ export default function ClaimExamLayout({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

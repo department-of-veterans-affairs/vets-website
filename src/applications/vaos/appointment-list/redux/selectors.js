@@ -1,4 +1,3 @@
-import { formatInTimeZone } from 'date-fns-tz';
 import { selectCernerFacilityIds } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
 import { createSelector } from 'reselect';
@@ -11,13 +10,8 @@ import {
   getPatientTelecom,
   getVAAppointmentLocationId,
   groupAppointmentsByMonth,
-  isAtlasVideoAppointment,
-  isClinicVideoAppointment,
-  isInPersonVisit,
-  isPendingOrCancelledRequest,
   isUpcomingAppointment,
   isValidPastAppointment,
-  isVideoAtHome,
   sortByDateAscending,
   sortByDateDescending,
 } from '../../services/appointment';
@@ -25,11 +19,9 @@ import { getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  COMP_AND_PEN,
   FETCH_STATUS,
   TYPE_OF_CARE_IDS,
 } from '../../utils/constants';
-import { getTimezoneNameFromAbbr } from '../../utils/timezone';
 
 export function getCancelInfo(state) {
   const {
@@ -211,24 +203,6 @@ export function selectCCProvider(appointment) {
   };
 }
 
-export function selectTypeOfCareName(appointment) {
-  if (!appointment) return '';
-
-  const { name } =
-    getTypeOfCareById(appointment.vaos.apiData?.serviceType) || '';
-  const serviceCategoryName =
-    appointment.vaos.apiData?.serviceCategory?.[0]?.text || {};
-  if (serviceCategoryName === COMP_AND_PEN) {
-    const { displayName } = getTypeOfCareById(serviceCategoryName);
-    return displayName;
-  }
-  return name;
-}
-
-export function selectIsPhone(appointment) {
-  return appointment?.vaos?.isPhoneAppointment;
-}
-
 export function selectTimeZoneAbbr(appointment, isUseBrowserTimezone) {
   const { abbreviation } = getAppointmentTimezone(
     appointment,
@@ -247,16 +221,6 @@ export function getPastAppointmentListInfo(state) {
   };
 }
 
-export function selectCommunityCareDetailsInfo(state, id) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-  return {
-    appointment: selectAppointmentById(state, id, [
-      APPOINTMENT_TYPES.ccAppointment,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
-  };
-}
 export function selectBackendServiceFailuresInfo(state) {
   const { backendServiceFailures } = state.appointments;
   return {
@@ -265,134 +229,6 @@ export function selectBackendServiceFailuresInfo(state) {
     futureStatus: selectFutureStatus(state),
     backendServiceFailures,
   };
-}
-export function selectStartDate(appointment) {
-  if (appointment.vaos.isPendingAppointment) {
-    return new Date(appointment.requestedPeriod[0].start);
-  }
-
-  return new Date(appointment.start);
-}
-
-export function selectIsCanceled(appointment) {
-  return appointment?.status === APPOINTMENT_STATUS.cancelled;
-}
-
-export function selectIsCommunityCare(appointment) {
-  return appointment?.vaos?.isCommunityCare;
-}
-
-export function selectIsVideo(appointment) {
-  return appointment?.vaos?.isVideo;
-}
-
-export function selectPractitionerName(appointment) {
-  if (!appointment) return null;
-
-  if (selectIsCommunityCare(appointment)) {
-    // NOTE: appointment.communityCareProvider is populated for booked CC only
-    const { providerName, name } = appointment.communityCareProvider || {
-      providerName: null,
-      name: null,
-    };
-
-    // NOTE: appointment.preferredProviderName is populated for CC request only
-    const {
-      // rename since 'providerName' is defined above
-      providerName: preferredProviderName,
-    } = appointment.preferredProviderName || { providerName: null };
-
-    return providerName || name || preferredProviderName || '';
-  }
-
-  // TODO: Refactor!!! This logic is a rewrite of the function 'getPractitionerName'
-  // located at vaos/services/appointments/index.js which is in the domain layer.
-  // It should be in the UI layer as a selector. The refactor is to remove the
-  // 'getPractitionerName' function and move all other similar functions to this
-  // layer. See the following link for details.
-  //
-  // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners = [] } = appointment;
-  practitioners = practitioners
-    .map(practitioner => {
-      const { name } = practitioner;
-      if (name)
-        return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
-      return null;
-    })
-    .filter(Boolean);
-
-  return practitioners.length > 0 ? practitioners[0] : '';
-}
-
-export function selectIsPending(appointment) {
-  return (
-    appointment.status === APPOINTMENT_STATUS.proposed ||
-    appointment.status === APPOINTMENT_STATUS.pending
-  );
-}
-
-export function selectIsPast(appointment) {
-  if (appointment && appointment.vaos) {
-    const { isPastAppointment } = appointment.vaos;
-    return isPastAppointment;
-  }
-
-  return false;
-}
-
-export function selectIsPendingAppointment(appt) {
-  return (
-    !appt.vaos.isExpressCare &&
-    (appt.status === APPOINTMENT_STATUS.proposed ||
-      appt.status === APPOINTMENT_STATUS.pending)
-  );
-}
-
-export function selectIsCancelledAppointment(appt) {
-  return (
-    !appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.cancelled
-  );
-}
-
-export function selectAppointmentLocality(
-  appointment,
-  isPendingAppointment = false,
-) {
-  const practitioner = selectPractitionerName(appointment);
-  const typeOfCareName = selectTypeOfCareName(appointment);
-  const isCommunityCare = selectIsCommunityCare(appointment);
-  const isPhone = selectIsPhone(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const isInPerson = isInPersonVisit(appointment);
-
-  if (isPendingAppointment) {
-    const { name: facilityName } = appointment.vaos.facilityData || {
-      name: '',
-    };
-    if (isCommunityCare) {
-      return practitioner;
-    }
-
-    return facilityName;
-  }
-
-  if (isInPerson || isVideo || isPhone || isCommunityCare) {
-    if (typeOfCareName && practitioner) {
-      return `${typeOfCareName} with ${practitioner}`;
-    }
-
-    if (typeOfCareName) {
-      return typeOfCareName;
-    }
-
-    if (practitioner)
-      return `${
-        isCommunityCare ? 'Community care' : 'VA'
-      } appointment with ${practitioner}`;
-  }
-
-  return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
 }
 
 export function selectVideoData(appointment) {
@@ -410,146 +246,14 @@ export function selectVideoProviderAddress(appointment) {
   return videoData?.atlasLocation?.address;
 }
 
-export function selectModalityText(appointment, isPendingAppointment = false) {
-  const isCommunityCare = selectIsCommunityCare(appointment);
-  const isInPerson = isInPersonVisit(appointment);
-  const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = isAtlasVideoAppointment(appointment);
-  const isVideoClinic = isClinicVideoAppointment(appointment);
-  const isVideoHome = isVideoAtHome(appointment);
-  const { name: facilityName } = appointment.vaos.facilityData || {
-    name: '',
-  };
-
-  if (isPendingAppointment) {
-    if (isInPerson) {
-      return 'In person';
-    }
-    if (isCommunityCare) {
-      return 'Community care';
-    }
-  }
-
-  // NOTE: Did confirm that you can't create an Atlas appointment without a
-  // facility but we will check anyway.
-  //
-  // TODO: What default should be displayed if the data is corrupt an there is
-  // no facility name?
-  if (selectIsVideo(appointment)) {
-    if (isVideoAtlas) {
-      const { line, city, state } = appointment.videoData.atlasLocation.address;
-      return `At ${line} ${city}, ${state}`;
-    }
-
-    if (isVideoHome) return 'Video';
-  }
-
-  if (isInPerson || isVideoClinic) {
-    return facilityName ? `At ${facilityName}` : 'At VA facility';
-  }
-
-  if (isPhone) return 'Phone';
-  if (isCommunityCare) return 'Community care';
-  // if (facilityName) return `At ${facilityName}`;
-
-  return '';
-}
-
-export function selectApptDetailAriaText(appointment, isRequest = false) {
-  const appointmentDate = selectStartDate(appointment);
-  const isCanceled = selectIsCanceled(appointment);
-  const isCommunityCare = selectIsCommunityCare(appointment);
-  const isPhone = selectIsPhone(appointment);
-  const isVideo = selectIsVideo(appointment);
-  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  const typeOfCareName = selectTypeOfCareName(appointment);
-  const modalityText = selectModalityText(appointment);
-  const fillin1 = isCanceled ? `Details for canceled` : 'Details for';
-  let fillin2 =
-    typeOfCareName && typeof typeOfCareName !== 'undefined'
-      ? `${typeOfCareName} appointment on`
-      : 'appointment on';
-  const fillin3 = `${formatInTimeZone(
-    appointmentDate,
-    appointment.timezone,
-    'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}`;
-
-  // Override fillin2 text for canceled or pending appointments
-  if (isRequest && isPendingOrCancelledRequest(appointment)) {
-    fillin2 = '';
-    if (typeOfCareName && typeof typeOfCareName !== 'undefined') {
-      fillin2 = `${typeOfCareName}`;
-    }
-
-    return `${fillin1} request for a ${fillin2} ${modalityText.replace(
-      /^at /i,
-      '',
-    )} appointment`;
-  }
-
-  let modality = 'in-person';
-  if (isCommunityCare) modality = 'community care';
-  if (isPhone) modality = 'phone';
-  if (isVideo) modality = 'video';
-
-  return `${fillin1} ${modality} ${fillin2} ${fillin3}`;
-}
-
-export function selectApptDateAriaText(appointment) {
-  const appointmentDate = selectStartDate(appointment);
-  const timezoneName = getTimezoneNameFromAbbr(selectTimeZoneAbbr(appointment));
-  return `${formatInTimeZone(
-    appointmentDate,
-    appointment.timezone,
-    'EEEE, MMMM d h:mm aaaa',
-  )}, ${timezoneName}'}`;
-}
-
-export function selectTypeOfCareAriaText(appointment) {
-  const typeOfCareText = selectAppointmentLocality(appointment);
-  const isCanceled = selectIsCanceled(appointment);
-  return `${isCanceled ? 'canceled ' : ''}${typeOfCareText}`;
-}
-
-export function selectModalityAriaText(appointment) {
-  const modalityText = selectModalityText(appointment);
-  const isCanceled = selectIsCanceled(appointment);
-  return `${isCanceled ? 'canceled ' : ''}${modalityText} appointment`;
-}
-
-export function selectModalityIcon(appointment) {
-  const isInPerson = isInPersonVisit(appointment);
-  const isPhone = selectIsPhone(appointment);
-  const isVideoAtlas = isAtlasVideoAppointment(appointment);
-  const isVideoClinic = isClinicVideoAppointment(appointment);
-  const isVideoHome = isVideoAtHome(appointment);
-
-  let icon = '';
-
-  if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'location_city';
-  if (isVideoHome) icon = 'videocam';
-  if (isPhone) icon = 'phone';
-
-  return icon;
-}
-
-export function selectAppointmentType(appointment) {
-  return appointment?.vaos.appointmentType;
-}
-
-export function selectAtlasConfirmationCode(appointment) {
-  return appointment?.videoData?.atlasConfirmationCode;
-}
-
 export function selectAppointmentTravelClaim(appointment) {
   return appointment?.vaos?.apiData?.travelPayClaim;
 }
 
 export function selectIsEligibleForTravelClaim(appointment) {
   return (
-    selectIsPast(appointment) &&
-    (isInPersonVisit(appointment) || isClinicVideoAppointment(appointment)) &&
+    appointment.isPastAppointment &&
+    (appointment.isInPersonVisit || appointment.isClinicVideoAppointment) &&
     selectAppointmentTravelClaim(appointment)
   );
 }
@@ -558,7 +262,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
-  const isVideo = appointment?.vaos?.isVideo;
+  const { isVideo } = appointment;
   const isVA = !isVideo && !isCommunityCare;
 
   const locationId = getVAAppointmentLocationId(appointment);
@@ -575,7 +279,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const ccProvider = selectCCProvider(appointment);
   const startDate = appointment?.start;
   const status = appointment?.status;
-  const typeOfCareName = selectTypeOfCareName(appointment);
+  const { typeOfCareName } = appointment;
   const clinicName = appointment?.location?.clinicName;
   const clinicPhysicalLocation = appointment?.location?.clinicPhysicalLocation;
   const clinicPhone = appointment?.location?.clinicPhone;
@@ -585,17 +289,17 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 
   const duration = appointment?.minutesDuration;
-  const isPhone = selectIsPhone(appointment);
+  const { isPhone } = appointment;
   const timeZoneAbbr = selectTimeZoneAbbr(appointment);
   const providerAddress = selectProviderAddress(appointment);
-  const isAtlasVideo = isAtlasVideoAppointment(appointment);
-  const isPastAppointment = selectIsPast(appointment);
+  const { isAtlasVideo } = appointment;
+  const { isPastAppointment } = appointment.vaos;
   const videoProviderName = selectVideoProviderName(appointment);
   const videoProviderAddress = selectVideoProviderAddress(appointment);
-  const atlasConfirmationCode = selectAtlasConfirmationCode(appointment);
-  const isCanceledAppointment = selectIsCanceled(appointment);
+  const { atlasConfirmationCode } = appointment;
+  const { isCanceled } = appointment;
   const isUpcoming = appointment?.vaos?.isUpcomingAppointment;
-  const practitionerName = selectPractitionerName(appointment);
+  const { practitionerName } = appointment;
   const timezone = appointment?.timezone;
 
   return {
@@ -613,7 +317,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility,
     facilityData,
     facilityPhone,
-    isCanceledAppointment,
+    isCanceledAppointment: isCanceled,
     isBadAppointmentId,
     isCommunityCare,
     isAtlasVideo,
@@ -636,10 +340,6 @@ export function selectConfirmedAppointmentData(state, appointment) {
     videoProviderName,
   };
 }
-export function getConfirmedAppointmentDetailsInfo(state, id) {
-  const appointment = selectAppointmentById(state, id);
-  return selectConfirmedAppointmentData(state, appointment);
-}
 export function selectRequestedAppointmentData(state, appointment) {
   const { facilityData } = state?.appointments || [];
 
@@ -652,11 +352,11 @@ export function selectRequestedAppointmentData(state, appointment) {
     appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
-  const isCC = appointment?.vaos.isCommunityCare;
+  const isCC = appointment?.isCommunityCare;
   const isCCRequest =
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isCanceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = selectIsPast(appointment);
+  const { isCanceled } = appointment;
+  const { isPastAppointment } = appointment.vaos;
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;
@@ -666,7 +366,7 @@ export function selectRequestedAppointmentData(state, appointment) {
   const status = appointment?.status;
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
-  const isPendingAppointment = selectIsPendingAppointment(appointment);
+  const isPendingAppointment = appointment?.isPendingAppointment;
 
   return {
     appointment,
@@ -709,11 +409,11 @@ export function selectRequestedAppointmentDetails(state, id) {
     appointment?.vaos.apiData.extension?.clinic?.phoneNumber ||
     facility?.telecom?.find(tele => tele.system === 'covid')?.value ||
     facility?.telecom?.find(tele => tele.system === 'phone')?.value;
-  const isCC = appointment?.vaos.isCommunityCare;
+  const isCC = appointment?.isCommunityCare;
   const isCCRequest =
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const isCanceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = selectIsPast(appointment);
+  const { isPastAppointment } = appointment.vaos;
   const phone = getPatientTelecom(appointment, 'phone');
   const preferredLanguage = appointment?.vaos.apiData.preferredLanguage;
   const preferredTimesForPhoneCall = appointment?.preferredTimesForPhoneCall;

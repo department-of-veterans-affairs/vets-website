@@ -55,7 +55,7 @@ export default function CCRequestLayout({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

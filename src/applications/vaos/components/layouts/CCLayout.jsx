@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
 import DetailPageLayout, {
   CCDetails,
   What,
@@ -10,7 +8,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -26,6 +23,8 @@ import {
 } from '../../utils/events';
 
 export default function CCLayout({ data: appointment }) {
+  if (!appointment) return null;
+
   const {
     facility,
     isPastAppointment,
@@ -33,12 +32,7 @@ export default function CCLayout({ data: appointment }) {
     startDate,
     status,
     typeOfCareName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
-
-  if (!appointment) return null;
+  } = appointment;
 
   const { address, providerName, treatmentSpecialty } = ccProvider;
   const { patientComments } = appointment || {};
@@ -55,7 +49,7 @@ export default function CCLayout({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

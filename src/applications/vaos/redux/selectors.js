@@ -10,10 +10,7 @@ import {
   selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { createSelector } from 'reselect';
-import {
-  isPendingOrCancelledRequest,
-  sortByCreatedDateDescending,
-} from '../services/appointment';
+import { sortByCreatedDateDescending } from '../services/appointment';
 import { getRealFacilityId } from '../utils/appointment';
 
 export const selectRegisteredCernerFacilityIds = state => {
@@ -97,7 +94,7 @@ export const selectPendingAppointments = createSelector(
   state => state.appointments.pending,
   pending =>
     pending
-      ?.filter(isPendingOrCancelledRequest)
+      ?.filter(p => p.isPendingOrCancelledRequest)
       .sort(sortByCreatedDateDescending) || null,
 );
 

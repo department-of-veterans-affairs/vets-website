@@ -105,11 +105,11 @@
         },
         "requestedPeriods": null,
         "serviceType": "covid",
-        "start": "2023-10-13T15:00:00Z",
+        "start": "2025-10-13T15:00:00Z",
         "status": "booked",
         "created": "2024-11-01T00:00:00Z",
         "cancellable": false,
-        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "localStartTime": "2025-10-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "telehealth": null,
         "past": true,
@@ -151,15 +151,15 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "1049",
-        "start": "2023-10-13T15:00:00Z",
-        "end": "2023-10-13T16:00:00Z",
+        "start": "2025-10-13T15:00:00Z",
+        "end": "2025-10-13T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303133313530303A323032333130313331363030",
-          "start": "2023-10-13T15:00:00Z",
-          "end": "2023-10-13T16:00:00Z"
+          "start": "2025-10-13T15:00:00Z",
+          "end": "2025-10-13T16:00:00Z"
         },
-        "created": "2023-10-01T00:00:00Z",
+        "created": "2025-10-01T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -171,7 +171,7 @@
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
-        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "localStartTime": "2025-10-13T09:00:00.000-06:00",
         "avsPath": "Error retrieving AVS link",
         "serviceName": "CHY MENTAL HEALTH ONE",
         "location": {
@@ -271,15 +271,15 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "1049",
-        "start": "2023-10-13T15:00:00Z",
-        "end": "2023-10-13T16:00:00Z",
+        "start": "2025-10-13T15:00:00Z",
+        "end": "2025-10-13T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303133313530303A323032333130313331363030",
-          "start": "2023-10-13T15:00:00Z",
-          "end": "2023-10-13T16:00:00Z"
+          "start": "2025-10-13T15:00:00Z",
+          "end": "2025-10-13T16:00:00Z"
         },
-        "created": "2023-11-01T00:00:00Z",
+        "created": "2025-11-01T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -291,7 +291,7 @@
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
-        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "localStartTime": "2025-10-13T09:00:00.000-06:00",
         "avsPath": null,
         "serviceName": "CHY MENTAL HEALTH ONE",
         "location": {
@@ -391,15 +391,15 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "1049",
-        "start": "2023-10-13T15:00:00Z",
-        "end": "2023-10-13T16:00:00Z",
+        "start": "2025-10-13T15:00:00Z",
+        "end": "2025-10-13T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303133313530303A323032333130313331363030",
-          "start": "2023-10-13T15:00:00Z",
-          "end": "2023-10-13T16:00:00Z"
+          "start": "2025-10-13T15:00:00Z",
+          "end": "2025-10-13T16:00:00Z"
         },
-        "created": "2023-11-01T00:00:00Z",
+        "created": "2025-11-01T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -411,7 +411,7 @@
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
-        "localStartTime": "2023-10-13T09:00:00.000-06:00",
+        "localStartTime": "2025-10-13T09:00:00.000-06:00",
         "serviceName": "CHY MENTAL HEALTH ONE",
         "location": {
           "id": "983",
@@ -520,15 +520,15 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "455",
-        "start": "2023-10-19T15:00:00Z",
-        "end": "2023-10-19T16:00:00Z",
+        "start": "2025-10-19T15:00:00Z",
+        "end": "2025-10-19T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303139313530303A323032333130313931363030",
-          "start": "2023-10-19T15:00:00Z",
-          "end": "2023-10-19T16:00:00Z"
+          "start": "2025-10-19T15:00:00Z",
+          "end": "2025-10-19T16:00:00Z"
         },
-        "created": "2023-11-01T00:00:00Z",
+        "created": "2025-11-01T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -541,7 +541,7 @@
           "eCheckinAllowed": false,
           "clinic": {}
         },
-        "localStartTime": "2023-10-19T09:00:00.000-06:00",
+        "localStartTime": "2025-10-19T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988639578151",
         "serviceName": "CHY PC CASSIDY",
         "physicalLocation": "ARROWHEAD WING, 2ND FLOOR",
@@ -666,7 +666,7 @@
             "practiceName": null
           }
         ],
-        "physicalLocation": "should not display",
+        "physicalLocation": "Building 10 / Room 535733",
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reasonCode": {},
@@ -710,7 +710,7 @@
         "kind": "telehealth",
         "type": "VA",
         "locationId": "983",
-        "localStartTime": "2023-11-22T18:00:00.000-06:00",
+        "localStartTime": "2025-11-22T18:00:00.000-06:00",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [
@@ -735,15 +735,17 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2023-11-22T18:19:34",
+        "start": "2025-11-22T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "MOBILE_GFE"
         },
-        "past": true,
-        "pending": false
+        "past": false,
+        "pending": false,
+        "cancellable": true,
+        "modality": "vaInPerson"
       }
     },
     {
@@ -762,7 +764,7 @@
           ]
         },
         "description": "Upcoming COVID-19 appointment",
-        "end": "2023-12-21T18:19:34",
+        "end": "2025-12-21T18:19:34",
         "id": "00C893va",
         "kind": "clinic",
         "type": "VA",
@@ -779,10 +781,10 @@
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
-        "start": "2023-12-21T18:19:34",
+        "start": "2025-12-21T18:19:34",
         "status": "cancelled",
         "cancellable": false,
-        "localStartTime": "2023-12-21T09:00:00.000-06:00",
+        "localStartTime": "2025-12-21T09:00:00.000-06:00",
         "telehealth": null,
         "past": true,
         "pending": false
@@ -827,7 +829,7 @@
         "start": "2025-09-25T12:00:00Z",
         "end": "2025-09-25T12:30:00Z",
         "minutesDuration": 30,
-        "created": "2023-03-24T17:33:19.072Z",
+        "created": "2025-03-24T17:33:19.072Z",
         "cancellable": true,
         "patientInstruction": "Video Visit Preparation\n\nThe VA is excited to offer you this upcoming appointment using video telehealth. The Virtual Medical Room platform is simple to use and will only require an application download for iPad and iPhone products or Android tablet or phone products. All other home devices will NOT require any software/application download. Because we want you to have the best possible video experience, we suggest the following:\nConnect to your video appointment from a location that is quiet, private, and well lit.\nUse a device or computer that has a strong internet connection.\nIf using a cell phone, use a Wi-Fi connection so your cell data plan is not used.\nTo use a Virtual Medical Room, your home devices must have a web cam and microphone available. External cameras and microphones may be used if your personal device does not have a built in camera and/or microphone.\nIf you will be using an iPad or iPhone, download the required iOS app in advance: VideoConnect.\nYou can connect to your Virtual Medical Room through the VA Video Appointment App using the link in your appointment confirmation email.",
         "telehealth": {
@@ -1161,7 +1163,7 @@
           "start": "2024-08-16T15:30:00Z",
           "end": "2024-08-16T16:00:00Z"
         },
-        "created": "2023-07-25T00:00:00Z",
+        "created": "2025-07-25T00:00:00Z",
         "cancellable": false,
         "extension": {
           "ccLocation": {
@@ -2951,7 +2953,6 @@
         },
         "localStartTime": "2025-12-05T13:00:00.000-05:00",
         "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
-        "physicalLocation": "DAYTSHR PHONE Provider",
         "location": {
           "id": "984",
           "type": "appointments",
@@ -4535,7 +4536,6 @@
         },
         "localStartTime": "2026-01-14T08:00:00.000-05:00",
         "avsPath": null,
-        "serviceName": "MID-V10 CRH MH PSY MD PT",
         "location": {
           "id": "984GA",
           "type": "appointments",

@@ -31,7 +31,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
   const history = useHistory();
   const { typeOfCare: page } = useSelector(getNewAppointmentFlow);
   const { showCancelModal } = cancelInfo;
-  const isRequest = appointment.vaos.isPendingAppointment;
+  const isRequest = appointment.isPendingAppointment;
 
   let heading = 'You have canceled your appointment';
   if (isRequest) heading = 'You have canceled your request';
@@ -60,7 +60,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
         Schedule a new appointment
       </a>
       <AppointmentCard appointment={appointment}>
-        <CancelPageContent isRequest={isRequest} />
+        <CancelPageContent appointment={appointment} isRequest={isRequest} />
       </AppointmentCard>
     </>
   );

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual } from 'recompose';
-import { useSelector } from 'react-redux';
 import DetailPageLayout, {
   What,
   When,
@@ -12,7 +10,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import Section from '../Section';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -30,6 +27,8 @@ import {
 import ClinicName from './ClinicName';
 
 export default function VideoLayoutAtlas({ data: appointment }) {
+  if (!appointment) return null;
+
   const {
     atlasConfirmationCode,
     clinicName,
@@ -43,10 +42,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     typeOfCareName,
     videoProviderAddress,
     videoProviderName,
-  } = useSelector(
-    state => selectConfirmedAppointmentData(state, appointment),
-    shallowEqual,
-  );
+  } = appointment;
 
   const address = facility?.address;
   let heading = 'Video appointment at an ATLAS location';
@@ -62,7 +58,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
     {
       type: appointment.type,
       modality: appointment.modality,
-      isCerner: appointment.vaos.isCerner,
+      isCerner: appointment.isCerner,
     },
     {
       [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,

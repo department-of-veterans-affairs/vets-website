@@ -23,7 +23,7 @@ function handleClose(dispatch) {
 export default function CancelWarningPage({ appointment, cancelInfo }) {
   const dispatch = useDispatch();
   const { showCancelModal } = cancelInfo;
-  const isRequest = appointment.vaos.isPendingAppointment;
+  const isRequest = appointment.isPendingAppointment;
 
   let heading = 'Would you like to cancel this appointment?';
   let buttonText = 'Yes, cancel appointment';
@@ -49,7 +49,7 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
         appointment online.
       </p>
       <AppointmentCard appointment={appointment}>
-        <CancelPageContent isRequest={isRequest} />
+        <CancelPageContent appointment={appointment} isRequest={isRequest} />
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--3 vaos-hide-for-print">
           <button type="button" onClick={handleConfirm(dispatch)}>
             {buttonText}

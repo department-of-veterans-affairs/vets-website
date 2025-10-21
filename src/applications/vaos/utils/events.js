@@ -122,7 +122,7 @@ export function captureMissingModalityLogs(appointment) {
           // Derived fields
           type: appointment.type,
           modality: appointment.modality,
-          isCerner: appointment.vaos.isCerner,
+          isCerner: appointment.isCerner,
         }),
       );
     } catch (error) {
