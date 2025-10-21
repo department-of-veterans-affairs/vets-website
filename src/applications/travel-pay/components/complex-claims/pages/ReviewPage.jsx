@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ReviewPageAlert from './ReviewPageAlert';
 import MileageExpenseCard from './MileageExpenseCard';
 
-const ReviewPage = ({ claim, message, onNext }) => {
+const ReviewPage = ({ claim, message }) => {
+  const navigate = useNavigate();
+  const { apptId } = useParams();
+
   // For now, we will override the claim to have some expenses
   // If message is not provided, use default values
   const overriddenClaim = claim || [
@@ -86,6 +91,11 @@ const ReviewPage = ({ claim, message, onNext }) => {
     },
   ];
 
+  // Get the Mileage expense from the overriddenClaim
+  const mileageExpense =
+    overriddenClaim[0].expenses.find(exp => exp.expenseType === 'Mileage') ||
+    null;
+
   // Create a grouped version of expenses by expenseType
   const groupedExpenses = overriddenClaim[0].expenses.reduce((acc, expense) => {
     const { expenseType } = expense;
@@ -112,7 +122,7 @@ const ReviewPage = ({ claim, message, onNext }) => {
 
   const signAgreement = () => {
     // TODO Add logic to sign the agreement
-    onNext();
+    navigate(`/file-new-claim/complex/${apptId}/travel-agreement`);
   };
 
   return (
@@ -145,6 +155,25 @@ const ReviewPage = ({ claim, message, onNext }) => {
           </va-accordion-item>
         ))}
       </va-accordion>
+      <va-summary-box>
+        <h3 slot="headline">Estimated reimbursement</h3>
+        <ul>
+          <li>
+            <strong>Mileage</strong> ${mileageExpense?.costRequested ?? 0}
+          </li>
+        </ul>
+        <p>
+          <strong>Total:</strong> ${overriddenClaim?.totalCostRequested ?? 0}
+        </p>
+        <p>
+          This estimated reimbursement doesn’t account for the $6 per trip
+          deductible.
+        </p>
+        <va-link
+          href="https://www.va.gov/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
+          text="Read more about deductibles for VA travel claims"
+        />
+      </va-summary-box>
       <VaButton
         id="sign-agreement-button"
         className="vads-u-display--flex vads-u-margin-y--2"
@@ -162,7 +191,6 @@ ReviewPage.propTypes = {
     body: PropTypes.string,
     type: PropTypes.string,
   }),
-  onNext: PropTypes.func,
 };
 
 export default ReviewPage;

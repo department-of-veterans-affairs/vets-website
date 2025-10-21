@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom-v5-compat';
+import React from 'react';
+import { useParams, Outlet } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
-import AgreementPage from '../components/complex-claims/pages/AgreementPage';
-import ReviewPage from '../components/complex-claims/pages/ReviewPage';
-
 const ComplexClaimSubmitFlowWrapper = () => {
   const { apptId } = useParams();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const [page, setPage] = useState(1);
 
   const complexClaimsEnabled = useToggleValue(
     TOGGLE_NAMES.travelPayEnableComplexClaims,
@@ -35,8 +31,7 @@ const ComplexClaimSubmitFlowWrapper = () => {
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {page === 1 && <ReviewPage onNext={() => setPage(2)} />}
-          {page === 2 && <AgreementPage onBack={() => setPage(1)} />}
+          <Outlet />
         </div>
       </article>
     </Element>

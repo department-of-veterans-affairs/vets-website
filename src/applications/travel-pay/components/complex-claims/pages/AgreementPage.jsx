@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-import PropTypes from 'prop-types';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import TravelAgreementContent from '../../TravelAgreementContent';
 
-const AgreementPage = ({ onBack }) => {
+const AgreementPage = () => {
+  const navigate = useNavigate();
+  const { apptId } = useParams();
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
   const onSubmit = () => {
@@ -17,6 +19,10 @@ const AgreementPage = ({ onBack }) => {
       setIsAgreementError(false);
       // TODO Add logic for Submitting the claim
     }
+  };
+
+  const onBack = () => {
+    navigate(`/file-new-claim/complex/${apptId}/review`);
   };
 
   return (
@@ -62,10 +68,6 @@ const AgreementPage = ({ onBack }) => {
       />
     </>
   );
-};
-
-AgreementPage.propTypes = {
-  onBack: PropTypes.func,
 };
 
 export default AgreementPage;

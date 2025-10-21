@@ -7,6 +7,8 @@ import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
+import AgreementPage from './components/complex-claims/pages/AgreementPage';
+import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import App from './containers/App';
 
 const routes = (
@@ -28,7 +30,14 @@ const routes = (
       <Route
         path="/file-new-claim/complex/:apptId"
         element={<ComplexClaimSubmitFlowWrapper />}
-      />
+      >
+        <Route index element={<>Intro</>} />
+        {/* <Route path="choose-expense" element={<ChooseExpenseType />} />
+        <Route path="mileage" element={<Mileage />} /> */}
+        <Route path="review" element={<ReviewPage />} />
+        <Route path="travel-agreement" element={<AgreementPage />} />
+        {/* <Route path="confirmation" element={<ConfirmationPage />} /> */}
+      </Route>
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
     </Route>
