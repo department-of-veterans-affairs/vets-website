@@ -714,14 +714,31 @@ export const wrapWithBreadcrumb = (title, component) => (
 );
 
 const today = getToday().endOf('day');
+/**
+ * Determines if a given date object is expired.
+ *
+ * Usability:
+ * - Use this utility to check if a date (with an `expiresAt` property in seconds since epoch)
+ *   has already passed or is still valid. We want to use epoch here as that's what the backend
+ *   ruby services are expecting for this value.
+ * - Returns `true` if the date is missing, invalid, or has expired; otherwise, returns `false`.
+ *
+ * @param {Object} date - An object containing an `expiresAt` property (seconds since epoch).
+ * @returns {boolean} `true` if expired or invalid, `false` if still valid.
+ */
 export const isExpired = date => {
   if (!date) {
     return true;
   }
   // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
-  const expires = parseDate(
-    new Date(date?.expiresAt * 1000).toISOString().split('T')[0],
-  );
+  // Convert the expiresAt (seconds since epoch) to a date string (YYYY-MM-DD)
+  const expiresAt = date?.expiresAt;
+  let expires = null;
+  if (expiresAt) {
+    const expiresDate = new Date(expiresAt * 1000);
+    const expiresDateString = expiresDate.toISOString().split('T')[0];
+    expires = parseDate(expiresDateString);
+  }
   return !(
     expires &&
     expires.isValid() &&
