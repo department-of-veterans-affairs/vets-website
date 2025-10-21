@@ -37,26 +37,11 @@ const toUTCStartOfDay = date => {
 };
 
 /**
- * Check if a date is the same day as the current UTC date
- * Used for API-pulled issues: shows same-day issues with warning but allows future issues
+ * Check if a date is today or in the future relative to UTC
+ * Used for both API-pulled and manual issues: blocks today and future dates
  * This ensures consistency with backend validation which uses UTC
  * @param {Date} date - The date to check
- * @returns {boolean} - True if the date is the same as today in UTC
- */
-export const isSameDayAsUTC = date => {
-  if (!date || !isValid(date)) return false;
-
-  const utcToday = getCurrentUTCStartOfDay();
-  const inputDateUTC = toUTCStartOfDay(date);
-
-  return inputDateUTC.getTime() === utcToday.getTime();
-};
-
-/**
- * Check if a date is today or in the future relative to UTC
- * Used for manual issue validation: blocks both today and future dates
- * @param {Date} date - The date to check
- * @returns {boolean} - True if date is today or future in UTC
+ * @returns {boolean} - True if the date is today or future in UTC
  */
 export const isTodayOrInFuture = date => {
   if (!date || !isValid(date)) return false;

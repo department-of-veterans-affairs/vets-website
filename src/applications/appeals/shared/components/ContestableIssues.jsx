@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -7,7 +7,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
 import ActionLink from './web-component-wrappers/ActionLink';
-import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
+import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED, FORMAT_YMD_DATE_FNS } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import {
@@ -25,6 +25,8 @@ import {
   someSelected,
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
+import { isTodayOrInFuture } from '../validations/date';
+import { parseDateToDateObj } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -75,16 +77,40 @@ const ContestableIssues = props => {
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
   const { submitted } = formContext;
-  const loadedIssues = formData.contestedIssues || [];
+  const loadedIssues = useMemo(() => formData.contestedIssues || [], [
+    formData.contestedIssues,
+  ]);
+
+  // Add same-day blocking logic at component level
+  const issuesWithBlocking = useMemo(
+    () =>
+      loadedIssues.map(issue => {
+        const { approxDecisionDate } = issue?.attributes || {};
+        const decisionDate = parseDateToDateObj(
+          approxDecisionDate,
+          FORMAT_YMD_DATE_FNS,
+        );
+        const isBlockedSameDay = isTodayOrInFuture(decisionDate);
+
+        return {
+          ...issue,
+          isBlockedSameDay,
+        };
+      }),
+    [loadedIssues],
+  );
 
   // combine all issues for viewing
-  const items = loadedIssues
+  const items = issuesWithBlocking
     .map(item => ({
       ...item?.attributes,
       [SELECTED]: item?.[SELECTED],
-      isBlockedSameDay: item?.isBlockedSameDay, // Preserve the blocking flag
+      isBlockedSameDay: item?.isBlockedSameDay, // Now computed above
     }))
     .concat(formData.additionalIssues || []);
+
+  console.log('issuesWithBlocking:', issuesWithBlocking);
+  console.log('items:', items);
 
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
@@ -184,7 +210,6 @@ const ContestableIssues = props => {
 
   const hasBlockedIssues = items.some(item => item.isBlockedSameDay);
 
-  // Only filter blocked issues if we need to show the alert
   const blockedIssues = hasBlockedIssues
     ? items.filter(item => item.isBlockedSameDay)
     : [];

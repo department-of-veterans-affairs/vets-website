@@ -11,7 +11,6 @@ import {
   SELECTED,
 } from '../constants';
 import { parseDate, parseDateToDateObj } from './dates';
-import { isSameDayAsUTC } from '../validations/date';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -102,11 +101,6 @@ export const processContestableIssues = contestableIssues => {
   const processDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(REGEXP.DASH, '');
 
-  // Check if any issues have blocked flags (indicates we need blocked-first sorting)
-  const hasBlockedFlags = (contestableIssues || []).some(issue =>
-    Object.prototype.hasOwnProperty.call(issue, 'isBlockedSameDay'),
-  );
-
   // remove issues with no title & sort by date - see
   // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
   const result = (contestableIssues || [])
@@ -125,13 +119,7 @@ export const processContestableIssues = contestableIssues => {
       };
     })
     .sort((a, b) => {
-      // If blocked flags are present, sort blocked issues first
-      if (hasBlockedFlags) {
-        if (a.isBlockedSameDay && !b.isBlockedSameDay) return -1;
-        if (!a.isBlockedSameDay && b.isBlockedSameDay) return 1;
-      }
-
-      // Then sort by decision date descending (most recent first)
+      // Sort by decision date descending (most recent first)
       const dateA = processDate(a);
       const dateB = processDate(b);
       if (dateA === dateB) {
@@ -233,39 +221,23 @@ export const isDisqualifyingIssue = (text, description) => {
  * @return {ContestableIssues} - filtered list
  */
 export const getEligibleContestableIssues = (issues, options = {}) => {
-  const result = (issues || [])
-    .filter(issue => {
-      const {
-        approxDecisionDate,
-        ratingIssueSubjectText = '',
-        description = '',
-      } = issue?.attributes || {};
-      const isDisqualifying = options?.isNod
-        ? isDeferredIssue
-        : isDisqualifyingIssue;
+  const result = (issues || []).filter(issue => {
+    const {
+      approxDecisionDate,
+      ratingIssueSubjectText = '',
+      description = '',
+    } = issue?.attributes || {};
+    const isDisqualifying = options?.isNod
+      ? isDeferredIssue
+      : isDisqualifyingIssue;
 
-      return (
-        ratingIssueSubjectText &&
-        approxDecisionDate &&
-        !isDisqualifying(ratingIssueSubjectText, description) &&
-        isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
-      );
-    })
-    .map(issue => {
-      const { approxDecisionDate } = issue?.attributes || {};
-      const decisionDate = parseDateToDateObj(
-        approxDecisionDate,
-        FORMAT_YMD_DATE_FNS,
-      );
-
-      // Mark same-day issues as blocked (but keep them in the list)
-      const isBlockedSameDay = isSameDayAsUTC(decisionDate);
-
-      return {
-        ...issue,
-        isBlockedSameDay, // Add blocking flag for UI to use
-      };
-    });
+    return (
+      ratingIssueSubjectText &&
+      approxDecisionDate &&
+      !isDisqualifying(ratingIssueSubjectText, description) &&
+      isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
+    );
+  });
 
   return processContestableIssues(result);
 };

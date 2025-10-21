@@ -10,7 +10,7 @@ import {
   isDisqualifyingIssue,
 } from '../../shared/utils/issues';
 import { parseDateToDateObj } from '../../shared/utils/dates';
-import { isSameDayAsUTC } from '../../shared/validations/date';
+
 import '../../shared/definitions';
 import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
 
@@ -31,39 +31,23 @@ export const isVersion1Data = formData => !!formData?.zipCode5;
  */
 export const getEligibleContestableIssues = issues => {
   const today = startOfToday();
-  const result = (issues || [])
-    .filter(issue => {
-      const {
-        approxDecisionDate = '',
-        ratingIssueSubjectText = '',
-        description = '',
-      } = issue?.attributes || {};
+  const result = (issues || []).filter(issue => {
+    const {
+      approxDecisionDate = '',
+      ratingIssueSubjectText = '',
+      description = '',
+    } = issue?.attributes || {};
 
-      const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
-      if (
-        !ratingIssueSubjectText ||
-        isDisqualifyingIssue(ratingIssueSubjectText, description) ||
-        !isValid(date)
-      ) {
-        return false;
-      }
-      return isAfter(addYears(date, 1), today);
-    })
-    .map(issue => {
-      const { approxDecisionDate } = issue?.attributes || {};
-      const decisionDate = parseDateToDateObj(
-        approxDecisionDate,
-        FORMAT_YMD_DATE_FNS,
-      );
-
-      // Mark same-day issues as blocked (but keep them in the list)
-      const isBlockedSameDay = isSameDayAsUTC(decisionDate);
-
-      return {
-        ...issue,
-        isBlockedSameDay, // Add blocking flag for UI to use
-      };
-    });
+    const date = parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS);
+    if (
+      !ratingIssueSubjectText ||
+      isDisqualifyingIssue(ratingIssueSubjectText, description) ||
+      !isValid(date)
+    ) {
+      return false;
+    }
+    return isAfter(addYears(date, 1), today);
+  });
 
   return processContestableIssues(result);
 };
