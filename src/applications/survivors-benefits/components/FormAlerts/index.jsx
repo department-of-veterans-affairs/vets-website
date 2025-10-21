@@ -31,16 +31,16 @@ RequestFormAlert.propTypes = {
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node,
   advisory: PropTypes.string,
+  children: PropTypes.node,
 };
 
 RequestFormAlert.propTypes = {
   formLink: PropTypes.string.isRequired,
   formName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node,
   advisory: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export const RequestNursingHomeInformationAlert = () => (
