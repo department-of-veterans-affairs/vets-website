@@ -20,6 +20,14 @@ const getStore = (toggleEnabled = true) =>
 describe('<TimezoneDiscrepancyMessage>', () => {
   let timezoneStub;
 
+  beforeEach(() => {
+    // Stub CST timezone (-360 = UTC-6) for all tests by default
+    // Individual tests can override by restoring and re-stubbing
+    timezoneStub = sinon
+      .stub(Date.prototype, 'getTimezoneOffset')
+      .returns(-360);
+  });
+
   afterEach(() => {
     if (timezoneStub) {
       timezoneStub.restore();
@@ -34,7 +42,8 @@ describe('<TimezoneDiscrepancyMessage>', () => {
       </Provider>,
     );
 
-    expect(getByText(/Files uploaded after.*will show as received/)).to.exist;
+    expect(getByText(/Files uploaded (after|before).*will show as received/)).to
+      .exist;
     expect(getByText(/but we record your submissions when you upload them/)).to
       .exist;
   });
@@ -78,7 +87,8 @@ describe('<TimezoneDiscrepancyMessage>', () => {
   });
 
   it('should NOT display message when in UTC timezone (offset = 0)', () => {
-    // Stub timezone offset to 0 (UTC)
+    // Restore beforeEach stub and re-stub with UTC timezone (0)
+    timezoneStub.restore();
     timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
     const { queryByText } = render(

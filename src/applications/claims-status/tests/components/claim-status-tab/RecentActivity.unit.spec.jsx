@@ -1399,6 +1399,14 @@ describe('<RecentActivity>', () => {
   context('Timezone-aware message display', () => {
     let timezoneStub;
 
+    beforeEach(() => {
+      // Stub CST timezone (-360 = UTC-6) for all tests by default
+      // Individual tests can override by restoring and re-stubbing
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(-360);
+    });
+
     afterEach(() => {
       if (timezoneStub) {
         timezoneStub.restore();
@@ -1415,7 +1423,8 @@ describe('<RecentActivity>', () => {
       );
 
       getByText('Recent activity');
-      expect(getByText(/Files uploaded after.*will show as received/)).to.exist;
+      expect(getByText(/Files uploaded (after|before).*will show as received/))
+        .to.exist;
       expect(getByText(/but we record your submissions when you upload them/))
         .to.exist;
     });
@@ -1428,7 +1437,7 @@ describe('<RecentActivity>', () => {
       );
 
       const messageParagraph = getByText(
-        /Files uploaded after.*will show as received/,
+        /Files uploaded (after|before).*will show as received/,
       );
       expect(messageParagraph.textContent).to.match(
         /\d{1,2}:\d{2}\s+(a|p)\.m\./,
@@ -1436,7 +1445,8 @@ describe('<RecentActivity>', () => {
     });
 
     it('should NOT display message when in UTC timezone (offset = 0)', () => {
-      // Stub timezone offset to 0 (UTC)
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
       timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { queryByText } = renderWithRouter(

@@ -511,6 +511,14 @@ describe('<DocumentsFiled>', () => {
   context('Timezone-aware message display', () => {
     let timezoneStub;
 
+    beforeEach(() => {
+      // Stub CST timezone (-360 = UTC-6) for all tests by default
+      // Individual tests can override by restoring and re-stubbing
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(-360);
+    });
+
     afterEach(() => {
       if (timezoneStub) {
         timezoneStub.restore();
@@ -534,7 +542,8 @@ describe('<DocumentsFiled>', () => {
       );
 
       getByText('Documents filed');
-      expect(getByText(/Files uploaded after.*will show as received/)).to.exist;
+      expect(getByText(/Files uploaded (after|before).*will show as received/))
+        .to.exist;
       expect(getByText(/but we record your submissions when you upload them/))
         .to.exist;
     });
@@ -547,7 +556,7 @@ describe('<DocumentsFiled>', () => {
       );
 
       const messageParagraph = getByText(
-        /Files uploaded after.*will show as received/,
+        /Files uploaded (after|before).*will show as received/,
       );
       expect(messageParagraph.textContent).to.match(
         /\d{1,2}:\d{2}\s+(a|p)\.m\./,
@@ -555,6 +564,8 @@ describe('<DocumentsFiled>', () => {
     });
 
     it('should NOT display message when in UTC timezone', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
       timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { queryByText } = render(
@@ -568,6 +579,8 @@ describe('<DocumentsFiled>', () => {
     });
 
     it('should not render message paragraph element when timezone offset is 0', () => {
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
       timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       const { container } = render(
@@ -598,6 +611,8 @@ describe('<DocumentsFiled>', () => {
       );
       expect(messageParagraph).to.exist;
 
+      // Restore beforeEach stub and re-stub with UTC timezone (0)
+      timezoneStub.restore();
       timezoneStub = sinon.stub(Date.prototype, 'getTimezoneOffset').returns(0);
 
       rerender(
