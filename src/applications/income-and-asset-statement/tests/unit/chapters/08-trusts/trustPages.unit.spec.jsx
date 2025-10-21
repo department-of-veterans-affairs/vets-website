@@ -65,9 +65,7 @@ describe('trust list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       establishedDate,
-      addedFundsAfterEstablishment,
       addedFundsDate,
-      receivingIncomeFromTrust,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,
@@ -82,9 +80,7 @@ describe('trust list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       establishedDate,
-      addedFundsAfterEstablishment,
       addedFundsDate,
-      receivingIncomeFromTrust,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,

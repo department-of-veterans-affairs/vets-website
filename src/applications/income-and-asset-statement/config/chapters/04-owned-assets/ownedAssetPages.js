@@ -9,14 +9,14 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fileInputUI,
+  fileInputSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   yesNoUI,
   yesNoSchema,
-  fileInputUI,
-  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
   formatCurrency,
