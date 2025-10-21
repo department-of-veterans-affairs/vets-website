@@ -353,7 +353,13 @@ describe('VAOS Services: Appointment ', () => {
           end: range.end,
           useRFC3339: false,
           response: [],
-          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+          statuses: [
+            'booked',
+            'arrived',
+            'fulfilled',
+            'cancelled',
+            'checked-in',
+          ],
         });
       });
 

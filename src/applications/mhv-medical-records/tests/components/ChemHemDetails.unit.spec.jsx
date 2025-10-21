@@ -16,10 +16,6 @@ describe('Chem Hem details component', () => {
         labsAndTestsDetails: convertLabsAndTestsRecord(chemHem),
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
 
   let screen;
