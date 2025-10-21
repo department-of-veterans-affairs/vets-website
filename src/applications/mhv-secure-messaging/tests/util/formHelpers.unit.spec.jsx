@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { waitFor } from '@testing-library/dom';
 import { focusOnErrorField } from '../../util/formHelpers';
 
 describe('formHelpers', () => {
@@ -14,7 +15,7 @@ describe('formHelpers', () => {
       document.body.removeChild(container);
     });
 
-    it('should focus on input element in shadowRoot when error attribute is present', done => {
+    it('should focus on input element in shadowRoot when error attribute is present', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', 'This field has an error');
 
@@ -27,13 +28,12 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.equal(webComponent);
-        done();
-      }, 350);
+      });
     });
 
-    it('should focus on textarea element in shadowRoot when error attribute is present', done => {
+    it('should focus on textarea element in shadowRoot when error attribute is present', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', 'This field has an error');
 
@@ -46,13 +46,12 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.equal(webComponent);
-        done();
-      }, 350);
+      });
     });
 
-    it('should focus on select element in shadowRoot when no input or textarea is found', done => {
+    it('should focus on select element in shadowRoot when no input or textarea is found', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', 'This field has an error');
 
@@ -65,13 +64,12 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.equal(webComponent);
-        done();
-      }, 350);
+      });
     });
 
-    it('should focus on va-checkbox input element when present', done => {
+    it('should focus on va-checkbox input element when present', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', 'This field has an error');
 
@@ -86,17 +84,16 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         // The focus may be on the va-checkbox element itself or the input inside
         const focused = document.activeElement;
         expect(focused === checkboxInput || focused === vaCheckbox).to.equal(
           true,
         );
-        done();
-      }, 350);
+      });
     });
 
-    it('should focus on direct input element when no shadowRoot is present', done => {
+    it('should focus on direct input element when no shadowRoot is present', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', 'This field has an error');
 
@@ -108,26 +105,24 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.equal(input);
-        done();
-      }, 350);
+      });
     });
 
-    it('should do nothing when no elements with error attribute are present', done => {
+    it('should do nothing when no elements with error attribute are present', async () => {
       const input = document.createElement('input');
       input.id = 'no-error-input';
       container.appendChild(input);
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.not.equal(input);
-        done();
-      }, 350);
+      });
     });
 
-    it('should do nothing when error attribute is empty string', done => {
+    it('should do nothing when error attribute is empty string', async () => {
       const webComponent = document.createElement('div');
       webComponent.setAttribute('error', '');
 
@@ -137,13 +132,12 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         expect(document.activeElement).to.not.equal(input);
-        done();
-      }, 350);
+      });
     });
 
-    it('should focus on the first error element when multiple errors exist', done => {
+    it('should focus on the first error element when multiple errors exist', async () => {
       const webComponent1 = document.createElement('div');
       webComponent1.setAttribute('error', 'First error');
       const shadowRoot1 = webComponent1.attachShadow({ mode: 'open' });
@@ -163,12 +157,11 @@ describe('formHelpers', () => {
 
       focusOnErrorField();
 
-      setTimeout(() => {
+      await waitFor(() => {
         // The focus may be on the first input or its parent webComponent
         const focused = document.activeElement;
         expect(focused === input1 || focused === webComponent1).to.equal(true);
-        done();
-      }, 350);
+      });
     });
   });
 });

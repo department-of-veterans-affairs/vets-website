@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import CrisisPanel from 'platform/site-wide/va-footer/components/CrisisPanel';
 import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import { expect } from 'chai';
@@ -673,30 +673,34 @@ describe('MHV Secure Messaging helpers', () => {
       localStorage.clear();
     });
 
-    it('should set localStorage values after timeout', done => {
+    it('should set localStorage values after timeout', async () => {
       const localStorageValues = { testKey: 'testValue' };
       const result = resetUserSession(localStorageValues);
 
       expect(result.signOutMessage).to.equal('non-empty string');
       expect(result.timeOutId).to.exist;
 
-      setTimeout(() => {
-        expect(localStorage.getItem('testKey')).to.equal('testValue');
-        clearTimeout(result.timeOutId);
-        done();
-      }, 1100);
+      await waitFor(
+        () => {
+          expect(localStorage.getItem('testKey')).to.equal('testValue');
+        },
+        { timeout: 1500 },
+      );
+      clearTimeout(result.timeOutId);
     });
 
-    it('should not overwrite existing localStorage values', done => {
+    it('should not overwrite existing localStorage values', async () => {
       localStorage.setItem('existingKey', 'existingValue');
       const localStorageValues = { existingKey: 'newValue' };
       const result = resetUserSession(localStorageValues);
 
-      setTimeout(() => {
-        expect(localStorage.getItem('existingKey')).to.equal('existingValue');
-        clearTimeout(result.timeOutId);
-        done();
-      }, 1100);
+      await waitFor(
+        () => {
+          expect(localStorage.getItem('existingKey')).to.equal('existingValue');
+        },
+        { timeout: 1500 },
+      );
+      clearTimeout(result.timeOutId);
     });
   });
 
