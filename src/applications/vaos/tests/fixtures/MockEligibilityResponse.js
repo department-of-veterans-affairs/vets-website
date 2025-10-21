@@ -1,3 +1,4 @@
+import { INELIGIBILITY_CODES_VAOS } from '../../utils/constants';
 /**
  * Mock eligibility response.
  *
@@ -5,9 +6,17 @@
  * @class MockEligibilityResponse
  */
 export default class MockEligibilityResponse {
-  static PATIENT_HISTORY_INSUFFICIENT = 'patient-history-insufficient';
+  // Make codes accessible as part of response class
+  static PATIENT_HISTORY_INSUFFICIENT =
+    INELIGIBILITY_CODES_VAOS.PATIENT_HISTORY_INSUFFICIENT;
 
-  static FACILITY_REQUEST_LIMIT_EXCEEDED = 'facility-request-limit-exceeded';
+  static FACILITY_REQUEST_LIMIT_EXCEEDED =
+    INELIGIBILITY_CODES_VAOS.REQUEST_LIMIT_EXCEEDED;
+
+  static DIRECT_DISABLED = INELIGIBILITY_CODES_VAOS.DIRECT_SCHEDULING_DISABLED;
+
+  static REQUEST_DISABLED =
+    INELIGIBILITY_CODES_VAOS.REQUEST_SCHEDULING_DISABLED;
 
   /**
    * Creates an instance of MockEligibilityResponse.
@@ -47,19 +56,27 @@ export default class MockEligibilityResponse {
     };
   }
 
+  // All remaining responses make eligibility false
+
   /**
    * Method to create a patient history insufficient error response.
    *
    * @static
    * @param {Object} arguments - Method arguments
-   * @param {string} arguments.type - Appointment scheduling type: 'direct' or 'request'.
+   * @param {string} [arguments.type=direct] - Appointment scheduling type: 'direct' or 'request', defaults to direct.
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
    * @returns Instance of MockEligibilityResponse
    * @memberof MockEligibilityResponse
    */
-  static createPatientHistoryInsufficientResponse({ type }) {
+  static createPatientHistoryInsufficientResponse({
+    type = 'direct',
+    facilityId = '983',
+    typeOfCareId = 'primaryCare',
+  }) {
     return new MockEligibilityResponse({
-      facilityId: '983',
-      typeOfCareId: 'primaryCare',
+      facilityId,
+      typeOfCareId,
       type,
       isEligible: false,
       ineligibilityReason: MockEligibilityResponse.PATIENT_HISTORY_INSUFFICIENT,
@@ -72,17 +89,51 @@ export default class MockEligibilityResponse {
    * @static
    * @param {Object} arguments - Method arguments
    * @param {string} arguments.type - Appointment scheduling type: 'direct' or 'request'.
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
    * @returns Instance of MockEligibilityResponse
    * @memberof MockEligibilityResponse
    */
-  static createFacilityRequestLimitExceededResponse({ type }) {
+  static createFacilityRequestLimitExceededResponse({
+    type,
+    facilityId = '983',
+    typeOfCareId = 'primaryCare',
+  }) {
     return new MockEligibilityResponse({
-      facilityId: '983',
-      typeOfCareId: 'primaryCare',
+      facilityId,
+      typeOfCareId,
       type,
       isEligible: false,
       ineligibilityReason:
         MockEligibilityResponse.FACILITY_REQUEST_LIMIT_EXCEEDED,
+    });
+  }
+
+  /**
+   * Method to create a facility scheduling disabled error response.
+   *
+   * @static
+   * @param {Object} arguments - Method arguments
+   * @param {string} [arguments.type=direct] - Appointment scheduling type: 'direct' or 'request', defaults to direct.
+   * @param {string} [arguments.facilityId=983] - Facility id. Default: 983
+   * @param {string} [arguments.typeOfCareId=primaryCare] - Type of care id. Default: 'primaryCare'
+   * @returns Instance of MockEligibilityResponse
+   * @memberof MockEligibilityResponse
+   */
+  static createEligibilityDisabledResponse({
+    type = 'direct',
+    facilityId = '983',
+    typeOfCareId = 'primaryCare',
+  }) {
+    return new MockEligibilityResponse({
+      facilityId,
+      typeOfCareId,
+      type,
+      isEligible: false,
+      ineligibilityReason:
+        type === 'direct'
+          ? MockEligibilityResponse.DIRECT_DISABLED
+          : MockEligibilityResponse.REQUEST_DISABLED,
     });
   }
 

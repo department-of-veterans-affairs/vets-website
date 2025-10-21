@@ -345,7 +345,7 @@ describe('10-10d-extended transform for submit', () => {
   });
 
   describe('address formatting', () => {
-    it('should properly format sponsor address fields', () => {
+    it('should properly format sponsor address fields when address is not shared', () => {
       const testData = {
         data: {
           [SHARED_ADDRESS_FIELD_NAME]: NOT_SHARED,
@@ -357,6 +357,40 @@ describe('10-10d-extended transform for submit', () => {
             postalCode: '12345',
             country: 'USA',
           },
+        },
+      };
+
+      const transformed = JSON.parse(transformForSubmit(formConfig, testData));
+
+      // Verify that the street fields were combined
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        '123 Main Street',
+      );
+      expect(transformed.veteran.address.streetCombined).to.contain(
+        'Apartment 4B',
+      );
+
+      // Original fields should be preserved
+      expect(transformed.veteran.address.street).to.equal('123 Main Street');
+      expect(transformed.veteran.address.street2).to.equal('Apartment 4B');
+      expect(transformed.veteran.address.city).to.equal('Anytown');
+      expect(transformed.veteran.address.state).to.equal('CA');
+      expect(transformed.veteran.address.postalCode).to.equal('12345');
+    });
+
+    it('should properly format sponsor address fields when address is shared', () => {
+      const testAddress = {
+        street: '123 Main Street',
+        street2: 'Apartment 4B',
+        city: 'Anytown',
+        state: 'CA',
+        postalCode: '12345',
+        country: 'USA',
+      };
+      const testData = {
+        data: {
+          [SHARED_ADDRESS_FIELD_NAME]: JSON.stringify(testAddress),
+          sponsorAddress: testAddress,
         },
       };
 

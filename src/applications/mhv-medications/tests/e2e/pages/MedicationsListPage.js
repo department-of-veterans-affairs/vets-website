@@ -1119,6 +1119,14 @@ class MedicationsListPage {
       expect(fileContent).to.not.contain('None noted');
     });
   };
+
+  verifyFilterAriaRegionText = text => {
+    cy.findByTestId('filter-aria-live-region').should('have.text', text);
+  };
+
+  verifySortScreenReaderActionText = text => {
+    cy.findByTestId('sort-action-sr-text').should('have.text', text);
+  };
 }
 
 export default MedicationsListPage;

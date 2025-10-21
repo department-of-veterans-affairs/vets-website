@@ -80,9 +80,7 @@ describe('Delete email address', () => {
     removeEmailAddress();
     // Confirm modal closes & error alert appears
     cy.get('va-modal').should('not.exist');
-    cy.contains(
-      'We couldn’t save your recent contact email address update. Please try again later.',
-    ).should('be.visible');
+    cy.get('[data-testid="generic-error-alert"]').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
   });
