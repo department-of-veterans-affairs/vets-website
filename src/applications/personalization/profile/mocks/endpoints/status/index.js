@@ -23,7 +23,6 @@ const generateStatusResponse = (req, res) => {
     const isInitializing = transactionAge < 3000; // 3 seconds of "initializing"
 
     if (isInitializing) {
-      // console.log('✓ VA Profile initialization in progress:', id);
       return res.json({
         data: {
           id: '',

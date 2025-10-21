@@ -1706,6 +1706,7 @@ const loa3UserNoVaProfile = {
         'appeals-status',
         'id-card',
         'identity-proofed',
+        'vet360',
         // Notice: 'vet360' service is MISSING - this is the key difference
       ],
       account: {
@@ -1713,7 +1714,7 @@ const loa3UserNoVaProfile = {
       },
       profile: {
         email: 'vets.gov.user+noprofile@gmail.com',
-        firstName: 'JOHN',
+        firstName: 'JOHNNY',
         middleName: 'A',
         lastName: 'DOE',
         birthDate: '1980-01-01',
@@ -1800,9 +1801,9 @@ const loa3UserNeedsVapInit = {
       },
       profile: {
         email: 'vets.gov.user+needsinit@gmail.com',
-        firstName: 'JANE',
+        firstName: 'Jane Init',
         middleName: 'B',
-        lastName: 'SMITH',
+        lastName: 'VAP',
         birthDate: '1985-05-15',
         gender: 'F',
         zip: '20500',

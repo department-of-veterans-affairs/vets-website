@@ -14,6 +14,7 @@ import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicatio
 import { focusElement } from '~/platform/utilities/ui';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
+import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 import Headline from '../ProfileSectionHeadline';
 import { FieldHasBeenUpdated } from '../alerts/FieldHasBeenUpdated';
 import { Description } from './Description';
@@ -67,8 +68,9 @@ export const PaperlessDelivery = () => {
           <VaLoadingIndicator message="We’re loading your information." />
         )}
         {hasAPIError && <ApiErrorAlert />}
+        {/* Wrap VA Profile dependent content with InitializeVAPServiceID */}
         {showContent && (
-          <>
+          <InitializeVAPServiceID>
             <Description />
             <MissingEmailAlert emailAddress={emailAddress} />
             <FieldHasBeenUpdated slim />
@@ -79,7 +81,7 @@ export const PaperlessDelivery = () => {
             />
             <Documents />
             <Note />
-          </>
+          </InitializeVAPServiceID>
         )}
       </DowntimeNotification>
     </>

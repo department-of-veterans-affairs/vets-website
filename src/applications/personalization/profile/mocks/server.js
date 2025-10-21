@@ -135,7 +135,8 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3UserNeedsVapInit); // LOA3 user that needs VA Profile initialization
+    return res.json(user.loa3UserNeedsVapInit);
+    // return res.json(user.loa3UserNoVaProfile); // LOA3 user without VA Profile service
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
