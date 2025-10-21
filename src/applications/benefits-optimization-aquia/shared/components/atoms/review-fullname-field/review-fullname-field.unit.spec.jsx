@@ -7,55 +7,55 @@ import { ReviewFullnameField } from './review-fullname-field';
 describe('ReviewFullnameField', () => {
   it('should render full name with all parts', () => {
     const name = {
-      first: 'John',
-      middle: 'Q',
-      last: 'Doe',
-      suffix: 'Jr.',
+      first: 'Leia',
+      middle: 'Amidala',
+      last: 'Organa',
+      suffix: 'Commander',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
 
-    expect(container.textContent).to.include('John Q Doe Jr.');
+    expect(container.textContent).to.include('Leia Amidala Organa Commander');
   });
 
   it('should render name without middle name', () => {
     const name = {
-      first: 'John',
-      last: 'Doe',
+      first: 'Wedge',
+      last: 'Antilles',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
 
-    expect(container.textContent).to.include('John Doe');
+    expect(container.textContent).to.include('Wedge Antilles');
   });
 
   it('should render name without suffix', () => {
     const name = {
-      first: 'John',
-      middle: 'Q',
-      last: 'Doe',
+      first: 'Gial',
+      middle: 'Natalon',
+      last: 'Ackbar',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
 
-    expect(container.textContent).to.include('John Q Doe');
+    expect(container.textContent).to.include('Gial Natalon Ackbar');
   });
 
   it('should render only first and last name', () => {
     const name = {
-      first: 'Jane',
-      last: 'Smith',
+      first: 'Mon',
+      last: 'Mothma',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
 
-    expect(container.textContent).to.include('Jane Smith');
+    expect(container.textContent).to.include('Mon Mothma');
   });
 
   it('should use default label "Full Name"', () => {
     const name = {
-      first: 'John',
-      last: 'Doe',
+      first: 'Bail',
+      last: 'Organa',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
@@ -65,8 +65,8 @@ describe('ReviewFullnameField', () => {
 
   it('should use custom label', () => {
     const name = {
-      first: 'John',
-      last: 'Doe',
+      first: 'Bail',
+      last: 'Organa',
     };
 
     const { container } = render(
@@ -123,13 +123,13 @@ describe('ReviewFullnameField', () => {
 
   it('should trim whitespace from name parts', () => {
     const name = {
-      first: '  John  ',
-      middle: '  Q  ',
-      last: '  Doe  ',
+      first: '  Carlist  ',
+      middle: '  R  ',
+      last: '  Rieekan  ',
     };
 
     const { container } = render(<ReviewFullnameField value={name} />);
 
-    expect(container.textContent).to.include('John Q Doe');
+    expect(container.textContent).to.include('Carlist R Rieekan');
   });
 });

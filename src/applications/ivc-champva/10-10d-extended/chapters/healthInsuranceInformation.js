@@ -91,8 +91,6 @@ export const healthInsuranceOptions = {
   isItemIncomplete: item =>
     !(item.provider && item.insuranceType && item.effectiveDate),
   text: {
-    summaryTitle: 'Report other health insurance',
-    summaryTitleWithoutItems: 'Report other health insurance',
     getItemName: item => item?.provider,
     cardDescription: item => (
       <ul className="no-bullets">

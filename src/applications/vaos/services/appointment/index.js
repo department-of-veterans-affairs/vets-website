@@ -83,7 +83,7 @@ export async function fetchAppointments({
     const allAppointments = await getAppointments({
       startDate,
       endDate,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       avs,
       fetchClaimStatus,
       includeEPS,

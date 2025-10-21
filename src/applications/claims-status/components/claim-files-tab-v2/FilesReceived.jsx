@@ -28,10 +28,17 @@ const getTrackedItemText = item => {
 const generateDocsFiled = docsFiled => {
   return docsFiled.flatMap(document => {
     if (document.id && document.status) {
+      const requestTypeText =
+        document.status === 'NO_LONGER_REQUIRED'
+          ? `We received this file for a closed evidence request (${
+              document.displayName
+            }).`
+          : `Request type: ${document.displayName}`;
+
       // If tracked item has no documents, return single item
       if (document.documents.length === 0) {
         return {
-          requestTypeText: `Request type: ${document.displayName}`,
+          requestTypeText,
           documents: [],
           text: getTrackedItemText(document),
           date: document.date,
@@ -40,7 +47,7 @@ const generateDocsFiled = docsFiled => {
       }
       // Split tracked item into separate items for each document
       return document.documents.map(doc => ({
-        requestTypeText: `Request type: ${document.displayName}`,
+        requestTypeText,
         documents: [doc],
         text: getTrackedItemText(document),
         date: doc.uploadDate || document.date,
@@ -74,11 +81,14 @@ const getSortedItems = itemsFiled => {
 
 const getStatusBadgeText = item => {
   if (item.type === 'additional_evidence_item') {
-    return 'No review status available';
+    return 'On File';
   }
   if (item.text) {
     if (item.text.includes('Reviewed')) {
       return 'Reviewed by VA';
+    }
+    if (item.text === 'No longer needed') {
+      return 'On File';
     }
     return item.text;
   }
