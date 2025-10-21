@@ -23,6 +23,12 @@
 @media (max-width: $small-screen) {
   .form-22-0839-container {
     padding-inline: 0.5rem;
+     fieldset{
+      min-width: 100%
+     }
+    .yellow-ribbon-program-description{
+      padding-inline: 0.5rem;
+    }
   }
 
   .form-22-0839-container .schemaform-buttons,
@@ -112,3 +118,4 @@ legend:has(.academic-year-title) {
 label[id="root_unlimitedIndividuals-label"] {
 display: none !important;
 }
+

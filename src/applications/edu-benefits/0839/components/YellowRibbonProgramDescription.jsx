@@ -55,7 +55,7 @@ const YellowRibbonProgramDescription = () => {
     </div>
   );
   return (
-    <div>
+    <div className="yellow-ribbon-program-description">
       <p>
         You’ll first be asked to enter the total number of eligible individuals
         your school agrees to support, along with the academic year for which
