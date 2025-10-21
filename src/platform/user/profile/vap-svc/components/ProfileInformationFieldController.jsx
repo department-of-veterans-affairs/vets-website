@@ -137,11 +137,16 @@ class ProfileInformationFieldController extends React.Component {
       clearTimeout(this.closeModalTimeoutID);
       if (showErrorAlert || showUpdateSuccessAlert) {
         // Focus on whichever alert is showing for the current field (success or error)
-        waitForRenderThenFocus(
-          `[data-field-name="${fieldName}"] va-alert`,
-          document,
-          50,
-        );
+        // Use async check for modal state to avoid focusing on alert while a modal is open (e.g. copy address flow)
+        this.shouldFocusAlert().then(shouldFocus => {
+          if (shouldFocus) {
+            waitForRenderThenFocus(
+              `[data-field-name="${fieldName}"] va-alert`,
+              document,
+              50,
+            );
+          }
+        });
         // Handle success callback for success alerts
         if (
           forceEditView &&
@@ -152,7 +157,7 @@ class ProfileInformationFieldController extends React.Component {
         }
       } else if (!forceEditView) {
         if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
-          // Focus on the remove button after exiting the remove modal
+          // Focus on the remove button after exiting the remove modal without saving
           waitForRenderThenFocus(
             `#${getRemoveButtonId(fieldName)}`,
             document,
@@ -160,7 +165,7 @@ class ProfileInformationFieldController extends React.Component {
             'button',
           );
         } else {
-          // Focus on the edit button after exiting the edit or validation modal
+          // Focus on the edit button after exiting the edit or validation modal without saving
           // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
           waitForRenderThenFocus(
             `#${getEditButtonId(fieldName)}`,
@@ -171,6 +176,17 @@ class ProfileInformationFieldController extends React.Component {
         }
       }
     } else if (
+      !this.isAnyModalOpen() &&
+      ((!prevProps.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
+        (!prevProps.showErrorAlert && showErrorAlert))
+    ) {
+      // Success or error alert just appeared after a modal closed during a pending transaction
+      waitForRenderThenFocus(
+        `[data-field-name="${fieldName}"] va-alert`,
+        document,
+        50,
+      );
+    } else if (
       forceEditView &&
       typeof successCallback === 'function' &&
       prevProps.transactionRequest &&
@@ -179,18 +195,6 @@ class ProfileInformationFieldController extends React.Component {
       // forceEditView will result in now standard edit button being rendered, so we don't want to focus on it
       // Success callback (non-address) after updating a field
       successCallback();
-    } else if (
-      ((!prevProps.showUpdateSuccessAlert && showUpdateSuccessAlert) ||
-        (!prevProps.showErrorAlert && showErrorAlert)) &&
-      !this.props.showEditView &&
-      !this.props.showRemoveModal
-    ) {
-      // Success or error alert just appeared after modal was already closed
-      waitForRenderThenFocus(
-        `[data-field-name="${fieldName}"] va-alert`,
-        document,
-        50,
-      );
     }
   }
 
@@ -272,6 +276,24 @@ class ProfileInformationFieldController extends React.Component {
       (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
+  };
+
+  isAnyModalOpen = () => {
+    const openModals = document.querySelectorAll(
+      'va-modal[visible="true"], va-modal[visible]',
+    );
+    return openModals.length > 0;
+  };
+
+  shouldFocusAlert = () => {
+    if (this.isAnyModalOpen()) {
+      return false;
+    }
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(!this.isAnyModalOpen());
+      }, 100);
+    });
   };
 
   transactionJustFailed = (prevProps, props) => {
