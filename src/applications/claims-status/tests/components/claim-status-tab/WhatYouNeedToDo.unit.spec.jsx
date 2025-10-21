@@ -211,11 +211,18 @@ describe('<WhatYouNeedToDo>', () => {
 
           expect(container.querySelector('va-alert[status="error"]')).to.exist;
           getByText('We need you to submit files by mail or in person');
-          // Should show most recent file (by failedDate)
-          getByText('first-file.pdf');
-          getByText('Request type: Medical records');
-          getByText('second-file.pdf');
-          getByText('You submitted this file as additional evidence');
+
+          const listItems = container.querySelectorAll('ul li');
+          // The failures should be in chronological order (most recent first)
+          expect(listItems).to.have.length(2);
+          expect(listItems[0].textContent).to.include('first-file.pdf');
+          expect(listItems[0].textContent).to.include(
+            'Request type: Medical records',
+          );
+          expect(listItems[1].textContent).to.include('second-file.pdf');
+          expect(listItems[1].textContent).to.include(
+            'You submitted this file as additional evidence',
+          );
           // Should not show "nothing needed" message
           expect(queryByText(nothingNeededText)).not.to.exist;
         });

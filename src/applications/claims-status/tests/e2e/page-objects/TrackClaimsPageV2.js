@@ -1017,6 +1017,19 @@ class TrackClaimsPageV2 {
         '/track-claims/your-claims/files-we-couldnt-receive',
       );
   }
+
+  verifyUploadType2ErrorAlertFileOrder(expectedFiles) {
+    cy.get('va-alert[status="error"] ul li').should(
+      'have.length',
+      expectedFiles.length,
+    );
+    expectedFiles.forEach((fileName, index) => {
+      cy.get(`va-alert[status="error"] ul li:nth-child(${index + 1})`).should(
+        'contain',
+        fileName,
+      );
+    });
+  }
 }
 
 export default TrackClaimsPageV2;

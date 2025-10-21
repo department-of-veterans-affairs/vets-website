@@ -307,9 +307,9 @@ describe('Upload Type 2 Error Alert', () => {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
               evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
                 .slice(0, 2)
-                .map(submission => ({
+                .map((submission, index) => ({
                   ...submission,
-                  failedDate: twoDaysAgo,
+                  failedDate: index === 0 ? fiveDaysAgo : twoDaysAgo,
                   acknowledgementDate: tomorrow,
                 })),
             },
@@ -328,13 +328,11 @@ describe('Upload Type 2 Error Alert', () => {
         trackClaimsPage.navigateToFilesTab();
         // Verify alert is visible
         trackClaimsPage.verifyUploadType2ErrorAlert();
-        // Verify file names are displayed
-        trackClaimsPage.verifyUploadType2ErrorAlertFileName(
+        // Verify files are displayed in chronological order (most recent first)
+        trackClaimsPage.verifyUploadType2ErrorAlertFileOrder([
+          'medical-records.pdf',
           'authorization-form-signed.pdf',
-        );
-        trackClaimsPage.verifyUploadType2ErrorAlertFileName(
-          'medical-records-dr-smith.pdf',
-        );
+        ]);
         // Verify link to files we couldn't receive page
         trackClaimsPage.verifyUploadType2ErrorAlertLink();
         cy.axeCheck();

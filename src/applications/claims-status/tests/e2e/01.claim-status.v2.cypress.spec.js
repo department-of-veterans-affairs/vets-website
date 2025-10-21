@@ -338,9 +338,9 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
               ...claimDetailsOpenWithFailedSubmissions.data.attributes,
               evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
                 .slice(0, 2)
-                .map(submission => ({
+                .map((submission, index) => ({
                   ...submission,
-                  failedDate: tenDaysAgo,
+                  failedDate: index === 0 ? tenDaysAgo : fiveDaysAgo,
                   acknowledgementDate: tomorrow,
                 })),
             },
@@ -358,10 +358,11 @@ describe('Upload Type 2 Error Alert on Status Tab', () => {
         trackClaimsPage.verifyInProgressClaim(false);
         // Alert should be visible on the Status tab
         trackClaimsPage.verifyUploadType2ErrorAlert();
-        // Verify file name is displayed
-        trackClaimsPage.verifyUploadType2ErrorAlertFileName(
+        // Verify files are displayed in chronological order (most recent first)
+        trackClaimsPage.verifyUploadType2ErrorAlertFileOrder([
+          'medical-records.pdf',
           'authorization-form-signed.pdf',
-        );
+        ]);
 
         cy.axeCheck();
       });
