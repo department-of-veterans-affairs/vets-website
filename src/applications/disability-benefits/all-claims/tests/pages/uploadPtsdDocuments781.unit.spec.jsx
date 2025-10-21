@@ -111,7 +111,7 @@ describe('781 record upload', () => {
         },
       ];
 
-      const result = uiSchema.form781Upload['ui:confirmationField']({
+      const result = uiSchema['ui:confirmationField']({
         formData: testData,
       });
 
