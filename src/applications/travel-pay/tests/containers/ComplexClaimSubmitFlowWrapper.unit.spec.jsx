@@ -95,6 +95,13 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(backLink.hasAttribute('disable-analytics')).to.be.true;
     });
 
+    it('renders the ConfirmationPage component', () => {
+      const initialState = getData({ complexClaimsEnabled: true });
+      const screen = renderWithStoreAndRouterHelper('12345', initialState);
+
+      expect(screen.getByRole('heading', { level: 1 })).to.exist;
+    });
+
     it('renders the AgreementPage component', () => {
       const initialState = getData({ complexClaimsEnabled: true });
       const screen = renderWithStoreAndRouterHelper('12345', initialState);
@@ -145,6 +152,29 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
       const contentColumn = $('.vads-l-col--12.medium-screen\\:vads-l-col--8');
       expect(contentColumn).to.exist;
+    });
+
+    describe('URL parameter extraction', () => {
+      it('extracts apptId from URL params correctly', () => {
+        const initialState = getData({ complexClaimsEnabled: true });
+        // Test that the component can handle various appointment ID formats
+        const testCases = ['abc123', '12345-67890', 'uuid-format-12345'];
+
+        testCases.forEach(expectedId => {
+          // Create a fresh render for each test case
+          const { container } = renderWithStoreAndRouterHelper(
+            expectedId,
+            initialState,
+          );
+
+          const backLink = container.querySelector(
+            'va-link[data-testid="complex-claim-back-link"]',
+          );
+          expect(backLink.getAttribute('href')).to.equal(
+            `/my-health/appointments/past/${expectedId}`,
+          );
+        });
+      });
     });
   });
 });
