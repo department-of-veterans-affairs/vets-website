@@ -4,7 +4,6 @@ import CrisisPanel from 'platform/site-wide/va-footer/components/CrisisPanel';
 import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment-timezone';
 import {
   folderPathByFolderId,
   getLastSentMessage,
@@ -503,24 +502,21 @@ describe('MHV Secure Messaging helpers', () => {
 
   describe('isOlderThan', () => {
     it('should return true when timestamp is older than specified days', () => {
-      const oldDate = moment()
-        .subtract(50, 'days')
-        .toISOString();
-      expect(isOlderThan(oldDate, 45)).to.equal(true);
+      const oldDate = new Date();
+      oldDate.setDate(oldDate.getDate() - 50);
+      expect(isOlderThan(oldDate.toISOString(), 45)).to.equal(true);
     });
 
     it('should return false when timestamp is newer than specified days', () => {
-      const recentDate = moment()
-        .subtract(30, 'days')
-        .toISOString();
-      expect(isOlderThan(recentDate, 45)).to.equal(false);
+      const recentDate = new Date();
+      recentDate.setDate(recentDate.getDate() - 30);
+      expect(isOlderThan(recentDate.toISOString(), 45)).to.equal(false);
     });
 
     it('should return false when timestamp equals specified days', () => {
-      const exactDate = moment()
-        .subtract(45, 'days')
-        .toISOString();
-      expect(isOlderThan(exactDate, 45)).to.equal(false);
+      const exactDate = new Date();
+      exactDate.setDate(exactDate.getDate() - 45);
+      expect(isOlderThan(exactDate.toISOString(), 45)).to.equal(false);
     });
   });
 
