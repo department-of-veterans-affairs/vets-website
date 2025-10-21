@@ -124,8 +124,8 @@ const MyEligibilityAndBenefits = () => {
         <h1>Your VR&E eligibility and benefits</h1>
 
         <p className="vads-u-font-size--lg">
-          Below you will find your Chapter 31 eligibility, which includes your
-          own military service, character of discharge, Service Connected
+          On this page you’ll find your Chapter 31 eligibility, which includes
+          your own military service, character of discharge, Service Connected
           Disability (SCD) rating, and remaining entitlement available.
         </p>
 
@@ -139,6 +139,7 @@ const MyEligibilityAndBenefits = () => {
           className="vads-u-margin-top--3 vads-u-margin-bottom--4"
           text="Find out more about requesting a Rudisill review"
           href="https://benefits.va.gov/GIBILL/rudisill.asp"
+          external
         />
 
         {isEligible && (
@@ -168,11 +169,10 @@ const MyEligibilityAndBenefits = () => {
             class="vads-u-margin-y--6"
           >
             <h2 slot="headline">
-              Our records indicate you do not meet the basic eligibility
-              criteria
+              Our records indicate you don’t meet the basic eligibility criteria
             </h2>
             <p className="vads-u-margin-y--2">
-              You do not currently meet the basic eligibility criteria. If you
+              You don’t currently meet the basic eligibility criteria. If you
               believe this is an error, please review the{' '}
               <va-link
                 text="Eligibility for Veteran Readiness and Employment"
