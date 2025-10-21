@@ -11,14 +11,6 @@ export const setFeatureToggles = toggles => {
           name: 'accredited_representative_portal_pilot',
           value: toggles.isInPilot,
         },
-        {
-          name: 'accredited_representative_portal_form_526ez',
-          value: toggles.is526ezEnabled,
-        },
-        {
-          name: 'accredited_representative_portal_help',
-          value: toggles.isHelpEnabled,
-        },
       ],
     },
   });

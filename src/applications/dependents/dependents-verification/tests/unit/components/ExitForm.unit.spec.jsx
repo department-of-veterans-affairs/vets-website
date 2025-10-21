@@ -5,7 +5,7 @@ import sinon from 'sinon-v20';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import * as utils from '../../../util';
+import * as utils from '../../../../shared/utils/api';
 import { form686Url, ExitForm } from '../../../components/ExitForm';
 
 describe('ExitForm', () => {

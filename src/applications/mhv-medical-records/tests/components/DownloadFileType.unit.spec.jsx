@@ -64,10 +64,6 @@ describe('DownloadFileType', () => {
         ),
       },
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
   let screen;
   beforeEach(() => {
@@ -129,10 +125,6 @@ describe('DownloadFileType with no records', () => {
       conditions: {
         conditionsList: [],
       },
-    },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
     },
   };
   let screen;
@@ -206,10 +198,6 @@ describe('DownloadFileType — AAL logging', () => {
         vaccines: {
           vaccinesList: vaccines.entry.map(v => convertVaccine(v.resource)),
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_medical_records_allow_txt_downloads: true,
       },
     };
 
