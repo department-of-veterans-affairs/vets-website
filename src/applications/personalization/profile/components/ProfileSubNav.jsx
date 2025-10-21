@@ -75,9 +75,12 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes, clickHandler = null }) => {
             );
             return (
               <VaSidenavSubmenu
+                currentPage={isActive(route.path)}
                 key={route.name}
                 label={route.name}
-                href={profile2Enabled ? route.path : null}
+                href={route.path}
+                routerLink="true"
+                onVaRouteChange={recordNavUserEvent}
               >
                 {subnavChildren.map(subnavChild => (
                   <VaSidenavItem

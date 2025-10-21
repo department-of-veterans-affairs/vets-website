@@ -9,6 +9,7 @@ import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
+import BlankPageTemplate from './components/BlankPageTemplate';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -52,7 +53,7 @@ const routesForNav = [
   },
   {
     component: DirectDeposit,
-    name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT_INFORMATION,
+    name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
     path: PROFILE_PATHS.DIRECT_DEPOSIT,
     requiresLOA3: true,
     requiresMVI: true,
@@ -111,31 +112,7 @@ const routesForProfile2Nav = [
     requiresMVI: true,
   },
   {
-    component: PersonalHealthCareContacts, // TODO replace with new profile sub-page once built
-    name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
-    path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
-    requiresLOA3: true,
-    requiresMVI: true,
-    hasSubnav: true,
-  },
-  {
-    component: PersonalHealthCareContacts,
-    name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
-    path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
-    requiresLOA3: true,
-    requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
-  },
-  {
-    component: AccreditedRepresentative,
-    name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
-    path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
-    requiresLOA3: true,
-    requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
-  },
-  {
-    component: DirectDeposit, // TODO replace with new profile sub-page once built
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
     name: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
     path: PROFILE_PATHS.FINANCIAL_INFORMATION,
     requiresLOA3: true,
@@ -151,7 +128,55 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
   },
   {
-    component: VeteranStatus, // TODO replace with new profile sub-page once built
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    name: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+    path: PROFILE_PATHS.HEALTH_CARE_SETTINGS,
+    requiresLOA3: true,
+    requiresMVI: true,
+    hasSubnav: true,
+  },
+  {
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
+    path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+  },
+  {
+    component: PersonalHealthCareContacts,
+    name: PROFILE_PATH_NAMES.HEALTH_CARE_CONTACTS,
+    path: PROFILE_PATHS.HEALTH_CARE_CONTACTS,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+  },
+  {
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    name: PROFILE_PATH_NAMES.SECURE_MESSAGES_SIGNATURE,
+    path: PROFILE_PATHS.SECURE_MESSAGES_SIGNATURE,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
+  },
+  {
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
+    path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
+    requiresLOA3: true,
+    requiresMVI: true,
+    hasSubnav: true,
+  },
+  {
+    component: AccreditedRepresentative,
+    name: PROFILE_PATH_NAMES.ACCREDITED_REPRESENTATIVE,
+    path: PROFILE_PATHS.ACCREDITED_REPRESENTATIVE,
+    requiresLOA3: true,
+    requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
+  },
+  {
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
     name: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
     path: PROFILE_PATHS.LETTERS_AND_DOCUMENTS,
     requiresLOA3: true,
@@ -167,23 +192,14 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
   },
   {
-    component: NotificationSettings, // TODO replace with new profile sub-page once built
-    name: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
-    path: PROFILE_PATHS.COMMUNICATIONS_SETTINGS,
-    requiresLOA3: true,
-    requiresMVI: true,
-    hasSubnav: true,
-  },
-  {
     component: NotificationSettings,
     name: PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS,
     path: PROFILE_PATHS.EMAIL_AND_TEXT_NOTIFICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
-    subnavParent: PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
   },
   {
-    component: AccountSecurity, // TODO replace with new profile sub-page once built
+    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
     name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     path: PROFILE_PATHS.ACCOUNT_SECURITY,
     requiresLOA3: false,

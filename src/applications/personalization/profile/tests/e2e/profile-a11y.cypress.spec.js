@@ -139,7 +139,7 @@ function checkSubNavFocus({ profile2Enabled = false, mobile = false } = {}) {
   clickSubNavButton(directDepositName, mobile, profile2Enabled);
   cy.url().should(
     'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT_INFORMATION}`,
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
   );
   cy.title().should('eq', 'Direct Deposit Information | Veterans Affairs');
   cy.axeCheck();

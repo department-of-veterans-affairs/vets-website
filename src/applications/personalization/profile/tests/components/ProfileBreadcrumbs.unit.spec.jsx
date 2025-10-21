@@ -64,7 +64,7 @@ describe('<ProfileBreadcrumbs />', () => {
 
       expect(breadcrumbList[0].label).to.equal('Home');
       expect(breadcrumbList[1].label).to.equal('Profile');
-      expect(breadcrumbList[2].label).to.equal('Direct deposit');
+      expect(breadcrumbList[2].label).to.equal('Direct deposit information');
     });
 
     it('renders notification settings breadcrumb', () => {
