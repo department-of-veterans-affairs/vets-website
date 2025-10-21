@@ -19,27 +19,51 @@ const RecordList = props => {
 
   const history = useHistory();
   const location = useLocation();
+
+  const urlParams = new URLSearchParams(location.search);
+  const hasPageParam = urlParams.has('page');
+
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
-  const [currentPage, setCurrentPage] = useState(paramPage);
+  const [currentPage, setCurrentPage] = useState(Number(paramPage) || 1);
   const paginatedRecords = useRef([]);
+
+  const shouldFocusShowing = useRef(false);
 
   const onPageChange = page => {
     sendDataDogAction(`Pagination - ${type}`);
-    const newURL = `${history.location.pathname}?page=${page}`;
-    history.push(newURL);
+
+    // When user clicks to a new page, focus to "Showing"
+    shouldFocusShowing.current = true;
+
+    history.push(`${history.location.pathname}?page=${page}`);
     setCurrentRecords(paginatedRecords.current[page - 1]);
-    setCurrentPage(page);
+    setCurrentPage(Number(page));
   };
+
+  useEffect(() => {
+    // On deep link to a specific page, focus to "Showing"
+    if (hasPageParam) shouldFocusShowing.current = true;
+    // We only want to set this once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // tracks url param
   useEffect(
     () => {
       const historyParamVal = getParamValue(history.location.search, 'page');
-      setCurrentRecords(paginatedRecords.current[historyParamVal - 1]);
-      setCurrentPage(historyParamVal);
+
+      const pageNum = Number(historyParamVal) || 1;
+      // Only update if it actually changed to avoid churn on the first click
+      if (pageNum !== currentPage) {
+        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
+        setCurrentPage(pageNum);
+      } else {
+        // keep currentRecords in sync even if pageNum is same
+        setCurrentRecords(paginatedRecords.current[pageNum - 1]);
+      }
     },
-    [history.location.search],
+    [currentPage, history.location.search],
   );
 
   useEffect(
@@ -54,9 +78,8 @@ const RecordList = props => {
 
   useEffect(
     () => {
-      if (paramPage && records?.length) {
+      if (shouldFocusShowing.current && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
-
         // calculate height of "showing records" and scrolls to it.
         const showRecordsHeight = document
           .querySelector('#showingRecords')
