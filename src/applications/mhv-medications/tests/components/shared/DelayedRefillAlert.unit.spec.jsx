@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import RefillAlert from '../../../components/shared/RefillAlert';
+import DelayedRefillAlert from '../../../components/shared/DelayedRefillAlert';
 import reducer from '../../../reducers';
 
 const refillAlertList = [
@@ -15,11 +15,17 @@ const refillAlertList = [
     prescriptionName: 'Test name 2',
   },
 ];
+
 const setup = () => {
   return renderWithStoreAndRouterV6(
-    <RefillAlert refillAlertList={refillAlertList} />,
+    <DelayedRefillAlert refillAlertList={refillAlertList} />,
     {
-      initialState: {},
+      initialState: {
+        rx: {
+          refillAlertList,
+          showRefillProgressContent: true,
+        },
+      },
       reducers: reducer,
     },
   );
@@ -39,7 +45,7 @@ describe('Alert if refill is taking longer than expected', () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
-    screen.getByText('Some refills are taking longer than expected');
+    screen.getByTestId('rxDelay-alert-message');
   });
 
   it('lists prescriptions that are running late', () => {
