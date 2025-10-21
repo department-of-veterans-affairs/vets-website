@@ -81,10 +81,7 @@ const ContestableIssuesWidget = props => {
   return (
     <ContestableIssues
       {...restProps}
-<<<<<<< HEAD
       id={`root_${props.name}`}
-=======
->>>>>>> e47a20e229 (DR 111747: Fix 'isRequired' proptype errors)
       schema={schema}
       options={uiSchema?.['ui:options'] || props.options}
       value={formData || value}
@@ -103,10 +100,7 @@ ContestableIssuesWidget.propTypes = {
     contestedIssues: PropTypes.array,
   }),
   getContestableIssues: PropTypes.func,
-<<<<<<< HEAD
   name: PropTypes.string,
-=======
->>>>>>> e47a20e229 (DR 111747: Fix 'isRequired' proptype errors)
   options: PropTypes.object,
   schema: PropTypes.object,
   setFormData: PropTypes.func,
