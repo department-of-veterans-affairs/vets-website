@@ -246,6 +246,7 @@ export default function AppointmentColumnLayout({
                 show={showClinicLocationInfo}
                 clinicLocationInfo={clinicLocationInfo}
                 apptId={data.id}
+                isCanceled={isCanceled}
               />
             ) : (
               <a

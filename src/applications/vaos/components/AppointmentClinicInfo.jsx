@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
-function AppointmentClinicInfo({ show, clinicLocationInfo, apptId }) {
+function AppointmentClinicInfo({
+  show,
+  clinicLocationInfo,
+  apptId,
+  isCanceled = false,
+}) {
   // The show prop allows us to conditionally render this component - not leaving empty divs in the DOM
   if (!show) {
     return null;
@@ -11,13 +17,19 @@ function AppointmentClinicInfo({ show, clinicLocationInfo, apptId }) {
       {clinicLocationInfo.name && (
         <div
           id={`vaos-appts__clinic-name-${apptId}`}
-          className="small-desktop-screen:vads-u-margin-bottom--1"
+          className={classNames({
+            'small-desktop-screen:vads-u-margin-bottom--1': !!clinicLocationInfo.location,
+          })}
+          style={{ textDecoration: isCanceled ? 'line-through' : 'none' }}
         >
           Clinic: {clinicLocationInfo.name}
         </div>
       )}
       {clinicLocationInfo.location && (
-        <div id={`vaos-appts__clinic-location-${apptId}`}>
+        <div
+          id={`vaos-appts__clinic-location-${apptId}`}
+          style={{ textDecoration: isCanceled ? 'line-through' : 'none' }}
+        >
           Location: {clinicLocationInfo.location}
         </div>
       )}
@@ -31,6 +43,7 @@ AppointmentClinicInfo.propTypes = {
     name: PropTypes.string,
     location: PropTypes.string,
   }).isRequired,
+  isCanceled: PropTypes.bool,
   show: PropTypes.bool,
 };
 
