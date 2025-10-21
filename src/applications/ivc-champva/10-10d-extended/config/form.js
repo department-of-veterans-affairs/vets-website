@@ -232,7 +232,7 @@ const formConfig = {
           schema: blankSchema,
         },
         medicareIntro: {
-          path: 'medicare-introduction',
+          path: 'report-medicare',
           title: 'Report Medicare',
           CustomPage: MedicareIntroduction,
           CustomPageReview: null,
@@ -249,7 +249,7 @@ const formConfig = {
         'Other Health Insurance Certification: Health insurance information',
       pages: {
         healthInsuranceIntro: {
-          path: 'other-health-insurance-introduction',
+          path: 'report-other-health-insurance',
           title: 'Report other health insurance',
           CustomPage: OtherHealthInsuranceInformation,
           CustomPageReview: null,
