@@ -13,6 +13,7 @@ const setup = ({ profile2Enabled = false, mobile = false } = {}) => {
   if (profile2Enabled) {
     cy.intercept('GET', 'v0/feature_toggles*', {
       data: {
+        type: 'feature_toggles',
         features: [{ name: 'profile_2_enabled', value: true }],
       },
     });
@@ -331,7 +332,7 @@ describe('when moving to other profile pages', () => {
 
     // Open edit view
     cy.get(`va-button[label="Edit ${sectionName}"]`).click({ force: true });
-    cy.get('va-sidenav-item[label="Military information"]')
+    cy.get('va-sidenav-item[label="Service history information"]')
       .filter(':visible')
       .click();
     cy.get('va-sidenav-item[label="Contact information"]')
