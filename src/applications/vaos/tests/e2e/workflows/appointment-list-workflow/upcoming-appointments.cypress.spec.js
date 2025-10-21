@@ -16,6 +16,7 @@ import {
   mockVamcEhrApi,
   vaosSetup,
 } from '../../vaos-cypress-helpers';
+import { mockToday } from '../../../mocks/constants';
 
 describe('VAOS upcoming appointment flow', () => {
   describe('When veteran adds appointment to calendar', () => {
@@ -294,7 +295,7 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display layout correctly for single appointment - same month, different day', () => {
       // Arrange
-      const today = new Date();
+      const today = mockToday;
       const response = [];
 
       for (let i = 1; i <= 2; i += 1) {
@@ -335,8 +336,8 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display layout correctly for multiply appointments - same month, different day', () => {
       // Arrange
-      const today = new Date();
-      const tomorrow = addDays(new Date(), 1);
+      const today = mockToday;
+      const tomorrow = addDays(mockToday, 1);
       const response = [];
 
       for (let i = 1; i <= 4; i += 1) {
