@@ -8,7 +8,6 @@ const content = {
   formSubTitle:
     'Application for Accrued Amounts Due a Deceased Beneficiary (VA Form 21P-601)',
   authStartFormText: 'Start the application',
-  unauthStartText: 'Sign in to start your application',
   displayNonVeteranMessaging: true,
 };
 
