@@ -439,8 +439,11 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByText('Recent care teams', { selector: 'h1' })).to
-        .exist;
+      expect(
+        screen.getByText('Care teams you recently sent messages to', {
+          selector: 'h1',
+        }),
+      ).to.exist;
     });
   });
 
