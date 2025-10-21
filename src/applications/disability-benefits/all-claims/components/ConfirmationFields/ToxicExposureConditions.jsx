@@ -9,9 +9,7 @@ const ToxicExposureConditions = ({ formData }) => {
   // then, cross-check that with the list of conditions they checked
   // and display the readable (non-Sippable) names of those conditions
   const teConditions = formData?.toxicExposure?.conditions || {};
-  
   if (teConditions?.none === true) return null;
-  
   const claimedKeys = Object.keys(teConditions).filter(
     key => key !== 'none' && teConditions[key],
   );
