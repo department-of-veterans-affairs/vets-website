@@ -85,7 +85,7 @@ const VaPrescription = prescription => {
 
       userLanded();
     },
-    [prescription, prescription?.prescriptionId],
+    [prescription?.prescriptionId],
   );
 
   const determineStatus = () => {
