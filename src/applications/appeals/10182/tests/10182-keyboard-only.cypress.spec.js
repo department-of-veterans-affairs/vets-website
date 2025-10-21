@@ -132,6 +132,25 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       cy.chooseRadio('video_conference');
       tabToContinue();
 
+      // *** Issue summary
+      cy.url().should('include', chapters.conditions.pages.issueSummary.path);
+      cy.tabToContinueForm();
+
+      // *** Board review option
+      cy.url().should(
+        'include',
+        chapters.boardReview.pages.boardReviewOption.path,
+      );
+      cy.tabToElement('[name="root_boardReviewOption"]');
+      cy.chooseRadio('hearing');
+      cy.tabToContinueForm();
+
+      // *** Hearing type
+      cy.url().should('include', chapters.boardReview.pages.hearingType.path);
+      cy.tabToElement('[name="root_hearingTypePreference"]');
+      cy.chooseRadio('video_conference');
+      cy.tabToContinueForm();
+
       // *** Review & submit page
       cy.url().should('include', 'review-and-submit');
       cy.tabToElement('va-checkbox');
