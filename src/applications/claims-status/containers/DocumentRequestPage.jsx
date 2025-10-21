@@ -70,6 +70,8 @@ class DocumentRequestPage extends React.Component {
               this.props.claim.id,
               this.props.trackedItem,
               files,
+              this.props.showDocumentUploadStatus,
+              this.props.timezoneMitigationEnabled,
             )
           }
           progress={this.props.progress}
@@ -192,6 +194,10 @@ function mapStateToProps(state, ownProps) {
     uploadComplete: uploads.uploadComplete,
     uploadError: uploads.uploadError,
     uploading: uploads.uploading,
+    showDocumentUploadStatus:
+      state.featureToggles?.cst_show_document_upload_status || false,
+    timezoneMitigationEnabled:
+      state.featureToggles?.cst_timezone_discrepancy_mitigation || false,
   };
 }
 
@@ -221,7 +227,9 @@ DocumentRequestPage.propTypes = {
   params: PropTypes.object,
   progress: PropTypes.number,
   resetUploads: PropTypes.func,
+  showDocumentUploadStatus: PropTypes.bool,
   submitFiles: PropTypes.func,
+  timezoneMitigationEnabled: PropTypes.bool,
   trackedItem: PropTypes.object,
   uploadComplete: PropTypes.bool,
   uploading: PropTypes.bool,

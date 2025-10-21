@@ -11,6 +11,7 @@ import {
   makeAuthRequest,
   roundToNearest,
   getUploadErrorMessage,
+  buildDateFormatter,
   formatUploadDateTime,
   showTimezoneDiscrepancyMessage,
   getTimezoneDiscrepancyMessage,
@@ -301,6 +302,7 @@ export function submitFiles(
   trackedItem,
   files,
   showDocumentUploadStatus = false,
+  timezoneMitigationEnabled = false,
 ) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -356,32 +358,34 @@ export function submitFiles(
                   type: DONE_UPLOADING,
                 });
 
-                const now = new Date();
-                const uploadDateTime = formatUploadDateTime(now);
+                // Conditionally format date based on timezone mitigation flag
+                const now = new Date(Date.now());
+                const uploadDate = timezoneMitigationEnabled
+                  ? formatUploadDateTime(now) // Enhanced: "August 15, 2025 at 10:18 p.m. EDT"
+                  : buildDateFormatter()(now.toISOString()); // Simple: "August 15, 2025"
+
                 const timezoneOffset = now.getTimezoneOffset();
 
-                const refreshMessage =
-                  "Your file should be listed in the Documents filed section. If it's not there, try refreshing the page.";
-
-                // Show different notification based on feature toggle
+                // Show different notification based on showDocumentUploadStatus
                 const notificationMessage = showDocumentUploadStatus
                   ? {
-                      title: `Document submission started on ${uploadDateTime}`,
+                      title: `Document submission started on ${uploadDate}`,
                       body: (
                         <>
                           <span>
                             Your submission is in progress. It can take up to 2
                             days for us to receive your files.
                           </span>
-                          {showTimezoneDiscrepancyMessage(now) && (
-                            <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                              <strong>Note:</strong>{' '}
-                              {getTimezoneDiscrepancyMessage(
-                                timezoneOffset,
-                                now,
-                              )}
-                            </div>
-                          )}
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
                           <va-link
                             class="vads-u-display--block vads-u-margin-top--2"
                             href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
@@ -395,19 +399,24 @@ export function submitFiles(
                       ),
                     }
                   : {
-                      title: `We received your file upload on ${uploadDateTime}`,
+                      title: `We received your file upload on ${uploadDate}`,
                       body: (
                         <>
-                          {refreshMessage}
-                          {showTimezoneDiscrepancyMessage(now) && (
-                            <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                              <strong>Note:</strong>{' '}
-                              {getTimezoneDiscrepancyMessage(
-                                timezoneOffset,
-                                now,
-                              )}
-                            </div>
-                          )}
+                          <span>
+                            If your uploaded file doesn’t appear in the
+                            Documents Filed section on this page, please try
+                            refreshing the page.
+                          </span>
+                          {timezoneMitigationEnabled &&
+                            showTimezoneDiscrepancyMessage(now) && (
+                              <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                                <strong>Note:</strong>{' '}
+                                {getTimezoneDiscrepancyMessage(
+                                  timezoneOffset,
+                                  now,
+                                )}
+                              </div>
+                            )}
                         </>
                       ),
                     };
