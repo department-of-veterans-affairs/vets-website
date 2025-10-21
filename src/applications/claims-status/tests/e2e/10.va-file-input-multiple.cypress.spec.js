@@ -240,7 +240,7 @@ describe('VA File Input Multiple', () => {
       // Verify error message appears
       getAboveFileInputError(0)
         .should('be.visible')
-        .and('contain', 'This is not a valid file type');
+        .and('contain', 'We do not accept .exe files. Choose a new file.');
 
       cy.axeCheck();
     });

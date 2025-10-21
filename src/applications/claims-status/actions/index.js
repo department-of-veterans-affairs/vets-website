@@ -15,9 +15,10 @@ import {
   showTimezoneDiscrepancyMessage,
   getTimezoneDiscrepancyMessage,
 } from '../utils/helpers';
+import { setPageFocus } from '../utils/page';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
-import { canUseMocks } from '../constants';
+import { canUseMocks, ANCHOR_LINKS } from '../constants';
 import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
@@ -295,7 +296,12 @@ export function clearAdditionalEvidenceNotification() {
 }
 
 // Document upload function using Lighthouse endpoint
-export function submitFiles(claimId, trackedItem, files) {
+export function submitFiles(
+  claimId,
+  trackedItem,
+  files,
+  showDocumentUploadStatus = false,
+) {
   let filesComplete = 0;
   let bytesComplete = 0;
   let hasError = false;
@@ -357,22 +363,56 @@ export function submitFiles(claimId, trackedItem, files) {
                 const refreshMessage =
                   "Your file should be listed in the Documents filed section. If it's not there, try refreshing the page.";
 
-                dispatch(
-                  setNotification({
-                    title: `We received your file upload on ${uploadDateTime}`,
-                    body: (
-                      <>
-                        {refreshMessage}
-                        {showTimezoneDiscrepancyMessage(now) && (
-                          <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-                            <strong>Note:</strong>{' '}
-                            {getTimezoneDiscrepancyMessage(timezoneOffset, now)}
-                          </div>
-                        )}
-                      </>
-                    ),
-                  }),
-                );
+                // Show different notification based on feature toggle
+                const notificationMessage = showDocumentUploadStatus
+                  ? {
+                      title: `Document submission started on ${uploadDateTime}`,
+                      body: (
+                        <>
+                          <span>
+                            Your submission is in progress. It can take up to 2
+                            days for us to receive your files.
+                          </span>
+                          {showTimezoneDiscrepancyMessage(now) && (
+                            <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                              <strong>Note:</strong>{' '}
+                              {getTimezoneDiscrepancyMessage(
+                                timezoneOffset,
+                                now,
+                              )}
+                            </div>
+                          )}
+                          <va-link
+                            class="vads-u-display--block"
+                            href={`#${ANCHOR_LINKS.fileSubmissionsInProgress}`}
+                            text="Check the status of your submission"
+                            onClick={e => {
+                              e.preventDefault();
+                              setPageFocus(e.target.href);
+                            }}
+                          />
+                        </>
+                      ),
+                    }
+                  : {
+                      title: `We received your file upload on ${uploadDateTime}`,
+                      body: (
+                        <>
+                          {refreshMessage}
+                          {showTimezoneDiscrepancyMessage(now) && (
+                            <div className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                              <strong>Note:</strong>{' '}
+                              {getTimezoneDiscrepancyMessage(
+                                timezoneOffset,
+                                now,
+                              )}
+                            </div>
+                          )}
+                        </>
+                      ),
+                    };
+
+                dispatch(setNotification(notificationMessage));
               } else {
                 recordEvent({
                   event: 'claims-upload-failure',

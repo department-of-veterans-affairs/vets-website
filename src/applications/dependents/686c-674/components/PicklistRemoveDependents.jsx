@@ -10,7 +10,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from '~/platform/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
-import { PICKLIST_DATA } from '../config/constants';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
+import { getPicklistRoutes } from './picklist/routes';
 
 import { getFullName, calculateAge } from '../../shared/utils';
 
@@ -63,6 +64,7 @@ const RemoveDependentsPicklist = ({
       event.preventDefault();
       setFormSubmitted(true);
       if (atLeastOneChecked()) {
+        setFormData({ ...data, [PICKLIST_PATHS]: getPicklistRoutes(data) });
         const firstSelectedIndex = picklistChoices.findIndex(
           item => item.selected,
         );
@@ -85,7 +87,7 @@ const RemoveDependentsPicklist = ({
         error={showCheckboxError ? 'Select at least one option' : null}
         label-header-level="3"
         label="Which dependents would you like to remove?"
-        hint="Select all dependents you would like to remove"
+        hint="Select all that apply."
         onVaChange={handlers.onChange}
         required
       >
@@ -109,8 +111,8 @@ const RemoveDependentsPicklist = ({
               {item.relationshipToVeteran === 'Parent' ? (
                 <div slot="internal-description">
                   <p className="vads-u-margin-bottom--0">
-                    <strong>Note:</strong> A parent dependent can only be
-                    removed if they have died
+                    <strong>Note:</strong> You can only remove a dependent
+                    parent if they have died.
                   </p>
                 </div>
               ) : null}
@@ -121,17 +123,17 @@ const RemoveDependentsPicklist = ({
 
       <va-additional-info
         class="vads-u-margin-bottom--4"
-        trigger="Why can I only remove a parent dependent if they have died?"
+        trigger="Why can I only remove a dependent parent if they have died?"
       >
-        The only removal option for a parent allowed in this form is due to
-        death. If your parent is still living and you need to make changes to
+        The only removal option for a parent allowed in this application is due
+        to death. If your parent is still living and you need to make changes to
         your benefits, call us at <va-telephone contact="8008271000" /> (
         <va-telephone contact="711" tty />
         ).
       </va-additional-info>
 
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons goBack={goBack} useWebComponents submitToContinue />
       {contentAfterButtons}
     </form>
   );

@@ -47,7 +47,10 @@ const FileSubmissionsInProgress = ({ claim }) => {
       className="file-submissions-in-progress-container"
       data-testid="file-submissions-in-progress"
     >
-      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3
+        id="file-submissions-in-progress"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3 scroll-anchor"
+      >
         File submissions in progress
       </h3>
       <TimezoneDiscrepancyMessage />
