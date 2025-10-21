@@ -60,9 +60,9 @@ src/applications/benefits-optimization-aquia/shared/
 │   │   ├── error-boundary.jsx
 │   │   ├── error-boundary.unit.spec.jsx
 │   │   └── index.js
-│   ├── save-in-progress-wrapper/ # Save-in-progress resume controls
-│   │   ├── save-in-progress-wrapper.jsx
-│   │   ├── save-in-progress-wrapper.unit.spec.jsx
+│   ├── save-in-progress/ # Save-in-progress resume controls
+│   │   ├── save-in-progress.jsx
+│   │   ├── save-in-progress.unit.spec.jsx
 │   │   └── index.js
 │   └── index.js         # Barrel exports
 ├── forms/               # Data processing utilities
@@ -179,7 +179,7 @@ This organization provides:
 ```javascript
 // Import components from bio-aquia/shared
 import {
-  FormField,
+  TextInputField,
   FullnameField,
   AddressField,
   NavigationButtons,
@@ -201,7 +201,7 @@ import { useFormSection, useFormValidation } from '@bio-aquia/shared/hooks';
 ```javascript
 // Using PageTemplate for consistent page structure
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
-import { FormField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { personalInfoSchema } from '@bio-aquia/shared/schemas';
 
 export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
@@ -219,7 +219,7 @@ export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="firstName"
             label="First Name"
             value={localData.firstName}
@@ -228,7 +228,7 @@ export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
             forceShowError={formSubmitted}
             required
           />
-          <FormField
+          <TextInputField
             name="lastName"
             label="Last Name"
             value={localData.lastName}
@@ -250,7 +250,7 @@ export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
 
 | Component               | Purpose               | Features                           |
 | ----------------------- | --------------------- | ---------------------------------- |
-| `FormField`             | Text input            | VA web component, Zod validation   |
+| `TextInputField`             | Text input            | VA web component, Zod validation   |
 | `SelectField`           | Dropdown              | Options, validation, accessibility |
 | `CheckboxField`         | Single checkbox       | VA styling, validation             |
 | `CheckboxGroupField`    | Multiple checkboxes   | Group validation                   |
@@ -343,7 +343,7 @@ Domain-specific components and schemas live in their respective applications:
 yarn test:unit src/applications/benefits-optimization-aquia/shared/
 
 # Run specific component tests
-yarn test:unit src/applications/benefits-optimization-aquia/shared/components/atoms/form-field.spec.js
+yarn test:unit src/applications/benefits-optimization-aquia/shared/components/atoms/text-input-field.spec.js
 ```
 
 ### Integration Testing
@@ -654,7 +654,7 @@ import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 #### Atoms
 
-- `FormField` - Basic text input
+- `TextInputField` - Basic text input
 - `SSNField` - Social Security Number field
 - `DateField` - Date input
 - `MemorableDateField` - Memorable date with month/day/year
@@ -722,7 +722,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { z } from 'zod';
 
-import { FormField, SSNField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, SSNField } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { useFormSection } from '@bio-aquia/shared/hooks';
@@ -783,7 +783,7 @@ export const PersonalInfoPage = ({ data, setFormData, goForward, goBack }) => {
         forceShowError={formSubmitted}
       />
 
-      <FormField
+      <TextInputField
         name="vaFileNumber"
         label="VA file number (if known)"
         value={localData.vaFileNumber}

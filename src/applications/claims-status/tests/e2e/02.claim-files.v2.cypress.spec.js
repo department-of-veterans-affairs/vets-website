@@ -129,6 +129,42 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
     });
   });
 
+  it('uploads a file and shows success alert with anchor link', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      true,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+    trackClaimsPage.submitFilesForReview(true);
+
+    // Verify the new success alert appears and scope all subsequent checks to it
+    cy.get('va-alert[status="success"]')
+      .should('exist')
+      .within(() => {
+        cy.get('h2').should('contain', 'Document submission started on');
+        cy.root().should(
+          'contain',
+          'Your submission is in progress. It can take up to 2 days for us to receive your files.',
+        );
+
+        // Verify the anchor link exists and has correct href and text
+        cy.get('va-link')
+          .should('have.attr', 'text', 'Check the status of your submission')
+          .should('have.attr', 'href', '#file-submissions-in-progress');
+      });
+
+    // Click the anchor link and verify it navigates to the section
+    cy.get('va-alert[status="success"] va-link').click();
+    cy.get('#file-submissions-in-progress').should('be.visible');
+
+    cy.axeCheck();
+  });
+
   context('Files Received - more than 5 files received', () => {
     it('shows the user a show more button', () => {
       const trackClaimsPage = new TrackClaimsPageV2();

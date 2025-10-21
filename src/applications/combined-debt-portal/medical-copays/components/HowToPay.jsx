@@ -24,11 +24,15 @@ export const HowToPay = ({ isOverview, acctNum, facility, amtDue }) => (
         )}
       </ul>
     )}
-    <va-link-action
-      href="https://www.pay.gov/public/form/start/25987221"
+    <va-icon icon="navigate_next" class="icon-action" size="3" />
+    <va-link
+      aria-label="Opens pay.va.gov in a new tab"
+      external
       text="Pay at pay.gov"
-      primary
+      href="https://www.pay.gov/public/form/start/25987221"
+      class="vads-u-margin-top--2 vads-u-font-weight--bold"
     />
+
     <h3>Pay by phone</h3>
     <p>
       Call us at <va-telephone contact="8888274817" /> (
