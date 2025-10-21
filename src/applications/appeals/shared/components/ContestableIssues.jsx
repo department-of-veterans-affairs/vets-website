@@ -81,7 +81,7 @@ const ContestableIssues = props => {
     formData.contestedIssues,
   ]);
 
-  // Add same-day blocking logic at component level
+  // Mark issues with decision dates today or in the future as blocked (computed at render time)
   const issuesWithBlocking = useMemo(
     () =>
       loadedIssues.map(issue => {
@@ -100,17 +100,13 @@ const ContestableIssues = props => {
     [loadedIssues],
   );
 
-  // combine all issues for viewing
   const items = issuesWithBlocking
     .map(item => ({
       ...item?.attributes,
       [SELECTED]: item?.[SELECTED],
-      isBlockedSameDay: item?.isBlockedSameDay, // Now computed above
+      isBlockedSameDay: item?.isBlockedSameDay,
     }))
     .concat(formData.additionalIssues || []);
-
-  console.log('issuesWithBlocking:', issuesWithBlocking);
-  console.log('items:', items);
 
   const hasIssues = items.length > 0;
   const hasSelected = hasIssues && someSelected(items);
@@ -219,8 +215,6 @@ const ContestableIssues = props => {
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
-
-    // Shows visual separator between blocked and non-blocked groups
     const showSeparator =
       !item.isBlockedSameDay && index > 0 && items[index - 1]?.isBlockedSameDay;
 

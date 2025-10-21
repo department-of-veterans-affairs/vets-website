@@ -10,7 +10,6 @@ import {
   isDisqualifyingIssue,
 } from '../../shared/utils/issues';
 import { parseDateToDateObj } from '../../shared/utils/dates';
-
 import '../../shared/definitions';
 import { FORMAT_YMD_DATE_FNS } from '../../shared/constants';
 
@@ -48,7 +47,6 @@ export const getEligibleContestableIssues = issues => {
     }
     return isAfter(addYears(date, 1), today);
   });
-
   return processContestableIssues(result);
 };
 

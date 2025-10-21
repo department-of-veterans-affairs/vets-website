@@ -100,7 +100,6 @@ export const hasDuplicates = (data = {}) => {
 export const processContestableIssues = contestableIssues => {
   const processDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(REGEXP.DASH, '');
-
   // remove issues with no title & sort by date - see
   // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
   const result = (contestableIssues || [])
@@ -119,7 +118,6 @@ export const processContestableIssues = contestableIssues => {
       };
     })
     .sort((a, b) => {
-      // Sort by decision date descending (most recent first)
       const dateA = processDate(a);
       const dateB = processDate(b);
       if (dateA === dateB) {
@@ -238,7 +236,6 @@ export const getEligibleContestableIssues = (issues, options = {}) => {
       isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
     );
   });
-
   return processContestableIssues(result);
 };
 
