@@ -493,12 +493,12 @@ describe('AddressField', () => {
         ...defaultProps,
         value: {
           country: 'USA',
-          street: '123 Main St',
+          street: 'Great Temple, Massassi Station',
           street2: '', // Optional
           street3: '', // Optional
-          city: 'New York',
-          state: 'NY',
-          postalCode: '10001',
+          city: 'Yavin 4',
+          state: 'NC',
+          postalCode: '00004',
         },
         touched: {
           street: true,
@@ -534,10 +534,10 @@ describe('AddressField', () => {
         onUSPSVerify,
         value: {
           country: 'USA',
-          street: '123 Main St',
-          city: 'New York',
-          state: 'NY',
-          postalCode: '10001',
+          street: 'Great Temple, Massassi Station',
+          city: 'Yavin 4',
+          state: 'NC',
+          postalCode: '00004',
         },
       };
 
@@ -548,7 +548,9 @@ describe('AddressField', () => {
         'va-text-input[label="Street address"]',
       );
       expect(streetInput).to.exist;
-      expect(streetInput.getAttribute('value')).to.equal('123 Main St');
+      expect(streetInput.getAttribute('value')).to.equal(
+        'Great Temple, Massassi Station',
+      );
     });
 
     it('renders military addresses without USPS verification', () => {
@@ -559,7 +561,7 @@ describe('AddressField', () => {
         value: {
           country: 'USA',
           isMilitary: true,
-          street: '123 Base Rd',
+          street: 'Echo Base Command Center',
           city: 'APO',
           state: 'AA',
           postalCode: '09001',
@@ -583,8 +585,8 @@ describe('AddressField', () => {
         onUSPSVerify,
         value: {
           country: 'CAN',
-          street: '123 Main St',
-          city: 'Toronto',
+          street: 'Shipyard District, Home One',
+          city: 'Mon Calamari',
           state: 'ON',
           postalCode: 'M5H 2N2',
         },
@@ -628,10 +630,10 @@ describe('AddressField', () => {
         onValidate,
         value: {
           country: 'USA',
-          street: '123 Main St',
-          city: 'New York',
-          state: 'NY',
-          postalCode: '10001',
+          street: 'Bright Tree Village',
+          city: 'Endor',
+          state: 'CA',
+          postalCode: '90210',
         },
       };
 
@@ -642,7 +644,7 @@ describe('AddressField', () => {
         'va-text-input[label="Street address"]',
       );
       expect(streetInput).to.exist;
-      expect(streetInput.getAttribute('value')).to.equal('123 Main St');
+      expect(streetInput.getAttribute('value')).to.equal('Bright Tree Village');
     });
   });
 
@@ -757,8 +759,8 @@ describe('AddressField', () => {
         onChange,
         value: {
           country: 'USA',
-          city: 'New York',
-          state: 'NY',
+          city: 'Yavin 4',
+          state: 'NC',
           isMilitary: false,
         },
         allowMilitary: true,
@@ -791,8 +793,8 @@ describe('AddressField', () => {
           ...props.value,
           isMilitary: false,
           // Component would restore these in actual use
-          city: 'New York',
-          state: 'NY',
+          city: 'Yavin 4',
+          state: 'NC',
         },
       };
       rerender(<AddressField {...restoredProps} />);
