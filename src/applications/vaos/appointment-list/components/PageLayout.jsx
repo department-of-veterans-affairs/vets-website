@@ -8,7 +8,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import { selectFeatureListViewClinicInfo } from '../../redux/selectors';
 
-const listPageRegex = /^\/(past|pending|referrals-requests\/?)?$/; // matches '/', '/past', '/pending', and '/referrals-requests' with or without trailing slash
+const listPageRegex = /^\/(past\/?)?$/; // matches '/', '/past' with or without trailing slash -- not pending or referrals-requests
 export default function PageLayout({
   children,
   showBreadcrumbs,
