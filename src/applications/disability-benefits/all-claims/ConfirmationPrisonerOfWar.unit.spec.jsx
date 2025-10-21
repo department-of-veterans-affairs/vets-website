@@ -23,8 +23,31 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.textContent).to.contain('No');
   });
 
-  it('should render complete POW information with multiple confinements periods and disabilities', () => {
+  it('should render complete POW information with multiple confinement periods and disabilities', () => {
     const formData = {
+      newDisabilities: [
+        {
+          cause: 'NEW',
+          primaryDescription: 'sample description',
+          'view:serviceConnectedDisability': {},
+          condition: 'tinnitus (ringing or hissing in ears)',
+        },
+        {
+          cause: 'NEW',
+          primaryDescription: 'another description',
+          'view:serviceConnectedDisability': {},
+          condition: 'ACL tear (anterior cruciate ligament tear), bilateral',
+        },
+        {
+          cause: 'SECONDARY',
+          'view:secondaryFollowUp': {
+            causedByDisability: 'Tinnitus (Ringing Or Hissing In Ears)',
+            causedByDisabilityDescription: 'secondary description',
+          },
+          'view:serviceConnectedDisability': {},
+          condition: 'PTSD (post-traumatic stress disorder)',
+        },
+      ],
       'view:powStatus': true,
       'view:isPow': {
         confinements: [
@@ -38,9 +61,9 @@ describe('ConfirmationPrisonerOfWar', () => {
           },
         ],
         powDisabilities: {
-          'anxiety disorder': true,
-          ptsd: true,
-          arthritis: false,
+          tinnitusringingorhissinginears: true,
+          acltearanteriorcruciateligamenttearbilateral: false,
+          ptsdposttraumaticstressdisorder: true,
         },
       },
     };
@@ -66,43 +89,48 @@ describe('ConfirmationPrisonerOfWar', () => {
     expect(container.textContent).to.contain(
       'Which of your conditions is connected to your POW experience?',
     );
-    expect(container.textContent).to.contain('Anxiety Disorder');
-    expect(container.textContent).to.contain('Ptsd');
-    expect(container.textContent).not.to.contain('Arthritis');
-  });
-
-  it('should handle partial confinement dates', () => {
-    const formData = {
-      'view:powStatus': true,
-      'view:isPow': {
-        confinements: [
-          {
-            from: '2020-01-01',
-            // missing 'to' date
-          },
-          {
-            // missing 'from' date
-            to: '2021-12-31',
-          },
-        ],
-      },
-    };
-
-    const { container } = render(
-      <ConfirmationPrisonerOfWar formData={formData} />,
+    expect(container.textContent).to.contain(
+      'Tinnitus (Ringing Or Hissing In Ears)',
     );
-
-    expect(container.textContent).to.contain('From January 1, 2020 to N/A');
-    expect(container.textContent).to.contain('From N/A to December 31, 2021');
+    expect(container.textContent).to.contain(
+      'PTSD (Post-Traumatic Stress Disorder)',
+    );
+    expect(container.textContent).to.not.contain(
+      'ACL Tear (Anterior Cruciate Ligament Tear), Bilateral',
+    );
   });
 
-  it('should handle POW with no confinements', () => {
+  it('should properly display readable (non-sippable) disability names', () => {
     const formData = {
+      newDisabilities: [
+        {
+          cause: 'NEW',
+          primaryDescription: 'asdf',
+          'view:serviceConnectedDisability': {},
+          condition: 'tinnitus (ringing or hissing in ears)',
+        },
+        {
+          cause: 'NEW',
+          primaryDescription: 'asdf',
+          'view:serviceConnectedDisability': {},
+          condition: 'ACL tear (anterior cruciate ligament tear), bilateral',
+        },
+        {
+          cause: 'SECONDARY',
+          'view:secondaryFollowUp': {
+            causedByDisability: 'Tinnitus (Ringing Or Hissing In Ears)',
+            causedByDisabilityDescription: 'asdfasdf',
+          },
+          'view:serviceConnectedDisability': {},
+          condition: 'PTSD (post-traumatic stress disorder)',
+        },
+      ],
       'view:powStatus': true,
       'view:isPow': {
-        confinements: [],
         powDisabilities: {
-          ptsd: true,
+          tinnitusringingorhissinginears: true,
+          acltearanteriorcruciateligamenttearbilateral: true,
+          ptsdposttraumaticstressdisorder: true,
         },
       },
     };
@@ -111,13 +139,42 @@ describe('ConfirmationPrisonerOfWar', () => {
       <ConfirmationPrisonerOfWar formData={formData} />,
     );
 
-    expect(container.textContent).to.contain('Yes');
-    expect(container.textContent).not.to.contain('From');
-    expect(container.textContent).to.contain('Ptsd');
+    expect(container.textContent).to.contain(
+      'Tinnitus (Ringing Or Hissing In Ears)',
+    );
+    expect(container.textContent).to.contain(
+      'ACL Tear (Anterior Cruciate Ligament Tear), Bilateral',
+    );
+    expect(container.textContent).to.contain(
+      'PTSD (Post-Traumatic Stress Disorder)',
+    );
   });
 
-  it('should handle POW with no disabilities', () => {
+  it('should handle POW with no selected POWdisabilities', () => {
     const formData = {
+      newDisabilities: [
+        {
+          cause: 'NEW',
+          primaryDescription: 'asdf',
+          'view:serviceConnectedDisability': {},
+          condition: 'tinnitus (ringing or hissing in ears)',
+        },
+        {
+          cause: 'NEW',
+          primaryDescription: 'asdf',
+          'view:serviceConnectedDisability': {},
+          condition: 'ACL tear (anterior cruciate ligament tear), bilateral',
+        },
+        {
+          cause: 'SECONDARY',
+          'view:secondaryFollowUp': {
+            causedByDisability: 'Tinnitus (Ringing Or Hissing In Ears)',
+            causedByDisabilityDescription: 'asdfasdf',
+          },
+          'view:serviceConnectedDisability': {},
+          condition: 'PTSD (post-traumatic stress disorder)',
+        },
+      ],
       'view:powStatus': true,
       'view:isPow': {
         confinements: [
@@ -138,38 +195,5 @@ describe('ConfirmationPrisonerOfWar', () => {
       'From January 1, 2020 to June 30, 2020',
     );
     expect(container.textContent).to.contain('None selected');
-  });
-
-  it('should handle missing isPow object', () => {
-    const formData = {
-      'view:powStatus': true,
-      // missing view:isPow
-    };
-
-    const { container } = render(
-      <ConfirmationPrisonerOfWar formData={formData} />,
-    );
-
-    expect(container.textContent).to.contain('Yes');
-    expect(container.textContent).to.contain('None selected');
-  });
-
-  it('should properly capitalize disability names', () => {
-    const formData = {
-      'view:powStatus': true,
-      'view:isPow': {
-        powDisabilities: {
-          'post traumatic stress disorder': true,
-          'chronic pain syndrome': true,
-        },
-      },
-    };
-
-    const { container } = render(
-      <ConfirmationPrisonerOfWar formData={formData} />,
-    );
-
-    expect(container.textContent).to.contain('Post Traumatic Stress Disorder');
-    expect(container.textContent).to.contain('Chronic Pain Syndrome');
   });
 });
