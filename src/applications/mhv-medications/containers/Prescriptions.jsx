@@ -22,6 +22,8 @@ import MedicationsListSort from '../components/MedicationsList/MedicationsListSo
 import MedsByMailContent from '../components/MedicationsList/MedsByMailContent';
 import {
   dateFormat,
+  displayHeaderPrefaceText,
+  displayMedicationsListHeader,
   generateTextFile,
   getErrorTypeFromFormat,
 } from '../util/helpers';
@@ -75,6 +77,7 @@ import {
 } from '../selectors/selectPreferences';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
+import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -376,16 +379,23 @@ const Prescriptions = () => {
           Date.now(),
           'MMMM D, YYYY',
         )}\n\n` +
-        `This is a list of prescriptions and other medications in your VA medical records. When you download medication records, we also include a list of allergies and reactions in your VA medical records.\n\n\n` +
-        `Medications list\n\n` +
-        `Showing ${
-          prescriptionsExportList?.length
-        } records, ${rxListSortingOptions[
-          selectedSortOption
-        ].LABEL.toLowerCase()}\n\n${rxList}${allergiesList ?? ''}`
+        `${displayHeaderPrefaceText(
+          selectedFilterOption,
+          selectedSortOption,
+          prescriptionsExportList?.length,
+          false,
+        )}\n\n\n` +
+        `${displayMedicationsListHeader(selectedFilterOption)}\n\n` +
+        `${rxList}${allergiesList ?? ''}`
       );
     },
-    [userName, dob, selectedSortOption, prescriptionsExportList],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      prescriptionsExportList,
+    ],
   );
 
   const generatePDF = useCallback(
@@ -393,6 +403,7 @@ const Prescriptions = () => {
       const pdfDataObj = buildPdfData({
         userName,
         dob,
+        selectedFilterOption,
         selectedSortOption,
         rxList,
         allergiesList,
@@ -400,7 +411,13 @@ const Prescriptions = () => {
       await generateMedicationsPdfFile({ userName, pdfData: pdfDataObj });
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
     },
-    [userName, dob, selectedSortOption, setPdfTxtGenerateStatus],
+    [
+      userName,
+      dob,
+      selectedFilterOption,
+      selectedSortOption,
+      setPdfTxtGenerateStatus,
+    ],
   );
 
   const generateTXT = useCallback(
@@ -711,9 +728,11 @@ const Prescriptions = () => {
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
-              {!isLoading && (
-                <MedicationsListSort sortRxList={updateFilterAndSort} />
-              )}
+              <FilterAriaRegion filterOption={selectedFilterOption} />
+              <MedicationsListSort
+                sortRxList={updateFilterAndSort}
+                shouldShowSelect={!isLoading}
+              />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
