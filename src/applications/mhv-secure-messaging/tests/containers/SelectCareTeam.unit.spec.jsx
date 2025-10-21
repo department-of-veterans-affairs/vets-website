@@ -568,7 +568,7 @@ describe('SelectCareTeam', () => {
     });
   });
 
-  it('shows contact list link when user has only VistA facilities', async () => {
+  it('shows contact list link when user has only Vista facilities', async () => {
     const vistaOnlyState = {
       ...initialState,
       sm: {
@@ -662,7 +662,7 @@ describe('SelectCareTeam', () => {
     });
   });
 
-  it('shows contact list link when user has both VistA and Cerner facilities', async () => {
+  it('shows contact list link when user has both Vista and Cerner facilities', async () => {
     const bothState = {
       ...initialState,
       sm: {
