@@ -34,7 +34,7 @@ const FacilityCheckboxGroup = props => {
         data-testid={`${facilityName?.replace(/ /g, '-')}-facility-group`}
         label={facilityName}
         label-header-level="2"
-        class="contactListFacility vads-u-margin-bottom--4 tablet:vads-u-margin-bottom--5"
+        class="contactListFacility vads-u-margin--0"
         error={errorMessage}
       >
         <VaCheckbox

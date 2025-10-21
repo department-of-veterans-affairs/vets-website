@@ -36,6 +36,10 @@ const EditContactList = () => {
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [triageTeamCount, setTriageTeamCount] = useState({});
+  const [alertsStatus, setAlertsStatus] = useState({
+    blockedGroups: false,
+    saveSuccess: false,
+  });
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
@@ -77,6 +81,10 @@ const EditContactList = () => {
         ).length,
       ]),
     );
+  };
+
+  const updateAlertsStatus = status => {
+    setAlertsStatus(prevStatus => ({ ...prevStatus, ...status }));
   };
 
   const updatePreferredTeam = (triageTeamId, selected, stationNumber) => {
@@ -201,7 +209,14 @@ const EditContactList = () => {
         cancelButtonText={navigationError?.cancelButtonText}
       />
       <h1>Messages: Contact list</h1>
-      <AlertBackgroundBox closeable focus />
+      <AlertBackgroundBox
+        closeable
+        focus
+        updateAlertsStatus={updateAlertsStatus}
+      />
+
+      {alertsStatus.blockedGroups &&
+        alertsStatus.saveSuccess && <hr className="vads-u-margin-y--2" />}
 
       <div
         className={`${vistaFacilities?.length > 1 &&
@@ -210,15 +225,14 @@ const EditContactList = () => {
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.ALERT}
           parentComponent={ParentComponent.CONTACT_LIST}
+          updateAlertsStatus={updateAlertsStatus}
         />
       </div>
 
       <p className="vads-u-margin-bottom--3">
-        Select the teams you want to show in your contact list. You must select
-        at least one team
-        {vistaFacilities?.length > 1
-          ? ' from one of your facilities.'
-          : '.'}{' '}
+        Select and save the care teams you want to send messages to. You must
+        select at least one care team{' '}
+        {vistaFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
       </p>
 
       {error && (
@@ -260,6 +274,8 @@ const EditContactList = () => {
 
                   return (
                     <va-accordion-item
+                      bordered
+                      class="vads-u-margin--0"
                       header={`${facilityName ||
                         'VA Medical Center'} - ${stationNumber || ''}`}
                       subheader={`${triageTeamCount[stationNumber] || 0} team${

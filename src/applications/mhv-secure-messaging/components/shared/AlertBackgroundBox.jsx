@@ -35,6 +35,7 @@ import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
+  const { updateAlertsStatus } = props;
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
@@ -128,6 +129,7 @@ const AlertBackgroundBox = props => {
 
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0] || null);
+        if (filteredSortedAlerts[0]) updateAlertsStatus({ saveSuccess: true });
       }
     },
     [
@@ -150,6 +152,7 @@ const AlertBackgroundBox = props => {
   const closeAlertBox = () => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
+    updateAlertsStatus({ saveSuccess: false });
   };
 
   // sets custom server error messages for the landing page and folder view pages
