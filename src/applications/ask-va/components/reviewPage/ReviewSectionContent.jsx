@@ -1,5 +1,6 @@
 import React from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 
 const ReviewSectionContent = ({
   title,
@@ -47,3 +48,10 @@ const ReviewSectionContent = ({
 };
 
 export default ReviewSectionContent;
+
+ReviewSectionContent.propTypes = {
+  editSection: PropTypes.func.isRequired,
+  items: PropTypes.array.isRequired,
+  keys: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+};
