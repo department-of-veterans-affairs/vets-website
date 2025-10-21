@@ -5,24 +5,27 @@
  */
 
 /** @exports Constants - Application-wide constants */
-export { TITLE, SUBTITLE } from './constants';
+export {
+  TITLE,
+  SUBTITLE,
+} from '@bio-aquia/21-4192-employment-information/constants';
 
 /** @exports Containers - React container components */
-export { App, IntroductionPage, ConfirmationPage } from './containers';
-
-/** @exports Pages - Form page configurations */
 export {
-  identificationInformation,
-  mailingAddress,
-  nameAndDateOfBirth,
-  phoneAndEmailAddress,
-} from './pages';
+  App,
+  IntroductionPage,
+  ConfirmationPage,
+} from '@bio-aquia/21-4192-employment-information/containers';
 
 /** @exports Config - Form configuration object */
-export { formConfig } from './config';
+export { formConfig } from '@bio-aquia/21-4192-employment-information/config';
 
 /** @exports Routes - React Router configuration */
-export { default as routes } from './routes';
+export {
+  default as routes,
+} from '@bio-aquia/21-4192-employment-information/routes';
 
 /** @exports Reducers - Redux reducer configuration */
-export { default as reducer } from './reducers';
+export {
+  default as reducer,
+} from '@bio-aquia/21-4192-employment-information/reducers';

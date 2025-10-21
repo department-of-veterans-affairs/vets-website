@@ -5,11 +5,11 @@ describe('Contact Schemas - Contact validation', () => {
   describe('emailAddressSchema', () => {
     it('validates email addresses', () => {
       const validEmails = [
-        'test@example.com',
-        'user.name@domain.co.uk',
-        'first+last@test.org',
-        'john.doe123@subdomain.example.com',
-        'test_email@domain-name.com',
+        'leia.organa@rebelalliance.org',
+        'mon.mothma@alliance.command.net',
+        'luke+pilot@yavin4.base',
+        'wedge.antilles227@rogue.squadron.mil',
+        'ackbar_admiral@fleet.home-one.org',
       ];
 
       validEmails.forEach(email => {
@@ -52,10 +52,10 @@ describe('Contact Schemas - Contact validation', () => {
 
     it('handle emails with various valid special characters', () => {
       const specialEmails = [
-        'user+tag@example.com',
-        'user.name@example.com',
-        'user_name@example.com',
-        'user-name@example.com',
+        'han+solo@millennium.falcon',
+        'lando.calrissian@cloudcity.net',
+        'chewbacca_wookiee@kashyyyk.org',
+        'leia-organa@alderaan.gov',
       ];
 
       specialEmails.forEach(email => {
@@ -69,10 +69,10 @@ describe('Contact Schemas - Contact validation', () => {
     it('validate valid US phone numbers', () => {
       const validPhones = [
         '2345678901',
-        '555-123-4567',
-        '(555) 123-4567',
-        '555.123.4567',
-        '555 123 4567',
+        '977-227-5000',
+        '(977) 227-5000',
+        '977.227.5000',
+        '977 227 5000',
       ];
 
       validPhones.forEach(phone => {
@@ -83,10 +83,10 @@ describe('Contact Schemas - Contact validation', () => {
 
     it('transform formatted numbers to digits only', () => {
       const formattedPhones = [
-        { input: '(555) 123-4567', expected: '5551234567' },
-        { input: '555-123-4567', expected: '5551234567' },
-        { input: '555.123.4567', expected: '5551234567' },
-        { input: '555 123 4567', expected: '5551234567' },
+        { input: '(977) 227-5000', expected: '9772275000' },
+        { input: '977-227-5000', expected: '9772275000' },
+        { input: '977.227.5000', expected: '9772275000' },
+        { input: '977 227 5000', expected: '9772275000' },
       ];
 
       formattedPhones.forEach(({ input, expected }) => {
@@ -117,13 +117,13 @@ describe('Contact Schemas - Contact validation', () => {
     });
 
     it('handle phone numbers with various formatting', () => {
-      const result1 = phoneNumberSchema.safeParse('(555) 123-4567');
+      const result1 = phoneNumberSchema.safeParse('(977) 227-5000');
       expect(result1.success).to.be.true;
-      expect(result1.data).to.equal('5551234567');
+      expect(result1.data).to.equal('9772275000');
 
-      const result2 = phoneNumberSchema.safeParse('555.123.4567');
+      const result2 = phoneNumberSchema.safeParse('977.227.5000');
       expect(result2.success).to.be.true;
-      expect(result2.data).to.equal('5551234567');
+      expect(result2.data).to.equal('9772275000');
     });
 
     it('provide appropriate error message for invalid format', () => {
@@ -145,10 +145,10 @@ describe('Contact Schemas - Contact validation', () => {
     });
 
     it('strip all non-digit characters during transformation', () => {
-      const messyInput = '(555) - 123 - 4567 ext';
+      const messyInput = '(977) - 227 - 5000 ext';
       const result = phoneNumberSchema.safeParse(messyInput);
       expect(result.success).to.be.true;
-      expect(result.data).to.equal('5551234567');
+      expect(result.data).to.equal('9772275000');
     });
   });
 });

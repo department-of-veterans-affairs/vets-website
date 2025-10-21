@@ -45,6 +45,7 @@ export default {
         keepInPageOnReview: true,
         confirmRemove: true,
         useDlWrap: true,
+        customTitle: ' ', // prevent <dl> around the schemaform-field-container (fixes a11y dl error)
         showSave: true,
       },
       items: {

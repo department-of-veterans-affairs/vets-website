@@ -60,7 +60,7 @@ describe('Print download menu component', () => {
   });
 
   it('should display a download text file button', () => {
-    const screen = render(<PrintDownload list allowTxtDownloads />);
+    const screen = render(<PrintDownload list />);
 
     const downloadTextButton = screen.getByText(
       'Download a text file (.txt) of this list',

@@ -35,6 +35,7 @@ const formConfig = {
   trackingPrefix: '21p-601-accrued-benefits-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -194,10 +195,10 @@ const formConfig = {
           schema: relativesDetails.schema,
           scrollAndFocusTarget: pageFocusScroll(),
           depends: formData =>
-            formData.hasNone !== true &&
-            (formData.hasSpouse === true ||
-              formData.hasChildren === true ||
-              formData.hasParents === true),
+            formData.survivors.hasNone !== true &&
+            (formData.survivors.hasSpouse === true ||
+              formData.survivors.hasChildren === true ||
+              formData.survivors.hasParents === true),
         },
       },
     },

@@ -100,21 +100,25 @@ const travelerPage = {
       title: 'Who needed to travel?',
       labels: recipientTypeLabels,
     }),
-    childName: textUI({
+    travelerName: textUI({
       title: 'Full name of the person who traveled',
       expandUnder: 'traveler',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          formData?.mileageExpenses?.[index]?.traveler,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(mileageExpense?.traveler);
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
       traveler: radioSchema(Object.keys(recipientTypeLabels)),
-      childName: textSchema,
+      travelerName: textSchema,
     },
     required: ['traveler'],
   },
@@ -135,8 +139,12 @@ const destinationPage = {
       title: 'Tell us where you traveled',
       expandUnder: 'travelLocation',
       expandUnderCondition: field => field === 'OTHER',
-      required: (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelLocation === 'OTHER',
+      required: (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelLocation === 'OTHER';
+      },
     }),
     travelMilesTraveled: numberUI('How many miles did you travel?'),
     travelDate: currentOrPastDateUI({
@@ -168,8 +176,12 @@ const reimbursementPage = {
         expandUnder: 'travelReimbursed',
         expandUnderCondition: field => field === true,
       }),
-      'ui:required': (formData, index) =>
-        formData?.mileageExpenses?.[index]?.travelReimbursed === true,
+      'ui:required': (formData, index, fullData) => {
+        const mileageExpenses =
+          formData?.mileageExpenses ?? fullData?.mileageExpenses;
+        const mileageExpense = mileageExpenses?.[index];
+        return mileageExpense?.travelReimbursed === true;
+      },
     },
   },
   schema: {
