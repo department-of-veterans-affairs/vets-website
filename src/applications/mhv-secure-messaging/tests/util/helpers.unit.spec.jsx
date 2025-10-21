@@ -4,6 +4,7 @@ import CrisisPanel from 'platform/site-wide/va-footer/components/CrisisPanel';
 import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import moment from 'moment-timezone';
 import {
   folderPathByFolderId,
   getLastSentMessage,
@@ -15,11 +16,36 @@ import {
   titleCase,
   updateDrafts,
   findAllowedFacilities,
+  handleRemoveAttachmentButtonId,
+  handleRemoveAttachmentModalId,
+  getLastPathName,
+  formatPathName,
+  dateFormat,
+  threadsDateFormat,
+  sortRecipients,
+  decodeHtmlEntities,
+  isOlderThan,
+  isCustomFolder,
+  handleHeader,
+  getPageTitle,
+  updateMessageInThread,
+  convertPathNameToTitleCase,
+  messageSignatureFormatter,
+  resetUserSession,
+  checkTriageGroupAssociation,
+  updateTriageGroupRecipientStatus,
+  formatRecipient,
+  findBlockedFacilities,
+  getStationNumberFromRecipientId,
+  findActiveDraftFacility,
+  sortTriageList,
 } from '../../util/helpers';
 import {
   DefaultFolders as Folders,
   Paths,
   ErrorMessages,
+  RecipientStatus,
+  Recipients,
 } from '../../util/constants';
 import threadWithDraftResponse from '../fixtures/message-thread-with-draft-response.json';
 import CrisisLineConnectButton from '../../components/CrisisLineConnectButton';
@@ -326,6 +352,538 @@ describe('MHV Secure Messaging helpers', () => {
         allowedVistaFacilities: ['123'],
         allowedOracleFacilities: [],
       });
+    });
+  });
+
+  describe('handleRemoveAttachmentButtonId', () => {
+    it('should return button id with lastModified when id is undefined', () => {
+      const file = { lastModified: 1234567890 };
+      const result = handleRemoveAttachmentButtonId(file);
+      expect(result).to.equal('remove-attachment-button-1234567890');
+    });
+
+    it('should return button id with file id when id is defined', () => {
+      const file = { id: 'abc123', lastModified: 1234567890 };
+      const result = handleRemoveAttachmentButtonId(file);
+      expect(result).to.equal('remove-attachment-button-abc123');
+    });
+  });
+
+  describe('handleRemoveAttachmentModalId', () => {
+    it('should return modal id with lastModified when id is undefined', () => {
+      const file = { lastModified: 1234567890 };
+      const result = handleRemoveAttachmentModalId(file);
+      expect(result).to.equal('remove-attachment-modal-1234567890');
+    });
+
+    it('should return modal id with file id when id is defined', () => {
+      const file = { id: 'abc123', lastModified: 1234567890 };
+      const result = handleRemoveAttachmentModalId(file);
+      expect(result).to.equal('remove-attachment-modal-abc123');
+    });
+  });
+
+  describe('getLastPathName', () => {
+    it('should return capitalized last path name', () => {
+      expect(getLastPathName('/messages/inbox')).to.equal('Inbox');
+      expect(getLastPathName('/messages/sent/')).to.equal('Sent');
+      expect(getLastPathName('/folders/123')).to.equal('123');
+    });
+
+    it('should handle single path segment', () => {
+      expect(getLastPathName('/inbox')).to.equal('Inbox');
+    });
+
+    it('should handle paths with trailing slash', () => {
+      expect(getLastPathName('/messages/drafts/')).to.equal('Drafts');
+    });
+  });
+
+  describe('formatPathName', () => {
+    it('should return custom string for root path', () => {
+      expect(formatPathName('/', 'Home')).to.equal('Home');
+    });
+
+    it('should return capitalized last path part', () => {
+      expect(formatPathName('/messages/inbox')).to.equal('Inbox');
+      expect(formatPathName('/messages/sent')).to.equal('Sent');
+    });
+
+    it('should handle empty parts array', () => {
+      expect(formatPathName('/', 'Messages')).to.equal('Messages');
+    });
+  });
+
+  describe('dateFormat', () => {
+    it('should format date with default format', () => {
+      const timestamp = '2024-01-15T10:30:00Z';
+      const result = dateFormat(timestamp);
+      expect(result).to.include('January 15, 2024');
+      expect(result).to.match(/\d{1,2}:\d{2} [ap]\.m\./);
+    });
+
+    it('should format date with custom format', () => {
+      const timestamp = '2024-01-15T10:30:00Z';
+      const result = dateFormat(timestamp, 'YYYY-MM-DD');
+      expect(result).to.equal('2024-01-15');
+    });
+
+    it('should use custom meridiem formatting', () => {
+      const timestamp = '2024-01-15T08:30:00Z';
+      const result = dateFormat(timestamp);
+      expect(result).to.match(/[ap]\.m\./);
+    });
+  });
+
+  describe('threadsDateFormat', () => {
+    it('should format date with at separator', () => {
+      const timestamp = '2024-01-15T10:30:00Z';
+      const result = threadsDateFormat(timestamp);
+      expect(result).to.include(' at ');
+      expect(result).to.include('January 15, 2024');
+    });
+
+    it('should format date with custom format', () => {
+      const timestamp = '2024-01-15T10:30:00Z';
+      const result = threadsDateFormat(timestamp, 'YYYY-MM-DD');
+      expect(result).to.equal('2024-01-15');
+    });
+  });
+
+  describe('sortRecipients', () => {
+    it('should sort recipients alphabetically', () => {
+      const recipients = [
+        { name: 'Zebra Team' },
+        { name: 'Alpha Team' },
+        { name: 'Beta Team' },
+      ];
+      const result = sortRecipients(recipients);
+      expect(result[0].name).to.equal('Alpha Team');
+      expect(result[1].name).to.equal('Beta Team');
+      expect(result[2].name).to.equal('Zebra Team');
+    });
+
+    it('should handle empty array', () => {
+      const result = sortRecipients([]);
+      expect(result).to.eql([]);
+    });
+
+    it('should sort non-alphabetic names last', () => {
+      const recipients = [
+        { name: '123 Team' },
+        { name: 'Alpha Team' },
+        { name: '456 Team' },
+      ];
+      const result = sortRecipients(recipients);
+      expect(result[0].name).to.equal('Alpha Team');
+    });
+  });
+
+  describe('decodeHtmlEntities', () => {
+    it('should decode HTML entities', () => {
+      expect(decodeHtmlEntities('&lt;div&gt;')).to.equal('<div>');
+      expect(decodeHtmlEntities('&amp;')).to.equal('&');
+      expect(decodeHtmlEntities('&quot;')).to.equal('"');
+    });
+
+    it('should handle plain text', () => {
+      expect(decodeHtmlEntities('plain text')).to.equal('plain text');
+    });
+
+    it('should sanitize malicious content', () => {
+      const result = decodeHtmlEntities('<script>alert("xss")</script>');
+      expect(result).to.not.include('<script>');
+    });
+  });
+
+  describe('isOlderThan', () => {
+    it('should return true when timestamp is older than specified days', () => {
+      const oldDate = moment()
+        .subtract(50, 'days')
+        .toISOString();
+      expect(isOlderThan(oldDate, 45)).to.equal(true);
+    });
+
+    it('should return false when timestamp is newer than specified days', () => {
+      const recentDate = moment()
+        .subtract(30, 'days')
+        .toISOString();
+      expect(isOlderThan(recentDate, 45)).to.equal(false);
+    });
+
+    it('should return false when timestamp equals specified days', () => {
+      const exactDate = moment()
+        .subtract(45, 'days')
+        .toISOString();
+      expect(isOlderThan(exactDate, 45)).to.equal(false);
+    });
+  });
+
+  describe('isCustomFolder', () => {
+    it('should return true for positive folder ids', () => {
+      expect(isCustomFolder(1)).to.equal(true);
+      expect(isCustomFolder(100)).to.equal(true);
+    });
+
+    it('should return false for zero or negative folder ids', () => {
+      expect(isCustomFolder(0)).to.equal(false);
+      expect(isCustomFolder(-1)).to.equal(false);
+      expect(isCustomFolder(-2)).to.equal(false);
+    });
+  });
+
+  describe('handleHeader', () => {
+    it('should return correct header for inbox folder', () => {
+      const result = handleHeader({ folderId: 0, name: 'Inbox' });
+      expect(result.folderName).to.equal('Inbox');
+      expect(result.ddTitle).to.equal('Messages: Inbox h1');
+      expect(result.ddPrivacy).to.equal('allow');
+    });
+
+    it('should return correct header for custom folder', () => {
+      const result = handleHeader({ folderId: 123, name: 'My Folder' });
+      expect(result.folderName).to.equal('My Folder');
+      expect(result.ddTitle).to.equal('Custom Folder h1');
+      expect(result.ddPrivacy).to.equal('mask');
+    });
+
+    it('should return correct header for sent folder', () => {
+      const result = handleHeader({ folderId: -1, name: 'Sent' });
+      expect(result.folderName).to.equal('Sent');
+      expect(result.ddTitle).to.equal('Messages: Sent h1');
+      expect(result.ddPrivacy).to.equal('allow');
+    });
+  });
+
+  describe('getPageTitle', () => {
+    it('should return correct title for inbox folder', () => {
+      const result = getPageTitle({ folderName: 'Inbox', pathname: '/inbox/' });
+      expect(result).to.include('Messages: Inbox');
+    });
+
+    it('should return correct title for custom folder', () => {
+      const result = getPageTitle({
+        folderName: 'My Folder',
+        pathname: '/folders/123/',
+      });
+      expect(result).to.include('Messages: More folders');
+    });
+
+    it('should return correct title for folders page', () => {
+      const result = getPageTitle({ pathname: Paths.FOLDERS });
+      expect(result).to.include('More folders');
+    });
+  });
+
+  describe('updateMessageInThread', () => {
+    it('should update message in thread with new data', () => {
+      const thread = [
+        {
+          messageId: 123,
+          threadId: 1,
+          folderId: 0,
+          subject: 'Test',
+          body: 'Old body',
+        },
+      ];
+      const response = {
+        data: {
+          attributes: {
+            messageId: 123,
+            subject: 'Test',
+            body: 'New body',
+          },
+        },
+        included: [
+          {
+            id: 'att1',
+            links: { download: 'http://example.com/att1' },
+            attributes: { name: 'file.pdf' },
+          },
+        ],
+      };
+
+      const result = updateMessageInThread(thread, response);
+      expect(result[0].body).to.equal('New body');
+      expect(result[0].preloaded).to.equal(true);
+      expect(result[0].attachments).to.have.lengthOf(1);
+      expect(result[0].attachments[0].name).to.equal('file.pdf');
+    });
+
+    it('should preserve existing message when id does not match', () => {
+      const thread = [{ messageId: 456, body: 'Original' }];
+      const response = {
+        data: { attributes: { messageId: 123, body: 'Updated' } },
+      };
+
+      const result = updateMessageInThread(thread, response);
+      expect(result[0].body).to.equal('Original');
+    });
+  });
+
+  describe('convertPathNameToTitleCase', () => {
+    it('should convert underscore separated path to title case', () => {
+      expect(convertPathNameToTitleCase('/new_message')).to.equal('New Message');
+      expect(convertPathNameToTitleCase('/draft_reply')).to.equal(
+        'Draft Reply',
+      );
+    });
+
+    it('should remove slashes and trim whitespace', () => {
+      expect(convertPathNameToTitleCase('/test_path/')).to.equal('Test Path');
+    });
+  });
+
+  describe('messageSignatureFormatter', () => {
+    it('should format signature when includeSignature is true', () => {
+      const signature = {
+        includeSignature: true,
+        signatureName: 'John Doe',
+        signatureTitle: 'Veteran',
+      };
+      const result = messageSignatureFormatter(signature);
+      expect(result).to.equal('\n\n\nJohn Doe\nVeteran');
+    });
+
+    it('should return null when includeSignature is false', () => {
+      const signature = {
+        includeSignature: false,
+        signatureName: 'John Doe',
+        signatureTitle: 'Veteran',
+      };
+      const result = messageSignatureFormatter(signature);
+      expect(result).to.equal(null);
+    });
+
+    it('should return null when signature object is null', () => {
+      const result = messageSignatureFormatter(null);
+      expect(result).to.equal(null);
+    });
+  });
+
+  describe('resetUserSession', () => {
+    beforeEach(() => {
+      localStorage.clear();
+    });
+
+    afterEach(() => {
+      localStorage.clear();
+    });
+
+    it('should set localStorage values after timeout', done => {
+      const localStorageValues = { testKey: 'testValue' };
+      const result = resetUserSession(localStorageValues);
+
+      expect(result.signOutMessage).to.equal('non-empty string');
+      expect(result.timeOutId).to.exist;
+
+      setTimeout(() => {
+        expect(localStorage.getItem('testKey')).to.equal('testValue');
+        clearTimeout(result.timeOutId);
+        done();
+      }, 1100);
+    });
+
+    it('should not overwrite existing localStorage values', done => {
+      localStorage.setItem('existingKey', 'existingValue');
+      const localStorageValues = { existingKey: 'newValue' };
+      const result = resetUserSession(localStorageValues);
+
+      setTimeout(() => {
+        expect(localStorage.getItem('existingKey')).to.equal('existingValue');
+        clearTimeout(result.timeOutId);
+        done();
+      }, 1100);
+    });
+  });
+
+  describe('checkTriageGroupAssociation', () => {
+    it('should match by recipient id', () => {
+      const tempRecipient = { recipientId: 123 };
+      const recipient = { id: 123, name: 'Team A' };
+      const result = checkTriageGroupAssociation(tempRecipient)(recipient);
+      expect(result).to.equal(true);
+    });
+
+    it('should match by name', () => {
+      const tempRecipient = { name: 'Team A' };
+      const recipient = { id: 456, name: 'Team A' };
+      const result = checkTriageGroupAssociation(tempRecipient)(recipient);
+      expect(result).to.equal(true);
+    });
+
+    it('should match by triageGroupName', () => {
+      const tempRecipient = { triageGroupName: 'Team A' };
+      const recipient = { id: 456, name: 'Team A' };
+      const result = checkTriageGroupAssociation(tempRecipient)(recipient);
+      expect(result).to.equal(true);
+    });
+
+    it('should not match when no fields match', () => {
+      const tempRecipient = { recipientId: 123, name: 'Team A' };
+      const recipient = { id: 456, name: 'Team B' };
+      const result = checkTriageGroupAssociation(tempRecipient)(recipient);
+      expect(result).to.equal(false);
+    });
+  });
+
+  describe('updateTriageGroupRecipientStatus', () => {
+    it('should set status to BLOCKED when recipient is blocked', () => {
+      const recipients = {
+        blockedRecipients: [{ id: 123, name: 'Team A' }],
+        allRecipients: [{ id: 123, name: 'Team A' }],
+      };
+      const tempRecipient = { recipientId: 123, name: 'Team A' };
+      const result = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+      expect(result.isBlocked).to.equal(true);
+      expect(result.isAssociated).to.equal(true);
+      expect(result.formattedRecipient.status).to.equal(RecipientStatus.BLOCKED);
+    });
+
+    it('should set status to NOT_ASSOCIATED when recipient is not associated', () => {
+      const recipients = {
+        blockedRecipients: [],
+        allRecipients: [],
+      };
+      const tempRecipient = { recipientId: 123, name: 'Team A' };
+      const result = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+      expect(result.isBlocked).to.equal(false);
+      expect(result.isAssociated).to.equal(false);
+      expect(result.formattedRecipient.status).to.equal(
+        RecipientStatus.NOT_ASSOCIATED,
+      );
+    });
+
+    it('should set status to ALLOWED when recipient is associated and not blocked', () => {
+      const recipients = {
+        blockedRecipients: [],
+        allRecipients: [{ id: 123, name: 'Team A' }],
+      };
+      const tempRecipient = { recipientId: 123, name: 'Team A' };
+      const result = updateTriageGroupRecipientStatus(recipients, tempRecipient);
+
+      expect(result.isBlocked).to.equal(false);
+      expect(result.isAssociated).to.equal(true);
+      expect(result.formattedRecipient.status).to.equal(RecipientStatus.ALLOWED);
+    });
+  });
+
+  describe('formatRecipient', () => {
+    it('should format recipient with blocked status', () => {
+      const recipient = {
+        triageTeamId: 123,
+        name: 'Team A',
+        blockedStatus: true,
+      };
+      const result = formatRecipient(recipient);
+
+      expect(result.id).to.equal(123);
+      expect(result.type).to.equal(Recipients.CARE_TEAM);
+      expect(result.status).to.equal(RecipientStatus.BLOCKED);
+    });
+
+    it('should format recipient with allowed status', () => {
+      const recipient = {
+        triageTeamId: 456,
+        name: 'Team B',
+        blockedStatus: false,
+      };
+      const result = formatRecipient(recipient);
+
+      expect(result.id).to.equal(456);
+      expect(result.type).to.equal(Recipients.CARE_TEAM);
+      expect(result.status).to.equal(RecipientStatus.ALLOWED);
+    });
+  });
+
+  describe('findBlockedFacilities', () => {
+    it('should identify fully blocked facilities', () => {
+      const recipients = [
+        { attributes: { stationNumber: '123', blockedStatus: true } },
+        { attributes: { stationNumber: '123', blockedStatus: true } },
+        { attributes: { stationNumber: '456', blockedStatus: false } },
+      ];
+      const result = findBlockedFacilities(recipients);
+
+      expect(result.fullyBlockedFacilities).to.include('123');
+      expect(result.fullyBlockedFacilities).to.not.include('456');
+      expect(result.allFacilities).to.include('123');
+      expect(result.allFacilities).to.include('456');
+    });
+
+    it('should not mark facility as fully blocked if any team is allowed', () => {
+      const recipients = [
+        { attributes: { stationNumber: '123', blockedStatus: true } },
+        { attributes: { stationNumber: '123', blockedStatus: false } },
+      ];
+      const result = findBlockedFacilities(recipients);
+
+      expect(result.fullyBlockedFacilities).to.not.include('123');
+    });
+
+    it('should handle empty recipients array', () => {
+      const result = findBlockedFacilities([]);
+      expect(result.fullyBlockedFacilities).to.eql([]);
+      expect(result.allFacilities).to.eql([]);
+    });
+  });
+
+  describe('getStationNumberFromRecipientId', () => {
+    it('should return station number for matching recipient', () => {
+      const recipients = [
+        { triageTeamId: 123, stationNumber: '456' },
+        { triageTeamId: 789, stationNumber: '012' },
+      ];
+      const result = getStationNumberFromRecipientId(123, recipients);
+      expect(result).to.equal('456');
+    });
+
+    it('should return null when recipient not found', () => {
+      const recipients = [{ triageTeamId: 123, stationNumber: '456' }];
+      const result = getStationNumberFromRecipientId(999, recipients);
+      expect(result).to.equal(null);
+    });
+  });
+
+  describe('findActiveDraftFacility', () => {
+    it('should return facility matching vhaId', () => {
+      const facilities = [
+        { vhaId: '123', name: 'Facility A' },
+        { vhaId: '456', name: 'Facility B' },
+      ];
+      const result = findActiveDraftFacility('123', facilities);
+      expect(result.name).to.equal('Facility A');
+    });
+
+    it('should return null when facility not found', () => {
+      const facilities = [{ vhaId: '123', name: 'Facility A' }];
+      const result = findActiveDraftFacility('999', facilities);
+      expect(result).to.equal(null);
+    });
+  });
+
+  describe('sortTriageList', () => {
+    it('should sort list by name alphabetically', () => {
+      const list = [
+        { name: 'Zebra Team' },
+        { name: 'Alpha Team' },
+        { name: 'Beta Team' },
+      ];
+      const result = sortTriageList(list);
+      expect(result[0].name).to.equal('Alpha Team');
+      expect(result[1].name).to.equal('Beta Team');
+      expect(result[2].name).to.equal('Zebra Team');
+    });
+
+    it('should handle null or undefined list', () => {
+      expect(sortTriageList(null)).to.eql([]);
+      expect(sortTriageList(undefined)).to.eql([]);
+    });
+
+    it('should handle empty list', () => {
+      expect(sortTriageList([])).to.eql([]);
     });
   });
 });
