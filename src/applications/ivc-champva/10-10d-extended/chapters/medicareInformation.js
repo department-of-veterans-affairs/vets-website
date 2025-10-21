@@ -444,11 +444,15 @@ const medicarePartBCardUploadPage = {
 };
 
 const medicarePartADenialPage = dataKey => {
-  const PageTitle = ({ formData: localData }) => {
+  const PageTitle = ({ formContext }) => {
     const formData = useSelector(state => state.form.data);
-    if (localData.medicareParticipant) {
+    const n = Number(formContext.pagePerItemIndex);
+    const itemIndex = Number.isFinite(n) && n >= 0 ? n : null;
+    if (formData?.medicare?.[itemIndex]?.medicareParticipant) {
       return privWrapper(
-        `${generateParticipantName(localData)} Medicare status`,
+        `${generateParticipantName(
+          formData?.medicare?.[itemIndex],
+        )} Medicare status`,
       );
     }
     const apps = getEligibleApplicantsWithoutMedicare(formData) ?? [];
