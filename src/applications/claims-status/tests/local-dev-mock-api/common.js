@@ -663,7 +663,7 @@ const baseClaims = [
           deleteDate: null,
           documentType:
             'VA Form 21-4142 - Authorization To Disclose Information',
-          failedDate: new Date(Date.now()).toISOString(),
+          failedDate: new Date().toISOString(),
           fileName: 'authorization-form-signed.pdf',
           id: 132,
           lighthouseUpload: true,

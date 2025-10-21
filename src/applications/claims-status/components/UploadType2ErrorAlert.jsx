@@ -72,22 +72,19 @@ function UploadType2ErrorAlert({ failedSubmissions }) {
   );
 
   return (
-    <>
-      <VaAlert
-        data-testid="notification"
-        close-btn-aria-label="Close notification"
-        className="evidence-submission-type-2-alert"
-        closeable={false}
-        onCloseEvent={() => {}}
-        status="error"
-        visible
-      >
-        <h3 className="usa-alert-heading">
-          We need you to submit files by mail or in person
-        </h3>
-        <div className="vads-u-margin-y--0">{body}</div>
-      </VaAlert>
-    </>
+    <VaAlert
+      data-testid="notification"
+      close-btn-aria-label="Close notification"
+      className="evidence-submission-type-2-alert"
+      closeable={false}
+      status="error"
+      visible
+    >
+      <h3 className="usa-alert-heading">
+        We need you to submit files by mail or in person
+      </h3>
+      <div className="vads-u-margin-y--0">{body}</div>
+    </VaAlert>
   );
 }
 

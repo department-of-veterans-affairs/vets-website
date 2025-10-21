@@ -43,32 +43,35 @@ describe('<UploadType2ErrorAlert>', () => {
   context(
     'when there are one or two failed submissions within the last 30 days',
     () => {
-      it('should render alert and show the first two failed submissions', () => {
+      it('should render alert and show the first two failed submissions in chronological order', () => {
         const failedSubmissions = [
           createFailedSubmission({
-            id: 1,
+            id: 2,
             fileName: 'first-document.pdf',
             failedDate: tenDaysAgo,
           }),
           createFailedSubmission({
-            id: 2,
+            id: 1,
             fileName: 'second-document.pdf',
             documentType: 'L034',
             failedDate: fiveDaysAgo,
           }),
         ];
 
-        const { container, getByText } = render(
+        const { container } = render(
           <UploadType2ErrorAlert failedSubmissions={failedSubmissions} />,
         );
         const alert = container.querySelector('va-alert');
 
         expect(alert).to.exist;
+
+        const listItems = container.querySelectorAll('ul li');
         // The failures should be in chronological order
-        getByText('second-document.pdf');
-        getByText('File type: L023');
-        getByText('first-document.pdf');
-        getByText('File type: L034');
+        expect(listItems).to.have.length(2);
+        expect(listItems[0].textContent).to.include('second-document.pdf');
+        expect(listItems[0].textContent).to.include('File type: L034');
+        expect(listItems[1].textContent).to.include('first-document.pdf');
+        expect(listItems[1].textContent).to.include('File type: L023');
       });
     },
   );
@@ -103,9 +106,9 @@ describe('<UploadType2ErrorAlert>', () => {
         const alert = container.querySelector('va-alert');
 
         expect(alert).to.exist;
-        // Should show most recent item (by failedDate)
+        // Should show most recent failure
         getByText('file-1.pdf');
-        // Should not show other items
+        // Should not show other failures
         expect(queryByText('file-2.pdf')).to.not.exist;
         expect(queryByText('file-3.pdf')).to.not.exist;
         // Should show count message
