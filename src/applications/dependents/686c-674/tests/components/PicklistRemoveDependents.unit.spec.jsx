@@ -8,7 +8,8 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import PicklistRemoveDependents from '../../components/PicklistRemoveDependents';
-import optionPage from '../../config/chapters/picklist/removeDependentPicklist';
+
+import { PICKLIST_DATA } from '../../config/constants';
 
 describe('PicklistRemoveDependents', () => {
   const createDoB = (yearsAgo = 0, monthsAgo = 0) =>
@@ -16,7 +17,7 @@ describe('PicklistRemoveDependents', () => {
       sub(new Date(), { years: yearsAgo, months: monthsAgo }),
       'yyyy-MM-dd',
     );
-  const defaultData = {
+  const defaultData = (checked = false) => ({
     dependents: {
       hasDependents: true,
       awarded: [
@@ -26,8 +27,9 @@ describe('PicklistRemoveDependents', () => {
             last: 'FOSTER',
           },
           dateOfBirth: createDoB(45),
-          ssn: '702023332',
+          ssn: '000111234',
           relationshipToVeteran: 'Spouse',
+          selected: false,
           awardIndicator: 'Y',
         },
         {
@@ -36,8 +38,9 @@ describe('PicklistRemoveDependents', () => {
             last: 'FOSTER',
           },
           dateOfBirth: createDoB(11),
-          ssn: '793473479',
+          ssn: '000111234',
           relationshipToVeteran: 'Child',
+          selected: checked,
           awardIndicator: 'Y',
         },
         {
@@ -46,8 +49,9 @@ describe('PicklistRemoveDependents', () => {
             last: 'FOSTER',
           },
           dateOfBirth: createDoB(0, 3),
-          ssn: '798703232',
+          ssn: '000111234',
           relationshipToVeteran: 'Child',
+          selected: false,
           awardIndicator: 'Y',
         },
         {
@@ -56,19 +60,21 @@ describe('PicklistRemoveDependents', () => {
             last: 'FOSTER',
           },
           dateOfBirth: createDoB(82),
-          ssn: '997010104',
+          ssn: '000111234',
           relationshipToVeteran: 'Parent',
+          selected: false,
           awardIndicator: 'Y',
         },
       ],
       notAwarded: [],
     },
-  };
+  });
 
   const renderComponent = ({
-    data = defaultData,
+    data = defaultData(),
     goBack = () => {},
-    goForward = () => {},
+    goToPath = () => {},
+    onSubmit = () => {},
     setFormData = () => {},
     updatePage = () => {},
     onReviewPage = false,
@@ -83,11 +89,10 @@ describe('PicklistRemoveDependents', () => {
           title="Spouse info"
           data={data}
           goBack={goBack}
-          goForward={goForward}
+          goToPath={goToPath}
+          onSubmit={onSubmit}
           setFormData={setFormData}
           updatePage={updatePage}
-          schema={optionPage.schema}
-          uiSchema={optionPage.uiSchema}
           onReviewPage={onReviewPage}
           contentBeforeButtons={contentBeforeButtons}
           contentAfterButtons={contentAfterButtons}
@@ -110,7 +115,7 @@ describe('PicklistRemoveDependents', () => {
       'Spouse, 45 years old',
       'Child, 11 years old',
       'Child, 3 months old',
-      'Parent, 82 years oldNote: A parent dependent can only be removed if they have died',
+      'Parent, 82 years oldNote: You can only remove a dependent parent if they have died.',
     ]);
     expect($('va-additional-info', container)).to.exist;
     expect($('.form-progress-buttons', container)).to.exist;
@@ -118,16 +123,16 @@ describe('PicklistRemoveDependents', () => {
     expect($('#after', container)).to.exist;
   });
 
-  it('should update "view:removeDependentPickList" in form data on change', () => {
+  it('should update PICKLIST_DATA in form data on change', () => {
     const setFormData = sinon.spy();
     const { container } = renderComponent({ setFormData });
 
     $('va-checkbox-group', container).__events.vaChange({
       detail: { checked: true },
-      target: { getAttribute: () => 'penny-3479' },
+      target: { getAttribute: () => 'penny-1234' },
     });
 
-    const result = defaultData.dependents.awarded.map((dep, index) => ({
+    const result = defaultData().dependents.awarded.map((dep, index) => ({
       ...dep,
       key: slugifyText(
         `${dep.fullName.first.toLowerCase()}-${dep.ssn.slice(-4)}`,
@@ -136,19 +141,45 @@ describe('PicklistRemoveDependents', () => {
     }));
 
     expect(setFormData.calledOnce).to.be.true;
-    expect(
-      setFormData.firstCall.args[0]['view:removeDependentPickList'],
-    ).to.deep.equal(result);
+    expect(setFormData.firstCall.args[0][PICKLIST_DATA]).to.deep.equal(result);
   });
 
   it('should show error message if form submitted with no checkboxes checked', async () => {
-    const goForward = sinon.spy();
-    const { container } = renderComponent({ goForward });
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({ goToPath });
 
     fireEvent.submit($('form', container));
     await waitFor(() => {
-      expect(goForward.called).to.be.false;
+      expect(goToPath.called).to.be.false;
       expect($('va-checkbox-group[error]', container)).to.exist;
+    });
+  });
+
+  it('should show error message if form submitted with no checkboxes checked', async () => {
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({ goToPath });
+
+    fireEvent.submit($('form', container));
+    await waitFor(() => {
+      expect(goToPath.called).to.be.false;
+      expect($('va-checkbox-group[error]', container)).to.exist;
+    });
+  });
+
+  it('should proceed when form is submitted with a checkbox checked', async () => {
+    const onSubmit = sinon.spy();
+    const goToPath = sinon.spy();
+    const { container } = renderComponent({
+      data: defaultData(true),
+      onSubmit,
+      goToPath,
+    });
+
+    fireEvent.submit($('form', container));
+
+    await waitFor(() => {
+      expect(goToPath.called).to.be.true;
+      expect(onSubmit.called).to.be.true;
     });
   });
 });

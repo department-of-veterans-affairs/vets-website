@@ -8,8 +8,6 @@ import {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Your contact information',
-  path: 'applicant/contact',
   uiSchema: {
     ...titleUI('Your email address and phone number'),
     email: emailUI('Email'),
@@ -20,7 +18,7 @@ export default {
     required: ['email', 'primaryPhone'],
     properties: {
       email: emailSchema,
-      primaryPhone: internationalPhoneSchema(),
+      primaryPhone: internationalPhoneSchema({ required: true }),
     },
   },
 };

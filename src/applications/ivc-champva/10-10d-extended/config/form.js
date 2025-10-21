@@ -38,7 +38,13 @@ import {
   medicareProofOfIneligibilityPage,
 } from '../chapters/medicareInformation';
 import { healthInsurancePages } from '../chapters/healthInsuranceInformation';
-import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import OhiIntroduction from '../components/FormPages/OhiIntroduction';
+import MedicareIntroduction from '../components/FormPages/MedicareIntroduction';
+import OtherHealthInsuranceInformation from '../components/FormPages/OtherHealthInsuranceInformation';
+import AddressSelectionPage, {
+  NOT_SHARED,
+} from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionReviewPage from '../components/FormReview/AddressSelectionReviewPage';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -67,6 +73,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formOptions: {
+    useWebComponentForNavigation: true,
     filterInactiveNestedPageData: true,
   },
   ...minimalHeaderFormConfigOptions({
@@ -180,7 +187,7 @@ const formConfig = {
         },
         page10b0: {
           path: 'veteran-address',
-          title: 'Veteran’s address selection',
+          title: 'Veteran’s address',
           depends: formData =>
             !get('sponsorIsDeceased', formData) &&
             get('certifierRole', formData) !== 'sponsor' &&
@@ -189,14 +196,16 @@ const formConfig = {
             const opts = { ...props, dataKey: 'sponsorAddress' };
             return AddressSelectionPage(opts);
           },
-          CustomPageReview: null,
+          CustomPageReview: AddressSelectionReviewPage,
           uiSchema: {},
           schema: blankSchema,
         },
         page10: {
           path: 'veteran-mailing-address',
           title: 'Veteran’s mailing address',
-          depends: formData => !get('sponsorIsDeceased', formData),
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('view:sharesAddressWith', formData) === NOT_SHARED,
           ...sponsorAddress,
         },
         page11: {
@@ -212,16 +221,43 @@ const formConfig = {
       pages: applicantPages,
     },
     medicareInformation: {
-      title: 'Medicare information',
+      title: 'Other Health Insurance Certification: Medicare information',
       pages: {
+        ohiIntro: {
+          path: 'medicare-and-other-health-insurance',
+          title: 'Report Medicare and other health insurance',
+          CustomPage: OhiIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        medicareIntro: {
+          path: 'medicare-introduction',
+          title: 'Report Medicare',
+          CustomPage: MedicareIntroduction,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
         ...medicarePages,
         page22: medicareStatusPage,
         page23: medicareProofOfIneligibilityPage,
       },
     },
     healthInsuranceInformation: {
-      title: 'Health insurance information',
-      pages: healthInsurancePages,
+      title:
+        'Other Health Insurance Certification: Health insurance information',
+      pages: {
+        healthInsuranceIntro: {
+          path: 'other-health-insurance-introduction',
+          title: 'Report other health insurance',
+          CustomPage: OtherHealthInsuranceInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
+        ...healthInsurancePages,
+      },
     },
   },
 };

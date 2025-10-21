@@ -13,7 +13,7 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { validateWhiteSpace } from 'platform/forms/validations';
 
-import { MARRIAGE_TYPES } from '../constants';
+import { MARRIAGE_TYPES, PICKLIST_DATA } from '../constants';
 
 export const validateName = (errors, pageData) => {
   const { first, last } = pageData;
@@ -297,7 +297,7 @@ export const hasAwardedDependents = (formData = {}) =>
   formData.dependents.awarded.length > 0;
 
 export const isVisiblePicklistPage = (formData, relationship) => {
-  const pickList = formData?.['view:removeDependentPickList'] || [];
+  const pickList = formData?.[PICKLIST_DATA] || [];
   return (
     (showV3Picklist(formData) &&
       formData?.['view:addOrRemoveDependents']?.remove &&
@@ -307,3 +307,6 @@ export const isVisiblePicklistPage = (formData, relationship) => {
     false
   );
 };
+
+export const hasSelectedPicklistItems = formData =>
+  (formData?.[PICKLIST_DATA] || []).some(item => item.selected);

@@ -6,15 +6,23 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import ERROR_500 from '@@profile/tests/fixtures/500.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
-import vamcErc from '../fixtures/vamc-ehr.json';
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
+import vamcErc from '../fixtures/vamc-ehr.json';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { makeUserObject } from './dashboard-e2e-helpers';
+import paymentHistory from '../fixtures/test-empty-payments-response.json';
 
 const alertText = /We’re sorry. Something went wrong on our end and we can’t access your appointment information. Please try again later or go to the appointments tool/i;
 
 describe('MyVA Dashboard - Appointments Error States', () => {
   beforeEach(() => {
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
+    cy.intercept('/v0/my_va/submission_statuses', { data: [] });
+    cy.intercept('/v0/debts*', { data: [] });
+    cy.intercept('/v0/profile/payment_history', paymentHistory);
+    cy.intercept('/v0/medical_copays', { data: [] });
+    cy.intercept('/v0/onsite_notifications', { data: [] });
+    cy.intercept('/vaos/v2/appointments*', { data: [] });
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -106,7 +114,6 @@ describe('MyVA Dashboard - Appointments Error States', () => {
         cy.login(mockUser4);
         cy.visit('my-va/');
 
-        cy.findByTestId('dashboard-section-health-care').should('not.exist');
         cy.findByTestId('dashboard-section-health-care').should('exist');
         cy.findByTestId('no-healthcare-text').should('exist');
         cy.findByTestId('view-manage-appointments-link-from-error').should(

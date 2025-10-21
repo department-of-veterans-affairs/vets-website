@@ -10,15 +10,19 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import { scrollToFirstError } from '~/platform/utilities/ui';
 import { slugifyText } from 'platform/forms-system/src/js/patterns/array-builder';
 
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
+import { getPicklistRoutes } from './picklist/routes';
+
 import { getFullName, calculateAge } from '../../shared/utils';
 
 const RemoveDependentsPicklist = ({
   data = {},
   goBack,
-  goForward,
+  goToPath,
   setFormData,
   contentBeforeButtons,
   contentAfterButtons,
+  onSubmit,
 }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showCheckboxError, setShowCheckboxError] = useState(false);
@@ -39,13 +43,9 @@ const RemoveDependentsPicklist = ({
     const key = keys[index];
     // Set initial value to false if not set
     // This ensures the checkbox is unchecked on initial render
-    acc[index] = {
-      ...dependent,
-      key,
-      selected: acc[index]?.selected || false,
-    };
+    acc[index] = { ...dependent, ...acc[index], key };
     return acc;
-  }, data['view:removeDependentPickList'] || []);
+  }, data[PICKLIST_DATA] || []);
   const atLeastOneChecked = (list = picklistChoices) =>
     list.some(v => v.selected);
 
@@ -57,17 +57,22 @@ const RemoveDependentsPicklist = ({
         item => (item.key === key ? { ...item, selected: isChecked } : item),
       );
 
-      setFormData({
-        ...data,
-        'view:removeDependentPickList': newList,
-      });
+      setFormData({ ...data, [PICKLIST_DATA]: newList });
       setShowCheckboxError(formSubmitted && !atLeastOneChecked(newList));
     },
     onSubmit: event => {
       event.preventDefault();
       setFormSubmitted(true);
       if (atLeastOneChecked()) {
-        goForward(data);
+        setFormData({ ...data, [PICKLIST_PATHS]: getPicklistRoutes(data) });
+        const firstSelectedIndex = picklistChoices.findIndex(
+          item => item.selected,
+        );
+        onSubmit(data);
+        // Go to the followup page for the first selected dependent
+        goToPath(`remove-dependent?index=${firstSelectedIndex}`, {
+          force: true,
+        });
       } else {
         setShowCheckboxError(true);
         setTimeout(scrollToFirstError);
@@ -82,7 +87,7 @@ const RemoveDependentsPicklist = ({
         error={showCheckboxError ? 'Select at least one option' : null}
         label-header-level="3"
         label="Which dependents would you like to remove?"
-        hint="Select all dependents you would like to remove"
+        hint="Select all that apply."
         onVaChange={handlers.onChange}
         required
       >
@@ -95,7 +100,7 @@ const RemoveDependentsPicklist = ({
             <VaCheckbox
               key={item.key}
               data-key={item.key}
-              name="view:removeDependentPickList"
+              name={PICKLIST_DATA}
               label={dependentFullName}
               checked={item.selected || false}
               tile
@@ -106,8 +111,8 @@ const RemoveDependentsPicklist = ({
               {item.relationshipToVeteran === 'Parent' ? (
                 <div slot="internal-description">
                   <p className="vads-u-margin-bottom--0">
-                    <strong>Note:</strong> A parent dependent can only be
-                    removed if they have died
+                    <strong>Note:</strong> You can only remove a dependent
+                    parent if they have died.
                   </p>
                 </div>
               ) : null}
@@ -118,17 +123,17 @@ const RemoveDependentsPicklist = ({
 
       <va-additional-info
         class="vads-u-margin-bottom--4"
-        trigger="Why can I only remove a parent dependent if they have died?"
+        trigger="Why can I only remove a dependent parent if they have died?"
       >
-        The only removal option for a parent allowed in this form is due to
-        death. If your parent is still living and you need to make changes to
+        The only removal option for a parent allowed in this application is due
+        to death. If your parent is still living and you need to make changes to
         your benefits, call us at <va-telephone contact="8008271000" /> (
         <va-telephone contact="711" tty />
         ).
       </va-additional-info>
 
       {contentBeforeButtons}
-      <FormNavButtons goBack={goBack} submitToContinue />
+      <FormNavButtons goBack={goBack} useWebComponents submitToContinue />
       {contentAfterButtons}
     </form>
   );
@@ -137,13 +142,13 @@ const RemoveDependentsPicklist = ({
 RemoveDependentsPicklist.propTypes = {
   data: PropTypes.object.isRequired,
   goBack: PropTypes.func.isRequired,
-  goForward: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   schema: PropTypes.object.isRequired,
   setFormData: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   uiSchema: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   contentAfterButtons: PropTypes.node,
   contentBeforeButtons: PropTypes.node,
   updatePage: PropTypes.func,

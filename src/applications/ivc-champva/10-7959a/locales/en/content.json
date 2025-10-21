@@ -1,4 +1,11 @@
 {
+  "address-selection--page-title": "address",
+  "address-selection--page-description": "We\u2019ll send any important information about this claim to this address.",
+  "address-selection--label-text": "have the same mailing address as you?",
+  "address-selection--prompt": "Does",
+  "address-selection--no-option": "No, use a new address",
+  "address-selection--yes-option": "Yes, use",
+  "error--required": "Please provide a response",
   "page-title--beneficiary-plural": "Beneficiary\u2019s",
   "page-title--your": "Your",
   "resubmission-docs-upload--page-title": "Upload supporting documents for your claim",

@@ -1,12 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import merge from 'lodash/merge';
 import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import manifest from '../manifest.json';
-import store from './store';
 import { getSignInUrl } from './constants';
 import { SORT_DEFAULTS } from './submissions';
 
@@ -17,12 +14,8 @@ const API_VERSION = 'accredited_representative_portal/v0';
 
 // 403 redirect handler
 const redirectToUnauthorizedAndReturn = () => {
-  const state = store.getState();
-  const dashboardEnabled = !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalDashboardLink
-  ];
   const inAppPath = window.location.pathname.startsWith(manifest.rootUrl);
-  if (dashboardEnabled && inAppPath) {
+  if (inAppPath) {
     window.location.replace(`${manifest.rootUrl}/dashboard?unauthorized=1`);
     // Keep loaders pending until navigation completes to avoid UI flash
     return new Promise(() => {});

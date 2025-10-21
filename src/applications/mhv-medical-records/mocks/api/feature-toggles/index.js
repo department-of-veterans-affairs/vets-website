@@ -3,9 +3,6 @@ const { snakeCase } = require('lodash');
 // Please, keep these feature toggle settings up-to-date with production's feature toggles settings.
 const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   // medical records
-  mhvMedicalRecordsAllowTxtDownloads: true,
-  mhvMedicalRecordsToVaGovRelease: true,
-  mhvMedicalRecordsMarch17Updates: true,
 
   // OH integration work
   mhvMedicationsToVaGovRelease: true,

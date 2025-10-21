@@ -18,13 +18,17 @@ const options = {
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
     getItemName: item => item?.medicalCenter,
-    summaryTitleWithoutItems: 'Treatment from VA medical facilities',
-    cancelAddYes: 'Yes, cancel adding this VA medical facility',
+    summaryTitleWithoutItems: 'Treatment from VA medical centers',
+    alertItemUpdated: 'Your VA medical center information has been updated',
+    alertItemDeleted: 'Your VA medical center information has been deleted',
+    cancelAddTitle: 'Cancel adding this VA medical center',
+    cancelAddYes: 'Yes, cancel adding this VA medical center',
     cancelAddNo: 'No',
-    cancelEditYes: 'Yes, cancel editing this VA medical facility',
+    cancelEditTitle: 'Cancel editing this VA medical center',
+    cancelEditYes: 'Yes, cancel editing this VA medical center',
     cancelEditNo: 'No',
     cancelNo: 'No',
-    deleteTitle: 'Delete VA medical facility',
+    deleteTitle: 'Delete this VA medical center',
     deleteNo: 'No',
   },
 };
@@ -75,7 +79,7 @@ export const vaMedicalCentersPages = arrayBuilderPages(
   options,
   pageBuilder => ({
     vaMedicalCentersSummary: pageBuilder.summaryPage({
-      title: 'VA medical facilities',
+      title: 'VA medical centers',
       path: 'medical/history/va-medical-centers/summary',
       depends: () => showMultiplePageResponse(),
       uiSchema: summaryPage.uiSchema,

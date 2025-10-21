@@ -76,7 +76,7 @@ describe('combined debt portal component helpers', () => {
       // Check that the correct trigger text is displayed in va-alert-expandable
       const triggerText = wrapper.find('va-alert-expandable').prop('trigger');
       expect(triggerText).to.equal(
-        'Need help with VA Debt after a natural disaster?',
+        'Need help with VA debt after a natural disaster?',
       );
     });
   });

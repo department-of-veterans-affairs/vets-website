@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import {
+  VaCard,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { buildDateFormatter } from '../../utils/helpers';
+import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 
 const NEED_ITEMS_STATUS = 'NEEDED_FROM_';
 
@@ -21,21 +26,36 @@ const getTrackedItemText = item => {
 };
 
 const generateDocsFiled = docsFiled => {
-  return docsFiled.map(document => {
+  return docsFiled.flatMap(document => {
     if (document.id && document.status) {
-      return {
-        requestTypeText: `Request type: ${document.displayName}`,
-        documents: document.documents,
+      const requestTypeText =
+        document.status === 'NO_LONGER_REQUIRED'
+          ? `We received this file for a closed evidence request (${
+              document.displayName
+            }).`
+          : `Request type: ${document.displayName}`;
+
+      // If tracked item has no documents, return single item
+      if (document.documents.length === 0) {
+        return {
+          requestTypeText,
+          documents: [],
+          text: getTrackedItemText(document),
+          date: document.date,
+          type: 'tracked_item',
+        };
+      }
+      // Split tracked item into separate items for each document
+      return document.documents.map(doc => ({
+        requestTypeText,
+        documents: [doc],
         text: getTrackedItemText(document),
-        date:
-          document.documents.length !== 0
-            ? document.documents[0].uploadDate || document.date
-            : document.date,
+        date: doc.uploadDate || document.date,
         type: 'tracked_item',
-      };
+      }));
     }
     return {
-      requestTypeText: 'Additional evidence',
+      requestTypeText: 'You submitted this file as additional evidence.',
       documents: [
         {
           originalFileName: document.originalFileName,
@@ -59,6 +79,22 @@ const getSortedItems = itemsFiled => {
   });
 };
 
+const getStatusBadgeText = item => {
+  if (item.type === 'additional_evidence_item') {
+    return 'On File';
+  }
+  if (item.text) {
+    if (item.text.includes('Reviewed')) {
+      return 'Reviewed by VA';
+    }
+    if (item.text === 'No longer needed') {
+      return 'On File';
+    }
+    return item.text;
+  }
+  return null;
+};
+
 const FilesReceived = ({ claim }) => {
   const { supportingDocuments, trackedItems } = claim.attributes;
 
@@ -68,7 +104,15 @@ const FilesReceived = ({ claim }) => {
   );
   itemsFiled.push(...supportingDocuments);
 
-  const currentPageItems = getSortedItems(itemsFiled);
+  const allItems = getSortedItems(itemsFiled);
+
+  const {
+    currentPageItems,
+    shouldShowButton,
+    nextBatchSize,
+    onShowMoreClicked,
+    headingRefs,
+  } = useIncrementalReveal(allItems);
 
   return (
     <div className="files-received-container" data-testid="files-received">
@@ -86,7 +130,108 @@ const FilesReceived = ({ claim }) => {
             <p>We haven’t received any files yet.</p>
           </div>
         ) : (
-          <p>Placeholder for {currentPageItems.length} files received</p>
+          <>
+            {/* add explicit role=list to expose the <ul> as a list for Safari/VoiceOver */}
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              className="usa-card-group vads-u-padding-x--0 usa-unstyled-list"
+              role="list"
+            >
+              {currentPageItems.map((item, itemIndex) => {
+                const statusBadgeText = getStatusBadgeText(item);
+                return (
+                  <li key={itemIndex}>
+                    <VaCard
+                      key={itemIndex}
+                      className="vads-u-margin-y--3"
+                      data-testid={`file-received-card-${itemIndex}`}
+                    >
+                      {statusBadgeText && (
+                        <div className="file-status-badge vads-u-margin-bottom--2">
+                          <span className="vads-u-visibility--screen-reader">
+                            Status
+                          </span>
+                          <span className="usa-label vads-u-padding-x--1">
+                            {statusBadgeText}
+                          </span>
+                        </div>
+                      )}
+                      {item.documents.length === 0 ? (
+                        <>
+                          <h4
+                            className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
+                            ref={el => {
+                              headingRefs.current[itemIndex] = el;
+                            }}
+                            tabIndex="-1"
+                          >
+                            File name unknown
+                          </h4>
+                          <div className="vads-u-margin-bottom--2">
+                            <p className="vads-u-margin--0">
+                              {item.requestTypeText}
+                            </p>
+                          </div>
+                          {item.date !== null && (
+                            <p className="file-received-date vads-u-margin--0">
+                              {`Received on ${formatDate(item.date)}`}
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        item.documents.map((doc, index) => (
+                          <div key={index}>
+                            <h4
+                              className="filename-title vads-u-margin-top--0 vads-u-margin-bottom--2"
+                              data-dd-privacy="mask"
+                              data-dd-action-name="document filename"
+                              ref={el => {
+                                headingRefs.current[itemIndex] = el;
+                              }}
+                              tabIndex="-1"
+                            >
+                              {doc.originalFileName
+                                ? doc.originalFileName
+                                : 'File name unknown'}
+                            </h4>
+                            <div className="vads-u-margin-bottom--2">
+                              <p className="vads-u-margin-y--0">
+                                {`Document type: ${doc.documentTypeLabel}`}
+                              </p>
+                              <p className="vads-u-margin-y--0">
+                                {item.requestTypeText}
+                              </p>
+                            </div>
+                            {(doc.uploadDate || item.date) && (
+                              <p className="file-received-date vads-u-margin-y--0">
+                                {`Received on ${formatDate(
+                                  doc.uploadDate || item.date,
+                                )}`}
+                              </p>
+                            )}
+                          </div>
+                        ))
+                      )}
+                      {item.text &&
+                        item.text.includes('Reviewed') && (
+                          <p className="vads-u-margin-y--0">{item.text}</p>
+                        )}
+                    </VaCard>
+                  </li>
+                );
+              })}
+            </ul>
+            {shouldShowButton && (
+              <div className="vads-u-margin-top--2">
+                <VaButton
+                  secondary
+                  onClick={onShowMoreClicked}
+                  text={`Show more received (${nextBatchSize})`}
+                  data-testid="show-more-button"
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
