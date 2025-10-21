@@ -81,6 +81,7 @@ const ContestableIssuesWidget = props => {
   return (
     <ContestableIssues
       {...restProps}
+      id={`root_${props.name}`}
       schema={schema}
       options={uiSchema?.['ui:options'] || props.options}
       value={formData || value}
