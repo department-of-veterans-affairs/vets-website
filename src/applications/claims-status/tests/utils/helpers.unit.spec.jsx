@@ -2006,28 +2006,83 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('shouldShowTimezoneDiscrepancyMessage', () => {
-    it('should return true when upload time would show as next day in UTC', () => {
+    let timezoneStub;
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
+    it('should return true when upload time would show as next day in UTC (EDT)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const uploadTime = new Date('2025-08-15T22:18:00-04:00');
-      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
       expect(result).to.be.true;
     });
 
-    it('should return false when upload time would show as same day in UTC', () => {
+    it('should return false when upload time would show as same day in UTC (EDT)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const uploadTime = new Date('2025-08-15T15:00:00-04:00');
-      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
       expect(result).to.be.false;
     });
 
     it('should return true at boundary time (8:00 PM EDT = midnight UTC)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const uploadTime = new Date('2025-08-15T20:00:00-04:00');
-      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
       expect(result).to.be.true;
     });
 
-    it('should return false just before boundary time', () => {
+    it('should return false just before boundary time (EDT)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const uploadTime = new Date('2025-08-15T19:59:59-04:00');
-      const result = showTimezoneDiscrepancyMessage(uploadTime, 240);
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
       expect(result).to.be.false;
+    });
+
+    it('should return true when upload time would show as next day in UTC (PDT)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(420); // PDT = UTC-7
+
+      const uploadTime = new Date('2025-08-15T19:30:00-07:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
+      expect(result).to.be.true;
+    });
+
+    it('should return false when upload time would show as same day in UTC (PDT)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(420); // PDT = UTC-7
+
+      const uploadTime = new Date('2025-08-15T12:00:00-07:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
+      expect(result).to.be.false;
+    });
+
+    it('should return true at boundary time (5:00 PM PDT = midnight UTC)', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(420); // PDT = UTC-7
+
+      const uploadTime = new Date('2025-08-15T17:00:00-07:00');
+      const result = showTimezoneDiscrepancyMessage(uploadTime);
+      expect(result).to.be.true;
     });
 
     it('should handle null input gracefully', () => {
@@ -2046,7 +2101,20 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('formatUploadDateTime', () => {
+    let timezoneStub;
+
+    afterEach(() => {
+      if (timezoneStub) {
+        timezoneStub.restore();
+        timezoneStub = null;
+      }
+    });
+
     it('should format date with time and timezone', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const date = new Date('2025-08-15T22:18:00-04:00');
       const formatted = formatUploadDateTime(date);
       expect(formatted).to.include('August 15, 2025');
@@ -2055,6 +2123,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should handle different times of day correctly', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const morningDate = new Date('2025-08-15T09:30:00-04:00');
       const eveningDate = new Date('2025-08-15T21:45:00-04:00');
 
@@ -2072,6 +2144,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should include timezone abbreviation', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const date = new Date('2025-08-15T22:18:00-04:00');
       const formatted = formatUploadDateTime(date);
       // Should end with timezone abbreviation (2-4 uppercase letters)
@@ -2079,6 +2155,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should handle noon correctly', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       // Use local time to avoid timezone conversion issues
       const noonDate = new Date(2025, 7, 15, 12, 0, 0); // Month is 0-indexed
       const formatted = formatUploadDateTime(noonDate);
@@ -2086,6 +2166,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should handle midnight correctly', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       // Use local time to avoid timezone conversion issues
       const midnightDate = new Date(2025, 7, 15, 0, 0, 0); // Month is 0-indexed
       const formatted = formatUploadDateTime(midnightDate);
@@ -2093,6 +2177,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should handle single-digit hours correctly', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       // Use local time to avoid timezone conversion issues
       const singleDigitHour = new Date(2025, 7, 15, 9, 0, 0); // Month is 0-indexed
       const formatted = formatUploadDateTime(singleDigitHour);
@@ -2101,6 +2189,10 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should accept Date object input', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const dateObject = new Date('2025-08-15T22:18:00-04:00');
       const formatted = formatUploadDateTime(dateObject);
       expect(formatted).to.include('August 15, 2025');
@@ -2108,10 +2200,27 @@ describe('Disability benefits helpers: ', () => {
     });
 
     it('should accept ISO string input', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(240); // EDT = UTC-4
+
       const isoString = '2025-08-15T22:18:00-04:00';
       const formatted = formatUploadDateTime(isoString);
       expect(formatted).to.include('August 15, 2025');
       expect(formatted).to.include('at');
+    });
+
+    it('should format date correctly in PDT timezone', () => {
+      timezoneStub = sinon
+        .stub(Date.prototype, 'getTimezoneOffset')
+        .returns(420); // PDT = UTC-7
+
+      const date = new Date('2025-08-15T19:30:00-07:00');
+      const formatted = formatUploadDateTime(date);
+      expect(formatted).to.include('August 15, 2025');
+      expect(formatted).to.include('at');
+      expect(formatted).to.match(/\d{1,2}:\d{2}\s+(a|p)\.m\./);
+      expect(formatted).to.match(/[A-Z]{2,4}$/);
     });
 
     it('should throw error for null input', () => {
