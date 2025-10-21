@@ -331,8 +331,8 @@ export const healthInsurancePages = arrayBuilderPages(
   healthInsuranceOptions,
   pageBuilder => ({
     healthInsuranceSummary: pageBuilder.summaryPage({
-      path: 'review-your-health-insurance-plans',
-      title: 'Report other health insurance',
+      path: 'other-health-insurance-plans',
+      title: 'Other health insurance plans',
       uiSchema: healthInsuranceSummaryPage.uiSchema,
       schema: healthInsuranceSummaryPage.schema,
     }),
