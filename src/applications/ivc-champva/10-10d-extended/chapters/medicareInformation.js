@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { memoize } from 'lodash';
 import set from 'platform/utilities/data/set';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
@@ -95,7 +96,7 @@ export const generateParticipantName = item => {
       app => item?.medicareParticipant === toHashMemoized(app.applicantSSN),
     );
     const name = applicantWording(match, false, false, false);
-    return name.length > 0 ? `${name}'s` : 'applicant';
+    return name.length > 0 ? `${name}’s` : 'Applicant';
   }
   return 'No participant';
 };
@@ -443,11 +444,17 @@ const medicarePartBCardUploadPage = {
 };
 
 const medicarePartADenialPage = dataKey => {
-  const pageTitle = ({ formData }) => {
-    if (formData?.medicareParticipant)
+  const PageTitle = ({ formContext }) => {
+    const formData = useSelector(state => state.form.data);
+    const n = Number(formContext.pagePerItemIndex);
+    const itemIndex = Number.isFinite(n) && n >= 0 ? n : null;
+    if (formData?.medicare?.[itemIndex]?.medicareParticipant) {
       return privWrapper(
-        `${generateParticipantName(formData)} Medicare status`,
+        `${generateParticipantName(
+          formData?.medicare?.[itemIndex],
+        )} Medicare status`,
       );
+    }
     const apps = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     const item = apps.find(a => getAgeInYears(a.applicantDob) >= 65);
     return privWrapper(
@@ -458,7 +465,7 @@ const medicarePartADenialPage = dataKey => {
     uiSchema: {
       'view:addtlInfo': { ...descriptionUI(ProofOfMedicareAlert) },
       [`view:${dataKey}`]: {
-        ...arrayBuilderItemSubsequentPageTitleUI(pageTitle),
+        ...arrayBuilderItemSubsequentPageTitleUI(PageTitle),
         [dataKey]: {
           ...yesNoUI({
             title:
