@@ -24,20 +24,9 @@ const contestableIssuesReducer = getEligibleContestableIssues => (
       };
     }
     case FETCH_CONTESTABLE_ISSUES_SUCCEEDED: {
-      // eslint-disable-next-line no-console
-      console.log('🔧 Raw action data:', action.response?.data);
-      const processedIssues = getEligibleContestableIssues(
-        action.response?.data,
-      );
-      // eslint-disable-next-line no-console
-      console.log(
-        '🔧 Processed issues with isBlockedSameDay:',
-        processedIssues,
-      );
-
       return {
         ...state,
-        issues: processedIssues,
+        issues: getEligibleContestableIssues(action.response?.data),
         status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
         error: '',
         // legacyCount & benefitType not used by 10182
