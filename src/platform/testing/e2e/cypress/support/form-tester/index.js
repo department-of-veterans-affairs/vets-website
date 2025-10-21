@@ -265,7 +265,6 @@ const processPage = ({ _13647Exception, stopTestAfterPath }) => {
     if (pathname.endsWith(stopTestAfterPath)) {
       return;
     }
-    cy.task('log', `Processing ${pathname}`);
 
     performPageActions(pathname, _13647Exception);
 
