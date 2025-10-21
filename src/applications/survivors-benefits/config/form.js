@@ -15,6 +15,13 @@ import ErrorText from '../components/ErrorText';
 import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
+import directDeposit from './chapters/06-additional-information/directDeposit';
+import directDepositAccount from './chapters/06-additional-information/directDepositAccount';
+import otherPaymentOptions from './chapters/06-additional-information/otherPaymentOptions';
+import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
+import uploadDocuments from './chapters/06-additional-information/uploadDocuments';
+import reviewDocuments from './chapters/06-additional-information/reviewDocuments';
+import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -96,6 +103,85 @@ const formConfig = {
           path: 'claim-information/nursing-home',
           uiSchema: nursingHome.uiSchema,
           schema: nursingHome.schema,
+        },
+      },
+    },
+    // Chapter 6
+    additionalInformation: {
+      title: 'Additional information',
+      pages: {
+        directDeposit: {
+          title: 'Direct deposit for survivor benefits',
+          path: 'additional-information/direct-deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
+        directDepositAccount: {
+          title:
+            directDepositAccount.uiSchema['ui:title'] ||
+            'Account information for direct deposit',
+          path: 'additional-information/direct-deposit/account',
+          depends: directDepositAccount.depends,
+          uiSchema: directDepositAccount.uiSchema,
+          schema: directDepositAccount.schema,
+        },
+        otherPaymentOptions: {
+          title:
+            otherPaymentOptions.title ||
+            (otherPaymentOptions.uiSchema &&
+              otherPaymentOptions.uiSchema['ui:title']) ||
+            'Other payment options',
+          path:
+            otherPaymentOptions.path ||
+            'additional-information/other-payment-options',
+          depends: otherPaymentOptions.depends,
+          uiSchema: otherPaymentOptions.uiSchema,
+          schema: otherPaymentOptions.schema,
+        },
+        supportingDocuments: {
+          title:
+            supportingDocuments.title ||
+            (supportingDocuments.uiSchema &&
+              supportingDocuments.uiSchema['ui:title']) ||
+            'Supporting documents',
+          path:
+            supportingDocuments.path ||
+            'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
+        uploadDocuments: {
+          title:
+            uploadDocuments.uiSchema && uploadDocuments.uiSchema['ui:title']
+              ? uploadDocuments.uiSchema['ui:title']
+              : uploadDocuments.title || 'Upload documents',
+          path:
+            uploadDocuments.path || 'additional-information/upload-documents',
+          uiSchema: uploadDocuments.uiSchema,
+          schema: uploadDocuments.schema,
+        },
+        reviewDocuments: {
+          title:
+            reviewDocuments.title ||
+            (reviewDocuments.uiSchema &&
+              reviewDocuments.uiSchema['ui:title']) ||
+            'Review supporting documents',
+          path:
+            reviewDocuments.path || 'additional-information/review-documents',
+          uiSchema: reviewDocuments.uiSchema,
+          schema: reviewDocuments.schema,
+        },
+        fasterClaimProcessing: {
+          title:
+            fasterClaimProcessing.title ||
+            (fasterClaimProcessing.uiSchema &&
+              fasterClaimProcessing.uiSchema['ui:title']) ||
+            'Faster claim processing',
+          path:
+            fasterClaimProcessing.path ||
+            'additional-information/faster-claim-processing',
+          uiSchema: fasterClaimProcessing.uiSchema,
+          schema: fasterClaimProcessing.schema,
         },
       },
     },
