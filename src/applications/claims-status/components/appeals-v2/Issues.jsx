@@ -4,6 +4,9 @@ import titleCase from 'platform/utilities/data/titleCase';
 import { pluralize } from '~/platform/utilities/ui';
 
 const Issues = ({ issues, appealType }) => {
+  const hasNoDescription = issue =>
+    issue.description === null || issue.description === '';
+
   const open = issues.filter(i => i.status === 'open');
   const remand = issues.filter(i => i.status === 'remand');
   const granted = issues.filter(i => i.status === 'granted');
@@ -13,15 +16,15 @@ const Issues = ({ issues, appealType }) => {
   Filter out issues with no description so that we can
   display the amount of issues without a description
   */
-  const openNoDescription = open.filter(i => i.description === null);
-  const remandNoDescription = remand.filter(i => i.description === null);
-  const grantedNoDescription = granted.filter(i => i.description === null);
-  const deniedNoDescription = denied.filter(i => i.description === null);
-  const withdrawnNoDescription = withdrawn.filter(i => i.description === null);
+  const openNoDescription = open.filter(hasNoDescription);
+  const remandNoDescription = remand.filter(hasNoDescription);
+  const grantedNoDescription = granted.filter(hasNoDescription);
+  const deniedNoDescription = denied.filter(hasNoDescription);
+  const withdrawnNoDescription = withdrawn.filter(hasNoDescription);
   const isAppeal = appealType === 'appeal' || appealType === 'legacy appeal';
 
   const getListItems = (item, i) => {
-    if (item.description === null) {
+    if (hasNoDescription(item)) {
       return null;
     }
     return (
@@ -188,7 +191,10 @@ Issues.propTypes = {
         'denied',
         'withdrawn',
       ]).isRequired,
-      description: PropTypes.string.isRequired,
+      description: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.oneOf([null]),
+      ]).isRequired,
     }),
   ).isRequired,
 };

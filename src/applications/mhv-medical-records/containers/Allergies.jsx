@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import {
   generatePdfScaffold,
@@ -58,21 +57,14 @@ const Allergies = props => {
     state => state.mr.allergies.listCurrentAsOf,
   );
   const refresh = useSelector(state => state.mr.refresh);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
 
   const user = useSelector(state => state.user.profile);
-  const { isAcceleratingAllergies } = useAcceleratedData();
-
+  const { isCerner } = useAcceleratedData();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const dispatchAction = isCurrent => {
-    return getAllergiesList(isCurrent, isAcceleratingAllergies);
+    return getAllergiesList(isCurrent, isCerner);
   };
 
   useListRefresh({
@@ -128,7 +120,7 @@ const Allergies = props => {
     const pdfData = {
       ...scaffold,
       subtitles,
-      ...generateAllergiesContent(allergies, isAcceleratingAllergies),
+      ...generateAllergiesContent(allergies, isCerner),
     };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(
@@ -142,7 +134,7 @@ const Allergies = props => {
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
-    if (isAcceleratingAllergies) {
+    if (isCerner) {
       return `
 ${txtLine}\n\n
 ${item.name}\n
@@ -206,7 +198,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!isAcceleratingAllergies && (
+        {!isCerner && (
           <NewRecordsIndicator
             refreshState={refresh}
             extractType={refreshExtractTypes.ALLERGY}
@@ -227,17 +219,13 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               description="Allergies - List"
               list
               downloadPdf={generateAllergiesPdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateAllergiesTxt}
             />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Allergies"
-            />
+            <DownloadingRecordsInfo description="Allergies" />
             <RecordList
               records={allergies?.map(allergy => ({
                 ...allergy,
-                isOracleHealthData: isAcceleratingAllergies,
+                isOracleHealthData: isCerner,
               }))}
               type={recordType.ALLERGIES}
             />

@@ -17,8 +17,11 @@ describe('Pre-need Schemaform definition: email', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    const inputs = formDOM.querySelectorAll('input[type="email"]');
-    expect(inputs.length).to.equal(1);
+    // Expect a single va-text-input with inputType='email'
+    const vaTextInputs = formDOM.querySelectorAll(
+      'va-text-input[type="email"], va-text-input[inputtype="email"]',
+    );
+    expect(vaTextInputs.length).to.equal(1);
   });
 
   it('should use default title if none is provided', () => {

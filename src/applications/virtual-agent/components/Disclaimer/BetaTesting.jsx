@@ -1,4 +1,3 @@
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import React from 'react';
 
 function Links() {
@@ -30,37 +29,13 @@ export default function BetaTesting() {
         question.
       </p>
       <p>
-        If you’re a Veteran in crisis or concerned about one, connect with our
-        caring, qualified Veterans Crisis Line responders for confidential help.
-        Many of them are Veterans themselves. This service is private, free, and
-        available 24/7.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        To connect with a Veterans Crisis Line responder anytime day or night:
-      </p>
-      <ul className="vads-u-margin-top--0p5">
-        <li>
-          Dialing <va-telephone contact="988" /> and press 1.
-        </li>
-        <li>
-          Calling <va-telephone contact={CONTACTS.CRISIS_LINE} /> and press 1.
-        </li>
-        <li>
-          Texting <va-telephone contact="838255" />.
-        </li>
-        <li>
-          If you have hearing loss, call{' '}
-          <va-telephone contact={CONTACTS.CRISIS_TTY} tty />.
-        </li>
-      </ul>
-      <p>
-        <strong>
+        <b>
           If you have questions about VA benefits and services that our chatbot
           can’t answer right now,{' '}
-        </strong>
+        </b>
         you can get the information in any of these ways:
+        <Links />
       </p>
-      <Links />
     </>
   );
 }

@@ -5,14 +5,9 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import {
-  mockFetch,
-  setFetchJSONResponse,
-} from '~/platform/testing/unit/helpers';
-
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import { createDebtsSuccess } from '../../../mocks/debts';
-import { user81Copays } from '../../../mocks/medical-copays';
+import { has3Copays } from '../../../mocks/medical-copays';
 import BenefitPaymentsAndDebt from '../../../components/debts/Debts';
 import reducers from '../../../reducers';
 
@@ -176,15 +171,11 @@ describe('<BenefitPaymentsAndDebt />', () => {
   });
 
   it('fetches debts and copays and displays them formatted', async () => {
-    mockFetch();
-    setFetchJSONResponse(global.fetch.onFirstCall(), createDebtsSuccess());
-    setFetchJSONResponse(global.fetch.onSecondCall(), user81Copays);
-
     const initialState = {
       allDebts: {
         isLoading: false,
-        debts: [],
-        copays: [],
+        debts: createDebtsSuccess().debts,
+        copays: has3Copays.data,
         debtsErrors: [],
         copaysErrors: [],
       },

@@ -27,15 +27,15 @@ describe('21P-0537 prefillTransformer', () => {
       expect(result.formData.recipientName.first).to.include('Jennifer');
       expect(result.formData.recipientName.middle).to.include('Marie');
       expect(result.formData.recipientName.last).to.include('Smith');
-      expect(result.formData.recipient.email).to.include(
+      expect(result.formData.emailAddress).to.include(
         'jennifer.smith@example.com',
       );
-      expect(result.formData.recipient.phone.daytime).to.include('5551234567');
+      expect(result.formData.primaryPhone).to.include('5551234567');
     });
   });
 
   describe('unauthenticated user', () => {
-    it('should use mock name when profile is undefined', () => {
+    it('should return empty data when profile is undefined', () => {
       const state = {
         user: {
           profile: undefined,
@@ -44,31 +44,31 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.include('Jane');
-      expect(result.formData.recipientName.last).to.include('Doe');
-      expect(result.formData.recipient.email).to.equal('');
-      expect(result.formData.recipient.phone.daytime).to.equal('');
+      expect(result.formData.recipientName.first).to.equal('');
+      expect(result.formData.recipientName.last).to.equal('');
+      expect(result.formData.emailAddress).to.equal('');
+      expect(result.formData.primaryPhone).to.equal('');
     });
 
-    it('should use mock name when user is undefined', () => {
+    it('should return empty data when user is undefined', () => {
       const state = {
         user: undefined,
       };
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.include('Jane');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData.recipientName.first).to.equal('');
+      expect(result.formData.recipientName.last).to.equal('');
     });
 
-    it('should use mock name when state is undefined', () => {
+    it('should return empty data when state is undefined', () => {
       const result = prefillTransformer(pages, formData, metadata, undefined);
 
-      expect(result.formData.recipientName.first).to.include('Jane');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData.recipientName.first).to.equal('');
+      expect(result.formData.recipientName.last).to.equal('');
     });
 
-    it('should use mock name when profile is empty object', () => {
+    it('should return empty data when profile is empty object', () => {
       const state = {
         user: {
           profile: {},
@@ -77,8 +77,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       const result = prefillTransformer(pages, formData, metadata, state);
 
-      expect(result.formData.recipientName.first).to.include('Jane');
-      expect(result.formData.recipientName.last).to.include('Doe');
+      expect(result.formData.recipientName.first).to.equal('');
+      expect(result.formData.recipientName.last).to.equal('');
     });
   });
 
@@ -100,8 +100,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       expect(result.formData.recipientName.first).to.include('John');
       expect(result.formData.recipientName.last).to.include('Doe');
-      expect(result.formData.recipient.email).to.equal('');
-      expect(result.formData.recipient.phone.daytime).to.include('5551234567');
+      expect(result.formData.emailAddress).to.equal('');
+      expect(result.formData.primaryPhone).to.include('5551234567');
     });
 
     it('should handle missing phone number', () => {
@@ -121,10 +121,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       expect(result.formData.recipientName.first).to.include('John');
       expect(result.formData.recipientName.last).to.include('Doe');
-      expect(result.formData.recipient.email).to.include(
-        'john.doe@example.com',
-      );
-      expect(result.formData.recipient.phone.daytime).to.equal('');
+      expect(result.formData.emailAddress).to.include('john.doe@example.com');
+      expect(result.formData.primaryPhone).to.equal('');
     });
 
     it('should handle missing both email and phone', () => {
@@ -143,8 +141,8 @@ describe('21P-0537 prefillTransformer', () => {
 
       expect(result.formData.recipientName.first).to.include('John');
       expect(result.formData.recipientName.last).to.include('Doe');
-      expect(result.formData.recipient.email).to.equal('');
-      expect(result.formData.recipient.phone.daytime).to.equal('');
+      expect(result.formData.emailAddress).to.equal('');
+      expect(result.formData.primaryPhone).to.equal('');
     });
   });
 

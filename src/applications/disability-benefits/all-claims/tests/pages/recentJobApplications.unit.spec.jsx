@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import { format, subYears, addYears } from 'date-fns';
+import { waitFor } from '@testing-library/dom';
 
 import {
   DefinitionTester,
@@ -38,7 +39,7 @@ describe('Recent Job Applications', () => {
   };
 
   // Helper function to test currentOrPastDateUI validation
-  const testCurrentOrPastDateField = (
+  const testCurrentOrPastDateField = async (
     fieldName,
     testDate,
     shouldPass,
@@ -50,16 +51,20 @@ describe('Recent Job Applications', () => {
     fillDate(form, fieldName, testDate);
 
     form.find('form').simulate('submit');
+    form.update();
 
     if (shouldPass) {
       expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(0);
       expect(onSubmit.called).to.be.true;
     } else {
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.be.greaterThan(0);
-      if (expectedError) {
-        expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(expectedError);
-      }
-      expect(onSubmit.called).to.be.false;
+      await waitFor(() => {
+        form.update();
+        expect(form.find(ERR_MSG_CSS_CLASS).length).to.be.greaterThan(0);
+        if (expectedError) {
+          expect(form.find(ERR_MSG_CSS_CLASS).text()).to.include(expectedError);
+        }
+        expect(onSubmit.called).to.be.false;
+      });
     }
 
     form.unmount();
@@ -185,27 +190,27 @@ describe('Recent Job Applications', () => {
   });
 
   describe('appliedEmployers date field validation', () => {
-    it('should accept current date', () => {
+    it('should accept current date', async () => {
       const currentDate = format(new Date(), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         currentDate,
         true,
       );
     });
 
-    it('should accept past date', () => {
+    it('should accept past date', async () => {
       const pastDate = format(subYears(new Date(), 1), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         pastDate,
         true,
       );
     });
 
-    it('should reject future date', () => {
+    it('should reject future date', async () => {
       const futureDate = format(addYears(new Date(), 1), 'yyyy-MM-dd');
-      testCurrentOrPastDateField(
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         futureDate,
         false,
@@ -213,8 +218,8 @@ describe('Recent Job Applications', () => {
       );
     });
 
-    it('should reject date before 1900', () => {
-      testCurrentOrPastDateField(
+    it('should reject date before 1900', async () => {
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         '1899-12-31',
         false,
@@ -222,8 +227,8 @@ describe('Recent Job Applications', () => {
       );
     });
 
-    it('should reject invalid date format', () => {
-      testCurrentOrPastDateField(
+    it('should reject invalid date format', async () => {
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         'invalid-date',
         false,
@@ -231,8 +236,8 @@ describe('Recent Job Applications', () => {
       );
     });
 
-    it('should reject non-leap year February 29', () => {
-      testCurrentOrPastDateField(
+    it('should reject non-leap year February 29', async () => {
+      await testCurrentOrPastDateField(
         'root_unemployability_appliedEmployers_0_date',
         '2021-02-29',
         false,

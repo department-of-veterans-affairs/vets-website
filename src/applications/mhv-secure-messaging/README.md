@@ -19,6 +19,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 
 - turn on local mocks `yarn mock-api --responses src/platform/mhv/api/mocks/index.js`
 - start app `yarn watch --env entry=mhv-secure-messaging`
+- Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
 - visit the app: `http://localhost:3001/my-health/secure-messages`
 
 ### Option 2: Tunneling into Upstream Services

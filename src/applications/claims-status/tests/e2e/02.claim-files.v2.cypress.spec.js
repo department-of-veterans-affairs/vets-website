@@ -6,6 +6,8 @@ import claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs from './fixtures/mo
 import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-one-supporting-docs.json';
 import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
+import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
+import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -123,6 +125,119 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
         testCase.expectedFilesReceivedCount,
       );
       trackClaimsPage.verifyFilesReceived(testCase.expectedFilesReceivedCount);
+      cy.axeCheck();
+    });
+  });
+
+  it('uploads a file and shows success alert with anchor link', () => {
+    const trackClaimsPage = new TrackClaimsPageV2();
+    trackClaimsPage.loadPage(
+      claimsList,
+      claimDetailsOpen,
+      true,
+      false,
+      featureToggleDocumentUploadStatusEnabled,
+    );
+    trackClaimsPage.verifyInProgressClaim(true);
+    trackClaimsPage.navigateToFilesTab();
+    trackClaimsPage.submitFilesForReview(true);
+
+    // Verify the new success alert appears and scope all subsequent checks to it
+    cy.get('va-alert[status="success"]')
+      .should('exist')
+      .within(() => {
+        cy.get('h2').should('contain', 'Document submission started on');
+        cy.root().should(
+          'contain',
+          'Your submission is in progress. It can take up to 2 days for us to receive your files.',
+        );
+
+        // Verify the anchor link exists and has correct href and text
+        cy.get('va-link')
+          .should('have.attr', 'text', 'Check the status of your submission')
+          .should('have.attr', 'href', '#file-submissions-in-progress');
+      });
+
+    // Click the anchor link and verify it navigates to the section
+    cy.get('va-alert[status="success"] va-link').click();
+    cy.get('#file-submissions-in-progress').should('be.visible');
+
+    cy.axeCheck();
+  });
+
+  context('Files Received - more than 5 files received', () => {
+    it('shows the user a show more button', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpen,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+      trackClaimsPage.verifyFilesReceived(5);
+      cy.axeCheck();
+    });
+
+    it('after clicking show more, the user sees all files', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManySupportingDocs,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.navigateToFilesTab();
+      trackClaimsPage.verifyFilesReceived(5);
+      trackClaimsPage.verifyShowMoreFilesReceivedButtonText(
+        'Show more received (3)',
+      );
+      trackClaimsPage.clickShowMoreFilesReceived();
+      trackClaimsPage.verifyFilesReceived(8);
+      trackClaimsPage.verifyShowMoreFilesReceivedButtonNotExists();
+      cy.axeCheck();
+    });
+  });
+
+  context('Files In Progress - more than 5 in progress items', () => {
+    it('shows the user a show more button', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManyEvidenceSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.verifyFileSubmissionsInProgress(5);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonText(
+        'Show more in progress (3)',
+      );
+      cy.axeCheck();
+    });
+
+    it('after clicking show more, the user sees all evidence submissions', () => {
+      const trackClaimsPage = new TrackClaimsPageV2();
+      trackClaimsPage.loadPage(
+        claimsList,
+        claimDetailsOpenManyEvidenceSubmissions,
+        false,
+        false,
+        featureToggleDocumentUploadStatusEnabled,
+      );
+      trackClaimsPage.verifyInProgressClaim(false);
+      trackClaimsPage.verifyFileSubmissionsInProgress(5);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonText(
+        'Show more in progress (3)',
+      );
+      trackClaimsPage.clickShowMoreFilesInProgress();
+      trackClaimsPage.verifyFileSubmissionsInProgress(8);
+      trackClaimsPage.verifyShowMoreFilesInProgressButtonNotExists();
       cy.axeCheck();
     });
   });

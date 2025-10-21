@@ -270,7 +270,7 @@
         "lastAction": null,
         "date": null
       },{
-        "description": null,
+        "description": "",
         "diagnosticCode": "6847",
         "active": true,
         "lastAction": null,
@@ -340,7 +340,7 @@
         "active": true,
         "lastAction": null,
         "date": null,
-        "description": null,
+        "description": "",
         "diagnosticCode": null
       }],
       "events": [{

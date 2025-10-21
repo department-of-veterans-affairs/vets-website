@@ -6,19 +6,18 @@ import { CernerAlertContent } from '../../util/constants';
 
 const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
   const {
+    isCerner,
     isAccelerating,
-    isAcceleratingAllergies,
     isAcceleratingCareNotes,
     isAcceleratingVaccines,
     isAcceleratingLabsAndTests,
     isAcceleratingConditions,
-    isCerner,
   } = useAcceleratedData();
 
   const hideOnPage = [
     CernerAlertContent.MR_LANDING_PAGE.pageName,
     isCerner ? CernerAlertContent.VITALS.pageName : null,
-    isAcceleratingAllergies ? CernerAlertContent.ALLERGIES.pageName : null,
+    isCerner ? CernerAlertContent.ALLERGIES.pageName : null,
     isAcceleratingVaccines ? CernerAlertContent.VACCINES.pageName : null,
     isAcceleratingCareNotes
       ? CernerAlertContent.CARE_SUMMARIES_AND_NOTES.pageName
@@ -31,7 +30,7 @@ const AcceleratedCernerFacilityAlert = ({ linkPath, pageName }) => {
       : null,
   ].filter(Boolean);
 
-  if (hideOnPage.includes(pageName) && isAccelerating) {
+  if (hideOnPage.includes(pageName) && (isCerner || isAccelerating)) {
     return <></>;
   }
   return <CernerFacilityAlert {...{ linkPath, pageName }} />;

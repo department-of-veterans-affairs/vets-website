@@ -805,4 +805,84 @@ describe('careSummariesAndNotesReducer', () => {
       [3, 2, 1, 'NULL1', 'NULL2'],
     );
   });
+
+  it('creates a unified list (GET_UNIFIED_LIST) with descending date order and sets current timestamp when isCurrent is true', () => {
+    const response = {
+      data: [
+        {
+          id: 'one',
+          attributes: {
+            name: 'First Note',
+            noteType: 'consult',
+            date: '2024-10-02T10:00:00Z',
+            dateEntered: '2024-10-02T10:05:00Z',
+          },
+        },
+        {
+          id: 'two',
+          attributes: {
+            name: 'Second Note',
+            noteType: 'consult',
+            date: '2024-10-03T09:00:00Z',
+            dateEntered: '2024-10-03T09:05:00Z',
+          },
+        },
+        {
+          id: 'three',
+          attributes: {
+            name: 'Third Note',
+            noteType: 'consult',
+            date: '2024-10-01T12:00:00Z',
+            dateEntered: '2024-10-01T12:05:00Z',
+          },
+        },
+      ],
+    };
+    const newState = careSummariesAndNotesReducer(
+      {},
+      {
+        type: Actions.CareSummariesAndNotes.GET_UNIFIED_LIST,
+        response,
+        isCurrent: true,
+      },
+    );
+    // Expect list ordered by descending date (ids: two, one, three)
+    expect(newState.careSummariesAndNotesList.map(r => r.id)).to.deep.equal([
+      'two',
+      'one',
+      'three',
+    ]);
+    expect(newState.listState).to.equal('fetched');
+    expect(newState.listCurrentAsOf).to.be.an.instanceof(Date);
+    // Verify one converted field (name preserved)
+    expect(newState.careSummariesAndNotesList[0].name).to.equal('Second Note');
+  });
+
+  it('creates a unified list with listCurrentAsOf = null when isCurrent is false', () => {
+    const response = {
+      data: [
+        {
+          id: 'n1',
+          attributes: {
+            name: 'Note 1',
+            noteType: 'consult',
+            date: '2024-10-05T11:00:00Z',
+          },
+        },
+      ],
+    };
+    const newState = careSummariesAndNotesReducer(
+      {},
+      {
+        type: Actions.CareSummariesAndNotes.GET_UNIFIED_LIST,
+        response,
+        isCurrent: false,
+      },
+    );
+    expect(newState.careSummariesAndNotesList.map(r => r.id)).to.deep.equal([
+      'n1',
+    ]);
+    expect(newState.listCurrentAsOf).to.equal(null);
+    expect(newState.listState).to.equal('fetched');
+  });
 });

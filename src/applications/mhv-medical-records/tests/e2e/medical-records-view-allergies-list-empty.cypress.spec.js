@@ -10,12 +10,6 @@ describe('Medical Records View Allergies', () => {
   });
 
   it('Visits Medical Records View Allergies List No Allergies', () => {
-    // const site = new MedicalRecordsSite();
-    // site.login();
-    // site.loadPage();
-
-    // cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-
     AllergiesListPage.goToAllergies(allergies);
 
     cy.get('[data-testid="no-records-message"]').should('be.visible');

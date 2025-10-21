@@ -27,6 +27,7 @@ import YesNoField from '../web-component-fields/YesNoField';
  * @param {UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   description?: UISchemaOptions['ui:description'],
+ *   descriptions?: { Y?: string, N?: string },
  *   labels?: {Y?: string, N?: string},
  *   descriptions?: {Y?: string, N?: string},
  *   tile?: boolean,

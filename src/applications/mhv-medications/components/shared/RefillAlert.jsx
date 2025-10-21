@@ -14,6 +14,7 @@ const RefillAlert = props => {
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
       data-testid="alert-banner"
       data-dd-privacy="mask"
+      slim={false}
     >
       <h2 slot="headline" data-testid="rxDelay-alert-message">
         Some refills are taking longer than expected

@@ -29,6 +29,7 @@ describe('<Issues/>', () => {
   };
   const appealIssuesWithoutDescription = {
     issues: addStatusToIssues([
+      { lastAction: null, description: '' },
       { lastAction: null, description: null },
       { lastAction: null, description: null },
       { lastAction: 'field_grant', description: null },
@@ -173,14 +174,14 @@ describe('<Issues/>', () => {
     context('when the appeal type is appeal', () => {
       it('should render a list item for issues without a description in the necessary section and with the correct appeal type', () => {
         const wrapper = mount(<Issues {...appealIssuesWithoutDescription} />);
-        // Should render a list item for 2 issues without description in the open section
+        // Should render a list item for 3 issues without description in the open section
         const openPanel = wrapper.find('va-accordion-item').first();
         expect(
           openPanel
             .find('li')
             .last()
             .text(),
-        ).to.equal("We're unable to show 2 issues on appeal");
+        ).to.equal("We're unable to show 3 issues on appeal");
         // Should render a list item for 1 issue without a description in the granted section
         const closedPanel = wrapper.find('va-accordion-item').at(1);
         expect(
