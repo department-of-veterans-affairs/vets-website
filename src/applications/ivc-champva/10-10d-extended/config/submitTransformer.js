@@ -209,9 +209,9 @@ export default function transformForSubmit(formConfig, form) {
   // Concat streets for addresses
   const withConcatAddresses = {
     ...initialTransform,
-    sponsorAddress: initialTransform.sponsorAddress
-      ? concatStreets(initialTransform.sponsorAddress)
-      : initialTransform.sponsorAddress,
+    sponsorAddress: form.data.sponsorAddress
+      ? concatStreets(form.data.sponsorAddress)
+      : form.data.sponsorAddress,
     certifierAddress: initialTransform.certifierAddress
       ? concatStreets(initialTransform.certifierAddress)
       : initialTransform.certifierAddress,
