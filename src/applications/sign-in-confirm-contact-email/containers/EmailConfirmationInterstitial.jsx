@@ -28,6 +28,8 @@ export default function EmailConfirmationInterstitial() {
   const handleConfirmation = () => {
     apiRequest('/v0/profile/email_addresses', {
       method: 'PUT',
+      // eslint-disable-next-line camelcase
+      body: JSON.stringify({ confirmation_date: new Date().toISOString() }),
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
