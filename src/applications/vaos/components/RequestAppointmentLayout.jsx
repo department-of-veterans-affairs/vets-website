@@ -1,16 +1,21 @@
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import {
   selectAppointmentLocality,
   selectApptDetailAriaText,
+  selectClinicLocationInfo,
   selectIsCanceled,
   selectIsCommunityCare,
   selectModalityIcon,
   selectTypeOfCareName,
 } from '../appointment-list/redux/selectors';
-import { selectFeatureCCDirectScheduling } from '../redux/selectors';
+import {
+  selectFeatureCCDirectScheduling,
+  selectFeatureListViewClinicInfo,
+} from '../redux/selectors';
+import AppointmentClinicInfo from './AppointmentClinicInfo';
 import AppointmentColumn from './AppointmentColumn';
 import AppointmentFlexGrid from './AppointmentFlexGrid';
 import AppointmentRow from './AppointmentRow';
@@ -30,15 +35,31 @@ export default function RequestAppointmentLayout({ appointment, index }) {
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
+  // If the clinic info feature flag is on, we want to show the clinic location info
+  const featureListViewClinicInfo = useSelector(state =>
+    selectFeatureListViewClinicInfo(state),
+  );
   const detailAriaLabel = useSelector(() =>
-    selectApptDetailAriaText(appointment, true),
+    selectApptDetailAriaText(appointment, false, featureListViewClinicInfo),
+  );
+  const clinicLocationInfo = useSelector(() =>
+    selectClinicLocationInfo(appointment),
+  );
+  const showClinicLocationInfo = useMemo(
+    () => clinicLocationInfo?.name || clinicLocationInfo?.location,
+    [clinicLocationInfo],
   );
 
   const featureCCDirectScheduling = useSelector(state =>
     selectFeatureCCDirectScheduling(state),
   );
 
-  const displayNewTypeOfCareHeading = `${typeOfCareName} request`;
+  const typeOfCareHeading = useMemo(
+    () =>
+      featureCCDirectScheduling ? `${typeOfCareName} request` : typeOfCareName,
+    [featureCCDirectScheduling, typeOfCareName],
+  );
+
   const link = `pending/${appointment.id}`;
 
   return (
@@ -60,10 +81,18 @@ export default function RequestAppointmentLayout({ appointment, index }) {
                     canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {' '}
-                    {featureCCDirectScheduling
-                      ? displayNewTypeOfCareHeading
-                      : typeOfCareName}
+                    {featureListViewClinicInfo ? (
+                      <a
+                        href={link}
+                        aria-label={detailAriaLabel}
+                        className="vaos-appts__focus--hide-outline"
+                        onClick={e => e.preventDefault()}
+                      >
+                        {typeOfCareHeading}
+                      </a>
+                    ) : (
+                      typeOfCareHeading
+                    )}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
@@ -106,23 +135,38 @@ export default function RequestAppointmentLayout({ appointment, index }) {
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-appts__detail-${appointment.id}`}
-                className="vaos-hide-for-print"
+                id={
+                  featureListViewClinicInfo
+                    ? `vaos-appts__namelocation-${appointment.id}`
+                    : `vaos-appts__detail-${appointment.id}`
+                }
+                className={
+                  featureListViewClinicInfo
+                    ? 'vads-u-display--none'
+                    : 'vaos-hide-for-print'
+                }
                 padding="0"
                 size="1"
-                aria-label={detailAriaLabel}
               >
-                <a
-                  className="vaos-appts__focus--hide-outline"
-                  aria-describedby={`vaos-appts__detail-${appointment.id}`}
-                  href={link}
-                  onClick={e => e.preventDefault()}
-                >
-                  Details
-                </a>
+                {featureListViewClinicInfo ? (
+                  <AppointmentClinicInfo
+                    show={showClinicLocationInfo}
+                    clinicLocationInfo={clinicLocationInfo}
+                    apptId={appointment.id}
+                  />
+                ) : (
+                  <a
+                    className="vaos-appts__focus--hide-outline"
+                    aria-label={detailAriaLabel}
+                    href={link}
+                    onClick={e => e.preventDefault()}
+                  >
+                    Details
+                  </a>
+                )}
               </AppointmentColumn>
             </AppointmentRow>
-          </AppointmentColumn>{' '}
+          </AppointmentColumn>
         </AppointmentRow>
       </AppointmentFlexGrid>
     </ListItem>

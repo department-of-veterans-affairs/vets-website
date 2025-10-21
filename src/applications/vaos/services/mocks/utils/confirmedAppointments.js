@@ -482,7 +482,7 @@ const appointmentTemplates = {
           },
           localStartTime: formatLocalTime(startDate),
           avsPath: null,
-          serviceName: `${serviceConfig.name.toUpperCase()} SOME EXTRA TEXT TO TEST TRUNCATION`,
+          serviceName: serviceConfig.name.toUpperCase(),
           friendlyLocationName: 'Cheyenne VA Medical Center',
           past: isPastAppointment,
           pending: false,

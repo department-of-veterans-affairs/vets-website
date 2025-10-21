@@ -25,6 +25,7 @@ function AppointmentListSection() {
         <Route
           path="/pending/:id"
           component={RequestedAppointmentDetailsPage}
+          exact
         />
 
         {isInPilotUserStations && (

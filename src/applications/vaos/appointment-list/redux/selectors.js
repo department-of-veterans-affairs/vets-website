@@ -183,16 +183,6 @@ export function selectProviderAddress(appointment) {
   return practitioners.length > 0 ? practitioners[0].address : null;
 }
 
-export function selectClinicLocationInfo(appointment) {
-  if (!appointment) return null;
-  return {
-    location: appointment.location?.clinicPhysicalLocation,
-    name:
-      appointment.location?.clinicName ||
-      appointment.vaos?.apiData?.serviceName,
-  };
-}
-
 export function getUpcomingAppointmentListInfo(state) {
   return {
     facilityData: state.appointments.facilityData,
@@ -403,6 +393,23 @@ export function selectAppointmentLocality(
   }
 
   return `${isCommunityCare ? 'Community care' : 'VA appointment'}`;
+}
+
+export function selectClinicLocationInfo(appointment) {
+  const returningInfo = { location: undefined, name: undefined };
+
+  if (!appointment || selectIsCommunityCare(appointment)) return returningInfo;
+
+  const inPersonVisit = isInPersonVisit(appointment); // also checks for COVID/In Person/and Claim & Pension Exam -- in transformer
+  const isVideoClinic = isClinicVideoAppointment(appointment); // Video at VA Facility
+
+  if (inPersonVisit || isVideoClinic) {
+    returningInfo.location = appointment.location?.clinicPhysicalLocation;
+  }
+
+  returningInfo.name =
+    appointment.location?.clinicName || appointment.vaos?.apiData?.serviceName; // I found one appointment in mocks that this was needed for, it may be an exception
+  return returningInfo;
 }
 
 export function selectVideoData(appointment) {

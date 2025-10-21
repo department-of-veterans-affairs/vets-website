@@ -225,7 +225,6 @@ div[id^="vaos-appts__namelocation-"] {
     display: flex;
     align-items: flex-start;
     text-align: left;
-    min-width: calc(min(151px, 9em));
   }
 
   @include media($small-desktop-screen) {

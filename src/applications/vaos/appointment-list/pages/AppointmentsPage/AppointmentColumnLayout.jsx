@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import AppointmentColumn from '../../../components/AppointmentColumn';
 import AppointmentRow from '../../../components/AppointmentRow';
+import AppointmentClinicInfo from '../../../components/AppointmentClinicInfo';
 import {
   selectAppointmentLocality,
   selectApptDateAriaText,
@@ -21,8 +22,6 @@ import {
   selectFeatureListViewClinicInfo,
   selectFeatureUseBrowserTimezone,
 } from '../../../redux/selectors';
-
-import AppointmentClinicInfo from '../../components/AppointmentClinicInfo';
 
 export default function AppointmentColumnLayout({
   data,
@@ -54,12 +53,12 @@ export default function AppointmentColumnLayout({
   const detailAriaLabel = useSelector(() =>
     selectApptDetailAriaText(data, false, featureListViewClinicInfo),
   );
-
   const clinicLocationInfo = useSelector(() => selectClinicLocationInfo(data));
   const showClinicLocationInfo = useMemo(
-    () => clinicLocationInfo?.name || clinicLocationInfo?.location,
+    () => !!(clinicLocationInfo?.name || clinicLocationInfo?.location),
     [clinicLocationInfo],
   );
+
   return (
     <>
       {/* Column 1 */}
@@ -178,10 +177,7 @@ export default function AppointmentColumnLayout({
                 canceled={isCanceled}
               >
                 <span
-                  className={classNames(
-                    'vaos-appts__display--table-cell',
-                    'vaos-appts__text--truncate',
-                  )}
+                  className={classNames('vaos-appts__display--table-cell')}
                   data-dd-privacy="mask"
                 >
                   {featureListViewClinicInfo ? (
@@ -237,9 +233,13 @@ export default function AppointmentColumnLayout({
                 ? `vaos-appts__namelocation-${data.id}`
                 : `vaos-appts__detail-${data.id}`
             }
-            className={featureListViewClinicInfo ? '' : 'vaos-hide-for-print'}
+            className={classNames({
+              'vaos-hide-for-print': !featureListViewClinicInfo,
+              'vads-u-display--none':
+                featureListViewClinicInfo && !showClinicLocationInfo,
+            })}
             padding="0"
-            size="1"
+            size={featureListViewClinicInfo ? '3' : '2'}
           >
             {featureListViewClinicInfo ? (
               <AppointmentClinicInfo
