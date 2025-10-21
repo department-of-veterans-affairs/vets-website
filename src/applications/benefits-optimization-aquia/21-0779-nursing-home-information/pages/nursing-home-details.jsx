@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { z } from 'zod';
-import { FormField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField } from '@bio-aquia/shared/components/atoms';
 import { AddressField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 import { nursingHomeDetailsSchema } from '@bio-aquia/21-0779-nursing-home-information/schemas';
@@ -51,7 +51,7 @@ export const NursingHomeDetailsPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="nursingHomeName"
             label="Name of nursing home where you work"
             schema={nursingHomeNameSchema}

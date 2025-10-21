@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField } from '@bio-aquia/shared/components/atoms';
+import { CurrencyField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import {
@@ -37,14 +37,13 @@ export const MonthlyCostsPage = ({ data, setFormData, goForward, goBack }) => {
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <CurrencyField
             name="monthlyOutOfPocket"
             label="What is the amount the patient needs to pay out of their own pocket every month?"
             schema={monthlyOutOfPocketSchema}
             value={localData.monthlyOutOfPocket}
             onChange={handleFieldChange}
             required
-            inputMode="numeric"
             error={errors.monthlyOutOfPocket}
             forceShowError={formSubmitted}
           />

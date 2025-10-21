@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField, SSNField } from '@bio-aquia/shared/components/atoms';
+import { NumberField, SSNField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import {
@@ -55,7 +55,7 @@ export const ClaimantIdentificationInfoPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <NumberField
             name="claimantVaFileNumber"
             label="VA file number (if known)"
             schema={vaFileNumberSchema}
@@ -64,6 +64,7 @@ export const ClaimantIdentificationInfoPage = ({
             hint="The VA file number may be the same as their SSN"
             error={errors.claimantVaFileNumber}
             forceShowError={formSubmitted}
+            inputmode="numeric"
           />
         </>
       )}

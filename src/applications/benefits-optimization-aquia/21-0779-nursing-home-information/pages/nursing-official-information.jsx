@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { FormField, PhoneField } from '@bio-aquia/shared/components/atoms';
+import { TextInputField, PhoneField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
 import {
@@ -48,7 +48,7 @@ export const NursingOfficialInformationPage = ({
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <FormField
+          <TextInputField
             name="firstName"
             label="Your first name"
             schema={nursingOfficialFirstNameSchema}
@@ -59,7 +59,7 @@ export const NursingOfficialInformationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="lastName"
             label="Your last name"
             schema={nursingOfficialLastNameSchema}
@@ -70,7 +70,7 @@ export const NursingOfficialInformationPage = ({
             forceShowError={formSubmitted}
           />
 
-          <FormField
+          <TextInputField
             name="jobTitle"
             label="Your nursing home job title"
             schema={nursingOfficialJobTitleSchema}
