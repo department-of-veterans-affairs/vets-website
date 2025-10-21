@@ -79,10 +79,10 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
     ).to.have.text('Location: East Hallway, 3rd Floor, Room 301');
     expect(
       screen.getByTestId(`vaos-appts__clinic-name-${apptId}`),
-    ).to.have.style('text-decoration', 'line-through');
+    ).to.have.attribute('style', 'text-decoration: line-through;');
     expect(
       screen.getByTestId(`vaos-appts__clinic-location-${apptId}`),
-    ).to.have.style('text-decoration', 'line-through');
+    ).to.have.attribute('style', 'text-decoration: line-through;');
   });
   it('should show without name when not provided, but show location when it is', async () => {
     // Arrange
@@ -111,7 +111,7 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
     ).to.have.text('Location: East Hallway, 3rd Floor, Room 301');
     expect(
       screen.getByTestId(`vaos-appts__clinic-location-${apptId}`),
-    ).to.have.style('text-decoration', 'none');
+    ).to.have.attribute('style', 'text-decoration: none;');
   });
   it('should show without location when not provided, but show clinic name when it is', async () => {
     // Arrange
@@ -140,6 +140,6 @@ describe('VAOS Component: AppointmentClinicInfo', () => {
       .exist;
     expect(
       screen.getByTestId(`vaos-appts__clinic-name-${apptId}`),
-    ).to.have.style('text-decoration', 'none');
+    ).to.have.attribute('style', 'text-decoration: none;');
   });
 });

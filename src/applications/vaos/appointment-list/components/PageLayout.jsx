@@ -8,7 +8,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import NeedHelp from '../../components/NeedHelp';
 import { selectFeatureListViewClinicInfo } from '../../redux/selectors';
 
-const listPageRegex = /^\/(past\/?)?$/; // matches '/', '/past' or '/past/' -- not pending or referrals-requests
+const listPageRegex = /^\/(past\/?)?$/; // matches '/' (this is the appointments list root route), '/past' or '/past/' -- not pending or referrals-requests
 export default function PageLayout({
   children,
   showBreadcrumbs,
