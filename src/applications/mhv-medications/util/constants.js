@@ -181,10 +181,10 @@ export const pdfDefaultStatusDefinition = [
 ];
 
 export const pdfDefaultPendingMedDefinition =
-  'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.\n';
+  'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.';
 
 export const pdfDefaultPendingRenewalDefinition =
-  'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.\n';
+  'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.';
 
 export const medStatusDisplayTypes = {
   VA_PRESCRIPTION: 'VaPrescription',

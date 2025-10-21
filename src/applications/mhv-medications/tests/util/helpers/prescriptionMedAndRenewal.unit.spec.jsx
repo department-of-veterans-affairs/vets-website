@@ -77,7 +77,7 @@ describe('Prescription Med and Renewal Status function', () => {
     );
     expect(component.props.children).to.equal(pdfDefaultPendingMedDefinition);
   });
-  it('should return pdfDefaultPendingMedDefinition when dispStatus is Renew and displayType is VA_PRESCRIPTION', () => {
+  it('should return pdfDefaultPendingRenewDefinition when dispStatus is Renew and displayType is VA_PRESCRIPTION', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
     rxDetails.dispStatus = 'Renew';
     rxDetails.prescriptionSource = 'PD';
@@ -88,5 +88,21 @@ describe('Prescription Med and Renewal Status function', () => {
     expect(component.props.children).to.equal(
       pdfDefaultPendingRenewalDefinition,
     );
+  });
+  it('should return pdfDefaultPendingMedDefinition when dispStatus is NewOrder and displayType is TXT', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+    expect(
+      prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.TXT),
+    ).to.equal(pdfDefaultPendingMedDefinition);
+  });
+  it('should return pdfDefaultPendingRenewDefinition when dispStatus is Renew and displayType is TXT', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+    expect(
+      prescriptionMedAndRenewalStatus(rxDetails, medStatusDisplayTypes.TXT),
+    ).to.equal(pdfDefaultPendingRenewalDefinition);
   });
 });
