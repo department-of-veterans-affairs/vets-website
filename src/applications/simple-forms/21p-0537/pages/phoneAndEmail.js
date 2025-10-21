@@ -1,47 +1,25 @@
 import {
   phoneUI,
   phoneSchema,
-  emailUI,
-  emailSchema,
-  titleUI,
+  emailToSendNotificationsUI,
+  emailToSendNotificationsSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const daytimePhoneUI = phoneUI();
-daytimePhoneUI['ui:title'] = 'Daytime telephone number (include area code)';
-
-const eveningPhoneUI = phoneUI();
-eveningPhoneUI['ui:title'] = 'Evening telephone number (include area code)';
-
-const emailAddressUI = emailUI();
-emailAddressUI['ui:title'] = 'Email address';
 
 export default {
   uiSchema: {
-    ...titleUI('How can we reach you?'),
-    recipient: {
-      phone: {
-        daytime: daytimePhoneUI,
-        evening: eveningPhoneUI,
-      },
-      email: emailAddressUI,
-    },
+    primaryPhone: phoneUI('Primary phone number'),
+    secondaryPhone: phoneUI('Secondary phone number'),
+    emailAddress: emailToSendNotificationsUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      recipient: {
-        type: 'object',
-        properties: {
-          phone: {
-            type: 'object',
-            properties: {
-              daytime: phoneSchema,
-              evening: phoneSchema,
-            },
-          },
-          email: emailSchema,
-        },
+      primaryPhone: phoneSchema,
+      secondaryPhone: phoneSchema,
+      emailAddress: {
+        ...emailToSendNotificationsSchema,
       },
     },
+    required: ['primaryPhone', 'emailAddress'],
   },
 };

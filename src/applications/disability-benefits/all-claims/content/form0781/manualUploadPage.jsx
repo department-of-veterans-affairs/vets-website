@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const manualUploadPageTitle = 'Upload VA Form 21 -0781';
+export const manualUploadPageTitle = 'Upload VA Form 21-0781';
 
 export const manualUploadPageDescription = (
   <>

@@ -116,7 +116,9 @@ const POARequestSearchPage = title => {
         <>
           <br />
           <VaAlert status="info" uswds visible data-testid="poa-403-info-alert">
-            <h2 slot="headline">You don’t have access to this feature</h2>
+            <h2 slot="headline">
+              You currently can’t receive requests in the portal
+            </h2>
             <div className="vads-u-margin-y--0">
               <p className="vads-u-margin-bottom--1">
                 <strong>Veteran Service Organization representatives:</strong>{' '}
@@ -197,12 +199,16 @@ const POARequestSearchPage = title => {
                         ]}
                         defaults={PENDING_SORT_DEFAULTS}
                       />
-                      <PaginationMeta
-                        meta={meta}
-                        results={poaRequests}
-                        resultType="requests"
-                        defaults={PENDING_SORT_DEFAULTS}
-                      />
+                      {(meta.page.total > 0 ||
+                        (selectedIndividual &&
+                          selectedIndividual !== 'false')) && (
+                        <PaginationMeta
+                          meta={meta}
+                          results={poaRequests}
+                          resultType="requests"
+                          defaults={PENDING_SORT_DEFAULTS}
+                        />
+                      )}
                     </>
                   );
                 case STATUSES.PROCESSED:
@@ -229,12 +235,16 @@ const POARequestSearchPage = title => {
                         ]}
                         defaults={PROCESSED_SORT_DEFAULTS}
                       />
-                      <PaginationMeta
-                        meta={meta}
-                        results={poaRequests}
-                        resultType="requests"
-                        defaults={PROCESSED_SORT_DEFAULTS}
-                      />
+                      {(meta.page.total > 0 ||
+                        (selectedIndividual &&
+                          selectedIndividual !== 'false')) && (
+                        <PaginationMeta
+                          meta={meta}
+                          results={poaRequests}
+                          resultType="requests"
+                          defaults={PROCESSED_SORT_DEFAULTS}
+                        />
+                      )}
                     </>
                   );
                 default:
@@ -242,7 +252,11 @@ const POARequestSearchPage = title => {
               }
             })()}
 
-            {meta.page.total > 0 && (
+            {meta.page.total === 0 &&
+              (searchStatus === STATUSES.PENDING
+                ? 'No pending representation requests.'
+                : 'No processed representation requests.')}
+            {meta.page.total >= 1 && (
               <>
                 <POARequestSearchPageResults poaRequests={poaRequests} />
                 <Pagination meta={meta} defaults={PENDING_SORT_DEFAULTS} />

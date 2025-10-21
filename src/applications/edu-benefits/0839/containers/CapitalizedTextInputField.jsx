@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import vaTextInputFieldMapping from 'platform/forms-system/src/js/web-component-fields/vaTextInputFieldMapping';
+import { validateInitials } from '../helpers';
 
 /**
  * A VaTextInputField that automatically capitalizes text on blur
@@ -16,41 +17,14 @@ export default function CapitalizedTextInputField(props) {
 
   const formData = useSelector(state => state.form?.data || {});
 
-  const validateInitials = initials => {
-    if (!initials || initials.length === 0) {
-      return '';
-    }
-
-    const firstName = formData?.authorizedOfficial?.fullName?.first || '';
-    const lastName = formData?.authorizedOfficial?.fullName?.last || '';
-
-    const firstLetter = firstName.charAt(0).toUpperCase();
-    const lastLetter = lastName.charAt(0).toUpperCase();
-
-    if (initials.length === 2) {
-      const inputFirst = initials.charAt(0);
-      const inputSecond = initials.charAt(1);
-
-      if (inputFirst !== firstLetter || inputSecond !== lastLetter) {
-        return `Initials must match your name: ${firstLetter}${lastLetter}`;
-      }
-    } else if (initials.length === 3) {
-      const inputFirst = initials.charAt(0);
-      const inputThird = initials.charAt(2);
-
-      if (inputFirst !== firstLetter || inputThird !== lastLetter) {
-        return `Initials must match your name: ${firstLetter}${lastLetter}`;
-      }
-    }
-
-    return '';
-  };
+  const firstName = formData?.authorizedOfficial?.fullName?.first || '';
+  const lastName = formData?.authorizedOfficial?.fullName?.last;
 
   const handleBlur = event => {
-    const currentValue = event.target.value;
+    const currentValue = event?.target?.value ?? displayValue;
     const capitalizedValue = currentValue.toUpperCase();
 
-    const error = validateInitials(capitalizedValue);
+    const error = validateInitials(capitalizedValue, firstName, lastName);
     setValidationError(error);
 
     setDisplayValue(capitalizedValue);

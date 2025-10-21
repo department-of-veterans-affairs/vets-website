@@ -24,7 +24,7 @@ export const uiSchema = {
     'ui:description': UploadDescription,
     'ui:confirmationField': ({ formData }) => ({
       data: formData?.map(item => item.name || item.fileName),
-      label: 'Uploaded file(s)',
+      label: 'Private medical records',
     }),
     'ui:required': data =>
       _.get(DATA_PATHS.hasPrivateRecordsToUpload, data, false),

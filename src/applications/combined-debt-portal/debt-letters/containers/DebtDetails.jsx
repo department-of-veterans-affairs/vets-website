@@ -49,7 +49,7 @@ const DebtDetails = () => {
     receivableId: currentDebt.rcvblId,
   };
 
-  const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
+  const title = `${deductionCodes[currentDebt.deductionCode]}`;
   useHeaderPageTitle(title);
 
   const showDebtLetterDownload = useSelector(state =>
@@ -102,10 +102,10 @@ const DebtDetails = () => {
           },
           {
             href: '/manage-va-debt/summary/debt-balances',
-            label: 'Current overpayment balances',
+            label: 'Overpayment balances',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${
+            href: `/manage-va-debt/summary/debt-balances/${
               selectedDebt.compositeDebtId
             }`,
             label: `${title}`,
@@ -130,7 +130,11 @@ const DebtDetails = () => {
         <DebtDetailsCard debt={currentDebt} showOTPP={oneThingPerPageActive} />
         {oneThingPerPageActive ? (
           <va-accordion open-single>
-            <va-accordion-item header="Why might I have this debt?" id="first">
+            <va-accordion-item
+              header="Why might I have this debt?"
+              id="first"
+              bordered
+            >
               {whyContent}
             </va-accordion-item>
           </va-accordion>
@@ -146,10 +150,10 @@ const DebtDetails = () => {
           </>
         )}
         {shouldShowPaymentHistory && (
-          <div>
+          <div className="vads-u-margin-y--2">
             <h2
               id="debtDetailsHeader"
-              className="vads-u-margin-y--2"
+              className="vads-u-margin-y--2 vads-u-margin-top--4"
               data-testid="debt-details-header"
             >
               Debt details
@@ -187,7 +191,7 @@ const DebtDetails = () => {
             <>
               <h2
                 id="debtDetailsHeader"
-                className="vads-u-margin-y--2"
+                className="vads-u-margin-y--2 vads-u-margin-top--4"
                 data-testid="otpp-details-header"
               >
                 Debt details
@@ -208,7 +212,7 @@ const DebtDetails = () => {
           <>
             <h2
               id="debtLetterHistory"
-              className="vads-u-margin-top--5 vads-u-margin-bottom--0"
+              className="vads-u-margin-top--4 vads-u-margin-bottom--0"
             >
               Debt letter history
             </h2>

@@ -144,19 +144,23 @@ const PreSubmitInfo = ({
         </p>
         <ul className="numbered-list">
           <li className="vads-u-font-family--sans">
-            I understand that if I still have benefits left under chapters 30,
-            33, or 35, one month of my benefits will be used for each month of
-            education I receive through this program. If I qualify for more than
-            one benefit, VA will use the one that pays me the most. For example,
-            if I qualify for both chapter 30 and chapter 33, VA will use chapter
-            30 because it usually pays more. If I want VA to use a different
-            benefit, I must contact them to switch to the program of my choice.
+            I understand that if I have eligibility remaining under chapter 30,
+            33, or 35 of this title, such entitlement shall be charged at the
+            rate of one month of such entitlement for each month of educational
+            assistance provided under this section. If I am eligible for more
+            than one of these education benefits, VA will charge the program
+            determined to be most advantageous to me. For example, if I am
+            eligible for chapter 30 and chapter 33, VA will charge my benefits
+            under chapter 33 since that pays less in most cases. If you want VA
+            to charge your entitlement under a different benefit, you can write
+            to tell us to switch to the program of your choice.
           </li>
           <li className="vads-u-font-family--sans">
-            I understand that if I’m enrolled in a high-tech program under this
-            section and don’t have any benefits left under chapters 30, 33, or
-            35, VA will still give me this education benefit in addition to what
-            I’ve already used before.
+            If I am enrolled in a high technology program of education under
+            this section and do not have remaining entitlement to educational
+            assistance under chapter 30, 33, or 35 of this title, any
+            educational assistance provided to me under this section shall be
+            provided in addition to the entitlement I used previously.
           </li>
         </ul>
         <VaPrivacyAgreement

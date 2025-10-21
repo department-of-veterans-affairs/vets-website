@@ -248,7 +248,7 @@ class MedicationsListPage {
       prescriptions,
     ).as('medicationsList');
     cy.get('[data-testid="download-pdf-button"]')
-      .should('contain', 'Download a PDF of all medications')
+      .should('contain', 'Download a PDF')
       .should('be.visible');
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
@@ -778,10 +778,6 @@ class MedicationsListPage {
     cy.get('[data-testid="download-print-button"]').should('be.enabled');
   };
 
-  verifyPrintAllMedicationsFromDropDownOnListPage = () => {
-    cy.get('[data-testid="download-print-all-button"]').should('be.enabled');
-  };
-
   verifyPharmacyPhoneNumberOnListPage = phoneNumber => {
     cy.get(
       '[data-testid="active-onHold"] > [data-testid="pharmacy-phone-number"]',
@@ -799,7 +795,7 @@ class MedicationsListPage {
 
   verifyRFRecordPhoneNumberOnListPage = rfPhoneNumber => {
     cy.get(
-      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="pharmacy-phone-info"] > [data-testid="pharmacy-phone-number"]',
+      '[data-testid="refill-in-process"] > [data-testid="rx-process"] > [data-testid="rx-refillinprocess-info"] > [data-testid="pharmacy-phone-number"]',
     )
       .shadow()
       .find('[href="tel:+14106366899"]')
@@ -1122,6 +1118,14 @@ class MedicationsListPage {
       expect(fileContent).to.contain('not available');
       expect(fileContent).to.not.contain('None noted');
     });
+  };
+
+  verifyFilterAriaRegionText = text => {
+    cy.findByTestId('filter-aria-live-region').should('have.text', text);
+  };
+
+  verifySortScreenReaderActionText = text => {
+    cy.findByTestId('sort-action-sr-text').should('have.text', text);
   };
 }
 

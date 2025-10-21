@@ -2,6 +2,7 @@
   "vaDependentsNetWorthAndPension": false,
   "view:checkVeteranPension": true,
   "view:additionalEvidenceDescription": {},
+  "view:householdIncome": true,
   "householdIncome": false,
   "view:studentInformationMissingInformation": {},
   "view:completedStudent": false,

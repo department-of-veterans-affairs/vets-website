@@ -4,6 +4,7 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import mockUser from './fixtures/mocks/user.json';
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -22,6 +23,7 @@ const testConfig = createTestConfig(
 
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
       cy.login(mockUser);
       setup(cy);
     },

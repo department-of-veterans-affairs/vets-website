@@ -142,4 +142,38 @@ describe('Vital List item for OH work', () => {
       getByTestId('vital-blood-pressure-review-over-time').href,
     ).to.contain('/vitals/blood-pressure-history?timeFrame=2024-01');
   });
+
+  it('should render date-specific text for accelerated users', () => {
+    const BLOOD_PRESSURE = vitals.entry[0].resource;
+    const record = convertVital(BLOOD_PRESSURE);
+    const options = { isAccelerating: true, timeFrame: '2024-01' };
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={[`/vitals?timeFrame=2024-01`]}>
+        <Route path="/vitals">
+          <VitalListItem record={record} options={options} />
+        </Route>
+      </MemoryRouter>,
+    );
+    const link = getByRole('link', {
+      name: /Review your blood pressure for January 2024/i,
+    });
+    expect(link).to.exist;
+  });
+
+  it('should render "over time" text for non-accelerated users', () => {
+    const BLOOD_PRESSURE = vitals.entry[0].resource;
+    const record = convertVital(BLOOD_PRESSURE);
+    const options = { isAccelerating: false };
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={[`/vitals`]}>
+        <Route path="/vitals">
+          <VitalListItem record={record} options={options} />
+        </Route>
+      </MemoryRouter>,
+    );
+    const link = getByRole('link', {
+      name: /Review your blood pressure over time/i,
+    });
+    expect(link).to.exist;
+  });
 });

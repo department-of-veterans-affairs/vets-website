@@ -1,0 +1,10 @@
+{
+  "hasAlreadyFiled": false,
+  "veteranFullName": {
+    "first": "Test",
+    "last": "Witness"
+  },
+  "veteranIdentification": {
+    "ssn": "234567890"
+  }
+}

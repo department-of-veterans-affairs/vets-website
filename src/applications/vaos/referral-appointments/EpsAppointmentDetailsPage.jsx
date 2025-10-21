@@ -66,6 +66,19 @@ export default function EpsAppointmentDetailsPage() {
   }
 
   const { attributes: appointment } = referralAppointmentInfo;
+  const isPastAppointment = appointment.past;
+
+  const backLink = isPastAppointment
+    ? '/my-health/appointments/past'
+    : '/my-health/appointments';
+
+  const backLinkText = isPastAppointment
+    ? 'Back to past appointments'
+    : 'Back to appointments';
+
+  const pageTitle = isPastAppointment
+    ? 'Past community care appointment'
+    : 'Community care appointment';
 
   return (
     <PageLayout>
@@ -75,11 +88,11 @@ export default function EpsAppointmentDetailsPage() {
             back
             aria-label="Back link"
             data-testid="back-link"
-            text="Back to appointments"
-            href="/my-health/appointments"
+            text={backLinkText}
+            href={backLink}
             onClick={e => {
               e.preventDefault();
-              history.push('/');
+              history.push(isPastAppointment ? '/past' : '/');
             }}
           />
         </nav>
@@ -90,10 +103,13 @@ export default function EpsAppointmentDetailsPage() {
         icon-name="calendar_today"
       >
         <h1 className="vaos__dynamic-font-size--h2">
-          <span data-dd-privacy="mask">Community Care Appointment</span>
+          <span data-dd-privacy="mask">{pageTitle}</span>
         </h1>
         <Section heading="When">
-          <AppointmentDate date={appointment.start} />
+          <AppointmentDate
+            date={appointment.start}
+            timezone={appointment.provider.location.timezone}
+          />
           <br />
           <AppointmentTime
             date={appointment.start}

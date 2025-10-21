@@ -11,7 +11,7 @@ describe('Medical Records View Lab and Tests', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
       isAcceleratingLabsAndTests: true,
     });
     LabsAndTests.setIntercepts({ labsAndTestData: [] });

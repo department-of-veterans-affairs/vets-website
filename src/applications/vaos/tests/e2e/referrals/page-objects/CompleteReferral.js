@@ -48,7 +48,9 @@ export class CompleteReferralPageObject extends PageObject {
   assertApiError() {
     // This uses curly apostrophes as required by VA style guidelines
     cy.findByText(/We can’t schedule this appointment online/i).should('exist');
-    cy.findByText(/We’re sorry. Please call us at/i).should('exist');
+    cy.findByText(/We’re sorry. Call your community care provider at/i).should(
+      'exist',
+    );
     return this;
   }
 

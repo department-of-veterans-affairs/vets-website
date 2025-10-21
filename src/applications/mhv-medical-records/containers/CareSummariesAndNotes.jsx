@@ -1,13 +1,18 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+
 import RecordList from '../components/RecordList/RecordList';
 import {
   getCareSummariesAndNotesList,
   reloadRecords,
 } from '../actions/careSummariesAndNotes';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import {
   ALERT_TYPE_ERROR,
   CernerAlertContent,
@@ -24,7 +29,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
+import { Actions } from '../util/actionTypes';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -64,17 +69,13 @@ const CareSummariesAndNotes = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
 
   useEffect(
     () => {
