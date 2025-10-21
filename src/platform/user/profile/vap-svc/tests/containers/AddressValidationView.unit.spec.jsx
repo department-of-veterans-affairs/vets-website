@@ -27,7 +27,7 @@ const baseData = {
       addressValidationError: '',
       addressValidationType: 'mailingAddress',
       userEnteredAddress: {},
-      validationKey: 1234,
+      overrideValidationKey: 1234,
       confirmedSuggestions: [],
       suggestedAddresses: [
         {
@@ -129,7 +129,7 @@ describe('<AddressValidationView/>', () => {
         },
         addressValidation: {
           ...baseData.vapService.addressValidation,
-          validationKey: 1234,
+          overrideValidationKey: 1234,
           selectedAddressId: '0',
           confirmedSuggestions: [
             {
@@ -165,7 +165,7 @@ describe('<AddressValidationView/>', () => {
     expect(labels[1]).to.have.attribute('label', 'Suggested address:');
   });
 
-  it('renders two primary va-button components with correct text when no validationKey and suggestedAddress are present', () => {
+  it('renders two primary va-button components with correct text when no overrideValidationKey and suggestedAddress are present', () => {
     const newData = {
       vapService: {
         ...baseData.vapService,
@@ -173,7 +173,7 @@ describe('<AddressValidationView/>', () => {
           ...baseData.vapService.addressValidation,
           confirmedSuggestions: [],
           suggestedAddresses: [],
-          validationKey: null,
+          overrideValidationKey: null,
         },
       },
     };
@@ -198,7 +198,7 @@ describe('<AddressValidationView/>', () => {
         },
         addressValidation: {
           ...baseData.vapService.addressValidation,
-          validationKey: null,
+          overrideValidationKey: null,
         },
       },
     };
@@ -223,7 +223,7 @@ describe('<AddressValidationView/>', () => {
         },
         addressValidation: {
           ...baseData.vapService.addressValidation,
-          validationKey: null,
+          overrideValidationKey: null,
           selectedAddressId: '0',
           confirmedSuggestions: [
             {
@@ -266,13 +266,13 @@ describe('<AddressValidationView/>', () => {
   });
 
   describe('AddressValidationView with TWO suggestions', () => {
-    it('renders correct labels, buttons, and 2 radio buttons for suggested addresses when validationKey is null', async () => {
+    it('renders correct labels, buttons, and 2 radio buttons for suggested addresses when overrideValidationKey is null', async () => {
       const newData = {
         vapService: {
           ...baseData.vapService,
           addressValidation: {
             ...baseData.vapService.addressValidation,
-            validationKey: null,
+            overrideValidationKey: null,
             selectedAddressId: '0',
             confirmedSuggestions: [
               {
@@ -351,7 +351,7 @@ describe('<AddressValidationView/>', () => {
       ]);
     });
 
-    it('renders 3 radio buttons when validationKey is present', () => {
+    it('renders 3 radio buttons when overrideValidationKey is present', () => {
       const newData = {
         vapService: {
           ...baseData.vapService,
@@ -395,7 +395,7 @@ describe('<AddressValidationView/>', () => {
                 },
               },
             ],
-            validationKey: 1234,
+            overrideValidationKey: 1234,
           },
         },
       };
@@ -412,7 +412,7 @@ describe('<AddressValidationView/>', () => {
       expect(suggestedAddressOption.length).to.equal(2);
     });
 
-    it('renders the alert with the correct headline and message for NO validationKey and NO suggestedAddresses', () => {
+    it('renders the alert with the correct headline and message for NO overrideValidationKey and NO suggestedAddresses', () => {
       const newData = {
         featureToggles: {
           [TOGGLE_NAMES.profileShowNoValidationKeyAddressAlert]: true,
@@ -425,7 +425,7 @@ describe('<AddressValidationView/>', () => {
             ...baseData.vapService.addressValidation,
             confirmedSuggestions: [],
             suggestedAddresses: [],
-            validationKey: null,
+            overrideValidationKey: null,
           },
         },
       };
@@ -452,7 +452,7 @@ describe('<AddressValidationView/>', () => {
       expectVaButtons(container, [{ text: 'Edit' }, { text: 'Edit' }]);
     });
 
-    it('renders the alert with the correct headline and message for NO validationKey and has suggestedAddresses', () => {
+    it('renders the alert with the correct headline and message for NO overrideValidationKey and has suggestedAddresses', () => {
       const newData = {
         featureToggles: { profileShowNoValidationKeyAddressAlert: true },
         isNoValidationKeyAlertEnabled: true,
@@ -460,7 +460,7 @@ describe('<AddressValidationView/>', () => {
           ...baseData.vapService,
           addressValidation: {
             ...baseData.vapService.addressValidation,
-            validationKey: null,
+            overrideValidationKey: null,
             suggestedAddresses: [
               {
                 addressLine1: '1600 Pennsylvania Ave NW',
