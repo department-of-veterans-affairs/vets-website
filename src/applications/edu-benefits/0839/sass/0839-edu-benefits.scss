@@ -39,3 +39,76 @@
     }
   }
 }
+.yellow-ribbon-title {
+  color: lab(0% 0 0) !important;
+  width: fit-content;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+legend.yellow-ribbon-title {
+  width: 698px !important;
+  @media (max-width: $small-screen) {
+    width: 100%;
+    padding-inline: 0.5rem;
+  }
+}
+.yellow-program-list {
+  p {
+    margin-bottom: 16px;
+  }
+
+  ul {
+    width: 100%;
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    display: block;
+
+    li {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      position: relative ;
+      margin-left: 10px;
+
+      &::before {
+        content: "•" ;
+        position: absolute ;
+        left: 0 ;
+        top: 0;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.eligible-individuals-note p {
+  color: hsl(0, 0%, 46%) !important;
+  width: 332px;
+  @media (max-width: $small-screen){
+    width: 100%;
+    padding-inline: 0.5rem;
+  }
+}
+.academic-year-title {
+  color: lab(0% 0 0) !important;
+  width: fit-content;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+legend:has(.academic-year-title) {
+  width: 389px;
+  @media (max-width: $small-screen){
+    width: 100%;
+    padding-inline: 0.5rem;
+  }
+}
+label[id="root_unlimitedIndividuals-label"] {
+display: none !important;
+}
