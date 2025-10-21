@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { FIELD_NONE_NOTED, medStatusDisplayTypes } from '../../util/constants';
+import {
+  FIELD_NONE_NOTED,
+  medStatusDisplayTypes,
+  pdfStatusDefinitions,
+} from '../../util/constants';
 import {
   validateField,
   dateFormat,
@@ -120,6 +124,38 @@ const PrescriptionPrintOnly = props => {
               <strong>Status: </strong>
               {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
             </p>
+            {!pendingMed &&
+              !pendingRenewal &&
+              pdfStatusDefinitions[rx.refillStatus] &&
+              pdfStatusDefinitions[rx.refillStatus].length > 1 && (
+                <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
+                  {pdfStatusDefinitions[rx.refillStatus]
+                    .slice(1) // skip the first line (already displayed)
+                    .map((def, i) => {
+                      if (Array.isArray(def.value)) {
+                        return (
+                          <ul key={i} className="vads-u-margin--0">
+                            {def.value.map((val, idx) => (
+                              <li key={idx} className="vads-u-margin--0">
+                                {val}
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      }
+
+                      if (def.weight === 'bold') {
+                        return <strong key={i}>{def.value}</strong>;
+                      }
+
+                      return (
+                        <div key={i} className="vads-u-margin-y--0p5">
+                          {def.value}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>
