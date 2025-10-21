@@ -229,7 +229,7 @@ const formConfig = {
           ...ohiIntroduction,
         },
         medicareIntro: {
-          path: 'medicare-introduction',
+          path: 'report-medicare',
           title: 'Report Medicare',
           ...medicareIntroduction,
         },
@@ -243,7 +243,7 @@ const formConfig = {
         'Other Health Insurance Certification: Health insurance information',
       pages: {
         healthInsuranceIntro: {
-          path: 'other-health-insurance-introduction',
+          path: 'report-other-health-insurance',
           title: 'Report other health insurance',
           ...healthInsuranceIntroduction,
         },

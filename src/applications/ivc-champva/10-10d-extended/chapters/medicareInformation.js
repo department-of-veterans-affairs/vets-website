@@ -774,8 +774,8 @@ export const medicarePages = arrayBuilderPages(
   medicareOptions,
   pageBuilder => ({
     medicareSummary: pageBuilder.summaryPage({
-      path: 'report-medicare-plans',
-      title: 'Report Medicare plans',
+      path: 'medicare-plans',
+      title: 'Medicare plans',
       uiSchema: medicareSummaryPage.uiSchema,
       schema: medicareSummaryPage.schema,
     }),
