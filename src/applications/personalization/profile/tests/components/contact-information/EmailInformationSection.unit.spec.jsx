@@ -11,6 +11,7 @@ import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
+import EmailInformationSection from '../../../components/contact-information/email-addresses/EmailInformationSection';
 
 // 'import as alias' to clear the following Node 22 CI failure
 // Exception during run: SyntaxError: src/applications/.../EmailInformationSection.unit.spec.jsx:

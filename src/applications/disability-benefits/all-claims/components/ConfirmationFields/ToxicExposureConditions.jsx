@@ -18,6 +18,9 @@ const ToxicExposureConditions = ({ formData }) => {
     .filter(condition => claimedKeys.includes(sippableId(condition.condition)))
     .map(condition => capitalizeEachWord(condition.condition));
 
+  // TODO - make toxic exposure conditions user-readable. Currently displays all in one word as the label as ptsdposttraumaticstressdisorder Claimed
+  // TODO - check with design/content on if it should say "claimed" or "selected" or anything else
+
   return (
     <li>
       <h4>Toxic Exposure</h4>
