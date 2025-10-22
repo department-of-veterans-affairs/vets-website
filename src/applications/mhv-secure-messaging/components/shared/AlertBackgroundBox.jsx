@@ -35,7 +35,7 @@ import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
 
 const AlertBackgroundBox = props => {
-  const { updateAlertsStatus } = props;
+  const { updateAlertsStatus = () => {} } = props;
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
