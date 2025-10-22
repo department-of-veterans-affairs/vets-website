@@ -29,7 +29,6 @@ const BlockedTriageGroupAlert = props => {
     currentRecipient,
     setShowBlockedTriageGroupAlert,
     isOhMessage,
-    updateAlertsStatus = () => {},
   } = props;
 
   const DATADOG_FIND_VA_FACILITY_LINK =
@@ -58,7 +57,6 @@ const BlockedTriageGroupAlert = props => {
   const handleShowBlockedTriageGroupAlert = useCallback(
     () => {
       if (setShowBlockedTriageGroupAlert) setShowBlockedTriageGroupAlert(true);
-      updateAlertsStatus({ blockedGroups: true });
     },
     [setShowBlockedTriageGroupAlert],
   );

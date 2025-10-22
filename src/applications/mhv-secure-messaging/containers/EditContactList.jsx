@@ -36,10 +36,11 @@ const EditContactList = () => {
   const [checkboxError, setCheckboxError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [triageTeamCount, setTriageTeamCount] = useState({});
-  const [alertsStatus, setAlertsStatus] = useState({
-    blockedGroups: false,
-    saveSuccess: false,
-  });
+  const [showAlertBackgroundBox, setShowAlertBackgroundBox] = useState(false);
+  const [
+    showBlockedTriageGroupAlert,
+    setShowBlockedTriageGroupAlert,
+  ] = useState(false);
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
@@ -84,10 +85,6 @@ const EditContactList = () => {
         ).length,
       ]),
     );
-  };
-
-  const updateAlertsStatus = status => {
-    setAlertsStatus(prevStatus => ({ ...prevStatus, ...status }));
   };
 
   const updatePreferredTeam = (triageTeamId, selected, stationNumber) => {
@@ -215,11 +212,11 @@ const EditContactList = () => {
       <AlertBackgroundBox
         closeable
         focus
-        updateAlertsStatus={updateAlertsStatus}
+        setShowAlertBackgroundBox={setShowAlertBackgroundBox}
       />
 
-      {alertsStatus.blockedGroups &&
-        alertsStatus.saveSuccess && (
+      {showBlockedTriageGroupAlert &&
+        showAlertBackgroundBox && (
           <hr className="vads-u-margin-y--2" data-testid="contact-list-hr" />
         )}
 
@@ -230,7 +227,7 @@ const EditContactList = () => {
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.ALERT}
           parentComponent={ParentComponent.CONTACT_LIST}
-          updateAlertsStatus={updateAlertsStatus}
+          setShowBlockedTriageGroupAlert={setShowBlockedTriageGroupAlert}
         />
       </div>
 
