@@ -147,37 +147,46 @@ export default function EpsAppointmentDetailsPage() {
             )}
         </Section>
         <Section heading="Provider">
-          {appointment.provider?.name && (
-            <>
-              <span data-dd-privacy="mask">{appointment.provider.name}</span>
-              <br />
-            </>
+          {appointment.provider?.name ? (
+            <p
+              className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+              data-dd-privacy="mask"
+            >
+              {appointment.provider.name}
+            </p>
+          ) : (
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Provider name not available
+            </p>
           )}
-          {appointment.provider?.location?.name && (
-            <>
-              <span data-dd-privacy="mask">
-                {appointment.provider.location.name}
-              </span>
-              <br />
-            </>
+          {appointment.provider?.location?.name ? (
+            <p
+              className="vads-u-margin-top--0 vads-u-margin-bottom--0"
+              data-dd-privacy="mask"
+            >
+              {appointment.provider.location.name}
+            </p>
+          ) : (
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Facility name not available
+            </p>
           )}
-          {!appointment.provider?.name &&
-            !appointment.provider?.location?.name && (
-              <>
-                <span>Provider information not available</span>
-                <br />
-              </>
-            )}
-          {appointment.provider.location.address && (
+          {appointment.provider.location.address ? (
             <ProviderAddress
               address={appointment.provider.location.address}
               showDirections
               directionsName={appointment.provider.location.name}
             />
+          ) : (
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Address not available
+            </p>
           )}
           <FacilityPhone
+            // If provider phone is available, use it, otherwise VA 800 number
             contact={appointment.provider.phone || undefined}
-            ccPhone={appointment.provider.phone}
+            // If provider phone is available, hide extension
+            ccPhone={!!appointment.provider.phone}
           />
         </Section>
         <Details

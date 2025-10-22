@@ -260,6 +260,40 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByTestId('clinic-telephone')).to.exist;
   });
 
+  it('should display fallback text when provider data not available', async () => {
+    const appointment = {
+      ...referralAppointmentInfo,
+      attributes: {
+        ...referralAppointmentInfo.attributes,
+        provider: {
+          ...referralAppointmentInfo.attributes.provider,
+          name: '',
+          // location: {},
+          location: {
+            ...referralAppointmentInfo.attributes.provider.location,
+            name: '',
+            address: '',
+          },
+          phone: '',
+        },
+      },
+    };
+    requestStub.resolves({ data: appointment });
+    const { getByText, getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store: createTestStore(emptyAppointmentState),
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByText(/Provider name not available/)).to.exist;
+      expect(getByText(/Facility name not available/)).to.exist;
+      expect(getByText(/Address not available/)).to.exist;
+      expect(getByTestId('main-telephone')).to.exist;
+    });
+  });
+
   it('should display correct time with timezone conversion', async () => {
     // Create appointment with specific UTC time and timezone
     const appointmentWithTimeZone = {
