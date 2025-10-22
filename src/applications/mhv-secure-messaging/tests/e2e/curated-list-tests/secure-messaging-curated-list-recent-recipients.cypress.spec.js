@@ -31,7 +31,6 @@ describe('SM CURATED LIST MAIN FLOW', () => {
 
   it('verify recent recipients list with maximum recipients', () => {
     PatientInboxPage.clickCreateNewMessage();
-    // cy.wait(100000); // wait for recent recipients to load
     PatientInterstitialPage.continueToRecentRecipients();
     GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
