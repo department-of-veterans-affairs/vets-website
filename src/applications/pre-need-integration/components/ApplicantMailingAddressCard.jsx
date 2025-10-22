@@ -14,7 +14,7 @@ const ApplicantMailingAddressCard = ({ formData, onEdit, content = '' }) => {
   const address = profileMailingAddress || formAddressInfo;
 
   const formatAddress = addr => {
-    if (!addr) return 'Not provided';
+    if (!addr) return null;
 
     const {
       addressLine1,
@@ -39,22 +39,34 @@ const ApplicantMailingAddressCard = ({ formData, onEdit, content = '' }) => {
     const addressZip = zipCode || postalCode;
     const addressCountry = countryName || country;
 
-    if (!line1) return 'Not provided';
+    if (!line1) return null;
 
-    let formattedAddress = line1;
-    if (line2) formattedAddress += `\n${line2}`;
+    const addressLines = [];
+
+    // Add address line 1
+    addressLines.push(line1);
+
+    // Add address line 2 if it exists
+    if (line2) {
+      addressLines.push(line2);
+    }
+
+    // Add city, state, zip line if any exist
     if (addressCity || addressState || addressZip) {
-      formattedAddress += `\n${addressCity || ''}${
+      const cityStateZip = `${addressCity || ''}${
         addressCity && (addressState || addressZip) ? ', ' : ''
       }${addressState || ''}${
         addressState && addressZip ? ' ' : ''
       }${addressZip || ''}`;
-    }
-    if (addressCountry && addressCountry !== 'United States') {
-      formattedAddress += `\n${addressCountry}`;
+      addressLines.push(cityStateZip);
     }
 
-    return formattedAddress;
+    // Add country if it's not US
+    if (addressCountry && addressCountry !== 'United States') {
+      addressLines.push(addressCountry);
+    }
+
+    return addressLines;
   };
 
   return (
@@ -70,11 +82,16 @@ const ApplicantMailingAddressCard = ({ formData, onEdit, content = '' }) => {
         <h4 className="vads-u-font-size--h3 vads-u-width--auto vads-u-margin-top--0 vads-u-margin-bottom--2">
           Your mailing address
         </h4>
-        <div
-          className="dd-privacy-hidden vads-u-margin-y--2"
-          style={{ whiteSpace: 'pre-line' }}
-        >
-          {formatAddress(address)}
+        <div className="dd-privacy-hidden vads-u-margin-y--2">
+          {formatAddress(address) ? (
+            formatAddress(address).map((line, index) => (
+              <div key={index} className="vads-u-margin-bottom--2">
+                {line}
+              </div>
+            ))
+          ) : (
+            <div>Not provided</div>
+          )}
         </div>
         <div className="vads-u-margin-y--1">
           <va-link

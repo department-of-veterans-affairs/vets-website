@@ -103,7 +103,7 @@ const ApplicantMailingAddressLoggedIn = ({
       <ApplicantMailingAddressCard
         formData={data}
         onEdit={handleEdit}
-        content="We'll send any correspondence to this address."
+        content="We may mail information about your application to the address you provide here."
       />
       {contentBeforeButtons}
       <NavButtons goBack={goBack} goForward={goForward} />

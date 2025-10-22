@@ -43,7 +43,7 @@ const EditMailingAddress = ({ goToPath, contentAfterButtons }) => {
       event.stopPropagation();
     },
     cancel: () => {
-      setReturnState('address', 'canceled');
+      setReturnState('address', 'updated');
       goToPath('applicant-mailing-address-logged-in', { force: true });
     },
     success: () => {
@@ -65,7 +65,10 @@ const EditMailingAddress = ({ goToPath, contentAfterButtons }) => {
           <h3 ref={headerRef} className="vads-u-font-size--h3">
             Edit your mailing address
           </h3>
-          <p>We’ll send any correspondence to this address.</p>
+          <p>
+            We may mail information about your application to the address you
+            provide here.
+          </p>
           <ProfileInformationFieldController
             forceEditView
             fieldName={FIELD_NAMES.MAILING_ADDRESS}
