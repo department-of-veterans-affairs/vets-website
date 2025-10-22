@@ -412,7 +412,7 @@ export const Data = {
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
   RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
-  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`,
+  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',

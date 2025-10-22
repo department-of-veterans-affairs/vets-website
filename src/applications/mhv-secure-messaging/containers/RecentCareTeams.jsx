@@ -14,7 +14,7 @@ import { focusOnErrorField } from '../util/formHelpers';
 import { updateDraftInProgress } from '../actions/threadDetails';
 import useFeatureToggles from '../hooks/useFeatureToggles';
 
-const RECENT_RECIPIENTS_LABEL = `Select a team you want to message. This list only includes teams that you've sent messages to in the last 6 months. If you want to contact another team, select "A different care team."`;
+const RECENT_RECIPIENTS_LABEL = `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`;
 
 const OTHER_VALUE = 'other';
 const { Paths } = Constants;

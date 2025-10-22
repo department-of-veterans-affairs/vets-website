@@ -97,10 +97,11 @@ describe('SM CURATED LIST MAIN FLOW', () => {
       Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
     ).click();
 
+    // Wait for error message to appear and be visible
     cy.findByTestId(Locators.RECENT_CARE_TEAMS_RADIO_GROUP_TEST_ID)
       .shadow()
       .findByText('Select a care team')
-      .should('exist');
+      .should('be.visible');
 
     // validate the first va-radio-option is focused
     cy.findByLabelText(`${recentCareTeams[0]}VA Madison health care`).should(
