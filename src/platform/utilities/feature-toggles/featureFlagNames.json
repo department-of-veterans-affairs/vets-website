@@ -1,5 +1,6 @@
 {
   "accreditedRepresentativePortalFrontend": "accredited_representative_portal_frontend",
+  "accreditedRepresentativePortalIdMe": "accredited_representative_portal_id_me",
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "accreditedRepresentativePortalForm21a": "accredited_representative_portal_form_21a",
   "aedpVADX": "aedp_vadx",
@@ -340,6 +341,7 @@
   "virtualAgentShowAiDisclaimer": "virtual_agent_show_ai_disclaimer",
   "virtualAgentShowFloatingChatbot": "virtual_agent_show_floating_chatbot",
   "virtualAgentUseStsAuthentication": "virtual_agent_use_sts_authentication",
+  "virtualAgentChatbotSessionPersistenceEnabled": "virtual_agent_chatbot_session_persistence_enabled",
   "vreModularApi": "vre_modular_api",
   "vreCutoverNotice": "vre_cutover_notice",
   "vyeLoginWidget": "vye_login_widget",
@@ -366,5 +368,9 @@
   "vreEligibilityStatusUpdates": "vre_eligibility_status_updates",
   "champvaForm1010d2027": "champva_form_10_10d_2027",
   "authExpEmailVerificationEnabled": "auth_exp_email_verification_enabled",
-  "disability526SidenavEnabled": "sidenav_526ez_enabled"
+  "disability526SidenavEnabled": "sidenav_526ez_enabled",
+  "form0779Enabled": "form_0779_enabled",
+  "form530aEnabled": "form_530a_enabled",
+  "form4192Enabled": "form_4192_enabled",
+  "form2680Enabled": "form_2680_enabled"
 }

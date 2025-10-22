@@ -22,10 +22,10 @@ const EligibilityCriteria = ({
   const periods = veteranProfile?.servicePeriod || [];
   const count = periods.length;
   const label = count === 1 ? 'period' : 'periods';
-
+  const scdDetails = disabilityRating?.scdDetails ?? [];
   return (
     <>
-      <h2 className="vads-u-margin-top--4">Basic Eligibility Criteria</h2>
+      <h2 className="vads-u-margin-top--4">Basic eligibility criteria</h2>
       <p>
         A Veteran must have a compensable service-connected disability (SCD)
         rating of 10 percent or more and must have served on active military
@@ -34,7 +34,7 @@ const EligibilityCriteria = ({
         for at least one active period or qualifying service.
       </p>
 
-      <va-additional-info trigger="VA Review Process for Hospitalized Service Members with SCD">
+      <va-additional-info trigger="VA review process for hospitalized service members with SCD">
         <p>
           For Service members hospitalized or recently hospitalized with an SCD
           while awaiting separation, the VA must determine that the condition is
@@ -48,13 +48,14 @@ const EligibilityCriteria = ({
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={svcStyle.icon}
+            srtext={svcStyle.icon}
             size={3}
             class={`${
               svcStyle.cls
             } vads-u-margin-right--1 vads-u-margin-top--0p5`}
           />
           <div>
-            <strong>Qualifying Military Service:</strong>
+            <strong>Qualifying military service:</strong>
             <va-additional-info trigger="Service history details">
               <p className="vads-u-padding-bottom--1">
                 Applicant has {count} {label} of qualifying military service
@@ -79,6 +80,7 @@ const EligibilityCriteria = ({
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={codStyle.icon}
+            srtext={codStyle.icon}
             size={3}
             class={`${
               codStyle.cls
@@ -86,7 +88,7 @@ const EligibilityCriteria = ({
           />
           <div>
             <strong>
-              Character of discharge:{' '}
+              Character of Discharge:{' '}
               {veteranProfile?.characterOfDischarge || '—'}
             </strong>
           </div>
@@ -95,6 +97,7 @@ const EligibilityCriteria = ({
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={drStyle.icon}
+            srtext={drStyle.icon}
             size={3}
             class={`${
               drStyle.cls
@@ -102,33 +105,32 @@ const EligibilityCriteria = ({
           />
           <div>
             <strong>
-              Disability Rating:{' '}
+              Disability rating:{' '}
               {disabilityRating?.combinedScd != null
                 ? `${disabilityRating.combinedScd}%`
                 : '—'}
             </strong>
-
-            <va-additional-info trigger="SCD details">
-              {Array.isArray(disabilityRating?.scdDetails) &&
-                disabilityRating.scdDetails.length > 0 && (
-                  <>
-                    <ul style={{ listStyleType: 'disc' }}>
-                      {disabilityRating.scdDetails.map(detail => (
-                        <li key={detail?.code}>
-                          {detail?.code} - {detail?.name} - {detail?.percentage}
-                          %
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-            </va-additional-info>
+            {scdDetails.length > 0 && (
+              <va-additional-info trigger="SCD details">
+                <ul
+                  className="vads-u-margin-top--1"
+                  style={{ listStyleType: 'disc' }}
+                >
+                  {scdDetails.map(detail => (
+                    <li key={detail?.code}>
+                      {detail?.code} - {detail?.name} - {detail?.percentage}%
+                    </li>
+                  ))}
+                </ul>
+              </va-additional-info>
+            )}
           </div>
         </li>
 
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={irndStyle.icon}
+            srtext={irndStyle.icon}
             size={3}
             class={`${
               irndStyle.cls
@@ -136,7 +138,7 @@ const EligibilityCriteria = ({
           />
           <div>
             <strong>
-              Initial rating Notification Date: {formatDate(irndDate)}
+              Initial rating notification date: {formatDate(irndDate)}
             </strong>
           </div>
         </li>
@@ -144,6 +146,7 @@ const EligibilityCriteria = ({
         <li className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-bottom--2">
           <va-icon
             icon={etdStyle.icon}
+            srtext={etdStyle.icon}
             size={3}
             class={`${
               etdStyle.cls
@@ -151,7 +154,7 @@ const EligibilityCriteria = ({
           />
           <div>
             <strong>
-              Eligibility Termination Date:{' '}
+              Eligibility termination date:{' '}
               {formatDate(eligibilityTerminationDate)}
             </strong>
           </div>
