@@ -18,10 +18,11 @@ import {
   isRefillTakingLongerThanExpected,
   pharmacyPhoneNumber,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
+import { medStatusDisplayTypes } from '../../util/constants';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
-import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import MedicationDescription from '../shared/MedicationDescription';
 import {
@@ -87,26 +88,6 @@ const VaPrescription = prescription => {
     },
     [prescription?.prescriptionId],
   );
-
-  const determineStatus = () => {
-    if (pendingRenewal) {
-      return (
-        <p data-testid="pending-renewal-status">
-          This is a renewal you requested. Your VA pharmacy is reviewing it now.
-          Details may change.
-        </p>
-      );
-    }
-    if (pendingMed) {
-      return (
-        <p>
-          This is a new prescription from your provider. Your VA pharmacy is
-          reviewing it now. Details may change.
-        </p>
-      );
-    }
-    return <StatusDropdown status={prescription.dispStatus} />;
-  };
 
   const handleAccordionItemToggle = ({ target }) => {
     if (target) {
@@ -281,7 +262,10 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Status
             </h3>
-            {determineStatus()}
+            {prescriptionMedAndRenewalStatus(
+              prescription,
+              medStatusDisplayTypes.VA_PRESCRIPTION,
+            )}
             <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
               Refills left
             </h3>
@@ -348,11 +332,13 @@ const VaPrescription = prescription => {
               <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                 Quantity
               </h3>
-              <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
+              <p data-testid="rx-quantity">
+                {validateIfAvailable('Quantity', prescription.quantity)}
+              </p>
               <h3 className="vads-u-font-size--source-sans-normalized vads-u-font-family--sans">
                 Prescribed on
               </h3>
-              <p datat-testid="ordered-date">
+              <p data-testid="ordered-date">
                 {dateFormat(
                   prescription.orderedDate,
                   'MMMM D, YYYY',

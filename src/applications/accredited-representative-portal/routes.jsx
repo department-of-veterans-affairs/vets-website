@@ -83,7 +83,7 @@ const routes = [
           {
             index: true,
             element: (
-              <LandingPage title="Accredited Representative Portal | Veterans Affairs" />
+              <LandingPage title="Welcome to the Accredited Representative Portal | Veterans Affairs" />
             ),
           },
           forEachRoute(addSignInRedirection, {
@@ -91,24 +91,22 @@ const routes = [
             children: [
               {
                 path: 'dashboard',
-                element: <DashboardPage />,
+                element: (
+                  <DashboardPage title="Dashboard | Accredited Representative Portal | Veterans Affairs" />
+                ),
                 loader: DashboardPage.loader,
               },
               {
                 path: 'poa-requests',
                 element: (
-                  <POARequestSearchPage title="Representation requests | Veterans Affairs" />
+                  <POARequestSearchPage title="Representation requests | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: POARequestSearchPage.loader,
               },
               {
-                path: 'poa-search',
-                element: <POARequestSearchPage />,
-              },
-              {
                 path: 'submissions',
                 element: (
-                  <SubmissionsPage title="Form Submissions | Veterans Affairs" />
+                  <SubmissionsPage title="Submissions | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: SubmissionsPage.loader,
               },
@@ -119,13 +117,15 @@ const routes = [
               },
               {
                 path: 'claimant-search',
-                element: <ClaimantSearchPage />,
+                element: (
+                  <ClaimantSearchPage title="Find claimant | Accredited Representative Portal | Veterans Affairs" />
+                ),
                 loader: ClaimantSearchPage.loader,
               },
               {
                 path: 'poa-requests/:id',
                 element: (
-                  <POARequestDetailsPage title="Representation request | Veterans Affairs" />
+                  <POARequestDetailsPage title="Representation request | Accredited Representative Portal | Veterans Affairs" />
                 ),
                 loader: POARequestDetailsPage.loader,
                 children: [
@@ -138,7 +138,7 @@ const routes = [
               {
                 path: 'get-help',
                 element: (
-                  <GetHelpPage title="Get help using the portal | Veterans Affairs" />
+                  <GetHelpPage title="Get help with the Accredited Representative Portal | Accredited Representative Portal | Veterans Affairs" />
                 ),
               },
             ],

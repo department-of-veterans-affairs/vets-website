@@ -9,7 +9,7 @@ import { LIMITED_CONSENT_RESPONSE } from '../constants';
 export default {
   uiSchema: {
     [LIMITED_CONSENT_RESPONSE]: yesNoUI({
-      title: content.ynTitle,
+      title: content.promptQuestion,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {

@@ -191,7 +191,6 @@ export const vaccineReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vaccines.GET_UNIFIED_LIST: {
-      const oldList = state.vaccinesList;
       const metadata = action.response.meta;
       const newList =
         action.response.data
@@ -199,15 +198,11 @@ export const vaccineReducer = (state = initialState, action) => {
           .filter(record => record !== null)
           .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
 
-      const vaccinesList = typeof oldList === 'undefined' ? newList : oldList;
-      const updatedList = typeof oldList !== 'undefined' ? newList : undefined;
-
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vaccinesList,
-        updatedList,
+        vaccinesList: newList,
         listMetadata: metadata,
         updateNeeded: false,
       };

@@ -14,6 +14,7 @@ export const Paths = {
   DRAFT: '/draft/',
   DELETED: '/trash/',
   COMPOSE: '/new-message/',
+  RECENT_CARE_TEAMS: 'recent/',
   START_MESSAGE: '/start-message',
   SELECT_CARE_TEAM: '/select-care-team',
   MESSAGE: '/message/',
@@ -165,7 +166,7 @@ export const Locators = {
     EDIT_DRAFT: `[data-testid="edit-draft-button-body"]`,
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
     CL_SAVE: `[data-testid="contact-list-save"]`,
-    CL_GO_BACK: '[data-testid="contact-list-go-back"]',
+    CL_GO_BACK: 'contact-list-go-back',
     ALERT_CLOSE: `.first-focusable-child`,
   },
   LINKS: {
@@ -452,8 +453,9 @@ export const Data = {
     PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
     HOME: '/my-health/secure-messages/',
     CONTACT_LIST: '/my-health/secure-messages/contact-list/',
-    SELECT_CARE_TEAM: '/my-health/secure-messages/new-message/select-care-team',
-    CARE_TEAM_HELP: '/my-health/secure-messages/new-message/care-team-help',
+    SELECT_CARE_TEAM:
+      '/my-health/secure-messages/new-message/select-care-team/',
+    CARE_TEAM_HELP: '/my-health/secure-messages/new-message/care-team-help/',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

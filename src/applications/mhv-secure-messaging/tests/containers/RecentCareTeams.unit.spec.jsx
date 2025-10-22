@@ -214,14 +214,14 @@ describe('RecentCareTeams component', () => {
           recipients: {
             recentRecipients: [
               {
-                triageTeamId: 636,
+                triageTeamId: 123,
                 name: 'VA Boston',
                 healthCareSystemName: 'Test Facility 1',
                 stationNumber: '636',
                 ohTriageGroup: true,
               },
               {
-                triageTeamId: 662,
+                triageTeamId: 456,
                 name: 'VA Seattle',
                 healthCareSystemName: 'Test Facility 2',
                 stationNumber: '662',
@@ -237,12 +237,11 @@ describe('RecentCareTeams component', () => {
       );
       const screen = renderComponent(customState);
       expect(screen.getByText('Recent care teams')).to.exist;
-
-      selectVaRadio(screen.container, '636');
+      selectVaRadio(screen.container, 123);
       await waitFor(() => {
         const callArgs = updateDraftInProgressStub.lastCall.args[0];
         expect(callArgs).to.include({
-          recipientId: '636',
+          recipientId: 123,
           recipientName: 'VA Boston',
           careSystemVhaId: '636',
           careSystemName: 'Test Facility 1',
@@ -250,7 +249,7 @@ describe('RecentCareTeams component', () => {
         });
       });
 
-      selectVaRadio(screen.container, '662');
+      selectVaRadio(screen.container, 456);
       await waitFor(() => {
         const callArgs = updateDraftInProgressStub.lastCall.args[0];
 
@@ -258,7 +257,7 @@ describe('RecentCareTeams component', () => {
           careSystemName: 'Test Facility 2',
           careSystemVhaId: '662',
           ohTriageGroup: false,
-          recipientId: '662',
+          recipientId: 456,
           recipientName: 'VA Seattle',
         });
       });
@@ -300,7 +299,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -321,7 +320,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -342,7 +341,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -390,7 +389,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to select care team
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       );
     });
 
@@ -413,7 +412,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to start message
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.START_MESSAGE}/`,
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
 
@@ -512,7 +511,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });

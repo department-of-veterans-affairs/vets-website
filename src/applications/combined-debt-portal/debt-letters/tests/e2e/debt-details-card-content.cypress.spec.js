@@ -43,7 +43,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
     cy.contains(
       '[data-testid="debt-summary-item"]',
-      'Pay your balance now or request help by October 18, 2012',
+      'Pay your $120.40 balance now or request help by October 18, 2012',
     )
       .find('a')
       .click({ waitForAnimations: true });
