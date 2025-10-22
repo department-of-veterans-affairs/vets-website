@@ -299,13 +299,6 @@ Provider notes: ${vital.notes}\n\n`,
           )}
 
           {downloadStarted && <DownloadSuccessAlert />}
-          <DownloadingRecordsInfo description={ddDisplayName} />
-          <PrintDownload
-            description={ddDisplayName}
-            downloadPdf={generateVitalsPdf}
-            downloadTxt={generateVitalsTxt}
-            list
-          />
 
           <HeaderSection
             header={`Displaying ${displayNums[0]} to ${displayNums[1]} of ${
@@ -435,6 +428,13 @@ Provider notes: ${vital.notes}\n\n`,
               </li>
             ))}
         </ul>
+        <DownloadingRecordsInfo description={ddDisplayName} />
+        <PrintDownload
+          description={ddDisplayName}
+          downloadPdf={generateVitalsPdf}
+          downloadTxt={generateVitalsTxt}
+          list
+        />
         {/* print view end */}
       </>
     );

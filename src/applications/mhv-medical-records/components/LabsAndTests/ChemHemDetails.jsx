@@ -135,12 +135,6 @@ Lab comments: ${entry.labComments}\n`,
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <DownloadingRecordsInfo description="L&TR Detail" />
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateChemHemPdf}
-          downloadTxt={generateChemHemTxt}
-        />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
@@ -198,6 +192,12 @@ Lab comments: ${entry.labComments}\n`,
             <ChemHemResults results={record.results} />
           </HeaderSection>
         </div>
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
+        />
       </HeaderSection>
     </div>
   );

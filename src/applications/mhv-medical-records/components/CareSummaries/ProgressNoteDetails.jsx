@@ -111,12 +111,6 @@ ${record.note}`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <DownloadingRecordsInfo description="CS&N Detail" />
-        <PrintDownload
-          description="CS&N Detail"
-          downloadPdf={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details">
@@ -156,6 +150,12 @@ ${record.note}`;
             monospace
           />
         </div>
+        <DownloadingRecordsInfo description="CS&N Detail" />
+        <PrintDownload
+          description="CS&N Detail"
+          downloadPdf={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+        />
       </HeaderSection>
     </div>
   );

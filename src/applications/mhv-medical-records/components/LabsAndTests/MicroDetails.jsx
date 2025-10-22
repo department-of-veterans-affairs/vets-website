@@ -120,12 +120,6 @@ ${record.results}`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <DownloadingRecordsInfo description="L&TR Detail" />
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generateMicrobiologyPdf}
-          downloadTxt={generateMicroTxt}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -183,6 +177,12 @@ ${record.results}`;
             </p>
           </HeaderSection>
         </div>
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateMicrobiologyPdf}
+          downloadTxt={generateMicroTxt}
+        />
       </HeaderSection>
     </div>
   );

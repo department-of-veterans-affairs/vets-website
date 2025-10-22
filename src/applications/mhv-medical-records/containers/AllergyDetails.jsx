@@ -188,12 +188,6 @@ Provider notes: ${allergyData.notes} \n`;
             />
 
             {downloadStarted && <DownloadSuccessAlert />}
-            <DownloadingRecordsInfo description="Allergy Detail" />
-            <PrintDownload
-              description="Allergies Detail"
-              downloadPdf={generateAllergyPdf}
-              downloadTxt={generateAllergyTxt}
-            />
 
             <div
               className="max-80 vads-u-margin-top--4"
@@ -243,6 +237,12 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <DownloadingRecordsInfo description="Allergy Detail" />
+            <PrintDownload
+              description="Allergies Detail"
+              downloadPdf={generateAllergyPdf}
+              downloadTxt={generateAllergyTxt}
+            />
           </HeaderSection>
         </>
       );

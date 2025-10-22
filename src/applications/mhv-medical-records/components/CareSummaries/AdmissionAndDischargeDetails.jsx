@@ -131,12 +131,6 @@ ${record.summary}`;
         </p>
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <DownloadingRecordsInfo description="CS&N Detail" />
-        <PrintDownload
-          description="CS&N Detail"
-          downloadPdf={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details">
@@ -169,6 +163,12 @@ ${record.summary}`;
               value={record.dischargedBy}
               testId="note-discharged-by"
               actionName="[admission discharge summary - discharged by]"
+            />
+            <DownloadingRecordsInfo description="CS&N Detail" />
+            <PrintDownload
+              description="CS&N Detail"
+              downloadPdf={generateCareNotesPDF}
+              downloadTxt={generateCareNotesTxt}
             />
           </HeaderSection>
         </div>

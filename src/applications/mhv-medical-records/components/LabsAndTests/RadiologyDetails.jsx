@@ -428,12 +428,6 @@ ${record.results}`;
           </VaAlert>
         )}
         {downloadStarted && <DownloadSuccessAlert />}
-        <DownloadingRecordsInfo description="L&TR Detail" />
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={downloadPdf}
-          downloadTxt={generateRadiologyTxt}
-        />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -489,6 +483,12 @@ ${record.results}`;
             {imageStatusContent()}
           </HeaderSection>
         </div>
+        <DownloadingRecordsInfo description="L&TR Detail" />
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={downloadPdf}
+          downloadTxt={generateRadiologyTxt}
+        />
       </HeaderSection>
     </div>
   );
