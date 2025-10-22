@@ -36,7 +36,6 @@ const generateStatusResponse = (req, res) => {
         },
       });
     }
-    // console.log('✓ VA Profile initialization completed:', id);
     return res.json({
       data: {
         id: '',
