@@ -27,8 +27,6 @@ describe('trust list and loop pages', () => {
   describe('isItemIncomplete function', () => {
     /* eslint-disable no-unused-vars */
     const {
-      addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
       annualReceivedIncome,
       monthlyMedicalReimbursementAmount,
@@ -41,8 +39,6 @@ describe('trust list and loop pages', () => {
   describe('isItemIncomplete function tested with zeroes', () => {
     /* eslint-disable no-unused-vars */
     const {
-      addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
       annualReceivedIncome,
       monthlyMedicalReimbursementAmount,
