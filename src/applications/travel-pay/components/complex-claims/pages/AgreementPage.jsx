@@ -18,6 +18,7 @@ const AgreementPage = () => {
     } else {
       setIsAgreementError(false);
       // TODO Add logic for Submitting the claim
+      navigate(`/file-new-claim/complex/${apptId}/confirmation`);
     }
   };
 

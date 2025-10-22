@@ -36,7 +36,6 @@ const routes = (
         <Route path="mileage" element={<Mileage />} /> */}
         <Route path="review" element={<ReviewPage />} />
         <Route path="travel-agreement" element={<AgreementPage />} />
-        {/* <Route path="confirmation" element={<ConfirmationPage />} /> */}
       </Route>
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
