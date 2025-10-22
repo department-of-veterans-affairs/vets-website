@@ -112,13 +112,7 @@ export const IssueCard = ({
   const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
-    <li
-      id={`issue-${index}`}
-      name={`issue-${index}`}
-      key={index}
-      className={isBlocked ? 'blocked-issue-item' : undefined}
-      aria-label={isBlocked ? `Blocked issue: ${issueName}` : undefined}
-    >
+    <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox && !isBlocked ? (
           <VaCheckbox
@@ -136,7 +130,11 @@ export const IssueCard = ({
             </div>
           </VaCheckbox>
         ) : (
-          <div className={isBlocked ? 'vads-u-margin-left--4' : ''}>
+          <div
+            className={isBlocked ? 'vads-u-margin-left--4' : ''}
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex="0"
+          >
             <Header
               className={titleClass}
               data-dd-action-name="rated issue name"

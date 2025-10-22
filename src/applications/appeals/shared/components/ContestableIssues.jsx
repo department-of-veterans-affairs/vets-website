@@ -16,10 +16,8 @@ import {
 } from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
-import {
-  removeModalContent,
-  getBlockedMessage,
-} from '../content/contestableIssues';
+import { removeModalContent } from '../content/contestableIssues';
+import { getBlockedMessage } from '../utils/contestableIssueMessages';
 import { ContestableIssuesLegend } from './ContestableIssuesLegend';
 import { MaxSelectionsAlert } from './MaxSelectionsAlert';
 import { NoneSelectedAlert } from './NoneSelectedAlert';
@@ -216,7 +214,7 @@ const ContestableIssues = props => {
     ? items.filter(item => item.isBlockedSameDay)
     : [];
 
-  const blockedMessage = getBlockedMessage(blockedIssues.length);
+  const blockedMessage = getBlockedMessage(blockedIssues);
 
   const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
@@ -251,11 +249,9 @@ const ContestableIssues = props => {
           visible
           class="vads-u-margin-top--3 vads-u-margin-bottom--2"
           id="blocked-issues-alert"
+          role="alert"
         >
-          <React.Fragment key=".1">
-            <p className="vads-u-margin-y--0">{blockedMessage}</p>
-            {/* Screen reader only: List of blocked condition names */}
-          </React.Fragment>
+          <p className="vads-u-margin-y--0">{blockedMessage}</p>
         </va-alert>
       )}
       {issueCards}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { getTomorrowFormatted, getCurrentTimeZoneAbbr } from '../utils/dates';
 
 export const ContestableIssuesAdditionalInfo = (
   <va-additional-info
@@ -28,17 +27,4 @@ export const removeModalContent = {
   ),
   yesButton: 'Yes, remove this',
   noButton: 'No, keep this',
-};
-
-export const getBlockedMessage = blockedIssuesCount => {
-  if (!blockedIssuesCount || blockedIssuesCount <= 0) {
-    return '';
-  }
-
-  const tomorrowFormatted = getTomorrowFormatted();
-  const timeZoneAbbr = getCurrentTimeZoneAbbr();
-
-  return blockedIssuesCount === 1
-    ? `We're sorry. This issue isn't available to add to your appeal yet. You can come back and select it after ${tomorrowFormatted}, 12:00 a.m. ${timeZoneAbbr}.`
-    : `We're sorry. These issues aren't available to add to your appeal yet. You can come back and select them after ${tomorrowFormatted}, 12:00 a.m. ${timeZoneAbbr}.`;
 };
