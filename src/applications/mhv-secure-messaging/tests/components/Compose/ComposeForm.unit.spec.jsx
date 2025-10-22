@@ -3,6 +3,9 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { commonReducer } from 'platform/startup/store';
 import {
   mockApiRequest,
   inputVaTextInput,
@@ -1743,6 +1746,245 @@ describe('Compose form component', () => {
         messageId: customDraftMessage.id,
         ohTriageGroup: true,
       });
+    });
+  });
+
+  describe('renewal prescription useEffect', () => {
+    it('populates draft with prescription data when renewalPrescription is present', async () => {
+      const updateDraftInProgressSpy = sandbox.spy(
+        threadDetailsActions,
+        'updateDraftInProgress',
+      );
+
+      const mockPrescription = {
+        prescriptionId: '123',
+        prescriptionName: 'Test Medication',
+        prescriptionNumber: 'RX123',
+        providerFirstName: 'John',
+        providerLastName: 'Doe',
+        refillRemaining: 5,
+        expirationDate: '2025-12-31',
+        reason: 'Chronic condition',
+        quantity: '30 tablets',
+      };
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: mockPrescription,
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState);
+
+      await waitFor(() => {
+        expect(updateDraftInProgressSpy.called).to.be.true;
+        const args = updateDraftInProgressSpy.getCall(0).args[0];
+        expect(args.subject).to.equal('Renewal Needed');
+        expect(args.category).to.equal('MEDICATIONS');
+        expect(args.body).to.include(
+          'Medication name, strength, and form: Test Medication',
+        );
+        expect(args.body).to.include('Prescription number: RX123');
+        expect(args.body).to.include('Provider who prescribed it: John Doe');
+        expect(args.body).to.include('Number of refills left: 5');
+        expect(args.body).to.include(
+          'Prescription expiration date: December 31, 2025',
+        );
+        expect(args.body).to.include('Reason for use: Chronic condition');
+        expect(args.body).to.include('Quantity: 30 tablets');
+      });
+    });
+
+    it('populates draft with prescription data when rxError is present', async () => {
+      const updateDraftInProgressSpy = sandbox.spy(
+        threadDetailsActions,
+        'updateDraftInProgress',
+      );
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: null,
+            error: 'Prescription not found',
+            isLoading: false,
+          },
+        },
+      };
+
+      setup(customState);
+
+      await waitFor(() => {
+        expect(updateDraftInProgressSpy.called).to.be.true;
+        const args = updateDraftInProgressSpy.getCall(0).args[0];
+        expect(args.subject).to.equal('Renewal Needed');
+        expect(args.category).to.equal('MEDICATIONS');
+        expect(args.body).to.include('Medication name, strength, and form: ');
+        expect(args.body).to.include('Prescription number: ');
+        expect(args.body).to.include('Provider who prescribed it:  ');
+        expect(args.body).to.include('Number of refills left: ');
+        expect(args.body).to.include('Prescription expiration date: ');
+        expect(args.body).to.include('Reason for use: ');
+        expect(args.body).to.include('Quantity: ');
+      });
+    });
+
+    it('clears prescription on unmount', async () => {
+      const clearPrescriptionSpy = sandbox.spy(
+        require('../../../actions/prescription'),
+        'clearPrescription',
+      );
+
+      const customState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            error: null,
+            isLoading: false,
+          },
+        },
+      };
+
+      const { unmount } = setup(customState);
+
+      unmount();
+
+      await waitFor(() => {
+        expect(clearPrescriptionSpy.called).to.be.true;
+      });
+    });
+
+    it('displays loading indicator when renewal prescription is loading', () => {
+      const loadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: true,
+          },
+        },
+      };
+
+      const screen = setup(loadingState, Paths.COMPOSE);
+
+      const loadingIndicator = screen.getByTestId('loading-indicator');
+      expect(loadingIndicator).to.exist;
+      expect(loadingIndicator.getAttribute('message')).to.equal('Loading...');
+    });
+
+    it('does not display loading indicator when prescription isLoading is false', () => {
+      const nonLoadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: false,
+          },
+        },
+      };
+
+      const screen = setup(nonLoadingState, Paths.COMPOSE);
+
+      const loadingIndicator = screen.queryByTestId('loading-indicator');
+      expect(loadingIndicator).to.be.null;
+    });
+
+    it('hides loading indicator when state updates from loading to not loading', async () => {
+      const loadingState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            isLoading: true,
+          },
+        },
+      };
+
+      // Create store with initial loading state
+      const testStore = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        loadingState,
+        applyMiddleware(thunk),
+      );
+
+      const { ...screen } = renderWithStoreAndRouter(
+        <ComposeForm
+          recipients={initialState.sm.recipients}
+          categories={categories}
+        />,
+        {
+          initialState: loadingState,
+          reducers: reducer,
+          store: testStore,
+          path: Paths.COMPOSE,
+        },
+      );
+
+      // Initially should show loading indicator
+      const loadingIndicator = screen.getByTestId('loading-indicator');
+      expect(loadingIndicator).to.exist;
+
+      // Dispatch action to clear prescription (which sets isLoading to false)
+      testStore.dispatch({
+        type: 'SM_CLEAR_PRESCRIPTION',
+      });
+
+      // Loading indicator should disappear
+      await waitFor(() => {
+        const updatedLoadingIndicator = screen.queryByTestId(
+          'loading-indicator',
+        );
+        expect(updatedLoadingIndicator).to.be.null;
+      });
+    });
+
+    it('displays medication info warning when prescription has error', () => {
+      const errorState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            error: 'Prescription not found',
+          },
+        },
+      };
+
+      const { container } = setup(errorState, Paths.COMPOSE);
+
+      const warningBanner = container.querySelector(
+        'va-banner[headline="Add your medication information to this message"]',
+      );
+      expect(warningBanner).to.exist;
+      expect(warningBanner.getAttribute('visible')).to.equal('true');
+    });
+
+    it('hides medication info warning when prescription has no error', () => {
+      const noErrorState = {
+        ...initialState,
+        sm: {
+          ...initialState.sm,
+          prescription: {
+            error: null,
+          },
+        },
+      };
+
+      const { container } = setup(noErrorState, Paths.COMPOSE);
+
+      const warningBanner = container.querySelector(
+        'va-banner[headline="Add your medication information to this message"]',
+      );
+      expect(warningBanner).to.exist;
+      expect(warningBanner.getAttribute('visible')).to.equal('false');
     });
   });
 });

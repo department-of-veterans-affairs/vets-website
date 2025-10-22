@@ -59,6 +59,8 @@ import {
   updateDraftInProgress,
 } from '../../actions/threadDetails';
 import SelectedRecipientTitle from './SelectedRecipientTitle';
+import { clearPrescription } from '../../actions/prescription';
+import AddYourMedicationInfoWarning from './AddYourMedicationInfoWarning';
 
 const ComposeForm = props => {
   const { pageTitle, draft, recipients, signature } = props;
@@ -72,6 +74,11 @@ const ComposeForm = props => {
   const headerRef = useRef();
 
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
+  const { prescription } = useSelector(state => state.sm);
+  const { renewalPrescription, rxError = prescription.error } = prescription;
+  const renewalPrescriptionIsLoading = useSelector(
+    state => state.sm.prescription.isLoading,
+  );
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
   const {
     largeAttachmentsEnabled,
@@ -114,6 +121,41 @@ const ComposeForm = props => {
       );
     },
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
+  );
+
+  useEffect(
+    () => {
+      if (renewalPrescription?.prescriptionId || rxError) {
+        const rx = renewalPrescription;
+        const messageSubject = 'Renewal Needed';
+        const messageBody = [
+          `Medication name, strength, and form: ${rx?.prescriptionName || ''}`,
+          `Prescription number: ${rx?.prescriptionNumber || ''}`,
+          `Provider who prescribed it: ${rx?.providerFirstName ||
+            ''} ${rx?.providerLastName || ''}`,
+          `Number of refills left: ${rx?.refillRemaining || ''}`,
+          `Prescription expiration date: ${
+            rx?.expirationDate
+              ? dateFormat(rx.expirationDate, 'MMMM D, YYYY')
+              : ''
+          }`,
+          `Reason for use: ${rx?.reason || ''}`,
+          `Quantity: ${rx?.quantity || ''}`,
+        ].join('\n');
+
+        dispatch(
+          updateDraftInProgress({
+            body: messageBody,
+            subject: messageSubject,
+            category: Categories.MEDICATIONS.value,
+          }),
+        );
+      }
+      return () => {
+        dispatch(clearPrescription());
+      };
+    },
+    [renewalPrescription, rxError, dispatch],
   );
 
   useEffect(
@@ -878,6 +920,16 @@ const ComposeForm = props => {
     setCheckboxMarked(e.detail.checked);
   };
 
+  if (renewalPrescriptionIsLoading) {
+    return (
+      <va-loading-indicator
+        message="Loading..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
+
   if (sendMessageFlag === true) {
     return (
       <va-loading-indicator
@@ -934,6 +986,7 @@ const ComposeForm = props => {
                 />
               </div>
             )}
+          <AddYourMedicationInfoWarning isVisible={rxError != null} />
           {!mhvSecureMessagingCuratedListFlow &&
             recipientsList &&
             !noAssociations &&

@@ -164,7 +164,7 @@ describe('Interstitial page header', () => {
     ).to.exist;
   });
 
-  it('dispatches clearPrescription when prescriptionId is not in URL params', () => {
+  it('dispatches clearPrescription when prescriptionId is not in URL params', async () => {
     const clearPrescriptionSpy = sinon.spy(
       prescriptionActions,
       'clearPrescription',
@@ -176,7 +176,9 @@ describe('Interstitial page header', () => {
       path: '/new-message/',
     });
 
-    expect(clearPrescriptionSpy.calledOnce).to.be.true;
+    await waitFor(() => {
+      expect(clearPrescriptionSpy.calledOnce).to.be.true;
+    });
 
     clearPrescriptionSpy.restore();
   });
