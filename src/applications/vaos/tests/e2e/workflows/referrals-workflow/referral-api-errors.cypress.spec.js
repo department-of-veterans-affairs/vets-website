@@ -149,6 +149,7 @@ describe('VAOS Referral API Error Handling', () => {
           {
             referralId,
             [errorType]: true,
+            currentDate: mockToday,
           },
         ).toJSON();
         mockDraftReferralAppointmentApi({
@@ -205,7 +206,7 @@ describe('VAOS Referral API Error Handling', () => {
         {
           referralId,
           categoryOfCare: 'Physical Therapy',
-          numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({
@@ -270,7 +271,7 @@ describe('VAOS Referral API Error Handling', () => {
 
   describe('Appointment Details API Errors after submit appointment', () => {
     const referralId = 'referral-123';
-    const appointmentId = 'EEKoGzEf';
+    const draftAppointmentId = 'appointment-for-PmDYsBz-egEtG13flMnHUQ==';
 
     beforeEach(() => {
       // Mock successful referrals list response
@@ -293,6 +294,7 @@ describe('VAOS Referral API Error Handling', () => {
           referralId,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       ).toJSON();
       mockDraftReferralAppointmentApi({
@@ -302,7 +304,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Mock successful submit appointment response
       const submitAppointmentResponse = new MockReferralSubmitAppointmentResponse(
         {
-          appointmentId,
+          draftAppointmentId,
           success: true,
         },
       ).toJSON();
@@ -316,12 +318,12 @@ describe('VAOS Referral API Error Handling', () => {
         // Mock error response
         const appointmentDetailsResponse = new MockReferralAppointmentDetailsResponse(
           {
-            appointmentId,
+            draftAppointmentId,
             [errorType]: true,
           },
         ).toJSON();
         mockAppointmentDetailsApi({
-          id: appointmentId,
+          id: '*',
           response: appointmentDetailsResponse,
           responseCode,
         });
@@ -373,7 +375,7 @@ describe('VAOS Referral API Error Handling', () => {
       // Mock appointment details to always return proposed status (never transitions to booked)
       const proposedAppointmentResponse = new MockReferralAppointmentDetailsResponse(
         {
-          appointmentId,
+          draftAppointmentId,
           typeOfCare: 'OPTOMETRY',
           providerName: 'Dr. Bones',
           organizationName: 'Meridian Health',
@@ -384,7 +386,7 @@ describe('VAOS Referral API Error Handling', () => {
 
       // Use the simpler mock - app will handle polling internally
       mockAppointmentDetailsApi({
-        id: appointmentId,
+        id: draftAppointmentId,
         response: proposedAppointmentResponse,
       });
 
