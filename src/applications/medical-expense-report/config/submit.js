@@ -4,26 +4,29 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
 // import { ensureValidCSRFToken } from '../utils/ensureValidCSRFToken';
 
-const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
-
-export function replacer(key, value) {
-  if (usaPhoneKeys.includes(key) && value?.length) {
-    // Strip spaces, dashes, and parens from phone numbers
-    return value.replace(/[^\d]/g, '');
+export function replacer(_key, value) {
+  const transformedValue = value;
+  if (
+    value?.claimantNotVeteran === false &&
+    value.claimantFullName.first &&
+    value.claimantFullName.last &&
+    !value.veteranFullName?.first &&
+    !value.veteranFullName?.last
+  ) {
+    transformedValue.veteranFullName = {
+      first: value.claimantFullName.first,
+      middle: value.claimantFullName.middle,
+      last: value.claimantFullName.last,
+      suffix: value.claimantFullName.suffix,
+    };
+    transformedValue.claimantFullName = {
+      first: undefined,
+      middle: undefined,
+      last: undefined,
+      suffix: undefined,
+    };
   }
-
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
-
-  return value;
+  return transformedValue;
 }
 
 export function transform(formConfig, form) {

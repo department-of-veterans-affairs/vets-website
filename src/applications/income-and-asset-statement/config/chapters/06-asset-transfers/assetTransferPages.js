@@ -618,6 +618,7 @@ export const assetTransferPages = arrayBuilderPages(options, pageBuilder => ({
   assetTransferPagesSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'asset-transfers-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),

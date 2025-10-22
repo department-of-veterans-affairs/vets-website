@@ -43,7 +43,7 @@ describe('EligibilityCriteria', () => {
 
     expect(
       getByRole('heading', {
-        name: /Basic Eligibility Criteria/i,
+        name: /Basic eligibility criteria/i,
       }),
     ).to.exist;
     expect(getByText(/Entered Active Duty \(EOD\):/i)).to.exist;
@@ -60,28 +60,28 @@ describe('EligibilityCriteria', () => {
     });
 
     {
-      const li = getRowLi(container, 'Qualifying Military Service:');
+      const li = getRowLi(container, 'Qualifying military service:');
       const icon = li.querySelector('va-icon');
       expect(icon).to.have.attribute('icon', 'check');
       expect(icon).to.have.class('vads-u-color--green');
     }
 
     {
-      const li = getRowLi(container, 'Character of discharge:');
+      const li = getRowLi(container, 'Character of Discharge:');
       const icon = li.querySelector('va-icon');
       expect(icon).to.have.attribute('icon', 'close');
       expect(icon).to.have.class('vads-u-color--secondary-dark');
     }
 
     {
-      const li = getRowLi(container, 'Disability Rating:');
+      const li = getRowLi(container, 'Disability rating:');
       const icon = li.querySelector('va-icon');
       expect(icon).to.have.attribute('icon', 'check');
       expect(icon).to.have.class('vads-u-color--green');
     }
 
     {
-      const li = getRowLi(container, 'Eligibility Termination Date:');
+      const li = getRowLi(container, 'Eligibility termination date:');
       const icon = li.querySelector('va-icon');
       expect(icon).to.have.attribute('icon', 'close');
       expect(icon).to.have.class('vads-u-color--secondary-dark');
