@@ -1994,15 +1994,10 @@ describe('Compose form component', () => {
       const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
       sendMessageStub.returns(() => Promise.resolve());
 
-      // Store original location and create spy
-      const originalLocation = window.location;
-      const windowLocationReplaceSpy = sinon.spy();
-
-      // Mock window.location with spy (avoiding delete which can cause issues)
-      window.location = {
-        ...originalLocation,
-        replace: windowLocationReplaceSpy,
-      };
+      // Store original replace method and create spy
+      const originalLocation = global.window.location;
+      global.window.location = {};
+      global.window.location.replace = sinon.spy();
 
       const customDraftMessage = {
         ...draftMessage,
@@ -2050,12 +2045,12 @@ describe('Compose form component', () => {
       expect(customState.sm.prescription.redirectPath).to.equal(
         '/medications/refill',
       );
-      expect(windowLocationReplaceSpy.calledOnce).to.be.true;
-      expect(windowLocationReplaceSpy.calledWith('/medications/refill')).to.be
-        .true;
+      expect(global.window.location.replace.calledOnce).to.be.true;
+      expect(global.window.location.replace.calledWith('/medications/refill'))
+        .to.be.true;
 
       // Restore original location
-      window.location = originalLocation;
+      global.window.location = originalLocation;
     });
 
     it('calls sendMessage and verifies normal navigation flow when no redirectPath is present', async () => {
