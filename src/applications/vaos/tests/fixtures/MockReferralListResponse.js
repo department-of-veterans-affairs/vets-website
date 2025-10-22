@@ -97,13 +97,13 @@ class MockReferralListResponse {
         id: 'poll-error',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'poll-error',
-        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'draft-no-slots-error',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'draft-no-slots-error',
-        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'referral-without-provider-error',
@@ -115,13 +115,13 @@ class MockReferralListResponse {
         id: 'details-not-found-error',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'details-not-found-error',
-        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
       MockReferralListResponse.createReferral({
         id: 'details-error',
         categoryOfCare: 'OPTOMETRY',
         referralNumber: 'details-error',
-        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
+        expirationDate: format(new Date(2024, 12, 2), formatStr),
       }),
     ];
   }
