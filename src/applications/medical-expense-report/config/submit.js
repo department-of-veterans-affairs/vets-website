@@ -4,32 +4,35 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
 // import { ensureValidCSRFToken } from '../utils/ensureValidCSRFToken';
 
-const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
-
-export function replacer(key, value) {
-  if (usaPhoneKeys.includes(key) && value?.length) {
-    // Strip spaces, dashes, and parens from phone numbers
-    return value.replace(/[^\d]/g, '');
+export function replacer(_key, value) {
+  const transformedValue = value;
+  if (
+    value?.claimantNotVeteran === false &&
+    value.claimantFullName.first &&
+    value.claimantFullName.last &&
+    !value.veteranFullName?.first &&
+    !value.veteranFullName?.last
+  ) {
+    transformedValue.veteranFullName = {
+      first: value.claimantFullName.first,
+      middle: value.claimantFullName.middle,
+      last: value.claimantFullName.last,
+      suffix: value.claimantFullName.suffix,
+    };
+    transformedValue.claimantFullName = {
+      first: undefined,
+      middle: undefined,
+      last: undefined,
+      suffix: undefined,
+    };
   }
-
-  // clean up empty objects, which we have no reason to send
-  if (typeof value === 'object') {
-    const fields = Object.keys(value);
-    if (
-      fields.length === 0 ||
-      fields.every(field => value[field] === undefined)
-    ) {
-      return undefined;
-    }
-  }
-
-  return value;
+  return transformedValue;
 }
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
-    pensionClaim: {
+    medicalExpenseReportsClaim: {
       form: formData,
     },
     // can’t use toISOString because we need the offset
@@ -37,7 +40,11 @@ export function transform(formConfig, form) {
   });
 }
 
-export async function submit(form, formConfig, apiPath = '') {
+export async function submit(
+  form,
+  formConfig,
+  apiPath = '/medical_expense_reports/v0/form8416',
+) {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
   const apiRequestOptions = {
@@ -74,14 +81,14 @@ export async function submit(form, formConfig, apiPath = '') {
 
   return sendRequest().catch(async respOrError => {
     // if it's a CSRF error, clear CSRF and retry once
-    // const errorResponse = respOrError?.errors?.[0];
-    // if (
-    //   errorResponse?.status === '403' &&
-    //   errorResponse?.detail === 'Invalid Authenticity Token'
-    // ) {
-    //   localStorage.setItem('csrfToken', '');
-    //   return sendRequest().catch(onFailure);
-    // }
+    const errorResponse = respOrError?.errors?.[0];
+    if (
+      errorResponse?.status === '403' &&
+      errorResponse?.detail === 'Invalid Authenticity Token'
+    ) {
+      localStorage.setItem('csrfToken', '');
+      return sendRequest().catch(onFailure);
+    }
 
     // in other cases, handle error regularly
     return onFailure(respOrError);

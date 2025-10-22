@@ -26,16 +26,7 @@ const HowDoIPay = ({ userData }) => {
       <h3>Pay online</h3>
       <p>
         You can pay directly from your bank account. Or by debit or credit card
-        on the secure{' '}
-        <a
-          aria-label="Pay.gov - Opens in new window"
-          target="_blank"
-          href="https://www.pay.va.gov/"
-          rel="noreferrer"
-        >
-          pay.va.gov
-        </a>{' '}
-        website.
+        on the secure pay.va.gov website.
       </p>
       <p>
         You’ll need to provide the following details to pay this debt online:
@@ -78,8 +69,14 @@ const HowDoIPay = ({ userData }) => {
         >
           <ul>
             <li>
-              <strong>File Number</strong> is your VA claim number. This field
-              must be 8 or 9 characters long.
+              <strong>
+                {userData.receivableId ? 'Receivable ID' : 'File Number'}
+              </strong>{' '}
+              {userData.receivableId
+                ? `is a 9-15 digit debt-specific ID number unique to
+              your education debt, providing enhanced security.`
+                : `is your
+              VA claim number. This field must be 8 or 9 characters long.`}
             </li>
             <li>
               <strong>Payee Number</strong> tells us whether the debtor is a
@@ -89,10 +86,8 @@ const HowDoIPay = ({ userData }) => {
             <li>
               <strong>Person Entitled</strong> is the first initial, middle
               initial (if there is one), and first four letters of the debtor’s
-              last name. If the entry on the collection letter after Person
-              Entitled does not have a middle initial, a blank will appear where
-              the middle initial would be. Please leave the same space blank on
-              this form.
+              last name. If the Person Entitled doesn’t have a middle initial,
+              that space will be left blank.
             </li>
             <li>
               <strong>Deduction Code</strong> is a number that tells us what
@@ -102,11 +97,14 @@ const HowDoIPay = ({ userData }) => {
         </va-accordion-item>
       </va-accordion>
 
-      <va-link-action
-        href="https://www.pay.va.gov/"
-        message-aria-describedby="Opens pay.va.gov"
+      <br />
+      <va-icon icon="navigate_next" class="icon-action" size="3" />
+      <va-link
+        aria-label="Opens pay.va.gov in a new tab"
+        external
         text="Pay at pay.va.gov"
-        class="vads-u-margin-top--2"
+        href="https://www.pay.va.gov/"
+        class="vads-u-margin-top--2 vads-u-font-weight--bold"
       />
 
       <h3>Pay by phone</h3>
@@ -151,6 +149,7 @@ HowDoIPay.propTypes = {
     payeeNumber: PropTypes.string,
     personEntitled: PropTypes.string,
     deductionCode: PropTypes.string,
+    receivableId: PropTypes.string,
   }),
 };
 

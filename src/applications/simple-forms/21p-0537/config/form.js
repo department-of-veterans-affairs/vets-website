@@ -3,6 +3,7 @@ import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 
+import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -44,6 +45,7 @@ const formConfig = {
   trackingPrefix: '21p-0537-dic-marital-status-',
   useCustomScrollAndFocus: true,
   v3SegmentedProgressBar: true,
+  hideUnauthedStartLink: true,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -87,6 +89,19 @@ const formConfig = {
     contactInfoChapter: {
       title: 'Your contact information',
       pages: {
+        personalInformation: {
+          path: 'contact/name',
+          title: 'Your name',
+          CustomPage: props => <PersonalInformation {...props} />,
+          CustomPageReview: null,
+          hideOnReview: true,
+          scrollAndFocusTarget: pageFocusScroll(),
+          schema: {
+            type: 'object',
+            properties: {}, // Must be present even if empty
+          },
+          uiSchema: {},
+        },
         phoneAndEmail: {
           path: 'contact/phone-email',
           title: 'Your phone number and email address',

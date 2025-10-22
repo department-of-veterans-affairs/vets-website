@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 
 import Modals from '../../combined/components/Modals';
@@ -12,6 +11,8 @@ import DownloadStatement from '../components/DownloadStatement';
 import StatementCharges from '../components/StatementCharges';
 import HTMLStatementList from '../components/HTMLStatementList';
 import StatementAddresses from '../components/StatementAddresses';
+import NeedHelpCopay from '../components/NeedHelpCopay';
+
 import {
   formatDate,
   verifyCurrentBalance,
@@ -107,10 +108,10 @@ const DetailCopayPage = ({ match }) => {
           },
           {
             href: '/manage-va-debt/summary/copay-balances',
-            label: 'Current copay balances',
+            label: 'Copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: title,
           },
         ]}
@@ -190,17 +191,7 @@ const DetailCopayPage = ({ match }) => {
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
-        <va-need-help className="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              You can contact us online through{' '}
-              <va-link text="Ask VA" href="https://ask.va.gov" /> or call the VA
-              Health Resource Center at{' '}
-              <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />. We’re
-              here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
+        <NeedHelpCopay />
       </div>
     </>
   );

@@ -149,11 +149,11 @@ describe('VAOS Services: Location ', () => {
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
       expect(
-        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE].request
+        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE]?.request
           .enabled,
       ).to.be.true;
       expect(
-        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE].direct
+        data[0].legacyVAR.settings[TYPE_OF_CARE_IDS.PRIMARY_CARE]?.direct
           .enabled,
       ).to.be.true;
     });

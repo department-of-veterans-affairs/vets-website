@@ -25,7 +25,9 @@ describe('<FileSubmissionsInProgress>', () => {
 
         expect($('.file-submissions-in-progress-container', container)).to
           .exist;
-        expect(getByText('File submissions in progress')).to.exist;
+        const heading = $('h3#file-submissions-in-progress', container);
+        expect(heading).to.exist;
+        expect(heading.textContent).to.equal('File submissions in progress');
         expect(getByText('You don’t have any file submissions in progress.')).to
           .exist;
       });
