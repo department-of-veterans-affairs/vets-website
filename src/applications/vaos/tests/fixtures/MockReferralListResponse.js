@@ -123,12 +123,6 @@ class MockReferralListResponse {
         referralNumber: 'details-error',
         expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
       }),
-      MockReferralListResponse.createReferral({
-        id: 'expired-uuid',
-        categoryOfCare: 'OPTOMETRY',
-        referralNumber: 'VA0000007123',
-        expirationDate: format(new Date(2024, 12, 2), 'yyyy-MM-dd'),
-      }),
     ];
   }
 
