@@ -7,7 +7,13 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
 import ActionLink from './web-component-wrappers/ActionLink';
-import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED, FORMAT_YMD_DATE_FNS } from '../constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+  FORMAT_YMD_DATE_FNS,
+} from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import {

@@ -93,13 +93,38 @@ export const getTomorrowFormatted = () => {
  * Get the current timezone abbreviation (e.g., "PST", "EST")
  * @returns {string} Timezone abbreviation or empty string if not available
  */
+// Common timezone abbreviations for VA.gov users
+const TIMEZONE_ABBREVIATIONS = {
+  'Asia/Tokyo': 'JST',
+  'America/New_York': 'EST',
+  'America/Chicago': 'CST',
+  'America/Denver': 'MST',
+  'America/Los_Angeles': 'PST',
+  'Europe/London': 'GMT',
+  'Europe/Paris': 'CET',
+  'Australia/Sydney': 'AEDT',
+};
+
 export const getCurrentTimeZoneAbbr = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const date = new Date();
-  return (
-    new Intl.DateTimeFormat('en-US', {
-      timeZoneName: 'short',
-    })
-      .formatToParts(date)
-      .find(part => part.type === 'timeZoneName')?.value || ''
-  );
+
+  // Try mapped abbreviation first
+  if (TIMEZONE_ABBREVIATIONS[timezone]) {
+    return TIMEZONE_ABBREVIATIONS[timezone];
+  }
+
+  // Fall back to browser's native abbreviation
+  const nativeAbbr = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' })
+    .formatToParts(date)
+    .find(part => part.type === 'timeZoneName')?.value;
+
+  if (nativeAbbr) {
+    return nativeAbbr;
+  }
+
+  // Final fallback to GMT offset
+  const offsetHours = Math.abs(date.getTimezoneOffset() / 60);
+  const sign = date.getTimezoneOffset() > 0 ? '-' : '+';
+  return `GMT${sign}${offsetHours}`;
 };
