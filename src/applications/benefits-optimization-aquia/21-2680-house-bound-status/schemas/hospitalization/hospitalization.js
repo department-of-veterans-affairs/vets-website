@@ -59,6 +59,36 @@ export const facilityZipSchema = z
   .or(z.literal(''));
 
 /**
+ * Page schemas for split hospitalization flow
+ */
+export const hospitalizationStatusPageSchema = z.object({
+  isCurrentlyHospitalized: isCurrentlyHospitalizedSchema,
+});
+
+export const hospitalizationDatePageSchema = z.object({
+  admissionDate: z.string().min(1, 'Please enter the admission date'),
+});
+
+export const hospitalizationFacilityPageSchema = z.object({
+  facilityName: z
+    .string()
+    .min(1, 'Please enter the name of the hospital')
+    .max(100, 'Facility name must be less than 100 characters'),
+  facilityStreetAddress: z
+    .string()
+    .min(1, 'Street address is required')
+    .max(50, 'Street address must be less than 50 characters'),
+  facilityCity: z
+    .string()
+    .min(1, 'City is required')
+    .max(30, 'City must be less than 30 characters'),
+  facilityState: z.string().min(1, 'Please select a state'),
+  facilityZip: z.string().refine(val => POSTAL_PATTERNS.USA.test(val), {
+    message: 'Please enter a valid 5 or 9 digit ZIP code',
+  }),
+});
+
+/**
  * Complete hospitalization schema with conditional validation
  */
 export const hospitalizationSchema = z

@@ -20,15 +20,15 @@ import prefillTransformer from '@bio-aquia/21-2680-house-bound-status/config/pre
 import {
   BenefitTypePage,
   VeteranIdentityPage,
-  ClaimantIdentityPage,
-  HospitalizationPage,
-  ClaimantSignaturePage,
-  ExaminerIdentificationPage,
-  MedicalDiagnosisPage,
-  ADLAssessmentPage,
-  FunctionalLimitationsPage,
-  NarrativeAssessmentPage,
-  ExaminerSignaturePage,
+  VeteranAddressPage,
+  ClaimantRelationshipPage,
+  ClaimantInformationPage,
+  ClaimantSSNPage,
+  ClaimantAddressPage,
+  ClaimantContactPage,
+  HospitalizationStatusPage,
+  HospitalizationDatePage,
+  HospitalizationFacilityPage,
 } from '@bio-aquia/21-2680-house-bound-status/pages';
 
 /**
@@ -89,9 +89,83 @@ const formConfig = {
   subTitle: SUBTITLE,
   defaultDefinitions: {},
   chapters: {
-    // Part 1: Benefit Selection
-    benefitSelectionChapter: {
-      title: 'Benefit selection',
+    // Step 1 of 5: Veteran's information
+    veteranInformationChapter: {
+      title: "Veteran's information",
+      pages: {
+        veteranIdentity: {
+          path: 'veteran-information',
+          title: 'Veteran information',
+          CustomPage: VeteranIdentityPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        veteranAddress: {
+          path: 'veteran-address',
+          title: 'Veteran address',
+          CustomPage: VeteranAddressPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    // Step 2 of 5: Claimant's information
+    claimantInformationChapter: {
+      title: "Claimant's information",
+      pages: {
+        claimantRelationship: {
+          path: 'claimant-relationship',
+          title: 'Who is the claim for?',
+          CustomPage: ClaimantRelationshipPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantInformation: {
+          path: 'claimant-information',
+          title: 'Claimant information',
+          CustomPage: ClaimantInformationPage,
+          CustomPageReview: null,
+          depends: formData => formData?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantSSN: {
+          path: 'claimant-ssn',
+          title: 'Claimant Social Security number',
+          CustomPage: ClaimantSSNPage,
+          CustomPageReview: null,
+          depends: formData => formData?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantAddress: {
+          path: 'claimant-address',
+          title: 'Claimant address',
+          CustomPage: ClaimantAddressPage,
+          CustomPageReview: null,
+          depends: formData => formData?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        claimantContact: {
+          path: 'claimant-contact',
+          title: 'Claimant contact information',
+          CustomPage: ClaimantContactPage,
+          CustomPageReview: null,
+          depends: formData => formData?.claimantRelationship !== 'veteran',
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+      },
+    },
+
+    // Step 3 of 5: Claim information
+    claimInformationChapter: {
+      title: 'Claim information',
       pages: {
         benefitType: {
           path: 'benefit-type',
@@ -104,125 +178,33 @@ const formConfig = {
       },
     },
 
-    // Part 2: Claimant Information (Sections I-V)
-    veteranInformationChapter: {
-      title: 'Section I - Veteran information',
-      pages: {
-        veteranIdentity: {
-          path: 'veteran-identity',
-          title: 'Veteran identification',
-          CustomPage: VeteranIdentityPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    claimantInformationChapter: {
-      title: 'Section II - Claimant information',
-      pages: {
-        claimantIdentity: {
-          path: 'claimant-identity',
-          title: 'Claimant identification',
-          CustomPage: ClaimantIdentityPage,
-          CustomPageReview: null,
-          depends: formData => formData?.isVeteranClaimant === 'no',
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
+    // Step 4 of 5: Hospitalization
     hospitalizationChapter: {
-      title: 'Section IV - Hospitalization',
+      title: 'Hospitalization',
       pages: {
-        hospitalization: {
-          path: 'hospitalization',
-          title: 'Current hospitalization',
-          CustomPage: HospitalizationPage,
+        hospitalizationStatus: {
+          path: 'hospitalization-status',
+          title: 'Hospitalization status',
+          CustomPage: HospitalizationStatusPage,
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-
-    claimantSignatureChapter: {
-      title: 'Section V - Claimant certification',
-      pages: {
-        claimantSignature: {
-          path: 'claimant-signature',
-          title: 'Certification and signature',
-          CustomPage: ClaimantSignaturePage,
+        hospitalizationDate: {
+          path: 'hospitalization-date',
+          title: 'Admission date',
+          CustomPage: HospitalizationDatePage,
           CustomPageReview: null,
+          depends: formData => formData?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-
-    // Part 3: Medical Examination (Sections VI-VIII)
-    examinerInformationChapter: {
-      title: 'Section VI - Medical examiner information',
-      pages: {
-        examinerIdentification: {
-          path: 'examiner-identification',
-          title: 'Examiner identification',
-          CustomPage: ExaminerIdentificationPage,
+        hospitalizationFacility: {
+          path: 'hospitalization-facility',
+          title: 'Hospital information',
+          CustomPage: HospitalizationFacilityPage,
           CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        medicalDiagnosis: {
-          path: 'medical-diagnosis',
-          title: 'Medical diagnoses',
-          CustomPage: MedicalDiagnosisPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    functionalAssessmentChapter: {
-      title: 'Section VII - Functional assessment',
-      pages: {
-        adlAssessment: {
-          path: 'adl-assessment',
-          title: 'Activities of Daily Living',
-          CustomPage: ADLAssessmentPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        functionalLimitations: {
-          path: 'functional-limitations',
-          title: 'Functional limitations',
-          CustomPage: FunctionalLimitationsPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-      },
-    },
-
-    narrativeAssessmentChapter: {
-      title: 'Section VIII - Clinical narrative',
-      pages: {
-        narrativeAssessment: {
-          path: 'narrative-assessment',
-          title: 'Narrative and locomotion',
-          CustomPage: NarrativeAssessmentPage,
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
-        examinerSignature: {
-          path: 'examiner-signature',
-          title: 'Examiner certification',
-          CustomPage: ExaminerSignaturePage,
-          CustomPageReview: null,
+          depends: formData => formData?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },

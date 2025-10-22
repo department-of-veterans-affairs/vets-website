@@ -1,58 +1,6 @@
 import { z } from 'zod';
-import {
-  NAME_PATTERNS,
-  VALIDATION_MESSAGES,
-  ID_PATTERNS,
-} from '@bio-aquia/shared/schemas/regex-patterns';
-
-/**
- * Schema for veteran's first name
- */
-export const veteranFirstNameSchema = z
-  .string()
-  .min(1, 'First name is required')
-  .max(30, 'First name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.STANDARD,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  );
-
-/**
- * Schema for veteran's middle name (optional)
- */
-export const veteranMiddleNameSchema = z
-  .string()
-  .max(30, 'Middle name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.OPTIONAL,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  )
-  .optional()
-  .or(z.literal(''));
-
-/**
- * Schema for veteran's last name
- */
-export const veteranLastNameSchema = z
-  .string()
-  .min(1, 'Last name is required')
-  .max(30, 'Last name must be less than 30 characters')
-  .regex(
-    NAME_PATTERNS.STANDARD,
-    VALIDATION_MESSAGES.NAME_INVALID ||
-      'Must contain only letters, spaces, hyphens, and apostrophes',
-  );
-
-/**
- * Schema for veteran's full name
- */
-export const veteranFullNameSchema = z.object({
-  first: veteranFirstNameSchema,
-  middle: veteranMiddleNameSchema,
-  last: veteranLastNameSchema,
-});
+import { fullNameSchema } from '@bio-aquia/shared/schemas/name';
+import { ID_PATTERNS } from '@bio-aquia/shared/schemas/regex-patterns';
 
 /**
  * Schema for Social Security Number
@@ -108,12 +56,19 @@ export const isVeteranClaimantSchema = z.enum(['yes', 'no'], {
 });
 
 /**
+ * Page schema for veteran identity page (name, SSN, DOB only)
+ */
+export const veteranIdentificationPageSchema = z.object({
+  veteranFullName: fullNameSchema,
+  veteranSSN: veteranSSNSchema,
+  veteranDOB: veteranDOBSchema,
+});
+
+/**
  * Complete veteran identification schema
  */
 export const veteranIdentificationSchema = z.object({
-  veteranFirstName: veteranFirstNameSchema,
-  veteranMiddleName: veteranMiddleNameSchema,
-  veteranLastName: veteranLastNameSchema,
+  veteranFullName: fullNameSchema,
   veteranSSN: veteranSSNSchema,
   veteranFileNumber: veteranFileNumberSchema,
   veteranServiceNumber: veteranServiceNumberSchema,
