@@ -11,7 +11,7 @@ import { fireEvent, waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import * as SmApi from '../../api/SmApi';
 import reducer from '../../reducers';
-import { Paths } from '../../util/constants';
+import { PageHeaders, Paths } from '../../util/constants';
 
 describe('App', () => {
   const initialState = {
@@ -440,7 +440,7 @@ describe('App', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;

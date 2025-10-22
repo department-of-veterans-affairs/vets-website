@@ -90,7 +90,7 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent();
 
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -160,7 +160,7 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent();
 
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -180,7 +180,7 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent(state);
 
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -215,7 +215,7 @@ describe('RecentCareTeams component', () => {
 
       // Component should still render
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -252,7 +252,7 @@ describe('RecentCareTeams component', () => {
       );
       const screen = renderComponent(customState);
       expect(
-        screen.getByText('Care teams you recently sent messages to', {
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
           selector: 'h1',
         }),
       ).to.exist;
@@ -566,7 +566,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         const h1Element = screen.getByText(
-          'Care teams you recently sent messages to',
+          Constants.PageHeaders.RECENT_RECIPIENTS,
           { selector: 'h1' },
         );
         expect(document.activeElement).to.equal(h1Element);
@@ -577,7 +577,7 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent();
 
       const h1Element = screen.getByText(
-        'Care teams you recently sent messages to',
+        Constants.PageHeaders.RECENT_RECIPIENTS,
         { selector: 'h1' },
       );
       expect(h1Element.getAttribute('tabIndex')).to.equal('-1');
