@@ -5,6 +5,7 @@ import { prescriptionReducer } from '../../reducers/prescription';
 describe('prescription reducer', () => {
   const initialState = {
     renewalPrescription: undefined,
+    redirectPath: undefined,
     error: undefined,
     isLoading: false,
   };
@@ -57,12 +58,28 @@ describe('prescription reducer', () => {
   it('should handle CLEAR_PRESCRIPTION action', () => {
     const stateWithData = {
       renewalPrescription: { id: '123' },
+      redirectPath: '/some/path',
       error: 'some error',
       isLoading: true,
     };
     const action = { type: Actions.Prescriptions.CLEAR_PRESCRIPTION };
     expect(prescriptionReducer(stateWithData, action)).to.deep.equal(
       initialState,
+    );
+  });
+
+  it('should handle SET_REDIRECT_PATH action', () => {
+    const payload = '/medications/refill';
+    const action = {
+      type: Actions.Prescriptions.SET_REDIRECT_PATH,
+      payload,
+    };
+    const expectedState = {
+      ...initialState,
+      redirectPath: payload,
+    };
+    expect(prescriptionReducer(initialState, action)).to.deep.equal(
+      expectedState,
     );
   });
 

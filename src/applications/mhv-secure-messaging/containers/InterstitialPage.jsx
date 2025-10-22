@@ -10,6 +10,7 @@ import { acceptInterstitial } from '../actions/threadDetails';
 import {
   clearPrescription,
   getPrescriptionById,
+  setRedirectPath,
 } from '../actions/prescription';
 
 const InterstitialPage = props => {
@@ -27,10 +28,14 @@ const InterstitialPage = props => {
     () => {
       const searchParams = new URLSearchParams(location.search);
       const prescriptionId = searchParams.get('prescriptionId');
+      const redirectPath = searchParams.get('redirectPath');
       if (prescriptionId) {
         dispatch(getPrescriptionById(prescriptionId));
       } else {
         dispatch(clearPrescription());
+      }
+      if (redirectPath) {
+        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
       }
     },
     [location.search, dispatch],

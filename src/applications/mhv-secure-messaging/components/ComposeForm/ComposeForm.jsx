@@ -75,7 +75,11 @@ const ComposeForm = props => {
 
   const { draftInProgress } = useSelector(state => state.sm.threadDetails);
   const { prescription } = useSelector(state => state.sm);
-  const { renewalPrescription, rxError = prescription.error } = prescription;
+  const {
+    renewalPrescription,
+    rxError = prescription.error,
+    redirectPath,
+  } = prescription;
   const renewalPrescriptionIsLoading = useSelector(
     state => state.sm.prescription.isLoading,
   );
@@ -123,9 +127,23 @@ const ComposeForm = props => {
     [largeAttachmentsEnabled, cernerPilotSmFeatureFlag, ohTriageGroup],
   );
 
+  const isRxRenewalDraft = useMemo(
+    () => renewalPrescription?.prescriptionId || rxError,
+    [renewalPrescription, rxError],
+  );
+
+  const navigateToRxCallback = useCallback(
+    () => {
+      if (redirectPath) {
+        window.location.replace(redirectPath);
+      }
+    },
+    [redirectPath],
+  );
+
   useEffect(
     () => {
-      if (renewalPrescription?.prescriptionId || rxError) {
+      if (isRxRenewalDraft) {
         const rx = renewalPrescription;
         const messageSubject = 'Renewal Needed';
         const messageBody = [
@@ -155,7 +173,7 @@ const ComposeForm = props => {
         dispatch(clearPrescription());
       };
     },
-    [renewalPrescription, rxError, dispatch],
+    [renewalPrescription, isRxRenewalDraft, dispatch],
   );
 
   useEffect(
@@ -427,12 +445,16 @@ const ComposeForm = props => {
             );
             dispatch(clearDraftInProgress());
             setTimeout(() => {
-              navigateToFolderByFolderId(
-                currentFolder?.folderId || DefaultFolders.INBOX.id,
-                history,
-              );
+              if (redirectPath) {
+                navigateToRxCallback();
+              } else {
+                navigateToFolderByFolderId(
+                  currentFolder?.folderId || DefaultFolders.INBOX.id,
+                  history,
+                );
+              }
             }, 1000);
-            // Timeout neccessary for UCD requested 1 second delay
+            // Timeout necessary for UCD requested 1 second delay
           } catch (err) {
             setSendMessageFlag(false);
             scrollToTop();
@@ -456,6 +478,8 @@ const ComposeForm = props => {
       dispatch,
       currentFolder?.folderId,
       history,
+      redirectPath,
+      navigateToRxCallback,
     ],
   );
 

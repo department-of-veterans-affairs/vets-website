@@ -31,11 +31,13 @@ import {
   Prompts,
   ElectronicSignatureBox,
   ErrorMessages,
+  DefaultFolders,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
+import * as helperUtils from '../../../util/helpers';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
   getProps,
@@ -1985,6 +1987,140 @@ describe('Compose form component', () => {
       );
       expect(warningBanner).to.exist;
       expect(warningBanner.getAttribute('visible')).to.equal('false');
+    });
+
+    it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
+      // Mock the sendMessage action to return a resolved promise
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      // Store original location and create spy
+      const originalLocation = window.location;
+      const windowLocationReplaceSpy = sinon.spy();
+
+      // Mock window.location with spy (avoiding delete which can cause issues)
+      window.location = {
+        ...originalLocation,
+        replace: windowLocationReplaceSpy,
+      };
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: { prescriptionId: '123' },
+            redirectPath: '/medications/refill',
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+        draft: customDraftMessage,
+        recipients: customState.sm.recipients,
+        categories,
+        pageTitle: 'Start your message',
+      });
+
+      // Verify redirect path is present in state before sending
+      expect(customState.sm.prescription.redirectPath).to.equal(
+        '/medications/refill',
+      );
+
+      fireEvent.click(screen.getByTestId('send-button'));
+
+      // Wait for the component's sendMessage and setTimeout to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called and navigation occurred
+      expect(sendMessageStub.called).to.be.true;
+      expect(customState.sm.prescription.redirectPath).to.equal(
+        '/medications/refill',
+      );
+      expect(windowLocationReplaceSpy.calledOnce).to.be.true;
+      expect(windowLocationReplaceSpy.calledWith('/medications/refill')).to.be
+        .true;
+
+      // Restore original location
+      window.location = originalLocation;
+    });
+
+    it('calls sendMessage and verifies normal navigation flow when no redirectPath is present', async () => {
+      // Mock the sendMessage action to return a resolved promise (same as working test)
+      const sendMessageStub = sandbox.stub(messageActions, 'sendMessage');
+      sendMessageStub.returns(() => Promise.resolve());
+
+      const navigateToFolderByFolderIdSpy = sandbox.stub(
+        helperUtils,
+        'navigateToFolderByFolderId',
+      );
+
+      const customDraftMessage = {
+        ...draftMessage,
+        recipientId: 1013155,
+        recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      };
+
+      const customState = {
+        ...draftState,
+        sm: {
+          ...draftState.sm,
+          prescription: {
+            renewalPrescription: undefined,
+            redirectPath: undefined,
+            error: undefined,
+            isLoading: false,
+          },
+          threadDetails: {
+            ...draftState.sm.threadDetails,
+            drafts: [customDraftMessage],
+          },
+        },
+      };
+
+      const { getByTestId } = setup(
+        customState,
+        `/thread/${customDraftMessage.id}`,
+        {
+          draft: customDraftMessage,
+          recipients: customState.sm.recipients,
+          categories,
+          pageTitle: 'Start your message',
+        },
+      );
+
+      // Verify no redirect path is present in state before sending
+      expect(customState.sm.prescription.redirectPath).to.be.undefined;
+
+      fireEvent.click(getByTestId('send-button'));
+
+      // Wait for the component's sendMessage and setTimeout to complete
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      // Verify that sendMessage was called successfully and no redirect path is available
+      expect(sendMessageStub.called).to.be.true;
+      expect(customState.sm.prescription.redirectPath).to.be.undefined;
+
+      // Verify the normal navigation function was called
+      await waitFor(() => {
+        expect(
+          navigateToFolderByFolderIdSpy.calledWith(DefaultFolders.INBOX.id),
+        ).to.be.true;
+      });
     });
   });
 });

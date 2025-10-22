@@ -32,3 +32,8 @@ export const getPrescriptionById = prescriptionId => async dispatch => {
 export const clearPrescription = () => ({
   type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
 });
+
+export const setRedirectPath = redirectPath => ({
+  type: Actions.Prescriptions.SET_REDIRECT_PATH,
+  payload: redirectPath,
+});

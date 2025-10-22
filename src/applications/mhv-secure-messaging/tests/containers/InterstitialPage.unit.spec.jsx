@@ -182,4 +182,37 @@ describe('Interstitial page header', () => {
 
     clearPrescriptionSpy.restore();
   });
+
+  it('dispatches redirectPath when redirectPath is in URL params', async () => {
+    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/?redirectPath=/some/other/path',
+    });
+
+    await waitFor(() => {
+      expect(redirectPathSpy.calledOnce).to.be.true;
+      expect(redirectPathSpy.calledWith('/some/other/path')).to.be.true;
+    });
+
+    redirectPathSpy.restore();
+  });
+
+  it('does NOT dispatch redirectPath when redirectPath is NOT in URL params', async () => {
+    const redirectPathSpy = sinon.spy(prescriptionActions, 'setRedirectPath');
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    await waitFor(() => {
+      expect(redirectPathSpy.calledOnce).to.be.false;
+    });
+
+    redirectPathSpy.restore();
+  });
 });
