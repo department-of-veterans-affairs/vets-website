@@ -75,103 +75,111 @@ export const scrollToTop = async (
  * @param {ScrollOptions & scrollToFirstErrorOptions} options
  */
 export const scrollToFirstError = async (options = {}) => {
-  return new Promise(resolve => {
-    const { focusOnAlertRole = false, errorContext } = options;
-    const selectors = ERROR_ELEMENTS.join(',');
-    const timeout = 500;
-    const observerConfig = { childList: true, subtree: true };
-    const rootEl = document.querySelector('#react-root') || document.body;
-    let fallbackTimer;
-    let observer;
+  const { focusOnAlertRole = false, errorContext } = options;
+  const selectors = ERROR_ELEMENTS.join(',');
+  const el = document.querySelector(selectors);
 
-    const runCleanup = el => {
-      if (!el) {
-        console.warn('scrollToFirstError: Error element not found', el);
-        if (
-          !environment.isProduction() &&
-          Array.isArray(errorContext) &&
-          errorContext.length &&
-          errorContext.some(err =>
-            err?.stack?.includes('You must provide a response'),
-          )
-        ) {
-          const fieldKeys = errorContext
-            .filter(err => err?.stack?.includes('You must provide a response'))
-            .map(err => err.stack.split(':')[0]);
-          console.warn(
-            `Schema validation error: The following fields are marked as required in your schema but do not exist in the page:\n${fieldKeys
-              .map(key => `- "${key}"`)
-              .join(
-                '\n',
-              )}\nCheck your required fields in the schema match the fields in your UI.`,
-          );
-        }
-      }
-      clearTimeout(fallbackTimer);
-      observer?.disconnect();
-      resolve();
-    };
-
-    const scrollAndFocus = el => {
-      // check for any modals that would interfere with scrolling
-      const isShadowRootModalOpen = Array.from(
-        document.querySelectorAll('va-omb-info'),
-      ).some(({ shadowRoot }) =>
-        shadowRoot?.querySelector('va-modal[visible]:not([visible="false"])'),
+  if (!el) {
+    console.warn('scrollToFirstError: Error element not found');
+    if (
+      !environment.isProduction() &&
+      Array.isArray(errorContext) &&
+      errorContext.length &&
+      errorContext.some(err =>
+        err?.stack?.includes('You must provide a response'),
+      )
+    ) {
+      const fieldKeys = errorContext
+        .filter(err => err?.stack?.includes('You must provide a response'))
+        .map(err => err.stack.split(':')[0]);
+      console.warn(
+        `Schema validation error: The following fields are marked as required in your schema but do not exist in the page:\n${fieldKeys
+          .map(key => `- "${key}"`)
+          .join(
+            '\n',
+          )}\nCheck your required fields in the schema match the fields in your UI.`,
       );
-      const isModalOpen =
-        document.body.classList.contains('modal-open') ||
-        document.querySelector('va-modal[visible]:not([visible="false"])') ||
-        isShadowRootModalOpen;
+    }
+    return;
+  }
 
-      // prevent page scroll if there is an open modal, as the error could
-      // be within the modal itself
-      if (!isModalOpen) {
-        const position = getElementPosition(el);
-        scrollTo(position - 10, options);
+  // check for any modals that would interfere with scrolling
+  const isShadowRootModalOpen = Array.from(
+    document.querySelectorAll('va-omb-info'),
+  ).some(({ shadowRoot }) =>
+    shadowRoot?.querySelector('va-modal[visible]:not([visible="false"])'),
+  );
+  const isModalOpen =
+    document.body.classList.contains('modal-open') ||
+    document.querySelector('va-modal[visible]:not([visible="false"])') ||
+    isShadowRootModalOpen;
 
-        if (focusOnAlertRole) {
-          // Adding a delay so that the shadow DOM needs to render and attach
-          // before we try to focus on the element; without the setTimeout,
-          // focus ends up staying on the "Continue" button
-          requestAnimationFrame(() => {
-            focusElement('[role="alert"]', {}, el?.shadowRoot);
-          });
-        } else {
-          focusElement(el);
-        }
-      }
+  // prevent page scroll if there is an open modal, as the error could
+  // be within the modal itself
+  if (!isModalOpen) {
+    const position = getElementPosition(el);
+    await scrollTo(position - 10, options);
 
-      runCleanup(true);
-    };
+    if (focusOnAlertRole) {
+      // Process ALL error elements on the page to set up aria-describedby
+      const allErrorElements = document.querySelectorAll(selectors);
+      allErrorElements.forEach(errorWebComponent => {
+        const errorElement = errorWebComponent?.shadowRoot?.querySelector(
+          '[role="alert"], #input-error-message',
+        );
 
-    const queryForErrors = () => {
-      const el = document.querySelector(selectors);
-      if (el) scrollAndFocus(el);
-    };
+        if (errorElement) {
+          // Get or create an ID for the error element
+          let errorId = errorElement.id;
+          if (!errorId) {
+            errorId = `input-error-message-${Math.random()
+              .toString(36)
+              .substr(2, 9)}`;
+            errorElement.id = errorId;
+          }
 
-    // use MutationObserver to only watch `addedNodes` for the selectors
-    observer = new MutationObserver(mutations => {
-      for (const { addedNodes } of mutations) {
-        for (const node of Array.from(addedNodes)) {
-          if (
-            node.nodeType === Node.ELEMENT_NODE &&
-            (node.matches?.(selectors) || node.querySelector?.(selectors))
-          ) {
-            queryForErrors();
-            return;
+          // Remove role=alert to prevent interference with aria-describedby announcements
+          errorElement.removeAttribute('role');
+          errorElement.removeAttribute('aria-live');
+
+          // Find the corresponding input element
+          const inputElement = errorWebComponent?.shadowRoot?.querySelector(
+            'input, select, textarea',
+          );
+
+          if (inputElement) {
+            // Associate the error message with the input using aria-describedby
+            const existingDescribedBy = inputElement.getAttribute(
+              'aria-describedby',
+            );
+            if (
+              !existingDescribedBy ||
+              !existingDescribedBy.includes(errorId)
+            ) {
+              inputElement.setAttribute(
+                'aria-describedby',
+                existingDescribedBy
+                  ? `${existingDescribedBy} ${errorId}`
+                  : errorId,
+              );
+            }
           }
         }
+      });
+
+      // Now focus the first error's input
+      const firstErrorInput = el?.shadowRoot?.querySelector(
+        'input, select, textarea',
+      );
+      if (firstErrorInput) {
+        setTimeout(() => {
+          firstErrorInput.focus({ preventScroll: true });
+        }, 100);
       }
-    });
-    if (rootEl) observer.observe(rootEl, observerConfig);
-
-    // don't let the observer run forever
-    fallbackTimer = setTimeout(() => runCleanup(false), timeout);
-
-    // run an initial check for any existing elements
-    queryForErrors();
-  });
+    } else {
+      focusElement(el, { preventScroll: true });
+    }
+  }
 };
 
 export const scrollAndFocus = (target, options) =>
