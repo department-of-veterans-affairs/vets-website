@@ -285,6 +285,7 @@ const EditContactList = () => {
                         triageTeamCount[stationNumber] !== 1 ? 's' : ''
                       } selected`}
                       key={stationNumber}
+                      data-dd-privacy="mask"
                       data-testid="facility-accordion-item"
                       data-dd-action-name="Contact list accordion clicked"
                       open={index === 0}
