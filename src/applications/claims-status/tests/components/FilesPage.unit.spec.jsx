@@ -5,8 +5,6 @@ import { waitFor } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter, rerenderWithRouter } from '../utils';
@@ -88,8 +86,8 @@ describe('<FilesPage>', () => {
         />
       </Provider>,
     );
-    expect($('.claim-files', container)).to.not.exist;
-    expect($('va-loading-indicator', container)).to.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
+    expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should render null when claim empty', () => {
@@ -99,7 +97,7 @@ describe('<FilesPage>', () => {
       </Provider>,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
@@ -114,7 +112,7 @@ describe('<FilesPage>', () => {
       </Provider>,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
@@ -285,13 +283,14 @@ describe('<FilesPage>', () => {
           />
         </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
 
     it('should render files page, showing additional evidence section with alerts, and docs filed section when using lighthouse', () => {
@@ -317,13 +316,14 @@ describe('<FilesPage>', () => {
           />
         </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).to.not.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
     it('should not render ask va to decide component', () => {
       const claim = { ...baseClaim };
@@ -379,13 +379,14 @@ describe('<FilesPage>', () => {
           />
         </Provider>,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
   });
 
