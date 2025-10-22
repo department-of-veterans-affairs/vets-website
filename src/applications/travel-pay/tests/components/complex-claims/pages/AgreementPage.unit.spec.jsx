@@ -143,6 +143,10 @@ describe('Travel Pay – AgreementPage', () => {
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
     );
 
     // Click the back button

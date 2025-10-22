@@ -5,10 +5,10 @@ import { expect } from 'chai';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
-import MileageExpenseCard from '../../../../components/complex-claims/pages/MileageExpenseCard';
+import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
 
-describe('MileageExpenseCard', () => {
+describe('ExpenseCard', () => {
   const defaultExpense = {
     address: {
       addressLine1: '123 Main St',
@@ -24,7 +24,7 @@ describe('MileageExpenseCard', () => {
   const getData = () => ({});
 
   it('renders the component correctly', () => {
-    renderWithStoreAndRouter(<MileageExpenseCard expense={defaultExpense} />, {
+    renderWithStoreAndRouter(<ExpenseCard expense={defaultExpense} />, {
       initialState: getData(),
       reducers: reducer,
     });
@@ -68,7 +68,7 @@ describe('MileageExpenseCard', () => {
       tripType: 'RoundTrip',
     };
 
-    renderWithStoreAndRouter(<MileageExpenseCard expense={expense} />, {
+    renderWithStoreAndRouter(<ExpenseCard expense={expense} />, {
       initialState: getData(),
       reducers: reducer,
     });
@@ -87,7 +87,7 @@ describe('MileageExpenseCard', () => {
     const consoleSpy = sinon.spy(console, 'log');
 
     const { container } = renderWithStoreAndRouter(
-      <MileageExpenseCard expense={defaultExpense} />,
+      <ExpenseCard expense={defaultExpense} />,
       {
         initialState: {},
         reducers: reducer,

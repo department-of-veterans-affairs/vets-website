@@ -7,19 +7,31 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
-.review-header-row {
-  align-items: flex-start;
-  justify-content: flex-end;
+.review-button-row {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  va-button-icon {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 }
 
-.review-header {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-right: 10px;
-  padding-top: 10px;
+.review-edit-button {
+  padding-inline: 20px;
+  padding-block: 8px;
   line-height: 25px;
-  flex: 1;
+  align-items: center;
+  font-weight: bold;
+
+  .active-va-link {
+    align-items: middle;
+    height: 25px;
+    width: 75px;
+    display: inline-block;
+    text-align: center;
+  }
 }
 
 .review {

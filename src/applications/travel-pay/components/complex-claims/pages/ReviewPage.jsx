@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ReviewPageAlert from './ReviewPageAlert';
-import MileageExpenseCard from './MileageExpenseCard';
+import ExpenseCard from './ExpenseCard';
 
 const ReviewPage = ({ claim, message }) => {
   const navigate = useNavigate();
@@ -148,7 +148,11 @@ const ReviewPage = ({ claim, message }) => {
             {expenses.map(expense => (
               <div key={expense.id}>
                 {expense.expenseType === 'Mileage' && (
-                  <MileageExpenseCard expense={expense} />
+                  <ExpenseCard
+                    expense={expense}
+                    editToRoute="/mileage"
+                    header="Mileage expense"
+                  />
                 )}
               </div>
             ))}

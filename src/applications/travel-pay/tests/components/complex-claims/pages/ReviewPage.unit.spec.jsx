@@ -1,10 +1,15 @@
 import React from 'react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent } from '@testing-library/react';
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  MemoryRouter,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom-v5-compat';
 import ReviewPage from '../../../../components/complex-claims/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
 
@@ -34,6 +39,11 @@ describe('Travel Pay – ReviewPage', () => {
     },
   ];
 
+  const LocationDisplay = () => {
+    const location = useLocation();
+    return <div data-testid="location-display">{location.pathname}</div>;
+  };
+
   const getData = () => ({
     travelPay: {
       claimSubmission: { isSubmitting: false, error: null, data: null },
@@ -41,8 +51,10 @@ describe('Travel Pay – ReviewPage', () => {
   });
 
   it('renders the review page with expenses and alert', () => {
-    const screen = renderWithStoreAndRouter(
-      <ReviewPage claim={defaultClaim} />,
+    const { getByTestId, getByRole, container } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <ReviewPage claim={defaultClaim} />
+      </MemoryRouter>,
       {
         initialState: getData(),
         reducers: reducer,
@@ -50,44 +62,62 @@ describe('Travel Pay – ReviewPage', () => {
     );
 
     // Review page container
-    expect(screen.getByTestId('review-page')).to.exist;
+    expect(getByTestId('review-page')).to.exist;
 
     // Page heading
-    expect(screen.getByRole('heading', { name: /your unsubmitted expenses/i }))
-      .to.exist;
+    expect(getByRole('heading', { name: /your unsubmitted expenses/i })).to
+      .exist;
 
     // Alert component visible
     expect($('va-alert')).to.exist;
 
     // Add more expenses button
-    expect($('#add-expense-button', screen.container)).to.exist;
+    expect($('#add-expense-button', container)).to.exist;
 
     // Sign agreement button
-    expect($('#sign-agreement-button', screen.container)).to.exist;
+    expect($('#sign-agreement-button', container)).to.exist;
 
-    // MileageExpenseCard should render for Mileage expense
-    expect($('va-accordion-item', screen.container)).to.exist;
+    // ExpenseCard should render
+    expect($('va-accordion-item', container)).to.exist;
+
+    // SummaryBox should render
+    expect($('va-summary-box', container)).to.exist;
   });
 
   it('calls onNext when Sign Agreement button is clicked', () => {
-    const onNextSpy = sinon.spy();
-
-    const { container } = renderWithStoreAndRouter(
-      <ReviewPage claim={defaultClaim} onNext={onNextSpy} />,
-      { initialState: getData(), reducers: reducer },
+    const { container, getByTestId } = renderWithStoreAndRouter(
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <Routes>
+          <Route
+            path="/file-new-claim/complex/:apptId/review"
+            element={<ReviewPage claim={defaultClaim} />}
+          />
+        </Routes>
+        <LocationDisplay />
+      </MemoryRouter>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
     );
 
     const signButton = $('#sign-agreement-button', container);
     expect(signButton).to.exist;
 
+    // Click the Sign Agreement button
     fireEvent.click(signButton);
 
-    expect(onNextSpy.calledOnce).to.be.true;
+    // Check that the location updated
+    expect(getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/complex/12345/travel-agreement',
+    );
   });
 
   it('hides alert when close button is clicked', () => {
     const { container } = renderWithStoreAndRouter(
-      <ReviewPage claim={defaultClaim} />,
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <ReviewPage claim={defaultClaim} />
+      </MemoryRouter>,
       {
         initialState: getData(),
         reducers: reducer,
@@ -107,7 +137,9 @@ describe('Travel Pay – ReviewPage', () => {
 
   it('renders multiple expenses correctly', () => {
     const { container } = renderWithStoreAndRouter(
-      <ReviewPage claim={defaultClaim} />,
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <ReviewPage claim={defaultClaim} />
+      </MemoryRouter>,
       {
         initialState: getData(),
         reducers: reducer,
@@ -118,14 +150,16 @@ describe('Travel Pay – ReviewPage', () => {
     const accordionItems = container.querySelectorAll('va-accordion-item');
     expect(accordionItems.length).to.equal(2);
 
-    // MileageExpenseCard rendered for Mileage expense
+    // ExpenseCard rendered
     const mileageCard = container.querySelector('va-accordion-item div');
     expect(mileageCard).to.exist;
   });
 
-  it('calls addMoreExpenses when Add more expenses button is clicked', () => {
+  it('calls addMoreExpenses when add more expenses button is clicked', () => {
     const { container } = renderWithStoreAndRouter(
-      <ReviewPage claim={defaultClaim} />,
+      <MemoryRouter initialEntries={['/file-new-claim/complex/12345/review']}>
+        <ReviewPage claim={defaultClaim} />
+      </MemoryRouter>,
       {
         initialState: getData(),
         reducers: reducer,
