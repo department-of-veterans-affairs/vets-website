@@ -58,7 +58,9 @@ export default function ClinicChoicePage() {
 
   const typeOfCareLabel = formatTypeOfCare(typeOfCare.name);
   const usingUnsupportedRequestFlow =
-    data.clinicId === 'NONE' && !eligibility?.request;
+    data.clinicId === 'NONE' &&
+    (!eligibility?.request || eligibility.request.disabled);
+
   const usingPastClinics =
     typeOfCare.id !== TYPE_OF_CARE_IDS.PRIMARY_CARE &&
     (typeOfCare.id !== TYPE_OF_CARE_IDS.MENTAL_HEALTH_SERVICES_ID ||

@@ -52,7 +52,7 @@ const DebtSummaryCard = ({ debt }) => {
                 recordEvent({ event: 'cta-link-click-debt-summary-card' });
                 dispatch(setActiveDebt(debt));
               }}
-              href={`/manage-va-debt/summary/debt-balances/details/${
+              href={`/manage-va-debt/summary/debt-balances/${
                 debt.compositeDebtId
               }`}
               text="Review details"
@@ -68,7 +68,7 @@ const DebtSummaryCard = ({ debt }) => {
                   recordEvent({ event: 'cta-link-click-debt-summary-card' });
                   dispatch(setActiveDebt(debt));
                 }}
-                href={`/manage-va-debt/summary/debt-balances/details/${
+                href={`/manage-va-debt/summary/debt-balances/${
                   debt.compositeDebtId
                 }/resolve`}
                 text="Resolve this debt"
@@ -86,7 +86,7 @@ const DebtSummaryCard = ({ debt }) => {
               recordEvent({ event: 'cta-link-click-debt-summary-card' });
               dispatch(setActiveDebt(debt));
             }}
-            href={`/manage-va-debt/summary/debt-balances/details/${
+            href={`/manage-va-debt/summary/debt-balances/${
               debt.compositeDebtId
             }`}
             text="Check details and resolve this debt"
