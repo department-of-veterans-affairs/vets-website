@@ -183,8 +183,9 @@ const medicareSummaryPage = {
 
 const medicarePlanTypes = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(`${generateParticipantName(formData)} Medicare plan types`),
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${generateParticipantName(formData)} Medicare plan types`,
     ),
     medicarePlanType: {
       ...radioUI({
@@ -209,10 +210,9 @@ const medicarePlanTypes = {
 
 const medicarePartAPartBEffectiveDatesPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare effective dates`,
-      ),
     ),
     'view:medicarePartAEffectiveDate': {
       'ui:title': <h3>Medicare Part A</h3>,
@@ -309,10 +309,9 @@ const medicareABCardUploadPage = {
 
 const medicarePartAEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part A effective date`,
-      ),
     ),
     medicarePartAEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part A effective date',
@@ -377,10 +376,9 @@ const medicarePartACardUploadPage = {
 
 const medicarePartBEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part B effective date`,
-      ),
     ),
     medicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B Effective date',
@@ -449,17 +447,13 @@ const medicarePartADenialPage = dataKey => {
     const n = Number(formContext.pagePerItemIndex);
     const itemIndex = Number.isFinite(n) && n >= 0 ? n : null;
     if (formData?.medicare?.[itemIndex]?.medicareParticipant) {
-      return privWrapper(
-        `${generateParticipantName(
-          formData?.medicare?.[itemIndex],
-        )} Medicare status`,
-      );
+      return `${generateParticipantName(
+        formData?.medicare?.[itemIndex],
+      )} Medicare status`;
     }
     const apps = getEligibleApplicantsWithoutMedicare(formData) ?? [];
     const item = apps.find(a => getAgeInYears(a.applicantDob) >= 65);
-    return privWrapper(
-      `${applicantWording(item, false, false, false)}’s Medicare status`,
-    );
+    return `${applicantWording(item, false, false, false)}’s Medicare status`;
   };
   return {
     uiSchema: {
@@ -558,12 +552,11 @@ const medicarePartADenialProofUploadPage = dataKey => {
 
 const medicarePartCCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(
           formData,
         )} Medicare Part C carrier and effective date`,
-      ),
     ),
     medicarePartCCarrier: textUI({
       title: 'Name of insurance carrier',
@@ -587,10 +580,9 @@ const medicarePartCCarrierEffectiveDatePage = {
 
 const medicarePartCPharmacyBenefitsPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare pharmacy benefits`,
-      ),
     ),
     hasPharmacyBenefits: {
       ...yesNoUI({
@@ -660,10 +652,9 @@ const medicarePartCCardUploadPage = {
 
 const medicarePartDStatusPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part D status`,
-      ),
     ),
     hasMedicarePartD: {
       ...yesNoUI({
@@ -683,10 +674,9 @@ const medicarePartDStatusPage = {
 
 const medicarePartDCarrierEffectiveDatePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) =>
-      privWrapper(
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
         `${generateParticipantName(formData)} Medicare Part D effective date`,
-      ),
     ),
     medicarePartDEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part D effective date',

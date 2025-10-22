@@ -719,7 +719,7 @@
     },
     {
       "directoryPath": "src/applications/simple-forms/21-4140",
-      "appName": "Income Verification for Disability Benefits",
+      "appName": "Submit Employment Questionnaire",
       "entryName": "21-4140-income-verification",
       "rootUrl": "/disability/verify-individual-unemployability-status/submit-employment-questionnaire-form-21-4140"
     },
