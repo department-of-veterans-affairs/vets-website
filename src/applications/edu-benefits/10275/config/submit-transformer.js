@@ -4,21 +4,42 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 export default function transform(formConfig, form) {
   const contactTransform = formData => {
     const clonedData = cloneDeep(formData);
-    const authorizingOfficial = cloneDeep(clonedData.authorizingOfficial);
 
     if (clonedData.authorizingOfficial['view:isPOC']) {
       // Principles of Excellence PoC is the same as the authorizing official
+      const principlesOfExcellencePointOfContact = cloneDeep(
+        clonedData.authorizingOfficial,
+      );
+
       clonedData.newCommitment = {
         ...clonedData.newCommitment,
-        principlesOfExcellencePointOfContact: authorizingOfficial,
+        principlesOfExcellencePointOfContact,
       };
     }
 
     if (clonedData.authorizingOfficial['view:isSCO']) {
       // School certifying official (SCO) is the same as the authorizing official
+      const schoolCertifyingOfficial = cloneDeep(
+        clonedData.authorizingOfficial,
+      );
+
       clonedData.newCommitment = {
         ...clonedData.newCommitment,
-        schoolCertifyingOfficial: authorizingOfficial,
+        schoolCertifyingOfficial,
+      };
+    } else if (
+      clonedData.newCommitment?.principlesOfExcellencePointOfContact?.[
+        'view:isSCO'
+      ]
+    ) {
+      // School certifying official (SCO) is the same as the Principles of Excellence point of contact
+      const schoolCertifyingOfficial = cloneDeep(
+        clonedData.newCommitment.principlesOfExcellencePointOfContact,
+      );
+
+      clonedData.newCommitment = {
+        ...clonedData.newCommitment,
+        schoolCertifyingOfficial,
       };
     }
 
