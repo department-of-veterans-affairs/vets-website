@@ -207,19 +207,19 @@ const routesForProfile2Nav = [
     hasSubnav: true,
   },
   {
-    component: AccountSecurity,
-    name: PROFILE_PATH_NAMES.SIGNIN_INFORMATION,
-    path: PROFILE_PATHS.SIGNIN_INFORMATION,
-    requiresLOA3: false,
-    requiresMVI: false,
-    subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-  },
-  {
     component: ConnectedApplications,
     name: PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
     path: PROFILE_PATHS.CONNECTED_APPLICATIONS,
     requiresLOA3: true,
     requiresMVI: true,
+    subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
+  },
+  {
+    component: AccountSecurity,
+    name: PROFILE_PATH_NAMES.SIGNIN_INFORMATION,
+    path: PROFILE_PATHS.SIGNIN_INFORMATION,
+    requiresLOA3: false,
+    requiresMVI: false,
     subnavParent: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
   },
 ];
