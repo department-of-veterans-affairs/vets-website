@@ -7,7 +7,10 @@ import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
 import { Paths } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
-import { getPrescriptionById } from '../actions/prescription';
+import {
+  clearPrescription,
+  getPrescriptionById,
+} from '../actions/prescription';
 
 const InterstitialPage = props => {
   const { type } = props;
@@ -26,6 +29,8 @@ const InterstitialPage = props => {
       const prescriptionId = searchParams.get('prescriptionId');
       if (prescriptionId) {
         dispatch(getPrescriptionById(prescriptionId));
+      } else {
+        dispatch(clearPrescription());
       }
     },
     [location.search, dispatch],

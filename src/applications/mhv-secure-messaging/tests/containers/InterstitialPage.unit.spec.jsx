@@ -24,17 +24,12 @@ describe('Interstitial page header', () => {
     customState = initialState(),
     path = '/new-message/',
     props,
-  }) => {
-    const result = renderWithStoreAndRouter(<InterstitialPage {...props} />, {
+  }) =>
+    renderWithStoreAndRouter(<InterstitialPage {...props} />, {
       initialState: customState,
       reducers: reducer,
       path,
     });
-    return {
-      ...result,
-      store: result.store,
-    };
-  };
 
   it('renders without errors', async () => {
     const screen = setup({});
@@ -143,27 +138,46 @@ describe('Interstitial page header', () => {
     });
   });
 
-  it('dispatches getPrescriptionById when prescriptionId is in URL params', () => {
-    const stub = sinon
-      .stub(prescriptionActions, 'getPrescriptionById')
-      .returns(() => {});
+  it('renders without errors when prescriptionId is in URL params', () => {
     setup({
       path: '/new-message/?prescriptionId=123',
     });
 
-    sinon.assert.calledWith(stub, '123');
-    stub.restore();
+    expect(
+      getByBrokenText(
+        'If you’re in crisis or having thoughts of suicide, ',
+        document.querySelector('.interstitial-page'),
+      ),
+    ).to.exist;
   });
 
-  it('does not dispatch getPrescriptionById when prescriptionId is not in URL params', () => {
-    const stub = sinon
-      .stub(prescriptionActions, 'getPrescriptionById')
-      .returns(() => {});
+  it('renders without errors when prescriptionId is not in URL params', () => {
     setup({
       path: '/new-message/',
     });
 
-    sinon.assert.notCalled(stub);
-    stub.restore();
+    expect(
+      getByBrokenText(
+        'If you’re in crisis or having thoughts of suicide, ',
+        document.querySelector('.interstitial-page'),
+      ),
+    ).to.exist;
+  });
+
+  it('dispatches clearPrescription when prescriptionId is not in URL params', () => {
+    const clearPrescriptionSpy = sinon.spy(
+      prescriptionActions,
+      'clearPrescription',
+    );
+
+    renderWithStoreAndRouter(<InterstitialPage />, {
+      initialState: initialState(),
+      reducers: reducer,
+      path: '/new-message/',
+    });
+
+    expect(clearPrescriptionSpy.calledOnce).to.be.true;
+
+    clearPrescriptionSpy.restore();
   });
 });
