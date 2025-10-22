@@ -33,7 +33,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     PatientInboxPage.clickCreateNewMessage();
     // cy.wait(100000); // wait for recent recipients to load
     PatientInterstitialPage.continueToRecentRecipients();
-    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
       `exist`,
@@ -64,7 +64,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
     );
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients(modifiedSearchResponse);
-    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(Locators.EMERGENCY_USE_EXPANDABLE_DATA_TEST_ID).should(
       `exist`,
@@ -91,7 +91,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('validate selection error', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
-    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByTestId(
       Locators.RECENT_CARE_TEAMS_CONTINUE_BUTTON_DATA_TEST_ID,
@@ -112,7 +112,7 @@ describe('SM CURATED LIST MAIN FLOW', () => {
   it('validate selecting different care team option', () => {
     PatientInboxPage.clickCreateNewMessage();
     PatientInterstitialPage.continueToRecentRecipients();
-    GeneralFunctionsPage.verifyPageHeader(`Recent care teams`);
+    GeneralFunctionsPage.verifyPageHeader(Data.RECENT_RECIPIENTS_HEADER);
 
     cy.findByLabelText('A different care team').click();
 
