@@ -219,7 +219,9 @@ const EditContactList = () => {
       />
 
       {alertsStatus.blockedGroups &&
-        alertsStatus.saveSuccess && <hr className="vads-u-margin-y--2" />}
+        alertsStatus.saveSuccess && (
+          <hr className="vads-u-margin-y--2" data-testid="contact-list-hr" />
+        )}
 
       <div
         className={`${vistaFacilities?.length > 1 &&

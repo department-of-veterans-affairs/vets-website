@@ -9,6 +9,7 @@ import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-da
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
 import mockSomeBlockedRecipients from '../fixtures/multi-facilities-some-blocked-recipients-response.json';
+import mockFacilityBlockedRecipients from '../fixtures/multi-facility-blocked-recipients-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
 
@@ -113,6 +114,52 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
     ContactListPage.verifyAccordionSubheader('0 teams selected');
     ContactListPage.verifyAccordionSubheader('3 teams selected');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it(`renders conditional hr when stacked alerts`, () => {
+    SecureMessagingSite.login(
+      mockToggles,
+      mockEhrData,
+      true,
+      mockMixedCernerFacilitiesUser,
+      mockFacilities,
+    );
+    ContactListPage.loadContactList(mockFacilityBlockedRecipients);
+
+    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+    cy.get('[data-testid="contact-list-save"]').click();
+    cy.get('[data-testid="contact-list-hr"]').should('exist');
+
+    cy.get('va-alert')
+      .shadow()
+      .find('button.va-alert-close')
+      .click({ waitForAnimations: true, force: true });
+    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
+  });
+
+  it(`does not render conditional hr when only one alert`, () => {
+    SecureMessagingSite.login(
+      mockToggles,
+      mockEhrData,
+      true,
+      mockMixedCernerFacilitiesUser,
+      mockFacilities,
+    );
+    ContactListPage.loadContactList(mockMixRecipients);
+
+    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+    cy.get('[data-testid="contact-list-save"]').click();
+    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+
+    cy.get('va-alert')
+      .shadow()
+      .find('button.va-alert-close')
+      .click({ waitForAnimations: true, force: true });
+    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
