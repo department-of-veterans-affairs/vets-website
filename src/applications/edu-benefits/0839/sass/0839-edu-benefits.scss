@@ -118,4 +118,9 @@ legend:has(.academic-year-title) {
 label[id="root_unlimitedIndividuals-label"] {
 display: none !important;
 }
+.college-or-professional-school, .degree-level{
+  p{
+  color: hsl(0, 0%, 46%);
+  }
+}
 
