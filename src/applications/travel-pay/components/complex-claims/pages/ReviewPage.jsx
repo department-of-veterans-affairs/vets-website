@@ -150,7 +150,7 @@ const ReviewPage = ({ claim, message }) => {
                 {expense.expenseType === 'Mileage' && (
                   <ExpenseCard
                     expense={expense}
-                    editToRoute="/mileage"
+                    editToRoute="../travel-agreement"
                     header="Mileage expense"
                   />
                 )}

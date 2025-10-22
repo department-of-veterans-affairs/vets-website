@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 import ExpenseCardDetails from './ExpenseCardDetails';
 
 const TripTypeLabels = {
@@ -29,8 +29,8 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
               value: (
                 <>
                   {address.addressLine1}
-                  {address.addressLine2 && <div>{address.addressLine2}</div>}
-                  {address.addressLine3 && <div>{address.addressLine3}</div>}
+                  {address.addressLine2 && <span>{address.addressLine2}</span>}
+                  {address.addressLine3 && <span>{address.addressLine3}</span>}
                   {address.city}, {address.stateCode} {address.zipCode}
                 </>
               ),
@@ -45,7 +45,11 @@ const ExpenseCard = ({ expense, editToRoute, header }) => {
 
       <div className="review-button-row">
         <div className="review-edit-button">
-          <Link className="active-va-link" to={editToRoute}>
+          <Link
+            data-testid={`${expense.id}-edit-expense-link`}
+            className="active-va-link"
+            to={editToRoute}
+          >
             EDIT
             <va-icon active icon="navigate_next" size={3} aria-hidden="true" />
           </Link>
