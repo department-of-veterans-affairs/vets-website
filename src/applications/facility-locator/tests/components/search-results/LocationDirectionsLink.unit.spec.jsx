@@ -20,7 +20,7 @@ const verifyLink = data => {
 
   expect(testProps).to.eql({
     href:
-      'https://maps.google.com?saddr=Current+Location&daddr=7901 Metropolis Drive, Austin, TX 78744-3111',
+      'https://maps.google.com?saddr=Current+Location&daddr=7901%20Metropolis%20Drive%2C%20Austin%2C%20TX%2078744-3111',
   });
   expect(wrapper.find('va-link').prop('text')).to.equal(
     'Get directions on Google Maps',
