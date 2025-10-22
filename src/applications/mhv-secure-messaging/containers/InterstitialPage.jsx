@@ -4,7 +4,7 @@ import PropType from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import CrisisLineConnectButton from '../components/CrisisLineConnectButton';
-import { Paths } from '../util/constants';
+import { Paths, PageTitles } from '../util/constants';
 import featureToggles from '../hooks/useFeatureToggles';
 import { acceptInterstitial } from '../actions/threadDetails';
 
@@ -17,6 +17,14 @@ const InterstitialPage = props => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
   }, []);
+
+  const headerText = document.querySelector('h1')?.textContent;
+  useEffect(
+    () => {
+      document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+    },
+    [headerText],
+  );
 
   const continueButtonText = useMemo(
     () => {
