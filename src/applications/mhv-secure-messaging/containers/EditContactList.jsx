@@ -234,8 +234,10 @@ const EditContactList = () => {
 
       <p className="vads-u-margin-bottom--3">
         Select and save the care teams you want to send messages to. You must
-        select at least one care team{' '}
-        {vistaFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
+        select at least one care team
+        {vistaFacilities?.length > 1
+          ? ' from one of your facilities.'
+          : '.'}{' '}
       </p>
 
       {error && (
