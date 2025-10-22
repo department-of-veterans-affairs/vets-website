@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -7,10 +7,17 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
 import ActionLink from './web-component-wrappers/ActionLink';
-import { LAST_ISSUE, MAX_LENGTH, REVIEW_ISSUES, SELECTED } from '../constants';
+import {
+  LAST_ISSUE,
+  MAX_LENGTH,
+  REVIEW_ISSUES,
+  SELECTED,
+  FORMAT_YMD_DATE_FNS,
+} from '../constants';
 import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../actions';
 import { IssueCard } from './IssueCard';
 import { removeModalContent } from '../content/contestableIssues';
+import { getBlockedMessage } from '../utils/contestableIssueMessages';
 import { ContestableIssuesLegend } from './ContestableIssuesLegend';
 import { MaxSelectionsAlert } from './MaxSelectionsAlert';
 import { NoneSelectedAlert } from './NoneSelectedAlert';
@@ -22,6 +29,8 @@ import {
   someSelected,
 } from '../utils/issues';
 import { isEmptyObject } from '../utils/helpers';
+import { isTodayOrInFuture } from '../validations/date';
+import { parseDateToDateObj } from '../utils/dates';
 
 /**
  * ContestableIssues - Form system parameters passed into this widget
@@ -72,13 +81,34 @@ const ContestableIssues = props => {
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
   const { submitted } = formContext;
-  const loadedIssues = formData.contestedIssues || [];
+  const loadedIssues = useMemo(() => formData.contestedIssues || [], [
+    formData.contestedIssues,
+  ]);
 
-  // combine all issues for viewing
-  const items = loadedIssues
+  // Mark issues with decision dates today or in the future as blocked (computed at render time)
+  const issuesWithBlocking = useMemo(
+    () =>
+      loadedIssues.map(issue => {
+        const { approxDecisionDate } = issue?.attributes || {};
+        const decisionDate = parseDateToDateObj(
+          approxDecisionDate,
+          FORMAT_YMD_DATE_FNS,
+        );
+        const isBlockedSameDay = isTodayOrInFuture(decisionDate);
+
+        return {
+          ...issue,
+          isBlockedSameDay,
+        };
+      }),
+    [loadedIssues],
+  );
+
+  const items = issuesWithBlocking
     .map(item => ({
       ...item?.attributes,
       [SELECTED]: item?.[SELECTED],
+      isBlockedSameDay: item?.isBlockedSameDay,
     }))
     .concat(formData.additionalIssues || []);
 
@@ -178,9 +208,19 @@ const ContestableIssues = props => {
     },
   };
 
-  const content = items.map((item, index) => {
+  const hasBlockedIssues = items.some(item => item.isBlockedSameDay);
+
+  const blockedIssues = hasBlockedIssues
+    ? items.filter(item => item.isBlockedSameDay)
+    : [];
+
+  const blockedMessage = getBlockedMessage(blockedIssues);
+
+  const issueCards = items.map((item, index) => {
     const itemIsSelected = !!item?.[SELECTED];
     const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+    const showSeparator =
+      !item.isBlockedSameDay && index > 0 && items[index - 1]?.isBlockedSameDay;
 
     const cardProps = {
       id,
@@ -190,6 +230,7 @@ const ContestableIssues = props => {
       options,
       showCheckbox,
       onReviewPage,
+      showSeparator,
       // props.testChange for testing
       onChange: props.testChange || handlers.onChange,
       onRemove: handlers.onShowRemoveModal,
@@ -198,6 +239,24 @@ const ContestableIssues = props => {
     // Don't show un-selected ratings in review mode
     return hideCard ? null : <IssueCard {...cardProps} />;
   });
+
+  const content = (
+    <>
+      {hasBlockedIssues && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="warning"
+          visible
+          class="vads-u-margin-top--3 vads-u-margin-bottom--2"
+          id="blocked-issues-alert"
+          role="alert"
+        >
+          <p className="vads-u-margin-y--0">{blockedMessage}</p>
+        </va-alert>
+      )}
+      {issueCards}
+    </>
+  );
 
   return (
     <>
