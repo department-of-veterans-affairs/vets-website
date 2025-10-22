@@ -1,6 +1,6 @@
-/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import React from 'react';
 import { expect } from 'chai';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import AppointmentClinicInfo from './AppointmentClinicInfo';
 
@@ -12,7 +12,16 @@ const clinicLocationInfo = {
 
 describe('VAOS Component: AppointmentClinicInfo', () => {
   const initialState = {};
-
+  it('axe check', async () => {
+    // Act
+    axeCheck(
+      <AppointmentClinicInfo
+        show
+        apptId="123"
+        clinicLocationInfo={clinicLocationInfo}
+      />,
+    );
+  });
   it('should not show appointment clinic info', async () => {
     // Act
     const screen = renderWithStoreAndRouter(
