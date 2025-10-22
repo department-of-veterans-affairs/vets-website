@@ -473,7 +473,7 @@ describe('DownloadRecordsPage for Cerner users', () => {
     });
 
     expect(screen.getByTestId('cerner-facilities-alert')).to.exist;
-    const link = screen.getByRole('link', { name: 'Go to My VA Health' });
+    const link = screen.getByRole('link', { name: /Go to My VA Health/i });
     expect(link).to.exist;
   });
 });
