@@ -82,10 +82,11 @@ describe('<Edit>', () => {
       initialState: {},
       reducers: { vapService },
       path:
-        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
-    expect(getByRole('link', { name: 'Back to Paperless delivery' })).to.exist;
+    expect(getByRole('link', { name: 'Back to Personal information' })).to
+      .exist;
   });
 
   it('renders path name in body', () => {
@@ -93,10 +94,10 @@ describe('<Edit>', () => {
       initialState: {},
       reducers: { vapService },
       path:
-        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
-    expect(getByText('PAPERLESS DELIVERY', { exact: true })).to.exist;
+    expect(getByText('PERSONAL INFORMATION', { exact: true })).to.exist;
   });
 
   it('sets correct page title when field is empty', async () => {

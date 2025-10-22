@@ -3,7 +3,6 @@ import { shallow } from 'enzyme';
 import { maxYear, minYear } from 'platform/forms-system/src/js/helpers';
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import { daysFromToday } from './dates/dateHelper';
-import { parseDate } from '../../utils/dates';
 
 import {
   CHAR_LIMITS,
@@ -15,10 +14,7 @@ import {
   baseDoNew4142Logic,
   capitalizeEachWord,
   fieldsHaveInput,
-  formatDate,
-  formatDateRange,
   formatFullName,
-  formatMonthYearDate,
   hasGuardOrReservePeriod,
   hasHospitalCare,
   hasNewPtsdDisability,
@@ -55,6 +51,12 @@ import {
   validateConditions,
   viewifyFields,
 } from '../../utils';
+import {
+  formatDateRange,
+  formatDate,
+  parseDate,
+  formatMonthYearDate,
+} from '../../utils/dates/formatting';
 import { testBranches } from '../../utils/serviceBranches';
 
 describe('526 helpers', () => {

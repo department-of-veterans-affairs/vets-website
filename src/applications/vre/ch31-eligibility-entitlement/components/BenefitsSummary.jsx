@@ -12,11 +12,11 @@ const BenefitsSummary = ({ result, entitlementDetails }) => {
 
   return (
     <>
-      <h2 className="vads-u-margin-top--0">Your Benefits</h2>
+      <h2 className="vads-u-margin-top--0">Your benefits</h2>
       <p>
-        If you apply, you will be scheduled for a comprehensive initial
-        evaluation to review the benefits and services best aligned with your
-        individual employment or independent needs.
+        If you apply, you’ll be scheduled for a comprehensive initial evaluation
+        to review the benefits and services best aligned with your individual
+        employment or independent needs.
       </p>
 
       <div className="vads-u-margin-bottom--3">

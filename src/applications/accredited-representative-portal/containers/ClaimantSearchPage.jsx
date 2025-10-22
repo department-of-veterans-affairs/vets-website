@@ -184,7 +184,7 @@ SearchResults.propTypes = {
   /* eslint-able camelcase */
 };
 
-const ClaimantSearchPage = () => {
+const ClaimantSearchPage = title => {
   const [claimant, setClaimant] = useState({});
   const [searchData, setSearchData] = useState(false);
   const [lastSearchData, setLastSearchData] = useState(false);
@@ -194,18 +194,20 @@ const ClaimantSearchPage = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
-  useEffect(() => {
-    // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
-    // (can't be overridden by passing 'hint' to uiOptions):
-    addStyleToShadowDomOnPages(
-      [''],
-      ['va-date'],
-      'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
-    );
-  });
+  useEffect(
+    () => {
+      document.title = title.title;
+      focusElement('h1');
+      // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
+      // (can't be overridden by passing 'hint' to uiOptions):
+      addStyleToShadowDomOnPages(
+        [''],
+        ['va-date'],
+        'va-select::part(label), va-text-input::part(label) {margin-bottom:8px}',
+      );
+    },
+    [title],
+  );
 
   const allFieldsPresent = () =>
     searchData.first_name &&
