@@ -37,7 +37,7 @@ const uiSchema = {
       authorizing official.
     </>,
   ),
-  authorizingOfficial: {
+  authorizedOfficial: {
     fullName: fullNameNoSuffixUI(),
     title: textUI({
       title: 'Your title',
@@ -97,11 +97,11 @@ const uiSchema = {
         let updateRequiredSchema = [...requiredSchema];
 
         // US phone number selected
-        if (formData.authorizingOfficial['view:phoneType'] === 'us') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'us') {
           updateRequiredSchema = [...updateRequiredSchema, 'usPhone'];
         }
         // International phone number selected
-        if (formData.authorizingOfficial['view:phoneType'] === 'intl') {
+        if (formData.authorizedOfficial['view:phoneType'] === 'intl') {
           updateRequiredSchema = [
             ...updateRequiredSchema,
             'internationalPhone',
@@ -117,7 +117,7 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    authorizingOfficial: {
+    authorizedOfficial: {
       type: 'object',
       properties: {
         fullName: fullNameNoSuffixSchema,

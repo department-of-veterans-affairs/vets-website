@@ -42,7 +42,7 @@ const formConfig = {
       heading: 'Certification statement',
       body: PrivacyPolicy,
       messageAriaDescribedby: 'I have read and accept the privacy policy.',
-      fullNamePath: 'authorizingOfficial.fullName',
+      fullNamePath: 'authorizedOfficial.fullName',
     },
   },
   savedFormMessages: {
@@ -103,7 +103,7 @@ const formConfig = {
     associatedOfficialsChapter: {
       title: 'Associated officials',
       pages: {
-        authorizingOfficialNew: {
+        authorizedOfficialNew: {
           path: 'new-commitment-authorizing-official',
           title: 'Your information',
           depends: data => data?.agreementType === 'newCommitment',
@@ -115,7 +115,7 @@ const formConfig = {
           title: 'Principles of Excellence point of contact',
           depends: data =>
             data?.agreementType === 'newCommitment' &&
-            data?.authorizingOfficial?.['view:isPOC'] === false,
+            data?.authorizedOfficial?.['view:isPOC'] === false,
           uiSchema: newPrinciplesOfExcellence.uiSchema,
           schema: newPrinciplesOfExcellence.schema,
         },
@@ -145,10 +145,10 @@ const formConfig = {
         },
       },
     },
-    authorizingOfficialChapter: {
+    authorizedOfficialChapter: {
       title: 'Authorizing official',
       pages: {
-        authorizingOfficial: {
+        authorizedOfficial: {
           path: 'authorizing-official',
           title: 'Authorizing official',
           depends: data => data?.agreementType === 'withdrawal',

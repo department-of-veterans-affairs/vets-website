@@ -5,10 +5,10 @@ export default function transform(formConfig, form) {
   const contactTransform = formData => {
     const clonedData = cloneDeep(formData);
 
-    if (clonedData.authorizingOfficial['view:isPOC']) {
+    if (clonedData.authorizedOfficial['view:isPOC']) {
       // Principles of Excellence PoC is the same as the authorizing official
       const principlesOfExcellencePointOfContact = cloneDeep(
-        clonedData.authorizingOfficial,
+        clonedData.authorizedOfficial,
       );
 
       clonedData.newCommitment = {
@@ -17,11 +17,9 @@ export default function transform(formConfig, form) {
       };
     }
 
-    if (clonedData.authorizingOfficial['view:isSCO']) {
+    if (clonedData.authorizedOfficial['view:isSCO']) {
       // School certifying official (SCO) is the same as the authorizing official
-      const schoolCertifyingOfficial = cloneDeep(
-        clonedData.authorizingOfficial,
-      );
+      const schoolCertifyingOfficial = cloneDeep(clonedData.authorizedOfficial);
 
       clonedData.newCommitment = {
         ...clonedData.newCommitment,
