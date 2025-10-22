@@ -69,7 +69,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescriptionApiError,
     isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId, queryParams);
-  const pharmacyPhone = pharmacyPhoneNumber(prescription);
+  const pharmacyPhone = prescription ? pharmacyPhoneNumber(prescription) : null;
 
   const buildMedicationInformationTxt = useCallback(
     information => {
