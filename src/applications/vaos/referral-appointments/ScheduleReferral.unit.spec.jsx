@@ -2,30 +2,43 @@ import React from 'react';
 import { expect } from 'chai';
 import { format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
+import sinon from 'sinon';
 import ScheduleReferral from './ScheduleReferral';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
+import * as vaosApi from '../redux/api/vaosApi';
 
 describe('VAOS Component: ScheduleReferral', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+  });
+
   afterEach(() => {
     sessionStorage.clear();
+    sandbox.restore();
   });
   const referralDate = '2024-09-09';
 
   it('should render with default data', async () => {
     const referral = createReferralById(referralDate, '111');
 
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: false,
+      isLoading: false,
+    });
+
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=111',
+    });
 
     const details = await screen.findByTestId('referral-details');
     const link = await screen.findByTestId('referral-community-care-office');
@@ -50,6 +63,13 @@ describe('VAOS Component: ScheduleReferral', () => {
     const referral = createReferralById(referralDate, '222');
     const selectedSlotKey = getReferralSlotKey(referral.attributes.uuid);
     sessionStorage.setItem(selectedSlotKey, '0');
+
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: false,
+      isLoading: false,
+    });
+
     const initialState = {
       featureToggles: {
         vaOnlineSchedulingCCDirectScheduling: true,
@@ -59,8 +79,9 @@ describe('VAOS Component: ScheduleReferral', () => {
         selectedSlot: '0',
       },
     };
-    renderWithStoreAndRouter(<ScheduleReferral currentReferral={referral} />, {
+    renderWithStoreAndRouter(<ScheduleReferral />, {
       initialState,
+      path: '/?id=222',
     });
     await waitFor(() => {
       expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
@@ -71,14 +92,18 @@ describe('VAOS Component: ScheduleReferral', () => {
     // Ensure provider is defined but name is not available
     referral.attributes.provider = {};
 
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: false,
+      isLoading: false,
+    });
+
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=333',
+    });
 
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
@@ -136,14 +161,18 @@ describe('VAOS Component: ScheduleReferral', () => {
       facilityName: 'Community Care Clinic',
     };
 
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: false,
+      isLoading: false,
+    });
+
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=444',
+    });
 
     // Verify that the schedule appointment button is rendered
     const scheduleButton = await screen.findByTestId(
@@ -169,14 +198,18 @@ describe('VAOS Component: ScheduleReferral', () => {
     // Ensure provider is undefined (removed completely)
     delete referral.attributes.provider;
 
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: referral,
+      error: false,
+      isLoading: false,
+    });
+
     const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referral} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
+      store,
+      path: '/?id=555',
+    });
 
     const alert = await screen.findByTestId('referral-alert');
     expect(alert).to.exist;
