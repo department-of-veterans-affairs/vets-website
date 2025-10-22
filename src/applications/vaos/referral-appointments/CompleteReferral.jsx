@@ -10,7 +10,7 @@ import ProviderAddress from './components/ProviderAddress';
 import AppointmentDate from '../components/AppointmentDate';
 import AppointmentTime from '../components/AppointmentTime';
 import { routeToNextReferralPage } from './flow';
-import { useGetAppointmentInfoQuery } from '../redux/api/vaosApi';
+import { usePollAppointmentInfoQuery } from '../redux/api/vaosApi';
 import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
@@ -65,7 +65,7 @@ export const CompleteReferral = props => {
     data: referralAppointmentInfo,
     isError: appointmentInfoError,
     isLoading: appointmentInfoLoading,
-  } = useGetAppointmentInfoQuery(appointmentId);
+  } = usePollAppointmentInfoQuery(appointmentId);
   const [booked, setBooked] = useState(
     referralAppointmentInfo?.attributes?.status === 'booked',
   );
@@ -170,7 +170,10 @@ export const CompleteReferral = props => {
               className="vads-u-margin-bottom--0 vads-u-font-family--serif"
               data-testid="appointment-date-container"
             >
-              <AppointmentDate date={attributes.start} />
+              <AppointmentDate
+                date={attributes.start}
+                timezone={attributes.provider.location.timezone}
+              />
             </p>
             <h2
               className="vads-u-margin-top--0 vads-u-margin-bottom-1"
