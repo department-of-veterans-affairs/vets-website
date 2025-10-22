@@ -13,6 +13,7 @@ import {
   fillSelectWebComponent,
   selectRadioWebComponent,
   signAndSubmit,
+  selectRadioWebComponentAlt,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -275,28 +276,23 @@ const testConfig = createTestConfig(
         });
       },
 
-      // Currently not working and causing CI to fail
+      'report-674/add-students/:index/student-relationship': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const student = data.studentInformation?.[0];
 
-      // 'report-674/add-students/:index/student-relationship': ({
-      //   afterHook,
-      // }) => {
-      //   afterHook(() => {
-      //     cy.get('@testData').then(data => {
-      //       const student = data.studentInformation?.[0];
-      //       cy.log('Student data:', student);
-      //       cy.log('Relationship value:', student?.relationshipToStudent);
-
-      //       if (student?.relationshipToStudent) {
-      //         cy.log('About to select radio:', student.relationshipToStudent);
-      //         selectRadioWebComponent(
-      //           'relationshipToStudent',
-      //           student.relationshipToStudent,
-      //         );
-      //       }
-      //       cy.clickFormContinue();
-      //     });
-      //   });
-      // },
+            if (student?.relationshipToStudent) {
+              selectRadioWebComponentAlt(
+                'relationshipToStudent',
+                student.relationshipToStudent,
+              );
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
 
       'report-674/add-students/:index/student-education-benefits/start-date': ({
         afterHook,
@@ -536,7 +532,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
 
   manifest,
