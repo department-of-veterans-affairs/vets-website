@@ -582,13 +582,35 @@ export function mockEligibilityFetches({
   typeOfCareId,
   limit = false,
   requestPastVisits = false,
+  requestsDisabled = false,
   directPastVisits = false,
+  directDisabled = false,
   matchingClinics = null,
   clinics = [],
   pastClinics = false,
 }) {
   const directReasons = [];
   const requestReasons = [];
+
+  if (directDisabled) {
+    directReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-direct-disabled',
+        },
+      ],
+    });
+  }
+
+  if (requestsDisabled) {
+    requestReasons.push({
+      coding: [
+        {
+          code: 'facility-cs-request-disabled',
+        },
+      ],
+    });
+  }
 
   if (!directPastVisits && typeOfCareId !== 'primaryCare') {
     directReasons.push({
@@ -679,7 +701,7 @@ export function mockEligibilityFetches({
       end: range.end,
       useRFC3339: false,
       response: pastClinics ? pastAppointments : [],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
   });
 }

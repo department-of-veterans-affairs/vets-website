@@ -25,8 +25,8 @@ import RefillNotification from '../components/RefillPrescriptions/RefillNotifica
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
-import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
+import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import ProcessList from '../components/shared/ProcessList';
@@ -212,17 +212,19 @@ const RefillPrescriptions = () => {
         >
           Refill prescriptions
         </h1>
-        {showRefillProgressContent && (
-          <RefillAlert
-            dataDogActionName={dataDogActionNames.refillPage.REFILL_ALERT_LINK}
-            refillStatus={refillStatus}
-            refillAlertList={refillAlertList}
-          />
-        )}
+        {showRefillProgressContent &&
+          refillAlertList.length > 0 && (
+            <DelayedRefillAlert
+              dataDogActionName={
+                dataDogActionNames.refillPage.REFILL_ALERT_LINK
+              }
+              refillAlertList={refillAlertList}
+            />
+          )}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert />
+            <DisplayCernerFacilityAlert />
           </>
         ) : (
           <>
@@ -233,7 +235,7 @@ const RefillPrescriptions = () => {
             />
             {fullRefillList?.length > 0 ? (
               <div>
-                <CernerFacilityAlert />
+                <DisplayCernerFacilityAlert />
                 <h2
                   className="vads-u-margin-top--3"
                   data-testid="refill-page-subtitle"
@@ -336,7 +338,7 @@ const RefillPrescriptions = () => {
                   You don’t have any VA prescriptions with refills available. If
                   you need a prescription, contact your care team.
                 </p>
-                <CernerFacilityAlert className="vads-u-margin-top--2" />
+                <DisplayCernerFacilityAlert className="vads-u-margin-top--2" />
               </>
             )}
             <p className="vads-u-margin-top--3" data-testid="note-refill-page">

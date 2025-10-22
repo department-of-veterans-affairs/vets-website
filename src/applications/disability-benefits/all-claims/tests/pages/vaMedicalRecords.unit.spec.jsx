@@ -361,8 +361,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
@@ -496,8 +496,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
@@ -544,8 +544,8 @@ describe('VA Medical Records', () => {
             ],
             serviceInformation: {
               servicePeriods: [
-                { dateRange: { from: '2012-01-12' } },
-                { dateRange: { from: '2001-06-30' } },
+                { serviceBranch: 'Army', dateRange: { from: '2012-01-12' } },
+                { serviceBranch: 'Navy', dateRange: { from: '2001-06-30' } },
               ],
             },
           }}
