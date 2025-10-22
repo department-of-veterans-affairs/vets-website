@@ -485,18 +485,9 @@ const responses = {
     if (req.params.referralId === 'scheduled-referral') {
       return res.json(
         new MockReferralDetailResponse({
-          id: 'scheduled-referral',
+          id: req.params.referralId,
           expirationDate: '2024-12-02',
           hasAppointments: true,
-        }),
-      );
-    }
-
-    if (req.params.referralId === 'expired-uuid') {
-      return res.json(
-        new MockReferralDetailResponse({
-          id: req.params.referralId,
-          expirationDate: new Date(2024, 12, 2),
         }),
       );
     }
