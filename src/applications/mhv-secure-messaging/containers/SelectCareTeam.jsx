@@ -78,16 +78,14 @@ const SelectCareTeam = () => {
     [draftInProgress.recipientId],
   );
 
-  useEffect(() => {
-    document.title = `Select care team ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  }, []);
+  // useEffect(() => {
+  //   document.title = `Select care team ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  // }, []);
 
-  // useEffect(
-  //     () => {
-  //       const headerText = document.querySelector('h1').textContent;
-  //       document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
-  //     }, []
-  //   );
+  useEffect(() => {
+    const headerText = document.querySelector('h1')?.textContent;
+    document.title = `${headerText} ${PageTitles.DEFAULT_PAGE_TITLE_TAG}`;
+  }, []);
 
   const careTeamHandler = useCallback(
     recipient => {
