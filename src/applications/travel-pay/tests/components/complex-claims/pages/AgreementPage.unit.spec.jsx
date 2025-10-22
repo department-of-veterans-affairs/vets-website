@@ -83,12 +83,18 @@ describe('Travel Pay – AgreementPage', () => {
     );
   });
 
-  it('should clear error when checkbox is checked and submit is clicked', () => {
-    renderWithStoreAndRouter(
+  it('should clear error when checkbox is checked and submit is clicked and navigate to confirmation page', () => {
+    const screen = render(
       <MemoryRouter
         initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
       >
-        <AgreementPage />
+        <Routes>
+          <Route
+            path="/file-new-claim/complex/:apptId/travel-agreement"
+            element={<AgreementPage />}
+          />
+        </Routes>
+        <LocationDisplay />
       </MemoryRouter>,
       {
         initialState: getData(),
@@ -103,8 +109,10 @@ describe('Travel Pay – AgreementPage', () => {
 
     $('va-button-pair').__events.primaryClick();
 
-    const updated = $('va-checkbox[name="accept-agreement"]');
-    expect(updated).to.not.have.attribute('error');
+    // Check that the location updated
+    expect(screen.getByTestId('location-display').textContent).to.equal(
+      '/file-new-claim/complex/12345/confirmation',
+    );
   });
 
   it('should toggle the checkbox on multiple clicks', () => {
