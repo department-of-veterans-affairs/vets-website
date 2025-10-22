@@ -7,6 +7,7 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
+// Complex claim review page styles for the buttons and links
 .review-button-row {
   display: flex;
   justify-content: space-between;
@@ -16,44 +17,21 @@
     align-items: flex-end;
     justify-content: flex-end;
   }
-}
 
-.review-edit-button {
-  padding-inline: 20px;
-  padding-block: 8px;
-  line-height: 25px;
-  align-items: center;
-  font-weight: bold;
-
-  .active-va-link {
-    align-items: middle;
-    height: 25px;
-    width: 75px;
-    display: inline-block;
-    text-align: center;
-  }
-}
-
-.review {
-  display: block;
-  align-items: flex-start;
-  border-bottom: 1px solid var(--vads-color-base-light);
-  margin: 16 px;
-}
-
-.review-row {
-  flex-direction: row;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-  border-top: 1px solid var(--vads-color-base-light);
-
-  dd {
-    margin: 0;
+  .review-edit-button {
+    padding-inline: 20px;
+    padding-block: 8px;
+    line-height: 25px;
+    align-items: center;
     font-weight: bold;
-    align-items: flex-end;
+
+    .active-va-link {
+      align-items: middle;
+      height: 25px;
+      width: 75px;
+      display: inline-block;
+      text-align: center;
+    }
   }
 }
 
