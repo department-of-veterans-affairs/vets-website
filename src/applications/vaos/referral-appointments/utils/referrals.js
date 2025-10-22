@@ -13,6 +13,9 @@ const errorUUIDs = [
   'eps-error-appointment-id',
 ];
 
+const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
+const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
+
 /**
  * Creates a referral list object relative to a start date.
  *
@@ -204,18 +207,19 @@ const filterReferrals = (
   referrals,
   featureCCDirectSchedulingChiropractic = false,
 ) => {
+  let allowedCategories = ALLOWED_CATEGORIES_OF_CARE;
   if (!referrals?.length) {
     return [];
   }
-
-  const scheduleableCategories = ['optometry'];
-
   if (featureCCDirectSchedulingChiropractic) {
-    scheduleableCategories.push('chiropractic');
+    // Add chiropractic to allowed categories if feature is on
+    allowedCategories = [
+      ...allowedCategories,
+      ...CHIRO_FEATURE_ALLOWED_CATEGORY,
+    ];
   }
-
   return referrals.filter(referral =>
-    scheduleableCategories.includes(
+    allowedCategories.includes(
       referral.attributes.categoryOfCare?.toLowerCase(),
     ),
   );
