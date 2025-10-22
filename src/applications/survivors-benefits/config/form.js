@@ -12,16 +12,16 @@ import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-import dicBenefits from './chapters/04-claim-information/dicBenefits';
-import nursingHome from './chapters/04-claim-information/nursingHome';
-import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
-import directDeposit from './chapters/06-additional-information/directDeposit';
-import directDepositAccount from './chapters/06-additional-information/directDepositAccount';
-import otherPaymentOptions from './chapters/06-additional-information/otherPaymentOptions';
-import supportingDocuments from './chapters/06-additional-information/supportingDocuments';
-import uploadDocuments from './chapters/06-additional-information/uploadDocuments';
-import reviewDocuments from './chapters/06-additional-information/reviewDocuments';
-import fasterClaimProcessing from './chapters/06-additional-information/fasterClaimProcessing';
+import dicBenefits from './chapters/05-claim-information/dicBenefits';
+import nursingHome from './chapters/05-claim-information/nursingHome';
+import { treatmentPages } from './chapters/05-claim-information/treatmentPages';
+import directDeposit from './chapters/07-additional-information/directDeposit';
+import directDepositAccount from './chapters/07-additional-information/directDepositAccount';
+import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
+import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
+import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
+import fasterClaimProcessing from './chapters/07-additional-information/fasterClaimProcessing';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -87,7 +87,7 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    // Chapter 4
+    // Chapter 5
     claimInformation: {
       title: 'Claim information',
       pages: {
@@ -106,7 +106,7 @@ const formConfig = {
         },
       },
     },
-    // Chapter 6
+    // Chapter 7
     additionalInformation: {
       title: 'Additional information',
       pages: {
