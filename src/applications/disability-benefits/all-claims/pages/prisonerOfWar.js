@@ -6,6 +6,7 @@ import { claimingNew, formatDate } from '../utils';
 import { makeSchemaForNewDisabilities } from '../utils/schemas';
 import { isWithinServicePeriod } from '../validations';
 import { confinementDescription } from '../content/prisonerOfWar';
+import ConfirmationPrisonerOfWar from '../components/ConfirmationPrisonerOfWar';
 
 const confinementUI = dateRangeUI(
   'From',
@@ -54,6 +55,7 @@ export const uiSchema = {
       },
     },
   },
+  'ui:confirmationField': ConfirmationPrisonerOfWar,
 };
 
 export const schema = {

@@ -14,6 +14,7 @@ import {
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  yellowRibbonProgramRequest,
 } from '../pages';
 
 /** @type {FormConfig} */
@@ -116,6 +117,17 @@ const formConfig = {
               goPath('/acknowledgements');
             }
           },
+        },
+      },
+    },
+    yellowRibbonProgramRequestChapter: {
+      title: 'Yellow Ribbon Program contributions',
+      pages: {
+        yellowRibbonProgramRequest: {
+          path: 'yellow-ribbon-program-request',
+          title: 'Yellow Ribbon Program contributions',
+          uiSchema: yellowRibbonProgramRequest.uiSchema,
+          schema: yellowRibbonProgramRequest.schema,
         },
       },
     },
