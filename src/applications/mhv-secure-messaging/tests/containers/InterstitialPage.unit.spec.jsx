@@ -9,6 +9,7 @@ import reducer from '../../reducers';
 import InterstitialPage from '../../containers/InterstitialPage';
 import { getByBrokenText } from '../../util/testUtils';
 import * as threadDetailsActions from '../../actions/threadDetails';
+import * as prescriptionActions from '../../actions/prescription';
 
 describe('Interstitial page header', () => {
   const initialState = (isNewFlow = false) => {
@@ -24,11 +25,15 @@ describe('Interstitial page header', () => {
     path = '/new-message/',
     props,
   }) => {
-    return renderWithStoreAndRouter(<InterstitialPage {...props} />, {
+    const result = renderWithStoreAndRouter(<InterstitialPage {...props} />, {
       initialState: customState,
       reducers: reducer,
       path,
     });
+    return {
+      ...result,
+      store: result.store,
+    };
   };
 
   it('renders without errors', async () => {
@@ -136,5 +141,29 @@ describe('Interstitial page header', () => {
       expect(acknowledgeSpy.called).to.be.false;
       expect(history.location.pathname).to.equal('/new-message/recent/');
     });
+  });
+
+  it('dispatches getPrescriptionById when prescriptionId is in URL params', () => {
+    const stub = sinon
+      .stub(prescriptionActions, 'getPrescriptionById')
+      .returns(() => {});
+    setup({
+      path: '/new-message/?prescriptionId=123',
+    });
+
+    sinon.assert.calledWith(stub, '123');
+    stub.restore();
+  });
+
+  it('does not dispatch getPrescriptionById when prescriptionId is not in URL params', () => {
+    const stub = sinon
+      .stub(prescriptionActions, 'getPrescriptionById')
+      .returns(() => {});
+    setup({
+      path: '/new-message/',
+    });
+
+    sinon.assert.notCalled(stub);
+    stub.restore();
   });
 });
