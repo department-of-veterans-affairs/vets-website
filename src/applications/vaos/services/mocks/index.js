@@ -473,7 +473,7 @@ const responses = {
   'GET /vaos/v2/referrals': (req, res) => {
     return res.json(
       new MockReferralListResponse({
-        numberOfReferrals: 'predefined',
+        predefined: true,
       }),
     );
   },

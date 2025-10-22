@@ -7,6 +7,7 @@ class MockReferralListResponse {
   constructor(options = {}) {
     this.options = {
       numberOfReferrals: 0,
+      predefined: false,
       notFound: false,
       serverError: false,
       ...options,
@@ -191,7 +192,12 @@ class MockReferralListResponse {
    * @returns {Object} The complete response object with referrals
    */
   toJSON() {
-    const { numberOfReferrals, notFound, serverError } = this.options;
+    const {
+      numberOfReferrals,
+      notFound,
+      serverError,
+      predefined,
+    } = this.options;
 
     // Return 404 error if notFound is true
     if (notFound) {
@@ -203,14 +209,14 @@ class MockReferralListResponse {
       return MockReferralListResponse.create500Response();
     }
 
+    // If predefined referrals are requested
+    if (predefined) {
+      return { data: MockReferralListResponse.getPredefinedReferrals() };
+    }
+
     // If number of referrals is 0, return empty array
     if (numberOfReferrals === 0) {
       return { data: [] };
-    }
-
-    // If predefined referrals are requested
-    if (numberOfReferrals === 'predefined') {
-      return { data: MockReferralListResponse.getPredefinedReferrals() };
     }
 
     // Otherwise generate random referrals
