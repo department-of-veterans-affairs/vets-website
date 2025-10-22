@@ -8,6 +8,7 @@ import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPag
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import ComplexClaimSubmitFlowWrapper from './containers/ComplexClaimSubmitFlowWrapper';
 import AgreementPage from './components/complex-claims/pages/AgreementPage';
+import ConfirmationPage from './components/complex-claims/pages/ConfirmationPage';
 import ReviewPage from './components/complex-claims/pages/ReviewPage';
 import App from './containers/App';
 
@@ -36,6 +37,7 @@ const routes = (
         <Route path="mileage" element={<Mileage />} /> */}
         <Route path="review" element={<ReviewPage />} />
         <Route path="travel-agreement" element={<AgreementPage />} />
+        <Route path="confirmation" element={<ConfirmationPage />} />
       </Route>
       <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
