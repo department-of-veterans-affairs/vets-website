@@ -305,7 +305,7 @@
         "tuitionIsPaidByGovAgency": false,
         "view:programExamples": {},
         "ssn": "333445555",
-        "isParent": false,
+        "relationshipToStudent": "biological",
         "wasMarried": false,
         "address": {
           "view:militaryBaseDescription": {},
