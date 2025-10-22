@@ -131,6 +131,11 @@ const schema = {
       },
       required: [...requiredSchema],
     },
+    // newCommitment object created in schema to be populated even if Pages 2-3 are skipped in this Step
+    newCommitment: {
+      type: 'object',
+      properties: {},
+    },
   },
 };
 

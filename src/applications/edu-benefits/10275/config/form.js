@@ -109,18 +109,13 @@ const formConfig = {
           depends: data => data?.agreementType === 'newCommitment',
           uiSchema: newAuthorizingOfficial.uiSchema,
           schema: newAuthorizingOfficial.schema,
-          onNavForward: ({ formData, goPath }) => {
-            if (formData.authorizingOfficial['view:isPOC']) {
-              goPath('/principles-of-excellence');
-            } else {
-              goPath('/new-commitment-principles-of-excellence');
-            }
-          },
         },
         principlesOfExcellenceNew: {
           path: 'new-commitment-principles-of-excellence',
           title: 'Principles of Excellence point of contact',
-          depends: data => data?.agreementType === 'newCommitment',
+          depends: data =>
+            data?.agreementType === 'newCommitment' &&
+            data?.authorizingOfficial?.['view:isPOC'] === false,
           uiSchema: newPrinciplesOfExcellence.uiSchema,
           schema: newPrinciplesOfExcellence.schema,
         },
@@ -147,14 +142,6 @@ const formConfig = {
           depends: data => data?.agreementType === 'newCommitment',
           uiSchema: poeCommitment.uiSchema,
           schema: poeCommitment.schema,
-          // onNavBack logic should be moved to Step 4 of the *newCommitment* flow when implemented
-          onNavBack: ({ formData, goPath }) => {
-            if (formData.authorizingOfficial['view:isPOC']) {
-              goPath('/new-commitment-authorizing-official');
-            } else {
-              goPath('/new-commitment-principles-of-excellence');
-            }
-          },
         },
       },
     },
