@@ -295,7 +295,7 @@ export const chapterTitles = {
   veteransInformation: '',
   familyMembersPersonalInformation: "Family member's personal information",
   familyMembersInformation: '',
-  yourInformation: 'Your information',
+  yourInformation: 'Your personal information',
   yourLocationOfResidence: '',
   yourPostalCode: 'Your postal code',
   yourBranchOfService: '',
