@@ -19,13 +19,17 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
+import {
+  FILE_UPLOAD_URL,
+  FORM_NUMBER,
+  MAX_FILE_SIZE_BYTES,
+} from '../../../constants';
 import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 import MailingAddress from '../../../components/MailingAddress';
 import {
   DocumentUploadGuidelines,
   SupportingDocumentsNeededList,
 } from '../../../components/OwnedAssetsDescriptions';
-
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
@@ -51,6 +55,10 @@ export const options = {
       Array.isArray(item?.uploadedDocuments) &&
       item.uploadedDocuments.length > 0;
 
+    const needsAddedFunds =
+      item?.addedFundsAfterEstablishment === true &&
+      (!isDefined(item?.addedFundsDate) || !isDefined(item?.addedFundsAmount));
+
     return (
       !isDefined(item?.establishedDate) ||
       !isDefined(item?.marketValueAtEstablishment) ||
@@ -59,7 +67,8 @@ export const options = {
       typeof item?.trustUsedForMedicalExpenses !== 'boolean' ||
       typeof item?.trustEstablishedForVeteransChild !== 'boolean' ||
       typeof item?.haveAuthorityOrControlOfTrust !== 'boolean' ||
-      (needsDocs && !hasDocs) // include all required fields here
+      needsAddedFunds ||
+      (needsDocs && !hasDocs)
     );
   },
   text: {
@@ -501,9 +510,6 @@ const supportingDocumentsNeeded = {
   },
 };
 
-const MAX_FILE_SIZE_MB = 20;
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
-
 /** @returns {PageSchema} */
 const supportingDocumentUpload = {
   uiSchema: {
@@ -522,11 +528,11 @@ const supportingDocumentUpload = {
       ...fileInputMultipleUI({
         title: 'Upload supporting documents',
         required: true,
-        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        fileUploadUrl: FILE_UPLOAD_URL,
         accept: '.pdf,.jpeg,.png',
         errorMessages: { required: 'Upload a supporting document' },
         maxFileSize: MAX_FILE_SIZE_BYTES,
-        formNumber: '21P-0969',
+        formNumber: FORM_NUMBER,
         skipUpload: environment.isLocalhost(),
         // server response triggers required validation.
         // skipUpload needed to bypass in local environment
@@ -651,6 +657,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
   trustPagesSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
