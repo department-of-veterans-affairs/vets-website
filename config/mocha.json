@@ -1,6 +1,6 @@
 {
   "require": [
-    "@babel/register",
+    "./babel-register.cjs",
     "core-js/stable",
     "regenerator-runtime/runtime",
     "blob-polyfill",
@@ -11,6 +11,7 @@
     "dd-trace/ci/init"
   ],
   "reporter": "progress",
+  "extension": ["js", "jsx"],
   "timeout": 10000,
   "slow": 0,
   "recursive": true,
