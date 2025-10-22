@@ -5,5 +5,5 @@
  */
 
 export { App } from './app';
-export { IntroductionPage } from './introduction-page';
 export { ConfirmationPage } from './confirmation-page';
+export { IntroductionPage } from './introduction-page';
