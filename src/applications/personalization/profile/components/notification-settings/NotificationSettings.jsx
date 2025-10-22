@@ -161,8 +161,6 @@ const NotificationSettings = ({
           />
         )}
         {shouldShowAPIError && <LoadFail />}
-
-        {/* Wrap VA Profile dependent content with InitializeVAPServiceID */}
         {!shouldShowLoadingIndicator &&
           !shouldShowAPIError && (
             <InitializeVAPServiceID>
