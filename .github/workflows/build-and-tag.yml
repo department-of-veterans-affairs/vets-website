@@ -5,6 +5,11 @@ on:
     workflows: [Continuous Integration]
     types: [completed]
     branches: [production-bypass]
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy specific commit
+        required: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,13 +17,25 @@ concurrency:
 
 env:
   BUILD_ENV: vagovprod
-  COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
-
+  COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.commit_sha || github.event.workflow_run.head_sha }}
 jobs:
+  get-workflow-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.check-environment.outputs.env_name }}
+    steps:
+      - name: Check environment
+        id: check-environment
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo env_name='production' >> $GITHUB_OUTPUT
+          else
+            echo env_name='' >> $GITHUB_OUTPUT
+          fi
   build:
     name: Build
     runs-on: ubuntu-16-cores-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Checkout
@@ -84,15 +101,17 @@ jobs:
 
   tag-commit:
     name: Tag Commit
-    needs: [build]
+    needs: [get-workflow-environment, build]
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
           fetch-depth: 0
+          ref: production-bypass
 
       - name: Configure AWS Credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -112,6 +131,7 @@ jobs:
         uses: paulhatch/semantic-version@v5.4.0
         with:
           tag_prefix: "v"
+          version_from_branch: true
 
       - name: Create tag
         run: git tag ${{ steps.version.outputs.version_tag }} ${{ env.COMMIT_SHA }} && git push origin ${{ steps.version.outputs.version_tag }}
