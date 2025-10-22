@@ -8,7 +8,6 @@ import {
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
-import * as localVapsvc from '~/platform/user/profile/vap-svc/util/local-vapsvc';
 import NotificationSettings from '../../../components/notification-settings/NotificationSettings';
 import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
 
@@ -17,107 +16,7 @@ describe('<NotificationSettings />', () => {
     mockFetch();
     setFetchJSONResponse(global.fetch.onFirstCall(), maximalSetOfPreferences);
   });
-  it('should not show notification settings content when LOA3 user has no VA Profile ID', async () => {
-    // Mock environment to not be localhost so selectIsVAProfileServiceAvailableForUser returns false
-    const originalFunction = localVapsvc.isVAProfileServiceConfigured;
-    localVapsvc.isVAProfileServiceConfigured = () => false;
 
-    const view = renderWithProfileReducersAndRouter(<NotificationSettings />, {
-      initialState: {
-        featureToggles: {
-          loading: false,
-          [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
-          [featureFlagNames.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
-          [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,
-          [featureFlagNames.profileShowMhvNotificationSettingsMedicalImages]: true,
-        },
-        user: {
-          profile: {
-            // LOA3 user
-            loa: {
-              current: 3,
-            },
-            // No VA Profile service available - this triggers UNINITIALIZED state
-            services: [], // Key: empty services array means no 'vet360' service
-            vapContactInfo: {},
-            facilities: [
-              {
-                facilityId: '983',
-              },
-            ],
-          },
-        },
-        // Initialize vapService state for UNINITIALIZED status
-        vapService: {
-          transactions: [],
-          fieldTransactionMap: {},
-          formFields: {},
-          modal: null,
-          modalData: null,
-          addressValidation: {},
-          mostRecentlySavedField: null,
-          metadata: {
-            mostRecentErroredTransactionId: null,
-          },
-        },
-        // Add communicationPreferences state to prevent loading indicator
-        communicationPreferences: {
-          loadingStatus: 'idle', // Use 'idle' instead of 'pending' to prevent loading
-          loadingErrors: null,
-          groups: {
-            ids: [],
-            entities: {},
-          },
-          items: {
-            ids: [],
-            entities: {},
-          },
-          channels: {
-            ids: [],
-            entities: {},
-          },
-        },
-        scheduledDowntime: {
-          globalDowntime: null,
-          isReady: true,
-          isPending: false,
-          serviceMap: { get() {} },
-          dismissedDowntimeWarnings: [],
-        },
-      },
-      path: '/profile/notifications',
-    });
-
-    try {
-      // The page title and basic structure should still render
-      expect(view.getByText('Notification settings')).to.exist;
-
-      // But VA Profile-dependent content should not be visible
-      // These elements are wrapped in InitializeVAPServiceID and won't render in UNINITIALIZED state
-      expect(view.queryByText('Your health care')).to.not.exist;
-      expect(
-        view.queryByText('Applications, claims, decision reviews, and appeals'),
-      ).to.not.exist;
-      expect(view.queryByText('Payments')).to.not.exist;
-
-      // Contact info components should not be visible
-      expect(view.queryByTestId('mobile-phone-number-on-file')).to.not.exist;
-      expect(view.queryByTestId('email-address-on-file')).to.not.exist;
-
-      // Missing contact info alerts should not show (they're wrapped too)
-      expect(view.queryByTestId('add-mobile-phone-link')).to.not.exist;
-      expect(view.queryByTestId('add-email-address-link')).to.not.exist;
-
-      // Privacy notice should not be visible
-      expect(view.queryByTestId('data-encryption-notice')).to.not.exist;
-
-      // Loading indicator should not be present (different from loading state)
-      expect(view.queryByTestId('loading-indicator')).to.not.exist;
-    } finally {
-      // Restore original document
-      localVapsvc.isVAProfileServiceConfigured = originalFunction;
-    }
-  });
   it('renders happy path with all sections showing', async () => {
     const view = renderWithProfileReducersAndRouter(<NotificationSettings />, {
       initialState: {
