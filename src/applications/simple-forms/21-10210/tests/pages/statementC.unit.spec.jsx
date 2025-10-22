@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from 'platform/forms-system/test/pageTestHelpers.spec';
 import { CLAIM_OWNERSHIPS, CLAIMANT_TYPES } from '../../definitions/constants';
 import formConfig from '../../config/form';
@@ -16,22 +16,22 @@ const mockData = {
   statement: 'It was a dark and stormy night...',
 };
 
-const expectedNumberOfFields = 1;
-testNumberOfFields(
+const expectedNumberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfFields,
+  expectedNumberOfWebComponentFields,
   pageTitle,
   mockData,
 );
 
-const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+const expectedNumberOfWebComponentErrors = 1;
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,
-  expectedNumberOfErrors,
+  expectedNumberOfWebComponentErrors,
   pageTitle,
   {
     claimOwnership: CLAIM_OWNERSHIPS.SELF,
