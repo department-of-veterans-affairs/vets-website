@@ -8,7 +8,6 @@ import reducer from '../../reducers';
 import vaccine from '../fixtures/vaccine.json';
 import vaccineWithMissingFields from '../fixtures/vaccineWithMissingFields.json';
 import user from '../fixtures/user.json';
-import cernerUser from '../fixtures/user.cerner.json';
 import { convertVaccine } from '../../reducers/vaccines';
 import { EMPTY_FIELD } from '../../util/constants';
 
@@ -16,10 +15,6 @@ describe('Vaccines details container', () => {
   const initialState = {
     user,
     mr: { vaccines: { vaccineDetails: convertVaccine(vaccine) } },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_medical_records_allow_txt_downloads: true,
-    },
   };
 
   let screen;
@@ -167,76 +162,6 @@ describe('Vaccine details component with no date', () => {
       expect(screen.queryByTestId('header-time').innerHTML).to.contain(
         EMPTY_FIELD,
       );
-    });
-  });
-});
-
-/// start here
-describe('Vaccines details container conditional field rendering', () => {
-  let screen;
-
-  describe('when accelerated vaccines is enabled', () => {
-    const acceleratedRecord = {
-      date: 'January 14, 2021',
-      doseDisplay: '1 of 2',
-      doseNumber: null,
-      id: 'I2-2BCP5BAI6N7NQSAPSVIJ6INQ4A000000',
-      location: 'Cheyenne VA Medical Center',
-      manufacturer: 'Moderna US, Inc.',
-      name: 'COVID-19',
-      note:
-        'Dose #2 of 2 of COVID-19, mRNA, LNP-S, PF, 100 mcg/ 0.5 mL dose vaccine administered.',
-      reaction: 'Reactions are noted in the medical record.',
-      seriesDoses: undefined,
-      shortDescription: 'COVID-19, mRNA, LNP-S, PF, 100 mcg/ 0.5 mL dose',
-    };
-
-    beforeEach(() => {
-      const initialState = {
-        user: cernerUser,
-        mr: {
-          vaccines: { vaccineDetails: acceleratedRecord },
-        },
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_accelerated_delivery_enabled: true,
-          // eslint-disable-next-line camelcase
-          mhv_accelerated_delivery_vaccines_enabled: true,
-        },
-      };
-
-      screen = renderWithStoreAndRouter(<VaccineDetails runningUnitTest />, {
-        initialState,
-        reducers: reducer,
-        path: '/vaccine-details/957',
-      });
-    });
-
-    it('shows accelerated vaccine fields when conditions are met', () => {
-      // Check if the component renders without errors
-      expect(screen).to.exist;
-      expect(
-        screen.getByText(acceleratedRecord.name, {
-          exact: true,
-        }),
-      ).to.exist;
-      expect(
-        screen.getByText(acceleratedRecord.location, {
-          exact: true,
-        }),
-      ).to.exist;
-      expect(screen.getByText('January 14, 2021', { exact: true })).to.exist;
-      expect(screen.getByText(acceleratedRecord.doseDisplay, { exact: true }))
-        .to.exist;
-      expect(screen.getByText(acceleratedRecord.manufacturer, { exact: true }))
-        .to.exist;
-      expect(
-        screen.getByText(acceleratedRecord.shortDescription, { exact: true }),
-      ).to.exist;
-      expect(screen.getByText(acceleratedRecord.reaction, { exact: true })).to
-        .exist;
-      expect(screen.getByText(acceleratedRecord.note, { exact: true })).to
-        .exist;
     });
   });
 });

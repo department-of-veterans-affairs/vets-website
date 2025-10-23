@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
 import ContactInformationSection from './ContactInformationSection';
-import EmailInformationSection from './email-addresses/EmailInformationSection';
+import { EmailInformationSection } from './email-addresses';
 import LoadFail from '../alerts/LoadFail';
 
 const ContactInformationContent = ({ hasVAPServiceError, showBadAddress }) => {

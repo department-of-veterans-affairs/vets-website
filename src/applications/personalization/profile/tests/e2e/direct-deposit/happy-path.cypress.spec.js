@@ -87,16 +87,16 @@ describe('Direct Deposit - Happy Path', () => {
     });
   });
 
-  describe('when profileShowPaperlessDelivery is true', () => {
+  describe('when profile2Enabled is true', () => {
     it('should show new unified page', () => {
       directDeposit.setup({
         featureToggles: generateFeatureToggles({
-          profileShowPaperlessDelivery: true,
+          profile2Enabled: true,
         }),
       });
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
-        profileShowPaperlessDelivery: true,
+        profile2Enabled: true,
       });
       cy.findAllByTestId('unified-direct-deposit').should('exist');
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(
@@ -108,12 +108,12 @@ describe('Direct Deposit - Happy Path', () => {
     it('should show the direct deposit account information when present and eligible', () => {
       directDeposit.setup({
         featureToggles: generateFeatureToggles({
-          profileShowPaperlessDelivery: true,
+          profile2Enabled: true,
         }),
       });
       directDeposit.visitPage();
       directDeposit.confirmDirectDepositInSubnav({
-        profileShowPaperlessDelivery: true,
+        profile2Enabled: true,
       });
       cy.findAllByTestId('unified-direct-deposit').should('exist');
       cy.findByRole('heading', { name: 'Direct deposit information' }).should(

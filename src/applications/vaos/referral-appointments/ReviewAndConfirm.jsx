@@ -23,7 +23,7 @@ import {
 import { getReferralSlotKey } from './utils/referrals';
 import { getSlotByDate } from './utils/provider';
 import { stripDST } from '../utils/timezone';
-import ProviderAddress from './components/ProviderAddress';
+import FindCommunityCareOfficeLink from './components/FindCCFacilityLink';
 import { titleCase } from '../utils/formatters';
 
 const ReviewAndConfirm = props => {
@@ -317,19 +317,16 @@ const ReviewAndConfirm = props => {
               class="vads-u-margin-top--4"
             >
               <h3>We couldn’t schedule this appointment</h3>
-              <p>
-                We’re sorry. Something went wrong when we tried to submit your
-                appointment. You can try again later, or call your referring VA
-                facility to help with your appointment.
+              <p className="vads-u-margin-top--1 vads-u-margin-bottom--1">
+                We’re sorry. Something went wrong when we tried to schedule your
+                appointment. Try again later, or call this provider to schedule
+                an appointment. If you have questions about scheduling an
+                appointment, or about how many appointments you have left, call
+                your facility’s community care office.
               </p>
-              <strong>{currentReferral.referringFacility.name}</strong>
-              <br />
-              <ProviderAddress
-                address={currentReferral.referringFacility.address}
-                phone={currentReferral.referringFacility.phone}
-                showDirections
-                directionsName={currentReferral.referringFacility.name}
-              />
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+                <FindCommunityCareOfficeLink />
+              </p>
             </va-alert>
           )}
       </div>

@@ -32,6 +32,17 @@ const options = {
   text: {
     getItemName: item => item?.jobType,
     summaryTitleWithoutItems: 'Previous employment',
+    alertItemUpdated: 'Your previous employment information has been updated',
+    alertItemDeleted: 'Your previous employment information has been deleted',
+    cancelAddTitle: 'Cancel adding this previous job',
+    cancelAddYes: 'Yes, cancel adding this previous job',
+    cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this previous job',
+    cancelEditYes: 'Yes, cancel editing this previous job',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this previous job',
+    deleteNo: 'No',
   },
 };
 

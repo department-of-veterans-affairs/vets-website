@@ -112,7 +112,6 @@ describe('Landing Page', () => {
       /* eslint-disable camelcase */
       featureToggles: {
         loading: false,
-        mhv_medical_records_update_landing_page: true,
         mhv_landing_page_show_share_my_health_data_link: true,
       },
       /* eslint-enable camelcase */

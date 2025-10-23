@@ -95,6 +95,7 @@ export const RouteLeavingGuard = ({
       let allowedPaths = [];
       if (type === 'compose') {
         allowedPaths = [
+          `${Paths.RECENT_CARE_TEAMS}`,
           `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
           `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
           `${Paths.MESSAGE_THREAD}${draftInProgress?.messageId}`,
@@ -108,12 +109,13 @@ export const RouteLeavingGuard = ({
 
       // Allow navigation between specified paths without guard
       const normalizePath = path => path.replace(/\/$/, '');
+      const normalizedAllowedPaths = allowedPaths.map(normalizePath);
       const normalizedCurrentPath = normalizePath(currentPath);
       const normalizedNextPath = normalizePath(nextPath);
 
       if (
-        allowedPaths.includes(normalizedCurrentPath) &&
-        allowedPaths.includes(normalizedNextPath)
+        normalizedAllowedPaths.includes(normalizedCurrentPath) &&
+        normalizedAllowedPaths.includes(normalizedNextPath)
       ) {
         return true;
       }
@@ -174,7 +176,13 @@ export const RouteLeavingGuard = ({
         updateConfirmedNavigation(false);
       }
     },
-    [confirmedNavigation, dispatch, lastLocation?.pathname, navigate],
+    [
+      confirmedNavigation,
+      dispatch,
+      lastLocation?.pathname,
+      navigate,
+      persistDraftPaths,
+    ],
   );
 
   useEffect(

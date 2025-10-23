@@ -10,7 +10,7 @@ describe('Medical Records View Vitals', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });

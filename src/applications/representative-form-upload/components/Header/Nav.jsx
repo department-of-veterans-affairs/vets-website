@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import DropdownContainer from './DropdownContainer';
 import { SIGN_IN_URL } from '../../constants';
 import { selectUserProfile } from '../../selectors/user';
@@ -63,26 +62,14 @@ export const Nav = () => {
       {profile && (
         <div className="nav__container-secondary" data-testid="desktop-nav-row">
           <div className="nav__container vads-u-display--flex">
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSearch
-              }
+            <a
+              className="nav__btn desktop"
+              href="/representative/claimant-search"
+              data-testid="desktop-search-link"
             >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/claimant-search"
-                  data-testid="desktop-search-link"
-                >
-                  <va-icon
-                    icon="search"
-                    size={2}
-                    className="people-search-icon"
-                  />
-                  Find Claimant
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
+              <va-icon icon="search" size={2} className="people-search-icon" />
+              Find Claimant
+            </a>
             <a
               className="nav__btn desktop"
               href="/representative/poa-requests"
@@ -90,21 +77,13 @@ export const Nav = () => {
             >
               Representation Requests
             </a>
-            <Toggler
-              toggleName={
-                Toggler.TOGGLE_NAMES.accreditedRepresentativePortalSubmissions
-              }
+            <a
+              className="nav__btn desktop"
+              href="/representative/submissions"
+              data-testid="desktop-submissions-link"
             >
-              <Toggler.Enabled>
-                <a
-                  className="nav__btn desktop"
-                  href="/representative/submissions"
-                  data-testid="desktop-submissions-link"
-                >
-                  Submissions
-                </a>
-              </Toggler.Enabled>
-            </Toggler>
+              Submissions
+            </a>
           </div>
         </div>
       )}

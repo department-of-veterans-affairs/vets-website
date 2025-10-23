@@ -16,6 +16,11 @@
           "facilityId": "583",
           "vamcSystemName": "Test Facility 3",
           "isCerner": false
+        },
+        "757": {
+          "facilityId": "757",
+          "vamcSystemName": "Test Facility 4",
+          "isCerner": true
         }
       }
     }

@@ -36,6 +36,26 @@
         "ssn": "793473479",
         "relationshipToVeteran": "Child",
         "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "STACY",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "2018-06-10",
+        "ssn": "798703232",
+        "relationshipToVeteran": "Child",
+        "awardIndicator": "Y"
+      },
+      {
+        "fullName": {
+          "first": "PETER",
+          "last": "FOSTER"
+        },
+        "dateOfBirth": "1943-03-01",
+        "ssn": "997010104",
+        "relationshipToVeteran": "Parent",
+        "awardIndicator": "Y"
       }
     ],
     "notAwarded": [
@@ -115,25 +135,6 @@
         },
         "dateOfBirth": "2005-05-05",
         "ssn": "780934232",
-        "relationshipToVeteran": "Child",
-        "awardIndicator": "N"
-      },
-      {
-        "fullName": {
-          "first": "STACY",
-          "last": "FOSTER"
-        },
-        "ssn": "798703232",
-        "relationshipToVeteran": "Child",
-        "awardIndicator": "N"
-      },
-      {
-        "fullName": {
-          "first": "PETER",
-          "last": "FOSTER"
-        },
-        "dateOfBirth": "2021-03-01",
-        "ssn": "997010104",
         "relationshipToVeteran": "Child",
         "awardIndicator": "N"
       },

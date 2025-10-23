@@ -382,9 +382,9 @@ describe('conditionReducer', () => {
     it('creates a list', () => {
       const response = {
         data: [
-          { id: 1, attributes: { id: 1 } },
-          { id: 2, attributes: { id: 2 } },
-          { id: 3, attributes: { id: 3 } },
+          { id: '1', attributes: { id: '1' } },
+          { id: '2', attributes: { id: '2' } },
+          { id: '3', attributes: { id: '3' } },
         ],
         resourceType: 'Condition',
       };
@@ -396,26 +396,28 @@ describe('conditionReducer', () => {
       expect(newState.updatedList).to.equal(undefined);
     });
 
-    it('puts updated records in updatedList', () => {
+    it('puts new data in conditionsList', () => {
       const response = {
         data: [
-          { id: 1, attributes: { id: 1 } },
-          { id: 2, attributes: { id: 2 } },
-          { id: 3, attributes: { id: 3 } },
+          { id: '1', attributes: { id: '1' } },
+          { id: '2', attributes: { id: '2' } },
+          { id: '3', attributes: { id: '3' } },
         ],
         resourceType: 'Condition',
       };
       const newState = conditionReducer(
         {
           conditionsList: [
-            { id: 1, attributes: { id: 1 } },
-            { id: 2, attributes: { id: 2 } },
+            { id: '123', attributes: { id: '123' } },
+            { id: '234', attributes: { id: '234' } },
           ],
         },
         { type: Actions.Conditions.GET_UNIFIED_LIST, response },
       );
-      expect(newState.conditionsList.length).to.equal(2);
-      expect(newState.updatedList.length).to.equal(3);
+      expect(newState.conditionsList.length).to.equal(3);
+      expect(newState.conditionsList[0].id).to.equal('1');
+      expect(newState.conditionsList[1].id).to.equal('2');
+      expect(newState.conditionsList[2].id).to.equal('3');
     });
 
     it('should use convertUnifiedCondition', () => {
@@ -471,6 +473,100 @@ describe('conditionReducer', () => {
       );
 
       expect(newState.conditionsList).to.have.lengthOf(0);
+    });
+
+    it('sorts unified list by descending date and pushes invalid/missing dates last', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: 'c3',
+            attributes: {
+              id: 'c3',
+              name: 'Oldest Condition',
+              date: '2023-01-10T09:00:00Z',
+            },
+          },
+          {
+            id: 'c1',
+            attributes: {
+              id: 'c1',
+              name: 'Newest Condition',
+              date: '2024-10-05T11:00:00Z',
+            },
+          },
+          {
+            id: 'c2',
+            attributes: {
+              id: 'c2',
+              name: 'Middle Condition',
+              date: '2024-05-15T08:00:00Z',
+            },
+          },
+          {
+            id: 'invalid',
+            attributes: {
+              id: 'invalid',
+              name: 'Invalid Date Condition',
+              date: 'not-a-real-date',
+            },
+          },
+          {
+            id: 'missing',
+            attributes: {
+              id: 'missing',
+              name: 'Missing Date Condition',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: true,
+        },
+      );
+
+      // Expect order: newest (2024-10-05), middle (2024-05-15), oldest (2023-01-10), then invalid, then missing
+      expect(newState.conditionsList.map(c => c.id)).to.deep.equal([
+        'c1',
+        'c2',
+        'c3',
+        'invalid',
+        'missing',
+      ]);
+      expect(newState.listCurrentAsOf).to.be.instanceOf(Date);
+      expect(newState.listState).to.equal(loadStates.FETCHED);
+    });
+
+    it('sets listCurrentAsOf to null when isCurrent is false for unified list', () => {
+      const unifiedResponse = {
+        data: [
+          {
+            id: 'x1',
+            attributes: {
+              id: 'x1',
+              name: 'Chronic Condition',
+              date: '2024-09-01T00:00:00Z',
+            },
+          },
+        ],
+      };
+
+      const newState = conditionReducer(
+        {},
+        {
+          type: Actions.Conditions.GET_UNIFIED_LIST,
+          response: unifiedResponse,
+          isCurrent: false,
+        },
+      );
+
+      expect(newState.conditionsList.map(c => c.id)).to.deep.equal(['x1']);
+      expect(newState.listCurrentAsOf).to.equal(null);
+      expect(newState.listState).to.equal(loadStates.FETCHED);
     });
   });
 

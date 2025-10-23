@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -15,8 +14,13 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { generateTextFile, processList } from '../util/helpers';
+import {
+  generateTextFile,
+  processList,
+  itemListWrapper,
+} from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
   getConditionDetails,
@@ -39,7 +43,6 @@ import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
 import { useTrackAction } from '../hooks/useTrackAction';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -48,12 +51,6 @@ const ConditionDetails = props => {
     state => state.mr.conditions.conditionsList,
   );
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const { conditionId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
@@ -174,13 +171,9 @@ Provider Notes: ${processList(record.comments)}\n`;
             <PrintDownload
               description="Health Conditions Detail"
               downloadPdf={generateConditionDetailsPdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateConditionTxt}
             />
-            <DownloadingRecordsInfo
-              description="Health Conditions Detail"
-              allowTxtDownloads={allowTxtDownloads}
-            />
+            <DownloadingRecordsInfo description="Health Conditions Detail" />
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
             <div className="max-80">
@@ -197,11 +190,12 @@ Provider Notes: ${processList(record.comments)}\n`;
                 testId="condition-location"
                 actionName="[condition details - location]"
               />
-              <LabelValue label="Provider notes">
-                <ItemList
-                  data-testid="condition-provider-notes"
-                  list={record.comments}
-                />
+              <LabelValue
+                label="Provider notes"
+                element={itemListWrapper(record?.comments)}
+                testId="condition-provider-notes"
+              >
+                <ItemList list={record.comments} />
               </LabelValue>
               {containsSctOrIcd(record.name) && (
                 <LabelValue

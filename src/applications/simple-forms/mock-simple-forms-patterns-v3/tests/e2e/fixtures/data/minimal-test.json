@@ -26,7 +26,6 @@
     },
     "dateOfBirth": "1995-01-09",
     "view:hasEmployers": false,
-    "view:hasTreatmentRecords": false,
     "treatmentRecords": [
       {
         "treatmentDates": {
@@ -35,6 +34,22 @@
         },
         "conditionsTreated": "Conditions",
         "name": "Hospital",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "city": "City",
+          "state": "HI",
+          "postalCode": "34343"
+        }
+      },
+      {
+        "treatmentDates": {
+          "from": "1999-01-04",
+          "to": "1999-01-05"
+        },
+        "conditionsTreated": "Conditions 2",
+        "name": "Hospital 2",
         "address": {
           "view:militaryBaseDescription": {},
           "country": "USA",

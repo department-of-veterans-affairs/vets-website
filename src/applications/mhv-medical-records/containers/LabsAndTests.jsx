@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useHistory, useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
+
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  updatePageTitle,
+  useAcceleratedData,
+} from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { Actions } from '../util/actionTypes';
 import RecordList from '../components/RecordList/RecordList';
 import { getLabsAndTestsList, reloadRecords } from '../actions/labsAndTests';
@@ -26,9 +30,9 @@ import { getMonthFromSelectedDate } from '../util/helpers';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import useReloadResetListOnUnmount from '../hooks/useReloadResetListOnUnmount';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import DatePicker from '../components/shared/DatePicker';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import { fetchImageRequestStatus } from '../actions/images';
@@ -121,17 +125,14 @@ const LabsAndTests = () => {
     dispatch,
   });
 
-  useEffect(
-    /**
-     * @returns a callback to automatically load any new records when unmounting this component
-     */
-    () => {
-      return () => {
-        dispatch(reloadRecords());
-      };
-    },
-    [dispatch],
-  );
+  // On Unmount: reload any newly updated records and normalize the FETCHING state.
+  useReloadResetListOnUnmount({
+    listState,
+    dispatch,
+    updateListActionType: Actions.LabsAndTests.UPDATE_LIST_STATE,
+    reloadRecordsAction: reloadRecords,
+  });
+
   const isLoadingAcceleratedData =
     isAcceleratingLabsAndTests && listState === loadStates.FETCHING;
 

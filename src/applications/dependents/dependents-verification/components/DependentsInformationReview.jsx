@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { DEPENDENT_CHOICES } from '../constants';
-import { maskID } from '../../shared/utils';
-import { calculateAge } from '../helpers';
+import { maskID, calculateAge } from '../../shared/utils';
 
 export const DependentsInformationReview = ({ data, goToPath }) => {
   const { hasDependentsStatusChanged = '' } = data || {};

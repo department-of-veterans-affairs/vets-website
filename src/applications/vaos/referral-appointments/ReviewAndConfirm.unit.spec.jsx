@@ -193,9 +193,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store.getState().appointmentApi.mutations[mutation].status,
       ).to.equal('fulfilled');
     });
-    expect(
-      Object.keys(store.getState().appointmentApi.queries).length,
-    ).to.equal(0);
+    await waitFor(() => {
+      expect(
+        Object.keys(store.getState().appointmentApi.queries).length,
+      ).to.equal(0);
+    });
     await waitFor(() => {
       expect(
         screen.history.push.calledWith(
@@ -235,6 +237,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.getByTestId('create-error-alert')).to.contain.text(
       'We couldn’t schedule this appointment',
     );
+    expect(screen.getByTestId('referral-community-care-office')).to.exist;
     sandbox.assert.calledOnce(
       requestStub.withArgs('/vaos/v2/appointments/draft'),
     );

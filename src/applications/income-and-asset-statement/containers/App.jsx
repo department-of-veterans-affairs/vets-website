@@ -8,6 +8,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from 'platform/utilities/environment';
 import { openReviewChapter as openReviewChapterAction } from 'platform/forms-system/src/js/actions';
 
+import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { NoFormPage } from '../components/NoFormPage';
 import { getAssetTypes } from '../components/FormAlerts/SupplementaryFormsAlert';
@@ -26,6 +27,13 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     state => state?.featureToggles?.loading ?? false,
   );
   const assets = useSelector(state => state?.form?.data?.ownedAssets || []);
+  const isIntroPage = location.pathname === '/introduction';
+
+  const content = (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
 
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring({
@@ -52,7 +60,13 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
           !!incomeAndAssetsContentUpdates,
         );
       }
+
+      if (!isIntroPage) {
+        // Redirect to intro page if user tries to access any other page directly
+        window.location.replace(manifest.rootUrl);
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isLoadingFeatures, incomeAndAssetsContentUpdates],
   );
 
@@ -77,11 +91,7 @@ function App({ location, children, isLoggedIn, openReviewChapter }) {
     return <NoFormPage />;
   }
 
-  return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
-  );
+  return content;
 }
 
 const mapStateToProps = state => {
@@ -99,6 +109,7 @@ App.propTypes = {
   children: PropTypes.node.isRequired,
   location: PropTypes.object.isRequired,
   isLoggedIn: PropTypes.bool,
+  openReviewChapter: PropTypes.func,
 };
 
 export default connect(

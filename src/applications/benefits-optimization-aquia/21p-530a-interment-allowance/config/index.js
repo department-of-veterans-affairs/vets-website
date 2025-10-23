@@ -4,7 +4,7 @@
  */
 
 /** @exports {FormConfig} formConfig - Main form configuration */
-export { formConfig } from './form';
+export { default as formConfig } from './form';
 
 // Also export default for modules that expect it
 export { default } from './form';

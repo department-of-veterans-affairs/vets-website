@@ -9,18 +9,13 @@
       "ssn": "434353346"
     },
     "recipientName": {
-      "first": "Mary",
-      "middle": "Elizabeth",
-      "last": "Johnson"
-    },
-    "recipient": {
-      "phone": {
-        "daytime": "703-555-1234",
-        "evening": ""
-      },
-      "email": "mary.johnson@example.com"
+      "first": "Jane",
+      "middle": "M",
+      "last": "Spouse"
     },
     "hasRemarried": false,
-    "signature": "Mary Elizabeth Johnson"
+    "signature": "Jane M Spouse",
+    "primaryPhone": "703-555-1234",
+    "emailAddress": "mary.johnson@example.com"
   }
 }

@@ -5,12 +5,18 @@ import AllergiesListPage from './pages/AllergiesListPage';
 import AllergyDetailsPage from './pages/AllergyDetailsPage';
 
 describe('Medical Records View Allergies', () => {
-  it('Visits Medical Records View Allergies Details', () => {
-    const site = new MedicalRecordsSite();
-    site.login();
-    site.loadPage();
+  const site = new MedicalRecordsSite();
 
-    AllergiesListPage.clickGotoAllergiesLink(allergies);
+  beforeEach(() => {
+    site.login();
+  });
+
+  it('Visits Medical Records View Allergies Details', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
+
+    AllergiesListPage.goToAllergies(allergies);
     AllergyDetailsPage.clickAllergyDetailsLink('NUTS', 7006, allergy);
     cy.get('@allergyDetails.all').should('have.length', 0);
     AllergyDetailsPage.verifyAllergyDetailReaction(

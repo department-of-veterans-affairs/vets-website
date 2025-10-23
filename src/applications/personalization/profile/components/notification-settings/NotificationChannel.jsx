@@ -13,10 +13,18 @@ import { getContactInfoSelectorByChannelType } from '@@profile/util/notification
 
 import recordEvent from '~/platform/monitoring/record-event';
 
+import {
+  VaAlert,
+  VaButton,
+  VaCheckbox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import classNames from 'classnames';
 import { LOADING_STATES } from '../../../common/constants';
 
-import { NotificationCheckbox } from './NotificationCheckbox';
-import { NOTIFICATION_CHANNEL_LABELS } from '../../constants';
+import {
+  NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS,
+  NOTIFICATION_CHANNEL_LABELS,
+} from '../../constants';
 
 const NotificationChannel = props => {
   const {
@@ -33,6 +41,17 @@ const NotificationChannel = props => {
     last,
     defaultSendIndicator,
   } = props;
+
+  const checked = React.useMemo(
+    () => {
+      if (isOptedIn === null) {
+        return defaultSendIndicator;
+      }
+      return !!isOptedIn;
+    },
+    [isOptedIn, defaultSendIndicator],
+  );
+
   // when itemId = "item2", itemIdNumber will be 2
   const itemIdNumber = React.useMemo(
     () => {
@@ -45,6 +64,39 @@ const NotificationChannel = props => {
     },
     [itemId],
   );
+
+  const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
+  const description = NOTIFICATION_CHANNEL_FIELD_DESCRIPTIONS[channelId];
+
+  const handleChange = e => {
+    const newValue = e.target.checked;
+
+    // Escape early if no change was made. If an API call fails, it's
+    // possible to then click on a "checked" radio button to fire off
+    // another API call. This check avoids that problem
+    if (newValue === isOptedIn) {
+      return;
+    }
+
+    const model = new CommunicationChannelModel({
+      type: channelType,
+      parentItemId: itemIdNumber,
+      permissionId,
+      isAllowed: newValue,
+      wasAllowed: isOptedIn,
+    });
+
+    const eventPayload = {
+      event: 'int-checkbox-group-option-click',
+      'checkbox-group-optionLabel': `${label} - ${newValue}`,
+      'checkbox-group-label': itemName,
+      'checkbox-group-required': '-',
+    };
+
+    recordEvent(eventPayload);
+
+    saveSetting(channelId, model.getApiCallObject());
+  };
 
   const apiStatusInfo = React.useMemo(
     () => {
@@ -71,49 +123,51 @@ const NotificationChannel = props => {
     return null;
   }
 
-  const label = `Notify me by ${NOTIFICATION_CHANNEL_LABELS[channelType]}`;
+  const className = classNames({
+    'vads-u-padding-bottom--0p5': last,
+    'vads-u-display--none': apiStatusInfo.loadingMessage,
+  });
 
   return (
-    <NotificationCheckbox
-      label={label}
-      isOptedIn={isOptedIn}
-      defaultSendIndicator={defaultSendIndicator}
-      channelId={channelId}
-      onValueChange={e => {
-        const newValue = e.target.checked;
-
-        // Escape early if no change was made. If an API call fails, it's
-        // possible to then click on a "checked" radio button to fire off
-        // another API call. This check avoids that problem
-        if (newValue === isOptedIn) {
-          return;
-        }
-
-        const model = new CommunicationChannelModel({
-          type: channelType,
-          parentItemId: itemIdNumber,
-          permissionId,
-          isAllowed: newValue,
-          wasAllowed: isOptedIn,
-        });
-
-        const eventPayload = {
-          event: 'int-checkbox-group-option-click',
-          'checkbox-group-optionLabel': `${label} - ${newValue}`,
-          'checkbox-group-label': itemName,
-          'checkbox-group-required': '-',
-        };
-
-        recordEvent(eventPayload);
-
-        saveSetting(channelId, model.getApiCallObject());
-      }}
-      loadingMessage={apiStatusInfo.loadingMessage}
-      successMessage={apiStatusInfo.successMessage}
-      errorMessage={apiStatusInfo.errorMessage}
-      disabled={disabledForCheckbox}
-      last={last}
-    />
+    <>
+      {apiStatusInfo.successMessage && (
+        <VaAlert
+          slim
+          status="success"
+          class="vads-u-margin-top--2 vads-u-margin-bottom--2"
+          data-testid={`success-${channelId}`}
+        >
+          {apiStatusInfo.successMessage}
+        </VaAlert>
+      )}
+      {apiStatusInfo.errorMessage && (
+        <VaAlert
+          slim
+          status="error"
+          class="vads-u-margin-top--2 vads-u-margin-bottom--2"
+          data-testid={`error-${channelId}`}
+        >
+          {apiStatusInfo.errorMessage}
+        </VaAlert>
+      )}
+      {apiStatusInfo.loadingMessage && (
+        <VaButton
+          disabled
+          text={apiStatusInfo.loadingMessage}
+          loading
+          data-testid={`loading-${channelId}`}
+        />
+      )}
+      <VaCheckbox
+        label={label}
+        checked={checked}
+        hint={description}
+        onVaChange={e => handleChange(e)}
+        disabled={disabledForCheckbox}
+        className={className}
+        data-testid={`checkbox-${channelId}`}
+      />
+    </>
   );
 };
 

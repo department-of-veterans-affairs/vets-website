@@ -2,10 +2,8 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-
 import formConfig from '../../config/form';
 import { content } from '../../content/limitedConsent';
 
@@ -28,9 +26,9 @@ describe('Supplemental Claims Limited Consent Details page', () => {
 
     const textarea = $('va-textarea[required]', container);
     expect(textarea).to.exist;
-    expect(textarea.getAttribute('label')).to.eq(content.textAreaTitle);
+    expect(textarea.getAttribute('label')).to.eq(content.detailsQuestion);
     expect(textarea.getAttribute('label-header-level')).to.eq('3');
-    expect(textarea.getAttribute('hint')).to.eq(content.textAreaHint);
+    expect(textarea.getAttribute('hint')).to.eq(content.detailsHint);
     expect($('button[type="submit"]', container)).to.exist;
   });
 

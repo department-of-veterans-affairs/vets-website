@@ -124,7 +124,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       mockAppointmentsApi({
         end: addDays(new Date(), 395),
         start: subDays(new Date(), 30),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
         response: [response],
       });
 

@@ -66,7 +66,7 @@ describe('<NotificationChannel />', () => {
     store = mockStore(baseStore);
   });
 
-  it('renders the NotificationCheckbox component', () => {
+  it('renders the VaCheckbox component', () => {
     const props = {
       channelId: 'channel3-1',
       disabledForCheckbox: false,
@@ -79,6 +79,127 @@ describe('<NotificationChannel />', () => {
       </Provider>,
     );
 
-    expect(view.getByTestId(`checkbox-${props.channelId}`)).to.be.visible;
+    const vaCheckbox = view.getByTestId(`checkbox-${props.channelId}`);
+    expect(vaCheckbox).to.be.visible;
+  });
+
+  it('renders the "loading" state components', () => {
+    const updatedStore = {
+      ...baseStore,
+      communicationPreferences: {
+        ...baseStore.communicationPreferences,
+        channels: {
+          ...baseStore.communicationPreferences.channels,
+          entities: {
+            'channel3-1': {
+              ...baseStore.communicationPreferences.channels.entities[
+                'channel3-1'
+              ],
+              ui: {
+                updateStatus: 'pending',
+                errors: null,
+              },
+            },
+          },
+        },
+      },
+    };
+    store = mockStore(updatedStore);
+    const props = {
+      channelId: 'channel3-1',
+      disabledForCheckbox: false,
+      saveSetting: sinon.stub(),
+    };
+
+    const view = render(
+      <Provider store={store}>
+        <NotificationChannel {...props} />
+      </Provider>,
+    );
+
+    const vaCheckbox = view.getByTestId(`checkbox-${props.channelId}`);
+    const vaButtonLoading = view.getByTestId(`loading-${props.channelId}`);
+    expect(vaCheckbox).to.be.visible;
+    expect(vaButtonLoading).to.be.visible;
+  });
+
+  it('renders the "success" state components', () => {
+    const updatedStore = {
+      ...baseStore,
+      communicationPreferences: {
+        ...baseStore.communicationPreferences,
+        channels: {
+          ...baseStore.communicationPreferences.channels,
+          entities: {
+            'channel3-1': {
+              ...baseStore.communicationPreferences.channels.entities[
+                'channel3-1'
+              ],
+              ui: {
+                updateStatus: 'loaded',
+                errors: null,
+              },
+            },
+          },
+        },
+      },
+    };
+    store = mockStore(updatedStore);
+    const props = {
+      channelId: 'channel3-1',
+      disabledForCheckbox: false,
+      saveSetting: sinon.stub(),
+    };
+
+    const view = render(
+      <Provider store={store}>
+        <NotificationChannel {...props} />
+      </Provider>,
+    );
+
+    const vaCheckbox = view.getByTestId(`checkbox-${props.channelId}`);
+    const vaAlertSuccess = view.getByTestId(`success-${props.channelId}`);
+    expect(vaCheckbox).to.be.visible;
+    expect(vaAlertSuccess).to.be.visible;
+  });
+
+  it('renders the "error" state components', () => {
+    const updatedStore = {
+      ...baseStore,
+      communicationPreferences: {
+        ...baseStore.communicationPreferences,
+        channels: {
+          ...baseStore.communicationPreferences.channels,
+          entities: {
+            'channel3-1': {
+              ...baseStore.communicationPreferences.channels.entities[
+                'channel3-1'
+              ],
+              ui: {
+                updateStatus: 'error',
+                errors: null,
+              },
+            },
+          },
+        },
+      },
+    };
+    store = mockStore(updatedStore);
+    const props = {
+      channelId: 'channel3-1',
+      disabledForCheckbox: false,
+      saveSetting: sinon.stub(),
+    };
+
+    const view = render(
+      <Provider store={store}>
+        <NotificationChannel {...props} />
+      </Provider>,
+    );
+
+    const vaCheckbox = view.getByTestId(`checkbox-${props.channelId}`);
+    const vaAlertError = view.getByTestId(`error-${props.channelId}`);
+    expect(vaCheckbox).to.be.visible;
+    expect(vaAlertError).to.be.visible;
   });
 });

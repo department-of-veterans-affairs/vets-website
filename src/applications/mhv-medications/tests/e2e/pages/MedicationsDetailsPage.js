@@ -69,7 +69,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescriptionsOrderedDate = () => {
-    cy.get('[datat-testid="ordered-date"]')
+    cy.get('[data-testid="ordered-date"]')
       .first()
       .should('have.text', 'April 14, 2023');
   };
@@ -489,7 +489,7 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="refill-history-accordion"]')
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
-      .should('have.attr', 'aria-expanded', 'false');
+      .should('have.attr', 'aria-pressed', 'false');
   };
 
   verifyAccordionExpandedOnDetailsPage = () => {
@@ -497,7 +497,7 @@ class MedicationsDetailsPage {
       .shadow()
       .find('[data-testid="expand-all-accordions"]')
       .first()
-      .should('have.attr', 'aria-expanded', 'true');
+      .should('have.attr', 'aria-pressed', 'true');
   };
 
   verifyRefillHistoryInformationTextOnDetailsPage = text => {
@@ -670,7 +670,7 @@ class MedicationsDetailsPage {
   };
 
   verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
-    cy.get('[data-testid="order-date"]').should('contain', text);
+    cy.get('[data-testid="ordered-date"]').should('contain', text);
   };
 
   verifyProviderNameNotAvailableOnDetailsPage = text => {
@@ -687,6 +687,10 @@ class MedicationsDetailsPage {
 
   verifyReasonForUseOnDetailsPage = text => {
     cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyPrescriptionQuantityOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
   };
 
   verifyInstructionsOnDetailsPage = text => {

@@ -12,7 +12,7 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       </p>
     )}
     <h3>Request help for your current bills</h3>
-    <p>You can request these debt relief options:</p>
+    <p>You can request these relief options:</p>
     <ul>
       <li>
         <strong>Repayment plan.</strong> This would allow you to repay the debt
@@ -33,7 +33,7 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       <va-link-action
         href="/manage-va-debt/request-debt-help-form-5655/"
         text="Request help with your debt"
-        secondary
+        type="secondary"
       />
     </p>
     <h3>Request help for your future health care</h3>
@@ -47,7 +47,7 @@ export const FinancialHelp = ({ showOneThingPerPage = false }) => (
       <va-link-action
         href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship"
         text="Learn more about requesting a hardship determination"
-        secondary
+        type="secondary"
       />
     </p>
   </article>

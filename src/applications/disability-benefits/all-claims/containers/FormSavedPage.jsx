@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import FormSaved from '@department-of-veterans-affairs/platform-forms/FormSaved';
 
-import { formatDate } from '../utils';
+import { formatDate } from '../utils/dates/formatting';
 
 const FormSavedPage = props => {
   const date = props.itf?.currentITF?.expirationDate;

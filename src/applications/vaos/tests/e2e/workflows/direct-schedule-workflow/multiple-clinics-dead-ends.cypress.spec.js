@@ -40,6 +40,20 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        const mockEligibilityResponseDirect = new MockEligibilityResponse({
+          facilityId: '983',
+          typeOfCareId,
+          isEligible: true,
+          type: 'direct',
+        });
+        const mockEligibilityResponseRequest = new MockEligibilityResponse({
+          isEligible: false,
+          type: 'request',
+          ineligibilityReason: MockEligibilityResponse.REQUEST_DISABLED,
+        });
+
+        cy.log(mockEligibilityResponseDirect);
+        cy.log(mockEligibilityResponseRequest);
 
         mockClinicsApi({
           locationId: '983',
@@ -50,9 +64,12 @@ describe('VAOS direct schedule flow - Multiple clinics dead ends', () => {
         });
         mockEligibilityCCApi({ cceType, isEligible: false });
         mockEligibilityDirectApi({
-          response: new MockEligibilityResponse({ type: 'direct' }),
+          response: mockEligibilityResponseDirect,
         });
-        mockEligibilityRequestApi({ response: {} });
+        mockEligibilityRequestApi({
+          response: mockEligibilityResponseRequest,
+        });
+
         mockFacilitiesApi({
           response: MockFacilityResponse.createResponses({
             facilityIds: ['983', '984'],

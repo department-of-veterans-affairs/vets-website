@@ -3,12 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import {
-  fillDateWebComponentPattern,
-  fillTextWebComponent,
-  reviewAndSubmitPageFlow,
-  selectYesNoWebComponent,
-} from '../../../shared/tests/e2e/helpers';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -39,9 +34,6 @@ const userLOA3 = {
   },
 };
 
-// tracks if already added list and loop item
-let addedListAndLoopItem = false;
-
 const testConfig = createTestConfig(
   {
     useWebComponentFields: true,
@@ -66,17 +58,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'veteran-mailing-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillAddressWebComponentPattern(
-              'veteranMailingAddress',
-              data.veteranMailingAddress,
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       'other-reasons': ({ afterHook }) => {
         afterHook(() => {
           cy.selectVaCheckbox('root_otherReasons_FINANCIAL_HARDSHIP', true);
@@ -84,61 +65,6 @@ const testConfig = createTestConfig(
           cy.findAllByText(/^Continue/, { selector: 'button' })
             .last()
             .click();
-        });
-      },
-      'medical-treatments': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            let hasReceivedMedicalTreatment =
-              data['view:hasReceivedMedicalTreatment'];
-            if (addedListAndLoopItem) {
-              hasReceivedMedicalTreatment = false;
-              addedListAndLoopItem = false;
-            }
-
-            selectYesNoWebComponent(
-              'view:hasReceivedMedicalTreatment',
-              hasReceivedMedicalTreatment,
-            );
-
-            cy.findAllByText(/^Continue/, { selector: 'button' })
-              .last()
-              .click();
-          });
-        });
-      },
-      'medical-treatments/0/name-and-address': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { medicalTreatments } = data;
-            const { facilityName, facilityAddress } = medicalTreatments[0];
-
-            fillTextWebComponent('facilityName', facilityName);
-            cy.fillAddressWebComponentPattern(
-              'facilityAddress',
-              facilityAddress,
-            );
-
-            cy.findAllByText(/^Continue/, { selector: 'button' })
-              .last()
-              .click();
-          });
-        });
-      },
-      'medical-treatments/0/treatment-date': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            const { medicalTreatments } = data;
-            const { startDate } = medicalTreatments[0];
-
-            fillDateWebComponentPattern('startDate', startDate);
-
-            addedListAndLoopItem = true;
-
-            cy.findAllByText(/^Continue/, { selector: 'button' })
-              .last()
-              .click();
-          });
         });
       },
       'review-and-submit': ({ afterHook }) => {

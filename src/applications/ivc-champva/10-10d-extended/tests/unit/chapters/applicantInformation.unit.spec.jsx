@@ -274,9 +274,9 @@ describe('generateParticipantName', () => {
           },
         ],
       }),
-    ).to.eq("App1 Jones's");
+    ).to.eq('App1 Jones’s');
   });
-  it('should return "applicant" if no participant SSN hash matches', () => {
+  it('should return `Applicant` if no participant SSN hash matches', () => {
     expect(
       generateParticipantName({
         medicareParticipant: '000000000000',
@@ -287,9 +287,9 @@ describe('generateParticipantName', () => {
           },
         ],
       }),
-    ).to.eq('applicant');
+    ).to.eq('Applicant');
   });
-  it('should return "No participant" if no participant selected', () => {
+  it('should return `No participant` if no participant selected', () => {
     expect(generateParticipantName(undefined)).to.eq('No participant');
   });
 });

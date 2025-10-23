@@ -1,14 +1,15 @@
-import React from 'react';
-import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import React from 'react';
 import { Route } from 'react-router-dom';
-import ReasonForAppointmentPage from './ReasonForAppointmentPage';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfFacility,
 } from '../../tests/mocks/setup';
+import { FLOW_TYPES } from '../../utils/constants';
+import ReasonForAppointmentPage from './ReasonForAppointmentPage';
 
 const initialState = {
   featureToggles: {
@@ -84,8 +85,15 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         .exist;
     });
 
-    it('should show error msg when not entering additional detail for VA medical request', async () => {
-      const store = createTestStore(initialState);
+    it('should show error msg when not entering additional detail for appointment request', async () => {
+      const store = createTestStore({
+        ...initialState,
+        newAppointment: {
+          data: {},
+          pages: [],
+          flowType: FLOW_TYPES.REQUEST,
+        },
+      });
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
@@ -98,6 +106,30 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
 
       expect(await screen.findByRole('alert')).to.contain.text(
         'Provide more information about why you are requesting this appointment',
+      );
+    });
+
+    it('should show error msg when not entering additional detail for direct schedule', async () => {
+      const store = createTestStore({
+        ...initialState,
+        newAppointment: {
+          data: {},
+          pages: [],
+          flowType: FLOW_TYPES.DIRECT,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+        store,
+      });
+      await screen.findByText(/Continue/i);
+
+      fireEvent.click(
+        screen.getByText(/This is a routine or follow-up visit./),
+      );
+      fireEvent.click(screen.getByText(/Continue/));
+
+      expect(await screen.findByRole('alert')).to.contain.text(
+        'Provide more information about why you are scheduling this appointment',
       );
     });
 

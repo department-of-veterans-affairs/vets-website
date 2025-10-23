@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import * as Const from './sei-constants';
-import { NONE_ENTERED, selfEnteredDomains } from '../util/constants';
+import { NONE_ENTERED } from '../util/constants';
 
 /**
  * @param {*} map an object containing key value pairs
@@ -828,41 +828,4 @@ export const processAllDomainResponse = allData => {
     // Track all domains that had an error
     failedDomains: Object.keys(errors),
   };
-};
-
-export const convertSeiRecords = (type, data) => {
-  switch (type) {
-    case selfEnteredDomains.ACTIVITY_JOURNAL:
-      return convertActivityJournal(data);
-    case selfEnteredDomains.ALLERGIES:
-      return convertAllergies(data);
-    case selfEnteredDomains.DEMOGRAPHICS:
-      return convertDemographics(data);
-    case selfEnteredDomains.EMERGENCY_CONTACTS:
-      return convertEmergencyContacts(data);
-    case selfEnteredDomains.FAMILY_HISTORY:
-      return convertFamilyHealthHistory(data);
-    case selfEnteredDomains.FOOD_JOURNAL:
-      return convertFoodJournal(data);
-    case selfEnteredDomains.HEALTH_PROVIDERS:
-      return convertHealthcareProviders(data);
-    case selfEnteredDomains.HEALTH_INSURANCE:
-      return convertHealthInsurance(data);
-    case selfEnteredDomains.TEST_ENTRIES:
-      return convertLabsAndTests(data);
-    case selfEnteredDomains.MEDICAL_EVENTS:
-      return convertMedicalEvents(data);
-    case selfEnteredDomains.MEDICATIONS:
-      return convertMedications(data);
-    case selfEnteredDomains.MILITARY_HISTORY:
-      return convertMilitaryHistory(data);
-    case selfEnteredDomains.TREATMENT_FACILITIES:
-      return convertTreatmentFacilities(data);
-    case selfEnteredDomains.VACCINES:
-      return convertVaccines(data);
-    case selfEnteredDomains.VITALS:
-      return convertVitals(data);
-    default:
-      return null;
-  }
 };

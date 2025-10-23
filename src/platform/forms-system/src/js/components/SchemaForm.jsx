@@ -92,13 +92,17 @@ class SchemaForm extends React.Component {
   }
 
   onError(hasSubmitted = true) {
+    // hasSubmitted is sometimes an Array of errors
     const formContext = set(
       'submitted',
       !!hasSubmitted,
       this.state.formContext,
     );
     this.setState({ formContext });
-    scrollToFirstError(this.props.formOptions);
+    scrollToFirstError({
+      ...this.props.formOptions,
+      errorContext: hasSubmitted,
+    });
   }
 
   onBlur(id) {

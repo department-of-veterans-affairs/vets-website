@@ -15,6 +15,8 @@ import {
   dateSigned,
   viewifyFields,
   maskBankInformation,
+  getPrefillIntlPhoneNumber,
+  getTransformIntlPhoneNumber,
 } from '../helpers';
 
 describe('10297 Helpers', () => {
@@ -182,6 +184,20 @@ describe('getCardDescription', () => {
   it('returns null when no item provided', () => {
     expect(getCardDescription(null)).to.be.null;
   });
+
+  it('displays country name when country is not United States', () => {
+    const card = {
+      providerAddress: {
+        country: 'CAN',
+        street: '100 Queen St',
+        city: 'Toronto',
+        state: 'ON',
+        postalCode: 'M5H 2N2',
+      },
+    };
+    const { getByTestId } = render(getCardDescription(card));
+    expect(getByTestId('card-country').textContent).to.contain('Canada');
+  });
 });
 
 describe('validateTrainingProviderStartDate', () => {
@@ -225,5 +241,47 @@ describe('#maskBankInformation', () => {
 
   it('returns unmasked if shorter than unmaskedLength', () => {
     expect(maskBankInformation('123', 4)).to.equal('123');
+  });
+});
+
+describe('#getPrefillIntlPhoneNumber', () => {
+  it('should create formatted international phone number with provided details', () => {
+    const phone = {
+      areaCode: '111',
+      countryCode: '1',
+      phoneNumber: '2223333',
+    };
+
+    expect(getPrefillIntlPhoneNumber(phone)).to.deep.equal({
+      callingCode: 1,
+      countryCode: 'US',
+      contact: '1112223333',
+    });
+  });
+
+  it('should return an empty string with no provided details', () => {
+    expect(getPrefillIntlPhoneNumber()).to.deep.equal({
+      callingCode: 1,
+      countryCode: 'US',
+      contact: '',
+    });
+  });
+});
+
+describe('#getTransformIntlPhoneNumber', () => {
+  it('should create formatted international phone number with provided details', () => {
+    const phoneNumber = {
+      callingCode: 1,
+      countryCode: 'US',
+      contact: '1112223333',
+    };
+
+    expect(getTransformIntlPhoneNumber(phoneNumber)).to.equal(
+      '+1 1112223333 (US)',
+    );
+  });
+
+  it('should return an empty string with no provided details', () => {
+    expect(getTransformIntlPhoneNumber()).to.equal('');
   });
 });

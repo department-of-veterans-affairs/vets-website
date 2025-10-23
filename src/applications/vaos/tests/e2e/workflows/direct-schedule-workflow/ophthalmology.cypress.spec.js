@@ -1,5 +1,5 @@
 // @ts-check
-import { addMonths } from 'date-fns';
+import { addMonths, subDays } from 'date-fns';
 import { getTypeOfCareById } from '../../../../utils/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -27,8 +27,9 @@ import {
   mockAppointmentGetApi,
   mockAppointmentsGetApi,
   mockClinicsApi,
-  mockEligibilityApi,
   mockEligibilityCCApi,
+  mockEligibilityDirectApi,
+  mockEligibilityRequestApi,
   mockFacilitiesApi,
   mockFacilityApi,
   mockFeatureToggles,
@@ -45,21 +46,51 @@ describe('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
     vaosSetup();
 
-    mockAppointmentsGetApi({ response: [] });
+    const yesterday = subDays(new Date(), 1);
+    const responseOne = new MockAppointmentResponse({
+      id: 'mock1',
+      cancellable: false,
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.booked,
+      typeOfCareId,
+    }).setClinicId('1');
+    const responseTwo = new MockAppointmentResponse({
+      id: 'mock2',
+      cancellable: false,
+      localStartTime: yesterday,
+      status: APPOINTMENT_STATUS.booked,
+      typeOfCareId,
+    }).setClinicId('2');
+
+    mockAppointmentsGetApi({
+      response: [responseOne, responseTwo],
+    });
+
     mockFeatureToggles();
     mockVamcEhrApi();
   });
 
   describe('When veteran is CC eligible', () => {
     const setup = () => {
-      const mockEligibilityResponse = new MockEligibilityResponse({
+      const direct = new MockEligibilityResponse({
         facilityId: '983',
         typeOfCareId,
         isEligible: true,
+        type: 'direct',
       });
+
+      const request = new MockEligibilityResponse({
+        facilityId: '983',
+        typeOfCareId,
+        isEligible: false,
+        ineligibilityReason: MockEligibilityResponse.REQUEST_DISABLED,
+        type: 'request',
+      });
+
       const response = new MockAppointmentResponse({
         id: 'mock1',
         localStartTime: new Date(),
+        startDate: new Date(),
         status: APPOINTMENT_STATUS.booked,
         future: true,
       });
@@ -73,8 +104,9 @@ describe('VAOS request schedule flow - Audiology', () => {
           facilityIds: ['983', '984'],
         }),
       });
-      mockEligibilityApi({ response: mockEligibilityResponse });
       mockEligibilityCCApi({ cceType });
+      mockEligibilityDirectApi({ response: direct });
+      mockEligibilityRequestApi({ response: request });
       mockSchedulingConfigurationApi({
         facilityIds: ['983', '984'],
         typeOfCareId,
@@ -101,6 +133,7 @@ describe('VAOS request schedule flow - Audiology', () => {
           locationId: '983',
           response: MockClinicResponse.createResponses({ count: 2 }),
         });
+
         mockFacilityApi({
           id: '983',
           response: MockFacilityResponse.createResponses({

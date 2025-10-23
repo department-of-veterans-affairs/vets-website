@@ -1,9 +1,9 @@
 {
   "data": {
     "fullName": {
-      "first": "John",
-      "last": "Doe"
+      "first": "Anakin",
+      "last": "Skywalker"
     },
-    "dateOfBirth": "1980-01-01"
+    "dateOfBirth": "1941-05-04"
   }
 }

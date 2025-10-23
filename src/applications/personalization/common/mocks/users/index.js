@@ -271,6 +271,20 @@ const simpleUser = {
   },
 };
 
+const loa3NoHealthUser = {
+  ...simpleUser,
+  data: {
+    ...simpleUser.data,
+    attributes: {
+      ...simpleUser.data.attributes,
+      vaProfile: {
+        ...simpleUser.data.attributes.vaProfile,
+        vaPatient: false,
+      },
+    },
+  },
+};
+
 const loa1SimpleUser = {
   data: {
     id: '',
@@ -667,4 +681,5 @@ module.exports = {
   loa1UserWithNoEmail,
   loa3UserWithNoEmail,
   simpleUser,
+  loa3NoHealthUser,
 };

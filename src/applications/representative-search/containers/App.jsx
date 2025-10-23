@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,6 +7,7 @@ import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-li
 
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
+import { setRepSearchEndpointsFromFlag } from '../config';
 
 function App({ children }) {
   const {
@@ -22,7 +23,20 @@ function App({ children }) {
     TOGGLE_NAMES.findARepresentativeEnableFrontend,
   );
 
+  const useAccreditedModels = useToggleValue(
+    TOGGLE_NAMES.findARepresentativeUseAccreditedModels,
+  );
+
   const togglesLoading = useToggleLoadingValue();
+
+  useEffect(
+    () => {
+      if (!togglesLoading) {
+        setRepSearchEndpointsFromFlag(Boolean(useAccreditedModels));
+      }
+    },
+    [togglesLoading, useAccreditedModels],
+  );
 
   if (togglesLoading) {
     return (

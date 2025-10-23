@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { scrollTo } from 'platform/utilities/scroll';
-import { Toggler } from 'platform/utilities/feature-toggles';
-
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
 import { OtherBenefits } from '../../shared/content/intro';
@@ -176,20 +173,13 @@ const IntroductionPage = props => {
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-
       <ShowAlertOrSip
         basename={location.basename}
         sipOptions={sipOptions}
         bottom
       />
-
       <OmbInfo />
-      <p />
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
-        <Toggler.Enabled>
-          <OtherBenefits />
-        </Toggler.Enabled>
-      </Toggler>
+      <OtherBenefits />
     </div>
   );
 };

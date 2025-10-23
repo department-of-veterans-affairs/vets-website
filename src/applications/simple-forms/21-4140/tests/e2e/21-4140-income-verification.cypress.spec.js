@@ -6,11 +6,12 @@ import user from '../fixtures/mocks/user.json';
 import mockSubmit from '../fixtures/mocks/application-submit.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { reviewAndSubmitPageFlow } from '../../../shared/tests/e2e/helpers';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal-test'],
+    dataSets: ['minimal-test', 'maximal-test'],
     dataDir: path.join(__dirname, '..', 'fixtures', 'data'),
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -18,6 +19,15 @@ const testConfig = createTestConfig(
           cy.findAllByText(/^start/i, { selector: 'a[href="#start"]' })
             .last()
             .click({ force: true });
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { fullName } = data;
+
+            reviewAndSubmitPageFlow(fullName, 'Submit application');
+          });
         });
       },
       // Example page hook
@@ -40,7 +50,7 @@ const testConfig = createTestConfig(
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
       cy.login(user);
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

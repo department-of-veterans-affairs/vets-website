@@ -45,7 +45,7 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
   });
 
   it('verify particular group', () => {
-    PatientComposePage.verifyRecipientsQuantityInGroup(0, 3);
+    PatientComposePage.verifyRecipientsQuantityInGroup(0, 4);
     PatientComposePage.verifyRecipientsQuantityInGroup(1, 3);
     PatientComposePage.verifyRecipientsQuantityInGroup(2, 1);
     PatientComposePage.verifyRecipientsQuantityInGroup(3, 1);
@@ -59,12 +59,11 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
 
     PatientComposePage.verifyRecipientsGroupName(
       2,
-      'VA Martinsburg health care',
+      'VA Northern Arizona health care',
     );
-
     PatientComposePage.verifyRecipientsGroupName(
       3,
-      'VA Northern Arizona health care',
+      'VA Puget Sound health care',
     );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
@@ -78,12 +77,12 @@ describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
 
     PatientComposePage.verifyFacilityNameByRecipientName(
       `SLC4 PCMM`,
-      'VA Martinsburg health care',
+      'VA Kansas City health care',
     );
 
     PatientComposePage.verifyFacilityNameByRecipientName(
       `OH TG GROUP 002`,
-      'VA Puget Sound health care',
+      'VA Spokane health care',
     );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);

@@ -1,5 +1,3 @@
-import { showUpdatedContent } from './helpers';
-
 // Always name keys with uppercase snake_casing
 // Always use keys for data storage
 export const relationshipLabels = {
@@ -53,10 +51,18 @@ export const parentRelationshipLabelDescriptions = {
 
 export const transferMethodLabels = {
   SOLD: 'Sold',
+  TRADED: 'Traded',
   GIFTED: 'Gifted',
   CONVEYED: 'Conveyed',
-  TRADED: 'Traded',
-  OTHER: 'Other',
+  OTHER: 'Another way',
+};
+
+export const transferMethodDescriptions = {
+  SOLD: 'Original owner received money for the asset',
+  TRADED: 'Original owner swapped the asset for the other property',
+  GIFTED: 'Original owner gave away the asset',
+  CONVEYED:
+    'The title or ownership of an asset was legally transferred to someone else by using contracts, leases, titles, or deeds.',
 };
 
 export const claimantTypeLabels = {
@@ -93,7 +99,7 @@ export const updatedIncomeTypeLabels = {
 export const incomeTypeEarnedLabels = {
   INTEREST: 'Interest',
   DIVIDENDS: 'Dividends',
-  OTHER: showUpdatedContent() ? 'Other financial asset income' : 'Other',
+  OTHER: 'Other financial asset income',
 };
 
 export const ownedAssetTypeLabels = {
@@ -103,10 +109,10 @@ export const ownedAssetTypeLabels = {
 };
 
 export const generatedIncomeTypeLabels = {
-  INTELLECTUAL_PROPERTY: 'Benefits from intellectual property',
-  MINERALS_LUMBER: 'Extraction of minerals/lumber',
-  USE_OF_LAND: 'Use of land',
-  OTHER: 'Other',
+  INTELLECTUAL_PROPERTY: 'Intellectual property rights',
+  MINERALS_LUMBER: 'Mineral or lumber extraction',
+  USE_OF_LAND: 'Land usage fees',
+  OTHER: 'Another way',
 };
 
 export const trustTypeLabels = {

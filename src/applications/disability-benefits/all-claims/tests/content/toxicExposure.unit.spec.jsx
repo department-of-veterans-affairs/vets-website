@@ -237,6 +237,52 @@ describe('toxicExposure', () => {
         },
       });
     });
+
+    it('handles null/blank condition by adding "Unknown Condition" option', () => {
+      const formData = {
+        newDisabilities: [
+          {
+            cause: 'NEW',
+            primaryDescription: 'test',
+            'view:serviceConnectedDisability': {},
+          },
+          {
+            cause: 'NEW',
+            condition: '   ',
+          },
+        ],
+      };
+
+      const ui = makeTEConditionsUISchema(formData);
+      expect(ui).to.have.property('unknowncondition');
+      expect(ui.unknowncondition).to.deep.equal({
+        'ui:title': 'Unknown Condition',
+      });
+      expect(ui).to.have.property('none');
+      expect(ui.none['ui:title']).to.equal(
+        'I am not claiming any conditions related to toxic exposure',
+      );
+    });
+
+    it('adds side of body to condition title', () => {
+      const formData = {
+        newDisabilities: [
+          { condition: 'knee pain', sideOfBody: 'left' },
+          { condition: 'hearing loss', sideOfBody: 'right' },
+          { condition: 'shoulder injury', sideOfBody: 'bilateral' },
+          { condition: 'ankle strain', sideOfBody: 'upper' },
+        ],
+      };
+
+      const schema = makeTEConditionsUISchema(formData);
+
+      expect(schema.kneepain['ui:title']).to.equal('Knee Pain, Left');
+      expect(schema.hearingloss['ui:title']).to.equal('Hearing Loss, Right');
+      expect(schema.shoulderinjury['ui:title']).to.equal(
+        'Shoulder Injury, Bilateral',
+      );
+      expect(schema.anklestrain['ui:title']).to.equal('Ankle Strain, Upper');
+    });
   });
 
   describe('validateTEConditions', () => {

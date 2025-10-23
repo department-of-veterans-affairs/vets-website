@@ -82,8 +82,8 @@ const OverviewPage = () => {
         <h1 data-testid="overview-page-title">{title}</h1>
         <p className="va-introtext">
           Check the details of debt from VA education, disability compensation,
-          or pension programs, or VA health care and prescription charges. Find
-          out how to make payments or request financial help.
+          pension programs, or VA health care and prescription charges. Find out
+          how to make payments or request financial help.
         </p>
         <GenericDisasterAlert />
         {bothError || bothZero ? (

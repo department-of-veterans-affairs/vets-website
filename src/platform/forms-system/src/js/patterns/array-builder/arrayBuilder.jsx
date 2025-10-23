@@ -586,6 +586,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
+      isArrayBuilderSummary: true,
       ...pageConfig,
       CustomPageReview,
       CustomPage,

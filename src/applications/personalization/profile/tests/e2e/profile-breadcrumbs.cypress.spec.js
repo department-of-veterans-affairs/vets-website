@@ -4,7 +4,7 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import { mockUser } from '../fixtures/users/user';
-import { PROFILE_PATHS, PROFILE_PATHS_WITH_NAMES } from '../../constants';
+import { PROFILE_PATH_NAMES, PROFILE_PATHS_WITH_NAMES } from '../../constants';
 import { generateFeatureToggles } from '../../mocks/endpoints/feature-toggles';
 
 describe('Profile Breadcrumbs', () => {
@@ -20,9 +20,23 @@ describe('Profile Breadcrumbs', () => {
     );
   });
 
+  const skippedPageTitles = [
+    PROFILE_PATH_NAMES.EDIT,
+    PROFILE_PATH_NAMES.MHV_SIGNATURE,
+    PROFILE_PATH_NAMES.EMAIL_AND_TEXT_NOTIFICATIONS,
+    PROFILE_PATH_NAMES.PAPERLESS_DELIVERY,
+    PROFILE_PATH_NAMES.COMMUNICATIONS_SETTINGS,
+    PROFILE_PATH_NAMES.FINANCIAL_INFORMATION,
+    PROFILE_PATH_NAMES.LETTERS_AND_DOCUMENTS,
+    PROFILE_PATH_NAMES.SERVICE_HISTORY_INFORMATION,
+    PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
+    PROFILE_PATH_NAMES.CONTACTS,
+    PROFILE_PATH_NAMES.SIGNIN_INFORMATION,
+  ];
+
   PROFILE_PATHS_WITH_NAMES.forEach(({ path, name }) => {
     // skip the edit path
-    if (path === PROFILE_PATHS.EDIT) {
+    if (skippedPageTitles.includes(name)) {
       return;
     }
     it('render the active page name in the breadcrumbs', () => {
@@ -31,7 +45,7 @@ describe('Profile Breadcrumbs', () => {
         data: {
           features: [
             { name: 'representative_status_enable_v2_features', value: true },
-            { name: 'profile_show_paperless_delivery', value: true },
+            { name: 'profile_2_enabled', value: true },
           ],
         },
       });

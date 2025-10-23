@@ -33,7 +33,7 @@ describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    const selectedTeam = [`ABC`];
+    const selectedTeam = [`###ABC_XYZ_TRIAGE_TEAM###`];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockRecipients,
       selectedTeam,
@@ -49,7 +49,7 @@ describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   });
 
   it('verify single contact selected', () => {
-    const selectedTeam = [`100`];
+    const selectedTeam = [`***TG 100_SLC4%`];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockRecipients,
       selectedTeam,
@@ -81,7 +81,11 @@ describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   });
 
   it(`verify few contacts selected`, () => {
-    const selectedTeamList = [`200`, `Cardio`, `TG-7410`];
+    const selectedTeamList = [
+      `***TG 200_APPT_SLC4%`,
+      `Jeasmitha-Cardio-Clinic`,
+      `TG-7410`,
+    ];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockRecipients,
       selectedTeamList,
@@ -104,11 +108,8 @@ describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
     cy.wait('@savedList')
       .its('request.body')
       .then(req => {
-        const selected = req.updatedTriageTeams.filter(
-          el =>
-            el.name.includes(`200`) ||
-            el.name.includes(`Cardio`) ||
-            el.name.includes(`TG-7410`),
+        const selected = req.updatedTriageTeams.filter(el =>
+          selectedTeamList.some(team => el.name.includes(team)),
         );
 
         cy.wrap(selected).each(el => {

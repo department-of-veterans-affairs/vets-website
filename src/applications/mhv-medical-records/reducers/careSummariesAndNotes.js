@@ -343,7 +343,6 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
     }
     case Actions.CareSummariesAndNotes.GET_UNIFIED_LIST: {
       const data = action.response.data || [];
-      const oldList = state.careSummariesAndNotesList;
       const newList =
         data
           ?.map(note => {
@@ -358,9 +357,7 @@ export const careSummariesAndNotesReducer = (state = initialState, action) => {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        careSummariesAndNotesList:
-          typeof oldList === 'undefined' ? newList : oldList,
-        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+        careSummariesAndNotesList: newList,
       };
     }
     case Actions.CareSummariesAndNotes.GET_LIST: {

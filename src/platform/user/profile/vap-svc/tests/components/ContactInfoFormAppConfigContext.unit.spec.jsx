@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import sinon from 'sinon';
 import {
   createPutHandler,
   jsonResponse,
@@ -97,20 +98,15 @@ TestComponent.propTypes = {
 };
 
 describe('ContactInfoFormAppConfigProvider - Error Handling', () => {
-  let originalDate;
+  let clock;
   const mockDate = new Date('2025-04-08T18:01:25.548Z');
 
-  before(() => {
-    originalDate = global.Date;
-    global.Date = class extends Date {
-      constructor() {
-        return mockDate;
-      }
-    };
+  beforeEach(() => {
+    clock = sinon.useFakeTimers({ now: mockDate.getTime(), toFake: ['Date'] });
   });
 
-  after(() => {
-    global.Date = originalDate;
+  afterEach(() => {
+    clock.restore();
   });
 
   it('shows error alert when profile update fails and form save succeeds with the correct updated data', async () => {

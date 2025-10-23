@@ -69,12 +69,15 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(history.location.pathname).to.equal(
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      );
     });
   });
 
-  it('Select care team page Back navigates to interstitial compose page (override previousUrl)', async () => {
-    const previousUrl = Paths.DRAFTS;
+  it('Select care team page Back navigates to interstitial compose page when previousUrl is not recent care teams', async () => {
+    // User navigated from interstitial page to select care team
+    const previousUrl = Paths.COMPOSE;
     const { container, history } = renderAt(
       `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       {
@@ -94,6 +97,31 @@ describe('Curated list breadcrumb back navigation', () => {
 
     await waitFor(() => {
       expect(history.location.pathname).to.equal(`${Paths.COMPOSE}`);
+    });
+  });
+
+  it('Select care team page Back navigates to recent care teams when previousUrl is recent care teams', async () => {
+    // User selected "Other" from recent care teams list
+    const previousUrl = Paths.RECENT_CARE_TEAMS;
+    const { container, history } = renderAt(
+      `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
+      {
+        sm: {
+          breadcrumbs: { previousUrl },
+        },
+      },
+    );
+    await waitFor(() => {
+      expect(container.querySelector('va-link')).to.have.attribute(
+        'text',
+        'Back',
+      );
+    });
+
+    fireEvent.click(await container.querySelector('va-link'));
+
+    await waitFor(() => {
+      expect(history.location.pathname).to.equal(Paths.COMPOSE);
     });
   });
 
@@ -120,10 +148,16 @@ describe('Curated list breadcrumb back navigation', () => {
     });
   });
 
-  it('Contact list Back navigates to previousUrl when no active draft (previousUrl = Drafts)', async () => {
+  it('Contact list Back navigates to previous compose flow page when no active draft', async () => {
+    // Simulate: compose flow -> /select-care-team/ -> /contact-list/
+    // Should navigate back to /select-care-team/ (the previous step)
+    const previousPage = `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`;
+
     const { container, history } = renderAt(Paths.CONTACT_LIST, {
       sm: {
-        breadcrumbs: { previousUrl: Paths.DRAFTS },
+        breadcrumbs: {
+          previousUrl: previousPage,
+        },
         threadDetails: { drafts: [] },
       },
     });
@@ -138,7 +172,7 @@ describe('Curated list breadcrumb back navigation', () => {
     fireEvent.click(await container.querySelector('va-link'));
 
     await waitFor(() => {
-      expect(history.location.pathname).to.equal(`${Paths.DRAFTS}`);
+      expect(history.location.pathname).to.equal(previousPage);
     });
   });
 

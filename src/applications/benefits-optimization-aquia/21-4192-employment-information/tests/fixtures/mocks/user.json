@@ -5,13 +5,13 @@
         "sign_in": {
           "service_name": "idme"
         },
-        "email": "john.doe@example.com",
+        "email": "james.kirk@starfleet.fed",
         "loa": { "current": 3 },
-        "first_name": "John",
-        "middle_name": "",
-        "last_name": "Doe",
+        "first_name": "James",
+        "middle_name": "Tiberius",
+        "last_name": "Kirk",
         "gender": "M",
-        "birth_date": "1985-01-01",
+        "birth_date": "2233-03-22",
         "verified": true
       },
       "veteran_status": {
@@ -34,10 +34,10 @@
       ],
       "va_profile": {
         "status": "OK",
-        "birth_date": "19850101",
-        "family_name": "Doe",
+        "birth_date": "22330322",
+        "family_name": "Kirk",
         "gender": "M",
-        "given_names": ["John", ""],
+        "given_names": ["James", "Tiberius"],
         "active_status": "active",
         "facilities": [
           {

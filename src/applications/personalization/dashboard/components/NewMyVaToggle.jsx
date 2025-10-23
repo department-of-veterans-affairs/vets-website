@@ -60,7 +60,7 @@ const NewMyVaToggle = () => {
         label="Select a My VA version"
         onVaButtonClick={handleClick}
         selected={getSelectedIndex()}
-        testId="my-va-layout-toggle"
+        data-testid="my-va-layout-toggle"
       />
     </div>
   );

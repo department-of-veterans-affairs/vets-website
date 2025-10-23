@@ -217,7 +217,7 @@ Modals.Rights = () => (
     <p>
       To request a hardship determination, submit a completed Financial Status
       Report (VA Form VA5655). If you need help, call us at{' '}
-      <va-telephone contact="8008270648" />. If you’re outside the U.S., call
+      <va-telephone contact="8008270648" />. If you’re outside the U.S., call{' '}
       <va-telephone contact="6127136415" international />. We’re here Monday
       through Friday, 7:30 a.m. to 7:00 p.m. ET.
     </p>

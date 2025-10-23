@@ -4,10 +4,16 @@ import DownloadReportsPage from './pages/DownloadReportsPage';
 import selfEnteredResponse from './fixtures/selfEnteredResponse.json';
 
 describe('Medical Records download page', () => {
-  it('Verifies self-entered download', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    site.loadPage();
+  });
+
+  it('Verifies self-entered download', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // site.loadPage();
 
     DownloadReportsPage.goToReportsPage();
 

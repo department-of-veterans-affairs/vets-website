@@ -287,6 +287,15 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(container.querySelector('va-card')).to.not.exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to
       .exist;
+
+    const yesNoElement = container.querySelector(
+      '.wc-pattern-array-builder-yes-no',
+    );
+    expect(yesNoElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(yesNoElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(yesNoElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should display appropriately with 1 items', () => {
@@ -300,6 +309,13 @@ describe('ArrayBuilderSummaryPage', () => {
     expect(vaRadio).to.exist;
     expect(vaRadio.getAttribute('value')).to.equal('false');
     expect(container.querySelector('va-card')).to.exist;
+
+    const yesNoElement = container.querySelector(
+      '.wc-pattern-array-builder-yes-no',
+    );
+    expect(yesNoElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(yesNoElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should display appropriately when max items value is a number', () => {
@@ -554,6 +570,20 @@ describe('ArrayBuilderSummaryPage', () => {
       .not.exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
       .exist;
+
+    const linkElement = container.querySelector(
+      'va-link-action[name="employersAddLink"]',
+    );
+    expect(
+      linkElement.classList.contains(
+        'wc-pattern-array-builder-summary-add-link',
+      ),
+    ).to.be.true;
+    expect(linkElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(linkElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(linkElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should allow for showing a button instead of a yes no question', () => {
@@ -574,6 +604,20 @@ describe('ArrayBuilderSummaryPage', () => {
       .exist;
     expect(container.querySelector('.wc-pattern-array-builder-yes-no')).to.not
       .exist;
+
+    const buttonElement = container.querySelector(
+      'va-button[name="employersAddButton"]',
+    );
+    expect(
+      buttonElement.classList.contains(
+        'wc-pattern-array-builder-summary-add-button',
+      ),
+    ).to.be.true;
+    expect(buttonElement.classList.contains('vads-web-component-pattern')).to.be
+      .true;
+    expect(buttonElement.classList.contains('wc-pattern-array-builder')).to.be
+      .true;
+    expect(buttonElement.getAttribute('data-array-path')).to.equal('employers');
   });
 
   it('should allow empty schema with a link', () => {

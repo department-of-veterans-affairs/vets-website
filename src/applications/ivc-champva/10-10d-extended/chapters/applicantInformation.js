@@ -54,7 +54,9 @@ import {
 } from '../../10-10D/components/Sponsor/sponsorFileUploads';
 import { isInRange } from '../../10-10D/helpers/utilities';
 import { ApplicantDependentStatusPage } from '../../10-10D/pages/ApplicantDependentStatus';
-import AddressSelectionPage from '../components/FormPages/AddressSelectionPage';
+import AddressSelectionPage, {
+  NOT_SHARED,
+} from '../components/FormPages/AddressSelectionPage';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
 
 import { validateMarriageAfterDob } from '../helpers/validations';
@@ -757,6 +759,9 @@ export const applicantPages = arrayBuilderPages(
     page15: pageBuilder.itemPage({
       path: 'applicant-mailing-address/:index',
       title: 'Mailing address',
+      depends: (formData, index) =>
+        get('view:sharesAddressWith', formData.applicants?.[index]) ===
+        NOT_SHARED,
       ...applicantMailingAddressPage,
     }),
     page16: pageBuilder.itemPage({

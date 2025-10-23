@@ -1,0 +1,27 @@
+{
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/fhir/Observation/weight-variant-loincs",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "weight-variant-loincs",
+        "status": "final",
+        "category": [ { "coding": [ { "system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "vital-signs" } ] } ],
+        "code": {
+          "coding": [
+            { "system": "https://fhir.cerner.com/00224df3-b096-4cdb-852c-cbc83c0d3b06/codeSet/72", "code": "4154120", "display": "Weight Measured" },
+            { "system": "http://loinc.org", "code": "29463-7" },
+            { "system": "http://loinc.org", "code": "3141-9" }
+          ],
+          "text": "Weight Observed"
+        },
+        "valueQuantity": { "value": 180, "unit": "pounds", "system": "http://unitsofmeasure.org", "code": "[lb_av]" },
+        "effectiveDateTime": "2024-09-10T10:00:00-04:00",
+        "performer": [ { "display": "TEST FACILITY" } ],
+        "subject": { "reference": "Patient/1" }
+      }
+    }
+  ],
+  "resourceType": "Bundle",
+  "type": "searchset"
+}

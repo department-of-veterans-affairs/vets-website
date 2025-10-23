@@ -6,7 +6,10 @@ import { getIsInPilotUserStations } from '../referral-appointments/utils/pilot';
 import { getAppointmentRequests } from '../services/appointment';
 import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
-import { selectFeatureCCDirectScheduling } from './selectors';
+import {
+  selectFeatureCCDirectScheduling,
+  selectFeatureUseBrowserTimezone,
+} from './selectors';
 
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
@@ -40,6 +43,7 @@ export function fetchPendingAppointments() {
       const state = getState();
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
       const patientFacilities = selectPatientFacilities(state);
+      const featureUseBrowserTimezone = selectFeatureUseBrowserTimezone(state);
       const includeEPS = getIsInPilotUserStations(
         featureCCDirectScheduling,
         patientFacilities || [],
@@ -49,6 +53,7 @@ export function fetchPendingAppointments() {
         startDate: subDays(new Date(), 120),
         endDate: addDays(new Date(), 2),
         includeEPS,
+        featureUseBrowserTimezone,
       });
 
       const data = pendingAppointments?.filter(

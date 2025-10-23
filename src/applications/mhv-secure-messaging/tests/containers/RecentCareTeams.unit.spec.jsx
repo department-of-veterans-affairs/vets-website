@@ -89,13 +89,17 @@ describe('RecentCareTeams component', () => {
     it('should render the component with heading and radio options', () => {
       const screen = renderComponent();
 
-      expect(screen.getByText('Recent care teams')).to.exist;
+      expect(
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
 
       // Check for va-radio element with the label attribute
       const radioGroup = document.querySelector('va-radio');
       expect(radioGroup).to.exist;
       expect(radioGroup.getAttribute('label')).to.include(
-        "Select a team from those you've sent messages to in the past 6 months",
+        'Select a team you want to message',
       );
 
       // Check for va-radio-option elements with label attributes
@@ -155,7 +159,11 @@ describe('RecentCareTeams component', () => {
       // This test verifies the component renders with the expected state
       const screen = renderComponent();
 
-      expect(screen.getByText('Recent care teams')).to.exist;
+      expect(
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
     });
 
     it('should not dispatch getRecentRecipients when allRecipients is empty', () => {
@@ -171,8 +179,11 @@ describe('RecentCareTeams component', () => {
       };
       const screen = renderComponent(state);
 
-      expect(screen.getByText('Recent care teams', { selector: 'h1' })).to
-        .exist;
+      expect(
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
     });
   });
 
@@ -203,7 +214,11 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent(state);
 
       // Component should still render
-      expect(screen.getByText('Recent care teams')).to.exist;
+      expect(
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
     });
 
     it('should dispatch ohTriageGroup attribute for care system', async () => {
@@ -214,14 +229,14 @@ describe('RecentCareTeams component', () => {
           recipients: {
             recentRecipients: [
               {
-                triageTeamId: 636,
+                triageTeamId: 123,
                 name: 'VA Boston',
                 healthCareSystemName: 'Test Facility 1',
                 stationNumber: '636',
                 ohTriageGroup: true,
               },
               {
-                triageTeamId: 662,
+                triageTeamId: 456,
                 name: 'VA Seattle',
                 healthCareSystemName: 'Test Facility 2',
                 stationNumber: '662',
@@ -236,13 +251,16 @@ describe('RecentCareTeams component', () => {
         'updateDraftInProgress',
       );
       const screen = renderComponent(customState);
-      expect(screen.getByText('Recent care teams')).to.exist;
-
-      selectVaRadio(screen.container, '636');
+      expect(
+        screen.getByText(Constants.PageHeaders.RECENT_RECIPIENTS, {
+          selector: 'h1',
+        }),
+      ).to.exist;
+      selectVaRadio(screen.container, 123);
       await waitFor(() => {
         const callArgs = updateDraftInProgressStub.lastCall.args[0];
         expect(callArgs).to.include({
-          recipientId: '636',
+          recipientId: 123,
           recipientName: 'VA Boston',
           careSystemVhaId: '636',
           careSystemName: 'Test Facility 1',
@@ -250,7 +268,7 @@ describe('RecentCareTeams component', () => {
         });
       });
 
-      selectVaRadio(screen.container, '662');
+      selectVaRadio(screen.container, 456);
       await waitFor(() => {
         const callArgs = updateDraftInProgressStub.lastCall.args[0];
 
@@ -258,7 +276,7 @@ describe('RecentCareTeams component', () => {
           careSystemName: 'Test Facility 2',
           careSystemVhaId: '662',
           ohTriageGroup: false,
-          recipientId: '662',
+          recipientId: 456,
           recipientName: 'VA Seattle',
         });
       });
@@ -300,7 +318,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -321,7 +339,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -342,7 +360,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -390,7 +408,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to select care team
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+        `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
       );
     });
 
@@ -413,7 +431,7 @@ describe('RecentCareTeams component', () => {
 
       // Verify navigation to start message
       expect(screen.history.location.pathname).to.equal(
-        `${Paths.COMPOSE}${Paths.START_MESSAGE}/`,
+        `${Paths.COMPOSE}${Paths.START_MESSAGE}`,
       );
     });
 
@@ -512,7 +530,7 @@ describe('RecentCareTeams component', () => {
 
       await waitFor(() => {
         expect(screen.history.location.pathname).to.equal(
-          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}/`,
+          `${Paths.COMPOSE}${Paths.SELECT_CARE_TEAM}`,
         );
       });
     });
@@ -547,7 +565,10 @@ describe('RecentCareTeams component', () => {
       const screen = renderComponent();
 
       await waitFor(() => {
-        const h1Element = screen.getByText('Recent care teams');
+        const h1Element = screen.getByText(
+          Constants.PageHeaders.RECENT_RECIPIENTS,
+          { selector: 'h1' },
+        );
         expect(document.activeElement).to.equal(h1Element);
       });
     });
@@ -555,7 +576,10 @@ describe('RecentCareTeams component', () => {
     it('should have proper tabIndex on h1 element', () => {
       const screen = renderComponent();
 
-      const h1Element = screen.getByText('Recent care teams');
+      const h1Element = screen.getByText(
+        Constants.PageHeaders.RECENT_RECIPIENTS,
+        { selector: 'h1' },
+      );
       expect(h1Element.getAttribute('tabIndex')).to.equal('-1');
     });
   });

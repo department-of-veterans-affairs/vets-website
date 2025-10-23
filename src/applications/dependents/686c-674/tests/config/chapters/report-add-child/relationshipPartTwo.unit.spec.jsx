@@ -124,4 +124,204 @@ describe('686 add child relationship step two', () => {
       );
     });
   });
+
+  describe('updateSchema functionality', () => {
+    it('should clear biological parent fields when stepchild is not checked', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [
+          {
+            relationshipToChild: { adopted: true },
+            biologicalParentDob: '2000-01-01',
+            biologicalParentName: { first: 'John', last: 'Doe' },
+            biologicalParentSsn: '123456789',
+            isBiologicalChildOfSpouse: true,
+            dateEnteredHousehold: '2020-01-01',
+          },
+        ],
+      };
+
+      const { updateSchema } = uiSchema.childrenToAdd.items.relationshipToChild[
+        'ui:options'
+      ];
+      updateSchema(
+        testData,
+        schema.properties.childrenToAdd.items,
+        uiSchema.childrenToAdd.items,
+        0,
+      );
+
+      expect(testData.childrenToAdd[0].biologicalParentDob).to.be.undefined;
+      expect(testData.childrenToAdd[0].biologicalParentName).to.be.undefined;
+      expect(testData.childrenToAdd[0].biologicalParentSsn).to.be.undefined;
+      expect(testData.childrenToAdd[0].isBiologicalChildOfSpouse).to.be
+        .undefined;
+      expect(testData.childrenToAdd[0].dateEnteredHousehold).to.be.undefined;
+    });
+
+    it('should preserve biological parent fields when stepchild is checked', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [
+          {
+            relationshipToChild: { stepchild: true },
+            biologicalParentDob: '2000-01-01',
+            biologicalParentName: { first: 'John', last: 'Doe' },
+            biologicalParentSsn: '123456789',
+            isBiologicalChildOfSpouse: true,
+            dateEnteredHousehold: '2020-01-01',
+          },
+        ],
+      };
+
+      const { updateSchema } = uiSchema.childrenToAdd.items.relationshipToChild[
+        'ui:options'
+      ];
+      updateSchema(
+        testData,
+        schema.properties.childrenToAdd.items,
+        uiSchema.childrenToAdd.items,
+        0,
+      );
+
+      expect(testData.childrenToAdd[0].biologicalParentDob).to.equal(
+        '2000-01-01',
+      );
+      expect(testData.childrenToAdd[0].biologicalParentName).to.deep.equal({
+        first: 'John',
+        last: 'Doe',
+      });
+      expect(testData.childrenToAdd[0].biologicalParentSsn).to.equal(
+        '123456789',
+      );
+      expect(testData.childrenToAdd[0].isBiologicalChildOfSpouse).to.be.true;
+      expect(testData.childrenToAdd[0].dateEnteredHousehold).to.equal(
+        '2020-01-01',
+      );
+    });
+
+    it('should clear fields when relationshipToChild is undefined', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [
+          {
+            biologicalParentDob: '2000-01-01',
+            biologicalParentName: { first: 'John', last: 'Doe' },
+          },
+        ],
+      };
+
+      const { updateSchema } = uiSchema.childrenToAdd.items.relationshipToChild[
+        'ui:options'
+      ];
+      updateSchema(
+        testData,
+        schema.properties.childrenToAdd.items,
+        uiSchema.childrenToAdd.items,
+        0,
+      );
+
+      expect(testData.childrenToAdd[0].biologicalParentDob).to.be.undefined;
+      expect(testData.childrenToAdd[0].biologicalParentName).to.be.undefined;
+    });
+
+    it('should use formData directly when childrenToAdd index does not exist', () => {
+      const testData = {
+        ...baseFormData,
+        relationshipToChild: { adopted: true },
+        biologicalParentDob: '2000-01-01',
+        biologicalParentName: { first: 'John', last: 'Doe' },
+        biologicalParentSsn: '123456789',
+        childrenToAdd: [],
+      };
+
+      const { updateSchema } = uiSchema.childrenToAdd.items.relationshipToChild[
+        'ui:options'
+      ];
+      updateSchema(
+        testData,
+        schema.properties.childrenToAdd.items,
+        uiSchema.childrenToAdd.items,
+        0,
+      );
+
+      expect(testData.biologicalParentDob).to.be.undefined;
+      expect(testData.biologicalParentName).to.be.undefined;
+      expect(testData.biologicalParentSsn).to.be.undefined;
+    });
+  });
+
+  describe('hideIf logic for evidence sections', () => {
+    it('should hide common evidence when no relationship is selected', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [{}],
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:commonEvidenceInfo'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.true;
+    });
+
+    it('should show common evidence when adopted is selected', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [{ relationshipToChild: { adopted: true } }],
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:commonEvidenceInfo'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.false;
+    });
+
+    it('should show common evidence when stepchild is selected', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [{ relationshipToChild: { stepchild: true } }],
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:commonEvidenceInfo'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.false;
+    });
+
+    it('should hide stepchild evidence when stepchild is not selected', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [{ relationshipToChild: { adopted: true } }],
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:stepchildAdditionalEvidenceDescription'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.true;
+    });
+
+    it('should show stepchild evidence when stepchild is selected', () => {
+      const testData = {
+        ...baseFormData,
+        childrenToAdd: [{ relationshipToChild: { stepchild: true } }],
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:stepchildAdditionalEvidenceDescription'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.false;
+    });
+
+    it('should handle edit mode for evidence sections', () => {
+      const testData = {
+        ...baseFormData,
+        relationshipToChild: { adopted: true },
+      };
+
+      const { hideIf } = uiSchema.childrenToAdd.items[
+        'view:adoptedAdditionalEvidenceDescription'
+      ]['ui:options'];
+      expect(hideIf(testData, 0)).to.be.false;
+    });
+  });
 });

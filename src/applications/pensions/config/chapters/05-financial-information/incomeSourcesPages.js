@@ -23,8 +23,8 @@ import { formatCurrency, showMultiplePageResponse } from '../../../helpers';
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'incomeSources',
-  nounSingular: 'Income source',
-  nounPlural: 'Income sources',
+  nounSingular: 'income source',
+  nounPlural: 'income sources',
   required: false,
   isItemIncomplete: item =>
     !item?.typeOfIncome ||
@@ -57,6 +57,17 @@ const options = {
           </li>
         </ul>
       ),
+    alertItemUpdated: 'Your income source information has been updated',
+    alertItemDeleted: 'Your income source information has been deleted',
+    cancelAddTitle: 'Cancel adding this income source',
+    cancelAddYes: 'Yes, cancel adding this income source',
+    cancelAddNo: 'No',
+    cancelEditTitle: 'Cancel editing this income source',
+    cancelEditYes: 'Yes, cancel editing this income source',
+    cancelEditNo: 'No',
+    cancelNo: 'No',
+    deleteTitle: 'Delete this income source',
+    deleteNo: 'No',
   },
 };
 

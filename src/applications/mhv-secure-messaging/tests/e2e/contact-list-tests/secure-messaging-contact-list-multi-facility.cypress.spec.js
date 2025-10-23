@@ -44,7 +44,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    const selectedTeam = [`100`, `ABC`];
+    const selectedTeam = [`***TG 100_SLC4%`, `TG-7410`];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockMixRecipients,
       selectedTeam,
@@ -61,7 +61,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
 
   it('verify single contact selected', () => {
-    const selectedTeam = [`100`];
+    const selectedTeam = [`***TG 100_SLC4%`];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockMixRecipients,
       selectedTeam,
@@ -82,7 +82,7 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
       .its('request.body')
       .then(req => {
         const selected = req.updatedTriageTeams.filter(el =>
-          el.name.includes(`100`),
+          el.name.includes(selectedTeam[0]),
         );
 
         cy.wrap(selected).each(el => {
@@ -94,7 +94,11 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
   });
 
   it(`verify few contacts selected`, () => {
-    const selectedTeamList = [`200`, `Cardio`, `TG-7410`];
+    const selectedTeamList = [
+      `***TG 200_APPT_SLC4%`,
+      `Jeasmitha-Cardio-Clinic`,
+      `TG-7410`,
+    ];
     const updatedRecipientsList = ContactListPage.setPreferredTeams(
       mockMixRecipients,
       selectedTeamList,
@@ -130,5 +134,11 @@ describe('SM MULTI FACILITY CONTACT LIST', () => {
 
         cy.injectAxeThenAxeCheck(AXE_CONTEXT);
       });
+  });
+  it('excludes OH care teams from contact list', () => {
+    ContactListPage.validateCheckBoxDoesNotExist('OH TG GROUP 002');
+    cy.get('[label*="White City VA Medical Center"]').should('not.exist');
+    cy.get('[label*="VA Indiana health care"]').should('exist');
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });

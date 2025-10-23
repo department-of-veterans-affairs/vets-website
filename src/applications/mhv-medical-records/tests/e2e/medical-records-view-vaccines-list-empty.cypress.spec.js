@@ -3,10 +3,16 @@ import VaccinesListPage from './pages/VaccinesListPage';
 import emptyVaccinesList from './fixtures/vaccines/vaccines-empty.json';
 
 describe('Medical Records View Vaccines', () => {
-  it('Visits Medical Records View Vaccine List', () => {
-    const site = new MedicalRecordsSite();
+  const site = new MedicalRecordsSite();
+
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records/');
+  });
+
+  it('Visits Medical Records View Vaccine List', () => {
+    // const site = new MedicalRecordsSite();
+    // site.login();
+    // cy.visit('my-health/medical-records/');
     VaccinesListPage.goToVaccines(emptyVaccinesList);
     // click on the vaccines link
 

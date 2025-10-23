@@ -17,15 +17,13 @@ const NotificationGroup = ({ children, groupName, itemIds }) => {
 
   return (
     <div data-testid="notification-group">
-      <h2 className="vads-u-font-size--h3 vads-u-margin-top--4 vads-u-margin-bottom--1p5">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
         {groupName}
       </h2>
-      <div className="vads-u-margin-left--1p5">
-        {filteredItemIds.map(itemId => {
-          return <NotificationItem key={itemId} itemId={itemId} />;
-        })}
-        {children}
-      </div>
+      {filteredItemIds.map(itemId => {
+        return <NotificationItem key={itemId} itemId={itemId} />;
+      })}
+      {children}
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
     </div>
   );

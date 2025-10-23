@@ -94,7 +94,7 @@ const GroupedMedications = props => {
                     ? `Quantity: ${rx.quantity}`
                     : validateIfAvailable('Quantity')}
                 </dd>
-                <dd data-testid="order-date">
+                <dd data-testid="ordered-date">
                   Prescribed on{' '}
                   {dateFormat(
                     rx.orderedDate,
@@ -102,7 +102,7 @@ const GroupedMedications = props => {
                     'date not available',
                   )}
                 </dd>
-                <dd data-testid="provider-name">
+                <dd data-testid="prescribed-by">
                   {`Prescribed by ${displayProviderName(
                     rx?.providerFirstName,
                     rx?.providerLastName,

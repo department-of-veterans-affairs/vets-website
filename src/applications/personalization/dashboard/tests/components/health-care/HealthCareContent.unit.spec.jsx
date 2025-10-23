@@ -15,7 +15,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       initialState,
     });
 
-    tree.getByTestId('no-healthcare-text');
+    tree.getByTestId('no-health-care-notice');
     expect(tree.container.querySelector('va-loading-indicator')).to.not.exist;
   });
 
@@ -39,7 +39,7 @@ describe('<UnconnectedHealthCareContent />', () => {
       <UnconnectedHealthCareContent hasAppointmentsError />,
       { initialErrorState },
     );
-    tree.getByTestId('healthcare-error');
+    tree.getByTestId('appointments-error');
   });
 
   it('should render the Next appointments card', () => {
@@ -60,56 +60,6 @@ describe('<UnconnectedHealthCareContent />', () => {
       { initialState },
     );
 
-    tree.getByTestId('no-upcoming-appointments-text');
-  });
-
-  context('should render the HealthCareCTA', () => {
-    it('but show only Apply for VA health care and Visit MHV links for a non-patient', () => {
-      const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent isVAPatient={false} isLOA1={false} />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
-      );
-
-      tree.getByTestId('apply-va-healthcare-link-from-cta');
-      tree.getByTestId('visit-mhv-on-va-gov');
-    });
-
-    it("when a patient has appointments and doesn't have an appointment error", () => {
-      const appointments = v2.createAppointmentSuccess().data;
-      const appts = appointments.map(appointment => appointment.attributes);
-
-      const tree = renderWithStoreAndRouter(
-        <UnconnectedHealthCareContent
-          appointments={appts}
-          dataLoadingDisabled
-          isVAPatient
-          shouldFetchUnreadMessages
-          unreadMessagesCount={2}
-        />,
-        {
-          initialState: {
-            featureToggles: {
-              [Toggler.TOGGLE_NAMES.myVaEnableMhvLink]: true,
-            },
-          },
-        },
-      );
-
-      tree.getByTestId('visit-mhv-on-va-gov');
-      expect(
-        tree.getByRole('link', {
-          name: /schedule and manage your appointments/i,
-          value: {
-            text: '/my-health/appointments',
-          },
-        }),
-      ).to.exist;
-    });
+    tree.getByTestId('no-upcoming-appointments-card');
   });
 });

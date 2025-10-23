@@ -45,13 +45,18 @@ const EditContactList = () => {
   );
 
   const recipients = useSelector(state => state.sm.recipients);
-  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
+  const {
+    vistaFacilities,
+    blockedFacilities,
+    vistaRecipients,
+    error,
+  } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
   const isContactListChanged = useMemo(
-    () => !_.isEqual(allRecipients, allTriageTeams),
-    [allRecipients, allTriageTeams],
+    () => !_.isEqual(vistaRecipients, allTriageTeams),
+    [vistaRecipients, allTriageTeams],
   );
 
   const isMinimumSelected = useMemo(
@@ -119,9 +124,9 @@ const EditContactList = () => {
 
   useEffect(
     () => {
-      setAllTriageTeams(allRecipients);
+      setAllTriageTeams(vistaRecipients);
     },
-    [allRecipients],
+    [vistaRecipients],
   );
 
   useEffect(() => {
@@ -157,25 +162,13 @@ const EditContactList = () => {
       setIsNavigationBlocked(false);
     }
     return (
-      <button
-        type="button"
-        className={`
-          ${allTriageTeams?.length ? 'usa-button-secondary' : ''}
-          vads-u-display--flex
-          vads-u-flex-direction--row
-          vads-u-justify-content--center
-          vads-u-align-items--center
-          vads-u-margin-y--0
-        `}
+      <va-button
+        back
+        onClick={handleCancel}
+        text="Go back"
         data-testid="contact-list-go-back"
         data-dd-action-name="Go back button"
-        onClick={handleCancel}
-      >
-        <div className="vads-u-margin-right--0p5">
-          <va-icon icon="navigate_far_before" aria-hidden="true" />
-        </div>
-        <span>Go back</span>
-      </button>
+      />
     );
   };
 
@@ -193,7 +186,8 @@ const EditContactList = () => {
       <AlertBackgroundBox closeable focus />
 
       <div
-        className={`${allFacilities?.length > 1 && 'vads-u-margin-bottom--2'}`}
+        className={`${vistaFacilities?.length > 1 &&
+          'vads-u-margin-bottom--2'}`}
       >
         <BlockedTriageGroupAlert
           alertStyle={BlockedTriageAlertStyles.ALERT}
@@ -204,7 +198,9 @@ const EditContactList = () => {
       <p className="vads-u-margin-bottom--3">
         Select the teams you want to show in your contact list. You must select
         at least one team
-        {allFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
+        {vistaFacilities?.length > 1
+          ? ' from one of your facilities.'
+          : '.'}{' '}
       </p>
 
       {error && (
@@ -236,7 +232,7 @@ const EditContactList = () => {
       {allTriageTeams?.length > 0 && (
         <>
           <form className="contactListForm">
-            {allFacilities.map(stationNumber => {
+            {vistaFacilities.map(stationNumber => {
               if (!blockedFacilities.includes(stationNumber)) {
                 const facilityName = getVamcSystemNameFromVhaId(
                   ehrDataByVhaId,
@@ -248,7 +244,7 @@ const EditContactList = () => {
                     key={stationNumber}
                     errorMessage={checkboxError}
                     facilityName={facilityName}
-                    multipleFacilities={allFacilities?.length > 1}
+                    multipleFacilities={vistaFacilities?.length > 1}
                     updatePreferredTeam={updatePreferredTeam}
                     triageTeams={allTriageTeams
                       .filter(

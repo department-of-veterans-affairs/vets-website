@@ -216,7 +216,11 @@ export const arrayBuilderYesNoUI = (
   return {
     ...yesNoUI({
       title: defaultTitle,
-      classNames: 'wc-pattern-array-builder-yes-no',
+      data: {
+        arrayPath, // `data-array-path` attribute for e2e testing
+      },
+      classNames:
+        'wc-pattern-array-builder wc-pattern-array-builder-yes-no vads-web-component-pattern',
       updateUiSchema: formData => {
         const arrayData = formData?.[arrayPath];
         const maxItems = maxItemsFn(arrayBuilderOptions.maxItems, formData);

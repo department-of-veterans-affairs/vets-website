@@ -21,9 +21,11 @@ registerCypressHelpers();
 describe('Notification Settings', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
+      delay: 2000,
     });
   });
   context(
@@ -57,14 +59,12 @@ describe('Notification Settings', () => {
         cy.findAllByTestId('notification-group')
           .should('have.length', 3)
           .first()
-          .should('contain.text', 'Your health care')
+          .should('contain.text', 'Your health care');
+        cy.get('[data-testid="checkbox-group-item4"]')
+          .shadow()
           .invoke('text')
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
-        cy.findAllByText(/check with your VA pharmacy first/i).should(
-          'have.length',
-          1,
-        );
         cy.injectAxeThenAxeCheck();
       });
     },
@@ -97,7 +97,9 @@ describe('Notification Settings', () => {
         cy.findAllByTestId('notification-group')
           .should('have.length', 3)
           .first()
-          .should('contain.text', 'Your health care')
+          .should('contain.text', 'Your health care');
+        cy.get('[data-testid="checkbox-group-item4"]')
+          .shadow()
           .invoke('text')
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);

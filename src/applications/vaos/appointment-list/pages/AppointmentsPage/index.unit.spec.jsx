@@ -47,21 +47,21 @@ describe('VAOS Page: AppointmentsPage', () => {
     mockAppointmentsApi({
       start: subDays(new Date(), 30),
       end: addDays(new Date(), 395),
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({
       start: subDays(new Date(), 30),
       end: addDays(new Date(), 395),
       includes: ['facilities', 'clinics', 'eps'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({
       start: subMonths(new Date(), 3),
       end: new Date(),
       includes: ['facilities', 'clinics', 'avs', 'travel_pay_claims'],
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       response: [new MockAppointmentResponse()],
     });
     mockAppointmentsApi({

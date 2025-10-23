@@ -266,6 +266,25 @@ maritalStatus: selectUI({
 education: selectUI('Education level'),
 // Schema: selectSchema(['High school', 'Some college', 'Bachelor degree'])
 
+// selectUI with grouped options - use group property
+branchOfService: selectUI({
+  title: 'Branch of Service',
+  hint: 'Select your branch of service',
+  labels: {
+    navy: { label: 'Navy', group: 'Branches of Service' },
+    army: { label: 'Army', group: 'Branches of Service' },
+    marines: { label: 'Marines', group: 'Branches of Service' },
+    airForce: { label: 'Air Force', group: 'Branches of Service' },
+    coastguard: { label: 'Coast Guard', group: 'Branches of Service' },
+    other: { label: 'Other', group: 'Other' },
+    notApplicable: { label: 'Not Applicable', group: 'Other' }
+  },
+  errorMessages: {
+    required: 'Please select your branch of service'
+  }
+}),
+// Schema: selectSchema(['navy', 'army', 'marines', 'airForce', 'coastguard', 'other', 'notApplicable'])
+
 // radioUI with complex configuration
 disability: radioUI({
   title: 'Do you receive VA disability compensation?',
@@ -854,6 +873,23 @@ activeDuty: yesNoUI({
   labels: {
     Y: 'Yes, the Veteran is on active duty now',
     N: 'No, the Veteran is not on active duty now'
+  }
+})
+// Schema: yesNoSchema
+
+// yesNoUI with descriptions for additional context
+hasHealthInsurance: yesNoUI({
+  title: 'Do you have health insurance coverage?',
+  labels: {
+    Y: 'Yes, I have health insurance',
+    N: 'No, I do not have health insurance'
+  },
+  descriptions: {
+    Y: 'Select this if you currently have any form of health insurance coverage',
+    N: 'Select this if you do not have health insurance coverage'
+  },
+  errorMessages: {
+    required: 'Please select whether you have health insurance'
   }
 })
 // Schema: yesNoSchema

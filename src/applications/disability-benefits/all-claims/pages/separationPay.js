@@ -1,5 +1,6 @@
 import set from 'platform/utilities/data/set';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import { yesNoUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { isValidYear } from '../validations';
 import {
   separationPayDetailsDescription,
@@ -14,10 +15,9 @@ const {
 } = fullSchema.properties;
 
 export const uiSchema = {
-  hasSeparationPay: {
-    'ui:title': hasSeparationPayTitle,
-    'ui:widget': 'yesNo',
-  },
+  hasSeparationPay: yesNoUI({
+    title: hasSeparationPayTitle,
+  }),
   'view:separationPayDetails': {
     'ui:options': {
       expandUnder: 'hasSeparationPay',

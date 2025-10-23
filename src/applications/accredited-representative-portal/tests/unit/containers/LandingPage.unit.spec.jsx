@@ -18,24 +18,14 @@ describe('LandingPage', () => {
     it('renders hero content', () => {
       const { getByTestId } = renderTestApp(<LandingPage />);
       expect(getByTestId('landing-page-hero-text').textContent).to.eq(
-        'A secure, user-friendly system that streamlines the power of attorney and claims process for representatives and the Veterans they support',
+        'A secure, user-friendly system that streamlines the claims process for representatives and their claimants',
       );
     });
 
     it('renders portal content', () => {
       const { getByTestId } = renderTestApp(<LandingPage />);
       expect(getByTestId('landing-page-portal-hdr').textContent).to.eq(
-        'What the portal can do',
-      );
-      expect(getByTestId('landing-page-portal-text').textContent).to.eq(
-        'You can use the portal to accept power of attorney (POA) requests for any of your accredited organizations. If you have access to the Veterans Benefits Management System (VBMS), you’ll be able to access a Veteran’s information in VBMS within minutes of accepting their POA request in the portal.',
-      );
-
-      expect(getByTestId('landing-page-portal-for-hdr').textContent).to.eq(
-        'Who the portal is for',
-      );
-      expect(getByTestId('landing-page-portal-for-text').textContent).to.eq(
-        'Currently, the portal is only for Veterans Service Organization (VSO) representatives who accept POA requests on behalf of their organizations. In the future, the portal will support accredited VSOs, attorneys, and claims agents.',
+        'What you can do in the portal',
       );
     });
   });

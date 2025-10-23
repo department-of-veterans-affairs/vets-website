@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import vapService from '~/platform/user/profile/vap-svc/reducers';
-
+import { waitFor } from '@testing-library/dom';
 import { Edit } from '../../../components/edit/Edit';
 
 describe('<Edit>', () => {
@@ -82,10 +82,11 @@ describe('<Edit>', () => {
       initialState: {},
       reducers: { vapService },
       path:
-        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
     });
 
-    expect(getByRole('link', { name: 'Back to Paperless delivery' })).to.exist;
+    expect(getByRole('link', { name: 'Back to Personal information' })).to
+      .exist;
   });
 
   it('renders path name in body', () => {
@@ -93,9 +94,49 @@ describe('<Edit>', () => {
       initialState: {},
       reducers: { vapService },
       path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpersonal-information',
+    });
+
+    expect(getByText('PERSONAL INFORMATION', { exact: true })).to.exist;
+  });
+
+  it('sets correct page title when field is empty', async () => {
+    renderWithStoreAndRouter(<Edit />, {
+      initialState: {},
+      reducers: { vapService },
+      path:
         '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
     });
 
-    expect(getByText('PAPERLESS DELIVERY', { exact: true })).to.exist;
+    await waitFor(() => {
+      expect(document.title).to.equal(
+        'Add your contact email address | Veterans Affairs',
+      );
+    });
+  });
+
+  it('sets correct page title when field is not empty', async () => {
+    renderWithStoreAndRouter(<Edit />, {
+      initialState: {
+        user: {
+          profile: {
+            vapContactInfo: {
+              email: {
+                emailAddress: 'someuser@somedomain.com',
+              },
+            },
+          },
+        },
+      },
+      reducers: { vapService },
+      path:
+        '/profile/edit?fieldName=email&returnPath=%2Fprofile%2Fpaperless-delivery',
+    });
+
+    await waitFor(() => {
+      expect(document.title).to.equal(
+        'Update your contact email address | Veterans Affairs',
+      );
+    });
   });
 });

@@ -229,8 +229,11 @@ export function selectIsPhone(appointment) {
   return appointment?.vaos?.isPhoneAppointment;
 }
 
-export function selectTimeZoneAbbr(appointment) {
-  const { abbreviation } = getAppointmentTimezone(appointment);
+export function selectTimeZoneAbbr(appointment, isUseBrowserTimezone) {
+  const { abbreviation } = getAppointmentTimezone(
+    appointment,
+    isUseBrowserTimezone,
+  );
   return abbreviation;
 }
 

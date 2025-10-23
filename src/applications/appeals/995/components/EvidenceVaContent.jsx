@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import BasicLink from '../../shared/components/web-component-wrappers/BasicLink';
 import { content } from '../content/evidenceSummary';
-import { content as vaContent } from '../content/evidenceVaRecords';
-import { EVIDENCE_VA_PATH } from '../constants';
+import { content as vaContent } from '../content/evidenceVaDetails';
+import { EVIDENCE_VA_DETAILS_URL } from '../constants';
 import { FORMAT_READABLE_MMYY_DATE_FNS } from '../../shared/constants';
 import {
   confirmationPageLabel,
@@ -14,11 +14,43 @@ import {
 } from '../utils/evidence-classnames';
 import { formatDate } from '../utils/evidence';
 
+// treatment date only includes YYYY-MM; include '-01' to fit parser
+export const getFormattedTreatmentDate = (noDate, treatmentDate) => {
+  if (!noDate) {
+    return formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
+  }
+
+  return null;
+};
+
+export const getLocationErrors = (
+  issues,
+  locationAndName,
+  noDate,
+  treatmentDate,
+) => {
+  const errors = {
+    name: locationAndName ? '' : content.missing.location,
+    issues: issues.length ? '' : content.missing.condition,
+    treatmentDate: (noDate || treatmentDate ? '' : content.missing.date) || '',
+  };
+
+  const hasErrors = Object.values(errors).join('');
+
+  return {
+    errors,
+    hasErrors,
+  };
+};
 /**
  * Build VA evidence list
+ * This component appears on:
+ *   /supporting-evidence/summary (Evidence Review page)
+ *   /review-and-submit (App Review page)
+ *   /confirmation (App Confirmation page)
  * @param {Object[]} list - VA evidence array
- * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
+ * @param {Boolean} reviewMode - When true, hide editing links & buttons. Is true on app review & confirmation pages
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page. Is true on app review page only
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -30,12 +62,12 @@ export const EvidenceVaContent = ({
   reviewMode = false,
   handlers = {},
   testing,
-  showScNewForm,
   showListOnly = false,
 }) => {
   if (!list?.length) {
     return null;
   }
+
   const Header = isOnReviewPage ? 'h5' : 'h4';
   const SubHeader = isOnReviewPage ? 'h6' : 'h5';
 
@@ -47,35 +79,23 @@ export const EvidenceVaContent = ({
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
-          const {
-            locationAndName,
-            issues = [],
-            evidenceDates = {},
-            treatmentDate = '',
+          const { locationAndName, issues = [], treatmentDate = '', noDate } =
+            location || {};
+          const path = `/${EVIDENCE_VA_DETAILS_URL}?index=${index}`;
+
+          const formattedTreatmentDate = getFormattedTreatmentDate(
             noDate,
-          } = location || {};
-          const path = `/${EVIDENCE_VA_PATH}?index=${index}`;
-          const fromDate = formatDate(evidenceDates.from);
-          const toDate = formatDate(evidenceDates.to);
-          // treatment date only includes YYYY-MM; include '-01' to fit parser
-          const formattedTreatmentDate =
-            !noDate &&
-            formatDate(`${treatmentDate}-01`, FORMAT_READABLE_MMYY_DATE_FNS);
-          const errors = {
-            name: locationAndName ? '' : content.missing.location,
-            issues: issues.length ? '' : content.missing.condition,
-            from: showScNewForm || fromDate ? '' : content.missing.from,
-            to: showScNewForm || toDate ? '' : content.missing.to,
-            dates:
-              !showScNewForm && !fromDate && !toDate
-                ? content.missing.dates
-                : '',
-            treatmentDate:
-              (showScNewForm &&
-                (noDate || treatmentDate ? '' : content.missing.date)) ||
-              '',
-          };
-          const hasErrors = Object.values(errors).join('');
+            treatmentDate,
+          );
+
+          const { errors, hasErrors } = getLocationErrors(
+            issues,
+            locationAndName,
+            noDate,
+            treatmentDate,
+          );
+
+          const treatmentDateError = !noDate && errors.treatmentDate;
 
           return (
             <li
@@ -99,26 +119,17 @@ export const EvidenceVaContent = ({
                 >
                   {errors.issues || readableList(issues)}
                 </div>
-                {!showScNewForm &&
-                  (errors.dates || (
-                    <div
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="VA location date range"
-                    >
-                      {errors.from || fromDate} – {errors.to || toDate}
-                    </div>
-                  ))}
-                {showScNewForm && noDate && vaContent.noDate}
-                {showScNewForm &&
-                  !noDate &&
-                  (errors.treatmentDate || (
-                    <div
-                      className="dd-privacy-hidden"
-                      data-dd-action-name="VA location treatment date"
-                    >
-                      {formattedTreatmentDate}
-                    </div>
-                  ))}
+                {noDate && vaContent.noDate}
+                {treatmentDateError ? (
+                  errors.treatmentDate
+                ) : (
+                  <div
+                    className="dd-privacy-hidden"
+                    data-dd-action-name="VA location treatment date"
+                  >
+                    {formattedTreatmentDate}
+                  </div>
+                )}
                 {!reviewMode && (
                   <div className="vads-u-margin-top--1p5">
                     <BasicLink
@@ -157,6 +168,5 @@ EvidenceVaContent.propTypes = {
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
   showListOnly: PropTypes.bool,
-  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
 };

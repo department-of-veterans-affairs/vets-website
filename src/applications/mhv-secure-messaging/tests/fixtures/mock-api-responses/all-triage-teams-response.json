@@ -9,7 +9,8 @@
         "stationNumber": "649",
         "blockedStatus": true,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -21,7 +22,8 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -33,7 +35,8 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -45,7 +48,8 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -57,7 +61,8 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -69,7 +74,8 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     },
     {
@@ -81,11 +87,15 @@
         "stationNumber": "649",
         "blockedStatus": false,
         "relationshipType": "PATIENT",
-        "preferredTeam": true
+        "preferredTeam": true,
+        "ohTriageGroup": false
       }
     }
   ],
   "meta": {
+    "associatedTriageGroups": 7,
+    "friendlyTriageTeamPilotFacilities": "",
+    "associatedBlockedTriageGroups": 1,
     "sort": {
       "name": "ASC"
     }

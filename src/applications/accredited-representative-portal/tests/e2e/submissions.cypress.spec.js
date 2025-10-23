@@ -125,7 +125,6 @@ describe('Accredited Representative Portal', () => {
           isAppEnabled: true,
           isInPilot: true,
           isSubmissionsEnabled: true,
-          is526ezEnabled: true,
         },
         SUBMISSIONS_PAGE,
       );

@@ -10,7 +10,7 @@ describe('Medical Records View Breathing Rate', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -25,21 +25,21 @@ describe('Medical Records View Breathing Rate', () => {
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
     // check for latest id
-    cy.get('[data-testid="vital-respiratory-rate-measurement"]').should(
+    cy.get('[data-testid="vital-breathing-rate-measurement"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-respiratory-rate-measurement"]').contains(
+    cy.get('[data-testid="vital-breathing-rate-measurement"]').contains(
       '13 breaths per minute',
     );
 
-    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').should(
+    cy.get('[data-testid="vital-breathing-rate-date-timestamp"]').should(
       'be.visible',
     );
-    cy.get('[data-testid="vital-respiratory-rate-date-timestamp"]').contains(
+    cy.get('[data-testid="vital-breathing-rate-date-timestamp"]').contains(
       'January 18, 2017',
     );
 
-    cy.get('[data-testid="vital-respiratory-rate-review-over-time"]').should(
+    cy.get('[data-testid="vital-breathing-rate-review-over-time"]').should(
       'be.visible',
     );
 

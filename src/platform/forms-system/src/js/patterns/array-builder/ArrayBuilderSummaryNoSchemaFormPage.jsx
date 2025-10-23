@@ -41,7 +41,9 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         arrayBuilderOptions.useLinkInsteadOfYesNo && (
           <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
             <va-link-action
+              class="wc-pattern-array-builder wc-pattern-array-builder-summary-add-link vads-web-component-pattern"
               data-action="add"
+              data-array-path={arrayBuilderOptions.arrayPath}
               text={arrayBuilderOptions.getText(
                 'summaryAddLinkText',
                 arrayData,
@@ -56,7 +58,9 @@ const ArrayBuilderSummaryNoSchemaFormPage = ({
         arrayBuilderOptions.useButtonInsteadOfYesNo && (
           <div className={arrayData?.length ? 'vads-u-margin-y--2' : ''}>
             <va-button
+              class="wc-pattern-array-builder wc-pattern-array-builder-summary-add-button vads-web-component-pattern"
               data-action="add"
+              data-array-path={arrayBuilderOptions.arrayPath}
               text={arrayBuilderOptions.getText(
                 'summaryAddButtonText',
                 arrayData,

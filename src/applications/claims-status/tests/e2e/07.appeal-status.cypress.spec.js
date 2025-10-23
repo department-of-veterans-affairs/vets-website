@@ -1,4 +1,4 @@
-import legacyAppeal from './fixtures/mocks/legacy-appeal.json';
+import appeals from './fixtures/mocks/appeals.json';
 import backendStatuses from './fixtures/mocks/backend-statuses.json';
 
 beforeEach(() => {
@@ -11,7 +11,7 @@ beforeEach(() => {
     },
   });
   cy.intercept('GET', '/v0/backend_statuses*', backendStatuses);
-  cy.intercept('GET', '/v0/appeals', legacyAppeal);
+  cy.intercept('GET', '/v0/appeals', appeals);
   cy.login();
 });
 
@@ -112,5 +112,62 @@ describe('Appeals page test', () => {
 
     cy.get('h1').should('contain', 'Your VA claim and appeal letters');
     cy.injectAxeThenAxeCheck();
+  });
+
+  context('when the appeal type is appeal', () => {
+    it('should show no description items for issues without descriptions with correct appeal type', () => {
+      cy.visit('/track-claims/appeals/15/detail');
+
+      cy.get('h1').should('contain', 'Appeal received August 2017');
+      cy.get('h2').should('contain', 'Issues');
+
+      // Check that the "Currently on appeal" section shows a list item for 2 issues without a description
+      cy.get('va-accordion-item[open]:not([open="false"])').should(
+        'be.visible',
+      );
+      cy.get('va-accordion-item[open]:not([open="false"]) li').should(
+        'contain',
+        "We're unable to show 2 issues on appeal",
+      );
+
+      // Expand the "Closed" section
+      cy.get('va-accordion-item[open="false"]')
+        .shadow()
+        .then(accordion => {
+          cy.wrap(accordion.find('button')).click({ force: true });
+        });
+
+      // Check that the "Closed" section displays a list item for 1 issue without a description
+      cy.get('va-accordion-item[open]:not([open="false"])').should(
+        'be.visible',
+      );
+      cy.get('va-accordion-item[open]:not([open="false"]) li').should(
+        'contain',
+        "We're unable to show 1 issue on appeal",
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+
+  context('when the appeal type is not appeal or legacy appeal', () => {
+    it('should show no description items for issues without descriptions with correct appeal type', () => {
+      cy.visit('/track-claims/appeals/SC3239/detail');
+
+      cy.get('h1').should(
+        'contain',
+        'Supplemental claim received January 2023',
+      );
+      cy.get('h2').should('contain', 'Issues');
+      cy.get('va-accordion-item[open]:not([open="false"])').should(
+        'be.visible',
+      );
+      cy.get('va-accordion-item[open]:not([open="false"]) li').should(
+        'contain',
+        "We're unable to show 1 issue on your Supplemental Claim",
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

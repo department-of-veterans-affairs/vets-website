@@ -18,13 +18,12 @@ import {
   registerCypressHelpers,
 } from '../helpers';
 
-const HEARING_REMINDER_NOTIFICATION_TEXT = `Board of Veterans' Appeals hearing reminder`;
-
 registerCypressHelpers();
 
 describe('Updating Notification Settings', () => {
   beforeEach(() => {
     mockNotificationSettingsAPIs();
+    cy.intercept('/data/cms/vamc-ehr.json', { data: [] });
     cy.intercept('GET', '/v0/profile/communication_preferences', {
       statusCode: 200,
       body: mockCommunicationPreferences,
@@ -38,15 +37,14 @@ describe('Updating Notification Settings', () => {
       statusCode: 500,
       body: error500,
       delay: 100,
-    });
+    }).as('savePreference');
   });
   context('when there is an API error', () => {
     it('should handle 401 errors when opting into getting notifications for the first time - C9518', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
-      cy.findByText(HEARING_REMINDER_NOTIFICATION_TEXT)
-        .closest('fieldset')
+      cy.get('[data-testid="checkbox-group-item1"]')
         .find('va-checkbox')
         .as('hearingCheckbox');
 
@@ -62,9 +60,13 @@ describe('Updating Notification Settings', () => {
         .click({ force: true });
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving/).should('exist');
-      // after the POST call fails:
-      cy.findByText(/^Saving/).should('not.exist');
+      cy.get('[data-testid="loading-channel1-1"]')
+        .as('savingButton')
+        .should('exist');
+      // after the POST call resolves:
+      cy.wait('@savePreference');
+      cy.get('@savingButton').should('not.exist');
+      cy.get('[data-testid="error-channel1-1"]').should('exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
 
       // the checkbox should still be checked after failure
@@ -79,8 +81,7 @@ describe('Updating Notification Settings', () => {
 
       // the "notify me" radio button will start off checked because of the
       // mocked response from mockCommunicationPreferences
-      cy.findByText(HEARING_REMINDER_NOTIFICATION_TEXT)
-        .closest('fieldset')
+      cy.get('[data-testid="checkbox-group-item1"]')
         .find('va-checkbox')
         .as('hearingCheckbox');
 
@@ -96,10 +97,13 @@ describe('Updating Notification Settings', () => {
         .click({ force: true });
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving.../).should('exist');
-      // after the PATCH call fails:
-      cy.findByText(/^Saving/).should('not.exist');
-      cy.findByText(/update saved/i).should('not.exist');
+      cy.get('[data-testid="loading-channel1-1"]')
+        .as('savingButton')
+        .should('exist');
+      // after the POST call resolves:
+      cy.wait('@savePreference');
+      cy.get('@savingButton').should('not.exist');
+      cy.get('[data-testid="error-channel1-1"]').should('exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
 
       // the checkbox should still be checked after failure

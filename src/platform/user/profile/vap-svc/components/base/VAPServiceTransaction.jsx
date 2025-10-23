@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-import {
-  isPendingTransaction,
-  isFailedTransaction,
-} from 'platform/user/profile/vap-svc/util/transactions';
+import { isPendingTransaction } from 'platform/user/profile/vap-svc/util/transactions';
 
-import VAPServiceTransactionInlineErrorMessage from './VAPServiceTransactionInlineErrorMessage';
 import VAPServiceTransactionPending from './VAPServiceTransactionPending';
 
 function VAPServiceTransaction(props) {
@@ -25,15 +20,9 @@ function VAPServiceTransaction(props) {
   const transactionRequestPending = transactionRequest?.isPending;
   const transactionPending = isPendingTransaction(transaction);
   const transactionResolved = !transactionRequestPending && !transactionPending;
-  const hasError =
-    isFailedTransaction(transaction) || transactionRequest?.isFailed;
-  const classes = classNames('vet360-profile-field-content', {
-    'usa-input-error': hasError,
-  });
 
   return (
-    <div className={classes}>
-      {hasError && <VAPServiceTransactionInlineErrorMessage {...props} />}
+    <div>
       {transactionRequestPending && (
         <div id={id}>
           <VAPServiceTransactionPending
@@ -42,8 +31,8 @@ function VAPServiceTransaction(props) {
             method={method}
           >
             {/* if this field's modal is open, pass in the children to prevent
-               the `Vet360TransactionPending` component from rendering the
-               "we're saving your info..." message */}
+                the `Vet360TransactionPending` component from rendering the
+                loading indicator */}
             {isModalOpen && children}
           </VAPServiceTransactionPending>
         </div>
@@ -56,8 +45,8 @@ function VAPServiceTransaction(props) {
             method={method}
           >
             {/* if this field's modal is open, pass in the children to prevent
-               the `Vet360TransactionPending` component from rendering the
-               "we're saving your info..." message */}
+                the `Vet360TransactionPending` component from rendering the
+                loading indicator */}
             {isModalOpen && children}
           </VAPServiceTransactionPending>
         </div>
@@ -69,10 +58,13 @@ function VAPServiceTransaction(props) {
 
 VAPServiceTransaction.propTypes = {
   children: PropTypes.node.isRequired,
+  id: PropTypes.string.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
+  isModalOpen: PropTypes.bool,
   // title is undefined upon first render
   title: PropTypes.string,
   transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
 };
 
 export default VAPServiceTransaction;

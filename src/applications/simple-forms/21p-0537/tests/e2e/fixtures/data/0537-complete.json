@@ -19,12 +19,8 @@
       "spouseIsVeteran": false,
       "hasTerminated": false
     },
-    "recipient": {
-      "phone": {
-        "daytime": "5551234567"
-      },
-      "email": "test@example.com"
-    },
-    "signature": "Jane Doe"
+    "primaryPhone": "5551234567",
+    "emailAddress": "test@example.com",
+    "signature": "Jane M Spouse"
   }
 }

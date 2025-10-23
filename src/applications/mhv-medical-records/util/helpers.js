@@ -122,6 +122,20 @@ export const formatDateTime = datetimeString => {
 };
 
 /**
+ * Returns the wrapper element tag to use around a rendered list (<ul>) of
+ * notes / comments / items. If there are multiple entries we return 'div'
+ * so the list is placed in this tag.
+ * For zero or one entry we return undefined so the parent component (e.g.
+ * LabelValue) can keep its default tag.
+ *
+ * Generic utility: can be used for any list.
+ * @param {Array|string|undefined} items
+ * @returns {'div'|undefined}
+ */
+export const itemListWrapper = items =>
+  Array.isArray(items) && items.length > 1 ? 'div' : undefined;
+
+/**
  * @param {Object} record
  * @returns {Array of Strings} array of reactions
  */

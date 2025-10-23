@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -6,10 +6,6 @@ import {
   Toggler,
 } from '~/platform/utilities/feature-toggles';
 import recordEvent from '~/platform/monitoring/record-event';
-import {
-  fetchDebts,
-  fetchCopays,
-} from '~/applications/personalization/dashboard/actions/debts';
 import classNames from 'classnames';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
@@ -107,8 +103,6 @@ const BenefitPaymentsAndDebt = ({
   copays,
   hasDebtError,
   hasCopayError,
-  getDebts,
-  getCopays,
   shouldShowLoadingIndicator,
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -116,17 +110,6 @@ const BenefitPaymentsAndDebt = ({
     Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled,
   );
   const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
-
-  useEffect(
-    () => {
-      if (!showGenericDebtCard) {
-        getDebts(!myVaAuthExpRedesignEnabled);
-      }
-
-      getCopays();
-    },
-    [getDebts, getCopays, showGenericDebtCard, myVaAuthExpRedesignEnabled],
-  );
 
   const totalDebtsCount = debts?.length || debtsCount || 0;
 
@@ -300,10 +283,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  getDebts: fetchDebts,
-  getCopays: fetchCopays,
-};
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,

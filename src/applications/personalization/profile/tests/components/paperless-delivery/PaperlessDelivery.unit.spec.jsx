@@ -90,7 +90,7 @@ describe('PaperlessDelivery', () => {
     });
     expect(
       getByText(
-        /With paperless delivery, you can choose which documents you no longer want to get by mail./,
+        /With paperless delivery, you can choose which documents you don’t want to get by mail./,
       ),
     ).to.exist;
   });
@@ -114,29 +114,6 @@ describe('PaperlessDelivery', () => {
     expect(
       getByText(
         /We have limited documents available for paperless delivery at this time/,
-      ),
-    ).to.exist;
-  });
-
-  it('should render the secure storage information', () => {
-    mockSelectCommunicationPreferences = {
-      loadingStatus: LOADING_STATES.loaded,
-      loadingErrors: null,
-    };
-    const { getByText } = render(<PaperlessDelivery />, {
-      initialState: {
-        scheduledDowntime: {
-          globalDowntime: null,
-          isReady: true,
-          isPending: false,
-          serviceMap: { get() {} },
-          dismissedDowntimeWarnings: [],
-        },
-      },
-    });
-    expect(
-      getByText(
-        /We’ll always store secure, digital copies of these documents on VA.gov./,
       ),
     ).to.exist;
   });

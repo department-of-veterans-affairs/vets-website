@@ -9,7 +9,7 @@ import PrimaryPhoneReview from '../../components/PrimaryPhoneReview';
 import { PRIMARY_PHONE, errorMessages } from '../../constants';
 import { content } from '../../content/primaryPhone';
 
-import maximalData from '../fixtures/data/maximal-test.json';
+import maximalData from '../fixtures/data/pre-api-comprehensive-test.json';
 
 describe('<PrimaryPhoneReview>', () => {
   const setup = ({
@@ -28,13 +28,14 @@ describe('<PrimaryPhoneReview>', () => {
   it('should render home phone as primary', () => {
     const { container } = render(setup());
     expect($('dt', container).textContent).to.eq(content.homeLabel);
-    expect($('dd', container).textContent).to.contain('555-800-1111');
+    expect($('dd', container).textContent).to.contain('210-555-1234');
     expect($('dd.dd-privacy-hidden', container)).to.exist;
   });
+
   it('should render mobile phone as primary', () => {
     const { container } = render(setup({ primary: 'mobile' }));
     expect($('dt', container).textContent).to.eq(content.mobileLabel);
-    expect($('dd', container).textContent).to.contain('555-800-2222');
+    expect($('dd', container).textContent).to.contain('407-932-9999');
   });
 
   it('should not render anything', () => {

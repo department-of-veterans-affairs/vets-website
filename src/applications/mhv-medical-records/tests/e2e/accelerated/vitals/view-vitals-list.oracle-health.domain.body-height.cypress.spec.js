@@ -10,7 +10,7 @@ describe('Medical Records View Body Height', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -25,21 +25,15 @@ describe('Medical Records View Body Height', () => {
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
     // check for latest id
-    cy.get('[data-testid="vital-body-height-measurement"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vital-body-height-measurement"]').contains(
-      '171.3 cm',
-    );
+    cy.get('[data-testid="vital-height-measurement"]').should('be.visible');
+    cy.get('[data-testid="vital-height-measurement"]').contains('171.3 cm');
 
-    cy.get('[data-testid="vital-body-height-date-timestamp"]').should(
-      'be.visible',
-    );
-    cy.get('[data-testid="vital-body-height-date-timestamp"]').contains(
+    cy.get('[data-testid="vital-height-date-timestamp"]').should('be.visible');
+    cy.get('[data-testid="vital-height-date-timestamp"]').contains(
       'January 1, 2014',
     );
 
-    cy.get('[data-testid="vital-body-height-review-over-time"]').should(
+    cy.get('[data-testid="vital-height-review-over-time"]').should(
       'be.visible',
     );
 

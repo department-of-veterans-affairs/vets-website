@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import MailingAddress from './MailingAddress';
 
 const MAX_FILE_SIZE_MB = 20;
 
@@ -27,19 +28,30 @@ export const DocumentMailingAddressDescription = () => {
         completed {formDescription}.
       </p>
       <p>Send it to this address:</p>
-      <p className="va-address-block">
-        U.S. Department of Veterans Affairs
-        <br />
-        Pension Intake Center
-        <br />
-        PO Box 5365
-        <br />
-        Janesville, WI 53547-5365
-        <br />
-      </p>
+      <MailingAddress />
     </>
   );
 };
+
+export const SupportingDocumentsNeededList = () => (
+  <ul>
+    <li>
+      Initial trust agreement establishing the trust and its purpose,{' '}
+      <strong>and</strong>
+    </li>
+    <li>
+      The initial schedule of the assets in the trust, <strong>and</strong>
+    </li>
+    <li>
+      Any changes to the schedule of assets, <strong>and</strong>
+    </li>
+    <li>Documentation demonstration sell-ability, value and income of asset</li>
+    <li>
+      Monthly payments out of this trust (if any), <strong>and</strong>
+    </li>
+    <li>The cash value you would receive if you withdraw from the trust</li>
+  </ul>
+);
 
 export const AdditionalFormNeededDescription = () => {
   const { assetType } = useOwnedAssetContext();
@@ -79,6 +91,21 @@ export const AdditionalFormNeededDescription = () => {
   return null;
 };
 
+export const DocumentUploadGuidelines = ({ formDescription }) => (
+  <>
+    <p>
+      Be sure that the {formDescription} you submit follow these guidelines:
+    </p>
+    <ul>
+      <li>The document is a .pdf, .jpeg, or .png file</li>
+      <li>
+        The document isn’t larger than {MAX_FILE_SIZE_MB}
+        MB
+      </li>
+    </ul>
+  </>
+);
+
 export const DocumentUploadGuidelinesDescription = () => {
   const { assetType } = useOwnedAssetContext();
 
@@ -87,28 +114,12 @@ export const DocumentUploadGuidelinesDescription = () => {
       ? 'Pension Claim Questionnaire for Farm Income (VA Form 21P-4165)'
       : 'Report of Income from Property or Business (VA Form 21p-4185)';
 
-  return (
-    <>
-      <p>
-        Be sure that the {formDescription} you submit follow these guidelines:
-      </p>
-      <ul>
-        <li>The document is a .pdf, .jpeg, or .png file</li>
-        <li>
-          The document isn’t larger than {MAX_FILE_SIZE_MB}
-          MB
-        </li>
-      </ul>
-    </>
-  );
+  return <DocumentUploadGuidelines formDescription={formDescription} />;
 };
 
 export const SummaryDescription = () => {
   return (
     <>
-      <h1 className="vads-u-font-size--h2">
-        Income and net worth from owned assets
-      </h1>
       <p>
         In this section, we’ll ask about properties and any income you receive
         from physical assets that you solely own or that you own with someone

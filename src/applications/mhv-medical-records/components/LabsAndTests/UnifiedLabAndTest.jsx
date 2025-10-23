@@ -16,7 +16,7 @@ import PrintDownload from '../shared/PrintDownload';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 
-import { generateTextFile } from '../../util/helpers';
+import { generateTextFile, itemListWrapper } from '../../util/helpers';
 
 import {
   pageTitles,
@@ -80,9 +80,8 @@ const UnifiedLabsAndTests = props => {
           description="L&TR Detail"
           downloadPdf={generatePdf}
           downloadTxt={generateTxt}
-          allowTxtDownloads
         />
-        <DownloadingRecordsInfo description="L&TR Detail" allowTxtDownloads />
+        <DownloadingRecordsInfo description="L&TR Detail" />
 
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
@@ -124,10 +123,11 @@ const UnifiedLabsAndTests = props => {
             />
             <LabelValue
               label={LABS_AND_TESTS_DISPLAY_LABELS.COMMENTS}
-              ifEmpty=""
+              element={itemListWrapper(record?.comments)}
               testId="lab-and-test-comments"
-            />
-            <ItemList list={record.comments} />
+            >
+              <ItemList list={record.comments} />
+            </LabelValue>
             <LabelValue
               ifEmpty="None Noted"
               label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}

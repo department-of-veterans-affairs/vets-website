@@ -22,6 +22,7 @@ describe('Medications List Page Print List', () => {
       cy.stub(win, 'print').as('print');
     });
     cy.realPress('Enter');
+    cy.wait('@exportList');
     cy.get('@print').should('have.been.called');
   });
 });

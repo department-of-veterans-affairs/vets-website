@@ -10,7 +10,7 @@ describe('Medical Records View Blood Oxygen', () => {
     site.login(oracleHealthUser, false);
     site.mockFeatureToggles({
       isAcceleratingEnabled: true,
-      isAcceleratingVitals: true,
+      isAcceleratingVitals: false,
     });
     Vitals.setIntercepts({ vitalData: vitalsData });
   });
@@ -25,23 +25,23 @@ describe('Medical Records View Blood Oxygen', () => {
     Vitals.verifySelectedDate({ dateString: 'March 2024' });
 
     // check for latest id
-    cy.get(
-      '[data-testid="vital-oxygen-saturation-in-arterial-blood-measurement"]',
-    ).should('be.visible');
-    cy.get(
-      '[data-testid="vital-oxygen-saturation-in-arterial-blood-measurement"]',
-    ).contains('84 %');
+    cy.get('[data-testid="vital-blood-oxygen-level-measurement"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-blood-oxygen-level-measurement"]').contains(
+      '84%',
+    );
 
-    cy.get(
-      '[data-testid="vital-oxygen-saturation-in-arterial-blood-date-timestamp"]',
-    ).should('be.visible');
-    cy.get(
-      '[data-testid="vital-oxygen-saturation-in-arterial-blood-date-timestamp"]',
-    ).contains('August 8, 2013');
+    cy.get('[data-testid="vital-blood-oxygen-level-date-timestamp"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="vital-blood-oxygen-level-date-timestamp"]').contains(
+      'August 8, 2013',
+    );
 
-    cy.get(
-      '[data-testid="vital-oxygen-saturation-in-arterial-blood-review-over-time"]',
-    ).should('be.visible');
+    cy.get('[data-testid="vital-blood-oxygen-level-review-over-time"]').should(
+      'be.visible',
+    );
 
     cy.injectAxeThenAxeCheck();
   });

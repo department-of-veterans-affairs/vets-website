@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsShowIpeContent = true,
     mhvMedicationsPartialFillContent = true,
     mhvMedicationsDontIncrementIpeCount = true,
+    mhvMedicationsDisplayNewCernerFacilityAlert = true,
   } = toggles;
 
   return {
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_dont_increment_ipe_count',
           value: mhvMedicationsDontIncrementIpeCount,
+        },
+        {
+          name: 'mhv_medications_display_new_cerner_facility_alert',
+          value: mhvMedicationsDisplayNewCernerFacilityAlert,
         },
       ],
     },

@@ -1,8 +1,4 @@
 import moment from 'moment-timezone';
-import {
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
-} from '@department-of-veterans-affairs/mhv/exports';
 import { Actions } from '../util/actionTypes';
 import {
   getMessage,
@@ -212,9 +208,6 @@ export const sendMessage = (
         ),
       );
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };
 
@@ -280,8 +273,5 @@ export const sendReply = ({
       );
     }
     throw e;
-  } finally {
-    // Log message sending even if failed for analytics
-    logUniqueUserMetricsEvents(EVENT_REGISTRY.SECURE_MESSAGING_MESSAGE_SENT);
   }
 };

@@ -63,7 +63,7 @@ const DetailPage = ({ match }) => {
             label: 'Current copay balances',
           },
           {
-            href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
+            href: `/manage-va-debt/summary/copay-balances/${selectedId}`,
             label: `${title}`,
           },
         ]}

@@ -20,7 +20,7 @@ import { EditContext } from './EditContext';
 import { EditConfirmCancelModal } from './EditConfirmCancelModal';
 import { EditBreadcrumb } from './EditBreadcrumb';
 
-import { routesForNav } from '../../routesForNav';
+import { getRoutesForNav } from '../../routesForNav';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 import { getRouteInfoFromPath } from '../../../common/helpers';
 
@@ -60,6 +60,13 @@ export const Edit = () => {
 
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const [hasBeforeUnloadListener, setHasBeforeUnloadListener] = useState(false);
+
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const profile2Toggle = useToggleValue(TOGGLE_NAMES.profile2Enabled);
+
+  const routesForNav = getRoutesForNav({
+    profile2Enabled: profile2Toggle,
+  });
 
   const fieldInfo = getFieldInfo(query.get('fieldName'));
 
@@ -102,9 +109,15 @@ export const Edit = () => {
     [fieldData, fieldInfo],
   );
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const internationalPhonesToggleValue = useToggleValue(
     TOGGLE_NAMES.profileInternationalPhoneNumbers,
+  );
+
+  useEffect(
+    () => {
+      document.title = `${editPageHeadingString} | Veterans Affairs`;
+    },
+    [editPageHeadingString],
   );
 
   useEffect(

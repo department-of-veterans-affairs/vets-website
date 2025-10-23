@@ -65,17 +65,13 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
 
           // on debt selection page, wait for loading spinner to disappear
           cy.wait(['@copaysA1', '@debtsA1']);
@@ -101,17 +97,13 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
           );
           cy.intercept('GET', '/v0/debts*', mockDebtsEmpty).as('debtsA2');
 
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
 
           // on debt selection page, wait for loading spinner to disappear
           cy.wait(['@copaysA2', '@debtsA2']);
@@ -139,17 +131,13 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysB1', '@debtsB1']);
 
           cy.get('[data-testid="debt-selection-checkbox"]').should(
@@ -180,17 +168,13 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickFormContinue();
           cy.wait(['@copaysB2', '@debtsB2']);
 
           cy.get('[data-testid="debt-selection-checkbox"]').should(
@@ -220,17 +204,13 @@ describe.skip('Enhanced FSR debt and copay alerts', () => {
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/introduction',
           );
-          cy.get('a.vads-c-action-link--green')
-            .first()
-            .click({ waitForAnimations: true });
+          cy.clickStartForm();
 
           cy.url().should(
             'contain',
             '/manage-va-debt/request-debt-help-form-5655/veteran-information',
           );
-          cy.findAllByText(/continue/i, { selector: 'button' })
-            .first()
-            .click();
+          cy.clickFormContinue();
           cy.wait(['@copaysB3', '@debtsB3']);
 
           cy.get('[data-testid="debt-selection-checkbox"]').should('not.exist');

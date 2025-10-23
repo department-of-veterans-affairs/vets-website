@@ -11,6 +11,7 @@ import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 
 // Components
 import Alert from '../components/Alert';
+import CommunityCareWarningBanner from '../components/CommunityCareWarningBanner';
 import ControlResultsHolder from '../components/ControlResultsHolder';
 import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
 import EmergencyCareAlert from '../components/EmergencyCareAlert';
@@ -45,6 +46,7 @@ import {
   facilityLocatorAutosuggestVAMCServices,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
+  showFacilityLocatorNoticeAboutNonVACare,
 } from '../utils/featureFlagSelectors';
 import { FacilitiesMapTypes } from '../types';
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
@@ -926,6 +928,7 @@ const FacilitiesMap = props => {
           type.
         </p>
       )}
+      <CommunityCareWarningBanner shouldShow={props.showCommunityCareBanner} />
       {renderView()}
       {mapboxTokenValid && otherToolsLink()}
     </>
@@ -940,6 +943,7 @@ const mapStateToProps = state => ({
   resultTime: state.searchResult.resultTime,
   results: state.searchResult.results,
   searchError: state.searchResult.error,
+  showCommunityCareBanner: showFacilityLocatorNoticeAboutNonVACare(state),
   specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),

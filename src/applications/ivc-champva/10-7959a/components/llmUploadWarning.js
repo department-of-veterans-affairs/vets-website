@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function UploadWarningComponent({ formContext }) {
-  if (!formContext?.data?.champvaClaimsLlmValidation) return <></>;
+  if (!formContext?.data?.['view:champvaClaimsLlmValidation']) return <></>;
 
   return (
     <va-alert status="info">

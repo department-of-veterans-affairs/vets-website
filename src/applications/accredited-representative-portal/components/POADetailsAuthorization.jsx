@@ -56,7 +56,7 @@ const POADetailsAuthorization = ({
         >
           <p>
             The claimant didn’t authorize access to all medical records. If you
-            accept this request, power of attorney will be established but you
+            accept this request, representation will be established but you
             won’t have access to the claimant’s eFolder in the Veterans Benefits
             Management System (VBMS).
           </p>
@@ -68,7 +68,7 @@ const POADetailsAuthorization = ({
         >
           <p>
             The claimant authorized access to all medical records. If you accept
-            this request, power of attorney will be established and you’ll have
+            this request, representation will be established and you’ll have
             access to the claimant’s eFolder in the Veterans Benefits Management
             System (VBMS).
           </p>

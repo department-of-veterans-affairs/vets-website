@@ -52,10 +52,8 @@ const ExtraDetails = rx => {
               className="vads-u-margin-y--0"
             >
               We expect to fill this prescription on{' '}
-              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
-            </p>
-            <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
-              If you need it sooner, call your VA pharmacy
+              {dateFormat(rx.refillDate, 'MMMM D, YYYY')}. If you need it
+              sooner, call your VA pharmacy
               <CallPharmacyPhone
                 cmopDivisionPhone={pharmacyPhone}
                 page={pageType.DETAILS}

@@ -99,7 +99,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -107,7 +107,7 @@ describe('VA prescription Config', () => {
 
   it('should not show refill history if there are no records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Refill history\n');
@@ -122,7 +122,7 @@ describe('VA prescription Config', () => {
 
   it('should show refill history if there are 2 records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
@@ -145,6 +145,24 @@ describe('VA prescription Config', () => {
     rxDetails.dispStatus = 'Renew';
     const txt = buildVAPrescriptionTXT(rxDetails);
     expect(txt).to.not.include('Last filled on:');
+  });
+
+  it('should display PendingMed status description if NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.match(
+      /Status: This is a new prescription from your provider/,
+    );
+  });
+
+  it('should display PendingMed status description if Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+    const txt = buildVAPrescriptionTXT(rxDetails);
+    expect(txt).to.match(/Status: This is a renewal you requested/);
   });
 });
 

@@ -12,6 +12,22 @@ function getPrimaryContact(data) {
   };
 }
 
+/**
+ * Build supportingDocs without mutating `data`
+ * @param {Object} data
+ * @param {[string, string][]} mapping - e.g. [['pharmacyUpload','MEDDOCS'], ['primaryEob','EOB']]
+ * @returns {Array} supportingDocs
+ */
+const applyAttachments = (formData, mapping) => {
+  const withAttachments = (arr, attachmentId) =>
+    (Array.isArray(arr) ? arr : [])
+      .filter(Boolean)
+      .map(item => ({ ...item, attachmentId }));
+  return mapping
+    .flatMap(([key, id]) => withAttachments(formData[key], id))
+    .filter(Boolean);
+};
+
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
@@ -31,28 +47,15 @@ export default function transformForSubmit(formConfig, form) {
   // a status event notification
   copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
 
-  // ---
   // Add type/category info to file uploads for Pega/DOCMP ingestion:
-  const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
-    return { ...el, attachmentId: 'MEDDOCS' };
-  });
-  copyOfData.pharmacyUpload = pharmacyUpload;
-
-  const medicalUpload = copyOfData?.medicalUpload?.map(el => {
-    return { ...el, attachmentId: 'MEDDOCS' };
-  });
-  copyOfData.medicalUpload = medicalUpload;
-
-  const primaryEob = copyOfData?.primaryEob?.map(el => {
-    return { ...el, attachmentId: 'EOB' };
-  });
-  copyOfData.primaryEob = primaryEob;
-
-  const secondaryEob = copyOfData?.secondaryEob?.map(el => {
-    return { ...el, attachmentId: 'EOB' };
-  });
-  copyOfData.secondaryEob = secondaryEob;
-  // ---
+  copyOfData.supportingDocs = applyAttachments(copyOfData, [
+    ['pharmacyUpload', 'MEDDOCS'],
+    ['medicalUpload', 'MEDDOCS'],
+    ['primaryEob', 'EOB'],
+    ['secondaryEob', 'EOB'],
+    ['resubmissionLetterUpload', 'EOB'],
+    ['resubmissionDocsUpload', 'MEDDOCS'],
+  ]);
 
   // Combine all three street strings into one
   copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
@@ -64,16 +67,6 @@ export default function transformForSubmit(formConfig, form) {
 
   // Date of signature
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
-
-  // Compile files
-  copyOfData.supportingDocs = [
-    copyOfData.medicalUpload,
-    copyOfData.primaryEob,
-    copyOfData.secondaryEob,
-    copyOfData.pharmacyUpload,
-  ]
-    .flat(Infinity) // Flatten nested lists of files
-    .filter(el => el); // drop any nulls
 
   /*
   In order to enable multi-claim backend (see https://github.com/department-of-veterans-affairs/vets-api/pull/18173)

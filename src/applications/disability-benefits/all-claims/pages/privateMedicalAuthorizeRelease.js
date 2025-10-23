@@ -1,3 +1,5 @@
+import { AUTHORIZATION_LABEL } from '../components/Authorization';
+
 export const uiSchema = {
   patient4142Acknowledgement: {
     'ui:title':
@@ -11,6 +13,12 @@ export const uiSchema = {
         }
       },
     ],
+    'ui:confirmationField': value => {
+      return {
+        data: value.formData ? 'Yes' : 'No',
+        label: AUTHORIZATION_LABEL,
+      };
+    },
   },
 };
 

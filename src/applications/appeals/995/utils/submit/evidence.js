@@ -1,16 +1,10 @@
-import {
-  buildPrivateString,
-  buildVaLocationString,
-} from '../../validations/evidence';
-
-import { showScNewForm } from '../toggle';
+import { buildPrivateString } from '../../validations/evidence';
 import {
   getVAEvidence,
   getOtherEvidence,
   getPrivateEvidence,
 } from '../evidence';
 import { getFacilityType } from './facilities';
-
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
 import { LIMITED_CONSENT_RESPONSE } from '../../constants';
@@ -20,11 +14,8 @@ import { LIMITED_CONSENT_RESPONSE } from '../../constants';
  * @type {Object}
  * @property {String} locationAndName - VA or private medical records name
  * @property {Array<String>} issues - list of selected issues
- * @property {String} treatmentDate - YYYY-MM (new form)
- * @property {Boolean} noDate - no date provided (new form)
- * @property {Object} evidenceDates - date range (current form)
- * @property {String} evidenceDates.from - YYYY-MM-DD
- * @property {String} evidenceDates.to - YYYY-MM-DD
+ * @property {String} treatmentDate - YYYY-MM
+ * @property {Boolean} noDate - no date provided
  */
 /**
  * Get treatment date and noData boolean, then return a full date (YYYY-MM-DD)
@@ -34,65 +25,43 @@ import { LIMITED_CONSENT_RESPONSE } from '../../constants';
  * @param {VALocation} location
  * @returns {String} YYYY-MM-DD (including day for date comparisons)
  */
-export const getTreatmentDate = (type, showNewFormContent, location) => {
-  const { treatmentDate = '', evidenceDates = {}, noDate } = location;
+export const getTreatmentDate = location => {
+  const { treatmentDate = '', noDate } = location;
   const yearRegex = /^(19[2-9][6-9]|20[0-1][0-9]|202[0-5])$/;
-  const isValidYear = showNewFormContent && yearRegex.test(treatmentDate);
+  const isValidYear = yearRegex.test(treatmentDate);
 
-  if (
-    (showNewFormContent && noDate) ||
-    (showNewFormContent && treatmentDate.length < 7 && !isValidYear)
-  ) {
+  if (noDate || (treatmentDate.length < 7 && !isValidYear)) {
     return '';
   }
 
-  const date = showNewFormContent
-    ? `${treatmentDate}-01`
-    : evidenceDates[type] || '';
+  const date = `${treatmentDate}-01`;
 
   return fixDateFormat(date, treatmentDate.length === 4);
 };
 
-export const hasDuplicateLocation = (
-  list,
-  currentLocation,
-  newForm = false,
-) => {
-  const currentString = buildVaLocationString({
-    data: {
-      ...currentLocation,
-      evidenceDates: {
-        from: getTreatmentDate('from', newForm, currentLocation),
-        to: getTreatmentDate('to', newForm, currentLocation),
-      },
-    },
-    joiner: ',',
-    includeIssues: false,
-    newForm,
-  });
+export const dedupeVALocations = locations => {
+  const uniqueLocations = new Map();
 
-  return list.some(location => {
-    const data = {
-      ...location.attributes,
-      evidenceDates: location.attributes.evidenceDates?.[0] || {},
-      noDate: location.attributes.noTreatmentDates,
+  return locations.filter(item => {
+    // Sometimes items are wrapped with { attributes: { ...contents } }
+    const itemDetails = item?.locationAndName ? item : item.attributes;
+
+    // Create a unique key by stringifying the object
+    // Sort the issues array to ensure consistent comparison
+    const normalizedItem = {
+      ...itemDetails,
+      issues: [...itemDetails.issues].sort(),
     };
 
-    const locationString = buildVaLocationString({
-      data: {
-        ...data,
-        evidenceDates: {
-          from: getTreatmentDate('startDate', newForm, data),
-          to: getTreatmentDate('endDate', newForm, data),
-        },
-      },
-      joiner: ',',
-      includeIssues: false,
-      wrapped: true,
-      newForm,
-    });
+    const key = JSON.stringify(normalizedItem);
 
-    return locationString === currentString;
+    // If we haven't seen this key before, keep it
+    if (!uniqueLocations.has(key)) {
+      uniqueLocations.set(key, true);
+      return true;
+    }
+
+    return false;
   });
 };
 
@@ -154,70 +123,67 @@ export const getEvidence = formData => {
   const evidenceSubmission = {
     evidenceType: [],
   };
-  const showNewFormContent = showScNewForm(formData);
-  // Add VA evidence data
 
-  if (showNewFormContent) {
-    const types = getFacilityType(formData);
-    if (Object.keys(types).length) {
-      evidenceSubmission.treatmentLocations = types.treatmentLocations;
-      evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
-    }
+  const types = getFacilityType(formData);
+
+  if (Object.keys(types).length) {
+    evidenceSubmission.treatmentLocations = types.treatmentLocations;
+    evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
   }
 
   const locations = getVAEvidence(formData);
+
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
-    evidenceSubmission.retrieveFrom = formData.locations.reduce(
-      (list, location) => {
-        if (!hasDuplicateLocation(list, location, showNewFormContent)) {
-          // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
-          // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
-          const from = getTreatmentDate('from', showNewFormContent, location);
-          const to = getTreatmentDate('to', showNewFormContent, location);
 
-          const entry = {
-            type: 'retrievalEvidence',
-            attributes: {
-              // We're not including the issues here - it's only in the form to
-              // make the UX consistent with the private records location pages
-              locationAndName: location.locationAndName,
-              // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one because of UX considerations
-              evidenceDates: [{ startDate: from, endDate: to }],
-            },
-          };
+    const uniqueVALocations = dedupeVALocations(formData.locations);
 
-          // Because of Lighthouse's schema, don't include `evidenceDates` if no
-          // date is provided
-          if (showNewFormContent) {
-            // Only startDate (from) is required, remove evidenceDates if
-            // undefined
-            const noTreatmentDates = location.noDate || !from;
+    evidenceSubmission.retrieveFrom = uniqueVALocations.map(location => {
+      // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
+      // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+      const from = getTreatmentDate(location);
+      const to = getTreatmentDate(location);
 
-            if (noTreatmentDates) {
-              delete entry.attributes.evidenceDates;
-            }
+      const entry = {
+        type: 'retrievalEvidence',
+        attributes: {
+          // We're not including the issues here - it's only in the form to
+          // make the UX consistent with the private records location pages
+          locationAndName: location.locationAndName,
+          // Lighthouse wants between 1 and 4 evidenceDates, but we're only
+          // providing one because of UX considerations
+          evidenceDates: [{ startDate: from, endDate: to }],
+        },
+      };
 
-            // noDate can be undefined; so fallback to false due to LH schema
-            entry.attributes.noTreatmentDates = noTreatmentDates || false;
-          }
-          list.push(entry);
-        }
-        return list;
-      },
-      [],
-    );
+      // Because of Lighthouse's schema, don't include `evidenceDates` if no
+      // date is provided
+      // Only startDate (from) is required, remove evidenceDates if
+      // undefined
+      const noTreatmentDates = location.noDate || !from;
+
+      if (noTreatmentDates) {
+        delete entry.attributes.evidenceDates;
+      }
+
+      // noDate can be undefined; so fallback to false due to LH schema
+      entry.attributes.noTreatmentDates = noTreatmentDates || false;
+
+      return entry;
+    });
   }
+
   // additionalDocuments added in submit-transformer
   if (getOtherEvidence(formData).length) {
     evidenceSubmission.evidenceType.push('upload');
   }
+
   // Lighthouse wants us pass an evidence type of "none" if we're not submitting
   // evidence
   if (evidenceSubmission.evidenceType.length === 0) {
     evidenceSubmission.evidenceType.push('none');
   }
+
   return {
     form5103Acknowledged: formData.form5103Acknowledged,
     evidenceSubmission,

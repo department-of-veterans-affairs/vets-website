@@ -68,6 +68,13 @@ export const uiSchema = {
           hideIf: formData => !isCompletingForm0781(formData),
         },
         'ui:required': formData => isCompletingForm0781(formData),
+        'ui:confirmationField': value => {
+          return {
+            data: value.formData ? 'Yes' : 'No',
+            label:
+              'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
+          };
+        },
       },
       treatedDisabilityNames: {
         'ui:title': 'What conditions were you treated for?',

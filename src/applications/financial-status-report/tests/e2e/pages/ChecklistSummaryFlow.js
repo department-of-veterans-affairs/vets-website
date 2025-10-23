@@ -55,10 +55,16 @@ const verifyEditPage = (values, editButtonText) => {
   cy.get('@ValueInput').should('have.value', values[0].amount);
 
   // edit the values - use force to handle any timing issues
-  cy.get('@TextInput').clear({ force: true });
+  cy.get('@TextInput').type('{selectall}{backspace}', {
+    timeout: 1000,
+    force: true,
+  });
   cy.get('@TextInput').type('edit-test', { force: true });
 
-  cy.get('@ValueInput').clear({ force: true });
+  cy.get('@ValueInput').type('{selectall}{backspace}', {
+    timeout: 1000,
+    force: true,
+  });
   cy.get('@ValueInput').type('111', { force: true });
 
   // return to summary page

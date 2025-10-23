@@ -1,6 +1,7 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import submitForm from './submitForm';
+import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
@@ -13,8 +14,8 @@ import {
   agreementType,
   acknowledgements,
   institutionDetailsFacility,
+  yellowRibbonProgramRequest,
 } from '../pages';
-import transform from './transform';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -116,6 +117,17 @@ const formConfig = {
               goPath('/acknowledgements');
             }
           },
+        },
+      },
+    },
+    yellowRibbonProgramRequestChapter: {
+      title: 'Yellow Ribbon Program contributions',
+      pages: {
+        yellowRibbonProgramRequest: {
+          path: 'yellow-ribbon-program-request',
+          title: 'Yellow Ribbon Program contributions',
+          uiSchema: yellowRibbonProgramRequest.uiSchema,
+          schema: yellowRibbonProgramRequest.schema,
         },
       },
     },

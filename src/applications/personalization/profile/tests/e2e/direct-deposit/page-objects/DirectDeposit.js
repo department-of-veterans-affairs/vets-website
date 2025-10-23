@@ -42,10 +42,10 @@ class DirectDepositPage {
   }
 
   confirmDirectDepositInSubnav = ({
-    profileShowPaperlessDelivery = false,
+    profile2Enabled = false,
     visitPage = true,
   } = {}) => {
-    if (profileShowPaperlessDelivery) {
+    if (profile2Enabled) {
       cy.get(
         `va-sidenav-item[label="${PROFILE_PATH_NAMES.DIRECT_DEPOSIT}"]`,
       ).should('exist');

@@ -4,9 +4,10 @@ import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
   <>
-    <va-telephone contact={CONTACTS.DMC} /> (or{' '}
-    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international /> from
-    overseas)
+    <va-telephone contact={CONTACTS.DMC} /> (
+    <va-telephone contact="711" tty="true" />
+    ). If you’re outside the U.S., call{' '}
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />
   </>
 );
 
@@ -262,19 +263,19 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: true,
         bodyText: (
-          <p>
-            If you’d like to pay in full now, call us first to ensure you don’t
-            overpay. If you stop receiving VA benefits, call us to set up a new
-            payment plan. We can be reached at{' '}
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
-            <br />
-            If reduced payments are causing you hardship, you can{' '}
-            <a href="/manage-va-debt/request-debt-help-form-5655">
-              request help with your debt
-            </a>
-            .
-          </p>
+          <>
+            <p>
+              If you’d like to pay in full now, call us first to ensure you
+              don’t overpay. If you stop receiving VA benefits, call us to set
+              up a new payment plan. We can be reached at <ContactDMC />. We’re
+              here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </p>
+            <p>
+              {' '}
+              If reduced payments are causing you hardship, you can request help
+              with your debt.
+            </p>
+          </>
         ),
       };
     case '450':
@@ -303,11 +304,8 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             </p>
             <p>
               {' '}
-              If reduced payments are causing you hardship, you can{' '}
-              <a href="/manage-va-debt/request-debt-help-form-5655">
-                request help with your debt
-              </a>
-              .
+              If reduced payments are causing you hardship, you can request help
+              with your debt.
             </p>
           </>
         ),

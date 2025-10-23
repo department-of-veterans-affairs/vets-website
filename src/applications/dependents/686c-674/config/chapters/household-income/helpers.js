@@ -40,7 +40,7 @@ export const whatAreAssets = (
 
 export const netWorthTitle = ({ netWorthLimit, featureFlag } = {}) => {
   if (!featureFlag) {
-    return `Did the household have a net worth greater than $${NETWORTH_VALUE} in the last tax year?`;
+    return `Did your household have a net worth less than $${NETWORTH_VALUE} in the last tax year?`;
   }
 
   const number = netWorthLimit || NETWORTH_VALUE;
@@ -48,5 +48,5 @@ export const netWorthTitle = ({ netWorthLimit, featureFlag } = {}) => {
     `${number}`.replace(/,/g, ''),
     10,
   ).toLocaleString('en-US');
-  return `Did the household have a net worth greater than $${formattedNumber} in the last tax year?`;
+  return `Did your household have a net worth less than $${formattedNumber} in the last tax year?`;
 };

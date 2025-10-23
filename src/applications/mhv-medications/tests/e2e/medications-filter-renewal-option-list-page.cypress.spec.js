@@ -15,7 +15,7 @@ describe('Medications List Page Renewal Filter Option', () => {
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
       'Renewal needed before refill',
-      'Prescriptions that just ran out of refills or became too old to refill (expired)',
+      'Prescriptions that need renewal (no refills left or expired in last 120 days)',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
     listPage.clickFilterRadioButtonOptionOnListPage(
@@ -27,6 +27,9 @@ describe('Medications List Page Renewal Filter Option', () => {
     );
     listPage.verifyFocusOnPaginationTextInformationOnListPage(
       Data.PAGINATION_RENEW,
+    );
+    listPage.verifyFilterAriaRegionText(
+      'Filter applied: Renewal needed before refill.',
     );
   });
 });

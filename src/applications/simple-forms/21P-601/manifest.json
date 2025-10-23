@@ -1,0 +1,6 @@
+{
+  "appName": "Application for Accrued Amounts Due a Deceased Beneficiary",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21P-601",
+  "rootUrl": "/supporting-forms-for-claims/accrued-benefits-application-21p-601"
+}

@@ -13,7 +13,7 @@ import { privateRecordsRequestTitle } from '../../content/evidencePrivateRecords
 import {
   EVIDENCE_PRIVATE,
   EVIDENCE_VA,
-  EVIDENCE_VA_PATH,
+  EVIDENCE_VA_DETAILS_URL,
 } from '../../constants';
 import errorMessages from '../../../shared/content/errorMessages';
 
@@ -123,7 +123,7 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     fireEvent.click($('button.usa-button-secondary', container));
     expect(
       goSpy.calledWith(
-        `/${EVIDENCE_VA_PATH}?index=${data.locations.length - 1}`,
+        `/${EVIDENCE_VA_DETAILS_URL}?index=${data.locations.length - 1}`,
       ),
     ).to.be.true;
   });

@@ -6,7 +6,7 @@ import {
 
 export default {
   uiSchema: {
-    ...titleUI('Deceased Veteran information'),
+    ...titleUI("Deceased Veteran's identification information"),
     'ui:description':
       'Tell us about the Veteran whose DIC benefits you receive. We need this information to locate their records and process your marital status update.',
     veteranFullName: fullNameNoSuffixUI(title => `Deceased Veteran's ${title}`),

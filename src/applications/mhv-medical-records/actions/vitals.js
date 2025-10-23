@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { getVitalsList, getAcceleratedVitals } from '../api/MrApi';
+import { getVitalsList, getVitalsWithOHData } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { isArrayAndHasItems } from '../util/helpers';
@@ -7,7 +7,7 @@ import { getListWithRetry } from './common';
 
 export const getVitals = (
   isCurrent = false,
-  isAccelerating = false,
+  isCerner = false,
   vitalsDate = '',
 ) => async dispatch => {
   dispatch({
@@ -16,8 +16,8 @@ export const getVitals = (
   });
   try {
     let response;
-    if (isAccelerating) {
-      response = await getAcceleratedVitals(vitalsDate);
+    if (isCerner) {
+      response = await getVitalsWithOHData(vitalsDate);
     } else {
       response = await getListWithRetry(dispatch, getVitalsList);
     }

@@ -6,7 +6,6 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { getLetterPdf } from '../actions/letters';
 import { DOWNLOAD_STATUSES } from '../utils/constants';
@@ -57,72 +56,33 @@ export class DownloadLetterLink extends React.Component {
         buttonText = `${this.props.letterTitle} (PDF)`;
         buttonDisabled = undefined;
         message = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue ? (
-                <va-alert
-                  status="success"
-                  class="vads-u-margin-bottom--4"
-                  role="alert"
-                >
-                  <h4 slot="headline">You downloaded your benefit letter</h4>
-                  <p>
-                    {getDownloadSuccessMessage(
-                      this.benefitSummaryOptionsLength,
-                    )}
-                  </p>
-                  <p>
-                    If you want to create a new letter with different
-                    information, select different topics and download your
-                    letter again.
-                  </p>
-                </va-alert>
-              ) : (
-                <va-alert status="success" role="alert">
-                  <h4 slot="headline">
-                    Your letter has successfully downloaded.
-                  </h4>
-                  <p>
-                    If you want to download your letter again, please press the
-                    button below.
-                  </p>
-                </va-alert>
-              )
-            }
-          </Toggler.Hoc>
+          <va-alert
+            status="success"
+            class="vads-u-margin-bottom--4"
+            role="alert"
+          >
+            <h4 slot="headline">You downloaded your benefit letter</h4>
+            <p>{getDownloadSuccessMessage(this.benefitSummaryOptionsLength)}</p>
+            <p>
+              If you want to create a new letter with different information,
+              select different topics and download your letter again.
+            </p>
+          </va-alert>
         );
         break;
       case DOWNLOAD_STATUSES.failure:
         buttonText = 'Retry download';
         buttonDisabled = undefined;
         message = (
-          <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-            {toggleValue =>
-              toggleValue ? (
-                <va-alert
-                  status="error"
-                  class="vads-u-margin-bottom--4"
-                  role="alert"
-                >
-                  <h4 slot="headline">
-                    Your VA Benefit Summary Letter didn't download
-                  </h4>
-                  <p>
-                    Your letter isn’t available at this time. If you need help
-                    with accessing your letter, please <CallVBACenter />
-                  </p>
-                </va-alert>
-              ) : (
-                <va-alert status="error" role="alert">
-                  <h4 slot="headline">Your letter didn’t download.</h4>
-                  <p>
-                    Your letter isn’t available at this time. If you need help
-                    with accessing your letter, please <CallVBACenter />
-                  </p>
-                </va-alert>
-              )
-            }
-          </Toggler.Hoc>
+          <va-alert status="error" class="vads-u-margin-bottom--4" role="alert">
+            <h4 slot="headline">
+              Your VA Benefit Summary Letter didn't download
+            </h4>
+            <p>
+              Your letter isn’t available at this time. If you need help with
+              accessing your letter, please <CallVBACenter />
+            </p>
+          </va-alert>
         );
         break;
       default:
@@ -131,61 +91,29 @@ export class DownloadLetterLink extends React.Component {
     }
 
     return (
-      <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-        {toggleValue =>
-          toggleValue ? (
-            <div className="form-expanding-group form-expanding-group-open">
-              <TransitionGroup>
-                {message ? (
-                  <CSSTransition
-                    classNames="form-expanding-group-inner"
-                    appear
-                    timeout={{
-                      appear: 700,
-                      enter: 700,
-                    }}
-                    exit={false}
-                  >
-                    {message}
-                  </CSSTransition>
-                ) : null}
-              </TransitionGroup>
-              <VaButton
-                className="vads-u-margin-y--0"
-                disabled={buttonDisabled}
-                text={buttonText}
-                onClick={this.downloadLetter}
-              />
-            </div>
-          ) : (
-            <div>
-              <div className="form-expanding-group form-expanding-group-open">
-                <TransitionGroup>
-                  {message ? (
-                    <CSSTransition
-                      classNames="form-expanding-group-inner"
-                      appear
-                      timeout={{
-                        appear: 700,
-                        enter: 700,
-                      }}
-                      exit={false}
-                    >
-                      {message}
-                    </CSSTransition>
-                  ) : null}
-                </TransitionGroup>
-              </div>
-              <VaButton
-                className="vads-u-margin-top--1 vads-u-margin-bottom--3"
-                disabled={buttonDisabled}
-                text={buttonText}
-                onClick={this.downloadLetter}
-              />
-            </div>
-          )
-        }
-      </Toggler.Hoc>
+      <div className="form-expanding-group form-expanding-group-open">
+        <TransitionGroup>
+          {message ? (
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: 700,
+                enter: 700,
+              }}
+              exit={false}
+            >
+              {message}
+            </CSSTransition>
+          ) : null}
+        </TransitionGroup>
+        <VaButton
+          className="vads-u-margin-y--0"
+          disabled={buttonDisabled}
+          text={buttonText}
+          onClick={this.downloadLetter}
+        />
+      </div>
     );
   }
 }
@@ -201,11 +129,13 @@ function mapStateToProps(state, ownProps) {
 }
 
 DownloadLetterLink.propTypes = {
+  // eslint-disable-next-line camelcase
+  LH_MIGRATION__options: PropTypes.object.isRequired,
+  downloadStatus: PropTypes.string.isRequired,
   getLetterPdf: PropTypes.func.isRequired,
   letterOptions: PropTypes.object.isRequired,
   letterTitle: PropTypes.string.isRequired,
   letterType: PropTypes.string.isRequired,
-  downloadStatus: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {

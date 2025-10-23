@@ -1,0 +1,180 @@
+{
+  "data": {
+    "view:vhaContent": {},
+    "view:supportInfo": {},
+    "additionalDocuments": [],
+    "view:hasOtherEvidence": false,
+    "view:otherEvidenceInfo": {},
+    "view:evidenceLimitInfo": {},
+    "view:hasVaEvidence": true,
+    "view:vaEvidenceInfo": {},
+    "facilityTypes": {
+      "vamc": true,
+      "cboc": false,
+      "mtf": false,
+      "ccp": false,
+      "vetCenter": false,
+      "nonVa": false
+    },
+    "view:housingRisk": {},
+    "housingRisk": false,
+    "veteran": {
+      "address": {
+        "badAddress": false,
+        "addressLine1": "Street",
+        "addressLine2": "812 Harrow Road",
+        "addressLine3": "",
+        "addressPou": "CORRESPONDENCE",
+        "addressType": "INTERNATIONAL",
+        "city": "London",
+        "countryName": "United Kingdom",
+        "countryCodeIso2": "GB",
+        "countryCodeIso3": "GBR",
+        "countryCodeFips": "",
+        "countyCode": "",
+        "countyName": "",
+        "createdAt": "2022-04-27T18:27:02.000+00:00",
+        "effectiveEndDate": "",
+        "effectiveStartDate": "2022-11-07T16:04:21.000+00:00",
+        "geocodeDate": "2022-11-07T16:04:22.000+00:00",
+        "geocodePrecision": 10,
+        "id": 319119,
+        "internationalPostalCode": "W2 1JP",
+        "latitude": 51.5002,
+        "longitude": -0.1262,
+        "province": "",
+        "sourceDate": "2022-11-07T16:04:21.000+00:00",
+        "sourceSystemUser": "",
+        "stateCode": "",
+        "transactionId": "d3b18de6-f772-4786-94c6-f15d1ded6bcb",
+        "updatedAt": "2022-11-07T16:04:23.000+00:00",
+        "overrideValidationKey": "",
+        "validationKey": "",
+        "vet360Id": "205205",
+        "vaProfileId": "205205",
+        "zipCode": "",
+        "zipCodeSuffix": ""
+      },
+      "homePhone": {
+        "areaCode": "210",
+        "countryCode": "1",
+        "createdAt": "2025-08-26T17:51:31.000+00:00",
+        "extension": "",
+        "effectiveEndDate": "",
+        "effectiveStartDate": "2025-08-26T17:51:29.000+00:00",
+        "id": 567562,
+        "isInternational": false,
+        "isTextable": "",
+        "isTextPermitted": "",
+        "isTty": "",
+        "isVoicemailable": "",
+        "phoneNumber": "5551234",
+        "phoneType": "HOME",
+        "sourceDate": "2025-08-26T17:51:29.000+00:00",
+        "sourceSystemUser": "",
+        "transactionId": "60ac045d-921d-4a18-b49c-457c07343e5c",
+        "updatedAt": "2025-08-26T17:51:31.000+00:00",
+        "vet360Id": "205205",
+        "vaProfileId": "205205"
+      },
+      "mobilePhone": {
+        "areaCode": "407",
+        "countryCode": "1",
+        "createdAt": "2025-06-03T18:15:27.000+00:00",
+        "extension": "",
+        "effectiveEndDate": "",
+        "effectiveStartDate": "2025-06-03T18:15:25.000+00:00",
+        "id": 534693,
+        "isInternational": false,
+        "isTextable": "",
+        "isTextPermitted": "",
+        "isTty": "",
+        "isVoicemailable": "",
+        "phoneNumber": "9329999",
+        "phoneType": "MOBILE",
+        "sourceDate": "2025-06-03T18:15:25.000+00:00",
+        "sourceSystemUser": "",
+        "transactionId": "095abd04-ef13-4a87-87d0-26abf06d40d1",
+        "updatedAt": "2025-06-03T18:15:27.000+00:00",
+        "vet360Id": "205205",
+        "vaProfileId": "205205"
+      },
+      "email": "vaeventbusdemo@adhocteam.us",
+      "ssnLastFour": "1111",
+      "vaFileLastFour": "1111"
+    },
+    "view:primaryPhone": "home",
+    "view:issueNotListed": {},
+    "form5103Acknowledged": true,
+    "view:hasPrivateEvidence": false,
+    "benefitType": "compensation",
+    "contestedIssues": [{
+      "id": null,
+      "type": "contestableIssue",
+      "attributes": {
+        "ratingIssueReferenceId": "142894",
+        "ratingIssueProfileDate": "2022-03-12",
+        "ratingIssueDiagnosticCode": "5260",
+        "ratingIssueSubjectText": "Headaches",
+        "description": "Acute chronic head pain",
+        "ratingIssuePercentNumber": "10",
+        "isRating": true,
+        "latestIssuesInChain": [{
+          "id": null,
+          "approxDecisionDate": "2022-03-12"
+        }],
+        "decisionIssueId": null,
+        "ratingDecisionReferenceId": null,
+        "approxDecisionDate": "2022-03-12",
+        "rampClaimId": null,
+        "titleOfActiveReview": null,
+        "sourceReviewType": null,
+        "timely": true
+      },
+      "view:selected": true
+    }],
+    "legacyCount": 2,
+    "additionalIssues": [
+      {
+        "issue": "Test",
+        "decisionDate": "2022-1-1",
+        "view:selected": true
+      },
+      {
+        "issue": "Test 2",
+        "decisionDate": "2022-6-28",
+        "view:selected": true
+      }
+    ],
+    "locations": [
+      {
+        "locationAndName": "South Texas VA Facility",
+        "issues": ["Headaches"],
+        "evidenceDates": {
+          "from": "",
+          "to": ""
+        },
+        "treatmentDate": "2000-01"
+      }
+    ],
+    "privacyAgreementAccepted": true,
+    "providerFacility": [
+      {
+        "providerFacilityName": "Provider One",
+        "providerFacilityAddress": {
+          "country": "USA",
+          "street": "123 Main Street",
+          "street2": "Street address 2",
+          "city": "San Antonio",
+          "state": "TX",
+          "postalCode": "78258"
+        },
+        "issues": ["Hypertension", "Hyperthyroidism", "Right Knee Injury"],
+        "treatmentDateRange": {
+          "from": "2010-08-09",
+          "to": "2011-08-13"
+        }
+      }
+    ]
+  }
+}

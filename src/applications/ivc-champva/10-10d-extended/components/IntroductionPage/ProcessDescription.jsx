@@ -13,28 +13,31 @@ const ProcessDescription = ({ resBurden }) => (
         />
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
-        <p>
-          <strong>
-            You’ll need to provide personal information for these people:
-          </strong>
-        </p>
+        <p>You’ll need to provide personal information for these people:</p>
         <ul>
-          <li>Yourself, and</li>
-          <li>Anyone you’re applying for, and</li>
+          <li>
+            Yourself, <strong>and</strong>
+          </li>
+          <li>
+            Anyone you’re applying for, <strong>and</strong>
+          </li>
           <li>
             Your sponsor (the Veteran or service member you’re connected to)
           </li>
         </ul>
         <p>
-          Personal information may include dates of birth, Social Security
-          numbers, and contact information.
+          <strong>Note:</strong> In some cases, you may need to submit an
+          additional form called the Other Health Insurance Certification (VA
+          Form 10-7959c) to coordinate benefits with your Medicare or other
+          health insurance. We’ll help you complete this form at the same time
+          as your Application for CHAMPVA benefits.
         </p>
         <p>
           You’ll also need to submit these supporting documents if appropriate:
         </p>
         <ul>
           <li>Health insurance cards</li>
-          <li>Medicare cards</li>
+          <li>Medicare cards or notice of disallowance if age 65 or older</li>
           <li>Proof of school enrollment</li>
           <li>Proof of marriage or legal union</li>
           <li>Proof of adoption</li>

@@ -5,10 +5,6 @@
     display: unset;
   }
 
-  .left-section {
-    padding-right: 7px;
-  }
-
   h1 {
     max-width: 627px;
     margin-bottom: 8px;
@@ -56,7 +52,7 @@
   }
 
   .mobile-view-divider {
-    margin-bottom: 16px;
+    margin: 32px;
   }
 
   @media screen and (min-width: 1202px) {

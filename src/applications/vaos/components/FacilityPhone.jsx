@@ -9,6 +9,7 @@ export default function FacilityPhone({
   level,
   icon,
   heading = 'Phone: ',
+  ccPhone = false,
 }) {
   if (!contact) {
     return null;
@@ -23,7 +24,7 @@ export default function FacilityPhone({
     [number, numberExtension] = contact.split('x').map(item => item.trim());
   }
 
-  const isClinic = !!heading.includes('Clinic');
+  const isClinic = !!heading.includes('Clinic') || ccPhone;
   const Heading = `h${level}`;
 
   let dataTestId = 'facility-telephone';
@@ -63,6 +64,7 @@ export default function FacilityPhone({
 }
 
 FacilityPhone.propTypes = {
+  ccPhone: PropTypes.bool,
   className: PropTypes.string,
   contact: PropTypes.string,
   extension: PropTypes.string,

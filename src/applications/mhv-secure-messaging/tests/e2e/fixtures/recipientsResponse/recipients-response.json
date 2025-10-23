@@ -137,7 +137,7 @@
       "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 56219,
-        "stationNumber": "613GF",
+        "stationNumber": "589",
         "blockedStatus": false,
         "name": "SLC4 PCMM",
         "relationType": "PATIENT",
@@ -182,7 +182,7 @@
       "attributes": {
         "triageTeamId": 3658299,
         "name": "OH TG GROUP 002",
-        "stationNumber": "663",
+        "stationNumber": "668",
         "blockedStatus": false,
         "preferredTeam": true,
         "relationshipType": "PATIENT",

@@ -1,0 +1,105 @@
+{
+  "data": {
+    "id": "189685",
+    "type": "claim",
+    "attributes": {
+      "claimDate": "2021-01-12",
+      "claimPhaseDates": {
+        "phaseChangeDate": "2022-01-02",
+        "currentPhaseBack": false,
+        "latestPhaseType": "GATHERING_OF_EVIDENCE",
+        "previousPhases": {
+          "phase1CompleteDate": "2022-01-01",
+          "phase2CompleteDate": "2022-01-02"
+        }
+      },
+      "claimType": "Compensation",
+      "claimTypeCode": "110LCMP7IDES",
+      "closeDate": null,
+      "contentions": [
+        {
+          "name": "tinnitus (New)"
+        }
+      ],
+      "decisionLetterSent": false,
+      "developmentLetterSent": false,
+      "documentsNeeded": false,
+      "endProductCode": "020",
+      "evidenceWaiverSubmitted5103": false,
+      "errors": [],
+      "jurisdiction": "National Work Queue",
+      "lighthouseId": null,
+      "maxEstClaimDate": "2022-02-02",
+      "minEstClaimDate": null,
+      "status": "EVIDENCE_GATHERING_REVIEW_DECISION",
+      "submitterApplicationCode": "EBN",
+      "submitterRoleCode": "VET",
+      "supportingDocuments": [],
+      "evidenceSubmissions": [
+        {
+          "acknowledgementDate": null,
+          "claimId": 189685,
+          "createdAt": null,
+          "deleteDate": null,
+          "documentType": "L023",
+          "failedDate": null,
+          "fileName": "authorization-form-signed.pdf",
+          "id": 1,
+          "lighthouseUpload": true,
+          "trackedItemId": 1,
+          "trackedItemDisplayName": "21-4142",
+          "uploadStatus": "FAILED",
+          "vaNotifyStatus": "SENT"
+        },
+        {
+          "acknowledgementDate": null,
+          "claimId": 189685,
+          "createdAt": null,
+          "deleteDate": null,
+          "documentType": "L034",
+          "failedDate": null,
+          "fileName": "medical-records.pdf",
+          "id": 2,
+          "lighthouseUpload": true,
+          "trackedItemId": 2,
+          "trackedItemDisplayName": "Private medical records",
+          "uploadStatus": "FAILED",
+          "vaNotifyStatus": "SENT"
+        },
+        {
+          "acknowledgementDate": null,
+          "claimId": 189685,
+          "createdAt": null,
+          "deleteDate": null,
+          "documentType": "L107",
+          "failedDate": null,
+          "fileName": "disability-claim-form.pdf",
+          "id": 3,
+          "lighthouseUpload": true,
+          "trackedItemId": null,
+          "trackedItemDisplayName": null,
+          "uploadStatus": "FAILED",
+          "vaNotifyStatus": "SENT"
+        },
+        {
+          "acknowledgementDate": null,
+          "claimId": 189685,
+          "createdAt": null,
+          "deleteDate": null,
+          "documentType": "L023",
+          "failedDate": null,
+          "fileName": "dd214-discharge-papers.pdf",
+          "id": 4,
+          "lighthouseUpload": true,
+          "trackedItemId": 3,
+          "trackedItemDisplayName": "Military Personnel Record",
+          "uploadStatus": "SUCCESS",
+          "vaNotifyStatus": null
+        }
+      ],
+      "tempJurisdiction": null,
+      "trackedItems": []
+    }
+  }
+}
+

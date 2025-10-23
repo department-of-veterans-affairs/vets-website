@@ -18,6 +18,7 @@ describe('showForm0781Pages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         'view:claimType': {
           'view:claimingNew': true,
         },
@@ -81,6 +82,7 @@ describe('isCompletingForm0781', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         'view:claimType': {
@@ -122,6 +124,7 @@ describe('isRelatedToMST', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
@@ -154,6 +157,7 @@ describe('showBehaviorIntroCombatPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
@@ -201,6 +205,7 @@ describe('showBehaviorIntroPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
@@ -233,6 +238,7 @@ describe('showBehaviorListPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         answerCombatBehaviorQuestions: 'true',
@@ -249,6 +255,7 @@ describe('showBehaviorListPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         eventTypes: {
@@ -268,6 +275,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
@@ -292,6 +300,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
@@ -339,6 +348,7 @@ describe('showBehaviorDescriptionPages', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
@@ -412,6 +422,7 @@ describe('showUnlistedDescriptionPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {
@@ -478,6 +489,7 @@ describe('showBehaviorSummaryPage', () => {
     it('should return true', () => {
       const formData = {
         syncModern0781Flow: true,
+        newDisabilities: [{ condition: 'General anxiety disorder' }],
         mentalHealthWorkflowChoice:
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         workBehaviors: {

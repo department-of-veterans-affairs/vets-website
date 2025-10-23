@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
+
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import causePage, { causeOptions } from '../../../pages/shared/cause';
@@ -46,23 +47,28 @@ describe('526 cause shared page', () => {
     expect(selected).to.have.attribute('value', 'VA');
   });
 
-  it('flags an invalid value after submit attempt', () => {
+  it('flags an invalid value after submit attempt', async () => {
     const { container, getByRole } = mountPage({ cause: 'FOO' });
 
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const radio = container.querySelector('va-radio');
-
-    expect(radio).to.have.attribute('error', 'You must select a valid option');
+    await waitFor(() => {
+      const radio = container.querySelector('va-radio');
+      expect(radio).to.have.attribute(
+        'error',
+        'You must select a valid option',
+      );
+    });
   });
 
-  it('blocks navigation when nothing is selected', () => {
+  it('blocks navigation when nothing is selected', async () => {
     const { getByRole, container } = mountPage();
     fireEvent.click(getByRole('button', { name: /submit/i }));
 
-    const radio = container.querySelector('va-radio');
-
-    expect(radio).to.have.attribute('error', 'You must provide a response');
+    await waitFor(() => {
+      const radio = container.querySelector('va-radio');
+      expect(radio).to.have.attribute('error', 'You must provide a response');
+    });
   });
 
   it('submits once a valid choice is present', async () => {

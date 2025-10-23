@@ -1,5 +1,4 @@
 import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { showScNewForm, checkRedirect } from './toggle';
 import {
   FORMAT_COMPACT_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
@@ -74,48 +73,16 @@ export const removeNonSelectedIssuesFromEvidence = data => {
 };
 
 /**
- * Update the evidence location, if:
- * - New SC form toggle is enabled
- * - location evidenceDates "from" (YYYY-MM-DD) has a value
- * - location treatmentDate (YYYY-MM) is not defined
- * If all the above are true, then get the "from" evidenceDate, strip off the
- * day value and set the "treatmentDate" to that new value. The `noDate` value
- * is set to true if "from" date is undefined
- * @param {Object} formData - Form data from save-in-progress
+ * Redirect to the user's last saved URL if it exists
  * @param {String} returnUrl - URL of last saved page
  * @param {Object} router - React router
  */
 export const onFormLoaded = props => {
-  let { returnUrl } = props;
-  const { formData, router } = props;
-  const { locations = [] } = formData;
+  const { returnUrl, router } = props;
 
-  // New SC form data flow
-  if (showScNewForm(formData)) {
-    // Redirect Veteran to housing-risk page (second page in the flow), if
-    // needed
-    returnUrl = checkRedirect(formData, returnUrl);
-
-    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
-    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
-    // "from" date is undefined
-    if (locations.length) {
-      formData.locations = locations.map(location => {
-        if (!location.treatmentDate) {
-          const from = location.evidenceDates?.from || '';
-          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
-          const noDate = treatmentDate === '';
-          return {
-            ...location,
-            treatmentDate,
-            noDate,
-          };
-        }
-        return location;
-      });
-    }
+  if (returnUrl) {
+    router?.push(returnUrl);
   }
-  router?.push(returnUrl);
 };
 
 export const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
