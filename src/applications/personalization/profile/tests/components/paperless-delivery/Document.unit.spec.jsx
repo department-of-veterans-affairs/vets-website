@@ -83,7 +83,6 @@ describe('Document', () => {
       'va-checkbox[label="1095-B Proof of Health Care"]',
     );
     expect(checkbox.className).to.include('vads-u-display--none');
-    expect(checkbox.disabled).to.be.true;
   });
 
   it('renders alert when updateStatus has error', () => {

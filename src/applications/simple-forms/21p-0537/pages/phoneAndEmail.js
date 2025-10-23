@@ -1,4 +1,5 @@
 import {
+  titleUI,
   phoneUI,
   phoneSchema,
   emailToSendNotificationsUI,
@@ -7,6 +8,7 @@ import {
 
 export default {
   uiSchema: {
+    ...titleUI('How can we reach you?'),
     primaryPhone: phoneUI('Primary phone number'),
     secondaryPhone: phoneUI('Secondary phone number'),
     emailAddress: emailToSendNotificationsUI(),

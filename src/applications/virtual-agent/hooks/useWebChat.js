@@ -25,7 +25,7 @@ const getLoadingStatus = (
 
 export default function useWebChat(props, paramLoadingStatus) {
   const webChatFramework = useWebChatFramework(props);
-  const token = useChatbotToken(props);
+  const token = useChatbotToken();
 
   const loadingStatus = getLoadingStatus(
     webChatFramework.loadingStatus,

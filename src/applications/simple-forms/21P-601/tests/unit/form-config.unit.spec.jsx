@@ -75,6 +75,12 @@ describe('21P-601 form config', () => {
       expect(page.hideNavButtons).to.be.true;
       expect(page.customNavButtons).to.be.a('function');
     });
+
+    it('eligibilitySummary customNavButtons returns null', () => {
+      const page =
+        formConfig.chapters.eligibilityChapter.pages.eligibilitySummary;
+      expect(page.customNavButtons()).to.be.null;
+    });
   });
 
   describe('hasUnpaidCreditors page dependencies', () => {
@@ -147,6 +153,81 @@ describe('21P-601 form config', () => {
 
     it('should be hidden when both are true', () => {
       const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: true };
+      expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('deceasedBeneficiaryChapter dependencies', () => {
+    const dependsFn = formConfig.chapters.deceasedBeneficiaryChapter.depends;
+
+    it('should be visible when user is eligible', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
+    it('should be hidden when hasAlreadyFiled is true', () => {
+      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.false;
+    });
+
+    it('should be hidden when hasUnpaidCreditors is true', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: true };
+      expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('yourInformationChapter dependencies', () => {
+    const dependsFn = formConfig.chapters.yourInformationChapter.depends;
+
+    it('should be visible when user is eligible', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
+    it('should be hidden when hasAlreadyFiled is true', () => {
+      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('survivingRelativesChapter dependencies', () => {
+    const dependsFn = formConfig.chapters.survivingRelativesChapter.depends;
+
+    it('should be visible when user is eligible', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
+    it('should be hidden when hasAlreadyFiled is true', () => {
+      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('expensesAndDebtsChapter dependencies', () => {
+    const dependsFn = formConfig.chapters.expensesAndDebtsChapter.depends;
+
+    it('should be visible when user is eligible', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
+    it('should be hidden when hasAlreadyFiled is true', () => {
+      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('additionalInfoChapter dependencies', () => {
+    const dependsFn = formConfig.chapters.additionalInfoChapter.depends;
+
+    it('should be visible when user is eligible', () => {
+      const formData = { hasAlreadyFiled: false, hasUnpaidCreditors: false };
+      expect(dependsFn(formData)).to.be.true;
+    });
+
+    it('should be hidden when hasAlreadyFiled is true', () => {
+      const formData = { hasAlreadyFiled: true, hasUnpaidCreditors: false };
       expect(dependsFn(formData)).to.be.false;
     });
   });
@@ -302,6 +383,14 @@ describe('21P-601 form config', () => {
     it('should be hidden when both are false', () => {
       const formData = { claimingReimbursement: false, hasOtherDebts: false };
       expect(dependsFn(formData)).to.be.false;
+    });
+  });
+
+  describe('dev configuration', () => {
+    it('should have dev configuration object', () => {
+      expect(formConfig.dev).to.exist;
+      expect(formConfig.dev.showNavLinks).to.be.true;
+      expect(formConfig.dev.collapsibleNavLinks).to.be.true;
     });
   });
 

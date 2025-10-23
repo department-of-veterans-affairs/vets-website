@@ -386,6 +386,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
+        sendDataDogAction('Download Report Error - PDF');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
@@ -435,6 +436,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
+        sendDataDogAction('Download Report Error - TXT');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },

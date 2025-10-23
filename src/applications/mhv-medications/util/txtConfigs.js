@@ -10,12 +10,9 @@ import {
   processList,
   validateField,
   validateIfAvailable,
+  prescriptionMedAndRenewalStatus,
 } from './helpers';
-import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
-  FIELD_NOT_AVAILABLE,
-} from './constants';
+import { FIELD_NOT_AVAILABLE, medStatusDisplayTypes } from './constants';
 
 const newLine = (n = 1) => '\n'.repeat(n);
 const joinLines = (...lines) => lines.filter(Boolean).join(newLine(2));
@@ -72,22 +69,6 @@ export const buildNonVAPrescriptionTXT = (prescription, options) => {
  * Return prescriptions list TXT
  */
 export const buildPrescriptionsTXT = prescriptions => {
-  const statusParagraph = statusKey => {
-    const pdfStatusDefinition =
-      pdfStatusDefinitions[statusKey] || pdfDefaultStatusDefinition;
-
-    const lines = pdfStatusDefinition.flatMap(item => {
-      if (Array.isArray(item.value)) {
-        // each sub-item becomes a bullet line
-        return item.value.map(value => `- ${String(value).trim()}`);
-      }
-      // normal single line
-      return [String(item.value).trim()];
-    });
-
-    return lines.join(newLine()).trimEnd();
-  };
-
   const mostRecentRxRefillLine = rx => {
     const newest = getMostRecentRxRefill(rx);
 
@@ -132,8 +113,9 @@ export const buildPrescriptionsTXT = prescriptions => {
       : '';
 
     const attributes = joinLines(
-      `Status: ${rx.dispStatus || 'Unknown'} - ${statusParagraph(
-        rx.refillStatus,
+      `Status: ${prescriptionMedAndRenewalStatus(
+        rx,
+        medStatusDisplayTypes.TXT,
       )}`,
       fieldLine('Refills left', rx.refillRemaining),
       `Request refills by this prescription expiration date: ${dateFormat(
@@ -224,6 +206,7 @@ export const buildVAPrescriptionTXT = prescription => {
   const pendingRenewal =
     prescription?.prescriptionSource === 'PD' &&
     prescription?.dispStatus === 'Renew';
+
   let result = `
 ---------------------------------------------------------------------------------
 
@@ -252,14 +235,9 @@ Prescription number: ${prescription.prescriptionNumber}
 `
       : ''
   }
-Status: ${prescription.dispStatus || 'Unknown'}
-${(
-    pdfStatusDefinitions[prescription.refillStatus] ||
-    pdfDefaultStatusDefinition
-  ).reduce(
-    (fullStatus, item) =>
-      fullStatus + item.value + (item.continued ? ' ' : '\n'),
-    '',
+Status: ${prescriptionMedAndRenewalStatus(
+    prescription,
+    medStatusDisplayTypes.TXT,
   )}
 Refills left: ${validateIfAvailable(
     'Number of refills left',

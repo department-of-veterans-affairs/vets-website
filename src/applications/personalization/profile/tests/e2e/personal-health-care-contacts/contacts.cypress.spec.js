@@ -20,13 +20,13 @@ describe('Personal health care contacts', () => {
     mockGETEndpoints(otherEndpoints, 200, {});
   });
 
-  describe('when feature profileShowPaperlessDelivery is true', () => {
+  describe('when feature profile2Enabled is true', () => {
     it('links from the nav', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          profileShowPaperlessDelivery: true,
+          profile2Enabled: true,
         }),
       );
       cy.intercept('GET', '/v0/profile/contacts', contacts);
@@ -37,7 +37,7 @@ describe('Personal health care contacts', () => {
     });
   });
 
-  describe('when feature profileShowPaperlessDelivery is false', () => {
+  describe('when feature profile2Enabled is false', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
     });

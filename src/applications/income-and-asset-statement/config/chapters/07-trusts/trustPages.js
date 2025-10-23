@@ -1,5 +1,5 @@
 import React from 'react';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderItemSubsequentPageTitleUI,
@@ -9,6 +9,8 @@ import {
   currencySchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  fileInputMultipleUI,
+  fileInputMultipleSchema,
   radioUI,
   radioSchema,
   yesNoUI,
@@ -17,8 +19,17 @@ import {
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { formatDateLong } from 'platform/utilities/date';
 import { trustTypeLabels } from '../../../labels';
+import {
+  FILE_UPLOAD_URL,
+  FORM_NUMBER,
+  MAX_FILE_SIZE_BYTES,
+} from '../../../constants';
 import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
-
+import MailingAddress from '../../../components/MailingAddress';
+import {
+  DocumentUploadGuidelines,
+  SupportingDocumentsNeededList,
+} from '../../../components/OwnedAssetsDescriptions';
 import {
   annualReceivedIncomeFromTrustRequired,
   formatCurrency,
@@ -36,14 +47,30 @@ export const options = {
   nounSingular: 'trust',
   nounPlural: 'trusts',
   required: false,
-  isItemIncomplete: item =>
-    !isDefined(item?.establishedDate) ||
-    !isDefined(item.marketValueAtEstablishment) ||
-    !isDefined(item.trustType) ||
-    typeof item.addedFundsAfterEstablishment !== 'boolean' ||
-    typeof item.trustUsedForMedicalExpenses !== 'boolean' ||
-    typeof item.trustEstablishedForVeteransChild !== 'boolean' ||
-    typeof item.haveAuthorityOrControlOfTrust !== 'boolean', // include all required fields here
+  isItemIncomplete: item => {
+    const needsDocs =
+      showUpdatedContent() && item?.['view:addFormQuestion'] === true;
+
+    const hasDocs =
+      Array.isArray(item?.uploadedDocuments) &&
+      item.uploadedDocuments.length > 0;
+
+    const needsAddedFunds =
+      item?.addedFundsAfterEstablishment === true &&
+      (!isDefined(item?.addedFundsDate) || !isDefined(item?.addedFundsAmount));
+
+    return (
+      !isDefined(item?.establishedDate) ||
+      !isDefined(item?.marketValueAtEstablishment) ||
+      !isDefined(item?.trustType) ||
+      typeof item?.addedFundsAfterEstablishment !== 'boolean' ||
+      typeof item?.trustUsedForMedicalExpenses !== 'boolean' ||
+      typeof item?.trustEstablishedForVeteransChild !== 'boolean' ||
+      typeof item?.haveAuthorityOrControlOfTrust !== 'boolean' ||
+      needsAddedFunds ||
+      (needsDocs && !hasDocs)
+    );
+  },
   text: {
     summaryTitle: 'Review trusts',
     summaryDescription: TrustSupplementaryFormsAlert,
@@ -56,27 +83,55 @@ export const options = {
           <li>
             Type:{' '}
             <span className="vads-u-font-weight--bold">
-              {trustTypeLabels[item.trustType]}
+              {trustTypeLabels[(item?.trustType)]}
             </span>
           </li>
           <li>
             Fair market value when created:{' '}
             <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.marketValueAtEstablishment)}
+              {formatCurrency(item?.marketValueAtEstablishment)}
             </span>
           </li>
-          <li>
-            Yearly income:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.annualReceivedIncome)}
-            </span>
-          </li>
-          <li>
-            Money added to trust:{' '}
-            <span className="vads-u-font-weight--bold">
-              {formatCurrency(item.addedFundsAmount)}
-            </span>
-          </li>
+          {item?.receivingIncomeFromTrust && (
+            <li>
+              Yearly income:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item?.annualReceivedIncome)}
+              </span>
+            </li>
+          )}
+          {item?.addedFundsAfterEstablishment && (
+            <li>
+              Money added to trust:{' '}
+              <span className="vads-u-font-weight--bold">
+                {formatCurrency(item?.addedFundsAmount)}
+              </span>
+            </li>
+          )}
+          {showUpdatedContent() && (
+            <li>
+              Supporting documents uploaded:{' '}
+              <span className="vads-u-font-weight--bold">
+                {item?.['view:addFormQuestion'] === true &&
+                Array.isArray(item?.uploadedDocuments) &&
+                item?.uploadedDocuments?.length > 0
+                  ? ''
+                  : 'No'}
+              </span>
+              {Array.isArray(item?.uploadedDocuments) &&
+                item?.uploadedDocuments?.length > 0 && (
+                  <ul className="vads-u-margin-top--1">
+                    {item.uploadedDocuments.map((doc, i) => (
+                      <li key={i}>
+                        <span className="vads-u-font-weight--bold">
+                          {doc?.name}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+            </li>
+          )}
         </ul>
       ),
     reviewAddButtonText: 'Add another trust',
@@ -412,6 +467,151 @@ const addedFundsPage = {
   },
 };
 
+/** @returns {PageSchema} */
+const supportingDocumentsNeeded = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Supporting documents needed'),
+    'view:addFormDescription': {
+      'ui:description': (
+        <>
+          {' '}
+          <p>
+            Since you added a trust, you’ll need to submit supporting documents
+            to show the following:
+          </p>
+          <SupportingDocumentsNeededList />
+        </>
+      ),
+    },
+    'view:addFormQuestion': yesNoUI({
+      title: 'Do you want to upload the supporting documents now?',
+    }),
+    'ui:options': {
+      updateSchema: (formData, schema, _uiSchema, index) => {
+        const itemData = formData?.trusts?.[index] || formData;
+
+        if (itemData?.['view:addFormQuestion'] === false) {
+          itemData.uploadedDocuments = [];
+        }
+
+        return schema;
+      },
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:addFormDescription': {
+        type: 'object',
+        properties: {},
+      },
+      'view:addFormQuestion': yesNoSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const supportingDocumentUpload = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI('Upload supporting documents'),
+    'view:uploadedDocumentsDescription': {
+      'ui:description': (
+        <>
+          <DocumentUploadGuidelines formDescription="documents" />
+          <va-additional-info trigger="What supporting documents should show">
+            <SupportingDocumentsNeededList />
+          </va-additional-info>
+        </>
+      ),
+    },
+    uploadedDocuments: {
+      ...fileInputMultipleUI({
+        title: 'Upload supporting documents',
+        required: true,
+        fileUploadUrl: FILE_UPLOAD_URL,
+        accept: '.pdf,.jpeg,.png',
+        errorMessages: { required: 'Upload a supporting document' },
+        maxFileSize: MAX_FILE_SIZE_BYTES,
+        formNumber: FORM_NUMBER,
+        skipUpload: environment.isLocalhost(),
+        // server response triggers required validation.
+        // skipUpload needed to bypass in local environment
+      }),
+      'ui:validations': [
+        (errors, fieldData /* files array or single file */) => {
+          let files = [];
+
+          if (Array.isArray(fieldData)) {
+            files = fieldData;
+          } else if (fieldData) {
+            files = [fieldData];
+          }
+
+          // Required check: no files at all
+          if (files.length === 0) {
+            errors.addError('Upload a supporting document');
+            return;
+          }
+
+          files.forEach(file => {
+            if (file?.isEncrypted && !file?.confirmationCode) {
+              return;
+            }
+
+            if (!file || !file.name) {
+              errors.addError('Upload a supporting document');
+            }
+          });
+        },
+      ],
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['uploadedDocuments'],
+    properties: {
+      'view:uploadedDocumentsDescription': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedDocuments: fileInputMultipleSchema(),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const documentMailingAddressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Submit supporting documents by mail',
+    ),
+    'view:documentMailingAddress': {
+      'ui:description': (
+        <>
+          {' '}
+          <p>
+            Because you chose not to upload the supporting documents now, you’ll
+            need to mail them to this address:
+          </p>
+          <MailingAddress />
+          <va-additional-info trigger="What supporting documents should show">
+            <SupportingDocumentsNeededList />
+          </va-additional-info>
+        </>
+      ),
+    },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:documentMailingAddress': {
+        type: 'object',
+        properties: {},
+      },
+    },
+  },
+};
+
 export const trustPages = arrayBuilderPages(options, pageBuilder => ({
   trustPagesVeteranSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
@@ -457,6 +657,7 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
   trustPagesSummary: pageBuilder.summaryPage({
     title: summaryPageTitle,
     path: 'trusts-summary',
+    depends: () => !showUpdatedContent(),
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
@@ -509,5 +710,30 @@ export const trustPages = arrayBuilderPages(options, pageBuilder => ({
       formData?.[options.arrayPath]?.[index]?.addedFundsAfterEstablishment,
     uiSchema: addedFundsPage.uiSchema,
     schema: addedFundsPage.schema,
+  }),
+  trustSupportingDocumentsNeededNeededPage: pageBuilder.itemPage({
+    title: 'Supporting documents needed',
+    path: 'trusts/:index/supporting-documents-needed',
+    depends: () => showUpdatedContent(),
+    uiSchema: supportingDocumentsNeeded.uiSchema,
+    schema: supportingDocumentsNeeded.schema,
+  }),
+  trustDocumentUploadPage: pageBuilder.itemPage({
+    title: 'Upload supporting documents',
+    path: 'trusts/:index/document-upload',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      formData?.trusts[index]?.['view:addFormQuestion'] === true,
+    uiSchema: supportingDocumentUpload.uiSchema,
+    schema: supportingDocumentUpload.schema,
+  }),
+  trustDocumentMailingAddressPage: pageBuilder.itemPage({
+    title: 'Supporting documents needed',
+    path: 'trusts/:index/document-mailing-address',
+    depends: (formData, index) =>
+      showUpdatedContent() &&
+      formData?.trusts[index]?.['view:addFormQuestion'] === false,
+    uiSchema: documentMailingAddressPage.uiSchema,
+    schema: documentMailingAddressPage.schema,
   }),
 }));

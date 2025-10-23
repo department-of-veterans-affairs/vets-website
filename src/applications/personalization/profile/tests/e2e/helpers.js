@@ -12,11 +12,11 @@ import error500 from '@@profile/tests/fixtures/500.json';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 export function subNavOnlyContainsAccountSecurity({
-  profileShowPaperlessDelivery = false,
+  profile2Enabled = false,
   mobile = false,
 } = {}) {
   if (mobile) {
-    if (profileShowPaperlessDelivery) {
+    if (profile2Enabled) {
       cy.get('va-sidenav')
         .filter(':visible')
         .click();
@@ -25,9 +25,9 @@ export function subNavOnlyContainsAccountSecurity({
     }
   }
 
-  if (profileShowPaperlessDelivery) {
+  if (profile2Enabled) {
     cy.get(
-      `va-sidenav-item[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
+      `va-sidenav-submenu[label="${PROFILE_PATH_NAMES.ACCOUNT_SECURITY}"]`,
     ).should('exist');
   } else {
     cy.findByRole('navigation', { name: /profile/i }).within(() => {
@@ -39,19 +39,25 @@ export function subNavOnlyContainsAccountSecurity({
   }
 }
 
-export function onlyAccountSecuritySectionIsAccessible() {
+export function onlyAccountSecuritySectionIsAccessible({
+  profile2Enabled = false,
+}) {
   // get all of the PROFILE_PATHS _except_ for account security
+  const accountSecurityLandingPageKeys = [
+    'SIGNIN_INFORMATION',
+    'ACCOUNT_SECURITY',
+  ];
   const profilePathsExcludingAccountSecurity = Object.entries(
     PROFILE_PATHS,
   ).filter(([key]) => {
-    return key !== 'ACCOUNT_SECURITY';
+    return !accountSecurityLandingPageKeys.includes(key);
   });
+  const expectedPath = profile2Enabled
+    ? PROFILE_PATHS.SIGNIN_INFORMATION
+    : PROFILE_PATHS.ACCOUNT_SECURITY;
   profilePathsExcludingAccountSecurity.forEach(([_, path]) => {
     cy.visit(path);
-    cy.url().should(
-      'eq',
-      `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-    );
+    cy.url().should('eq', `${Cypress.config().baseUrl}${expectedPath}`);
   });
 }
 

@@ -9,14 +9,14 @@ import {
   arrayBuilderYesNoUI,
   currencyUI,
   currencySchema,
+  fileInputUI,
+  fileInputSchema,
   fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
   radioUI,
   radioSchema,
   yesNoUI,
   yesNoSchema,
-  fileInputUI,
-  fileInputSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import {
   formatCurrency,
@@ -48,6 +48,11 @@ import {
   parentRelationshipLabelDescriptions,
   ownedAssetTypeLabels,
 } from '../../../labels';
+import {
+  FILE_UPLOAD_URL,
+  FORM_NUMBER,
+  MAX_FILE_SIZE_BYTES,
+} from '../../../constants';
 import {
   DocumentMailingAddressDescription,
   AdditionalFormNeededDescription,
@@ -570,9 +575,6 @@ const ownedAssetAdditionalFormNeeded = {
   },
 };
 
-const MAX_FILE_SIZE_MB = 20;
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2;
-
 /** @returns {PageSchema} */
 const ownedAssetDocumentUpload = {
   uiSchema: {
@@ -583,12 +585,12 @@ const ownedAssetDocumentUpload = {
     uploadedDocuments: {
       ...fileInputUI({
         title: 'Upload supporting form',
-        fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,
+        fileUploadUrl: FILE_UPLOAD_URL,
         accept: '.pdf,.jpeg,.png',
         required: () => true,
         errorMessages: { required: 'Upload a supporting document' },
         maxFileSize: MAX_FILE_SIZE_BYTES,
-        formNumber: '21P-0969',
+        formNumber: FORM_NUMBER,
         skipUpload: environment.isLocalhost(),
         // server response triggers required validation.
         // skipUpload needed to bypass in local environment
@@ -722,7 +724,6 @@ export const ownedAssetPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: parentIncomeRecipientPage.uiSchema,
     schema: parentIncomeRecipientPage.schema,
   }),
-  // Page 1 MVP
   ownedAssetNonVeteranRecipientPage: pageBuilder.itemPage({
     title: incomeRecipientPageTitle,
     path: 'property-and-business/:index/income-recipient',

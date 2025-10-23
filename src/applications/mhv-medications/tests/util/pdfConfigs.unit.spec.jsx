@@ -40,6 +40,7 @@ describe('Prescriptions List Config', () => {
       },
     ];
     const pdfList = buildPrescriptionsPDFList(blankPrescriptions);
+
     expect(pdfList[0].sections[0].items[2].value).to.equal(
       `${FIELD_NONE_NOTED} - ${pdfDefaultStatusDefinition[0].value}`,
     );
@@ -88,14 +89,14 @@ describe('VA prescription Config', () => {
 
   it('should create "Refill history" section if there is 1 record with dispensedDate NOT undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1].header).to.equal('Refill history');
   });
 
   it('should NOT create "Refill history" section if there is 1 record with dispensedDate undefined', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords[0].dispensedDate = undefined;
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1]).to.not.exist;
@@ -103,7 +104,7 @@ describe('VA prescription Config', () => {
 
   it('should NOT create "Refill history" section if there are NO records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [];
     const pdfGen = buildVAPrescriptionPDFList(rxDetails);
     expect(pdfGen[1]).to.not.exist;
@@ -118,7 +119,7 @@ describe('VA prescription Config', () => {
 
   it('should create "Refill history" section if there are 2 records', () => {
     const rxDetails = { ...prescriptionDetails.data.attributes };
-    rxDetails.dispensedDate = undefined; // this is to skip createOriginalFillRecord
+    rxDetails.dispensedDate = undefined;
     rxDetails.rxRfRecords = [
       { ...rxDetails.rxRfRecords[0] },
       { ...rxDetails.rxRfRecords[0] },
@@ -132,7 +133,10 @@ describe('VA prescription Config', () => {
       providerLastName: 'test',
     };
     const pdfList = buildVAPrescriptionPDFList(blankPrescription);
-    expect(pdfList[0].sections[0].items[12].value).to.equal('test');
+    const testVal =
+      pdfList[0].sections[0].items[pdfList[0].sections[0].items.length - 1]
+        .value;
+    expect(testVal).to.equal('test');
   });
 
   it('should NOT display "Last filled on" if rx prescription source is PD and dispStatus is NewOrder', () => {
@@ -153,6 +157,32 @@ describe('VA prescription Config', () => {
     const pdfList = buildVAPrescriptionPDFList(rxDetails);
     const items = pdfList[0].sections[0].items.map(item => item.label);
     expect(items).to.not.include('Last filled on:');
+  });
+
+  it('should display PendingMed status description if NewOrder', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'NewOrder';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    expect(status.value).to.match(
+      /This is a new prescription from your provider/,
+    );
+  });
+
+  it('should display PendingMed status description if Renew', () => {
+    const rxDetails = { ...prescriptionDetails.data.attributes };
+    rxDetails.dispStatus = 'Renew';
+    rxDetails.prescriptionSource = 'PD';
+
+    const pdfList = buildVAPrescriptionPDFList(rxDetails);
+    const status = pdfList[0].sections[0].items.find(
+      item => item.title === 'Status',
+    );
+    expect(status.value).to.match(/This is a renewal you requested/);
   });
 });
 

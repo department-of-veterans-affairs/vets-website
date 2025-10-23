@@ -60,7 +60,7 @@
         "ownedPortionValue": 100000,
         "assetType": "FARM",
         "view:addFormQuestion": true,
-        "uploadedDocuments": [{ "name": "Test file.png" }]
+        "uploadedDocuments": { "name": "file.png" }
       }
     ],
     "view:isAddingRoyalties": true,
@@ -104,7 +104,9 @@
         "trustUsedForMedicalExpenses": false,
         "monthlyMedicalReimbursementAmount": 0.0,
         "trustEstablishedForVeteransChild": false,
-        "haveAuthorityOrControlOfTrust": true
+        "haveAuthorityOrControlOfTrust": true,
+        "view:addFormQuestion": true,
+        "uploadedDocuments": [{ "name": "file.png" }]
       }
     ],
     "view:isAddingAnnuities": true,

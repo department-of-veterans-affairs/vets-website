@@ -33,6 +33,26 @@ export const DocumentMailingAddressDescription = () => {
   );
 };
 
+export const SupportingDocumentsNeededList = () => (
+  <ul>
+    <li>
+      Initial trust agreement establishing the trust and its purpose,{' '}
+      <strong>and</strong>
+    </li>
+    <li>
+      The initial schedule of the assets in the trust, <strong>and</strong>
+    </li>
+    <li>
+      Any changes to the schedule of assets, <strong>and</strong>
+    </li>
+    <li>Documentation demonstration sell-ability, value and income of asset</li>
+    <li>
+      Monthly payments out of this trust (if any), <strong>and</strong>
+    </li>
+    <li>The cash value you would receive if you withdraw from the trust</li>
+  </ul>
+);
+
 export const AdditionalFormNeededDescription = () => {
   const { assetType } = useOwnedAssetContext();
 
@@ -71,6 +91,21 @@ export const AdditionalFormNeededDescription = () => {
   return null;
 };
 
+export const DocumentUploadGuidelines = ({ formDescription }) => (
+  <>
+    <p>
+      Be sure that the {formDescription} you submit follow these guidelines:
+    </p>
+    <ul>
+      <li>The document is a .pdf, .jpeg, or .png file</li>
+      <li>
+        The document isn’t larger than {MAX_FILE_SIZE_MB}
+        MB
+      </li>
+    </ul>
+  </>
+);
+
 export const DocumentUploadGuidelinesDescription = () => {
   const { assetType } = useOwnedAssetContext();
 
@@ -79,20 +114,7 @@ export const DocumentUploadGuidelinesDescription = () => {
       ? 'Pension Claim Questionnaire for Farm Income (VA Form 21P-4165)'
       : 'Report of Income from Property or Business (VA Form 21p-4185)';
 
-  return (
-    <>
-      <p>
-        Be sure that the {formDescription} you submit follow these guidelines:
-      </p>
-      <ul>
-        <li>The document is a .pdf, .jpeg, or .png file</li>
-        <li>
-          The document isn’t larger than {MAX_FILE_SIZE_MB}
-          MB
-        </li>
-      </ul>
-    </>
-  );
+  return <DocumentUploadGuidelines formDescription={formDescription} />;
 };
 
 export const SummaryDescription = () => {

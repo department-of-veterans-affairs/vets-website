@@ -42,6 +42,7 @@ describe('Home address update modal', () => {
     addressPage.fillAddressForm(formFields);
     addressPage.saveForm();
 
+    cy.findByTestId('copy-address-prompt').should('be.focused');
     cy.findByTestId('copy-address-prompt')
       .shadow()
       .findByText(`We've updated your home address`)
@@ -52,6 +53,7 @@ describe('Home address update modal', () => {
       waitForAnimations: true,
     });
 
+    cy.findByTestId('copy-address-success').should('be.focused');
     cy.findByTestId('copy-address-success')
       .shadow()
       .findByText(`We've updated your mailing address`)
@@ -68,7 +70,7 @@ describe('Home address update modal', () => {
 
     cy.findByTestId('mailingAddress')
       .findByTestId('update-success-alert')
-      .should('exist');
+      .should('be.focused');
 
     cy.findByTestId('residentialAddress')
       .findByTestId('update-success-alert')

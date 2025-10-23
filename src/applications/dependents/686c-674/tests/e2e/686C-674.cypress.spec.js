@@ -13,6 +13,7 @@ import {
   fillSelectWebComponent,
   selectRadioWebComponent,
   signAndSubmit,
+  selectRadioWebComponentAlt,
 } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
@@ -180,6 +181,24 @@ const testConfig = createTestConfig(
             const marriage = data.spouseMarriageHistory?.[0];
             if (marriage?.endDate) {
               fillDateWebComponentPattern('endDate', marriage.endDate);
+            }
+            cy.clickFormContinue();
+          });
+        });
+      },
+
+      'report-674/add-students/:index/student-relationship': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const student = data.studentInformation?.[0];
+
+            if (student?.relationshipToStudent) {
+              selectRadioWebComponentAlt(
+                'relationshipToStudent',
+                student.relationshipToStudent,
+              );
             }
             cy.clickFormContinue();
           });

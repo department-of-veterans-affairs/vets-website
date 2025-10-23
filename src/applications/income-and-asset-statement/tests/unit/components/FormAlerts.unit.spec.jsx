@@ -1,31 +1,87 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
+import sinon from 'sinon';
+import * as helpers from '../../../helpers';
 import { TrustSupplementaryFormsAlert } from '../../../components/FormAlerts';
 
 describe('pension <TrustSupplementaryFormsAlert>', () => {
-  it('should render when trusts are present', () => {
+  let showUpdatedContentStub;
+
+  beforeEach(() => {
+    showUpdatedContentStub = sinon.stub(helpers, 'showUpdatedContent');
+  });
+
+  afterEach(() => {
+    if (showUpdatedContentStub && showUpdatedContentStub.restore) {
+      showUpdatedContentStub.restore();
+    }
+  });
+
+  it('should render when trusts are present and showUpdatedContent is false', () => {
+    showUpdatedContentStub.returns(false);
+
     const { container } = render(
       <TrustSupplementaryFormsAlert formData={{ trusts: [{}] }} />,
     );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attribute('status', 'info');
+
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert).to.have.attribute('status', 'info');
     expect(container.textContent).to.include('Additional documents needed');
+    expect(container.textContent).to.include(
+      'You’ve added a trust, so you’ll need to submit supporting documents.',
+    );
   });
 
   it('should not render when trusts are empty', () => {
+    showUpdatedContentStub.returns(false);
+
     const { container } = render(
       <TrustSupplementaryFormsAlert formData={{ trusts: [] }} />,
     );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.not.exist;
+
+    expect(container.querySelector('va-alert')).to.not.exist;
   });
 
   it('should not render when formData is undefined', () => {
+    showUpdatedContentStub.returns(false);
+
     const { container } = render(<TrustSupplementaryFormsAlert />);
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.not.exist;
+
+    expect(container.querySelector('va-alert')).to.not.exist;
+  });
+
+  it('should render when showUpdatedContent is true and a trust has addFormQuestion === false', () => {
+    showUpdatedContentStub.returns(true);
+
+    const { container } = render(
+      <TrustSupplementaryFormsAlert
+        formData={{ trusts: [{ 'view:addFormQuestion': false }] }}
+      />,
+    );
+
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(container.textContent).to.include(
+      'You added a trust but didn’t upload documents to show:',
+    );
+  });
+
+  it('should not render when showUpdatedContent is true and all trusts have addFormQuestion === true', () => {
+    showUpdatedContentStub.returns(true);
+
+    const { container } = render(
+      <TrustSupplementaryFormsAlert
+        formData={{
+          trusts: [
+            { 'view:addFormQuestion': true },
+            { 'view:addFormQuestion': true },
+          ],
+        }}
+      />,
+    );
+
+    expect(container.querySelector('va-alert')).to.not.exist;
   });
 });

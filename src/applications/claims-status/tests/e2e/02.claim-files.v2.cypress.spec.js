@@ -6,8 +6,10 @@ import claimDetailsOpenOneEvidenceSubmissionNoSupportingDocs from './fixtures/mo
 import claimDetailsOpenNoEvidenceSubmissionsOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-no-evidence-submissions-one-supporting-docs.json';
 import claimDetailsOpenOneEvidenceSubmissionOneSupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-one-evidence-submission-one-supporting-docs.json';
 import featureToggleDocumentUploadStatusEnabled from './fixtures/mocks/lighthouse/feature-toggle-document-upload-status-enabled.json';
+import featureToggleDisabled from './fixtures/mocks/lighthouse/feature-toggle-disabled.json';
 import claimDetailsOpenManySupportingDocs from './fixtures/mocks/lighthouse/claim-detail-open-many-supporting-docs.json';
 import claimDetailsOpenManyEvidenceSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-many-evidence-submissions.json';
+import claimDetailsOpenWithFailedSubmissions from './fixtures/mocks/lighthouse/claim-detail-open-with-failed-submissions.json';
 
 describe('Claim Files Test', () => {
   it('Gets files properly - C30822', () => {
@@ -241,4 +243,154 @@ describe('Claim Files Test - Show Document Upload Status Enabled', () => {
       cy.axeCheck();
     });
   });
+});
+
+describe('Upload Type 2 Error Alert', () => {
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const twoDaysAgo = new Date(
+    Date.now() - 2 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const fiveDaysAgo = new Date(
+    Date.now() - 5 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+  const tenDaysAgo = new Date(
+    Date.now() - 10 * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  context(
+    "when the 'cst_show_document_upload_status' feature toggle is disabled",
+    () => {
+      it('should NOT display the alert', () => {
+        const claimDetailsWithTwoFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map(submission => ({
+                  ...submission,
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
+            },
+          },
+        };
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithTwoFailures,
+          false,
+          false,
+          featureToggleDisabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is NOT present when toggle is disabled
+        trackClaimsPage.verifyUploadType2ErrorAlertNotPresent();
+        cy.axeCheck();
+      });
+    },
+  );
+
+  context(
+    "when the 'cst_show_document_upload_status' feature toggle is enabled",
+    () => {
+      it('should display the alert when there are failed submissions within last 30 days', () => {
+        const claimDetailsWithTwoFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: claimDetailsOpenWithFailedSubmissions.data.attributes.evidenceSubmissions
+                .slice(0, 2)
+                .map((submission, index) => ({
+                  ...submission,
+                  failedDate: index === 0 ? fiveDaysAgo : twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                })),
+            },
+          },
+        };
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithTwoFailures,
+          false,
+          false,
+          featureToggleDocumentUploadStatusEnabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is visible
+        trackClaimsPage.verifyUploadType2ErrorAlert();
+        // Verify files are displayed in chronological order (most recent first)
+        trackClaimsPage.verifyUploadType2ErrorAlertFileOrder([
+          'medical-records.pdf',
+          'authorization-form-signed.pdf',
+        ]);
+        // Verify link to files we couldn't receive page
+        trackClaimsPage.verifyUploadType2ErrorAlertLink();
+        cy.axeCheck();
+      });
+
+      it('should display only first item (sorted by most recent failedDate) and count for remaining failed submissions', () => {
+        const claimDetailsWithSortedFailures = {
+          ...claimDetailsOpenWithFailedSubmissions,
+          data: {
+            ...claimDetailsOpenWithFailedSubmissions.data,
+            attributes: {
+              ...claimDetailsOpenWithFailedSubmissions.data.attributes,
+              evidenceSubmissions: [
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[0],
+                  fileName: 'file-1.pdf',
+                  failedDate: twoDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[1],
+                  fileName: 'file-3.pdf',
+                  failedDate: tenDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+                {
+                  ...claimDetailsOpenWithFailedSubmissions.data.attributes
+                    .evidenceSubmissions[2],
+                  fileName: 'file-2.pdf',
+                  failedDate: fiveDaysAgo,
+                  acknowledgementDate: tomorrow,
+                },
+              ],
+            },
+          },
+        };
+
+        const trackClaimsPage = new TrackClaimsPageV2();
+
+        trackClaimsPage.loadPage(
+          claimsList,
+          claimDetailsWithSortedFailures,
+          false,
+          false,
+          featureToggleDocumentUploadStatusEnabled,
+        );
+        trackClaimsPage.verifyInProgressClaim(false);
+        trackClaimsPage.navigateToFilesTab();
+        // Verify alert is visible
+        trackClaimsPage.verifyUploadType2ErrorAlert();
+        // Verify the most recent file (by failedDate) is displayed
+        trackClaimsPage.verifyUploadType2ErrorAlertFileName('file-1.pdf');
+        // Verify "And X more" message
+        trackClaimsPage.verifyUploadType2ErrorAlertMultipleFilesMessage(2);
+        cy.axeCheck();
+      });
+    },
+  );
 });

@@ -193,7 +193,7 @@ describe('EpsAppointmentDetailsPage', () => {
     expect(getByText(/Bring your insurance cards/)).to.exist;
     expect(
       container.querySelector(
-        'va-link[text="Find out what to bring to your appointment"]',
+        'va-link[text="Find a full list of things to bring to your appointment"]',
       ),
     ).to.exist;
 
@@ -257,7 +257,41 @@ describe('EpsAppointmentDetailsPage', () => {
     await waitFor(() => {
       expect(getByTestId('appointment-card')).to.exist;
     });
-    expect(getByTestId('provider-telephone')).to.exist;
+    expect(getByTestId('clinic-telephone')).to.exist;
+  });
+
+  it('should display fallback text when provider data not available', async () => {
+    const appointment = {
+      ...referralAppointmentInfo,
+      attributes: {
+        ...referralAppointmentInfo.attributes,
+        provider: {
+          ...referralAppointmentInfo.attributes.provider,
+          name: '',
+          // location: {},
+          location: {
+            ...referralAppointmentInfo.attributes.provider.location,
+            name: '',
+            address: '',
+          },
+          phone: '',
+        },
+      },
+    };
+    requestStub.resolves({ data: appointment });
+    const { getByText, getByTestId } = renderWithStoreAndRouter(
+      <EpsAppointmentDetailsPage />,
+      {
+        store: createTestStore(emptyAppointmentState),
+        path: `/${appointmentId}`,
+      },
+    );
+    await waitFor(() => {
+      expect(getByText(/Provider name not available/)).to.exist;
+      expect(getByText(/Facility name not available/)).to.exist;
+      expect(getByText(/Address not available/)).to.exist;
+      expect(getByTestId('main-telephone')).to.exist;
+    });
   });
 
   it('should display correct time with timezone conversion', async () => {

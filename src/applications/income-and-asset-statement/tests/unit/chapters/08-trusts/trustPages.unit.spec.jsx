@@ -27,8 +27,6 @@ describe('trust list and loop pages', () => {
   describe('isItemIncomplete function', () => {
     /* eslint-disable no-unused-vars */
     const {
-      addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
       annualReceivedIncome,
       monthlyMedicalReimbursementAmount,
@@ -41,8 +39,6 @@ describe('trust list and loop pages', () => {
   describe('isItemIncomplete function tested with zeroes', () => {
     /* eslint-disable no-unused-vars */
     const {
-      addedFundsDate,
-      addedFundsAmount,
       receivingIncomeFromTrust,
       annualReceivedIncome,
       monthlyMedicalReimbursementAmount,
@@ -65,9 +61,7 @@ describe('trust list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       establishedDate,
-      addedFundsAfterEstablishment,
       addedFundsDate,
-      receivingIncomeFromTrust,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,
@@ -82,9 +76,7 @@ describe('trust list and loop pages', () => {
     /* eslint-disable no-unused-vars */
     const {
       establishedDate,
-      addedFundsAfterEstablishment,
       addedFundsDate,
-      receivingIncomeFromTrust,
       trustUsedForMedicalExpenses,
       monthlyMedicalReimbursementAmount,
       trustEstablishedForVeteransChild,

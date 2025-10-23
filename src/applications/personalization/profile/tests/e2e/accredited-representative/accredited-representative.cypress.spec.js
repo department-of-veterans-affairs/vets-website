@@ -47,12 +47,12 @@ describe('Accredited representative', () => {
     });
   });
 
-  describe('when feature profileShowPaperlessDelivery is true', () => {
+  describe('when feature profile2Enabled is true', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           features: [
-            { name: 'profile_show_paperless_delivery', value: true },
+            { name: 'profile_2_enabled', value: true },
             { name: 'representative_status_enable_v2_features', value: true },
           ],
         },

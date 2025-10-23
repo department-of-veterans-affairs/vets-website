@@ -26,6 +26,13 @@ const EVENT = 'event';
 const POST_ACTIVITY = 'DIRECT_LINE/POST_ACTIVITY';
 
 function getStartConversationActivity(value) {
+  const valuePayload = {
+    code: value.code,
+    isMobile: value.isMobile,
+  };
+  if (value.currentConversationId) {
+    valuePayload.currentConversationId = value.currentConversationId;
+  }
   return {
     meta: { method: 'keyboard' },
     payload: {
@@ -33,11 +40,7 @@ function getStartConversationActivity(value) {
         channelData: { postBack: true },
         name: START_CONVERSATION,
         type: EVENT,
-        value: {
-          code: value.code,
-          currentConversationId: value.currentConversationId,
-          isMobile: value.isMobile,
-        },
+        value: valuePayload,
       },
     },
     type: POST_ACTIVITY,
@@ -132,9 +135,12 @@ function resetUtterances(dispatch) {
 // define thunks for actions
 export const processActionConnectFulfilled = ({
   dispatch,
+  isSessionPersistenceEnabled,
   ...options
 }) => () => {
-  const currentConversationId = getConversationIdKey();
+  const currentConversationId = isSessionPersistenceEnabled
+    ? getConversationIdKey()
+    : undefined;
   const startConversationActivity = getStartConversationActivity({
     ...options,
     currentConversationId,
@@ -154,14 +160,13 @@ export const processIncomingActivity = ({
   dispatch,
   isComponentToggleOn,
 }) => () => {
-  const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
   const isFormPostButton = data.value?.type === 'FormPostButton';
   const isCSATSurveyResponse = data.valueType === 'CSATSurveyResponse';
 
-  if (isAtBeginningOfConversation) {
+  if (!getIsTrackingUtterances()) {
     setIsTrackingUtterances(true);
   }
 
@@ -182,17 +187,31 @@ export const processIncomingActivity = ({
     }
   }
 
+  const trackingUtterances = getIsTrackingUtterances();
+  if (trackingUtterances) {
+    sendWindowEventWithActionPayload('webchat-message-activity', action);
+  }
+
   if (isComponentToggleOn && isFormPostButton) {
     submitForm(data.value.url, data.value.body);
   }
 
   if (isCSATSurveyResponse) {
-    processCSAT(data);
-  }
-
-  const trackingUtterances = getIsTrackingUtterances();
-  if (trackingUtterances) {
-    sendWindowEventWithActionPayload('webchat-message-activity', action);
+    try {
+      // Defer to next frame to allow Adaptive Card DOM to render
+      requestAnimationFrame(() => {
+        try {
+          processCSAT(data);
+        } catch (e) {
+          // Safeguard to prevent crashing the chat UI
+          // eslint-disable-next-line no-console
+          console.warn('CSAT processing error (deferred):', e);
+        }
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('CSAT processing error:', e);
+    }
   }
 
   handleSkillEntryEvent(action);

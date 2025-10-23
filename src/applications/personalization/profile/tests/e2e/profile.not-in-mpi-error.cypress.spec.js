@@ -10,20 +10,20 @@ import {
 
 /**
  *
- * @param {boolean} profileShowPaperlessDelivery - feature
+ * @param {boolean} profile2Enabled - feature
  * @param {boolean} mobile - test on a mobile viewport or not
  */
-function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
+function test({ profile2Enabled = false, mobile = false } = {}) {
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
   }
 
   // should redirect to profile/account-security on load
-  cy.url().should(
-    'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-  );
+  const expectedUrl = profile2Enabled
+    ? `${Cypress.config().baseUrl}${PROFILE_PATHS.SIGNIN_INFORMATION}`
+    : `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`;
+  cy.url().should('eq', expectedUrl);
 
   // Should show a "not in MPI" error
   cy.findByText(/We can’t match your information with our Veteran records/i)
@@ -35,17 +35,11 @@ function test({ profileShowPaperlessDelivery = false, mobile = false } = {}) {
     .closest('va-alert')
     .should('exist');
 
-  // should redirect to profile/account-security on load
-  cy.url().should(
-    'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
-  );
-
   cy.injectAxeThenAxeCheck();
 
-  subNavOnlyContainsAccountSecurity({ profileShowPaperlessDelivery, mobile });
+  subNavOnlyContainsAccountSecurity({ profile2Enabled, mobile });
 
-  onlyAccountSecuritySectionIsAccessible();
+  onlyAccountSecuritySectionIsAccessible({ profile2Enabled });
 }
 
 let getPersonalInfoStub;
@@ -89,9 +83,13 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
   });
   it('should only have access to the Account Security section at desktop size', () => {
     test();
+    cy.injectAxe();
+    cy.axeCheck();
   });
   it('should only have access to the Account Security section at mobile size', () => {
     test({ mobile: true });
+    cy.injectAxe();
+    cy.axeCheck();
   });
   it('should not call profile apis', () => {
     test();
@@ -102,10 +100,12 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', ()
       expect(getServiceHistoryStub).not.to.be.called;
       expect(getDisabilityInfoStub).not.to.be.called;
     });
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });
 
-describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profileShowPaperlessDelivery is true', () => {
+describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and feature profile2Enabled is true', () => {
   beforeEach(() => {
     cy.login(mockUserNotInMPI);
     mockGETEndpoints([
@@ -118,7 +118,7 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and 
     ]);
     cy.intercept('GET', 'v0/feature_toggles*', {
       data: {
-        features: [{ name: 'profile_show_paperless_delivery', value: true }],
+        features: [{ name: 'profile_2_enabled', value: true }],
       },
     });
     getDD4EDUBankInfoStub = cy.stub();
@@ -143,13 +143,17 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and 
     });
   });
   it('should only have access to the Account Security section at desktop size', () => {
-    test({ profileShowPaperlessDelivery: true });
+    test({ profile2Enabled: true });
+    cy.injectAxe();
+    cy.axeCheck();
   });
   it('should only have access to the Account Security section at mobile size', () => {
-    test({ profileShowPaperlessDelivery: true, mobile: true });
+    test({ profile2Enabled: true, mobile: true });
+    cy.injectAxe();
+    cy.axeCheck();
   });
   it('should not call profile apis', () => {
-    test({ profileShowPaperlessDelivery: true });
+    test({ profile2Enabled: true });
     cy.should(() => {
       expect(getDD4EDUBankInfoStub).not.to.be.called;
       expect(getFullNameStub).not.to.be.called;
@@ -157,5 +161,7 @@ describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI and 
       expect(getServiceHistoryStub).not.to.be.called;
       expect(getDisabilityInfoStub).not.to.be.called;
     });
+    cy.injectAxe();
+    cy.axeCheck();
   });
 });

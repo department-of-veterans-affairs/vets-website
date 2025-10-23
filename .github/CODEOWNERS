@@ -271,6 +271,9 @@ src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @depa
 src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/time-of-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Benefits Intake Optimization - HEART
+src/applications/simple-forms/21P-601 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/21p-0537 @department-of-veterans-affairs/bio-heart-team @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Transition Experience
 src/applications/discover-your-benefits @department-of-veterans-affairs/transition-experience @department-of-veterans-affairs/va-platform-cop-frontend
