@@ -311,6 +311,7 @@ class AddressValidationView extends React.Component {
                 description={(street, cityStateZip, country)}
                 value="userEntered"
                 checked={selectedAddressId === id}
+                tile
               />
             ) : (
               confirmedSuggestions.map((suggestedAddress, index) => (
@@ -323,6 +324,7 @@ class AddressValidationView extends React.Component {
                   description={(street, cityStateZip, country)}
                   value={index}
                   checked={selectedAddressId === index.toString()}
+                  tile
                 />
               ))
             )}
