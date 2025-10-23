@@ -23,6 +23,7 @@ describe('Home address update modal - api failure', () => {
     addressPage.fillAddressForm(formFields);
     addressPage.saveForm();
 
+    cy.findByTestId('copy-address-prompt').should('be.focused');
     cy.findByTestId('copy-address-prompt')
       .shadow()
       .findByText(`We've updated your home address`)
@@ -32,6 +33,7 @@ describe('Home address update modal - api failure', () => {
       force: true,
     });
 
+    cy.findByTestId('copy-address-failure').should('be.focused');
     cy.findByTestId('copy-address-failure')
       .shadow()
       .findByText(`We can't update your mailing address`)
@@ -47,7 +49,7 @@ describe('Home address update modal - api failure', () => {
 
     cy.findByTestId('mailingAddress')
       .findByTestId('generic-error-alert')
-      .should('exist');
+      .should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
