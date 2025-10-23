@@ -3,18 +3,22 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import { ReviewDependents } from '../../components/ReviewDependents';
+import sinon from 'sinon';
+
+import ReviewDependents from '../../components/ReviewDependents';
 
 const mockStore = configureStore([]);
 
-const renderWithStore = (state = {}) => {
+const renderWithStore = (data = {}, error = null, setFormData = () => {}) => {
   const store = mockStore({
-    form: { data: state },
+    dependents: {
+      error,
+    },
   });
 
   return render(
     <Provider store={store}>
-      <ReviewDependents />
+      <ReviewDependents data={data} setFormData={setFormData} />
     </Provider>,
   );
 };
@@ -149,6 +153,44 @@ describe('ReviewDependents', () => {
 
     expect(firstCardName).to.not.be.null;
     expect(secondCardName).to.not.be.null;
+  });
+
+  it('should set view:addOrRemoveDependents add value to true if no dependents are loaded', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = null;
+    const { container } = renderWithStore(
+      {
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="info"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      dependents: { awarded: [] },
+      'view:addOrRemoveDependents': { add: true },
+    });
+  });
+
+  it('should set view:addOrRemoveDependents add value to true if no dependents are loaded', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = 'DOH';
+    const { container } = renderWithStore(
+      {
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.true;
+    expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      dependents: { awarded: [] },
+      'view:addOrRemoveDependents': { add: true },
+    });
   });
 
   it('should handle undefined form data gracefully', () => {
