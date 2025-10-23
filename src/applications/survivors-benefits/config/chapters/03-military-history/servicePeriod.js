@@ -14,7 +14,7 @@ export default {
   title: 'Veteran information',
   path: 'veteran/service-period',
   uiSchema: {
-    ...titleUI('Veteran information'),
+    ...titleUI('Service period'),
     branchOfService: checkboxGroupUI({
       title: 'Branch of service',
       required: true,

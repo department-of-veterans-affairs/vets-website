@@ -37,8 +37,8 @@ function introDescription() {
   return (
     <div>
       <p>
-        In the next few questions, we'll ask you about other names the Veteran
-        served under.
+        In the next few questions, we’ll ask you about other names the Veteran
+        served under. You may add up to 2 names.
       </p>
     </div>
   );

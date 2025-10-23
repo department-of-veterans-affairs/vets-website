@@ -15,14 +15,14 @@ import ErrorText from '../components/ErrorText';
 import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
-import applicantInformation from './chapters/01-veteran-information';
+import veteranName from './chapters/01-veteran-information/veteranName';
+import claimantInformationChapter from './chapters/02-claimant-information';
 import vaBenefits from './chapters/03-military-history/vaBenefits';
 import servicePeriod from './chapters/03-military-history/servicePeriod';
 import nationalGuardService from './chapters/03-military-history/nationalGuardService';
 import nationalGuardServicePeriod from './chapters/03-military-history/nationalGuardServicePeriod';
 import nationalGuardUnitAddress from './chapters/03-military-history/nationalGuardUnitAddress';
 import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
-import veteranName from './chapters/01-veteran-information/veteranName';
 import {
   prisonerOfWarPage,
   powPeriodOfTimePage,
@@ -31,10 +31,6 @@ import {
   vetInfoNameDobPage,
   vetInfoQuestionsPage,
 } from './chapters/01-veteran-information/veteranInfoPages';
-import claimantInformation from './chapters/02-claimant-information/claimantInformation';
-import mailingAddress from './chapters/02-claimant-information/mailingAddress';
-import contactInformation from './chapters/02-claimant-information/contactInformation';
-import benefitType from './chapters/02-claimant-information/benefitType';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -100,54 +96,17 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    // Chapter 4
-    claimInformation: {
-      title: 'Claim information',
-      pages: {
-        dicBenefits: {
-          title: 'D.I.C. benefits',
-          path: 'claim-information/dic',
-          uiSchema: dicBenefits.uiSchema,
-          schema: dicBenefits.schema,
-        },
-        ...treatmentPages,
-        nursingHome: {
-          title: 'Nursing home or increased survivor entitlement',
-          path: 'claim-information/nursing-home',
-          uiSchema: nursingHome.uiSchema,
-          schema: nursingHome.schema,
-        },
-      },
-    },
-    // Chapter 1
-    applicantInformation,
+    // Chapter 1 - Veteran Information
     veteranInformation: {
-      title: "Veteran's information",
       pages: {
         veteranName,
-        vetInfoNameDob: {
-          path: vetInfoNameDobPage.path,
-          title: vetInfoNameDobPage.title,
-          uiSchema: vetInfoNameDobPage.uiSchema,
-          schema: vetInfoNameDobPage.schema,
-        },
-        vetInfoQuestions: {
-          path: vetInfoQuestionsPage.path,
-          title: vetInfoQuestionsPage.title,
-          uiSchema: vetInfoQuestionsPage.uiSchema,
-          schema: vetInfoQuestionsPage.schema,
-        },
+        vetInfoNameDobPage,
+        vetInfoQuestionsPage,
       },
     },
-    claimantInformation: {
-      title: "Claimant's information",
-      pages: {
-        claimantInformation,
-        mailingAddress,
-        contactInformation,
-        benefitType,
-      },
-    },
+    // Chapter 2 - Claimant Information
+    claimantInformation: claimantInformationChapter,
+    // Chapter 3 - Military History
     militaryHistory: {
       title: "Veteran's military history",
       pages: {
@@ -199,6 +158,25 @@ const formConfig = {
           depends: powPeriodOfTimePage.depends,
           uiSchema: powPeriodOfTimePage.uiSchema,
           schema: powPeriodOfTimePage.schema,
+        },
+      },
+    },
+    // Chapter 4
+    claimInformation: {
+      title: 'Claim information',
+      pages: {
+        dicBenefits: {
+          title: 'D.I.C. benefits',
+          path: 'claim-information/dic',
+          uiSchema: dicBenefits.uiSchema,
+          schema: dicBenefits.schema,
+        },
+        ...treatmentPages,
+        nursingHome: {
+          title: 'Nursing home or increased survivor entitlement',
+          path: 'claim-information/nursing-home',
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
         },
       },
     },
