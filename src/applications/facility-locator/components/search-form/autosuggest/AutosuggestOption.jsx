@@ -12,14 +12,22 @@ function AutosuggestOption({
   getItemProps,
   itemToString,
 }) {
+  const role = item.isError ? 'alert' : 'option';
+  const itemInfo = {
+    item,
+    className: optionClasses(index === highlightedIndex),
+    role,
+  };
+
+  // Only add aria-selected if the item is not disabled/error
+  // This prevents aria-selected="false" on disabled items which is an accessibility issue
+  if (!item.disabled && !item.isError) {
+    itemInfo['aria-selected'] = index === highlightedIndex;
+  }
+
   return (
     <p
-      {...getItemProps({
-        item,
-        className: optionClasses(index === highlightedIndex),
-        role: item.isError ? 'alert' : 'option',
-        'aria-selected': index === highlightedIndex,
-      })}
+      {...getItemProps(itemInfo)}
       data-testid={`autosuggest-option-${item.id || `${item}-${index}`}`}
     >
       {itemToString(item)}
