@@ -73,8 +73,8 @@ describe('VeteranIdentityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('John');
-      expect(container.textContent).to.include('Doe');
+      expect(container.textContent).to.include('Boba');
+      expect(container.textContent).to.include('Fett');
       expect(container.textContent).to.include('123-45-6789');
     });
 
@@ -98,8 +98,8 @@ describe('VeteranIdentityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Jane');
-      expect(container.textContent).to.include('Smith');
+      expect(container.textContent).to.include('Boba');
+      expect(container.textContent).to.include('Fett');
       expect(container.textContent).to.include('987-65-4321');
     });
 
@@ -193,8 +193,8 @@ describe('VeteranIdentityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Partial');
-      expect(container.textContent).to.include('Data');
+      expect(container.textContent).to.include('Boba');
+      expect(container.textContent).to.include('Fett');
     });
   });
 

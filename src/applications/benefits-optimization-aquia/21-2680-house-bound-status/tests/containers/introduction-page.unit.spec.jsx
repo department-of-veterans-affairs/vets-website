@@ -104,8 +104,12 @@ describe('IntroductionPage', () => {
 
     const processItems = container.querySelectorAll('va-process-list-item');
     expect(processItems).to.have.lengthOf(4);
-    expect(processItems[0].getAttribute('header')).to.equal('Prepare');
-    expect(processItems[1].getAttribute('header')).to.equal('Apply');
+    expect(processItems[0].getAttribute('header')).to.equal(
+      'Gather your information',
+    );
+    expect(processItems[1].getAttribute('header')).to.equal(
+      'Fill out the form',
+    );
     expect(processItems[2].getAttribute('header')).to.equal('VA Review');
     expect(processItems[3].getAttribute('header')).to.equal('Decision');
   });

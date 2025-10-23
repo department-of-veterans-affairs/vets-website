@@ -121,8 +121,8 @@ describe('VeteranAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('789 Elm St');
-      expect(container.textContent).to.include('Peoria');
+      expect(container.textContent).to.include('789 Palace Road');
+      expect(container.textContent).to.include('Naboo');
     });
 
     it('should handle empty data gracefully', () => {

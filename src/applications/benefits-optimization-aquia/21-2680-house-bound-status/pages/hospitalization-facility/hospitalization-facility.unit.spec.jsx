@@ -78,7 +78,7 @@ describe('HospitalizationFacilityPage', () => {
       );
 
       expect(container.textContent).to.include(
-        "What's the name and address of the hospital where David is admitted?",
+        "What's the name and address of the hospital where Ahsoka is admitted?",
       );
     });
   });

@@ -62,8 +62,8 @@ describe('HospitalizationStatusPage', () => {
     it('should render page title with claimant first name', () => {
       const data = {
         claimantFullName: {
-          first: 'John',
-          last: 'Smith',
+          first: 'Ahsoka',
+          last: 'Tano',
         },
       };
 
@@ -75,7 +75,7 @@ describe('HospitalizationStatusPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Is John hospitalized?');
+      expect(container.textContent).to.include('Is Ahsoka hospitalized?');
     });
   });
 
@@ -145,7 +145,7 @@ describe('HospitalizationStatusPage', () => {
       const existingData = {
         isCurrentlyHospitalized: 'yes',
         claimantFullName: {
-          first: 'Bob',
+          first: 'Ahsoka',
         },
       };
 
@@ -172,7 +172,7 @@ describe('HospitalizationStatusPage', () => {
       const existingData = {
         isCurrentlyHospitalized: 'no',
         claimantFullName: {
-          first: 'Alice',
+          first: 'Ahsoka',
         },
       };
 

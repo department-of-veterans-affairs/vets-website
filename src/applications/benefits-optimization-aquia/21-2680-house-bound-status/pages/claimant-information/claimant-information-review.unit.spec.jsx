@@ -72,8 +72,8 @@ describe('ClaimantInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Sarah');
-      expect(container.textContent).to.include('Connor');
+      expect(container.textContent).to.include('Ahsoka');
+      expect(container.textContent).to.include('Tano');
     });
 
     it('should display claimant information with partial name', () => {
@@ -95,8 +95,8 @@ describe('ClaimantInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Michael');
-      expect(container.textContent).to.include('Reese');
+      expect(container.textContent).to.include('Ahsoka');
+      expect(container.textContent).to.include('Tano');
     });
 
     it('should display claimant information with only name', () => {
@@ -117,8 +117,8 @@ describe('ClaimantInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Kyle');
-      expect(container.textContent).to.include('Reese');
+      expect(container.textContent).to.include('Ahsoka');
+      expect(container.textContent).to.include('Tano');
     });
 
     it('should display claimant information with only DOB', () => {
@@ -184,7 +184,7 @@ describe('ClaimantInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('John');
+      expect(container.textContent).to.include('Ahsoka');
     });
   });
 

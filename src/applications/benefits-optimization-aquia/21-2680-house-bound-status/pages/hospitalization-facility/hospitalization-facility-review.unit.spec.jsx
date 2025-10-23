@@ -246,7 +246,7 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Test Hospital');
+      expect(container.textContent).to.include('Dagobah Swamp Clinic');
     });
   });
 

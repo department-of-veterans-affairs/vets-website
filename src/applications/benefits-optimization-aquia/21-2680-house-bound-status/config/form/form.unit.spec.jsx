@@ -189,4 +189,160 @@ describe('Form Configuration', () => {
       expect(formConfig.saveInProgress).to.be.an('object');
     });
   });
+
+  describe('Conditional Page Logic', () => {
+    describe('Claimant Information Conditional Pages', () => {
+      it('should show claimant pages when claimantRelationship is not veteran', () => {
+        const formData = {
+          claimantRelationship: 'spouse',
+        };
+
+        const claimantInfoPage =
+          formConfig.chapters.claimantInformationChapter.pages
+            .claimantInformation;
+        const claimantSSNPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
+        const claimantAddressPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        expect(claimantInfoPage.depends(formData)).to.be.true;
+        expect(claimantSSNPage.depends(formData)).to.be.true;
+        expect(claimantAddressPage.depends(formData)).to.be.true;
+        expect(claimantContactPage.depends(formData)).to.be.true;
+      });
+
+      it('should hide claimant pages when claimantRelationship is veteran', () => {
+        const formData = {
+          claimantRelationship: 'veteran',
+        };
+
+        const claimantInfoPage =
+          formConfig.chapters.claimantInformationChapter.pages
+            .claimantInformation;
+        const claimantSSNPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantSSN;
+        const claimantAddressPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantAddress;
+        const claimantContactPage =
+          formConfig.chapters.claimantInformationChapter.pages.claimantContact;
+
+        expect(claimantInfoPage.depends(formData)).to.be.false;
+        expect(claimantSSNPage.depends(formData)).to.be.false;
+        expect(claimantAddressPage.depends(formData)).to.be.false;
+        expect(claimantContactPage.depends(formData)).to.be.false;
+      });
+    });
+
+    describe('Hospitalization Conditional Pages', () => {
+      it('should show hospitalization date page when currently hospitalized is yes', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        expect(hospitalizationDatePage.depends).to.exist;
+        expect(hospitalizationDatePage.depends(formData)).to.be.true;
+      });
+
+      it('should show hospitalization facility page when currently hospitalized is yes', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationFacilityPage.depends).to.exist;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.true;
+      });
+
+      it('should hide hospitalization date page when currently hospitalized is no', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'no',
+          },
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization facility page when currently hospitalized is no', () => {
+        const formData = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'no',
+          },
+        };
+
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization pages when isCurrentlyHospitalized is undefined', () => {
+        const formData = {
+          hospitalizationStatus: {},
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should hide hospitalization pages when hospitalizationStatus section is missing', () => {
+        const formData = {};
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+        const hospitalizationFacilityPage =
+          formConfig.chapters.hospitalizationChapter.pages
+            .hospitalizationFacility;
+
+        expect(hospitalizationDatePage.depends(formData)).to.be.false;
+        expect(hospitalizationFacilityPage.depends(formData)).to.be.false;
+      });
+
+      it('should use correct data path for hospitalization conditional (formData.hospitalizationStatus.isCurrentlyHospitalized)', () => {
+        // This test ensures the bug fix is working correctly
+        const formDataWithCorrectPath = {
+          hospitalizationStatus: {
+            isCurrentlyHospitalized: 'yes',
+          },
+        };
+
+        const formDataWithIncorrectPath = {
+          isCurrentlyHospitalized: 'yes', // Wrong - at root level
+        };
+
+        const hospitalizationDatePage =
+          formConfig.chapters.hospitalizationChapter.pages.hospitalizationDate;
+
+        // Should work with correct nested path
+        expect(hospitalizationDatePage.depends(formDataWithCorrectPath)).to.be
+          .true;
+
+        // Should NOT work with incorrect root-level path
+        expect(hospitalizationDatePage.depends(formDataWithIncorrectPath)).to.be
+          .false;
+      });
+    });
+  });
 });

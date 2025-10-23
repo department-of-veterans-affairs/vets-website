@@ -207,7 +207,8 @@ const formConfig = {
           title: 'Admission date',
           CustomPage: HospitalizationDatePage,
           CustomPageReview: HospitalizationDateReviewPage,
-          depends: formData => formData?.isCurrentlyHospitalized === 'yes',
+          depends: formData =>
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -216,7 +217,8 @@ const formConfig = {
           title: 'Hospital information',
           CustomPage: HospitalizationFacilityPage,
           CustomPageReview: HospitalizationFacilityReviewPage,
-          depends: formData => formData?.isCurrentlyHospitalized === 'yes',
+          depends: formData =>
+            formData?.hospitalizationStatus?.isCurrentlyHospitalized === 'yes',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
