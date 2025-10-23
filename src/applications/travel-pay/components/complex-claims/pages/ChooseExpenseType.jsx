@@ -26,6 +26,12 @@ const ChooseExpenseType = () => {
   ];
 
   const handleContinue = () => {
+    // TODO: Handle error case for existing mileage expense
+    // if (selectedExpenseType === 'mileage' && hasExistingMileage) {
+    //   setShowError(true);
+    //   return;
+    // }
+
     if (!selectedExpenseType) {
       setShowError(true);
       return;
