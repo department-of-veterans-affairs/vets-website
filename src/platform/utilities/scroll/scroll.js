@@ -121,7 +121,7 @@ export const scrollToFirstError = async (options = {}) => {
     await scrollTo(position - 10, options);
 
     if (focusOnAlertRole) {
-      // Process ALL error elements on the page to set up aria-describedby
+      // Set up aria-describedby for all elements in error state
       const allErrorElements = document.querySelectorAll(selectors);
       allErrorElements.forEach(errorWebComponent => {
         const errorElement = errorWebComponent?.shadowRoot?.querySelector(
@@ -129,7 +129,7 @@ export const scrollToFirstError = async (options = {}) => {
         );
 
         if (errorElement) {
-          // Get or create an ID for the error element
+          // Get or create a unique ID for the error element
           let errorId = errorElement.id;
           if (!errorId) {
             errorId = `input-error-message-${Math.random()
@@ -172,6 +172,7 @@ export const scrollToFirstError = async (options = {}) => {
         'input, select, textarea',
       );
       if (firstErrorInput) {
+        // Use { preventScroll: true } to ensure accessibility and prevent unwanted scrolling
         setTimeout(() => {
           firstErrorInput.focus({ preventScroll: true });
         }, 100);
