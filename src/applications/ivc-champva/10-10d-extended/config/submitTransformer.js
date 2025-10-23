@@ -216,7 +216,7 @@ export default function transformForSubmit(formConfig, form) {
   // eslint-disable-next-line no-param-reassign
   form?.data?.applicants?.forEach(a => delete a['view:applicantSSNArray']);
 
-  // First transform using the forms-system transformer
+  // delete form.data.['view:applicantSSNArray']
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
   );
