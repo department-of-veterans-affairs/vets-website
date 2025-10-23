@@ -76,10 +76,10 @@ legend.yellow-ribbon-title {
       width: 100%;
       max-width: 100%;
       box-sizing: border-box;
-      padding-left: 20px;
-      margin-bottom: 8px;
+      padding-left: calc(var(--vads-spacing-1) + 12px);
+      margin-bottom: var(--vads-spacing-1);
       position: relative ;
-      margin-left: 10px;
+      margin-left: var(--vads-spacing-1);
 
       &::before {
         content: "•" ;
@@ -132,3 +132,7 @@ display: none !important;
 .container{
   width: 332px;
 }
+.eligible-individuals-input::part(label) span{
+  background-color: hsl(180, 100%, 50%);
+}
+ 
