@@ -49,8 +49,8 @@ import AddressSelectionPage, {
   NOT_SHARED,
 } from '../components/FormPages/AddressSelectionPage';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
-import applicantIntroduction from './applicantInformation/applicantIntroduction';
-import applicantPersonalInformation from './applicantInformation/personalInformation';
+import sectionOverview from './applicantInformation/sectionOverview';
+import personalInformation from './applicantInformation/personalInformation';
 import remarriageProof from './applicantInformation/remarriageProof';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import dateOfMarriage from './applicantInformation/dateOfMarriage';
@@ -423,7 +423,7 @@ export const applicantPages = arrayBuilderPages(
     applicantIntro: pageBuilder.introPage({
       path: 'applicant-information-overview',
       title: '[noun plural]',
-      ...applicantIntroduction,
+      ...sectionOverview,
     }),
     applicantSummary: pageBuilder.summaryPage({
       path: 'review-applicants',
@@ -433,7 +433,7 @@ export const applicantPages = arrayBuilderPages(
     page13: pageBuilder.itemPage({
       path: 'applicant-name-and-date-of-birth/:index',
       title: 'Applicant name and date of birth',
-      ...applicantPersonalInformation,
+      ...personalInformation,
     }),
     page14: pageBuilder.itemPage({
       path: 'applicant-social-security-number/:index',
