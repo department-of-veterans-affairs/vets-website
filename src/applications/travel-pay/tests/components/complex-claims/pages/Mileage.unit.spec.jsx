@@ -1,13 +1,37 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import Mileage from '../../../../components/complex-claims/pages/Mileage';
+import reducer from '../../../../redux/reducer';
 
 describe('Complex Claims Mileage', () => {
+  const defaultApptId = '12345';
+
+  const renderComponent = (apptId = defaultApptId) => {
+    return renderWithStoreAndRouter(
+      <MemoryRouter
+        initialEntries={[`/file-new-claim/complex/${apptId}/mileage`]}
+      >
+        <Routes>
+          <Route
+            path="/file-new-claim/complex/:apptId/mileage"
+            element={<Mileage />}
+          />
+        </Routes>
+      </MemoryRouter>,
+      {
+        initialState: {},
+        reducers: reducer,
+      },
+    );
+  };
+
   it('renders the component with all elements', () => {
-    const screen = render(<Mileage />);
+    const screen = renderComponent();
 
     expect(screen.getByRole('heading', { level: 1 })).to.have.property(
       'textContent',
@@ -21,7 +45,7 @@ describe('Complex Claims Mileage', () => {
   });
 
   it('renders mileage information in additional info component', () => {
-    render(<Mileage />);
+    renderComponent();
 
     const additionalInfo = $(
       'va-additional-info[trigger="How we calculate mileage"]',
@@ -44,7 +68,7 @@ describe('Complex Claims Mileage', () => {
   });
 
   it('renders external link for mileage rates', () => {
-    render(<Mileage />);
+    renderComponent();
 
     expect(
       $(
@@ -55,7 +79,7 @@ describe('Complex Claims Mileage', () => {
 
   describe('Departure Address Radio Group', () => {
     it('renders departure address radio group with correct properties', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const departureRadio = $('va-radio[id="departure-address"]');
       expect(departureRadio).to.exist;
@@ -66,7 +90,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('renders departure address radio options', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const departureRadio = $('va-radio[id="departure-address"]');
       expect(departureRadio).to.exist;
@@ -76,7 +100,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('handles departure address selection change', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const departureRadio = $('va-radio[id="departure-address"]');
       expect(departureRadio.value).to.equal('');
@@ -95,7 +119,7 @@ describe('Complex Claims Mileage', () => {
 
   describe('Trip Type Radio Group', () => {
     it('renders trip type radio group with correct properties', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio).to.exist;
@@ -106,7 +130,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('renders trip type radio options', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio).to.exist;
@@ -116,7 +140,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('handles trip type selection change', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const tripTypeRadio = $('va-radio[id="trip-type"]');
       expect(tripTypeRadio.value).to.equal('');
@@ -135,7 +159,7 @@ describe('Complex Claims Mileage', () => {
 
   describe('Button Pair', () => {
     it('renders button pair with correct properties', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const buttonPair = $('va-button-pair');
       expect(buttonPair).to.exist;
@@ -145,7 +169,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('handles primary button click', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const buttonPair = $('va-button-pair');
       expect(buttonPair).to.exist;
@@ -159,7 +183,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('handles secondary button click', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const buttonPair = $('va-button-pair');
       expect(buttonPair).to.exist;
@@ -175,7 +199,7 @@ describe('Complex Claims Mileage', () => {
 
   describe('Initial State', () => {
     it('starts with empty values for both radio groups', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const departureRadio = $('va-radio[id="departure-address"]');
       const tripTypeRadio = $('va-radio[id="trip-type"]');
@@ -185,7 +209,7 @@ describe('Complex Claims Mileage', () => {
     });
 
     it('has no radio options checked initially', () => {
-      render(<Mileage />);
+      renderComponent();
 
       const departureRadio = $('va-radio[id="departure-address"]');
       const tripTypeRadio = $('va-radio[id="trip-type"]');
