@@ -14,16 +14,14 @@ const App = ({ formEnabled }) => {
   }
 
   const headerText = 'How do I verify my marital status for my DIC benefits?';
+  const pText =
+    'If you’re a surviving spouse and need to verify or report changes to your marital status, you’ll need to fill out a Marital Status Questionnaire (VA Form 21P-0537).';
 
   if (formEnabled) {
     return (
       <>
         <h2>{headerText}</h2>
-        <p>
-          If you’re a surviving spouse and need to verify or report changes to
-          your marital status, you’ll need to fill out a Marital Status
-          Questionnaire (VA Form 21P-0537).
-        </p>
+        <p>{pText}</p>
 
         <va-link-action
           href={manifest.rootUrl}
@@ -37,7 +35,11 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <h2>{headerText}</h2>
-      <p>You can submit this form by mail.</p>
+      <p>{pText}</p>
+      <va-link
+        href="https://www.va.gov/find-forms/about-form-21p-0537/"
+        text="Get VA Form 21P-0537 to download"
+      />
     </>
   );
 };
