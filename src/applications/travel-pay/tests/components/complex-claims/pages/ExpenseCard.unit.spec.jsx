@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import {
@@ -103,21 +103,48 @@ describe('ExpenseCard', () => {
     expect(getByText('Round trip')).to.exist;
   });
 
-  it('delete button calls deleteExpense function', () => {
-    const consoleSpy = sinon.spy(console, 'log');
+  // it('delete button calls deleteExpense function', () => {
+  //   const consoleSpy = sinon.spy(console, 'log');
 
+  //   const { container } = renderExpenseCard();
+
+  //   const deleteButton = container.querySelector('va-button-icon');
+  //   expect(deleteButton).to.exist;
+
+  //   fireEvent.click(deleteButton);
+
+  //   expect(
+  //     consoleSpy.calledWith(
+  //       `Delete clicked for expense id: ${defaultExpense.id}`,
+  //     ),
+  //   ).to.be.true;
+
+  //   consoleSpy.restore();
+  // });
+
+  it('opens the delete modal and calls deleteExpense on confirm', async () => {
+    const consoleSpy = sinon.spy(console, 'log');
     const { container } = renderExpenseCard();
 
+    // Click delete button to open modal
     const deleteButton = container.querySelector('va-button-icon');
     expect(deleteButton).to.exist;
-
     fireEvent.click(deleteButton);
 
-    expect(
-      consoleSpy.calledWith(
-        `Delete clicked for expense id: ${defaultExpense.id}`,
-      ),
-    ).to.be.true;
+    // The modal should now be visible
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.exist;
+
+    // Simulate confirm (primary button) click on modal
+    modal.__events.primaryButtonClick();
+
+    await waitFor(() => {
+      expect(
+        consoleSpy.calledWith(
+          `Delete clicked for expense id: ${defaultExpense.id}`,
+        ),
+      ).to.be.true;
+    });
 
     consoleSpy.restore();
   });
