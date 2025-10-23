@@ -174,7 +174,7 @@ const ReviewPage = ({ claim, message }) => {
           deductible.
         </p>
         <va-link
-          href="https://www.va.gov/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
+          href="/resources/reimbursed-va-travel-expenses-and-mileage-rate/#monthlydeductible"
           text="Read more about deductibles for VA travel claims"
         />
       </va-summary-box>
