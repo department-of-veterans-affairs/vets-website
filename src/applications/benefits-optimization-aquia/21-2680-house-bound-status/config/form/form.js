@@ -83,11 +83,12 @@ const formConfig = {
   },
   formId: VA_FORM_IDS.FORM_21_2680,
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your benefits application (21-2680) is in progress.',
-    //   expired: 'Your saved benefits application (21-2680) has expired. If you want to apply for benefits, please start a new application.',
-    //   saved: 'Your benefits application has been saved.',
-    // },
+    messages: {
+      inProgress: 'Your benefits application (21-2680) is in progress.',
+      expired:
+        'Your saved benefits application (21-2680) has expired. If you want to apply for benefits, please start a new application.',
+      saved: 'Your benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,

@@ -32,53 +32,39 @@ const OMB_EXP_DATE = '02/28/2026';
 const ProcessList = () => {
   return (
     <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>What you’ll need:</h4>
-        <p>
-          <strong>For the claimant (Sections I-V):</strong>
-        </p>
+      <va-process-list-item header="Gather your information">
+        <p>You’ll need this information about the person applying:</p>
         <ul>
-          <li>Veteran’s name, SSN, and VA file number (if applicable)</li>
-          <li>Date of birth and service number (if applicable)</li>
-          <li>Your contact information if you’re not the Veteran</li>
-          <li>Current hospitalization status and details</li>
+          <li>Their name</li>
+          <li>Their date of birth</li>
+          <li>Their social security number</li>
+          <li>Their mailing address</li>
+          <li>Their home phone number</li>
         </ul>
         <p>
-          <strong>For the clinician (Sections VI-VIII):</strong>
-        </p>
-        <ul>
-          <li>Medical diagnoses and permanent/total disabilities</li>
-          <li>Functional limitations and ADL assistance needs</li>
-          <li>Vision status and nursing home care requirements</li>
-          <li>NPI number and facility information</li>
-        </ul>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>
-          <strong>Claimant completes first:</strong> Fill out Sections I-V,
-          including benefit type selection (SMC or SMP) and sign.
-        </p>
-        <p>
-          <strong>Clinician completes next:</strong> An MD, DO, Physician
-          Assistant, or Advanced Practice Registered Nurse must complete the
-          examination sections (VI-VIII).
-        </p>
-        <p>
-          Once both sections are complete, submit the form to VA. If the form
-          indicates nursing home care is needed, you may also need to submit VA
-          Form 21-0779.
+          If the person applying is currently in the hospital, we’ll need to
+          know the name of the hospital and the date they were admitted.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="VA Review">
+      <va-process-list-item header="Fill out the form">
+        <p>Fill out the form and sign it digitally.</p>
+      </va-process-list-item>
+      <va-process-list-item header="Send your form to a medical examiner">
         <p>
-          VA will review the examination to determine eligibility for Aid and
-          Attendance or Housebound benefits.
+          Download a PDF version of the form after you finish it. Then send it
+          to a medical examiner so they can fill out their portion with medical
+          information about the person applying. We recommend sending it via
+          email.
+        </p>
+        <p>
+          Once the medical examiner has completed their part of the form and
+          signed it, they’ll return it to you.
         </p>
       </va-process-list-item>
-      <va-process-list-item header="Decision">
+      <va-process-list-item header="Submit your application">
         <p>
-          VA will notify you of their decision. If approved, you’ll receive
-          information about your benefits.
+          Submit the completed form with both your signature and the medical
+          examiner’s signature to VA.
         </p>
       </va-process-list-item>
     </va-process-list>
@@ -105,18 +91,14 @@ export const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
-      <va-alert status="info" show-icon class="vads-u-margin-bottom--2">
-        <h3 slot="headline">Two-part form</h3>
-        <p>
-          This form has two parts: The claimant (Veteran or survivor) completes
-          Sections I-V, then a qualified medical professional completes the
-          examination sections (VI-VIII).
-        </p>
-      </va-alert>
+      <p>
+        Use this form to begin your application for Aid and Attendance or
+        Housebound allowance benefits. If you’re eligible, we’ll add these
+        benefits to your monthly compensation or pension benefits.
+      </p>
 
       <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-        Follow the steps below to apply for Aid and Attendance or Housebound
-        benefits.
+        Follow these steps to get started
       </h2>
 
       <ProcessList />
@@ -130,9 +112,6 @@ export const IntroductionPage = ({ route }) => {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
         />
       )}
 
