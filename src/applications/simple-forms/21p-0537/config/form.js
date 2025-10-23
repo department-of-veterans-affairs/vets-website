@@ -103,7 +103,7 @@ const formConfig = {
           uiSchema: {},
         },
         phoneAndEmail: {
-          path: 'phone-and-email',
+          path: 'contact-info',
           title: 'Your phone number and email address',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
