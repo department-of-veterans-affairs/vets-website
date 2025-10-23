@@ -29,6 +29,9 @@ export {
   isRefillTakingLongerThanExpected,
 } from './isRefillTakingLongerThanExpected';
 export { pharmacyPhoneNumber } from './pharmacyPhoneNumber';
+export {
+  prescriptionMedAndRenewalStatus,
+} from './prescriptionMedAndRenewalStatus';
 export { processList } from './processList';
 export { rxSourceIsNonVA } from './rxSourceIsNonVA';
 export { sanitizeKramesHtmlStr } from './sanitizeKramesHtmlStr';

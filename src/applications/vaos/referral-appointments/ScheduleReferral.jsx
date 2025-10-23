@@ -39,7 +39,6 @@ export default function ScheduleReferral(props) {
       routeToNextReferralPage(history, currentPage, currentReferral.uuid);
     };
   };
-
   return (
     <ReferralLayout hasEyebrow heading={`Referral for ${categoryOfCare}`}>
       <div>
