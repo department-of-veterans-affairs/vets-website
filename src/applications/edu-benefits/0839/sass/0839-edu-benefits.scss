@@ -95,7 +95,6 @@ legend.yellow-ribbon-title {
 
 .eligible-individuals-note p {
   color: hsl(0, 0%, 46%) !important;
-  width: 332px;
   @media (max-width: $small-screen){
     width: 100%;
     padding-inline: 0.5rem;
@@ -130,3 +129,6 @@ display: none !important;
         margin-left: -10px;
 }
 
+.container{
+  width: 332px;
+}

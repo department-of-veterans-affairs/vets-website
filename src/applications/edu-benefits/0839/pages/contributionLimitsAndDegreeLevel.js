@@ -2,7 +2,6 @@ import React from 'react';
 import {
   textUI,
   radioUI,
-  currencyUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
@@ -37,7 +36,7 @@ const uiSchema = {
     }),
     'ui:options': {
       inputType: 'number',
-      classNames: 'vads-u-margin-bottom--2',
+      classNames: 'vads-u-margin-bottom--2 container',
     },
   },
   degreeLevel: {
@@ -49,7 +48,7 @@ const uiSchema = {
       },
     }),
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 degree-level',
+      classNames: 'vads-u-margin-bottom--2 degree-level container',
     },
   },
   collegeOrProfessionalSchool: {
@@ -62,7 +61,8 @@ const uiSchema = {
       },
     }),
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 college-or-professional-school',
+      classNames:
+        'vads-u-margin-bottom--2 college-or-professional-school container',
     },
   },
   maximumContributionAmount: {
@@ -84,11 +84,11 @@ const uiSchema = {
       },
     }),
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2',
+      classNames: 'vads-u-margin-bottom--2 container',
     },
   },
   specificContributionAmount: {
-    ...currencyUI({
+    ...textUI({
       title: 'Specific maximum annual contribution amount',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
@@ -99,7 +99,10 @@ const uiSchema = {
       return currentItem?.maximumContributionAmount === 'specific';
     },
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2',
+      classNames: 'vads-u-margin-bottom--2 container',
+      inputPrefix: '$',
+      inputType: 'text',
+      inputmode: 'decimal',
       hideIf: (formData, index) => {
         const currentItem = formData?.yellowRibbonProgramRequest?.[index];
         return currentItem?.maximumContributionAmount !== 'specific';
@@ -129,8 +132,8 @@ const schema = {
       ],
     },
     specificContributionAmount: {
-      type: 'number',
-      minimum: 0,
+      type: 'string',
+      pattern: '^\\d*(\\.\\d{1,2})?$',
     },
   },
   required: ['maximumStudents', 'degreeLevel', 'maximumContributionAmount'],

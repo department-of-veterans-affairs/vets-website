@@ -1,6 +1,7 @@
 import React from 'react';
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
+import EligibleIndividualsField from '../components/EligibleIndividualsField';
 import { getAcademicYearDisplay } from '../helpers';
 
 const uiSchema = {
@@ -14,44 +15,27 @@ const uiSchema = {
       />
     </p>
   ),
-  eligibleIndividuals: {
-    ...textUI({
-      title:
-        'How many eligible individuals will your school support through Yellow Ribbon contributions?',
-      description:
-        'Note: The number of individuals must match the maximum number of students in the contribution details later in the form',
-      classNames: 'vads-u-margin-bottom--2',
-      errorMessages: {
-        required:
-          'Enter the number of eligible individuals or select "Unlimited number of individuals"',
-      },
-    }),
+  eligibleIndividualsGroup: {
+    'ui:webComponentField': EligibleIndividualsField,
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--1 eligible-individuals-note',
+      classNames: 'eligible-individuals-note container',
     },
+    'ui:required': formData =>
+      !formData.eligibleIndividualsGroup?.unlimitedIndividuals,
     'ui:validations': [
-      (_, fieldData, formData) => {
-        const newBal = fieldData.replace(/,/g, '');
-        const numValue = parseInt(newBal, 10);
-        if (fieldData && fieldData !== '') {
-          if (numValue >= 99999) {
-            // eslint-disable-next-line no-param-reassign
-            formData.unlimitedIndividuals = true;
-          } else {
-            // eslint-disable-next-line no-param-reassign
-            formData.unlimitedIndividuals = false;
-          }
+      (errors, fieldData) => {
+        const isUnlimited = fieldData?.unlimitedIndividuals;
+        const hasValue =
+          fieldData?.eligibleIndividuals &&
+          fieldData.eligibleIndividuals.trim() !== '';
+
+        if (!isUnlimited && !hasValue) {
+          errors.addError(
+            'Enter the number of eligible individuals or select "Unlimited number of individuals"',
+          );
         }
       },
     ],
-  },
-
-  unlimitedIndividuals: {
-    'ui:title': 'My school will support an unlimited number of individuals',
-    'ui:widget': 'checkbox',
-    'ui:options': {
-      classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
-    },
   },
 
   academicYear: {
@@ -62,8 +46,10 @@ const uiSchema = {
         required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
     }),
+    'ui:required': formData =>
+      formData.agreementType !== 'startNewOpenEndedAgreement',
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 eligible-individuals-note',
+      classNames: 'vads-u-margin-bottom--2 eligible-individuals-note container',
       hideIf: formData =>
         formData.agreementType === 'startNewOpenEndedAgreement',
     },
@@ -92,11 +78,16 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    eligibleIndividuals: {
-      type: 'string',
-    },
-    unlimitedIndividuals: {
-      type: 'boolean',
+    eligibleIndividualsGroup: {
+      type: 'object',
+      properties: {
+        eligibleIndividuals: {
+          type: 'string',
+        },
+        unlimitedIndividuals: {
+          type: 'boolean',
+        },
+      },
     },
     academicYear: {
       type: 'string',
@@ -106,27 +97,8 @@ const schema = {
       default: getAcademicYearDisplay(),
     },
   },
-  required: ['eligibleIndividuals', 'academicYear'],
+  required: ['eligibleIndividualsGroup'],
   definitions: {},
-  anyOf: [
-    {
-      properties: {
-        eligibleIndividuals: {
-          type: 'string',
-        },
-      },
-      required: ['eligibleIndividuals'],
-    },
-    {
-      properties: {
-        unlimitedIndividuals: {
-          type: 'boolean',
-          const: true,
-        },
-      },
-      required: ['unlimitedIndividuals'],
-    },
-  ],
 };
 
 export { uiSchema, schema };
