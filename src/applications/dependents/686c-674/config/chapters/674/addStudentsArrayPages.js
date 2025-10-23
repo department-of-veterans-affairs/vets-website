@@ -38,6 +38,7 @@ import {
   ProgramExamples,
   TermDateHint,
   calculateStudentAssetTotal,
+  relationshipToStudentLabels,
 } from './helpers';
 import { CancelButton, generateHelpText } from '../../helpers';
 import { getFullName } from '../../../../shared/utils';
@@ -164,17 +165,32 @@ export const studentIDInformationPage = {
       ...ssnUI('Student’s Social Security number'),
       'ui:required': () => true,
     },
-    isParent: {
-      ...yesNoUI('Are you this student’s parent?'),
-      'ui:required': () => true,
-    },
   },
   schema: {
     type: 'object',
-    required: ['ssn', 'isParent'],
+    required: ['ssn'],
     properties: {
       ssn: ssnSchema,
-      isParent: yesNoSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const studentRelationshipPage = {
+  uiSchema: {
+    relationshipToStudent: radioUI({
+      title: 'What’s your relationship to this child?',
+      labels: relationshipToStudentLabels,
+      labelHeaderLevel: 3,
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['relationshipToStudent'],
+    properties: {
+      relationshipToStudent: radioSchema(
+        Object.keys(relationshipToStudentLabels),
+      ),
     },
   },
 };
