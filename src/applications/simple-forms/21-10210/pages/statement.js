@@ -3,25 +3,14 @@ import {
   textareaUI,
   titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import StatementUiTitle from 'applications/simple-forms/21-10210/components/StatementUiTitle';
 import { CLAIMANT_TYPES, CLAIM_OWNERSHIPS } from '../definitions/constants';
 
 // for ALL Flows
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI(formData => {
-      const { claimOwnership, claimantType } = formData;
-
-      if (claimantType === CLAIMANT_TYPES.VETERAN) {
-        return claimOwnership === CLAIM_OWNERSHIPS.SELF
-          ? // Flow 1: self claim, vet claimant
-            'Provide your statement'
-          : // Flow 2: 3rd-party claim, vet claimant
-            'Tell us about the claimed issue that you’re addressing on behalf of the Veteran';
-      }
-      // Flows 3 & 4: non-vet claimant
-      return 'Tell us about the claimed issue that you’re addressing';
-    }),
+    ...titleUI(StatementUiTitle),
     statement: textareaUI({
       updateSchema: formData => {
         const { claimOwnership, claimantType } = formData;
