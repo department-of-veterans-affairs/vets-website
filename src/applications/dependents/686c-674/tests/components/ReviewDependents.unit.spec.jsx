@@ -160,6 +160,7 @@ describe('ReviewDependents', () => {
     const error = null;
     const { container } = renderWithStore(
       {
+        vaDependentsV3: true,
         dependents: { awarded: [] },
       },
       error,
@@ -169,6 +170,7 @@ describe('ReviewDependents', () => {
     expect(container.querySelector('va-alert[status="info"]')).to.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
     });
@@ -179,6 +181,7 @@ describe('ReviewDependents', () => {
     const error = 'DOH';
     const { container } = renderWithStore(
       {
+        vaDependentsV3: true,
         dependents: { awarded: [] },
       },
       error,
@@ -188,9 +191,26 @@ describe('ReviewDependents', () => {
     expect(container.querySelector('va-alert[status="error"]')).to.exist;
     expect(setFormDataSpy.called).to.be.true;
     expect(setFormDataSpy.args[0][0]).to.deep.equal({
+      vaDependentsV3: true,
       dependents: { awarded: [] },
       'view:addOrRemoveDependents': { add: true },
     });
+  });
+
+  it('should not set view:addOrRemoveDependents add value if v3 feature toggle is off', () => {
+    const setFormDataSpy = sinon.spy();
+    const error = 'DOH';
+    const { container } = renderWithStore(
+      {
+        vaDependentsV3: false,
+        dependents: { awarded: [] },
+      },
+      error,
+      setFormDataSpy,
+    );
+
+    expect(container.querySelector('va-alert[status="error"]')).to.exist;
+    expect(setFormDataSpy.called).to.be.false;
   });
 
   it('should handle undefined form data gracefully', () => {

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { scrollToTop } from 'platform/utilities/scroll';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
+import { showV3Picklist } from '../config/utilities';
+
 const ReviewDependents = ({
   data = {},
   setFormData,
@@ -20,18 +22,19 @@ const ReviewDependents = ({
   const hasDependents = isDependentsArray && dependents.length > 0;
   // Check for API error or if dependents from prefill has an error
   const hasDependentError = hasApiError || !isDependentsArray;
+  const showPicklist = showV3Picklist(data);
 
   useEffect(
     () => {
       scrollToTop();
-      if (hasApiError || !hasDependents) {
+      if (showPicklist && (hasApiError || !hasDependents)) {
         // Only allow adding dependents, not removing if dependents array is
         // empty
         setFormData({ ...data, 'view:addOrRemoveDependents': { add: true } });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hasApiError, hasDependents],
+    [showPicklist, hasApiError, hasDependents],
   );
 
   const renderDependentCard = (dependent, index) => {
