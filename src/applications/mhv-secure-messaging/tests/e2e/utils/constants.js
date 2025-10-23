@@ -7,7 +7,6 @@ export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
-  UUM_API_BASE: '/my_health/v1/unique_user_metrics',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
