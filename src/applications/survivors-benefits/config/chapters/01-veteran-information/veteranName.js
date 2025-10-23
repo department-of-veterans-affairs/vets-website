@@ -2,10 +2,6 @@ import {
   dateOfBirthUI,
   dateOfBirthSchema,
   fullNameSchema,
-  ssnUI,
-  ssnSchema,
-  serviceNumberUI,
-  serviceNumberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
@@ -45,38 +41,29 @@ export function setDefaultIsOver65(oldData, newData, currentDate) {
 
 /** @type {PageSchema} */
 export default {
-  title: 'Applicant information',
-  path: 'applicant/information',
+  title: "Veteran's information",
+  path: 'veterans/information',
   updateFormData: setDefaultIsOver65,
   uiSchema: {
-    ...titleUI('Veteran name'),
+    ...titleUI("Veteran's name and date of birth"),
     'ui:description': applicantDescription,
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
     veteranFullName: benefitsIntakeFullNameUI(),
-    veteranSocialSecurityNumber: ssnUI(),
-    veteranServiceNumber: serviceNumberUI('Service number'),
     veteranDateOfBirth: dateOfBirthUI({
       monthSelect: false,
     }),
   },
   schema: {
     type: 'object',
-    required: [
-      'veteranFullName',
-      'veteranSocialSecurityNumber',
-      'veteranDateOfBirth',
-      'veteranServiceNumber',
-    ],
+    required: ['veteranFullName', 'veteranDateOfBirth'],
     properties: {
       'view:warningAlert': {
         type: 'object',
         properties: {},
       },
       veteranFullName: fullNameSchema,
-      veteranSocialSecurityNumber: ssnSchema,
-      veteranServiceNumber: serviceNumberSchema,
       /* Do $ref definitions work here? Would it make sense to pull the definition from the vets-json-schema file */
       veteranDateOfBirth: dateOfBirthSchema,
     },

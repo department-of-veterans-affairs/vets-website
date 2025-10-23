@@ -9,7 +9,7 @@ import {
 /** @type {PageSchema} */
 export default {
   title: 'Contact information',
-  path: 'applicant/contact',
+  path: 'claimant/contact-information',
   uiSchema: {
     ...titleUI('Email address and phone number'),
     email: emailUI('Email'),
@@ -17,7 +17,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['email', 'phone'],
+    required: ['email', 'primaryPhone'],
     properties: {
       email: emailSchema,
       primaryPhone: internationalPhoneSchema(),

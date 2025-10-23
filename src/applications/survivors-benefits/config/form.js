@@ -15,17 +15,26 @@ import ErrorText from '../components/ErrorText';
 import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
-import applicantInformation from './chapters/01-applicant-information';
-import vaBenefits from './chapters/02-military-history/vaBenefits';
-import servicePeriod from './chapters/02-military-history/servicePeriod';
-import nationalGuardService from './chapters/02-military-history/nationalGuardService';
-import nationalGuardServicePeriod from './chapters/02-military-history/nationalGuardServicePeriod';
-import nationalGuardUnitAddress from './chapters/02-military-history/nationalGuardUnitAddress';
-import { otherServiceNamesPages } from './chapters/02-military-history/serviceNames';
+import applicantInformation from './chapters/01-veteran-information';
+import vaBenefits from './chapters/03-military-history/vaBenefits';
+import servicePeriod from './chapters/03-military-history/servicePeriod';
+import nationalGuardService from './chapters/03-military-history/nationalGuardService';
+import nationalGuardServicePeriod from './chapters/03-military-history/nationalGuardServicePeriod';
+import nationalGuardUnitAddress from './chapters/03-military-history/nationalGuardUnitAddress';
+import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
+import veteranName from './chapters/01-veteran-information/veteranName';
 import {
   prisonerOfWarPage,
   powPeriodOfTimePage,
-} from './chapters/02-military-history/prisonerOfWarStatus';
+} from './chapters/03-military-history/prisonerOfWarStatus';
+import {
+  vetInfoNameDobPage,
+  vetInfoQuestionsPage,
+} from './chapters/01-veteran-information/veteranInfoPages';
+import claimantInformation from './chapters/02-claimant-information/claimantInformation';
+import mailingAddress from './chapters/02-claimant-information/mailingAddress';
+import contactInformation from './chapters/02-claimant-information/contactInformation';
+import benefitType from './chapters/02-claimant-information/benefitType';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -112,6 +121,33 @@ const formConfig = {
     },
     // Chapter 1
     applicantInformation,
+    veteranInformation: {
+      title: "Veteran's information",
+      pages: {
+        veteranName,
+        vetInfoNameDob: {
+          path: vetInfoNameDobPage.path,
+          title: vetInfoNameDobPage.title,
+          uiSchema: vetInfoNameDobPage.uiSchema,
+          schema: vetInfoNameDobPage.schema,
+        },
+        vetInfoQuestions: {
+          path: vetInfoQuestionsPage.path,
+          title: vetInfoQuestionsPage.title,
+          uiSchema: vetInfoQuestionsPage.uiSchema,
+          schema: vetInfoQuestionsPage.schema,
+        },
+      },
+    },
+    claimantInformation: {
+      title: "Claimant's information",
+      pages: {
+        claimantInformation,
+        mailingAddress,
+        contactInformation,
+        benefitType,
+      },
+    },
     militaryHistory: {
       title: "Veteran's military history",
       pages: {

@@ -7,7 +7,7 @@ import {
 /** @type {PageSchema} */
 export default {
   title: 'Mailing address',
-  path: 'applicant/mail-address',
+  path: 'claimant/mailing-address',
   uiSchema: {
     ...titleUI('Your mailing address'),
     veteranAddress: addressUI({

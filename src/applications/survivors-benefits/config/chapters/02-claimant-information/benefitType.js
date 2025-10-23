@@ -11,12 +11,11 @@ export default {
   uiSchema: {
     ...titleUI('Benefit type'),
     claims: checkboxGroupUI({
-      title: 'Select the benefit you intend to file a claim for.',
+      title: 'Select the benefits you want to file a claim for.',
       labels: {
-        dependencyIndemnityComp:
-          'Dependency and Indemnity Compensation (D.I.C)',
+        dependencyIndemnityComp: 'Dependency and indemnity compensation (DIC)',
         survivorPension: 'Survivors Pension',
-        accruedBenefits: 'Accrued Benefits',
+        accruedBenefits: 'Accrued benefits',
       },
       required: false,
     }),

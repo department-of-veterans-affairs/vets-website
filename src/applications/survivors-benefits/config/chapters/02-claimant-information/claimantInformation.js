@@ -16,16 +16,16 @@ export default {
   title: 'Claimant information',
   path: 'claimant/information',
   uiSchema: {
-    ...titleUI('Claimant information'),
+    ...titleUI("Claimant's relationship to the Veteran"),
     claimantRelationship: {
-      'ui:title': 'What is your relationship to the Veteran?',
+      'ui:title': "What is the claimant's relationship to the Veteran?",
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
           SPOUSE: 'Surviving spouse',
           CUSTODIAN: 'Custodian filing for child under 18',
           ADULT_CHILD_STILL_IN_SCHOOL:
-            'Adult child who is 18-23 and still in school',
+            'Adult child who is 18-23 years old and still in school',
           ADULT_CHILD_SERIOUSLY_DISABLED:
             'Adult child who is seriously disabled',
         },
@@ -43,7 +43,7 @@ export default {
       monthSelect: false,
     }),
     claimantIsVeteran: yesNoUI({
-      title: 'Are you the Veteran?',
+      title: 'Is the claimant a Veteran?',
     }),
   },
   schema: {
@@ -53,6 +53,7 @@ export default {
       'claimantFullName',
       'claimantSocialSecurityNumber',
       'claimantIsVeteran',
+      'claimantDateOfBirth',
     ],
     properties: {
       claimantRelationship: {

@@ -4,7 +4,7 @@ import React from 'react';
 export const seriouslyDisabledDescription = (
   <>
     <va-additional-info
-      trigger="What do we mean by seriously disabled?"
+      trigger="What we consider a seriously disabled adult child"
       class="vads-u-margin-bottom--4"
     >
       A child is seriously disabled if they developed a permanent physical or
