@@ -128,15 +128,15 @@ describe('SM CONTACT LIST', () => {
     );
     ContactListPage.loadContactList(mockFacilityBlockedRecipients);
 
-    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
-    cy.get('[data-testid="contact-list-save"]').click();
-    cy.get('[data-testid="contact-list-hr"]').should('exist');
+    cy.findByTestId('contact-list-hr').should('not.exist');
+    cy.findByTestId('contact-list-save').click();
+    cy.findByTestId('contact-list-hr').should('exist');
 
     cy.get('va-alert')
       .shadow()
       .find('button.va-alert-close')
       .click({ waitForAnimations: true, force: true });
-    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+    cy.findByTestId('contact-list-hr').should('not.exist');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -151,15 +151,15 @@ describe('SM CONTACT LIST', () => {
     );
     ContactListPage.loadContactList(mockMixRecipients);
 
-    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
-    cy.get('[data-testid="contact-list-save"]').click();
-    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+    cy.findByTestId('contact-list-hr').should('not.exist');
+    cy.findByTestId('contact-list-save').click();
+    cy.findByTestId('contact-list-hr').should('not.exist');
 
     cy.get('va-alert')
       .shadow()
       .find('button.va-alert-close')
       .click({ waitForAnimations: true, force: true });
-    cy.get('[data-testid="contact-list-hr"]').should('not.exist');
+    cy.findByTestId('contact-list-hr').should('not.exist');
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
@@ -185,5 +185,6 @@ describe('SM CONTACT LIST', () => {
           updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
         }`,
       );
+    cy.injectAxeThenAxeCheck(AXE_CONTEXT);
   });
 });
