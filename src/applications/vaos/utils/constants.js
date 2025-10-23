@@ -236,7 +236,7 @@ export const TYPES_OF_MENTAL_HEALTH = [
     name: 'Mental health care with a specialist',
     group: 'mentalHealth',
     description:
-      'Therapy, medication, and other services to help with posttraumatic ' +
+      'For therapy, medication, and other services to help with posttraumatic ' +
       'stress disorder (PTSD), psychological effects of military sexual ' +
       'trauma (MST), depression, grief, anxiety, and other needs.',
   },
@@ -246,7 +246,7 @@ export const TYPES_OF_MENTAL_HEALTH = [
     name: 'Substance use problem services',
     group: 'mentalHealth',
     description:
-      'Counseling, recovery support, and treatment options for Veterans ' +
+      'For counseling, recovery support, and treatment options for Veterans ' +
       'seeking help with alcohol or other substance use.',
   },
 ];
