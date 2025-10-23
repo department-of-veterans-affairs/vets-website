@@ -1,7 +1,3 @@
-// @ts-check
-import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
-import footerContent from 'platform/forms/components/FormFooter';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -27,20 +23,7 @@ const formConfig = {
     collapsibleNavLinks: true,
     disableWindowUnloadInCI: true,
   },
-  ...minimalHeaderFormConfigOptions({
-    breadcrumbList: [
-      { href: '/', label: 'VA.gov home' },
-      {
-        href: '/education',
-        label: 'Education',
-      },
-      {
-        href: '/education/10278',
-        label: '10278',
-      },
-    ],
-  }),
-  formId: VA_FORM_IDS.FORM_22_10278,
+  formId: '22-10278',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your benefits application (22-10278) is in progress.',
@@ -98,8 +81,6 @@ const formConfig = {
       },
     },
   },
-  // getHelp,
-  footerContent,
 };
 
 export default formConfig;
