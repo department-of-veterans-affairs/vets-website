@@ -153,6 +153,8 @@ const formConfig = {
       services.evss,
       services.mvi,
       services.vaProfile,
+      services.vbms,
+      services.lighthouseBenefitsClaims,
       services.disabilityCompensationForm,
     ],
   },
