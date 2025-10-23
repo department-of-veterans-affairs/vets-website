@@ -8,12 +8,12 @@ import { ATTACHMENT_IDS } from '../../constants';
 import { fileUploadWithMetadataSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
 
-const TITLE_TEXT = content['applicants--scholl-enrollment-proof-title'];
-
-const ENUM_VALUES = [
+const ENUM_NAMES = [
   ATTACHMENT_IDS.schoolCertificationForm,
   ATTACHMENT_IDS.schoolEnrollmentLetter,
 ];
+
+const TITLE_TEXT = content['applicants--school-enrollment-proof-title'];
 
 export default {
   uiSchema: {
@@ -29,7 +29,7 @@ export default {
     required: ['applicantSchoolCert'],
     properties: {
       applicantSchoolCert: fileUploadWithMetadataSchema({
-        enumNames: ENUM_VALUES,
+        enumNames: ENUM_NAMES,
       }),
     },
   },

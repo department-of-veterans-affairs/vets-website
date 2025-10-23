@@ -8,14 +8,15 @@ import { ATTACHMENT_IDS } from '../../constants';
 import { fileUploadSchema } from '../../definitions';
 import content from '../../locales/en/content.json';
 
+const TITLE_TEXT = content['applicants--marriage-proof-title'];
+const INPUT_LABEL = content['applicants--marriage-proof-label'];
+
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      content['applicants--marriage-proof-title'],
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(TITLE_TEXT),
     ...descriptionUI(StepchildMarriageProofDescription),
     applicantStepMarriageCert: fileUploadUI({
-      label: content['applicants--marriage-proof-label'],
+      label: INPUT_LABEL,
       attachmentId: ATTACHMENT_IDS.marriageCert,
     }),
   },

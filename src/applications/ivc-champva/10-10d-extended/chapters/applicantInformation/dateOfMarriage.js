@@ -10,17 +10,16 @@ import { blankSchema } from '../../definitions';
 import { validateMarriageAfterDob } from '../../helpers/validations';
 import content from '../../locales/en/content.json';
 
-const PAGE_TITLE = content['applicants--marriage-date-title'];
+const TITLE_TEXT = content['applicants--marriage-date-title'];
 const PAGE_DESC = content['applicants--marriage-date-description'];
 const INPUT_LABEL = content['applicants--marriage-date-label'];
 
+const PAGE_TITLE = ({ formData }) =>
+  `${applicantWording(formData)} ${TITLE_TEXT}`;
+
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${applicantWording(formData)} ${PAGE_TITLE}`,
-      PAGE_DESC,
-      false,
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(PAGE_TITLE, PAGE_DESC, false),
     dateOfMarriageToSponsor: currentOrPastDateUI(INPUT_LABEL),
     'view:addtlInfo': { ...descriptionUI(MarriageDateDescription) },
     'ui:validations': [validateMarriageAfterDob],

@@ -9,12 +9,12 @@ import {
 } from '../../definitions';
 import content from '../../locales/en/content.json';
 
+const TITLE_TEXT = content['applicants--personal-info-title'];
+const PAGE_DESC = content['applicants--personal-info-description'];
+
 export default {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      content['applicants--personal-info-title'],
-      content['applicants--personal-info-description'],
-    ),
+    ...arrayBuilderItemSubsequentPageTitleUI(TITLE_TEXT, PAGE_DESC),
     applicantName: fullNameMiddleInitialUI,
     applicantDob: dateOfBirthUI(),
   },
