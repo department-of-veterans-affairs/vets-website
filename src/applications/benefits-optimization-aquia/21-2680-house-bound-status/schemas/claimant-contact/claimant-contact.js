@@ -12,24 +12,23 @@ export const claimantPhoneNumberSchema = z
   .min(1, 'Phone number is required')
   .refine(val => CONTACT_PATTERNS.PHONE_US.test(val.replace(/\D/g, '')), {
     message: 'Please enter a valid 10-digit phone number',
-  });
+  })
+  .transform(val => val.replace(/\D/g, ''));
 
 /**
  * Schema for claimant's mobile phone number (optional)
  */
 export const claimantMobilePhoneSchema = z
   .string()
+  .transform(val => val || '') // Normalize undefined/null to empty string
   .refine(
-    val =>
-      !val ||
-      val === '' ||
-      CONTACT_PATTERNS.PHONE_US.test(val.replace(/\D/g, '')),
+    val => val === '' || CONTACT_PATTERNS.PHONE_US.test(val.replace(/\D/g, '')),
     {
       message: 'Please enter a valid 10-digit mobile phone number',
     },
   )
-  .optional()
-  .or(z.literal(''));
+  .transform(val => (val ? val.replace(/\D/g, '') : ''))
+  .optional();
 
 /**
  * Schema for claimant's email address

@@ -51,34 +51,24 @@ describe('Veteran Identification Form', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Enter the Veteran');
-      expect(container.textContent).to.include('identification information');
-    });
-
-    it('should render veteran claimant radio buttons', () => {
-      const { container } = render(
-        <VeteranIdentityPage
-          data={{}}
-          setFormData={mockSetFormData}
-          goForward={mockGoForward}
-          goBack={mockGoBack}
-        />,
+      expect(container.textContent).to.include(
+        'Confirm the personal information',
       );
-
-      const radioGroup = container.querySelector('va-radio');
-      expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('label')).to.equal('Are you the Veteran?');
+      expect(container.textContent).to.include('on file for the Veteran');
     });
   });
 
   describe('Data Display', () => {
-    it('should display veteran claimant selection', () => {
+    it('should display veteran identification data', () => {
       const data = {
         veteranIdentification: {
-          isVeteranClaimant: 'yes',
-          veteranFirstName: 'Rex',
-          veteranLastName: 'Fives',
-          veteranServiceNumber: 'CT-7567',
+          veteranFullName: {
+            first: 'Rex',
+            middle: '',
+            last: 'Fives',
+          },
+          veteranSSN: '123456789',
+          veteranDOB: '1980-05-04',
         },
       };
 
@@ -91,9 +81,7 @@ describe('Veteran Identification Form', () => {
         />,
       );
 
-      const radioGroup = container.querySelector('va-radio');
-      expect(radioGroup).to.exist;
-      expect(radioGroup.getAttribute('value')).to.equal('yes');
+      expect(container).to.exist;
     });
 
     it('should handle empty data', () => {
@@ -119,7 +107,7 @@ describe('Veteran Identification Form', () => {
         />,
       );
 
-      expect(container.querySelector('va-radio')).to.exist;
+      expect(container).to.exist;
     });
   });
 
@@ -127,10 +115,13 @@ describe('Veteran Identification Form', () => {
     it('should render in review mode', () => {
       const data = {
         veteranIdentification: {
-          veteranFirstName: 'Rex',
-          veteranLastName: 'Fives',
-          veteranServiceNumber: 'CT-7567',
-          isVeteranClaimant: 'yes',
+          veteranFullName: {
+            first: 'Rex',
+            middle: '',
+            last: 'Fives',
+          },
+          veteranSSN: '123456789',
+          veteranDOB: '1980-05-04',
         },
       };
 

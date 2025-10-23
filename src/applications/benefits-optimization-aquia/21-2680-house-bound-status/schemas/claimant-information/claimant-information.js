@@ -8,12 +8,37 @@ export const claimantDOBSchema = z
   .string()
   .min(1, 'Date of birth is required')
   .refine(val => {
+    // First check if it's a valid date
     const date = new Date(val);
-    return date instanceof Date && !Number.isNaN(date.getTime());
+    if (!(date instanceof Date) || Number.isNaN(date.getTime())) {
+      return false;
+    }
+
+    // Check if the date parts match the input (catches invalid dates like 2023-02-30)
+    // Parse as UTC to avoid timezone issues
+    const parts = val.split('-');
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10);
+      const day = parseInt(parts[2], 10);
+
+      // Create a UTC date to compare
+      const utcDate = new Date(Date.UTC(year, month - 1, day));
+
+      // Check if the UTC date parts match the input
+      return (
+        utcDate.getUTCFullYear() === year &&
+        utcDate.getUTCMonth() + 1 === month &&
+        utcDate.getUTCDate() === day
+      );
+    }
+
+    return true;
   }, 'Please enter a valid date')
   .refine(val => {
     const date = new Date(val);
-    return date <= new Date();
+    const today = new Date();
+    return date <= today;
   }, 'Date of birth cannot be in the future');
 
 /**
