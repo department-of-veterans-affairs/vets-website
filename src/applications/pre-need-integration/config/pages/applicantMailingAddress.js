@@ -11,11 +11,10 @@ import {
 } from '../../utils/helpers';
 
 export function DynamicStateSelectFieldApplicant(props) {
-  const formData = useSelector(state => state.form.data || {});
-
+  const formData = useSelector(state => state?.form?.data || {});
   const dynamicLabel = MailingAddressStateTitle({
     elementPath: 'application.claimant.address.country',
-    formData,
+    formData: formData || {},
   });
 
   const modifiedProps = {
@@ -46,7 +45,9 @@ export function uiSchema(addressTitle = applicantContactInfoAddressTitle) {
           state: {
             'ui:webComponentField': DynamicStateSelectFieldApplicant,
             'ui:options': {
-              hideIf: formData => !applicantsMailingAddressHasState(formData),
+              hideIf: formData => {
+                return !applicantsMailingAddressHasState(formData || {});
+              },
               classNames: 'selectNonImposter',
             },
           },
