@@ -30,6 +30,8 @@ const MrBreadcrumbs = () => {
   const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
 
   const urlTimeFrame = searchIndex.get('timeFrame');
+  const urlRangeIndex = searchIndex.get('rangeIndex');
+  const urlCustomDate = searchIndex.get('customDate');
 
   useEffect(
     () => {
@@ -69,6 +71,19 @@ const MrBreadcrumbs = () => {
             )}?timeFrame=${urlTimeFrame}`,
           };
           dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
+        } else if (urlRangeIndex) {
+          // Build back link with rangeIndex and customDate for labs-and-tests
+          let backHref = `${removeTrailingSlash(
+            Breadcrumbs[feature].href,
+          )}?rangeIndex=${urlRangeIndex}`;
+          if (urlCustomDate && urlRangeIndex === '-1') {
+            backHref += `&customDate=${urlCustomDate}`;
+          }
+          const backToLabsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: backHref,
+          };
+          dispatch(setBreadcrumbs([backToLabsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
@@ -83,6 +98,8 @@ const MrBreadcrumbs = () => {
       textContent,
       pageNumber,
       urlTimeFrame,
+      urlRangeIndex,
+      urlCustomDate,
     ],
   );
 
@@ -110,13 +127,30 @@ const MrBreadcrumbs = () => {
         conditionId}`,
     )
   ) {
-    const url = `${backToImagesBreadcrumb}${
-      urlTimeFrame
-        ? `${
-            backToImagesBreadcrumb?.includes('?') ? '&' : '?'
-          }timeFrame=${urlTimeFrame}`
-        : ''
-    }`;
+    let url = backToImagesBreadcrumb;
+
+    // Build query parameters
+    const queryParams = [];
+
+    // Add rangeIndex and customDate for labs-and-tests pages
+    if (urlRangeIndex) {
+      queryParams.push(`rangeIndex=${urlRangeIndex}`);
+      if (urlCustomDate && urlRangeIndex === '-1') {
+        queryParams.push(`customDate=${urlCustomDate}`);
+      }
+    }
+
+    // Add timeFrame for vitals pages (fallback to old behavior)
+    if (urlTimeFrame && !urlRangeIndex) {
+      queryParams.push(`timeFrame=${urlTimeFrame}`);
+    }
+
+    // Append query params to URL
+    if (queryParams.length > 0) {
+      const separator = url?.includes('?') ? '&' : '?';
+      url += separator + queryParams.join('&');
+    }
+
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -139,6 +173,14 @@ const MrBreadcrumbs = () => {
     );
   }
   if (location.pathname.includes('/vitals/')) {
+    let url = backToImagesBreadcrumb;
+
+    // Add timeFrame for vitals pages
+    if (urlTimeFrame) {
+      const separator = url?.includes('?') ? '&' : '?';
+      url += `${separator}timeFrame=${urlTimeFrame}`;
+    }
+
     return (
       <div
         className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
@@ -149,9 +191,7 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link
-          to={`${backToImagesBreadcrumb}${
-            urlTimeFrame ? `?timeFrame=${urlTimeFrame}` : ''
-          }`}
+          to={url}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();
