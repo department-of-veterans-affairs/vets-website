@@ -153,7 +153,12 @@ function mapHealthInsuranceToApplicants(
   // Add current date
   // eslint-disable-next-line prefer-destructuring
   result.certificationDate = new Date().toISOString().split('T')[0];
-  return result;
+
+  // Ensure veteran object is preserved in the result
+  return {
+    ...result,
+    veteran: data.veteran,
+  };
 }
 
 /**
@@ -201,6 +206,16 @@ function collectSupportingDocuments(data) {
  * @returns {string} JSON string of transformed data
  */
 export default function transformForSubmit(formConfig, form) {
+  /* 
+  Remove view:applicantSSNArray BEFORE attempting to transform for submit:
+  In Cypress tests, this array sometimes has items which are undefined,
+  which throws an error in the formSystem `filterViewFields` method. Removing
+  before we get to that point seems to fix the issue. This problem has not
+  been observed outside of Cypress. 
+  */
+  // eslint-disable-next-line no-param-reassign
+  form?.data?.applicants?.forEach(a => delete a['view:applicantSSNArray']);
+
   // First transform using the forms-system transformer
   const initialTransform = JSON.parse(
     formsSystemTransformForSubmit(formConfig, form),
