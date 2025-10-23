@@ -6,13 +6,15 @@ import AddYourMedicationInfoWarning from '../../../components/ComposeForm/AddYou
 describe('AddYourMedicationInfoWarning component', () => {
   it('renders the warning banner when isVisible is true', () => {
     const { container } = render(<AddYourMedicationInfoWarning isVisible />);
-    const banner = container.querySelector('va-banner');
+    const banner = container.querySelector('va-alert');
 
     expect(banner).to.exist;
-    expect(banner.getAttribute('headline')).to.equal(
+    const h2 = banner.querySelector('h2');
+    expect(h2).to.exist;
+    expect(h2.textContent).to.equal(
       'Add your medication information to this message',
     );
-    expect(banner.getAttribute('type')).to.equal('warning');
+    expect(banner.getAttribute('status')).to.equal('warning');
     expect(banner.getAttribute('visible')).to.equal('true');
   });
 
@@ -20,7 +22,7 @@ describe('AddYourMedicationInfoWarning component', () => {
     const { container } = render(
       <AddYourMedicationInfoWarning isVisible={false} />,
     );
-    const banner = container.querySelector('va-banner');
+    const banner = container.querySelector('va-alert');
 
     expect(banner).to.exist;
     expect(banner.getAttribute('visible')).to.equal('false');
