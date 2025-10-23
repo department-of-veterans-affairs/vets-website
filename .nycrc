@@ -1,0 +1,32 @@
+{
+  "all": true,
+
+  "extension": [".js", ".jsx"],
+
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "script/**/*.js",
+    "script/**/*.jsx"
+  ],
+
+  "exclude": [
+    "**/*.unit.spec.js",
+    "**/*.unit.spec.jsx",
+    "**/*.e2e.spec.js",
+    "**/*.e2e.spec.jsx",
+    "src/platform/testing/**",
+    "cypress/**",
+    "node_modules/**",
+    "tmp/**",
+    "dist/**"
+  ],
+
+  "require": ["@babel/register"],
+
+  "sourceMap": true,
+  "instrument": true,
+  "excludeAfterRemap": true,
+
+  "cache": false
+}
