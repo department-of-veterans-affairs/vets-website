@@ -61,7 +61,7 @@ describe('spouseDeath', () => {
 
     const inUSInputs = $$('va-text-input', container);
     expect(inUSInputs.length).to.eq(1);
-    expect(inUSInputs[0].getAttribute('label')).to.eq('City');
+    expect(inUSInputs[0].getAttribute('label')).to.eq('City or county');
 
     const inUSSelects = $$('va-select', container);
     expect(inUSSelects.length).to.eq(1);
@@ -97,7 +97,13 @@ describe('spouseDeath', () => {
     await fireEvent.submit($('form', container));
 
     await waitFor(() => {
-      expect($$('[error]', container).length).to.equal(3);
+      const errors = $$('[error]', container);
+      expect(errors.length).to.equal(3);
+      expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
+        'Provide a date of death',
+        'Enter a city or county',
+        'Select a state',
+      ]);
       expect(goForward.notCalled).to.be.true;
     });
   });
@@ -118,8 +124,14 @@ describe('spouseDeath', () => {
     await fireEvent.submit($('form', container));
 
     await waitFor(() => {
+      const errors = $$('[error]', container);
       // Still 3 errors because province is not required
-      expect($$('[error]', container).length).to.equal(3);
+      expect(errors.length).to.equal(3);
+      expect(errors.map(el => el.getAttribute('error'))).to.deep.equal([
+        'Provide a date of death',
+        'Enter a city',
+        'Select a country',
+      ]);
       expect(goForward.notCalled).to.be.true;
     });
   });
@@ -132,7 +144,7 @@ describe('spouseDeath', () => {
         ...defaultData,
         marriageEndDeathDate: '2000-01-01',
         marriageEndCity: 'Test',
-        marriageEndState: 'TT',
+        marriageEndState: 'AK',
       },
     });
 
@@ -148,19 +160,13 @@ describe('spouseDeath', () => {
       expect(spouseDeath.handlers.goForward()).to.equal('DONE');
     });
 
-    it('should return reason to remove page path on goBack', () => {
-      expect(spouseDeath.handlers.goBack()).to.equal(
-        'marriage-reason-to-remove',
-      );
-    });
-
     it('should call goForward when all form values (US) are set on submit', () => {
       const goForward = sinon.spy();
       spouseDeath.handlers.onSubmit({
         itemData: {
           marriageEndDeathDate: '2000-01-01',
           marriageEndCity: 'Test',
-          marriageEndState: 'TT',
+          marriageEndState: 'AK',
         },
         goForward,
       });

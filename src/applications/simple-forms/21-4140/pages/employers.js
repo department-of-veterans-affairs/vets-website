@@ -19,7 +19,7 @@ import {
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
 /** @type {ArrayBuilderOptions} */
-const options = {
+export const options = {
   arrayPath: 'employers',
   nounSingular: 'employer',
   nounPlural: 'employers',

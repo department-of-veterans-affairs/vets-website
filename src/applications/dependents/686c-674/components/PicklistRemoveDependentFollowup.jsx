@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 
 import { scrollToTop } from 'platform/utilities/scroll';
 import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import set from 'platform/utilities/data/set';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import { getFullName } from '../../shared/utils';
 
-import { PICKLIST_DATA } from '../config/constants';
-import dependentsFollowup from './picklist/routing';
+import { PICKLIST_DATA, PICKLIST_PATHS } from '../config/constants';
+import { routing, getPicklistRoutes } from './picklist/routes';
 
 const PicklistRemoveDependentFollowup = ({
   data = {},
@@ -35,15 +34,17 @@ const PicklistRemoveDependentFollowup = ({
     scrollToTop();
     focusElement('h3');
   };
+  // Dynamically updated picklist paths to help with navigating backward
+  const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
+  // Get last path is flow if navigating back from review & submit page
+  const lastPath = paths.slice(-1)?.[0] || {};
 
   const queryParams = getArrayUrlSearchParams(urlTestingOnly);
-  // index param is required, if not present we're likely navigating back from
-  // the review & submit page
   const indexParam = queryParams.get('index');
-  // index in PICKLIST_DATA
-  const index = parseInt(queryParams.get('index'), 10) || 0;
-  // followup page index
-  const page = queryParams.get('page') || '';
+  // Index in PICKLIST_DATA
+  const index = indexParam ? parseInt(indexParam, 10) || 0 : lastPath.index;
+  // Followup page index
+  const page = indexParam ? queryParams.get('page') || '' : lastPath.path || '';
 
   const currentDependent = data[PICKLIST_DATA]?.[index] || {};
   const dependentType = currentDependent.relationshipToVeteran;
@@ -51,7 +52,7 @@ const PicklistRemoveDependentFollowup = ({
     getFullName(currentDependent.fullName) ||
     `${currentDependent.relationshipToVeteran} dependent`;
   const dependentFirstName = currentDependent?.fullName?.first || 'dependent';
-  const dependentGroup = dependentsFollowup?.[dependentType];
+  const dependentGroup = routing?.[dependentType];
   const currentPage =
     page === '' ? 0 : dependentGroup?.findIndex(item => item.path === page);
   const pageToRender = dependentGroup?.[currentPage];
@@ -60,8 +61,7 @@ const PicklistRemoveDependentFollowup = ({
     goToPath('options-selection/remove-active-dependents');
   };
 
-  // May encounter this when navigating back from review & submit page
-  if (!indexParam || !pageToRender?.page || !pageToRender.page.Component) {
+  if (!pageToRender?.page || !pageToRender.page.Component) {
     returnToMainPage();
     return null;
   }
@@ -98,34 +98,19 @@ const PicklistRemoveDependentFollowup = ({
 
     goBack: () => {
       resetState();
-      const prevPage = pageToRender.page.handlers.goBack({
-        itemData: currentDependent,
-        index,
-        fullData: data,
-        goToPath,
-      });
-      if (prevPage === '') {
-        let prevSelectedIndex = -1;
-        data[PICKLIST_DATA].findIndex((dep, indx) => {
-          if (indx < index && dep.selected) {
-            prevSelectedIndex = indx;
-          }
-          return indx >= index;
-        });
-        if (prevSelectedIndex !== -1) {
-          // Go back to previous selected dependent
-          goToPath(`remove-dependent?index=${prevSelectedIndex}`, {
-            force: true,
-          });
-        } else {
-          // Main picklist page
-          goBack();
-        }
-      } else {
-        // Go back a page within the current selected dependent
-        goToPath(`remove-dependent?index=${index}&page=${prevPage}`, {
+      const selectedIndex = paths.findIndex(
+        path => path.index === index && path.path === page,
+      );
+
+      if (selectedIndex - 1 >= 0) {
+        const path = paths[selectedIndex - 1];
+        // Go back to previous selected dependent
+        goToPath(`remove-dependent?index=${path.index}&page=${path.path}`, {
           force: true,
         });
+      } else {
+        // Go to main picklist page
+        goBack();
       }
     },
   };
@@ -138,6 +123,8 @@ const PicklistRemoveDependentFollowup = ({
     onSubmit: event => {
       event.preventDefault();
       setFormSubmitted(true);
+      setFormData({ ...data, [PICKLIST_PATHS]: getPicklistRoutes(data) });
+
       pageToRender?.page.handlers.onSubmit({
         event,
         itemData: currentDependent,
@@ -159,7 +146,16 @@ const PicklistRemoveDependentFollowup = ({
         itemData={currentDependent}
       />
       {contentBeforeButtons}
-      <FormNavButtons goBack={navigation.goBack} submitToContinue />
+      <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+        <div className="small-6 medium-5 columns">
+          <va-button back full-width onClick={navigation.goBack} />
+        </div>
+        <div className="small-6 medium-5 end columns">
+          {!pageToRender.page.hasExitLink && (
+            <va-button continue full-width submit="prevent" />
+          )}
+        </div>
+      </div>
       {contentAfterButtons}
     </form>
   );

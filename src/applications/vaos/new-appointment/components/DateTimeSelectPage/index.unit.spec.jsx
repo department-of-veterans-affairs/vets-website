@@ -294,7 +294,7 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     mockAppointmentsApi({
       start,
       end,
-      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
 
     setDateTimeSelectMockFetchesDateFns({
@@ -957,7 +957,7 @@ describe('When preferred date is immediate care', () => {
       mockAppointmentsApi({
         start: subDays(new Date(), 30),
         end: addDays(new Date(), 395),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       });
       mockEligibilityFetches({
         facilityId,
@@ -1117,7 +1117,7 @@ describe('When preferred date is not immediate care', () => {
       mockAppointmentsApi({
         start: subDays(new Date(), 30),
         end: addDays(new Date(), 395),
-        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
       });
       mockEligibilityFetches({
         facilityId,

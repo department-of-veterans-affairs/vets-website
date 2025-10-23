@@ -61,11 +61,11 @@ Alert.PastDueOTPP = ({ copay, history }) => {
       </p>
       <VaLinkAction
         data-testid={`resolve-link-${copay.id}`}
-        href={`/copay-balances/${copay.id}/detail/resolve`}
+        href={`/copay-balances/${copay.id}/resolve`}
         onClick={event => {
           event.preventDefault();
           recordEvent({ event: 'cta-link-click-copay-past-due-alert' });
-          history.push(`/copay-balances/${copay.id}/detail/resolve`);
+          history.push(`/copay-balances/${copay.id}/resolve`);
         }}
         text="Pay your balance, request financial help, or dispute this bill"
         type="primary"
@@ -216,11 +216,11 @@ Alert.StatusOTPP = ({ copay, history }) => (
     </p>
     <VaLinkAction
       data-testid={`resolve-link-${copay.id}`}
-      href={`/copay-balances/${copay.id}/detail/resolve`}
+      href={`/copay-balances/${copay.id}/resolve`}
       onClick={event => {
         event.preventDefault();
         recordEvent({ event: 'cta-link-click-copay-status-alert' });
-        history.push(`/copay-balances/${copay.id}/detail/resolve`);
+        history.push(`/copay-balances/${copay.id}/resolve`);
       }}
       text="Pay your balance, request financial help, or dispute this bill"
       type="primary"
