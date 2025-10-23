@@ -13,6 +13,7 @@ import { FETCH_STATUS } from '../utils/constants';
 import { createMockEpsAppointment } from './utils/appointment';
 import { createReferralById } from './utils/referrals';
 import * as epsAppointmentUtils from './utils/appointment';
+import * as vaosApi from '../redux/api/vaosApi';
 
 describe('CompleteReferral', () => {
   let requestStub;
@@ -56,6 +57,13 @@ describe('CompleteReferral', () => {
       },
     });
     requestStub = sandbox.stub(utils, 'apiRequestWithUrl');
+
+    // Mock the referral fetch hook that's now in each component
+    sandbox.stub(vaosApi, 'useGetReferralByIdQuery').returns({
+      data: currentReferral,
+      error: false,
+      isLoading: false,
+    });
   });
   afterEach(() => {
     sandbox.restore();
@@ -68,13 +76,11 @@ describe('CompleteReferral', () => {
       'startNewAppointmentFlow',
     );
 
-    const { getByTestId } = renderWithStoreAndRouter(
-      <CompleteReferral currentReferral={currentReferral} />,
-      {
-        store: createTestStore(initialState),
-        path: '/complete/UUID?confirmMsg=true',
-      },
-    );
+    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
+      store: createTestStore(initialState),
+      path:
+        '/schedule-referral/complete/test-appointment-id?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
     await waitFor(() => {
       expect(getByTestId('appointment-block')).to.exist;
     });
@@ -84,12 +90,11 @@ describe('CompleteReferral', () => {
 
   it('should render error alert when appointment info has an error', async () => {
     requestStub.throws(() => new Error());
-    const { getByTestId } = renderWithStoreAndRouter(
-      <CompleteReferral currentReferral={currentReferral} />,
-      {
-        store: createTestStore(errorState),
-      },
-    );
+    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
+      store: createTestStore(errorState),
+      path:
+        '/schedule-referral/complete/test-appointment-id?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
     await sandbox.clock.tick(35000);
     await waitFor(
       () => {
@@ -104,12 +109,11 @@ describe('CompleteReferral', () => {
 
   it('should render warning alert when appointment info has timed out', async () => {
     requestStub.resolves({ data: referralDraftAppointmentInfo });
-    const { getByTestId } = renderWithStoreAndRouter(
-      <CompleteReferral currentReferral={currentReferral} />,
-      {
-        store: createTestStore(initialState),
-      },
-    );
+    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
+      store: createTestStore(initialState),
+      path:
+        '/schedule-referral/complete/test-appointment-id?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
     await sandbox.clock.tick(35000);
     await waitFor(
       () => {
@@ -123,13 +127,11 @@ describe('CompleteReferral', () => {
 
   it('should render appointment details correctly', async () => {
     requestStub.resolves({ data: referralAppointmentInfo });
-    const { getByTestId } = renderWithStoreAndRouter(
-      <CompleteReferral currentReferral={currentReferral} />,
-      {
-        store: createTestStore(initialState),
-        path: `/schedule-referral/complete/${appointmentId}`,
-      },
-    );
+    const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
+      store: createTestStore(initialState),
+      path:
+        '/schedule-referral/complete/test-appointment-id?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
     await waitFor(() => {
       expect(getByTestId('appointment-block')).to.exist;
     });
@@ -166,13 +168,11 @@ describe('CompleteReferral', () => {
 
   it('should link to details view', async () => {
     requestStub.resolves({ data: referralAppointmentInfo });
-    const screen = renderWithStoreAndRouter(
-      <CompleteReferral currentReferral={currentReferral} />,
-      {
-        store: createTestStore(initialState),
-        path: `/schedule-referral/complete/${appointmentId}`,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<CompleteReferral />, {
+      store: createTestStore(initialState),
+      path:
+        '/schedule-referral/complete/test-appointment-id?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+    });
     await waitFor(() => {
       expect(screen.getByTestId('cc-details-link')).to.exist;
     });
