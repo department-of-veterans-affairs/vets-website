@@ -4,12 +4,12 @@ import { getRoutesForNav } from './routesForNav';
 import { Hub } from './components/hub/Hub';
 
 const getRoutes = (
-  { profileShowPaperlessDelivery = false } = {
-    profileShowPaperlessDelivery: false,
+  { profile2Enabled = false } = {
+    profile2Enabled: false,
   },
 ) => {
   return [
-    ...getRoutesForNav({ profileShowPaperlessDelivery }),
+    ...getRoutesForNav({ profile2Enabled }),
     {
       component: Edit,
       name: PROFILE_PATH_NAMES.EDIT,
