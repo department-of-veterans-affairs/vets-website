@@ -6,8 +6,7 @@ import { formatDate } from '../../combined/utils/helpers';
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   const columns = ['Date', 'Description', 'Billing Reference', 'Amount'];
 
-  const MAX_ROWS = 8; // We want to display 10 (2 default rows + 8 paginated rows)
-  const DEFAULT_ROWS = 2;
+  const MAX_ROWS = 10;
 
   function paginate(array, pageSize, pageNumber) {
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
@@ -127,7 +126,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             <span>
               {getPaginationText(
                 currentPage,
-                DEFAULT_ROWS + MAX_ROWS,
+                MAX_ROWS,
                 charges.length,
                 'charges',
               )}
@@ -140,13 +139,6 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
             ))}
           </va-table-row>
 
-          <va-table-row>
-            <span>Empty</span>
-            <span>Previous Balance</span>
-            <span>Empty</span>
-            <span>{formatCurrency(selectedCopay?.pHPrevBal)}</span>
-          </va-table-row>
-
           {currentData
             ?.filter(charge => !charge.pDTransDescOutput.startsWith('&nbsp;'))
             .map((charge, index) => (
@@ -157,17 +149,6 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
                 <span>{formatCurrency(charge.pDTransAmt)}</span>
               </va-table-row>
             ))}
-
-          <va-table-row>
-            <span>Empty</span>
-            <span>
-              <strong>Current Balance</strong>
-            </span>
-            <span>Empty</span>
-            <span>
-              <strong>{formatCurrency(selectedCopay?.pHNewBalance)}</strong>
-            </span>
-          </va-table-row>
         </va-table>
       </div>
       <VaPagination
