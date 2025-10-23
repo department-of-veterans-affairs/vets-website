@@ -2,11 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  clearMostRecentlySavedField,
-  openModal,
-} from '~/platform/user/profile/vap-svc/actions';
+import { useDispatch } from 'react-redux';
+import { clearMostRecentlySavedField } from '~/platform/user/profile/vap-svc/actions';
 import { focusElement } from '~/platform/utilities/ui';
 import Headline from './ProfileSectionHeadline';
 
@@ -18,17 +15,11 @@ const getScrollTarget = hash => {
 const Tier2PageContent = ({ children, pageHeader }) => {
   const location = useLocation();
 
-  const hasUnsavedEdits = useSelector(
-    state => state.vapService.hasUnsavedEdits,
-  );
-
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
     () => dispatch(clearMostRecentlySavedField()),
     [dispatch],
   );
-
-  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
 
   useEffect(
     () => {
@@ -64,27 +55,6 @@ const Tier2PageContent = ({ children, pageHeader }) => {
     [location],
   );
 
-  useEffect(
-    () => {
-      // Show alert when navigating away
-      if (hasUnsavedEdits) {
-        window.onbeforeunload = () => true;
-        return;
-      }
-
-      window.onbeforeunload = undefined;
-    },
-    [hasUnsavedEdits],
-  );
-
-  useEffect(
-    () => {
-      return () => {
-        openEditModal(null);
-      };
-    },
-    [openEditModal],
-  );
   return (
     <>
       <Headline>{pageHeader}</Headline>
