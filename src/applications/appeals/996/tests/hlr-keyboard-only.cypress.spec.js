@@ -1,14 +1,14 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API } from '../constants/apis';
-
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
-
-import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
+import {
+  fixDecisionDates,
+  tabToContinue,
+} from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Higher-Level Review keyboard only navigation', () => {
@@ -56,20 +56,20 @@ describe('Higher-Level Review keyboard only navigation', () => {
         chapters.infoPages.pages.veteranInformation.path,
       );
       cy.wait('@getIssues');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
       cy.tabToElement('input#root_homelessYesinput');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Contact info
       cy.url().should(
         'include',
         chapters.infoPages.pages.confirmContactInfo.path,
       );
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+      tabToContinue();
 
       // *** Issues for review (sorted by random decision date) - only selecting one,
       // or more complex code is needed to find if the next checkbox is before or
@@ -82,7 +82,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement('[name="root_contestedIssues_0"]'); // Tinnitus
       cy.realPress('Space');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Area of disagreement for tinnitus
       cy.url().should(
@@ -99,20 +99,15 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.get(':focus')
         .find('input')
         .type('Few words', { delay: 0 });
-      // For some reason, the Continue button is not consistently appearing in
-      // Cypress snapshot with `[type="submit"]`; Both Back and Continue button
-      // have ids ending with -continueButton, so using .usa-button-primary to
-      // identify which button is submit
-      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
-      cy.realPress('Space');
+      tabToContinue();
 
       // *** Authorization
-      cy.tabToElement('.usa-button-primary[id$="-continueButton"]');
-      cy.realPress('Space');
+      cy.url().should('include', chapters.conditions.pages.authorization.path);
+      tabToContinue();
 
       // *** Issue summary
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Informal conference choice
       cy.url().should(
@@ -123,7 +118,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.wait(100); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="informalConferenceChoice"]');
       cy.chooseRadio('yes');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Informal conference option
       cy.url().should(
@@ -134,7 +129,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.wait(100); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Rep name & contact info
       cy.url().should(
@@ -148,7 +143,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.typeInIfDataExists(`${repPrefix}phone"]`, rep.phone);
       cy.typeInIfDataExists(`${repPrefix}extension"]`, rep.extension);
       cy.typeInIfDataExists(`${repPrefix}email"]`, rep.email);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Informal conference time
       cy.url().should(
@@ -159,7 +154,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       cy.wait(100);
       cy.tabToElement('[name="root_informalConferenceTime"]');
       cy.chooseRadio(data.informalConferenceTime);
-      cy.tabToContinueForm();
+      tabToContinue();
 
       // *** Review & submit page
       cy.url().should('include', 'review-and-submit');
