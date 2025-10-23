@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { pharmacyPhoneNumber } from '@department-of-veterans-affairs/mhv/exports';
 import {
-  pdfStatusDefinitions,
-  pdfDefaultStatusDefinition,
   FIELD_NONE_NOTED,
+  medStatusDisplayTypes,
+  pdfStatusDefinitions,
 } from '../../util/constants';
 import {
   validateField,
@@ -15,6 +15,7 @@ import {
   displayProviderName,
   getRxStatus,
   rxSourceIsNonVA,
+  prescriptionMedAndRenewalStatus,
 } from '../../util/helpers';
 import MedicationDescription from '../shared/MedicationDescription';
 import { selectPendingMedsFlag } from '../../util/selectors';
@@ -120,37 +121,41 @@ const PrescriptionPrintOnly = props => {
                 </>
               )}
             <p>
-              <strong>Status:</strong> {rxStatus}
+              <strong>Status: </strong>
+              {prescriptionMedAndRenewalStatus(rx, medStatusDisplayTypes.PRINT)}
             </p>
-            <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
-              {pdfStatusDefinitions[rx.refillStatus]
-                ? pdfStatusDefinitions[rx.refillStatus].map((def, i) => {
-                    if (Array.isArray(def.value)) {
+            {!pendingMed &&
+              !pendingRenewal &&
+              pdfStatusDefinitions[rx.refillStatus] &&
+              pdfStatusDefinitions[rx.refillStatus].length > 1 && (
+                <div className="vads-u-margin-y--0p5 no-break vads-u-margin-right--5">
+                  {pdfStatusDefinitions[rx.refillStatus]
+                    .slice(1) // skip the first line (already displayed)
+                    .map((def, i) => {
+                      if (Array.isArray(def.value)) {
+                        return (
+                          <ul key={i} className="vads-u-margin--0">
+                            {def.value.map((val, idx) => (
+                              <li key={idx} className="vads-u-margin--0">
+                                {val}
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      }
+
+                      if (def.weight === 'bold') {
+                        return <strong key={i}>{def.value}</strong>;
+                      }
+
                       return (
-                        <ul key={i} className="vads-u-margin--0">
-                          {def.value.map((val, idx) => (
-                            <li key={idx} className="vads-u-margin--0">
-                              {val}
-                            </li>
-                          ))}
-                        </ul>
+                        <div key={i} className="vads-u-margin-y--0p5">
+                          {def.value}
+                        </div>
                       );
-                    }
-                    if (def.weight === 'bold') {
-                      return <strong key={i}>{def.value}</strong>;
-                    }
-                    return (
-                      <div key={i} className="vads-u-margin-y--0p5">
-                        {def.value}
-                      </div>
-                    );
-                  })
-                : pdfDefaultStatusDefinition.map(({ value }, i) => (
-                    <div key={i} className="vads-u-margin-y--0p5">
-                      {value}
-                    </div>
-                  ))}
-            </div>
+                    })}
+                </div>
+              )}
             <p>
               <strong>Refills left:</strong> {validateField(rx.refillRemaining)}
             </p>
