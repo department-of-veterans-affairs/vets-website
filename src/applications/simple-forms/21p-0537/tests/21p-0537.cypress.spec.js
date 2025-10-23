@@ -174,7 +174,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'phone-and-email': ({ afterHook }) => {
+      'contact-info': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
