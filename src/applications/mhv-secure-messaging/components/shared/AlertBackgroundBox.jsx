@@ -138,6 +138,7 @@ const AlertBackgroundBox = props => {
       foldersViewPage,
       location.pathname,
       replyViewPage,
+      setShowAlertBackgroundBox,
       threadMessages,
       threadViewPage,
     ],
@@ -251,6 +252,7 @@ AlertBackgroundBox.propTypes = {
   closeable: PropTypes.bool,
   focus: PropTypes.bool,
   noIcon: PropTypes.bool,
+  setShowAlertBackgroundBox: PropTypes.func,
 };
 
 export default AlertBackgroundBox;
