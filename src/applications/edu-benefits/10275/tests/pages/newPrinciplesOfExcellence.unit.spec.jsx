@@ -18,6 +18,7 @@ const mockStore = configureStore();
 describe('New Commitment Chapter = Principles of Excellence Point of Contact Page', () => {
   const renderPage = (
     formData = {
+      authorizedOfficial: {},
       newCommitment: {
         principlesOfExcellencePointOfContact: {},
       },
@@ -95,15 +96,38 @@ describe('New Commitment Chapter = Principles of Excellence Point of Contact Pag
     ).to.equal(1);
   });
 
-  it('renders SCO radio button', async () => {
-    const { container } = renderPage();
+  describe('SCO radio button', () => {
+    it('renders if the authorizing official is not the SCO', async () => {
+      const { container } = renderPage({
+        authorizedOfficial: { 'view:isSCO': false },
+        newCommitment: {
+          principlesOfExcellencePointOfContact: {},
+        },
+      });
 
-    expect(
-      $$(
-        'va-radio[label="Is this person also a school certifying official?"]',
-        container,
-      ).length,
-    ).to.equal(1);
+      expect(
+        $$(
+          'va-radio[label="Is this person also a school certifying official?"]',
+          container,
+        ).length,
+      ).to.equal(1);
+    });
+
+    it('does not render if the authorizing official is the SCO', async () => {
+      const { container } = renderPage({
+        authorizedOfficial: { 'view:isSCO': true },
+        newCommitment: {
+          principlesOfExcellencePointOfContact: {},
+        },
+      });
+
+      expect(
+        $$(
+          'va-radio[label="Is this person also a school certifying official?"]',
+          container,
+        ).length,
+      ).to.equal(0);
+    });
   });
 
   it('shows errors when required fields are empty', async () => {

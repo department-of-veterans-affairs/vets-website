@@ -18,13 +18,7 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const requiredSchema = [
-  'fullName',
-  'title',
-  'email',
-  'view:phoneType',
-  'view:isSCO',
-];
+const requiredSchema = ['fullName', 'title', 'email', 'view:phoneType'];
 
 const uiSchema = {
   ...titleUI('Principles of Excellence point of contact'),
@@ -80,7 +74,7 @@ const uiSchema = {
           Y: 'Yes, they are a school certifying official',
           N: 'No, they are not a school certifying official',
         },
-        required: () => true,
+        hideIf: formData => formData?.authorizedOfficial?.['view:isSCO'],
       }),
     },
     'ui:options': {
@@ -105,6 +99,11 @@ const uiSchema = {
             ...updateRequiredSchema,
             'internationalPhone',
           ];
+        }
+
+        // SCO question only required if authorizing official is not already selected as the SCO
+        if (!formData.authorizedOfficial['view:isSCO']) {
+          updateRequiredSchema = [...updateRequiredSchema, 'view:isSCO'];
         }
 
         return {
