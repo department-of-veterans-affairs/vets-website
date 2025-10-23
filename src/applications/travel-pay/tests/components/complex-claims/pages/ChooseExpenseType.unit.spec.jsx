@@ -152,4 +152,123 @@ describe('ChooseExpenseType', () => {
 
     expect(screen.getByText(/To request reimbursement for air fare/)).to.exist;
   });
+
+  describe('Error handling', () => {
+    it('shows error message when continue is clicked without selecting an expense type', () => {
+      renderComponent();
+
+      const buttonPair = $('va-button-pair');
+      const radioGroup = $('va-radio[label="Choose an expense type"]');
+
+      // Initially no error should be shown
+      expect(radioGroup.getAttribute('error')).to.be.null;
+
+      // Click continue button without selecting an expense type
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Error message should now be displayed
+      expect(radioGroup.getAttribute('error')).to.equal(
+        'Please select an expense type',
+      );
+    });
+
+    it('clears error message when an expense type is selected after error', () => {
+      renderComponent();
+
+      const buttonPair = $('va-button-pair');
+      const radioGroup = $('va-radio[label="Choose an expense type"]');
+
+      // Click continue without selection to trigger error
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Verify error is shown
+      expect(radioGroup.getAttribute('error')).to.equal(
+        'Please select an expense type',
+      );
+
+      // Select an expense type
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'mileage' },
+        }),
+      );
+
+      // Error should be cleared
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+
+    it('does not show error when continue is clicked with a valid selection', () => {
+      renderComponent();
+
+      const buttonPair = $('va-button-pair');
+      const radioGroup = $('va-radio[label="Choose an expense type"]');
+
+      // Select an expense type first
+      fireEvent(
+        radioGroup,
+        new CustomEvent('vaValueChange', {
+          detail: { value: 'parking' },
+        }),
+      );
+
+      // Click continue button
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // No error should be shown
+      expect(radioGroup.getAttribute('error')).to.be.null;
+    });
+
+    it('prevents navigation when no expense type is selected', () => {
+      renderComponent();
+
+      const buttonPair = $('va-button-pair');
+
+      // Mock the navigate function to check if it was called
+      const originalLocation = window.location;
+
+      // Override window.location to detect navigation attempts
+      Object.defineProperty(window, 'location', {
+        value: {
+          ...originalLocation,
+          pathname: '/file-new-claim/complex/12345/expense-type',
+        },
+        writable: true,
+      });
+
+      // Click continue without selection
+      fireEvent(
+        buttonPair,
+        new CustomEvent('primaryClick', {
+          detail: {},
+        }),
+      );
+
+      // Should still be on the same page (no navigation occurred)
+      expect(window.location.pathname).to.equal(
+        '/file-new-claim/complex/12345/expense-type',
+      );
+
+      // Restore original location
+      Object.defineProperty(window, 'location', {
+        value: originalLocation,
+        writable: true,
+      });
+    });
+  });
 });
