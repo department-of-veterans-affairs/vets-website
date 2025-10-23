@@ -1,7 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 describe('Claimant Relationship Page', () => {
@@ -20,20 +24,21 @@ describe('Claimant Relationship Page', () => {
         data={{}}
       />,
     );
-    const { container } = form;
+    const formDOM = getFormDOM(form);
 
     expect(form.getByRole('heading')).to.have.text(title);
-    const vaRadio = container.querySelector('va-radio');
-    expect(vaRadio.getAttribute('label')).to.equal(
-      'Which of these best describes you?',
+    const vaRadio = $(
+      'va-radio[label="Which of these best describes you?"]',
+      formDOM,
     );
+    expect(vaRadio.getAttribute('required')).to.equal('true');
 
-    const options = container.querySelectorAll('va-radio-option');
-    expect(options.length).to.equal(2);
-    expect(options[0].getAttribute('label')).to.equal(
+    const vaOptions = $$('va-radio-option', formDOM);
+    expect(vaOptions.length).to.equal(2);
+    expect(vaOptions[0].getAttribute('label')).to.equal(
       'I’m a Veteran, and I want to report unreimbursed medical expenses',
     );
-    expect(options[1].getAttribute('label')).to.equal(
+    expect(vaOptions[1].getAttribute('label')).to.equal(
       'I’m a spouse, child or dependent of a deceased Veteran, and I want to report unreimbursed medical expenses',
     );
   });

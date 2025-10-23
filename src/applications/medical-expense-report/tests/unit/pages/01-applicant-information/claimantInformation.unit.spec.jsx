@@ -1,37 +1,40 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  DefinitionTester,
+  getFormDOM,
+} from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
 describe('Claimant Information Page', () => {
   const {
     schema,
     uiSchema,
-    arrayPath,
     title,
   } = formConfig.chapters.applicantInformation.pages.claimantInformation;
   it('renders the claimant relationship options', async () => {
     const form = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-      />,
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
-    const { container } = form;
+    const formDOM = getFormDOM(form);
 
     expect(form.getByRole('heading')).to.have.text(title);
-    const vaTextInput = container.querySelectorAll('va-text-input');
-    const vaSelect = container.querySelector('va-select');
-    expect(vaTextInput[0].getAttribute('label')).to.equal('First name');
-    expect(vaTextInput[0].getAttribute('required')).to.equal('true');
-    expect(vaTextInput[1].getAttribute('label')).to.equal('Middle name');
-    expect(vaTextInput[1].getAttribute('required')).to.equal('false');
-    expect(vaTextInput[2].getAttribute('label')).to.equal('Last name');
-    expect(vaTextInput[2].getAttribute('required')).to.equal('true');
-    expect(vaSelect.getAttribute('label')).to.equal('Suffix');
-    expect(vaSelect.getAttribute('required')).to.equal('false');
+    const vaTextInput = $$('va-text-input', formDOM);
+    const vaSelects = $$('va-select', formDOM);
+
+    const vaFirstNameInput = $('va-text-input[label="First name"]', formDOM);
+    const vaMiddleNameInput = $('va-text-input[label="Middle name"]', formDOM);
+    const vaLastNameInput = $('va-text-input[label="Last name"]', formDOM);
+    const vaSuffixSelect = $('va-select[label="Suffix"]', formDOM);
+
+    expect(vaTextInput.length).to.equal(3);
+    expect(vaSelects.length).to.equal(1);
+
+    expect(vaFirstNameInput.getAttribute('required')).to.equal('true');
+    expect(vaMiddleNameInput.getAttribute('required')).to.equal('false');
+    expect(vaLastNameInput.getAttribute('required')).to.equal('true');
+    expect(vaSuffixSelect.getAttribute('required')).to.equal('false');
   });
 });
