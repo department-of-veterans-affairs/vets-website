@@ -11,12 +11,19 @@ import formConfig from '../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.associatedOfficialsChapter.pages.authorizedOfficialNew;
+} = formConfig.chapters.associatedOfficialsChapter.pages.principlesOfExcellenceNew;
 
 const mockStore = configureStore();
 
-describe('New Commitment Chapter = Authorized Official Page', () => {
-  const renderPage = (formData = { authorizedOfficial: {} }) => {
+describe('New Commitment Chapter = Principles of Excellence Point of Contact Page', () => {
+  const renderPage = (
+    formData = {
+      authorizedOfficial: {},
+      newCommitment: {
+        principlesOfExcellencePointOfContact: {},
+      },
+    },
+  ) => {
     const store = mockStore({ form: { data: formData } });
     return render(
       <Provider store={store}>
@@ -49,9 +56,7 @@ describe('New Commitment Chapter = Authorized Official Page', () => {
   it('renders title input field', () => {
     const { container } = renderPage();
 
-    expect($$('va-text-input[label="Your title"]', container).length).to.equal(
-      1,
-    );
+    expect($$('va-text-input[label="Title"]', container).length).to.equal(1);
   });
 
   it('renders phone type select radio buttons', async () => {
@@ -91,22 +96,38 @@ describe('New Commitment Chapter = Authorized Official Page', () => {
     ).to.equal(1);
   });
 
-  it('renders POC and SCO radio buttons', async () => {
-    const { container } = renderPage();
+  describe('SCO radio button', () => {
+    it('renders if the authorizing official is not the SCO', async () => {
+      const { container } = renderPage({
+        authorizedOfficial: { 'view:isSCO': false },
+        newCommitment: {
+          principlesOfExcellencePointOfContact: {},
+        },
+      });
 
-    expect(
-      $$(
-        'va-radio[label^="Are you also the Principles of Excellence point"]',
-        container,
-      ).length,
-    ).to.equal(1);
+      expect(
+        $$(
+          'va-radio[label="Is this person also a school certifying official?"]',
+          container,
+        ).length,
+      ).to.equal(1);
+    });
 
-    expect(
-      $$(
-        'va-radio[label="Are you also a school certifying official?"]',
-        container,
-      ).length,
-    ).to.equal(1);
+    it('does not render if the authorizing official is the SCO', async () => {
+      const { container } = renderPage({
+        authorizedOfficial: { 'view:isSCO': true },
+        newCommitment: {
+          principlesOfExcellencePointOfContact: {},
+        },
+      });
+
+      expect(
+        $$(
+          'va-radio[label="Is this person also a school certifying official?"]',
+          container,
+        ).length,
+      ).to.equal(0);
+    });
   });
 
   it('shows errors when required fields are empty', async () => {
@@ -118,8 +139,8 @@ describe('New Commitment Chapter = Authorized Official Page', () => {
       // at least 4 input form errors (first name, last name, title, emai)
       expect($$('va-text-input[error]', container).length).to.equal(4);
 
-      // at least 3 radio form errors (phone type, POC, SCO)
-      expect($$('va-radio[error]', container).length).to.equal(3);
+      // at least 2 radio form errors (phone type and SCO)
+      expect($$('va-radio[error]', container).length).to.equal(2);
     });
   });
 
