@@ -1,5 +1,5 @@
 import { NETWORTH_VALUE } from './constants';
-import { calculateAge } from '../../shared/utils';
+import { processDependents } from '../utils/processDependents';
 
 export default function prefillTransformer(pages, formData, metadata) {
   const {
@@ -7,24 +7,18 @@ export default function prefillTransformer(pages, formData, metadata) {
     veteranVaFileNumberLastFour = '',
     isInReceiptOfPension = -1,
     netWorthLimit = NETWORTH_VALUE,
-    dependents = [],
+    dependents = {},
   } = formData?.nonPrefill || {};
   const contact = formData?.veteranContactInformation || {};
   const address = contact.veteranAddress || {};
   const isMilitary =
     ['APO', 'FPO', 'DPO'].includes((address?.city || '').toUpperCase()) ||
     false;
-  const awardedDependents = dependents
-    .filter(dependent => dependent.awardIndicator === 'Y')
-    .map(dependent => ({
-      ...dependent,
-      // Calculate and add age for dependents not awarded so we can display it
-      age: calculateAge(dependent.dateOfBirth, { dateInFormat: 'yyyy-MM-dd' })
-        .labeledAge,
-    }));
-  const notAwardedDependents = dependents.filter(
-    dependent => dependent.awardIndicator !== 'Y',
-  );
+
+  const { hasError, awarded, notAwarded } = processDependents({
+    dependents,
+    isPrefill: true,
+  });
 
   return {
     pages,
@@ -50,9 +44,10 @@ export default function prefillTransformer(pages, formData, metadata) {
         emailAddress: contact.emailAddress || null,
       },
       dependents: {
-        hasDependents: awardedDependents.length > 0,
-        awarded: awardedDependents,
-        notAwarded: notAwardedDependents,
+        hasError,
+        hasDependents: awarded.length > 0,
+        awarded,
+        notAwarded,
       },
       useV2: true,
       netWorthLimit,
