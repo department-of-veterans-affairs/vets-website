@@ -9,6 +9,7 @@ const ChooseExpenseType = () => {
   const navigate = useNavigate();
   const { apptId } = useParams();
   const [selectedExpenseType, setSelectedExpenseType] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const expenseOptions = [
     { value: 'mileage', label: 'Mileage' },
@@ -25,6 +26,12 @@ const ChooseExpenseType = () => {
   ];
 
   const handleContinue = () => {
+    if (!selectedExpenseType) {
+      setShowError(true);
+      return;
+    }
+
+    setShowError(false);
     if (selectedExpenseType === 'mileage') {
       navigate(`/file-new-claim/complex/${apptId}/mileage`);
     } else {
@@ -51,7 +58,11 @@ const ChooseExpenseType = () => {
         label="Choose an expense type"
         required
         class="vads-u-margin-top--0"
-        onVaValueChange={event => setSelectedExpenseType(event.detail.value)}
+        error={showError ? 'Please select an expense type' : null}
+        onVaValueChange={event => {
+          setSelectedExpenseType(event.detail.value);
+          if (showError) setShowError(false);
+        }}
       >
         {expenseOptions.map(option => (
           <va-radio-option
