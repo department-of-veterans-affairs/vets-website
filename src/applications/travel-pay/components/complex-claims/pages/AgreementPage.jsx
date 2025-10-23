@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   VaCheckbox,
   VaButtonPair,
@@ -7,6 +8,8 @@ import {
 import TravelAgreementContent from '../../TravelAgreementContent';
 
 const AgreementPage = () => {
+  const navigate = useNavigate();
+  const { apptId } = useParams();
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
   const [isAgreementError, setIsAgreementError] = useState(false);
   const onSubmit = () => {
@@ -15,11 +18,14 @@ const AgreementPage = () => {
     } else {
       setIsAgreementError(false);
       // TODO Add logic for Submitting the claim
+      navigate(`/file-new-claim/complex/${apptId}/confirmation`);
     }
   };
+
   const onBack = () => {
-    // TODO Add logic to go to previous Review Page
+    navigate(`/file-new-claim/complex/${apptId}/review`);
   };
+
   return (
     <>
       <h1>Beneficiary travel agreement</h1>
