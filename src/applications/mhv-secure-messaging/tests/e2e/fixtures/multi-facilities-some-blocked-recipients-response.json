@@ -110,7 +110,7 @@
       "attributes": {
         "triageTeamId": 3658299,
         "name": "OH TG GROUP 002",
-        "stationNumber": "531",
+        "stationNumber": "653",
         "blockedStatus": false,
         "preferredTeam": true,
         "relationshipType": "PATIENT",
@@ -119,8 +119,8 @@
     }
   ],
   "meta": {
-    "associatedTriageGroups": 7,
-    "associatedBlockedTriageGroups": 0,
+    "associatedTriageGroups": 9,
+    "associatedBlockedTriageGroups": 1,
     "sort": {
       "name": "ASC"
     }
