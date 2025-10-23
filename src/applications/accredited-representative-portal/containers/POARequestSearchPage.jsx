@@ -31,7 +31,7 @@ import POARequestSearchPageResults from '../components/POARequestSearchPageResul
 
 const NoResultsText = searchStatus => (
   <div className="no-poa-requests-text">
-    {searchStatus === STATUSES.PENDING
+    {searchStatus.searchStatus === STATUSES.PENDING
       ? 'No pending representation requests.'
       : 'No processed representation requests.'}
   </div>
