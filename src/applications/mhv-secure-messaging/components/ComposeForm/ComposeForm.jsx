@@ -149,8 +149,12 @@ const ComposeForm = props => {
         const messageBody = [
           `Medication name, strength, and form: ${rx?.prescriptionName || ''}`,
           `Prescription number: ${rx?.prescriptionNumber || ''}`,
-          `Provider who prescribed it: ${rx?.providerFirstName ||
-            ''} ${rx?.providerLastName || ''}`,
+          `Provider who prescribed it: ${[
+            rx?.providerFirstName,
+            rx?.providerLastName,
+          ]
+            .filter(Boolean)
+            .join(' ') || ''}`,
           `Number of refills left: ${rx?.refillRemaining || ''}`,
           `Prescription expiration date: ${
             rx?.expirationDate

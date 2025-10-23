@@ -1830,7 +1830,7 @@ describe('Compose form component', () => {
         expect(args.category).to.equal('MEDICATIONS');
         expect(args.body).to.include('Medication name, strength, and form: ');
         expect(args.body).to.include('Prescription number: ');
-        expect(args.body).to.include('Provider who prescribed it:  ');
+        expect(args.body).to.include('Provider who prescribed it: ');
         expect(args.body).to.include('Number of refills left: ');
         expect(args.body).to.include('Prescription expiration date: ');
         expect(args.body).to.include('Reason for use: ');
@@ -1962,11 +1962,14 @@ describe('Compose form component', () => {
 
       const { container } = setup(errorState, Paths.COMPOSE);
 
-      const warningBanner = container.querySelector(
-        'va-banner[headline="Add your medication information to this message"]',
+      const warningAlert = container.querySelector('va-alert');
+      expect(warningAlert).to.exist;
+      expect(warningAlert.getAttribute('visible')).to.equal('true');
+      const h2 = warningAlert.querySelector('h2');
+      expect(h2).to.exist;
+      expect(h2.textContent).to.equal(
+        'Add your medication information to this message',
       );
-      expect(warningBanner).to.exist;
-      expect(warningBanner.getAttribute('visible')).to.equal('true');
     });
 
     it('hides medication info warning when prescription has no error', () => {
@@ -1982,11 +1985,14 @@ describe('Compose form component', () => {
 
       const { container } = setup(noErrorState, Paths.COMPOSE);
 
-      const warningBanner = container.querySelector(
-        'va-banner[headline="Add your medication information to this message"]',
+      const warningAlert = container.querySelector('va-alert');
+      expect(warningAlert).to.exist;
+      expect(warningAlert.getAttribute('visible')).to.equal('false');
+      const h2 = warningAlert.querySelector('h2');
+      expect(h2).to.exist;
+      expect(h2.textContent).to.equal(
+        'Add your medication information to this message',
       );
-      expect(warningBanner).to.exist;
-      expect(warningBanner.getAttribute('visible')).to.equal('false');
     });
 
     it('calls sendMessage and verifies redirect path is available for prescription renewal flow', async () => {
