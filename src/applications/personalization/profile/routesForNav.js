@@ -10,7 +10,7 @@ import NotificationSettings from './components/notification-settings/Notificatio
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 import PersonalHealthCareContacts from './components/personal-health-care-contacts';
 import BlankPageTemplate from './components/BlankPageTemplate';
-import HealthCareSettingsPage from './components/health-care-settings/HealthCareSettingsPage';
+import AppointmentPreferences from './components/health-care-settings/AppointmentPreferences';
 
 // the routesForNav array is used in the routes file to build the routes
 // the edit and hub routes are not present in the routesForNav array because
@@ -137,7 +137,7 @@ const routesForProfile2Nav = [
     hasSubnav: true,
   },
   {
-    component: HealthCareSettingsPage,
+    component: AppointmentPreferences,
     name: PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES,
     path: PROFILE_PATHS.APPOINTMENT_PREFERENCES,
     requiresLOA3: true,

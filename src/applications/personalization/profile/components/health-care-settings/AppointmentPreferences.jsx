@@ -2,17 +2,17 @@ import React from 'react';
 import { PROFILE_PATH_NAMES } from '../../constants';
 import Headline from '../ProfileSectionHeadline';
 
-const HealthCareSettingsPage = () => {
+const AppointmentPreferences = () => {
   return (
     <>
       <Headline level="2" className="vads-u-margin-bottom--2">
-        {PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS}
+        {PROFILE_PATH_NAMES.APPOINTMENT_PREFERENCES}
       </Headline>
       <p>Empty page, for now.</p>
     </>
   );
 };
 
-HealthCareSettingsPage.propTypes = {};
+AppointmentPreferences.propTypes = {};
 
-export default HealthCareSettingsPage;
+export default AppointmentPreferences;
