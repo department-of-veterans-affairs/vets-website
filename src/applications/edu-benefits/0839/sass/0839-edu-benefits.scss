@@ -123,4 +123,10 @@ display: none !important;
   color: hsl(0, 0%, 46%);
   }
 }
+.eligible-individuals-note input {
+      border: 0;
+        font-weight: bold;
+        pointer-events: none;
+        margin-left: -10px;
+}
 

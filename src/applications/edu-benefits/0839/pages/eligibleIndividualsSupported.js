@@ -1,6 +1,7 @@
 import React from 'react';
 import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
+import { getAcademicYearDisplay } from '../helpers';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -56,13 +57,34 @@ const uiSchema = {
   academicYear: {
     ...textUI({
       title: 'What academic year does this agreement apply to?',
-      description: 'Enter the academic year (such as 2025-2026)',
+      description: `Enter the academic year (such as ${getAcademicYearDisplay()})`,
       errorMessages: {
-        required: 'Enter the academic year, such as 2025–2026',
+        required: `Enter the academic year, such as ${getAcademicYearDisplay()}`,
       },
     }),
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 eligible-individuals-note',
+      hideIf: formData =>
+        formData.agreementType === 'startNewOpenEndedAgreement',
+    },
+    'ui:validations': [
+      (errors, fieldData) => {
+        if (fieldData !== getAcademicYearDisplay()) {
+          errors.addError(
+            `Enter the upcoming academic year this agreement applies to`,
+          );
+        }
+      },
+    ],
+  },
+  academicYearDisplay: {
+    'ui:title': 'What academic year does this agreement apply to?',
+    'ui:widget': 'text',
+    'ui:readonly': true,
+    'ui:options': {
+      hideIf: formData =>
+        formData.agreementType !== 'startNewOpenEndedAgreement',
+      classNames: 'eligible-individuals-note',
     },
   },
 };
@@ -78,6 +100,10 @@ const schema = {
     },
     academicYear: {
       type: 'string',
+    },
+    academicYearDisplay: {
+      type: 'string',
+      default: getAcademicYearDisplay(),
     },
   },
   required: ['eligibleIndividuals', 'academicYear'],
