@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  addressSchema,
   titleUI,
   textUI,
   textSchema,
@@ -109,21 +108,30 @@ const schema = {
         institutionAddress: {
           type: 'object',
           properties: {
-            country: addressSchema().properties.country,
-            street: addressSchema().properties.street,
-            street2: {
-              ...addressSchema().properties.street2,
-              minLength: 0,
-            },
-            street3: {
-              ...addressSchema().properties.street3,
-              minLength: 0,
-            },
-            city: addressSchema().properties.city,
-            state: addressSchema().properties.state,
-            postalCode: addressSchema().properties.postalCode,
+            country: { type: 'string' },
+            street: { type: 'string' },
+            street2: { type: 'string' },
+            street3: { type: 'string' },
+            city: { type: 'string' },
+            state: { type: 'string' },
+            postalCode: { type: 'string' },
           },
-          required: ['street', 'city', 'state', 'postalCode', 'country'],
+          anyOf: [
+            {
+              // For USA addresses
+              properties: {
+                country: { const: 'USA' },
+              },
+              required: ['street', 'city', 'state', 'postalCode', 'country'],
+            },
+            {
+              // For international addresses
+              properties: {
+                country: { not: { const: 'USA' } },
+              },
+              required: ['street', 'city', 'country'],
+            },
+          ],
         },
         'view:warningBanner': {
           type: 'object',

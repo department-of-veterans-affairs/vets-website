@@ -81,6 +81,9 @@ const formConfig = {
     ...resolutionOptionsChapter,
     ...bankruptcyAttestationChapter,
   },
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
 };
 
 export default formConfig;

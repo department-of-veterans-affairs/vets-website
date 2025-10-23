@@ -7,7 +7,6 @@ export const Paths = {
   UI_MAIN: '/my-health/secure-messages',
   SM_API_BASE: '/my_health/v1/messaging',
   SM_API_EXTENDED: '/my_health/v1/messaging/messages',
-  UUM_API_BASE: '/my_health/v1/unique_user_metrics',
   INBOX: '/inbox/',
   SENT: '/sent/',
   DRAFTS: '/drafts/',
@@ -416,7 +415,8 @@ export const Data = {
   CANNOT_REMOVE_FOLDER: `You can't remove a folder with messages in it. Move all the messages to another folder. Then try removing it again.`,
   HCS_SELECT: `Select care team`,
   REPLY_HEADER: `Only use messages for non-urgent needs`,
-  RECENT_RECIPIENTS_LABEL: `Select a team from those you've sent messages to in the past 6 months. Or select "A different care team" to find another team.`,
+  RECENT_RECIPIENTS_HEADER: 'Care teams you recently sent messages to',
+  RECENT_RECIPIENTS_LABEL: `Select a team you want to message. This list only includes teams that you’ve sent messages to in the last 6 months. If you want to contact another team, select “A different care team.”`,
   ATTACH_INFO: [
     'You may attach up to 4 files to each message',
     'You can attach only these file types: doc, docx, gif, jpg, pdf, png, rtf, txt, xls, xlsx, jpeg, jfif, pjpeg, pjp',
