@@ -12,7 +12,7 @@ import {
   DEPENDENTS_FETCH_SUCCESS,
   DEPENDENTS_FETCH_FAILED,
   DEPENDENTS_URL,
-} from '../../actions';
+} from '../actions';
 
 const goodResponse = {
   data: { attributes: { persons: [{ relationship: 'child' }] } },

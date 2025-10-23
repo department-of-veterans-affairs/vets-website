@@ -5,10 +5,14 @@ export const ReviewDependents = () => {
   const formData = useSelector(state => {
     return state?.form?.data || {};
   });
+  const hasApiError = useSelector(state => state.dependents?.error || false);
 
   const dependents = formData?.dependents?.awarded;
   const isDependentsArray = Array.isArray(dependents);
   const hasDependents = isDependentsArray && dependents.length > 0;
+
+  // Check for API error or if dependents from prefill has an error
+  const hasDependentError = hasApiError || !isDependentsArray;
 
   const renderDependentCard = (dependent, index) => {
     const { fullName, relationshipToVeteran, age } = dependent;
@@ -32,7 +36,7 @@ export const ReviewDependents = () => {
     <>
       <h3>Review your VA dependents</h3>
 
-      {!isDependentsArray && (
+      {hasDependentError && (
         <va-alert status="error">
           <h4 slot="headline">
             We can’t access your dependent records right now
