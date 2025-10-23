@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "id": "141a0e7f-8c34-ef11-8409-001dd809d228",
+            "type": "contents",
+            "attributes": {
+                "name": "General question",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "General question",
+                "parentId": "62524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "bbaf4f8b-8c34-ef11-8409-001dd809d228",
+            "type": "contents",
+            "attributes": {
+                "name": "Programs and policies",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Programs and policies",
+                "parentId": "62524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}

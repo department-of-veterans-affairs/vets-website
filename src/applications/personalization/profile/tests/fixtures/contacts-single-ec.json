@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "id": "Emergency Contact",
+      "type": "contact",
+      "attributes": {
+        "contactType": "Emergency Contact",
+        "givenName": "Ethan",
+        "middleName": "Jermey",
+        "familyName": "Bishop",
+        "relationship": "Brother",
+        "addressLine1": "9758 TEST AVE",
+        "addressLine2": null,
+        "addressLine3": null,
+        "city": "ALBUQUERQUE",
+        "state": "NM",
+        "zipCode": "87109",
+        "primaryPhone": "(439)573-8274"
+      }
+    }
+  ]
+}

@@ -1,0 +1,474 @@
+name: Daily Production Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_wait:
+        description: Minutes to wait before creating release
+        required: false
+        default: "0"
+      commit_sha:
+        description: Deploy specific commit
+        required: false
+      bypass_freeze:
+        description: "Bypass holiday freeze and force enable deploy workflows"
+        required: false
+        default: "false"
+  # schedule:
+  #   - cron: 0 17 * * 1-5
+
+env:
+  CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
+  DSVA_SCHEDULE_ENABLED: true
+  BUILD_ENV: vagovprod
+
+jobs:
+  holiday-checker:
+    runs-on: ubuntu-latest
+    outputs:
+      is_holiday: ${{ steps.holiday-check.outputs.is_holiday }}
+    steps:
+      - name: Check if today is a holiday
+        id: holiday-check
+        uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+
+  cancel-run-if-holiday:
+    runs-on: ubuntu-latest
+    needs: holiday-checker
+    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
+    steps:
+      - name: Cancel workflow due to holiday freeze
+        uses: andymckay/cancel-action@0.2
+
+  main-deployment:
+    needs: holiday-checker
+    runs-on: ubuntu-latest
+    outputs:
+      workflow_enabled_vets_website: ${{ steps.check-status.outputs.workflow_enabled_vets_website }}
+      workflow_enabled_content_build: ${{ steps.check-status.outputs.workflow_enabled_content_build }}
+      reenabled: ${{ steps.enable-workflows.outputs.reenabled }}
+    steps:
+      - name: Get bot token from Parameter Store (bypass)
+        if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Bypass Check - Force Enable Workflows
+        if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+        run: |
+          echo "Bypass activated – force enabling deploy workflows."
+          curl -X PATCH -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/department-of-veterans-affairs/vets-website/actions/workflows/daily-deploy-production.yml/enable
+          curl -X PATCH -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable
+
+      - name: Disable workflows if today is a holiday
+        if: ${{ false }}
+        run: echo "Freeze enforcement handled by freeze-enforcer.yml."
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Configure AWS credentials for secret injection
+        if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Check Workflow Status
+        id: check-status
+        if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
+        run: |
+          check_status() {
+            local repo=$1
+            local key=$(echo "$repo" | tr '-' '_')
+            local response=$(curl -s -L \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+              "https://api.github.com/repos/department-of-veterans-affairs/$repo/actions/workflows/daily-production-release.yml")
+
+            local state=$(echo "$response" | jq -r '.state')
+
+            if [[ "$state" == "active" ]]; then
+              echo "$repo is already enabled. No action needed."
+              echo "workflow_enabled_${key}=true" >> $GITHUB_OUTPUT
+            else
+              echo "$repo is disabled. Re-enabling now."
+              echo "workflow_enabled_${key}=false" >> $GITHUB_OUTPUT
+            fi
+          }
+
+          check_status "content-build"
+
+      - name: Enable Workflows if Disabled
+        id: enable-workflows
+        if: ${{ steps.check-status.outputs.workflow_enabled_content_build == 'false' }}
+        run: |
+          echo "Enabling content-build daily deploy workflow."
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml/enable)
+
+          if [[ "$http_code" != "200" && "$http_code" != "204" ]]; then
+            echo "Failed to enable content-build workflow. HTTP $http_code"
+            exit 1
+          fi
+
+          verify=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${VA_VSP_BOT_GITHUB_TOKEN:-${{ secrets.GITHUB_TOKEN }}}" \
+            https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-production-release.yml | jq -r '.state')
+
+          if [[ "$verify" == "active" ]]; then
+            echo "reenabled=true" >> $GITHUB_OUTPUT
+          else
+            echo "Workflow state after enable attempt: $verify"
+            exit 1
+          fi
+
+  notify-freeze-ends:
+    name: Notify Freeze Ended
+    runs-on: ubuntu-latest
+    needs: [holiday-checker, main-deployment]
+    if: ${{
+      github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.outputs.reenabled == 'true'
+      }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+      - name: Notify Slack (COP) - Code Freeze Ended
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
+          channel_id: "C04868KS69L" # Frontend COP
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Ended)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Code Freeze Ended
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
+          channel_id: "C06JM7UUHE3" # platform-sre-team
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  notify-bypass:
+    name: Notify Bypass Activation
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Notify Slack (COP) - Deploy Freeze Bypassed
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
+          channel_id: "C04868KS69L"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Bypass)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Deploy Freeze Bypassed
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
+          channel_id: "C06JM7UUHE3"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  notify-code-freeze-failure:
+    name: Notify Code Freeze Failure
+    runs-on: ubuntu-latest
+    needs: [holiday-checker, main-deployment]
+    if: ${{
+      always() && github.event.inputs.bypass_freeze != 'true' && (
+      (needs.holiday-checker.outputs.is_holiday == 'true' && cancelled()) ||
+      (needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.result == 'failure')
+      )
+      }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Notify Slack (COP) - Code Freeze Failure
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
+          channel_id: "C04868KS69L"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Short delay before SRE Slack (Failure)
+        run: sleep 2
+
+      - name: Notify Slack (SRE) - Code Freeze Failure
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: false
+        with:
+          payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
+          channel_id: "C06JM7UUHE3"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  get-workflow-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.check-environment.outputs.env_name }}
+    steps:
+      - name: Check environment
+        id: check-environment
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo env_name='production' >> $GITHUB_OUTPUT
+          else
+            echo env_name='' >> $GITHUB_OUTPUT
+          fi
+  set-env:
+    name: Set Env Variables
+    runs-on: ubuntu-latest
+    outputs:
+      LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}
+      RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
+      COMMIT_SHA: ${{ env.COMMIT_SHA }}
+
+    steps:
+      - name: Cancel workflow due to DSVA schedule
+        if: ${{ env.DSVA_SCHEDULE_ENABLED != 'true' }}
+        uses: andymckay/cancel-action@0.2
+
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: production-bypass
+
+      - name: Get latest tag
+        id: get-latest-tag
+        run: echo LATEST_TAG_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`) >> $GITHUB_OUTPUT
+
+      - name: Get release wait time (scheduled release)
+        if: ${{ github.event.schedule != '' }}
+        run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
+
+      - name: Get release wait time (workflow_dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo 'RELEASE_WAIT=${{ github.event.inputs.release_wait }}' >> $GITHUB_ENV
+
+      - name: Get commit sha (latest commit)
+        if: ${{ github.event.schedule != '' || (github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha == '') }}
+        run: |
+          COMMIT_SHA=$(git rev-list -n 1 ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }})
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
+
+      - name: Get commit sha (workflow_dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.commit_sha != '' }}
+        run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
+
+  notify-start:
+    name: Notify Start
+    runs-on: ubuntu-latest
+    needs: set-env
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        env:
+          RELEASE_WAIT_MINUTES: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
+        with:
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#07711E",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what's coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [set-env, notify-start]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+          ref: production-bypass
+
+      - name: Configure AWS Credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Waiting to release
+        run: |
+          echo 'Waiting to release: https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}'
+
+      - name: Sleep for ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes
+        uses: whatnick/wait-action@master
+        with:
+          time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+          RELEASE_NAME: vets-website/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/${{ github.repository }}/releases \
+            -d "{
+              \"tag_name\": \"$TAG_NAME\",
+              \"name\": \"$RELEASE_NAME\",
+              \"body\": \"Release notes go here.\",
+              \"draft\": false,
+              \"prerelease\": false
+            }"
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [set-env, create-release, get-workflow-environment]
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
+
+    env:
+      DEPLOY_BUCKET: www.va.gov
+      ASSET_BUCKET: prod-va-gov-assets
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Configure AWS credentials (1)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_PROD_ROLE
+          env_variable_name: AWS_FRONTEND_PROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_PROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+
+      - name: Deploy
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ needs.set-env.outputs.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2
+          DEST: s3://${{ env.DEPLOY_BUCKET }}
+          ASSET_DEST: s3://${{ env.ASSET_BUCKET }}
+
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: production-bypass
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Successfully deployed vets-website to production"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack
+        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

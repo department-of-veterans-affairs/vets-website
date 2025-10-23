@@ -1,0 +1,25 @@
+.va-c-blue-line {
+  width: 40px;
+}
+
+.va-c-blue-line--large {
+  width: 50px;
+}
+
+.va-u-background--image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.va-u-background--gradiant-blue {
+  @include linear-gradient-background(var(--vads-color-primary), var(--vads-color-primary-darker));
+}
+
+.va-u-text-transform--uppercase {
+  text-transform: uppercase;
+}
+
+.va-c-video {
+  max-width: 560px;
+}

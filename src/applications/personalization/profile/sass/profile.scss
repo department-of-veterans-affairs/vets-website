@@ -1,0 +1,134 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "./shared";
+@import "./profile-subnav";
+@import "./profile-mobile-subnav";
+@import "./connected-apps";
+@import "./personal-contact-information";
+@import "./notification-radio-buttons";
+@import "./hub-cards";
+@import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
+@import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
+@import "./proof-of-veteran-status-card";
+@import "./paperless-delivery";
+
+[tabindex="-1"]:focus {
+  outline: 0;
+}
+
+.va-profile-btn {
+  text-decoration: none;
+}
+
+.button-link {
+  background: var(--vads-color-white);
+  box-shadow: none !important;
+}
+
+.copy-mailing-address-to-residential-address {
+  background-color: var(--vads-color-primary-alt-lightest);
+  padding: 1em;
+  label {
+    margin: 0;
+  }
+}
+
+// adjusted for copy address modal display issues
+// fixes excess right margin in relation to additional info box
+// reduced padding for close icon / title spacing
+#copy-address-modal .va-modal-body {
+  margin-right: 0px;
+  padding: 1.125rem;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.address-validation-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 5px;
+
+  [type="radio"] + label::before {
+    min-width: 0.875rem;
+  }
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.va-profile-alert {
+  p {
+    margin: 0;
+  }
+}
+
+// styles for a 'process list' component, but with complete/incomplete styles
+.va-conditional-process-list {
+  display: block;
+  list-style-type: decimal;
+  list-style-position: outside;
+  line-height: 1.5;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  list-style: none;
+  position: relative;
+
+  .item {
+    vertical-align: top;
+    counter-increment: listCounter 1;
+    margin-bottom: units(1);
+    position: relative;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    border-left: units(1) solid var(--vads-color-base-light);
+    margin: 0px !important;
+    padding: 0 0 2rem 2rem;
+
+    &:last-child {
+      border-left: none;
+      padding-left: calc(1.9375rem + 9px);
+      padding-bottom: 0;
+    }
+
+    &:before {
+      color: var(--vads-color-white);
+      content: counter(listCounter);
+      float: left;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      width: 2.5rem;
+      top: -0.25rem;
+      margin-left: -3.5rem;
+      display: block;
+      border: 4px solid var(--vads-color-white);
+      background: var(--vads-color-primary);
+      border-radius: 2.5rem;
+      position: relative;
+      box-sizing: border-box !important;
+    }
+  }
+
+  .item-heading {
+    clear: inherit;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.list-type-disc {
+  list-style-type: disc;
+}
+
+section.profile-info-section ol li {
+  list-style-type: none;
+}

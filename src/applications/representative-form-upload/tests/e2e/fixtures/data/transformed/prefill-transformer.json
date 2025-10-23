@@ -1,0 +1,18 @@
+{
+  "formData": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Veteran"
+    },
+    "claimantFullName": {
+      "first": "Stella",
+      "last": "Nonveteran"
+    },
+    "claimantSsn": "234232346",
+    "address": {
+      "postalCode": "12345"
+    },
+    "email": "john@veteran.com",
+    "ssn": "234232345"
+  }
+}

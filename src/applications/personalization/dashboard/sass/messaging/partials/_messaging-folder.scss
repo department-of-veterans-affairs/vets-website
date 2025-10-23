@@ -1,0 +1,54 @@
+#messaging-folder-controls {
+  margin: 0;
+  position: relative;
+  width: 100%;
+
+  .messaging-compose-button {
+    margin: 1.25rem 0;
+  }
+
+  @media (max-width: $medium-screen) {
+    padding: 1.25rem;
+
+    .messaging-message-nav {
+      margin: 1.25rem 0;
+    }
+  }
+
+  @media (min-width: $medium-screen) {
+    &::after {
+      content: "\A0";
+      display: block;
+      clear: both;
+    }
+
+    padding: 0;
+
+    .messaging-compose-button {
+      display: none;
+      margin-bottom: 2.8125rem;
+    }
+  }
+}
+
+.msg-nomessages {
+  margin: 0;
+}
+
+.msg-folder-sort-select {
+  margin: 1.25rem;
+
+  @media (min-width: $medium-screen) {
+    display: none;
+  }
+}
+
+.msg-table-list {
+  margin-top: 0;
+
+  @media (max-width: $medium-screen) {
+    border-color: var(--vads-color-base-light);
+    border-style: solid;
+    border-width: 1px 0;
+  }
+}

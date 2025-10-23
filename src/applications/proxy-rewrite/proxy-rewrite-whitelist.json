@@ -1,0 +1,229 @@
+{
+  "proxyRewriteWhitelist": [
+    {
+      "hostname": "localhost",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "dev.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "staging.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "preview.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "vaww.w2k8.testing.internet.webops.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "benefits.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.benefits.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "bva.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.bva.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "cem.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.cem.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.choose.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.ethics.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "vaww.internet.staging.va.gov",
+      "pathnameBeginning": "/formularyadvisor",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.healthquality.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.hepatitis.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.hiv.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.mentalhealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "mentalhealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.mirecc.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "mirecc.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.move.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.nutrition.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.oedca.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.oefoif.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.oprm.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.osp.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.patientcare.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.patientsafety.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.polytrauma.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.ptsd.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "ptsd.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.publichealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.ruralhealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.sci.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.squares.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "squares.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.telehealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.vetcenter.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.volunteer.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    }
+  ]
+}

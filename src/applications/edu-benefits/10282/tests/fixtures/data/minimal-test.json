@@ -1,0 +1,15 @@
+{
+    "data": {
+        "state": "VA",
+        "country": "United States",
+        "contactInfo": {
+            "email": "janedoe@gmail.com"
+        },
+        "veteranDesc": "veteran",
+        "veteranFullName": {
+            "first": "Jane",
+            "last": "Doe"
+        },
+        "highestLevelOfEducation": {}
+    }
+}

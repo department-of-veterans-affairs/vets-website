@@ -1,0 +1,245 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request-details {
+  width: 100%;
+  @media (min-width: $small-desktop-screen) {
+    width: 984px;
+  }
+
+  @media (min-width: $small-desktop-screen) {
+    &__h2 {
+      margin: 32px 0 24px;
+
+      &.is--authorization-h2 {
+        margin: 32px 0 8px;
+      }
+    }
+
+    &__h3 {
+      &.is--authorization-h3 {
+        margin: 32px 0 0;
+      }
+    }
+  }
+
+  &__visibility-hidden-dt {
+    display: none;
+    @media (min-width: $small-desktop-screen) {
+      visibility: hidden;
+      display: block;
+    }
+  }
+  &__form {
+    padding: 34px 38px;
+    background-color: $vads-color-base-lightest;
+    margin-top: 66px;
+
+    h4 {
+      font-family: var(--font-source-sans);
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      margin-top: 88px;
+    }
+
+    &-label {
+      margin: 0;
+      max-width: 100%;
+
+      p {
+        color: $vads-color-base;
+      }
+
+      .poa-request-details__form--error & {
+        border-left: 0.25rem solid $vads-color-error;
+        padding-left: 1rem;
+        position: relative;
+      }
+    }
+
+    &-submit {
+      width: auto !important;
+
+      @media (min-width: $small-desktop-screen) {
+        margin-top: 24px;
+      }
+    }
+  }
+
+  &__divider {
+    border-bottom: 1px solid $vads-color-base-light;
+    width: 100%;
+    margin: 28px 0;
+    display: flex;
+  }
+
+  &__list {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    flex-direction: column;
+    margin-bottom: 0;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+
+      &--col {
+        margin: 0;
+        width: 780px;
+      }
+    }
+
+    &-item {
+      @media (min-width: $small-desktop-screen) {
+        max-width: 350px;
+
+        &:first-child {
+          margin-right: auto;
+        }
+        &:last-child {
+          margin-left: auto;
+        }
+      }
+    }
+
+    &--info {
+      flex-direction: column;
+
+      li {
+        border-bottom: 1px solid $vads-color-base;
+        padding: 8px 16px;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
+          height: 56px;
+          align-items: center;
+          padding: 16px;
+        }
+
+        &:first-child {
+          border-top: 1px solid $vads-color-base;
+        }
+
+        p {
+          margin: 0;
+          flex: 50%;
+          &:first-child {
+            font-weight: 700;
+            margin: 0 0 16px;
+
+            @media (min-width: $small-desktop-screen) {
+              margin: 0;
+            }
+          }
+
+          span {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+  }
+  &__list-item {
+    margin: 0;
+  }
+  &__subtitle {
+    margin: 0;
+
+    .poa-request__card-field--label & {
+      font-weight: normal;
+      @media (min-width: $small-screen) {
+        margin-left: 5px;
+      }
+    }
+
+    .poa-request-details__list & {
+      margin-bottom: 24px;
+      display: block;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0;
+      }
+    }
+
+    .poa-request-details__list-item:last-child & {
+      margin-bottom: 0;
+    }
+  }
+
+  &__header {
+    margin-bottom: 0;
+  }
+
+  &__name {
+    font-weight: 400;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-family: inherit;
+    @media (min-width: $small-desktop-screen) {
+      font-size: 1.875rem;
+      margin: 24px 0;
+    }
+  }
+
+  &__status {
+    margin-left: 15px;
+  }
+
+  &__table {
+    border-collapse: collapse;
+
+    th {
+      font-weight: 700;
+    }
+    td,
+    th {
+      border: none;
+      padding: 8px 15px;
+      width: 100%;
+      display: block;
+
+      @media (min-width: $small-desktop-screen) {
+        width: 50%;
+        display: table-cell;
+        padding: 15px;
+      }
+    }
+
+    tr {
+      display: block;
+      border-bottom: 1px solid $vads-color-base;
+      @media (min-width: $small-desktop-screen) {
+        display: table-row;
+      }
+
+      &:first-child {
+        border-top: 1px solid $vads-color-base;
+      }
+    }
+  }
+
+  &__info {
+    max-width: 627px;
+  }
+}
+.processing-date {
+  > span {
+    font-weight: bold;
+    margin-left: 3px;
+  }
+}

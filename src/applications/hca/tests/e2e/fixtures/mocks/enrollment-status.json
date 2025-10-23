@@ -1,0 +1,13 @@
+{
+  "statusCode": 404,
+  "body": {
+    "errors": [
+      {
+        "title": "Record not found",
+        "detail": "The record identified by ? could not be found",
+        "code": "404",
+        "status": "404"
+      }
+    ]
+  }
+}

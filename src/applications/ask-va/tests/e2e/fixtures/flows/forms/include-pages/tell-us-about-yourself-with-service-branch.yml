@@ -1,0 +1,15 @@
+steps:
+  - action: exists
+    target: header
+    value: Tell us about yourself
+  - action: typeTextInput
+    target: FIRST_NAME
+    value: John
+  - action: typeTextInput
+    target: LAST_NAME
+    value: Smith
+  - action: select
+    target: BRANCH_OF_SERVICE_ABOUT_YOU
+    value: Air Force
+  - action: click
+    target: call-to-action

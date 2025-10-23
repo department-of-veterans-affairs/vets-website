@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "title": "Unexpected response body",
+      "detail": "Service responded with something other than the expected array of service history hashes.",
+      "code": "HIST502",
+      "status": "502",
+      "source": "V0::Profile::ServiceHistoriesController"
+    }
+  ]
+}

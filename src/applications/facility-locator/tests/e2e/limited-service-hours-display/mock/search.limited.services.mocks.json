@@ -1,0 +1,70 @@
+{
+	"data": [{
+		"id": "vc_0304V",
+		"type": "facility",
+		"attributes": {
+			"access": {},
+			"activeStatus": "A",
+			"address": {
+				"mailing": {},
+				"physical": {
+					"zip": "30349",
+					"city": "College Park",
+					"state": "GA",
+					"address1": "1800 Phoenix Boulevard",
+					"address2": "Building 400, Suite 404",
+					"address3": null
+				}
+			},
+			"classification": null,
+			"detailedServices": null,
+			"distance": 9.01,
+			"facilityType": "vet_center",
+			"feedback": {},
+			"hours": {
+				"friday": "700AM-430PM",
+				"monday": "730AM-800PM",
+				"sunday": "Closed",
+				"tuesday": "700AM-430PM",
+				"saturday": "Closed",
+				"thursday": "700AM-430PM",
+				"wednesday": "700AM-800PM"
+			},
+			"id": "vc_0304V",
+			"lat": 33.6132,
+			"long": -84.446928,
+			"mobile": false,
+			"name": "Atlanta Vet Center",
+			"operatingStatus": {
+				"code": "LIMITED",
+				"additionalInfo": "We're currently open for limited in-person service, and screening all visitors for symptoms, due to the coronavirus COVID-19. For individual and group counseling, we recommend using our telehealth services. If you need to talk with someone confidentially, please call us anytime 24/7 at 877-927-8387."
+			},
+			"operationalHoursSpecialInstructions": "If you need to talk to someone or get advice right away, call the Vet Center anytime at 1-877-WAR-VETS (1-877-927-8387).",
+			"phone": {
+				"fax": "770-907-0674",
+				"main": "770-994-6700"
+			},
+			"services": {},
+			"uniqueId": "0304V",
+			"visn": "7",
+			"website": null,
+			"tmpCovidOnlineScheduling": null
+		}
+	}],
+	"meta": {
+		"pagination": {
+			"currentPage": 1,
+			"prevPage": null,
+			"nextPage": null,
+			"totalPages": 1,
+			"totalEntries": 1
+		}
+	},
+	"links": {
+		"self": "http://localhost:3000/facilities_api/v1/va?lat=33.74&long=-84.41&mobile=false&page=1&per_page=10&radius=10&type=vet_center",
+		"first": "http://localhost:3000/facilities_api/v1/va?lat=33.74&long=-84.41&mobile=false&page=1&per_page=10&radius=10&type=vet_center",
+		"prev": null,
+		"next": null,
+		"last": "http://localhost:3000/facilities_api/v1/va?lat=33.74&long=-84.41&mobile=false&page=1&per_page=10&radius=10&type=vet_center"
+	}
+}

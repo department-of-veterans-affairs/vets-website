@@ -1,0 +1,9 @@
+{
+  "data": {
+    "fullName": {
+      "first": "Anakin",
+      "last": "Skywalker"
+    },
+    "dateOfBirth": "1941-05-04"
+  }
+}

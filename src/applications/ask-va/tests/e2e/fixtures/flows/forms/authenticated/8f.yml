@@ -1,0 +1,67 @@
+flow:
+  title: Education Benefits and Work Study, Veteran readiness and employment connected through work (auth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-education-benefits-and-work-study
+
+    - action: include
+      target: page
+      value: select-topic-veteran-readiness-and-employment-chapter-31
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-someone-else
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-connected-through-work
+
+    - action: include
+      target: page
+      value: what-is-your-role-funeral-director
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran
+
+    - action: include
+      target: page
+      value: tell-us-about-your-family-member-veteran-death
+
+    - action: include
+      target: page
+      value: have-they-applied-for-VRE-benefits-yes
+
+    - action: include
+      target: page
+      value: their-counselor-name
+
+    - action: include
+      target: page
+      value: family-member-veteran-residence
+
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: your-question-education
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

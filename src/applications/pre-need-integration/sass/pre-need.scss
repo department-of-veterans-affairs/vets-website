@@ -1,0 +1,287 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+#supporting-documents-description {
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .form-expanding-group {
+    margin-bottom: 1em;
+  }
+}
+
+.schemaform-radio-indent {
+  margin: 0;
+}
+
+.autosuggest-list {
+  max-height: 10.625rem;
+  position: absolute;
+  top: 100%; /* Ensures dropdown appears right below the input */
+  left: 0;
+  right: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.autosuggest-item-highlighted,
+.autosuggest-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.relative {
+  position: relative;
+}
+
+.block {
+  display: block;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.focus\:outline-none:focus {
+  outline: none;
+}
+
+h3.name-of-deceased-text {
+  color: rgb(50, 58, 69);
+  font-family: "Bitter";
+  font-weight: bold;
+}
+
+.mail-or-fax-message,
+.mail-or-fax-steps {
+  margin-bottom: 0.625rem;
+  margin-top: 0;
+}
+
+.mail-or-fax-steps {
+  padding: 0 0 0 1.25rem;
+}
+
+.mail-or-fax-step {
+  margin-bottom: 0.46875rem;
+  padding-left: 0.625rem;
+}
+
+.mail-fax-address {
+  border-left: 3px solid var(--vads-color-primary);
+  padding-left: 0.625rem;
+}
+
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="applicant-demographics-preparer"],
+article#pre-need[data-location="sponsor-demographics"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+}
+
+article#pre-need[data-location="applicant-demographics-2"],
+article#pre-need[data-location="applicant-demographics-2-preparer"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
+  }
+}
+
+.sponsorDeceasedDescriptionNotProd {
+  margin-bottom: 2em;
+}
+
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+}
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: 0em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
+
+.schemaform-first-field .schemaform-label {
+  padding-top: 1em;
+}
+
+.vads-u-font-size--h5 {
+  margin-top: 0em;
+}
+
+.preparer-contact-details-title {
+  margin-bottom: -0.5em;
+}
+
+.preparer-contact-details-additional-info {
+  padding-top: 1em;
+}
+.preparer-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.sponsor-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 0em;
+}
+
+.preparer-va-radio {
+  padding-top: 0em;
+  margin-top: -3em;
+}
+
+.sponsor-va-radio {
+  margin-top: -3em;
+}
+
+.desiredCemeteryNoteTitle {
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.isSponsorSubHeader {
+  margin-top: 0em;
+}
+
+.applicantDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.sponsorDetailsSubHeader {
+  padding-bottom: 0em;
+}
+
+.sponsorDetailsSummaryBoxText {
+  padding-top: 0.5em;
+}
+
+.sponsorDetailsSummaryBox {
+  margin-bottom: 1.5em;
+}
+
+.veteranApplicantDetailsSummaryBox {
+  margin-bottom: 1.5em;
+}
+
+.veteranApplicantDetailsSummaryBoxText {
+  padding-top: 0.5em;
+}
+
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  padding-bottom: 0.5em;
+}
+
+.ApplicantDescriptionWrapper {
+  padding-bottom: 1em;
+}
+
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
+
+.militaryDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.applicantContactInfoSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.applicantContactInfoPreparerSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.sponsorContactInfoSubheader {
+  color: var(--vads-color-base-darker);
+}
+
+.bottomPadding {
+  padding-bottom: 16px;
+}
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 11.25rem;
+  }
+}
+
+.desiredCemeteryNote {
+  padding-top: 2em;
+}
+
+.suffixSpacing {
+  padding-bottom: 1em;
+}
+
+h3, .schemaform-block-title {
+  color: var(--vads-color-base) !important;
+}
+
+article#form-4010007[data-location^="service-periods-"] .vads-u-color--gray-dark {
+  color: var(--vads-color-base) !important;
+}
+
+article#form-4010007[data-location^="service-periods-summary-"] va-radio::part(header),
+article#form-4010007[data-location^="burial-benefits-"] va-radio::part(header) {
+  font-weight: 100 !important;
+}
+
+.selectNonImposter {
+  max-width: 27.25em;
+}
+
+article#form-4010007[data-location="current-burial-benefits"] .input-section:only-child {
+  padding-left: 0.5859375rem !important;
+}
+
+article#form-4010007[data-location^="applicant-military-name"],
+article#form-4010007[data-location^="sponsor-military-name"]{
+.schemaform-first-field .schemaform-label {
+  padding-top: 3em;
+}}

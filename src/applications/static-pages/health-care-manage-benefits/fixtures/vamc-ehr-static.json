@@ -1,0 +1,19 @@
+{
+  "data": {
+    "nodeQuery": {
+      "count": 1,
+      "entities": [
+        {
+          "title": "Chalmers P. Wylie Veterans Outpatient Clinic",
+          "fieldFacilityLocatorApiId": "vha_757",
+          "fieldRegionPage": {
+            "entity": {
+              "title": "VA Central Ohio health care",
+              "fieldVamcEhrSystem": "cerner"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

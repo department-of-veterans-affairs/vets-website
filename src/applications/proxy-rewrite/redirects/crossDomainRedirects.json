@@ -1,0 +1,2185 @@
+[
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/eligible.asp",
+    "dest": "/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/Women_and_Minority_Veterans.asp",
+    "dest": "/burials-memorials/eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_at_sea.asp",
+    "dest": "/burials-memorials/eligibility/burial-at-sea/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/private_cemetery.asp",
+    "dest": "/burials-memorials/eligibility/burial-in-private-cemetery/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/burial_flags.asp",
+    "dest": "/burials-memorials/memorial-items/burial-flags/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/index.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/eligibility.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_instructions.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/apply_by_fax.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/order_by_mail.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pmc.asp",
+    "dest": "/burials-memorials/memorial-items/presidential-memorial-certificates/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/pre-need/index.asp",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/CEM/pre-need/FAQ/",
+    "dest": "/burials-memorials/pre-need-eligibility/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/committal_service.asp",
+    "dest": "/burials-memorials/what-to-expect-at-military-funeral/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/hmm/replacements.asp",
+    "dest": "/burials-memorials/memorial-items/headstones-markers-medallions/"
+  },
+  {
+    "domain": "www.cem.va.gov",
+    "src": "/cem/burial_benefits/need.asp",
+    "dest": "/burials-memorials/schedule-a-burial/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-disability.asp",
+    "dest": "/disability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-dependency_and_indemnity_parents.asp",
+    "dest": "/disability/dependency-indemnity-compensation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-index.asp",
+    "dest": "/disability/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-index.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-environmental_hazards.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/specific-environmental-hazards/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-agent_orange.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-asbestos.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/asbestos/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-mustard.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/mustard-gas-lewisite/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-camp-lejeune-water.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-ionizing_radiation.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-radiogenic_diseases.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/ionizing-radiation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-exposures-project_112_shad.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/project-112-shad/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-gulfwar.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/gulf-war-illness-southwest-asia/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-postservice-one_year.asp",
+    "dest": "/disability/eligibility/illnesses-within-one-year-of-discharge/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-index.asp",
+    "dest": "/disability/eligibility/special-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-auto-allowance.asp",
+    "dest": "/disability/eligibility/special-claims/automobile-allowance-adaptive-equipment/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-birth_defects.asp",
+    "dest": "/disability/eligibility/special-claims/birth-defects/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-clothing_allowance.asp",
+    "dest": "/disability/eligibility/special-claims/clothing-allowance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-dental.asp",
+    "dest": "/disability/eligibility/special-claims/dental-care/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-convalescence.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-after-surgery-or-cast/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-hospital_treatment.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-increase-for-time-in-hospital/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-prestabilization.asp",
+    "dest": "/disability/eligibility/special-claims/temporary-rating-prestabilization/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-1151.asp",
+    "dest": "/disability/eligibility/special-claims/1151-claims-title-38/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/claims-special-individual_unemployability.asp",
+    "dest": "/disability/eligibility/special-claims/unemployability/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/apply.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/process.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/types-claims.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/index.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/predischarge/claims-pre-discharge-overseas-intake-sites.asp",
+    "dest": "/disability/how-to-file-claim/when-to-file/pre-discharge-claim/file-while-overseas/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/evidence.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/drc.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/index.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fdc/",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/FDC/walkthrough.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/FDC/checklist.asp",
+    "dest": "/disability/how-to-file-claim/evidence-needed/fully-developed-claims/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/effective_dates.asp",
+    "dest": "/disability/about-disability-ratings/effective-date/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/NPRC1973Fire.asp",
+    "dest": "/records/get-military-service-records/reconstruct-records/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/school_certifying_officials/sco_info.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_training_resources.asp",
+    "dest": "/school-administrators"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/disabledvet.asp",
+    "dest": "/life-insurance/options-eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sgli.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/sglidisabled.asp",
+    "dest": "/life-insurance/options-eligibility/sgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/fsgli.asp",
+    "dest": "/life-insurance/options-eligibility/fsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/tsgli.asp",
+    "dest": "/life-insurance/options-eligibility/tsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/apply-for-VGLI.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vgli_rates_new.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/getvgli.asp",
+    "dest": "/life-insurance/options-eligibility/vgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/s-dvi.asp",
+    "dest": "/life-insurance/options-eligibility/s-dvi/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/vmli.asp",
+    "dest": "/life-insurance/options-eligibility/vmli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/abo.asp",
+    "dest": "/life-insurance/totally-disabled-or-terminally-ill/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/vetpen.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/wartimeperiod.asp",
+    "dest": "/pension/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/aid_attendance_housebound.asp",
+    "dest": "/pension/aid-attendance-housebound/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepen.asp",
+    "dest": "/pension/survivors-pension/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/pencalc.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/rates.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/spousepencalc.asp",
+    "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/resources-contact.asp",
+    "dest": "/pension/pension-management-centers/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_veteran_pen.asp",
+    "dest": "/pension/veterans-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_survivor_pen.asp",
+    "dest": "/pension/survivors-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/current_rates_dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_rates_Parents_DIC_pen.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-parentsdic.asp",
+    "dest": "/disability/parent-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-dic.asp",
+    "dest": "/disability/survivor-dic-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/veteran_borrowers.asp",
+    "dest": "/housing-assistance/home-loans/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchasecashout.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_buy_process.asp",
+    "dest": "/housing-assistance/home-loans/home-buying-process/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/nadl.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/native-american-direct-loan/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/irrrl.asp",
+    "dest": "/housing-assistance/home-loans/loan-types/interest-rate-reduction-loan/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_eligibility.asp",
+    "dest": "/housing-assistance/home-loans/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_certificate.asp",
+    "dest": "/housing-assistance/home-loans/how-to-request-coe/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/resources_payments.asp",
+    "dest": "/housing-assistance/home-loans/trouble-making-payments/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/adaptedhousing.asp",
+    "dest": "/housing-assistance/disability-housing-grants/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/resources_veteran.asp",
+    "dest": "/housing-assistance/home-loans/home-buying-process/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_loan_fee.asp",
+    "dest": "/housing-assistance/home-loans/funding-fee-and-closing-costs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/homeloans/purchaseco_loan_limits.asp",
+    "dest": "/housing-assistance/home-loans/loan-limits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/employment_tracks.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/independent_living.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/programs/independent-living/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/eligibility_and_entitlement.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/eligibility/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/application_roadmap.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/how-to-apply/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/edu_voc_counseling.asp",
+    "dest": "/careers-employment/education-and-career-counseling/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/careerscope.asp",
+    "dest": "/careers-employment/careerscope-skills-assessment/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources-rates-read-compAndSMC.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/read_rates.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp01.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp02.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2019.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2019.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/education_programs.asp",
+    "dest": "/education/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/get_started.asp",
+    "dest": "/education/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/montgomery_bill.asp",
+    "dest": "/education/about-gi-bill-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/coop_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/co-op-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/correspondence_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/correspondence-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/entrepreneurship_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/entrepreneurship-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/flight_training.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/flight-training/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/accelerated_payments.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/accelerated-payments/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/non_college_degree.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/non-college-degree-programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/onthejob_apprenticeship.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/on-the-job-training-apprenticeships/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/independent_distance_learning.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/online-distance-learning/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/foreign_school_information_for_students.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/licensing_certification.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/national_testing.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/test-fees/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/tuition_assistance.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/tuition-assistance-top-up/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/tutorial_assistance.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/tutor-assistance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/higher_learning.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/undergraduate-graduate-programs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/workstudy.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/work-study/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/mgib_ad.asp",
+    "dest": "/education/about-gi-bill-benefits/montgomery-active-duty/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/mgib_sr.asp",
+    "dest": "/education/about-gi-bill-benefits/montgomery-selected-reserve/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_gibill.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/choosing_a_school.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_locator.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/school_decision.asp",
+    "dest": "/education/choosing-a-school/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/principles_of_excellence.asp",
+    "dest": "/education/choosing-a-school/principles-of-excellence/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/apply.asp",
+    "dest": "/education/how-to-apply/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/national_call_to_service.asp",
+    "dest": "/education/other-va-education-benefits/national-call-to-service-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/reap.asp",
+    "dest": "/education/about-gi-bill-benefits/post-9-11/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/veap.asp",
+    "dest": "/education/other-va-education-benefits/veap/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/survivor_dependent_assistance.asp",
+    "dest": "/education/survivor-dependent-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/dea.asp",
+    "dest": "/education/survivor-dependent-benefits/dependents-education-assistance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fry_scholarship.asp",
+    "dest": "/education/survivor-dependent-benefits/fry-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_transfer.asp",
+    "dest": "/education/transfer-post-9-11-gi-bill-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/vettec.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/vettec_veteran.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/yrp_list_2019.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ak.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/al.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ar.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/az.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ca.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/co.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ct.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/dc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/de.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/fl.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ga.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/hi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ia.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/id.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/il.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/in.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ks.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ky.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/la.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ma.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/md.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/me.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mn.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mo.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ms.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/mt.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nd.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ne.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nh.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nj.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nm.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/nv.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ny.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/oh.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ok.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/or.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/overseas.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/pa.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/pr.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ri.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/sc.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/sd.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/tn.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/tx.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/ut.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/va.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/vt.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wa.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wi.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wv.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/yellow_ribbon/2019/states/wy.asp",
+    "dest": "/education/yellow-ribbon-participating-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pension/current_protected_pension_rate_tables.asp",
+    "dest": "/pension/protected-pension-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0217.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0218.asp",
+    "dest": "/disability/compensation-rates/special-monthly-compensation-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0117.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/resources_comp0118.asp",
+    "dest": "/disability/compensation-rates/veteran-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2017.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/special_benefit_allowances_2018.asp",
+    "dest": "/disability/compensation-rates/special-benefit-allowance-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2017.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/sb2018.asp",
+    "dest": "/disability/compensation-rates/birth-defect-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/fgib/stem.asp",
+    "dest": "/education/other-va-education-benefits/stem-scholarship/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/agentorange-c123.asp",
+    "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen18.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_survivor_pen17.asp",
+    "dest": "/pension/survivors-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen18.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/protected_pension_rate_tables_pen17.asp",
+    "dest": "/pension/protected-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen18.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2019/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/PENSION/rates_veteran_pen17.asp",
+    "dest": "/pension/veterans-pension-rates/past-rates-2018/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vocrehab/vre_process.asp",
+    "dest": "/careers-employment/vocational-rehabilitation/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/introCalc.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/lifeins101.asp",
+    "dest": "/resources/deciding-how-much-life-insurance-to-get/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/uninsurable.asp",
+    "dest": "/resources/life-insurance-if-you-have-preexisting-conditions/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/dividends_options.asp",
+    "dest": "/resources/life-insurance-dividend-payment-options/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/vrrap.asp",
+    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch33/ch33rates080122.asp",
+    "dest": "/education/benefit-rates/post-9-11-gi-bill-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100122.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100122.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100122.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/benefits_resources/rates/600_buyup.asp",
+    "dest": "/education/benefit-rates/montgomery-600-buy-up-rates"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch33/ch33rates080121.asp",
+    "dest": "/education/benefit-rates/post-9-11-gi-bill-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100121.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100121.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100121.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates/past-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/choose.asp",
+    "dest": "/life-insurance/manage-your-policy/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/OPA.asp",
+    "dest": "/life-insurance/manage-your-policy/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/INSURANCE/tsgli-claim-questionnaire.asp",
+    "dest": "/life-insurance/options-eligibility/tsgli/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/valife.asp",
+    "dest": "/life-insurance/options-eligibility/valife"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/insurance/valife-rates.asp",
+    "dest": "/life-insurance/options-eligibility/valife"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/isaksonroe/verification_of_enrollment.asp",
+    "dest": "/resources/gi-bill-enrollment-verification-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/isaksonRoe/EV_FAQs.asp",
+    "dest": "/resources/gi-bill-enrollment-verification-faqs/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/",
+    "dest": "/altoona-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/DuBois.asp",
+    "dest": "/altoona-health-care/locations/dubois-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Huntingdon_VA_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/huntingdon-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Indiana_VA_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/indiana-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Johnstown.asp",
+    "dest": "/altoona-health-care/locations/johnstown-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/StateCollege.asp",
+    "dest": "/altoona-health-care/locations/state-college-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/altoona-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/",
+    "dest": "/wilmington-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Atlantic_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/atlantic-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cape_May_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cape-may-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cumberland_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cumberland-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Kent_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/kent-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Sussex_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/sussex-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilmington-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/",
+    "dest": "/wilkes-barre-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Allentown.asp",
+    "dest": "/wilkes-barre-health-care/locations/allentown-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Berwick.asp",
+    "dest": "/wilkes-barre-health-care/locations/columbia-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Bangor.asp",
+    "dest": "/wilkes-barre-health-care/locations/northampton-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Sayre.asp",
+    "dest": "/wilkes-barre-health-care/locations/sayre-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Tobyhanna.asp",
+    "dest": "/wilkes-barre-health-care/locations/tobyhanna-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Honesdale_Wayne_County.asp",
+    "dest": "/wilkes-barre-health-care/locations/wayne-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Williamsport.asp",
+    "dest": "/wilkes-barre-health-care/locations/williamsport-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilkes-barre-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.beckley.va.gov",
+    "src": "/locations/princeton_vet_center.asp",
+    "dest": "/princeton-vet-center/"
+  },
+  {
+    "domain": "www.fayettevillenc.va.gov",
+    "src": "/locations/FayettevilleVetCenter.asp",
+    "dest": "/fayetteville-nc-vet-center/"
+  },
+  {
+    "domain": "www.vetcenter.va.gov",
+    "src": "/Vet_Centers_are_Here_For_You_24_7.asp",
+    "dest": "https://www.vetcenter.va.gov/",
+    "isToSubdomain": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/comparison_chart.asp",
+    "dest": "/resources/compare-va-education-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/benefits_resources/rate_tables.asp",
+    "dest": "/education/benefit-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/COMPENSATION/dbq_fax_numbers.asp",
+    "dest": "/disability/how-to-file-claim/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vso/index.asp",
+    "dest": "/resources/va-accredited-representative-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/post911_residentraterequirements.asp",
+    "dest": "/resources/in-state-tuition-rates-under-the-veterans-choice-act/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/foreign_Schools.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/study-at-foreign-schools/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch1606/Ch1606rates100120.asp",
+    "dest": "/education/benefit-rates/montgomery-selected-reserve-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch30/ch30rates100120.asp",
+    "dest": "/education/benefit-rates/montgomery-active-duty-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100120.asp",
+    "dest": "/education/benefit-rates/chapter-35-rates/past-rates-2020-2021/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/FGIB/Reallocation.asp",
+    "dest": "/education/survivor-dependent-benefits/transferred-benefits/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/regional_processing.asp",
+    "dest": "/resources/regional-processing-office-addresses-for-gi-bill-applications/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/resources/education_resources/debt_info.asp",
+    "dest": "/resources/how-your-reason-for-withdrawing-from-a-class-affects-your-va-debt/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/vso/",
+    "dest": "/resources/va-accredited-representative-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/portland",
+    "dest": "/portland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPORTLAND",
+    "dest": "/portland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/albuquerque",
+    "dest": "/albuquerque-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROALBUQUERQUE",
+    "dest": "/albuquerque-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/roanoke",
+    "dest": "/roanoke-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROROANOKE",
+    "dest": "/roanoke-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/togus",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROTOGUS",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/anchorage",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROANCHORAGE",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/honolulu",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHONOLULU",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/huntington",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHUNTINGTON",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/losangeles",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLOSANGELES",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/oakland",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROOAKLAND",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/houston",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHOUSTON",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/washington",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWASHINGTON",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/denver",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODENVER",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/cheyenne",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCHEYENNE",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/detroit",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODETROIT",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/littlerock",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLITTLEROCK",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOSTON",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boston",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/manchester",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROMANCHESTER",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/reno",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RORENO",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/rates-index.asp",
+    "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/resources_comp",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBenefits"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/sb",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBirthDefects"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/special_Benefit_Allowances_",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationSpecialBenefits"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/glossary.asp",
+    "dest": "/health-care"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/caregiver_eligibility_check.asp",
+    "dest": "/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
+  },
+  {
+    "domain": "www.va.gov",
+    "src": "/healthbenefits/resources/",
+    "dest": "/resources/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROFORTHARRISON",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/fortharrison",
+    "dest": "/fort-harrison-va-regional-benefit-office-at-fort-harrison-va-medical-center",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCOLUMBIA",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/columbia",
+    "dest": "/columbia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOISE",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boise",
+    "dest": "/boise-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPHILADELPHIA",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/philadelphia",
+    "dest": "/philadelphia-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWILMINGTON",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/wilmington",
+    "dest": "/wilmington-va-regional-benefit-office",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROSTPAUL",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/stpaul",
+    "dest": "/st-paul-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/neworleans",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RONEWORLEANS",
+    "dest": "/new-orleans-va-regional-benefit-office-at-new-orleans-va-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/pittsburgh",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPITTSBURGH",
+    "dest": "/pittsburgh-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+  "domain": "www.benefits.va.gov",
+  "src": "/atlanta",
+  "dest": "/senator-johnny-isakson-va-atlanta-regional-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roatlanta",
+  "dest": "/senator-johnny-isakson-va-atlanta-regional-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/desmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rodesmoines",
+  "dest": "/des-moines-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rostpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/stpetersburg",
+  "dest": "/st-petersburg-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/hartford",
+  "dest": "/hartford-va-regional-benefit-office-at-newington-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rohartford",
+  "dest": "/hartford-va-regional-benefit-office-at-newington-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/providence",
+  "dest": "/providence-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roprovidence",
+  "dest": "/providence-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/baltimore",
+  "dest": "/baltimore-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/robaltimore",
+  "dest": "/baltimore-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/lincoln",
+  "dest": "/lincoln-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rolincoln",
+  "dest": "/lincoln-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/milwaukee",
+  "dest": "/milwaukee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/romilwaukee",
+  "dest": "/milwaukee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen14.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen16.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen17.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/rates_DIC_pen18.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp03.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0300.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0301.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0302.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0303.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0304.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0305.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0306.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0307.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0308.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0309.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0311.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0313.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0399.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/survivor-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp04.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0400.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+} ,
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0401.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0402.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0403.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0404.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0405.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0406.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0407.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0408.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0409.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0411.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/Compensation/resources_comp0499.asp",
+  "dest": "/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/parent-rates/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/waco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rowaco",
+  "dest": "/waco-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-questionnaire-claimherbicide.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/agent-orange/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/mailingaddresses.asp",
+  "dest": "/disability/how-to-file-claim/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/camp-lejeune.asp",
+  "dest": "/disability/eligibility/hazardous-materials-exposure/camp-lejeune-water-contamination/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/resources-advisor_program.asp",
+  "dest": "/disability/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/muskogee",
+  "dest": "/muskogee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/ROMUSKOGEE",
+  "dest": "/muskogee-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-pow.asp",
+  "dest": "/disability/eligibility/former-pows/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claims-postservice-agent_orange-diabetes.asp",
+  "dest": "/resources/is-my-type-2-diabetes-a-presumptive-condition/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/notice.asp",
+  "dest": "/disability/how-to-file-claim/evidence-needed/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/types-compensation.asp",
+  "dest": "/disability/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/compensation/claimexam.asp",
+  "dest": "/resources/va-claim-exam/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/indianapolis",
+  "dest": "/indianapolis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/ROINDIANAPOLIS",
+  "dest": "/indianapolis-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/seattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/roseattle",
+  "dest": "/seattle-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosanjuan",
+  "dest": "/san-juan-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/louisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rolouisville",
+  "dest": "/louisville-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/fargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rofargo",
+  "dest": "/fargo-va-regional-benefit-office-at-north-fargo-va-clinic/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/siouxfalls",
+  "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosiouxfalls",
+  "dest": "/sioux-falls-va-regional-benefit-office-at-royal-c-johnson-veterans-memorial-hospital/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/sandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+},
+{
+  "domain": "www.benefits.va.gov",
+  "src": "/rosandiego",
+  "dest": "/san-diego-va-regional-benefit-office/",
+  "catchAll": true
+}
+]

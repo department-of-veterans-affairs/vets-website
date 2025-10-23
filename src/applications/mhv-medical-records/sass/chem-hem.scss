@@ -1,0 +1,16 @@
+.result-cards {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+
+  li {
+    margin: 0px 0px 24px 0px;
+    background: var(--vads-color-base-lightest);
+    border: 2px solid var(--vads-color-base-lighter);
+
+    div {
+      background: var(--vads-color-white);
+      border-top: 2px solid var(--vads-color-base-lighter);
+    }
+  }
+}

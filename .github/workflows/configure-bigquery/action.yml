@@ -1,0 +1,21 @@
+name: Configure BigQuery
+description: Get BigQuery Service Credentials
+
+runs:
+  using: composite
+  steps:
+    - name: Get BigQuery service credentials
+      uses: department-of-veterans-affairs/action-inject-ssm-secrets@latest
+      with:
+        ssm_parameter: /dsva-vagov/testing-team/bigquery_service_credentials
+        env_variable_name: BIGQUERY_SERVICE_CREDENTIALS
+
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@d176447fc74bc94b2926da1eed97c57afbb553ea
+      with:
+        credentials_json: '${{ env.BIGQUERY_SERVICE_CREDENTIALS }}'
+
+    - name: Setup Cloud SDK
+      uses: google-github-actions/setup-gcloud@f431b4bff53ca90c8c0b6735fffe6aaae80e70c9
+      with:
+        project_id: vsp-analytics-and-insights

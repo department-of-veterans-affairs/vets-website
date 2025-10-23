@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Guardianship, custodianship, or fiduciary issues
+  - action: click
+    target: call-to-action

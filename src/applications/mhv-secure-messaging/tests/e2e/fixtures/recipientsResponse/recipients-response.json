@@ -1,0 +1,231 @@
+{
+  "data": [
+    {
+      "id": "7026562",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 7026562,
+        "name": "###ABC_XYZ_TRIAGE_TEAM###",
+        "stationNumber": "607",
+        "blockedStatus": false,
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "6832726",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 6832726,
+        "name": "TG-7410",
+        "stationNumber": "589",
+        "blockedStatus": false,
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "6910405",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 6910405,
+        "name": "Jeasmitha-Cardio-Clinic",
+        "stationNumber": "607",
+        "blockedStatus": false,
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "6978853",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 6978853,
+        "stationNumber": "607",
+        "blockedStatus": false,
+        "name": "***TG 100_SLC4%",
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "6978854",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 6978854,
+        "stationNumber": "589",
+        "blockedStatus": false,
+        "name": "***TG 200_APPT_SLC4%",
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "7123233",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 7123233,
+        "name": "CAMRY_PCMM RELATIONSHIP_05092022_SLC4",
+        "stationNumber": "663",
+        "blockedStatus": false,
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "56219",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 56219,
+        "stationNumber": "589",
+        "blockedStatus": false,
+        "name": "SLC4 PCMM",
+        "relationType": "PATIENT",
+        "preferredTeam": true,
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "3658288",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 3658288,
+        "name": "Record Amendment Admin",
+        "stationNumber": "589",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT",
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    },
+    {
+      "id": "3658299",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 3658299,
+        "name": "OH TG GROUP 002",
+        "stationNumber": "668",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT",
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": true
+      }
+    },
+    {
+      "id": "7654321",
+      "type": "all_triage_teams",
+      "attributes": {
+        "triageTeamId": 7654321,
+        "name": "VHA 649 Release of Information (ROI)",
+        "stationNumber": "649",
+        "blockedStatus": false,
+        "preferredTeam": true,
+        "relationshipType": "PATIENT",
+        "leadProviderName": null,
+        "locationName": null,
+        "teamName": null,
+        "suggestedNameDisplay": null,
+        "healthCareSystemName": null,
+        "groupTypeEnumVal": null,
+        "subGroupTypeEnumVal": null,
+        "groupTypePatientDisplay": null,
+        "subGroupTypePatientDisplay": null,
+        "ohTriageGroup": false
+      }
+    }
+  ],
+  "meta": {
+    "associatedTriageGroups": 8,
+    "associatedBlockedTriageGroups": 0,
+    "sort": {
+      "name": "ASC"
+    }
+  }
+}

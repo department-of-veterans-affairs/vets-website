@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Is your question about the Veteran or someone else?
+  - action: click
+    target: radio
+    value:  Someone else
+  - action: click
+    target: call-to-action

@@ -1,0 +1,7 @@
+{
+  "appName": "Education Letters",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "education-letters",
+  "rootUrl": "/education/download-letters/letters",
+  "productId": "34de0e14-4104-4181-a8bd-131498684823"
+}

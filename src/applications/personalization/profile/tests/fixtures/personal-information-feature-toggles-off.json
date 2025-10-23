@@ -1,0 +1,14 @@
+{
+  "data": {
+    "features": [
+      {
+        "name": "profileEnhancements",
+        "value": false
+      },
+      {
+        "name": "profile_enhancements",
+        "value": false
+      }
+    ]
+  }
+}

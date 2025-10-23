@@ -1,0 +1,6 @@
+{
+  "appName": "Travel Claim",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "travel-claim",
+  "rootUrl": "/my-health/appointment-travel-claim"
+}

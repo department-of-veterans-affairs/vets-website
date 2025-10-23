@@ -1,0 +1,103 @@
+{
+  "data": [
+    {
+      "id": "0",
+      "type": "folders",
+      "attributes": {
+        "folderId": 0,
+        "name": "Inbox",
+        "count": 0,
+        "unreadCount": 0,
+        "systemFolder": true
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/0"
+      }
+    },
+    {
+      "id": "-2",
+      "type": "folders",
+      "attributes": {
+        "folderId": -2,
+        "name": "Drafts",
+        "count": 32,
+        "unreadCount": 18,
+        "systemFolder": true
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-2"
+      }
+    },
+    {
+      "id": "-1",
+      "type": "folders",
+      "attributes": {
+        "folderId": -1,
+        "name": "Sent",
+        "count": 98,
+        "unreadCount": 74,
+        "systemFolder": true
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-1"
+      }
+    },
+    {
+      "id": "-3",
+      "type": "folders",
+      "attributes": {
+        "folderId": -3,
+        "name": "Deleted",
+        "count": 8,
+        "unreadCount": 0,
+        "systemFolder": true
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/-3"
+      }
+    },
+    {
+      "id": "7038175",
+      "type": "folders",
+      "attributes": {
+        "folderId": 7038175,
+        "name": "TEST2",
+        "count": 8,
+        "unreadCount": 3,
+        "systemFolder": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/7038175"
+      }
+    },
+    {
+      "id": "6976715",
+      "type": "folders",
+      "attributes": {
+        "folderId": 6976715,
+        "name": "TESTAGAIN",
+        "count": 2,
+        "unreadCount": 0,
+        "systemFolder": false
+      },
+      "links": {
+        "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders/6976715"
+      }
+    }
+  ],
+  "links": {
+    "self": "http://127.0.0.1:3000/my_health/v1/messaging/folders?",
+    "first": "http://127.0.0.1:3000/my_health/v1/messaging/folders?page=1&per_page=10",
+    "prev": null,
+    "next": null,
+    "last": "http://127.0.0.1:3000/my_health/v1/messaging/folders?page=1&per_page=10"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "perPage": 10,
+      "totalPages": 1,
+      "totalEntries": 6
+    }
+  }
+}

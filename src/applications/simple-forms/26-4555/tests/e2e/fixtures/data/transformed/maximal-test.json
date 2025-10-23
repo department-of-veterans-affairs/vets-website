@@ -1,0 +1,52 @@
+{
+    "formNumber": "26-4555",
+     "remarks": "A severe respiratory (breathing-related) illness; Blindness in both eyes (with 20/200 visual acuity or less); Loss or loss of use of both hands; Loss or loss of use of more than one limb; Loss or loss of use of a lower leg along with the residuals (lasting effects) of an organic (natural) disease or injury; The loss, or loss of use, of one lower extremity (foot or leg) after September 11, 2001, which makes it so you can’t balance or walk without the help of braces, crutches, canes, or a wheelchair; Severe burns; This really weird fungus thing",
+    "livingSituation": {
+      "careFacilityName": "One Stone Facility Care",
+      "careFacilityAddress": {
+        "street": "1 Stone st",
+        "street2": "behind the mcdonalds",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
+      },
+      "isInCareFacility": true
+    },
+    "previousHiApplication": {
+      "previousHiApplicationDate": "1999-02-04",
+      "previousHiApplicationAddress": {
+        "city": "Atlanta"
+      },
+      "hasPreviousHiApplication": true
+    },
+    "previousSahApplication": {
+      "previousSahApplicationDate": "2000-06-10",
+      "previousSahApplicationAddress": {
+        "city": "Atlanta"
+      },
+      "hasPreviousSahApplication": true
+    },
+    "veteran": {
+      "homePhone": "1111111111",
+      "mobilePhone": "1111111111",
+      "email": "barnierubble@rockstreet.com",
+      "address": {
+        "isMilitary": true,
+        "country": "USA",
+        "street": "1111 Rock st.",
+        "street2": "Apartment 2",
+        "city": "APO",
+        "state": "AA",
+        "postalCode": "34055"
+      },
+      "ssn": "345345678",
+      "fullName": {
+        "first": "Barnie",
+        "middle": "Stone",
+        "last": "Rubble",
+        "suffix": "II"
+      },
+      "dateOfBirth": "2000-07-10"
+    }
+  }

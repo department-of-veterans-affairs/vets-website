@@ -1,0 +1,11 @@
+{
+  "TOEClaimStatus": {
+    "claimStatus": "DENIED",
+    "receivedDate": "2022-11-03"
+  },
+  "MEBClaimStatus": {
+    "claimStatus": "ELIGIBLE",
+    "receivedDate": "2022-11-02"
+  }
+}
+

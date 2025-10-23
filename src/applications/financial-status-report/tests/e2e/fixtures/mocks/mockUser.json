@@ -1,0 +1,139 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "evss-claims",
+        "form526",
+        "user-profile",
+        "appeals-status",
+        "identity-proofed"
+      ],
+      "account": {
+        "accountUuid": "6af59b36-f14d-482e-88b4-3d7820422343"
+      },
+      "profile": {
+        "email": "vets.gov.user+228@gmail.com",
+        "firstName": "MARK",
+        "middleName": null,
+        "lastName": "WEBB",
+        "birthDate": "1950-10-04",
+        "gender": "M",
+        "zip": null,
+        "lastSignedIn": "2020-06-18T21:15:19.664Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3/vets"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19501004",
+        "familyName": "Webb-ster",
+        "gender": "M",
+        "givenNames": ["Mark"],
+        "isCernerPatient": false,
+        "facilities": [
+          {
+            "facilityId": "556",
+            "isCerner": false
+          },
+          {
+            "facilityId": "668",
+            "isCerner": false
+          }
+        ],
+        "vaPatient": true,
+        "mhvAccountState": "NONE"
+      },
+      "veteranStatus": null,
+      "inProgressForms": [],
+      "prefillsAvailable": ["5655"],
+      "vet360ContactInformation": {
+        "email": {
+          "emailAddress": "test@user.com"
+        },
+        "residentialAddress": {},
+        "mailingAddress": {
+          "addressLine1": "1200 Park Ave",
+          "addressLine2": "c/o Pixar",
+          "addressLine3": null,
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "Emeryville",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2020-05-30T03:57:20.000+00:00",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-07-10T20:10:45.000+00:00",
+          "id": 173917,
+          "internationalPostalCode": null,
+          "province": null,
+          "sourceDate": "2020-07-10T20:10:45.000+00:00",
+          "sourceSystemUser": null,
+          "stateCode": "CA",
+          "transactionId": "7139aa82-fd06-45ea-a217-9654869924bd",
+          "updatedAt": "2020-07-10T20:10:46.000+00:00",
+          "validationKey": null,
+          "vet360Id": "1273780",
+          "zipCode": "94608",
+          "zipCodeSuffix": null
+        },
+        "mobilePhone": {
+          "areaCode": "510",
+          "countryCode": "1",
+          "createdAt": "2020-06-12T16:56:37.000+00:00",
+          "extension": "17477",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2020-07-14T19:07:45.000+00:00",
+          "id": 146766,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "9223000",
+          "phoneType": "HOME",
+          "sourceDate": "2020-07-14T19:07:45.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "92c49d39-22b2-4bd6-92b4-0b7e7c63c6a9",
+          "updatedAt": "2020-07-14T19:07:46.000+00:00",
+          "vet360Id": "1273780"
+        },
+        "homePhone": {},
+        "workPhone": {},
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      }
+    }
+  },
+  "meta": {
+    "errors": [
+      {
+        "externalService": "VAProfile",
+        "startTime": "2020-06-18T21:15:34Z",
+        "endTime": null,
+        "description": "Mock Error Description for Testing",
+        "status": 503
+      }
+    ]
+  }
+}

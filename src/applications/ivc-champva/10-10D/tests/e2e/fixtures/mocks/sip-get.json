@@ -1,0 +1,10 @@
+{
+  "formData": {
+    "certifierRole": "other"
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/signer-type"
+  }
+}

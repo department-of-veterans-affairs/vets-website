@@ -1,0 +1,122 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+$nav-max-width-breakpoint: 53em;
+$nav-mobile-breakpoint: 41.75em;
+$nav-small-screen-breakpoint: 30em;
+
+.mhv-c-sec-nav-bar-row {
+  justify-content: space-around;
+}
+
+.mhv-c-sec-nav-item {
+  height: 60px;
+
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-white);
+    border-radius: 2px;
+  }
+
+  a:hover {
+    color: var(--vads-color-primary-darker);
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  va-icon {
+    padding-right: 0.25rem;
+    padding-bottom: 0.25rem;
+    vertical-align: middle;
+  }
+}
+
+.mhv-u-sec-nav-header-style a {
+    padding: 6px 8px 6px 7px;
+    min-width: 170px;
+}
+
+.mhv-u-sec-nav-item-style a {
+    padding: 8px 7px;
+    min-width: 75px;
+}
+
+.mhv-u-sec-nav-active-style {
+  a {
+    background-color: var(--vads-color-white);
+    border-radius: 2px;
+  }
+
+  a, a:visited, a:active, abbr {
+    color: var(--vads-color-primary);
+  }
+
+  a:hover {
+    color: var(--vads-color-primary-darker);
+  }
+}
+
+// Mobile view
+@media (max-width: $nav-mobile-breakpoint) {
+  .mhv-c-sec-nav-item {
+    height: auto;
+  }
+
+  .mhv-u-sec-nav-header-style {
+    flex: 0 0 100%;
+    min-height: 43px;
+
+    a, a:hover, a:visited, a:active {
+      display: block;
+      border-radius: 0px;
+      width: 100%;
+    }
+
+    // Show the header item as a white bar when active
+    &.mhv-u-sec-nav-active-style {
+      color: var(--vads-color-primary);
+      background-color: var(--vads-color-white);
+    }
+  }
+
+  .mhv-u-sec-nav-item-style {
+    min-height: 67px;
+    a {
+      // Make the icon appear on top of the text
+      display: grid;
+      justify-items: center;
+      padding: 5px 7px;
+      border-radius: 4px;
+    }
+
+    va-icon {
+      display: contents;
+    }
+  }
+}
+
+// Show the abbreviation instead of the long title
+@media (max-width: $nav-small-screen-breakpoint) {
+  .mhv-u-sec-nav-item-title {
+    display: none;
+  }
+}
+
+// Show the title instead of the abbreviation on larger screens
+@media (min-width: $nav-small-screen-breakpoint) {
+  .mhv-u-sec-nav-short-title {
+    display: none;
+  }
+
+  .mhv-u-sec-nav-item-title {
+    display: inline;
+  }
+}
+
+// Settings for the navigation bar on larger screens
+@media (min-width: $nav-max-width-breakpoint) {
+  .mhv-c-sec-nav-bar-row {
+    justify-content: start;
+  }
+
+  .mhv-c-sec-nav-item {
+    padding-left: 0.50rem;
+  }
+}

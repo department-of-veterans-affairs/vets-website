@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Tell us more about your relationship
+  - action: click
+    target: radio
+    value:  I'm the Veteran's spouse
+  - action: click
+    target: call-to-action

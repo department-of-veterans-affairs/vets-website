@@ -1,0 +1,95 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
+
+.btsss-claims-sort-and-filter-container {
+  min-width: fit-content;
+  max-width: 35rem;
+}
+
+.btsss-claims-order-select-container {
+  display: flex;
+  align-items: flex-end;
+  column-gap: 20px;
+}
+
+.travel-claim-list-container {
+  max-width: 35rem;
+}
+
+.travel-pay-claim-download-link-icon {
+  vertical-align: middle;
+}
+
+h2#pagination-info {
+  font-size: 1.06rem;
+  font-weight: normal;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.travel-claim-card {
+  ul {
+    padding-left: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
+.travel-pay-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
+
+  .back-arrow {
+    color: var(--vads-color-gray-medium);
+    padding-right: 2px;
+  }
+
+  //  Matches the padding on the usa-breadcrumbs, ensures
+  //  visual consistency between claims details and other pages
+  .go-back-link,
+  .back-arrow {
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
+
+  @media (min-width: 768px) {
+    .go-back-link,
+    .back-arrow {
+      padding-bottom: 48px;
+    }
+  }
+}
+
+.travel-pay-download-error {
+  padding-bottom: 0.25rem;
+  padding-top: 0.25rem;
+  color: rgb(181, 9, 9);
+  display: block;
+  font-weight: 700;
+
+  va-icon {
+    margin-right: 0.2rem;
+    vertical-align: middle;
+  }
+}
+
+.travel-pay-download-loading-icon {
+  animation: spin 1.5s linear infinite;
+  margin: 0 0.2rem 0 0;
+  vertical-align: middle;
+}
+
+@media (prefers-reduced-motion) {
+  .travel-pay-download-loading-icon {
+    animation: none;
+  }
+}

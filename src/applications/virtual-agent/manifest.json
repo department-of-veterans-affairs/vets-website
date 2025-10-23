@@ -1,0 +1,7 @@
+{
+  "appName": "Virtual Agent",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "virtual-agent",
+  "rootUrl": "/contact-us/virtual-agent",
+  "productId": "7059158c-2c5e-4ddb-9ba7-391ba7f5e54e"
+}

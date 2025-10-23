@@ -1,0 +1,64 @@
+# Directories to ignore
+node_modules/
+/build/
+logs/
+tmp/
+out/
+src/applications/vaos/docs/
+src/site/tests/html/
+mocha/results
+
+# Files to ignore
+._*
+.cache
+.config
+.DS_Store
+.env
+npm-debug.log
+*.log
+*.swp 
+
+config/config.proxy.js
+
+.babelcache
+jsconfig.json
+typings.json
+typings/
+coverage
+/cypress
+.nyc_output
+.yalc
+yalc.lock
+/test-results.xml
+package-lock.json
+temp
+dump.rdb
+
+# Ignore user's editor/IDE prefs
+.vscode/
+*.code-workspace
+.idea/
+.nova/
+.swp
+.swo
+all-links.csv
+.tern-port
+*.iml
+.ignore
+.tool-versions
+.cursorrules
+
+# Generated files from OpenAPI specs
+src/applications/benefits-optimization-aquia/**/generated/
+
+# Track shared IDE config
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# Ignore custom generated Cypress-TestRail configs
+config/my-cypress-testrail.json
+config/my-cypress-testrail.config.js
+script/cypress-testrail-helper/my-config.json
+
+# Ignore mochawesome report directory
+mochawesome-report/

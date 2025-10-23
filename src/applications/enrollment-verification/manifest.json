@@ -1,0 +1,7 @@
+{
+  "appName": "Enrollment Verification",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "enrollment-verification",
+  "rootUrl": "/education/verify-school-enrollment/enrollment-verifications",
+  "productId": "ab97e09b-5a10-4433-a123-b404bf15e60b"
+}

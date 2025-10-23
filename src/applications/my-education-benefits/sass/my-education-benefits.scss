@@ -1,0 +1,568 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "./m-review-box-field";
+
+// Introduction Page
+.omb-info {
+	margin: 2.5rem 0 1.875rem;
+}
+
+/* Form Styling Overrides
+---------------------------------------------------------------------*/
+.schemaform-block-header {
+	margin-bottom: 1em;
+}
+.schemaform-block-header > p {
+	// Overriding generated !importants.
+	margin-bottom: 24/16 + 0em !important;
+	margin-top: 1em !important;
+}
+.meb-additional-considerations-title {
+	margin-top: 0;
+}
+.schemaform-field-template,
+fieldset.schemaform-field-template {
+	margin-top: 24/16 + 0rem; // 24px
+}
+.form-review-panel-page .schemaform-field-template,
+.form-review-panel-page fieldset.schemaform-field-template {
+	margin-top: 1.875rem;
+}
+.form-expanding-group-open .schemaform-block-header + div .schemaform-field-template {
+	margin-top: 0;
+}
+.form-review-panel-page .form-expanding-group-open .schemaform-field-template.schemaform-first-field,
+.form-review-panel-page .form-expanding-group-open fieldset.schemaform-field-template.schemaform-first-field {
+	margin-top: 0;
+}
+.form-expanding-group-open .form-checkbox label {
+	margin-top: 0;
+}
+[type=checkbox] + label,
+[type=radio] + label {
+	margin-bottom: 1em;
+}
+.schemaform-label[for^="root_view:phoneNumbers"] {
+	margin-top: 0.9375rem;
+}
+.usa-input-error .schemaform-label[for^="root_view:phoneNumbers"] {
+	margin-top: 0;
+}
+#root_view\:phoneNumbers_phoneNumber_phone-label,
+#root_view\:phoneNumbers_mobilePhoneNumber_phone-label,
+.schemaform-label[for="root_view\:toursOfDutyCorrect_toursOfDutyCorrect"] {
+	margin-top: 1.875rem;
+}
+
+// Date
+fieldset.usa-input-error,
+.form-review-panel-page fieldset.schemaform-field-template.usa-input-error {
+	margin-top: 0;
+}
+fieldset.usa-input-error legend {
+	margin: 0;
+	padding-top: 30px;
+}
+.usa-input-error legend {
+	font-weight: bold;
+}
+.row .row.usa-date-of-birth {
+	margin: 0;
+}
+
+.schemaform-sip-save-link {
+	margin-top: 20px;
+}
+/* END Form Styling Overrides ---------------------------------------*/
+
+// USA Alert
+va-alert {
+	margin-top: 1em;
+}
+.usa-alert,
+.usa-alert.background-color-only {
+	padding: 1em;
+}
+
+.usa-alert h3 {
+	margin-top: 0;
+}
+.usa-alert p,
+.form-review-panel .usa-alert p {
+	margin-bottom: 0;
+}
+
+@media only screen and (min-width: 64.0625em) {
+	.usa-alert {
+		margin-left: -1.25rem;
+		width: calc(117.1875% + 1.25rem);
+	}
+	.form-review-panel-page .usa-alert {
+		margin: 0;
+		width: auto;
+	}
+	.usa-alert,
+	.usa-alert.background-color-only {
+		padding-left: 30/16 + 0em;
+		padding-right: 30/16 + 0em;
+	}
+}
+/* Service History
+----------------------------------------------------------------------*/
+va-accordion {
+	margin-bottom: 2em;
+}
+va-accordion-item .service-history-details {
+	margin-bottom: calc(-1em + 1px);
+}
+.accordion-toggle-button {
+	background: transparent;
+	color: var(--vads-color-link);
+	font-weight: normal;
+	padding-left: 0;
+	padding-right: 0;
+	text-decoration: underline;
+}
+.progress-box .accordion-toggle-button {
+	width: auto;
+}
+.accordion-toggle-button:hover {
+	background: transparent;
+	color: var(--vads-color-primary-alt-darkest);
+}
+.service-history-details {
+	display: flex;
+	flex-wrap: wrap;
+}
+.service-history-details_term,
+.service-history-details_definition {
+	align-self: flex-start;
+	box-sizing: border-box;
+	flex: 1 1 100%;
+	margin: 0;
+}
+.service-history-details_term {
+	border-top: 1px solid var(--vads-color-gray-medium);
+	padding-top: 1em;
+}
+.service-history-details_definition {
+	font-weight: bold;
+	padding-bottom: 1em;
+	padding-left: 1em;
+	text-align: right;
+}
+.va-growable-review .va-growable-background:not(:nth-last-child(3)) .service-history-details_definition:last-child {
+	padding-bottom: 1em;
+}
+.service-history-details_period {
+	display: block;
+}
+
+.form-review-panel-page .schemaform-block-header {
+	margin-bottom: 0;
+}
+.form-review-panel-page .service-history-details {
+	margin: 0;
+}
+.form-review-panel-page .service-history-details_term:first-of-type {
+	border-top-color: var(--vads-color-base-darker);
+	border-top-width: 2px;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2,
+[data-chapter="serviceHistoryChapter"] .review {
+	display: flex;
+	flex-direction: column;
+}
+[data-chapter="serviceHistoryChapter"] .review p,
+[data-chapter="serviceHistoryChapter"] .review .service-history-details {
+	order: 2;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > div:last-child {
+	margin-bottom: 1em;
+	order: -1;
+}
+[data-chapter="serviceHistoryChapter"] dl.review .review-row:last-child {
+	margin-bottom: 1em;
+}
+[data-chapter="serviceHistoryChapter"] .form-review-panel-page form > .vads-u-margin-y--2 > .form-expanding-group-open:last-child {
+	margin-bottom: 2em;
+}
+@media (min-width: $small-screen) {
+	.service-history-details_term,
+	.va-growable-background .service-history-details_term:last-child {
+		padding-bottom: 1em;
+	}
+	.service-history-details_term {
+		flex: 0 1 40%;
+	}
+	.service-history-details_definition {
+		border-top: 1px solid var(--vads-color-gray-medium);
+		flex: 1 1 60%;
+		padding-top: 1em;
+	}
+	.form-review-panel-page .service-history-details_definition:first-of-type {
+		border-top-color: var(--vads-color-base-darker);
+		border-top-width: 2px;
+	}
+}
+@media only screen and (min-width: 40.0625em) {
+	.service-history-details_term {
+		flex: 0 1 auto;
+		max-width: 40%;
+		padding-left: 1em;
+	}
+	.service-history-details_definition {
+		padding-top: 1em;
+		padding-right: 1em;
+	}
+}
+
+#LiveOnMilitaryBaseTooltip {
+	margin-top: 1.875rem;
+}
+
+// Additional Considerations page - BEGIN
+.form-field-footer-additional-info {
+	margin-top: 1em;
+	max-width: 425px;
+}
+// Additional Considerations page - END
+
+// Benefit Selection
+.meb-alert {
+	background-color: var(--vads-color-base-lightest);
+	border-left-style: solid;
+	border-left-width: 10px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: flex-start; /* Align items to the startt */
+	padding: 1rem;
+	position: relative;
+	width: 100%;
+}
+
+.meb-alert va-icon {
+	margin-right: 1rem; /* Space between icon and text */
+	margin-top: -0.25rem; /* Adjust ro move the Icon higher */
+}
+
+.meb-alert--warning {
+	border-left-color: var(--vads-color-warning);
+}
+.meb-list-label {
+	margin-top: 1.125rem;
+}
+.meb-alert_body {
+	margin: 0;
+}
+
+[id="root_view:benefitSelection_benefitRelinquished-label"] {
+  display: flex !important; // Override label styling
+  flex-flow: row wrap;
+}
+
+.text-restriction {
+	color: var(--vads-color-secondary-dark);
+}
+
+#root_incorrectServiceHistoryExplanation_incorrectServiceHistoryInputs-label > span {
+	display: none; //Hides span in disagree with service checkbox group
+}
+
+.meb-labels_label--main {
+  flex: 0 1 auto;
+  margin-right: 0.35em;
+  order: 0;
+}
+.usa-input-error .meb-labels_label--main,
+.usa-input-error .schemaform-required-span {
+  font-weight: bold;
+}
+.meb-labels_label--secondary {
+  flex: 1 1 100%;
+  order: 2;
+}
+.usa-input-error .meb-labels_label--secondary {
+  font-weight: normal;
+}
+
+.meb-definition-list {
+	margin: 0;
+}
+.meb-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.meb-definition-list_term,
+.meb-definition-list_definition {
+	float: left;
+}
+.meb-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.meb-definition-list_term--normal {
+	font-weight: normal;
+}
+.meb-definition-list_definition {
+	margin-left: 1em;
+}
+
+/* Review Page */
+.review {
+	margin-bottom: 0;
+  }
+
+  dl.review {
+	border-bottom: 0;
+  }
+
+  /* Review Row Adjustments */
+  dl.review .review-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	padding: 1em 0;
+	margin: 0; /* Removed duplicate margin rule at the bottom */
+  }
+
+  /* Ensure the question (dt) doesn't overflow and wraps correctly */
+  dl.review .review-row > dt {
+	flex: 1 1 65%; /* Slightly reduce the space allocated to the question */
+	margin-right: 1rem; /* Space between question and answer */
+	word-break: break-word; /* Ensure long text wraps without overflow */
+	overflow-wrap: break-word; /* Handle word wrapping properly */
+	align-self: center; /* Vertically align the question to the middle */
+  }
+
+  /* Ensure the answer (dd) is aligned and responsive */
+  dl.review .review-row > dd {
+	flex: 1 1 35%; /* Increase the space allocated for the answer */
+	text-align: right; /* Align the answer to the right */
+	white-space: nowrap; /* Prevent answer from wrapping */
+	overflow: hidden; /* Ensure long text doesn't overflow */
+	text-overflow: ellipsis; /* Show ellipsis if the answer is too long */
+	align-self: center; /* Vertically align the answer to the middle */
+  }
+
+  /* Specifically target the span inside the dd for privacy-hidden answers */
+  dl.review .review-row > dd .dd-privacy-hidden {
+	display: inline-block;
+	max-width: 29em; /* Increase the maximum width for the answer span */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis; /* Apply ellipsis to answers */
+  }
+
+  /* Adjust for smaller screens */
+  @media only screen and (max-width: 40em) {
+	dl.review .review-row > dt {
+	  flex: 1 1 100%; /* Question takes full width on small screens */
+	  margin-bottom: 0.5rem; /* Add spacing between question and answer */
+	  align-self: flex-start; /* Align to the top in smaller screens */
+	}
+
+	dl.review .review-row > dd {
+	  flex: 1 1 100%; /* Answer takes full width on small screens */
+	  text-align: left; /* Align text to the left */
+	  align-self: flex-start; /* Align to the top on smaller screens */
+	}
+  }
+
+  /* Last review row padding adjustment */
+  dl.review .review-row:last-child {
+	padding-bottom: 0;
+  }
+
+  /* Make adjustments for smaller screens */
+  @media only screen and (max-width: 40em) {
+	dl.review .review-row > dt {
+	  flex: 1 1 100%; /* Ensure the question takes the full width on smaller screens */
+	  margin-bottom: 0.5rem; /* Add spacing between question and answer */
+	}
+
+	dl.review .review-row > dd {
+	  flex: 1 1 100%; /* Ensure the answer takes the full width on smaller screens */
+	  text-align: left; /* Align text to the left on smaller screens */
+	}
+  }
+
+  /* Adjust padding for larger screens */
+  @media only screen and (min-width: 40.0625em) {
+	dl.review .review-row {
+	  padding-left: 1em;
+	  padding-right: 1em;
+	}
+  }
+
+  /* Form review panel adjustments */
+  .form-review-panel-page form.rjsf {
+	margin: 0;
+  }
+
+  .va-growable-review {
+	margin-top: 0;
+  }
+
+  .va-growable-review .va-growable-background {
+	background-color: transparent;
+	margin-bottom: 0;
+	padding: 0;
+  }
+
+  /* Hide add button in form review array */
+  .form-review-array .add-btn {
+	display: none;
+  }
+
+  .form-review-panel-page .input-section div:last-child fieldset {
+	margin-bottom: 0;
+  }
+
+  .form-review-panel fieldset {
+	margin-bottom: 2em;
+  }
+
+  .form-review-panel fieldset fieldset {
+	margin-bottom: 0;
+  }
+
+  /* Additional info button and content visibility */
+  .form-review-panel-page .additional-info-button,
+  .form-review-panel-page .additional-info-content,
+  .meb-review-page-only {
+	display: none;
+  }
+
+  .form-review-panel-page .additional-info-button.vads-u-display--block {
+	display: none !important;
+  }
+
+  .form-review-panel-page .meb-review-page-only {
+	display: block;
+  }
+
+  .form-review-panel-page .meb-form-page-only {
+	display: none;
+  }
+
+  /* Override schemaform block header margins */
+  .form-review-panel-page p.meb-review-page-only {
+	margin-bottom: 0 !important;
+	margin-top: 0.5em !important;
+  }
+
+  /* Primary button and field container adjustments */
+  .form-review-panel-page .usa-button-primary,
+  .form-review-panel-page .schemaform-field-container .form-checkbox,
+  .form-review-panel-page .schemaform-field-container .schemaform-field-template {
+	margin-left: 0.625rem;
+  }
+
+
+// This is a huge hack to not have a blue border next to text for the
+// Benefit Selection section in edit mode. Couldn't figure out a better
+// solution.
+.form-review-panel-page .form-expanding-group-open .schemaform-block-header {
+	background: var(--vads-color-white);
+	left: -1em;
+	margin-bottom: 0;
+	margin-right: -1em;
+	padding-bottom: 1.875rem;
+	padding-left: 1em;
+	position: relative;
+}
+// End Benefit Selection section hack
+
+// Confirmation Page
+.meb-feature--secondary {
+	background-color: var(--vads-color-base-lightest);
+}
+.meb-confirmation-page .feature {
+	padding-bottom: 2em;
+	padding-top: 2em;
+}
+@media only screen and (min-width: 40.0625em) {
+	.meb-confirmation-page .feature {
+		padding-left: 2em;
+		padding-right: 2em;
+	}
+}
+.meb-confirmation-page .feature h3 {
+	margin-bottom: 14/20 + 0em;
+}
+.meb-hr {
+	border: 0;
+	border-top: 1px solid var(--vads-color-base-dark);
+	margin: 8px 0;
+	width: 62/16 + 0em;
+}
+.meb-confirmation-page .feature dt {
+	font-weight: bold;
+}
+.meb-confirmation-page .usa-button,
+.meb-confirmation-page .usa-button-primary {
+	display: block;
+	margin: 24px 0;
+	width: fit-content;
+}
+.meb-confirmation-page .usa-button:last-child,
+.meb-confirmation-page .usa-button-primary:last-child {
+	margin-bottom: 0;
+}
+.meb-confirmation-page .form-expanding-group {
+	margin-bottom: 1em;
+}
+.meb-confirmation-page .help-footer-box{
+	padding-top: 2em;
+}
+
+.meb-confirmation-page .loading-indicator-container {
+	margin: 6.25rem 0;
+}
+
+@media print {
+	.meb-print {
+		display: none !important;
+	}
+}
+// END - Confirmation Page
+
+
+// Contact Information UI
+#root_view\:mailingAddress_address_postalCode {
+	width: 50%;
+}
+
+label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
+label.schemaform-label[for=root_phoneNumber_isInternational] {
+	margin-top: 1.25rem;
+}
+
+// Hide Labels
+#root_formId,
+#root_formId-label,
+#root_claimantId,
+#root_claimantId-label {
+	display: none !important;
+}
+
+.no-margin {
+	margin-top: 0px;
+}
+
+.my-education-benefits-list {
+	list-style-type: none;
+}
+
+.my-education-benefit-selection-icon {
+    min-width: 28px;
+  }

@@ -1,0 +1,29 @@
+{
+  "data": {
+    "veteranAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "22312"
+    },
+    "view:otherContactInfo": {
+      "email": "test2@test1.net",
+      "view:confirmEmail": "test2@test1.net"
+    },
+    "newSchoolName": "Test",
+    "educationType": "correspondence",
+    "veteranFullName": {
+      "first": "asdf",
+      "last": "asdf"
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "oldSchool": {
+      "address": {
+        "country": "USA"
+      }
+    },
+    "serviceBefore1977": {},
+    "privacyAgreementAccepted": true
+  }
+}

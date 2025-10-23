@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "cernerTransition556T5",
+        "value": true
+      },
+      {
+        "name": "cerner_transition_556_t5",
+        "value": true
+      },
+      {
+        "name": "mhv_secure_messaging_filter_accordion",
+        "value": true
+      }
+    ]
+  }
+}

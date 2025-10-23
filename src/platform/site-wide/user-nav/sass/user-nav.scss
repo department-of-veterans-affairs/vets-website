@@ -1,0 +1,354 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+
+.search-dropdown-options {
+  position: absolute;
+  box-shadow: 0px 7px 10px -4px var(--vads-color-base);
+
+  &.full-width-suggestions {
+    top: 58px;
+    right: 0;
+  }
+}
+
+.suggestion {
+  line-height: 24px;
+  cursor: pointer;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.search-dropdown-input-field {
+  height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
+}
+
+.search-dropdown-component {
+  flex-direction: row;
+
+  &.full-width-suggestions {
+    position: relative;
+  }
+
+  &.shrink-to-column {
+    @media (max-width: $medium-screen) {
+      flex-direction: column;
+    }
+  }
+}
+
+.search-dropdown-container {
+  position: relative;
+
+  &.full-width-suggestions {
+    position: static;
+    max-width: 80%;
+  }
+}
+
+.suggestion {
+  line-height: 24px;
+  cursor: pointer;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.search-dropdown-input-field {
+  height: 42px;
+}
+
+.search-dropdown-submit-button {
+  height: 42px;
+}
+
+#login-root {
+  .sitewide-search-drop-down-panel-button,
+  .sign-in-drop-down-panel-button {
+    border-top: none;
+    margin-right: 0;
+    padding: 8px 30px 8px 8px;
+    width: auto;
+  }
+}
+
+/* OCTO Identity */
+// stylelint-disable-next-line color-no-hex
+$idme-background-green: #08833d;
+.login,
+.verify {
+  background: var(--vads-color-white);
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 330px;
+    padding: 0.75em;
+    font-size: 16px;
+    margin: 1em 0;
+    white-space: normal !important;
+
+    &.dslogon-button {
+      background: var(--vads-color-primary-dark);
+
+      &:hover {
+        background: var(--vads-color-primary-darker);
+      }
+    }
+
+    &.dslogon {
+      background: var(--vads-color-primary-dark);
+
+      &:hover {
+        background: var(--vads-color-primary-darker);
+      }
+    }
+
+    &.idme-button {
+      background: $idme-background-green;
+
+      &:hover {
+        background: var(
+          --vads-button-color-background-primary-alt-active-on-light
+        );
+      }
+    }
+
+    &.logingov-button {
+      background: var(--vads-color-secondary);
+
+      &:hover {
+        background: var(--vads-color-secondary-darkest);
+      }
+    }
+
+    img,
+    svg {
+      height: 1em;
+      padding: 0 0.25em;
+    }
+  }
+
+  hr {
+    border-color: var(--vads-color-base-lighter);
+  }
+
+  .fed-warning {
+    font-size: 0.9em;
+    margin-bottom: 2em;
+
+    p {
+      margin: 0.5em 0;
+    }
+
+    &--v2 {
+      font-size: unset;
+      margin-bottom: unset;
+      max-width: 81ch;
+    }
+  }
+
+  .sign-in-wrapper {
+    max-width: 570px;
+  }
+
+  .logo {
+    text-align: center;
+    border-bottom: solid 2px var(--vads-color-gray-light-alt);
+    padding: 0 0 1em;
+
+    a {
+      &:hover {
+        background-color: transparent;
+      }
+
+      display: inline-block;
+    }
+  }
+
+  #signin-signup-modal-title {
+    margin: 2rem 0 0;
+  }
+
+  .help-info {
+    margin: 2rem 0 0;
+  }
+}
+
+.verify {
+  h4 + p {
+    margin-top: 0;
+  }
+}
+
+.sign-in-nav {
+  color: var(--vads-color-white);
+  white-space: nowrap;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:visited {
+      color: inherit;
+    }
+  }
+
+  button {
+    &:disabled {
+      background-color: inherit;
+      opacity: 0.7;
+    }
+  }
+}
+
+.login.login-modal {
+  white-space: normal;
+
+  .downtime-notification.row {
+    margin: 0 0 1em;
+  }
+}
+
+.login.login-page {
+  .downtime-notification.row {
+    margin: 0 auto 1em;
+    padding: 0 0.5rem;
+
+    @include media($medium-screen) {
+      padding: unset;
+    }
+  }
+}
+
+.fed-warning--v2 {
+  @include media($medium-screen) {
+    margin-left: 0.25rem;
+  }
+}
+
+#ios-bug ul {
+  list-style: square;
+  padding-left: 1.5em;
+}
+
+// Verify buttons
+button.idme-verify-button {
+  padding: 0;
+  background: $idme-background-green;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 244px;
+  max-height: 42px;
+
+  span {
+    width: 50px;
+    border-right: 1px solid var(--vads-color-white);
+    display: block;
+    padding: 0.75rem;
+
+    & img {
+      height: 16px;
+      padding: 0;
+    }
+  }
+
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+    & img {
+      height: 18px;
+      width: auto;
+      margin-left: 5px;
+    }
+  }
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+
+button.logingov-verify-button {
+  background: var(--vads-color-secondary);
+  width: auto;
+  max-width: 244px;
+  padding: 0.75rem 1.25rem;
+  max-height: fit-content;
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-self: center;
+  }
+
+  img {
+    height: 15px;
+    width: auto;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
+}
+
+button.idme-verify-buttons,
+button.logingov-verify-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 0.75em;
+  font-size: 16px;
+  margin: 1em 0;
+  white-space: normal !important;
+
+  img {
+    height: 1em;
+    padding: 0 0.25em;
+  }
+}
+
+button.idme-verify-buttons {
+  background: var(--vads-color-success-dark);
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+button.logingov-verify-buttons {
+  background: var(--vads-color-secondary);
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
+}
+
+// DO NOT REMOVE without OCTO Identity
+.merger:has(va-modal#signin-signup-modal.open) {
+  overflow-y: hidden;
+}
+
+.merger:has(.login.login-page) .header #legacy-header,
+.merger:has(.login.login-page) #header-default #legacy-header {
+  height: 137.19px;
+  min-height: 137.19px;
+}
+// DO NOT REMOVE without OCTO Identity

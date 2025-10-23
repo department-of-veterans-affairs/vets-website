@@ -1,0 +1,31 @@
+{
+  "data": {
+    "veteranPhoneNumber": {
+      "callingCode": "1",
+      "countryCode": "US",
+      "contact": "(432) 143-2143"
+    },
+    "veteranEmailAddress": "testmail@email.gov",
+    "sameMailingAddress": true,
+    "veteranAddress": {
+      "country": "USA",
+      "street": "6 main",
+      "city": "canton",
+      "state": "NH",
+      "postalCode": "13617"
+    },
+    "veteranSocialSecurityNumber": {
+      "ssn": "589631236",
+      "vaFileNumber": "96312589"
+    },
+    "veteranFullName": {
+      "first": "Jane",
+      "middle": "B",
+      "last": "Smith",
+      "Suffix": "Jr."
+    },
+    "veteranDateOfBirth": "1999-02-05",
+    "statementOfTruthSignature": "Jane B Smith",
+    "statementOfTruthCertified": true
+  }
+}

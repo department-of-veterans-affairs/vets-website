@@ -1,0 +1,6 @@
+{
+  "appName": "Your VA home loan COE",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "coe-status",
+  "rootUrl": "/housing-assistance/home-loans/check-coe-status/your-coe"
+}

@@ -1,0 +1,158 @@
+[
+  {
+    "data": {
+      "id": "19731",
+      "type": "representative",
+      "attributes": {
+        "firstName": "Bill",
+        "lastName": "Ryan",
+        "fullName": "Billy Ryan",
+        "addressLine1": "177 W 5th St",
+        "addressLine2": null,
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "San Bernardino",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "California",
+        "internationalPostalCode": null,
+        "stateCode": "CA",
+        "zipCode": "92415",
+        "zipSuffix": "0470",
+        "email": null,
+        "phone": null,
+        "individualType": "veteran_service_officer",
+        "accreditedOrganizations": {
+          "data": [
+            {
+              "id": "074",
+              "type": "organization",
+              "attributes": {
+                "canAcceptDigitalPoaRequests": true,
+                "name": "American Legion",
+                "addressLine1": "1608 K St NW",
+                "addressLine2": null,
+                "addressLine3": null,
+                "addressType": "Domestic",
+                "city": "Washington",
+                "countryName": null,
+                "countryCodeIso3": null,
+                "province": null,
+                "internationalPostalCode": null,
+                "stateCode": "DC",
+                "zipCode": "20006",
+                "zipSuffix": "2801",
+                "phone": "267-881-2543",
+                "lat": null,
+                "long": null,
+                "poaCode": "074"
+              }
+            },
+            {
+              "id": "064",
+              "type": "organization",
+              "attributes": {
+                "canAcceptDigitalPoaRequests": false,
+                "name": "National Association of County Veterans Service Officers",
+                "addressLine1": "25 Mass Ave NW",
+                "addressLine2": "Ste 500",
+                "addressLine3": null,
+                "addressType": "Domestic",
+                "city": "Washington",
+                "countryName": null,
+                "countryCodeIso3": null,
+                "province": null,
+                "internationalPostalCode": null,
+                "stateCode": "DC",
+                "zipCode": "20001",
+                "zipSuffix": "1450",
+                "phone": "",
+                "lat": null,
+                "long": null,
+                "poaCode": "064"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "data": {
+      "id": "26789",
+      "type": "representative",
+      "attributes": {
+        "firstName": "Adam",
+        "lastName": "Roberts",
+        "fullName": "Adam Roberts",
+        "addressLine1": "123 Anystreet",
+        "addressLine2": "null",
+        "addressLine3": null,
+        "addressType": "Domestic",
+        "city": "Anytown",
+        "countryName": "United States",
+        "countryCodeIso3": "USA",
+        "province": "Ohio",
+        "internationalPostalCode": null,
+        "stateCode": "OH",
+        "zipCode": "43657",
+        "zipSuffix": null,
+        "email": "vso@vets.net",
+        "phone": "9231-543-7656",
+        "individualType": "veteran_service_officer",
+        "accreditedOrganizations": {
+          "data": [
+            {
+              "id": "074",
+              "type": "organization",
+              "attributes": {
+                "canAcceptDigitalPoaRequests": true,
+                "name": "American Legion",
+                "addressLine1": "1654 Q St NW",
+                "addressLine2": null,
+                "addressLine3": null,
+                "addressType": "Domestic",
+                "city": "Washington",
+                "countryName": null,
+                "countryCodeIso3": null,
+                "province": null,
+                "internationalPostalCode": null,
+                "stateCode": "DC",
+                "zipCode": "20006",
+                "zipSuffix": "2801",
+                "phone": "202-861-2700",
+                "lat": null,
+                "long": null,
+                "poaCode": "074"
+              }
+            },
+            {
+              "id": "020",
+              "type": "organization",
+              "attributes": {
+                "canAcceptDigitalPoaRequests": false,
+                "name": "Department of Veterans Services",
+                "addressLine1": "110 9th Ave S Rm C-166",
+                "addressLine2": null,
+                "addressLine3": null,
+                "addressType": "Domestic",
+                "city": "Nashville",
+                "countryName": null,
+                "countryCodeIso3": null,
+                "province": null,
+                "internationalPostalCode": null,
+                "stateCode": "TN",
+                "zipCode": "37433",
+                "zipSuffix": "3817",
+                "phone": "462-675-9493",
+                "lat": null,
+                "long": null,
+                "poaCode": "020"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+]

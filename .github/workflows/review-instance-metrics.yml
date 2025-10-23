@@ -1,0 +1,59 @@
+name: Review Instance Metrics
+
+on:
+  repository_dispatch:
+    types: [review_instance_run]
+
+jobs:
+  collect-review-instance-metrics:
+    name: Collect Review Instance Metrics
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+
+      - name: Log Review Instance Status
+        run: yarn log-review-instance
+        working-directory: qa-standards-dashboard-data
+        env:
+          API_BRANCH: ${{ github.event.client_payload.api_branch }}
+          WEB_BRANCH: ${{ github.event.client_payload.web_branch }}
+          CONTENT_BRANCH: ${{ github.event.client_payload.content_branch }}
+          DEPLOYMENT_ID: ${{ github.event.client_payload.deployment_id }}
+          INSTANCE_STATUS: ${{ github.event.client_payload.instance_status }}
+          ERROR: ${{ github.event.client_payload.error }}

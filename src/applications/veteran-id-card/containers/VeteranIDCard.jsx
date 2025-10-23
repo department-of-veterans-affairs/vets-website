@@ -1,0 +1,96 @@
+import React from 'react';
+import { connect } from 'react-redux';
+
+import backendServices from 'platform/user/profile/constants/backendServices';
+import recordEvent from 'platform/monitoring/record-event';
+import DowntimeNotification, {
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
+import { RequiredLoginView } from 'platform/user/authorization/components/RequiredLoginView';
+import RequiredVeteranView from '../components/RequiredVeteranView';
+import EmailCapture from './EmailCapture';
+
+function createVicSettings() {
+  // vicInitialAuthStatus is used as a flag so that a user who already had the rate limit applied and allowed through
+  // as an unauthorized user won't be rate limited again as an authorized user after logging in and potentially blocked.
+  const disableRateLimitedAuth = window.sessionStorage.getItem(
+    'vicDisableRateLimitedAuth',
+  );
+  const randomizer = Math.random();
+
+  return {
+    serviceRateLimitedUnauthed: randomizer > 1,
+    serviceRateLimitedAuthed: !disableRateLimitedAuth && randomizer > 1,
+  };
+}
+
+class VeteranIDCard extends React.Component {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    // Once the login logic is all done...
+    // This will occur even for unauthenticated users and should only occur once.
+    if (this.props.user.profile.loading && !nextProps.user.profile.loading) {
+      const userProfile = nextProps.user.profile;
+      const {
+        serviceRateLimitedAuthed,
+        serviceRateLimitedUnauthed,
+      } = this.props.vicSettings;
+
+      if (nextProps.user.login.currentlyLoggedIn) {
+        if (serviceRateLimitedAuthed) {
+          recordEvent({ event: 'vic-authenticated-ratelimited' });
+          this.renderEmailCapture = true;
+          if (userProfile.veteranStatus?.status === 'NOT_FOUND') {
+            recordEvent({ events: 'vic-lookup-failed' });
+          } else if (userProfile.veteranStatus?.status === 'SERVER_ERROR') {
+            recordEvent({ events: 'vic-error' });
+          }
+        } else {
+          recordEvent({ event: 'vic-authenticated' });
+        }
+      } else if (serviceRateLimitedUnauthed) {
+        recordEvent({ event: 'vic-unauthenticated-ratelimited' });
+        this.renderEmailCapture = true;
+      } else {
+        // Set the flag that the user was already rate limited and allowed to pass through as an unauthorized
+        // user so that the serviceRateLimitedAuthed won't also be applied.
+        window.sessionStorage.setItem('vicDisableRateLimitedAuth', 'true');
+        recordEvent({ event: 'vic-unauthenticated' });
+      }
+    }
+  }
+
+  render() {
+    if (this.renderEmailCapture) {
+      return <EmailCapture />;
+    }
+
+    return (
+      <div>
+        <RequiredLoginView
+          verify
+          serviceRequired={backendServices.ID_CARD}
+          user={this.props.user}
+        >
+          <DowntimeNotification
+            appTitle="Veteran ID Card application"
+            dependencies={[externalServices.vic]}
+          >
+            <RequiredVeteranView userProfile={this.props.user.profile}>
+              {this.props.children}
+            </RequiredVeteranView>
+          </DowntimeNotification>
+        </RequiredLoginView>
+      </div>
+    );
+  }
+}
+
+VeteranIDCard.defaultProps = {
+  vicSettings: createVicSettings(),
+};
+
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps)(VeteranIDCard);
+export { VeteranIDCard };

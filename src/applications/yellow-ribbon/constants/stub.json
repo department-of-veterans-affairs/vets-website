@@ -1,0 +1,181 @@
+{
+  "data": [
+    {
+      "id": "196345",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "99999.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "31027743",
+        "institutionId": 9328883,
+        "insturl": "www.concordia.edu",
+        "numberOfStudents": 99999,
+        "nameOfInstitution": "CONCORDIA UNIVERSITY-TEXAS",
+        "state": "TX",
+        "streetAddress": "11400 Concordia University Drive"
+      }
+    },
+    {
+      "id": "197356",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "99999.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "21036443",
+        "institutionId": 9312870,
+        "insturl": "https://www.devry.edu",
+        "numberOfStudents": 99999,
+        "nameOfInstitution": "DEVRY UNIVERSITY-TEXAS AUSTIN",
+        "state": "TX",
+        "streetAddress": "11044 Research Blvd, Suite B-100"
+      }
+    },
+    {
+      "id": "198823",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "8500.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "21038343",
+        "institutionId": 9312888,
+        "insturl": "www.national.edu/locations/campuses/austin/",
+        "numberOfStudents": 99999,
+        "nameOfInstitution": "NATIONAL AMERICAN UNIVERSITY-AUSTIN",
+        "state": "TX",
+        "streetAddress": "13801 Burnet Road Suite 300"
+      }
+    },
+    {
+      "id": "196097",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "10000.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "319M1143",
+        "institutionId": 9331435,
+        "insturl": "https://www.stedwards.edu",
+        "numberOfStudents": 250,
+        "nameOfInstitution": "ST EDWARD'S UNIVERSITY",
+        "state": "TX",
+        "streetAddress": "3001 South Congress Avenue"
+      }
+    },
+    {
+      "id": "198903",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "99999.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "21041343",
+        "institutionId": 9312917,
+        "insturl": "www.strayer.edu/texas/north-austin",
+        "numberOfStudents": 99999,
+        "nameOfInstitution": "STRAYER UNIVERSITY-NORTH AUSTIN",
+        "state": "TX",
+        "streetAddress": "8501 N. Mopac Expressway, Suite 100"
+      }
+    },
+    {
+      "id": "198673",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "5000.0",
+        "country": "USA",
+        "degreeLevel": "Undergraduate",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "11029843",
+        "institutionId": 9284066,
+        "insturl": "www.utexas.edu",
+        "numberOfStudents": 25,
+        "nameOfInstitution": "THE UNIVERSITY OF TEXAS AT AUSTIN",
+        "state": "TX",
+        "streetAddress": "2400 Inner Campus Drive"
+      }
+    },
+    {
+      "id": "199726",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "99999.0",
+        "country": "USA",
+        "degreeLevel": "All",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "21036943",
+        "institutionId": 9312875,
+        "insturl": "www.phoenix.edu",
+        "numberOfStudents": 99999,
+        "nameOfInstitution": "UNIVERSITY OF PHOENIX-AUSTIN CAMPUS",
+        "state": "TX",
+        "streetAddress": "10801-2 N. Mopac #300"
+      }
+    },
+    {
+      "id": "199999",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "5000.0",
+        "country": "USA",
+        "degreeLevel": "Graduate",
+        "divisionProfessionalSchool": "All",
+        "facilityCode": "21044943",
+        "institutionId": 9312950,
+        "insturl": "www.usa.edu",
+        "numberOfStudents": 8,
+        "nameOfInstitution": "UNIVERSITY OF ST AUGUSTINE FOR HEALTH SCIENCES",
+        "state": "TX",
+        "streetAddress": "5401 LaCrosse Ave"
+      }
+    },
+    {
+      "id": "199998",
+      "type": "yellow_ribbon_programs",
+      "attributes": {
+        "city": "Austin",
+        "contributionAmount": "2500.0",
+        "country": "USA",
+        "degreeLevel": "Graduate",
+        "divisionProfessionalSchool": "Flex Program",
+        "facilityCode": "21044943",
+        "institutionId": 9312950,
+        "insturl": "www.usa.edu",
+        "numberOfStudents": 4,
+        "nameOfInstitution": "UNIVERSITY OF ST AUGUSTINE FOR HEALTH SCIENCES",
+        "state": "TX",
+        "streetAddress": "5401 LaCrosse Avenue"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://staging-platform-api.va.gov/gids/v0/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX",
+    "first": "https://staging-platform-api.va.gov/gids/v0/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-platform-api.va.gov/gids/v0/yellow_ribbon_programs?city=Austin&name=university&page=1&per_page=10&state=TX"
+  },
+  "meta": {
+    "version": {
+      "number": 138,
+      "createdAt": "2020-04-15T16:50:53.578Z",
+      "preview": false
+    },
+    "count": 9
+  }
+}

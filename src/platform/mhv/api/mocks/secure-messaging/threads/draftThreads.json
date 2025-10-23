@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "id": "3885179",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3885179,
+        "folderId": -2,
+        "messageId": 3885180,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "test",
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "sentDate": null,
+        "draftDate": "2024-08-29T16:21:13.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "recipientId": 2343333,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3885179"
+      }
+    },
+    {
+      "id": "3623588",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3623588,
+        "folderId": -2,
+        "messageId": 3623589,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "MEDICATIONS",
+        "subject": "hello",
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "sentDate": null,
+        "draftDate": "2024-08-29T16:11:06.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "recipientId": 2343333,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3623588"
+      }
+    },
+    {
+      "id": "3550442",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3550442,
+        "folderId": -2,
+        "messageId": 3550443,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Draft",
+        "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "sentDate": null,
+        "draftDate": "2024-04-23T15:16:07.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+        "recipientId": 3550420,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3550442"
+      }
+    },
+    {
+      "id": "3549580",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3549580,
+        "folderId": -2,
+        "messageId": 3549581,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "DRAFT",
+        "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "sentDate": null,
+        "draftDate": "2024-04-23T13:10:22.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+        "recipientId": 2993579,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3549580"
+      }
+    },
+    {
+      "id": "3109073",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3109073,
+        "folderId": -2,
+        "messageId": 3109074,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "Test",
+        "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "sentDate": null,
+        "draftDate": "2023-11-03T17:05:05.000Z",
+        "senderId": 2991831,
+        "senderName": "LEE, JAMIE",
+        "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+        "recipientId": 2993382,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3109073"
+      }
+    }
+  ]
+}

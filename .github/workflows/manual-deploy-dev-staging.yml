@@ -1,0 +1,209 @@
+name: Manual dev/staging Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Deploy a specific commit
+        required: true
+      deploy_environment:
+        type: choice
+        description: The environment to deploy to
+        required: true
+        options:
+          - dev
+          - staging
+          - both
+
+env:
+  DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+
+jobs:
+  permissions-check:
+    name: Verify FE COP membership
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Check FE COP permissions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          script: |
+            const org = context.repo.owner;
+
+            try {
+              // Throws 404 if the user is NOT a member of the team.
+              await github.rest.teams.getMembershipForUserInOrg({
+                org,
+                team_slug: 'va-platform-cop-frontend',
+                username: context.actor,
+              });
+              core.notice('Permissions check passed.');
+            } catch (error) {
+              core.setFailed('Permissions check failed: user is not authorized to run this workflow.');
+            }
+
+  set-environment:
+    name: Set environment to deploy
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-output.outputs.environment }}
+    needs: permissions-check
+
+    env:
+      dev: "{
+          \\\"environment\\\": \\\"vagovdev\\\", 
+          \\\"bucket\\\": \\\"dev.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\"
+        }"
+      staging: "{
+          \\\"environment\\\": \\\"vagovstaging\\\", 
+          \\\"bucket\\\": \\\"staging.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\"
+        }"
+
+    steps:
+      - name: Set output
+        id: set-output
+        run: |
+          if [[ ${{ github.event.inputs.deploy_environment }} == 'dev' ]]; then
+            echo environment={\"include\":[${{env.dev}}]} >> $GITHUB_OUTPUT
+          elif [[ ${{ github.event.inputs.deploy_environment }} == 'staging' ]]; then
+            echo environment={\"include\":[${{env.staging}}]} >> $GITHUB_OUTPUT
+          else
+            echo environment={\"include\":[${{env.dev}},${{env.staging}}]} >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    name: Build
+    runs-on: ubuntu-16-cores-latest
+    needs: set-environment
+    strategy:
+      matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          ref: ${{ github.event.inputs.commit_sha }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ matrix.environment }}
+        timeout-minutes: 30  
+        
+      - name: Generate build details
+        run: |
+          cat > build/${{ matrix.environment }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.environment }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ github.event.inputs.commit_sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.environment }} -cjf ${{ matrix.environment }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: ${{ matrix.environment }}.tar.bz2
+          path: ${{ matrix.environment }}.tar.bz2
+          retention-days: 1   
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [build, set-environment]
+    strategy:
+      matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials (1)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+      
+      - name: Download build artifact
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: ${{ matrix.environment }}.tar.bz2
+
+      - name: Upload build
+        run: aws s3 cp ${{ matrix.environment }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ matrix.environment }}.tar.bz2 --acl public-read --region us-gov-west-1
+
+      - name: Deploy
+        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
+          ASSET_DEST: s3://${{ matrix.asset_bucket }}
+
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ failure() || cancelled() }}
+    needs: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "vets-website manual dev/staging deploy failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

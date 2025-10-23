@@ -1,0 +1,48 @@
+.poa-request-search__card {
+  border: none;
+}
+
+.poa-request-search__date-field {
+  margin-top: 24px;
+}
+
+ul.poa-request-details-list {
+  list-style: none;
+  list-style-type: none;
+  padding: 0px;
+}
+
+a.vads-c-action-link--gray {
+  position: relative;
+  display: inline-block;
+  padding: 4px 0 4px 38px;
+  font-weight: bold;
+}
+
+a.vads-c-action-link--gray::before {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 0;
+  margin-top: -4px;
+  content: url(../../proxy-rewrite/assets/right-arrow.svg);
+  background-color: var(--vads-color-gray-warm-dark);
+  border-radius: 50%;
+}
+
+.claimant-search-showing-results {
+  margin: 24px 0;
+}
+
+.claimant-search-recent-representation-requests {
+  margin: 16px 0 8px 0;
+}
+
+.poa-request__list--search {
+  .poa-request__card {
+    padding: 24px 20px;
+  }
+  .poa-request__card-title {
+    margin-top: 12px;
+  }
+}

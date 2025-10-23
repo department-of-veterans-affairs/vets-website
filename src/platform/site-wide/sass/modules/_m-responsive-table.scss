@@ -1,0 +1,55 @@
+@media screen and (max-width: $medium-screen) {
+  table.responsive {
+    thead {
+      position: absolute;
+      clip: rect(0, 0, 0, 0);
+    }
+
+    tr {
+      display: block;
+      padding: 0.35em;
+    }
+
+    td {
+      display: block;
+    }
+  }
+  .va-table--responsive {
+    tr {
+      border-top: 2px solid var(--vads-color-base-light);
+    }
+    thead {
+      display: none;
+    }
+    td,
+    th {
+      border: none;
+      display: block;
+      padding: 0;
+    }
+    td {
+      padding-left: 0px;
+      padding-top: 0px;
+      padding-bottom: 8px;
+    }
+    td dfn {
+      display: flex;
+      grid-gap: 2px;
+    }
+    td p {
+      margin-bottom: 0;
+    }
+    .column-value {
+      padding-bottom: 16px;
+    }
+    .column-value strong:nth-child(1) {
+      font-weight: normal;
+    }
+    .column-label:nth-child(1) {
+      padding-top: 20px;
+    }
+    .column-value:nth-last-child(1) {
+      padding-bottom: 20px;
+    }
+  }
+}

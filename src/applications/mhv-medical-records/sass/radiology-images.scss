@@ -1,0 +1,53 @@
+.image-div {
+    @media (max-width: $small-screen) {
+        min-width: 100%;
+        padding: 0px;
+    }
+
+    @media (min-width: $small-screen) {
+        min-width: none;
+        padding-right: 24px;
+    }
+}
+
+.load-more-button {
+    @media (max-width: $small-screen) {
+        min-width: 100%;
+        padding: 8px, 0px, 8px, 0px;
+    }
+
+    @media (min-width: $medium-screen) {
+        width: 50%;
+    }
+}
+
+.secondary-button {
+    background-color: var(--vads-color-white);
+    border: 2px solid var(--vads-color-primary);
+    color: var(--vads-color-primary);
+    max-width: 210px
+
+}
+.secondary-button:hover {
+    border: 2px solid var(--vads-color-primary-dark);
+    color: var(--vads-color-primary-dark);
+    background-color: var(--vads-color-gray-cool-light)
+}
+.secondary-button:visited {
+    color: var(--vads-color-primary);
+}
+.secondary-button:visited:hover {
+    color: var(--vads-color-primary-dark);
+}
+
+.primary-button {
+    border: 2px solid var(--vads-color-primary);
+    max-width: 210;
+}
+.primary-button:visited {
+    color: var(--vads-color-white);
+    border: 2px solid var(--vads-color-primary);
+}
+.primary-button:hover {
+    border: 2px solid var(--vads-color-primary-dark);
+}

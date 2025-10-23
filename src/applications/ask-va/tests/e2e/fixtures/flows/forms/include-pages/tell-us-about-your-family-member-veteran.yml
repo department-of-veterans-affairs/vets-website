@@ -1,0 +1,27 @@
+steps:
+  - action: exists
+    target: header
+    value:  Tell us about the Veteran
+  - action: typeTextInput
+    target: VETERAN_FIRST_NAME
+    value:  John
+  - action: typeTextInput
+    target: VETERAN_LAST_NAME
+    value:  Smith
+  - action: click
+    target: radio
+    value: "Y"
+  - action: typeTextInput
+    target: VETERAN_SSN
+    value:  789345522
+  - action: select
+    target: MONTH
+    value:  2
+  - action: typeTextInput
+    target: DAY
+    value:  2
+  - action: typeTextInput
+    target: YEAR
+    value:  2005
+  - action: click
+    target: call-to-action

@@ -1,0 +1,28 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+#modal-announcement .va-modal-inner {
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
+#modal-announcement h3 {
+  margin-top: 1.5em;
+}
+
+.announcement-heading {
+  background-color: var(--vads-color-primary-alt-lightest);
+  text-align: center;
+  padding: 42px 0;
+  margin: -1.25rem -1.25rem 0;
+  img {
+    max-width: 86px;
+  }
+}
+
+.announcement-heading-brand-consolidation {
+  padding-top: 35px;
+}
+
+.announcement-brand-consolidation-logo {
+  max-width: 225px;
+}

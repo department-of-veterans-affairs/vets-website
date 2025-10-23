@@ -1,0 +1,113 @@
+.search-form {
+  button {
+    margin-top: 0.5em;
+    width: auto;
+  }
+
+  .usa-button i {
+    padding-left: 16px;
+  }
+
+  .suggestions-list {
+    position: absolute;
+  }
+
+  .search-box {
+    border-bottom: 2px solid var(--vads-color-base-light);
+    border-left: 2px solid var(--vads-color-base-light);
+    border-right: 2px solid var(--vads-color-base-light);
+    padding: 0px 48px 24px 48px;
+
+    .usa-input-error {
+      padding-bottom: 0px;
+    }
+
+    .bottom-positioner {
+      .loc-search-btn {
+        margin-left: 0;
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-left: 1rem;
+          }
+        }
+      }
+    }
+
+    .name-search-inputs {
+      position: relative;
+
+      button {
+        right: 0px;
+      }
+    }
+
+    .location-search-inputs {
+      @media screen and (min-width: $medium-screen) {
+        & {
+          display: flex;
+          align-items: flex-end;
+        }
+
+        padding-bottom: 6px;
+      }
+
+      .location-select {
+        margin-block: 0;
+
+        @media screen and (min-width: $medium-screen) {
+          & {
+            margin-block: inherit;
+          }
+        }
+      }
+    }
+  }
+
+  .active-search-tab {
+    border-top: 4px solid var(--vads-color-primary);
+    border-bottom: none;
+    border-radius: 0%;
+    height: 2.8em;
+    margin-bottom: -1px;
+  }
+
+  .inactive-search-tab {
+    border-top: 2px solid var(--vads-color-base-light);
+    border-bottom: 2px solid var(--vads-color-base-light);
+    border-radius: 0%;
+    margin-bottom: -1px;
+  }
+
+  .search-tab {
+    font-size: 25px;
+    margin: 0;
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+  }
+
+  .name-search-tab {
+    border-left: 2px solid var(--vads-color-base-light);
+    border-right: 1px solid var(--vads-color-base-light);
+  }
+
+  .location-search-tab {
+    border-left: 1px solid var(--vads-color-base-light);
+    border-right: 2px solid var(--vads-color-base-light);
+  }
+
+  input:placeholder-shown {
+    font-style: italic;
+  }
+
+  select {
+    width: 200px;
+  }
+}
+@media screen and (max-width: $small-screen) {
+  .loc-search-btn {
+    width: 100%;
+    margin-top: 0.53rem;
+  }
+}

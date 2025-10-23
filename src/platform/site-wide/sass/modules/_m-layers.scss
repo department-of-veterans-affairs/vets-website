@@ -1,0 +1,42 @@
+// z-index layering
+// TODO: bring these layers back into their specific modules
+
+// teamsite
+.va-modal {
+  z-index: $modal-layer !important;
+}
+#va-detailpage-sidebar {
+  z-index: $top-layer;
+}
+#preview-site-alert {
+  z-index: $low-layer;
+}
+
+#logout-modal-root {
+  // Needs to show up over everything because the user is about to get signed out
+  position: relative;
+  z-index: 9999;
+}
+
+//  mega menu goes on top of the "Search Contact Us Signin" nav in mobile
+// these have to be flipped
+@media (max-width: $medium-screen - 1) {
+  #login-root {
+    z-index: $middle-layer;
+  }
+  #vetnav {
+    z-index: $top-layer;
+  }
+}
+// and on desktop the opposite is true
+@media(min-width: $medium-screen) {
+  #login-root {
+    z-index: $top-layer;
+  }
+  #vetnav {
+    z-index: $middle-layer;
+  }
+}
+.va-btn-sidebarnav-trigger {
+  z-index: $top-layer + 1;
+}

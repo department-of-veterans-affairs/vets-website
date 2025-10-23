@@ -1,0 +1,40 @@
+{
+  "data": {
+    "isActiveDuty": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "12345"
+    },
+    "veteranAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "22312"
+    },
+    "view:otherContactInfo": {
+      "email": "test2@test1.net",
+      "view:confirmEmail": "test2@test1.net",
+      "mobilePhone": "4445551213"
+    },
+    "veteranFullName": {
+      "first": "Min",
+      "last": "asdf"
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "privacyAgreementAccepted": true,
+    "view:determineEligibility": {},
+    "isEnrolledStem": true,
+    "isPursuingTeachingCert": true,
+    "benefitLeft": "none",
+    "degreeName": "0",
+    "schoolName": "TEST SCHOOL",
+    "schoolCity": "TEST",
+    "schoolCountry": "ALB",
+    "view:benefit": {
+      "chapter33": true
+    },
+    "view:remainingEntitlement": {}
+  }
+}

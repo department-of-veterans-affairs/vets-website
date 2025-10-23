@@ -1,0 +1,75 @@
+name: Check up on Feature Toggles
+run-name: ${{ github.actor }} is checking on feature toggles
+# Controls when the workflow will run
+on: workflow_dispatch
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  search:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      # Check out vets-website
+      - name: Check out vets-website
+        uses: actions/checkout@v4
+        with:
+          repository: department-of-veterans-affairs/vets-website
+          path: vets-website
+      # Check out vets-api
+      - name: Check out vets-api
+        uses: actions/checkout@v4
+        with:
+          repository: department-of-veterans-affairs/vets-api
+          path: vets-api
+      - name: Extract vets-api features
+        id: vets-api-features
+        run: |
+          {
+            echo 'FEATURES<<EOF'
+            yq -o=yaml '.features | keys | sort' vets-api/config/features.yml | sed 's/- //'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+      - name: Extract vets-website featureToggles
+        id: vets-website-features
+        run: |
+          {
+            echo 'FEATURES<<EOF'
+            yq -p=json -o=yaml '[.[]] | sort' vets-website/src/platform/utilities/feature-toggles/featureFlagNames.json | sed 's/- //'
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+      - name: Compare feature lists
+        id: compare-feature-lists
+        run: |
+          {
+            echo 'VETS_API_ONLY<<VETS_API_EOF'
+            comm -23 <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}")
+            echo VETS_API_EOF
+            echo
+          } >> "$GITHUB_OUTPUT"
+          {
+            echo 'VETS_WEBSITE_ONLY<<VETS_WEBSITE_EOF'
+            comm -13 <(echo "${{ steps.vets-api-features.outputs.FEATURES }}") <(echo "${{ steps.vets-website-features.outputs.FEATURES }}")
+            echo VETS_WEBSITE_EOF
+            echo
+          } >> "$GITHUB_OUTPUT"
+      - name: Report findings
+        run: |
+          echo "# Feature Toggle Findings" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "Comparing vets-api's features.yml and vets-website's featureFlagNames.json" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "Using 'comm' to select lists of feature toggles unique to vets-api or to vets-website. Common lines are ignored." >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "## Flags only in vets-website featureFlagNames.json" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.compare-feature-lists.outputs.VETS_WEBSITE_ONLY }}" >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "## Flags only in vets-api features.yaml" >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.compare-feature-lists.outputs.VETS_API_ONLY }}" >> $GITHUB_STEP_SUMMARY
+          echo "~~~"  >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY
+          echo ""  >> $GITHUB_STEP_SUMMARY

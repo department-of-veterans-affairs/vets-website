@@ -1,0 +1,25 @@
+{
+  "name": "@department-of-veterans-affairs/platform-pdf",
+  "version": "1.0.0",
+  "scripts": {
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "exports": {
+    "." :"./exportsFile.js"
+  },
+  "dependencies": {
+    "blob-stream": "^0.1.3",
+    "crypto-js": "^4.2.0",
+    "file-saver": "^2.0.4",
+    "fontkit": "^1.8.1",
+    "linebreak": "^1.0.2",
+    "pdfkit": "^0.13.0",
+    "png-js": "^1.0.0"
+  },
+  "peerDependencies": {},
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "pdfjs-dist": "2.16.105"
+  }
+}

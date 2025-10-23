@@ -1,0 +1,44 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "show526Wizard",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email",
+        "value": true
+      },
+      {
+        "name": "form526_confirmation_email_show_copy",
+        "value": true
+      },
+      {
+        "name": "subform_8940_4192",
+        "value": true
+      },
+      {
+        "name": "allowEncryptedFiles",
+        "value": true
+      },
+      {
+        "name": "disability_compensation_toxic_exposure_destruction_modal",
+        "value": false
+      },
+      {
+        "name": "disability_526_toxic_exposure_opt_out_data_purge",
+        "value": false
+      },
+      {
+        "name": "disability_526_toxic_exposure_opt_out_data_purge_by_user",
+        "value": false
+      },
+      {
+        "name": "disability_compensation_new_conditions_workflow",
+        "value": false
+      }
+    ]
+  }
+}
+

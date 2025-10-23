@@ -1,0 +1,84 @@
+{
+  "data": [
+    {
+      "id": "308",
+      "type": "clinics",
+      "attributes": {
+        "vistaSite": 983,
+        "id": "308",
+        "serviceName": "Green Team Clinic1",
+        "physicalLocation": "Green Tower, 1st Floor",
+        "phoneNumber": null,
+        "stationId": "983",
+        "stationName": "CHYSHR-Cheyenne VA Medical Center",
+        "primaryStopCode": 323,
+        "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
+        "secondaryStopCode": null,
+        "secondaryStopCodeName": "*Missing*",
+        "patientDirectScheduling": true,
+        "patientDisplay": null,
+        "char4": null
+      }
+    },
+    {
+      "id": "455",
+      "type": "clinics",
+      "attributes": {
+        "vistaSite": 983,
+        "id": "455",
+        "serviceName": "CHY PC CASSIDY",
+        "physicalLocation": "CASSIDY PAVILION",
+        "phoneNumber": null,
+        "stationId": "983",
+        "stationName": "CHYSHR-Cheyenne VA Medical Center",
+        "primaryStopCode": 323,
+        "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
+        "secondaryStopCode": null,
+        "secondaryStopCodeName": "*Missing*",
+        "patientDirectScheduling": true,
+        "patientDisplay": null,
+        "char4": null
+      }
+    },
+    {
+      "id": "457",
+      "type": "clinics",
+      "attributes": {
+        "vistaSite": 983,
+        "id": "457",
+        "serviceName": "Green Team Clinic2",
+        "physicalLocation": "Green Tower, 2nd Floor",
+        "phoneNumber": null,
+        "stationId": "983",
+        "stationName": "CHYSHR-Cheyenne VA Medical Center",
+        "primaryStopCode": 323,
+        "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
+        "secondaryStopCode": 117,
+        "secondaryStopCodeName": "NURSING (2ND ONLY)",
+        "patientDirectScheduling": true,
+        "patientDisplay": null,
+        "char4": null
+      }
+    },
+    {
+      "id": "848",
+      "type": "clinics",
+      "attributes": {
+        "vistaSite": 983,
+        "id": "848",
+        "serviceName": "CHY PC VAR2",
+        "physicalLocation": "ARROWHEAD WING, Suite A",
+        "phoneNumber": null,
+        "stationId": "983",
+        "stationName": "CHYSHR-Cheyenne VA Medical Center",
+        "primaryStopCode": 323,
+        "primaryStopCodeName": "PRIMARY CARE/MEDICINE",
+        "secondaryStopCode": null,
+        "secondaryStopCodeName": "*Missing*",
+        "patientDirectScheduling": true,
+        "patientDisplay": null,
+        "char4": null
+      }
+    }
+  ]
+}

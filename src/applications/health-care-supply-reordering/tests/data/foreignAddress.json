@@ -1,0 +1,79 @@
+{
+  "formData": {
+    "fullName": {
+      "first": "Consuela",
+      "middle": "",
+      "last": "Alvarez"
+    },
+    "permanentAddress": {
+      "street": "Great Clarendon Street",
+      "street2": "544",
+      "city": "OXFORD",
+      "state": "",
+      "country": "UNITED KINGDOM",
+      "postalCode": "OX2 6DP"
+    },
+    "temporaryAddress": {
+      "street": "201 Example Street",
+      "city": "Galveston",
+      "state": "TX",
+      "country": "United States",
+      "postalCode": "77550"
+    },
+    "ssnLastFour": "1400",
+    "gender": "F",
+    "vetEmail": "vet@vet.com",
+    "dateOfBirth": "1983-09-22",
+    "eligibility": {
+      "batteries": true,
+      "accessories": true
+    },
+    "supplies": [
+      {
+        "deviceName": "OMEGAX d3241",
+        "productName": "ZA1239",
+        "productGroup": "Battery",
+        "productId": 1,
+        "availableForReorder": true,
+        "lastOrderDate": "2023-12-25",
+        "nextAvailabilityDate": "2024-01-01",
+        "quantity": 60,
+        "prescribedDate": "2021-12-20"
+      },
+      {
+        "productName": "DOME",
+        "productGroup": "Accessory",
+        "productId": 3,
+        "availableForReorder": true,
+        "lastOrderDate": "2023-06-30",
+        "nextAvailabilityDate": "2023-12-15",
+        "quantity": 10,
+        "size": "6mm"
+      },
+      {
+        "productName": "DOME",
+        "productGroup": "Accessory",
+        "productId": 4,
+        "availableForReorder": true,
+        "lastOrderDate": "2023-06-30",
+        "nextAvailabilityDate": "2023-12-15",
+        "quantity": 10,
+        "size": "7mm"
+      },
+      {
+        "productName": "WaxBuster Single Unit",
+        "productGroup": "Accessory",
+        "productId": 5,
+        "availableForReorder": true,
+        "lastOrderDate": "2023-06-30",
+        "nextAvailabilityDate": "2023-12-15",
+        "quantity": 10
+      }
+    ]
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

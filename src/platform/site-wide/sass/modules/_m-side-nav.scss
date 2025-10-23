@@ -1,0 +1,256 @@
+.va-sidenav-wrapper {
+  background: var(--vads-color-white);
+  border: 1px solid var(--vads-color-base-lighter);
+  border-radius: 5px;
+  padding: 10px 0;
+  margin: 0 20px 0 0;
+  height: 45px;
+  overflow: hidden;
+  &.va-sidenav-height {
+    height: auto;
+  }
+  .va-sidenav-default-trigger {
+    padding: 0;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: 5px;
+    position: relative;
+    cursor: pointer;
+    width: calc(100% - 45px);
+    margin-left: 22px;
+    line-height: inherit;
+
+    &::after {
+      content: "\A";
+      height: 1px;
+      width: 100%;
+      display: block;
+      margin: auto;
+      background: var(--vads-color-base-lighter);
+      position: relative;
+      top: 15px;
+    }
+
+    va-icon {
+      font-size: inherit;
+      float: right;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .va-sidenav {
+    h2 {
+      margin-top: 0em;
+    }
+
+    li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+    }
+
+    a,
+    button {
+      background: none;
+      border-radius: none;
+      color: var(--vads-color-base-darker);
+      font-size: 15px;
+      font-weight: normal;
+      letter-spacing: 0.3px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .line {
+      background: var(--vads-color-base-lighter);
+      height: 1px;
+      margin: 10px 23px;
+    }
+
+    .line-open {
+      background: var(--vads-color-base-darker);
+      display: block;
+      height: 0.5px;
+      border: 0;
+      margin: 16px 0;
+      padding: 0;
+    }
+
+    .va-sidenav-toggle-expand {
+      align-items: center;
+      background: var(--vads-color-base-lightest);
+      border-radius: 4px;
+      color: var(--vads-color-primary);
+      display: flex;
+      height: 24px;
+      justify-content: center;
+      width: 24px;
+    }
+
+    .va-sidenav-item-label {
+      align-items: center;
+      background: none;
+      border-radius: 0;
+      color: var(--vads-color-base-darker);
+      display: flex;
+      font-size: 15px;
+      justify-content: space-between;
+      letter-spacing: 0.3px;
+      line-height: 1.5;
+      margin: 0;
+      padding: 10px 23px;
+      text-align: left;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.5s ease;
+      width: 100%;
+
+      &.va-sidenav-item-label-underlined {
+        text-decoration: underline;
+      }
+
+      &.grandchild-open {
+        margin-left: 10px;
+        border-left: 10px solid var(--vads-color-base-lighter);
+      }
+    }
+
+    // Couldn't make use borders efficiently for the different item states
+    // applying borders directly makes the inside content jump and this is not desirable
+    // used backgrounds instead
+    .open {
+      color: var(--vads-color-base-darker) !important;
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px
+          100%,
+        var(--vads-color-base-lightest);
+      background-repeat: no-repeat;
+    }
+
+    .expanded {
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
+          100% 1px,
+        var(--vads-color-white);
+      background-repeat: no-repeat;
+    }
+
+    a.selected {
+      color: var(--vads-color-base-darker) !important;
+      background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top /
+          100% 1px,
+        linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
+        var(--vads-color-base-lightest);
+      background-repeat: no-repeat;
+    }
+
+    .va-sidenav-item-label-bold {
+      font-weight: bold;
+
+      &:hover {
+        background: var(--vads-color-white);
+      }
+    }
+
+    .grandchild-left-line {
+      border-left: 2px solid var(--vads-color-base-lighter);
+      padding-left: 15px;
+    }
+
+    .va-sidenav-level-1 {
+      margin-top: 2.3em;
+      &:first-child {
+        margin-top: 0.75em; // the wrapper already has top padding, so we don't need as much space here
+
+        @media (max-width: calc($medium-screen - 1px)) {
+          margin-top: 2em; // to accomodate mobile menu
+        }
+      }
+      &:last-child {
+        .va-sidenav-level-2 {
+          &:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+            &::after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+
+    .va-sidenav-level-2 {
+      &:last-child {
+        &::after {
+          content: "\A";
+          height: 1px;
+          width: calc(100% - 40px);
+          display: block;
+          margin: auto;
+          background: var(--vads-color-base-lighter);
+          position: relative;
+          top: 15px;
+        }
+      }
+      a,
+      button {
+        color: var(--vads-color-primary);
+        font-weight: normal;
+        letter-spacing: 0;
+        line-height: 1.38;
+        text-transform: none;
+        transition: color 0.5s ease;
+        @include media($medium-screen) {
+          &:hover {
+            color: var(--vads-color-primary) !important;
+            background: linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) bottom /
+                100% 2px,
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) 100% top / 100%
+                2px,
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) left/ 8px 100%,
+              linear-gradient(var(--vads-color-primary), var(--vads-color-primary)) right / 3px 100%,
+              var(--vads-color-white);
+            background-repeat: no-repeat;
+          }
+        }
+        &:active {
+          color: var(--vads-color-base-darker) !important;
+          background: linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) bottom /
+              100% 2px,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) 100% top / 100%
+              2px,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) left/ 8px 100%,
+            linear-gradient(var(--vads-color-base-darker),  var(--vads-color-base-darker)) right / 3px 100%,
+            var(--vads-color-base-lightest);
+          background-repeat: no-repeat;
+        }
+      }
+      &.selected {
+        &:last-child::after {
+          display: none;
+        }
+        border-bottom: thin solid var(--vads-color-base-darker);
+        &.hasChildren {
+          padding-bottom: 20px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+
+  #va-sidenav-ul-container [href]:focus {
+    outline-offset: -2px;
+  }
+}

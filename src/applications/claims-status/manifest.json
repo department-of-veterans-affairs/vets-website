@@ -1,0 +1,7 @@
+{
+  "appName": "Claims Status",
+  "entryFile": "./claims-status-entry.jsx",
+  "entryName": "claims-status",
+  "rootUrl": "/track-claims",
+  "productId": "268792c2-367e-4fc9-bb20-3abafbb4e3d6"
+}

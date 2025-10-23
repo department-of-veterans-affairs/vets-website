@@ -1,0 +1,50 @@
+{
+  "data": {
+    "isActiveDuty": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "12345"
+    },
+    "preferredContactMethod": "mobilePhone",
+    "veteranAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "22312"
+    },
+    "view:otherContactInfo": {
+      "email": "test2@test1.net",
+      "view:confirmEmail": "test2@test1.net",
+      "homePhone": "4445551212",
+      "mobilePhone": "4445551213"
+    },
+    "view:housingPaymentInfo": {},
+    "veteranFullName": {
+      "first": "Max",
+      "middle": "A",
+      "last": "Anderson",
+      "suffix": "IV"
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "privacyAgreementAccepted": true,
+    "view:determineEligibility": {},
+    "isEnrolledStem": true,
+    "isPursuingTeachingCert": true,
+    "benefitLeft": "none",
+    "degreeName": "0",
+    "schoolName": "TEST SCHOOL",
+    "schoolCity": "TEST",
+    "schoolState": "MA",
+    "schoolCountry": "USA",
+    "view:benefit": {
+      "chapter33": true
+    },
+    "view:remainingEntitlement": {
+      "days": 1,
+      "months": 1,
+      "totalDays": 31
+    }
+  }
+}

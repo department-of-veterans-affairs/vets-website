@@ -1,0 +1,415 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-schemaform";
+
+// adds spacing to form titles
+#root__title {
+  min-height: 40px;
+}
+.form-review-panel-page {
+  margin-bottom: 0;
+}
+.form-review-panel-page tr td:last-child {
+  font-weight: inherit;
+}
+
+.schemaform-review-page-error {
+  margin: 0;
+}
+
+.selected-debt {
+  border: 4px solid var(--vads-color-primary);
+  padding: 20px;
+}
+
+.schemaform-subtitle {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.item-loop-container {
+  margin-top: 10px;
+  va-table {
+    table-layout: fixed;
+    width: 100%;
+    background-color: var(--vads-color-base-lightest);
+  }
+  .item-loop {
+    padding: 15px 30px;
+    background-color: var(--vads-color-base-lightest);
+    .horizontal-field-container {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+    .schemaform-block-header {
+      // title prop required in items schema but should be
+      // hidden in item loop component
+      display: none;
+    }
+    .schemaform-label {
+      margin-top: 0;
+    }
+    .schemaform-field-template {
+      margin-right: 15px;
+    }
+    .autosuggest-list {
+      max-height: 140px;
+      overflow-x: hidden;
+    }
+    .usa-button-secondary {
+      background: var(--vads-color-white);
+    }
+    .button-group {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      min-width: 150px;
+    }
+    .usa-input-error {
+      position: relative;
+      right: 0;
+      margin-top: 0;
+      white-space: initial;
+      input {
+        width: 100%;
+      }
+    }
+  }
+  .add-item-container,
+  .edit-item-container {
+    margin: 5px 0;
+    .usa-button-secondary {
+      background: var(--vads-color-white);
+    }
+  }
+  .add-item-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--vads-color-base-lightest);
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .add-item-button-section {
+      cursor: pointer;
+      width: fit-content;
+      .plus-icon {
+        color: var(--vads-color-primary);
+        margin-right: 5px;
+      }
+    }
+    .disabled {
+      pointer-events: none;
+    }
+  }
+  .card-details-view {
+    padding: 10px 30px;
+    .card-title {
+      margin: 15px 0;
+    }
+  }
+}
+
+.contact-info {
+  .checkbox-group {
+    label {
+      margin-top: 0;
+    }
+  }
+  .review-card--body {
+    border: 3px solid var(--vads-color-primary);
+    padding: 25px;
+  }
+  .usa-button-secondary {
+    background: var(--vads-color-white);
+  }
+}
+
+// schemaform title override to match DS
+.schemaform-block-title {
+  font-size: $h3-font-size;
+  color: var(--vads-color-base);
+  padding-bottom: 0;
+}
+
+// form field subtitle
+.formfield-subtitle {
+  margin: 4px 0 0;
+  font-size: $base-font-size;
+  max-width: 400px;
+  color: var(--vads-color-gray-medium);
+}
+
+// bankruptcyHistory
+.court-location label {
+  margin-top: 10px;
+}
+
+// monetary assets
+.assets-note {
+  margin: 15px 0 20px;
+}
+
+// resolution options
+.resolution-options-debt-title {
+  font-size: 18px;
+}
+.resolution-cards {
+  padding: 0 24px 24px 24px;
+  .form-radio-buttons {
+    position: relative;
+    left: -12px;
+  }
+  .form-expanding-group {
+    .fieldset-input {
+      margin-top: 0;
+    }
+    .form-expanding-group-active-radio {
+      margin-left: 0;
+      label {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .usa-input-error {
+        margin-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.currency-input {
+  position: relative;
+  &:after {
+    content: "$";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
+  }
+}
+
+.resolution-comments {
+  label {
+    @include media($medium-screen) {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+  }
+  .additional-info-button {
+    margin: 10px 0 20px;
+  }
+}
+
+.overview-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
+
+.no-wrap {
+  @include media($medium-screen) {
+    white-space: nowrap;
+  }
+}
+
+.field-disabled {
+  pointer-events: none;
+  input,
+  select {
+    background-color: var(--vads-color-base-lightest);
+    color: var(--vads-color-base-lightest);
+  }
+}
+
+.schemaform-sip-save-link {
+  margin: 20px 0;
+}
+
+// confirmation page
+.help-container {
+  padding-bottom: 40px;
+}
+
+// wizard
+.fsr-wizard {
+  .wizard-content {
+    margin: 30px 0;
+    .fieldset-input:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// va select field widths
+// TODO: depercate once va-select has a width prop
+
+.input-size-7 {
+  @include media($medium-screen) {
+    width: 332px;
+    max-width: 332px;
+  }
+}
+
+.email {
+  text-transform: lowercase;
+}
+
+.required-text {
+  color: var(--vads-color-secondary);
+}
+
+.error-line {
+  border-left: 4px solid var(--color-secondary-dark);
+  position: relative;
+}
+
+va-button-icon.summary-card-delete-button {
+  &::part(button) {
+    padding: 0.5rem 0.625rem;
+    column-gap: 0.25rem;
+  }
+}
+
+/* Hide mobile phone extension entry, per design */
+#edit-mobilePhone {
+  form[name="Contact Info Form"]
+    .schemaform-field-template:not(.schemaform-first-field) {
+    display: none;
+  }
+}
+
+.review-header {
+  border-bottom: 1px solid var(--vads-color-base-light);
+}
+
+.review-top-bottom-borders {
+  border-top: 1px solid var(--vads-color-base-light);
+  border-bottom: 1px solid var(--vads-color-base-light);
+}
+
+$chapters: veteranInformationChapter, householdIncomeChapter,
+  householdAssetsChapter, bankruptcyAttestationChapter, householdExpensesChapter,
+  resolutionOptionsChapter;
+
+@each $chapter in $chapters {
+  [data-chapter="#{$chapter}"] {
+    .form-review-panel-page va-button[text="Edit"],
+    .form-review-panel-page button#confirmContactInformationEdit {
+      // hope the id doesn't change
+      display: none;
+    }
+  }
+}
+
+.va-button-override {
+  @media (min-width: $xsmall-screen) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 18px;
+    max-width: 451.25px;
+  }
+  @media (min-width: $small-screen) {
+    max-width: 374px;
+  }
+}
+
+.va-button-override va-button {
+  &::part(button) {
+    white-space: nowrap;
+    z-index: 1;
+    position: relative;
+  }
+  @media (max-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    margin-bottom: 0.625rem;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+  @media (min-width: $xsmall-screen) {
+    width: -webkit-fill-available;
+    &::part(button) {
+      width: 100%;
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"],
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::after,
+    &::before {
+      width: 1rem;
+      height: 1rem;
+      vertical-align: bottom;
+      display: inline-block;
+      background-color: currentColor;
+      mask-position: 0;
+      mask-size: contain;
+    }
+  }
+}
+
+.va-button-override va-button[text="Back"] {
+  &::part(button) {
+    &::before {
+      content: "";
+      -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
+      mask-image: url("/img/navigate_far_before.svg#icon");
+    }
+  }
+}
+
+.va-button-override va-button[text="Continue"],
+.va-button-override va-button[text="Continue to review page"] {
+  &::part(button) {
+    &::after {
+      content: "";
+      -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
+      mask-image: url("/img/navigate_far_next.svg#icon");
+    }
+  }
+}
+
+va-checkbox {
+  &::part(checkbox) {
+    max-width: fit-content;
+  }
+}
+
+// debt selection for VaCheckboxGroup, we want to bold the label hidden in the shadow dom text for the
+//  va-checkbox label and make the checkbox-description text grey
+.debt-selection-checkbox-group {
+  va-checkbox {
+    &::part(checkbox) {
+      max-width: fit-content;
+    }
+    &::part(label) {
+      font-weight: bold;
+    }
+    &::part(description) {
+      color: var(--vads-color-gray);
+      font-weight: normal;
+    }
+  }
+}
+
+.resolution-option-radio {
+  .usa-radio__label {
+    font-weight: bold;
+  }
+  .usa-radio__label-description {
+    font-weight: normal;
+  }
+}

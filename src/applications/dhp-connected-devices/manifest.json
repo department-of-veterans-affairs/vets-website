@@ -1,0 +1,7 @@
+{
+  "appName": "Connect Your Device",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "dhp-consent-flow",
+  "rootUrl": "/health-care/connected-devices",
+  "productId": "96ef6002-5e4c-43c1-892c-a3f1bbc59ea0"
+}

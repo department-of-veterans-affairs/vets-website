@@ -1,0 +1,24 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/New_York"
+    # Allow up to 10 open pull requests for npm dependencies
+    open-pull-requests-limit: 0
+    ignore:
+      # Ignore updates to packages that start with 'cypress'
+      # Wildcards match zero or more arbitrary characters
+      - dependency-name: "cypress*"
+      - dependency-name: "@testing-library/*"
+      - dependency-name: "eslint*"
+      # For all packages, ignore all patch updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

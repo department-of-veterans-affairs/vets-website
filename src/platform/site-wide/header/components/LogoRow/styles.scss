@@ -1,0 +1,40 @@
+.header-logo {
+  svg {
+    width: 40px;
+  }
+}
+
+.header-sign-in-button {
+  flex-shrink: 0;
+}
+
+.header-logo-row {
+  .sign-in-drop-down-panel-button {
+    border-top: none !important;
+    padding: 10px 25px 11px 0px !important;
+  }
+
+  .user-dropdown-email {
+    margin-top: 0 !important;
+  }
+
+  #account-menu {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.header-menu-button {
+  width: 85px;
+  z-index: 1;
+}
+
+.header-menu-button-overlay {
+  bottom: -12px;
+  height: 20px;
+  left: 0;
+  z-index: -1;
+}

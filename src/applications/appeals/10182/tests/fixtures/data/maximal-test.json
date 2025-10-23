@@ -1,0 +1,146 @@
+{
+  "data": {
+    "veteran": {
+      "ssnLastFour": "9876",
+      "vaFileLastFour": "8765",
+      "address": {
+        "addressType": "DOMESTIC",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Suite #1200",
+        "addressLine3": "Box 45678901234",
+        "city": "New York",
+        "countryName": "United States",
+        "countryCodeIso2": "US",
+        "stateCode": "NY",
+        "zipCode": "30012"
+      },
+      "phone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8001111",
+        "extension": "2345"
+      },
+      "email": "user@example.com"
+    },
+    "homeless": false,
+    "boardReviewOption": "evidence_submission",
+    "hearingTypePreference": "central_office",
+    "socOptIn": false,
+    "view:additionalEvidence": true,
+    "requestingExtension": true,
+    "extensionReason": "Lorem ipsum",
+    "appealingVHADenial": true,
+
+    "contestedIssues": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2021-6-1",
+          "decisionIssueId": 1,
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": "3",
+          "ratingIssuePercentNumber": "10"
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2021-6-2",
+          "decisionIssueId": 4,
+          "ratingIssueReferenceId": "5"
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "right knee",
+          "approxDecisionDate": "2021-6-3",
+          "ratingIssueReferenceId": "6",
+          "ratingDecisionReferenceId": "7"
+        },
+        "view:selected": false
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "PTSD",
+          "approxDecisionDate": "2021-6-4",
+          "decisionIssueId": 8,
+          "ratingDecisionReferenceId": "9"
+        },
+        "view:selected": false
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Traumatic Brain Injury",
+          "approxDecisionDate": "2021-6-5",
+          "decisionIssueId": 10
+        },
+        "view:selected": false
+      }
+    ],
+    "additionalIssues": [
+      {
+        "issue": "right arm",
+        "decisionDate": "2021-6-7",
+        "view:selected": false
+      },
+      {
+        "issue": "right shoulder",
+        "decisionDate": "2021-6-6",
+        "view:selected": true
+      }
+    ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "2021-6-1"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true
+        },
+        "otherEntry": "this is tinnitus entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "2021-6-2"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      },
+      {
+        "issue": "right shoulder",
+        "decisionDate": "2021-6-6",
+        "disagreementOptions": {
+          "evaluation": true
+        },
+        "otherEntry": "this is right shoulder entry"
+      }
+    ],
+    "evidence": [
+      {
+        "name": "file-1.pdf",
+        "confirmationCode": "some-UUID",
+        "isEncrypted": false
+      },
+      {
+        "name": "file-2.pdf",
+        "confirmationCode": "another-UUID"
+      }
+    ]
+  }
+}

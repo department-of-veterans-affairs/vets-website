@@ -1,0 +1,5 @@
+{
+  "appName": "Proxy Rewrite",
+  "entryFile": "./proxy-rewrite-entry.jsx",
+  "entryName": "proxy-rewrite"
+}

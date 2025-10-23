@@ -1,0 +1,124 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.dashboard {
+  @media (max-width: $small-screen) {
+    h1 {
+      font-size: 32px;
+    }
+    .va-introtext {
+      font-size: 20px;
+    }
+  }
+
+  .unread-messages {
+    margin-top: 24px;
+    padding: 19px 15px 40px 24px;
+    background-color: var(--vads-color-base-lightest);
+
+    .vads-c-action-link--blue:visited {
+      color: var(--vads-color-link);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+    p {
+      margin: 8px 0;
+    }
+    @media (min-width: $medium-screen) {
+      padding: 16px 25px 20px 15px;
+      h2 {
+        margin: 0;
+        font-size: 30px;
+      }
+    }
+  }
+  .welcome-message {
+    .text-placeholder {
+      border: 1px solid rgba(255, 255, 255, 1);
+      opacity: 1;
+      background-color: rgba(231, 228, 228, 1);
+      height: 10px;
+      margin-bottom: 20px;
+      &-upper {
+        width: 100%;
+      }
+      &-lower {
+        width: 90%;
+      }
+    }
+  }
+
+  .dashboard-search {
+    margin-bottom: 10px;
+    &-card {
+      margin-top: 20px;
+      padding: 5px 15px;
+      background-color: var(--vads-color-base-lightest);
+      ::part(label) {
+        margin-top: 0;
+      }
+    }
+    #select-search-folder-dropdown {
+      @media (max-width: $small-screen) {
+        width: 100%;
+      }
+      @media (min-width: $small-screen) {
+        padding-right: 10px;
+        margin-right: 13px;
+        min-width: 110px;
+        width: 40%;
+      }
+    }
+    #search-keyword-text-input {
+      width: 100%;
+      margin-top: 12px;
+      @media (min-width: $small-screen) {
+        margin-left: 0;
+        margin-top: 0;
+      }
+    }
+    .search-button {
+      margin-bottom: 3.2px;
+      margin-right: 0;
+    }
+
+    .search-additinoal-info-adv {
+      margin-top: 8px;
+    }
+
+    .advanced-search-toggle {
+      @media (min-width: $small-screen) {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .dashboard-folders {
+    &-card {
+      padding: 40px 20px 15px 33px;
+      margin: 14px 0 25px 0;
+      background-color: var(--vads-color-base-lightest);
+      font-weight: var(--font-weight-bold);
+      font-size: 16px;
+      .folder-link {
+        padding: 0;
+        margin-bottom: 25px;
+      }
+      @media (min-width: $medium-screen) {
+        padding: 18px 25px 1px 25px;
+        min-width: 260px;
+        width: fit-content;
+      }
+    }
+  }
+
+  .secure-messaging-faq {
+    @media (max-width: $small-screen) {
+      .va-introtext {
+        font-size: 16px;
+      }
+    }
+  }
+}

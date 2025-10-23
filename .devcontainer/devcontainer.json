@@ -1,0 +1,81 @@
+{
+	"name": "Node.js",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "14"
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2":{},
+		"ghcr.io/devcontainers/features/desktop-lite:1": {
+			"vncPort": "5900",
+			"webPort": "6080"
+		},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"davidanson.vscode-markdownlint",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode",
+				"github.vscode-pull-request-github",
+				"stylelint.vscode-stylelint",
+				"humao.rest-client",
+				"ms-vsliveshare.vsliveshare",
+				"ms-vsliveshare.vsliveshare-pack",
+				"redhat.vscode-yaml",
+				"tyriar.sort-lines",
+				"visualstudioexptteam.vscodeintellicode",
+				"wayou.vscode-todo-highlight"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"[json]": {
+					"editor.defaultFormatter": "esbenp.prettier-vscode"
+				},
+				"workbench.startupEditor": "readme"
+			},
+			"terminal.integrated.profiles.linux": {
+				"bash": {
+					"path": "/bin/bash"
+				}
+			},
+			"terminal.integrated.defaultProfile.linux": "bash"
+		}
+	},
+	"forwardPorts": [
+		3000,
+		3001,
+		3002,
+		5900,
+		6080
+	],
+	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
+	"postStartCommand": "./.devcontainer/codespaces-start.sh",
+	"remoteUser": "node",
+	"hostRequirements": {
+		"cpus": 16,
+		"memory": "32gb",
+		"storage": "128gb"
+	},
+	"portsAttributes": {
+		"3000": {
+			"label": "vets-api"
+		},
+		"3001": {
+			"label": "vets-website"
+		},
+		"3002": {
+			"label": "content-build"
+		},
+		"5900": {
+			"label": "vnc"
+		},
+		"6080": {
+			"label": "desktop-lite"
+		}
+	}
+}

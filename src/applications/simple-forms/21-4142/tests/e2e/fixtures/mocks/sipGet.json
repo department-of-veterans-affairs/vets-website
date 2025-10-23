@@ -1,0 +1,11 @@
+{
+  "formData": {
+    "view:userLoggedIn": true,
+    "view:userIdVerified": true
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/personal-information-1"
+  }
+}

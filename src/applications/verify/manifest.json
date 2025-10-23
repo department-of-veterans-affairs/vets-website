@@ -1,0 +1,7 @@
+{
+  "appName": "Verify identity",
+  "entryFile": "./verify-entry.jsx",
+  "entryName": "verify",
+  "rootUrl": "/verify",
+  "productId": "ef9b62a6-633d-4b55-ad9c-3e22ab9fb8dd"
+}

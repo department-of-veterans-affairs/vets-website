@@ -1,0 +1,79 @@
+{
+  "data": {
+    "bankAccountChangeUpdate": "startUpdate",
+    "bankAccount": {
+      "accountType": "checking",
+      "routingNumber": "021000021",
+      "accountNumber": "12345"
+    },
+    "preferredContactMethod": "mail",
+    "veteranAddress": {
+      "street": "MILITARY ADDY 3",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "22312"
+    },
+    "view:hasServiceBefore1978": true,
+    "view:newService": true,
+    "toursOfDuty": [
+      {
+        "serviceBranch": "Army",
+        "dateRange": {
+          "from": "1995-01-01",
+          "to": "1996-01-01"
+        }
+      },
+      {
+        "serviceBranch": "Navy",
+        "dateRange": {}
+      }
+    ],
+    "view:otherContactInfo": {
+      "email": "test2@test1.net",
+      "view:confirmEmail": "test2@test1.net",
+      "homePhone": "4445551212",
+      "mobilePhone": "4445551213"
+    },
+    "newSchoolName": "Test",
+    "educationType": "correspondence",
+    "newSchoolAddress": {
+      "street": "123 Test St",
+      "street2": "Below ground",
+      "city": "Test",
+      "country": "USA",
+      "state": "TN",
+      "postalCode": "12345"
+    },
+    "educationObjective": "Education or career goal",
+    "nonVaAssistance": true,
+    "civilianBenefitsAssistance": true,
+    "oldSchool": {
+      "name": "Old Test School",
+      "address": {
+        "street": "321 Test St",
+        "street2": "On the second floor",
+        "city": "Terst",
+        "country": "USA",
+        "state": "TN",
+        "postalCode": "54321"
+      }
+    },
+    "trainingEndDate": "2018-03-02",
+    "reasonForChange": "Stop reason",
+    "benefit": "chapter33",
+    "veteranFullName": {
+      "first": "Greg",
+      "middle": "A",
+      "last": "Anderson",
+      "suffix": "IV"
+    },
+    "veteranSocialSecurityNumber": "123333333",
+    "serviceBefore1977": {
+      "married": true,
+      "haveDependents": false,
+      "parentDependent": false
+    },
+    "privacyAgreementAccepted": true
+  }
+}

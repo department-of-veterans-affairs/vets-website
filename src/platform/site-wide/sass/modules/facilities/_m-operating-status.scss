@@ -1,0 +1,125 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.collapsible {
+  color: var(--vads-color-base-darker);
+  cursor: pointer;
+  width: 303px;
+  height: 42px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+
+}
+
+.collapsible:hover {
+  color: var(--vads-color-base-darker);
+  background-color: transparent;
+}
+
+.collapsible:active {
+  color: var(--vads-color-base-darker);
+  background-color: transparent;
+}
+
+.status-label {
+  text-decoration: underline var(--vads-color-primary) dotted;
+  text-underline-position: under;
+
+  &:active {
+    pointer-events: none;
+  }
+
+}
+
+.content {
+  width: 303px;
+  display: none;
+  overflow: hidden;
+
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+.alert-icon-base {
+  width: 20px !important;
+  height: 18px !important;
+  pointer-events: none !important;
+  padding: 12px 11px 12px 12px !important;
+  font-size: unset !important;
+  display: unset !important;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+   // IE fix for icon padding
+   //https://stackoverflow.com/questions/11173106/apply-style-only-on-ie
+  .alert-icon-base {
+    width: 20px !important;
+    height: 18px !important;
+    pointer-events: none !important;
+    padding: 12px 20px 12px 12px !important;
+  }
+}
+
+.more-info {
+  margin: 0;
+  padding: 0 12px 12px 12px
+}
+
+.more-icon {
+  pointer-events: none;
+}
+
+.limited, .warning {
+  background-color: var(--vads-color-primary-alt-lightest) !important;
+
+  span.status-label:hover {
+    background-color: var(--vads-color-primary-alt-light) !important;
+  }
+
+  span.status-label:active {
+    background-color: var(--vads-color-primary-alt-light) !important;
+  }
+
+}
+
+.closed, .error {
+  background-color: var(--vads-color-secondary-lightest) !important;
+
+  span.status-label:hover {
+    background-color: var(--vads-color-secondary-light) !important;
+  }
+
+  span.status-label:active {
+    background-color: var(--vads-color-secondary-light) !important;
+  }
+
+}
+
+.notice, .info {
+  background-color: var(--vads-color-primary-alt-lightest) !important;
+
+  span.status-label:hover {
+    background-color: var(--vads-color-primary-alt-light) !important;
+  }
+
+  span.status-label:active {
+    background-color: var(--vads-color-primary-alt-light) !important;
+  }
+}
+
+.vamc-facility-expandable-alert {
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 0;
+}
+

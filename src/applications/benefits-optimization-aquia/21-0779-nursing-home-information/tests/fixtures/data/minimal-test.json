@@ -1,0 +1,58 @@
+{
+  "data": {
+    "nursingOfficialInformation": {
+      "firstName": "Craig",
+      "lastName": "Brown",
+      "jobTitle": "Head Nurse",
+      "phoneNumber": "3121114321"
+    },
+    "nursingHomeDetails": {
+      "nursingHomeName": "Best Nursing Home",
+      "nursingHomeAddress": {
+        "street": "1060 W Addison St",
+        "street2": "",
+        "street3": "",
+        "city": "Chicago",
+        "state": "IL",
+        "province": "",
+        "country": "USA",
+        "postalCode": "60613",
+        "internationalPostalCode": "",
+        "isMilitary": false
+      }
+    },
+    "claimantQuestion": {
+      "patientType": "veteran"
+    },
+    "veteranPersonalInfo": {
+      "fullName": {
+        "first": "Rosemary",
+        "middle": "",
+        "last": "Woodhouse"
+      },
+      "dateOfBirth": "1945-02-09"
+    },
+    "veteranIdentificationInfo": {
+      "ssn": "111-11-1111",
+      "vaFileNumber": ""
+    },
+    "certificationLevelOfCare": {
+      "levelOfCare": "intermediate"
+    },
+    "admissionDateInfo": {
+      "admissionDate": "2022-10-19"
+    },
+    "medicaidFacility": {
+      "isMedicaidApproved": "no"
+    },
+    "medicaidApplication": {
+      "hasAppliedForMedicaid": "no"
+    },
+    "medicaidStatus": {
+      "currentlyCoveredByMedicaid": "no"
+    },
+    "monthlyCosts": {
+      "monthlyOutOfPocket": "1234"
+    }
+  }
+}

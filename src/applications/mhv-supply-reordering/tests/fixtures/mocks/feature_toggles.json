@@ -1,0 +1,11 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "mhv_supply_reordering_enabled",
+        "value": true
+      }
+    ]
+  }
+}

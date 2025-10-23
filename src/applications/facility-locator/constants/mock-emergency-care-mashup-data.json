@@ -1,0 +1,539 @@
+{
+  "data": [
+    {
+      "id": "vha_630",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 10.954545,
+              "established": 0.340206
+            },
+            {
+              "service": "Cardiology",
+              "new": 7.666666,
+              "established": 3.344827
+            },
+            {
+              "service": "Dermatology",
+              "new": 5.216216,
+              "established": 1.290586
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 14.666666,
+              "established": 5.631578
+            },
+            {
+              "service": "Gynecology",
+              "new": 12.6875,
+              "established": 0.973684
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 13.523809,
+              "established": 0.308114
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 20.268292,
+              "established": 4.328767
+            },
+            {
+              "service": "Orthopedics",
+              "new": 14.807692,
+              "established": 3.894117
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 12.641025,
+              "established": 2.784056
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 11.830985,
+              "established": 2.648193
+            },
+            {
+              "service": "Urology",
+              "new": 11.173913,
+              "established": 0.829411
+            },
+            {
+              "service": "WomensHealth",
+              "new": 9.666666,
+              "established": 1.522727
+            }
+          ],
+          "effectiveDate": "2021-06-14"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "10010-5011",
+            "city": "New York",
+            "state": "NY",
+            "address1": "423 East 23rd Street",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8799999952316284,
+            "primaryCareRoutine": 0.8500000238418579,
+            "specialtyCareUrgent": 0.699999988079071,
+            "specialtyCareRoutine": 0.800000011920929
+          },
+          "effectiveDate": "2021-03-05"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_630",
+        "lat": 40.73641531,
+        "long": -73.97736495,
+        "mobile": false,
+        "name": "Manhattan VA Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "212-951-3375",
+          "main": "212-686-7500",
+          "pharmacy": "212-686-7500 x4439",
+          "afterHours": "212-686-7500",
+          "patientAdvocate": "212-686-7500 x7080",
+          "mentalHealthClinic": "212-686-7500 x 4656",
+          "enrollmentCoordinator": "212-686-7500 x3313"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2021-06-14"
+        },
+        "uniqueId": "630",
+        "visn": "2",
+        "website": "https://www.nyharbor.va.gov/locations/directions.asp"
+      }
+    },
+    {
+      "id": "vha_630A4",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 19.696202,
+              "established": 0.439814
+            },
+            {
+              "service": "Cardiology",
+              "new": 8.307692,
+              "established": 3.705882
+            },
+            {
+              "service": "Dermatology",
+              "new": 6.08,
+              "established": 2.007905
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 6.142857,
+              "established": 3.242424
+            },
+            {
+              "service": "Gynecology",
+              "new": 17.863636,
+              "established": 1.774193
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 11.363636,
+              "established": 0.692627
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 31.52,
+              "established": 6.57647
+            },
+            {
+              "service": "Optometry",
+              "new": 48.125,
+              "established": 27.268156
+            },
+            {
+              "service": "Orthopedics",
+              "new": 30.029411,
+              "established": 11.471544
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 9.157894,
+              "established": 3.266375
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 14.919246,
+              "established": 3.688501
+            },
+            {
+              "service": "Urology",
+              "new": 41.169811,
+              "established": 11.287234
+            },
+            {
+              "service": "WomensHealth",
+              "new": null,
+              "established": 0.066666
+            }
+          ],
+          "effectiveDate": "2021-06-14"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "11209-7104",
+            "city": "Brooklyn",
+            "state": "NY",
+            "address1": "800 Poly Place",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8899999856948853,
+            "primaryCareRoutine": 0.9700000286102295
+          },
+          "effectiveDate": "2021-03-05"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_630A4",
+        "lat": 40.60904143,
+        "long": -74.02363121,
+        "mobile": false,
+        "name": "Brooklyn VA Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "718-630-2840",
+          "main": "718-836-6600",
+          "pharmacy": "718-836-6600 x3639",
+          "afterHours": "718-836-6600",
+          "patientAdvocate": "718-836-6600 x3510",
+          "mentalHealthClinic": "718-836-6600 x 4165",
+          "enrollmentCoordinator": "718-836-6600 x6534"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2021-06-14"
+        },
+        "uniqueId": "630A4",
+        "visn": "2",
+        "website": "https://www.nyharbor.va.gov/locations/Brooklyn_Campus.asp"
+      }
+    },
+    {
+      "id": "vha_526",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 14.412371,
+              "established": 2.0
+            },
+            {
+              "service": "Cardiology",
+              "new": 16.724137,
+              "established": 4.137724
+            },
+            {
+              "service": "Dermatology",
+              "new": 11.148148,
+              "established": 5.592833
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 17.977528,
+              "established": 12.117346
+            },
+            {
+              "service": "Gynecology",
+              "new": 14.857142,
+              "established": 9.812949
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 13.789473,
+              "established": 0.649954
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 9.772727,
+              "established": 13.047285
+            },
+            {
+              "service": "Optometry",
+              "new": 11.984375,
+              "established": 39.960563
+            },
+            {
+              "service": "Orthopedics",
+              "new": 19.870967,
+              "established": 8.387978
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 8.668246,
+              "established": 3.980808
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 10.945077,
+              "established": 6.928233
+            },
+            {
+              "service": "Urology",
+              "new": 19.742857,
+              "established": 6.093548
+            },
+            {
+              "service": "WomensHealth",
+              "new": 6.571428,
+              "established": 4.229729
+            }
+          ],
+          "effectiveDate": "2021-06-14"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "10468-3904",
+            "city": "Bronx",
+            "state": "NY",
+            "address1": "130 West Kingsbridge Road",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "detailedServices": [
+          {
+            "name": "COVID-19 vaccines",
+            "descriptionFacility": null,
+            "appointmentLeadin": "<p><em>&nbsp; &nbsp;Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you’ll need to contact your primary care provider first.</em></p>",
+            "appointmentPhones": [
+              {
+                "extension": null,
+                "label": "Main phone",
+                "number": "718-584-9000",
+                "type": "tel"
+              }
+            ],
+            "onlineSchedulingAvailable": null,
+            "referralRequired": null,
+            "walkInsAccepted": null,
+            "serviceLocations": null,
+            "path": "https://www.bronx.va.gov/services/covid-19-vaccines.asp"
+          }
+        ],
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8199999928474426,
+            "primaryCareRoutine": 0.9399999976158142,
+            "specialtyCareUrgent": 0.8299999833106995,
+            "specialtyCareRoutine": 0.8600000143051147
+          },
+          "effectiveDate": "2021-03-05"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_526",
+        "lat": 40.868667,
+        "long": -73.9049985,
+        "mobile": false,
+        "name": "James J. Peters Department of Veterans Affairs Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "operationalHoursSpecialInstructions": "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m. |",
+        "phone": {
+          "fax": "718-741-4774 x5354",
+          "main": "718-584-9000",
+          "pharmacy": "718-584-9000 x5490",
+          "afterHours": "800-877-6976",
+          "patientAdvocate": "718-584-9000 x6602",
+          "mentalHealthClinic": "718-584-9000 x 5172",
+          "enrollmentCoordinator": "718-584-9000 x5646"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "CaregiverSupport",
+            "Covid19Vaccine",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2021-06-14"
+        },
+        "uniqueId": "526",
+        "visn": "2",
+        "website": "https://www.bronx.va.gov/locations/directions.asp"
+      }
+    },
+    {
+      "id": "6ec8fea621c7f89b005113af0762c8e96ab7ffb93ea42de7407545dcefcc415d",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "true",
+        "address": {
+          "street": "7 Medical Pkwy",
+          "city": "Farmers Branch",
+          "state": "TX",
+          "zip": "75234"
+        },
+        "caresitePhone": "9722471000",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 32.91448,
+        "long": -96.8729,
+        "name": "DALLAS MEDICAL CENTER LLC",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1861690364"
+      }
+    },
+    {
+      "id": "d177566d94932c18a97fc5e441e792cae77544874012095f174886dd6b156400",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "1500 Red River St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "caresitePhone": "5123247000",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.27558,
+        "long": -97.733979,
+        "name": "DELL SETON MEDICAL CENTER AT UT",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1093810327"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "prevPage": null,
+      "nextPage": null,
+      "totalPages": 1
+    }
+  },
+  "links": {
+    "self": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-74.7366&bbox%5B%5D=39.9806&bbox%5B%5D=-73.2366&bbox%5B%5D=41.4806&page=1&per_page=20&services%5B%5D=EmergencyCare&type=health",
+    "first": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-74.7366&bbox%5B%5D=39.9806&bbox%5B%5D=-73.2366&bbox%5B%5D=41.4806&page=1&per_page=20&services%5B%5D=EmergencyCare&type=health",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-74.7366&bbox%5B%5D=39.9806&bbox%5B%5D=-73.2366&bbox%5B%5D=41.4806&page=1&per_page=20&services%5B%5D=EmergencyCare&type=health"
+  }
+}

@@ -1,0 +1,12 @@
+src/site/assets/*
+docs/*
+build/*
+src/applications/**/README.md
+coverage/*
+temp/*
+tmp/*
+.nyc_output/*
+script/mocha.js
+script/cypress-testrail-helper/*
+src/platform/testing/unit/mocha-setup.js
+script/github-actions/annotate-disallowed-tests.js

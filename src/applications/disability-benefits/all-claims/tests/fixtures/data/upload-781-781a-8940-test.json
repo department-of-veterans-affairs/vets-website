@@ -1,0 +1,196 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingNew": true
+    },
+    "form4192Upload": [
+      {
+        "name": "image (1).png",
+        "confirmationCode": "dc755749-8a1e-46eb-ad5c-f11f02e59954",
+        "attachmentId": "L115"
+      }
+    ],
+    "view:upload4192Choice": {
+      "view:upload4192": true
+    },
+    "view:noFdcWarning": {},
+    "form8940Upload": [
+      {
+        "name": "image.png",
+        "confirmationCode": "84037899-8a23-47bb-903a-9971d4071fd8",
+        "attachmentId": "L149"
+      }
+    ],
+    "view:unemployabilityUploadChoice": "upload",
+    "view:unemployable": true,
+    "form781aUpload": [
+      {
+        "name": "VAF-21-526EZ-May-2018.pdf",
+        "confirmationCode": "356bf189-1f54-4545-8129-a39b1a688a21",
+        "attachmentId": "L229"
+      }
+    ],
+    "view:upload781aChoice": "upload",
+    "view:upload781aChoiceHelp": {},
+    "form781Upload": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "85b7edad-0f51-41d2-9eab-dffcc8dabb79",
+        "attachmentId": "L228"
+      }
+    ],
+    "view:upload781Choice": "upload",
+    "view:upload781ChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true,
+      "view:mstPtsdType": true,
+      "view:assaultPtsdType": true,
+      "view:nonCombatPtsdType": true
+    },
+    "skip781ForCombatReason": false,
+    "skip781ForNonCombatReason": false,
+    "view:ptsdTypeHelp": {},
+    "newDisabilities": [
+      {
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:contactInfoDescription": {},
+    "view:hasEvidence": false,
+    "view:powStatus": false,
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "secondaryIncident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "secondaryIncident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "secondaryIncident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:downloadInfo": {},
+    "view:vaMedicalRecordsIntro": {},
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:bankAccount": {
+      "view:hasPrefilledBank": true
+    },
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}

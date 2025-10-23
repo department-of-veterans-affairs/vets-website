@@ -1,0 +1,15 @@
+{
+  "data": {
+    "attributes": {
+      "reported_at": "2019-03-21T16:54:34.000Z",
+      "statuses": [
+        {
+          "service": "Appeals",
+          "service_id": "appeals",
+          "status": "active",
+          "last_incident_timestamp": "2019-03-21T16:54:34.000Z"
+        }
+      ]
+    }
+  }
+}

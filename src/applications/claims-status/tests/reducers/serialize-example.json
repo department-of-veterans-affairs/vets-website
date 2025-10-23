@@ -1,0 +1,45 @@
+{
+  "data": {
+    "id": 1,
+    "type": "claim",
+    "attributes": {
+      "supportingDocuments": [
+        {
+          "id": 1,
+          "trackedItemId": null
+        },
+        {
+          "id": 2,
+          "trackedItemId": 1
+        },
+        {
+          "id": 3,
+          "trackedItemId": 3
+        },
+        {
+          "id": 4,
+          "trackedItemId": 3
+        },
+        {
+          "id": 5,
+          "trackedItemId": null
+        },
+        {
+          "id": 6,
+          "trackedItemId": null
+        }
+      ],
+      "trackedItems": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        },
+        {
+          "id": 3
+        }
+      ]
+    }
+  }
+}

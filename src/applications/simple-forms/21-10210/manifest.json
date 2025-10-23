@@ -1,0 +1,7 @@
+{
+  "appName": "Submit a lay or witness statement to support a VA claim",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "10210-lay-witness-statement",
+  "rootUrl": "/supporting-forms-for-claims/lay-witness-statement-form-21-10210",
+  "productId": "f8117c9f-0d57-486f-91ee-89c806b84d65"
+}

@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Reporting incorrect information on VA.gov
+  - action: click
+    target: call-to-action

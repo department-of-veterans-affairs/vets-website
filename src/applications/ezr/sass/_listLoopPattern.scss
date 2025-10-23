@@ -1,0 +1,17 @@
+.ezr-listloop--list { list-style: none !important; margin: 0; max-width: 26em; padding: 0; }
+.ezr-listloop--tile { margin-bottom: 1em; padding: 1em; }
+
+legend.schemaform-block-title:focus { outline: none !important; }
+
+/**
+ * HACK: Until we get a v3 currency input, we need to manually space the dependents
+ * expenses page
+ */
+ va-radio[name="root_attendedSchoolLastYear"] { margin-bottom: 32px !important; }
+
+ // Hack to hide the contact type field, because we only allow Primary Next of Kin and
+// the forms pattern forces display of the field
+va-select[name$="_contactType"] { display: none; }
+
+// Hide the delete button for the financial information list & loop
+va-card[name^="income and deductible"] va-button-icon[data-action="remove"] { display: none; }

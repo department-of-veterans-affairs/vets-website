@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Trouble uploading photos or documents
+  - action: click
+    target: call-to-action

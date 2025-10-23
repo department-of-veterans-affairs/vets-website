@@ -1,0 +1,31 @@
+.test-details-container {
+  border-bottom: 1px solid var(--vads-color-base-light);
+  border-top: 1px solid var(--vads-color-base-light);
+
+  margin: 20px 0px 0px 0px;
+  padding: 0px 0px 32px 0px;
+
+  h2 {
+    margin: 32px 0px 0px 0px;
+  }
+
+  h3 {
+    margin: 16px 0px 0px 0px;
+  }
+
+  p {
+    margin: 0px;
+  }
+}
+
+.test-results-header {
+  margin: 32px 0px 16px;
+}
+
+.test-results-container {
+  margin: 32px 0px 40px 0px;
+
+  p {
+    white-space: pre-wrap;
+  }
+}

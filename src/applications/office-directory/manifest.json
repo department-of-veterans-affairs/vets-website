@@ -1,0 +1,7 @@
+{
+  "appName": "All VA offices",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "office-directory",
+  "rootUrl": "/office-directory",
+  "productId": "9bde0ae6-8d58-4b08-a971-97408bf65e08"
+}

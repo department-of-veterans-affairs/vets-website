@@ -1,0 +1,672 @@
+$medium-phone-screen: 375px;
+
+/* OVERRIDE */
+.merger {
+
+  // Begin new-grid override
+  // Overrides some default properties with a
+  // class name that makes it more clear we remove
+  // it when the work is complete.
+  .va-sidebarnav.new-grid {
+    width: 100% !important;
+  }
+
+  // End new-grid override
+
+  .login {
+    .container {
+      width: 100%;
+    }
+  }
+
+  .va-dropdown-panel {
+    min-width: 100%;
+  }
+
+  .vet-toolbar {
+    min-height: 50px;
+  }
+
+  .va-modal {
+    font-size: 1rem;
+  }
+
+  #modal-crisisline {
+    display: block;
+  }
+
+  #dashboard-title {
+    margin-top: 0;
+  }
+
+  #va-header-logo-menu {
+    align-items: center;
+
+    @media (min-width: $xsmall-screen) and (max-width: ($medium-screen - 1)) {
+      position: relative;
+    }
+  }
+
+  @import "modules/m-right-rail";
+
+  section.usa-grid {
+    padding-top: 3em;
+  }
+
+  /* logo size override */
+
+  .va-header-logo {
+    width: 100%;
+    max-width: 264px;
+    height: auto;
+  }
+
+  article {
+    &:last-of-type {
+      padding-bottom: 3em;
+    }
+  }
+
+  .va-helpmenu-contents {
+    > p {
+      line-height: 1.2em;
+      margin-bottom: 0.8em;
+      margin-top: 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .menu-rule,
+  #menu-rule {
+    border-bottom: 1px solid var(--vads-color-white);
+    margin-left: -0.55em;
+    padding-bottom: 1em;
+    padding-right: 1.2em;
+  }
+
+  /* new pattern? where we use old VA icons with h3 */
+  .va-icon-header {
+    width: 100%;
+    height: 40px;
+    margin-left: -6px;
+
+    .va-icon-icon {
+      margin: 0;
+      padding: 0;
+      display: inline;
+      float: left;
+      width: 12%;
+      height: auto;
+    }
+
+    .va-icon-h {
+      display: inline;
+      width: 87%;
+    }
+  }
+
+  .va-icon-cols {
+    p {
+      margin-top: 0;
+    }
+
+    padding-bottom: 3em;
+  }
+
+  .merger-majorlinks {
+    .link {
+      margin-bottom: 1em;
+
+      p {
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .va-nav-breadcrumbs-list {
+    padding: 1em 0 0 0;
+
+    li {
+      list-style: none;
+      margin: 0 0 1.375em 0;
+    }
+  }
+
+  .vet-toolbar {
+    .va-dropdown {
+      span {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .sign-in-nav {
+    .va-dropdown-trigger {
+      display: flex;
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60px;
+        padding-left: 6px;
+
+        &.user-dropdown-email {
+          margin-top: 5px;
+        }
+      }
+
+      @include media($medium-phone-screen) {
+        span {
+          max-width: 102px;
+        }
+      }
+
+      @include media($medium-screen) {
+        span {
+          padding-left: 0;
+          max-width: 215px;
+          height: 20px;
+
+          svg {
+            display: inline-block;
+          }
+        }
+      }
+
+      @include media($small-desktop-screen) {
+        span {
+          max-width: 300px;
+        }
+      }
+    }
+  }
+
+  // mobile
+  @media (min-width: $xsmall-screen) and (max-width: ($medium-screen - 1)) {
+    .flex-col-mobile {
+      flex-direction: column;
+    }
+
+    .menu-rule,
+    #menu-rule {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .va-header-logo-wrapper {
+      width: 55%;
+      float: left;
+      margin-right: 10px;
+
+      a {
+        width: 100%;
+        height: auto;
+
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    #login-root {
+      .profile-nav {
+        justify-content: left;
+      }
+    }
+
+    .vet-toolbar {
+      margin-left: 0;
+
+      .profile-nav-container {
+        align-items: baseline;
+        display: inherit;
+      }
+
+      .sign-in-nav {
+        font-weight: normal;
+
+        .sign-in-links {
+          background: none;
+          margin-left: 0;
+          padding-left: 0.75em;
+
+          .va-button-link {
+            font-weight: 600;
+            -webkit-font-smoothing: antialiased;
+          }
+        }
+      }
+
+      .va-dropdown {
+        margin-left: 0;
+        width: auto;
+
+        .va-dropdown-trigger {
+          width: 100%;
+          font-weight: 600;
+          padding-left: 0;
+          margin-right: 1em;
+          background-position: right 0.9375rem center;
+          line-height: unset;
+
+          span {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    #homepage-benefits,
+    #homepage-news,
+    .va-h-ruled--stars,
+    .va-nav-breadcrumbs,
+    article,
+    #hub-rail {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+    }
+
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .va-nav-breadcrumbs {
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+
+      .va-nav-breadcrumbs-list {
+        li {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+
+    #hub-rail {
+      padding-top: 0;
+    }
+
+    .va-nav-linkslist--related {
+      margin-bottom: 0 !important; //hard override; what does this break elsewhere
+    }
+
+    .va-navigation-nextprevious {
+      padding-left: 0.5859375rem;
+      padding-right: 0.5859375rem;
+    }
+  }
+
+  // tablet
+  @media (min-width: 768px) and (max-width: $large-screen) {
+    .va-modal {
+      .usa-width-one-half {
+        margin-right: 4.82916%;
+        width: 44%;
+      }
+    }
+
+    .va-header-logo-wrapper {
+      margin-bottom: 0;
+      justify-content: space-between;
+    }
+
+    .vet-toolbar {
+      flex-shrink: 0;
+
+      .profile-nav {
+        width: 100%;
+
+        .va-dropdown {
+          .va-dropdown-trigger {
+            background-position: right 0.8rem center;
+          }
+
+          .sign-in-links {
+            padding-right: 0;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+
+    #homepage-benefits,
+    #homepage-news,
+    .va-h-ruled--stars,
+    .va-nav-breadcrumbs,
+    article,
+    #hub-rail {
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+
+    .va-nav-breadcrumbs.new-grid,
+    article.new-grid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  va-accordion,
+  .usa-accordion-bordered {
+
+    &.social,
+    &.links {
+      a {
+        text-decoration: underline;
+      }
+
+      .social-icon {
+        text-decoration: none;
+      }
+
+      va-accordion-item,
+      .usa-accordion-content {
+        h4:first-child {
+          margin-top: 0px;
+        }
+
+        > section {
+          margin-bottom: 1.5em;
+        }
+
+        > section:last-child {
+          margin-bottom: 0px;
+        }
+
+        > h4 {
+          margin: 1.5em auto;
+        }
+
+        ul > h4 {
+          margin: 1em auto;
+        }
+
+        ul > li {
+          margin: 1em auto;
+
+          &:last-child {
+            margin: unset;
+          }
+        }
+      }
+
+      .usa-accordion-button {
+        border: none;
+      }
+    }
+  }
+
+  .va-sign-in-alert {
+    .usa-button-primary {
+      margin-top: 10px;
+    }
+  }
+
+  .hub-links-container {
+    flex: 1;
+  }
+
+  .white {
+    color: var(--vads-color-white);
+  }
+
+  .sidenav-previous-page {
+    font-size: 15px;
+    padding-bottom: 12px;
+
+    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
+      margin-left: 15px;
+    }
+
+    a {
+      &::before {
+        content: " \2039 ";
+        display: inline-block;
+        padding: 0 0.35em 0 0;
+      }
+    }
+  }
+
+  // These next two rules override some styles in user-nav.scss, should be moved there
+  // after WBC is live
+  .sign-in-links {
+    flex-shrink: 0;
+  }
+
+  .sign-in-link {
+    margin: 0;
+    line-height: 16px;
+
+    @include media($medium-screen) {
+
+      &:hover,
+      &:active {
+        background-color: var(--vads-color-primary-dark);
+        color: inherit !important;
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline-offset: 2px;
+      }
+    }
+
+    // This is backwards from the mobile first approach we should be taking
+    // but the amount of overrides we would need if we did that way would be
+    // very tricky to write and maintain
+    @media (max-width: ($medium-screen - 1)) {
+      @include button-link;
+      font-weight: 600;
+      color: var(--vads-color-white) !important;
+      text-decoration: none;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
+
+// scrolling box scrolls smoothly - let `scrollTo` control smooth scroll
+body {
+  scroll-behavior: smooth;
+}
+
+// There are styles in our sidebar styles that set a small
+// amount of padding on the grid for detail pages, which we
+// are overriding for WBC with no padding
+.va-l-detail-page > .usa-grid-full {
+  padding-right: inherit;
+  padding-left: inherit;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.vet-toolbar .va-dropdown {
+  margin-left: 0;
+}
+
+.circular-profile-image {
+  border-radius: 50%;
+  position: relative;
+}
+
+.usa-grid > :last-child,
+.usa-grid-full > :last-child {
+  &.half-em-bottom-margin {
+    margin-bottom: 0.5em;
+  }
+}
+
+.inline-table-helper {
+  display: inline-table;
+}
+
+.usa-accordion > ul li ul,
+.usa-accordion-bordered > ul li ul {
+  list-style: square;
+}
+
+.no-left-button-right-radius-treatment {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.no-right-button-left-radius-treatment {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.no-p-bottom-margin p {
+  margin-bottom: 0;
+}
+
+.operating-status-title {
+  margin: auto;
+}
+
+.clearfix-text {
+  display: block;
+  clear: both;
+}
+
+._acs._acsbadge--default {
+  background-color: var(--vads-color-black) !important;
+}
+
+.media-list-images {
+  @media (min-width: $small-screen) {
+    max-width: 50%;
+  }
+}
+
+.events {
+  .form-left-error-bar {
+    background: var(--vads-color-secondary);
+    height: 100%;
+    left: -24px;
+    top: 0;
+    position: absolute;
+    width: 5px;
+
+    @media (max-width: $medium-screen) {
+      left: -8px;
+      width: 3px;
+    }
+  }
+
+  button[type="submit"] {
+    max-width: 100%;
+
+    @media (min-width: $medium-screen) {
+      max-width: fit-content;
+    }
+  }
+}
+
+// This overrides some formation styles that make this button too large
+// Can be removed once we remove our dependence on formation
+div[data-widget-type="events"] {
+  #events-apply-filter-button {
+    margin-top: 8px !important;
+    width: fit-content !important;
+    padding: 0 !important;
+  }
+}
+
+@media print {
+  #mdFormButton {
+    &[aria-label="give feedback"] {
+      display: none;
+    }
+  }
+}
+
+#content {
+  min-height: 150px;
+}
+
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict */
+/* Fix to crisis line color issue on mobile / tablet */
+#footer-crisis-line.va-button-link.vads-u-color--white,
+#header-crisis-line.va-button-link.vads-u-color--white {
+  color: var(--vads-color-white) !important;
+}
+
+.header-menu > ul, ul#header-nav-items{
+  .header-menu-item-button{
+    &.vads-u-background-color--gray-lightest{
+      background-color: var(--vads-color-base-lightest);
+      color: var(--vads-color-primary);
+    }
+    &.vads-u-background-color--primary-dark{
+      background-color: var(--vads-color-primary-dark);
+      color: var(--vads-color-white);
+    }
+  }
+  a{
+    &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+      color: var(--vads-color-white);
+    }
+    &.vads-u-color--link-default, &.vads-u-color--link-default:hover, &.vads-u-color--link-default:visited{
+      color: var(--vads-color-link);
+    }
+   }
+}
+
+ul#header-nav-items li {
+  max-width: 100%;
+}
+
+/* Fix to mobile menu color issue */
+.header-menu-button.vads-u-background-color--gray-lightest{
+  background-color: var(--vads-color-base-lightest);
+  color: var(--vads-color-primary);
+}
+/* Fix to 'contact us' color issue */
+.hidden-header a{
+  &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+    color: var(--vads-color-white);
+  }
+}
+/* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+
+/* ~~~~~ DO NOT REMOVE w/o DS REVIEW: Temporary fixes to enable core.scss swap ~~~~~~ */
+.va-flex {
+  display: flex;
+}
+.va-header-logo > img {
+  height: 59px;
+  width: 264px;
+}
+/* ~~~ Used on some static pages such as /search */
+.highlight,
+.va-h-ruled {
+  border-bottom: 3px solid $color-primary;
+  padding-bottom: 0.25em;
+  font-weight: 700;
+}
+
+// foundation/global.scss sets display and vertical align on img tags. This is most obviously seen in the footer image
+// in content-build
+img {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}

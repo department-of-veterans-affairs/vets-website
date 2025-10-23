@@ -1,0 +1,47 @@
+flow:
+  title: Education Benefits and Work Study, verifying school enrollment (auth)
+  runOnCI: false # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-auth
+
+    - action: include
+      target: page
+      value: your-personal-information
+
+    - action: include
+      target: page
+      value: select-category-education-benefits-and-work-study
+
+    - action: include
+      target: page
+      value: select-topic-verifying-school-enrollment
+
+    - action: include
+      target: page
+      value: what-is-your-relationship-to-the-veteran-connected-through-work
+
+    - action: include
+      target: page
+      value: what-is-your-role-site-supervisor
+
+    - action: include
+      target: page
+      value: your-state-of-facility
+
+    - action: include
+      target: page
+      value: your-contact-information
+
+    - action: include
+      target: page
+      value: your-question-education
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

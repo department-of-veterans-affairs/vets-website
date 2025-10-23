@@ -1,0 +1,33 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.autosuggest-list {
+  max-height: 18.75rem;
+}
+
+.schemaform-title {
+  display: block;
+}
+
+textarea#root_query {
+  height: 25rem;
+}
+
+ul.claim-list {
+  margin-bottom: 0;
+  & li:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.help-footer-box {
+  @include media($medium-screen) {
+    padding-top: 1.875rem;
+  }
+}

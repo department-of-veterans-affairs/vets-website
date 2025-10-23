@@ -1,0 +1,301 @@
+
+.vaos-flex-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.vaos-appts__tabs {
+  padding: 0;
+  border-bottom: 1px solid var(--vads-color-base-light);
+  display: flex;
+}
+
+.vaos-appts__tabs li {
+  width: 50%;
+  display: flex;
+
+  @include media($medium-screen) {
+    width: 200px;
+  }
+}
+
+.vaos-appts__tab {
+  width: 100%;
+  font-size: 14px;
+  border: solid 1px var(--vads-color-base-light);
+  border-radius: 0 !important;
+  position: relative;
+  list-style: none;
+  padding: 6px 0px;
+  cursor: pointer;
+  bottom: -1px;
+  text-decoration: none;
+  background-color: var(--vads-color-gray-light-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: var(--vads-color-base-darker);
+    text-decoration: none;
+    background: var(--vads-color-base-lighter);
+  }
+
+  &.vaos-appts__tab--current {
+    border-top: solid 3px var(--vads-color-primary);
+    background: var(--vads-color-white) !important;
+    border-bottom: solid 1px var(--vads-color-white);
+    margin: 0;
+  }
+
+  @include media($medium-screen) {
+    font-size: 16px;
+  }
+}
+
+.vaos-appts__date-time {
+  margin: 0 0 16px;
+}
+
+.vaos-appts__card {
+  position: relative;
+  border-radius: 6px;
+  background-color: var(--vads-color-base-lightest);
+  padding: 16px;
+  margin-bottom: 16px;
+
+  @include media($medium-screen) {
+    padding: 24px;
+  }
+}
+
+.vaos-appts__card--clickable {
+  list-style: none;
+  border-radius: 6px;
+  background-color: var(--vads-color-base-lightest);
+  border: 2px solid var(--vads-color-base-lightest);
+
+  &:hover {
+    cursor: pointer;
+    border: 2px solid var(--vads-color-primary);
+  }
+
+  &:focus,
+  &:focus-within,
+  &:active {
+    outline: 2px solid var(--vads-color-warning-lighter);
+    outline-offset: 2px;
+    border: 2px solid var(--vads-color-primary);
+  }
+
+  &:active {
+    background-color: var(--vads-color-base-lighter);
+  }
+}
+.vaos-appts__listItem--clickable {
+  list-style: none;
+  background-color: transparent;
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--vads-color-base-lightest);
+    background-clip: content-box;
+    // padding: 2px;
+  }
+
+  &:focus,
+  &:focus-within {
+    outline: 2px solid var(--vads-color-warning-lighter);
+    outline-offset: -1px;
+  }
+
+  &:active {
+    // padding: 4px !important;
+    box-sizing: content-box;
+    background-color: var(--vads-color-base-lightest);
+    background-clip: content-box;
+    border: solid !important;
+    border-color: var(--vads-color-warning) !important;
+    border-width: 1px !important;
+  }
+}
+
+.vaos-appts__focus--hide-outline:focus {
+  outline: none;
+}
+
+.vaos-appts__breadcrumb {
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 0em !important;
+    display: inline;
+  }
+
+  li + li::before {
+    display: inline-block;
+    margin: 0 0.5em;
+    content: "";
+  }
+}
+
+.vaos-appts__breadcrumb li > a[aria-current="true"] {
+  cursor: default;
+  pointer-events: none;
+  text-decoration: none;
+  color: var(--vads-color-black) !important;
+  font-weight: 700;
+}
+
+li.vaos-appts__listItem--clickable[data-status="upcoming"]:last-child
+  div.vads-u-border-bottom--1px {
+  border-bottom: none !important;
+}
+
+li.vaos-appts__listItem--clickable[data-status="pending"]:last-child {
+  border-bottom: 1px solid !important;
+  border-color: var(--vads-color-gray-medium) !important;
+}
+
+$gap-values: (
+  0: initial,
+  1: 8px,
+  2: 16px,
+  3: 24px,
+  4: 32px,
+  5: 40px,
+);
+
+$breakpoints: (
+  xsmall-screen:        $xsmall-screen,
+  small-screen:         $small-screen,
+  medium-screen:        $medium-screen,
+  small-desktop-screen: $small-desktop-screen,
+  large-screen:         $large-screen
+);
+
+// Standard utilitiles
+@each $name, $value in $gap-values {
+  .vaos-appts__column-gap--#{$name} {
+    column-gap: $value !important;
+  }
+}
+// Responsive Utilities
+@each $bp_name, $bp_value in $breakpoints {
+  @media (min-width: $bp_value) {
+    @each $name, $value in $gap-values {
+      .#{$bp_name}\:vaos-appts__column-gap--#{$name} {
+        column-gap: $value !important;
+      }
+    }
+  }
+}
+
+.medium-screen\:vaos-appts__minWidth,
+.medium-screen\:vaos-appts__maxWidth {
+  min-width: 24px;
+}
+.vaos-appts__column--alignItems {
+  @include media($medium-screen) {
+    align-items: stretch;
+  }
+}
+
+div[id^="vaos-appts__detail-"] {
+  @include media($small-screen) {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    min-width: fit-content;
+    max-width: fit-content;
+  }
+  @include media($small-desktop-screen) {
+    justify-content: right;
+  }
+}
+
+.vaos-appts__display--table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  max-width: initial;
+}
+.vaos-appts__display--table-cell {
+  display: table-cell;
+}
+
+.vaos-appts__text--truncate {
+  @include media($small-screen) {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+.vaos-appts__text--line-through {
+  position: relative;
+}
+.vaos-appts__text--line-through::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--vads-color-base);
+  position: absolute;
+  top: 49%;
+  left: 0;
+}
+
+.vaos-appts__appointment-details--container {
+  position: relative;
+}
+
+.vaos-appts__appointment-details--icon {
+  height: 40px;
+  width: 40px;
+  background: var(--vads-color-primary-darker);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vads-color-white);
+  font-size: 20px;
+  position: absolute;
+  top: -20px;
+  left: calc(50% - 20px);
+}
+
+.tertiary-button {
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--vads-color-primary);
+  border: 0;
+  text-decoration: none;
+  padding: 0.625rem !important;
+  margin: 0em !important;
+
+  &:hover,
+  &:active {
+    color: var(--vads-color-primary-dark);
+    background: var(--vads-color-gray-cool-light);
+  }
+  &:focus {
+    background: var(--vads-color-gray-cool-light);
+  }
+
+  &:focus,
+  &:active {
+    outline: 2px solid var(--vads-color-warning);
+    outline-offset: 2px;
+  }
+}
+
+.icon-width {
+  min-width: 32px !important;
+}

@@ -1,0 +1,155 @@
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isValidCurrency } from '../../utils/validations';
+import { MAX_UTILITY_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
+
+const SUMMARY_PATH = '/utility-bill-summary';
+const CHECKLIST_PATH = '/utility-bill-checklist';
+
+const AddUtilityBill = ({ data, goToPath, setFormData }) => {
+  const { utilityRecords = [] } = data;
+
+  // Borrowed from 995 AddIssue
+  // get index from url '/add-issue?index={index}'
+  const searchIndex = new URLSearchParams(window.location.search);
+  let index = parseInt(searchIndex.get('index'), 10);
+  if (Number.isNaN(index)) {
+    index = utilityRecords.length;
+  }
+
+  const currentUtility = utilityRecords[index] || {};
+
+  // Utility name data/flags
+  const [utilityName, setUtilityName] = useState(currentUtility.name || null);
+  const nameError = !utilityName ? 'Enter valid text' : null;
+
+  // Utility amount data/flags
+  const [utilityAmount, setUtilityAmount] = useState(
+    currentUtility.amount || null,
+  );
+  const amountError = !isValidCurrency(utilityAmount)
+    ? 'Enter valid amount'
+    : null;
+
+  // shared fun
+  const [submitted, setSubmitted] = useState(false);
+
+  const handlers = {
+    onUtilityNameChange: ({ target }) => {
+      setUtilityName(target.value);
+    },
+    onUtilityAmountChange: event => {
+      setUtilityAmount(event.target.value);
+    },
+    onCancel: event => {
+      event.preventDefault();
+
+      if (utilityRecords.length) {
+        return goToPath(SUMMARY_PATH);
+      }
+      return goToPath(CHECKLIST_PATH);
+    },
+    onUpdate: () => {
+      // handle validation, update form data
+      setSubmitted(true);
+
+      // Check for errors
+      if (!nameError && !amountError) {
+        // Update form data
+        const newUtility = [...utilityRecords];
+        // update new or existing index
+        newUtility[index] = {
+          name: utilityName,
+          amount: utilityAmount,
+        };
+
+        setFormData({
+          ...data,
+          utilityRecords: newUtility,
+        });
+
+        goToPath(SUMMARY_PATH);
+      }
+    },
+  };
+
+  const headerText =
+    utilityRecords.length === index
+      ? 'Add your additional utility bill'
+      : 'Update your utility bill';
+
+  const labelText = utilityRecords.length === index ? 'Add' : 'Update';
+
+  return (
+    <>
+      <form>
+        <fieldset className="vads-u-margin-y--2">
+          <legend
+            id="decision-date-description"
+            className="schemaform-block-title"
+            name="addOrUpdateUtility"
+          >
+            {headerText}
+          </legend>
+          <VaTextInput
+            width="md"
+            error={(submitted && nameError) || null}
+            id="add-utility-bill-name"
+            label="What is the utility bill?"
+            maxlength={MAX_UTILITY_NAME_LENGTH}
+            name="add-utility-bill-name"
+            onInput={handlers.onUtilityNameChange}
+            required
+            type="text"
+            value={utilityName || ''}
+            charcount
+          />
+          <VaTextInput
+            width="md"
+            error={(submitted && amountError) || null}
+            id="add-utility-bill-amount"
+            inputmode="decimal"
+            label="How much do you pay for this utility bill every month?"
+            min={0}
+            name="add-utility-bill-amount"
+            onInput={handlers.onUtilityAmountChange}
+            required
+            type="decimal"
+            value={utilityAmount || ''}
+          />
+
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Cancel',
+                onClick: handlers.onCancel, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: `${labelText} utility bill`,
+                onClick: handlers.onUpdate,
+              },
+            ]}
+          />
+        </fieldset>
+      </form>
+    </>
+  );
+};
+
+AddUtilityBill.propTypes = {
+  data: PropTypes.shape({
+    utilityRecords: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        amount: PropTypes.string,
+      }),
+    ),
+  }),
+  goToPath: PropTypes.func,
+  setFormData: PropTypes.func,
+};
+
+export default AddUtilityBill;

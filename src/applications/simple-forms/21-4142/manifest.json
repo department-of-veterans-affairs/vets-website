@@ -1,0 +1,7 @@
+{
+  "appName": "Authorize the release of non-VA medical information to VA",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "21-4142-medical-release",
+  "rootUrl": "/supporting-forms-for-claims/release-information-to-va-form-21-4142",
+  "productId": "56438c7b-e586-490d-a7f6-7e3c92136564"
+}

@@ -1,0 +1,115 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
+
+.gib-info {
+  margin-bottom: 5em;
+
+  h3 {
+    margin-bottom: 8.5px;
+    padding: 0;
+  }
+
+  hr {
+    border-style: solid;
+    border-color: var(--vads-color-base-light);
+    border-width: 1px 0 0 0;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  h2 {
+    margin-top: 0;
+  }
+
+  .section {
+    margin-bottom: 2em;
+  }
+
+  .section-line {
+    margin-bottom: 0.25em;
+  }
+  #benefit-level {
+    margin-top: 2em;
+  }
+
+  .not-qualified h5 {
+    margin-top: 1em;
+    padding-bottom: 0;
+  }
+
+  .facility {
+    text-transform: capitalize;
+  }
+
+  .yellow-ribbon-school {
+    margin-bottom: 0.75em;
+  }
+
+  .print-status {
+    background-color: var(--vads-color-white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    z-index: 2000;
+
+    h1 {
+      margin-top: 1em;
+    }
+  }
+
+  .print-screen {
+    @media (min-width: 950px) {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 50px 300px 30px 0;
+    }
+
+    @media (max-width: 949px) {
+      padding: 20px;
+    }
+
+    @media print {
+      font: var(--font-serif);
+      color: var(--vads-color-base-darker);
+      padding: 0;
+      a {
+        text-decoration: none;
+        &:after {
+          content: " (https://www.va.gov" attr(href) ")";
+        }
+      }
+
+      button {
+        display: none;
+      }
+    }
+  }
+}
+
+#noChapter33Benefits {
+  h2 {
+    margin-top: 2em;
+  }
+
+  hr {
+    margin-top: 0;
+    margin-bottom: 0;
+    border-color: var(--vads-color-primary);
+  }
+
+  .gi-phone-nowrap {
+    white-space: nowrap;
+  }
+}
+
+// Remove once temporary alert goes away from the intro page
+.intro-warning {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.intro-wizard {
+  margin-bottom: 1em;
+}

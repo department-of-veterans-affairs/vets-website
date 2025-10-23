@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Colorado SCO training",
+    "location": "Front Range Community College",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-01-15",
+    "eventEndDate": "2020-01-16"
+  },
+  {
+    "name": "TACVPO 2020 Conference",
+    "location": "Omni Corpus Christi Hotel",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-03-16",
+    "eventEndDate": "2020-03-18"
+  },
+  {
+    "name": "Arizona Veteran Program Administrator (AVPA)",
+    "location": "Little America Hotel",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-04-01",
+    "eventEndDate": "2020-04-03"
+  },
+  {
+    "name": "Colorado SCO Training",
+    "location": "Pikes Peak Community College",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-05-14",
+    "eventEndDate": "2020-05-15"
+  },
+  {
+    "name": "Colorado SCO Training",
+    "location": "Colorado Mesa University C",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-06-17",
+    "eventEndDate": "2020-06-18"
+  },
+  {
+    "name": "Association of Veterans Education Certifying Officials' (AVECO)",
+    "location": "Renaissance Hotel Downtown Cleveland",
+    "url": "https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/conferences_and_events.asp",
+    "displayStartDate": "2019-11-01",
+    "eventStartDate": "2020-07-13",
+    "eventEndDate": "2020-07-16"
+  }
+]

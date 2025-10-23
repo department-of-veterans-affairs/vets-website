@@ -1,0 +1,139 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "preEntryCovid19Screener",
+        "value": false
+      },
+      {
+        "name": "profile_show_profile_2.0",
+        "value": false
+      },
+      {
+        "name": "vaOnlineScheduling",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingCancel",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingRequests",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingCommunityCare",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingDirect",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingPast",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingVspAppointmentList",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingVspAppointmentNew",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingCcspAppointmentList",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingCcspRequestNew",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingVspRequestList",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingVspRequestNew",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingExpressCare",
+        "value": false
+      },
+      {
+        "name": "vaOnlineSchedulingExpressCareNew",
+        "value": false
+      },
+      {
+        "name": "eduBenefitsStemScholarship",
+        "value": false
+      },
+      {
+        "name": "allow_online_10_10cg_submissions",
+        "value": false
+      },
+      {
+        "name": "gibctEybBottomSheet",
+        "value": false
+      },
+      {
+        "name": "gibctSearchEnhancements",
+        "value": false
+      },
+      {
+        "name": "form996HigherLevelReview",
+        "value": false
+      },
+      {
+        "name": "gibctCh33BenefitRateUpdate",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_1995_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_5495_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_0994_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_1990n_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_5490_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_1990e_wizard",
+        "value": false
+      },
+      {
+        "name": "show_edu_benefits_1990_wizard",
+        "value": false
+      },
+      {
+        "name": "stem_sco_email",
+        "value": false
+      },
+      {
+        "name": "show_new_refill_track_prescriptions_page",
+        "value": false
+      },
+      {
+        "name": "show_new_schedule_view_appointments_page",
+        "value": false
+      },
+      {
+        "name": "show526Wizard",
+        "value": false
+      }
+    ]
+  }
+}

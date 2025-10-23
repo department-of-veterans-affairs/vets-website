@@ -1,0 +1,11 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your question
+  - action: typeTextArea
+    target: QUESTION
+    value:  |
+      I am a veteran and I am interested in learning more about life insurance.
+      Can you provide me with more information?
+  - action: click
+    target: call-to-action

@@ -1,0 +1,6 @@
+{
+  "appName": "Mock SIP Form",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mock-sip-form",
+  "rootUrl": "/mock-sip-form"
+}

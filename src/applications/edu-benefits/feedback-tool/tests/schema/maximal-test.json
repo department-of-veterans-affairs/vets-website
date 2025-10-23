@@ -1,0 +1,50 @@
+{
+  "data": {
+    "onBehalfOf": "Myself",
+    "fullName": {
+      "first": "first",
+      "middle": "middle",
+      "last": "last"
+    },
+    "serviceAffiliation": "Veteran",
+    "serviceBranch": "Army",
+    "serviceDateRange": {
+      "from": "2000-04-03",
+      "to": "2012-03-03"
+    },
+    "address": {
+      "street": "street",
+      "street2": "street2",
+      "city": "city",
+      "state": "MO",
+      "postalCode": "12345",
+      "country": "US"
+    },
+    "applicantEmail": "email@email.com",
+    "view:applicantEmailConfirmation": "email@email.com",
+    "phone": 1234567890,
+    "educationDetails": {
+      "programs": {
+        "chapter33": true
+      },
+      "school": {
+        "view:manualSchoolEntry": {
+          "name": "school",
+          "address": {
+            "street": "street",
+            "street1": "street1",
+            "city": "city",
+            "state": "MO",
+            "country": "United States",
+            "postalCode": 12345
+          }
+        }
+      }
+    },
+    "issue": {
+      "other": true
+    },
+    "issueDescription": "description",
+    "issueResolution": "resolution"
+  }
+}

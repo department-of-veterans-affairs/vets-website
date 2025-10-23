@@ -1,0 +1,313 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+// @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+// @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.full-page-alert {
+  margin-bottom: 2em;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.word-break {
+  word-break: break-word;
+}
+
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+.button-icon {
+  pointer-events: none;
+}
+
+ul.original-disability-list {
+  li {
+    margin-bottom: 0;
+  }
+}
+
+fieldset.schemaform-block,
+.schemaform-field-template.usa-input-error,
+.wizard-content-inner .fieldset-input:first-child {
+  margin-top: 0;
+}
+
+/* federal orders */
+article[data-location$="federal-orders"] {
+  .schemaform-field-template.usa-input-error {
+    margin-top: 1.875rem;
+  }
+}
+
+/* Hide duplicate required span; first one in legend */
+.new-condition-description + .schemaform-required-span {
+  display: none;
+}
+
+.row .usa-date-of-birth.row {
+  margin: unset;
+}
+
+.process-step:last-child {
+  padding-bottom: 0;
+}
+
+.list-item-connector {
+  display: block;
+  margin: 0;
+}
+
+.blue-bar-block {
+  border-left: 7px solid var(--vads-color-primary);
+  padding-left: 1em;
+
+  p {
+    margin: 0.5em 0;
+  }
+}
+
+// Bring the text of an element nested in a <label> up to the same line as the check box
+.form-checkbox input[type="checkbox"] + label {
+  div {
+    display: inline-block;
+    // Also give a little more space between the checkbox and the label
+    padding-left: 0.7em;
+
+    *:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// This could go in the schemaform css, but it isn't used anywhere but here for now
+.widget-outline {
+  padding: 1em;
+  border: solid 4px var(--vads-color-primary-alt-light);
+  border-radius: 7px;
+  margin-top: 0.5em;
+
+  &.selected {
+    border-color: var(--vads-color-primary);
+  }
+
+  &:last-child {
+    margin-bottom: 1em;
+  }
+
+  label {
+    display: inline-block;
+  }
+
+  input[type="checkbox"] + label {
+    // The former margin was to separate the checkbox from the elements above it, but now
+    //  that we have the outline, we need to move the whitespace to the outside of the border.
+    margin-top: 0em;
+    margin-bottom: 0em;
+
+    // Eliminate unnecessary margin inside the label component
+    > div *:last-child {
+      margin-bottom: 0em;
+    }
+  }
+}
+
+// Supporting evidence legend (matches h4 style)
+#root_privateMedicalRecordAttachments-label {
+  font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+
+  .schemaform-required-span {
+    display: none;
+  }
+}
+
+// upload error message alignment
+.form-expanding-group li.usa-input-error {
+  right: 0;
+}
+
+// removes gap when using multiple widget-outlines
+.widget-outline-group {
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Mimics usa-form-group-year minus the float and sets the max width so the
+//  error formatting doesn't increase the size
+.year-input {
+  max-width: 4.375rem;
+}
+
+.patient-acknowldegment-help {
+  max-width: 80vw;
+}
+
+.upload-completed-form .schemaform-widget-wrapper select {
+  background: none;
+  border: none;
+  font-weight: bold;
+  white-space: pre-wrap;
+  height: auto;
+  white-space: pre-wrap;
+}
+
+article[data-location="review-veteran-details/separation-location"] {
+  fieldset > .schemaform-field-container {
+    margin-top: 0;
+  }
+}
+
+// Style fix for "Private medical records"
+dl.review,
+div.review {
+  border-bottom: 1px solid var(--vads-color-base-light);
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border-top: 1px solid var(--vads-color-base-light);
+    padding: 0.9375rem;
+    padding-left: 0;
+  }
+  .review-row > dd {
+    font-weight: bold;
+    text-align: left;
+  }
+  .review-row > dt > p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.capitalize-first-letter::first-letter {
+  text-transform: capitalize;
+}
+
+@media (min-width: 481px) {
+  dl.review,
+  div.review {
+    .review-row {
+      flex-direction: row;
+    }
+    .review-row > dd {
+      padding-left: 5px;
+      min-width: 100px;
+      text-align: right;
+    }
+    .review-row > dt {
+      max-width: 60%;
+      min-width: 40%;
+    }
+  }
+}
+
+/* Confirmation page */
+article[data-location="confirmation"] {
+  h1[tabindex="-1"] {
+    outline: none;
+  }
+  @media print {
+    .confirmation-page-title, a {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}
+
+@media print {
+  .usa-width-two-thirds {
+    width: 100%;
+  }
+  .schemaform-title,
+  .schemaform-subtitle {
+    display: none;
+  }
+}
+
+/* Workaround issue using component in ui:description for bdd evidence page */
+article[data-location="supporting-evidence/evidence-types-bdd"] {
+  #root_view\:hasEvidence-label .schemaform-required-span {
+    display: none
+  }
+}
+
+/* addDisabilities ArrayField */
+// Hides the "New condition" h3 that appears on the last item of the platform ArrayField.
+// Cannot add a class to the ArrayField like we could with the allClaims arrayField
+[id^="root_newDisabilities_"] h3.vads-u-font-size--h5 {
+  display: none;
+}
+
+/* addDisabilities Autocomplete */
+.cc-autocomplete {
+  position: relative;
+
+  &__list {
+    position: absolute;
+    width: 100%;
+    max-width: 30rem;
+    background-color: var(--vads-color-white);
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    z-index: 100;
+    max-height: 27.5rem;
+    border: 1px solid var(--vads-color-black);
+  }
+
+  &__option {
+    display: block;
+    padding: units(1);
+    margin: 0;
+    cursor: pointer;
+
+    &--active {
+      background-color: var(--vads-color-primary);
+      border-color: var(--vads-color-primary);
+      color: var(--vads-color-white);
+    }
+
+    &:first-child {
+      border-bottom: 1px solid var(--vads-color-gray-warm-light);
+    }
+  }
+
+  // Adjusts spacing on label inside web component text input.
+  va-text-input::part(label) {
+    margin-top: 0;
+  }
+}
+
+// Intended to be used with summary page cards. Truncates text to specified
+// number of lines, ensuring no overflow or disruption of the card layout.
+.multiline-ellipsis-4 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.multiline-ellipsis-2 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}

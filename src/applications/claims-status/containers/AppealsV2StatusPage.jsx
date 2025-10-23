@@ -1,0 +1,120 @@
+import React from 'react';
+import { useOutletContext } from 'react-router-dom-v5-compat';
+
+import {
+  getAlertContent,
+  getStatusContents,
+  getNextEvents,
+  ALERT_TYPES,
+  APPEAL_ACTIONS,
+  APPEAL_TYPES,
+  STATUS_TYPES,
+} from '../utils/appeals-v2-helpers';
+
+import CurrentStatus from '../components/appeals-v2/CurrentStatus';
+import AlertsList from '../components/appeals-v2/AlertsList';
+import WhatsNext from '../components/appeals-v2/WhatsNext';
+import Docket from '../components/appeals-v2/Docket';
+import PastEventsSection from '../components/appeals-v2/PastEventsSection';
+
+/**
+ * AppealsV2StatusPage is in charge of the layout of the status page
+ */
+export default function AppealsV2StatusPage() {
+  const [appeal, fullName] = useOutletContext();
+  const {
+    events,
+    alerts,
+    status,
+    docket,
+    incompleteHistory,
+    location,
+    aod,
+    active: appealIsActive,
+    type: appealAction,
+  } = appeal.attributes;
+  const currentStatus = getStatusContents(appeal, fullName);
+  const nextEvents = getNextEvents(appeal);
+
+  // Gates the What's Next and Docket chunks
+  const hideDocketStatusTypes = [
+    STATUS_TYPES.pendingSoc,
+    STATUS_TYPES.pendingForm9,
+    STATUS_TYPES.decisionInProgress,
+    STATUS_TYPES.bvaDevelopment,
+  ];
+  const hideDocketAppealActions = [
+    APPEAL_ACTIONS.reconsideration,
+    APPEAL_ACTIONS.cue,
+    APPEAL_ACTIONS.other,
+  ];
+
+  let shouldShowDocket;
+  let isAppeal;
+
+  switch (appeal.type) {
+    case APPEAL_TYPES.legacy:
+      shouldShowDocket =
+        appealIsActive &&
+        !hideDocketStatusTypes.includes(status.type) &&
+        !hideDocketAppealActions.includes(appealAction);
+      isAppeal = true;
+      break;
+    case APPEAL_TYPES.appeal:
+      shouldShowDocket =
+        appealIsActive &&
+        location === 'bva' &&
+        status.type !== STATUS_TYPES.decisionInProgress;
+      isAppeal = true;
+      break;
+    default:
+      shouldShowDocket = false;
+      isAppeal = false;
+  }
+
+  const afterNextAlertTypes = [
+    ALERT_TYPES.cavcOption,
+    ALERT_TYPES.amaPostDecision,
+  ];
+
+  const filteredAlerts = alerts.filter(
+    a => !afterNextAlertTypes.includes(a.type),
+  );
+  const afterNextAlerts = (
+    <div>
+      {alerts.filter(a => afterNextAlertTypes.includes(a.type)).map((a, i) => {
+        const alert = getAlertContent(a, appealIsActive);
+        return (
+          <div key={`after-next-alert-${i}`}>
+            <h2>{alert.title}</h2>
+            <div>{alert.description}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  return (
+    <div id="tabPanelv2status">
+      <CurrentStatus
+        title={currentStatus.title}
+        description={currentStatus.description}
+        isClosed={!appealIsActive}
+      />
+      <AlertsList alerts={filteredAlerts} appealIsActive />
+      {nextEvents.events.length > 0 && <WhatsNext nextEvents={nextEvents} />}
+      {shouldShowDocket && (
+        <Docket {...docket} aod={aod} appealAction={appealAction} />
+      )}
+      {!appealIsActive && (
+        <div className="closed-appeal-notice">
+          This {isAppeal ? 'appeal' : 'review'} is now closed
+        </div>
+      )}
+      {afterNextAlerts}
+      <PastEventsSection events={events} missingEvents={incompleteHistory} />
+    </div>
+  );
+}
+
+AppealsV2StatusPage.propTypes = {};

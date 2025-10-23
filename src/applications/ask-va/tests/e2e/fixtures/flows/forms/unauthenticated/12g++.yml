@@ -1,0 +1,59 @@
+flow:
+  title: DEERS Record Update (Unauth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: start-your-question-unauth
+
+    - action: include
+      target: page
+      value: select-category-defense-enrollment-eligibility-reporting-system-deers
+
+    - action: include
+      target: page
+      value:  sad-select-topic
+
+    - action: include
+      target: page
+      value: select-topic-updating-deers-records
+
+    - action: include
+      target: page
+      value:  sad-who-is-your-question-about
+
+    - action: include
+      target: page
+      value: who-is-your-question-about-general-question
+
+    - action: include
+      target: page
+      value: sad-tell-us-about-yourself
+
+    - action: include
+      target: page
+      value: tell-us-about-yourself-general
+
+    - action: include
+      target: page
+      value: sad-your-contact-information
+
+    - action: include
+      target: page
+      value: your-contact-information-email-no-prefill
+
+    - action: include
+      target: page
+      value:  sad-your-question
+
+    - action: include
+      target: page
+      value: your-question
+
+    - action: include
+      target: page
+      value: editing-answers
+
+    - action: include
+      target: page
+      value: your-confirmation-number

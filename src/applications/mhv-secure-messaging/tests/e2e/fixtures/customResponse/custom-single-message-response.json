@@ -1,0 +1,29 @@
+{
+  "data": {
+    "id": "694463",
+    "type": "messages",
+    "attributes": {
+      "messageId": 694463,
+      "category": "OTHER",
+      "subject": "General Inquiry  Added",
+      "body": "test1234556666666777777888",
+      "attachment": false,
+      "sentDate": "2017-05-04T19:32:08.000Z",
+      "senderId": 674887,
+      "senderName": "YARRAGOVULA, SAMATHA",
+      "recipientId": 406227,
+      "recipientName": "MHVTP, SAFARI",
+      "readReceipt": "READ",
+      "triageGroupName": "MARGARET TRIAGE GROUP_SLC10",
+      "proxySenderName": null
+    },
+    "relationships": {
+      "attachments": {
+        "data": []
+      }
+    },
+    "links": {
+      "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/694463"
+    }
+  }
+}

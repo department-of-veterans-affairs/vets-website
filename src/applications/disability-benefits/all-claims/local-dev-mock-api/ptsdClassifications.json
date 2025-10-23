@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "code": "9411",
+      "name": "PTSD (post-traumatic stress disorder)",
+      "category": "Mental Health"
+    },
+    {
+      "code": "9434",
+      "name": "Major depressive disorder",
+      "category": "Mental Health"
+    },
+    {
+      "code": "9440",
+      "name": "Chronic adjustment disorder",
+      "category": "Mental Health"
+    }
+  ]
+}

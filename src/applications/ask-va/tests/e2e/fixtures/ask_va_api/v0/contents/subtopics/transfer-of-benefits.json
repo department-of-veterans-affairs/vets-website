@@ -1,0 +1,38 @@
+{
+    "data": [
+        {
+            "id": "41226b74-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Transferring benefits after death of Veteran or dependent (Section 110)",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Transferring benefits after death of Veteran or dependent (Section 110)",
+                "parentId": "8085b967-8276-ef11-a671-001dd8097cca",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        },
+        {
+            "id": "bba71e82-8276-ef11-a671-001dd8097cca",
+            "type": "contents",
+            "attributes": {
+                "name": "Transferring benefits to dependents",
+                "allowAttachments": true,
+                "description": null,
+                "displayName": "Transferring benefits to dependents",
+                "parentId": "8085b967-8276-ef11-a671-001dd8097cca",
+                "rankOrder": 0,
+                "requiresAuthentication": true,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email"
+                ]
+            }
+        }
+    ]
+}

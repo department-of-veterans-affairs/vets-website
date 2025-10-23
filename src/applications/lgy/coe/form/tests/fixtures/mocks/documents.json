@@ -1,0 +1,20 @@
+{
+  "data": {
+    "attributes": {
+      "status": [
+        {
+          "id": 23218851,
+          "document_type": ".pdf",
+          "create_date": 1645565285000,
+          "description": "Discharge or separation papers (DD214) 1"
+        },
+        {
+          "id": 23218852,
+          "document_type": ".pdf",
+          "create_date": 1645665285000,
+          "description": "Discharge or separation papers (DD214) 2"
+        }
+      ]
+    }
+  }
+}

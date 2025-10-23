@@ -1,0 +1,30 @@
+{
+  "data": {
+    "fullName": {
+      "first": "Adam",
+      "last": "Huberws"
+    },
+    "ssn": "333445566",
+    "status": "isSpouse",
+    "claimantAddress": {
+      "view:livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "Someplace",
+      "street2": "NA",
+      "city": "Somewhere",
+      "state": "CA",
+      "postalCode": "90210"
+    },
+    "claimantPhoneNumber": "1112223344",
+    "claimantEmailAddress": "derp@gmail.com",
+    "claimantConfirmEmailAddress": "derp@gmail.com",
+    "veteranInformation": {
+      "fullName": {
+        "first": "John",
+        "last": "Doe"
+      },
+      "ssn": "111223344"
+    },
+    "dateOfBirth": "1979-03-04"
+  }
+}

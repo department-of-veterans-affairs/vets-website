@@ -1,0 +1,21 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
+
+@font-face {
+  font-family: "Source Sans Pro Web";
+  src: url("/generated/sourcesanspro-regular-webfont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans Pro Web";
+  src: url("/generated/sourcesanspro-bold-webfont.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--vads-color-black);
+}

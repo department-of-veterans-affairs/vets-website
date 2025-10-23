@@ -1,0 +1,9 @@
+{
+  "errors": [
+    {
+      "title": "Server Error",
+      "code": "500",
+      "status": "500"
+    }
+  ]
+}

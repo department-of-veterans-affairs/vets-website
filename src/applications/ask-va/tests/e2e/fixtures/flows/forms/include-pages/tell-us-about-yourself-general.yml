@@ -1,0 +1,12 @@
+steps:
+  - action: exists
+    target: header
+    value: Tell us about yourself
+  - action: typeTextInput
+    target: FIRST_NAME
+    value: John
+  - action: typeTextInput
+    target: LAST_NAME
+    value: Smith
+  - action: click
+    target: call-to-action

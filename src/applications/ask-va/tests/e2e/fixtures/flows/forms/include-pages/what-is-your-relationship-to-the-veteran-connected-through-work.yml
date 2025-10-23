@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  What is your relationship to the Veteran?
+  - action: click
+    target: radio
+    value:  I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)
+  - action: click
+    target: call-to-action

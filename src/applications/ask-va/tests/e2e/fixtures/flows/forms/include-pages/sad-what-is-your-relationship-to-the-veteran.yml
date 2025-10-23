@@ -1,0 +1,14 @@
+steps:
+  - action: exists
+    target: header
+    value:  What is your relationship to the Veteran?
+  - action: click
+    target: call-to-action-secondary
+    value:  Back
+  - action: click
+    target: call-to-action
+  - action: click
+    target: call-to-action
+  - action: exists
+    target: error
+    value: Please select your relationship to the Veteran.

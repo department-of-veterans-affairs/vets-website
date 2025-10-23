@@ -1,0 +1,88 @@
+{
+  "data": [
+    {
+      "id": "1223X2210X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "Dentist",
+        "grouping": "Dental Providers",
+        "name": "Dentist - Orofacial Pain",
+        "specialization": "Orofacial Pain",
+        "specialtyCode": "1223X2210X",
+        "specialtyDescription": "A dentist who assesses, diagnoses, and treats patients with complex chronic orofacial pain and dysfunction disorders, oromotor and jaw behavior disorders, and chronic head/neck pain.  The dentist has successfully completed an accredited postdoctoral orofacial pain residency training program for dentists of two or more years duration, in accord with the Commission on Dental Accreditation's Standards for Orofacial Pain Residency Programs, and/or meets the requirements for examination and board certification by the American Board of Orofacial Pain."
+      }
+    },
+    {
+      "id": "261QU0200X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "Clinic/Center",
+        "grouping": "Ambulatory Health Care Facilities",
+        "name": "Clinic/Center - Urgent Care",
+        "specialization": "Urgent Care",
+        "specialtyCode": "261QU0200X",
+        "specialtyDescription": "Definition to come..."
+      }
+    },
+    {
+      "id": "261QE0002X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "Clinic/Center",
+        "grouping": "Ambulatory Health Care Facilities",
+        "name": "Clinic/Center - Emergency Care",
+        "specialization": "Emergency Care",
+        "specialtyCode": "261QE0002X",
+        "specialtyDescription": "Definition to come..."
+      }
+    },
+    {
+      "id": "282N00000X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "General Acute Care Hospital",
+        "grouping": "Hospitals",
+        "name": "General Acute Care Hospital",
+        "specialization": null,
+        "specialtyCode": "282N00000X",
+        "specialtyDescription": "An acute general hospital is an institution whose primary function is to provide inpatient diagnostic and therapeutic services for a variety of medical conditions, both surgical and non-surgical, to a wide population group. The hospital treats patients in an acute phase of illness or injury, characterized by a single episode or a fairly short duration, from which the patient returns to his or her normal or previous level of activity."
+      }
+    },
+    {
+      "id": "282NC0060X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "General Acute Care Hospital",
+        "grouping": "Hospitals",
+        "name": "General Acute Care Hospital - Critical Access",
+        "specialization": "Critical Access",
+        "specialtyCode": "282NC0060X",
+        "specialtyDescription": "Definition to come."
+      }
+    },
+    {
+      "id": "282NR1301X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "General Acute Care Hospital",
+        "grouping": "Hospitals",
+        "name": "General Acute Care Hospital - Rural",
+        "specialization": "Rural",
+        "specialtyCode": "282NR1301X",
+        "specialtyDescription": "Definition to come..."
+      }
+    },
+    {
+      "id": "282NW0100X",
+      "type": "specialty",
+      "attributes": {
+        "classification": "General Acute Care Hospital",
+        "grouping": "Hospitals",
+        "name": "General Acute Care Hospital - Women",
+        "specialization": "Women",
+        "specialtyCode": "282NW0100X",
+        "specialtyDescription": "Definition to come..."
+      }
+    }
+  ]
+}

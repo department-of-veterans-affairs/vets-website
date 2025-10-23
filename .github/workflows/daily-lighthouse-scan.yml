@@ -1,0 +1,159 @@
+name: Lighthouse CI
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * 1-5'
+
+env:
+  CHANNEL_ID: C02A8S3JPNZ
+
+jobs:
+  get-registries:
+    runs-on: ubuntu-latest
+    outputs:
+      registries: ${{ steps.set-matrix.outputs.registries }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          repository: department-of-veterans-affairs/content-build
+          ref: refs/heads/main
+          path: ./content-build
+
+      - name: Get registries
+        id: set-matrix
+        run: |
+          CUSTOM_URLS='["/"]'
+          # To omit urls from being scanned in lighthouse, add rootUrl inside IN() function
+          REGISTRY_ARRAY=$(jq '[.[]
+                      | select((.rootUrl
+                                | IN("")
+                                | not) and .template.vagovprod != false) 
+                      | .rootUrl ]' ./content-build/src/applications/registry.json)
+          echo registries=$(jq --argjson CUSTOM_URLS "$CUSTOM_URLS" --argjson REGISTRY_ARRAY "$REGISTRY_ARRAY" -n '$REGISTRY_ARRAY + $CUSTOM_URLS | sort') >> $GITHUB_OUTPUT
+
+  lighthouse:
+    needs: get-registries
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        registry: ${{ fromJson(needs.get-registries.outputs.registries) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials (1)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get role from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+
+      - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
+        id: lighthouse-checks
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: |
+            https://www.va.gov${{ matrix.registry }}
+          uploadArtifacts: true # save results as an action artifacts
+
+      - name: Upload lighthouse report (JSON)
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} s3://vetsgov-website-builds-s3-upload-test/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.json --acl public-read --region us-gov-west-1
+
+      - name: Upload lighthouse report (HTML)
+        run: aws s3 cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].htmlPath }} s3://vetsgov-website-builds-s3-upload-test/lighthouse${{ matrix.registry == '/' && '/homepage' || matrix.registry }}.html --acl public-read --region us-gov-west-1
+
+      - name: Generate new application list
+        run: yarn generate-app-list
+
+      - name: Checkout Testing Tools Team Dashboard Data repo
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          repository: department-of-veterans-affairs/qa-standards-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: qa-standards-dashboard-data
+          ref: qas-coverage-app-names
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+        working-directory: qa-standards-dashboard-data
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Potentially use install composite
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline --production=false
+        env:
+          YARN_CACHE_FOLDER: .cache/yarn
+        working-directory: qa-standards-dashboard-data
+
+      - name: Copy results file to data dir
+        run: |
+          mkdir qa-standards-dashboard-data/src/testing-reports/data
+          cp ${{ fromJSON(steps.lighthouse-checks.outputs.manifest)[0].jsonPath }} qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Upload Lighthouse results to BigQuery
+        run: yarn lighthouse-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          APPLICATION_LIST: ${{ env.APPLICATION_LIST }}
+
+  notify-slack:
+    name: Notify Slack
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    needs: [lighthouse]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      - name: Notify Slack
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "The Lighthouse scan for today just finished! <https://s3-us-gov-west-1.amazonaws.com/vetsgov-website-builds-s3-upload-test/lighthouse/homepage.html|View the results>"}}]}]}'
+          channel_id: ${{ env.CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

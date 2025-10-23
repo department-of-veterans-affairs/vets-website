@@ -1,0 +1,206 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+#supporting-documents-description {
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  .form-expanding-group {
+    margin-bottom: 1em;
+  }
+}
+
+.schemaform-radio-indent {
+  margin: 0;
+}
+
+.autosuggest-list {
+  max-height: 10.625rem;
+}
+
+h3.name-of-deceased-text {
+  color: rgb(50, 58, 69);
+  font-family: "Bitter";
+  font-weight: bold;
+}
+
+.mail-or-fax-message,
+.mail-or-fax-steps {
+  margin-bottom: 0.625rem;
+  margin-top: 0;
+}
+
+.mail-or-fax-steps {
+  padding: 0 0 0 0.625rem;
+}
+
+.mail-or-fax-step {
+  margin-bottom: 0.46875rem;
+  padding-left: 0.625rem;
+}
+
+.mail-fax-address {
+  border-left: 3px solid var(--vads-color-primary);
+  padding-left: 0.625rem;
+}
+
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: -1em !important;
+  }
+  .form-checkbox {
+    margin-bottom: -1em;
+  }
+  .schemaform-field-template {
+    margin-top: 1em;
+  }
+
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -2em;
+    }
+    margin-bottom: -2em;
+    padding-bottom: 2em;
+  }
+}
+
+article#pre-need[data-location="applicant-demographics"],
+article#pre-need[data-location="sponsor-demographics"] {
+  fieldset.schemaform-field-template.usa-input-error {
+    fieldset.vads-u-margin-y--2.rjsf-object-field {
+      div {
+        margin-top: 1.875em;
+      }
+    }
+  }
+}
+
+article#pre-need[data-location="sponsor-deceased"],
+article#pre-need[data-location="sponsor-date-of-death"] {
+  .schemaform-first-field .schemaform-label  {
+    padding-top: 3em;
+  }
+}
+
+article#pre-need[data-location="review-and-submit"] {
+  .schemaform-widget-wrapper > fieldset {
+    margin-top: 0em !important;
+  }
+  fieldset.schemaform-field-template.schemaform-first-field {
+    margin-top: 0.8em;
+    margin-bottom: 0em;
+  }
+  .applicantDemographicsDescription,
+  .sponsorDemographicsDescription {
+    p {
+      margin-bottom: -3em;
+    }
+    margin-bottom: 1em;
+    padding-bottom: 2em;
+  }
+
+  fieldset > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: -0.9em;
+  }
+  fieldset.usa-input-error  > div.schemaform-widget-wrapper > fieldset > div {
+    margin-top: 0.9em;
+  }
+
+}
+
+dl.review + dl.review .review-row {
+  border-top: none;
+  padding-top: 0px;
+}
+
+fieldset.schemaform-field-template.schemaform-first-field {
+  margin-top: -2em;
+  margin-bottom: 0em;
+}
+
+.schemaform-file-list > li {
+  margin-top: 3em;
+  margin-bottom: -2em;
+}
+
+.schemaform-first-field .schemaform-label {
+  padding-top: 1em;
+}
+
+.vads-u-font-size--h5 {
+  margin-top: 0em;
+}
+
+.preparer-contact-details-title {
+  margin-bottom: -0.5em;
+}
+
+.preparer-contact-details-additional-info {
+  padding-top: 1em;
+}
+.preparer-additonal-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.preparer-va-radio {
+  padding-top: 0.5em;
+  margin-top: -3em;
+}
+
+.desiredCemeteryNoteTitle {
+  font-family: "Source Sans Pro";
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.applicantDetailsSubHeader,
+.sponsorDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.sponsorMilitaryDetailsSubHeader {
+  margin-bottom: -2em;
+}
+
+.applicantDemographicsSubHeader,
+.sponsorDemographicsSubHeader {
+  margin-bottom: -1em;
+}
+
+
+.applicantDemographicsDescription,
+.sponsorDemographicsDescription {
+  p {
+    margin-bottom: -2em;
+  }
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+}
+
+.ApplicantDescriptionWrapper {
+  padding-bottom: 1em;
+}
+
+.sponsorDateOfDeathSubheader{
+  margin-top: -1em;
+}
+
+.militaryDetailsSubHeader {
+  margin-bottom: -1em;
+}
+
+.phone {
+  @media screen and (min-width: ($small-screen+1px)) {
+    max-width: 11.25rem;
+  }
+}

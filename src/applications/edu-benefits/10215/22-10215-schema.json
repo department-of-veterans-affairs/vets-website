@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Report 85/15 rule enrollment ratios",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "institutionDetails": {
+      "type": "object",
+      "required": [
+        "institutionName",
+        "facilityCode",
+        "termStartDate",
+        "dateOfCalculations"
+      ],
+      "properties": {
+        "institutionName": {
+          "type": "string"
+        },
+        "facilityCode": {
+          "type": "string"
+        },
+        "termStartDate": {
+          "$ref": "#/definitions/date"
+        },
+        "dateOfCalculations": {
+          "$ref": "#/definitions/date"
+        }
+      }
+    }
+  }
+}

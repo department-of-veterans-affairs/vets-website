@@ -1,0 +1,31 @@
+{
+  "formData": {
+    "personalInformation": {
+      "fullName": {
+        "first": "Timothy",
+        "middle": "Hoo",
+        "last": "Soto"
+      },
+      "dateOfBirth": "1946-07-15",
+      "ssn": "796038168"
+    },
+    "contactInformation": {
+      "email": "nathan.adams@place.io",
+      "address": {
+        "street": "843216 Vermont Ave N",
+        "city": "Washington",
+        "country": "AFG"
+      }
+    },
+    "identityValidation": {
+      "hasIcn": true,
+      "hasParticipantId": true,
+      "isLoa3": true
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/claimant-type"
+  }
+}

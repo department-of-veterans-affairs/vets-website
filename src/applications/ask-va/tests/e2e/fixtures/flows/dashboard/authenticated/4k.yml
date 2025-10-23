@@ -1,0 +1,31 @@
+flow:
+  title: Dashboard filtering and pagination (auth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value: go-to-personal-tab
+    - action: include
+      target: page
+      value: go-to-business-tab
+    - action: include
+      target: page
+      value: go-to-personal-tab
+    - action: include
+      target: page
+      value: select-filter-status-in-progress
+    - action: include
+      target: page
+      value: select-filter-category-education
+    - action: include
+      target: page
+      value: click-apply-filters
+    - action: include
+      target: page
+      value: click-clear-filters
+    - action: include
+      target: page
+      value: click-pagination-next
+    - action: include
+      target: page
+      value: click-pagination-previous

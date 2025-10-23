@@ -1,0 +1,30 @@
+{
+  "plugins": ["plugins/markdown"],
+  "source": {
+    "include": "./src/applications/vaos",
+    "includePattern": ".+.js(doc|x)?$"
+  },
+  "opts": {
+    "template": "node_modules/docdash",
+    "recurse": true,
+    "destination": "./src/applications/vaos/docs/",
+    "readme": "./src/applications/vaos/README.md"
+  },
+  "docdash": {
+    "sort": true,
+    "search": true,
+    "collapse": true,
+    "typedefs": true,
+    "menu": {
+      "Product documentation": {
+        "href": "https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/health-care/appointments/va-online-scheduling"
+      },
+      "Staging": {
+        "href": "https://staging.va.gov/my-health/appointments"
+      },
+      "Local instance": {
+        "href": "http://localhost:3001/my-health/appointments"
+      }
+    }
+  }
+}

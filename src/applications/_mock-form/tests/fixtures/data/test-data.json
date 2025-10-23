@@ -1,0 +1,74 @@
+{
+  "contactInfoSettings": "none",
+  "viewNoDirectDeposit": false,
+  "bankAccount": {
+    "bankName": "First Bank of Form Mocks",
+    "accountType": "checking",
+    "routingNumber": "000000000",
+    "accountNumber": "11111111111"
+  },
+  "address": {
+    "street": "123 Main St",
+    "street2": "Apt 101",
+    "city": "Big City",
+    "country": "USA",
+    "state": "AK",
+    "postalCode": "90210"
+  },
+  "address2": {
+    "street": "345 Main St",
+    "street2": "Apt 102",
+    "city": "Small City",
+    "country": "USA",
+    "state": "AK",
+    "postalCode": "90211"
+  },
+  "email": "me@me.com",
+  "altEmail": "me2@me.com",
+  "phoneNumber": "8005551212",
+  "toursOfDuty": [
+    {
+      "dateRange": {
+        "from": "2000-01-01",
+        "to": "2010-01-01"
+      },
+      "serviceBranch": "Army",
+      "serviceStatus": "Active duty",
+      "applyPeriodToSelected": true
+    },
+    {
+      "dateRange": {
+        "from": "2010-01-02",
+        "to": "2015-01-02"
+      },
+      "serviceBranch": "Army Reserves",
+      "serviceStatus": "Inactive Reserves",
+      "applyPeriodToSelected": true
+    }
+  ],
+  "fullName": {
+    "first": "First",
+    "last": "Last",
+    "suffix": "Jr."
+  },
+  "ssn": "987654321",
+  "checkboxGroupObjectPattern": {
+    "hasReadPrideAndPrejudice": false,
+    "hasReadJaneEyre": true,
+    "hasReadGreatGatsby": false,
+    "hasReadBuddenbrooks": true
+  },
+  "checkboxGroupWidget": "Jane Eyre by Charlotte Brontë,Buddenbrooks by Thomas Mann",
+  "optionalCheckbox": true,
+  "requiredCheckbox": true,
+  "checkboxGroupPatternExample": {
+    "hasReadPrideAndPrejudice": true,
+    "hasReadGreatGatsby": true
+  },
+  "radioButtonGroupExample": "octopus",
+  "conditionallyHiddenPageExample": true,
+  "conditionallyHiddenFieldExample": true,
+  "conditionalhiddenField": "More stuff",
+  "expandUnderExample": true,
+  "conditionalExpandUnderField": "Stuff"
+}

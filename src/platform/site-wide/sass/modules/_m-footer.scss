@@ -1,0 +1,213 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+// Footer
+.footer {
+  color: var(--vads-color-white);
+  margin: 0 auto;
+  background: var(--vads-color-primary-darker);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 50vh 0 50vh var(--vads-color-primary-darker);
+
+  @include media($medium-screen) {
+    flex-wrap: nowrap;
+  }
+
+  .va-flex {
+    flex-wrap: wrap;
+    padding-left: 0.5859375rem;
+    @include media($medium-screen) {
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+#footerNav[data-minimal-footer="true"] .footer-inner {
+  padding-top: 0;
+}
+
+.footer-inner {
+  padding: 0 0 1.25rem 0;
+
+  @include media($medium-screen) {
+    padding: 1.25rem 0.625rem 0;
+  }
+}
+
+body.va-pad-promo-banner .footer-inner {
+  padding-bottom: 3.59375rem;
+
+  @include media($medium-screen) {
+    padding-bottom: 2.34375rem;
+  }
+}
+
+[class^="va-footer-linkgroup"] {
+  padding-left: 0;
+  li {
+    list-style: none;
+  }
+
+  a {
+    background: none;
+    color: var(--vads-color-white);
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0.25em 0;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--vads-color-warning);
+    }
+
+    @include no-sr-content;
+  }
+}
+
+.va-footer-linkgroup {
+  margin: 2em 1em 0 0;
+  flex: 0 1 100%;
+  &:last-child {
+    margin-right: 0;
+  }
+  &:first-child {
+    margin-top: 2em;
+  }
+
+  @include media($medium-screen) {
+    flex: 0 1 33%;
+    margin: 2em 1em 1.5em 0;
+  }
+
+  a {
+    display: inline-block;
+  }
+
+  .va-button-link {
+    color: var(--vads-color-white) !important;
+    &:hover {
+      color: var(--vads-color-warning) !important;
+    }
+  }
+}
+
+.va-footer-linkgroup-title {
+  -webkit-font-smoothing: antialiased;
+  color: var(--vads-color-white);
+  font-weight: 700;
+  font-size: 1.1em;
+  margin: 0;
+  padding: 0 0 1em 0;
+}
+
+.usa-accordion.va-footer-accordion {
+  > li {
+    background: transparent;
+    margin-bottom: 6px !important;
+  }
+}
+
+.va-footer-accordion-content {
+  background: transparent;
+  > .va-footer-links {
+    list-style: none;
+    > li {
+      margin-bottom: 0.5em;
+      > a {
+        display: inline-block;
+        color: var(--vads-color-white);
+        font-size: 1em;
+        font-weight: 400;
+        margin: 0.25em 0;
+
+        &:hover {
+          color: var(--vads-color-warning) !important;
+        }
+      }
+    }
+  }
+}
+
+.va-footer-links {
+  padding-left: 0;
+  margin-top: 0;
+
+  > li {
+    margin-bottom: 0;
+  }
+}
+
+.footer-banner,
+.va-footer-links-bottom {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+.footer-banner {
+  padding-top: 1.5em;
+  padding-bottom: 2em;
+}
+
+.va-footer-button {
+  font-weight: 400;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  color: var(--vads-color-white);
+  cursor: pointer;
+  display: block;
+  margin: 0;
+  padding: 16px 8px;
+  font-size: 16px;
+  font-family: "Source Sans Pro Web", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-primary-dark);
+  &:hover {
+    background-color: var(--vads-color-primary-dark);
+    color: var(--vads-color-white);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+  }
+
+  &.usa-accordion-button[aria-expanded="false"] {
+    background-image: url("/img/plus-white.png");
+    background-image: url("/img/plus-white.svg");
+  }
+
+  &.usa-accordion-button[aria-expanded="true"] {
+    background-image: url("/img/minus-white.png");
+    background-image: url("/img/minus-white.svg");
+  }
+}
+
+.va-footer-links-bottom {
+  ul {
+    padding-left: 0;
+    padding-bottom: 3em;
+    list-style: none;
+
+    li {
+      display: inline-block;
+
+      a {
+        color: var(--vads-color-white);
+        &:visited {
+          color: var(--vads-color-white);
+        }
+      }
+      &:not(:last-child):after {
+        content: "|";
+        padding: 0 0.625rem;
+        color: var(--vads-color-white);
+      }
+    }
+  }
+}
+
+.va-footer-content {
+  @include accessibly-hidden();
+}
+
+.va-footer-link-text {
+  color: var(--vads-color-white);
+}
+

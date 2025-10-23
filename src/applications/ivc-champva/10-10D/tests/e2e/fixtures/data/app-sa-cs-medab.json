@@ -1,0 +1,109 @@
+{
+  "description": "Certifier is applicant, sponsor alive, child (step), has Medicare A/B",
+  "data": {
+    "applicants": [
+      {
+        "applicantPhone": "1231231234",
+        "applicantEmailAddress": "certifier@email.gov",
+        "applicantAddress": {
+          "country": "USA",
+          "street": "123 Certifier Street",
+          "city": "CertTown",
+          "state": "AK",
+          "postalCode": "12312"
+        },
+        "applicantSSN": "123123124",
+        "applicantName": {
+          "first": "Certifier",
+          "last": "Jones",
+          "suffix": "Jr."
+        },
+        "applicantDob": "2000-02-02",
+        "applicantGender": {
+          "gender": "male"
+        },
+        "applicantRelationshipToSponsor": {
+          "relationshipToVeteran": "child"
+        },
+        "applicantRelationshipOrigin": {
+          "relationshipToVeteran": "step"
+        },
+        "missingUploads": [
+          {
+            "name": "applicantBirthCertOrSocialSecCard",
+            "path": "applicant-child-file/:index",
+            "required": false,
+            "uploaded": false
+          },
+          {
+            "name": "applicantStepMarriageCert",
+            "path": "applicant-child-marriage-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCardFront",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantMedicarePartAPartBCardBack",
+            "path": "applicant-medicare-ab-file/:index",
+            "required": true,
+            "uploaded": false
+          },
+          {
+            "name": "applicantOtherInsuranceCertification",
+            "path": "applicant-other-insurance-10-7959c-file/:index",
+            "required": true,
+            "uploaded": false
+          }
+        ],
+        "applicantMedicareStatus": {
+          "eligibility": "enrolled"
+        },
+        "applicantMedicarePartD": {
+          "enrollment": "notEnrolled"
+        },
+        "applicantHasOhi": {
+          "hasOhi": "no"
+        }
+      }
+    ],
+    "sponsorPhone": "2342342342",
+    "sponsorAddress": {
+      "country": "USA",
+      "street": "123 Street Circle",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "sponsorIsDeceased": false,
+    "ssn": "123123123",
+    "veteransFullName": {
+      "first": "Sponsor",
+      "last": "Jones",
+      "suffix": "Sr."
+    },
+    "sponsorDob": "1999-01-01",
+    "certifierRole": "applicant",
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "CertTown",
+      "state": "AK",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones",
+      "suffix": "Jr."
+    },
+    "consentToMailMissingRequiredFiles": true,
+    "statementOfTruthSignature": "applicant jones",
+    "statementOfTruthCertified": true
+  }
+}

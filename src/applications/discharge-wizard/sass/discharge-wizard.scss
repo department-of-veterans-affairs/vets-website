@@ -1,0 +1,41 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
+
+.discharge-wizard {
+  va-breadcrumbs {
+    padding-left: 0.9375rem;
+  }
+
+  .answer-review-box {
+    border-top: 1px solid var(--vads-color-base-light);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .answer-review-label {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .answer-review {
+    display: grid;
+    row-gap: 10px;
+  }
+
+  .need-help-padding-top {
+    padding-top: 3rem;
+  }
+
+  va-button-pair {
+    margin-right: -4px;
+    margin-left: -4px;
+  }
+
+  @media print {
+
+    [data-testid=duw-print],
+    [data-testid=duw-results-back] {
+      display: none;
+    }
+  }
+}

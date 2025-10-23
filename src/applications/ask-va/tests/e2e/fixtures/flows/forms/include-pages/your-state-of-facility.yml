@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  State of facility
+  - action: select
+    target: FACILITY
+    value: CA
+  - action: click
+    target: call-to-action

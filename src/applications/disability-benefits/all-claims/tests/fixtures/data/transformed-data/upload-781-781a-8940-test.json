@@ -1,0 +1,75 @@
+{
+  "form526": {
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE"
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE"
+      }
+    ],
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
+        }
+      ]
+    },
+    "standardClaim": false,
+    "newPrimaryDisabilities": [
+      {
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
+        "cause": "NEW"
+      }
+    ],
+    "attachments": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "85b7edad-0f51-41d2-9eab-dffcc8dabb79",
+        "attachmentId": "L228"
+      },
+      {
+        "name": "VAF-21-526EZ-May-2018.pdf",
+        "confirmationCode": "356bf189-1f54-4545-8129-a39b1a688a21",
+        "attachmentId": "L229"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "84037899-8a23-47bb-903a-9971d4071fd8",
+        "attachmentId": "L149"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "dc755749-8a1e-46eb-ad5c-f11f02e59954",
+        "attachmentId": "L115"
+      }
+    ]
+  }
+}

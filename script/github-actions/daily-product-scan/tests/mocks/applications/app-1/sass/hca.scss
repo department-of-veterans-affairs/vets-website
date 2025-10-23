@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.confirmation-page {
+  padding-bottom: 5rem;
+}
+
+.process-steps {
+  margin-left: 0;
+  padding-left: 0.8em;
+
+  .process-step {
+    padding-bottom: 0.3em;
+  }
+}
+
+.hca-success-icon {
+  color: var(--vads-color-success-dark);
+  font-size: 8rem;
+}
+
+.hca-alert-copy {
+  color: var(--vads-color-secondary-dark);
+}
+
+.success-copy {
+  color: var(--vads-color-success-dark);
+  font-weight: 600;
+}
+
+.success-alert-box {
+  border: 1px solid var(--vads-color-success-dark);
+  text-align: center;
+}
+
+.hca-tooltip-wrapper {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.hca-id-form-wrapper {
+  margin-top: 2em;
+}
+
+.bullet-disc {
+  list-style-type: disc;
+}

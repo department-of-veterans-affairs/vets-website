@@ -1,0 +1,58 @@
+{
+    "data": [
+        {
+            "id": "932dbcee-eb64-eb11-bb23-000d3a579b83",
+            "type": "contents",
+            "attributes": {
+                "name": "Benefits for spina bifida and children of women Vietnam Veterans",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Benefits for spina bifida and children of women Vietnam Veterans",
+                "parentId": "092b8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "8f2dbcee-eb64-eb11-bb23-000d3a579b83",
+            "type": "contents",
+            "attributes": {
+                "name": "CHAMPVA benefits",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "CHAMPVA benefits",
+                "parentId": "092b8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        },
+        {
+            "id": "912dbcee-eb64-eb11-bb23-000d3a579b83",
+            "type": "contents",
+            "attributes": {
+                "name": "Getting care at a VA health facility through CHAMPVA CITI",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Getting care at a VA health facility through CHAMPVA CITI",
+                "parentId": "092b8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Have they ever applied for Veteran Readiness and Employment benefits and services?
+  - action: click
+    target: radio
+    value:  N
+  - action: click
+    target: call-to-action

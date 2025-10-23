@@ -1,0 +1,83 @@
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+.form-10297-introduction-page {
+  padding-bottom: 0 !important;
+}
+
+.need-help-container {
+  width: 642px;
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+.eligibility-summary .icon-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.eligibility-summary .duty-ul {
+  list-style-type: disc;
+}
+
+.eligibility-summary .eligibility-ul {
+  list-style-type: none;
+}
+
+@media (max-width: $small-screen) {
+  .form-22-10297-container {
+    padding-inline: 0.5rem;
+  }
+
+  .form-22-10297-container .schemaform-buttons,
+  .form-22-10297-container .form-progress-buttons {
+    display: flex;
+    flex-direction: column !important;
+
+    div {
+      width: 100%;
+    }
+
+    div:first-of-type {
+      order: 2;
+    }
+  }
+}
+
+.statement-wrapper {
+  background-color: var(--vads-color-base-lightest);
+  padding: 1px 24px 24px 24px;
+  margin-block: 24px;
+}
+
+.privacy-agreement {
+  white-space: nowrap;
+}
+
+.numbered-list {
+  counter-reset: my-counter;
+  list-style: none;
+}
+
+.numbered-list li {
+  counter-increment: my-counter;
+  margin-left: 1rem;
+  list-style-position: inside;
+  text-indent: -1rem;
+  font-size: 16.96px;
+  font-family: "source-sans-pro";
+}
+
+.numbered-list li::before {
+  content: counter(my-counter) ". ";
+  margin-right: 5px;
+}
+
+.va-memorable-date-field::part(legend) {
+  width: 100vw;
+}

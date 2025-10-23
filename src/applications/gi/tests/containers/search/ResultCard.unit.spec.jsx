@@ -1,0 +1,243 @@
+import React from 'react';
+import { expect } from 'chai';
+import { waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
+import ResultCard from '../../../containers/search/ResultCard';
+
+const INSTITUTION = {
+  name: "AUSTIN'S BEAUTY COLLEGE INC",
+  facilityCode: '25008642',
+  city: 'CLARKSVILLE',
+  state: 'TN',
+  country: 'USA',
+  accreditationType: 'hybrid',
+  studentCount: 28,
+  ratingAverage: null,
+  ratingCount: 0,
+  institutionRating: {
+    institutionRatingCount: 200,
+    overallAvg: 3.7,
+  },
+  type: 'FOR PROFIT',
+  cautionFlags: [],
+  cautionFlag: null,
+  studentVeteran: null,
+  yr: false,
+  campusType: 'Y',
+  highestDegree: 'Certificate',
+  hbcu: 0,
+  menonly: 0,
+  womenonly: 0,
+  relaffil: null,
+  hsi: 0,
+  nanti: 0,
+  annhi: 0,
+  aanapii: 0,
+  pbi: 0,
+  tribal: 0,
+  preferredProvider: true,
+  dodBah: 1596,
+  bah: 1707,
+  latitude: 36.5277607,
+  longitude: -87.3588703,
+  distance: null,
+  accredited: true,
+  vetTecProvider: true,
+  programCount: null,
+  programLengthInHours: null,
+  schoolProvider: true,
+  employerProvider: false,
+  tuitionInState: 14900,
+  tuitionOutOfState: 14900,
+  vrrap: null,
+};
+
+describe('<ResultCard>', () => {
+  it('should render', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
+  });
+  it('should render with version', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version="1.0.0" />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+
+    await waitFor(() => {
+      expect(screen).to.not.be.null;
+    });
+  });
+  it('should handle checkbox changes for comparison', () => {
+    const dispatchAddCompareInstitutionSpy = sinon.spy();
+    const dispatchRemoveCompareInstitutionSpy = sinon.spy();
+    const screen = renderWithStoreAndRouter(
+      <ResultCard
+        institution={INSTITUTION}
+        dispatchAddCompareInstitution={dispatchAddCompareInstitutionSpy}
+        dispatchRemoveCompareInstitution={dispatchRemoveCompareInstitutionSpy}
+        key={25008642}
+        version={null}
+      />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    const checkbox = screen.getByRole('checkbox');
+    userEvent.click(checkbox);
+    expect(dispatchAddCompareInstitutionSpy.called).to.be.false;
+  });
+  it('should handle institution rating when all properties are present', () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+          featureToggles: {
+            [Toggler.TOGGLE_NAMES.giComparisonToolShowRatings]: true,
+          },
+        },
+      },
+    );
+    expect(screen.getByText('200 veterans rated this institution')).to.exist;
+    expect(screen.getByText('3.7 out of 4 overall')).to.exist;
+  });
+  it('should show Preferred Provider', () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.getByText('Preferred Provider')).to.exist;
+  });
+  it('should show Approved programs', () => {
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={INSTITUTION} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.getByText('Approved programs:')).to.exist;
+  });
+  it('should not show You may be eligible for up to when type is FLIGHT', () => {
+    const institution = { ...INSTITUTION, type: 'FLIGHT' };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('You may be eligible for up to:')).to.not.exist;
+  });
+  it('should show You may be eligible for up to amount when type is FOR PROFIT', () => {
+    const institution = { ...INSTITUTION };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
+    expect(screen.queryByText('You may be eligible for up to:')).to.exist;
+    expect(screen.getByText('$14,900')).to.exist;
+  });
+  it('should show You may be eligible for up to when type is not FLIGHT', () => {
+    const institution = { ...INSTITUTION, type: 'PUBLIC' };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.queryByText('Housing benefit:')).to.exist;
+    expect(screen.getByText('$1,596')).to.exist;
+    expect(screen.queryByText('You may be eligible for up to:')).to.exist;
+    expect(screen.getByText('100% in-state')).to.exist;
+  });
+  it('should render program hours', () => {
+    const institution = { ...INSTITUTION, programLengthInHours: [10, 100] };
+    const screen = renderWithStoreAndRouter(
+      <ResultCard institution={institution} key={25008642} version={null} />,
+      {
+        initialState: {
+          constants: mockConstants(),
+        },
+      },
+    );
+    expect(screen.getByText('10 - 100 hours')).to.exist;
+  });
+  it('shows "Yes" when accredited AND accreditationType is present', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: true,
+      accreditationType: 'regional',
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/^Yes$/)).to.exist;
+  });
+
+  it('shows "Yes" when accredited is true but accreditationType is null', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: true,
+      accreditationType: null,
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/^Yes$/)).to.exist;
+  });
+
+  it('shows "N/A" when accredited is false (regardless of accreditationType)', () => {
+    const inst = {
+      ...INSTITUTION,
+      accredited: false,
+      accreditationType: 'ignoredValue',
+      vetTecProvider: false,
+      schoolProvider: true,
+    };
+    const { getByText } = renderWithStoreAndRouter(
+      <ResultCard institution={inst} version={null} />,
+      { initialState: { constants: mockConstants() } },
+    );
+    expect(getByText(/^N\/A$/)).to.exist;
+  });
+});

@@ -1,0 +1,7 @@
+{
+  "appName": "GI Bill Comparison Tool",
+  "entryFile": "./gi-entry.jsx",
+  "entryName": "gi",
+  "rootUrl": "/education/gi-bill-comparison-tool",
+  "productId": "44b6c66d-6a19-4d27-8b02-910e4cc2a55f"
+}

@@ -1,0 +1,454 @@
+{
+    "data": [
+        {
+            "id": "a90960f2-a626-f011-8c4e-001dd806c085",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250501-06126",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "createdOn": "5/1/2025 4:11:40 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Updating DEERS records",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/1/2025 12:00:00 AM",
+                "queueId": "e9a4bc5e-d5fa-eb11-94ef-001dd83015a1",
+                "queueName": "EVSS Data Mismatch",
+                "status": "New",
+                "submitterQuestion": "test again",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "fe8366f0-a92a-f011-8c4e-001dd806c085",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250506-06165",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "fileSize": 6144252,
+                        "id": "2f8466f0-a92a-f011-8c4e-001dd806c085",
+                        "name": "46ff8add-78e8-4bcc-a52a-c186cfed0df1-8D079798-34E5-412E-BC1D-22E492F8CEFC.jpeg"
+                    }
+                ],
+                "categoryName": "Burials and memorials",
+                "createdOn": "5/6/2025 6:43:05 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Memorial items",
+                "levelOfAuthentication": "Business",
+                "lastUpdate": "5/6/2025 12:00:00 AM",
+                "queueId": "427de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Memorial Products",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": "FuneralDirector"
+            }
+        },
+        {
+            "id": "d2e01a80-aa2a-f011-8c4e-001dd806c085",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250506-06166",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "fileSize": 6144252,
+                        "id": "e4e01a80-aa2a-f011-8c4e-001dd806c085",
+                        "name": "46ff8add-78e8-4bcc-a52a-c186cfed0df1-8D079798-34E5-412E-BC1D-22E492F8CEFC.jpeg"
+                    }
+                ],
+                "categoryName": "Burials and memorials",
+                "createdOn": "5/6/2025 6:47:05 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Memorial items",
+                "levelOfAuthentication": "Business",
+                "lastUpdate": "5/6/2025 12:00:00 AM",
+                "queueId": "427de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Memorial Products",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": "FuneralDirector"
+            }
+        },
+        {
+            "id": "e12e6b1b-fb2f-f011-8c4e-001dd806cfa8",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250513-06263",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Life insurance",
+                "createdOn": "5/13/2025 1:06:48 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Accessing policy online",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/13/2025 12:00:00 AM",
+                "queueId": "407de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "VBA Life Insurance",
+                "status": "New",
+                "submitterQuestion": "Testing question UI for the dashboard cards. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "4bd65f0b-a726-f011-8c4e-001dd806facf",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250501-06127",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "createdOn": "5/1/2025 4:12:20 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Updating DEERS records",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/1/2025 12:00:00 AM",
+                "queueId": "e9a4bc5e-d5fa-eb11-94ef-001dd83015a1",
+                "queueName": "EVSS Data Mismatch",
+                "status": "New",
+                "submitterQuestion": "test once more",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "0995265b-a626-f011-8c4e-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250501-06124",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "createdOn": "5/1/2025 4:07:29 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Updating DEERS records",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/1/2025 12:00:00 AM",
+                "queueId": "e9a4bc5e-d5fa-eb11-94ef-001dd83015a1",
+                "queueName": "EVSS Data Mismatch",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "f9f8277f-a626-f011-8c4e-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250501-06125",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Defense Enrollment Eligibility Reporting System (DEERS)",
+                "createdOn": "5/1/2025 4:08:28 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Updating DEERS records",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/1/2025 12:00:00 AM",
+                "queueId": "e9a4bc5e-d5fa-eb11-94ef-001dd83015a1",
+                "queueName": "EVSS Data Mismatch",
+                "status": "New",
+                "submitterQuestion": "t4est",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "f7c00e00-ab2a-f011-8c4e-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250506-06167",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "fileSize": 6144252,
+                        "id": "2ac10e00-ab2a-f011-8c4e-001dd806fde4",
+                        "name": "46ff8add-78e8-4bcc-a52a-c186cfed0df1-8D079798-34E5-412E-BC1D-22E492F8CEFC.jpeg"
+                    }
+                ],
+                "categoryName": "Burials and memorials",
+                "createdOn": "5/6/2025 6:50:43 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Memorial items",
+                "levelOfAuthentication": "Business",
+                "lastUpdate": "5/6/2025 12:00:00 AM",
+                "queueId": "427de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Memorial Products",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": "FuneralDirector"
+            }
+        },
+        {
+            "id": "d6a91ed8-432c-f011-8c4e-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250508-06249",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Education benefits and work study",
+                "createdOn": "5/8/2025 7:37:25 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Educational and career counseling",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "5/8/2025 12:00:00 AM",
+                "queueId": "507de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Muskogee CSR",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "36787fc1-ea16-f011-998a-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250411-06017",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Education benefits and work study",
+                "createdOn": "4/11/2025 3:36:39 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Benefits for survivors and dependents",
+                "levelOfAuthentication": "Business",
+                "lastUpdate": "4/11/2025 12:00:00 AM",
+                "queueId": "507de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Muskogee CSR",
+                "status": "New",
+                "submitterQuestion": "testing business email",
+                "schoolFacilityCode": null,
+                "veteranRelationship": "VAEmployee"
+            }
+        },
+        {
+            "id": "78f79a11-670e-f011-bae2-001dd806fde4",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250331-05922",
+                "allowAttachments": true,
+                "allowReplies": true,
+                "hasAttachments": true,
+                "attachments": [
+                    {
+                        "fileSize": 1494860,
+                        "id": "9df79a11-670e-f011-bae2-001dd806fde4",
+                        "name": "PorQueNo1.png"
+                    }
+                ],
+                "categoryName": "Education benefits and work study",
+                "createdOn": "3/31/2025 7:33:52 PM",
+                "correspondences": null,
+                "hasBeenSplit": false,
+                "inquiryTopic": "Benefits for survivors and dependents",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "3/31/2025 12:00:00 AM",
+                "queueId": "507de9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "Muskogee CSR",
+                "status": "New",
+                "submitterQuestion": "test",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "56b347f3-0e01-f011-9341-001dd809b958",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250314-05821",
+                "allowAttachments": false,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Disability compensation",
+                "createdOn": "3/14/2025 8:00:20 PM",
+                "correspondences": null,
+                "hasBeenSplit": true,
+                "inquiryTopic": "Aid and Attendance or Housebound benefits",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "3/14/2025 12:00:00 AM",
+                "queueId": "b7eaf81b-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "VBA ART",
+                "status": "InProgress",
+                "submitterQuestion": "Tyler 2",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "dc5ed9a7-3b03-f011-9341-001dd809b958",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250317-05836",
+                "allowAttachments": false,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Center for Women Veterans",
+                "createdOn": "3/17/2025 2:25:25 PM",
+                "correspondences": null,
+                "hasBeenSplit": true,
+                "inquiryTopic": "Programs and policies",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "3/17/2025 12:00:00 AM",
+                "queueId": "fc7ce9d5-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "VACO Center for Women Veterans",
+                "status": "New",
+                "submitterQuestion": "Tyler testing split 3/17",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "36e86d15-0f01-f011-9341-001dd830a0af",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250314-05822",
+                "allowAttachments": false,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Health care",
+                "createdOn": "3/14/2025 8:01:24 PM",
+                "correspondences": null,
+                "hasBeenSplit": true,
+                "inquiryTopic": "Audiology and hearing aids",
+                "levelOfAuthentication": "Unauthenticated",
+                "lastUpdate": "3/14/2025 12:00:00 AM",
+                "queueId": "f9d63862-d81f-ed11-b83c-001dd8069009",
+                "queueName": "VHA Audiology",
+                "status": "InProgress",
+                "submitterQuestion": "Tyler 2",
+                "schoolFacilityCode": "95a51029-6816-e611-9436-0050568d743d",
+                "veteranRelationship": null
+            }
+        },
+        {
+            "id": "853ca46d-3b03-f011-9341-001dd830a0af",
+            "type": "inquiry",
+            "attributes": {
+                "inquiryNumber": "A-20250317-05834",
+                "allowAttachments": false,
+                "allowReplies": true,
+                "hasAttachments": false,
+                "attachments": [
+                    {
+                        "fileSize": 0,
+                        "id": "",
+                        "name": ""
+                    }
+                ],
+                "categoryName": "Disability compensation",
+                "createdOn": "3/17/2025 2:23:46 PM",
+                "correspondences": null,
+                "hasBeenSplit": true,
+                "inquiryTopic": "Aid and Attendance or Housebound benefits",
+                "levelOfAuthentication": "Personal",
+                "lastUpdate": "3/17/2025 12:00:00 AM",
+                "queueId": "b7eaf81b-1b6b-eb11-b0b0-001dd8309f34",
+                "queueName": "VBA ART",
+                "status": "InProgress",
+                "submitterQuestion": "Tyler testing split 3/17",
+                "schoolFacilityCode": null,
+                "veteranRelationship": null
+            }
+        }
+    ]
+}

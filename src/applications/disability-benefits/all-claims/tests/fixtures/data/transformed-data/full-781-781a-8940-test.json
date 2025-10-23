@@ -1,0 +1,360 @@
+{
+  "form526": {
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE"
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
+      }
+    ],
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
+        }
+      ]
+    },
+    "standardClaim": false,
+    "newPrimaryDisabilities": [
+      {
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
+        "unemployabilityDisability": true,
+        "cause": "NEW"
+      }
+    ],
+    "form0781": {
+      "incidents": [
+        {
+          "incidentDescription": "A thing happened.",
+          "personsInvolved": [
+            {
+              "name": { "first": "First", "middle": "Middle", "last": "Last" },
+              "rank": "Private",
+              "injuryDeath": "other",
+              "injuryDeathOther": "Other description here",
+              "injuryDeathDate": "1900-01-01",
+              "unitAssigned": "Unit name here",
+              "description": "And description."
+            },
+            {
+              "name": { "first": "Second", "middle": "Person", "last": "Name" },
+              "injuryDeath": "killedInAction",
+              "injuryDeathDate": "1900-01-01",
+              "description": "And description."
+            }
+          ],
+          "incidentLocation": {
+            "additionalDetails": "Additional details here.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
+          "unitAssigned": "Assignment name here",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-01-01",
+          "medalsCitations": "None",
+          "personalAssault": false
+        },
+        {
+          "incidentDescription": "Another thing happened on the same day.",
+          "incidentLocation": {
+            "city": "Bigcity",
+            "country": "USA",
+            "state": "AK"
+          },
+          "unitAssigned": "Unit name here",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-01-01",
+          "medalsCitations": "None",
+          "personalAssault": false
+        },
+        {
+          "incidentDescription": "Something.",
+          "personsInvolved": [
+            {
+              "name": { "first": "Guy", "middle": "", "last": "Fellows" },
+              "injuryDeath": "woundedInAction",
+              "injuryDeathDate": "1900-01-01"
+            }
+          ],
+          "incidentLocation": {
+            "additionalDetails": "No additional details to account for.",
+            "city": "Asdf",
+            "country": "USA",
+            "state": "AS"
+          },
+          "unitAssigned": "Same unit",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-03-01",
+          "medalsCitations": "Still none",
+          "personalAssault": false
+        },
+        {
+          "sources": [
+            {
+              "name": "A person",
+              "address": {
+                "country": "USA",
+                "addressLine1": "123 Main",
+                "city": "Bigcity",
+                "state": "AK"
+              }
+            },
+            {
+              "name": "Second person",
+              "address": {
+                "country": "USA",
+                "addressLine1": "123 No st",
+                "city": "Bigcity",
+                "state": "KS"
+              }
+            }
+          ],
+          "otherSources": true,
+          "incidentDescription": "A thing happened.",
+          "incidentLocation": {
+            "additionalDetails": "This is some text. Elucidating, right?",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
+          "unitAssigned": "Unit name here",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-01-01",
+          "personalAssault": true
+        },
+        {
+          "otherSources": false,
+          "incidentDescription": "This is a lot of test data.",
+          "incidentLocation": {
+            "additionalDetails": "Stuff goes here.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "OH"
+          },
+          "unitAssigned": "Unit name",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-02-01",
+          "personalAssault": true
+        },
+        {
+          "otherSources": false,
+          "incidentDescription": "A thing happened.",
+          "incidentLocation": {
+            "additionalDetails": "I'm surprised you're reading this test data.",
+            "city": "asdf",
+            "country": "USA",
+            "state": "AL"
+          },
+          "unitAssigned": "Still the same",
+          "unitAssignedDates": { "from": "1900-01-01", "to": "1901-01-01" },
+          "incidentDate": "1900-01-01",
+          "personalAssault": true
+        }
+      ],
+      "remarks": "No additional information.",
+      "additionalIncidentText": "This text is here to test that it gets to this page.",
+      "additionalSecondaryIncidentText": "Testing to make sure this page is shown.",
+      "otherInformation": [
+        "Increased visits to a medical or counseling clinic or dispensary, even without a specific diagnosis or specific ailment",
+        "Pregnancy tests around the time of the incident",
+        "Tests for HIV or sexually transmitted diseases",
+        "Extreme weight loss or gain",
+        "Lethargy",
+        " Checking all these _and_ \"none of these apply to me\" is sorta odd, isn't it?",
+        "Breakup of primary relationship",
+        "Increased disregard for military or civilian authority",
+        "Withdrawal from friends",
+        "Unexplained social behavior changes",
+        "Testing, testing, 123.",
+        "Episodes of depression, panic attacks, or anxiety without an identifiable cause",
+        "Obsessive behaviors",
+        "Increased or decreased use of prescription medications or over-the-counter medications",
+        "Substance abuse such as alcohol or drugs",
+        "Hypervigilance, heightened fight or flight response",
+        "Staying at home, not wanting to go out, agoraphobia",
+        "Increased fear of surroundings, inability to go to certain areas",
+        "Same thing goes here",
+        "Sudden requests for a change in occupational series or duty assignment",
+        "Increased use of leave",
+        "AWOL - Absent without leave",
+        "Changes in performance and performance evaluations",
+        "Economic changes",
+        "Resigning from your job",
+        "Not much to say.",
+        "Insert some words here."
+      ]
+    },
+    "form8940": {
+      "unemployability": {
+        "remarks": "So much typing...",
+        "receivedOtherEducationTrainingPostUnemployability": true,
+        "otherEducationTrainingPostUnemployability": [
+          {
+            "name": "asdf",
+            "dates": { "from": "1900-01-01", "to": "1901-01-01" }
+          }
+        ],
+        "education": "High school diploma or GED",
+        "receivedOtherEducationTrainingPreUnemployability": true,
+        "otherEducationTrainingPreUnemployability": [
+          {
+            "name": "asdf",
+            "dates": { "from": "1900-01-01", "to": "1901-01-01" }
+          }
+        ],
+        "attemptedToObtainEmploymentSinceUnemployability": true,
+        "appliedEmployers": [
+          {
+            "name": "asdf",
+            "address": {
+              "country": "USA",
+              "addressLine1": "asdf",
+              "city": "asdf",
+              "state": "AL",
+              "zipCode": "19234"
+            }
+          }
+        ],
+        "disabilityPreventMilitaryDuties": true,
+        "receiveExpectDisabilityRetirement": true,
+        "receiveExpectWorkersCompensation": true,
+        "past12MonthsEarnedIncome": 50000,
+        "currentMonthlyEarnedIncome": 3000,
+        "previousEmployers": [
+          {
+            "name": "asdf",
+            "employerAddress": {
+              "country": "USA",
+              "addressLine1": "asdf",
+              "city": "asdf",
+              "state": "AL",
+              "zipCode": "19234"
+            },
+            "phone": "1231231234",
+            "typeOfWork": "Freelancing all the thingz",
+            "hoursPerWeek": 40,
+            "dates": { "from": "1900-01-01", "to": "1901-01-01" },
+            "timeLostFromIllness": "Some",
+            "mostEarningsInAMonth": 12000,
+            "inBusiness": true
+          },
+          {
+            "name": "asdf",
+            "employerAddress": {
+              "country": "USA",
+              "addressLine1": "asdf",
+              "addressLine2": "jfasd",
+              "city": "asdfi",
+              "state": "AL",
+              "zipCode": "87654"
+            },
+            "phone": "1233211233",
+            "typeOfWork": "lbiwe",
+            "hoursPerWeek": 5,
+            "dates": { "from": "1900-01-01", "to": "1901-01-01" },
+            "timeLostFromIllness": "Mhmm",
+            "mostEarningsInAMonth": 29
+          }
+        ],
+        "mostEarningsInAYear": "100000",
+        "yearOfMostEarnings": "2018",
+        "occupationDuringMostEarnings": "Self employed",
+        "disabilityAffectedEmploymentFullTimeDate": "1900-01-01",
+        "lastWorkedFullTimeDate": "1900-01-01",
+        "becameTooDisabledToWorkDate": "1900-01-01",
+        "doctorProvidedCare": [
+          {
+            "name": "John Watson",
+            "address": {
+              "country": "England",
+              "addressLine1": "221B Baker St",
+              "city": "London"
+            },
+            "dates": "It was a long time ago"
+          }
+        ],
+        "hospitalProvidedCare": [
+          {
+            "name": "Hospital name here",
+            "address": {
+              "country": "USA",
+              "addressLine1": "123 Main",
+              "city": "asdf",
+              "state": "AL",
+              "zipCode": "19234"
+            }
+          },
+          {
+            "name": "Another hospital",
+            "address": {
+              "country": "USA",
+              "addressLine1": "123 Main",
+              "city": "Somewherevill",
+              "state": "CA"
+            },
+            "dates": "A while ago. Weird that this isn't a date field, right?"
+          }
+        ],
+        "disabilityPreventingEmployment": "Diabetes mellitus1,PTSD (post-traumatic stress disorder), combat-related",
+        "underDoctorHopitalCarePast12M": true
+      }
+    },
+    "attachments": [
+      {
+        "name": "image.png",
+        "confirmationCode": "b81e83bb-6966-41af-86f9-08be1949bef4",
+        "attachmentId": "L115"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "21456f79-4602-4e1e-8ba1-ba5c54fb8fc0",
+        "attachmentId": "L149"
+      },
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "44d03c38-04ab-4c60-af7b-b46255aa7209",
+        "attachmentId": "L023"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "7b319ffa-df6a-42d2-9826-95c3629fb8c8",
+        "attachmentId": "L034"
+      },
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "0e6e0710-03e6-4bd6-98bf-227f6055cc15",
+        "attachmentId": "L018"
+      }
+    ]
+  }
+}

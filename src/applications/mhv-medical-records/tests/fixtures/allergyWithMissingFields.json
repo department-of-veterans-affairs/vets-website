@@ -1,0 +1,87 @@
+{
+  "resourceType": "AllergyIntolerance",
+  "id": "3106",
+  "meta": {
+    "versionId": "38",
+    "lastUpdated": "2023-09-29T09:32:09.177-04:00",
+    "source": "#EAedTZrjAfUfmoab",
+    "profile": [
+      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.allergyIntolerance"
+    ]
+  },
+  "contained": [
+    {
+      "resourceType": "Organization",
+      "id": "Organization-0",
+      "identifier": [
+        {
+          "use": "usual",
+          "system": "urn:oid:2.16.840.1.113883.4.349",
+          "value": "979"
+        }
+      ],
+      "name": "SLC10.FO-BAYPINES.MED.VA.GOV"
+    }
+  ],
+  "extension": [
+    {
+      "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/allergyObservedHistoric",
+      "valueString": "o"
+    }
+  ],
+  "identifier": [
+    {
+      "use": "official",
+      "system": "http://va.gov/systems/979_120.8",
+      "value": "69171"
+    }
+  ],
+  "clinicalStatus": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+        "code": "active"
+      }
+    ]
+  },
+  "category": ["food"],
+  "code": {
+    "text": "NUTS"
+  },
+  "patient": {
+    "reference": "Patient/3102"
+  },
+  "recordedDate": "",
+  "recorder": {
+    "extension": [
+      {
+        "url": "http://hl7.org/fhir/StructureDefinition/alternate-reference",
+        "valueReference": {
+          "reference": "#Organization-0"
+        }
+      }
+    ],
+    "display": "SLC10.FO-BAYPINES.MED.VA.GOV"
+  },
+  "note": [
+    {
+      "time": "2023-08-23T23:16:00-06:00",
+      "text": "Maruf's test "
+    }
+  ],
+  "reaction": [
+    {
+      "manifestation": [
+        {
+          "coding": [
+            {
+              "system": "urn:oid:2.16.840.1.113883.6.233",
+              "code": "4538635"
+            }
+          ],
+          "text": "RASH"
+        }
+      ]
+    }
+  ]
+}

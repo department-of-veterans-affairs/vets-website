@@ -1,0 +1,7 @@
+{
+  "appName": "GI Bill School Feedback Tool",
+  "entryFile": "./feedback-tool-entry.jsx",
+  "entryName": "feedback-tool",
+  "rootUrl": "/education/submit-school-feedback",
+  "productId": "9d7ff36b-1fa7-41fd-9208-b43f4c0a254b"
+}

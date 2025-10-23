@@ -1,0 +1,28 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
+@import "./user-profile";
+@import "./dashboard-alert";
+@import "./test-notification";
+
+[tabindex="-1"]:focus {
+  outline: 0;
+}
+
+.cta-link:nth-of-type(1) {
+  border-top: 1px solid var(--vads-color-primary-alt-light);
+
+  @media (max-width: $small-screen) {
+    margin-top: units(2.5);
+  }
+}
+
+.cta-link {
+  display: block;
+  border-bottom: 1px solid var(--vads-color-primary-alt-light);
+
+  &:hover {
+    background-color: var(--vads-color-base-lightest);
+    cursor: pointer;
+  }
+}

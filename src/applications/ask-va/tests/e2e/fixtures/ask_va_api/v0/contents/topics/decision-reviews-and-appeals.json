@@ -1,0 +1,42 @@
+{
+    "data": [
+        {
+            "id": "a72a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Board Appeals",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Board Appeals",
+                "parentId": "60524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "a52a8586-e764-eb11-bb23-000d3a579c3f",
+            "type": "contents",
+            "attributes": {
+                "name": "Higher-Level Reviews or Supplemental Claims",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Higher-Level Reviews or Supplemental Claims",
+                "parentId": "60524deb-d864-eb11-bb24-000d3a579c45",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "Topic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+  "data": {
+    "id": "189685",
+    "type": "claim",
+    "attributes": {
+      "claimDate": "2021-01-12",
+      "claimPhaseDates": {
+        "phaseChangeDate": "2022-01-01",
+        "currentPhaseBack": false,
+        "latestPhaseType": "GATHERING_OF_EVIDENCE",
+        "previousPhases": {
+          "phase1CompleteDate": "2022-01-01",
+          "phase2CompleteDate": "2022-01-01"
+        }
+      },
+      "claimType": "Compensation",
+      "claimTypeCode": "110LCMP7IDES",
+      "closeDate": null,
+      "contentions": [
+        {
+          "name": "tinnitus (New)"
+        },
+        {
+          "name": "tinnitus (New)"
+        },
+        {
+          "name": "tinnitus (New)"
+        },
+        {
+          "name": "tinnitus (New)"
+        }
+      ],
+      "decisionLetterSent": false,
+      "developmentLetterSent": false,
+      "documentsNeeded": false,
+      "endProductCode": "020",
+      "evidenceWaiverSubmitted5103": false,
+      "errors": [],
+      "jurisdiction": "National Work Queue",
+      "lighthouseId": null,
+      "maxEstClaimDate": "2022-02-02",
+      "minEstClaimDate": null,
+      "status": "EVIDENCE_GATHERING_REVIEW_DECISION",
+      "submitterApplicationCode": "EBN",
+      "submitterRoleCode": "VET",
+      "supportingDocuments": [
+        {
+          "documentId": "{54EF0C16-A9E7-4C3F-B876-B2C7BEC1F834}",
+          "documentTypeLabel": "Correspondence",
+          "originalFileName": "additional_info.pdf",
+          "trackedItemId": null,
+          "uploadDate": "2022-01-05"
+        }
+      ],
+      "tempJurisdiction": null,
+      "trackedItems": []
+    }
+  }
+}

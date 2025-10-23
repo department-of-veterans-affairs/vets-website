@@ -1,0 +1,28 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+form[name="yellow-ribbon-form"] {
+  .form-expanding-group-open {
+    margin-left: -1rem;
+    padding-left: 0.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .school-program {
+    margin-top: 36px !important;
+  }
+}
+
+.va-u-outline--none:focus {
+  outline: none;
+}
+
+@include media($small-desktop-screen) {
+  form[name="yellow-ribbon-form"] {
+    .form-expanding-group-open {
+      margin-left: -2rem;
+      padding-left: calc(2rem - 7px);
+    }
+  }
+}

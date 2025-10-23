@@ -1,0 +1,45 @@
+/* Review Box
+---------------------------------------------------------------------*/
+.review-box {
+	align-items: center;
+	background-color: var(--vads-color-base-lightest);
+	margin-bottom: 16px;
+	padding: 22px 16px;
+}
+.review-box--view {
+	display: flex;
+	justify-content: space-between;
+}
+.review-box_body {
+	margin: 0;
+	padding: 0;
+}
+.review-box_title {
+	margin-top: 0;
+}
+.review-box .usa-input-error {
+	margin-top: 0;
+}
+.review-box_group {
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+}
+.review-box_label {
+	// Trying to match h5 styling here. Couldn't find an appropriate
+	// mixin, so I'm manually copying the styling here.
+	font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+	font-size: 15/16 + 0em; // i.e. 15px
+	font-weight: 700;
+	line-height: 20/15 + 0em; // i.e. 20px
+	margin-bottom: 6/15 + 0em; // i.e. 6px
+}
+.review-box_button {
+	flex: 0 1;
+	margin: 0;
+}
+.review-box_button,
+.review-box .usa-button-secondary {
+	background: var(--vads-color-white);
+}
+/* END Review Box ----------------------------------------------------*/

@@ -1,0 +1,516 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingNew": true
+    },
+    "form4192Upload": [
+      {
+        "name": "image.png",
+        "confirmationCode": "b81e83bb-6966-41af-86f9-08be1949bef4",
+        "attachmentId": "L115"
+      }
+    ],
+    "view:upload4192Choice": {
+      "view:4192Info": true,
+      "view:download4192": true,
+      "view:upload4192": true,
+      "view:sendRequests": true
+    },
+    "unemployability": {
+      "view:statementsAreTrue": {
+        "view:statementsAreTrueAccept": true
+      },
+      "view:informOfReturnToWork": {
+        "view:informOfReturnToWorkAccept": true
+      },
+      "remarks": "So much typing...",
+      "receivedOtherEducationTrainingPostUnemployability": true,
+      "otherEducationTrainingPostUnemployability": [
+        {
+          "name": "asdf",
+          "dates": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ],
+      "education": "High school diploma or GED",
+      "receivedOtherEducationTrainingPreUnemployability": true,
+      "otherEducationTrainingPreUnemployability": [
+        {
+          "name": "asdf",
+          "dates": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          }
+        }
+      ],
+      "attemptedToObtainEmploymentSinceUnemployability": true,
+      "appliedEmployers": [
+        {
+          "name": "asdf",
+          "address": {
+            "country": "USA",
+            "addressLine1": "asdf",
+            "city": "asdf",
+            "state": "AL",
+            "zipCode": "19234"
+          }
+        }
+      ],
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "disabilityPreventMilitaryDuties": "yes",
+      "receiveExpectDisabilityRetirement": true,
+      "receiveExpectWorkersCompensation": true,
+      "view:supplementalBenefitsHelp": {},
+      "past12MonthsEarnedIncome": 50000,
+      "view:grossIncomeAdditionalInfo": {},
+      "view:isEmployed": true,
+      "currentMonthlyEarnedIncome": 3000,
+      "previousEmployers": [
+        {
+          "name": "asdf",
+          "employerAddress": {
+            "country": "USA",
+            "addressLine1": "asdf",
+            "city": "asdf",
+            "state": "AL",
+            "zipCode": "19234"
+          },
+          "phone": "1231231234",
+          "typeOfWork": "Freelancing all the thingz",
+          "hoursPerWeek": 40,
+          "dates": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          },
+          "timeLostFromIllness": "Some",
+          "mostEarningsInAMonth": 12000,
+          "inBusiness": true
+        },
+        {
+          "name": "asdf",
+          "employerAddress": {
+            "country": "USA",
+            "addressLine1": "asdf",
+            "addressLine2": "jfasd",
+            "city": "asdfi",
+            "state": "AL",
+            "zipCode": "87654"
+          },
+          "phone": "1233211233",
+          "typeOfWork": "lbiwe",
+          "hoursPerWeek": 5,
+          "dates": {
+            "from": "1900-01-01",
+            "to": "1901-01-01"
+          },
+          "timeLostFromIllness": "Mhmm",
+          "mostEarningsInAMonth": 29
+        }
+      ],
+      "mostEarningsInAYear": 100000,
+      "yearOfMostEarnings": "2018",
+      "occupationDuringMostEarnings": "Self employed",
+      "disabilityAffectedEmploymentFullTimeDate": "1900-01-01",
+      "lastWorkedFullTimeDate": "1900-01-01",
+      "becameTooDisabledToWorkDate": "1900-01-01",
+      "view:unemployabilityDatesDesc": {},
+      "doctorProvidedCare": [
+        {
+          "name": "John Watson",
+          "address": {
+            "country": "England",
+            "addressLine1": "221B Baker St",
+            "city": "London"
+          },
+          "dates": "It was a long time ago"
+        }
+      ],
+      "hospitalProvidedCare": [
+        {
+          "name": "Hospital name here",
+          "view:hospitalAddressTitle": {},
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main",
+            "city": "asdf",
+            "state": "AL",
+            "zipCode": "19234"
+          }
+        },
+        {
+          "name": "Another hospital",
+          "view:hospitalAddressTitle": {},
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main",
+            "city": "Somewherevill",
+            "state": "CA"
+          },
+          "dates": "A while ago. Weird that this isn't a date field, right?"
+        }
+      ],
+      "view:recordsInfo": {},
+      "view:medicalCare": true,
+      "underDoctorsCare": true,
+      "hospitalized": true
+    },
+    "unemployabilitySupportingDocuments": [
+      {
+        "name": "image.png",
+        "confirmationCode": "21456f79-4602-4e1e-8ba1-ba5c54fb8fc0",
+        "attachmentId": "L149"
+      }
+    ],
+    "view:uploadUnemployabilitySupportingDocumentsChoice": true,
+    "view:privateMedicalFacility": {},
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "unemployabilityDisability": true
+      }
+    ],
+    "newDisabilities": [
+      {
+        "condition": "PTSD (post-traumatic stress disorder), combat-related",
+        "view:descriptionInfo": {},
+        "unemployabilityDisability": true
+      }
+    ],
+    "view:unemployabilityHelp": {},
+    "view:unemployabilityUploadChoice": "answerQuestions",
+    "view:unemployable": true,
+    "additionalChanges": "Insert some words here.",
+    "socialBehaviorChanges": {
+      "breakup": true,
+      "increasedDisregard": true,
+      "withdrawal": true,
+      "unexplained": true,
+      "other": true,
+      "otherExplanation": "Testing, testing, 123.",
+      "noneApply": true
+    },
+    "workBehaviorChanges": {
+      "changeAssignment": true,
+      "increasedLeave": true,
+      "withoutLeave": true,
+      "performanceChanges": true,
+      "economicChanges": true,
+      "resign": true,
+      "other": true,
+      "otherExplanation": "Not much to say.",
+      "noneApply": true
+    },
+    "mentalChanges": {
+      "depression": true,
+      "obsessive": true,
+      "prescription": true,
+      "substance": true,
+      "hypervigilance": true,
+      "agoraphobia": true,
+      "fear": true,
+      "other": true,
+      "otherExplanation": "Same thing goes here",
+      "noneApply": true
+    },
+    "physicalChanges": {
+      "increasedVisits": true,
+      "pregnancyTests": true,
+      "hivTests": true,
+      "weightChanges": true,
+      "lethargy": true,
+      "other": true,
+      "otherExplanation": " Checking all these _and_ \"none of these apply to me\" is sorta odd, isn't it?",
+      "noneApply": true
+    },
+    "additionalSecondaryIncidentText": "Testing to make sure this page is shown.",
+    "view:enterAdditionalSecondaryEvents2": true,
+    "secondaryUploadSources2": [
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "0e6e0710-03e6-4bd6-98bf-227f6055cc15",
+        "attachmentId": "L018"
+      }
+    ],
+    "secondaryIncident2": {
+      "view:uploadSources": true,
+      "otherSources": false,
+      "incidentDescription": "A thing happened.",
+      "incidentLocation": {
+        "country": "USA",
+        "city": "asdf",
+        "state": "AL",
+        "additionalDetails": "I'm surprised you're reading this test data."
+      },
+      "unitAssigned": "Still the same",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-01-01",
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "view:enterAdditionalSecondaryEvents1": true,
+    "secondaryIncident1": {
+      "view:uploadSources": false,
+      "otherSources": false,
+      "incidentDescription": "This is a lot of test data.",
+      "incidentLocation": {
+        "country": "USA",
+        "city": "asdf",
+        "state": "OH",
+        "additionalDetails": "Stuff goes here."
+      },
+      "unitAssigned": "Unit name",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-02-01",
+      "otherSourcesHelp": {}
+    },
+    "view:enterAdditionalSecondaryEvents0": true,
+    "secondaryUploadSources0": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "44d03c38-04ab-4c60-af7b-b46255aa7209",
+        "attachmentId": "L023"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "7b319ffa-df6a-42d2-9826-95c3629fb8c8",
+        "attachmentId": "L034"
+      }
+    ],
+    "secondaryIncident0": {
+      "view:uploadSources": true,
+      "sources": [
+        {
+          "name": "A person",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 Main",
+            "city": "Bigcity",
+            "state": "AK"
+          }
+        },
+        {
+          "name": "Second person",
+          "address": {
+            "country": "USA",
+            "addressLine1": "123 No st",
+            "city": "Bigcity",
+            "state": "KS"
+          }
+        }
+      ],
+      "otherSourcesHelp": {
+        "view:helpPrivateMedicalTreatment": true,
+        "view:helpRequestingStatements": true
+      },
+      "otherSources": true,
+      "incidentDescription": "A thing happened.",
+      "incidentLocation": {
+        "country": "USA",
+        "city": "asdf",
+        "state": "AL",
+        "additionalDetails": "This is some text. Elucidating, right?"
+      },
+      "unitAssigned": "Unit name here",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-01-01"
+    },
+    "view:upload781aChoice": "answerQuestions",
+    "view:upload781aChoiceHelp": {},
+    "additionalRemarks781": "No additional information.",
+    "additionalIncidentText": "This text is here to test that it gets to this page.",
+    "view:enterAdditionalEvents2": true,
+    "incident2": {
+      "incidentDescription": "Something.",
+      "personsInvolved": [
+        {
+          "name": {
+            "first": "Guy",
+            "last": "Fellows"
+          },
+          "injuryDeath": "woundedInAction",
+          "injuryDeathDate": "1900-01-01",
+          "view:serviceMember": false,
+          "view:individualAddMsg": {}
+        }
+      ],
+      "incidentLocation": {
+        "country": "USA",
+        "city": "Asdf",
+        "state": "AS",
+        "additionalDetails": "No additional details to account for."
+      },
+      "unitAssigned": "Same unit",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-03-01",
+      "medalsCitations": "Still none"
+    },
+    "view:individualsInvolved2": true,
+    "view:enterAdditionalEvents1": true,
+    "incident1": {
+      "incidentDescription": "Another thing happened on the same day.",
+      "incidentLocation": {
+        "country": "USA",
+        "city": "Bigcity",
+        "state": "AK"
+      },
+      "unitAssigned": "Unit name here",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-01-01",
+      "medalsCitations": "None"
+    },
+    "view:individualsInvolved1": false,
+    "view:enterAdditionalEvents0": true,
+    "incident0": {
+      "incidentDescription": "A thing happened.",
+      "personsInvolved": [
+        {
+          "name": {
+            "first": "First",
+            "middle": "Middle",
+            "last": "Last"
+          },
+          "rank": "Private",
+          "injuryDeath": "other",
+          "injuryDeathOther": "Other description here",
+          "injuryDeathDate": "1900-01-01",
+          "unitAssigned": "Unit name here",
+          "description": "And description.",
+          "view:serviceMember": true,
+          "view:individualAddMsg": {}
+        },
+        {
+          "name": {
+            "first": "Second",
+            "middle": "Person",
+            "last": "Name"
+          },
+          "injuryDeath": "killedInAction",
+          "injuryDeathDate": "1900-01-01",
+          "description": "And description.",
+          "view:serviceMember": false,
+          "view:individualAddMsg": {}
+        }
+      ],
+      "incidentLocation": {
+        "country": "USA",
+        "city": "asdf",
+        "state": "AL",
+        "additionalDetails": "Additional details here."
+      },
+      "unitAssigned": "Assignment name here",
+      "unitAssignedDates": {
+        "from": "1900-01-01",
+        "to": "1901-01-01"
+      },
+      "incidentDate": "1900-01-01",
+      "medalsCitations": "None"
+    },
+    "view:individualsInvolved0": true,
+    "view:upload781Choice": "answerQuestions",
+    "view:upload781ChoiceHelp": {},
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true,
+      "view:mstPtsdType": true,
+      "view:assaultPtsdType": true,
+      "view:nonCombatPtsdType": true
+    },
+    "skip781ForCombatReason": false,
+    "skip781ForNonCombatReason": false,
+    "view:ptsdTypeHelp": {},
+    "view:disabilitiesClarification": {},
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:contactInfoDescription": {},
+    "view:hasEvidence": false,
+    "view:powStatus": false,
+    "hasTrainingPay": false,
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "view:hasAlternateName": false,
+    "view:ancillaryFormsWizardIntro": {},
+    "view:downloadInfo": {},
+    "view:vaMedicalRecordsIntro": {},
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:bankAccount": {
+      "view:hasPrefilledBank": true
+    },
+    "view:waiveRetirementPayDescription": {},
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "form526": {
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "isTerminallyIll": false,
+    "hasTrainingPay": false,
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit 1"
+      },
+      "servicePeriods": [{
+        "serviceBranch": "Air Force Reserves",
+        "dateRange": {
+          "from": "2001-03-21",
+          "to": "2014-07-21"
+        }
+      }]
+    },
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "standardClaim": false,
+    "privacyAgreementAccepted": true,
+    "newPrimaryDisabilities": [{
+      "condition": "PTSD",
+      "cause": "NEW",
+      "primaryDescription": "PTSD related to feared hostile military or terrorist activity"
+    }]
+  }
+}

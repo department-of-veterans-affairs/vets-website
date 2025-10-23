@@ -1,0 +1,63 @@
+{
+  "data": {
+    "remarks": {
+      "respiratoryIllness": true,
+      "blindness": true,
+      "lossOfHands": true,
+      "lossOfLimbs": true,
+      "lossOfLegs": true,
+      "lossOfExtremity": true,
+      "burns": true
+    },
+    "otherConditions": "This really weird fungus thing",
+    "livingSituation": {
+      "careFacilityName": "One Stone Facility Care",
+      "careFacilityAddress": {
+        "street": "1 Stone st",
+        "street2": "behind the mcdonalds",
+        "city": "Stoneville",
+        "country": "USA",
+        "state": "ID",
+        "postalCode": "11111"
+      },
+      "isInCareFacility": true
+    },
+    "previousHiApplication": {
+      "previousHiApplicationDate": "1999-02-04",
+      "previousHiApplicationAddress": {
+        "city": "Atlanta"
+      },
+      "hasPreviousHiApplication": true
+    },
+    "previousSahApplication": {
+      "previousSahApplicationDate": "2000-06-10",
+      "previousSahApplicationAddress": {
+        "city": "Atlanta"
+      },
+      "hasPreviousSahApplication": true
+    },
+    "veteran": {
+      "homePhone": "1111111111",
+      "mobilePhone": "1111111111",
+      "email": "barnierubble@rockstreet.com",
+      "address": {
+        "isMilitary": true,
+        "country": "USA",
+        "view:militaryBaseDescription": {},
+        "street": "1111 Rock st.",
+        "street2": "Apartment 2",
+        "city": "APO",
+        "state": "AA",
+        "postalCode": "34055"
+      },
+      "ssn": "345345678",
+      "fullName": {
+        "first": "Barnie",
+        "middle": "Stone",
+        "last": "Rubble",
+        "suffix": "II"
+      },
+      "dateOfBirth": "2000-07-10"
+    }
+  }
+}

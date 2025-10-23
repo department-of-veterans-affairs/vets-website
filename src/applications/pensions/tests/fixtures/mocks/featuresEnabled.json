@@ -1,0 +1,10 @@
+{
+    "data": {
+      "features": [
+        {
+          "name": "pension_form_enabled",
+          "value": true
+        }
+      ]
+    }
+  }

@@ -1,0 +1,1118 @@
+{
+  "data": [
+    {
+      "id": "vha_508GA",
+      "type": "facility",
+      "attributes": {
+        "classification": "VA Medical Center (VAMC)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508GA",
+        "lat": 33.70639702,
+        "long": -84.42929863,
+        "mobile": false,
+        "name": "Fort McPherson VA Clinic",
+        "operationalHoursSpecialInstructions": [
+          "More hours are available for some services. To learn more, call our main phone number."
+        ],
+        "uniqueId": "508GA",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/fort-mcpherson-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30310-5110",
+            "city": "Atlanta",
+            "state": "GA",
+            "address1": "1701 Hardee Avenue, Southwest"
+          }
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.6899999976158142,
+            "primaryCareRoutine": 0.699999988079071
+          },
+          "effectiveDate": "2025-02-04"
+        },
+        "hours": {
+          "monday": "730AM-800PM",
+          "tuesday": "730AM-800PM",
+          "wednesday": "730AM-800PM",
+          "thursday": "730AM-800PM",
+          "friday": "730AM-400PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "404-230-5683",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "mentalHealthClinic": "404-321-6111, ext. 121776",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Dental/oral surgery",
+              "serviceId": "dental",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/dental"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/dermatology"
+            },
+            {
+              "name": "Gynecology",
+              "serviceId": "gynecology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/gynecology"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/laboratory"
+            },
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/mentalHealth"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/nutrition"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/ophthalmology"
+            },
+            {
+              "name": "Podiatry",
+              "serviceId": "podiatry",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/podiatry"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services/primaryCare"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GA/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508",
+      "type": "facility",
+      "attributes": {
+        "classification": "VA Medical Center (VAMC)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508",
+        "lat": 33.801939,
+        "long": -84.3130305,
+        "mobile": false,
+        "name": "Joseph Maxwell Cleland Atlanta VA Medical Center",
+        "operationalHoursSpecialInstructions": [
+          "Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m."
+        ],
+        "uniqueId": "508",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/joseph-maxwell-cleland-atlanta-va-medical-center/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30033-4004",
+            "city": "Decatur",
+            "state": "GA",
+            "address1": "1670 Clairmont Road"
+          }
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0,
+            "primaryCareRoutine": 0.7900000214576721,
+            "specialtyCareUrgent": 0.6600000262260437,
+            "specialtyCareRoutine": 0.7300000190734863
+          },
+          "effectiveDate": "2025-02-04"
+        },
+        "hours": {
+          "monday": "24/7",
+          "tuesday": "24/7",
+          "wednesday": "24/7",
+          "thursday": "24/7",
+          "friday": "24/7",
+          "saturday": "24/7",
+          "sunday": "24/7"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "404-321-6111",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "877-728-5932 x202264",
+          "mentalHealthClinic": "404-321-6111, ext. 206026",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Advice nurse",
+              "serviceId": "adviceNurse",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/adviceNurse"
+            },
+            {
+              "name": "Audiology",
+              "serviceId": "audiology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/audiology"
+            },
+            {
+              "name": "Cardiology",
+              "serviceId": "cardiology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/cardiology"
+            },
+            {
+              "name": "CaregiverSupport",
+              "serviceId": "caregiverSupport",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/caregiverSupport"
+            },
+            {
+              "name": "COVID-19 vaccines",
+              "serviceId": "covid19Vaccine",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/covid19Vaccine"
+            },
+            {
+              "name": "Dental/oral surgery",
+              "serviceId": "dental",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/dental"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/dermatology"
+            },
+            {
+              "name": "Emergency care",
+              "serviceId": "emergencyCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/emergencyCare"
+            },
+            {
+              "name": "Veteran Readiness and Employment programs",
+              "serviceId": "employmentPrograms",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/employmentPrograms"
+            },
+            {
+              "name": "Endocrinology",
+              "serviceId": "endocrinology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/endocrinology"
+            },
+            {
+              "name": "Gastroenterology",
+              "serviceId": "gastroenterology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/gastroenterology"
+            },
+            {
+              "name": "Gynecology",
+              "serviceId": "gynecology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/gynecology"
+            },
+            {
+              "name": "Hematology/oncology",
+              "serviceId": "hematology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/hematology"
+            },
+            {
+              "name": "HIV/hepatitis care",
+              "serviceId": "hiv",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/hiv"
+            },
+            {
+              "name": "Homeless Veteran care",
+              "serviceId": "homeless",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/homeless"
+            },
+            {
+              "name": "Palliative and hospice care",
+              "serviceId": "hospice",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/hospice"
+            },
+            {
+              "name": "Infectious disease",
+              "serviceId": "infectiousDisease",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/infectiousDisease"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/laboratory"
+            },
+            {
+              "name": "LGBTQ+ Veteran care",
+              "serviceId": "lgbtq",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/lgbtq"
+            },
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/mentalHealth"
+            },
+            {
+              "name": "Minority Veteran care",
+              "serviceId": "minorityCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/minorityCare"
+            },
+            {
+              "name": "Nephrology",
+              "serviceId": "nephrology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/nephrology"
+            },
+            {
+              "name": "Neurology",
+              "serviceId": "neurology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/neurology"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/nutrition"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/ophthalmology"
+            },
+            {
+              "name": "Orthopedics",
+              "serviceId": "orthopedics",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/orthopedics"
+            },
+            {
+              "name": "Otolaryngology",
+              "serviceId": "otolaryngology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/otolaryngology"
+            },
+            {
+              "name": "Patient advocates",
+              "serviceId": "patientAdvocates",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/patientAdvocates"
+            },
+            {
+              "name": "Pharmacy",
+              "serviceId": "pharmacy",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/pharmacy"
+            },
+            {
+              "name": "Physical medicine and rehabilitation",
+              "serviceId": "physicalMedicine",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/physicalMedicine"
+            },
+            {
+              "name": "Plastic and reconstructive surgery",
+              "serviceId": "plasticSurgery",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/plasticSurgery"
+            },
+            {
+              "name": "Podiatry",
+              "serviceId": "podiatry",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/podiatry"
+            },
+            {
+              "name": "Polytrauma and traumatic brain injury",
+              "serviceId": "polytrauma",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/polytrauma"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/primaryCare"
+            },
+            {
+              "name": "Pulmonary medicine",
+              "serviceId": "pulmonaryMedicine",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/pulmonaryMedicine"
+            },
+            {
+              "name": "Radiology",
+              "serviceId": "radiology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/radiology"
+            },
+            {
+              "name": "Registry exams",
+              "serviceId": "registryExams",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/registryExams"
+            },
+            {
+              "name": "Rheumatology",
+              "serviceId": "rheumatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/rheumatology"
+            },
+            {
+              "name": "Sleep medicine",
+              "serviceId": "sleepMedicine",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/sleepMedicine"
+            },
+            {
+              "name": "Suicide prevention",
+              "serviceId": "suicidePrevention",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/suicidePrevention"
+            },
+            {
+              "name": "Surgery",
+              "serviceId": "surgery",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/surgery"
+            },
+            {
+              "name": "Telehealth",
+              "serviceId": "telehealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/telehealth"
+            },
+            {
+              "name": "Thoracic surgery",
+              "serviceId": "thoracicSurgery",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/thoracicSurgery"
+            },
+            {
+              "name": "Returning service member care",
+              "serviceId": "transitionCounseling",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/transitionCounseling"
+            },
+            {
+              "name": "Urology",
+              "serviceId": "urology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/urology"
+            },
+            {
+              "name": "Vascular surgery",
+              "serviceId": "vascularSurgery",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/vascularSurgery"
+            },
+            {
+              "name": "Whole health",
+              "serviceId": "wholeHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/wholeHealth"
+            },
+            {
+              "name": "Women Veteran care",
+              "serviceId": "womensHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services/womensHealth"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508QF",
+      "type": "facility",
+      "attributes": {
+        "classification": "Multi-Specialty CBOC",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508QF",
+        "lat": 33.78142043,
+        "long": -84.27757463,
+        "mobile": false,
+        "name": "Atlanta VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508QF",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/atlanta-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30030-2115",
+            "city": "Decatur",
+            "state": "GA",
+            "address1": "250 North Arcadia Avenue"
+          }
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0,
+            "primaryCareRoutine": 0.949999988079071
+          },
+          "effectiveDate": "2025-02-04"
+        },
+        "hours": {
+          "monday": "730AM-600PM",
+          "tuesday": "730AM-600PM",
+          "wednesday": "730AM-400PM",
+          "thursday": "730AM-600PM",
+          "friday": "730AM-600PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-417-5262",
+          "main": "404-297-1540 x313737",
+          "pharmacy": "404-321-6111 x207769",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "mentalHealthClinic": "404-321-6111, ext. 313475",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Anesthesia",
+              "serviceId": "anesthesia",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/anesthesia"
+            },
+            {
+              "name": "Dental/oral surgery",
+              "serviceId": "dental",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/dental"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/dermatology"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/laboratory"
+            },
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/mentalHealth"
+            },
+            {
+              "name": "Neurology",
+              "serviceId": "neurology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/neurology"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/nutrition"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/ophthalmology"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/primaryCare"
+            },
+            {
+              "name": "Prosthetics and rehabilitation",
+              "serviceId": "prosthetics",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/prosthetics"
+            },
+            {
+              "name": "Rheumatology",
+              "serviceId": "rheumatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/rheumatology"
+            },
+            {
+              "name": "Sleep medicine",
+              "serviceId": "sleepMedicine",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/sleepMedicine"
+            },
+            {
+              "name": "Women Veteran care",
+              "serviceId": "womensHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services/womensHealth"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QF/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508QI",
+      "type": "facility",
+      "attributes": {
+        "classification": "Other Outpatient Services (OOS)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508QI",
+        "lat": 33.849333,
+        "long": -84.3134265,
+        "mobile": false,
+        "name": "North DeKalb County VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508QI",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/north-dekalb-county-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30329-1044",
+            "city": "Brookhaven",
+            "state": "GA",
+            "address1": "3101 Clairmont Road Northeast"
+          }
+        },
+        "feedback": [],
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "404-315-4100 x373100",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QI/services/primaryCare"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QI/services"
+        }
+      }
+    },
+    {
+      "id": "vha_508QH",
+      "type": "facility",
+      "attributes": {
+        "classification": "Other Outpatient Services (OOS)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508QH",
+        "lat": 33.6132,
+        "long": -84.446928,
+        "mobile": false,
+        "name": "South Fulton County VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508QH",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/south-fulton-county-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30349-6055",
+            "city": "College Park",
+            "state": "GA",
+            "address1": "1800 Phoenix Boulevard",
+            "address3": "Building 100, Suite 120"
+          }
+        },
+        "feedback": [],
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "770-907-3300",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QH/services/mentalHealth"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QH/services/primaryCare"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QH/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508GP",
+      "type": "facility",
+      "attributes": {
+        "classification": "Other Outpatient Services (OOS)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508GP",
+        "lat": 33.89379506,
+        "long": -84.47319066,
+        "mobile": false,
+        "name": "South Cobb County VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508GP",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/south-cobb-county-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30080-8581",
+            "city": "Smyrna",
+            "state": "GA",
+            "address1": "2400 Herodian Way Southeast"
+          }
+        },
+        "feedback": [],
+        "hours": {
+          "monday": "730AM-400PM",
+          "tuesday": "730AM-400PM",
+          "wednesday": "730AM-400PM",
+          "thursday": "730AM-400PM",
+          "friday": "730AM-400PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "770-916-7900",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GP/services/mentalHealth"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GP/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508QC",
+      "type": "facility",
+      "attributes": {
+        "classification": "Other Outpatient Services (OOS)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508QC",
+        "lat": 33.85242992,
+        "long": -84.25903106,
+        "mobile": false,
+        "name": "Henderson Mill VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508QC",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/henderson-mill-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30345-2739",
+            "city": "Atlanta",
+            "state": "GA",
+            "address1": "2296 Henderson Mill Road",
+            "address3": "Suite 402"
+          }
+        },
+        "feedback": [],
+        "hours": {
+          "monday": "700AM-630PM",
+          "tuesday": "700AM-830PM",
+          "wednesday": "700AM-630PM",
+          "thursday": "700AM-830PM",
+          "friday": "700AM-630PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "770-492-2748 x422740",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QC/services/mentalHealth"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QC/services/primaryCare"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QC/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508QJ",
+      "type": "facility",
+      "attributes": {
+        "classification": "Multi-Specialty CBOC",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508QJ",
+        "lat": 33.85370616,
+        "long": -84.24925751,
+        "mobile": false,
+        "name": "Tucker VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508QJ",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/tucker-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30345-2914",
+            "city": "Atlanta",
+            "state": "GA",
+            "address1": "2309 Parklake Drive Northeast",
+            "address2": "North Lake"
+          }
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0,
+            "primaryCareRoutine": 0
+          },
+          "effectiveDate": "2025-02-04"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "770-496-0209",
+          "main": "770-496-4200",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Cardiology",
+              "serviceId": "cardiology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/cardiology"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/dermatology"
+            },
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/mentalHealth"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/ophthalmology"
+            },
+            {
+              "name": "Podiatry",
+              "serviceId": "podiatry",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/podiatry"
+            },
+            {
+              "name": "Polytrauma and traumatic brain injury",
+              "serviceId": "polytrauma",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/polytrauma"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/primaryCare"
+            },
+            {
+              "name": "Blind and low vision rehabilitation",
+              "serviceId": "vision",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services/vision"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508QJ/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    },
+    {
+      "id": "vha_508GO",
+      "type": "facility",
+      "attributes": {
+        "classification": "Other Outpatient Services (OOS)",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508GO",
+        "lat": 33.97194,
+        "long": -84.489498,
+        "mobile": false,
+        "name": "Northeast Cobb County VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508GO",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/northeast-cobb-county-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30062-2957",
+            "city": "Marietta",
+            "state": "GA",
+            "address1": "2217 Roswell Road",
+            "address3": "Suite 114"
+          }
+        },
+        "feedback": [],
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "TEMPORARY_CLOSURE",
+          "additionalInfo": "Please contact the Atlanta VA Healthcare System at 404-321-6111 for updated information."
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "770-321-4660",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": []
+      }
+    },
+    {
+      "id": "vha_508GQ",
+      "type": "facility",
+      "attributes": {
+        "classification": "Multi-Specialty CBOC",
+        "distance": null,
+        "facilityType": "va_health_facility",
+        "id": "vha_508GQ",
+        "lat": 33.98209773,
+        "long": -84.56064966,
+        "mobile": false,
+        "name": "Cobb County VA Clinic",
+        "operationalHoursSpecialInstructions": null,
+        "uniqueId": "508GQ",
+        "visn": "7",
+        "website": "https://www.va.gov/atlanta-health-care/locations/cobb-county-va-clinic/",
+        "tmpCovidOnlineScheduling": null,
+        "access": {
+          "health": [],
+          "effectiveDate": ""
+        },
+        "address": {
+          "physical": {
+            "zip": "30062-2421",
+            "city": "Marietta",
+            "state": "GA",
+            "address1": "1263 Cobb Parkway North"
+          }
+        },
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0,
+            "primaryCareRoutine": 0.8500000238418579
+          },
+          "effectiveDate": "2025-02-04"
+        },
+        "hours": {
+          "monday": "800AM-430PM",
+          "tuesday": "800AM-430PM",
+          "wednesday": "800AM-430PM",
+          "thursday": "800AM-430PM",
+          "friday": "800AM-430PM",
+          "saturday": "Closed",
+          "sunday": "Closed"
+        },
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "404-327-4957",
+          "main": "770-852-3400",
+          "pharmacy": "404-321-6111 x207690",
+          "afterHours": "404-321-6111",
+          "patientAdvocate": "404-321-6111 x202264",
+          "enrollmentCoordinator": "404-321-6111 x121272",
+          "healthConnect": "855-679-0214"
+        },
+        "services": {
+          "health": [
+            {
+              "name": "Audiology",
+              "serviceId": "audiology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/audiology"
+            },
+            {
+              "name": "Dental/oral surgery",
+              "serviceId": "dental",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/dental"
+            },
+            {
+              "name": "Dermatology",
+              "serviceId": "dermatology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/dermatology"
+            },
+            {
+              "name": "Laboratory and pathology",
+              "serviceId": "laboratory",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/laboratory"
+            },
+            {
+              "name": "Mental health care",
+              "serviceId": "mentalHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/mentalHealth"
+            },
+            {
+              "name": "Nutrition, food, and dietary care",
+              "serviceId": "nutrition",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/nutrition"
+            },
+            {
+              "name": "Ophthalmology",
+              "serviceId": "ophthalmology",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/ophthalmology"
+            },
+            {
+              "name": "Physical therapy, occupational therapy and kinesiotherapy",
+              "serviceId": "physicalTherapy",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/physicalTherapy"
+            },
+            {
+              "name": "Primary care",
+              "serviceId": "primaryCare",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/primaryCare"
+            },
+            {
+              "name": "Women Veteran care",
+              "serviceId": "womensHealth",
+              "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services/womensHealth"
+            }
+          ],
+          "link": "https://api.va.gov/services/va_facilities/v1/facilities/vha_508GQ/services",
+          "lastUpdated": "2025-03-04"
+        }
+      }
+    }
+  ],
+  "links": {
+    "self": "https://api.va.gov/facilities_api/v2/va?bbox%5B%5D=-84.769854&bbox%5B%5D=33.370799999999996&bbox%5B%5D=-84.009854&bbox%5B%5D=34.1308&mobile=false&page=1&per_page=10&radius=68&type=health",
+    "first": "https://api.va.gov/facilities_api/v2/va?bbox%5B%5D=-84.769854&bbox%5B%5D=33.370799999999996&bbox%5B%5D=-84.009854&bbox%5B%5D=34.1308&mobile=false&page=1&per_page=10&radius=68&type=health",
+    "prev": null,
+    "next": "https://api.va.gov/facilities_api/v2/va?bbox%5B%5D=-84.769854&bbox%5B%5D=33.370799999999996&bbox%5B%5D=-84.009854&bbox%5B%5D=34.1308&mobile=false&page=2&per_page=10&radius=68&type=health",
+    "last": "https://api.va.gov/facilities_api/v2/va?bbox%5B%5D=-84.769854&bbox%5B%5D=33.370799999999996&bbox%5B%5D=-84.009854&bbox%5B%5D=34.1308&mobile=false&page=2&per_page=10&radius=68&type=health"
+  },
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "prevPage": null,
+      "nextPage": 2,
+      "totalPages": 2,
+      "totalEntries": 14
+    }
+  }
+}

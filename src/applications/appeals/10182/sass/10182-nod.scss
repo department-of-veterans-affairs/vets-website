@@ -1,0 +1,95 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../shared/sass/appeals";
+
+@media screen and (min-width: 481px) {
+  .va-profile-wrapper button {
+    width: auto;
+  }
+}
+
+/* empty header on additional-issues-intro page */
+.schemaform-block-header:empty {
+  margin: 0;
+}
+
+.additional-issue {
+  .schemaform-label,
+  .usa-input-error {
+    margin-top: 0;
+  }
+}
+
+/* request extension NOD v2 */
+article[data-location="extension-request"] {
+  fieldset fieldset {
+    margin: 0 !important;
+  }
+}
+
+/* contact info page */
+article[data-location="contact-information"] {
+  div[data-field-name="mobilePhone"] h3 {
+    margin-top: 0;
+  }
+  /* address modal is very tall and won't scroll without this fix */
+  .va-modal-body {
+    max-height: calc(100vh - 2.5rem);
+    overflow-y: auto;
+  }
+}
+
+article[data-location="add-issue"] {
+  /* Hide extra "Required" label */
+  p.label-description + span {
+    display: none;
+  }
+  .usa-input-error,
+  label {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+/* override formation to maintain margin between checkboxes */
+.usa-input-error label {
+  margin-top: 1.875rem;
+}
+#root_otherEntry-label {
+  margin-top: 1.25rem;
+}
+.usa-input-error > label {
+  margin-top: 0;
+}
+
+/* Show issues list */
+form.rjsf > fieldset {
+  margin-top: 0 !important;
+}
+
+/* additional evidence */
+article[data-location$="/upload"] {
+  #root_evidence_add_label {
+    margin-top: 0;
+  }
+  .schemaform-file-list {
+    p {
+      margin: 0;
+    }
+    strong {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+  }
+}
+
+/* board review option & hearing type pages */
+#root_hearingTypePreference-label,
+#root_boardReviewOption-label {
+  margin-bottom: 1.25rem;
+}

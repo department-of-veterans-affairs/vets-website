@@ -1,0 +1,166 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingIncrease": false,
+      "view:claimingNew": true
+    },
+    "isVaEmployee": false,
+    "homelessOrAtRisk": "no",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "classificationCode": "540"
+      }
+    ],
+    "view:contactInfoDescription": {},
+    "view:hasEvidence": false,
+    "view:powStatus": false,
+    "view:disabilitiesClarification": {},
+    "hasTrainingPay": true,
+    "view:hasMilitaryRetiredPay": true,
+    "militaryRetiredPayBranch": "Air Force",
+    "hasSeparationPay": true,
+    "view:separationPayDetails": {
+      "view:separationPayDetailsDescription": {},
+      "separationPayDate": "2018",
+      "separationPayBranch": "Air Force"
+    },
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Unit name here"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force Reserves",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [],
+    "view:hasAlternateName": true,
+    "alternateNames": [
+      {
+        "first": "William",
+        "middle": "Schwenk",
+        "last": "Gilbert"
+      },
+      {
+        "first": "Arthur",
+        "last": "Sullivan"
+      }
+    ],
+    "view:selectablePtsdTypes": {},
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
+    "incident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "incident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      }
+    },
+    "view:upload781aChoiceHelp": {},
+    "secondaryIncident0": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "view:otherSourcesHelp": {},
+    "secondaryIncident1": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "secondaryIncident2": {
+      "unitAssignedDates": {},
+      "incidentLocation": {
+        "country": "USA"
+      },
+      "otherSourcesHelp": {}
+    },
+    "physicalChanges": {},
+    "mentalChanges": {},
+    "workBehaviorChanges": {},
+    "socialBehaviorChanges": {},
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:vaMedicalRecordsIntro": {},
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:bankAccount": {
+      "view:hasPrefilledBank": true
+    },
+    "standardClaim": false,
+    "view:fdcWarning": {},
+    "waiveTrainingPay": true,
+    "view:waiveRetirementPayDescription": {},
+    "waiveRetirementPay": true,
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}

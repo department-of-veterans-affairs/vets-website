@@ -1,0 +1,9 @@
+extends: substitution
+message: Use ’%s’ instead of ’%s’.
+level: suggestion
+ignorecase: true
+swap:
+  "(?va\.gov)": VA.gov
+  "(?:Va\.gov)": VA.gov
+  "(?:vets\.gov)": VA.gov
+  dsva: DEPO

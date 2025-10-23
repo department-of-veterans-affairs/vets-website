@@ -1,0 +1,39 @@
+{
+  "formData": {
+    "personalIdentification": {
+      "ssn": "4437",
+      "fileNumber": "4437"
+    },
+    "personalData": {
+      "veteranFullName": {
+        "first": "Mark",
+        "middle": "",
+        "last": "Webb",
+        "suffix": "Jr."
+      },
+      "address": {
+        "street": "1234 Main",
+        "street2": "Apt 3",
+        "city": "City",
+        "state": "AK",
+        "country": "USA",
+        "postalCode": "17402"
+    },
+      "telephoneNumber": "4445551212",
+      "emailAddress": "test2@test1.net",
+      "dateOfBirth": "1950-10-04"
+    },
+    "income": [
+      {
+        "veteranOrSpouse": "VETERAN",
+        "compensationAndPension": "3261.1",
+        "education": "50"
+      }
+    ]
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

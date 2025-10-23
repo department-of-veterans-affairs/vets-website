@@ -1,0 +1,7 @@
+{
+  "appName": "Authorize VA to release your information to a third-party source",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "0845-auth-disclose",
+  "rootUrl": "/supporting-forms-for-claims/third-party-authorization-form-21-0845",
+  "productId": "08a7da80-f48a-4677-9b74-0dcb642b97a1"
+}

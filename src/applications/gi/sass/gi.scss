@@ -1,0 +1,598 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
+@import "partials/gi-vet-tec";
+@import "partials/gi-preview-banner";
+@import "partials/gi-autocomplete";
+@import "partials/gi-compare-drawer";
+@import "partials/gi-compare-page";
+@import "partials/gi-modal";
+@import "partials/gi-search-page";
+@import "partials/gi-profile-page";
+@import "partials/gi-search-form";
+@import "partials/gi-search-location";
+@import "partials/gi-back-to-top";
+@import "partials/gi-filter";
+@import "partials/gi-search-controls";
+@import "partials/gi-updated";
+
+.gi-app {
+  /* Start styles from legacy formation overrides code */
+  .usa-sr-only {
+    position: absolute;
+    left: -999em;
+  }
+
+  table {
+    border-spacing: 0;
+    margin: 2em 0;
+  }
+
+  thead th {
+    font-weight: 700;
+  }
+  thead th,
+  thead td {
+    background-color: var(--vads-color-base-lightest);
+  }
+
+  th {
+    text-align: left;
+  }
+
+  th,
+  td {
+    background-color: var(--vads-color-white);
+    border: 1px solid var(--vads-color-base-dark);
+    font-weight: 400;
+    padding: 0.625rem 0.9375rem;
+  }
+
+  .usa-table-borderless thead th {
+    background-color: transparent;
+    border-top: 0;
+  }
+  .usa-table-borderless th,
+  .usa-table-borderless td {
+    border-left: 0;
+    border-right: 0;
+  }
+  .usa-table-borderless th:first-child {
+    padding-left: 0;
+  }
+
+  caption {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    margin-bottom: 0.75rem;
+    text-align: left;
+  }
+  /* End styles from legacy formation overrides code */
+
+  div.military-status-info {
+    font-size: 0.9em;
+    padding: 1em;
+    margin-top: 1em;
+    max-width: 460px;
+
+    &.warning {
+      background-color: var(--vads-color-gold-lightest);
+    }
+
+    &.info {
+      background: var(--vads-color-primary-alt-lightest);
+    }
+
+    va-icon {
+      padding-right: 0.4em;
+      vertical-align: sub;
+    }
+  }
+  .about-this-tool {
+    margin-top: 1em;
+
+    a {
+      // background-image: none;
+      text-align: center;
+      font-family: var(--font-source-sans);
+      font-size: 0.85rem;
+      line-height: 2.5rem;
+      margin-right: 1.5625rem;
+      margin-bottom: 0.75rem;
+
+      @include media-maxwidth($small-screen) {
+        font-size: 0.75rem;
+        text-align: left;
+        margin: 0;
+        line-height: 0.75rem;
+      }
+
+      a.link {
+        @include media-maxwidth($small-screen) {
+          margin-left: 0.625rem;
+          padding: 0.3125rem;
+        }
+      }
+    }
+  }
+
+  .disclaimer {
+    margin: 1em 0;
+    padding: 0;
+    border-top: 1px solid var(--vads-color-base-light);
+    z-index: 500;
+    color: var(--vads-color-base-darker);
+    background: var(--vads-color-white);
+  }
+
+  select.hide-arrows {
+    background-image: none;
+  }
+
+  .disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    select:disabled {
+      background-color: var(--vads-color-base-lightest);
+    }
+  }
+
+  .benefit-notification {
+    padding-top: 1em;
+  }
+
+  h1:focus,
+  h2:focus,
+  h3:focus,
+  nav {
+    margin-left: 0.3125rem;
+  }
+
+  @media (max-width: 481px) {
+    .about-this-tool-mobile {
+      padding-left: 20px;
+    }
+  }
+
+  .gibct-legend {
+    margin-top: 0.625rem;
+    display: block;
+    font-weight: inherit;
+    font-size: inherit;
+    color: inherit;
+    line-height: inherit;
+    max-width: 28.75rem;
+    padding-bottom: 0;
+  }
+
+  /*
+   * These styles override our overly broad accordion styles
+   */
+  .learn-more-button {
+    background-image: none !important;
+    font-weight: inherit !important;
+  }
+  .learn-more-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
+    margin-right: 0;
+  }
+  .learn-more-bold-text::part(button) {
+    font-weight: bold;
+  }
+
+  .remove-btn::part(button) {
+    background-color: transparent;
+    color: var(--vads-color-primary);
+    border: none;
+    outline: none;
+    font-weight: normal;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  .gids-radio-buttons {
+    position: relative;
+    @include media($small-screen) {
+      display: flex;
+    }
+    padding-left: 0.3125rem;
+  }
+
+  .program-description {
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+    label {
+      margin-left: 1.0625rem;
+    }
+  }
+
+  .gids-radio-buttons-input {
+    width: 40px;
+  }
+
+  .section-item {
+    padding-bottom: 0.188em;
+    padding-top: 0.188em;
+
+    .section-button {
+      border: 2px solid var(--vads-color-base-dark)-light !important;
+      margin: 0px;
+    }
+
+    .section-button-span {
+      padding-right: 1.25rem;
+    }
+
+    .section-content {
+      max-width: 25em;
+    }
+
+    .section-content-expanded-width {
+      max-width: 100%;
+    }
+
+    .section-content[aria-hidden="false"] {
+      margin-bottom: 0.625em;
+    }
+  }
+
+  .caution-flag-toggle {
+    display: block;
+    color: var(--vads-color-base-darker);
+    background-color: transparent;
+    padding: 0px;
+    margin: 0px;
+  }
+}
+
+.section-item,
+.accordion-item {
+  margin-bottom: 5px;
+  list-style-type: none !important;
+
+  h2.accordion-button-wrapper {
+    margin: 0;
+  }
+}
+
+.school-classification {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.school-header {
+  background-color: rgb(63, 87, 166);
+}
+.employer-header {
+  background-color: rgb(34, 130, 127);
+}
+.vettec-header {
+  background-color: rgb(162, 56, 55);
+}
+
+.preferred-provider-text {
+  font-size: 14px;
+}
+
+.asterisk-text {
+  font-size: 12px;
+}
+
+.capitalize-value {
+  text-transform: capitalize;
+}
+
+.small-screen-font {
+  @media (max-width: $small-screen) {
+    font-size: 15px;
+  }
+}
+.small-screen-header {
+  @media (max-width: $small-screen) {
+    font-size: 17px;
+  }
+}
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.gi-mission-filter-fieldset {
+  margin-top: -30px;
+  border: 0.5px;
+}
+.search-form-container {
+  position: relative;
+}
+.search-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 10000;
+}
+
+.input-container-width {
+  width: 100% !important;
+}
+
+.yr-table-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  &:nth-of-type(2) {
+    width: inherit;
+    gap: 0;
+
+    @media (min-width: 900px) {
+      width: 15rem;
+      gap: 4rem;
+    }
+  }
+}
+
+.sort-icon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.provider-info-container > span {
+  gap: 1rem;
+}
+
+.required-label {
+  color: $color-red-dark;
+}
+
+.remove-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
+}
+
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
+}
+
+.lc-results-wrapper {
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.high-zoom {
+    width: 100%;
+  }
+}
+
+.lc-result-cards-wrapper {
+  list-style: none;
+
+  &.high-zoom {
+    width: 100%;
+  }
+}
+
+.zoom-wrapper {
+  &.high-zoom {
+    width: 100%;
+  }
+}
+
+.lc-filter-accordion-wrapper {
+  .state-dropdown label {
+    margin-top: 0.25rem;
+  }
+
+  .filter-header {
+    font-size: 1.5rem;
+  }
+}
+
+.inst-remove-btn::part(button) {
+  background-color: transparent;
+}
+
+.programs-list-container {
+  .abbreviations {
+    font-family: var(--font-source-sans);
+  }
+  .list-style {
+    list-style: disc;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    .reset-search {
+      white-space: nowrap;
+    }
+    @media (max-width: $small-screen) {
+      flex-direction: column;
+      .search-input {
+        width: 100%;
+      }
+      .search-btn {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .reset-search {
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    @media (min-width: $small-screen) {
+      va-text-input::part(input) {
+        min-width: 400px;
+      }
+    }
+    @media (min-width: $medium-screen) {
+      va-text-input::part(input) {
+        min-width: 576px;
+      }
+    }
+  }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
+}
+
+.national-exams-container {
+  .national-exams-description {
+    font-size: 20px;
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+    font-weight: 400;
+    line-height: 34px;
+  }
+}
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"] {
+      border-bottom: 1px solid $color-primary !important;
+    }
+    @media screen and (max-width: $small-screen) {
+      height: 94px;
+      padding: 0 4px;
+      text-align: left;
+    }
+  }
+}
+
+.yellow-ribbon-selector-container {
+  .selector-wrapper {
+    display: flex;
+    align-items: flex-end;
+    .degree-selector {
+      width: 100%;
+      max-width: 18rem;
+    }
+    va-select::part(label) {
+      margin-top: 1rem;
+    }
+    .degree-selector-btn {
+      white-space: nowrap;
+    }
+    @media screen and (max-width: $small-screen) {
+      flex-direction: column;
+      .degree-selector {
+        max-width: 100%;
+        margin-bottom: 1rem;
+      }
+      .degree-selector-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+  #results-summary {
+    width: fit-content;
+  }
+  .degree-level-results {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    .degree-item {
+      margin: 0;
+      height: auto;
+      display: flex;
+      width: 100%;
+      max-width: 19.0625rem;
+      .degree-level-card {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+      }
+    }
+  }
+  @media screen and (max-width: $medium-screen) {
+    .degree-level-results {
+      flex-direction: column;
+      .degree-item {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.filter-student-feedback-sort-select::part(label) {
+  margin-top: 0;
+  margin-right: 1rem;
+}
+.filter-student-feedback-sort-select::part(select) {
+  width: 15rem;
+}

@@ -1,0 +1,7 @@
+{
+  "appName": "Discharge Wizard",
+  "entryFile": "./discharge-wizard-entry.jsx",
+  "entryName": "discharge-upgrade-instructions",
+  "rootUrl": "/discharge-upgrade-instructions",
+  "productId": "cfe16aad-e92e-4fd9-a194-3938f2e1b0d4"
+}

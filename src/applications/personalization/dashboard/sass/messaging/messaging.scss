@@ -1,0 +1,36 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-tabs";
+
+$messaging-label-width: 6.25rem;
+
+@mixin messaging-rectangular-button {
+  background: var(--vads-color-white);
+  border-radius: 0;
+  border: 1px solid var(--vads-color-black);
+  color: var(--vads-color-black);
+  font-size: 0.9375rem;
+  margin: 0;
+  padding: 0.625rem;
+  width: auto;
+
+  &:focus,
+  &:hover,
+  &:active {
+    background: var(--vads-color-white);
+    color: var(--vads-color-black);
+    border-bottom: 1px solid var(--vads-color-black);
+  }
+
+  &[disabled] {
+    &,
+    &:hover,
+    &:active {
+      color: var(--vads-color-base-dark);
+      border-color: var(--vads-color-base-dark);
+    }
+  }
+}
+
+@import "partials/messaging-folder";
+@import "partials/messaging-moveto";

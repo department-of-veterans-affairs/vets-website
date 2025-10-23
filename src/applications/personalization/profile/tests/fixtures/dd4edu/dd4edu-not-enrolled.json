@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": "",
+    "type": "savon_responses",
+    "attributes": {
+      "accountType": null,
+      "accountNumber": null,
+      "financialInstitutionRoutingNumber": null,
+      "financialInstitutionName": null
+    }
+  }
+}

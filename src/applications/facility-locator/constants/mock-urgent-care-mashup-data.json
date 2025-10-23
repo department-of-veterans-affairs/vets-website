@@ -1,0 +1,526 @@
+{
+  "data": [
+    {
+      "id": "vha_519",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 14.375,
+              "established": 2.666666
+            },
+            {
+              "service": "Cardiology",
+              "new": null,
+              "established": 0
+            },
+            {
+              "service": "Dermatology",
+              "new": 0,
+              "established": null
+            },
+            {
+              "service": "Gynecology",
+              "new": null,
+              "established": 10.5
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 7.5,
+              "established": 5.710526
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 2.5,
+              "established": 1.297959
+            },
+            {
+              "service": "Optometry",
+              "new": 5.4,
+              "established": 2.289473
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 85.5,
+              "established": 3.46
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 12.842105,
+              "established": 5.066805
+            },
+            {
+              "service": "WomensHealth",
+              "new": null,
+              "established": 10.5
+            }
+          ],
+          "effectiveDate": "2020-07-27"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "79720-5566",
+            "city": "Big Spring",
+            "state": "TX",
+            "address1": "300 Veterans Boulevard",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.7300000190734863,
+            "primaryCareRoutine": 0.7300000190734863,
+            "specialtyCareUrgent": 0.8199999928474426
+          },
+          "effectiveDate": "2020-04-16"
+        },
+        "hours": {
+          "friday": "800AM-430PM",
+          "monday": "800AM-430PM",
+          "sunday": "Closed",
+          "tuesday": "800AM-430PM",
+          "saturday": "Closed",
+          "thursday": "800AM-430PM",
+          "wednesday": "800AM-430PM"
+        },
+        "id": "vha_519",
+        "lat": 32.23192581,
+        "long": -101.47112688,
+        "mobile": false,
+        "name": "George H. O'Brien, Jr., Department of Veterans Affairs Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "432-264-4878",
+          "main": "432-263-7361",
+          "pharmacy": "800-472-1365 x2600",
+          "afterHours": "432-263-7361",
+          "patientAdvocate": "800-472-1365 x4839",
+          "mentalHealthClinic": "432-263-7361 x 7301",
+          "enrollmentCoordinator": "800-472-1365 x7347"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "Dermatology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "UrgentCare",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2020-07-27"
+        },
+        "uniqueId": "519",
+        "visn": "17",
+        "website": "https://www.bigspring.va.gov/locations/directions.asp"
+      }
+    },
+    {
+      "id": "vha_667",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 22.136363,
+              "established": 0.096153
+            },
+            {
+              "service": "Cardiology",
+              "new": 8.428571,
+              "established": 6.738095
+            },
+            {
+              "service": "Dermatology",
+              "new": 11.375,
+              "established": 15.666666
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 12.4,
+              "established": 3.238095
+            },
+            {
+              "service": "Gynecology",
+              "new": 24.733333,
+              "established": 7.87234
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 8.888888,
+              "established": 6.903598
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 2.272727,
+              "established": 1.732283
+            },
+            {
+              "service": "Optometry",
+              "new": 64,
+              "established": 10.538461
+            },
+            {
+              "service": "Orthopedics",
+              "new": 25.382978,
+              "established": 0.607526
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 11.133333,
+              "established": 0.641342
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 22.964285,
+              "established": 7.331212
+            },
+            {
+              "service": "Urology",
+              "new": 40.027027,
+              "established": 6.194756
+            },
+            {
+              "service": "WomensHealth",
+              "new": 17,
+              "established": 1.1
+            }
+          ],
+          "effectiveDate": "2020-07-27"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "71101-4243",
+            "city": "Shreveport",
+            "state": "LA",
+            "address1": "510 East Stoner Avenue",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.5899999737739563,
+            "primaryCareRoutine": 0.8799999952316284,
+            "specialtyCareUrgent": 0.8799999952316284
+          },
+          "effectiveDate": "2020-04-16"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_667",
+        "lat": 32.50001146,
+        "long": -93.72284983,
+        "mobile": false,
+        "name": "Overton Brooks Veterans' Administration Medical Center",
+        "operatingStatus": {
+          "code": "CLOSED"
+        },
+        "phone": {
+          "fax": "318-990-5552",
+          "main": "318-221-8411",
+          "pharmacy": "318-990-5547",
+          "afterHours": "800-644-8370",
+          "patientAdvocate": "318-990-5013",
+          "mentalHealthClinic": "318-990-5051",
+          "enrollmentCoordinator": "318-990-4937"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "Dermatology",
+            "EmergencyCare",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "UrgentCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2020-07-27"
+        },
+        "uniqueId": "667",
+        "visn": "16",
+        "website": "https://www.shreveport.va.gov/locations/directions.asp"
+      }
+    },
+    {
+      "id": "vha_502",
+      "type": "facility",
+      "attributes": {
+        "access": {
+          "health": [
+            {
+              "service": "Audiology",
+              "new": 1,
+              "established": 0.764705
+            },
+            {
+              "service": "Cardiology",
+              "new": null,
+              "established": 4.125
+            },
+            {
+              "service": "Dermatology",
+              "new": 0.428571,
+              "established": 2.333333
+            },
+            {
+              "service": "Gastroenterology",
+              "new": 59.3,
+              "established": 20.5
+            },
+            {
+              "service": "Gynecology",
+              "new": 63,
+              "established": 14.4375
+            },
+            {
+              "service": "MentalHealthCare",
+              "new": 15.866666,
+              "established": 1.290827
+            },
+            {
+              "service": "Ophthalmology",
+              "new": 14.785714,
+              "established": 18.293577
+            },
+            {
+              "service": "Optometry",
+              "new": 106.5,
+              "established": 71.692307
+            },
+            {
+              "service": "Orthopedics",
+              "new": 38.925,
+              "established": 16.5
+            },
+            {
+              "service": "PrimaryCare",
+              "new": 26,
+              "established": 3.893518
+            },
+            {
+              "service": "SpecialtyCare",
+              "new": 47.136929,
+              "established": 21.015641
+            },
+            {
+              "service": "Urology",
+              "new": 80.222222,
+              "established": 10.464285
+            },
+            {
+              "service": "WomensHealth",
+              "new": 63,
+              "established": 14.4375
+            }
+          ],
+          "effectiveDate": "2020-07-27"
+        },
+        "activeStatus": "A",
+        "address": {
+          "mailing": {},
+          "physical": {
+            "zip": "71360-4044",
+            "city": "Pineville",
+            "state": "LA",
+            "address1": "2495 Shreveport Highway",
+            "address2": null,
+            "address3": null
+          }
+        },
+        "classification": "VA Medical Center (VAMC)",
+        "facilityType": "va_health_facility",
+        "feedback": {
+          "health": {
+            "primaryCareUrgent": 0.8700000047683716,
+            "primaryCareRoutine": 0.9700000286102295,
+            "specialtyCareUrgent": 0.8600000143051147
+          },
+          "effectiveDate": "2020-04-16"
+        },
+        "hours": {
+          "friday": "24/7",
+          "monday": "24/7",
+          "sunday": "24/7",
+          "tuesday": "24/7",
+          "saturday": "24/7",
+          "thursday": "24/7",
+          "wednesday": "24/7"
+        },
+        "id": "vha_502",
+        "lat": 31.35522426,
+        "long": -92.43435778,
+        "mobile": false,
+        "name": "Alexandria VA Medical Center",
+        "operatingStatus": {
+          "code": "NORMAL"
+        },
+        "phone": {
+          "fax": "318-483-5029",
+          "main": "318-473-0010",
+          "pharmacy": "318-466-2101",
+          "afterHours": "318-466-4402",
+          "patientAdvocate": "318-466-2293",
+          "mentalHealthClinic": "318-466-2455",
+          "enrollmentCoordinator": "318-466-4402"
+        },
+        "services": {
+          "other": [],
+          "health": [
+            "Audiology",
+            "Cardiology",
+            "DentalServices",
+            "Dermatology",
+            "Gastroenterology",
+            "Gynecology",
+            "MentalHealthCare",
+            "Nutrition",
+            "Ophthalmology",
+            "Optometry",
+            "Orthopedics",
+            "Podiatry",
+            "PrimaryCare",
+            "SpecialtyCare",
+            "UrgentCare",
+            "Urology",
+            "WomensHealth"
+          ],
+          "lastUpdated": "2020-07-27"
+        },
+        "uniqueId": "502",
+        "visn": "16",
+        "website": "https://www.alexandria.va.gov/locations/directions.asp"
+      }
+    },
+    {
+      "id": "ccp_5cae942081050162cd3917d91a04cc7a2ca303f05274d0a2c2bcdc6ae0255b07",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "1920 E Riverside Dr Ste A-110",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78741"
+        },
+        "caresitePhone": "5123261600",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.242494,
+        "long": -97.728154,
+        "name": "FastMed Urgent Care",
+        "phone": null,
+        "posCodes": "20",
+        "prefContact": null,
+        "specialty": [],
+        "uniqueId": "1346545209"
+      }
+    },
+    {
+      "id": "ccp_3740b047cfb32751691e2955df16fc3e61d63ed59f6dbe8aa50aa726ca84ca30",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "3311 N Lamar Blvd",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78705"
+        },
+        "caresitePhone": "5129757791",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.302,
+        "long": -97.74471,
+        "name": "FastMed Urgent Care",
+        "phone": null,
+        "posCodes": "20",
+        "prefContact": null,
+        "specialty": [],
+        "uniqueId": "1346545209"
+      }
+    },
+    {
+      "id": "ccp_222196a93173f5ea6cd64c16d5e986a48571a201848dddbc4e313a6185bb0774",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "2610 Lake Austin Blvd",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78703"
+        },
+        "caresitePhone": "8663892727",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.28156,
+        "long": -97.77505,
+        "name": "MinuteClinic",
+        "phone": null,
+        "posCodes": "17",
+        "prefContact": null,
+        "specialty": [],
+        "uniqueId": "1609076330"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 1,
+      "prevPage": null,
+      "nextPage": null,
+      "totalPages": 1
+    }
+  },
+  "links": {
+    "self": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health",
+    "first": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health",
+    "prev": null,
+    "next": null,
+    "last": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health"
+  }
+}

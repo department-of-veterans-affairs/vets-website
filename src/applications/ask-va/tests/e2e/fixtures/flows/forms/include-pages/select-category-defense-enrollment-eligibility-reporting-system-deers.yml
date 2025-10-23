@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Defense Enrollment Eligibility Reporting System (DEERS)
+  - action: click
+    target: call-to-action

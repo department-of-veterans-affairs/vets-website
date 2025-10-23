@@ -1,0 +1,52 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.icon-right {
+  padding-right: 10px;
+}
+
+.no-bullets {
+  list-style: none;
+}
+
+.vads-u-width--fit {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.vads-u-max-width--90 {
+  max-width: 90% !important;
+}
+.icon-action {
+  color: var(--vads-color-white);
+  background-color: var(--vads-color-success-dark);
+  border-radius: 50%;
+  margin-right: var(--vads-spacing-1);
+}
+.icon-color--warning {
+  color: var(--vads-color-orange);
+}
+.icon-color--info {
+  color: var(--vads-color-primary);
+}
+.icon-color--success {
+  color: var(--vads-color-success);
+}
+
+.debt-balance-details {
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+  @media (min-width: $medium-screen) {
+    margin-left: 40px;
+  }
+}
+
+.cdp-link-icon--active {
+  vertical-align: baseline;
+  position: relative;
+  top: 3px;
+}

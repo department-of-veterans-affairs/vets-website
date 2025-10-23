@@ -1,0 +1,51 @@
+{
+  "data": {
+    "highestLevelOfEducation": "BD",
+    "currentSalary": "fiftyToSeventyFive",
+    "technologyAreaOfFocus": "mediaApplication",
+    "isInTechnologyIndustry": true,
+    "isEmployed": true,
+    "bankAccount": {
+      "accountType": "checking",
+      "accountNumber": "123123123",
+      "routingNumber": "121000248"
+    },
+    "activeDutyDuringHitechVets": false,
+    "dateReleasedFromActiveDuty": "2025-09-07",
+    "ssn": "111223333",
+    "contactInfo": {
+      "mobilePhone": "1234567890",
+      "emailAddress": "email@address.com"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "street": "The Street",
+      "city": "City",
+      "state": "AL",
+      "postalCode": "12345"
+    },
+    "trainingProviders" : [{
+        "providerAddress": {
+            "city": "Chicago",
+            "country": "USA",
+            "isMilitary": null,
+            "postalCode": "13215",
+            "state": "IL",
+            "street": "33 main st",
+            "street2": null,
+            "street3": null,
+            "view": {
+            "militaryBaseDescription": {}
+            }
+        },
+        "providerName": "Test Training Provider"
+    }
+    ],
+    "applicantFullName": { "first": "John", "last": "Doe" },
+    "dutyRequirement": "atLeast3Years",
+    "dateOfBirth": "1930-10-03",
+    "otherThanDishonorableDischarge": true,
+    "veteranStatus": true
+  }
+}
+ 

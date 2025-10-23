@@ -1,0 +1,123 @@
+name: Unit Test HTML Coverage Report Generator
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 5 * * *'
+    
+jobs:
+  list-apps:
+    runs-on: ubuntu-latest
+    outputs:
+        apps: ${{ steps.get-apps.outputs.apps }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List apps
+        id: list-apps
+        run: |
+          node -e "
+          const glob = require('glob');
+          const path = require('path');
+          const allUnitTests = glob.sync('./{src,script}/**/*.unit.spec.js?(x)');
+          const apps = Array.from(new Set(
+            allUnitTests.map(spec => {
+              const parts = path.dirname(spec).split('/');
+              return parts.slice(2, 4).join('/');
+            })
+          )).filter(Boolean);
+          console.log('apps=' + JSON.stringify(apps));
+          process.stdout.write('apps=' + JSON.stringify(apps));" >> $GITHUB_OUTPUT
+
+  create-unit-test-coverage-reports:
+    name: Create Unit Test Coverage Reports
+    needs: [list-apps]
+    timeout-minutes: 30
+    runs-on: ubuntu-16-cores-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Create coverage results folder
+        run: mkdir -p coverage-results
+
+      - name: Run unit test coverage report
+        run: yarn test:coverage-app --report-dir=coverage-results
+      
+      - name: Upload Coverage Report Artifact
+        if: ${{ always() && env.NO_APPS_TO_RUN == 'false' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-coverage
+          path: coverage-results
+        
+  publish-coverage-reports-to-s3:
+    name: Publish Unit Test Coverage Reports to S3
+    needs: [create-unit-test-coverage-reports]
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.0
+        with:
+           aws-region: us-gov-west-1
+           role-to-assume: arn:aws-us-gov:iam::008577686731:role/gha-frontend-nonprod-role
+        
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2    
+        with:
+          mask-password: false
+            
+      - name: Download Coverage Reports
+        uses: ./.github/workflows/download-artifact
+        with:
+          pattern: unit-test-coverage
+          path: coverage-results
+
+      - name: Rename coverage results directory
+        id: rename
+        run: |
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          NEW_DIR="coverage-results-${TIMESTAMP}"
+          mv coverage-results $NEW_DIR
+          echo "new_dir=$NEW_DIR" >> $GITHUB_OUTPUT
+
+      - name: Upload HTML coverage reports to s3
+        run: aws s3 cp ${{ steps.rename.outputs.new_dir }} s3://testing-tools-testing-reports/html-unit-test-coverage-reports --acl public-read --region us-gov-west-1 --recursive

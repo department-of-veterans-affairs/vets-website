@@ -1,0 +1,229 @@
+{
+    "data": [
+        {
+            "id": "2585370",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585370,
+                "category": "EDUCATION",
+                "subject": "test1 special %$#",
+                "body": "special %$#",
+                "attachment": false,
+                "sentDate": "2022-12-21T20:15:31.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585370"
+            }
+        },
+        {
+            "id": "2585368",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585368,
+                "category": "EDUCATION",
+                "subject": "clickable url test special %$#",
+                "body": "https://www.va.gov/  special %$#",
+                "attachment": false,
+                "sentDate": "2022-12-21T20:15:07.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585368"
+            }
+        },
+        {
+            "id": "2585366",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585366,
+                "category": "EDUCATION",
+                "subject": "test1 special %$#",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T20:15:02.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585366"
+            }
+        },
+        {
+            "id": "2585364",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585364,
+                "category": "EDUCATION",
+                "subject": "test1   special %$#",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T20:09:45.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585364"
+            }
+        },
+        {
+            "id": "2585362",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585362,
+                "category": "EDUCATION",
+                "subject": "test1  special %$#",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T20:08:03.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585362"
+            }
+        },
+        {
+            "id": "2585360",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585360,
+                "category": "EDUCATION",
+                "subject": "test1",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T20:05:11.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585360"
+            }
+        },
+        {
+            "id": "2585351",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585351,
+                "category": "EDUCATION",
+                "subject": "test1",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T19:55:19.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585351"
+            }
+        },
+        {
+            "id": "2585349",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585349,
+                "category": "EDUCATION",
+                "subject": "test1  special %$#",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T19:54:58.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585349"
+            }
+        },
+        {
+            "id": "2585347",
+            "type": "messages",
+            "attributes": {
+                "messageId": 2585347,
+                "category": "EDUCATION",
+                "subject": "test1  special %$#",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2022-12-21T19:52:32.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI ",
+                "recipientId": 1899698,
+                "recipientName": "SM_CERNER_SLC10",
+                "readReceipt": "READ"
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/2585347"
+            }
+        },
+        {
+            "id": "701365",
+            "type": "messages",
+            "attributes": {
+                "messageId": 701365,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2017-05-26T14:46:44.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/701365"
+            }
+        },
+        {
+            "id": "694443",
+            "type": "messages",
+            "attributes": {
+                "messageId": 694443,
+                "category": "OTHER",
+                "subject": "General Inquiry",
+                "body": null,
+                "attachment": false,
+                "sentDate": "2017-05-04T19:27:42.000Z",
+                "senderId": 406227,
+                "senderName": "MHVTP, SAFARI",
+                "recipientId": 508642,
+                "recipientName": "MARGARET TRIAGE GROUP_SLC10",
+                "readReceipt": null
+            },
+            "links": {
+                "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/694443"
+            }
+        }
+    ],
+    "meta": {
+        "sort": {
+            "sentDate": "DESC"
+        }
+    }
+}

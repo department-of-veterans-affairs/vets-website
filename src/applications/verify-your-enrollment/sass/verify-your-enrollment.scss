@@ -1,0 +1,111 @@
+@import "@department-of-veterans-affairs/platform-site-wide/style";
+
+.vye-top-border{
+    border-top: 1px solid var(--vads-color-base-lighter);
+}
+
+.vye-left-border{
+    border-color: var(--vads-color-primary-alt-dark);
+    border-left-style: solid;
+    border-left-width: 8px;
+}
+
+.vye-mimic-link{
+    background-color: inherit !important;
+    margin: 0px !important;
+    padding: 0px !important;
+    font-weight: 500 !important;
+    width: fit-content !important;
+}
+
+.vye-mimic-link:focus{
+    outline: none !important;
+}
+.text-color{
+    color: hsl(215, 16%, 23%);
+}
+
+.vye-mimic-va-button{
+    display: flex;
+    align-items: center;
+    background-color: var(--vads-color-primary);
+    border-radius: 5px;
+    color: var(--vads-color-white) !important;
+    font-size: 1rem;
+    justify-content: center;
+    margin: 0.5em 0.5em 0.5em 0px;
+    appearance: none;
+    border: 0px;
+    cursor: pointer;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.625rem 1.25rem;
+    text-align: center;
+    text-decoration: none;
+    width: fit-content;
+    transition: background-color 0s;
+}
+
+.vye-mimic-va-button:hover{
+    background-color: var(--vads-color-primary-dark) !important;
+    color: var(--vads-color-white) !important;
+    text-decoration: none;
+}
+
+.vye-text-block{
+    display: block;
+    max-width: 28.75rem;
+}
+
+.vye-highlighted-title-container {
+	background-color: var(--vads-color-base-lightest);
+	margin: 0;
+	padding: 8px;
+    padding-left: 16px;
+    font-size: 1.25rem !important;
+}
+.vye-highlighted-content-container {
+	border: 1px solid var(--vads-color-base-lightest);
+	border-top: 0;
+	padding: 1em;
+    font-size: 16.96px;
+}
+
+.vye-alert-absolute-title-position{
+    position: relative;
+    top: -10px;
+}
+
+.vye-h2-style-as-h3{
+    font-size: 20px !important;
+}
+
+.vye-max-width-480px{
+    max-width: 480px;
+}
+.icon-color{
+    color: hsl(130, 100%, 27%) !important;
+    margin-inline: 2px !important;
+}
+.icon-color svg use {
+    width: 20px !important;
+}
+.not-found{
+    .row{
+        display: flex;
+        @media (max-width: $small-screen){
+        flex-direction: column;
+        }
+        form{
+            margin: 0;
+    }
+}
+}
+.bread-crumbs-container{
+    va-breadcrumbs{
+        margin-left: 20px;
+        @media (max-width: $small-screen){
+            margin-left: 0;
+        }
+    }
+}

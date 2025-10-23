@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Transferring benefits after death of Veteran or dependent (Section 110)
+  - action: click
+    target: call-to-action

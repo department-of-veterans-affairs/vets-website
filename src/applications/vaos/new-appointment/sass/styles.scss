@@ -1,0 +1,66 @@
+@import "./calendar";
+
+.vaos-appts__block-label {
+  margin: 0;
+  margin-bottom: 0.25rem; // still computes to 4px
+  line-height: 1.5em;
+}
+
+.vaos-form__checkbox > .schemaform-label {
+  margin-top: 0;
+}
+
+.vaos-radio__label-description {
+    display: block;
+    margin-top: 0.5rem
+}
+
+.vaos-form__radio-field, .vaos-form__radio-field-descriptive {
+  va-radio {
+    max-width: none;
+  }
+  va-radio::part(legend) {
+    max-width: none;
+    margin-bottom: 0;
+  }
+}
+
+.vaos-form__radio-field-descriptive {
+  input[type="radio"] + label {
+    font-weight: bold;
+    span {
+      font-weight: normal;
+      font-size: var(--base-font-size);
+    }
+  }
+}
+
+.vaos-form__detailed-radio {
+  input[type="radio"] + label::before {
+    margin-top: 0.6em;
+  }
+
+  .form-radio-buttons label {
+    max-width: none;
+  }
+}
+
+.vaos-form__facility-type {
+  legend {
+    max-width: none;
+  }
+}
+
+.vaos-form__checkboxgroup {
+  .schemaform-block {
+    margin-top: 0;
+  }
+
+  > .usa-input-error {
+    margin-top: 0;
+  }
+}
+
+#root_vaFacility-label .schemaform-required-span {
+  display: none;
+}

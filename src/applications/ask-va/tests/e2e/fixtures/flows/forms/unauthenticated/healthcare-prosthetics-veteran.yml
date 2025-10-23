@@ -1,0 +1,80 @@
+flow:
+  title: Health Care for Vet Prosthetics (Unauth)
+  runOnCI: true # when this is false, the flow will only run on a scheduled job
+  steps:
+    - action: include
+      target: page
+      value:  start-your-question-unauth
+
+    - action: include
+      target: page
+      value:  select-category-health-care
+
+    - action: include
+      target: page
+      value:  select-topic-prosthetics
+
+    - action: include
+      target: page
+      value:  select-subtopic-prosthetics-eligibility
+
+    - action: include
+      target: page
+      value:  who-is-your-question-about-myself
+
+    - action: include
+      target: page
+      value:  what-is-your-relationship-to-the-veteran-veteran
+
+    - action: include
+      target: page
+      value:  tell-us-about-yourself
+
+    - action: include
+      target: page
+      value:  your-va-health-facility
+
+    - action: include
+      target: page
+      value:  have-you-applied-for-VRE-benefits
+
+## ------------------------------------
+## BOOM! Healthcare explodes here
+##       Still need to verify following
+## ------------------------------------
+
+    - action: include
+      target: page
+      value:  your-contact-information-email-no-prefill
+
+    # - action: include
+    #   target: page
+    #   value:  what-is-your-relationship-to-the-family-member-child
+
+    # - action: include
+    #   target: page
+    #   value:  tell-us-about-your-family-member
+
+    # - action: include
+    #   target: page
+    #   value:  family-member-residence
+
+    - action: include
+      target: page
+      value:  your-postal-code-veteran
+
+    # - action: include
+    #   target: page
+    #   value:  your-contact-information-email
+
+    - action: include
+      target: page
+      value:  your-question
+
+    - action: include
+      target: page
+      value:  editing-answers
+
+    - action: include
+      target: page
+      value:  your-confirmation-number

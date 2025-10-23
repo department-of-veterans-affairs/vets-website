@@ -1,0 +1,39 @@
+.va-c-event-info {
+  display: flex;
+  flex-wrap: wrap;
+  > dt {
+    width: 45px;
+  }
+  > dd {
+    width: 75%;
+  }
+
+}
+
+.va-c-social-icon {
+  color: var(--vads-color-link);
+}
+
+.va-c-range-error-message {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: var(--vads-color-secondary);
+}
+
+
+@include media($medium-screen) {
+  .va-c-btn-group {
+    .usa-button {
+      &:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-right: 0;
+      };
+      &:last-child {
+        margin-top: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "title": "Error",
+      "detail": "Error Detail",
+      "code": "SVC_ERR123",
+      "status": "401"
+    }
+  ]
+}

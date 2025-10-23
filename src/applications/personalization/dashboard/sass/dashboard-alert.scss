@@ -1,0 +1,94 @@
+@mixin make-status-styles($status, $status-color) {
+  &-#{$status} section.status {
+    border-color: $status-color;
+
+    va-icon {
+      background-color: $status-color;
+    }
+  }
+}
+
+.dashboard-alert {
+  background: none;
+  background-color: var(--vads-color-base-lightest);
+  font-family: var(--font-source-sans);
+  padding: units(2);
+
+  @include media($medium-screen) {
+    padding: units(4);
+  }
+
+  header > .heading-desc {
+    text-transform: uppercase;
+  }
+
+  section.status {
+    margin: units(3) 0;
+    padding: units(2) 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+
+    .status-icon-container {
+      width: units(4);
+      padding-top: 3px;
+    }
+
+    va-icon {
+      color: var(--vads-color-white);
+    }
+
+    h3 {
+      font-family: var(--font-source-sans);
+      font-weight: var(--font-weight-bold);
+      font-size: 1.25em;
+      margin: 0;
+    }
+
+    p {
+      font-family: var(--font-source-sans);
+      margin: 0;
+    }
+  }
+
+  section.content p:last-child {
+    margin-bottom: 0;
+  }
+
+  @include make-status-styles(
+    $status: "closed",
+    $status-color: var(--vads-color-black),
+  );
+
+  @include make-status-styles(
+    $status: "decision",
+    $status-color: var(--vads-color-secondary),
+  );
+
+  @include make-status-styles(
+    $status: "enrolled",
+    $status-color: var(--vads-color-success-dark),
+  );
+
+  @include make-status-styles(
+    $status: "in-progress",
+    $status-color: var(--vads-color-primary),
+  );
+
+  @include make-status-styles(
+    $status: "update",
+    $status-color: var(--vads-color-action-focus-on-light),
+  );
+
+  section.content {
+    padding: 0;
+
+    .remove-notification-link {
+      display: block;
+      margin-top: units(2);
+    }
+
+    .remove-notification-label {
+      margin-left: units(1);
+    }
+  }
+}

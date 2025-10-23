@@ -1,0 +1,434 @@
+name: Pull Request
+
+on:
+  pull_request:
+    types: [ready_for_review, synchronize, reopened, opened]
+
+env:
+  BOT_NAME: va-vfs-bot
+  PR_NUMBER: ${{ github.event.number }}
+
+jobs:
+  fetch-unit-tests-allow-list:
+    name: Fetch Unit Test Stability Allow List
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch Unit Test Stability Allow List
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Archive Unit Test Stability Allow List
+        if: ${{ always() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: unit-test-allow-list
+          path: qa-standards-dashboard-data/unit_test_allow_list.json
+
+  check-cross-app-imports:
+    name: Check Cross App Imports
+    needs: [fetch-unit-tests-allow-list]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed apps
+        id: get-changed-apps
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
+      - name: Download Unit Test Stability Allow List
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: unit-test-allow-list
+          path: .
+
+      - name: Check for cross app imports in allowlist apps
+        run: yarn check-app-imports --fail-on-cross-app-import
+        env:
+          TEST_TYPE: unit_test
+
+      - name: Upload cross app import artifact
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: cross-app-import-report
+          path: ./tmp/cross-app-imports.json
+
+      - name: Check for apps in changed files that are not isolated
+        run: node script/github-actions/annotate-non-isolated-apps.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create isolation annotations file
+        if: ${{ env.ISOLATION_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$ISOLATION_ANNOTATIONS_JSON" > isolation-annotations.json
+          cat isolation-annotations.json
+
+      - name: Annotate files that belong to apps not isolated
+        if: ${{ env.ISOLATION_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'App Isolation Annotations'
+          input_json: './isolation-annotations.json'
+      
+  annotate-files:
+    name: Platform-elected file notations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+         fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed apps
+        id: get-changed-apps
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+             
+      - name: Check for apps in changed files that have skipped tests
+        run: node script/github-actions/annotate-skipped-e2e-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+        
+      - name: Create e2e annotations file  
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$SKIPPED_E2E_ANNOTATIONS_JSON" > skipped-e2e-annotations.json
+          cat skipped-e2e-annotations.json
+      
+      - name: Annotate files that contain skipped e2e tests
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Skipped e2e Annotations'
+          input_json: './skipped-e2e-annotations.json'
+
+      - name: Check for apps in changed files that have e2e tests with dynamically generated dates and times
+        run: node script/github-actions/annotate-flaky-dates-and-times-in-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+          
+      - name: Create e2e annotations file  
+        if: ${{ env.FLAKY_DATES_TIMES_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$FLAKY_DATES_TIMES_ANNOTATIONS_JSON" > flaky-dates-times-annotations.json
+          cat flaky-dates-times-annotations.json
+        
+      - name: Annotate files that contain dynamic date and time generation
+        if: ${{ env.FLAKY_DATES_TIMES_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Flaky e2e Annotations'
+          input_json: './flaky-dates-times-annotations.json'
+
+      - name: Annotate files that use Enzyme instead of RTL
+        run: node script/github-actions/annotate-enzyme.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
+
+      - name: Create e2e annotations file  
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$ENZYME_ANNOTATIONS_JSON" > enzyme-annotations.json
+          cat enzyme-annotations.json
+        
+      - name: Annotate files that use Enzyme instead of RTL
+        if: ${{ env.ENZYME_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Enzyme Annotations'
+          input_json: './enzyme-annotations.json'
+
+  eslint-disable-check:
+    name: ESLint Disable Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Run PR check script
+        run: yarn pr-check
+        env:
+          CODE_PATTERN: (/* eslint-disable)|(// eslint-disable)
+          LINE_COMMENT: ESLint disabled here
+          OVERALL_REVIEW_COMMENT: >
+            # ESLint is disabled
+
+            `vets-website` uses ESLint to help enforce code quality. In most
+            situations we would like ESLint to remain enabled.
+
+            ## What you can do
+
+            See if the code can be refactored to avoid disabling ESLint, or wait for
+            a VSP review.
+
+  icon-check:
+    name: Icon Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Run PR check script
+        run: yarn pr-check
+        env:
+          CODE_PATTERN: (<i )|(<i$)|(<va-icon)
+          LINE_COMMENT: icon found
+          OVERALL_REVIEW_COMMENT: >
+            # Icon found
+
+            Icons can be decorative, but sometimes they are used to convey meaning.
+            If there are any semantics associated with an icon, those semantics
+            should also be conveyed to a screen reader.
+
+            ## What you can do
+
+            Review the markup and see if the icon provides information that isn't
+            represented textually, or wait for a VSP review.
+
+            ## Note:
+
+            Font Awesome is deprecated. Please use va-icon instead. For more information, visit the migration documentation: [Migrate from font awesome to va-icon](https://design.va.gov/about/developers/using-web-components#how-to-migrate-from-font-awesome-to-va-icon)
+
+  sentry-check:
+    name: Sentry Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get bot token from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
+          env_variable_name: GITHUB_TOKEN
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Run PR check script
+        run: yarn pr-check
+        env:
+          CODE_PATTERN: Sentry\.
+          LINE_COMMENT: Sentry found
+          OVERALL_REVIEW_COMMENT: >
+            # Sentry call found
+
+            Sentry captures a lot of data, and we want to make sure that we only
+            keep information that will be useful for troubleshooting issues.  This
+            means that PII should not be recorded.
+
+            ## What you can do
+
+            Review your call to Sentry and see if you can reasonably reduce any
+            information that is included, or wait for a VSP review.
+
+  linting:
+    name: Linting (Files Changed)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed files
+        id: get-files-changed
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
+
+      - name: Filter files
+        id: get-lint-files
+        run: node ./script/github-actions/filter-files-changed.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.get-files-changed.outputs.changed_files }}
+
+      - name: Annotate ESLint results for all files if eslint config has been modified
+        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
+        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
+
+      - name: Annotate ESLint results for modified files
+        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+      
+      - name: Check for broken imports
+        id: check-for-broken-imports
+        continue-on-error: false
+        run: node ./script/github-actions/check-imports.js
+    
+
+      - name: Run Stylelint
+        if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
+        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
+
+      - name: Annotate Stylelint results
+        if: ${{ always() }}
+        run: node ./script/github-actions/stylelint-annotation-format.js

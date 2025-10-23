@@ -1,0 +1,6 @@
+steps:
+  - action: exists
+    target: header
+    value: Check your mailing address
+  - action: click
+    target: call-to-action

@@ -1,0 +1,181 @@
+{
+  "id": "vha_674BY",
+  "type": "va_facilities",
+  "attributes": {
+    "access": {
+      "health": {
+        "audiology": {
+          "new": null,
+          "established": 0.714285
+        },
+        "optometry": {
+          "new": 9.25,
+          "established": 4.057471
+        },
+        "gynecology": {
+          "new": null,
+          "established": 2.666666
+        },
+        "dermatology": {
+          "new": 6.722222,
+          "established": 9.641791
+        },
+        "orthopedics": {
+          "new": 9.25,
+          "established": 1.166666
+        },
+        "primaryCare": {
+          "new": 4.010989,
+          "established": 1.500677
+        },
+        "ophthalmology": {
+          "new": 5.333333,
+          "established": 8.4875
+        },
+        "womensHealth": {
+          "new": null,
+          "established": 2.666666
+        },
+        "effectiveDate": "2020-07-20",
+        "specialtyCare": {
+          "new": 5.919708,
+          "established": 6.343283
+        },
+        "gastroenterology": {
+          "new": 4.444444,
+          "established": 0
+        },
+        "mentalHealthCare": {
+          "new": 1.8,
+          "established": 3.678728
+        }
+      }
+    },
+    "address": {
+      "mailing": {},
+      "physical": {
+        "zip": "78744-3111",
+        "city": "Austin",
+        "state": "TX",
+        "address1": "7901 Metropolis Drive",
+        "address2": null,
+        "address3": null
+      }
+    },
+    "classification": "Multi-Specialty CBOC",
+    "facilityType": "va_health_facility",
+    "feedback": {
+      "health": {
+        "effectiveDate": "2019-06-20",
+        "primaryCareUrgent": 0.6,
+        "primaryCareRoutine": 0.79
+      }
+    },
+    "hours": {
+      "monday": "800AM-430PM",
+      "tuesday": "800AM-430PM",
+      "wednesday": "800AM-430PM",
+      "thursday": "800AM-430PM",
+      "friday": "800AM-430PM",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "lat": 30.205656,
+    "long": -97.6903515,
+    "name": "Austin VA Clinic",
+    "operatingStatus": {
+      "code": "LIMITED",
+      "additionalInfo": "Due to COVID-19, very limited in-person visits, but virtual care options such as phone and telehealth are available.  Please call your health care team before coming in.  All persons must wear a face covering while at facility."
+    },
+    "phone": {
+      "fax": "512-823-4125",
+      "main": "800-423-2111",
+      "pharmacy": "800-423-2111",
+      "afterHours": "254-778-4811",
+      "patientAdvocate": "512-823-4540",
+      "mentalHealthClinic": "512-823-4040",
+      "enrollmentCoordinator": "254-743-2420"
+    },
+    "services": {
+      "other": [],
+      "health": [
+        {
+          "sl1": [
+            "PrimaryCare"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "MentalHealthCare"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "WomensHealth"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Audiology"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Dermatology"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Gastroenterology"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Gynecology"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Ophthalmology"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Optometry"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "Orthopedics"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "SpecialtyCare"
+          ],
+          "sl2": []
+        },
+        {
+          "sl1": [
+            "DentalServices"
+          ],
+          "sl2": []
+        }
+      ],
+      "lastUpdated": "2020-07-20"
+    },
+    "uniqueId": "674BY",
+    "visn": "17",
+    "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
+  }
+}

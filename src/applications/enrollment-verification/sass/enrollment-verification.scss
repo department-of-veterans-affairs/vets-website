@@ -1,0 +1,48 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+// Highlighted Content Container
+.ev-highlighted-content-container_title {
+	background-color: var(--vads-color-base-lightest);
+	margin: 0;
+	padding: 1em;
+}
+.ev-highlighted-content-container_content {
+	border: 1px solid var(--vads-color-base-lightest);
+	border-top: 0;
+	padding: 1em;
+}
+
+// Related Pages Navigation
+.ev-related-pages-nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+// Info Block
+.ev-info-block {
+	border-left: 7px solid var(--vads-color-primary-alt-dark);
+	padding-left: calc(1.25rem - 7px);
+}
+.ev-month-info-institutions {
+	list-style-type: none;
+}
+
+.ev-enrollment-month {
+	border-top: 1px solid var(--vads-color-base-lighter);
+}
+.ev-enrollment-month_message {
+	margin-bottom: 0.5em;
+}
+
+.usa-button-secondary--plain {
+	border: 0;
+}
+
+.ev-edit-verification,
+.ev-finish-later {
+	display: inline-block;
+}
+.ev-actions {
+	display: block;
+}

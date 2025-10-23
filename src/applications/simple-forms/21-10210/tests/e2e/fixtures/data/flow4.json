@@ -1,0 +1,47 @@
+{
+  "data": {
+    "claimOwnership": "third-party",
+    "claimantType": "non-veteran",
+    "witnessFullName": {
+      "first": "Jack",
+      "middle": "",
+      "last": "Witness"
+    },
+    "witnessRelationshipToClaimant": "I served with the claimant",
+    "witnessPhone": "555-555-5555",
+    "witnessEmail": "jack.witness@example.com",
+    "statement": "It was a dark and stormy night...",
+    "claimantFullName": {
+      "first": "Joe",
+      "middle": "",
+      "last": "Claimant"
+    },
+    "claimantDateOfBirth": "1980-01-01",
+    "claimantSSN": "321540988",
+    "claimantMailingAddress": {
+      "street": "123 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "12345"
+    },
+    "claimantPhone": "555-555-5556",
+    "claimantEmail": "joe.claimant@example.com",
+    "veteranFullName": {
+      "first": "John",
+      "middle": "",
+      "last": "Veteran"
+    },
+    "veteranDateOfBirth": "1970-01-01",
+    "veteranSSN": "321540987",
+    "veteranMailingAddress": {
+      "street": "124 Main St",
+      "city": "Anytown",
+      "state": "CA",
+      "country": "USA",
+      "postalCode": "12345"
+    },
+    "veteranPhone": "555-555-5557",
+    "veteranEmail": "john.veteran@example.com"
+  }
+}

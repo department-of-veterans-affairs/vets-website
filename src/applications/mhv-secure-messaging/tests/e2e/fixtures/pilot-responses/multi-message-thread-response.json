@@ -1,0 +1,98 @@
+{
+  "data": [
+    {
+      "id": "3763993",
+      "type": "message_details",
+      "attributes": {
+        "messageId": 3763993,
+        "category": "OTHER",
+        "subject": "OH THREAD 002 ATTACHMENT",
+        "body": "\n\n\nOfficial signature",
+        "attachment": null,
+        "sentDate": "2024-10-15T18:49:12.000Z",
+        "senderId": 2444644,
+        "senderName": "SPARROW, JACK",
+        "recipientId": 2570050,
+        "recipientName": "MHVTP, GREEN G",
+        "readReceipt": "READ",
+        "triageGroupName": "OH TG GROUP 002",
+        "proxySenderName": null,
+        "threadId": 3999153,
+        "folderId": 0,
+        "messageBody": "\n\n\nOfficial signature",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false,
+        "attachments": []
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/messages/3763993"
+      }
+    },
+    {
+      "id": "3763944",
+      "type": "message_details",
+      "attributes": {
+        "messageId": 3763954,
+        "category": "TEST_RESULTS",
+        "subject": "MHV THREAD 003  ATTACH",
+        "body": "test body 1",
+        "attachment": null,
+        "sentDate": "2024-07-07T18:49:12.000Z",
+        "senderId": 2444644,
+        "senderName": "EDWARD, TEACH",
+        "recipientId": 2570050,
+        "recipientName": "MHV, MARK",
+        "readReceipt": "READ",
+        "triageGroupName": "MHV TG GROUP DAYT29",
+        "proxySenderName": null,
+        "threadId": 3763944,
+        "folderId": 0,
+        "messageBody": "test body 1",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachment": true,
+        "attachments": [],
+
+
+
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/threads/3763944"
+      }
+    },
+    {
+      "id": "3763921",
+      "type": "message_details",
+      "attributes": {
+        "threadId": 3763921,
+        "folderId": 0,
+        "messageId": 3763930,
+        "threadPageSize": 5,
+        "messageCount": 1,
+        "category": "TEST_RESULTS",
+        "subject": "MHV THREAD 002",
+        "body": "test body 2",
+        "triageGroupName": "MHV TG GROUP DAYT29",
+        "sentDate": "2024-07-05T18:47:02.000Z",
+        "draftDate": null,
+        "senderId": 2444644,
+        "senderName": "SPARROW, JACK",
+        "recipientName": "MHVTP, GREEN G",
+        "recipientId": 2570050,
+        "messageBody": "test body 2",
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "http://6b065124b1b8d7f51b45de8f3910424c-api.review.vetsgov-internal/my_health/v1/messaging/threads/3763921"
+      }
+    }
+  ]
+}

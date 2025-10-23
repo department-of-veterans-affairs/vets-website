@@ -1,0 +1,31 @@
+name: Init Dashboard Data Repo
+description: Check out repo and install dependencies
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout Testing Tools Team Dashboard Data repo
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      with:
+        repository: department-of-veterans-affairs/qa-standards-dashboard-data
+        token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+        path: qa-standards-dashboard-data
+
+    - name: Get Node version
+      id: get-node-version
+      shell: bash
+      run: echo NODE_VERSION=$(cat .nvmrc) >> $GITHUB_OUTPUT
+      working-directory: qa-standards-dashboard-data
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+    # TODO: Potentially use install composite
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --frozen-lockfile --prefer-offline --production=false
+      env:
+        YARN_CACHE_FOLDER: .cache/yarn
+      working-directory: qa-standards-dashboard-data

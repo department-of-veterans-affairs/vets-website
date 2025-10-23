@@ -1,0 +1,10 @@
+{
+  "errors": [
+      {
+          "title": "Veteran not identifiable.",
+          "detail": "No data found for ICN.",
+          "code": "404",
+          "status": "404"
+      }
+  ]
+}

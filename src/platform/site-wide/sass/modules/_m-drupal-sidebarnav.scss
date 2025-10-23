@@ -1,0 +1,17 @@
+.va-drupal-sidebarnav {
+  .usa-sidenav-sub_list {
+    a.usa-current {
+      margin-left: 0 !important;
+    }
+  }
+
+  a + .usa-sidenav-sub_list, li > .usa-sidenav-sub_list {
+    display: none;
+  }
+
+  a.usa-current + .usa-sidenav-sub_list,
+  .usa-sidenav-sub_list + a.usa-current,
+  li.active-level > .usa-sidenav-sub_list {
+    display: block;
+  }
+}

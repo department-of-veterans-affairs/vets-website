@@ -1,0 +1,51 @@
+{
+    "data": {
+        "id": "21142513",
+        "type": "prescription_details",
+        "attributes": {
+            "prescriptionId": 21142513,
+            "prescriptionNumber": "2720330",
+            "prescriptionName": "KARAYA PASTE (2 OUNCES)",
+            "refillStatus": "transferred",
+            "refillSubmitDate": "2022-11-09T19:40:35.000Z",
+            "refillDate": "2022-11-09T05:00:00.000Z",
+            "refillRemaining": 2,
+            "facilityName": "DAYT29",
+            "orderedDate": "2022-04-16T04:00:00.000Z",
+            "quantity": "1",
+            "expirationDate": "2023-04-17T04:00:00.000Z",
+            "dispensedDate": null,
+            "stationNumber": "989",
+            "isRefillable": false,
+            "isTrackable": false,
+            "cmopNdcNumber": null,
+            "inCernerTransition": false,
+            "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
+            "sig": "APPLY 1ML TO AFFECTED AREA DAILY FOR 30 DAYS",
+            "cmopDivisionPhone": null,
+            "userId": 17621060,
+            "providerFirstName": "MOHAMMAD",
+            "providerLastName": "ISLAM",
+            "remarks": null,
+            "divisionName": "DAYTON",
+            "modifiedDate": "2023-08-14T18:02:20.000Z",
+            "institutionId": null,
+            "dialCmopDivisionPhone": "",
+            "dispStatus": "Transferred",
+            "ndc": null,
+            "reason": null,
+            "prescriptionNumberIndex": "RX",
+            "prescriptionSource": "RX",
+            "disclaimer": null,
+            "indicationForUse": null,
+            "indicationForUseFlag": null,
+            "category": "Rx Medication",
+            "trackingList": [],
+            "rxRfRecords": [],
+            "tracking": false
+        },
+        "links": {
+            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/21142513"
+        }
+    }
+}

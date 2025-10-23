@@ -1,0 +1,43 @@
+name: Evaluate CI Failures
+
+on:
+  workflow_run:
+    workflows: [Continuous Integration, E2E Tests]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  steps_evaluation:
+    runs-on: ubuntu-latest
+    name: Steps Evaluation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Collect and Store Step Status
+        run: yarn actions-steps-error-check
+        working-directory: qa-standards-dashboard-data
+        env:
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          ATTEMPT_NUMBER: ${{ github.event.workflow_run.run_attempt }}
+          MAIN_BRANCH: ${{ github.ref == 'refs/heads/main' }}
+          WORKFLOW_TRIGGER: ${{ github.event.workflow.name }}

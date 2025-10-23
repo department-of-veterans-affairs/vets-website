@@ -1,0 +1,10 @@
+exports["Common ErrorMessage component/should render title if passed as a prop(0)"] = "<va-alert status=\"error\" class=\"schemaform-failure-alert vads-u-margin-top--4\" data-testid=\"12345\"><h2 slot=\"headline\" class=\"schemaform-warning-header\">i am a title</h2><p></p></va-alert>";
+
+exports["Common ErrorMessage component/should render message if passed as a prop(0)"] = "<va-alert status=\"error\" class=\"schemaform-failure-alert vads-u-margin-top--4\"><h2 slot=\"headline\" class=\"schemaform-warning-header\"></h2><p>i am a message</p></va-alert>";
+
+exports["Common ErrorMessage component/should render children if passed as a prop(0)"] = "<va-alert status=\"error\" class=\"schemaform-failure-alert vads-u-margin-top--4\"><h2 slot=\"headline\" class=\"schemaform-warning-header\"></h2><p></p>i am a child component</va-alert>";
+
+exports["Common ErrorMessage component/should render if active(0)"] = "<va-alert status=\"error\" class=\"schemaform-failure-alert vads-u-margin-top--4\" data-testid=\"12345\"><h2 slot=\"headline\" class=\"schemaform-warning-header\"></h2><p></p></va-alert>";
+
+exports["Common ErrorMessage component/should not render if not active(0)"] = "";
+

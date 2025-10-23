@@ -1,0 +1,197 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request {
+  max-width: 627px;
+
+  &__user-name {
+    text-transform: capitalize;
+    font-weight: bold;
+  }
+
+  va-pagination {
+    padding: 0;
+    border: 0;
+  }
+
+  &__search-header {
+    margin-bottom: 8px;
+  }
+  &__copy {
+    margin: 0 0 24px 0;
+  }
+  &__tabs {
+    margin: 32px 0;
+    background-color: $vads-color-base-lighter;
+    border: 2px solid $vads-color-base-lighter;
+    border-radius: 6px;
+    display: flex;
+    max-width: 320px;
+  }
+
+  &__tab-heading {
+    margin: 0;
+  }
+
+  &__tab-link {
+    font-size: 20px;
+    flex: 1;
+    padding: 8px 4px;
+    text-decoration: none;
+    text-align: center;
+    color: $vads-color-base;
+
+    &.active {
+      font-weight: 700;
+      background-color: $vads-color-white;
+      border-radius: 6px;
+    }
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &__sort-by {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+  &__select {
+    width: 100%;
+    margin-bottom: 16px;
+
+    > select {
+      max-width: 100%;
+    }
+    @media (min-width: $small-desktop-screen) {
+      width: 300px;
+      margin-bottom: 0;
+    }
+  }
+  &__apply {
+    margin: 0;
+    max-width: 83px;
+    height: 40px;
+
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 16px;
+    }
+  }
+  &__meta {
+    margin-bottom: 32px;
+    @media (min-width: $small-desktop-screen) {
+      margin: 32px 0;
+    }
+    &:focus {
+      outline: 2px solid $vads-color-action-focus-on-light;
+      outline-offset: 2px;
+    }
+  }
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    display: block;
+    margin: 0;
+
+    li {
+      margin-bottom: 16px;
+      max-width: 100%;
+    }
+  }
+
+  &__card {
+    > a {
+      display: flex;
+    }
+
+    &-icon {
+      margin-right: 5px;
+      color: var(--vads-color-warning-dark);
+    }
+
+    &-title {
+      margin: 3px 0 0 0;
+      font-weight: 700;
+    }
+
+    &-field {
+      margin: 0;
+
+      &--status {
+        .pending & {
+          display: none;
+        }
+      }
+
+      &--request {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 4px;
+        }
+      }
+
+      &--label {
+        font-weight: 700;
+        margin: 0 5px 0 0;
+
+        .poa-search & {
+          width: 100%;
+          @media (min-width: $small-desktop-screen) {
+            width: auto;
+          }
+        }
+
+        span {
+          font-weight: normal;
+          display: block;
+          @media (min-width: $small-desktop-screen) {
+            display: inline;
+          }
+        }
+      }
+
+      &--org {
+        margin-top: 12px;
+      }
+
+      &--expiry {
+        margin-left: 3px;
+      }
+    }
+  }
+
+  &__checkbox {
+    margin: 8px 0;
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 32px;
+      margin-bottom: 7px;
+    }
+
+    .submissions & {
+      display: none;
+    }
+  }
+}

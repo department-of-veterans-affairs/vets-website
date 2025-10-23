@@ -1,0 +1,43 @@
+{
+  "data": [
+    {
+      "id": "189685",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 189685,
+        "dateFiled": "2008-09-23",
+        "minEstDate": "2013-05-02",
+        "maxEstDate": "2014-01-02",
+        "phaseChangeDate": "2016-10-31",
+        "open": true,
+        "waiverSubmitted": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": true,
+        "updatedAt": "2016-10-28T14:41:26.468Z",
+        "phase": null
+      }
+    },
+    {
+      "id": "189686",
+      "type": "evss_claims",
+      "attributes": {
+        "evssId": 189686,
+        "dateFiled": "2008-09-23",
+        "minEstDate": "2013-05-02",
+        "maxEstDate": "2014-01-02",
+        "phaseChangeDate": "2012-10-31",
+        "open": false,
+        "waiverSubmitted": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": true,
+        "updatedAt": "2016-10-28T14:41:26.468Z",
+        "phase": null
+      }
+    }
+  ],
+  "meta": {
+    "syncStatus": "SUCCESS"
+  }
+}
