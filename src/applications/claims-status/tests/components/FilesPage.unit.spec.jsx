@@ -2,9 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
-
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-
 import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import {
@@ -91,8 +88,8 @@ describe('<FilesPage>', () => {
         message={{ title: 'Test', body: 'Body' }}
       />,
     );
-    expect($('.claim-files', container)).to.not.exist;
-    expect($('va-loading-indicator', container)).to.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
+    expect(container.querySelector('va-loading-indicator')).to.exist;
   });
 
   it('should render null when claim empty', () => {
@@ -100,7 +97,7 @@ describe('<FilesPage>', () => {
       <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
@@ -113,7 +110,7 @@ describe('<FilesPage>', () => {
       />,
     );
 
-    expect($('.claim-files', container)).to.not.exist;
+    expect(container.querySelector('.claim-files')).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
@@ -252,13 +249,14 @@ describe('<FilesPage>', () => {
           clearNotification={() => {}}
         />,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
 
     it('should render files page, showing additional evidence section with alerts, and docs filed section when using lighthouse', () => {
@@ -282,13 +280,14 @@ describe('<FilesPage>', () => {
           clearNotification={() => {}}
         />,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).to.not.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
     it('should not render ask va to decide component', () => {
       const claim = { ...baseClaim };
@@ -340,13 +339,14 @@ describe('<FilesPage>', () => {
           clearNotification={() => {}}
         />,
       );
-      const filesPage = $('#tabPanelFiles', container);
+      const filesPage = container.querySelector('#tabPanelFiles');
 
       expect(filesPage).to.exist;
-      expect($('.claim-file-header-container', container)).to.exist;
+      expect(container.querySelector('.claim-file-header-container')).to.exist;
       expect(getByTestId('additional-evidence-page')).to.exist;
-      expect($('.documents-filed-container', container)).to.exist;
-      expect($('.claims-requested-files-container', container)).not.to.exist;
+      expect(container.querySelector('.documents-filed-container')).to.exist;
+      expect(container.querySelector('.claims-requested-files-container')).not
+        .to.exist;
     });
   });
 
@@ -384,5 +384,106 @@ describe('<FilesPage>', () => {
       // Should NOT render OtherWaysToSendYourDocuments component
       expect(queryByTestId('other-ways-to-send-documents')).to.not.exist;
     });
+  });
+
+  describe('UploadType2ErrorAlert', () => {
+    const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+
+    context(
+      "when the 'cst_show_document_upload_status' feature toggle is disabled",
+      () => {
+        it('should NOT render the alert', () => {
+          const claim = { ...baseClaim };
+          claim.attributes.evidenceSubmissions = [];
+
+          const { container, queryByText } = renderWithReduxAndRouter(
+            <FilesPage {...props} claim={claim} />,
+            defaultReduxState,
+          );
+
+          expect(container.querySelector('va-alert[status="error"]')).to.not
+            .exist;
+          expect(
+            queryByText('We need you to submit files by mail or in person'),
+          ).to.not.exist;
+        });
+      },
+    );
+
+    context(
+      "when the 'cst_show_document_upload_status' feature toggle is enabled",
+      () => {
+        it('should not render alert when there are no failed submissions', () => {
+          const claim = { ...baseClaim };
+          claim.attributes.evidenceSubmissions = [];
+
+          const { container } = renderWithReduxAndRouter(
+            <FilesPage {...props} claim={claim} />,
+            enabledReduxState,
+          );
+
+          expect(container.querySelector('va-alert[status="error"]')).to.not
+            .exist;
+        });
+
+        it('should render alert when there are failed submissions within the last 30 days', () => {
+          const tenDaysAgo = new Date(
+            Date.now() - 10 * 24 * 60 * 60 * 1000,
+          ).toISOString();
+          const fiveDaysAgo = new Date(
+            Date.now() - 5 * 24 * 60 * 60 * 1000,
+          ).toISOString();
+          const yesterday = new Date(
+            Date.now() - 1 * 24 * 60 * 60 * 1000,
+          ).toISOString();
+
+          const claim = { ...baseClaim };
+          // Create submissions in non-chronological order to verify sorting
+          claim.attributes.evidenceSubmissions = [
+            {
+              id: 3,
+              fileName: 'file-1.pdf',
+              documentType: 'L034',
+              uploadStatus: 'FAILED',
+              failedDate: tenDaysAgo,
+              acknowledgementDate: tomorrow,
+            },
+            {
+              id: 2,
+              fileName: 'file-2.pdf',
+              documentType: 'L107',
+              uploadStatus: 'FAILED',
+              failedDate: fiveDaysAgo,
+              acknowledgementDate: tomorrow,
+            },
+            {
+              id: 1,
+              fileName: 'file-3.pdf',
+              documentType: 'L023',
+              uploadStatus: 'FAILED',
+              failedDate: yesterday,
+              acknowledgementDate: tomorrow,
+            },
+          ];
+
+          const {
+            container,
+            getByText,
+            queryByText,
+          } = renderWithReduxAndRouter(
+            <FilesPage {...props} claim={claim} />,
+            enabledReduxState,
+          );
+
+          expect(container.querySelector('va-alert[status="error"]')).to.exist;
+          getByText('We need you to submit files by mail or in person');
+          // Should display the most recent file (by failedDate)
+          getByText('file-3.pdf');
+          // Other files should not be visible in the main alert display
+          expect(queryByText('file-1.pdf')).to.not.exist;
+          expect(queryByText('file-2.pdf')).to.not.exist;
+        });
+      },
+    );
   });
 });

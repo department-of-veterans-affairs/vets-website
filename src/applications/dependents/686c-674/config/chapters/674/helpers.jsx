@@ -27,6 +27,12 @@ export const benefitUiLabels = {
   other: 'Another program',
 };
 
+export const relationshipToStudentLabels = {
+  biological: 'They’re my biological child',
+  stepchild: 'They’re my stepchild',
+  adopted: 'They’re my adopted child',
+};
+
 export const ProgramExamples = (
   <va-additional-info trigger="Examples of federally funded programs or schools">
     <ul>
