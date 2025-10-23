@@ -1571,67 +1571,61 @@ const responses = {
   'POST /v0/benefits_claims/:claimId/benefits_documents': (() => {
     let uploadCount = 0;
 
+    const errorResponses = {
+      duplicate: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_DUPLICATE',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+      invalidClaimant: {
+        status: 422,
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
+            code: '422',
+            status: '422',
+            source: 'BenefitsDocuments::Service',
+          },
+        ],
+      },
+      unknown: {
+        status: 500,
+        errors: [
+          {
+            title: 'Internal Server Error',
+            code: '500',
+            status: '500',
+          },
+        ],
+      },
+    };
+
+    // Configuration for testing different scenarios
+    const errorPattern = ['duplicate', 'unknown', 'invalidClaimant']; // Change this to test different scenarios
+    // const errorPattern = [null]; // for success only
+
     return (_req, res) => {
       uploadCount += 1;
-
-      // CHANGE THIS ARRAY TO TEST DIFFERENT SCENARIOS:
-      // Options: null (success), 'duplicate' (known error), 'invalid_claimant' (known error), 'unknown' (unknown error)
-      // const errorPattern = ['duplicate', 'unknown', 'invalid_claimant'];
-      const errorPattern = ['unknown'];
-      // const errorPattern = ['null'];
-
       const mockError = errorPattern[(uploadCount - 1) % errorPattern.length];
 
-      // Simulate a slight delay like a real upload
+      // Simulate upload processing delay
       setTimeout(() => {
-        // Type 1 KNOWN Error: Duplicate file
-        if (mockError === 'duplicate') {
-          return res.status(422).json({
-            errors: [
-              {
-                title: 'Unprocessable Entity',
-                detail: 'DOC_UPLOAD_DUPLICATE',
-                code: '422',
-                status: '422',
-                source: 'BenefitsDocuments::Service',
-              },
-            ],
-          });
+        if (mockError && errorResponses[mockError]) {
+          const response = errorResponses[mockError];
+          return res.status(response.status).json({ errors: response.errors });
         }
 
-        // Type 1 KNOWN Error: Invalid claimant
-        if (mockError === 'invalid_claimant') {
-          return res.status(422).json({
-            errors: [
-              {
-                title: 'Unprocessable Entity',
-                detail: 'DOC_UPLOAD_INVALID_CLAIMANT',
-                code: '422',
-                status: '422',
-                source: 'BenefitsDocuments::Service',
-              },
-            ],
-          });
-        }
-
-        // Type 1 UNKNOWN Error: Internal server error
-        if (mockError === 'unknown') {
-          return res.status(500).json({
-            errors: [
-              {
-                title: 'Internal Server Error',
-                code: '500',
-                status: '500',
-              },
-            ],
-          });
-        }
-
-        // Success - Simulate successful file upload
-        return res.status(200).json({
-          jobId: `job-${Date.now()}`,
-        });
-      }, 500); // 500ms delay to simulate upload processing
+        // Success response
+        return res.status(200).json({ jobId: `job-${Date.now()}` });
+      }, 500);
     };
   })(),
 };

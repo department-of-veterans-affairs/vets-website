@@ -48,6 +48,7 @@ import {
   SET_LAST_PAGE,
   SET_NOTIFICATION,
   SET_PROGRESS,
+  SET_TYPE1_UNKNOWN_ERRORS,
   SET_UNAUTHORIZED,
   SET_UPLOAD_ERROR,
   SET_UPLOADER,
@@ -77,7 +78,7 @@ export function setAdditionalEvidenceNotification(message) {
 
 export function setType1UnknownErrors(errorFiles) {
   return {
-    type: 'SET_TYPE1_UNKNOWN_ERRORS',
+    type: SET_TYPE1_UNKNOWN_ERRORS,
     errorFiles,
   };
 }
