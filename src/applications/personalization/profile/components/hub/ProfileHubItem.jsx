@@ -4,9 +4,9 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 
 export const ProfileHubItem = ({ heading, content, href }) => {
   return (
-    <div className="vads-u-margin-top--2">
+    <div className="vads-u-margin-y--4">
       <VaLink
-        className="vads-u-margin--0 vads-u-font-size--h3 vads-u-font-weight--bold"
+        className="vads-u-margin--0 vads-u-font-size--sans-lg vads-u-font-weight--bold"
         href={href}
         text={heading}
       />
