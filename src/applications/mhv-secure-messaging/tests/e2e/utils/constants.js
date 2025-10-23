@@ -244,6 +244,7 @@ export const Locators = {
     COMBO_BOX: '.usa-error-message',
     EL_SIGN_NAME: '#input-error-message .usa-error-message',
     EL_SIGN_CHECK: `#checkbox-error-message .usa-error-message`,
+    ADD_MEDICATION_INFO_WARNING: 'add-medication-info-warning',
   },
   FIELDS: {
     RECIPIENT: '#select',

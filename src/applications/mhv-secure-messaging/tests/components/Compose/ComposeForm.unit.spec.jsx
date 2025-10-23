@@ -1918,7 +1918,7 @@ describe('Compose form component', () => {
         applyMiddleware(thunk),
       );
 
-      const { ...screen } = renderWithStoreAndRouter(
+      const screen = renderWithStoreAndRouter(
         <ComposeForm
           recipients={initialState.sm.recipients}
           categories={categories}

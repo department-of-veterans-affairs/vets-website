@@ -19,7 +19,7 @@ export const prescriptionReducer = (state = initialState, action) => {
   switch (action.type) {
     case Actions.Prescriptions.IS_LOADING:
       return {
-        ...initialState,
+        ...state,
         isLoading: true,
       };
     case Actions.Prescriptions.GET_PRESCRIPTION_BY_ID:

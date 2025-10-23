@@ -663,10 +663,10 @@ class PatientComposePage {
   validateAddYourMedicationWarningBanner = beVisible => {
     const bannerText =
       'To submit your renewal request, you should fill in as many of the medication details as possible. You can find this information on your prescription label or in your prescription details page.';
-    cy.get('va-alert')
+    cy.findByTestId(Locators.ALERTS.ADD_MEDICATION_INFO_WARNING)
       .findByText('Add your medication information to this message')
       .should(beVisible ? 'be.visible' : 'not.be.visible');
-    cy.get('va-alert')
+    cy.findByTestId(Locators.ALERTS.ADD_MEDICATION_INFO_WARNING)
       .findByText(bannerText)
       .should(beVisible ? 'be.visible' : 'not.be.visible');
   };

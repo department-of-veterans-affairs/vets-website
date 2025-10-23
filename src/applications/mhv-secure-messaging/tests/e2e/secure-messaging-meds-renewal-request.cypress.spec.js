@@ -8,7 +8,7 @@ import mockRecipients from './fixtures/recipientsResponse/recipients-response.js
 import medicationResponse from './fixtures/medicationResponses/single-medication-response.json';
 import medicationNotFoundResponse from './fixtures/medicationResponses/medication-not-found-response.json';
 
-describe('SM Meds Renewal Request Interstitial', () => {
+describe('SM Medications Renewal Request', () => {
   describe('in curated list flow', () => {
     const customFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
       {
@@ -227,10 +227,10 @@ describe('SM Meds Renewal Request Interstitial', () => {
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       PatientInterstitialPage.getContinueButton().click();
-      PatientComposePage.selectRecipient(3);
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
+      PatientComposePage.selectRecipient(3);
       PatientComposePage.validateCategorySelection('MEDICATIONS');
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
@@ -273,10 +273,10 @@ describe('SM Meds Renewal Request Interstitial', () => {
 
       cy.visit(`${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}`);
       PatientInterstitialPage.getContinueButton().click();
-      PatientComposePage.selectRecipient(3);
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
 
+      PatientComposePage.selectRecipient(3);
       PatientComposePage.validateCategorySelection('MEDICATIONS');
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
@@ -324,9 +324,9 @@ describe('SM Meds Renewal Request Interstitial', () => {
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
       PatientInterstitialPage.getContinueButton().click();
-      PatientComposePage.selectRecipient(3);
-
       PatientComposePage.validateAddYourMedicationWarningBanner(true);
+
+      PatientComposePage.selectRecipient(3);
       PatientComposePage.validateCategorySelection('MEDICATIONS');
       PatientComposePage.validateMessageSubjectField('Renewal Needed');
 
