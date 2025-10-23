@@ -2,11 +2,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   adjustYearString,
-  concatStreets,
-  getAgeInYears,
   getObjectsWithAttachmentId,
   toHash,
 } from '../../shared/utilities';
+import { concatStreets, getAgeInYears } from '../helpers/utilities';
 
 /**
  * Formats a date string from YYYY-MM-DD to MM-DD-YYYY
@@ -209,9 +208,9 @@ export default function transformForSubmit(formConfig, form) {
   // Concat streets for addresses
   const withConcatAddresses = {
     ...initialTransform,
-    sponsorAddress: initialTransform.sponsorAddress
-      ? concatStreets(initialTransform.sponsorAddress)
-      : initialTransform.sponsorAddress,
+    sponsorAddress: form.data.sponsorAddress
+      ? concatStreets(form.data.sponsorAddress)
+      : form.data.sponsorAddress,
     certifierAddress: initialTransform.certifierAddress
       ? concatStreets(initialTransform.certifierAddress)
       : initialTransform.certifierAddress,
@@ -290,9 +289,10 @@ export default function transformForSubmit(formConfig, form) {
   transformedData.supportingDocs = collectSupportingDocuments(transformedData);
 
   // Check if any applicants are over 65
-  transformedData.hasApplicantOver65 = transformedData.applicants.some(
-    applicant => getAgeInYears(applicant.applicantDob) >= 65,
-  );
+  transformedData.hasApplicantOver65 = transformedData.applicants.some(a => {
+    const age = getAgeInYears(a.applicantDob);
+    return Number.isFinite(age) && age >= 65;
+  });
 
   // Add certifier data
   transformedData.certifierRole = withConcatAddresses.certifierRole;

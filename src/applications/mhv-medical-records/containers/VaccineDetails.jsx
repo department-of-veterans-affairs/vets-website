@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -15,7 +14,9 @@ import {
   getNameDateAndTime,
   makePdf,
   formatUserDob,
+  useAcceleratedData,
 } from '@department-of-veterans-affairs/mhv/exports';
+
 import { generateTextFile } from '../util/helpers';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -34,7 +35,6 @@ import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import HeaderSection from '../components/shared/HeaderSection';
 import LabelValue from '../components/shared/LabelValue';
-import useAcceleratedData from '../hooks/useAcceleratedData';
 import { useTrackAction } from '../hooks/useTrackAction';
 
 const VaccineDetails = props => {
@@ -42,12 +42,6 @@ const VaccineDetails = props => {
   const record = useSelector(state => state.mr.vaccines.vaccineDetails);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
   const { vaccineId } = useParams();
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
@@ -176,13 +170,9 @@ const VaccineDetails = props => {
             <PrintDownload
               description="Vaccines Detail"
               downloadPdf={generateVaccinePdf}
-              allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateVaccineTxt}
             />
-            <DownloadingRecordsInfo
-              allowTxtDownloads={allowTxtDownloads}
-              description="Vaccines Detail"
-            />
+            <DownloadingRecordsInfo description="Vaccines Detail" />
             <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <div>
               {isAcceleratingVaccines && (

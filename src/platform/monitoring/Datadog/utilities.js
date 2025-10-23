@@ -13,3 +13,30 @@ export const canInitDatadog = ({
   win = window,
   agent,
 } = {}) => !env?.isLocalhost() && !isBot(agent) && !win?.Mocha && !win?.Cypress;
+
+/**
+ * Datadog generic logger function
+ * https://docs.datadoghq.com/logs/log_collection/javascript/#generic-logger-function
+ * @param {String} message - The log message
+ * @param {Object} attributes - All attributes attached to message (valid JSON)
+ * @param {String} status - Log status (debug, info, warn, or error)
+ * @param {Error} [error] - Instance of JS error object
+ */
+export const dataDogLogger = ({
+  message,
+  attributes,
+  status = 'info',
+  error,
+
+  /**
+   * Using CDN async pattern: If you use the module import, it breaks Cypress
+   * tests, because nearly all of us check if the env is localhost and abort the
+   * initialization. So the whole thing just errors out doing it that way.. so
+   * window.DD_LOGS?.logger is the correct way to go.
+   */
+  logger = window.DD_LOGS?.logger || (() => {}),
+}) => {
+  if (logger && logger?.log) {
+    logger.log(message, attributes || {}, status, error);
+  }
+};

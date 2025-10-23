@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { EVIDENCE_PRIVATE_REQUEST_PATH } from '../../constants';
+import { EVIDENCE_PRIVATE_PROMPT_URL } from '../../constants';
 import BasicLink from '../../../shared/components/web-component-wrappers/BasicLink';
 
 const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
@@ -27,7 +27,7 @@ const AuthorizationAlert = ({ hasError, onAnchorClick }) => (
     </p>
     <BasicLink
       className="vads-u-display--block vads-u-margin-top--2"
-      path={`/${EVIDENCE_PRIVATE_REQUEST_PATH}`}
+      path={`/${EVIDENCE_PRIVATE_PROMPT_URL}`}
       text="Go back to select ‘No’"
     />
   </va-alert>

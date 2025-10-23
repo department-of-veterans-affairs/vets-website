@@ -10,6 +10,7 @@ import {
   presentableFormIDs,
   sipFormSorter,
   normalizeSubmissionStatus,
+  formatFormTitle,
 } from '~/applications/personalization/dashboard/helpers';
 
 import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
@@ -112,6 +113,8 @@ const ApplicationsInProgress = ({
         {hasForms && (
           <div>
             {allForms.map(form => {
+              const formArrays = ['22-10297'];
+
               const formId = form.form;
               const formStatus = form.status;
               const { pdfSupport } = form;
@@ -124,6 +127,9 @@ const ApplicationsInProgress = ({
               let formIdLabel;
               if (formId === 'form526_form4142') {
                 formIdLabel = '21-4142 submitted with VA Form 21-526EZ';
+              } else if (formId === '22-10297') {
+                formIdLabel =
+                  '22-10297 (Apply for VET TEC 2.0 (high-tech program))';
               } else {
                 formIdLabel = form.form.replace(/-V2$/i, '');
               }
@@ -145,6 +151,7 @@ const ApplicationsInProgress = ({
                   'MMMM d, yyyy',
                 );
                 const continueUrl = `${getFormLink(formId)}resume`;
+                const isForm = formArrays.includes(formId);
                 // TODO: consider combining all "Application Cards" into single component
                 return (
                   <DraftCard
@@ -152,9 +159,10 @@ const ApplicationsInProgress = ({
                     continueUrl={continueUrl}
                     expirationDate={expirationDate}
                     formId={formId}
-                    formTitle={formTitle}
+                    formTitle={isForm ? formTitle : formatFormTitle(formTitle)}
                     lastSavedDate={lastSavedDate}
                     presentableFormId={hasBenefit ? presentableFormId : false}
+                    isForm={isForm}
                   />
                 );
               }
@@ -166,7 +174,6 @@ const ApplicationsInProgress = ({
                   fromUnixTime(createdAt),
                   'MMMM d, yyyy',
                 );
-
                 return (
                   <SubmissionCard
                     key={formId}

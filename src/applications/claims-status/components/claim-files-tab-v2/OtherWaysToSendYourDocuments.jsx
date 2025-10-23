@@ -4,15 +4,24 @@ import {
   InPersonDescription,
   ConfirmationDescription,
 } from './Descriptions';
-import { MAILING_ADDRESS, CONTACT_INFO, LINKS } from '../../constants';
+import {
+  MAILING_ADDRESS,
+  CONTACT_INFO,
+  LINKS,
+  ANCHOR_LINKS,
+} from '../../constants';
 
 const OtherWaysToSendYourDocuments = () => {
   return (
     <div
+      id="other-ways-to-send-documents"
       className="other-ways-to-send-your-documents"
       data-testid="other-ways-to-send-documents"
     >
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h2
+        id={ANCHOR_LINKS.otherWaysToSendDocuments}
+        className="vads-u-margin-top--0 vads-u-margin-bottom--3"
+      >
         Other ways to send your documents
       </h2>
       <div>

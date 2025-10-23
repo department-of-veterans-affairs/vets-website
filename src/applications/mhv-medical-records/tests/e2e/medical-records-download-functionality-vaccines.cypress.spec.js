@@ -7,9 +7,9 @@ import defaultVaccines from './fixtures/vaccines/vaccines.json';
 describe('Medical Records Labs and Tests List Page', () => {
   const site = new MedicalRecordsSite();
 
-  before(() => {
+  beforeEach(() => {
     site.login();
-    cy.visit('my-health/medical-records/');
+    // cy.visit('my-health/medical-records/');
   });
 
   it('Vaccine Details page Toggle Menu button Print or download ', () => {

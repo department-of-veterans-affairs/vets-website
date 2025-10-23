@@ -81,7 +81,7 @@ describe('VAOS Referral Appointments', () => {
 
   describe('Creating an appointment from a referral', () => {
     const numberOfReferrals = 2;
-    const appointmentId = 'EEKoGzEf';
+    const appointmentId = 'appointment-for-VA9672';
 
     beforeEach(() => {
       // Mock referrals list response
@@ -108,6 +108,7 @@ describe('VAOS Referral Appointments', () => {
           referralNumber,
           categoryOfCare: 'Physical Therapy',
           numberOfSlots: 3,
+          currentDate: mockToday,
         },
       );
       mockDraftReferralAppointmentApi({
@@ -149,7 +150,7 @@ describe('VAOS Referral Appointments', () => {
       ).toJSON();
 
       mockAppointmentDetailsApiWithPolling({
-        id: appointmentId,
+        id: '*',
         firstResponse: proposedAppointmentResponse,
         secondResponse: bookedAppointmentResponse,
         switchAfterRequests: 2,
@@ -183,7 +184,7 @@ describe('VAOS Referral Appointments', () => {
       // Validate we've reached the Schedule Referral page
       scheduleReferral.validate();
       scheduleReferral.assertReferralDetails();
-      scheduleReferral.assertreferringFacility();
+      scheduleReferral.assertCommunityCareOfficeLink();
 
       // Click the schedule appointment button
       scheduleReferral.clickScheduleAppointment();
@@ -196,7 +197,7 @@ describe('VAOS Referral Appointments', () => {
       chooseDateAndTime.validate();
       chooseDateAndTime.assertProviderInfo();
       chooseDateAndTime.selectNextMonth();
-      chooseDateAndTime.assertAppointmentSlots(3);
+      chooseDateAndTime.assertAppointmentSlots(23);
 
       // Select the first appointment slot
       chooseDateAndTime.selectAppointmentSlot(0);

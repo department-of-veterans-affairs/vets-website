@@ -93,12 +93,13 @@ const ConfirmRemoveModal = ({
           <p className="vads-u-margin-top--1">
             {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
           </p>
-          <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--3">
+          <div>
             <va-button
               loading={isLoading}
               onClick={deleteAction}
               text={isLoading ? '' : 'Yes, remove my information'}
               class="vads-u-margin-top--1 vads-u-margin-bottom--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+              data-testid="confirm-remove-button"
             />
 
             {!isLoading && (
@@ -107,6 +108,7 @@ const ConfirmRemoveModal = ({
                 onClick={cancelAction}
                 text="No, cancel this change"
                 class="vads-u-margin-top--1 vads-u-width--full mobile-lg:vads-u-width--auto"
+                data-testid="cancel-remove-button"
               />
             )}
           </div>
