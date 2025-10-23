@@ -14,11 +14,9 @@ const OMB_EXP_DATE = 'TBD';
 const IntroductionText = () => {
   return (
     <p>
-      Use this online tool to submit evidence along with your claim, using the
-      Fully Developed Claim (FDC) program to get a decision on your claim
-      faster. You can use this form if you’re a surviving spouse or child of a
-      Veteran who has died, or if you are applying for VA benefits and the money
-      that we owe the Veteran wasn’t paid prior to their death.
+      Use this application if you’re the surviving spouse or child of a Veteran
+      and want to apply for survivors benefits. You can also submit evidence
+      with your application to get a faster decision.
     </p>
   );
 };
@@ -27,135 +25,67 @@ const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
-        <p>
+        <p className="vads-u-margin-top--2">
           Check your eligibility requirements before you apply. If you think you
           may be eligible, but you’re not sure, we encourage you to apply.
         </p>
-        <a href="/family-and-caregiver-benefits/survivor-compensation/">
-          Find out if you’re eligible for D.I.C., Survivors Pension, or Accrued
-          Benefits
-        </a>
+        <p>
+          <a href="/family-and-caregiver-benefits/survivor-compensation/dependency-indemnity-compensation/">
+            Find out if you’re eligible for VA Dependency and Indemnity
+            Compensation (DIC)
+          </a>
+        </p>
+        <p>
+          <a href="/family-and-caregiver-benefits/survivor-compensation/survivors-pension/">
+            Find out if you’re eligible for Survivors Pension
+          </a>
+        </p>
       </va-process-list-item>
-      <va-process-list-item header="Check your claim">
-        <p>This tool is where you upload evidence to support your claim for:</p>
+      <va-process-list-item header="Determine which benefits to apply for">
+        <p className="vads-u-margin-top--2">
+          You can apply for these benefits with this application:
+        </p>
         <ul>
+          <li>Dependency Indemnity Compensation (DIC)</li>
           <li>Survivors Pension</li>
-          <li>Dependency Indemnity Compensation (D.I.C.)</li>
-          <li>D.I.C. under 38 U.S.C. 1151</li>
-          <li>D.I.C. re-evaluation based on PL 117-16 (PACT ACT)</li>
           <li>
-            Increased Survivor Benefits Based on Need for Special Monthly
-            Pension or Special Monthly D.I.C.
+            Increased benefits based on Aid and Attendance or being housebound
           </li>
           <li>Accrued Benefits</li>
-          <li>Benefits Based on a Veteran’s Seriously Disabled Child</li>
+          <li>Pension benefits for a disabled child</li>
+          <li>
+            Expenses for in-home care, nursing home, or other care facility
+            expenses
+          </li>
         </ul>
+        <p>
+          You can also upload evidence (supporting documents) to support your
+          application.
+        </p>
       </va-process-list-item>
       <va-process-list-item header="Gather your information">
-        <h4>Here’s what you’ll need to apply:</h4>
-        <ul>
-          <li>Veteran Social Security number or VA file number</li>
-          <li>Veteran military history</li>
-          <li>Veteran work history</li>
-          <li>
-            Veteran marital history (and if you’re married, your spouse’s
-            marital history)
-          </li>
-          <li>Information about any dependent children</li>
-        </ul>
-        <h4>If applying for a Survivor’s Pension, you’ll need:</h4>
-        <ul>
-          <li>
-            The Veteran’s DD214 or other separation documents,{' '}
-            <strong>and</strong>
-          </li>
-          <li>The Veteran’s death certificate, showing cause of death</li>
-        </ul>
-        <h4>If you’re a surviving spouse, you‘ll need:</h4>
-        <ul>
-          <li>
-            Your marriage certificate or other evidence showing you were married
-            to the Veteran for at least 1 year immediately before their death,
-            <strong>or</strong>
-          </li>
-          <li>
-            Evidence that you and the Veteran had a child that was born either
-            before or during your marriage, <strong>or</strong>
-          </li>
-          <li>
-            Evidence that you were married before a fixed date based on certain
-            wartime periods
-          </li>
-        </ul>
-        <h4>If applying for D.I.C. you’ll need:</h4>
-        <ul>
-          <li>
-            Any service treatment and personnel records held by the Veteran’s
-            National Guard or Reserve unit
-          </li>
-          <li>
-            Any of the Veteran’s relevant private medical treatment records
-          </li>
-          <li>
-            Any of the Veteran’s treatment records held at a federal facility,
-            like a VA medical center, that support your claim
-          </li>
-          <li>
-            Any evidence from a layperson (someone who’s not a trained
-            professional) of chronic (long-lasting) symptoms of the disability
-          </li>
-        </ul>
-        <h4>If applying for Accrued Benefits, you’ll need:</h4>
-        <ul>
-          <li>
-            Any service treatment and personnel records held by the Veteran’s
-            National Guard or Reserve unit
-          </li>
-          <li>
-            Any of the Veteran’s relevant private medical treatment records
-          </li>
-          <li>
-            Any of the Veteran’s treatment records held at a federal facility,
-            like a VA medical center, that support your claim
-          </li>
-          <li>
-            Any evidence from a layperson (someone who’s not a trained
-            professional) of chronic (long-lasting) symptoms of the disability
-          </li>
-        </ul>
-        <va-additional-info trigger="Other documents we may ask for">
-          <p>
-            Based on your answers, you may need to submit other documents with
-            your application. These documents may include VA forms or evidence
-            for answers to specific questions.
-          </p>
-          <p>
-            If you are claiming in-home care, nursing home, or other care
-            facility expenses, you may need to submit proof for these claimed
-            expenses and other documents with your application. You only need to
-            submit proof for these three expense types. For all other types, you
-            only need to fill out the relevant fields in the form.
-          </p>
-          <p>
-            In addition, if you are claiming any of these expense types, you may
-            need to attach one or more of these VA forms that have been signed
-            by a provider:
-          </p>
-          <ul>
-            <li>
-              Residential Care, Adult Daycare, or a Similar Facility worksheet
-            </li>
-            <li>In-Home Attendant Expenses worksheet</li>
-            <li>
-              Request for Nursing Home Information in Connection with Claim for
-              Aid and Attendance (VA Form 21-0779)
-            </li>
-            <li>
-              Examination for Housebound Status or Permanent Need for Regular
-              Aid and Attendance form (VA Form 21-2680)
-            </li>
-          </ul>
-        </va-additional-info>
+        <p className="vads-u-margin-top--2">
+          Depending on which benefits you’re applying for, you’ll need to
+          provide certain information and evidence.
+        </p>
+        <p>
+          <a href="/resources/evidence-to-support-va-pension-dic-or-accrued-benefits-claims/">
+            Learn more about evidence to support VA pension, DIC, or accrued
+            benefits claims
+          </a>
+        </p>
+        <p>
+          Note: What you’ll need to submit yourself depends on if you’re filing
+          a standard claim or participating in the Fully Developed Claims (FDC)
+          program. You can get a faster decision if you turn in all your
+          evidence at the same time as you file your claim through the FDC
+          program.
+        </p>
+        <p>
+          <a href="/pension/how-to-apply/fully-developed-claim/">
+            Learn more about fully developed claims
+          </a>
+        </p>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
@@ -210,7 +140,7 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Apply for survivors benefits"
           devOnly={{
             forceShowFormControls: true,
           }}

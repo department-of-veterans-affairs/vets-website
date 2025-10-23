@@ -31,14 +31,15 @@ export default {
     }),
     dateInitiallyEnteredActiveDuty: currentOrPastDateDigitsUI({
       title: 'Date initially entered active duty',
-      hint: 'Enter 2 digits for the month and day and 4 digits for the year.',
+      hint:
+        'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
     }),
     finalReleaseDateFromActiveDuty: currentOrPastDateUI({
       title: 'Final release date from active duty',
       monthSelect: false,
     }),
     cityStateOrForeignCountry: textUI({
-      title: 'City, state or foreign country',
+      title: 'City, state, or foreign country',
     }),
   },
   schema: {

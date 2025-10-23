@@ -16,13 +16,16 @@ import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
 import applicantInformation from './chapters/01-applicant-information';
-import militaryHistory from './chapters/02-military-history/militaryHistory';
+import vaBenefits from './chapters/02-military-history/vaBenefits';
 import servicePeriod from './chapters/02-military-history/servicePeriod';
 import nationalGuardService from './chapters/02-military-history/nationalGuardService';
 import nationalGuardServicePeriod from './chapters/02-military-history/nationalGuardServicePeriod';
 import nationalGuardUnitAddress from './chapters/02-military-history/nationalGuardUnitAddress';
-import serviceNames from './chapters/02-military-history/serviceNames';
-import otherServiceNames from './chapters/02-military-history/otherServiceNames';
+import { otherServiceNamesPages } from './chapters/02-military-history/serviceNames';
+import {
+  prisonerOfWarPage,
+  powPeriodOfTimePage,
+} from './chapters/02-military-history/prisonerOfWarStatus';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -110,13 +113,13 @@ const formConfig = {
     // Chapter 1
     applicantInformation,
     militaryHistory: {
-      title: 'Military history',
+      title: "Veteran's military history",
       pages: {
         militaryHistory: {
-          path: 'veteran/military-history',
-          title: 'Military history',
-          uiSchema: militaryHistory.uiSchema,
-          schema: militaryHistory.schema,
+          path: 'veteran/va-benefits',
+          title: 'VA benefits',
+          uiSchema: vaBenefits.uiSchema,
+          schema: vaBenefits.schema,
         },
         servicePeriod: {
           path: 'veteran/service-period',
@@ -142,23 +145,24 @@ const formConfig = {
         nationalGuardUnitAddress: {
           path: 'veteran/national-guard-unit-address',
           title: 'National Guard unit address',
-          // depends: formData => formData.nationalGuardActivated === true,
+          depends: formData => formData.nationalGuardActivated === true,
           uiSchema: nationalGuardUnitAddress.uiSchema,
           schema: nationalGuardUnitAddress.schema,
         },
-        serviceNames: {
-          path: 'veteran/service-names',
-          title: 'Service names',
-          // depends: formData => formData.receivedBenefits === false,
-          uiSchema: serviceNames.uiSchema,
-          schema: serviceNames.schema,
+        ...otherServiceNamesPages,
+        prisonerOfWar: {
+          path: prisonerOfWarPage.path,
+          title: prisonerOfWarPage.title,
+          depends: formData => formData.nationalGuardActivated === true,
+          uiSchema: prisonerOfWarPage.uiSchema,
+          schema: prisonerOfWarPage.schema,
         },
-        otherServiceNames: {
-          path: 'veteran/other-service-names',
-          title: 'Other service names',
-          depends: formData => formData.receivedBenefits === false,
-          uiSchema: otherServiceNames.uiSchema,
-          schema: otherServiceNames.schema,
+        powPeriodOfTime: {
+          path: powPeriodOfTimePage.path,
+          title: powPeriodOfTimePage.title,
+          depends: powPeriodOfTimePage.depends,
+          uiSchema: powPeriodOfTimePage.uiSchema,
+          schema: powPeriodOfTimePage.schema,
         },
       },
     },

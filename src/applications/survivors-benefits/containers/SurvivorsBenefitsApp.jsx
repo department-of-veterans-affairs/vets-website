@@ -10,7 +10,7 @@ export default function SurvivorsBenefitsApp({ location, children }) {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
     addStyleToShadowDomOnPages(
-      ['veteran/service-period'],
+      ['veteran/service-period', 'veteran/prisoner-of-war-period'],
       ['va-memorable-date'],
       '#dateHint {display: none}',
     );
