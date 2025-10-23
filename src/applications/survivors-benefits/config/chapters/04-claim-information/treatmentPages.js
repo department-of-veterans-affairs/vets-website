@@ -4,6 +4,8 @@ import {
   arrayBuilderYesNoSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
@@ -44,7 +46,10 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingDicBenefits': arrayBuilderYesNoUI(
       options,
-      { hint: '' },
+      {
+        title: 'Did the Veteran receive treatment at a VA medical center?',
+        hint: '',
+      },
       { hint: '' },
     ),
   },
@@ -57,36 +62,67 @@ const summaryPage = {
   },
 };
 
-const nameLocationUiSchema = {
-  ...arrayBuilderItemFirstPageTitleUI({
-    title: 'VA medical center name and location',
-    nounSingular: options.nounSingular,
-    nounPlural: options.nounPlural,
-  }),
-  vaMedicalCenterName: {
-    'ui:title': 'VA medical center name',
+/** @returns {PageSchema} */
+const nameLocationPage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'VA medical center name and location',
+      nounSingular: options.nounSingular,
+      nounPlural: options.nounPlural,
+    }),
+    vaMedicalCenterName: textUI('VA medical center name'),
+    city: textUI('City'),
+    state: textUI('State, province, or region'),
   },
-  city: {
-    'ui:title': 'City',
-  },
-  state: {
-    'ui:title': 'State, province, or region',
+  schema: {
+    type: 'object',
+    properties: {
+      vaMedicalCenterName: textSchema,
+      city: textSchema,
+      state: textSchema,
+    },
+    required: ['vaMedicalCenterName', 'city', 'state'],
   },
 };
 
-const nameLocationSchema = {
-  type: 'object',
-  properties: {
-    vaMedicalCenterName: { type: 'string' },
-    city: { type: 'string' },
-    state: { type: 'string' },
+/** @returns {PageSchema} */
+const treatmentDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Dates of treatment',
+      nounSingular: options.nounSingular,
+      nounPlural: options.nounPlural,
+    }),
+    startDate: currentOrPastDateUI({
+      title: 'Start date of treatment',
+      monthSelect: false,
+      'ui:description':
+        'Enter 2 digits for the month and day and 4 digits for the year.',
+      required: formData =>
+        formData?.firstTimeReporting !== undefined &&
+        formData?.firstTimeReporting === false,
+    }),
+    endDate: currentOrPastDateUI({
+      title: 'End date of treatment',
+      monthSelect: false,
+      required: formData =>
+        formData?.firstTimeReporting !== undefined &&
+        formData?.firstTimeReporting === false,
+    }),
   },
-  required: ['vaMedicalCenterName', 'city', 'state'],
+  schema: {
+    type: 'object',
+    properties: {
+      startDate: currentOrPastDateSchema,
+      endDate: currentOrPastDateSchema,
+    },
+    required: ['startDate', 'endDate'],
+  },
 };
 
 export const treatmentPages = arrayBuilderPages(options, pageBuilder => ({
   dicBenefitsIntro: pageBuilder.introPage({
-    title: 'Treatment at VA medical center',
+    title: 'Treatment at VA medical centers',
     path: 'claim-information/dic/treatment',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
@@ -100,42 +136,13 @@ export const treatmentPages = arrayBuilderPages(options, pageBuilder => ({
   dicNameLocationPage: pageBuilder.itemPage({
     title: 'VA medical center name and location',
     path: 'claim-information/dic/:index/name-location',
-    uiSchema: nameLocationUiSchema,
-    schema: nameLocationSchema,
+    uiSchema: nameLocationPage.uiSchema,
+    schema: nameLocationPage.schema,
   }),
   dicTreatmentDates: pageBuilder.itemPage({
     title: 'Dates of treatment',
     path: 'claim-information/dic/:index/dates',
-    uiSchema: {
-      ...arrayBuilderItemFirstPageTitleUI({
-        title: 'Dates of treatment',
-        nounSingular: options.nounSingular,
-        nounPlural: options.nounPlural,
-      }),
-      startDate: currentOrPastDateUI({
-        title: 'Start date of treatment',
-        monthSelect: false,
-        'ui:description':
-          'Enter 2 digits for the month and day and 4 digits for the year.',
-        required: formData =>
-          formData?.firstTimeReporting !== undefined &&
-          formData?.firstTimeReporting === false,
-      }),
-      endDate: currentOrPastDateUI({
-        title: 'End date of treatment',
-        monthSelect: false,
-        required: formData =>
-          formData?.firstTimeReporting !== undefined &&
-          formData?.firstTimeReporting === false,
-      }),
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        startDate: currentOrPastDateSchema,
-        endDate: currentOrPastDateSchema,
-      },
-      required: ['startDate', 'endDate'],
-    },
+    uiSchema: treatmentDatePage.uiSchema,
+    schema: treatmentDatePage.schema,
   }),
 }));
