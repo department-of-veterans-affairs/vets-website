@@ -11,11 +11,15 @@ const getDependent = ({
   index = 0,
   fullName = true,
   dobSlash = false,
+  relKey = true, // true = relationship, false = relationshipToVeteran (prefill)
   awarded = 'Y',
 } = {}) => {
-  const first = ['SPOUSY', 'PENNY', 'BOB'][index];
   const last = 'FOSTER';
+  const first = ['SPOUSY', 'PENNY', 'BOB'][index];
+  const keys = ['spousy-1234', 'penny-1234', 'bob-1234'];
+  const relationships = ['Spouse', 'Child', 'Child'];
   const ages = [45, 11, 3];
+  const labeledAges = ['45 years old', '11 years old', '3 years old'];
 
   const name = fullName
     ? {
@@ -24,6 +28,13 @@ const getDependent = ({
         lastName: last,
       }
     : { firstName: first, lastName: last };
+  const relationship = relKey
+    ? { relationship: relationships[index] }
+    : {
+        relationship: relationships[index],
+        relationshipToVeteran: relationships[index],
+      };
+
   return {
     ...name,
     dateOfBirth: createDoB(
@@ -32,11 +43,11 @@ const getDependent = ({
       dobSlash ? 'MM/dd/yyyy' : 'yyyy-MM-dd',
     ),
     ssn: '000111234',
-    relationshipToVeteran: ['Spouse', 'Child', 'Child'][index],
+    ...relationship,
     awardIndicator: awarded,
-    key: ['spousy-1234', 'penny-1234', 'bob-1234'][index],
+    key: keys[index],
     age: ages[index],
-    labeledAge: ['45 years old', '11 years old', '3 years old'][index],
+    labeledAge: labeledAges[index],
   };
 };
 
@@ -62,8 +73,8 @@ describe('processDependents', () => {
     });
     expect(result).to.deep.equal({
       hasError: false,
-      awarded: [getDependent({ index: 0 })],
-      notAwarded: [getDependent({ index: 1, awarded: 'N' })],
+      awarded: [getDependent({ relKey: false, index: 0 })],
+      notAwarded: [getDependent({ relKey: false, index: 1, awarded: 'N' })],
     });
   });
 
@@ -80,8 +91,8 @@ describe('processDependents', () => {
     });
     expect(result).to.deep.equal({
       hasError: false,
-      awarded: [getDependent({ index: 0 })],
-      notAwarded: [getDependent({ index: 1, awarded: 'N' })],
+      awarded: [getDependent({ relKey: false, index: 0 })],
+      notAwarded: [getDependent({ relKey: false, index: 1, awarded: 'N' })],
     });
   });
 
@@ -104,16 +115,23 @@ describe('processDependents', () => {
         loading: false,
         error: null,
         data: getDependentsArray(
-          { fullName: false, dobSlash: true, index: 0 },
-          { fullName: false, dobSlash: true, index: 1, awarded: 'N' },
+          { fullName: false, dobSlash: true, relKey: false, index: 0 },
+          {
+            fullName: false,
+            dobSlash: true,
+            relKey: false,
+            index: 1,
+            awarded: 'N',
+          },
         ),
       },
     });
     expect(result).to.deep.equal({
       hasError: false,
-      awarded: [getDependent({ index: 0 })],
+      awarded: [getDependent({ relKey: false, index: 0 })],
       notAwarded: [
         getDependent({
+          relKey: false,
           index: 1,
           awarded: 'N',
         }),

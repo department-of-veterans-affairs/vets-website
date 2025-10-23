@@ -44,29 +44,36 @@ export const processDependents = (props = {}) => {
 
   const list = dependents.map(dependent => {
     // API (/show) returns dateOfBirth formatted as `mm/dd/YYYY`
-    // prefill data includes dataOfBirth formatted as `YYYY-mm-dd` due to
+    // prefill includes dataOfBirth formatted as `YYYY-mm-dd` due to
     // processing on the backend
     const { age, dobStr, labeledAge } = calculateAge(dependent.dateOfBirth, {
       dateInFormat: isFromApi ? 'MM/dd/yyyy' : 'yyyy-MM-dd',
       dateOutFormat: 'yyyy-MM-dd',
     });
 
-    // API (/show) returns "firstName" & "lastName" as strings
-    // Prefill data returns "fullName" as an object
-    const fullName = dependent.fullName
-      ? dependent.fullName
-      : {
-          first: dependent.firstName,
-          middle: dependent?.middleName,
-          last: dependent.lastName,
-          suffix: dependent?.nameSuffix,
-        };
+    // API (/show) returns "fullName", "firstName" & "lastName" as strings
+    // Prefill returns "fullName" as an object
+    const fullName =
+      typeof dependent.fullName === 'object'
+        ? dependent.fullName
+        : {
+            first: dependent.firstName,
+            middle: dependent?.middleName,
+            last: dependent.lastName,
+            suffix: dependent?.nameSuffix,
+          };
+
+    // API (/show) returns "relationship"
+    // Prefill returns "relationshipToVeteran"
+    const relationshipToVeteran =
+      dependent.relationship || dependent.relationshipToVeteran;
 
     return {
       ...dependent,
       key: slugifyKey({ ssn: dependent.ssn, fullName }),
       fullName,
       dateOfBirth: dobStr,
+      relationshipToVeteran,
       age,
       labeledAge,
     };
