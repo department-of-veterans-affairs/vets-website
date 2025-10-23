@@ -4,7 +4,7 @@ import {
   DEPENDENTS_FETCH_FAILED,
 } from '../actions';
 
-import { processDependents } from '../helpers';
+import { processDependents } from '../../dependents-verification/helpers';
 
 const initialState = {
   loading: true,

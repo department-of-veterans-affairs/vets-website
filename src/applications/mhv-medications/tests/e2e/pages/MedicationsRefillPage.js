@@ -1,6 +1,5 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
-import mockUumResponse from '../fixtures/unique-user-metrics-response.json';
 import { medicationsUrls } from '../../../util/constants';
 import { Paths } from '../utils/constants';
 
@@ -15,8 +14,6 @@ class MedicationsRefillPage {
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    // Note that we don't need specific event names in the response
-    cy.intercept('POST', Paths.UUM_API_BASE, mockUumResponse).as('uum');
     cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
