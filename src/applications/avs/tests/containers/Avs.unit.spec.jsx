@@ -13,11 +13,11 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import sinon from 'sinon';
 
 // import { routes } from '../../router';
-import { Avs } from '../../containers/Avs';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { Avs } from '../../containers/Avs.tsx';
+import ErrorBoundary from '../../components/ErrorBoundary.tsx';
 
 import mockAvs from '../fixtures/9A7AF40B2BC2471EA116891839113252.json';
-import avsLoader from '../../loaders/avsLoader';
+import avsLoader from '../../loaders/avsLoader.ts';
 
 const id = '9A7AF40B2BC2471EA116891839113252';
 
