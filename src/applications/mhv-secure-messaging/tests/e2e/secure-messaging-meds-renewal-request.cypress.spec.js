@@ -41,6 +41,7 @@ describe('SM Medications Renewal Request', () => {
           Paths.UI_MAIN
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
       PatientComposePage.selectComboBoxRecipient(
         mockRecipients.data[0].attributes.name,
@@ -94,6 +95,7 @@ describe('SM Medications Renewal Request', () => {
       //   const redirectPath = encodeURIComponent('/my-health/medications');
 
       cy.visit(`${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}`);
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
       PatientComposePage.selectComboBoxRecipient(
         mockRecipients.data[0].attributes.name,
@@ -151,6 +153,7 @@ describe('SM Medications Renewal Request', () => {
           Paths.UI_MAIN
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
       PatientComposePage.selectComboBoxRecipient(
         mockRecipients.data[0].attributes.name,
@@ -226,6 +229,7 @@ describe('SM Medications Renewal Request', () => {
           Paths.UI_MAIN
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
@@ -272,6 +276,7 @@ describe('SM Medications Renewal Request', () => {
       const prescriptionId = '24654491';
 
       cy.visit(`${Paths.UI_MAIN}/new-message?prescriptionId=${prescriptionId}`);
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
 
       PatientComposePage.validateAddYourMedicationWarningBanner(false);
@@ -323,6 +328,7 @@ describe('SM Medications Renewal Request', () => {
           Paths.UI_MAIN
         }/new-message?prescriptionId=${prescriptionId}&redirectPath=${redirectPath}`,
       );
+      cy.wait('@medicationById');
       PatientInterstitialPage.getContinueButton().click();
       PatientComposePage.validateAddYourMedicationWarningBanner(true);
 
