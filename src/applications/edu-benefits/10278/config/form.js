@@ -1,3 +1,4 @@
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -7,6 +8,8 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import identificationInformation from '../pages/identificationInformation';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+
+const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -39,7 +42,13 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
-  defaultDefinitions: {},
+  defaultDefinitions: {
+    fullName,
+    ssn,
+    date,
+    dateRange,
+    usaPhone,
+  },
   chapters: {
     personalInformationChapter: {
       title: 'Your personal information',
