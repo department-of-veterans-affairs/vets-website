@@ -20,6 +20,7 @@ import {
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isBefore, isAfter } from 'date-fns';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import NeedHelpSection from './NeedHelpSection';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -386,7 +387,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        sendDataDogAction('Download Report Error - PDF');
+        datadogRum.addError(error, 'Download Report Error - PDF');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },
@@ -436,7 +437,7 @@ const DownloadFileType = props => {
         }
       } catch (error) {
         logAal(0);
-        sendDataDogAction('Download Report Error - TXT');
+        datadogRum.addError(error, 'Download Report Error - TXT');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       }
     },

@@ -103,25 +103,6 @@ describe('ExpenseCard', () => {
     expect(getByText('Round trip')).to.exist;
   });
 
-  // it('delete button calls deleteExpense function', () => {
-  //   const consoleSpy = sinon.spy(console, 'log');
-
-  //   const { container } = renderExpenseCard();
-
-  //   const deleteButton = container.querySelector('va-button-icon');
-  //   expect(deleteButton).to.exist;
-
-  //   fireEvent.click(deleteButton);
-
-  //   expect(
-  //     consoleSpy.calledWith(
-  //       `Delete clicked for expense id: ${defaultExpense.id}`,
-  //     ),
-  //   ).to.be.true;
-
-  //   consoleSpy.restore();
-  // });
-
   it('opens the delete modal and calls deleteExpense on confirm', async () => {
     const consoleSpy = sinon.spy(console, 'log');
     const { container } = renderExpenseCard();
