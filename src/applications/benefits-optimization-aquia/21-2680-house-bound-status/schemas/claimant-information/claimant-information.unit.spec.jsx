@@ -110,9 +110,9 @@ describe('Claimant Information Schemas', () => {
     it('should validate complete page data', () => {
       const validData = {
         claimantFullName: {
-          first: 'John',
-          middle: 'Michael',
-          last: 'Doe',
+          first: 'Ahsoka',
+          middle: 'Fulcrum',
+          last: 'Tano',
         },
         claimantDOB: '1990-05-15',
       };
@@ -123,9 +123,9 @@ describe('Claimant Information Schemas', () => {
     it('should validate page data without middle name', () => {
       const validData = {
         claimantFullName: {
-          first: 'John',
+          first: 'Ahsoka',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
         claimantDOB: '1990-05-15',
       };
@@ -144,9 +144,9 @@ describe('Claimant Information Schemas', () => {
     it('should reject missing claimantDOB', () => {
       const invalidData = {
         claimantFullName: {
-          first: 'John',
+          first: 'Ahsoka',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
       };
       const result = claimantInformationPageSchema.safeParse(invalidData);
@@ -158,7 +158,7 @@ describe('Claimant Information Schemas', () => {
         claimantFullName: {
           first: '',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
         claimantDOB: '1990-05-15',
       };
@@ -169,7 +169,7 @@ describe('Claimant Information Schemas', () => {
     it('should reject invalid claimantFullName (missing last)', () => {
       const invalidData = {
         claimantFullName: {
-          first: 'John',
+          first: 'Ahsoka',
           middle: '',
           last: '',
         },
@@ -184,9 +184,9 @@ describe('Claimant Information Schemas', () => {
       futureDate.setFullYear(futureDate.getFullYear() + 1);
       const invalidData = {
         claimantFullName: {
-          first: 'John',
+          first: 'Ahsoka',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
         claimantDOB: futureDate.toISOString().split('T')[0],
       };
@@ -197,9 +197,9 @@ describe('Claimant Information Schemas', () => {
     it('should reject invalid claimantDOB (empty string)', () => {
       const invalidData = {
         claimantFullName: {
-          first: 'John',
+          first: 'Ahsoka',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
         claimantDOB: '',
       };
@@ -216,9 +216,9 @@ describe('Claimant Information Schemas', () => {
     it('should validate with hyphenated names', () => {
       const validData = {
         claimantFullName: {
-          first: 'Mary-Jane',
+          first: 'Leia',
           middle: '',
-          last: 'Smith-Jones',
+          last: 'Organa-Solo',
         },
         claimantDOB: '1990-05-15',
       };

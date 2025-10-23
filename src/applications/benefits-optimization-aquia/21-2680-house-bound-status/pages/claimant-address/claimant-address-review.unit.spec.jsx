@@ -56,9 +56,9 @@ describe('ClaimantAddressReviewPage', () => {
       const data = {
         claimantAddress: {
           claimantAddress: {
-            street: '1234 Main Street',
-            street2: 'Suite 100',
-            city: 'Los Angeles',
+            street: '1234 Dune Sea Road',
+            street2: 'Cantina District',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '90001',
           },
@@ -73,16 +73,16 @@ describe('ClaimantAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('1234 Main Street');
-      expect(container.textContent).to.include('Los Angeles');
+      expect(container.textContent).to.include('1234 Dune Sea Road');
+      expect(container.textContent).to.include('Mos Eisley');
     });
 
     it('should display claimant address without addressLine2', () => {
       const data = {
         claimantAddress: {
           claimantAddress: {
-            street: '5678 Oak Avenue',
-            city: 'San Francisco',
+            street: '5678 Spaceport Way',
+            city: 'Mos Eisley',
             state: 'CA',
             postalCode: '94102',
           },
@@ -97,16 +97,16 @@ describe('ClaimantAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('5678 Oak Avenue');
-      expect(container.textContent).to.include('San Francisco');
+      expect(container.textContent).to.include('5678 Spaceport Way');
+      expect(container.textContent).to.include('Mos Eisley');
     });
 
     it('should display claimant address with minimal data', () => {
       const data = {
         claimantAddress: {
           claimantAddress: {
-            street: '999 Elm Drive',
-            city: 'Sacramento',
+            street: '999 Capital Plaza',
+            city: 'Coruscant',
             state: 'CA',
             postalCode: '95814',
           },
@@ -121,8 +121,8 @@ describe('ClaimantAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('999 Elm Drive');
-      expect(container.textContent).to.include('Sacramento');
+      expect(container.textContent).to.include('999 Capital Plaza');
+      expect(container.textContent).to.include('Coruscant');
     });
 
     it('should handle empty data gracefully', () => {

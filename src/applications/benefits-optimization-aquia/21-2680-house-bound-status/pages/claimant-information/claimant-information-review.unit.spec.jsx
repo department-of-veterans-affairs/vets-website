@@ -56,9 +56,9 @@ describe('ClaimantInformationReviewPage', () => {
       const data = {
         claimantInformation: {
           claimantFullName: {
-            first: 'Sarah',
-            middle: 'Jane',
-            last: 'Connor',
+            first: 'Ahsoka',
+            middle: 'Fulcrum',
+            last: 'Tano',
           },
           claimantDOB: '1965-08-29',
         },
@@ -80,8 +80,8 @@ describe('ClaimantInformationReviewPage', () => {
       const data = {
         claimantInformation: {
           claimantFullName: {
-            first: 'Michael',
-            last: 'Reese',
+            first: 'Ahsoka',
+            last: 'Tano',
           },
           claimantDOB: '1970-05-15',
         },
@@ -103,8 +103,8 @@ describe('ClaimantInformationReviewPage', () => {
       const data = {
         claimantInformation: {
           claimantFullName: {
-            first: 'Kyle',
-            last: 'Reese',
+            first: 'Ahsoka',
+            last: 'Tano',
           },
         },
       };
@@ -171,7 +171,7 @@ describe('ClaimantInformationReviewPage', () => {
       const data = {
         claimantInformation: {
           claimantFullName: {
-            first: 'John',
+            first: 'Ahsoka',
           },
         },
       };

@@ -55,7 +55,7 @@ describe('HospitalizationFacilityReviewPage', () => {
     it('should display complete facility information', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'VA Medical Center',
+          facilityName: 'Lothal Medical Center',
           facilityStreetAddress: '123 Medical Plaza',
           facilityCity: 'Boston',
           facilityState: 'MA',
@@ -71,7 +71,7 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('VA Medical Center');
+      expect(container.textContent).to.include('Lothal Medical Center');
       expect(container.textContent).to.include('123 Medical Plaza');
       expect(container.textContent).to.include('Boston');
     });
@@ -79,7 +79,7 @@ describe('HospitalizationFacilityReviewPage', () => {
     it('should display facility name only', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'General Hospital',
+          facilityName: 'Mos Eisley Cantina Clinic',
         },
       };
 
@@ -91,15 +91,15 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('General Hospital');
+      expect(container.textContent).to.include('Mos Eisley Cantina Clinic');
     });
 
     it('should format address with all fields', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'City Hospital',
+          facilityName: 'Coruscant General Hospital',
           facilityStreetAddress: '456 Healthcare Drive',
-          facilityCity: 'New York',
+          facilityCity: 'Coruscant',
           facilityState: 'NY',
           facilityZip: '10001',
         },
@@ -113,17 +113,17 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('City Hospital');
+      expect(container.textContent).to.include('Coruscant General Hospital');
       expect(container.textContent).to.include('456 Healthcare Drive');
-      expect(container.textContent).to.include('New York');
+      expect(container.textContent).to.include('Coruscant');
     });
 
     it('should format address without zip code', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'Regional Medical',
+          facilityName: 'Naboo Royal Medical Center',
           facilityStreetAddress: '789 Health Ave',
-          facilityCity: 'Seattle',
+          facilityCity: 'Naboo',
           facilityState: 'WA',
         },
       };
@@ -136,16 +136,16 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Regional Medical');
+      expect(container.textContent).to.include('Naboo Royal Medical Center');
       expect(container.textContent).to.include('789 Health Ave');
-      expect(container.textContent).to.include('Seattle');
+      expect(container.textContent).to.include('Naboo');
     });
 
     it('should format address without street address', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'Community Hospital',
-          facilityCity: 'Portland',
+          facilityName: 'Hoth Rebel Base Medical',
+          facilityCity: 'Hoth',
           facilityState: 'OR',
           facilityZip: '97201',
         },
@@ -159,15 +159,15 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Community Hospital');
-      expect(container.textContent).to.include('Portland');
+      expect(container.textContent).to.include('Hoth Rebel Base Medical');
+      expect(container.textContent).to.include('Hoth');
     });
 
     it('should handle partial address data', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'Metro Hospital',
-          facilityCity: 'Chicago',
+          facilityName: 'Kamino Cloning Facility',
+          facilityCity: 'Kamino',
         },
       };
 
@@ -179,8 +179,8 @@ describe('HospitalizationFacilityReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Metro Hospital');
-      expect(container.textContent).to.include('Chicago');
+      expect(container.textContent).to.include('Kamino Cloning Facility');
+      expect(container.textContent).to.include('Kamino');
     });
 
     it('should handle empty data gracefully', () => {
@@ -230,7 +230,7 @@ describe('HospitalizationFacilityReviewPage', () => {
     it('should handle null address fields', () => {
       const data = {
         hospitalizationFacility: {
-          facilityName: 'Test Hospital',
+          facilityName: 'Dagobah Swamp Clinic',
           facilityStreetAddress: null,
           facilityCity: null,
           facilityState: null,

@@ -64,8 +64,8 @@ describe('HospitalizationFacilityPage', () => {
     it('should render page title with claimant first name', () => {
       const data = {
         claimantFullName: {
-          first: 'David',
-          last: 'Brown',
+          first: 'Ahsoka',
+          last: 'Tano',
         },
       };
 
@@ -188,14 +188,14 @@ describe('HospitalizationFacilityPage', () => {
   describe('Data Handling', () => {
     it('should render with existing facility data', () => {
       const existingData = {
-        facilityName: 'General Hospital',
+        facilityName: 'Lothal Medical Center',
         facilityStreetAddress: '123 Medical Center Dr',
-        facilityCity: 'Seattle',
+        facilityCity: 'Lothal',
         facilityState: 'WA',
         facilityZip: '98101',
         claimantFullName: {
-          first: 'Emily',
-          last: 'Davis',
+          first: 'Ahsoka',
+          last: 'Tano',
         },
       };
 
@@ -213,7 +213,7 @@ describe('HospitalizationFacilityPage', () => {
 
     it('should render with partial facility data', () => {
       const existingData = {
-        facilityName: 'Central Hospital',
+        facilityName: 'Coruscant General Hospital',
         facilityStreetAddress: '',
         facilityCity: '',
         facilityState: '',
@@ -258,9 +258,9 @@ describe('HospitalizationFacilityPage', () => {
 
     it('should handle 9-digit ZIP code', () => {
       const existingData = {
-        facilityName: 'VA Medical Center',
+        facilityName: 'Lothal Medical Center',
         facilityStreetAddress: '789 Veterans Blvd',
-        facilityCity: 'Portland',
+        facilityCity: 'Lothal',
         facilityState: 'OR',
         facilityZip: '97201-1234',
       };

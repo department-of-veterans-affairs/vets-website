@@ -56,9 +56,9 @@ describe('VeteranIdentityReviewPage', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'John',
-            middle: 'Q',
-            last: 'Doe',
+            first: 'Boba',
+            middle: 'Tiberius',
+            last: 'Fett',
           },
           veteranSSN: '123-45-6789',
           veteranDOB: '1950-01-15',
@@ -82,8 +82,8 @@ describe('VeteranIdentityReviewPage', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Jane',
-            last: 'Smith',
+            first: 'Boba',
+            last: 'Fett',
           },
           veteranSSN: '987-65-4321',
           veteranDOB: '1945-06-20',
@@ -107,8 +107,8 @@ describe('VeteranIdentityReviewPage', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Test',
-            last: 'User',
+            first: 'Boba',
+            last: 'Fett',
           },
           veteranSSN: '111-22-3333',
         },
@@ -129,8 +129,8 @@ describe('VeteranIdentityReviewPage', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Test',
-            last: 'User',
+            first: 'Boba',
+            last: 'Fett',
           },
           veteranDOB: '1960-12-31',
         },
@@ -179,8 +179,8 @@ describe('VeteranIdentityReviewPage', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Partial',
-            last: 'Data',
+            first: 'Boba',
+            last: 'Fett',
           },
         },
       };

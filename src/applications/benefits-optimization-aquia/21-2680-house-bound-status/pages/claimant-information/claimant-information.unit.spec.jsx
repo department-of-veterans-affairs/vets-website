@@ -124,9 +124,9 @@ describe('ClaimantInformationPage', () => {
     it('should render with existing claimant data', () => {
       const existingData = {
         claimantFullName: {
-          first: 'John',
-          middle: 'D',
-          last: 'Smith',
+          first: 'Ahsoka',
+          middle: 'Fulcrum',
+          last: 'Tano',
         },
         claimantDOB: '1970-01-15',
       };
@@ -146,9 +146,9 @@ describe('ClaimantInformationPage', () => {
     it('should handle partial name data', () => {
       const existingData = {
         claimantFullName: {
-          first: 'Jane',
+          first: 'Ahsoka',
           middle: '',
-          last: 'Doe',
+          last: 'Tano',
         },
         claimantDOB: '',
       };

@@ -85,10 +85,10 @@ describe('VeteranAddressPage', () => {
     it('should render with existing address data', () => {
       const existingData = {
         veteranAddress: {
-          street: '123 Main St',
-          street2: 'Apt 4',
+          street: '123 Moisture Farm Lane',
+          street2: 'Sector 4',
           street3: '',
-          city: 'Springfield',
+          city: 'Anchorhead',
           state: 'IL',
           country: 'USA',
           postalCode: '62701',

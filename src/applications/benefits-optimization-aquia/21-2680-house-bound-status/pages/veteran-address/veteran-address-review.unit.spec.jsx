@@ -56,9 +56,9 @@ describe('VeteranAddressReviewPage', () => {
       const data = {
         veteranAddress: {
           veteranAddress: {
-            street: '123 Main St',
-            street2: 'Apt 4B',
-            city: 'Springfield',
+            street: '123 Moisture Farm Lane',
+            street2: 'Sector 4B',
+            city: 'Anchorhead',
             state: 'IL',
             postalCode: '62701',
           },
@@ -73,16 +73,16 @@ describe('VeteranAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('123 Main St');
-      expect(container.textContent).to.include('Springfield');
+      expect(container.textContent).to.include('123 Moisture Farm Lane');
+      expect(container.textContent).to.include('Anchorhead');
     });
 
     it('should display veteran address without addressLine2', () => {
       const data = {
         veteranAddress: {
           veteranAddress: {
-            street: '456 Oak Ave',
-            city: 'Chicago',
+            street: '456 Senate Plaza',
+            city: 'Coruscant',
             state: 'IL',
             postalCode: '60601',
           },
@@ -97,16 +97,16 @@ describe('VeteranAddressReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('456 Oak Ave');
-      expect(container.textContent).to.include('Chicago');
+      expect(container.textContent).to.include('456 Senate Plaza');
+      expect(container.textContent).to.include('Coruscant');
     });
 
     it('should display veteran address with minimal data', () => {
       const data = {
         veteranAddress: {
           veteranAddress: {
-            street: '789 Elm St',
-            city: 'Peoria',
+            street: '789 Palace Road',
+            city: 'Naboo',
             state: 'IL',
             postalCode: '61602',
           },

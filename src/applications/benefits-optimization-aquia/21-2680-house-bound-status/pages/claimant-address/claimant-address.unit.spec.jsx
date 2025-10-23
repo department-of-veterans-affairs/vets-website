@@ -85,10 +85,10 @@ describe('ClaimantAddressPage', () => {
     it('should render with existing address data', () => {
       const existingData = {
         claimantAddress: {
-          street: '456 Oak Ave',
+          street: '456 Ghost Squadron Rd',
           street2: 'Unit 2B',
           street3: '',
-          city: 'Portland',
+          city: 'Lothal',
           state: 'OR',
           country: 'USA',
           postalCode: '97201',

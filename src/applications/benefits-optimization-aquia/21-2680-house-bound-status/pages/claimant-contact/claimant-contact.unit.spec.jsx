@@ -148,7 +148,7 @@ describe('ClaimantContactPage', () => {
       const existingData = {
         claimantPhoneNumber: '555-123-4567',
         claimantMobilePhone: '555-987-6543',
-        claimantEmail: 'john.doe@example.com',
+        claimantEmail: 'ahsoka.tano@rebellion.org',
       };
 
       const { container } = render(

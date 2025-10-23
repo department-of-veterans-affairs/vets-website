@@ -63,9 +63,9 @@ describe('Veteran Identification Form', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Rex',
+            first: 'Boba',
             middle: '',
-            last: 'Fives',
+            last: 'Fett',
           },
           veteranSSN: '123456789',
           veteranDOB: '1980-05-04',
@@ -116,9 +116,9 @@ describe('Veteran Identification Form', () => {
       const data = {
         veteranIdentification: {
           veteranFullName: {
-            first: 'Rex',
+            first: 'Boba',
             middle: '',
-            last: 'Fives',
+            last: 'Fett',
           },
           veteranSSN: '123456789',
           veteranDOB: '1980-05-04',

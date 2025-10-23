@@ -57,7 +57,7 @@ describe('ClaimantContactReviewPage', () => {
         claimantContact: {
           claimantPhoneNumber: '555-123-4567',
           claimantMobilePhone: '555-987-6543',
-          claimantEmail: 'claimant@example.com',
+          claimantEmail: 'ahsoka.tano@rebellion.org',
         },
       };
 
@@ -71,7 +71,7 @@ describe('ClaimantContactReviewPage', () => {
 
       expect(container.textContent).to.include('555-123-4567');
       expect(container.textContent).to.include('555-987-6543');
-      expect(container.textContent).to.include('claimant@example.com');
+      expect(container.textContent).to.include('ahsoka.tano@rebellion.org');
     });
 
     it('should display only phone number', () => {
@@ -113,7 +113,7 @@ describe('ClaimantContactReviewPage', () => {
     it('should display only email', () => {
       const data = {
         claimantContact: {
-          claimantEmail: 'test@va.gov',
+          claimantEmail: 'ahsoka.tano@rebellion.org',
         },
       };
 
@@ -125,14 +125,14 @@ describe('ClaimantContactReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('test@va.gov');
+      expect(container.textContent).to.include('ahsoka.tano@rebellion.org');
     });
 
     it('should display phone and email without mobile', () => {
       const data = {
         claimantContact: {
           claimantPhoneNumber: '555-555-5555',
-          claimantEmail: 'veteran@example.com',
+          claimantEmail: 'ahsoka.tano@rebellion.org',
         },
       };
 
@@ -145,14 +145,14 @@ describe('ClaimantContactReviewPage', () => {
       );
 
       expect(container.textContent).to.include('555-555-5555');
-      expect(container.textContent).to.include('veteran@example.com');
+      expect(container.textContent).to.include('ahsoka.tano@rebellion.org');
     });
 
     it('should display mobile and email without phone', () => {
       const data = {
         claimantContact: {
           claimantMobilePhone: '555-777-8888',
-          claimantEmail: 'contact@example.com',
+          claimantEmail: 'ahsoka.tano@rebellion.org',
         },
       };
 
@@ -165,7 +165,7 @@ describe('ClaimantContactReviewPage', () => {
       );
 
       expect(container.textContent).to.include('555-777-8888');
-      expect(container.textContent).to.include('contact@example.com');
+      expect(container.textContent).to.include('ahsoka.tano@rebellion.org');
     });
 
     it('should handle empty data gracefully', () => {
