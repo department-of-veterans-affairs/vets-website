@@ -83,10 +83,7 @@ describe('Mailing Address Page', () => {
       formDOM,
     );
     const vaPostOffice = $('va-radio[label="Military post office"]', formDOM);
-    const vaOverseasAbbreviation = $(
-      'va-radio[label="Overseas \\"state\\" abbreviation"]',
-      formDOM,
-    );
+    const vaOverseasAbbreviation = $('va-radio[label^="Overseas"]', formDOM);
     const vaPostalCodeInput = $('va-text-input[label="Postal code"]', formDOM);
 
     expect(vaTextInputs.length).to.equal(3);
