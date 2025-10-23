@@ -24,6 +24,18 @@ import {
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 import { updateApplicantInformationPage } from '../../utils/helpers';
+import {
+  introductionPageContent,
+  yourInformationPage,
+  benefitSwitchPage,
+  sameBenefitResultPage,
+  foreignSchoolResultPage,
+  mgibAdResultPage,
+  mgibSrResultPage,
+  toeResultPage,
+  deaResultPage,
+  fryResultPage,
+} from '../pages/mebQuestionnaire';
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -242,3 +254,90 @@ if (isProductionOfTestProdEnv()) {
     fullSchema1995,
   );
 }
+
+export const mebChapters = {
+  introduction: {
+    title: 'Introduction',
+    pages: {
+      introductionPage: {
+        path: 'introduction',
+        uiSchema: {
+          'ui:title': 'Change your education benefits',
+          'ui:description': introductionPageContent,
+        },
+        schema: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    },
+  },
+  questionnaire: {
+    title: 'Determine your path',
+    pages: {
+      mebYourInformation: {
+        path: 'questionnaire/your-information',
+        title: 'Your information',
+        ...yourInformationPage(),
+      },
+      mebBenefitSelection: {
+        path: 'questionnaire/benefit-selection',
+        title: 'Benefit you want to change to',
+        depends: formData => formData.mebWhatDoYouWantToDo === 'switch-benefit',
+        ...benefitSwitchPage(),
+      },
+      sameBenefitResult: {
+        path: 'results/same-benefit',
+        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        depends: formData => formData.mebWhatDoYouWantToDo === 'same-benefit',
+        ...sameBenefitResultPage(),
+      },
+      foreignSchoolResult: {
+        path: 'results/foreign-school',
+        title: 'Ask VA',
+        depends: formData => formData.mebWhatDoYouWantToDo === 'foreign-school',
+        ...foreignSchoolResultPage(),
+      },
+      mgibAdResult: {
+        path: 'results/mgib-ad',
+        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        depends: formData =>
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'mgib-ad',
+        ...mgibAdResultPage(),
+      },
+      mgibSrResult: {
+        path: 'results/mgib-sr',
+        title: 'Application for VA Education Benefits (VA Form 22-1990)',
+        depends: formData =>
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'mgib-sr',
+        ...mgibSrResultPage(),
+      },
+      toeResult: {
+        path: 'results/toe',
+        title: 'Application for VA Education Benefits (VA Form 22-1990e)',
+        depends: formData =>
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'toe',
+        ...toeResultPage(),
+      },
+      deaResult: {
+        path: 'results/dea',
+        title: 'Application for VA Education Benefits (VA Form 22-5490)',
+        depends: formData =>
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'dea',
+        ...deaResultPage(),
+      },
+      fryResult: {
+        path: 'results/fry',
+        title: 'Application for VA Education Benefits (VA Form 22-5490)',
+        depends: formData =>
+          formData.mebWhatDoYouWantToDo === 'switch-benefit' &&
+          formData.mebBenefitSelection === 'fry',
+        ...fryResultPage(),
+      },
+    },
+  },
+};
