@@ -128,7 +128,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store: createTestStore(noSelectState),
-      path: '/schedule-referral/date-time',
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     waitFor(() => {
       expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
@@ -147,6 +147,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     await screen.findByTestId('continue-button');
     waitFor(() => {
@@ -166,6 +167,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
 
     await screen.findByTestId('continue-button');
@@ -211,6 +213,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store: createTestStore(initialFullState),
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     // Ensure the "Continue" button is present
     await screen.findByTestId('continue-button');
@@ -234,6 +237,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     requestStub.resolves({ data: draftAppointmentInfo });
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     await screen.findByTestId('continue-button');
     sandbox.assert.calledWith(requestStub, '/vaos/v2/appointments/draft', {
@@ -260,6 +264,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     });
     const screen = renderWithStoreAndRouter(<ReviewAndConfirm />, {
       store,
+      path: '/schedule-referral/review-and-confirm?id=UUID',
     });
     await waitForElementToBeRemoved(() =>
       screen.queryByTestId('loading-container'),
