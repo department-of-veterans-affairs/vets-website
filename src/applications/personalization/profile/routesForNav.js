@@ -5,6 +5,7 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import VeteranStatus from './components/veteran-status-card/VeteranStatus';
 import AccreditedRepresentative from './components/accredited-representative/AccreditedRepresentative';
 import { DirectDeposit } from './components/direct-deposit/DirectDeposit';
+import DependentsAndContacts from './components/DependentsAndContacts';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
@@ -160,7 +161,7 @@ const routesForProfile2Nav = [
     subnavParent: PROFILE_PATH_NAMES.HEALTH_CARE_SETTINGS,
   },
   {
-    component: BlankPageTemplate, // TODO implement before Profile 2.0 launch
+    component: DependentsAndContacts,
     name: PROFILE_PATH_NAMES.DEPENDENTS_AND_CONTACTS,
     path: PROFILE_PATHS.DEPENDENTS_AND_CONTACTS,
     requiresLOA3: true,
