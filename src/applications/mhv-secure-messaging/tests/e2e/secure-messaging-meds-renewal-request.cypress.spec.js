@@ -58,7 +58,7 @@ describe('SM Meds Renewal Request Interstitial', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
-        `Provider who prescribed it: RAJASREE VENKATESH`,
+        `Provider who prescribed it: Bob Taylor`,
         `Number of refills left: `,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: `,
@@ -111,7 +111,7 @@ describe('SM Meds Renewal Request Interstitial', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
-        `Provider who prescribed it: RAJASREE VENKATESH`,
+        `Provider who prescribed it: Bob Taylor`,
         `Number of refills left: `,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: `,
@@ -237,7 +237,7 @@ describe('SM Meds Renewal Request Interstitial', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
-        `Provider who prescribed it: RAJASREE VENKATESH`,
+        `Provider who prescribed it: Bob Taylor`,
         `Number of refills left: `,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: `,
@@ -283,7 +283,7 @@ describe('SM Meds Renewal Request Interstitial', () => {
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
         `Prescription number: 2721195`,
-        `Provider who prescribed it: RAJASREE VENKATESH`,
+        `Provider who prescribed it: Bob Taylor`,
         `Number of refills left: `,
         `Prescription expiration date: November 8, 2025`,
         `Reason for use: `,
