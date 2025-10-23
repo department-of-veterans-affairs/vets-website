@@ -35,7 +35,7 @@ const ConfirmationPrintView = ({ signerName, submitDate }) => (
       {signerName}
     </p>
 
-    {submitDate ? (
+    {submitDate && (
       <>
         <h4>Date submitted</h4>
         <p
@@ -45,7 +45,7 @@ const ConfirmationPrintView = ({ signerName, submitDate }) => (
           {submitDate}
         </p>
       </>
-    ) : null}
+    )}
 
     <hr className="vads-u-margin-top--4 vads-u-margin-bottom--0" />
   </>
