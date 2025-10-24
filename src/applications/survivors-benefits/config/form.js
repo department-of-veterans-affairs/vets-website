@@ -12,7 +12,26 @@ import { submit } from './submit';
 import { defaultDefinitions } from './definitions';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorText from '../components/ErrorText';
-import applicantInformation from './chapters/01-applicant-information';
+import dicBenefits from './chapters/04-claim-information/dicBenefits';
+import nursingHome from './chapters/04-claim-information/nursingHome';
+import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
+import veteranName from './chapters/01-veteran-information/veteranName';
+import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
+import mailingAddress from './chapters/02-claimant-information/mailingAddress';
+import contactInformation from './chapters/02-claimant-information/contactInformation';
+import benefitType from './chapters/02-claimant-information/benefitType';
+import vaBenefits from './chapters/03-military-history/vaBenefits';
+import servicePeriod from './chapters/03-military-history/servicePeriod';
+import nationalGuardService from './chapters/03-military-history/nationalGuardService';
+import nationalGuardServicePeriod from './chapters/03-military-history/nationalGuardServicePeriod';
+import nationalGuardUnitAddress from './chapters/03-military-history/nationalGuardUnitAddress';
+import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
+import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
+import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
+import {
+  vetIdentification,
+  vetIdentificationAdditional,
+} from './chapters/01-veteran-information/veteranInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -35,7 +54,7 @@ const formConfig = {
     breadcrumbList: [
       { href: '/', label: 'VA.gov home' },
       {
-        href: '/supporting-forms-for-claims/apply-form-21p-534ezs',
+        href: '/supporting-forms-for-claims/apply-form-21p-534ez',
         label: 'Survivors benefits',
       },
     ],
@@ -51,14 +70,10 @@ const formConfig = {
   },
   version: 0,
   formSavedPage: FormSavedPage,
-  useCustomScrollAndFocus: false,
   defaultDefinitions,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
-  },
-  formOptions: {
-    useWebComponentForNavigation: true,
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -78,7 +93,129 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
-    applicantInformation,
+    // Chapter 1 - Veteran Information
+    veteranInformation: {
+      title: "Veteran's information",
+      pages: {
+        veteranName,
+        vetIdentification: {
+          title: "Veteran's identification information",
+          path: 'veteran/identification',
+          uiSchema: vetIdentification.uiSchema,
+          schema: vetIdentification.schema,
+        },
+        vetIdentificationAdditional: {
+          title: 'Additional veteran information',
+          path: 'veteran/identification-additional',
+          uiSchema: vetIdentificationAdditional.uiSchema,
+          schema: vetIdentificationAdditional.schema,
+        },
+      },
+    },
+    // Chapter 2 - Claimant Information
+    claimantInformation: {
+      title: "Claimant's information",
+      pages: {
+        claimantInformation: {
+          path: 'claimant/information',
+          title: 'Claimant information',
+          uiSchema: claimantInformationPage.uiSchema,
+          schema: claimantInformationPage.schema,
+        },
+        mailingAddress: {
+          path: 'claimant/mailing-address',
+          title: 'Mailing address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          path: 'claimant/contact-information',
+          title: 'Contact information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        benefitType: {
+          path: 'claimant/benefit-type',
+          title: 'Benefit type',
+          uiSchema: benefitType.uiSchema,
+          schema: benefitType.schema,
+        },
+      },
+    },
+    // Chapter 3 - Military History
+    militaryHistory: {
+      title: "Veteran's military history",
+      pages: {
+        militaryHistory: {
+          path: 'veteran/va-benefits',
+          title: 'VA benefits',
+          uiSchema: vaBenefits.uiSchema,
+          schema: vaBenefits.schema,
+        },
+        servicePeriod: {
+          path: 'veteran/service-period',
+          title: 'Veteran information',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: servicePeriod.uiSchema,
+          schema: servicePeriod.schema,
+        },
+        nationalGuardService: {
+          path: 'veteran/national-guard-service',
+          title: 'National Guard service',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: nationalGuardService.uiSchema,
+          schema: nationalGuardService.schema,
+        },
+        nationalGuardServicePeriod: {
+          path: 'veteran/national-guard-service-period',
+          title: 'National Guard service period',
+          depends: formData => formData.nationalGuardActivated === true,
+          uiSchema: nationalGuardServicePeriod.uiSchema,
+          schema: nationalGuardServicePeriod.schema,
+        },
+        nationalGuardUnitAddress: {
+          path: 'veteran/national-guard-unit-address',
+          title: 'National Guard unit address',
+          depends: formData => formData.nationalGuardActivated === true,
+          uiSchema: nationalGuardUnitAddress.uiSchema,
+          schema: nationalGuardUnitAddress.schema,
+        },
+        ...otherServiceNamesPages,
+        prisonerOfWar: {
+          path: 'veteran/prisoner-of-war',
+          title: 'Prisoner of war',
+          depends: formData => formData.receivedBenefits === false,
+          uiSchema: prisonerOfWarPage.uiSchema,
+          schema: prisonerOfWarPage.schema,
+        },
+        powPeriodOfTime: {
+          path: 'veteran/prisoner-of-war-period',
+          title: 'Prisoner of war period',
+          depends: formData => formData?.prisonerOfWar === true,
+          uiSchema: powPeriodOfTimePage.uiSchema,
+          schema: powPeriodOfTimePage.schema,
+        },
+      },
+    },
+    // Chapter 4
+    claimInformation: {
+      title: 'Claim information',
+      pages: {
+        dicBenefits: {
+          title: 'D.I.C. benefits',
+          path: 'claim-information/dic',
+          uiSchema: dicBenefits.uiSchema,
+          schema: dicBenefits.schema,
+        },
+        ...treatmentPages,
+        nursingHome: {
+          title: 'Nursing home or increased survivor entitlement',
+          path: 'claim-information/nursing-home',
+          uiSchema: nursingHome.uiSchema,
+          schema: nursingHome.schema,
+        },
+      },
+    },
   },
 };
 

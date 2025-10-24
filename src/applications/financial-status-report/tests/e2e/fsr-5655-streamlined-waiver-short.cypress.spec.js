@@ -71,9 +71,7 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       introduction: () => {
-        cy.get('a.vads-c-action-link--green')
-          .first()
-          .click();
+        cy.clickStartForm();
       },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
@@ -97,7 +95,7 @@ const testConfig = createTestConfig(
             'have.text',
             'You can skip questions on this formWe’re here anytime, day or night – 24/7',
           );
-          cy.get('.usa-button-primary').click();
+          cy.clickFormContinue();
         });
       },
       'review-and-submit': ({ afterHook }) => {
@@ -116,9 +114,7 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .check({ force: true });
-          cy.findAllByText(/Submit your request/i, {
-            selector: 'button',
-          }).click();
+          cy.clickFormContinue();
         });
       },
     },

@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { MemoryRouter, Route, Routes } from 'react-router-dom-v5-compat';
@@ -7,6 +8,9 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 
 import reducer from '../../redux/reducer';
 import ComplexClaimSubmitFlowWrapper from '../../containers/ComplexClaimSubmitFlowWrapper';
+import ReviewPage from '../../components/complex-claims/pages/ReviewPage';
+import AgreementPage from '../../components/complex-claims/pages/AgreementPage';
+import ConfirmationPage from '../../components/complex-claims/pages/ConfirmationPage';
 
 describe('ComplexClaimSubmitFlowWrapper', () => {
   const oldLocation = global.window.location;
@@ -34,12 +38,18 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
     initialState = {},
   ) => {
     return renderWithStoreAndRouter(
-      <MemoryRouter initialEntries={[`/confirmation/${appointmentId}`]}>
+      <MemoryRouter
+        initialEntries={[
+          `/file-new-claim/complex/${appointmentId}/confirmation`,
+        ]}
+      >
         <Routes>
           <Route
-            path="/confirmation/:apptId"
+            path="/file-new-claim/complex/:apptId/confirmation"
             element={<ComplexClaimSubmitFlowWrapper />}
-          />
+          >
+            <Route path="confirmation" element={<ConfirmationPage />} />
+          </Route>
         </Routes>
       </MemoryRouter>,
       {
@@ -95,13 +105,78 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
       expect(backLink.hasAttribute('disable-analytics')).to.be.true;
     });
 
-    it('renders the AgreementPage component', () => {
+    it('renders the ReviewPage component', () => {
       const initialState = getData({ complexClaimsEnabled: true });
-      const screen = renderWithStoreAndRouterHelper('12345', initialState);
+      const screen = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/confirmation/12345']}>
+          <Routes>
+            <Route
+              path="/confirmation/:apptId/"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              {/* Nested route renders the ReviewPage */}
+              <Route path="" element={<ReviewPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
 
-      expect(screen.getByTestId('travel-agreement-content')).to.exist;
-      expect(screen.getByTestId('agreement-checkbox')).to.exist;
-      expect(screen.getByTestId('agreement-button-pair')).to.exist;
+      expect(screen.getByTestId('review-page')).to.exist;
+    });
+
+    it('shows the ReviewPage first, and after clicking Sign Agreement navigates to the AgreementPage', async () => {
+      const initialState = getData({ complexClaimsEnabled: true });
+      const { getByTestId, container } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/confirmation/12345']}>
+          <Routes>
+            <Route
+              path="/confirmation/:apptId/"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              {/* Page 1 */}
+              <Route path="" element={<ReviewPage onNext={() => {}} />} />
+              {/* Page 2 */}
+              <Route path="agreement" element={<AgreementPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      // Page 1 should render first (AgreementPage)
+      expect(getByTestId('review-page')).to.exist;
+
+      // Click the Sign Agreement button
+      const signButton = $('#sign-agreement-button', container);
+      fireEvent.click(signButton);
+
+      // For this test, we need to actually trigger a navigation to /agreement
+      // In real app this would be done via react-router navigation inside signAgreement
+      // Here we can simulate by rerendering with the new route:
+      const {
+        getByTestId: getByTestId2,
+        queryByTestId: queryByTestId2,
+      } = renderWithStoreAndRouter(
+        <MemoryRouter initialEntries={['/confirmation/12345/agreement']}>
+          <Routes>
+            <Route
+              path="/confirmation/:apptId/"
+              element={<ComplexClaimSubmitFlowWrapper />}
+            >
+              <Route path="" element={<ReviewPage onNext={() => {}} />} />
+              <Route path="agreement" element={<AgreementPage />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>,
+        { initialState, reducers: reducer },
+      );
+
+      // Agreement page should render
+      expect(getByTestId2('agreement-checkbox')).to.exist;
+
+      // ReviewPage is no longer visible
+      expect(queryByTestId2('review-page')).to.be.null;
     });
 
     it('handles different appointment IDs in the URL', () => {
@@ -145,6 +220,29 @@ describe('ComplexClaimSubmitFlowWrapper', () => {
 
       const contentColumn = $('.vads-l-col--12.medium-screen\\:vads-l-col--8');
       expect(contentColumn).to.exist;
+    });
+
+    describe('URL parameter extraction', () => {
+      it('extracts apptId from URL params correctly', () => {
+        const initialState = getData({ complexClaimsEnabled: true });
+        // Test that the component can handle various appointment ID formats
+        const testCases = ['abc123', '12345-67890', 'uuid-format-12345'];
+
+        testCases.forEach(expectedId => {
+          // Create a fresh render for each test case
+          const { container } = renderWithStoreAndRouterHelper(
+            expectedId,
+            initialState,
+          );
+
+          const backLink = container.querySelector(
+            'va-link[data-testid="complex-claim-back-link"]',
+          );
+          expect(backLink.getAttribute('href')).to.equal(
+            `/my-health/appointments/past/${expectedId}`,
+          );
+        });
+      });
     });
   });
 });

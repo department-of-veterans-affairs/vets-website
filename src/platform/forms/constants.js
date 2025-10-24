@@ -869,7 +869,7 @@ export const MY_VA_SIP_FORMS = [
   {
     id: VA_FORM_IDS.FORM_21_4140,
     benefit: 'Employment Questionnaire (VA Form 21-4140)',
-    title: 'Income Verification for Disability Benefits',
+    title: 'Submit Employment Questionnaire',
     description: 'Employment Questionnaire (VA Form 21-4140)',
     trackingPrefix: '21-4140-income-verification-',
   },

@@ -112,10 +112,14 @@ const recipientPage = {
       title: 'Full name of the person who received care',
       expandUnder: 'recipient',
       expandUnderCondition: field => field === 'DEPENDENT' || field === 'OTHER',
-      required: (formData, index) =>
-        ['DEPENDENT', 'OTHER'].includes(
-          formData?.medicalExpenses?.[index]?.recipient,
-        ),
+      required: (formData, index, fullData) => {
+        // Adding a check for formData and fullData since formData is sometimes undefined on load
+        // and we can't rely on fullData for testing
+        const medicalExpenses =
+          formData?.medicalExpenses ?? fullData?.medicalExpenses;
+        const medicalExpense = medicalExpenses?.[index];
+        return ['DEPENDENT', 'OTHER'].includes(medicalExpense?.recipient);
+      },
     }),
     provider: textUI('Who receives the payment?'),
   },
@@ -126,7 +130,7 @@ const recipientPage = {
       recipientName: textSchema,
       provider: textSchema,
     },
-    required: ['recipient', 'provider'],
+    required: ['recipient', 'recipientName', 'provider'],
   },
 };
 /** @returns {PageSchema} */

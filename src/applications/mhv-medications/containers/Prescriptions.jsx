@@ -13,8 +13,6 @@ import PropTypes from 'prop-types';
 import {
   usePrintTitle,
   updatePageTitle,
-  logUniqueUserMetricsEvents,
-  EVENT_REGISTRY,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import MedicationsList from '../components/MedicationsList/MedicationsList';
@@ -51,7 +49,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import DisplayCernerFacilityAlert from '../components/shared/DisplayCernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
-import RefillAlert from '../components/shared/RefillAlert';
+import DelayedRefillAlert from '../components/shared/DelayedRefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 import { useGetAllergiesQuery } from '../api/allergiesApi';
@@ -77,6 +75,7 @@ import {
 } from '../selectors/selectPreferences';
 import { buildPdfData } from '../util/buildPdfData';
 import { generateMedicationsPdfFile } from '../util/generateMedicationsPdfFile';
+import FilterAriaRegion from '../components/MedicationsList/FilterAriaRegion';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -304,26 +303,6 @@ const Prescriptions = () => {
       updatePageTitle('Medications | Veterans Affairs');
     },
     [currentPage],
-  );
-
-  // Log when prescriptions are successfully displayed to the user
-  useEffect(
-    () => {
-      if (
-        !isPrescriptionsLoading &&
-        !isPrescriptionsFetching &&
-        !prescriptionsApiError &&
-        prescriptionsData
-      ) {
-        logUniqueUserMetricsEvents(EVENT_REGISTRY.PRESCRIPTIONS_ACCESSED);
-      }
-    },
-    [
-      isPrescriptionsLoading,
-      isPrescriptionsFetching,
-      prescriptionsApiError,
-      prescriptionsData,
-    ],
   );
 
   // Update loading state based on RTK Query states
@@ -614,11 +593,12 @@ const Prescriptions = () => {
     );
   };
 
-  const renderRefillAlert = () => {
+  const renderDelayedRefillAlert = () => {
     if (!showRefillProgressContent) return null;
+    if (!refillAlertList?.length) return null;
 
     return (
-      <RefillAlert
+      <DelayedRefillAlert
         dataDogActionName={
           dataDogActionNames.medicationsListPage.REFILL_ALERT_LINK
         }
@@ -727,9 +707,11 @@ const Prescriptions = () => {
           {isLoading && renderLoadingIndicator()}
           {hasMedications && (
             <>
-              {!isLoading && (
-                <MedicationsListSort sortRxList={updateFilterAndSort} />
-              )}
+              <FilterAriaRegion filterOption={selectedFilterOption} />
+              <MedicationsListSort
+                sortRxList={updateFilterAndSort}
+                shouldShowSelect={!isLoading}
+              />
               <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
               {!isLoading && renderMedicationsList()}
               <BeforeYouDownloadDropdown page={pageType.LIST} />
@@ -767,7 +749,7 @@ const Prescriptions = () => {
         ) : (
           <>
             <DisplayCernerFacilityAlert />
-            {renderRefillAlert()}
+            {renderDelayedRefillAlert()}
             {renderMedicationsContent()}
           </>
         )}
