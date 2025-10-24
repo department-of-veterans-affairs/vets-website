@@ -4,7 +4,7 @@ import { formatInTimeZone } from 'date-fns-tz';
 import { DATETIME_FORMATS, FIELD_NONE_NOTED } from '../constants';
 
 /**
- * Normalizes a date string into ISO 8601 format.
+ * Normalizes a datetime string into ISO format.
  *
  * Primarily supports RFC 2822-style dates (e.g. `"Mon, 24 Feb 2025 03:39:11 EST"`)
  * returned in `prescription.trackingList`, but will also handle any string
@@ -12,8 +12,8 @@ import { DATETIME_FORMATS, FIELD_NONE_NOTED } from '../constants';
  *
  * @see {@link https://datatracker.ietf.org/doc/html/rfc2822#section-3.3}
  *
- * @param {string} dateString The input date-time string.
- * @returns {string|null} ISO 8601 string if parsed successfully, otherwise `null`.
+ * @param {string} dateString The input datetime string.
+ * @returns {string|null} ISO string if parsed successfully, otherwise `null`.
  */
 const convertToISO = dateString => {
   if (typeof dateString !== 'string') {
@@ -36,9 +36,9 @@ const convertToISO = dateString => {
 };
 
 /**
- * Formats a date or date-time value into a human-readable string.
+ * Formats a datetime value into a human-readable string.
  *
- * @param {string|Date} timestamp The date-time value to format.
+ * @param {string|Date} timestamp The datetime value to format.
  *   Accepts:
  *   - a JavaScript `Date` object,
  *   - an ISO 8601 date or datetime string (e.g. `"2022-06-02"` or `"2022-06-02T14:30:00Z"`),
