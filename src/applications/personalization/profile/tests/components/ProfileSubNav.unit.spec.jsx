@@ -16,9 +16,15 @@ const defaultRoutes = [
     requiresLOA3: true,
   },
   {
+    path: '/profile/financial-information',
+    name: 'Financial information',
+    hasSubnav: true,
+  },
+  {
     path: '/profile/direct-deposit',
     name: 'Direct Deposit',
     requiresMVI: true,
+    subnavParent: 'Financial information',
   },
 ];
 
@@ -124,11 +130,11 @@ describe('ProfileSubNav', () => {
     expect(clickHandler.calledOnce).to.be.true;
   });
 
-  describe('Paperless Delivery nav tests', () => {
+  describe('VADS side nav implemented', () => {
     beforeEach(() => {
       mockState.featureToggles = {
         // eslint-disable-next-line camelcase
-        profile_show_paperless_delivery: true,
+        profile_2_enabled: true,
       };
     });
 
@@ -192,6 +198,25 @@ describe('ProfileSubNav', () => {
         .to.exist;
       expect(container.querySelector('va-sidenav-item[label="Direct Deposit"]'))
         .to.not.exist;
+    });
+
+    it('subnav items are nested under parent', () => {
+      const { container } = renderSubNav(
+        <ProfileSubNav routes={defaultRoutes} isLOA3 isInMVI />,
+        {
+          store,
+        },
+      );
+
+      const parentItem = container.querySelector(
+        'va-sidenav-submenu[label="Financial information"]',
+      );
+      expect(parentItem).to.exist;
+
+      const subnavItem = parentItem.querySelector(
+        'va-sidenav-item[label="Direct Deposit"]',
+      );
+      expect(subnavItem).to.exist;
     });
   });
 });

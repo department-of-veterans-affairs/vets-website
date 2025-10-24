@@ -4,18 +4,23 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { whatAreAssets, netWorthTitle } from './helpers';
+import { NetWorthFooter } from '../../../components/PensionContent';
 
 export const schema = {
   type: 'object',
   properties: {
     'view:householdIncome': yesNoSchema,
+    'view:householdIncomeFooter': {
+      type: 'object',
+      properties: {},
+    },
   },
 };
 
 export const uiSchema = {
   ...titleUI(
     'Your net worth',
-    'If you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets and your annual income. If you’re married, include the value of your spouse’s assets and annual income too.',
+    'Because you currently receive VA pension benefits, we need to know your net worth. Your net worth includes your assets, your annual income, and the assets and income of your dependents (including your spouse if you are married).',
   ),
   'ui:description': whatAreAssets,
   'ui:options': {
@@ -51,4 +56,7 @@ export const uiSchema = {
       }),
     }),
   }),
+  'view:householdIncomeFooter': {
+    'ui:description': NetWorthFooter,
+  },
 };
