@@ -22,7 +22,6 @@ export const useValidateFacilityCode = formData => {
               },
             },
           );
-          // console.log('response', response);
           const attrs = response.data.attributes;
           const firstDigit = formData.institutionDetails.facilityCode.charAt(0);
           const secondDigit = formData.institutionDetails.facilityCode.charAt(

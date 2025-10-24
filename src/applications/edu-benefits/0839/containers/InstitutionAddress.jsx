@@ -1,11 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { getArrayIndexFromPathName } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-const InstitutionAddress = () => {
+const InstitutionAddress = ({ uiSchema }) => {
   const formData = useSelector(state => state.form?.data);
-  const institutionAddress =
-    formData?.institutionDetails?.institutionAddress || {};
-  const details = formData?.institutionDetails || {};
+  const options = uiSchema?.['ui:options'] || {};
+  const { dataPath = 'institutionDetails', isArrayItem = false } = options;
+
+  const index = isArrayItem ? getArrayIndexFromPathName() : null;
+
+  // Get institution details and address from appropriate path
+  const details = isArrayItem
+    ? formData?.[dataPath]?.[index] || {}
+    : formData?.[dataPath] || {};
+
+  const institutionAddress = details?.institutionAddress || {};
   const notYR = details.yrEligible === false;
   const notIHL = details.ihlEligible === false;
   const showWarningBanner = notYR || notIHL;
@@ -19,6 +28,7 @@ const InstitutionAddress = () => {
     postalCode,
     country,
   } = institutionAddress;
+
   const hasAddress = [
     street,
     street2,

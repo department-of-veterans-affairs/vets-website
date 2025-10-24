@@ -175,3 +175,52 @@ export const additionalInstitutionDetailsArrayOptions = {
     ),
   },
 };
+
+export const createBannerMessage = (
+  institutionDetails,
+  isArrayItem,
+  mainInstitution,
+) => {
+  const notYR = institutionDetails.yrEligible === false;
+  const notIHL = institutionDetails.ihlEligible === false;
+
+  let message = '';
+  const code = institutionDetails?.facilityCode;
+  const notFound = institutionDetails?.institutionName === 'not found';
+  const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
+  const thirdChar = code?.charAt(2).toUpperCase();
+
+  const hasXInThirdPosition =
+    code?.length === 8 && !badFormat && thirdChar === 'X';
+
+  if (notFound) {
+    return null;
+  }
+
+  if (isArrayItem) {
+    if (hasXInThirdPosition) {
+      message =
+        "This facility code can't be accepted. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.";
+      return message;
+    }
+    if (
+      !mainInstitution?.facilityMap?.branches?.includes(code) ||
+      !mainInstitution?.facilityMap?.extensions?.includes(code)
+    ) {
+      message =
+        'This facility code can’t be accepted because it’s not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.';
+    }
+  }
+
+  if (notYR && !isArrayItem) {
+    message =
+      'This institution is unable to participate in the Yellow Ribbon Program. You can enter a main or branch campus facility code to continue.';
+  }
+
+  if (!notYR && notIHL) {
+    message =
+      'This institution is unable to participate in the Yellow Ribbon Program.';
+  }
+
+  return message;
+};

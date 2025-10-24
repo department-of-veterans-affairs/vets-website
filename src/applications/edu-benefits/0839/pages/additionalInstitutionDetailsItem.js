@@ -5,24 +5,41 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import AdditionalInstitutionName from '../containers/AdditionalInstitutionName';
-import AdditionalInstitutionAddress from '../containers/AdditionalInstitutionAddress';
-import AdditionalInstitutionWarningBanner from '../containers/AdditionalInstitutionWarningBanner';
+import InstitutionName from '../containers/InstitutionName';
+import InstitutionAddress from '../containers/InstitutionAddress';
+import WarningBanner from '../containers/WarningBanner';
 
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   // In array builder item pages, formData is scoped to the current item
   const code = (fieldData || '').trim();
 
+  const mainInstitution = formData?.institutionDetails;
+
   const badFormat = code?.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = formData?.institutionName === 'not found';
   const notIHL = formData?.ihlEligible === false;
   const notYR = formData?.yrEligible === false;
-
   const thirdChar = code?.charAt(2).toUpperCase();
+
+  const hasXInThirdPosition =
+    code.length === 8 && !badFormat && thirdChar === 'X';
 
   if (badFormat || notFound) {
     errors.addError(
       'Please enter a valid 8-character facility code. To determine your facility code, refer to your WEAMS 22-1998 Report or contact your ELR.',
+    );
+  }
+
+  if (hasXInThirdPosition) {
+    errors.addError('Codes with an “X” in the third position are not eligible');
+  }
+
+  if (
+    !mainInstitution?.facilityMap?.branches?.includes(code) ||
+    !mainInstitution?.facilityMap?.extensions?.includes(code)
+  ) {
+    errors.addError(
+      'This facility code isn’t linked to your school’s main campus',
     );
   }
 
@@ -35,15 +52,6 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   if (!notYR && notIHL) {
     errors.addError(
       'This institution is not an IHL. Please see information below.',
-    );
-  }
-
-  const hasXInThirdPosition =
-    code.length === 8 && !badFormat && thirdChar === 'X';
-
-  if (hasXInThirdPosition) {
-    errors.addError(
-      "This facility code can't be accepted because it's not associated with your main campus. Check your WEAMS 22-1998 Report or contact your ELR for a list of eligible codes.",
     );
   }
 };
@@ -76,21 +84,29 @@ const uiSchema = {
   },
   institutionName: {
     'ui:title': 'Institution name and address',
-    'ui:field': AdditionalInstitutionName,
+    'ui:field': InstitutionName,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
+      dataPath: 'additionalInstitutionDetails',
+      isArrayItem: true,
     },
   },
   institutionAddress: {
     'ui:title': '',
-    'ui:field': AdditionalInstitutionAddress,
+    'ui:field': InstitutionAddress,
     'ui:options': {
       classNames: 'vads-u-margin-top--2',
       hideLabelText: true,
+      dataPath: 'additionalInstitutionDetails',
+      isArrayItem: true,
     },
   },
   'view:warningBanner': {
-    'ui:field': AdditionalInstitutionWarningBanner,
+    'ui:field': WarningBanner,
+    'ui:options': {
+      dataPath: 'additionalInstitutionDetails',
+      isArrayItem: true,
+    },
   },
 };
 

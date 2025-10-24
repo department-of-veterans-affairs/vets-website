@@ -65,6 +65,8 @@ const uiSchema = {
       'ui:field': InstitutionName,
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
       },
     },
     institutionAddress: {
@@ -73,10 +75,16 @@ const uiSchema = {
       'ui:options': {
         classNames: 'vads-u-margin-top--2',
         hideLabelText: true,
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
       },
     },
     'view:warningBanner': {
       'ui:field': WarningBanner,
+      'ui:options': {
+        dataPath: 'institutionDetails',
+        isArrayItem: false,
+      },
     },
   },
 };
