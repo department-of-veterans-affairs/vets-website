@@ -220,6 +220,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
               }))}
               type={recordType.ALLERGIES}
             />
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <DownloadingRecordsInfo description="Allergies" />
             <PrintDownload
               description="Allergies - List"

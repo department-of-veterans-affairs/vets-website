@@ -237,6 +237,7 @@ Provider notes: ${allergyData.notes} \n`;
                 actionName="[allergy provider notes]"
               />
             </div>
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <DownloadingRecordsInfo description="Allergy Detail" />
             <PrintDownload
               description="Allergies Detail"

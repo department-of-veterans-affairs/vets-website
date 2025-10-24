@@ -127,6 +127,7 @@ const UnifiedLabsAndTests = props => {
               value={record.result}
               testId="lab-and-test-results"
             />
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
             <DownloadingRecordsInfo description="L&TR Detail" />
             <PrintDownload
               description="L&TR Detail"

@@ -150,6 +150,7 @@ ${record.note}`;
             monospace
           />
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
         <DownloadingRecordsInfo description="CS&N Detail" />
         <PrintDownload
           description="CS&N Detail"
