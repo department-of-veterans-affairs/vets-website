@@ -4,7 +4,6 @@ import React from 'react';
 import {
   MemorableDateField,
   SSNField,
-  TextInputField,
 } from '@bio-aquia/shared/components/atoms';
 import { FullnameField } from '@bio-aquia/shared/components/molecules';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
@@ -12,10 +11,8 @@ import { transformDates } from '@bio-aquia/shared/forms';
 
 import {
   veteranSSNSchema,
-  veteranFileNumberSchema,
-  veteranServiceNumberSchema,
   veteranDOBSchema,
-  veteranIdentificationSchema,
+  veteranIdentificationPageSchema,
 } from '@bio-aquia/21-2680-house-bound-status/schemas';
 
 /**
@@ -41,52 +38,59 @@ export const VeteranIdentityPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Migrate old field names to new field names for backward compatibility
+  // This handles save-in-progress data that used old camelCase field names
+  const migratedData = {
+    ...formDataToUse,
+    veteranIdentification: {
+      veteranFullName: formDataToUse?.veteranIdentification?.veteranFullName,
+      veteranSSN:
+        formDataToUse?.veteranIdentification?.veteranSSN ||
+        formDataToUse?.veteranIdentification?.veteranSsn ||
+        '',
+      veteranDOB:
+        formDataToUse?.veteranIdentification?.veteranDOB ||
+        formDataToUse?.veteranIdentification?.veteranDob ||
+        '',
+    },
+  };
+
   return (
     <PageTemplate
       title="Veteran information"
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
-      schema={veteranIdentificationSchema}
+      schema={veteranIdentificationPageSchema}
       sectionName="veteranIdentification"
       dataProcessor={ensureDateStrings}
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        veteranFirstName: '',
-        veteranMiddleName: '',
-        veteranLastName: '',
+        veteranFullName: {
+          first: '',
+          middle: '',
+          last: '',
+        },
         veteranSSN: '',
-        veteranFileNumber: '',
-        veteranServiceNumber: '',
         veteranDOB: '',
-        isVeteranClaimant: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
-          <p>Enter the Veteran’s identification information.</p>
+          <p className="vads-u-font-family--serif vads-u-font-weight--bold vads-u-font-size--lg vads-u-line-height--1">
+            Confirm the personal information we have on file for the Veteran.
+          </p>
 
           <FullnameField
-            value={{
-              first: localData.veteranFirstName || '',
-              middle: localData.veteranMiddleName || '',
-              last: localData.veteranLastName || '',
-            }}
-            onChange={(_, nameValue) => {
-              handleFieldChange('veteranFirstName', nameValue.first);
-              handleFieldChange('veteranMiddleName', nameValue.middle);
-              handleFieldChange('veteranLastName', nameValue.last);
-            }}
-            errors={{
-              first: errors.veteranFirstName,
-              middle: errors.veteranMiddleName,
-              last: errors.veteranLastName,
-            }}
+            fieldPrefix="veteran"
+            value={localData.veteranFullName}
+            onChange={handleFieldChange}
+            errors={errors.veteranFullName || {}}
             forceShowError={formSubmitted}
             required
-            legend="Veteran's full name"
+            label="Veteran's full name"
             showSuffix={false}
           />
 
@@ -101,28 +105,6 @@ export const VeteranIdentityPage = ({
             schema={veteranSSNSchema}
           />
 
-          <TextInputField
-            label="VA file number (if applicable)"
-            name="veteranFileNumber"
-            value={localData.veteranFileNumber || ''}
-            onChange={handleFieldChange}
-            error={errors.veteranFileNumber}
-            forceShowError={formSubmitted}
-            hint="Leave blank if same as SSN or unknown"
-            schema={veteranFileNumberSchema}
-          />
-
-          <TextInputField
-            label="Service number (if applicable)"
-            name="veteranServiceNumber"
-            value={localData.veteranServiceNumber || ''}
-            onChange={handleFieldChange}
-            error={errors.veteranServiceNumber}
-            forceShowError={formSubmitted}
-            hint="Military service number if different from SSN"
-            schema={veteranServiceNumberSchema}
-          />
-
           <MemorableDateField
             label="Date of birth"
             name="veteranDOB"
@@ -133,23 +115,6 @@ export const VeteranIdentityPage = ({
             required
             schema={veteranDOBSchema}
           />
-
-          <va-radio
-            label="Are you the Veteran?"
-            name="isVeteranClaimant"
-            value={localData.isVeteranClaimant || ''}
-            onVaValueChange={e =>
-              handleFieldChange('isVeteranClaimant', e.detail.value)
-            }
-            error={errors.isVeteranClaimant}
-            required
-          >
-            <va-radio-option label="Yes, I am the Veteran" value="yes" />
-            <va-radio-option
-              label="No, I am filing for the Veteran"
-              value="no"
-            />
-          </va-radio>
         </>
       )}
     </PageTemplate>
@@ -159,8 +124,8 @@ export const VeteranIdentityPage = ({
 VeteranIdentityPage.propTypes = {
   goForward: PropTypes.func.isRequired,
   data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
-  onReviewPage: PropTypes.bool,
   goBack: PropTypes.func,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
