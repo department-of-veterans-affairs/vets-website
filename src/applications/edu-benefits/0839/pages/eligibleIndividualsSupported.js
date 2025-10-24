@@ -31,7 +31,7 @@ const uiSchema = {
 
         if (!isUnlimited && !hasValue) {
           errors.addError(
-            'Enter the number of eligible individuals or select "Unlimited number of individuals"',
+            'Enter the number of eligible individuals or select the checkbox below ',
           );
         }
       },

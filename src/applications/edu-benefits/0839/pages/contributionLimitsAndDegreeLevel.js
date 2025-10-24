@@ -5,7 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
-import SpecificContributionAmountDescription from '../components/SpecificContributionAmountDescription';
+import SpecificContributionAmount from '../components/SpecificContributionAmount';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -113,6 +113,9 @@ const uiSchema = {
         required: 'Please make a selection',
       },
     }),
+    'ui:required': (formData, index) =>
+      !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
+        ?.unlimitedIndividuals,
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
       hideIf: (formData, index) =>
@@ -121,22 +124,7 @@ const uiSchema = {
     },
   },
   specificContributionAmount: {
-    ...textUI({
-      title:
-        'Enter the maximum annual contribution amount for this degree level or professional school ',
-      description: () => <SpecificContributionAmountDescription />,
-      errorMessages: {
-        required: 'Enter the maximum annual contribution amount',
-      },
-    }),
-    'ui:required': (formData, index) => {
-      const currentItem = formData?.yellowRibbonProgramRequest?.[index];
-      const maximumContributionAmount = currentItem?.maximumContributionAmount;
-      if (maximumContributionAmount) {
-        return maximumContributionAmount === 'specific';
-      }
-      return currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
-    },
+    'ui:widget': SpecificContributionAmount,
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
       inputPrefix: '$',
@@ -152,6 +140,19 @@ const uiSchema = {
 
         return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
       },
+    },
+    'ui:errorMessages': {
+      required: 'Enter the maximum annual contribution amount',
+    },
+    'ui:required': (formData, index) => {
+      const currentItem = formData?.yellowRibbonProgramRequest?.[index];
+      const maximumContributionAmount = currentItem?.maximumContributionAmount;
+
+      if (maximumContributionAmount) {
+        return maximumContributionAmount === 'specific';
+      }
+
+      return currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
     },
   },
 };
