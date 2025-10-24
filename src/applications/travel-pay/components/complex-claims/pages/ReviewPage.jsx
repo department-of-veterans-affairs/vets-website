@@ -117,7 +117,7 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     // TODO Add logic to add more expenses
   };
 
