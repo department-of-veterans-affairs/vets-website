@@ -4,7 +4,8 @@ import nationalGuardService from './nationalGuardService';
 import nationalGuardServicePeriod from './nationalGuardServicePeriod';
 import nationalGuardUnitAddress from './nationalGuardUnitAddress';
 import serviceNames from './serviceNames';
-import prisonerOfWar from './prisonerOfWarStatus';
+import prisonerOfWar from './prisonerOfWar';
+import powPeriodOfTime from './powPeriodOfTime';
 
 export default {
   title: 'Military history',
@@ -16,5 +17,6 @@ export default {
     nationalGuardUnitAddress,
     serviceNames,
     prisonerOfWar,
+    powPeriodOfTime,
   },
 };

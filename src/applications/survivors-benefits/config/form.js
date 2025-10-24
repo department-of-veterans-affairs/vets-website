@@ -16,7 +16,10 @@ import dicBenefits from './chapters/04-claim-information/dicBenefits';
 import nursingHome from './chapters/04-claim-information/nursingHome';
 import { treatmentPages } from './chapters/04-claim-information/treatmentPages';
 import veteranName from './chapters/01-veteran-information/veteranName';
-import claimantInformationChapter from './chapters/02-claimant-information';
+import claimantInformationPage from './chapters/02-claimant-information/claimantInformation';
+import mailingAddress from './chapters/02-claimant-information/mailingAddress';
+import contactInformation from './chapters/02-claimant-information/contactInformation';
+import benefitType from './chapters/02-claimant-information/benefitType';
 import vaBenefits from './chapters/03-military-history/vaBenefits';
 import servicePeriod from './chapters/03-military-history/servicePeriod';
 import nationalGuardService from './chapters/03-military-history/nationalGuardService';
@@ -114,7 +117,35 @@ const formConfig = {
       },
     },
     // Chapter 2 - Claimant Information
-    claimantInformation: claimantInformationChapter,
+    claimantInformation: {
+      title: "Claimant's information",
+      pages: {
+        claimantInformation: {
+          path: 'claimant/information',
+          title: 'Claimant information',
+          uiSchema: claimantInformationPage.uiSchema,
+          schema: claimantInformationPage.schema,
+        },
+        mailingAddress: {
+          path: 'claimant/mailing-address',
+          title: 'Mailing address',
+          uiSchema: mailingAddress.uiSchema,
+          schema: mailingAddress.schema,
+        },
+        contactInformation: {
+          path: 'claimant/contact-information',
+          title: 'Contact information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        benefitType: {
+          path: 'claimant/benefit-type',
+          title: 'Benefit type',
+          uiSchema: benefitType.uiSchema,
+          schema: benefitType.schema,
+        },
+      },
+    },
     // Chapter 3 - Military History
     militaryHistory: {
       title: "Veteran's military history",
