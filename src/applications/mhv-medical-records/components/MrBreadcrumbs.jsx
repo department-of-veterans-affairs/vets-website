@@ -7,6 +7,40 @@ import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
 import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 
+/**
+ * Helper function to build URL with query parameters for breadcrumbs
+ * @param {string} baseUrl - The base URL to append parameters to
+ * @param {object} params - Object containing urlRangeIndex, urlCustomDate, urlTimeFrame
+ * @returns {string} URL with appropriate query parameters
+ */
+const buildBreadcrumbUrl = (
+  baseUrl,
+  { urlRangeIndex, urlCustomDate, urlTimeFrame },
+) => {
+  const queryParams = [];
+
+  // Add rangeIndex and customDate for labs-and-tests pages
+  if (urlRangeIndex) {
+    queryParams.push(`rangeIndex=${urlRangeIndex}`);
+    if (urlCustomDate && urlRangeIndex === '-1') {
+      queryParams.push(`customDate=${urlCustomDate}`);
+    }
+  }
+
+  // Add timeFrame for vitals pages (fallback to old behavior)
+  if (urlTimeFrame && !urlRangeIndex) {
+    queryParams.push(`timeFrame=${urlTimeFrame}`);
+  }
+
+  // Append query params to URL
+  if (queryParams.length > 0) {
+    const separator = baseUrl?.includes('?') ? '&' : '?';
+    return baseUrl + separator + queryParams.join('&');
+  }
+
+  return baseUrl;
+};
+
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -73,12 +107,10 @@ const MrBreadcrumbs = () => {
           dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else if (urlRangeIndex) {
           // Build back link with rangeIndex and customDate for labs-and-tests
-          let backHref = `${removeTrailingSlash(
-            Breadcrumbs[feature].href,
-          )}?rangeIndex=${urlRangeIndex}`;
-          if (urlCustomDate && urlRangeIndex === '-1') {
-            backHref += `&customDate=${urlCustomDate}`;
-          }
+          const backHref = buildBreadcrumbUrl(
+            removeTrailingSlash(Breadcrumbs[feature].href),
+            { urlRangeIndex, urlCustomDate },
+          );
           const backToLabsDateCrumb = {
             ...Breadcrumbs[feature],
             href: backHref,
@@ -127,29 +159,11 @@ const MrBreadcrumbs = () => {
         conditionId}`,
     )
   ) {
-    let url = backToImagesBreadcrumb;
-
-    // Build query parameters
-    const queryParams = [];
-
-    // Add rangeIndex and customDate for labs-and-tests pages
-    if (urlRangeIndex) {
-      queryParams.push(`rangeIndex=${urlRangeIndex}`);
-      if (urlCustomDate && urlRangeIndex === '-1') {
-        queryParams.push(`customDate=${urlCustomDate}`);
-      }
-    }
-
-    // Add timeFrame for vitals pages (fallback to old behavior)
-    if (urlTimeFrame && !urlRangeIndex) {
-      queryParams.push(`timeFrame=${urlTimeFrame}`);
-    }
-
-    // Append query params to URL
-    if (queryParams.length > 0) {
-      const separator = url?.includes('?') ? '&' : '?';
-      url += separator + queryParams.join('&');
-    }
+    const url = buildBreadcrumbUrl(backToImagesBreadcrumb, {
+      urlRangeIndex,
+      urlCustomDate,
+      urlTimeFrame,
+    });
 
     return (
       <div
@@ -173,13 +187,9 @@ const MrBreadcrumbs = () => {
     );
   }
   if (location.pathname.includes('/vitals/')) {
-    let url = backToImagesBreadcrumb;
-
-    // Add timeFrame for vitals pages
-    if (urlTimeFrame) {
-      const separator = url?.includes('?') ? '&' : '?';
-      url += `${separator}timeFrame=${urlTimeFrame}`;
-    }
+    const url = buildBreadcrumbUrl(backToImagesBreadcrumb, {
+      urlTimeFrame,
+    });
 
     return (
       <div
