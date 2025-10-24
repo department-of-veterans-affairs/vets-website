@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom-v5-compat';
 import { useSelector } from 'react-redux';
-import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  updatePageTitle,
+  pharmacyPhoneNumber,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import {
@@ -9,7 +12,6 @@ import {
   generateTextFile,
   generateMedicationsPDF,
   convertHtmlForDownload,
-  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
@@ -67,7 +69,7 @@ const PrescriptionDetailsDocumentation = () => {
     prescriptionApiError,
     isLoading: isLoadingRx,
   } = usePrescriptionData(prescriptionId, queryParams);
-  const pharmacyPhone = pharmacyPhoneNumber(prescription);
+  const pharmacyPhone = prescription ? pharmacyPhoneNumber(prescription) : null;
 
   const buildMedicationInformationTxt = useCallback(
     information => {
@@ -157,7 +159,12 @@ const PrescriptionDetailsDocumentation = () => {
 
   useEffect(
     () => {
-      if (!isLoadingDoc && !hasDocApiError && !isLoadingRx) {
+      if (
+        !isLoadingDoc &&
+        !hasDocApiError &&
+        !isLoadingRx &&
+        contentRef.current
+      ) {
         contentRef.current.innerHTML = htmlContent || '';
       }
       focusElement(document.querySelector('h1'));
