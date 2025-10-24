@@ -17,7 +17,7 @@ const loginWithLocalStorage = () => {
  */
 const checkContentAnonymousIntroPageContent = () => {
   checkVisibleElementContent(
-    'h1', 
+    'h1',
     'Submit medical expenses to support a pension or DIC claim'
   );
   checkVisibleElementContent(
@@ -25,11 +25,11 @@ const checkContentAnonymousIntroPageContent = () => {
     'Follow these steps to get started:'
   );
   checkVisibleElementContent(
-    'va-process-list', 
+    'va-process-list',
     'Check that your expenses qualify'
   );
   checkVisibleElementContent(
-    'va-alert-sign-in', 
+    'va-alert-sign-in',
     'Sign in with a verified account'
   );
 };
@@ -39,7 +39,7 @@ const checkContentAnonymousIntroPageContent = () => {
  */
 const checkContentAnonymousApplicantInformationIdentity = () => {
   checkVisibleElementContent(
-    'h1', 
+    'h1',
     'Submit medical expenses to support a pension or DIC claim'
   );
   checkVisibleElementContent(
