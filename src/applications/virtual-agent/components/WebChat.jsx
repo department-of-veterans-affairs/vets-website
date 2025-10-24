@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -61,6 +61,7 @@ const WebChat = ({ code, webChatFramework }) => {
     Components: { BasicWebChat, Composer },
   } = webChatFramework;
   const isLoggedIn = useSelector(selectUserCurrentlyLoggedIn);
+  const appDispatch = useDispatch();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -85,6 +86,7 @@ const WebChat = ({ code, webChatFramework }) => {
     isComponentToggleOn,
     isStsAuthEnabled,
     isSessionPersistenceEnabled,
+    appDispatch,
   });
 
   // Register global event listeners once and clean up on unmount
