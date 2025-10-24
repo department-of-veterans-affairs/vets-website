@@ -4,8 +4,6 @@ import React from 'react';
 import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
-import './benefit-type.scss';
-
 import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 import {
   benefitTypePageSchema,
