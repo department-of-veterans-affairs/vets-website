@@ -215,7 +215,7 @@ export const buildVAPrescriptionTXT = prescription => {
   const showRefillHistory = getShowRefillHistory(refillHistory);
   if (showRefillHistory) {
     const refillHistoryHeader = joinLines(
-      'Refill History',
+      'Refill history',
       `Showing ${refillHistory.length} fill${
         refillHistory.length > 1 ? 's, from newest to oldest' : ''
       }`,
