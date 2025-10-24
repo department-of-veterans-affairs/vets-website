@@ -43,6 +43,11 @@
   font-weight: bold;
 }
 
+.complex-claim-feedback {
+  border-top: 1px solid var(--vads-color-gray-medium);
+  padding-top: 16px;
+}
+
 @media (max-width: $small-screen) {
   va-button {
     width: 100%;
