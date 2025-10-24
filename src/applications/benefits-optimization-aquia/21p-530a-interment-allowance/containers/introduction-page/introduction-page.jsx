@@ -34,8 +34,8 @@ const ProcessList = () => {
   return (
     <va-process-list>
       <va-process-list-item header="Check your eligibility">
+        <p>Make sure you meet our eligibility requirements before you apply.</p>
         <p>
-          Make sure you meet our eligibility requirements before you apply.{' '}
           <a href="/burials-memorials/veterans-burial-allowance/">
             Find out if you’re eligible for a Veterans burial allowance and
             transportation benefits
@@ -79,7 +79,9 @@ const ProcessList = () => {
         </p>
         <p>
           If you don’t have their DD214 or other separation documents, you can
-          request these documents now.{' '}
+          request these documents now.
+        </p>
+        <p>
           <a href="/records/get-military-service-records/">
             Learn more about requesting military service records
           </a>
@@ -89,7 +91,9 @@ const ProcessList = () => {
         </p>
         <p>
           An accredited representative, like a Veterans Service Organization
-          (VSO), can help you fill out your application.{' '}
+          (VSO), can help you fill out your application.
+        </p>
+        <p>
           <a href="/get-help-from-accredited-representative/">
             Learn more about getting help from an accredited representative
           </a>
