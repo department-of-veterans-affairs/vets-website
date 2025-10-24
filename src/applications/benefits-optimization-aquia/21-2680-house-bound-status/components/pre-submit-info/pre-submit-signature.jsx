@@ -5,20 +5,38 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import { VaStatementOfTruth } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
- * Get the burial benefits recipient organization's full name
+ * Get the claimant's full name based on relationship
  * @param {Object} formData - The form data object
- * @param {Object} formData.burialBenefitsRecipient - Burial benefits recipient data
- * @param {string} formData.burialBenefitsRecipient.fullName - Organization's full name
- * @returns {string} The full name or empty string if not found
+ * @param {Object} formData.claimantRelationship - Claimant relationship data
+ * @param {string} formData.claimantRelationship.claimantRelationship - Relationship type ('veteran' or other)
+ * @param {Object} formData.veteranIdentification - Veteran identification data
+ * @param {Object} formData.veteranIdentification.veteranFullName - Veteran's full name
+ * @param {Object} formData.claimantInformation - Claimant information data
+ * @param {Object} formData.claimantInformation.claimantFullName - Claimant's full name
+ * @returns {string} The full name (first middle last) or empty string if not found
  */
-const getRecipientFullName = formData => {
-  const fullName = formData?.burialBenefitsRecipient?.fullName;
+const getClaimantFullName = formData => {
+  const isVeteranClaimant =
+    formData?.claimantRelationship?.claimantRelationship === 'veteran';
 
-  if (!fullName || typeof fullName !== 'string') {
+  let fullName;
+  if (isVeteranClaimant) {
+    // Use veteran's name
+    fullName = formData?.veteranIdentification?.veteranFullName;
+  } else {
+    // Use claimant's name
+    fullName = formData?.claimantInformation?.claimantFullName;
+  }
+
+  if (!fullName || typeof fullName !== 'object') {
     return '';
   }
 
-  return fullName.trim();
+  // Build full name string (first middle last)
+  const parts = [fullName.first, fullName.middle, fullName.last].filter(
+    Boolean,
+  );
+  return parts.join(' ');
 };
 
 /**
@@ -36,7 +54,7 @@ const normalizeName = name => {
 
 /**
  * PreSubmitSignature component
- * Displays statement of truth and signature validation
+ * Displays federal law notice, statement of truth, and signature validation
  * Uses VaStatementOfTruth web component
  * @param {Object} props - Component props
  * @param {Object} props.formData - The form data object
@@ -49,7 +67,7 @@ export const PreSubmitSignature = ({
   showError,
   onSectionComplete,
 }) => {
-  const recipientFullName = getRecipientFullName(formData);
+  const claimantFullName = getClaimantFullName(formData);
   const dispatch = useDispatch();
   const submission = useSelector(state => state.form.submission);
   const hasSubmittedForm = Boolean(submission.status);
@@ -66,10 +84,10 @@ export const PreSubmitSignature = ({
   const validateSignature = useCallback(
     value => {
       const normalizedSignature = normalizeName(value);
-      const normalizedExpectedName = normalizeName(recipientFullName);
+      const normalizedExpectedName = normalizeName(claimantFullName);
       return normalizedSignature === normalizedExpectedName;
     },
-    [recipientFullName],
+    [claimantFullName],
   );
 
   // Handle input change
@@ -108,6 +126,7 @@ export const PreSubmitSignature = ({
     () => {
       if (hasSubmittedForm) return;
 
+      // Only update if signature values have actually changed
       if (
         formData.signature !== signature.value ||
         formData.certificationChecked !== signature.checked
@@ -120,8 +139,8 @@ export const PreSubmitSignature = ({
           }),
         );
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, signature.value, signature.checked, hasSubmittedForm],
   );
 
@@ -129,6 +148,7 @@ export const PreSubmitSignature = ({
   useEffect(
     () => {
       const isComplete = signature.matches && signature.checked;
+      // Only call onSectionComplete if the completion status has changed
       if (prevCompleteRef.current !== isComplete) {
         prevCompleteRef.current = isComplete;
         onSectionComplete(isComplete);
@@ -143,19 +163,19 @@ export const PreSubmitSignature = ({
   const hasCheckboxError = showError && !signature.checked;
 
   const inputError = hasInputError
-    ? `Your signature must match the burial benefits recipient full name: ${recipientFullName}`
+    ? `Your signature must match your full name: ${claimantFullName}`
     : null;
   const checkboxError = hasCheckboxError
     ? 'You must certify the information is correct'
     : null;
 
-  if (!recipientFullName) {
+  if (!claimantFullName) {
     return (
       <va-alert status="error" className="vads-u-margin-top--4">
-        <h3 slot="headline">Missing recipient information</h3>
+        <h3 slot="headline">Missing claimant information</h3>
         <p>
-          We need the burial benefits recipient full name to complete this form.
-          Please go back and ensure all required information is provided.
+          We need your full name to complete this form. Please go back and
+          ensure all required information is provided.
         </p>
       </va-alert>
     );
@@ -191,6 +211,7 @@ PreSubmitSignature.propTypes = {
   showError: PropTypes.bool,
 };
 
+// Export the config object as default for use in form configuration
 export default {
   required: true,
   CustomComponent: PreSubmitSignature,
