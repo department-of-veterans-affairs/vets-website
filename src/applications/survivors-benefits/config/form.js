@@ -116,57 +116,34 @@ const formConfig = {
           schema: directDeposit.schema,
         },
         directDepositAccount: {
-          title:
-            directDepositAccount.uiSchema['ui:title'] ||
-            'Account information for direct deposit',
+          title: 'Account information for direct deposit',
           path: 'additional-information/direct-deposit/account',
           depends: directDepositAccount.depends,
           uiSchema: directDepositAccount.uiSchema,
           schema: directDepositAccount.schema,
         },
         otherPaymentOptions: {
-          title:
-            otherPaymentOptions.title ||
-            (otherPaymentOptions.uiSchema &&
-              otherPaymentOptions.uiSchema['ui:title']) ||
-            'Other payment options',
-          path:
-            otherPaymentOptions.path ||
-            'additional-information/other-payment-options',
+          title: 'Other payment options',
+          path: 'additional-information/other-payment-options',
           depends: otherPaymentOptions.depends,
           uiSchema: otherPaymentOptions.uiSchema,
           schema: otherPaymentOptions.schema,
         },
         supportingDocuments: {
-          title:
-            supportingDocuments.title ||
-            (supportingDocuments.uiSchema &&
-              supportingDocuments.uiSchema['ui:title']) ||
-            'Supporting documents',
-          path:
-            supportingDocuments.path ||
-            'additional-information/supporting-documents',
+          title: 'Supporting documents',
+          path: 'additional-information/supporting-documents',
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
         },
         uploadDocuments: {
-          title:
-            uploadDocuments.uiSchema && uploadDocuments.uiSchema['ui:title']
-              ? uploadDocuments.uiSchema['ui:title']
-              : uploadDocuments.title || 'Upload documents',
-          path:
-            uploadDocuments.path || 'additional-information/upload-documents',
+          title: 'Upload documents',
+          path: 'additional-information/upload-documents',
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },
         reviewDocuments: {
-          title:
-            reviewDocuments.title ||
-            (reviewDocuments.uiSchema &&
-              reviewDocuments.uiSchema['ui:title']) ||
-            'Review supporting documents',
-          path:
-            reviewDocuments.path || 'additional-information/review-documents',
+          title: 'Review supporting documents',
+          path: 'additional-information/review-documents',
           uiSchema: reviewDocuments.uiSchema,
           schema: reviewDocuments.schema,
         },
