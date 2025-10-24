@@ -22,10 +22,8 @@
     "dist/**"
   ],
 
-  "require": ["@babel/register"],
-
-  "sourceMap": true,
-  "instrument": true,
+  "sourceMap": false,
+  "instrument": false,
   "excludeAfterRemap": true,
 
   "cache": false

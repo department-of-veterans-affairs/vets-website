@@ -85,8 +85,7 @@ function getTestPaths() {
 
 // Helper function to build test command
 function buildTestCommand(testPaths) {
-  const preload = path.resolve(__dirname, '../../babel-register.cjs');
-  const baseEnv = `NODE_OPTIONS=--require=${preload} STEP=unit-tests LOG_LEVEL=${options[
+  const baseEnv = `STEP=unit-tests LOG_LEVEL=${options[
     'log-level'
   ].toLowerCase()}`;
 
@@ -98,10 +97,10 @@ function buildTestCommand(testPaths) {
     ? `--reporter ${options.reporter}`
     : '';
   const coverageReporter = options['coverage-html']
-    ? '--reporter=html mocha --retries 5'
-    : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+    ? '--reporter=html -- mocha --retries 5'
+    : '--reporter=json-summary -- mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 
-  const mochaExtra = '--extension js --extension jsx --require @babel/register';
+  const mochaExtra = '';
 
   const testRunner = options.coverage
     ? `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter} --`
