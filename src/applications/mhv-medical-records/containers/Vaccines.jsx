@@ -305,7 +305,7 @@ const Vaccines = props => {
                 type={recordType.VACCINES}
               />
             )}
-            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
             <DownloadingRecordsInfo description="Vaccines" />
             <PrintDownload
               description="Vaccines - List"
