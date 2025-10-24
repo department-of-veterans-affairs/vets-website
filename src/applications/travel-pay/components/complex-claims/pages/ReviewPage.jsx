@@ -9,7 +9,7 @@ import ExpenseCard from './ExpenseCard';
 
 const ReviewPage = ({ claim, message }) => {
   const navigate = useNavigate();
-  const { apptId } = useParams();
+  const { apptId, claimId } = useParams();
 
   // For now, we will override the claim to have some expenses
   // If message is not provided, use default values
@@ -117,13 +117,13 @@ const ReviewPage = ({ claim, message }) => {
   const [visible, setVisible] = useState(true);
   const onClose = () => setVisible(false);
   const addMoreExpenses = () => {
-    navigate(`/file-new-claim/complex/${apptId}/choose-expense`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/choose-expense`);
     // TODO Add logic to add more expenses
   };
 
   const signAgreement = () => {
     // TODO Add logic to sign the agreement
-    navigate(`/file-new-claim/complex/${apptId}/travel-agreement`);
+    navigate(`/file-new-claim/${apptId}/${claimId}/travel-agreement`);
   };
 
   return (
