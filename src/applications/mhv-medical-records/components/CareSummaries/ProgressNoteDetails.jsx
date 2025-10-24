@@ -111,12 +111,6 @@ ${record.note}`;
         />
 
         {downloadStarted && <DownloadSuccessAlert />}
-        <PrintDownload
-          description="CS&N Detail"
-          downloadPdf={generateCareNotesPDF}
-          downloadTxt={generateCareNotesTxt}
-        />
-        <DownloadingRecordsInfo description="CS&N Detail" />
 
         <div className="test-details-container max-80">
           <HeaderSection header="Details">
@@ -156,6 +150,13 @@ ${record.note}`;
             monospace
           />
         </div>
+        <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+        <DownloadingRecordsInfo description="CS&N Detail" />
+        <PrintDownload
+          description="CS&N Detail"
+          downloadPdf={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+        />
       </HeaderSection>
     </div>
   );

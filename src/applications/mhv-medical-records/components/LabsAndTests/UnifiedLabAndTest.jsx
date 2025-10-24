@@ -76,13 +76,6 @@ const UnifiedLabsAndTests = props => {
 
         {downloadStarted && <DownloadSuccessAlert />}
 
-        <PrintDownload
-          description="L&TR Detail"
-          downloadPdf={generatePdf}
-          downloadTxt={generateTxt}
-        />
-        <DownloadingRecordsInfo description="L&TR Detail" />
-
         {/*                   TEST DETAILS                          */}
         <div className="test-details-container max-80">
           <HeaderSection header="Details about this test">
@@ -133,6 +126,13 @@ const UnifiedLabsAndTests = props => {
               label={LABS_AND_TESTS_DISPLAY_LABELS.RESULTS}
               value={record.result}
               testId="lab-and-test-results"
+            />
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+            <DownloadingRecordsInfo description="L&TR Detail" />
+            <PrintDownload
+              description="L&TR Detail"
+              downloadPdf={generatePdf}
+              downloadTxt={generateTxt}
             />
           </HeaderSection>
         </div>
