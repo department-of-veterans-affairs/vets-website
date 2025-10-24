@@ -18,10 +18,12 @@ export default function WarningBanner({ uiSchema }) {
     : formData?.[dataPath] || {};
 
   const code = details?.facilityCode;
+  const isLoading = details?.isLoading;
 
   const message = createBannerMessage(details, isArrayItem, mainInstitution);
 
-  if (message && code?.length === 8) {
+  // Only show banner if not loading
+  if (message && code?.length === 8 && !isLoading) {
     return (
       <va-alert
         className="vads-u-margin-top--2"

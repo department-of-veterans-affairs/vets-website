@@ -12,6 +12,12 @@ import WarningBanner from '../containers/WarningBanner';
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   // In array builder item pages, formData is scoped to the current item
   const code = (fieldData || '').trim();
+  const isLoading = formData?.isLoading;
+
+  // Don't show validation errors while loading
+  if (isLoading) {
+    return;
+  }
 
   const mainInstitution = formData?.institutionDetails;
 
@@ -31,7 +37,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
   }
 
   if (hasXInThirdPosition) {
-    errors.addError('Codes with an “X” in the third position are not eligible');
+    errors.addError('Codes with an "X" in the third position are not eligible');
   }
 
   if (
@@ -39,7 +45,7 @@ const facilityCodeUIValidation = (errors, fieldData, formData) => {
     !mainInstitution?.facilityMap?.extensions?.includes(code)
   ) {
     errors.addError(
-      'This facility code isn’t linked to your school’s main campus',
+      "This facility code isn't linked to your school's main campus",
     );
   }
 

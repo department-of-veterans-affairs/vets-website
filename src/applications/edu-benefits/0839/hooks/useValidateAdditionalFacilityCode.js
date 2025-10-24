@@ -16,6 +16,22 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
     () => {
       const fetchInstitutionInfo = async () => {
         setLoader(true);
+
+        // Set loading state in formData
+        const updatedDetailsLoading = [
+          ...(formData.additionalInstitutionDetails || []),
+        ];
+        updatedDetailsLoading[index] = {
+          ...updatedDetailsLoading[index],
+          isLoading: true,
+        };
+        dispatch(
+          setData({
+            ...formData,
+            additionalInstitutionDetails: updatedDetailsLoading,
+          }),
+        );
+
         try {
           const response = await apiRequest(
             `/gi/institutions/${facilityCode}`,
@@ -61,6 +77,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             institutionAddress,
             ihlEligible,
             yrEligible,
+            isLoading: false,
           };
 
           dispatch(
@@ -81,6 +98,7 @@ export const useValidateAdditionalFacilityCode = (formData, index) => {
             institutionName: 'not found',
             institutionAddress: {},
             ihlEligible: null,
+            isLoading: false,
           };
 
           dispatch(

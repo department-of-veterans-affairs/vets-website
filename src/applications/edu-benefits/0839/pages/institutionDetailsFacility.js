@@ -12,6 +12,12 @@ import WarningBanner from '../containers/WarningBanner';
 const facilityCodeUIValidation = (errors, fieldData, formData) => {
   const details = formData?.institutionDetails || {};
   const code = (fieldData || '').trim();
+  const isLoading = details?.isLoading;
+
+  // Don't show validation errors while loading
+  if (isLoading) {
+    return;
+  }
 
   const badFormat = code.length > 0 && !/^[a-zA-Z0-9]{8}$/.test(code);
   const notFound = details.institutionName === 'not found';
