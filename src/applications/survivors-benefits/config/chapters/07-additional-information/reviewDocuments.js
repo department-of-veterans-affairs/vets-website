@@ -1,3 +1,5 @@
+// IN PROGRESS: this is a new file being created as part of the CAVE implementation.
+
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -15,7 +17,7 @@ const Description = () => (
 const Documents = formData => {
   const files = (formData && formData.files) || [];
 
-  // Simple filename heuristic to map uploads to the expected document headings.
+  // Map filenames to headings.
   const mapFileNameToHeader = name => {
     if (!name) return 'Uploaded document';
     const n = name.toLowerCase();
