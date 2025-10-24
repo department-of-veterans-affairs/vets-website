@@ -22,6 +22,11 @@ import {
 export const VeteranIdentityReviewPage = ({ data, editPage, title }) => {
   const sectionData = data?.veteranIdentification || {};
 
+  // Migrate old field names to new field names for backward compatibility
+  // This handles save-in-progress data that used old camelCase field names
+  const veteranSSN = sectionData.veteranSSN || sectionData.veteranSsn || '';
+  const veteranDOB = sectionData.veteranDOB || sectionData.veteranDob || '';
+
   return (
     <ReviewPageTemplate
       title={title}
@@ -36,14 +41,10 @@ export const VeteranIdentityReviewPage = ({ data, editPage, title }) => {
       />
       <ReviewField
         label="Social Security number"
-        value={sectionData.veteranSSN}
+        value={veteranSSN}
         hideWhenEmpty
       />
-      <ReviewDateField
-        label="Date of birth"
-        value={sectionData.veteranDOB}
-        hideWhenEmpty
-      />
+      <ReviewDateField label="Date of birth" value={veteranDOB} hideWhenEmpty />
     </ReviewPageTemplate>
   );
 };

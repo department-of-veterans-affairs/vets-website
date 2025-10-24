@@ -46,6 +46,10 @@
 export function submitTransformer(_formConfig, formData) {
   const transformedData = { ...formData };
 
+  // Clean up duplicate/unnecessary data before submission
+  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  delete transformedData.veteran;
+
   // If the veteran is the claimant, copy veteran information to claimant fields
   // This ensures the backend receives complete claimant data even though
   // the user didn't fill out separate claimant pages

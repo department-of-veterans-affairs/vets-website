@@ -143,6 +143,45 @@ export function prefillTransformer(pages, formData, metadata, state) {
     mailingAddress.isMilitary = false;
   }
 
+  // Migrate old field names to new field names for backward compatibility
+  // This handles save-in-progress data that used old camelCase field names
+  // Priority: saved data with new name > saved data with old name > profile data
+  const migrateVeteranIdentification = existingData => {
+    return {
+      veteranFullName: existingData?.veteranFullName || fullName,
+      // Map old camelCase names to new uppercase names, fallback to profile
+      veteranDOB:
+        existingData?.veteranDOB || existingData?.veteranDob || dateOfBirth,
+      veteranSSN:
+        existingData?.veteranSSN || existingData?.veteranSsn || formattedSsn,
+    };
+  };
+
+  const migrateClaimantSSN = existingData => {
+    // Handle both old section name (claimantSsn) and old field name (claimantSsn)
+    const oldSectionData = formData?.claimantSsn;
+    return {
+      claimantSSN:
+        existingData?.claimantSSN ||
+        existingData?.claimantSsn ||
+        oldSectionData?.claimantSSN ||
+        oldSectionData?.claimantSsn ||
+        '',
+    };
+  };
+
+  const migrateClaimantInformation = existingData => {
+    return {
+      claimantFullName: existingData?.claimantFullName,
+      claimantDOB: existingData?.claimantDOB || existingData?.claimantDob || '',
+    };
+  };
+
+  // Clean up the form data by removing duplicate/unnecessary fields
+  // Remove the 'veteran' object added by platform (duplicates veteranIdentification)
+  const cleanedFormData = { ...formData };
+  delete cleanedFormData.veteran; // Remove platform-added duplicate data
+
   // Return the transformed data structure
   // Map profile data to form's section structure matching actual page schemas
   // Note: This form only collects veteran's name, DOB, and address during prefill
@@ -151,15 +190,19 @@ export function prefillTransformer(pages, formData, metadata, state) {
   return {
     pages,
     formData: {
-      ...formData, // Preserve any existing form data
-      veteranIdentification: {
-        veteranFullName: fullName,
-        veteranDOB: dateOfBirth,
-        veteranSSN: formattedSsn,
-      },
+      ...cleanedFormData, // Use cleaned data without 'veteran' object
+      veteranIdentification: migrateVeteranIdentification(
+        cleanedFormData?.veteranIdentification,
+      ),
       veteranAddress: {
-        veteranAddress: mailingAddress,
+        veteranAddress:
+          cleanedFormData?.veteranAddress?.veteranAddress || mailingAddress,
       },
+      // Migrate claimant data if it exists, handling old section names
+      claimantSSN: migrateClaimantSSN(cleanedFormData?.claimantSSN),
+      claimantInformation: migrateClaimantInformation(
+        cleanedFormData?.claimantInformation,
+      ),
     },
     metadata,
   };

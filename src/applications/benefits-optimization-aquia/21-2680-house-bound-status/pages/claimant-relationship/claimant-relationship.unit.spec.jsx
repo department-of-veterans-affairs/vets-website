@@ -45,7 +45,7 @@ describe('ClaimantRelationshipPage', () => {
       );
 
       expect(container).to.exist;
-      expect(container.textContent).to.include('Who is the claim for?');
+      expect(container.textContent).to.include('Claimant information');
     });
 
     it('should render page title', () => {
@@ -57,7 +57,7 @@ describe('ClaimantRelationshipPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('Who is the claim for?');
+      expect(container.textContent).to.include('Claimant information');
     });
 
     it('should render radio group with label', async () => {

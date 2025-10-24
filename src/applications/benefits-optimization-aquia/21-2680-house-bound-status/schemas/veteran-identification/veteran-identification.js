@@ -96,8 +96,8 @@ export const isVeteranClaimantSchema = z.enum(['yes', 'no'], {
  */
 export const veteranIdentificationPageSchema = z.object({
   veteranFullName: fullNameSchema,
-  veteranSsn: veteranSSNSchema,
-  veteranDob: veteranDOBSchema,
+  veteranSSN: veteranSSNSchema,
+  veteranDOB: veteranDOBSchema,
 });
 
 /**

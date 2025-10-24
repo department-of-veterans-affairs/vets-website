@@ -4,6 +4,8 @@ import React from 'react';
 import { RadioField } from '@bio-aquia/shared/components/atoms';
 import { PageTemplate } from '@bio-aquia/shared/components/templates';
 
+import './benefit-type.scss';
+
 import { BENEFIT_TYPES } from '@bio-aquia/21-2680-house-bound-status/constants';
 import {
   benefitTypePageSchema,
@@ -68,29 +70,7 @@ export const BenefitTypePage = ({
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
-        <>
-          <style>
-            {`
-            va-radio[tile] va-radio-option {
-              border: 1px solid #d6d7d9;
-              border-radius: 4px;
-              padding: 16px;
-              margin-bottom: 8px;
-              display: block;
-            }
-
-            va-radio[tile] va-radio-option:hover {
-              border-color: #565c65;
-            }
-
-            va-radio[tile] va-radio-option[checked] {
-              border-color: #005ea2;
-              border-width: 2px;
-              background-color: #f0f9ff;
-            }
-          `}
-          </style>
-
+        <div className="benefit-type-page">
           <p>
             <a
               href="https://www.va.gov/pension/aid-attendance-housebound/"
@@ -127,7 +107,7 @@ export const BenefitTypePage = ({
             forceShowError={formSubmitted}
             required
           />
-        </>
+        </div>
       )}
     </PageTemplate>
   );

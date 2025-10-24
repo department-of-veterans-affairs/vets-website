@@ -19,7 +19,7 @@ import {
  * Data processor to ensure date values are properly formatted strings
  */
 const ensureDateStrings = formData => {
-  return transformDates(formData, ['veteranDob']);
+  return transformDates(formData, ['veteranDOB']);
 };
 
 /**
@@ -38,10 +38,27 @@ export const VeteranIdentityPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Migrate old field names to new field names for backward compatibility
+  // This handles save-in-progress data that used old camelCase field names
+  const migratedData = {
+    ...formDataToUse,
+    veteranIdentification: {
+      veteranFullName: formDataToUse?.veteranIdentification?.veteranFullName,
+      veteranSSN:
+        formDataToUse?.veteranIdentification?.veteranSSN ||
+        formDataToUse?.veteranIdentification?.veteranSsn ||
+        '',
+      veteranDOB:
+        formDataToUse?.veteranIdentification?.veteranDOB ||
+        formDataToUse?.veteranIdentification?.veteranDob ||
+        '',
+    },
+  };
+
   return (
     <PageTemplate
       title="Veteran information"
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
@@ -56,8 +73,8 @@ export const VeteranIdentityPage = ({
           middle: '',
           last: '',
         },
-        veteranSsn: '',
-        veteranDob: '',
+        veteranSSN: '',
+        veteranDOB: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -79,10 +96,10 @@ export const VeteranIdentityPage = ({
 
           <SSNField
             label="Social Security number"
-            name="veteranSsn"
-            value={localData.veteranSsn || ''}
+            name="veteranSSN"
+            value={localData.veteranSSN || ''}
             onChange={handleFieldChange}
-            error={errors.veteranSsn}
+            error={errors.veteranSSN}
             forceShowError={formSubmitted}
             required
             schema={veteranSSNSchema}
@@ -90,10 +107,10 @@ export const VeteranIdentityPage = ({
 
           <MemorableDateField
             label="Date of birth"
-            name="veteranDob"
-            value={localData.veteranDob || ''}
+            name="veteranDOB"
+            value={localData.veteranDOB || ''}
             onChange={handleFieldChange}
-            error={errors.veteranDob}
+            error={errors.veteranDOB}
             forceShowError={formSubmitted}
             required
             schema={veteranDOBSchema}

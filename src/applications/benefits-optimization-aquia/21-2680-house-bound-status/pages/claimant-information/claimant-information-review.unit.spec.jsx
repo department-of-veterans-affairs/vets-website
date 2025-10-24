@@ -292,7 +292,7 @@ describe('ClaimantInformationReviewPage', () => {
         />,
       );
 
-      expect(container.textContent).to.include('1985-03-15');
+      expect(container.textContent).to.include('March 15, 1985');
     });
 
     it('should display claimant SSN', () => {
@@ -503,7 +503,7 @@ describe('ClaimantInformationReviewPage', () => {
       expect(container.textContent).to.include('Spouse');
       expect(container.textContent).to.include('Padmé');
       expect(container.textContent).to.include('Amidala');
-      expect(container.textContent).to.include('1985-03-15');
+      expect(container.textContent).to.include('March 15, 1985');
       expect(container.textContent).to.include('123-45-6789');
       expect(container.textContent).to.include('123 Main St');
       expect(container.textContent).to.include('555-123-4567');

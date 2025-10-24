@@ -13,6 +13,7 @@ import {
 import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containers/introduction-page';
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
+import PreSubmitInfo from '@bio-aquia/21-2680-house-bound-status/components/pre-submit-info';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
 import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
 import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
@@ -130,7 +131,7 @@ const formConfig = {
           path: 'claimant-relationship',
           title: 'Who is the claim for?',
           CustomPage: ClaimantRelationshipPage,
-          // Use comprehensive review that shows all claimant data in one section
+          // Show comprehensive review with all claimant fields - edit navigates to first claimant page
           CustomPageReview: ClaimantInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
@@ -139,11 +140,9 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           CustomPage: ClaimantInformationPage,
-          // No individual review - all claimant info shown in comprehensive review above
+          // Hidden page - user edits this via claimant-relationship review section
           CustomPageReview: () => null,
-          // Hidden when veteran is claimant (both edit and review pages)
-          // Veteran reviews their info in veteran sections instead
-          // Submit transformer copies veteran data to claimant fields at submission
+          // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -153,10 +152,9 @@ const formConfig = {
           path: 'claimant-ssn',
           title: 'Claimant Social Security number',
           CustomPage: ClaimantSSNPage,
-          // No individual review - all claimant info shown in comprehensive review above
+          // Hidden page - user edits this via claimant-relationship review section
           CustomPageReview: () => null,
-          // Hidden when veteran is claimant (both edit and review pages)
-          // Submit transformer copies veteran SSN to claimant fields at submission
+          // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -166,10 +164,9 @@ const formConfig = {
           path: 'claimant-address',
           title: 'Claimant address',
           CustomPage: ClaimantAddressPage,
-          // No individual review - all claimant info shown in comprehensive review above
+          // Hidden page - user edits this via claimant-relationship review section
           CustomPageReview: () => null,
-          // Hidden when veteran is claimant (both edit and review pages)
-          // Submit transformer copies veteran address to claimant fields at submission
+          // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -179,10 +176,9 @@ const formConfig = {
           path: 'claimant-contact',
           title: 'Contact information',
           CustomPage: ClaimantContactPage,
-          // No individual review - all claimant info shown in comprehensive review above
+          // Hidden page - user edits this via claimant-relationship review section
           CustomPageReview: () => null,
-          // Hidden when veteran is claimant (both edit and review pages)
-          // Contact info not collected for veterans, remains empty for veteran claimants
+          // Hidden when veteran is claimant
           depends: formData =>
             formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
@@ -241,6 +237,7 @@ const formConfig = {
       },
     },
   },
+  preSubmitInfo: PreSubmitInfo,
   getHelp: GetHelp,
   footerContent,
 };

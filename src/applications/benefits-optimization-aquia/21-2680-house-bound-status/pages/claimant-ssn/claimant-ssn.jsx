@@ -25,8 +25,21 @@ export const ClaimantSSNPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
+  // Migrate old field names to new field names for backward compatibility
+  const migratedData = {
+    ...formDataToUse,
+    claimantSSN: {
+      claimantSSN:
+        formDataToUse?.claimantSSN?.claimantSSN ||
+        formDataToUse?.claimantSSN?.claimantSsn ||
+        formDataToUse?.claimantSsn?.claimantSSN ||
+        formDataToUse?.claimantSsn?.claimantSsn ||
+        '',
+    },
+  };
+
   // Get claimant's name from form data
-  const claimantName = formDataToUse?.claimantInformation?.claimantFullName;
+  const claimantName = migratedData?.claimantInformation?.claimantFullName;
   const firstName = claimantName?.first || '';
   const lastName = claimantName?.last || '';
 
@@ -41,26 +54,26 @@ export const ClaimantSSNPage = ({
   return (
     <PageTemplate
       title={pageTitle}
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
       schema={claimantSSNPageSchema}
-      sectionName="claimantSsn"
+      sectionName="claimantSSN"
       onReviewPage={onReviewPage}
       updatePage={updatePage}
       defaultData={{
-        claimantSsn: '',
+        claimantSSN: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
         <>
           <SSNField
             label="Social Security number"
-            name="claimantSsn"
-            value={localData.claimantSsn || ''}
+            name="claimantSSN"
+            value={localData.claimantSSN || ''}
             onChange={handleFieldChange}
-            error={errors.claimantSsn}
+            error={errors.claimantSSN}
             forceShowError={formSubmitted}
             required
             schema={claimantSSNSchema}

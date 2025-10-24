@@ -15,7 +15,7 @@ import {
  * Data processor to ensure date values are properly formatted strings
  */
 const ensureDateStrings = formData => {
-  return transformDates(formData, ['claimantDob']);
+  return transformDates(formData, ['claimantDOB']);
 };
 
 /**
@@ -34,8 +34,19 @@ export const ClaimantInformationPage = ({
   const formDataToUse =
     data && typeof data === 'object' && !Array.isArray(data) ? data : {};
 
-  const relationship =
-    formDataToUse?.claimantRelationship?.claimantRelationship;
+  // Migrate old field names to new field names for backward compatibility
+  const migratedData = {
+    ...formDataToUse,
+    claimantInformation: {
+      claimantFullName: formDataToUse?.claimantInformation?.claimantFullName,
+      claimantDOB:
+        formDataToUse?.claimantInformation?.claimantDOB ||
+        formDataToUse?.claimantInformation?.claimantDob ||
+        '',
+    },
+  };
+
+  const relationship = migratedData?.claimantRelationship?.claimantRelationship;
 
   /**
    * Get the appropriate label text based on relationship
@@ -76,7 +87,7 @@ export const ClaimantInformationPage = ({
   return (
     <PageTemplate
       title="Claimant information"
-      data={formDataToUse}
+      data={migratedData}
       setFormData={setFormData}
       goForward={goForward}
       goBack={goBack}
@@ -91,7 +102,7 @@ export const ClaimantInformationPage = ({
           middle: '',
           last: '',
         },
-        claimantDob: '',
+        claimantDOB: '',
       }}
     >
       {({ localData, handleFieldChange, errors, formSubmitted }) => (
@@ -111,10 +122,10 @@ export const ClaimantInformationPage = ({
 
           <MemorableDateField
             label="Date of birth"
-            name="claimantDob"
-            value={localData.claimantDob || ''}
+            name="claimantDOB"
+            value={localData.claimantDOB || ''}
             onChange={handleFieldChange}
-            error={errors.claimantDob}
+            error={errors.claimantDOB}
             forceShowError={formSubmitted}
             required
             schema={claimantDOBSchema}

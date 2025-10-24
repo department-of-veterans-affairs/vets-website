@@ -2,7 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates/review-page-template';
-import { ReviewField } from '@bio-aquia/shared/components/atoms';
+import {
+  ReviewField,
+  ReviewAddressField,
+} from '@bio-aquia/shared/components/atoms';
 
 /**
  * Review page component for hospitalization facility.
@@ -21,24 +24,6 @@ export const HospitalizationFacilityReviewPage = ({
   title,
 }) => {
   const sectionData = data?.hospitalizationFacility || {};
-  const address = sectionData?.facilityAddress || {};
-
-  const formatAddress = () => {
-    if (!address.street && !address.city) {
-      return null;
-    }
-
-    const parts = [
-      address.street,
-      address.street2,
-      address.street3,
-      address.city,
-      address.state,
-      address.postalCode,
-    ].filter(Boolean);
-
-    return parts.join(', ');
-  };
 
   return (
     <ReviewPageTemplate
@@ -52,9 +37,9 @@ export const HospitalizationFacilityReviewPage = ({
         value={sectionData.facilityName}
         hideWhenEmpty
       />
-      <ReviewField
+      <ReviewAddressField
         label="Hospital address"
-        value={formatAddress()}
+        value={sectionData.facilityAddress}
         hideWhenEmpty
       />
     </ReviewPageTemplate>

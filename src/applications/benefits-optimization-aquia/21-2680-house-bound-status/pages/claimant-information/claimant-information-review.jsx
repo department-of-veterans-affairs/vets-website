@@ -2,11 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ReviewPageTemplate } from '@bio-aquia/shared/components/templates/review-page-template';
-import { ReviewField } from '@bio-aquia/shared/components/atoms';
+import {
+  ReviewField,
+  ReviewDateField,
+  ReviewAddressField,
+} from '@bio-aquia/shared/components/atoms';
 
 /**
  * Review page component for all claimant information.
- * Displays all claimant data in a single section:
+ * Displays all claimant data in a single comprehensive section:
  * - Relationship to veteran
  * - Full name (if not veteran)
  * - Date of birth (if not veteran)
@@ -39,18 +43,35 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
     relationshipLabels[(data?.claimantRelationship?.claimantRelationship)] ||
     data?.claimantRelationship?.claimantRelationship;
 
+  // Migrate old field names to new field names for backward compatibility
+  // Handle both veteran and claimant data with old camelCase field names
+  const veteranDOB =
+    data?.veteranIdentification?.veteranDOB ||
+    data?.veteranIdentification?.veteranDob ||
+    '';
+  const veteranSSN =
+    data?.veteranIdentification?.veteranSSN ||
+    data?.veteranIdentification?.veteranSsn ||
+    '';
+  const claimantDOBFromSection =
+    data?.claimantInformation?.claimantDOB ||
+    data?.claimantInformation?.claimantDob ||
+    '';
+  const claimantSSNFromSection =
+    data?.claimantSSN?.claimantSSN ||
+    data?.claimantSSN?.claimantSsn ||
+    data?.claimantSsn?.claimantSSN ||
+    data?.claimantSsn?.claimantSsn ||
+    '';
+
   // Get claimant data (use veteran data if veteran is claimant)
   const claimantName = isVeteranClaimant
     ? data?.veteranIdentification?.veteranFullName
     : data?.claimantInformation?.claimantFullName;
 
-  const claimantDOB = isVeteranClaimant
-    ? data?.veteranIdentification?.veteranDOB
-    : data?.claimantInformation?.claimantDOB;
+  const claimantDOB = isVeteranClaimant ? veteranDOB : claimantDOBFromSection;
 
-  const claimantSSN = isVeteranClaimant
-    ? data?.veteranIdentification?.veteranSSN
-    : data?.claimantSSN?.claimantSSN;
+  const claimantSSN = isVeteranClaimant ? veteranSSN : claimantSSNFromSection;
 
   const claimantAddress = isVeteranClaimant
     ? data?.veteranAddress?.veteranAddress
@@ -65,20 +86,6 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
       Boolean,
     );
     return parts.join(' ');
-  };
-
-  // Format address for display
-  const formatAddress = address => {
-    if (!address) return '';
-    const parts = [
-      address.street,
-      address.street2,
-      address.street3,
-      address.city,
-      address.state,
-      address.postalCode,
-    ].filter(Boolean);
-    return parts.join(', ');
   };
 
   return (
@@ -102,7 +109,7 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
             hideWhenEmpty
           />
 
-          <ReviewField
+          <ReviewDateField
             label="Claimant's date of birth"
             value={claimantDOB}
             hideWhenEmpty
@@ -114,9 +121,9 @@ export const ClaimantInformationReviewPage = ({ data, editPage, title }) => {
             hideWhenEmpty
           />
 
-          <ReviewField
+          <ReviewAddressField
             label="Claimant's address"
-            value={formatAddress(claimantAddress)}
+            value={claimantAddress}
             hideWhenEmpty
           />
 

@@ -58,5 +58,5 @@ export const claimantDOBSchema = z
  */
 export const claimantInformationPageSchema = z.object({
   claimantFullName: fullNameSchema,
-  claimantDob: claimantDOBSchema,
+  claimantDOB: claimantDOBSchema,
 });

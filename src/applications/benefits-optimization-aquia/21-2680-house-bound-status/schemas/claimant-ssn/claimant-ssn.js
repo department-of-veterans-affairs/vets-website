@@ -16,5 +16,5 @@ export const claimantSSNSchema = z
  * Page schema for claimant SSN page
  */
 export const claimantSSNPageSchema = z.object({
-  claimantSsn: claimantSSNSchema,
+  claimantSSN: claimantSSNSchema,
 });
