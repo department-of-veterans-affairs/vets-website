@@ -1,60 +1,8 @@
 /* eslint-disable camelcase */
-const { addDays, addMonths, format, subMonths } = require('date-fns');
-
-const defaultUUIDBase = '6cg8T26YivnL68JzeTaV0w==';
-const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
-
-const errorUUIDs = [
-  'appointment-submit-error',
-  'details-retry-error',
-  'details-error',
-  'draft-no-slots-error',
-  'referral-without-provider-error',
-  'eps-error-appointment-id',
-];
+const { addMonths, format } = require('date-fns');
 
 const ALLOWED_CATEGORIES_OF_CARE = ['optometry'];
 const CHIRO_FEATURE_ALLOWED_CATEGORY = ['chiropractic'];
-
-/**
- * Creates a referral list object relative to a start date.
- *
- * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
- * @param {String} uuid The UUID for the referral
- * @param {String} categoryOfCare The category of care for the referral
- * @returns {Object} Referral object
- */
-
-const createReferralListItem = (
-  expirationDate,
-  uuid,
-  categoryOfCare = 'OPTOMETRY',
-  stationId = '659',
-) => {
-  const [year, month, day] = expirationDate.split('-');
-  const relativeDate = new Date(year, month - 1, day);
-  const mydFormat = 'yyyy-MM-dd';
-  return {
-    id: uuid,
-    type: 'referrals',
-    attributes: {
-      expirationDate:
-        expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-      uuid,
-      categoryOfCare,
-      referralNumber: 'VA0000007241',
-      referralConsultId: '984_646907',
-      stationId,
-    },
-  };
-};
-
-/* Creates a list of error referrals with specific UUIDs.
- * These are used to test error handling.
- */
-const errorReferralsList = (errorUUIDs || []).map(uuid => {
-  return createReferralListItem('2025-11-14', uuid);
-});
 
 /**
  * Creates a referral object with specified uuid and expiration date.
@@ -107,7 +55,10 @@ const createReferralById = (
       referralNumber: uuid.includes('error') ? uuid : 'VA0000007241',
       categoryOfCare,
       referralConsultId: '984_646907',
-      appointments: {},
+      appointments: {
+        system: 'EPS',
+        data: [],
+      },
       referringFacility: {
         name: 'Batavia VA Medical Center',
         phone: '(585) 297-1000',
@@ -122,72 +73,6 @@ const createReferralById = (
       provider,
     },
   };
-};
-
-/**
- * Creates a referral array of any length.
- *
- * @param {Number} numberOfReferrals The number of referrals to create in the array
- * @param {String} baseDate The date in 'yyyy-MM-dd' format to base the referrals around
- * @param {Number} numberOfExpiringReferrals The number of referrals that should be expired
- * @param {Boolean} includeErrorReferrals Whether to include error referrals in the array
- * @param {Boolean} includeOutOfPilotStation Whether to include an out of pilot station referral
- * @returns {Array} Referrals array
- */
-const createReferrals = (
-  numberOfReferrals = 3,
-  baseDate,
-  numberOfExpiringReferrals = 0,
-  includeErrorReferrals = false,
-  includeOutOfPilotStation = false,
-) => {
-  // create a date object for today that is not affected by the time zone
-  const dateOjbect = baseDate ? new Date(baseDate) : new Date();
-  const baseDateObject = new Date(
-    dateOjbect.getUTCFullYear(),
-    dateOjbect.getUTCMonth(),
-    dateOjbect.getUTCDate(),
-  );
-  const referrals = [];
-
-  const categoriesOfCare = ['OPTOMETRY', 'CHIROPRACTIC'];
-
-  for (let i = 0; i < numberOfReferrals; i++) {
-    const isExpired = i < numberOfExpiringReferrals;
-    const uuidBase = isExpired ? expiredUUIDBase : defaultUUIDBase;
-    // make expiration date 6 months from the base date
-    // or 6 months before the base date if expired
-    // and add i days
-    const modifiedDate = addDays(
-      isExpired ? subMonths(baseDateObject, 6) : addMonths(baseDateObject, 6),
-      i,
-    );
-    const mydFormat = 'yyyy-MM-dd';
-    const expirationDate = format(modifiedDate, mydFormat);
-    const categoryOfCare =
-      i % 2 === 0 ? categoriesOfCare[1] : categoriesOfCare[0];
-    referrals.push(
-      createReferralListItem(
-        expirationDate,
-        `${uuidBase}${i.toString().padStart(2, '0')}`,
-        categoryOfCare,
-      ),
-    );
-  }
-  if (includeOutOfPilotStation) {
-    referrals.push(
-      createReferralListItem(
-        '2025-11-14',
-        'out-of-pilot-station',
-        'OPTOMETRY',
-        '123',
-      ),
-    );
-  }
-  if (includeErrorReferrals) {
-    return [...referrals, ...errorReferralsList];
-  }
-  return [...referrals];
 };
 
 /**
@@ -245,12 +130,112 @@ const getAddressString = addressObject => {
   return addressParts.filter(Boolean).join(', ');
 };
 
+/**
+ * Finds the next appointment by start date from an array of appointment systems.
+ * Only returns booked appointments.
+ *
+ * @param {Array} appointmentSystems Array of appointment systems with format:
+ *   [{system: 'VAOS', data: [{id: '1234', status: 'booked', start: 'datetimestring'}]}]
+ * @returns {Object|null} Object with {id, system} of the next appointment, or null if none found
+ */
+const getNextAppointment = appointmentSystems => {
+  if (!appointmentSystems?.length) {
+    return null;
+  }
+
+  let nextAppointment = null;
+  let earliestDate = null;
+
+  appointmentSystems.forEach(appointmentSystem => {
+    const { system, data } = appointmentSystem;
+
+    if (!data?.length) {
+      return;
+    }
+
+    data.forEach(appointment => {
+      const { id, start, status } = appointment;
+
+      // Only consider booked appointments
+      if (status !== 'booked') {
+        return;
+      }
+
+      if (!start) {
+        return;
+      }
+
+      const appointmentDate = new Date(start);
+
+      // Skip invalid dates
+      if (Number.isNaN(appointmentDate.getTime())) {
+        return;
+      }
+
+      // Skip past appointments
+      const now = new Date();
+      if (appointmentDate <= now) {
+        return;
+      }
+
+      // Check if this is the earliest future appointment so far
+      if (!earliestDate || appointmentDate < earliestDate) {
+        earliestDate = appointmentDate;
+        nextAppointment = { id, system };
+      }
+    });
+  });
+
+  return nextAppointment;
+};
+
+/**
+ * Determines if a referral can be scheduled by checking for valid cancelled appointments.
+ * Conservative approach - returns false if data is missing/null.
+ * Returns true if no appointments exist (empty array) or if valid cancelled appointments exist.
+ * Requires id, status, and valid start date for appointments to be considered valid.
+ *
+ * @param {Array} appointmentSystems Array of appointment systems with format:
+ *   [{system: 'VAOS', data: [{id: '1234', status: 'booked', start: 'datetimestring'}]}]
+ * @returns {Boolean} True if scheduling is allowed (no appointments or valid cancelled appointments exist), false otherwise
+ */
+const getCanBeScheduled = appointmentSystems => {
+  if (!appointmentSystems?.length) {
+    return false;
+  }
+
+  return appointmentSystems.every(appointmentSystem => {
+    const { data } = appointmentSystem;
+
+    if (!data) {
+      return false;
+    }
+
+    if (!data.length) {
+      return true; // Empty array means no appointments, so can be scheduled
+    }
+
+    // Check if there are only valid cancelled appointments
+    // Be conservative - require both status and start to be present and valid
+    return data.every(appointment => {
+      const { id, status, start } = appointment;
+
+      // Require all essential properties to be present
+      if (!id || !status || !start) {
+        return false;
+      }
+
+      // Only consider cancelled appointments as valid for scheduling
+      return status === 'cancelled';
+    });
+  });
+};
+
 module.exports = {
   createReferralById,
-  createReferralListItem,
-  createReferrals,
   getReferralSlotKey,
   filterReferrals,
-  expiredUUIDBase,
   getAddressString,
+  getNextAppointment,
+  getCanBeScheduled,
 };
