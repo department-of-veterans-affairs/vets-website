@@ -31,24 +31,27 @@ const uiSchema = {
       description:
         'Enter the total number of students eligible for this contribution.',
       errorMessages: {
-        required: 'Enter the maximum number of students',
+        required:
+          'Maximum number of students must match the number of individuals you entered earlier',
       },
     }),
     'ui:options': {
       inputType: 'number',
-      classNames: 'vads-u-margin-bottom--2 container',
+      classNames:
+        'vads-u-margin-bottom--2 contribution-degree-school container',
     },
   },
   degreeLevel: {
     ...textUI({
       title: 'Degree level',
-      description: `If you'd like to specify a school, you can do so in the "College or professional school" field below.`,
+      description: `Provide a degree level such as undergraduate, graduate, doctoral, or all. If you'd like to specify a school, you can do so in the "College or professional school" field below.`,
       errorMessages: {
-        required: 'Enter the degree level',
+        required: 'Please enter a degree level',
       },
     }),
     'ui:options': {
-      classNames: 'vads-u-margin-bottom--2 degree-level container',
+      classNames:
+        'vads-u-margin-bottom--2 contribution-degree-school container',
     },
   },
   collegeOrProfessionalSchool: {
@@ -62,7 +65,7 @@ const uiSchema = {
     }),
     'ui:options': {
       classNames:
-        'vads-u-margin-bottom--2 college-or-professional-school container',
+        'vads-u-margin-bottom--2 contribution-degree-school container',
     },
   },
   maximumContributionAmount: {
@@ -80,7 +83,7 @@ const uiSchema = {
         },
       ],
       errorMessages: {
-        required: 'Select a maximum contribution amount option',
+        required: 'Please make a selection',
       },
     }),
     'ui:options': {
@@ -89,7 +92,8 @@ const uiSchema = {
   },
   specificContributionAmount: {
     ...textUI({
-      title: 'Specific maximum annual contribution amount',
+      title:
+        'Enter the maximum annual contribution amount for this degree level or professional school ',
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
