@@ -32,8 +32,6 @@ const FacilityCheckboxGroup = props => {
     <div>
       <va-checkbox-group
         data-testid={`${facilityName?.replace(/ /g, '-')}-facility-group`}
-        label={facilityName}
-        label-header-level="2"
         class="contactListFacility vads-u-margin--0"
         error={errorMessage}
       >

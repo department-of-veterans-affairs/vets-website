@@ -80,7 +80,7 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.verifyAccordionSubheader('1 team selected');
     ContactListPage.verifyAccordionSubheader('4 teams selected');
 
-    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
+    ContactListPage.accordionByHeader('VA Indiana health care').click();
     ContactListPage.selectCheckBox('SLC4 PCMM');
     ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
     ContactListPage.verifyAccordionSubheader('1 team selected');
@@ -109,7 +109,7 @@ describe('SM CONTACT LIST', () => {
     ContactListPage.verifyAccordionSubheader('0 teams selected');
     ContactListPage.verifyAccordionSubheader('4 teams selected');
 
-    ContactListPage.accordionByHeader('VA Indiana health care - 583').click();
+    ContactListPage.accordionByHeader('VA Indiana health care').click();
     ContactListPage.selectCheckBox('SLC4 PCMM');
     ContactListPage.verifySingleCheckBox('SLC4 PCMM', false);
     ContactListPage.verifyAccordionSubheader('0 teams selected');

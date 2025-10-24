@@ -14,14 +14,10 @@ describe('SM MULTI FACILITY CONTACT LIST NAVIGATE AWAY', () => {
   });
 
   it('verify empty contact list alerts', () => {
+    ContactListPage.accordionByHeader('VA Kansas City health care').click();
+    ContactListPage.accordionByHeader('VA Puget Sound health care').click();
     ContactListPage.accordionByHeader(
-      'VA Kansas City health care - 589',
-    ).click();
-    ContactListPage.accordionByHeader(
-      'VA Puget Sound health care - 663',
-    ).click();
-    ContactListPage.accordionByHeader(
-      'VA Northern Arizona health care - 649',
+      'VA Northern Arizona health care',
     ).click();
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();

@@ -279,9 +279,9 @@ const EditContactList = () => {
                   return (
                     <va-accordion-item
                       bordered
-                      class="vads-u-margin--0"
+                      class="vads-u-margin-bottom--3"
                       header={`${facilityName ||
-                        'VA Medical Center'} - ${stationNumber || ''}`}
+                        `VA Medical Center - ${stationNumber}`}`}
                       subheader={`${triageTeamCount[stationNumber] || 0} team${
                         triageTeamCount[stationNumber] !== 1 ? 's' : ''
                       } selected`}
