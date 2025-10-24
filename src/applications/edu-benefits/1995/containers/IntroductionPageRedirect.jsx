@@ -86,15 +86,6 @@ export const IntroductionPageRedirect = ({ route }) => {
       </h2>
       <p>Answer a few questions to determine which form you need.</p>
 
-      <va-alert status="info" visible uswds>
-        <h3 slot="headline">We’ve prefilled some of your information</h3>
-        <p>
-          Since you’re signed in, we’ve prefilled part of your application based
-          on your profile details. You can also save your application in
-          progress and come back later to finish filling it out.
-        </p>
-      </va-alert>
-
       <div className="vads-u-margin-y--4">
         {renderSaveInProgressIntro(false)}
       </div>
