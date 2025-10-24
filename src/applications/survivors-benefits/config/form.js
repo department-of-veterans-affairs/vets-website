@@ -70,14 +70,10 @@ const formConfig = {
   },
   version: 0,
   formSavedPage: FormSavedPage,
-  useCustomScrollAndFocus: false,
   defaultDefinitions,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
-  },
-  formOptions: {
-    useWebComponentForNavigation: true,
   },
   preSubmitInfo: {
     statementOfTruth: {
