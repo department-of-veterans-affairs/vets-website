@@ -27,7 +27,7 @@ describe('Travel Pay – AgreementPage', () => {
   it('should render the agreement page correctly', () => {
     const screen = renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
+        initialEntries={['/file-new-claim/12345/12345/travel-agreement']}
       >
         <AgreementPage />
       </MemoryRouter>,
@@ -60,7 +60,7 @@ describe('Travel Pay – AgreementPage', () => {
   it('should show an error when submitting without checking the box', () => {
     renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
+        initialEntries={['/file-new-claim/12345/12345/travel-agreement']}
       >
         <AgreementPage />
       </MemoryRouter>,
@@ -86,11 +86,11 @@ describe('Travel Pay – AgreementPage', () => {
   it('should clear error when checkbox is checked and submit is clicked and navigate to confirmation page', () => {
     const screen = render(
       <MemoryRouter
-        initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
+        initialEntries={['/file-new-claim/12345/12345/travel-agreement']}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/travel-agreement"
+            path="/file-new-claim/:apptId/:claimId/travel-agreement"
             element={<AgreementPage />}
           />
         </Routes>
@@ -111,14 +111,14 @@ describe('Travel Pay – AgreementPage', () => {
 
     // Check that the location updated
     expect(screen.getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/confirmation',
+      '/file-new-claim/12345/12345/confirmation',
     );
   });
 
   it('should toggle the checkbox on multiple clicks', () => {
     renderWithStoreAndRouter(
       <MemoryRouter
-        initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
+        initialEntries={['/file-new-claim/12345/12345/travel-agreement']}
       >
         <AgreementPage />
       </MemoryRouter>,
@@ -141,11 +141,11 @@ describe('Travel Pay – AgreementPage', () => {
   it('navigates to the review page when back button is clicked', () => {
     const screen = render(
       <MemoryRouter
-        initialEntries={['/file-new-claim/complex/12345/travel-agreement']}
+        initialEntries={['/file-new-claim/12345/12345/travel-agreement']}
       >
         <Routes>
           <Route
-            path="/file-new-claim/complex/:apptId/travel-agreement"
+            path="/file-new-claim/:apptId/:claimId/travel-agreement"
             element={<AgreementPage />}
           />
         </Routes>
@@ -163,7 +163,7 @@ describe('Travel Pay – AgreementPage', () => {
 
     // Check that the location updated
     expect(screen.getByTestId('location-display').textContent).to.equal(
-      '/file-new-claim/complex/12345/review',
+      '/file-new-claim/12345/12345/review',
     );
   });
 });
