@@ -80,7 +80,7 @@ Form1995Entry.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data,
+  formData: state.form?.data || {},
   mergeFlag: selectMerge1995And5490(state),
   rerouteFlag: selectMeb1995Reroute(state),
   rudisillFlag: selectShowEduBenefits1995Wizard(state),

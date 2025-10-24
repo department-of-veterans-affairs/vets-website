@@ -38,6 +38,7 @@ import {
 } from '../pages/mebQuestionnaire';
 
 const isRerouteEnabledOnForm = formData => formData?.isMeb1995Reroute === true;
+const isLegacyFlow = formData => !isRerouteEnabledOnForm(formData);
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -139,30 +140,27 @@ const militaryService = {
       title: 'Service periods',
       uiSchema: servicePeriodsUiSchema(),
       schema: servicePeriodsSchema(),
+      depends: isLegacyFlow,
     },
     toursOfDutyIsActiveDutyTrue: {
       path: 'military/service-tour-of-duty-isActiveDuty-true',
       title: 'Service periods tour Of Duty',
-      depends: form => {
-        return (
-          get('view:newService', form) &&
-          form.applicantServed === 'Yes' &&
-          form.isActiveDuty
-        );
-      },
+      depends: form =>
+        isLegacyFlow(form) &&
+        get('view:newService', form) &&
+        form.applicantServed === 'Yes' &&
+        form.isActiveDuty,
       uiSchema: tourOfDuty.uiSchema,
       schema: tourOfDuty.schemaIsActiveDuty,
     },
     toursOfDutyIsActiveDutyFalse: {
       path: 'military/service-tour-of-duty-isActiveDuty-false',
       title: 'Service periods tour Of Duty',
-      depends: form => {
-        return (
-          get('view:newService', form) &&
-          form.applicantServed === 'Yes' &&
-          !form.isActiveDuty
-        );
-      },
+      depends: form =>
+        isLegacyFlow(form) &&
+        get('view:newService', form) &&
+        form.applicantServed === 'Yes' &&
+        !form.isActiveDuty,
       uiSchema: tourOfDuty.uiSchema,
       schema: tourOfDuty.schema,
     },
@@ -181,13 +179,19 @@ export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
     pages: {
-      applicantInformation: applicantInformationField(),
+      applicantInformation: {
+        ...applicantInformationField(),
+        depends: isLegacyFlow,
+      },
     },
   },
   guardianInformation: {
     title: 'Guardian information',
     pages: {
-      guardianInformation: guardianInformation(fullSchema1995, {}),
+      guardianInformation: {
+        ...guardianInformation(fullSchema1995, {}),
+        depends: isLegacyFlow,
+      },
     },
   },
   benefitSelection: {
@@ -198,20 +202,25 @@ export const chapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelectionUiSchema(),
         schema: benefitSelectionSchema(),
+        depends: isLegacyFlow,
       },
       changeAnotherBenefit: {
         title: 'Education benefit selection',
         path: 'benefits/education-benefit',
         uiSchema: changeAnotherBenefitPage.uiSchema,
         schema: changeAnotherBenefitPage.schema,
-        depends: formData => formData?.rudisillReview === 'No',
+        depends: formData =>
+          isLegacyFlow(formData) && formData?.rudisillReview === 'No',
       },
     },
   },
   sponsorInformation: {
     title: sponsorInformationTitle(),
     pages: {
-      sponsorInformation: sponsorInfo(fullSchema1995),
+      sponsorInformation: {
+        ...sponsorInfo(fullSchema1995),
+        depends: isLegacyFlow,
+      },
     },
   },
   militaryService,
@@ -228,26 +237,31 @@ export const chapters = {
         },
         uiSchema: newSchoolUiSchema(),
         schema: newSchoolSchema(),
+        depends: isLegacyFlow,
       },
     },
   },
   personalInformation: {
     title: 'Personal information',
     pages: {
-      contactInformation: createContactInformationPage(fullSchema1995),
+      contactInformation: {
+        ...createContactInformationPage(fullSchema1995),
+        depends: isLegacyFlow,
+      },
       dependents: {
         title: 'Dependents',
         path: 'personal-information/dependents',
-        depends: form => {
-          return (
-            isProductionOfTestProdEnv() &&
-            form['view:hasServiceBefore1978'] === true
-          );
-        },
+        depends: form =>
+          isLegacyFlow(form) &&
+          isProductionOfTestProdEnv() &&
+          form['view:hasServiceBefore1978'] === true,
         uiSchema: dependents.uiSchema,
         schema: dependents.schema,
       },
-      directDeposit: directDepositField(),
+      directDeposit: {
+        ...directDepositField(),
+        depends: isLegacyFlow,
+      },
     },
   },
 };
