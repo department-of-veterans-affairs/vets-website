@@ -40,7 +40,7 @@ export const PreSubmitCheckboxGroup = ({
 
   // Get the official's title from form data (for display purposes)
   const officialTitle =
-    formData?.officialSignature?.officialTitle || 'State/Tribal Official';
+    formData?.officialSignature?.officialTitle || 'State or Tribal Official';
 
   // Set form data with signature values, if submission has not occurred
   useEffect(
@@ -48,7 +48,7 @@ export const PreSubmitCheckboxGroup = ({
       if (hasSubmittedForm) return;
 
       const officialSignature =
-        signatures['State or Tribal Official']?.value || '';
+        signatures['State or Tribal Official']?.value?.trim() || '';
       dispatch(
         setData({
           ...formData,
@@ -95,6 +95,10 @@ export const PreSubmitCheckboxGroup = ({
       const cemeteryName =
         formData?.cemeteryInformation?.cemeteryName || '[Cemetery Name]';
 
+      const recipientFullName =
+        formData?.burialBenefitsRecipient?.recipientOrganizationName ||
+        '[Recipient Name]';
+
       const statementText = [
         `I certify that ${veteranName} was buried in ${cemeteryName}, a State-owned Veterans Cemetery or Tribal Cemetery, without charge to the family.`,
         `I certify that this cemetery is reserved solely for eligible veterans and their dependents as specified in 38 U.S.C. § 2402.`,
@@ -107,6 +111,7 @@ export const PreSubmitCheckboxGroup = ({
           hasCheckboxError={hasCheckboxError}
           hasInputError={hasInputError}
           label={officialTitle}
+          expectedName={recipientFullName}
           signature={signature}
           setSignatures={setSignatures}
           statementText={statementText}
