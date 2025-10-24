@@ -183,8 +183,19 @@ describe('Medical Expenses Pages', () => {
   it('should return the correct card description with paymentDate', () => {
     const item = {
       paymentDate: '2004-04-04',
+      paymentFrequency: 'ONCE_MONTH',
     };
     const { getByText } = render(options.text.cardDescription(item));
     expect(getByText('04/04/2004')).to.exist;
+    expect(getByText('Once a month')).to.exist;
+  });
+  it('should return the null description when no paymentDate or paymentFrequency is present', () => {
+    const item = {
+      paymentDate: '',
+      paymentFrequency: '',
+    };
+    const { queryByText } = render(options.text.cardDescription(item));
+    expect(queryByText('04/04/2004')).to.not.exist;
+    expect(queryByText('Once a month')).to.not.exist;
   });
 });

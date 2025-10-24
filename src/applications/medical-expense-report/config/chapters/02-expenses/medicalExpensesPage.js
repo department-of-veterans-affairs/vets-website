@@ -20,6 +20,20 @@ import {
 } from '../../../utils/labels';
 import { transformDate } from './helpers';
 
+function ItemDescription(item) {
+  const paymentDate = transformDate(item?.paymentDate);
+  const frequency = careFrequencyLabels[(item?.paymentFrequency)];
+  if (!paymentDate && !frequency) return null;
+  return (
+    <div>
+      {paymentDate && (
+        <span className="vads-u-display--block">{paymentDate}</span>
+      )}
+      {frequency && <span className="vads-u-display--block">{frequency}</span>}
+    </div>
+  );
+}
+
 function introDescription() {
   return (
     <div>
@@ -48,7 +62,7 @@ export const options = {
   maxItems: 5,
   text: {
     getItemName: item => item?.provider || 'Provider',
-    cardDescription: item => transformDate(item?.paymentDate) || '',
+    cardDescription: item => ItemDescription(item),
   },
 };
 
