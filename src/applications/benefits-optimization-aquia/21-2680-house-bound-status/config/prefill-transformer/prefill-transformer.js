@@ -83,7 +83,7 @@
  * );
  * // Result includes prefilled veteranIdentification and veteranAddress sections
  */
-export default function prefillTransformer(pages, formData, metadata, state) {
+export function prefillTransformer(pages, formData, metadata, state) {
   const profile = state?.user?.profile || {};
   const vaProfile = profile?.vaProfile || {};
 
@@ -145,8 +145,9 @@ export default function prefillTransformer(pages, formData, metadata, state) {
 
   // Return the transformed data structure
   // Map profile data to form's section structure matching actual page schemas
-  // Note: This form only collects veteran's name, DOB, SSN, and address
-  // Phone/email are collected on claimant pages only
+  // Note: This form only collects veteran's name, DOB, and address during prefill
+  // SSN is not prefilled for security reasons
+  // Phone/email are not collected for the veteran (only for claimant)
   return {
     pages,
     formData: {

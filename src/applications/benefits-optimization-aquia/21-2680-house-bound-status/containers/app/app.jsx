@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import formConfig from '@bio-aquia/21-2680-house-bound-status/config/form';
+import { formConfig } from '@bio-aquia/21-2680-house-bound-status/config/form';
 
 /**
  * Main application container component for VA Form 21-2680

@@ -14,7 +14,8 @@ import { IntroductionPage } from '@bio-aquia/21-2680-house-bound-status/containe
 import { ConfirmationPage } from '@bio-aquia/21-2680-house-bound-status/containers/confirmation-page';
 import { GetHelp } from '@bio-aquia/21-2680-house-bound-status/components/get-help';
 import manifest from '@bio-aquia/21-2680-house-bound-status/manifest.json';
-import prefillTransformer from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
+import { prefillTransformer } from '@bio-aquia/21-2680-house-bound-status/config/prefill-transformer';
+import { submitTransformer } from '@bio-aquia/21-2680-house-bound-status/config/submit-transformer';
 
 // Import all page components from barrel export
 import {
@@ -93,6 +94,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   prefillTransformer,
+  transformForSubmit: submitTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
@@ -141,7 +143,8 @@ const formConfig = {
           title: 'Claimant information',
           CustomPage: ClaimantInformationPage,
           CustomPageReview: ClaimantInformationReviewPage,
-          depends: formData => formData?.claimantRelationship !== 'veteran',
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -150,7 +153,8 @@ const formConfig = {
           title: 'Claimant Social Security number',
           CustomPage: ClaimantSSNPage,
           CustomPageReview: ClaimantSSNReviewPage,
-          depends: formData => formData?.claimantRelationship !== 'veteran',
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -159,7 +163,8 @@ const formConfig = {
           title: 'Claimant address',
           CustomPage: ClaimantAddressPage,
           CustomPageReview: ClaimantAddressReviewPage,
-          depends: formData => formData?.claimantRelationship !== 'veteran',
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -168,7 +173,8 @@ const formConfig = {
           title: 'Claimant contact information',
           CustomPage: ClaimantContactPage,
           CustomPageReview: ClaimantContactReviewPage,
-          depends: formData => formData?.claimantRelationship !== 'veteran',
+          depends: formData =>
+            formData?.claimantRelationship?.claimantRelationship !== 'veteran',
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -229,4 +235,4 @@ const formConfig = {
   footerContent,
 };
 
-export default formConfig;
+export { formConfig };

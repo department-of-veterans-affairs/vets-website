@@ -4,7 +4,7 @@
  */
 
 import { expect } from 'chai';
-import formConfig from './form';
+import { formConfig } from './form';
 
 describe('Form Configuration', () => {
   describe('Basic Structure', () => {
@@ -164,6 +164,12 @@ describe('Form Configuration', () => {
 
     it('should have prefill transformer', () => {
       expect(formConfig.prefillTransformer).to.exist;
+      expect(formConfig.prefillTransformer).to.be.a('function');
+    });
+
+    it('should have submit transformer', () => {
+      expect(formConfig.transformForSubmit).to.exist;
+      expect(formConfig.transformForSubmit).to.be.a('function');
     });
 
     it('should have dev configuration', () => {
@@ -194,7 +200,9 @@ describe('Form Configuration', () => {
     describe('Claimant Information Conditional Pages', () => {
       it('should show claimant pages when claimantRelationship is not veteran', () => {
         const formData = {
-          claimantRelationship: 'spouse',
+          claimantRelationship: {
+            claimantRelationship: 'spouse',
+          },
         };
 
         const claimantInfoPage =
@@ -215,7 +223,9 @@ describe('Form Configuration', () => {
 
       it('should hide claimant pages when claimantRelationship is veteran', () => {
         const formData = {
-          claimantRelationship: 'veteran',
+          claimantRelationship: {
+            claimantRelationship: 'veteran',
+          },
         };
 
         const claimantInfoPage =
