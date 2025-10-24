@@ -97,9 +97,8 @@ const formConfig = {
         label: 'Supporting forms for claims',
       },
       {
-        href:
-          '/supporting-forms-for-claims/nursing-home-information-form-21-0779',
-        label: 'Submit nursing home information to support a claim',
+        href: '/supporting-forms-for-claims/aid-attendance-housebound',
+        label: 'Aid and Attendance or Housebound benefits',
       },
     ],
   }),

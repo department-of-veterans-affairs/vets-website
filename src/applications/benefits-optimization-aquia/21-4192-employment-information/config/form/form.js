@@ -100,7 +100,7 @@ const formConfig = {
       },
       {
         href:
-          '/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192',
+          '/disability/eligibility/special-claims/unemployability/submit-employment-information-form-21-4192/',
         label:
           'Submit employment information in connection with claim for Individual Unemployability',
       },
