@@ -1756,11 +1756,11 @@ describe('Disability benefits helpers: ', () => {
         );
       });
 
-      it('should lowercase claimTypeBase for composition', () => {
+      it('should preserve backend claimTypeBase casing for composition', () => {
         const claim = {
           attributes: {
             displayTitle: 'Claim for Compensation',
-            claimTypeBase: 'Compensation Claim', // Mixed case
+            claimTypeBase: 'compensation claim',
             claimDate,
           },
         };
