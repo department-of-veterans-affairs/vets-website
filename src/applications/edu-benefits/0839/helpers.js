@@ -224,3 +224,8 @@ export const createBannerMessage = (
 
   return message || null;
 };
+
+export const getAcademicYearDisplay = () => {
+  const currentYear = new Date().getFullYear();
+  return `${currentYear}-${currentYear + 1}`;
+};
