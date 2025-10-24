@@ -3,10 +3,12 @@ import React from 'react';
 import {
   VaCard,
   VaButton,
+  VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
+import { ANCHOR_LINKS } from '../../constants';
 
 const formatDate = buildDateFormatter();
 
@@ -17,6 +19,10 @@ const generateInProgressDocs = evidenceSubmissions => {
       ...es,
       uploadStatusDisplayValue: 'SUBMISSION IN PROGRESS',
     }));
+};
+
+const hasFailedUploads = evidenceSubmissions => {
+  return (evidenceSubmissions || []).some(es => es.uploadStatus === 'FAILED');
 };
 
 const getSortedInProgressItems = evidenceSubmissions => {
@@ -32,6 +38,7 @@ const FileSubmissionsInProgress = ({ claim }) => {
 
   const numSupportingDocuments = supportingDocuments.length;
   const allItems = getSortedInProgressItems(evidenceSubmissions);
+  const hasFailed = hasFailedUploads(evidenceSubmissions);
 
   const {
     currentPageItems,
@@ -60,10 +67,24 @@ const FileSubmissionsInProgress = ({ claim }) => {
       <div data-testid="file-submissions-in-progress-cards">
         {currentPageItems.length === 0 ? (
           <div>
-            {numSupportingDocuments === 0 ? (
-              <p>You don’t have any file submissions in progress.</p>
+            {hasFailed ? (
+              <p>
+                We received your uploaded files, except the ones our system
+                couldn’t accept. You can find more about those in the{' '}
+                <VaLink
+                  href={`#${ANCHOR_LINKS.filesWeCouldntReceive}`}
+                  text="Files we couldn’t receive section"
+                />
+                .
+              </p>
             ) : (
-              <p>We’ve received all the files you’ve uploaded.</p>
+              <>
+                {numSupportingDocuments === 0 ? (
+                  <p>You don’t have any file submissions in progress.</p>
+                ) : (
+                  <p>We’ve received all the files you’ve uploaded.</p>
+                )}
+              </>
             )}
           </div>
         ) : (
