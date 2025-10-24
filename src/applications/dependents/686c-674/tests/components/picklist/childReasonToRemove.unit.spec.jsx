@@ -243,6 +243,14 @@ describe('childReasonToRemove', () => {
       ).to.equal('child-marriage');
     });
 
+    it('should return "child-death" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childDied' },
+        }),
+      ).to.equal('child-death');
+    });
+
     it('should call goForward when removal reason is set on submit', () => {
       const goForward = sinon.spy();
       childReasonToRemove.handlers.onSubmit({
