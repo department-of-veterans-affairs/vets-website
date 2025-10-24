@@ -32,6 +32,18 @@ const OMB_EXP_DATE = '02/28/2026';
 const ProcessList = () => {
   return (
     <va-process-list>
+      <va-process-list-item header="Check our eligibility requirements before you apply">
+        <p>
+          If you think you may be eligible, but you’re not sure, we encourage
+          you to apply.
+        </p>
+        <p>
+          <a href="https://www.va.gov/pension/aid-attendance-housebound/">
+            Find out if you’re eligible for Aid and Attendance benefits and
+            Housebound allowance
+          </a>
+        </p>
+      </va-process-list-item>
       <va-process-list-item header="Gather your information">
         <p>You’ll need this information about the person applying:</p>
         <ul>
@@ -49,12 +61,17 @@ const ProcessList = () => {
       <va-process-list-item header="Fill out the form">
         <p>Fill out the form and sign it digitally.</p>
       </va-process-list-item>
-      <va-process-list-item header="Send your form to a medical examiner">
+      <va-process-list-item header="Send your form to an examiner">
         <p>
           Download a PDF version of the form after you finish it. Then send it
-          to a medical examiner so they can fill out their portion with medical
+          to an examiner so they can fill out their portion with medical
           information about the person applying. We recommend sending it via
           email.
+        </p>
+        <p>
+          The examiner must be a Medical Doctor (MD) or Doctor of Osteopathic
+          (DO) medicine, physician assistant or advanced practice registered
+          nurse.
         </p>
         <p>
           Once the medical examiner has completed their part of the form and
@@ -62,10 +79,7 @@ const ProcessList = () => {
         </p>
       </va-process-list-item>
       <va-process-list-item header="Submit your application">
-        <p>
-          Submit the completed form with both your signature and the medical
-          examiner’s signature to VA.
-        </p>
+        <p>Upload the completed form to VA.gov.</p>
       </va-process-list-item>
     </va-process-list>
   );
@@ -91,7 +105,7 @@ export const IntroductionPage = ({ route }) => {
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
 
-      <p>
+      <p className="va-introtext vads-u-font-family--serif">
         Use this form to begin your application for Aid and Attendance or
         Housebound allowance benefits. If you’re eligible, we’ll add these
         benefits to your monthly compensation or pension benefits.
@@ -103,6 +117,15 @@ export const IntroductionPage = ({ route }) => {
 
       <ProcessList />
 
+      <div className="vads-u-margin-bottom--4">
+        <va-additional-info trigger="What happens after you apply">
+          <p>
+            We’ll contact you by mail if we need more information. Once we
+            process your application, we’ll mail you a letter with our decision.
+          </p>
+        </va-additional-info>
+      </div>
+
       {showVerifyIdentity ? (
         <div>{/* add verify identity alert if applicable */}</div>
       ) : (
@@ -111,7 +134,7 @@ export const IntroductionPage = ({ route }) => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start your application"
           hideUnauthedStartLink
           devOnly={{
             forceShowFormControls: true,
@@ -119,7 +142,6 @@ export const IntroductionPage = ({ route }) => {
         />
       )}
 
-      <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
         omb-number={OMB_NUMBER}
