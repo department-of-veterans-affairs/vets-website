@@ -7,7 +7,6 @@ const APPLICATION_FEATURE_TOGGLES = Object.freeze({
   mhvLandingPageShowShareMyHealthDataLink: true,
   mhvMilestone2ChangesEnabled: true,
   mhvEmailConfirmation: true,
-  travelPayPowerSwitch: true,
 });
 
 const generateFeatureToggles = ({
