@@ -5,6 +5,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import YellowRibbonProgramTitle from '../components/YellowRibbonProgramTitle';
+import SpecificContributionAmountDescription from '../components/SpecificContributionAmountDescription';
 
 const uiSchema = {
   'ui:title': () => <YellowRibbonProgramTitle text="Provide your" />,
@@ -31,14 +32,39 @@ const uiSchema = {
       description:
         'Enter the total number of students eligible for this contribution.',
       errorMessages: {
-        required:
-          'Maximum number of students must match the number of individuals you entered earlier',
+        required: 'Enter the maximum number of students',
       },
     }),
+    'ui:required': (formData, index) =>
+      !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
+        ?.unlimitedIndividuals,
     'ui:options': {
       inputType: 'number',
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
+      hideIf: (formData, index) =>
+        formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
+          ?.unlimitedIndividuals,
+    },
+    'ui:validations': [
+      (errors, fieldData, formData) => {
+        const eligibleIndividuals =
+          formData.eligibleIndividualsGroup?.eligibleIndividuals;
+        if (eligibleIndividuals !== fieldData) {
+          errors.addError(
+            `Maximum number of students must match the number of individuals you entered earlier`,
+          );
+        }
+      },
+    ],
+  },
+  unlimitedStudentsDisplay: {
+    'ui:title': 'Maximum number of students',
+    'ui:options': {
+      classNames: 'vads-u-margin-bottom--2 unlimited-students-display',
+      hideIf: (formData, index) =>
+        !formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
+          ?.unlimitedIndividuals,
     },
   },
   degreeLevel: {
@@ -66,6 +92,7 @@ const uiSchema = {
     'ui:options': {
       classNames:
         'vads-u-margin-bottom--2 contribution-degree-school container',
+      hideIf: formData => !formData.institutionDetails?.isUsaSchool,
     },
   },
   maximumContributionAmount: {
@@ -88,19 +115,27 @@ const uiSchema = {
     }),
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
+      hideIf: (formData, index) =>
+        formData.yellowRibbonProgramRequest?.[index]?.eligibleIndividualsGroup
+          ?.unlimitedIndividuals,
     },
   },
   specificContributionAmount: {
     ...textUI({
       title:
         'Enter the maximum annual contribution amount for this degree level or professional school ',
+      description: () => <SpecificContributionAmountDescription />,
       errorMessages: {
         required: 'Enter the maximum annual contribution amount',
       },
     }),
     'ui:required': (formData, index) => {
       const currentItem = formData?.yellowRibbonProgramRequest?.[index];
-      return currentItem?.maximumContributionAmount === 'specific';
+      const maximumContributionAmount = currentItem?.maximumContributionAmount;
+      if (maximumContributionAmount) {
+        return maximumContributionAmount === 'specific';
+      }
+      return currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
     },
     'ui:options': {
       classNames: 'vads-u-margin-bottom--2 container',
@@ -109,7 +144,13 @@ const uiSchema = {
       inputmode: 'decimal',
       hideIf: (formData, index) => {
         const currentItem = formData?.yellowRibbonProgramRequest?.[index];
-        return currentItem?.maximumContributionAmount !== 'specific';
+        const maximumContributionAmount =
+          currentItem?.maximumContributionAmount;
+        if (maximumContributionAmount) {
+          return maximumContributionAmount !== 'specific';
+        }
+
+        return !currentItem?.eligibleIndividualsGroup?.unlimitedIndividuals;
       },
     },
   },
@@ -120,6 +161,10 @@ const schema = {
   properties: {
     maximumStudents: {
       type: 'string',
+    },
+    unlimitedStudentsDisplay: {
+      type: 'string',
+      default: 'My school will support an unlimited number of individuals',
     },
     degreeLevel: {
       type: 'string',
@@ -140,7 +185,7 @@ const schema = {
       pattern: '^\\d*(\\.\\d{1,2})?$',
     },
   },
-  required: ['maximumStudents', 'degreeLevel', 'maximumContributionAmount'],
+  required: ['degreeLevel'],
   definitions: {},
   anyOf: [
     {

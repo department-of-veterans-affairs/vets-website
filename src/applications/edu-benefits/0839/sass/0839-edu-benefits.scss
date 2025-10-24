@@ -23,10 +23,10 @@
 @media (max-width: $small-screen) {
   .form-22-0839-container {
     padding-inline: var(--vads-spacing-1);
-     fieldset{
-      min-width: 100%
-     }
-    .yellow-ribbon-program-description{
+    fieldset {
+      min-width: 100%;
+    }
+    .yellow-ribbon-program-description {
       padding-inline: var(--vads-spacing-1);
     }
   }
@@ -78,12 +78,12 @@ legend.yellow-ribbon-title {
       box-sizing: border-box;
       padding-left: calc(var(--vads-spacing-1) + 12px);
       margin-bottom: var(--vads-spacing-1);
-      position: relative ;
+      position: relative;
       margin-left: var(--vads-spacing-1);
       &::before {
-        content: "•" ;
-        position: absolute ;
-        left: 0 ;
+        content: "•";
+        position: absolute;
+        left: 0;
         top: 0;
         color: rgb(0, 0, 0);
         font-weight: bold;
@@ -94,7 +94,7 @@ legend.yellow-ribbon-title {
 
 .eligible-individuals-note p {
   color: hsl(0, 0%, 46%) !important;
-  @media (max-width: $small-screen){
+  @media (max-width: $small-screen) {
     width: 100%;
     padding-inline: 0.5rem;
   }
@@ -108,27 +108,27 @@ legend.yellow-ribbon-title {
 }
 legend:has(.academic-year-title) {
   width: 389px;
-  @media (max-width: $small-screen){
+  @media (max-width: $small-screen) {
     width: 100%;
     padding-inline: var(--vads-spacing-1);
   }
 }
 label[id="root_unlimitedIndividuals-label"] {
-display: none !important;
+  display: none !important;
 }
 .contribution-degree-school {
-  p{
-  color: hsl(0, 0%, 46%);
+  p {
+    color: hsl(0, 0%, 46%);
   }
 }
-.eligible-individuals-note input {
-      border: 0;
-        font-weight: bold;
-        pointer-events: none;
-        margin-left: -10px;
+.eligible-individuals-note input,
+.unlimited-students-display input {
+  border: 0;
+  font-weight: bold;
+  pointer-events: none;
+  margin-left: -10px;
 }
 
-.container{
+.container {
   width: 20.75rem;
 }
-
