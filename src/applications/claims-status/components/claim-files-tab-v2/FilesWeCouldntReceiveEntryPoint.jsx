@@ -20,9 +20,9 @@ const FilesWeCouldntReceiveEntryPoint = ({ evidenceSubmissions }) => {
       className="files-we-couldnt-receive-entry-point"
       data-testid="files-we-couldnt-receive-entry-point"
     >
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+      <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
         Files we couldn’t receive
-      </h2>
+      </h3>
       <p>
         Some files you submitted we couldn’t receive because of a problem with
         our system. You should have received an email from us with more details.

@@ -9,6 +9,7 @@ import {
 import { buildDateFormatter } from '../../utils/helpers';
 import { useIncrementalReveal } from '../../hooks/useIncrementalReveal';
 import { ANCHOR_LINKS } from '../../constants';
+import { setPageFocus } from '../../utils/page';
 
 const formatDate = buildDateFormatter();
 
@@ -74,6 +75,10 @@ const FileSubmissionsInProgress = ({ claim }) => {
                 <VaLink
                   href={`#${ANCHOR_LINKS.filesWeCouldntReceive}`}
                   text="Files we couldn’t receive section"
+                  onClick={e => {
+                    e.preventDefault();
+                    setPageFocus(e.target.href);
+                  }}
                 />
                 .
               </p>
