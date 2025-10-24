@@ -510,7 +510,9 @@ const newOwnerPage = {
     ...arrayBuilderItemSubsequentPageTitleUI('New asset owner’s information'),
     'view:newOwnerPageDescription': {
       'ui:description': (
-        <h2 className="vads-u-font-size--h3">Who owns the asset now?</h2>
+        <h2 className="vads-u-font-size--md mobile-lg:vads-u-font-size--h3">
+          Who owns the asset now?
+        </h2>
       ),
     },
     newOwnerName: fullNameUIHelper(),
