@@ -32,16 +32,16 @@ const getLastFilledAndRxNumberBlock = rx => {
     rx?.prescriptionSource === 'PD' && rx?.dispStatus === 'Renew';
   const isRxPending = pendingMed || pendingRenewal;
 
-  return !isRxPending
-    ? joinLines(
+  return isRxPending
+    ? ''
+    : joinLines(
         `Last filled on: ${dateFormat(
           rx.sortedDispensedDate,
           'MMMM D, YYYY',
           'Date not available',
         )}`,
         `Prescription number: ${rx.prescriptionNumber}`,
-      )
-    : '';
+      );
 };
 const getAttributes = rx =>
   joinLines(
@@ -251,7 +251,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
           )}`,
           isPartialFill
             ? joinLines(
-                'This fill has a smaller quantity on purpose',
+                'This fill has a smaller quantity on purpose.',
                 `Quantity: ${record.quantity}`,
               )
             : '',
@@ -261,7 +261,7 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}${newLine()}`
                 'MMMM D, YYYY',
                 'Date not available',
               )}`
-            : ``,
+            : '',
           !isPartialFill ? `Medication description: ${description}` : '',
         );
       })
