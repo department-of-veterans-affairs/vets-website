@@ -8,9 +8,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 
 import {
   TITLE,
@@ -116,20 +113,21 @@ const ProcessList = () => {
  * @param {Object} props - Component properties
  * @param {Object} props.route - Route configuration from react-router
  * @param {Object} props.route.formConfig - Form configuration object
- * @param {Array} props.route.pageList - List of form pages
  * @param {Object} props.location - Location object from react-router
  * @returns {React.ReactElement} Introduction page component
  */
 export const IntroductionPage = ({ route }) => {
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
-  const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
+  const { formConfig } = route;
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
+
+  const firstPage =
+    formConfig.chapters.organizationInformationChapter.pages
+      .organizationInformation.path;
+  const startUrl = `${formConfig.urlPrefix}${firstPage}`;
 
   return (
     <article className="schemaform-intro">
@@ -138,20 +136,13 @@ export const IntroductionPage = ({ route }) => {
         Follow these steps to apply for a burial allowance
       </h2>
       <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
-      ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the state and tribal organization burial allowance benefits application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
-      )}
+      <a
+        href={startUrl}
+        className="vads-c-action-link--green vads-u-margin-top--2"
+      >
+        Start the state and tribal organization burial allowance benefits
+        application
+      </a>
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
@@ -165,12 +156,8 @@ export const IntroductionPage = ({ route }) => {
 IntroductionPage.propTypes = {
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
+      chapters: PropTypes.object.isRequired,
+      urlPrefix: PropTypes.string.isRequired,
     }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
   }).isRequired,
-  location: PropTypes.shape({
-    basename: PropTypes.string,
-  }),
 };
