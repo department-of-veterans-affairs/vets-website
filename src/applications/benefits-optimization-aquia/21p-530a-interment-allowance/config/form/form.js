@@ -64,7 +64,6 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  // Enable minimal header pattern
   ...minimalHeaderFormConfigOptions(),
   formId: VA_FORM_IDS.FORM_21P_530A,
   saveInProgress: {
