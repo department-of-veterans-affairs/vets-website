@@ -11,7 +11,7 @@ import {
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import ExpenseCard from '../../../../components/complex-claims/pages/ExpenseCard';
 import reducer from '../../../../redux/reducer';
-import AgreementPage from '../../../../components/complex-claims/pages/AgreementPage';
+import Mileage from '../../../../components/complex-claims/pages/Mileage';
 
 describe('ExpenseCard', () => {
   const LocationDisplay = () => {
@@ -145,7 +145,7 @@ describe('ExpenseCard', () => {
               />
             }
           />
-          <Route path="/mileage" element={<AgreementPage />} />
+          <Route path="/mileage" element={<Mileage />} />
         </Routes>
         <LocationDisplay />
       </MemoryRouter>,
