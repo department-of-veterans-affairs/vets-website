@@ -58,6 +58,8 @@ const formConfig = {
   footerContent,
   getHelp: GetHelpFooter,
   preSubmitInfo: PreSubmitInfo,
+  saveInProgress: {},
+  prefillEnabled: false,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
