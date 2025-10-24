@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaAlert,
-  VaButton,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import ConfirmEmailButton from '../../../user/profile/vap-svc/components/ConfirmEmailButton';
 
 const CONTENT = `We’ll send notifications about your VA health care and
   benefits to this email.`;
@@ -15,7 +15,9 @@ const VA_PROFILE_EMAIL_HREF =
 const AlertConfirmContactEmail = ({
   emailAddress,
   recordEvent,
-  onConfirmClick,
+  onConfirmSuccess,
+  onConfirmError,
+  apiAction,
 }) => {
   const headline = 'Confirm your contact email';
 
@@ -37,7 +39,13 @@ const AlertConfirmContactEmail = ({
           {emailAddress}
         </p>
         <p>
-          <VaButton onClick={() => onConfirmClick()} fullWidth text="Confirm" />
+          <ConfirmEmailButton
+            apiAction={apiAction}
+            onSuccess={() => onConfirmSuccess && onConfirmSuccess()}
+            onError={err => onConfirmError && onConfirmError(err)}
+          >
+            Confirm
+          </ConfirmEmailButton>
         </p>
         <p>
           <VaLink
@@ -53,7 +61,9 @@ const AlertConfirmContactEmail = ({
 AlertConfirmContactEmail.propTypes = {
   emailAddress: PropTypes.string.isRequired,
   recordEvent: PropTypes.func.isRequired,
-  onConfirmClick: PropTypes.func.isRequired,
+  apiAction: PropTypes.func,
+  onConfirmError: PropTypes.func,
+  onConfirmSuccess: PropTypes.func,
 };
 
 export default AlertConfirmContactEmail;

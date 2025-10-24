@@ -17,9 +17,15 @@ import {
   AlertSystemResponseSkipSuccess,
 } from './AlertSystemResponse';
 import { recordAlertLoadEvent } from './recordAlertLoadEvent';
+import ConfirmEmailButton from '../../../user/profile/vap-svc/components/ConfirmEmailButton';
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45235&t=t55H62nbe7HYOvFq-4
-const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
+const AlertConfirmContactEmail = ({
+  recordEvent,
+  onConfirmSuccess,
+  onConfirmError,
+  apiAction,
+}) => {
   const headline = 'Confirm your contact email';
 
   useEffect(() => recordEvent(headline), [headline, recordEvent]);
@@ -43,7 +49,13 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
           to update your contact email.
         </p>
         <p>
-          <VaButton text="Confirm contact email" onClick={() => onClick()} />
+          <ConfirmEmailButton
+            apiAction={apiAction}
+            onSuccess={() => onConfirmSuccess && onConfirmSuccess()}
+            onError={err => onConfirmError && onConfirmError(err)}
+          >
+            Confirm contact email
+          </ConfirmEmailButton>
         </p>
       </React.Fragment>
     </VaAlert>
@@ -52,7 +64,9 @@ const AlertConfirmContactEmail = ({ recordEvent, onClick }) => {
 
 AlertConfirmContactEmail.propTypes = {
   recordEvent: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onConfirmError: PropTypes.func,
+  onConfirmSuccess: PropTypes.func,
+  apiAction: PropTypes.func,
 };
 
 // implements https://www.figma.com/design/CAChU51fWYMZsgDR5RXeSc/MHV-Landing-Page?node-id=7032-45893&t=t55H62nbe7HYOvFq-4
@@ -95,6 +109,7 @@ AlertAddContactEmail.propTypes = {
 /**
  * `<ProfileAlertConfirmEmail />` component
  *
+  import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
  * Alert to confirm or add a contact email address at the `/profile/contact-information` path
  *
  * To view specification, run:
@@ -110,17 +125,25 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
   const [confirmError, setConfirmError] = useState(false);
   const [skipSuccess, setSkipSuccess] = useState(false);
 
-  const putConfirmationDate = (confirmationDate = new Date().toISOString()) =>
+  // When the user confirms their email, use the VAP service transaction
+  // flow via the ConfirmEmailButton. The callbacks below mirror the
+  // previous behavior of setting success/error flags and dismissing the
+  // alert cookie on success.
+  const handleConfirmSuccess = () => {
+    setConfirmError(false);
+    setConfirmSuccess(true);
+    dismissAlertViaCookie();
+  };
+
+  const handleConfirmError = () => setConfirmError(true);
+
+  const putConfirmationDate = confirmationDate =>
     apiRequest('/profile/email_addresses', {
       method: 'PUT',
       body: JSON.stringify({ confirmationDate, emailAddress }),
     })
-      .then(() => {
-        setConfirmError(false);
-        setConfirmSuccess(true);
-      })
-      .then(() => dismissAlertViaCookie())
-      .catch(() => setConfirmError(true));
+      .then(() => handleConfirmSuccess())
+      .catch(() => handleConfirmError());
 
   const onSkipClick = () => {
     setSkipSuccess(true);
@@ -144,7 +167,9 @@ const ProfileAlertConfirmEmail = ({ recordEvent = recordAlertLoadEvent }) => {
           )}
           {!confirmSuccess && (
             <AlertConfirmContactEmail
-              onClick={putConfirmationDate}
+              apiAction={putConfirmationDate}
+              onConfirmSuccess={handleConfirmSuccess}
+              onConfirmError={handleConfirmError}
               recordEvent={recordEvent}
             />
           )}
