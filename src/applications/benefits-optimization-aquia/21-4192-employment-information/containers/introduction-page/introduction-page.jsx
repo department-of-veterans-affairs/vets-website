@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
@@ -15,13 +16,26 @@ import {
 
 /**
  * Introduction page component for VA Form 21-4192
+ * @param {Object} props - Component properties
+ * @param {Object} props.route - Route configuration from react-router
+ * @param {Object} props.route.formConfig - Form configuration object
+ * @param {Object} props.router - Router object for navigation
  * @returns {React.ReactElement} Introduction page component
  */
-export const IntroductionPage = () => {
+export const IntroductionPage = ({ route, router }) => {
+  const { formConfig } = route;
+
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
+
+  const startForm = () => {
+    const firstPage =
+      formConfig.chapters.veteranInformationChapter.pages.veteranInformation
+        .path;
+    router.push(`${formConfig.urlPrefix}${firstPage}`);
+  };
 
   return (
     <article className="schemaform-intro">
@@ -113,6 +127,14 @@ export const IntroductionPage = () => {
           </p>
         </va-process-list-item>
       </va-process-list>
+      <a
+        href="#start"
+        className="vads-c-action-link--green vads-u-margin-top--2"
+        onClick={startForm}
+      >
+        Start the employment information form
+      </a>
+      <p />
       <va-omb-info
         res-burden="15"
         omb-number="2900-0065"
@@ -120,6 +142,18 @@ export const IntroductionPage = () => {
       />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      chapters: PropTypes.object.isRequired,
+      urlPrefix: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default IntroductionPage;
