@@ -49,7 +49,7 @@ const formConfig = {
   prefillTransformer,
   savedFormMessages: {
     notFound:
-      'Please start over to apply for Application for Accrued Amounts Due a Deceased Beneficiary.',
+      'Please start over to apply for Application for Apply for accrued benefits online.',
     noAuth: 'Please sign in again to continue your application.',
   },
   preSubmitInfo: {
@@ -61,7 +61,12 @@ const formConfig = {
       fullNamePath: 'claimantFullName',
     },
   },
-  title: 'Application for Accrued Amounts Due a Deceased Beneficiary',
+  title: 'Apply for accrued benefits online',
+  subTitle:
+    'For people other than the spouse, child or parent of deceased Veterans (VA Form 21P-601)',
+  customText: {
+    appType: 'form',
+  },
   defaultDefinitions: {},
   footerContent,
   chapters: {
