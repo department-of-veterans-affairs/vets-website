@@ -1,5 +1,6 @@
 import {
   fullNameSchema,
+  fullNameUI,
   titleUI,
   ssnUI,
   ssnSchema,
@@ -9,7 +10,6 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { seriouslyDisabledDescription } from '../../../components/formDescriptons/index';
-import { benefitsIntakeFullNameUI } from './helpers';
 
 /** @type {PageSchema} */
 export default {
@@ -37,7 +37,7 @@ export default {
     seriouslyDisabled: {
       'ui:description': seriouslyDisabledDescription,
     },
-    claimantFullName: benefitsIntakeFullNameUI(),
+    claimantFullName: fullNameUI(),
     claimantSocialSecurityNumber: ssnUI(),
     claimantDateOfBirth: dateOfBirthUI({
       monthSelect: false,

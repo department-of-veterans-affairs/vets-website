@@ -3,6 +3,7 @@ import {
   dateOfBirthSchema,
   fullNameSchema,
   titleUI,
+  fullNameUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 // TODO: Update vets-json-scheme with our version of fullSchemaPensions.
@@ -10,7 +11,6 @@ import applicantDescription from 'platform/forms/components/ApplicantDescription
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import UnauthenticatedWarningAlert from '../../../components/UnauthenticatedWarningAlert';
 import { isSameOrAfter } from '../../../utils/helpers';
-import { benefitsIntakeFullNameUI } from './helpers';
 
 export function isOver65(formData, currentDate) {
   const today = currentDate || new Date();
@@ -50,7 +50,7 @@ export default {
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
-    veteranFullName: benefitsIntakeFullNameUI(),
+    veteranFullName: fullNameUI(),
     veteranDateOfBirth: dateOfBirthUI({
       monthSelect: false,
     }),

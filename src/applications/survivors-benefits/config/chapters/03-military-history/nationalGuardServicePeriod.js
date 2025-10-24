@@ -31,7 +31,7 @@ export default {
     properties: {
       dateOfActivation: currentOrPastDateSchema,
       unitName: textSchema,
-      unitPhoneNumber: internationalPhoneSchema(),
+      unitPhoneNumber: internationalPhoneSchema({ required: true }),
     },
   },
 };

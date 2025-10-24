@@ -23,14 +23,12 @@ import nationalGuardService from './chapters/03-military-history/nationalGuardSe
 import nationalGuardServicePeriod from './chapters/03-military-history/nationalGuardServicePeriod';
 import nationalGuardUnitAddress from './chapters/03-military-history/nationalGuardUnitAddress';
 import { otherServiceNamesPages } from './chapters/03-military-history/serviceNames';
+import prisonerOfWarPage from './chapters/03-military-history/prisonerOfWar';
+import powPeriodOfTimePage from './chapters/03-military-history/powPeriodOfTime';
 import {
-  prisonerOfWarPage,
-  powPeriodOfTimePage,
-} from './chapters/03-military-history/prisonerOfWarStatus';
-import {
-  vetInfoNameDobPage,
-  vetInfoQuestionsPage,
-} from './chapters/01-veteran-information/veteranInfoPages';
+  vetIdentification,
+  vetIdentificationAdditional,
+} from './chapters/01-veteran-information/veteranInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -98,10 +96,21 @@ const formConfig = {
   chapters: {
     // Chapter 1 - Veteran Information
     veteranInformation: {
+      title: "Veteran's information",
       pages: {
         veteranName,
-        vetInfoNameDobPage,
-        vetInfoQuestionsPage,
+        vetIdentification: {
+          title: "Veteran's identification information",
+          path: 'veteran/identification',
+          uiSchema: vetIdentification.uiSchema,
+          schema: vetIdentification.schema,
+        },
+        vetIdentificationAdditional: {
+          title: 'Additional veteran information',
+          path: 'veteran/identification-additional',
+          uiSchema: vetIdentificationAdditional.uiSchema,
+          schema: vetIdentificationAdditional.schema,
+        },
       },
     },
     // Chapter 2 - Claimant Information
@@ -146,16 +155,16 @@ const formConfig = {
         },
         ...otherServiceNamesPages,
         prisonerOfWar: {
-          path: prisonerOfWarPage.path,
-          title: prisonerOfWarPage.title,
-          depends: formData => formData.nationalGuardActivated === true,
+          path: 'veteran/prisoner-of-war',
+          title: 'Prisoner of war',
+          depends: formData => formData.receivedBenefits === false,
           uiSchema: prisonerOfWarPage.uiSchema,
           schema: prisonerOfWarPage.schema,
         },
         powPeriodOfTime: {
-          path: powPeriodOfTimePage.path,
-          title: powPeriodOfTimePage.title,
-          depends: powPeriodOfTimePage.depends,
+          path: 'veteran/prisoner-of-war-period',
+          title: 'Prisoner of war period',
+          depends: formData => formData?.prisonerOfWar === true,
           uiSchema: powPeriodOfTimePage.uiSchema,
           schema: powPeriodOfTimePage.schema,
         },

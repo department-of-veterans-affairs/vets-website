@@ -8,3 +8,14 @@ export const dicOptions = {
   DIC_REEVALUATION:
     'D.I.C. due to claimant election of a re-evaluation of a previously denied claim based on expanded eligibility under PL 117-168 (PACT Act)',
 };
+
+export const servicesOptions = {
+  ARMY: 'Army',
+  NAVY: 'Navy',
+  AIR_FORCE: 'Air Force',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  SPACE_FORCE: 'Space Force',
+  USPHS: 'USPHS',
+  NOAA: 'NOAA',
+};

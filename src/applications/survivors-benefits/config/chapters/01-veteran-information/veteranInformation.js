@@ -13,7 +13,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
-const vetInfoNameDob = {
+const vetIdentification = {
   uiSchema: {
     ...titleUI("Veteran's identification information"),
     veteranSocialSecurityNumber: ssnUI(),
@@ -32,7 +32,7 @@ const vetInfoNameDob = {
 };
 
 /** @type {PageSchema} */
-const vetInfoQuestions = {
+const vetIdentificationAdditional = {
   uiSchema: {
     ...titleUI('Veteran information'),
     vaClaimsHistory: yesNoUI({
@@ -43,8 +43,6 @@ const vetInfoQuestions = {
       title: 'Did the Veteran die while on active duty?',
     }),
     veteranDateOfDeath: dateOfDeathUI({
-      hint:
-        'Enter 1 or 2 digits for the month and day and 4 digits for the year.',
       monthSelect: false,
     }),
   },
@@ -59,4 +57,4 @@ const vetInfoQuestions = {
   },
 };
 
-export { vetInfoNameDob, vetInfoQuestions };
+export { vetIdentification, vetIdentificationAdditional };
