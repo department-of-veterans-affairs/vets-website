@@ -2,6 +2,7 @@ import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 
 import { PersonalInformation } from 'platform/forms-system/src/js/components/PersonalInformation/PersonalInformation';
 import manifest from '../manifest.json';
@@ -10,7 +11,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import getHelp from '../../shared/components/GetFormHelp';
 import transformForSubmit from './submit-transformer';
 import prefillTransformer from './prefill-transformer';
-import { pageFocusScroll } from '../helpers';
 
 // Import page configurations
 import recipientIdentifier from '../pages/recipientIdentifier';
@@ -95,7 +95,7 @@ const formConfig = {
           CustomPage: props => <PersonalInformation {...props} />,
           CustomPageReview: null,
           hideOnReview: true,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
           schema: {
             type: 'object',
             properties: {}, // Must be present even if empty
@@ -107,7 +107,7 @@ const formConfig = {
           title: 'Your phone number and email address',
           uiSchema: phoneAndEmail.uiSchema,
           schema: phoneAndEmail.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -119,14 +119,14 @@ const formConfig = {
           title: "Deceased Veteran's name",
           uiSchema: recipientName.uiSchema,
           schema: recipientName.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         veteranIdentifier: {
           path: 'veteran-info/identifier',
           title: "Deceased Veteran's identification information",
           uiSchema: recipientIdentifier.uiSchema,
           schema: recipientIdentifier.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -138,7 +138,7 @@ const formConfig = {
           title: 'Have you remarried?',
           uiSchema: remarriageQuestion.uiSchema,
           schema: remarriageQuestion.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -151,7 +151,7 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: marriageInfo.uiSchema,
           schema: marriageInfo.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         spouseVeteranStatus: {
           path: 'marital/spouse-veteran',
@@ -159,7 +159,7 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: spouseVeteranStatus.uiSchema,
           schema: spouseVeteranStatus.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         spouseVeteranId: {
           path: 'marital/spouse-veteran-id',
@@ -169,7 +169,7 @@ const formConfig = {
             formData.remarriage?.spouseIsVeteran === true,
           uiSchema: spouseVeteranId.uiSchema,
           schema: spouseVeteranId.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         terminationStatus: {
           path: 'marital/termination-status',
@@ -177,7 +177,7 @@ const formConfig = {
           depends: formData => formData.hasRemarried === true,
           uiSchema: terminationStatus.uiSchema,
           schema: terminationStatus.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
         terminationDetails: {
           path: 'marital/termination-details',
@@ -187,7 +187,7 @@ const formConfig = {
             formData.remarriage?.hasTerminated === true,
           uiSchema: terminationDetails.uiSchema,
           schema: terminationDetails.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
+          scrollAndFocusTarget,
         },
       },
     },

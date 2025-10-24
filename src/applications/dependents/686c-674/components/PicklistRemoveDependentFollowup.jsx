@@ -23,17 +23,17 @@ const PicklistRemoveDependentFollowup = ({
 }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Page change state to force scroll & focus on page change
-  useEffect(() => {
-    scrollToTop();
-    focusElement('h3');
-  }, []);
-
   const resetState = () => {
     setFormSubmitted(false);
-    scrollToTop();
-    focusElement('h3');
+    setTimeout(() => {
+      scrollToTop();
+      focusElement('h3');
+    }, 250);
   };
+
+  // Page change state to force scroll & focus on page change
+  useEffect(resetState);
+
   // Dynamically updated picklist paths to help with navigating backward
   const paths = data[PICKLIST_PATHS] || getPicklistRoutes(data);
   // Get last path is flow if navigating back from review & submit page

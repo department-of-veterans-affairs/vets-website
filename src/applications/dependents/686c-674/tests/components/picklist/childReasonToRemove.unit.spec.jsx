@@ -229,8 +229,18 @@ describe('childReasonToRemove', () => {
   });
 
   context('childReasonToRemove handlers', () => {
-    it('should return "DONE" on goForward', () => {
-      expect(childReasonToRemove.handlers.goForward()).to.equal('DONE');
+    it('should return "DONE" by default on goForward', () => {
+      expect(childReasonToRemove.handlers.goForward({ itemData: {} })).to.equal(
+        'DONE',
+      );
+    });
+
+    it('should return "child-marriage" on goForward', () => {
+      expect(
+        childReasonToRemove.handlers.goForward({
+          itemData: { removalReason: 'childMarried' },
+        }),
+      ).to.equal('child-marriage');
     });
 
     it('should call goForward when removal reason is set on submit', () => {
