@@ -13,8 +13,6 @@ const HealthCareCTA = ({
 }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  // viewMhvLink will be true if toggle is on
-  const viewMhvLink = useToggleValue(TOGGLE_NAMES.myVaEnableMhvLink);
   const smocEnabled = useToggleValue(
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
@@ -53,22 +51,21 @@ const HealthCareCTA = ({
           }
         />
       )}
-      {!isLOA1 &&
-        viewMhvLink && (
-          <IconCTALink
-            text="Visit My HealtheVet on VA.gov"
-            icon="language"
-            href={urls.myHealthEVet}
-            testId="visit-mhv-on-va-gov"
-            onClick={() =>
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Visit MHV on Va.gov',
-                'links-list-section-header': 'Health care',
-              })
-            }
-          />
-        )}
+      {!isLOA1 && (
+        <IconCTALink
+          text="Visit My HealtheVet on VA.gov"
+          icon="language"
+          href={urls.myHealthEVet}
+          testId="visit-mhv-on-va-gov"
+          onClick={() =>
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Visit MHV on Va.gov',
+              'links-list-section-header': 'Health care',
+            })
+          }
+        />
+      )}
       {isVAPatient &&
         !isLOA1 && (
           <>
