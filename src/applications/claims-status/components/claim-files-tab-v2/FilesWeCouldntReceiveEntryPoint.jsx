@@ -30,7 +30,7 @@ const FilesWeCouldntReceiveEntryPoint = ({ evidenceSubmissions }) => {
         sorry about this.
       </p>
       <VaLink
-        href="/track-claims/your-claims/files-we-couldnt-receive"
+        href="../files-we-couldnt-receive"
         text="Learn which files we couldn’t receive and other ways to send your documents"
       />
     </div>

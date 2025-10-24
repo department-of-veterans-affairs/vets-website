@@ -457,11 +457,7 @@ describe('Failed Submissions in Progress Empty State', () => {
 
           // Verify the link
           cy.get('va-link')
-            .should(
-              'have.attr',
-              'href',
-              '/track-claims/your-claims/files-we-couldnt-receive',
-            )
+            .should('have.attr', 'href', '../files-we-couldnt-receive')
             .should(
               'have.attr',
               'text',

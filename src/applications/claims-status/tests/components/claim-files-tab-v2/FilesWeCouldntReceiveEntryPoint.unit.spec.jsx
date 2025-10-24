@@ -42,9 +42,7 @@ describe('<FilesWeCouldntReceiveEntryPoint>', () => {
 
       const link = container.querySelector('va-link');
       expect(link).to.exist;
-      expect(link.getAttribute('href')).to.equal(
-        '/track-claims/your-claims/files-we-couldnt-receive',
-      );
+      expect(link.getAttribute('href')).to.equal('../files-we-couldnt-receive');
       expect(link.getAttribute('text')).to.equal(
         'Learn which files we couldn’t receive and other ways to send your documents',
       );
