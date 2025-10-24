@@ -253,99 +253,6 @@ describe('21P-601 form config', () => {
     });
   });
 
-  describe('relativesDetails page dependencies', () => {
-    const dependsFn =
-      formConfig.chapters.survivingRelativesChapter.pages.relativesDetails
-        .depends;
-
-    it('should be visible when hasSpouse is true and hasNone is not true', () => {
-      const formData = {
-        survivors: { hasSpouse: true, hasNone: false },
-      };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be visible when hasChildren is true and hasNone is not true', () => {
-      const formData = {
-        survivors: { hasChildren: true, hasNone: false },
-      };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be visible when hasParents is true and hasNone is not true', () => {
-      const formData = {
-        survivors: { hasParents: true, hasNone: false },
-      };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be visible when multiple survivor types are true', () => {
-      const formData = {
-        survivors: {
-          hasSpouse: true,
-          hasChildren: true,
-          hasNone: false,
-        },
-      };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when hasNone is true', () => {
-      const formData = {
-        survivors: { hasNone: true, hasSpouse: true },
-      };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when all survivor types are false', () => {
-      const formData = {
-        survivors: {
-          hasSpouse: false,
-          hasChildren: false,
-          hasParents: false,
-        },
-      };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when flags are undefined', () => {
-      const formData = {
-        survivors: {
-          hasSpouse: undefined,
-          hasChildren: undefined,
-          hasParents: undefined,
-        },
-      };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should handle undefined survivors object', () => {
-      const formData = {};
-      // Should not throw error when survivors is undefined
-      expect(() => dependsFn(formData)).to.throw();
-    });
-  });
-
-  describe('expensesList page dependencies', () => {
-    const dependsFn =
-      formConfig.chapters.expensesAndDebtsChapter.pages.expensesList.depends;
-
-    it('should be visible when claimingReimbursement is true', () => {
-      const formData = { claimingReimbursement: true };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when claimingReimbursement is false', () => {
-      const formData = { claimingReimbursement: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when claimingReimbursement is undefined', () => {
-      const formData = {};
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
   describe('otherDebts page dependencies', () => {
     const dependsFn =
       formConfig.chapters.expensesAndDebtsChapter.pages.otherDebts.depends;
@@ -357,31 +264,6 @@ describe('21P-601 form config', () => {
 
     it('should be hidden when claimingReimbursement is false', () => {
       const formData = { claimingReimbursement: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-  });
-
-  describe('otherDebtsList page dependencies', () => {
-    const dependsFn =
-      formConfig.chapters.expensesAndDebtsChapter.pages.otherDebtsList.depends;
-
-    it('should be visible when both conditions are true', () => {
-      const formData = { claimingReimbursement: true, hasOtherDebts: true };
-      expect(dependsFn(formData)).to.be.true;
-    });
-
-    it('should be hidden when claimingReimbursement is false', () => {
-      const formData = { claimingReimbursement: false, hasOtherDebts: true };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when hasOtherDebts is false', () => {
-      const formData = { claimingReimbursement: true, hasOtherDebts: false };
-      expect(dependsFn(formData)).to.be.false;
-    });
-
-    it('should be hidden when both are false', () => {
-      const formData = { claimingReimbursement: false, hasOtherDebts: false };
       expect(dependsFn(formData)).to.be.false;
     });
   });
@@ -454,14 +336,9 @@ describe('21P-601 form config', () => {
       ).to.be.true;
     });
 
-    it('should show expenses pages when claiming reimbursement', () => {
+    it('should show otherDebts page when claiming reimbursement', () => {
       const formData = { claimingReimbursement: true };
 
-      expect(
-        formConfig.chapters.expensesAndDebtsChapter.pages.expensesList.depends(
-          formData,
-        ),
-      ).to.be.true;
       expect(
         formConfig.chapters.expensesAndDebtsChapter.pages.otherDebts.depends(
           formData,
@@ -469,24 +346,20 @@ describe('21P-601 form config', () => {
       ).to.be.true;
     });
 
-    it('should show otherDebtsList only when claiming and has other debts', () => {
-      const formData = {
-        claimingReimbursement: true,
-        hasOtherDebts: true,
-      };
-
+    it('should have array builder pages for expenses', () => {
+      expect(formConfig.chapters.expensesAndDebtsChapter.pages.expensesSummary)
+        .to.exist;
       expect(
-        formConfig.chapters.expensesAndDebtsChapter.pages.otherDebtsList.depends(
-          formData,
-        ),
-      ).to.be.true;
+        formConfig.chapters.expensesAndDebtsChapter.pages.expenseDetailsPage,
+      ).to.exist;
+    });
 
-      formData.hasOtherDebts = false;
+    it('should have array builder pages for other debts', () => {
       expect(
-        formConfig.chapters.expensesAndDebtsChapter.pages.otherDebtsList.depends(
-          formData,
-        ),
-      ).to.be.false;
+        formConfig.chapters.expensesAndDebtsChapter.pages.otherDebtsSummary,
+      ).to.exist;
+      expect(formConfig.chapters.expensesAndDebtsChapter.pages.debtDetailsPage)
+        .to.exist;
     });
   });
 });

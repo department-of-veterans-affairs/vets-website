@@ -19,11 +19,11 @@ import {
   claimantContact,
   claimantRelationship,
   relativesOverview,
-  relativesDetails,
+  relativesPages,
   expensesClaim,
-  expensesList,
+  expensesPages,
   otherDebts,
-  otherDebtsList,
+  otherDebtsPages,
   remarks,
 } from '../pages';
 
@@ -189,18 +189,7 @@ const formConfig = {
           schema: relativesOverview.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
-        relativesDetails: {
-          path: 'relatives-information',
-          title: 'Information about surviving relatives',
-          uiSchema: relativesDetails.uiSchema,
-          schema: relativesDetails.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-          depends: formData =>
-            formData.survivors.hasNone !== true &&
-            (formData.survivors.hasSpouse === true ||
-              formData.survivors.hasChildren === true ||
-              formData.survivors.hasParents === true),
-        },
+        ...relativesPages,
       },
     },
     expensesAndDebtsChapter: {
@@ -216,14 +205,7 @@ const formConfig = {
           schema: expensesClaim.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
-        expensesList: {
-          path: 'expenses-list',
-          title: 'List of expenses',
-          depends: formData => formData.claimingReimbursement === true,
-          uiSchema: expensesList.uiSchema,
-          schema: expensesList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
+        ...expensesPages,
         otherDebts: {
           path: 'other-debts',
           title: 'Other debts',
@@ -232,16 +214,7 @@ const formConfig = {
           schema: otherDebts.schema,
           scrollAndFocusTarget: pageFocusScroll(),
         },
-        otherDebtsList: {
-          path: 'other-debts-list',
-          title: 'List of other debts',
-          depends: formData =>
-            formData.claimingReimbursement === true &&
-            formData.hasOtherDebts === true,
-          uiSchema: otherDebtsList.uiSchema,
-          schema: otherDebtsList.schema,
-          scrollAndFocusTarget: pageFocusScroll(),
-        },
+        ...otherDebtsPages,
       },
     },
     additionalInfoChapter: {
