@@ -33,11 +33,7 @@ import {
   BenefitTypeReviewPage,
   VeteranIdentityReviewPage,
   VeteranAddressReviewPage,
-  ClaimantRelationshipReviewPage,
   ClaimantInformationReviewPage,
-  ClaimantSSNReviewPage,
-  ClaimantAddressReviewPage,
-  ClaimantContactReviewPage,
   HospitalizationStatusReviewPage,
   HospitalizationDateReviewPage,
   HospitalizationFacilityReviewPage,
@@ -134,7 +130,8 @@ const formConfig = {
           path: 'claimant-relationship',
           title: 'Who is the claim for?',
           CustomPage: ClaimantRelationshipPage,
-          CustomPageReview: ClaimantRelationshipReviewPage,
+          // Use comprehensive review that shows all claimant data in one section
+          CustomPageReview: ClaimantInformationReviewPage,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
@@ -142,7 +139,8 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           CustomPage: ClaimantInformationPage,
-          CustomPageReview: ClaimantInformationReviewPage,
+          // No individual review - all claimant info shown in comprehensive review above
+          CustomPageReview: () => null,
           // Hidden when veteran is claimant (both edit and review pages)
           // Veteran reviews their info in veteran sections instead
           // Submit transformer copies veteran data to claimant fields at submission
@@ -155,7 +153,8 @@ const formConfig = {
           path: 'claimant-ssn',
           title: 'Claimant Social Security number',
           CustomPage: ClaimantSSNPage,
-          CustomPageReview: ClaimantSSNReviewPage,
+          // No individual review - all claimant info shown in comprehensive review above
+          CustomPageReview: () => null,
           // Hidden when veteran is claimant (both edit and review pages)
           // Submit transformer copies veteran SSN to claimant fields at submission
           depends: formData =>
@@ -167,7 +166,8 @@ const formConfig = {
           path: 'claimant-address',
           title: 'Claimant address',
           CustomPage: ClaimantAddressPage,
-          CustomPageReview: ClaimantAddressReviewPage,
+          // No individual review - all claimant info shown in comprehensive review above
+          CustomPageReview: () => null,
           // Hidden when veteran is claimant (both edit and review pages)
           // Submit transformer copies veteran address to claimant fields at submission
           depends: formData =>
@@ -177,9 +177,10 @@ const formConfig = {
         },
         claimantContact: {
           path: 'claimant-contact',
-          title: 'Claimant contact information',
+          title: 'Contact information',
           CustomPage: ClaimantContactPage,
-          CustomPageReview: ClaimantContactReviewPage,
+          // No individual review - all claimant info shown in comprehensive review above
+          CustomPageReview: () => null,
           // Hidden when veteran is claimant (both edit and review pages)
           // Contact info not collected for veterans, remains empty for veteran claimants
           depends: formData =>
