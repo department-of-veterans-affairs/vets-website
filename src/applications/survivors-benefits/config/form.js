@@ -21,7 +21,6 @@ import otherPaymentOptions from './chapters/07-additional-information/otherPayme
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
 import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
-import fasterClaimProcessing from './chapters/07-additional-information/fasterClaimProcessing';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -170,18 +169,6 @@ const formConfig = {
             reviewDocuments.path || 'additional-information/review-documents',
           uiSchema: reviewDocuments.uiSchema,
           schema: reviewDocuments.schema,
-        },
-        fasterClaimProcessing: {
-          title:
-            fasterClaimProcessing.title ||
-            (fasterClaimProcessing.uiSchema &&
-              fasterClaimProcessing.uiSchema['ui:title']) ||
-            'Faster claim processing',
-          path:
-            fasterClaimProcessing.path ||
-            'additional-information/faster-claim-processing',
-          uiSchema: fasterClaimProcessing.uiSchema,
-          schema: fasterClaimProcessing.schema,
         },
       },
     },
