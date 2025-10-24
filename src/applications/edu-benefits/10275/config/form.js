@@ -15,7 +15,29 @@ import {
   poeCommitment,
   newAuthorizingOfficial,
   newPrinciplesOfExcellence,
+  newSchoolCertifyingOfficial,
 } from '../pages';
+
+/**
+ * Returns *true* if the newCommitment -
+ * Principles of Excellence point of contact page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewPOC = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isPOC'] === false;
+
+/**
+ * Returns *true* if the newCommitment -
+ * School certifying official page should be displayed
+ * @param {*} data form data
+ * @returns {boolean}
+ */
+const canDisplayNewSCO = data =>
+  data?.agreementType === 'newCommitment' &&
+  data?.authorizedOfficial?.['view:isSCO'] === false &&
+  !data?.newCommitment?.principlesOfExcellencePointOfContact?.['view:isSCO'];
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -109,15 +131,22 @@ const formConfig = {
           depends: data => data?.agreementType === 'newCommitment',
           uiSchema: newAuthorizingOfficial.uiSchema,
           schema: newAuthorizingOfficial.schema,
+          updateFormData: newAuthorizingOfficial.updateFormData,
         },
         principlesOfExcellenceNew: {
           path: 'new-commitment-principles-of-excellence',
           title: 'Principles of Excellence point of contact',
-          depends: data =>
-            data?.agreementType === 'newCommitment' &&
-            data?.authorizedOfficial?.['view:isPOC'] === false,
+          depends: data => canDisplayNewPOC(data),
           uiSchema: newPrinciplesOfExcellence.uiSchema,
           schema: newPrinciplesOfExcellence.schema,
+          updateFormData: newPrinciplesOfExcellence.updateFormData,
+        },
+        schoolCertifyingOfficialNew: {
+          path: 'new-commitment-school-certifying-official',
+          title: 'School certifying official',
+          depends: data => canDisplayNewSCO(data),
+          uiSchema: newSchoolCertifyingOfficial.uiSchema,
+          schema: newSchoolCertifyingOfficial.schema,
         },
       },
     },

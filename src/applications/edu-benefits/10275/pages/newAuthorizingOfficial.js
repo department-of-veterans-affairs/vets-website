@@ -139,4 +139,40 @@ const schema = {
   },
 };
 
-export { uiSchema, schema };
+/**
+ * Resets the corresponding *newCommitment* object if the POC or SCO question is toggled.
+ * Only one toggle can trigger this at a time so one condition - *if* - will be satisfied at a time.
+ * @param {*} oldData old form data
+ * @param {*} formData new form data
+ * @returns updated form data
+ */
+const updateFormData = (oldData, formData) => {
+  const prevPOC = oldData?.authorizedOfficial?.['view:isPOC'];
+  const currPOC = formData?.authorizedOfficial?.['view:isPOC'];
+  const prevSCO = oldData?.authorizedOfficial?.['view:isSCO'];
+  const currSCO = formData?.authorizedOfficial?.['view:isSCO'];
+
+  if (prevPOC !== currPOC) {
+    return {
+      ...formData,
+      newCommitment: {
+        ...formData.newCommitment,
+        principlesOfExcellencePointOfContact: {},
+      },
+    };
+  }
+
+  if (prevSCO !== currSCO) {
+    return {
+      ...formData,
+      newCommitment: {
+        ...formData.newCommitment,
+        schoolCertifyingOfficial: {},
+      },
+    };
+  }
+
+  return formData;
+};
+
+export { uiSchema, schema, updateFormData };

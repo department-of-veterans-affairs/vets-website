@@ -14,23 +14,20 @@ import {
   textSchema,
   textUI,
   titleUI,
-  yesNoSchema,
-  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 const requiredSchema = ['fullName', 'title', 'email', 'view:phoneType'];
 
 const uiSchema = {
-  ...titleUI('Principles of Excellence point of contact'),
+  ...titleUI('School certifying official'),
   ...descriptionUI(
     <>
-      Enter the contact information for a school official who will serve as the
-      point of contact regarding the Principles of Excellence implementation at
-      your institution.
+      Enter the contact information for a school certifying official at your
+      institution.
     </>,
   ),
   newCommitment: {
-    principlesOfExcellencePointOfContact: {
+    schoolCertifyingOfficial: {
       fullName: fullNameNoSuffixUI(),
       title: textUI({
         title: 'Title',
@@ -68,14 +65,6 @@ const uiSchema = {
           required: 'Enter an email address',
         },
       }),
-      'view:isSCO': yesNoUI({
-        title: 'Is this person also a school certifying official?',
-        labels: {
-          Y: 'Yes, they are a school certifying official',
-          N: 'No, they are not a school certifying official',
-        },
-        hideIf: formData => formData?.authorizedOfficial?.['view:isSCO'],
-      }),
     },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
@@ -83,17 +72,15 @@ const uiSchema = {
 
         // US phone number selected
         if (
-          formData.newCommitment.principlesOfExcellencePointOfContact[
-            'view:phoneType'
-          ] === 'us'
+          formData.newCommitment.schoolCertifyingOfficial['view:phoneType'] ===
+          'us'
         ) {
           updateRequiredSchema = [...updateRequiredSchema, 'usPhone'];
         }
         // International phone number selected
         if (
-          formData.newCommitment.principlesOfExcellencePointOfContact[
-            'view:phoneType'
-          ] === 'intl'
+          formData.newCommitment.schoolCertifyingOfficial['view:phoneType'] ===
+          'intl'
         ) {
           updateRequiredSchema = [
             ...updateRequiredSchema,
@@ -101,17 +88,12 @@ const uiSchema = {
           ];
         }
 
-        // SCO question only required if authorizing official is not already selected as the SCO
-        if (!formData.authorizedOfficial['view:isSCO']) {
-          updateRequiredSchema = [...updateRequiredSchema, 'view:isSCO'];
-        }
-
         return {
           ...formSchema,
           properties: {
             ...formSchema.properties,
-            principlesOfExcellencePointOfContact: {
-              ...formSchema.properties.principlesOfExcellencePointOfContact,
+            schoolCertifyingOfficial: {
+              ...formSchema.properties.schoolCertifyingOfficial,
               required: [...updateRequiredSchema],
             },
           },
@@ -127,7 +109,7 @@ const schema = {
     newCommitment: {
       type: 'object',
       properties: {
-        principlesOfExcellencePointOfContact: {
+        schoolCertifyingOfficial: {
           type: 'object',
           properties: {
             fullName: fullNameNoSuffixSchema,
@@ -136,43 +118,13 @@ const schema = {
             usPhone: phoneSchema,
             internationalPhone: internationalPhoneDeprecatedSchema,
             email: emailSchema,
-            'view:isSCO': yesNoSchema,
           },
           required: [...requiredSchema],
         },
       },
-      required: ['principlesOfExcellencePointOfContact'],
+      required: ['schoolCertifyingOfficial'],
     },
   },
 };
 
-/**
- * Resets the *schoolCertifyingOfficial* object if the SCO question is toggled.
- * @param {*} oldData old form data
- * @param {*} formData new form data
- * @returns updated form data
- */
-const updateFormData = (oldData, formData) => {
-  const prev =
-    oldData?.newCommitment?.principlesOfExcellencePointOfContact?.[
-      'view:isSCO'
-    ];
-  const curr =
-    formData?.newCommitment?.principlesOfExcellencePointOfContact?.[
-      'view:isSCO'
-    ];
-
-  if (prev !== curr) {
-    return {
-      ...formData,
-      newCommitment: {
-        ...formData.newCommitment,
-        schoolCertifyingOfficial: {},
-      },
-    };
-  }
-
-  return formData;
-};
-
-export { uiSchema, schema, updateFormData };
+export { uiSchema, schema };
