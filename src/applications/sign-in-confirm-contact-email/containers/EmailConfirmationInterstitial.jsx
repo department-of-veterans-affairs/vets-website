@@ -18,9 +18,9 @@ export default function EmailConfirmationInterstitial() {
     }
   }, []);
 
-  const contactEmail =
-    useSelector(selectUser).vet360ContactInformation?.email?.emailAddress ||
-    'No email provided';
+  const { emailAddress = 'No email provided', id } = useSelector(
+    selectUser,
+  ).vet360ContactInformation?.email;
 
   const returnUrl =
     sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '/my-va';
@@ -28,8 +28,13 @@ export default function EmailConfirmationInterstitial() {
   const handleConfirmation = () => {
     apiRequest('/v0/profile/email_addresses', {
       method: 'PUT',
-      // eslint-disable-next-line camelcase
-      body: JSON.stringify({ confirmation_date: new Date().toISOString() }),
+      body: JSON.stringify({
+        id,
+        // eslint-disable-next-line camelcase
+        email_address: emailAddress,
+        // eslint-disable-next-line camelcase
+        confirmation_date: new Date().toISOString(),
+      }),
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -59,13 +64,13 @@ export default function EmailConfirmationInterstitial() {
               this email.
             </p>
             <p>
-              <strong>{contactEmail}</strong>
+              <strong>{emailAddress}</strong>
             </p>
           </va-card>
         </div>
         {!confirmationSuccess && (
           <ConfirmAddBtnGroup
-            email={contactEmail}
+            email={emailAddress}
             handleConfirmation={handleConfirmation}
           />
         )}
