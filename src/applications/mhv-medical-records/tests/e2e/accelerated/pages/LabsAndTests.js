@@ -66,7 +66,7 @@ class LabsAndTests {
       .shadow()
       .find('select')
       .select(rangeIndex.toString());
-    
+
     // Wait for the URL to update
     cy.url().should('include', `rangeIndex=${rangeIndex}`);
   };
