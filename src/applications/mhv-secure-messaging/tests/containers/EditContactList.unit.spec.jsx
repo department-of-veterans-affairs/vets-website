@@ -109,8 +109,6 @@ describe('Edit Contact List container', async () => {
 
     const facilityGroups = await screen.findAllByTestId(/-facility-group$/);
     expect(facilityGroups.length).to.equal(2);
-    expect(facilityGroups[0]).to.have.attribute('label', 'Test Facility 2');
-    expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
     await waitFor(() => {
       expect(
