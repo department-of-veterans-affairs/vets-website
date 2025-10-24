@@ -68,7 +68,6 @@ const ProcessList = () => {
                 <va-link
                   href="https://www.va.gov/find-forms/about-form-21p-8416/"
                   text="Get VA Form 21P-8416 to download"
-                  external
                 />
               </span>
             </li>
@@ -78,7 +77,6 @@ const ProcessList = () => {
                 <va-link
                   href="https://www.va.gov/find-forms/about-form-21p-8416/"
                   text="Get VA Form 21P-8416 to download"
-                  external
                 />
               </span>
             </li>
@@ -89,7 +87,6 @@ const ProcessList = () => {
                 <va-link
                   href="https://www.va.gov/find-forms/about-form-21-0779/"
                   text="Get VA Form 21-0779 to download"
-                  external
                 />
               </span>
             </li>
@@ -100,7 +97,6 @@ const ProcessList = () => {
                 <va-link
                   href="https://www.va.gov/find-forms/about-form-21-2680/"
                   text="Get VA Form 21-2680 to download"
-                  external
                 />
               </span>
             </li>
