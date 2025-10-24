@@ -11,7 +11,13 @@ const mockUser = require('./e2e/user.json');
 const mockVaFileNumber = require('./e2e/fixtures/va-file-number.json');
 const mockMaxData = require('./e2e/fixtures/picklist.json');
 
-const returnUrl = '/review-and-submit';
+const returnUrl = '/options-selection/remove-active-dependents'; // '/review-and-submit';
+
+const createDoB = (yearsAgo = 0, monthsAgo = 0) =>
+  dateFns.format(
+    dateFns.sub(new Date(), { years: yearsAgo, months: monthsAgo }),
+    'MM/dd/yyyy',
+  );
 
 const submission = {
   formSubmissionId: '123fake-submission-id-567',
@@ -25,7 +31,7 @@ const mockSipGet = {
   formData: mockMaxData,
   metadata: {
     version: 0,
-    prefill: true,
+    prefill: false,
     returnUrl,
   },
 };
@@ -45,6 +51,63 @@ const mockSipPut = {
         lastUpdated: 1593500000000,
         expiresAt: 99999999999,
       },
+    },
+  },
+};
+
+const mockDependents = {
+  data: {
+    attributes: {
+      persons: [
+        {
+          firstName: 'PENNY',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(11),
+          ssn: '793473479',
+          relationshipToVeteran: 'Child',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'STACY',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(0, 4),
+          ssn: '798703232',
+          relationshipToVeteran: 'Child',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'SPOUSY',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(45),
+          ssn: '702023332',
+          relationshipToVeteran: 'Spouse',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'PREVIOUS',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(44),
+          ssn: '702023331',
+          relationshipToVeteran: 'Spouse',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'PETER',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(82),
+          ssn: '997010104',
+          relationshipToVeteran: 'Parent',
+          awardIndicator: 'Y',
+        },
+        {
+          firstName: 'MARY',
+          lastName: 'FOSTER',
+          dateOfBirth: createDoB(85),
+          ssn: '997010155',
+          relationshipToVeteran: 'Parent',
+          awardIndicator: 'Y',
+        },
+      ],
     },
   },
 };
@@ -113,6 +176,8 @@ const responses = {
   'GET /v0/profile/valid_va_file_number': mockVaFileNumber,
   'GET /v0/in_progress_forms/686C-674-V2': mockSipGet,
   'PUT /v0/in_progress_forms/686C-674-V2': mockSipPut,
+
+  'GET /v0/dependents_applications/show': mockDependents,
 
   'POST /v0/dependents_applications': submission,
 };
