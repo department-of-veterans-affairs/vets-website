@@ -8,9 +8,7 @@ describe('21P-601 form config', () => {
     });
 
     it('has correct title', () => {
-      expect(formConfig.title).to.equal(
-        'Application for Accrued Amounts Due a Deceased Beneficiary',
-      );
+      expect(formConfig.title).to.equal('Apply for accrued benefits online');
     });
 
     it('has prefill enabled', () => {

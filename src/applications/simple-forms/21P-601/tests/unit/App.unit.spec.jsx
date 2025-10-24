@@ -36,7 +36,12 @@ describe('21P-601 App', () => {
 
     const component = App(props);
     expect(component).to.exist;
-    expect(component.props.currentLocation).to.include(location);
+    // Toggler wrapper obfuscating things - after we eventually remove
+    // the feature toggle constraint this expectation could be changed to:
+    // // expect(component.props.currentLocation).to.include(location);
+    expect(
+      component.props.children[0].props.children.props.currentLocation,
+    ).to.include(location);
   });
 
   it('renders with children', () => {
@@ -47,7 +52,10 @@ describe('21P-601 App', () => {
 
     const component = App(props);
     expect(component).to.exist;
-    expect(component.props.children).to.exist;
+    // Toggler wrapper obfuscating things - after we eventually remove
+    // the feature toggle constraint this expectation could be changed to:
+    // // expect(component.props.children.props.children).to.exist;
+    expect(component.props.children[0].props.children).to.exist;
   });
 
   it('has correct app title in DowntimeNotification', () => {
@@ -57,7 +65,8 @@ describe('21P-601 App', () => {
     };
 
     const component = App(props);
-    const downtimeNotification = component.props.children;
+    const routedSavableApp = component.props.children[0].props.children;
+    const downtimeNotification = routedSavableApp.props.children;
     expect(downtimeNotification.props.appTitle).to.equal(
       'Application for Accrued Amounts Due a Deceased Beneficiary',
     );
@@ -70,7 +79,8 @@ describe('21P-601 App', () => {
     };
 
     const component = App(props);
-    const downtimeNotification = component.props.children;
+    const routedSavableApp = component.props.children[0].props.children;
+    const downtimeNotification = routedSavableApp.props.children;
     expect(downtimeNotification.props.dependencies).to.exist;
     expect(downtimeNotification.props.dependencies).to.be.an('array');
   });
