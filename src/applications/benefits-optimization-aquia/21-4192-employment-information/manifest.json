@@ -3,5 +3,12 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "21-4192-employment-information",
   "rootUrl": "/21-4192-employment-information",
-  "productId": "c61b0c39-7177-4340-9820-955c959b7f5b"
+  "productId": "c61b0c39-7177-4340-9820-955c959b7f5b",
+  "template": {
+    "layout": "page-react.html",
+    "minimalHeader": {
+      "title": "Request for employment information",
+      "subtitle": "(VA Form 21-4192)"
+    }
+  }
 }

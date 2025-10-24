@@ -6,6 +6,7 @@
 
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   TITLE,
   SUBTITLE,
@@ -70,6 +71,8 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
+  // Enable minimal header pattern
+  ...minimalHeaderFormConfigOptions(),
   formId: VA_FORM_IDS.FORM_21_2680,
   saveInProgress: {
     // messages: {

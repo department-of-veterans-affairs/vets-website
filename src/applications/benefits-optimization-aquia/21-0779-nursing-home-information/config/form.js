@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
@@ -88,6 +89,8 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
+  // Enable minimal header pattern
+  ...minimalHeaderFormConfigOptions(),
   formId: VA_FORM_IDS.FORM_21_0779,
   saveInProgress: {
     messages: {

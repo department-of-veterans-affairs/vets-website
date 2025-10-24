@@ -3,5 +3,12 @@
   "entryFile": "./app-entry.jsx",
   "entryName": "21-0779-nursing-home-information",
   "rootUrl": "/21-0779-nursing-home-information",
-  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe"
+  "productId": "0383a035-c37c-4875-ad1d-5f85c59025fe",
+  "template": {
+    "layout": "page-react.html",
+    "minimalHeader": {
+      "title": "Submit nursing home information to support a claim",
+      "subtitle": "(VA Form 21-0779)"
+    }
+  }
 }

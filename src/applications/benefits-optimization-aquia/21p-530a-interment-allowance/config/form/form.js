@@ -1,5 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 
 import {
   SUBMIT_URL,
@@ -63,6 +64,8 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
+  // Enable minimal header pattern
+  ...minimalHeaderFormConfigOptions(),
   formId: VA_FORM_IDS.FORM_21P_530A,
   saveInProgress: {
     messages: {
